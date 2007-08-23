@@ -16,7 +16,9 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.view.EnzymeNode;
+import edu.colorado.phet.opticaltweezers.view.AbstractEnzymeNode;
+import edu.colorado.phet.opticaltweezers.view.EnzymeANode;
+import edu.colorado.phet.opticaltweezers.view.EnzymeBNode;
 
 /**
  * EnzymeControlPanel contains controls related to enzymes.
@@ -25,14 +27,19 @@ import edu.colorado.phet.opticaltweezers.view.EnzymeNode;
  */
 public class EnzymeControlPanel extends JPanel {
     
-    private static final double ENZYME_ICON_OUTER_DIAMETER = 30;
-    private static final double ENZYME_ICON_INNER_DIAMETER = ENZYME_ICON_OUTER_DIAMETER / 2;
+    private static final double ENZYME_ICON_HEIGHT = 30; // pixels
 
+    private EnzymeANode _enzymeANode;
+    private EnzymeBNode _enzymeBNode;
+    
     private JRadioButton _enzymeARadioButton;
     private JRadioButton _enzymeBRadioButton;
     
-    public EnzymeControlPanel( Font titleFont, Font controlFont ) {
+    public EnzymeControlPanel( Font titleFont, Font controlFont, EnzymeANode enzymeANode, EnzymeBNode enzymeBNode ) {
         super();
+        
+        _enzymeANode = enzymeANode;
+        _enzymeBNode = enzymeBNode;
         
         JLabel titleLabel = new JLabel( OTResources.getString( "title.enzymeControlPanel" ) );
         titleLabel.setFont( titleFont );
@@ -50,8 +57,7 @@ public class EnzymeControlPanel extends JPanel {
                     }
                 } );
                 
-                Icon enzymeAIcon = EnzymeNode.createIcon( ENZYME_ICON_OUTER_DIAMETER, ENZYME_ICON_INNER_DIAMETER,
-                        OTConstants.ENZYME_A_OUTER_COLOR, OTConstants.ENZYME_A_INNER_COLOR, OTConstants.ENZYME_A_TICK_COLOR );
+                Icon enzymeAIcon = enzymeANode.createIcon( ENZYME_ICON_HEIGHT );
                 JLabel enzymeALabel = new JLabel( enzymeAIcon );
                 enzymeALabel.addMouseListener( new MouseAdapter() {
                     public void mouseReleased( MouseEvent event ) {
@@ -75,8 +81,7 @@ public class EnzymeControlPanel extends JPanel {
                     }
                 } );
                 
-                Icon enzymeBIcon = EnzymeNode.createIcon( ENZYME_ICON_OUTER_DIAMETER, ENZYME_ICON_INNER_DIAMETER,
-                        OTConstants.ENZYME_B_OUTER_COLOR, OTConstants.ENZYME_B_INNER_COLOR, OTConstants.ENZYME_B_TICK_COLOR );
+                Icon enzymeBIcon = enzymeBNode.createIcon( ENZYME_ICON_HEIGHT );
                 JLabel enzymeBLabel = new JLabel( enzymeBIcon );
                 enzymeBLabel.addMouseListener( new MouseAdapter() {
                     public void mouseReleased( MouseEvent event ) {
@@ -114,7 +119,9 @@ public class EnzymeControlPanel extends JPanel {
         add( innerPanel, BorderLayout.WEST );
         
         // Default state
-        _enzymeARadioButton.setSelected( true );
+        _enzymeARadioButton.setSelected( _enzymeANode.getEnzyme().isEnabled() );
+        _enzymeBRadioButton.setSelected( _enzymeBNode.getEnzyme().isEnabled() );
+        handleEnzymeChoice();
     }
     
     public void setEnzymeASelected( boolean b ) {
@@ -136,6 +143,15 @@ public class EnzymeControlPanel extends JPanel {
     }
     
     private void handleEnzymeChoice() {
-        //XXX
+        
+        boolean enzymeASelected = _enzymeARadioButton.isSelected();
+        
+        // make one of the 2 enzyme nodes visible
+        _enzymeANode.setVisible( enzymeASelected );
+        _enzymeBNode.setVisible( !enzymeASelected );
+        
+        // enable one of the 2 enzyme models
+        _enzymeANode.getEnzyme().setEnabled( enzymeASelected );
+        _enzymeBNode.getEnzyme().setEnabled( !enzymeASelected );
     }
 }

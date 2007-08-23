@@ -54,7 +54,7 @@ public class MotorsControlPanel extends AbstractControlPanel {
         // Sub-panels
         MotorsModel model = module.getMotorsModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
-        _enzymeControlPanel = new EnzymeControlPanel( TITLE_FONT, CONTROL_FONT );
+        _enzymeControlPanel = new EnzymeControlPanel( TITLE_FONT, CONTROL_FONT, _canvas.getEnzymeANode(), _canvas.getEnzymeBNode() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
                 model.getBead(), model.getFluid(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode() );

@@ -54,7 +54,8 @@ public class MotorsCanvas extends AbstractCanvas {
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
-    private EnzymeNode _enzymeANode;
+    private EnzymeANode _enzymeANode;
+    private EnzymeBNode _enzymeBNode;
     
     // Control
     private PSwing _returnBeadButtonWrapper;
@@ -74,7 +75,8 @@ public class MotorsCanvas extends AbstractCanvas {
         Laser laser = model.getLaser();
         DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
-        Enzyme enzyme = model.getEnzyme();
+        EnzymeA enzymeA = model.getEnzymeA();
+        EnzymeB enzymeB = model.getEnzymeB();
         ModelViewTransform modelViewTransform = model.getModelViewTransform();
         
         setBackground( OTConstants.CANVAS_BACKGROUND );
@@ -100,12 +102,16 @@ public class MotorsCanvas extends AbstractCanvas {
         _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
         // Enzymes
-        _enzymeANode = new EnzymeNode( enzyme, modelViewTransform, OTConstants.ENZYME_B_OUTER_COLOR, OTConstants.ENZYME_B_INNER_COLOR, OTConstants.ENZYME_B_TICK_COLOR );
+        _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
+        _enzymeANode.setVisible( enzymeA.isEnabled() );
+        _enzymeBNode = new EnzymeBNode( enzymeB, modelViewTransform );
+        _enzymeBNode.setVisible( enzymeB.isEnabled() );
         
         // Pushpin
+        assert( enzymeA.getPosition().equals( enzymeB.getPosition() ) ); // if false, will need to reposition pushpin when enzyme choice changes
         PushpinNode pushpinNode = new PushpinNode();
-        Point2D pushpinPosition = modelViewTransform.modelToView( enzyme.getPosition() );
-        double enzymeDiameter = modelViewTransform.modelToView( enzyme.getOuterDiameter() );
+        Point2D pushpinPosition = modelViewTransform.modelToView( enzymeA.getPosition() );
+        double enzymeDiameter = modelViewTransform.modelToView( Math.min( enzymeA.getOuterDiameter(), enzymeB.getOuterDiameter() ) );
         pushpinNode.setOffset( pushpinPosition.getX() - ( enzymeDiameter / 6 ),  pushpinPosition.getY() - ( enzymeDiameter / 6 ) );
         
         // Bead
@@ -173,6 +179,7 @@ public class MotorsCanvas extends AbstractCanvas {
         addNode( _laserDragBoundsNode );
         addNode( _dnaStrandNode );
         addNode( _enzymeANode );
+        addNode( _enzymeBNode );
         addNode( pushpinNode );
         addNode( _beadNode );
         addNode( _beadDragBoundsNode );
@@ -232,6 +239,14 @@ public class MotorsCanvas extends AbstractCanvas {
     
     public DNAStrandNode getDNAStrandNode() {
         return _dnaStrandNode;
+    }
+    
+    public EnzymeANode getEnzymeANode() {
+        return _enzymeANode;
+    }
+    
+    public EnzymeBNode getEnzymeBNode() {
+        return _enzymeBNode;
     }
 
     //----------------------------------------------------------------------------

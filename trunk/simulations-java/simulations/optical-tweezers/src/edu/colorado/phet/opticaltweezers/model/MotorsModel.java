@@ -32,7 +32,8 @@ public class MotorsModel extends ClockAdapter {
     private final Laser _laser;
     private final Bead _bead;
     private final DNAStrand _dnaStrand;
-    private final Enzyme _enzyme;
+    private final EnzymeA _enzymeA;
+    private final EnzymeB _enzymeB;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -108,10 +109,17 @@ public class MotorsModel extends ClockAdapter {
          _modelElements.add( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
          
-         _enzyme = new Enzyme( MotorsDefaults.ENZYME_POSITION, 
+         _enzymeA = new EnzymeA( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER );
-         _modelElements.add( _enzyme );
+         _enzymeA.setEnabled( true );
+         _modelElements.add( _enzymeA );
+         
+         _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
+                 MotorsDefaults.ENZYME_OUTER_DIAMETER, 
+                 MotorsDefaults.ENZYME_INNER_DIAMETER );
+         _enzymeB.setEnabled( !_enzymeA.isEnabled() );
+         _modelElements.add( _enzymeB );
 
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
     }
@@ -144,8 +152,12 @@ public class MotorsModel extends ClockAdapter {
         return _dnaStrand;
     }
     
-    public Enzyme getEnzyme() {
-        return _enzyme;
+    public EnzymeA getEnzymeA() {
+        return _enzymeA;
+    }
+    
+    public EnzymeB getEnzymeB() {
+        return _enzymeB;
     }
     
     public ModelViewTransform getModelViewTransform() {

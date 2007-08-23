@@ -15,11 +15,12 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.AbstractEnzyme;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * EnzymeNode is the visual representation of an enzyme.
+ * AbstractEnzymeNode is base class for all visual representations of an enzyme.
  * It consists of 2 concentric spheres. The outer sphere remains stationary.
  * The inner sphere rotates about the z-axis (perpendicular to the screen),
  * at a speed proportion to the velocity with which the enzyme is pulling
@@ -28,7 +29,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EnzymeNode extends PhetPNode implements Observer {
+public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -50,7 +51,7 @@ public class EnzymeNode extends PhetPNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
             
-    public EnzymeNode( AbstractEnzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
+    public AbstractEnzymeNode( AbstractEnzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
         super();
         
         _enzyme = enzyme;
@@ -90,6 +91,14 @@ public class EnzymeNode extends PhetPNode implements Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public AbstractEnzyme getEnzyme() {
+        return _enzyme;
+    }
+    
+    //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
     
@@ -118,11 +127,22 @@ public class EnzymeNode extends PhetPNode implements Observer {
     // Utilites
     //----------------------------------------------------------------------------
     
-    public static Icon createIcon( double outerDiameter, double innerDiameter, Paint outerPaint, Paint innerPaint, Color tickColor ) {
-        AbstractEnzyme enzyme = new AbstractEnzyme( new Point2D.Double(0,0), outerDiameter, innerDiameter );
-        ModelViewTransform modelViewTransform = new ModelViewTransform( 1 );
-        EnzymeNode enzymeNode = new EnzymeNode( enzyme, modelViewTransform, outerPaint, innerPaint, tickColor );
-        Image enzymeImage = enzymeNode.toImage();
-        return new ImageIcon( enzymeImage );
+    /**
+     * Converts this node to an icon, scaled to the specified height.
+     * This is useful for displaying an icon of the enzyme in a control panel.
+     * 
+     * @param height icon height, in pixels
+     */
+    public Icon createIcon( double height ) {
+        boolean wasVisible = getVisible();
+        setVisible( true );
+        Image image = toImage();
+        setVisible( wasVisible );
+        PImage imageNode = new PImage( image );
+        double imageHeight = imageNode.getFullBoundsReference().getHeight();
+        imageNode.setScale( height / imageHeight );
+        Image scaledImage = imageNode.toImage();
+        Icon icon = new ImageIcon( scaledImage );
+        return icon;
     }
 }
