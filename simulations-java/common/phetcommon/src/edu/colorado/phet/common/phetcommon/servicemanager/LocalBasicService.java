@@ -4,11 +4,13 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:17484 $
+ * Date modified : $Date:2007-08-23 18:23:07 -0500 (Thu, 23 Aug 2007) $
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
+
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 import javax.jnlp.BasicService;
 import java.io.File;
@@ -20,7 +22,7 @@ import java.net.URL;
  * Provides local implementations of some of the JNLP services, see JNLP services for more information.
  * see also http://www.javaworld.com/javaworld/javatips/jw-javatip66.html
  * @author Sam Reid
- * @version $Revision$
+ * @version $Revision:17484 $
  */
 public class LocalBasicService implements BasicService {
 
@@ -90,15 +92,14 @@ public class LocalBasicService implements BasicService {
          *            "file://").
          */
         public static void displayURL( String url ) {
-            boolean windows = isWindowsPlatform();
             String cmd = null;
             try {
-                if( windows ) {
+                if( PhetUtilities.getOperatingSystem()==PhetUtilities.OS_WINDOWS ) {
                     // cmd = 'rundll32 url.dll,FileProtocolHandler http://...'
                     cmd = WIN_PATH + " " + WIN_FLAG + " " + url;
                     Process p = Runtime.getRuntime().exec( cmd );
                 }
-                else if ( System.getProperty( "os.name","").toLowerCase().indexOf( "mac")>=0 ){
+                else if ( PhetUtilities.isMacintosh() ){
                     cmd = "open "+url;
                     Process p = Runtime.getRuntime().exec( cmd );
                 }
@@ -137,31 +138,12 @@ public class LocalBasicService implements BasicService {
         }
 
         /**
-         * Try to determine whether this application is running under Windows
-         * or some other platform by examing the "os.name" property.
-         *
-         * @return true if this application is running under a Windows OS
-         */
-        public static boolean isWindowsPlatform() {
-            String os = System.getProperty( "os.name" );
-            if( os != null && os.startsWith( WIN_ID ) ) {
-                return true;
-            }
-            else {
-                return false;
-            }
-
-        }
-
-        /**
          * Simple example.
          */
         public static void main( String[] args ) {
             displayURL( "http://www.javaworld.com" );
         }
 
-        // Used to identify the windows platform.
-        private static final String WIN_ID = "Windows";
         // The default system browser under windows.
         private static final String WIN_PATH = "rundll32";
         // The flag to display a url.
