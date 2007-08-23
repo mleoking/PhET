@@ -90,9 +90,7 @@ EOT;
 EOT;
 
         print_rating_checkbox(SIM_RATING_ALPHA,         $sim_rating);
-        print_rating_checkbox(SIM_RATING_BETA_MINUS,    $sim_rating);
         print_rating_checkbox(SIM_RATING_BETA,          $sim_rating);
-        print_rating_checkbox(SIM_RATING_BETA_PLUS,     $sim_rating);
         print_rating_checkbox(SIM_RATING_CHECK,         $sim_rating);
 
 print <<<EOT
@@ -107,17 +105,6 @@ EOT;
 		print_type_checkbox(SIM_TYPE_FLASH, $sim_type);
 
 		print "</p>";
-		
-        print "<div>";
-
-        print_checkbox(
-            "sim_no_mac", 
-            SIM_NO_MAC_IMAGE_HTML.
-            "Check here if the simulation is <strong>not</strong> compatible with Mac", 
-            $sim_no_mac
-        );
-        
-        print "</div>";
         
         print "<div>";
         
