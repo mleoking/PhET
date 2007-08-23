@@ -13,17 +13,23 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
+import java.net.MalformedURLException;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.jnlp.BasicService;
+import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.servicemanager.PhetServiceManager;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
@@ -97,6 +103,14 @@ public class PhetAboutDialog extends JDialog {
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
         logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
+        logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ));
+        logoLabel.addMouseListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mouseReleased( MouseEvent e ) {
+                showPhetPage();
+            }
+        } );
 
         JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
 
@@ -106,6 +120,18 @@ public class PhetAboutDialog extends JDialog {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
+    }
+
+    private void showPhetPage() {
+        try {
+            PhetServiceManager.getBasicService().showDocument( new URL( "http://phet.colorado.edu" ) );
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( UnavailableServiceException e ) {
+            e.printStackTrace();
+        }
     }
 
     /*
