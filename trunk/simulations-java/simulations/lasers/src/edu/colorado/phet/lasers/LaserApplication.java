@@ -14,8 +14,10 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -62,7 +64,7 @@ public class LaserApplication extends PiccoloPhetApplication {
         singleAtomModule = new SingleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         multipleAtomModule = new MultipleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         Module[] modules = new Module[]{
-                singleAtomModule,
+//                singleAtomModule,
                 multipleAtomModule
         };
         setModules( modules );
@@ -83,6 +85,28 @@ public class LaserApplication extends PiccoloPhetApplication {
 
         // Options menu
         createMenuItems();
+
+        JDialog dialog = new JDialog( getPhetFrame(), "Match Indicator", false );
+        VerticalLayoutPanel pane = new VerticalLayoutPanel();
+        pane.add( new JButton( new AbstractAction( "Flash Gray" ) {
+            public void actionPerformed( ActionEvent e ) {
+                EnergyLevelGraphic.setBlinkRenderer(Color.lightGray );
+            }
+        } ) );
+        pane.add( new JButton( new AbstractAction( "Flash White" ) {
+            public void actionPerformed( ActionEvent e ) {
+                EnergyLevelGraphic.setBlinkRenderer( Color.white );
+            }
+        } ) );
+        pane.add( new JButton( new AbstractAction( "Flow" ) {
+            public void actionPerformed( ActionEvent e ) {
+                EnergyLevelGraphic.setFlowRenderer();
+            }
+        } ) );
+        dialog.setContentPane( pane );
+        dialog.pack();
+        SwingUtils.centerDialogInParent( dialog );
+        dialog.show( );
     }
 
     /**
