@@ -562,11 +562,11 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         }
 
         private void checkForMatch() {
-            double requiredDE = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
+            double energyAboveGround = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
             boolean match = beam.isEnabled() &&
-                            Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - requiredDE ) <= QuantumConfig.ENERGY_TOLERANCE
+                            Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - energyAboveGround ) <= QuantumConfig.ENERGY_TOLERANCE
                             && beam.getPhotonsPerSecond() > 0;
-            graphic.setMatch( beam, match );
+            graphic.setMatch( beam, match,PhysicsUtil.wavelengthToEnergy( beam.getWavelength() )+model.getGroundState().getEnergyLevel() );
         }
 
         public void meanLifetimechanged( AtomicState.Event event ) {
