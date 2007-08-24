@@ -30,6 +30,10 @@ public class RadiowaveSource extends Beam implements IScalar {
     private static final double DEFAULT_WAVELENGTH = PhysicsUtil.frequencyToWavelength( DEFAULT_FREQUENCY );
     private static final double MAX_PHOTONS_PER_SEC = 5 / ( MriConfig.DT / 1000 );
 
+    public double getEnergy() {
+        return PhysicsUtil.frequencyToEnergy( getFrequency() );
+    }
+
     //----------------------------------------------------------------
     // Class fields and methods
     //----------------------------------------------------------------

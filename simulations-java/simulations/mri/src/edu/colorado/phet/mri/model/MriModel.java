@@ -250,10 +250,8 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         return b;
     }
 
-    /**
+    /*
      * Determines what fraction of the dipoles should be spin down, based on the field strength.
-     *
-     * @return
      */
     public double determineDesiredFractionDown() {
         double fieldStrength = getTotalFieldStrengthAt( new Point2D.Double() );
@@ -279,13 +277,15 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     }
 
     public boolean isTransitionMatch() {
-        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        return Math.abs( getFieldEnergy() - rfEnergy ) <= MriConfig.ENERGY_EPS;
+        return Math.abs( getFieldEnergy() - radiowaveSource.getEnergy() ) <= MriConfig.ENERGY_EPS;
     }
 
     private double getFieldEnergy() {
-        Point2D p = new Point2D.Double( getBounds().getCenterX(), getBounds().getCenterY() );
-        return PhysicsUtil.frequencyToEnergy( getTotalFieldStrengthAt( p ) * getSampleMaterial().getMu() );
+        return PhysicsUtil.frequencyToEnergy( getTotalFieldStrengthAt( getCenter() ) * getSampleMaterial().getMu() );
+    }
+
+    private Point2D getCenter() {
+        return new Point2D.Double( getBounds().getCenterX(), getBounds().getCenterY() );
     }
 
     /*
@@ -293,6 +293,11 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
      */
     public double getMatchingFrequency() {
         return PhysicsUtil.energyToFrequency( getFieldEnergy() );
+    }
+
+    public double getMatchingMainMagnetField() {
+        double energy = radiowaveSource.getEnergy();
+        return PhysicsUtil.energyToFrequency( energy ) / getSampleMaterial().getMu();
     }
 
     //--------------------------------------------------------------------------------------------------

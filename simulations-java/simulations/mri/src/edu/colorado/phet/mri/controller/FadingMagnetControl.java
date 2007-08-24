@@ -12,14 +12,15 @@ package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
-import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
 import edu.colorado.phet.mri.util.SliderControl;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * FadingMagnetControl
@@ -46,16 +47,26 @@ public class FadingMagnetControl extends SliderControl {
         setBorder( ControlBorderFactory.createPrimaryBorder( SimStrings.getInstance().getString( "ControlPanel.MainMagnet" ) ) );
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateMagnets( model, MIN_FIELD );
+                updateMagnets( model );
             }
         } );
-        updateMagnets( model, MIN_FIELD );
+        updateMagnets( model );
+        getSlider().addMouseListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mouseReleased( MouseEvent e ) {
+                System.out.println( "FadingMagnetControl.mouseReleased" );
+                if( model.isTransitionMatch() ) {
+                    double magnetStrength = model.getMatchingMainMagnetField();
+                    System.out.println( "magnet strength="+magnetStrength );
+                    setValue( magnetStrength );
+                }
+            }
+        } );
     }
 
-    private void updateMagnets( MriModel model, double value ) {
-        Electromagnet upperMagnet = model.getUpperMagnet();
-        upperMagnet.setFieldStrength( getValue() / 2 );
-        Electromagnet lowerMagnet = model.getLowerMagnet();
-        lowerMagnet.setFieldStrength( getValue() / 2 );
+    private void updateMagnets( MriModel model ) {
+        System.out.println( "getValue() = " + getValue() );
+        model.getUpperMagnet().setFieldStrength( getValue() / 2 );
+        model.getLowerMagnet().setFieldStrength( getValue() / 2 );
     }
 }
