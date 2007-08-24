@@ -346,6 +346,9 @@ public class LaserModel extends QuantumModel {
         return lasingPhotons.size();
     }
 
+    /*
+    Returns the first match, or null if none.
+     */
     public MatchState getMatch( Beam beam ) {
         AtomicState[] states = getStates();
         for( int i = 0; i < states.length; i++ ) {
