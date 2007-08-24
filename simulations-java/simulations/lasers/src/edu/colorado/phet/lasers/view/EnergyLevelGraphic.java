@@ -270,7 +270,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 //            energyLevelShape.setRect( x, y - thickness / 2, width, thickness );
 
             //todo: this one seems to work properly
-            energyLevelShape.setRect( x, y , width, height );
+            energyLevelShape.setRect( x, y, width, height );
 
             if( levelIcon != null ) {
                 levelIcon.setLocation( (int)( iconLocX ), (int)( y - height ) );
@@ -289,7 +289,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             if( textGraphic != null ) {
-                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight -2);
+                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight - 2 );
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
@@ -329,7 +329,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
         //        RenderStrategy strategy = new FlowLine();
         //        RenderStrategy strategy = new Blink( Color.gray );
-        RenderStrategy strategy = new Blink( Color.lightGray );
+        RenderStrategy strategy = new Blink( QuantumConfig.BLINK_LINE_COLOR);
 
         //----------------------------------------------------------------
         // Rendering
@@ -355,7 +355,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
         public class Blink implements RenderStrategy {
             Color targetColor;
-            private long FLASH_TIME_MS=1500/2;
 
             public Blink( Color targetColor ) {
                 this.targetColor = targetColor;
@@ -368,14 +367,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                     g.draw( arrow2.getShape() );
                 }
 //                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
-                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
+//                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / QuantumConfig.FLASH_DELAY_MILLIS*2) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
-                if( System.currentTimeMillis() - lastMatchTime > FLASH_TIME_MS ) {
+                if( System.currentTimeMillis() - lastMatchTime > QuantumConfig.TOTAL_FLASH_TIME ) {
                     timeOn = false;
                 }
 //                g.setColor( timeOn && match ? targetColor : color );
                 g.setColor( timeOn ? targetColor : color );
-                if( System.currentTimeMillis() - lastMatchTime < FLASH_TIME_MS ) {
+                if( System.currentTimeMillis() - lastMatchTime < QuantumConfig.TOTAL_FLASH_TIME ) {
                     levelIcon.setVisible( !timeOn );
                 }
                 else {

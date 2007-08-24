@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
@@ -23,7 +24,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -113,11 +117,12 @@ public class MonitorPanel extends PhetPCanvas {
 
         model.getRadiowaveSource().addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
             public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
-                updateLinesFlashing();
+                updateLineFlash();
             }
         } );
         model.getRadiowaveSource().addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+                updateLineFlash();
             }
         } );
     }
@@ -125,11 +130,11 @@ public class MonitorPanel extends PhetPCanvas {
     private void updatePanel() {
         setLinePositions( model );
         updateSquiggle();
-        updateLinesFlashing();
+        updateLineFlash();
     }
 
-    private void updateLinesFlashing() {
-        upperLine.setPaint( model.isTransitionMatch() ? Color.blue : Color.red );
+    private void updateLineFlash() {
+        upperLine.setFlashing( model.isTransitionMatch() );
     }
 
     public void setRepresentationPolicy( DipoleRepresentationPolicy dipoleRepresentationPolicy ) {
@@ -195,6 +200,8 @@ public class MonitorPanel extends PhetPCanvas {
         private List nucleiReps;
         private BufferedImage dipoleRepImage;
         private Line2D line;
+        private Timer flashingTimer;
+        private long flashingTimerStartTime = 0;
 
         public EnergyLevel( double width, List nucleiReps, BufferedImage dipoleRepImage ) {
             this.nucleiReps = nucleiReps;
@@ -224,10 +231,19 @@ public class MonitorPanel extends PhetPCanvas {
                     }
                 }
             } );
+            flashingTimer = new Timer( QuantumConfig.FLASH_DELAY_MILLIS * 2, new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setPaint( lineNode.getStrokePaint() == QuantumConfig.BLINK_LINE_COLOR ? Color.black : QuantumConfig.BLINK_LINE_COLOR );
+                    if( System.currentTimeMillis() - flashingTimerStartTime >= QuantumConfig.TOTAL_FLASH_TIME ) {
+                        setFlashing( false );
+                    }
+                }
+            } );
+            flashingTimer.setInitialDelay( QuantumConfig.FLASH_DELAY_MILLIS * 2 );
         }
 
         public void setPaint( Paint paint ) {
-            lineNode.setPaint( paint );
+            lineNode.setStrokePaint( paint );
         }
 
         public void setDipoleRepImage( BufferedImage dipoleRepImage ) {
@@ -261,6 +277,17 @@ public class MonitorPanel extends PhetPCanvas {
 
         public void setPositionY( double y ) {
             setOffset( 0, y );
+        }
+
+        public void setFlashing( boolean flashing ) {
+            setPaint( flashing ? QuantumConfig.BLINK_LINE_COLOR : Color.black );
+            if( flashing ) {
+                flashingTimer.start();
+                flashingTimerStartTime = System.currentTimeMillis();
+            }
+            else {
+                flashingTimer.stop();
+            }
         }
     }
 

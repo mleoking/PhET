@@ -28,15 +28,6 @@ import java.awt.image.BufferedImage;
 public class EnergySquiggle extends PNode {
     private boolean match;
 
-    public void setMatch( boolean match ) {
-        this.match = match;
-        repaint();
-    }
-
-    public boolean isMatch() {
-        return match;
-    }
-
     //--------------------------------------------------------------------------------------------------
     // Class fields and methods
     //--------------------------------------------------------------------------------------------------
@@ -59,11 +50,6 @@ public class EnergySquiggle extends PNode {
     private PImage squiggleGraphic;
     private Orientation orientation;
 
-    /**
-     * Constructor
-     *
-     * @param orientation
-     */
     public EnergySquiggle( Orientation orientation ) {
         this.orientation = orientation;
     }
@@ -97,9 +83,7 @@ public class EnergySquiggle extends PNode {
         int iPrev = 0;
         double freqFactor = wavelength * frequencyFactor;
         g2d.setColor( Color.black );
-        if( match ) {
-            g2d.setColor( Color.red );
-        }
+
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );
             for( int j = 0; j < height; j++ ) {
@@ -125,6 +109,15 @@ public class EnergySquiggle extends PNode {
             img = BufferedImageUtils.getRotatedImage( img, Math.PI / 2 );
         }
         return img;
+    }
+
+    public void setMatch( boolean match ) {
+        this.match = match;
+        repaint();
+    }
+
+    public boolean isMatch() {
+        return match;
     }
 
 }
