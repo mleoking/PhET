@@ -12,6 +12,8 @@ package edu.colorado.phet.common.quantum;
 
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
+import java.awt.*;
+
 /**
  * QuatumConfig
  *
@@ -19,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * @version $Revision$
  */
 public class QuantumConfig {
-   
+
     public static final double STIMULATION_LIKELIHOOD = 0.2;
     public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 
@@ -31,8 +33,12 @@ public class QuantumConfig {
 
     // Images
     public static final String IMAGE_DIRECTORY = "images/";
-    public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";    
+    public static final String PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "photon-comet.png";
     public static final String MID_HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-deep-red-xsml.gif";
     public static final String HIGH_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-blue-xsml.gif";
     public static final String LOW_ENERGY_PHOTON_IMAGE_FILE = IMAGE_DIRECTORY + "particle-red-xsml.gif";
+
+    public static final int TOTAL_FLASH_TIME = 1500 / 2;
+    public static final Color BLINK_LINE_COLOR = Color.lightGray;
+    public static final int  FLASH_DELAY_MILLIS = 50;
 }
