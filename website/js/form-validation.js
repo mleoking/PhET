@@ -28,7 +28,8 @@ function validate_create_blank_error_message_element(element) {
 	if (!next_row || next_row.className != 'error-message') {
 		var new_next_row = document.createElement("tr");
 		
-		new_next_row.className = 'error-message';
+		new_next_row.className  = 'error-message';
+		new_next_row.input_form = element.form;
 		
 		// Insert the new row into the table at the appropriate position:
 		if (!next_row) {
@@ -108,13 +109,13 @@ function validate_form_element(element, vpattern) {
 
 var num_invalid_fields;
 
-function validate_entire_form() {
+function validate_entire_form(specified_form) {
  	num_invalid_fields = 0;
 	
 	// Count number of invalid fields:
 	$('tr.error-message').each(
 		function() {
-			if (this.childNodes[1].childNodes.length != 0) {
+			if (this.input_form == specified_form && this.childNodes[1].childNodes.length != 0) {
 				++num_invalid_fields;
 			}
 		}

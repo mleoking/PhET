@@ -360,7 +360,7 @@ EOT;
                                             <td>email</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/>
+                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled" title="You must enter a valid email address"/>
                                             </td>
                                         </tr>
 
@@ -368,7 +368,7 @@ EOT;
                                             <td>password</td>
 
                                             <td>
-                                                <input type="password" size="15" name="contributor_password" value="$contributor_password" class="always-enabled"/>
+                                                <input type="password" size="15" name="contributor_password" value="$contributor_password"  class="always-enabled" title="You must enter a password with at least one character" />
                                             </td>
                                         </tr>
 
