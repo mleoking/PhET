@@ -75,7 +75,7 @@ public class DipoleOrientationAgent implements Electromagnet.ChangeListener {
                 // Determine how many dipoles should be spin up. There must always be at least 1 up
                 double fractionUp = 1 - model.determineDesiredFractionDown();
                 double minNumUp = dipoles.size() * 0.1;
-                int desiredNumUp = (int)Math.round(Math.max( fractionUp * dipoles.size(), minNumUp ));
+                int desiredNumUp = (int)Math.round( Math.max( fractionUp * dipoles.size(), minNumUp ) );
 
                 // Flip dipoles until we get the desired number spin up
                 while( model.getUpDipoles().size() > desiredNumUp ) {

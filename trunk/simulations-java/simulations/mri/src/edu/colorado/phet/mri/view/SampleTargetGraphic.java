@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.SampleTarget;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.mri.model.SampleTarget;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

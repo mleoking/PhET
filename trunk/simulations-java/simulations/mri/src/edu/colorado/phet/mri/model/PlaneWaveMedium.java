@@ -12,8 +12,8 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.mri.util.IScalar;
 
 import java.awt.geom.Point2D;
@@ -69,7 +69,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         this.longitudinalExtent = longitudinalExtent;
 
 //        values = new double[ (int)( longitudinalExtent )];
-        values = new double[ (int)( longitudinalExtent / speed )];
+        values = new double[(int)( longitudinalExtent / speed )];
     }
 
     public IScalar getSource() {

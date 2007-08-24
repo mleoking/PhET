@@ -87,7 +87,7 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver, PlaneWave
         this.stepSize = waveMedium.getSpeed();
 
         int numComponents = (int)( xExtent / stepSize );
-        components = new PPath[ numComponents ];
+        components = new PPath[numComponents];
         double x = 0;
         double y = 0;
         double dx = stepSize;
@@ -138,7 +138,7 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver, PlaneWave
      */
     public Paint[] computePaintArray( Color color ) {
         int numShades = 255;
-        Paint[] shades = new Paint[ numShades ];
+        Paint[] shades = new Paint[numShades];
         for( int i = 0; i < shades.length; i++ ) {
             if( Y_GRADIENT ) {
                 shades[i] = new GradientPaint( 0,
@@ -219,7 +219,7 @@ public class PlaneWaveGraphic extends PNode implements SimpleObserver, PlaneWave
     }
 
     public void leftSystem( PlaneWaveMedium planeWaveMedium ) {
-        
+
 
     }
 }

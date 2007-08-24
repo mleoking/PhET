@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Head;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

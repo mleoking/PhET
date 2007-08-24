@@ -26,7 +26,7 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class ComputedImagePNode extends PNode implements SampleScannerB.ChangeListener {
-//public class ComputedImagePNode extends PNode implements SampleScanner.ChangeListener {
+    //public class ComputedImagePNode extends PNode implements SampleScanner.ChangeListener {
     private Rectangle2D sampleBounds;
     private double linearQuantization;
     private Rectangle2D displaySlice = new Rectangle2D.Double();

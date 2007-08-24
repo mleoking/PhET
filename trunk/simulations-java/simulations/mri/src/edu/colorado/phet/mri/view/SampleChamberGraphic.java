@@ -23,7 +23,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SampleChamberGraphic extends PNode {
-    public static final Color BACKGROUND = new Color( 200, 200, 255 );
+    //    public static final Color BACKGROUND = new Color( 200, 200, 255 );
+    public static final Color BACKGROUND = Color.white;
 
     public SampleChamberGraphic( SampleChamber sampleChamber ) {
         PNode boundsGraphic = new PPath( sampleChamber.getBounds() );

@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * DipoleMonitor
- * <p>
+ * <p/>
  * An agent that keeps track of the dipoles in the model, including keeping track of which
  * ones have spin up and which have spin down.
  *

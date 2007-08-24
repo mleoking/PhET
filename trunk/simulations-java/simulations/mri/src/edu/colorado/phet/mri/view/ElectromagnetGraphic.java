@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.mri.view;
 
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.Electromagnet;
 import edu.colorado.phet.mri.model.GradientElectromagnet;
-import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -36,7 +36,7 @@ public class ElectromagnetGraphic extends RegisterablePNode implements Electroma
 //    private Arrow upperArrow;
 //    private RegisterablePNode upperArrowGraphic;
 //    private Arrow lowerArrow;
-//    private RegisterablePNode lowerArrowGraphic;
+    //    private RegisterablePNode lowerArrowGraphic;
     private Point2D upperArrowCenterPoint;
     private Point2D lowerArrowCenterPoint;
     private double scale;
