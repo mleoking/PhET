@@ -477,24 +477,6 @@ public class PhetApplication {
     }
 
     /**
-     * Save the set of modules to the specified location.
-     *
-     * @param filename
-     */
-    public void saveState( String filename ) {
-        new ModuleSerializationManager().saveState( this, filename );
-    }
-
-    /**
-     * Restore the module states specified in the file.
-     *
-     * @param filename
-     */
-    public void restoreState( String filename ) {
-        new ModuleSerializationManager().restoreState( this, filename );
-    }
-
-    /**
      * Pauses the PhetApplication (including any Modules that are active).
      */
     public void pause() {
