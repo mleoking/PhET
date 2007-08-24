@@ -2,9 +2,11 @@
 "To Do" list for "Optical Tweezers" simulation
 ================================================================================
 
-MISSING INFO:
+MISSING INFO: 
 
 HIGH PRIORITY:
+- c5 not used in enzyme model
+- d1=c1/c5 in enzyme model
 - pull DNA in enzyme model
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
