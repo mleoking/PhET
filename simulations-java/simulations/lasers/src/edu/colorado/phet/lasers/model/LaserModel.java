@@ -28,6 +28,8 @@ import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.model.collision.PhotonMirrorCollisonExpert;
 import edu.colorado.phet.lasers.model.mirror.Mirror;
+import edu.colorado.phet.lasers.view.EnergyMatchDetector;
+import edu.colorado.phet.lasers.view.MatchState;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -327,6 +329,7 @@ public class LaserModel extends QuantumModel {
 //    }
 
     //
+
     public AtomicState getMiddleEnergyState() {
         return getCurrentElementProperties().getStates()[1];
     }
@@ -343,6 +346,18 @@ public class LaserModel extends QuantumModel {
         return lasingPhotons.size();
     }
 
+    public MatchState getMatch( Beam beam ) {
+        AtomicState[] states = getStates();
+        for( int i = 0; i < states.length; i++ ) {
+            AtomicState state = states[i];
+            EnergyMatchDetector matchDetector = new EnergyMatchDetector( this, state, beam );
+            MatchState matchState = matchDetector.getMatch();
+            if( matchState.isMatch() ) {
+                return matchState;
+            }
+        }
+        return null;
+    }
 
     ///////////////////////////////////////////////////////////////////////////////
     // Inner classes
@@ -358,11 +373,8 @@ public class LaserModel extends QuantumModel {
             collisionExperts.remove( expert );
         }
 
-        /**
+        /*
          * Detects and computes collisions between the items in two lists of collidable objects
-         *
-         * @param collidablesA
-         * @param collidablesB
          */
         void doIt( List collidablesA, List collidablesB ) {
             for( int i = 0; i < collidablesA.size(); i++ ) {
@@ -385,12 +397,9 @@ public class LaserModel extends QuantumModel {
             }
         }
 
-        /**
+        /*
          * Detects and computes collisions between the items in a list of collidables and a specified
          * collidable.
-         *
-         * @param collidablesA
-         * @param body
          */
         void doIt( List collidablesA, Collidable body ) {
             for( int i = 0; i < collidablesA.size(); i++ ) {

@@ -120,6 +120,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         getApparatusPanel().addGraphic( wireGraphic );
         Point pumpControlLocation = new Point( (int)( cavity.getBounds().getMaxX() ) + 140, 10 );
         pumpBeamControl = new BeamControl( getApparatusPanel(),
+                                           this, 
                                            pumpControlLocation,
                                            pumpingBeam,
                                            QuantumConfig.MIN_WAVELENGTH,
