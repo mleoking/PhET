@@ -189,8 +189,7 @@ public class RadiowaveSourceGraphic extends PNode {
         squiggleNode.setOffset( length - controlInsets.right * 2 - freqPSwing.getWidth() - squiggleBox.getWidth(),
                                 controlInsets.top );
         addChild( squiggleNode );
-        final EnergySquiggleUpdater energySquiggleUpdater = new EnergySquiggleUpdater( energySquiggle,
-                                                                                       model );
+        final EnergySquiggleUpdater energySquiggleUpdater = new EnergySquiggleUpdater( energySquiggle, model );
         radiowaveSource.addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
                 double xOffset = ( squiggleBox.getBounds().getWidth() - energySquiggle.getFullBounds().getWidth() ) / 2;
