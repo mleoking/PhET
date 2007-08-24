@@ -2,7 +2,6 @@ package edu.colorado.phet.rotation;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
-import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 
 import javax.swing.*;
