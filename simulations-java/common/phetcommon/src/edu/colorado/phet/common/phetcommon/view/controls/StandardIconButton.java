@@ -21,7 +21,7 @@ public abstract class StandardIconButton extends JButton {
 
     private StandardIconButton( String imageResourceName ) {
         super();
-        Image image = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
+        Image image = PhetCommonResources.getInstance().getImage( imageResourceName );
         Icon icon = new ImageIcon( image );
         setIcon( icon );
         setOpaque( false );
