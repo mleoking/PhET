@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
@@ -281,6 +282,13 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
                 removeModelElement( photon );
             }
         }
+    }
+
+    public boolean isTransitionMatch() {
+        Point2D p = new Point2D.Double( getBounds().getCenterX(), getBounds().getCenterY() );
+        double bEnergy = PhysicsUtil.frequencyToEnergy( getTotalFieldStrengthAt( p ) * getSampleMaterial().getMu() );
+        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
+        return Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS;
     }
 
     //--------------------------------------------------------------------------------------------------

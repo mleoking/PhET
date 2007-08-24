@@ -54,13 +54,11 @@ public class EnergySquiggleUpdater {
                                   yOffset - length );
 
         // Test to see if the squiggle should be flashed
-        Point2D p = new Point2D.Double( model.getBounds().getCenterX(), model.getBounds().getCenterY() );
-        double bEnergy = PhysicsUtil.frequencyToEnergy( model.getTotalFieldStrengthAt( p ) * model.getSampleMaterial().getMu() );
-        double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        boolean match = Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS;
+        boolean match = model.isTransitionMatch();
         if( energySquiggle.isMatch() != match ) {
             energySquiggle.setMatch( match );
             energySquiggle.update( wavelength, 0, (int)length, 10 );//redraw the graphics, TODO this duplicates work above
         }
     }
+
 }
