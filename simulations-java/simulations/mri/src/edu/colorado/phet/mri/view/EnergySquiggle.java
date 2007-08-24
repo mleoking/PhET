@@ -29,7 +29,7 @@ public class EnergySquiggle extends PNode {
     private boolean match;
 
     public void setMatch( boolean match ) {
-        this.match=match;
+        this.match = match;
         repaint();
     }
 
@@ -97,8 +97,8 @@ public class EnergySquiggle extends PNode {
         int iPrev = 0;
         double freqFactor = wavelength * frequencyFactor;
         g2d.setColor( Color.black );
-        if (match){
-            g2d.setColor( Color.red);
+        if( match ) {
+            g2d.setColor( Color.red );
         }
         for( int i = 0; i < actualLength - arrowHeight * 2; i++ ) {
             int k = (int)( Math.sin( phaseAngle + i * Math.PI * 2 / freqFactor ) * height / 2 + height / 2 );

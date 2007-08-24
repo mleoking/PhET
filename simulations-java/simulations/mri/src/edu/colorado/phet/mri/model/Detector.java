@@ -11,8 +11,8 @@
 package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.mri.MriConfig;
 
 import java.awt.geom.Rectangle2D;

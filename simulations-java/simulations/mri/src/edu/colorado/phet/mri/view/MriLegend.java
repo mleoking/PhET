@@ -107,7 +107,7 @@ public class MriLegend extends JPanel {
         try {
 //            JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item2.png" ) ) );
             JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item.png" ) ) );
-            comp.setBorder( BorderFactory.createLineBorder( Color.lightGray));
+            comp.setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
             add( comp, gbc );
         }
         catch( IOException e ) {

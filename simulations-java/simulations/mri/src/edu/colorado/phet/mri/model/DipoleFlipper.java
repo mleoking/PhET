@@ -12,8 +12,8 @@ package edu.colorado.phet.mri.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.mri.MriConfig;
 
 /**

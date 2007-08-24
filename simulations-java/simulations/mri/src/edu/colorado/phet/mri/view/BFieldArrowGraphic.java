@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.mri.model.MriModel;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -29,7 +29,7 @@ import java.text.DecimalFormat;
 public class BFieldArrowGraphic extends PhetPCanvas {
     private RegisterablePNode indicatorGraphic;
     private double maxArrowFractionOfHeight;
-//    private JTextField readout;
+    //    private JTextField readout;
     private DecimalFormat readoutFormat = new DecimalFormat( "0.00" );
     private Point2D samplePoint = new Point2D.Double();
 

@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.controller.AbstractMriModule;
 import edu.colorado.phet.mri.controller.EmRepSelector;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 import edu.colorado.phet.mri.util.GraphicPSwing;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -108,7 +108,7 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
-        final PNode freqPSwing = new GraphicPSwing( new PSwing(freqCtrl ), "mri/images/control-background.png" );
+        final PNode freqPSwing = new GraphicPSwing( new PSwing( freqCtrl ), "mri/images/control-background.png" );
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
         freqCtrl.getTextField().setOpaque( true );
@@ -143,14 +143,14 @@ public class RadiowaveSourceGraphic extends PNode {
             }
         } );
         powerCtrl.setValue( powerCtrl.getValue() );
-        PNode powerPSwing = new GraphicPSwing( new PSwing(powerCtrl ), "mri/images/control-background.png" );
+        PNode powerPSwing = new GraphicPSwing( new PSwing( powerCtrl ), "mri/images/control-background.png" );
         powerCtrl.getTextField().setOpaque( true );
         powerPSwing.setOffset( controlInsets.left, controlInsets.top );
         addChild( powerPSwing );
 
         // Controls for the photon/wave view choice
         EmRepSelector emRepSelector = new EmRepSelector( module );
-        PNode emRepPSwing = new GraphicPSwing( new PSwing(emRepSelector ), "mri/images/radio-button-background.png" );
+        PNode emRepPSwing = new GraphicPSwing( new PSwing( emRepSelector ), "mri/images/radio-button-background.png" );
         emRepPSwing.setOffset( ( length - emRepPSwing.getBounds().getWidth() ) / 2,
                                panelDepth - controlInsets.bottom - emRepPSwing.getBounds().getHeight() );
         addChild( emRepPSwing );
@@ -173,7 +173,7 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
             public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
-                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( ((RadiowaveSource)event.getSource()).getWavelength() ) );
+                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( ( (RadiowaveSource)event.getSource() ).getWavelength() ) );
             }
         } );
     }

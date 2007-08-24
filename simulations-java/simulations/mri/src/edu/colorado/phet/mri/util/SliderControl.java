@@ -446,6 +446,7 @@ new Insets( 0, 3, 0, 2 ), 0, 0 );
     /*
      * Gets the value from the slider.
      */
+
     private double getSliderValue() {
         int sliderValue = getSlider().getValue();
         double value = 0;
@@ -572,6 +573,7 @@ new Insets( 0, 3, 0, 2 ), 0, 0 );
     /*
      * Dispatches events to the proper handler.
      */
+
     private class EventDispatcher extends KeyAdapter implements ActionListener, ChangeListener, FocusListener {
 
         /**

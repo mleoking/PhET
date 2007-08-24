@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.mri;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
 import edu.colorado.phet.mri.view.MonitorPanel;
@@ -35,7 +35,7 @@ public class MriConfig {
     // Descriptive information
     public static final String TITLE = SimStrings.getInstance().getString( "mri.name" );
     public static final String DESCRIPTION = SimStrings.getInstance().getString( "mri.description" );
-    public static final String VERSION = PhetApplicationConfig.getVersion( "mri").formatForTitleBar();
+    public static final String VERSION = PhetApplicationConfig.getVersion( "mri" ).formatForTitleBar();
 
     public final static double scale = 1;
 
@@ -48,7 +48,7 @@ public class MriConfig {
     public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole-4.gif";
     public static final String DIPOLE_ARROW_IMAGE = IMAGE_PATH + "dipole-5-arrow.gif";
     public static final String DIPOLE_DONUT_IMAGE = IMAGE_PATH + "dipole-5-donut.gif";
-//    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
+    //    public static final String DIPOLE_IMAGE = IMAGE_PATH + "dipole.gif";
     public static final String HEAD_IMAGE = IMAGE_PATH + "head-1A.png";
     public static final String COIL_IMAGE = IMAGE_PATH + "coil-1.png";
 
@@ -57,10 +57,10 @@ public class MriConfig {
     public static final double MAX_FEQUENCY = 110;
     public static final double FREQUENCY_UNIT = 1E6;
 //    public static final double MIN_FEQUENCY = 20E6;
-//    public static final double MAX_FEQUENCY = 80E6;
+    //    public static final double MAX_FEQUENCY = 80E6;
     public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field
-//    public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
+    //    public static final double MAX_GRADIENT_COIL_CURRENT = 5;   // arbitrary units, suitable for a JSlider
     public static final double MAX_GRADIENT_COIL_FIELD = 0.08;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_CURRENT = 100;   // arbitrary units, suitable for a JSlider
     public static final double MAX_FADING_COIL_FIELD = 3;       // Teslas
@@ -70,7 +70,7 @@ public class MriConfig {
     public static final double MAX_ENERGY_LEVEL_SEPARATION = MAX_FADING_COIL_FIELD * MAX_MU;
     public static final double MAX_POWER = 100;
     // Difference in energies that is equivalent to 0
-    public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN.getMu() * MAX_FADING_COIL_FIELD ) / 150*4;
+    public static final double ENERGY_EPS = PhysicsUtil.frequencyToEnergy( SampleMaterial.HYDROGEN.getMu() * MAX_FADING_COIL_FIELD ) / 150 * 4;
 
     // Length of time (simulation time) that a dipole kicked into spin down state will stay there until
     // it spontaneously fall to spin up
@@ -98,7 +98,7 @@ public class MriConfig {
     public static double SCALE_FOR_ORG = 400.0 / 600;
     public static double SAMPLE_CHAMBER_WIDTH = 400;
     public static double SAMPLE_CHAMBER_HEIGHT = 350;
-//    public static double SAMPLE_CHAMBER_HEIGHT = 300;
+    //    public static double SAMPLE_CHAMBER_HEIGHT = 300;
     public static Rectangle2D SAMPLE_CHAMBER_BOUNDS = new Rectangle2D.Double( SAMPLE_CHAMBER_LOCATION.getX(),
                                                                               SAMPLE_CHAMBER_LOCATION.getY(),
                                                                               SAMPLE_CHAMBER_WIDTH,
@@ -107,7 +107,7 @@ public class MriConfig {
     // Initial conditions
     public static class InitialConditions {
         public static double FADING_MAGNET_FIELD = 0;
-//        public static double FADING_MAGNET_CURRENT = 0;
+        //        public static double FADING_MAGNET_CURRENT = 0;
         public static final double DIPOLE_PRECESSION = Math.toRadians( 0 );
         public static final DipoleOrientationAgent.SpinDeterminationPolicy SPIN_DETERMINATION_POLICY = new DipoleOrientationAgent.DeterministicPolicy();
         public static final MonitorPanel.DipoleRepresentationPolicy MONITOR_PANEL_REP_POLICY_DIPOLE = new MonitorPanel.DiscretePolicy();

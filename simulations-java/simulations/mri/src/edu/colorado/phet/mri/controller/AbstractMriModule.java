@@ -11,14 +11,14 @@
 package edu.colorado.phet.mri.controller;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.piccolophet.DeferredInitializationModule;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
 import edu.colorado.phet.mri.view.BFieldIndicatorB;
 import edu.colorado.phet.mri.view.ModelElementGraphicManager;
-import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.colorado.phet.mri.view.PhotonGraphic;
-import edu.colorado.phet.common.piccolophet.DeferredInitializationModule;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.mri.view.PlaneWaveGraphic;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

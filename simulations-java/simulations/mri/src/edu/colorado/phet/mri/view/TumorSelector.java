@@ -11,8 +11,8 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.model.Head;
 import edu.colorado.phet.mri.model.Tumor;
 
@@ -39,24 +39,24 @@ public class TumorSelector extends JPanel {
      * @param model
      */
     public TumorSelector( final Head head, final BaseModel model ) {
-        final MultiStateButton tumorBtn=new MultiStateButton( );
-        tumorBtn.addMode( unselectedStr,unselectedStr, null);
-        tumorBtn.addMode( selectedStr,selectedStr, null);
+        final MultiStateButton tumorBtn = new MultiStateButton();
+        tumorBtn.addMode( unselectedStr, unselectedStr, null );
+        tumorBtn.addMode( selectedStr, selectedStr, null );
         add( tumorBtn );
-        tumorBtn.addActionListener( unselectedStr,new ActionListener() {
+        tumorBtn.addActionListener( unselectedStr, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 tumor = new Tumor( head.getBounds().getX() + head.getBounds().getWidth() * 0.5,
-                                       head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
-                                       head.getBounds().getWidth() * 0.3,
-                                       head.getBounds().getHeight() / 6 );
-                    head.addTumor( tumor, model );
-                    tumorBtn.setText( selectedStr );
+                                   head.getBounds().getY() + head.getBounds().getHeight() * 0.15,
+                                   head.getBounds().getWidth() * 0.3,
+                                   head.getBounds().getHeight() / 6 );
+                head.addTumor( tumor, model );
+                tumorBtn.setText( selectedStr );
             }
         } );
         tumorBtn.addActionListener( selectedStr, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 head.removeTumor( tumor, model );
-                    tumorBtn.setText( unselectedStr );
+                tumorBtn.setText( unselectedStr );
             }
         } );
     }

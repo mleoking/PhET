@@ -11,13 +11,13 @@
 package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.*;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -128,12 +128,12 @@ public class MonitorPanel extends PhetPCanvas {
     }
 
 
-    /**
+    /*
      * Establish the center point of the panel, and position the energy levels
      * symetrically above and below it
      */
     private void setLinePositions( MriModel model ) {
-        double imageReserveSpace = lowerDipoleImage.getHeight() * 1 / 2;
+        double imageReserveSpace = lowerDipoleImage.getHeight() / 2;
         double maxOffset = getHeight() / 2 * heightFractionUsed - imageReserveSpace;
         double fractionMaxField = Math.min( fieldStrength / MriConfig.MAX_FADING_COIL_FIELD, 1 );
         double sampleMaterialRatio = model.getSampleMaterial().getMu() / SampleMaterial.HYDROGEN.getMu();
@@ -144,12 +144,10 @@ public class MonitorPanel extends PhetPCanvas {
         upperLine.setPositionY( centerY - offsetY );
     }
 
-    /**
+    /*
      * Sets the length, wavelength and location of the squiggle, and flashes it if  necessary
-     *
-     * @param model
      */
-    private void adjustSquiggle( MriModel model ) {
+    private void adjustSquiggle() {
         energySquiggleUpdater.updateSquiggle( energySquiggle.getOffset().getX(),
                                               lowerLine.getOffset().getY(),
                                               SQUIGGLE_LENGTH_CALIBRATION_FACTOR );
@@ -371,11 +369,11 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
-            adjustSquiggle( model );
+            adjustSquiggle();
         }
 
         public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
-            adjustSquiggle( model );
+            adjustSquiggle();
         }
     }
 }

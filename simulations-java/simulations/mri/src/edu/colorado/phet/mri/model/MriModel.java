@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.mri.MriConfig;
 
 import java.awt.geom.Point2D;
@@ -28,15 +28,15 @@ import java.util.List;
 
 /**
  * MriModel
- * <p>
+ * <p/>
  * The model has a sample and two SimpleMagnets, one above the sample and
  * one below. It can also have additional magnets. In particular these are
  * GradienElectromagnets.
- * <p>
+ * <p/>
  * The model also contains a RadiowaveSource. The primary representation of
  * radio waves is with photons. There is a radio wave source that generates
  * photons.
- * <p>
+ * <p/>
  * A DipoleMonitor object keeps track of the dipoles in the model and their
  * spin states, and a DipolOrientationAgent is used to determine the desired
  * ratio of up to down spin dipoles.
