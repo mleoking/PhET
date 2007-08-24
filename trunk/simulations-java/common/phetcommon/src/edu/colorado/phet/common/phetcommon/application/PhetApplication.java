@@ -120,7 +120,7 @@ public class PhetApplication {
     private ModuleManager moduleManager;
     private AWTSplashWindow splashWindow;
     private Frame splashWindowOwner;
-    private PhetAboutDialog aboutDialog;
+    private PhetAboutDialog aboutDialog; // not null only when About dialog is visible
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -518,22 +518,23 @@ public class PhetApplication {
     }
 
     /**
-     * Displays an About Dialog for the simulation, including version information, license information and references.
+     * Displays an About Dialog for the simulation.
      */
     public void showAboutDialog() {
         if ( aboutDialog == null ) {
-            aboutDialog = createPhetAboutDialog();
+            aboutDialog = new PhetAboutDialog( this );
+            aboutDialog.addWindowListener( new WindowAdapter() {
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    aboutDialog.dispose();
+                }
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    aboutDialog = null;
+                }
+            } );
+            aboutDialog.show();
         }
-        aboutDialog.show();
-    }
-
-    /**
-     * Creates the PhetAboutDialog which is used in showAboutDialog
-     *
-     * @return the Application's PhetAboutDialog
-     */
-    protected PhetAboutDialog createPhetAboutDialog() {
-        return new PhetAboutDialog( this );
     }
 
     public void setTabbedPaneType( TabbedPaneType tabbedPaneType ) {
