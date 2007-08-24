@@ -86,9 +86,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
 
         getEnergyGraphic().setStroke( new BasicStroke( 0.5f ) );
         getEnergyGraphic().setBorderColor( Color.black );
-//        font = new Font( LaserConfig.DEFAULT_CONTROL_FONT.getName(),
-//                         LaserConfig.DEFAULT_CONTROL_FONT.getStyle(),
-//                         LaserConfig.DEFAULT_CONTROL_FONT.getSize() + 8 );
+
         // Put the number graphic in the middle of the atom graphic
         numberGraphic = characterGraphics[0];
         addGraphic( numberGraphic, 1000 );
@@ -103,7 +101,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
      * Sets the text to be written on the atom to be the index of the atom's state, or
      * "G" if it's the ground state.
      */
-    private void setNumberGraphicText() {
+    protected void setNumberGraphicText() {
         // Add a number to the middle of the grpahic
         int stateIdx = atom.getCurrStateNumber();
         removeGraphic( numberGraphic );
@@ -122,10 +120,6 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         repaint();
     }
 
-    //----------------------------------------------------------------
-    // Atom.ChangeListener implementation
-    //----------------------------------------------------------------
-
     /**
      * Sets the color for the representation of the atom's energy level when the atom's state
      * changes
@@ -141,79 +135,4 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         update();
     }
 
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
-
-    /**
-     * Thread that changes the color of the atom energy rep back to gray when it times out
-     */
-    private class ColorChanger extends Thread {
-        public void run() {
-            try {
-                Thread.sleep( colorTime );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-//            getEnergyGraphic().setColor( energyRepColorStrategy.getColor( atom ) );
-            setBoundsDirty();
-            repaint();
-        }
-    }
-
-    private int getStateIdx( Atom atom ) {
-        int stateIdx = -1;
-        for( int i = 0; i < atom.getStates().length; i++ ) {
-            if( atom.getCurrState() == atom.getStates()[i] ) {
-                stateIdx = i;
-                break;
-            }
-        }
-        return stateIdx;
-    }
-
-//    /**
-//     * Picks a Color to represent the energy level of an atom
-//     */
-//    private interface EnergyRepColorStrategy {
-//        Color getColor( Atom atom );
-//    }
-//
-//    /**
-//     * Picks an RGB color that renders the color corresponding to the energy level of the atom
-//     */
-//    private class VisibleColorStrategy implements EnergyRepColorStrategy {
-//
-//        public Color getColor( Atom atom ) {
-//            double de = atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel();
-//            double wavelength = PhysicsUtil.energyToWavelength( de );
-////            double wavelength = atom.getCurrState().getWavelength();
-//            return VisibleColor.wavelengthToColor( wavelength );
-//        }
-//    }
-//
-//    /**
-//     * Picks a shade of gray for the energy rep color.
-//     */
-//    private class GrayScaleStrategy implements EnergyRepColorStrategy {
-//        private Color[] grayScale = new Color[240];
-////        private Color[] grayScale = new Color[220];
-//
-//        GrayScaleStrategy() {
-//            for( int i = 0; i < grayScale.length; i++ ) {
-//                grayScale[i] = new Color( i, i, i );
-//            }
-//        }
-//
-//        public Color getColor( Atom atom ) {
-//            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) /
-//                                                  ( atom.getHighestEnergyState().getEnergyLevel() - atom.getGroundState().getEnergyLevel() ) ) );
-////            int idx = (int)( grayScale.length * ( ( atom.getCurrState().getEnergyLevel() - Photon.wavelengthToEnergy( Photon.MAX_VISIBLE_WAVELENGTH ) ) /
-////                                     ( Photon.wavelengthToEnergy( Photon.MIN_VISIBLE_WAVELENGTH ) - Photon.wavelengthToEnergy( ( Photon.MAX_VISIBLE_WAVELENGTH ) ) ) ) );
-//            idx = Math.min( Math.max( 0, idx ), grayScale.length - 1 );
-//            return grayScale[idx];
-//        }
-//
-//    }
 }

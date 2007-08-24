@@ -40,7 +40,7 @@ public class LevelIcon extends CompositePhetGraphic {
         if( atomGraphic != null ) {
             removeGraphic( atomGraphic );
         }
-        atomGraphic = new AnnotatedAtomGraphic( getComponent(), atom );
+        atomGraphic = new LevelIconAnnotatedAtomGraphic( getComponent(), atom );
 
         // Note that the AnnotatedAtomGraphic changes the size of the atom in the
         // model so that it will detect hits by photons on it's energy halo. We need
