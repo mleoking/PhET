@@ -31,6 +31,7 @@ public class MiscControlPanel extends JPanel implements Observer {
     private Fluid _fluid;
     private Frame _parentFrame;
     private FluidControlsDialog _fluidControlsDialog;
+    private Point _fluidControlsDialogLocation;
     
     private JCheckBox _rulerCheckBox;
     private Box _fluidVacuumPanel;
@@ -248,6 +249,7 @@ public class MiscControlPanel extends JPanel implements Observer {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
+                _fluidControlsDialogLocation = _fluidControlsDialog.getLocation();
                 _fluidControlsDialog.dispose();
             }
 
@@ -260,14 +262,20 @@ public class MiscControlPanel extends JPanel implements Observer {
             }
         } );
         
-        // Position at the lower-left of the main frame
-        Point p = _parentFrame.getLocationOnScreen();
-        _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() - 60 ) );
+        if ( _fluidControlsDialogLocation == null ) {
+            // Position at the lower-left of the main frame
+            Point p = _parentFrame.getLocationOnScreen();
+            _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() - 60 ) );
+        }
+        else {
+            _fluidControlsDialog.setLocation( _fluidControlsDialogLocation );
+        }
         _fluidControlsDialog.show();
     }
     
     private void closeFluidControlsDialog() {
         if ( _fluidControlsDialog != null ) {
+            _fluidControlsDialogLocation = _fluidControlsDialog.getLocation();
             _fluidControlsDialog.dispose();
             _fluidControlsDialog = null;
         }
