@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.view;
 
@@ -29,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * The PhetFrame is the JFrame for the PhetApplication.
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
@@ -84,15 +84,7 @@ public class PhetFrame extends JFrame {
 
         } );
     }
-    
-    private static BufferedImage addBorder( BufferedImage image){
-        Graphics2D g2=image.createGraphics();
-        g2.setStroke( new BasicStroke( 1) );
-        g2.setPaint( Color.darkGray );
-        g2.draw(new Rectangle(1,1,image.getWidth( )-2,image.getHeight( )-2 ) );
-//        g2.draw(new Rectangle(0,0,image.getWidth( ),image.getHeight( ) ) );
-        return image;
-    }
+
     /**
      * Sets the <code>contentPane</code> property.
      *

@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 import javax.swing.*;
@@ -205,10 +204,6 @@ public class PhetGraphicsModule extends Module {
     protected void handleUserInput() {
         super.handleUserInput();
         getApparatusPanel().handleUserInput();
-    }
-
-    public Class[] getTransientPropertySources() {
-        return new Class[]{PhetImageGraphic.class};
     }
 
     public void setReferenceSize() {
