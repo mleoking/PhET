@@ -46,6 +46,8 @@
 
 package edu.colorado.phet.qm.phetcommon;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -248,7 +250,8 @@ public class JFontChooser extends JDialog {
 
     private Font getCurrentFont() {
         if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null ) {
-            return new Font( "Lucida Sans", Font.PLAIN, 12 );
+            return new Font(
+                    PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
         }
         String fontFamily = (String)fontList.getSelectedValue();
         int fontSize = Integer.parseInt( (String)sizeList.getSelectedValue() );

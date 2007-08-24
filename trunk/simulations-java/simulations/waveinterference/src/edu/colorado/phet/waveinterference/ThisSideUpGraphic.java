@@ -2,6 +2,7 @@ package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -29,7 +30,7 @@ public class ThisSideUpGraphic extends PhetPNode {
         arrowNode.setStrokePaint( Color.black );
         addChild( arrowNode );
 
-        textNode.setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+        textNode.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 24 ) );
         arrowNode.setOffset( textNode.getFullBounds().getWidth() + arrowNode.getFullBounds().getWidth() / 2, textNode.getFullBounds().getHeight() / 2 + arrowNode.getFullBounds().getHeight() / 2 );
         origHeight = getFullBounds().getHeight();
     }

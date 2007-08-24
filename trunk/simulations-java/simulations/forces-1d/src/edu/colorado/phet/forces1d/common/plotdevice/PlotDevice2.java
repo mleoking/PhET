@@ -4,6 +4,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.force1d_tag_chart.Chart;
 import edu.colorado.phet.force1d_tag_chart.Range2D;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetTextField;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -18,7 +19,7 @@ public class PlotDevice2 extends GraphicLayerSet {
     private GoPauseClear goPauseClear;
     private Chart chart;
     private PhetTextField textField;
-    private static final Font textFieldFont = new Font( "Lucida Sans", 0, 28 );
+    private static final Font textFieldFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 28 );
 
     public PlotDevice2( Component component, Range2D chartRange ) {
         super( component );

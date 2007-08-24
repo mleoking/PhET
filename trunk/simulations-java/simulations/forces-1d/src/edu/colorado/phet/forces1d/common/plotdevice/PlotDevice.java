@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -966,7 +967,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
-            Font borderFont = new Font( "Lucida Sans", 0, 12 );
+            Font borderFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 12 );
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {
@@ -1161,7 +1162,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public static class ChartButton extends JButton {
-        private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();//new Font( "Lucida Sans", Font.BOLD, 14 );
+        private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();//new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
 
         public ChartButton( String label ) throws IOException {
 //            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "forces-1d/images/arrow-right.gif" ) ) );

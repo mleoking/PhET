@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.model.Force1dObject;
@@ -21,7 +22,7 @@ import java.io.IOException;
 
 public class ObjectComboBox extends JComboBox {
     private Force1dControlPanel controlPanel;
-    private static Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
 
     public ObjectComboBox( final Force1DApplication module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
         super( toLabelArray( imageElements, controlPanel ) );
@@ -69,7 +70,7 @@ public class ObjectComboBox extends JComboBox {
             setHorizontalAlignment( CENTER );
             setVerticalAlignment( CENTER );
 
-//            setFont( new Font( "Lucida Sans",Font.BOLD, 10) );
+//            setFont( new Font( PhetDefaultFont.LUCIDA_SANS,Font.BOLD, 10) );
         }
 
         public Component getListCellRendererComponent( JList list,

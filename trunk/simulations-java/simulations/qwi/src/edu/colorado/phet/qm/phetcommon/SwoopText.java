@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -36,7 +37,7 @@ public class SwoopText extends PNode {
         this.destY = destY;
         this.text = text;
         fontRenderContext = new FontRenderContext( new AffineTransform(), true, true );
-        font = new Font( "Lucida Sans", Font.BOLD, 14 );
+        font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
 
         Rectangle2D fullBounds = font.getStringBounds( text, fontRenderContext );
         fullBounds = RectangleUtils.expandRectangle2D( fullBounds, 5, 5 );

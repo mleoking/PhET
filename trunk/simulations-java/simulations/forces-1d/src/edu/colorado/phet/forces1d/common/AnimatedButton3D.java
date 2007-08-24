@@ -6,6 +6,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -54,7 +55,7 @@ public class AnimatedButton3D extends CompositePhetGraphic {
         this.depth = origDepth;
         this.shearX = shearX;
         BasicStroke stroke = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-        Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
         phetTextGraphic = new PhetTextGraphic( component, font, text, Color.black, 0, 0 );
         AffineTransform shear = AffineTransform.getShearInstance( shearX, 0 );
 

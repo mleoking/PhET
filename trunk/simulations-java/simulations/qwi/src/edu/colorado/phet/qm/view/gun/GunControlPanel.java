@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.phetcommon.ShinyPanel;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -36,7 +37,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
         };
         titleLabel.setForeground( Color.white );
         titleLabel.setOpaque( false );
-        titleLabel.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        titleLabel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         add( titleLabel );
     }
 

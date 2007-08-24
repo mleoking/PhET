@@ -14,6 +14,7 @@ package edu.colorado.phet.common_sound.view.components;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -39,7 +40,7 @@ public class ModelSlider extends JPanel {
     private JSlider slider;
     private ModelViewTransform1D modelViewTransform;
     private String units;
-    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private Font titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
     private NumberFormat textFieldFormat;
     // Format for the numbers that appear below the JSlider
     private NumberFormat sliderLabelFormat;
@@ -218,7 +219,7 @@ public class ModelSlider extends JPanel {
     private void relabelSlider() {
         int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        Font labelFont = new Font( "Lucida Sans", 0, 10 );
+        Font labelFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 );
         Hashtable table = new Hashtable();
         for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = modelViewTransform.viewToModel( value );

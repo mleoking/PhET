@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.IClock;
@@ -113,8 +114,8 @@ public class GreenhouseApplication extends PhetApplication {
         phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
         phetLookAndFeel.setForegroundColor( Color.black );
         if( FontJA.isJapaneseLocale() ) {
-            phetLookAndFeel.setFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.PLAIN, 14 ) );
-            phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( "Lucida Sans" ), Font.BOLD, 12 ) );
+            phetLookAndFeel.setFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.PLAIN, 14 ) );
+            phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.BOLD, 12 ) );
         }
         phetLookAndFeel.initLookAndFeel();
     }

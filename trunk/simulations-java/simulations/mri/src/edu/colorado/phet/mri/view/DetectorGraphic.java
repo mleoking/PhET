@@ -12,6 +12,7 @@ package edu.colorado.phet.mri.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.mri.model.Detector;
 import edu.colorado.phet.mri.util.RoundGradientPaint;
@@ -43,7 +44,7 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
 
     static RoundGradientPaint[] gradientPaints = new RoundGradientPaint[256];
 
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
     private Paint detectorPaint;
     private PPath displayPNode;
     private Detector detector;

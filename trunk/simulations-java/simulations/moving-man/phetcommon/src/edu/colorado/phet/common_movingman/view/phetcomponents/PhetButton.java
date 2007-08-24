@@ -4,6 +4,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -29,7 +30,7 @@ public class PhetButton extends CompositePhetGraphic {
     private Color clickColor = Color.gray;
     private Color borderColor = Color.black;
     private Stroke borderStroke = new BasicStroke( 2.0f );
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
+    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
 
     public PhetButton( Component component, String text ) {
         super( component );

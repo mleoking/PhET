@@ -9,6 +9,7 @@ import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,7 @@ public class WiggleMe extends CompositePhetGraphic {
     }
 
     public WiggleMe( final Component component, AbstractClock clock, String text, Target t ) {
-        this( component, clock, text, t, new Font( "Lucida Sans", Font.BOLD, 20 ), 1, 1 );
+        this( component, clock, text, t, new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ), 1, 1 );
     }
 
     public WiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {

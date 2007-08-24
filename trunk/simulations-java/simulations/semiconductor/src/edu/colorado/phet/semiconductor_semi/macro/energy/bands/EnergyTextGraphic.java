@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.shapes.ArrowShape;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
@@ -31,7 +32,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         super( transform );
         this.loc = loc;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
-        font = new Font( "Lucida Sans", 0, 36 );
+        font = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
         smallFont = new Font( "Dialog", 0, 18 );
     }
 

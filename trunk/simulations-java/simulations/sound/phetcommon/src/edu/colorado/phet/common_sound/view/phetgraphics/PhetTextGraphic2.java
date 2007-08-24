@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import java.awt.*;
 
 /**
@@ -37,7 +39,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public static final int CENTER = 9;
 
     // Defaults
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
     private static final String DEFAULT_TEXT = "";
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final int DEFAULT_JUSTIFICATION = NONE;

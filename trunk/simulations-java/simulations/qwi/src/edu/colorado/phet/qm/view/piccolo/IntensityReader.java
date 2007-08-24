@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.math.Complex;
@@ -53,13 +54,13 @@ public class IntensityReader extends PComposite {
         PPath horizontalLine = new PPath( new Line2D.Double( -radius * 3, 0, radius * 3, 0 ) );
         horizontalLine.setStrokePaint( Color.green );
         crosshairs.addChild( horizontalLine );
-//        crosshairs.setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+//        crosshairs.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 24 ) );
 //        crosshairs.setTextPaint( new GradientPaint( new Point2D.Double(), Color.blue, new Point2D.Double( 0, crosshairs.getHeight() ), Color.red ) );
         addInputEventListener( new PDragEventHandler() );
         addChild( crosshairs );
 
         readout = new PText( QWIStrings.getString( "value" ) );
-        readout.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        readout.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         readout.setTextPaint( Color.blue );
         addChild( readout );
         readout.setOffset( 0, crosshairs.getHeight() + 5 );

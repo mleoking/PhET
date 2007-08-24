@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
@@ -62,7 +63,7 @@ public class FreeBodyDiagramPanel {
         };
         fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), SimStrings.get( "FreeBodyDiagramPanel.clickHelp" ), target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
-        fbdWiggleMe.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        fbdWiggleMe.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         fbdWiggleMe.setArrow( 0, 40 );
         fbdWiggleMe.setAmplitude( 10 );
         fbdWiggleMe.setFrequency( 5.0 );

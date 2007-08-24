@@ -11,6 +11,7 @@ public class PhetDefaultFont extends Font {
     
     private static final Font REFERENCE_FONT = new JLabel().getFont();
     private static final String FONT_NAME = REFERENCE_FONT.getFontName();
+    public static final String LUCIDA_SANS="Lucida Sans";
 
     public PhetDefaultFont() {
         this( REFERENCE_FONT.getSize() );

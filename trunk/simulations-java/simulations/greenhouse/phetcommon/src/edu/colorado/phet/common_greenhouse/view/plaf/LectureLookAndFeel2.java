@@ -1,6 +1,7 @@
 package edu.colorado.phet.common_greenhouse.view.plaf;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -17,7 +18,7 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
     private ArrayList def;
 
     public LectureLookAndFeel2() {
-        this(new Font("Lucida Sans", 0, 26), new Color(225, 240, 230), new Color(85, 70, 95));
+        this(new Font( PhetDefaultFont.LUCIDA_SANS, 0, 26), new Color(225, 240, 230), new Color(85, 70, 95));
     }
 
     public LectureLookAndFeel2(Font font, Color foregroundColor, Color backgroundColor) {

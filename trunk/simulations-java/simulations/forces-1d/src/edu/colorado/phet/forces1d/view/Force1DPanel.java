@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
@@ -168,7 +169,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             public void wallForceChanged() {
             }
         } );
-        Font checkBoxFont = new Font( "Lucida Sans", Font.PLAIN, 13 );
+        Font checkBoxFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
         String stf = SimStrings.get( "Force1DPanel.showFTotalHTML" );
 //        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
         final JCheckBox showNetForce = new JCheckBox( stf, true );

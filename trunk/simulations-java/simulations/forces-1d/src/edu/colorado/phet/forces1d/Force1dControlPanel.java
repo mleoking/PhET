@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.view.components.ModelSlider;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
@@ -199,7 +200,7 @@ public class Force1dControlPanel extends IForceControl {
                 super.paintComponent( g );
             }
         };
-        horizLabel.setFont( new Font( "Lucida Sans", 0, 10 ) );
+        horizLabel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 ) );
         Dimension pre = horizLabel.getPreferredSize();
         horizLabel.setPreferredSize( new Dimension( pre.width, pre.height + 5 ) );
         return horizLabel;

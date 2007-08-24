@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.view;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -82,7 +83,7 @@ public class BodyVectorLayer extends PNode {
             arrowNode = new PhetPPath( color, getStroke(), getStrokePaint() );
             addChild( arrowNode );
             labelNode = new ShadowPText( label );
-            labelNode.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+            labelNode.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
             labelNode.setTextPaint( color );
             addChild( labelNode );
         }

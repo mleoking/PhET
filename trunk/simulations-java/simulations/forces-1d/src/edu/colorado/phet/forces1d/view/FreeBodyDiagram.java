@@ -2,6 +2,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
@@ -177,7 +178,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             this.name = name;
             shapeGraphic = new PhetShapeGraphic( component, null, Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addGraphic( shapeGraphic );
-            Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
+            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLGraphic( component, font, name, color );
             addGraphic( textGraphic );
@@ -249,7 +250,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             addGraphic( yAxis );
 
 
-            Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
+            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
             xLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fx" ), Color.black );
             yLabel = new HTMLGraphic( component, font, SimStrings.get( "FreeBodyDiagram.fy" ), Color.black );
             addGraphic( xLabel );

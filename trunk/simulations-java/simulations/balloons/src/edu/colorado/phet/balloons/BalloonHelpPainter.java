@@ -2,6 +2,7 @@
 package edu.colorado.phet.balloons;
 
 import edu.colorado.phet.balloons.common.paint.Painter;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -19,7 +20,7 @@ public class BalloonHelpPainter implements Painter {
     }
 
     public void paint( Graphics2D g ) {
-        g.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        g.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         g.setColor( Color.blue );
         String rubTheBalloon = BalloonsResources.getString( "rub.the.balloon" );
 

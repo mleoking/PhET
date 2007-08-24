@@ -7,6 +7,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.ShadowHTMLGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -65,7 +66,7 @@ public class HelpItem3 extends CompositePhetGraphic implements HelpTargetListene
         this.arrowDX = arrowDX;
         this.arrowDY = arrowDY;
         this.text = text;
-        Font font = new Font( "Lucida Sans", Font.PLAIN, 18 );
+        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 

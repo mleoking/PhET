@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -48,7 +49,7 @@ public class TestPSwingBounds extends Module {
         System.out.println( "Made module..." );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        phetLookAndFeel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 ) );
         phetLookAndFeel.apply();
 //        ModuleApplication moduleApplication = new ModuleApplication();
         PhetApplication phetApplication = new PhetApplication( args, "", "", "" );

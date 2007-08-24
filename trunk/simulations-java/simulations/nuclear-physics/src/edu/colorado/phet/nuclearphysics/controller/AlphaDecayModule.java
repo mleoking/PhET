@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
@@ -325,7 +326,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         public void clockTicked( ClockEvent clockEvent ) {
             if( System.currentTimeMillis() - startTime >= delay ) {
                 if( !displayed ) {
-                    Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
+                    Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 24 );
                     wiggleMe = new PhetTextGraphic2( getPhysicalPanel(),
                                                      font,
                                                      SimStrings.getInstance().getString( "AlphaDecayControlPanel.DecayMessage" ),

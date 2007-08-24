@@ -11,6 +11,7 @@ import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbComponentNode;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.FontJA;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -125,7 +126,7 @@ public class ToolboxNode extends PhetPNode {
             this.scale = scale;
             label = new PText( name );
             label.setFont( createFont() );
-//            label.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 12 ) );
+//            label.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
@@ -163,7 +164,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Font createFont() {
-            String fontName = FontJA.getFontName( "Lucida Sans" );
+            String fontName = FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS );
             return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? CCKFontProvider.getFont( fontName, Font.PLAIN, 16 ) : CCKFontProvider.getFont( fontName, Font.PLAIN, 12 );
         }
 

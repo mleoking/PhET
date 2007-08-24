@@ -1,6 +1,8 @@
 /*  */
 package edu.colorado.phet.qm.phetcommon;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -28,7 +30,7 @@ public class TabLabelIcon2 extends ImageIcon {
             }
         };
         example.setText( name );
-        example.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        example.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
         example.reshape( 0, 0, example.getPreferredSize().width, example.getPreferredSize().height );
         BufferedImage image = new BufferedImage( example.getWidth(), example.getHeight(), BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();

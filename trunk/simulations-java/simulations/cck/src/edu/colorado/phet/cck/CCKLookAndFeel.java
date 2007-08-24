@@ -1,6 +1,7 @@
 package edu.colorado.phet.cck;
 
 import edu.colorado.phet.common.phetcommon.view.util.FontJA;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -23,9 +24,9 @@ public class CCKLookAndFeel {
     }
 
     private static void init() {
-        Font font1280 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 16 );
-        Font font1040 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 9 );
-        Font font800 = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 6 );
+        Font font1280 = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
+        Font font1040 = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 9 );
+        Font font800 = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 6 );
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();

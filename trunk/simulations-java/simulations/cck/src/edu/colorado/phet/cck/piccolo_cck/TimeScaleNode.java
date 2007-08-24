@@ -6,6 +6,7 @@ import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.ConstantDensityPropagator;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -29,7 +30,7 @@ public class TimeScaleNode extends PhetPNode {
             }
         } );
         shadowPText = new ShadowPText( "Hello!" );
-        shadowPText.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 16 ) );
+        shadowPText.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 ) );
         shadowPText.setTextPaint( Color.red );
         shadowPText.setShadowColor( Color.black );
         shadowPText.setShadowOffset( 1, 1 );
