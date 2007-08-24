@@ -11,9 +11,20 @@ import java.awt.geom.Point2D;
  */
 public class EnzymeB extends AbstractEnzyme {
 
-    public EnzymeB( Point2D position, double outerDiameter, double innerDiameter ) {
-        super( position, outerDiameter, innerDiameter );
-        //XXX
+    // parameters for velocity model
+    private static final double C1 = 4.79;
+    private static final double C2 = 4.7;
+    private static final double C3 = 0.09;
+    private static final double C4 = 0.82;
+    private static final double C5 = 2.1;
+    private static final double C6 = 2;
+    private static final double C7 = 0.1;
+    private static final double C8 = 1.2;
+    private static final double D1 = 2.281;
+    private static final double D2 = 5000; // nm/s
+    
+    public EnzymeB( Point2D position, double outerDiameter, double innerDiameter, DNAStrand dnaStrand, Fluid fluid ) {
+        super( position, outerDiameter, innerDiameter, dnaStrand, fluid, C1, C2, C3, C4, C5, C6, C7, C8, D1, D2 );
     }
 
 }

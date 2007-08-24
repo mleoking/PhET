@@ -352,6 +352,17 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         
         return new Vector2D.Polar( magnitude, angle );
     }
+    
+    /**
+     * Gets the maximum force.
+     * When stretched to the contour length, the force goes to infinity.
+     * So we'll use a value close to the contour length.
+     * 
+     * @return maximum force (pN)
+     */
+    public Vector2D getMaxForce() {
+        return getForce( getTailPivot().getX() + ( 0.95 * _contourLength ), getTailPivot().getY() );
+    }
 
     /**
      * Gets the extension, the distance between the head and tail.

@@ -111,13 +111,17 @@ public class MotorsModel extends ClockAdapter {
          
          _enzymeA = new EnzymeA( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
-                 MotorsDefaults.ENZYME_INNER_DIAMETER );
+                 MotorsDefaults.ENZYME_INNER_DIAMETER,
+                 _dnaStrand,
+                 _fluid );
          _enzymeA.setEnabled( true );
          _modelElements.add( _enzymeA );
          
          _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
-                 MotorsDefaults.ENZYME_INNER_DIAMETER );
+                 MotorsDefaults.ENZYME_INNER_DIAMETER,
+                 _dnaStrand,
+                 _fluid );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );
          _modelElements.add( _enzymeB );
 
