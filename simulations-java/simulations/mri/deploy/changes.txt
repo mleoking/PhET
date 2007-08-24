@@ -1,3 +1,5 @@
+8-24-2007: Added flashing gray energy level line for matching transition
+8-24-2007: Added snap-to for frequency maniulation
 8-20-2007: Increased the threshold window for an absorption by a factor of 4.
 8-20-2007: Switched indication of matching transition wavelength from "flashes 5 times" to solid red.
 8-20-2007: Changed legend text for Field to Magnetic Field.

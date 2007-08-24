@@ -39,11 +39,8 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
     public static EmRep WAVE_VIEW = new EmRep();
     private PNode worldNode;
     private Sample sample;
+    private MriModel mriModel;
 
-    /**
-     * @param name
-     * @param clock
-     */
     public AbstractMriModule( String name, IClock clock, Sample sample ) {
         super( name, clock );
         this.sample = sample;
@@ -51,15 +48,19 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
 
     abstract public boolean auxiliarySquiggleVisible();
 
-    protected void init() {
-        MriModel model = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1000, 768 ), sample );
-        setModel( model );
+    public MriModel getMriModel() {
+        return mriModel;
+    }
 
-        model.setSampleMaterial( SampleMaterial.HYDROGEN );
+    protected void init() {
+        mriModel = new MriModel( getClock(), new Rectangle2D.Double( 0, 0, 1000, 768 ), sample );
+        setModel( mriModel );
+
+        mriModel.setSampleMaterial( SampleMaterial.HYDROGEN );
 
         // Make the canvas, world node, and graphics manager
-        Dimension renderingSize = new Dimension( (int)( model.getBounds().getWidth() * MriConfig.scale ),
-                                                 (int)( model.getBounds().getHeight() * MriConfig.scale ) );
+        Dimension renderingSize = new Dimension( (int)( mriModel.getBounds().getWidth() * MriConfig.scale ),
+                                                 (int)( mriModel.getBounds().getHeight() * MriConfig.scale ) );
         PhetPCanvas simPanel = new PhetPCanvas( renderingSize );
 //        System.out.println( "renderingSize = " + renderingSize );
         setSimulationPanel( simPanel );
@@ -67,11 +68,11 @@ public abstract class AbstractMriModule extends DeferredInitializationModule {
         simPanel.addScreenChild( worldNode );
 
         graphicsManager = new ModelElementGraphicManager( this, simPanel, worldNode );
-        graphicsManager.scanModel( model );
-        model.addListener( graphicsManager );
+        graphicsManager.scanModel( mriModel );
+        mriModel.addListener( graphicsManager );
 
         // Add the field represetntation arrows
-        createFieldStrengthArrows( model );
+        createFieldStrengthArrows( mriModel );
     }
 
     /**
