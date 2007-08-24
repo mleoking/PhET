@@ -97,20 +97,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     }
 
     private void handleSnapTo() {
-        System.out.println( "EnergyLevelGraphic.mouseReleased" );
         Set set = matchTable.keySet();
         for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
             Beam o = (Beam)iterator.next();
             MatchState matchState= (MatchState)matchTable.get(o);
             if (matchState.isMatch() ){
-                System.out.println( "EnergyLevelGraphic.handleSnapTo" );
-                System.out.println( "orig energy="+atomicState.getEnergyLevel()+", new energy="+matchState.getMatchingEnergy() );
                 setEnergy( matchState.getMatchingEnergy());
                 break;
             }
-
         }
-
     }
 
     public void update( ModelViewTransform1D tx ) {
