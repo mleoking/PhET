@@ -1,8 +1,6 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.common.collision.SphericalBody;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
