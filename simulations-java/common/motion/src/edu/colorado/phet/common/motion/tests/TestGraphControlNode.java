@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.*;
