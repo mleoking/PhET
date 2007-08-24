@@ -16,6 +16,9 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.util.ControlBorderFactory;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,17 +107,43 @@ public class MriLegend extends JPanel {
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.anchor = GridBagConstraints.CENTER;
+        JLabel comp = new JLabel( new ImageIcon( getWaveLegendItemImage() ) );
+        comp.setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
+        add( comp, gbc );
+        gbc.gridx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.Legend.RadioWave" ) ), gbc );
+    }
+
+    private BufferedImage getWaveLegendItemImage() {
         try {
-//            JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item2.png" ) ) );
-            JLabel comp = new JLabel( new ImageIcon( ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wave-item.png" ) ) );
-            comp.setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
-            add( comp, gbc );
+            BufferedImage top = ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "wavetop2.gif" );
+            BufferedImage bottom = ImageLoader.loadBufferedImage( MriConfig.IMAGE_PATH + "photon2.gif" );
+            PCanvas canvas = new PCanvas();
+            canvas.setBackground( new Color( 0, 0, 0, 0 ) );
+            PImage child1 = new PImage( top );
+            canvas.getLayer().addChild( child1 );
+
+            PText text = new PText( "or" );
+            canvas.getLayer().addChild( text );
+
+            text.setOffset( child1.getFullBounds().getCenterX() - child1.getFullBounds().getWidth() / 2, child1.getFullBounds().getMaxY() );
+
+            PImage child2 = new PImage( bottom );
+            canvas.getLayer().addChild( child2 );
+
+            child2.setOffset( child1.getFullBounds().getCenterX() - child2.getFullBounds().getWidth() / 2, text.getFullBounds().getMaxY() );
+
+            canvas.setSize( Math.max( top.getWidth(), bottom.getWidth() ), (int)child2.getFullBounds().getMaxY() );
+            BufferedImage buf = new BufferedImage( canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+            Graphics2D graphics = buf.createGraphics();
+            canvas.paintComponent( graphics );
+            graphics.dispose();
+            return buf;
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( SimStrings.getInstance().getString( "ControlPanel.Legend.RadioWave" ) ), gbc );
+        return null;
     }
 }
