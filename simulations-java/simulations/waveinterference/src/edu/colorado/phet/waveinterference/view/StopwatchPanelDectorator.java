@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
@@ -27,7 +28,7 @@ public class StopwatchPanelDectorator extends VerticalLayoutPanel {
         stopwatchPanel.setScaleFactor( timeScale );
         stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
-        label.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        label.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );
         label.setOpaque( true );
     }

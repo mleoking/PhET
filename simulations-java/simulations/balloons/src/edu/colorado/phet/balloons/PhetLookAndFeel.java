@@ -1,5 +1,7 @@
 package edu.colorado.phet.balloons;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -27,9 +29,9 @@ public class PhetLookAndFeel extends MetalLookAndFeel {
     }
 
     static {
-        Font font1280 = new Font( "Lucida Sans", Font.PLAIN, 13 );
-        Font font1040 = new Font( "Lucida Sans", Font.PLAIN, 12 );
-        Font font800 = new Font( "Lucida Sans", Font.PLAIN, 12 );
+        Font font1280 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
+        Font font1040 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+        Font font800 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -59,7 +61,7 @@ public class PhetLookAndFeel extends MetalLookAndFeel {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource borderFont = new FontUIResource( new Font( "Lucida Sans", Font.ITALIC, font.getSize() ) );
+        FontUIResource borderFont = new FontUIResource( new Font( PhetDefaultFont.LUCIDA_SANS, Font.ITALIC, font.getSize() ) );
 
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
         ArrayList def = new ArrayList();

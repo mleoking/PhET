@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_movingman.math.Vector2D;
 import edu.colorado.phet.common_movingman.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic;
@@ -102,7 +103,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         private ForceComponent forceComponent;
         PhetShadowTextGraphic textGraphic;
         PhetShapeGraphic shapeGraphic;
-        final Font font = new Font( "Lucida Sans", Font.BOLD, 13 );
+        final Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
         private Arrow lastArrow;
 
         public ForceArrowGraphic( Component component, String name, Color color, int dy, ForceComponent forceComponent ) {

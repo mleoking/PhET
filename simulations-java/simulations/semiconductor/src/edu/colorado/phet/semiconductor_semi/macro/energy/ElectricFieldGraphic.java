@@ -5,6 +5,7 @@ import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.shapes.ArrowShape;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor_semi.common.TransformGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -17,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 public class ElectricFieldGraphic extends TransformGraphic {
     private String name;
     private ElectricField field;
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
 
     public ElectricFieldGraphic( String name, ElectricField field, ModelViewTransform2D transform ) {
         super( transform );

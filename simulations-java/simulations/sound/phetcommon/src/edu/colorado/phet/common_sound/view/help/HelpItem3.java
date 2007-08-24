@@ -2,6 +2,7 @@
 package edu.colorado.phet.common_sound.view.help;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
@@ -64,7 +65,7 @@ public class HelpItem3 extends CompositePhetGraphic implements HelpTargetListene
         this.arrowDX = arrowDX;
         this.arrowDY = arrowDY;
         this.text = text;
-        Font font = new Font( "Lucida Sans", Font.PLAIN, 18 );
+        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 

@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class WaveIntereferenceLookAndFeel extends PhetLookAndFeel {
 
     public WaveIntereferenceLookAndFeel() {
         setBackgroundColor( backgroundColor );
-        setFont( new Font( "Lucida Sans", Font.BOLD, 13 ) );
+        setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 ) );
         updateDefaults();//todo is this necessary?
     }
 

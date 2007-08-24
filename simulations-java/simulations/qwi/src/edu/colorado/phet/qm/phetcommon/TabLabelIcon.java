@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.phetcommon;
 
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class TabLabelIcon extends ImageIcon {
             }
         };
         example.setText( name );
-        example.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        example.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
         setImage( new PSwing( example ).toImage() );
     }
 }

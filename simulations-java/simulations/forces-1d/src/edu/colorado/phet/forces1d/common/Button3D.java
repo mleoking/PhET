@@ -8,6 +8,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -42,7 +43,7 @@ public class Button3D extends CompositePhetGraphic {
         super( component );
         this.text = text;
 
-        Font font = new Font( "Lucida Sans", Font.BOLD, 12 );
+        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
         textGraphic = new PhetTextGraphic( component, font, text, Color.black, 0, 0 );
         Rectangle origBounds = new Rectangle( textGraphic.getBounds() );
         origBounds = RectangleUtils.expand( origBounds, 3, 3 );

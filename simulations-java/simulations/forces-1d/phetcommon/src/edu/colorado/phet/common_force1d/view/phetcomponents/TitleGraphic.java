@@ -5,6 +5,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 
@@ -24,7 +25,7 @@ public class TitleGraphic extends CompositePhetGraphic {
         super( component );
         this.title = title;
         this.target = target;
-        textGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", 0, 16 ), title, Color.black, 0, 0 );
+        textGraphic = new PhetTextGraphic( component, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 16 ), title, Color.black, 0, 0 );
         addGraphic( textGraphic );
         target.addPhetGraphicListener( new PhetGraphicListener() {
             public void phetGraphicChanged( PhetGraphic phetGraphic ) {

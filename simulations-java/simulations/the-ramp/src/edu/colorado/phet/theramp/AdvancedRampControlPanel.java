@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampObject;
@@ -195,7 +196,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
                 checkBox.setBackground( unit.getColor() );
                 checkBox.setForeground( Color.black );
-                checkBox.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+                checkBox.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
                 super.addFullWidth( checkBox );
                 checkBox.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

@@ -1,6 +1,7 @@
 package edu.colorado.phet.qm.davissongermer;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,7 +18,7 @@ import java.util.Hashtable;
  */
 
 public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
-    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private Font titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
     private JSlider slider;
 //    private ConstrainedSliderControl.TextReadout textReadout;
 

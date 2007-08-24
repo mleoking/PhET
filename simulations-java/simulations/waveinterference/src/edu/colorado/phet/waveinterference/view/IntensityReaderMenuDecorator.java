@@ -2,6 +2,7 @@
 package edu.colorado.phet.waveinterference.view;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +28,7 @@ public class IntensityReaderMenuDecorator extends PNode {
     public IntensityReaderMenuDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton options = new JButton( WIStrings.getString( "controls.options" ) );
-        options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
+        options.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 ) );
         final JPopupMenu jPopupMenu = new JPopupMenu();
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {

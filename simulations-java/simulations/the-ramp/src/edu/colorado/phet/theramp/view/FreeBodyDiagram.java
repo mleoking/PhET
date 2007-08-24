@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
@@ -191,7 +192,7 @@ public class FreeBodyDiagram extends PNode {
 //            shapeGraphic.setStrokePaint( RampUtil.transparify( Color.black, 150 ) );
             shapeGraphic.setStrokePaint( Color.black );
             addChild( shapeGraphic );
-            Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
@@ -275,7 +276,7 @@ public class FreeBodyDiagram extends PNode {
             addChild( xAxis );
             addChild( yAxis );
 
-//            Font font = new Font( "Lucida Sans", Font.PLAIN, 16 );
+//            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
 //            xLabel = new HTMLGraphic( ( "FreeBodyDiagram.fx" ), font, Color.black );
 //            yLabel = new HTMLGraphic( ( "FreeBodyDiagram.fy" ), font, Color.black );
 //            addChild( xLabel );

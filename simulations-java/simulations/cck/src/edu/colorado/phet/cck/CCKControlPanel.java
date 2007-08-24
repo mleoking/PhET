@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import net.n3.nanoxml.*;
 
 import javax.jnlp.*;
@@ -448,7 +449,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
         else {
             System.out.println( "Courier New font not supported." );
-            jta.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 18 ) );
+            jta.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
         }
 
         readoutFrame.setContentPane( new JScrollPane( jta ) );
@@ -537,7 +538,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
-            Font labelFont = CCKFontProvider.getFont( "Lucida Sans", Font.PLAIN, 10 );
+            Font labelFont = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
             JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );

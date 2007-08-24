@@ -10,6 +10,7 @@ import edu.colorado.phet.common_movingman.view.phetgraphics.CompositePhetGraphic
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.ShadowHTMLGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -38,7 +39,7 @@ public class Force1DWiggleMe extends CompositePhetGraphic {
     }
 
     public Force1DWiggleMe( final Component component, AbstractClock clock, String text, Target t ) {
-        this( component, clock, text, t, new Font( "Lucida Sans", Font.BOLD, 20 ), 1, 1 );
+        this( component, clock, text, t, new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ), 1, 1 );
     }
 
     public Force1DWiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {

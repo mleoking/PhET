@@ -2,6 +2,7 @@
 package edu.colorado.phet.qm.view.piccolo;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.qm.QWILookAndFeel;
 import edu.colorado.phet.qm.model.potentials.RectangularPotential;
 import edu.colorado.phet.qm.view.QWIPanel;
@@ -31,7 +32,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         this.potential = potential;
 
         potDisplay = new PText( "" );
-        potDisplay.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        potDisplay.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         potDisplay.setTextPaint( Color.blue );
         potDisplay.setPickable( false );
         potDisplay.setChildrenPickable( false );

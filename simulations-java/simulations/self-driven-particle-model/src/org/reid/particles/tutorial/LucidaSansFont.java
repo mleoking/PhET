@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import java.awt.*;
 
 /**
@@ -20,6 +22,6 @@ public class LucidaSansFont extends Font {
     }
 
     public LucidaSansFont( int size, boolean bold, boolean italics ) {
-        super( "Lucida Sans", ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
+        super( PhetDefaultFont.LUCIDA_SANS, ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
     }
 }

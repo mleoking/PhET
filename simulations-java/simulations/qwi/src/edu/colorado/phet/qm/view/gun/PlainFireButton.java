@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.qm.QWIModule;
@@ -40,7 +41,7 @@ public class PlainFireButton extends PNode {
         text = new ShadowPText( QWIStrings.getString( "gun.FIRE" ) );
         text.setShadowOffset( 1, 1 );
         text.setShadowColor( Color.black );
-        text.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
+        text.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
         text.setTextPaint( Color.red );
         try {
             outIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" );

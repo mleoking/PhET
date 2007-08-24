@@ -3,6 +3,7 @@ package edu.colorado.phet.forces1d.tests;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.forces1d.common.ShadowHTMLGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,13 +45,13 @@ public class TestHTML {
 
 //        ap.setLayout( new BorderLayout());
 //        ap.addTo(button,BorderLayout.CENTER);
-        HTMLGraphic htmlGraphic = new HTMLGraphic( ap, new Font( "Lucida Sans", 0, 28 ), "HELLO", Color.black );
+        HTMLGraphic htmlGraphic = new HTMLGraphic( ap, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 28 ), "HELLO", Color.black );
         htmlGraphic.setLocation( 300, 300 );
         ap.addGraphic( htmlGraphic );
 
-//        ShadowHTMLGraphic htmlGraphic2=new ShadowHTMLGraphic( ap,"<html>m/s<sup>2</html>",new Font( "Lucida Sans",0,28),Color.blue ,2,2,Color.black );
+//        ShadowHTMLGraphic htmlGraphic2=new ShadowHTMLGraphic( ap,"<html>m/s<sup>2</html>",new Font( PhetDefaultFont.LUCIDA_SANS,0,28),Color.blue ,2,2,Color.black );
         ShadowHTMLGraphic htmlGraphic2 = new ShadowHTMLGraphic( ap,
-                                                                "<html>m/s<sup>2</html>", new Font( "Lucida Sans", Font.BOLD, 38 ),
+                                                                "<html>m/s<sup>2</html>", new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 38 ),
                                                                 new Color( 0, 0, 255, 254 ), 2, 2, Color.black );
         htmlGraphic2.setLocation( 100, 300 );
         ap.addGraphic( htmlGraphic2 );

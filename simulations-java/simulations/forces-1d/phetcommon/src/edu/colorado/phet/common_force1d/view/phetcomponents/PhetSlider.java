@@ -6,6 +6,7 @@ import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationE
 import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_force1d.view.phetgraphics.*;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -122,7 +123,7 @@ public class PhetSlider extends GraphicLayerSet {
 
             super( component );
             DecimalFormat df = new DecimalFormat( "#.#" );
-            textGraphic = new PhetTextGraphic( component, new Font( "Lucida Sans", 0, 12 ), df.format( value ), Color.black, 0, 2 );
+            textGraphic = new PhetTextGraphic( component, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 12 ), df.format( value ), Color.black, 0, 2 );
 
             Line2D.Double tick = orientation.createTickShape( textGraphic );
             tickGraphic = new PhetShapeGraphic( component, tick, new BasicStroke( 3 ), Color.black );

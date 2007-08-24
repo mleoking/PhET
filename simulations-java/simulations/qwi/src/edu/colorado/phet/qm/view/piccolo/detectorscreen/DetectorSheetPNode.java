@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.qm.controls.DetectorSheetControlPanel;
 import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
@@ -65,7 +66,7 @@ public class DetectorSheetPNode extends PhetPNode {
         recreateImage();
 //        title.setShadowColor( Color.black );
         title.setTextPaint( Color.black );
-        title.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        title.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         screenGraphic = new ScreenGraphic( bufferedImage );
 
         setBrightness( 0.2 );
@@ -86,7 +87,7 @@ public class DetectorSheetPNode extends PhetPNode {
         detectorSheetControlPanelPNode = new PSwing( new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
 
-//        FontSetter.setFont( new Font( "Lucida Sans",Font.PLAIN, 8 ),detectorSheetControlPanel );
+//        FontSetter.setFont( new Font( PhetDefaultFont.LUCIDA_SANS,Font.PLAIN, 8 ),detectorSheetControlPanel );
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {

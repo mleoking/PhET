@@ -25,6 +25,7 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * PhetLookAndFeel describes the UI resources that need to be installed in
@@ -41,7 +42,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * //customize it here for your own application.
  * lookAndFeel.setBackgroundColor( Color.blue );
  * lookAndFeel.setForegroundColor( Color.red );
- * lookAndFeel.setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+ * lookAndFeel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ) );
  * //Apply the total look and feel (the usual PhetLookAndFeel + your changes)
  * // to your system defaults.
  * lookAndFeel.apply();
@@ -101,8 +102,8 @@ public class PhetLookAndFeel {
      */
     private void setDefaults() {
         int fontSize = getFontSizeForScreen();
-        font = new Font( "Lucida Sans", Font.PLAIN, fontSize );
-        titledBorderFont = new Font( "Lucida Sans", Font.PLAIN, fontSize );
+        font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, fontSize );
+        titledBorderFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;

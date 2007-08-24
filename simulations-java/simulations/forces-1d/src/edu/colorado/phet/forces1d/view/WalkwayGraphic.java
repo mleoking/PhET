@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -178,7 +179,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         private String text;
         private int y = 134;
         private PhetShapeGraphic shapeGraphic;
-        private Font font = new Font( "Lucida Sans", Font.BOLD, 16 );
+        private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
         private PhetTextGraphic textGraphic;
 
         public TickGraphic( Component component ) {

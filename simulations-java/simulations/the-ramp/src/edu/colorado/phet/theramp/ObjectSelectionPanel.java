@@ -3,6 +3,7 @@ package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.theramp.model.RampObject;
 
 import javax.swing.*;
@@ -21,8 +22,8 @@ import java.text.MessageFormat;
 
 public class ObjectSelectionPanel extends JPanel {
 
-    private Font selectedFont = new Font( "Lucida Sans", Font.BOLD, 14 );
-    private Font normalFont = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
+    private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
 
     public ObjectSelectionPanel( final RampModule rampModule, final RampObject[] imageElements ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );

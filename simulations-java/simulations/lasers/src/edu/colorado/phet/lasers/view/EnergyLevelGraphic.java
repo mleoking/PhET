@@ -317,7 +317,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
             if( isAdjustable ) {
-//                textGraphic = new PhetTextGraphic2( getComponent(), new Font( "Lucida Sans", Font.PLAIN, 10 ), "Lifetime", Color.black );
+//                textGraphic = new PhetTextGraphic2( getComponent(), new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 ), "Lifetime", Color.black );
                 textGraphic = new PhetTextGraphic2( getComponent(), new JLabel().getFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
             }

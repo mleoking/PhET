@@ -7,6 +7,7 @@
 package edu.colorado.phet.instrumentation_nuclearphysics;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
@@ -41,7 +42,7 @@ public class Thermometer extends PhetGraphic {
     private double thickness;
     private double value;
     private Rectangle2D boundingRect;
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
     private FontMetrics fontMetrics;
     private int rectBorderThickness = 3;
     private RoundRectangle2D.Double readoutRect = new RoundRectangle2D.Double();

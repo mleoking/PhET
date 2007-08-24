@@ -13,6 +13,7 @@ package edu.colorado.phet.instrumentation_idealgas;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.coreadditions_idealgas.ScalarObservable;
 import edu.colorado.phet.coreadditions_idealgas.ScalarObserver;
 
@@ -35,7 +36,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    private static Font s_defaultFont = new Font( "Lucida Sans", Font.BOLD, 8 );
+    private static Font s_defaultFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 8 );
     private static NumberFormat s_defaultFormatter = new DecimalFormat( "#0.0" );
 
     private ScalarObservable dataSource;

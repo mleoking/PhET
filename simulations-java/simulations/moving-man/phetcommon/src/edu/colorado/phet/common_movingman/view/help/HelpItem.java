@@ -13,6 +13,7 @@ package edu.colorado.phet.common_movingman.view.help;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -36,7 +37,7 @@ public class HelpItem extends PhetGraphic {
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
-    public final static Font DEFAULT_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    public final static Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
 
     private static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );

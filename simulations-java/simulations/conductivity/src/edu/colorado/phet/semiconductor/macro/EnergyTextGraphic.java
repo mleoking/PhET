@@ -8,6 +8,7 @@ import edu.colorado.phet.common.conductivity.view.graphics.transforms.ModelViewT
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.semiconductor.common.ArrowShape;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
 
@@ -22,7 +23,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         super( modelviewtransform2d );
         loc = phetvector;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
-        font = new Font( "Lucida Sans", 0, 36 );
+        font = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
         smallFont = new Font( "Dialog", 0, 18 );
     }
 

@@ -13,6 +13,7 @@ package edu.colorado.phet.molecularreactions.view;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -47,7 +48,7 @@ public class ThermometerGraphic extends PNode {
 
     private Ellipse2D.Double bulb;
     private NumberFormat formatter = new DecimalFormat( "#0" );
-    private Font font = new Font( "Lucida Sans", Font.BOLD, 10 );
+    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
     private float columnStrokeWidth = 1.5f;
     private BasicStroke columnStroke = new BasicStroke( columnStrokeWidth );
     private Color rectColor = Color.yellow;

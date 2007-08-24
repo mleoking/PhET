@@ -1,5 +1,7 @@
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
@@ -12,7 +14,7 @@ import java.awt.image.BufferedImage;
 public class HTMLGraphic extends CompositePhetGraphic {
     
     private static final Color DEFAULT_COLOR = Color.BLACK;
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
     
     private String html;
     private Font font;

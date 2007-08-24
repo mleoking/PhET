@@ -1,6 +1,7 @@
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
@@ -14,14 +15,11 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sam Reid
- * Date: Dec 22, 2004
- * Time: 8:34:00 AM
- * To change this template use File | Settings | File Templates.
+ * Author: Sam Reid
+ * Dec 22, 2004, 8:34:00 AM
  */
 public class OffscreenPointerGraphic extends GraphicLayerSet {
-    private static final Font font = new Font( "Lucida Sans", Font.BOLD, 28 );
+    private static final Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 28 );
     private DecimalFormat decimalFormat = new DecimalFormat( "#0.0" );
     private PhetTextGraphic textGraphic;
     private BlockGraphic blockGraphic;

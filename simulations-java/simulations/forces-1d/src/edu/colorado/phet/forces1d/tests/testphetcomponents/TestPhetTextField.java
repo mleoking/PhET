@@ -11,6 +11,7 @@ import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetTextField;
 import edu.colorado.phet.common_force1d.view.phetcomponents.TitleGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,8 +64,8 @@ public class TestPhetTextField {
         } );
         button.setLocation( 100, 100 );
         button.setBackgroundColor( Color.blue );
-//        button.setFont( new Font( "Lucida Sans",Font.PLAIN, 12) );
-        button.setFont( new Font( "Lucida Sans", Font.BOLD, 12 ) );
+//        button.setFont( new Font( PhetDefaultFont.LUCIDA_SANS,Font.PLAIN, 12) );
+        button.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
         button.setBorderStroke( new BasicStroke( 2 ) );
 
         button.addKeyListener( new KeyAdapter() {
@@ -77,7 +78,7 @@ public class TestPhetTextField {
         panel.addGraphic( button3 );
         button3.setLocation( 400, 100 );
 
-        PhetTextField ptf = new PhetTextField( panel, new Font( "Lucida Sans", 0, 28 ), "Hello", Color.blue, 0, 0 );
+        PhetTextField ptf = new PhetTextField( panel, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 28 ), "Hello", Color.blue, 0, 0 );
         panel.addGraphic( ptf );
         ptf.setLocation( 100, 400 );
         ptf.transform( AffineTransform.getRotateInstance( Math.PI / 32 ) );

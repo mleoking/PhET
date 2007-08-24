@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.motion;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -41,7 +42,7 @@ public class MovingManNode extends PNode {
 
         for( int i = -10; i <= 10; i += 2 ) {
             PText tickText = new PText( "" + i + ( i == 0 ? " meters" : "" ) );
-            tickText.setFont( new Font( "Lucida Sans", Font.PLAIN, 14 ) );
+            tickText.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
             tickText.scale( 0.025 );
             tickText.setOffset( i - tickText.getFullBounds().getWidth() / 2, 2 );
 

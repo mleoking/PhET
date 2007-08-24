@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class CCKHelpSuite extends PhetPNode {
         motionHelpBalloon = new MotionHelpBalloon( cckSimulationPanel, CCKStrings.getString( "CCK3Module.GrabAWire" ) );
         motionHelpBalloon.setArrowVisible( true );
         motionHelpBalloon.setBalloonVisible( true );
-        motionHelpBalloon.setFont( CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 18 ) );
+        motionHelpBalloon.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
         motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.RIGHT_CENTER );
         addChild( motionHelpBalloon );
         cckSimulationPanel.addMouseListener( new MouseAdapter() {

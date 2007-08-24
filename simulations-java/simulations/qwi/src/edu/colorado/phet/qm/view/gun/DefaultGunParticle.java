@@ -3,6 +3,7 @@ package edu.colorado.phet.qm.view.gun;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.model.ParticleUnits;
 import edu.colorado.phet.qm.model.Propagator;
@@ -40,7 +41,7 @@ public class DefaultGunParticle extends GunParticle {
 
     private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
-        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), QWIStrings.getString( "gun.velocity" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( "Lucida Sans", Font.BOLD, 12 ), Color.white ) {
+        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), QWIStrings.getString( "gun.velocity" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ), Color.white ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );

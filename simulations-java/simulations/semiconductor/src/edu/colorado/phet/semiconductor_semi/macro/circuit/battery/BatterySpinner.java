@@ -1,6 +1,7 @@
 package edu.colorado.phet.semiconductor_semi.macro.circuit.battery;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -27,11 +28,11 @@ public class BatterySpinner {
 //        spinner.revalidate();
 
         TitledBorder border = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
-        border.setTitleFont( new Font( "Lucida Sans", 0, 18 ) );
+        border.setTitleFont( new Font( PhetDefaultFont.LUCIDA_SANS, 0, 18 ) );
 
         spinner.setBorder( border );
         spinner.setPreferredSize( new Dimension( 125, 100 ) );
-        spinner.getEditor().setFont( new Font( "Lucida Sans", Font.BOLD, 20 ) );
+        spinner.getEditor().setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ) );
         spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 Object o = spinner.getValue();

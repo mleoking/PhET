@@ -41,7 +41,7 @@ public class ScreenChartGraphic extends PhetPNode {
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
         jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "readout.intensity" ).toLowerCase(), WIStrings.getString( "readout.position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
-//        jFreeChart.getTitle().setFont( new Font("Lucida Sans",Font.PLAIN, 14));
+//        jFreeChart.getTitle().setFont( new Font(PhetDefaultFont.LUCIDA_SANS,Font.PLAIN, 14));
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
         jFreeChartNode.setBounds( 0, 0, 150, 300 );

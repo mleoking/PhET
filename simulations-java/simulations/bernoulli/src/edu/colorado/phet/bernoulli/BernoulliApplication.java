@@ -31,6 +31,7 @@ import edu.colorado.phet.common.bernoulli.view.ApplicationDescriptor;
 import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import java.awt.*;
@@ -278,7 +279,7 @@ public class BernoulliApplication extends Module {
 
         // Make the button that turns the pump on and off
         final JButton jb = new JButton( BernoulliResources.getString( "on" ) );
-        jb.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+        jb.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( jb.getText().equals( BernoulliResources.getString( "on" ) ) ) {

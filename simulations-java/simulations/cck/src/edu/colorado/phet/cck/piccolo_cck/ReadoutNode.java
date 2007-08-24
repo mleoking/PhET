@@ -5,6 +5,7 @@ import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -31,7 +32,7 @@ public class ReadoutNode extends PhetPNode {
     protected DecimalFormat formatter;
     private PPath linePNode;
 
-    static Font font = CCKFontProvider.getFont( "Lucida Sans", Font.BOLD, 16 );
+    static Font font = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;

@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
@@ -56,7 +57,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         //setCursorHand();
         label = new PText( TheRampStrings.getString( "indicator.height-unknown" ) );
         addChild( label );
-        label.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
+        label.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
 //        label.setLocation( 10, 0);//-label.getHeight() - 4 );
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );

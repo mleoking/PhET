@@ -11,6 +11,7 @@
 package edu.colorado.phet.common_movingman.view.components;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_movingman.math.ModelViewTransform1D;
 import edu.colorado.phet.common_movingman.view.util.SwingUtils;
 
@@ -89,7 +90,7 @@ public class ModelSlider extends JPanel {
         createSlider();
 
         titleLabel = new JLabel( title );
-        Font titleFont = new Font( "Lucida Sans", Font.BOLD, 14 );
+        Font titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
@@ -156,7 +157,7 @@ public class ModelSlider extends JPanel {
     private void relabelSlider() {
         int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        Font labelFont = new Font( "Lucida Sans", 0, 10 );
+        Font labelFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 );
         Hashtable table = new Hashtable();
         for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = modelViewTransform.viewToModel( value );
