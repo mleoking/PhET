@@ -368,7 +368,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                 }
 //                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
 //                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
-                boolean timeOn = ( System.currentTimeMillis() / QuantumConfig.FLASH_DELAY_MILLIS*2) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / ((long)(QuantumConfig.FLASH_DELAY_MILLIS*2))) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
                 if( System.currentTimeMillis() - lastMatchTime > QuantumConfig.TOTAL_FLASH_TIME ) {
                     timeOn = false;
