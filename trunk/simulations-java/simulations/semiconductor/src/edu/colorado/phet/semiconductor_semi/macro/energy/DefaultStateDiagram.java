@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.CompositeModelElement;
@@ -16,7 +15,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 9:29:58 AM
- *
  */
 public class DefaultStateDiagram extends CompositeModelElement {
     private EnergySection energySection;
@@ -113,9 +111,9 @@ public class DefaultStateDiagram extends CompositeModelElement {
     public Move propagateLeft( EnergyCell src ) {
         EnergyCell from = src;
         EnergyCell to = energySection.getLeftNeighbor( from );
-        Move mo=null;
+        Move mo = null;
         while( to != null ) {
-            mo=move( from, to, getSpeed() );
+            mo = move( from, to, getSpeed() );
             from = to;
             to = energySection.getLeftNeighbor( to );
         }
@@ -143,6 +141,6 @@ public class DefaultStateDiagram extends CompositeModelElement {
     }
 
     public Move moveLeft( EnergyCell cell ) {
-        return move( cell, energySection.getLeftNeighbor( cell ),energySection.getSpeed() );
+        return move( cell, energySection.getLeftNeighbor( cell ), energySection.getSpeed() );
     }
 }

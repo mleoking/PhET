@@ -25,7 +25,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 9:23:32 PM
- *
  */
 
 public class SRRWavelengthSlider extends PNode {
@@ -228,6 +227,7 @@ public class SRRWavelengthSlider extends PNode {
         /*
         * Updates the knob's shape, based on its size and angle.
         */
+
         private void updateShape() {
 
             GeneralPath path = new GeneralPath();

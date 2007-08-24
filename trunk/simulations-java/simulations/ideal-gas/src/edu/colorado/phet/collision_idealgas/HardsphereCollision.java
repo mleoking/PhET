@@ -150,6 +150,7 @@ public abstract class HardsphereCollision implements Collision {
     //
     // Abstract methods
     //
+
     public abstract void collide();
 
     //

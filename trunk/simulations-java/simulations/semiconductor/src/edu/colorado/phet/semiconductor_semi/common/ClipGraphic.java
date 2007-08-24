@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 2:32:38 PM
- *
  */
 public class ClipGraphic extends TransformGraphic {
     private Graphic graphic;

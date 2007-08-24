@@ -15,7 +15,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 12:02:41 AM
- *
  */
 
 public class FaucetConnector extends VerticalConnector {

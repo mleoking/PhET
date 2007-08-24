@@ -58,7 +58,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 //        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
 //            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
 //        }
-        if ( MyRepaintManager.getInstance()!=null){
+        if( MyRepaintManager.getInstance() != null ) {
             MyRepaintManager.getInstance().setCoalesceRectangles( getClock().isRunning() );
         }
     }

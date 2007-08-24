@@ -16,6 +16,6 @@ public class TestQWIPersistence extends TestCase {
         QWIState state = new QWIState( qwiApplication.getIntensityModule() );
         QWIState copy = (QWIState)PersistenceUtil.copy( state );
         System.out.println( "copy = " + copy );
-        assertEquals( "qwi state copy should be the same",copy,state);
+        assertEquals( "qwi state copy should be the same", copy, state );
     }
 }

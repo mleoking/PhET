@@ -12,8 +12,8 @@
 package edu.colorado.phet.qm.persistence;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 
 import javax.jnlp.*;

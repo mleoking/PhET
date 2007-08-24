@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 /**
  * SoundClock
- * <p>
+ * <p/>
  * A clock class for the Sound simulation. We need this because the clock in the version of
  * PhetCommon on which this simulation is built doesn't seem to send out state changed events
  * when the clock is unpaused. So this clock class provides that facility. This is needed to

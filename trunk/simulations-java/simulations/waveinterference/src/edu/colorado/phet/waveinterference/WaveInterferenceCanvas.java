@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:12:40 PM
- *
  */
 
 public class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas {

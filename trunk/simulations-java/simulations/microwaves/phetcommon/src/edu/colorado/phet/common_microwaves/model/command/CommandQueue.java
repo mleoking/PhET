@@ -16,18 +16,18 @@ public class CommandQueue implements Command {
     }
 
     public void doIt() {
-        for (int i = 0; i < al.size(); i++) {
-            commandAt(i).doIt();
+        for( int i = 0; i < al.size(); i++ ) {
+            commandAt( i ).doIt();
         }
         al.clear();
     }
 
-    private Command commandAt(int i) {
-        return (Command) al.get(i);
+    private Command commandAt( int i ) {
+        return (Command)al.get( i );
     }
 
-    public void addCommand(Command c) {
-        al.add(c);
+    public void addCommand( Command c ) {
+        al.add( c );
     }
 
 }

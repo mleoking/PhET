@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 9, 2005
  * Time: 4:34:59 PM
- *
  */
 
 public class AudioEnabledController {

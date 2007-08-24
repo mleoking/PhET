@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 11, 2005
  * Time: 9:19:53 PM
- *
  */
 
 public class InverseSlitsCheckbox extends JCheckBox {

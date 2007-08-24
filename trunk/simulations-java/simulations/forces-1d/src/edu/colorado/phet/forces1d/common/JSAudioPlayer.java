@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.common;
 
 import javax.sound.sampled.*;
@@ -9,10 +8,9 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 2, 2004
  * Time: 1:13:42 AM
- *
  */
 public class JSAudioPlayer {
-//    private static final int EXTERNAL_BUFFER_SIZE = 128000;
+    //    private static final int EXTERNAL_BUFFER_SIZE = 128000;
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
 
     public static void main( String[] args ) throws IOException, UnsupportedAudioFileException {

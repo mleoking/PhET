@@ -6,20 +6,20 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
 import edu.colorado.phet.microwave.model.Microwave;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.model.WaterMoleculeWaterMoleculeCollisionExpert;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 
 public class TwoMoleculesModule extends MicrowaveModule {
 
     private int fieldWidth = 1000;
     private int fieldHeight = 700;
-//    private MicrowaveModel model;
+    //    private MicrowaveModel model;
     private Microwave muWave;
     private WaterMolecule molecule;
 
@@ -37,7 +37,7 @@ public class TwoMoleculesModule extends MicrowaveModule {
 
                 molecule.setDipoleOrientation( i * Math.PI / 2 );
                 for( int j = 0; j < i; j++ ) {
-                    while( WaterMoleculeWaterMoleculeCollisionExpert.areOverlapping( molecule, ma[j] )) {
+                    while( WaterMoleculeWaterMoleculeCollisionExpert.areOverlapping( molecule, ma[j] ) ) {
                         molecule.setLocation( molecule.getLocation().getX(), molecule.getLocation().getY() + 1 );
                     }
                 }

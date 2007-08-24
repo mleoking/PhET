@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
@@ -54,12 +54,11 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     }
 
     /**
-     *
      * @param k
      * @param restingLength
      * @param fixedEnd
      * @param body
-     * @param vRel  The velocity of the body relative to the fixed point of the spring
+     * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
     public Spring( double k, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( k, restingLength, fixedEnd );
@@ -67,13 +66,12 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     }
 
     /**
-     *
      * @param pe
      * @param dl
      * @param restingLength
      * @param fixedEnd
      * @param body
-     * @param vRel  The velocity of the body relative to the fixed point of the spring
+     * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
     public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
         this( 2 * pe / ( dl * dl ), restingLength, fixedEnd );
@@ -81,7 +79,6 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     }
 
     /**
-     *
      * @param k
      * @param restingLength
      * @param fixedEnd
@@ -93,7 +90,6 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     }
 
     /**
-     *
      * @param k
      * @param restingLength
      * @param fixedEnd
@@ -136,7 +132,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * length. A virtual strut is assumed to exist between the body's CM and the end of the spring.
      *
      * @param body
-     * @param vRel  The velocity of the body relative to the fixed point of the spring
+     * @param vRel The velocity of the body relative to the fixed point of the spring
      */
     private void attachBodyAtRestingLength( Body body, Vector2D vRel ) {
         this.attachedBody = body;
@@ -191,9 +187,9 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
         double dl = restingLength - length;
         double dlSq = dl * dl;
         double omSq = omega * omega;
-        double g = Math.sqrt( dlSq * omSq / ( v0*v0 + dlSq * omSq ));// * -MathUtil.getSign( dl );
+        double g = Math.sqrt( dlSq * omSq / ( v0 * v0 + dlSq * omSq ) );// * -MathUtil.getSign( dl );
         phi = Math.asin( g );
-        if( Math.abs( phi % Math.PI /2 ) < Math.PI / 4  ) {
+        if( Math.abs( phi % Math.PI / 2 ) < Math.PI / 4 ) {
             A = v0 / ( omega * Math.cos( phi ) );
         }
         else {
@@ -247,6 +243,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     /**
      * Updates the length of the spring, the potential energy in the spring, and the velocity of the
      * attached body
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -308,7 +305,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     }
 
     public double getPotentialEnergy() {
-        double dl = restingLength - (fixedEnd.distance( freeEnd ));
+        double dl = restingLength - ( fixedEnd.distance( freeEnd ) );
         pe = k * dl * dl / 2;
         return pe;
     }

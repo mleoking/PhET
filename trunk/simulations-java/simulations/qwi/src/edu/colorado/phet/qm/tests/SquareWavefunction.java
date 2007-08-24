@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Feb 10, 2006
  * Time: 12:12:36 AM
- *
  */
 
 public class SquareWavefunction {

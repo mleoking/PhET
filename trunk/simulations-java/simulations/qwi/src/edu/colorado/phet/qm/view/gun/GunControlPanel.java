@@ -15,7 +15,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 8:53:50 AM
- *
  */
 
 public class GunControlPanel extends VerticalLayoutPanel {
@@ -27,7 +26,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
     public GunControlPanel( QWIPanel QWIPanel ) {
         setOpaque( false );
         shinyPanel = new ShinyGunControlPanel( this );
-        gunControlPSwing = new PSwing(shinyPanel );
+        gunControlPSwing = new PSwing( shinyPanel );
         titleLabel = new JLabel( QWIStrings.getString( "gun.controls" ) ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D)g;

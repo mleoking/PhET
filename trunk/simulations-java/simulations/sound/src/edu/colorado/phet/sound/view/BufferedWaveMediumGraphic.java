@@ -260,7 +260,8 @@ public class BufferedWaveMediumGraphic extends PhetImageGraphic implements Simpl
     public void setPlanar( boolean planar ) {
         isPlanar = planar;
         clear();
-    }    
+    }
+
     protected double getStroke() {
         return stroke;
     }

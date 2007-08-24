@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 8:03:32 AM
- *
  */
 
 public class MandelSchrodingerPanel extends IntensityBeamPanel {

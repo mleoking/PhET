@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 30, 2003
  * Time: 12:57:31 AM
- *
  */
 public class Castle {
     double x;

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.HeatingElement;
 
@@ -79,11 +79,11 @@ public class HeatingElementGraphic extends PhetImageGraphic implements HeatingEl
         float f = ( 1f / 9f ) * (float)( temperature / 255f );
         float g = 1 - f - e;
         float[] blurCoeffs = new float[]{
-            e, e, e, e, e,
-            e, f, f, f, e,
-            e, f, g, f, e,
-            e, f, f, f, e,
-            e, e, e, e, e,
+                e, e, e, e, e,
+                e, f, f, f, e,
+                e, f, g, f, e,
+                e, f, f, f, e,
+                e, e, e, e, e,
         };
         Kernel blurKernel = new Kernel( 5, 5, blurCoeffs );
         ConvolveOp blurOp = new ConvolveOp( blurKernel, ConvolveOp.EDGE_NO_OP, new RenderingHints( RenderingHints.KEY_ANTIALIASING,

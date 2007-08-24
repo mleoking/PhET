@@ -7,7 +7,6 @@ import javax.xml.parsers.SAXParserFactory;
  * User: Sam Reid
  * Date: Feb 15, 2006
  * Time: 5:51:59 PM
- *
  */
 
 public class TestSax {

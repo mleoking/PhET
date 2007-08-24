@@ -97,7 +97,7 @@ public class Node {
     public int getNumOpenBonds() {
         int result = 0;
         for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get(i);
+            Bond bond = (Bond)bonds.get( i );
             result += bond.isOpen() ? 1 : 0;
         }
         return result;

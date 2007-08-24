@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.mechanics.Body;
 
 import java.util.Random;
 

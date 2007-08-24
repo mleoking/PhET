@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:35:46 PM
- *
  */
 
 public class BlueGunDetails {

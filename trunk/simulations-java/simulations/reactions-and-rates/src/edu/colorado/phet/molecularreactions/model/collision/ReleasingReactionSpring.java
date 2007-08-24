@@ -17,7 +17,7 @@ import java.util.EventListener;
 
 /**
  * ReleasingReactionSpring
- * <p>
+ * <p/>
  * A ReactionSpring that starts out completely compressed and releases the bodies attached to it
  * when the spring reaches its resting length.
  *
@@ -26,13 +26,13 @@ import java.util.EventListener;
  */
 public class ReleasingReactionSpring extends ReactionSpring {
 
-    public ReleasingReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies) {
+    public ReleasingReactionSpring( double pe, double dl, double restingLength, SimpleMolecule[] bodies ) {
         super( pe, dl, restingLength, bodies, true );
     }
 
     public void stepInTime( double dt ) {
         System.out.println( "getLength() = " + getLength() );
-        System.out.println( "getRestingLength()instanceof = " + getRestingLength());
+        System.out.println( "getRestingLength()instanceof = " + getRestingLength() );
         if( getLength() < getRestingLength() ) {
             super.stepInTime( dt );
             System.out.println( "ReleasingReactionSpring.stepInTime:    push" );

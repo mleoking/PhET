@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:08:11 PM
- *
  */
 
 public class LaserControlPanelPNode extends PNode {
@@ -37,7 +36,7 @@ public class LaserControlPanelPNode extends PNode {
                 updateFrequency();
             }
         } );
-        laserControlPSwing = new PSwing(new ShinyPanel( laserControlPanel ) );
+        laserControlPSwing = new PSwing( new ShinyPanel( laserControlPanel ) );
         ResizeHandler.getInstance().setResizable( lightSimulationPanel, laserControlPSwing, 0.9 );
 
         addChild( laserControlPSwing );

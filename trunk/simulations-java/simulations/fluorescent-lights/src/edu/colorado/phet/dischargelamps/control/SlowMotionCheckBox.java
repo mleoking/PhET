@@ -32,10 +32,10 @@ public class SlowMotionCheckBox extends JCheckBox {
                 JCheckBox cb = (JCheckBox)e.getSource();
                 if( cb.isSelected() ) {
                     double dt = DischargeLampsConfig.DT / 5;
-                    clock.setTimingStrategy( new TimingStrategy.Constant( dt ));
+                    clock.setTimingStrategy( new TimingStrategy.Constant( dt ) );
                 }
                 else {
-                    clock.setTimingStrategy( new TimingStrategy.Constant( DischargeLampsConfig.DT ));
+                    clock.setTimingStrategy( new TimingStrategy.Constant( DischargeLampsConfig.DT ) );
                 }
             }
         } );

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
@@ -133,7 +133,7 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
     /**
      * Produces the results of a collision between molecules
-     * 
+     *
      * @param model
      * @param bodyA
      * @param bodyB
@@ -151,7 +151,7 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
         // If the molecules aren't of a type that could react, simply do a hard sphere collision
         if( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                          (AbstractMolecule)bodyB )) {
+                                                          (AbstractMolecule)bodyB ) ) {
             doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
         }
         // Otherwise, create a composite molecule if ReactionCriteria are met. This is a pretty

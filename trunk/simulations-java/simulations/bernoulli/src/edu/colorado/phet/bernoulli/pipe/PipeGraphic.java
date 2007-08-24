@@ -5,14 +5,13 @@ import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.spline.Spline;
 import edu.colorado.phet.bernoulli.spline.SplineGraphic;
-import edu.colorado.phet.common.bernoulli.view.CompositeGraphic;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
-import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.CompositeTransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.CompositeGraphic;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -25,7 +24,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 11:56:01 AM
- *
  */
 public class PipeGraphic extends CompositeGraphic implements TransformListener, InteractiveGraphic, SimpleObserver {
     ModelViewTransform2d transform;

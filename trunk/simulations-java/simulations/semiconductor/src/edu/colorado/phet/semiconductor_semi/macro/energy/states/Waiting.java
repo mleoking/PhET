@@ -9,7 +9,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.BandParticleState
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 6:50:31 PM
- *
  */
 public class Waiting implements BandParticleState {
     public Waiting() {

@@ -14,9 +14,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import javax.swing.Timer;
-import java.util.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.*;
 
 /**
  * ScalarDataRecorder
@@ -223,7 +223,7 @@ public class ScalarDataRecorder {
         // A thread to create data
         Thread t = new Thread( new Runnable() {
             public void run() {
-                Random random = new Random( );
+                Random random = new Random();
                 while( true ) {
                     try {
                         Thread.sleep( 3 );

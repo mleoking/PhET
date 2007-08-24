@@ -1,7 +1,7 @@
 package edu.colorado.phet.batteryvoltage.common.phys2d.gui;
 
-import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 import edu.colorado.phet.batteryvoltage.BatteryVoltageResources;
+import edu.colorado.phet.batteryvoltage.common.phys2d.SystemRunner;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

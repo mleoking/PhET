@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 9:37:07 AM
- *
  */
 
 public class DoubleSlitControlPanel extends VerticalLayoutPanel {

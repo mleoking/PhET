@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 15, 2006
  * Time: 10:50:37 PM
- *
  */
 
 public class WaveMeasuringTape extends MeasuringTape {

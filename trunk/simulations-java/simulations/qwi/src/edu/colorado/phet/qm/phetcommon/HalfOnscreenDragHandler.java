@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 12:24:05 AM
- *
  */
 
 public class HalfOnscreenDragHandler extends BoundedDragHandler {

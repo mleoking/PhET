@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.model.PhotonWave;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:04:54 PM
- *
  */
 public class PhotonBeam extends IntensityBeam {
     private PhotonWave photonWave;

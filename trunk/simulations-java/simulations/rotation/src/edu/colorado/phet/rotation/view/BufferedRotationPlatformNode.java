@@ -24,7 +24,7 @@ public class BufferedRotationPlatformNode extends PNode {
         System.out.println( "image.getWidth() = " + image.getWidth() + ", h=" + image.getHeight() );
 
         final PImage pimage = new PImage( image );
-        pimage.translate( 0,-500);
+        pimage.translate( 0, -500 );
         addChild( pimage );
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

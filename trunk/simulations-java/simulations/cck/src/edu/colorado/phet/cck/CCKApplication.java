@@ -3,7 +3,6 @@ package edu.colorado.phet.cck;
 import edu.colorado.phet.cck.controls.OptionsMenu;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;

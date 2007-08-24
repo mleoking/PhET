@@ -94,46 +94,42 @@ public class SphereWallCollision implements Collision {
         }
 
         switch( contactType ) {
-            case SphereWallExpert.RIGHT_SIDE:
-                {
-                    sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
-                    double wx = wallBounds.getMaxX();
-                    double dx = wx - ( sx - r );
-                    double newX = sx + ( dx * 2 );
-                    sphere.setPosition( newX, sphere.getPosition().getY() );
-                    break;
-                }
-            case SphereWallExpert.LEFT_SIDE:
-                {
-                    sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
-                    double wx = wallBounds.getMinX();
-                    double dx = ( sx + r ) - wx;
-                    double newX = sx - ( dx * 2 );
-                    sphere.setPosition( newX, sphere.getPosition().getY() );
-                    break;
-                }
-            case SphereWallExpert.TOP:
-                {
-                    sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
-                    double wy = wallBounds.getMinY();
-                    double dy = ( sy + r ) - wy;
-                    double newY = sy - ( dy * 2 );
-                    sphere.setPosition( sphere.getPosition().getX(), newY );
-                    // Adjust y velocity for potential energy
-                    adjustDyForGravity( dy * 2 );
-                    break;
-                }
-            case SphereWallExpert.BOTTOM:
-                {
-                    sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
-                    double wy = wallBounds.getMaxY();
-                    double dy = wy - ( sy - r );
-                    double newY = sy + ( dy * 2 );
-                    sphere.setPosition( sphere.getPosition().getX(), newY );
-                    // Adjust y velocity for potential energy
-                    adjustDyForGravity( dy * 2 );
-                    break;
-                }
+            case SphereWallExpert.RIGHT_SIDE: {
+                sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
+                double wx = wallBounds.getMaxX();
+                double dx = wx - ( sx - r );
+                double newX = sx + ( dx * 2 );
+                sphere.setPosition( newX, sphere.getPosition().getY() );
+                break;
+            }
+            case SphereWallExpert.LEFT_SIDE: {
+                sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
+                double wx = wallBounds.getMinX();
+                double dx = ( sx + r ) - wx;
+                double newX = sx - ( dx * 2 );
+                sphere.setPosition( newX, sphere.getPosition().getY() );
+                break;
+            }
+            case SphereWallExpert.TOP: {
+                sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
+                double wy = wallBounds.getMinY();
+                double dy = ( sy + r ) - wy;
+                double newY = sy - ( dy * 2 );
+                sphere.setPosition( sphere.getPosition().getX(), newY );
+                // Adjust y velocity for potential energy
+                adjustDyForGravity( dy * 2 );
+                break;
+            }
+            case SphereWallExpert.BOTTOM: {
+                sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
+                double wy = wallBounds.getMaxY();
+                double dy = wy - ( sy - r );
+                double newY = sy + ( dy * 2 );
+                sphere.setPosition( sphere.getPosition().getX(), newY );
+                // Adjust y velocity for potential energy
+                adjustDyForGravity( dy * 2 );
+                break;
+            }
             default:
                 throw new RuntimeException( "Invalid contact type" );
         }

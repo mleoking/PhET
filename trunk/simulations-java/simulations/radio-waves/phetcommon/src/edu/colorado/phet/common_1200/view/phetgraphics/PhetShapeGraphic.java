@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.phetgraphics;
 
 import java.awt.*;
@@ -8,7 +7,6 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 5:59:48 PM
- *
  */
 public class PhetShapeGraphic extends PhetGraphic {
     private Shape shape;

@@ -88,7 +88,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     public Paint getBorder() {
         return border;
     }
-    
+
     public Paint getBorderPaint() {
         return border;
     }
@@ -131,7 +131,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     public void setColor( Color color ) {
         setPaint( color );
     }
-    
+
     public Paint getPaint() {
         return this.fill;
     }
@@ -326,7 +326,7 @@ public class PhetShapeGraphic extends PhetGraphic {
         }
         return false;
     }
-    
+
     public boolean contains( Point p ) {
         return contains( p.x, p.y );
     }

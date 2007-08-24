@@ -14,7 +14,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:27:46 PM
- *
  */
 
 public class OnOffCheckBox extends JCheckBox {

@@ -9,7 +9,6 @@ import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:44:31 PM
- *
  */
 
 public class LaserGraphic extends ImageOscillatorPNode {

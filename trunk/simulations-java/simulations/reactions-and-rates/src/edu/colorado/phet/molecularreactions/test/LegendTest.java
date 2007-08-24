@@ -28,10 +28,10 @@ public class LegendTest extends JFrame {
         jp.setPreferredSize( new Dimension( 300, 300 ) );
         setContentPane( jp );
 //        jp.add( new Legend() );
-        PhetPCanvas ppc = new PhetPCanvas( new Dimension( 200, 200 ));
+        PhetPCanvas ppc = new PhetPCanvas( new Dimension( 200, 200 ) );
 //
         ppc.setBackground( Color.white );
-        ppc.setBounds( 0,0,200,200);
+        ppc.setBounds( 0, 0, 200, 200 );
 //        PPath pr = new PPath( new Rectangle2D.Double( 2,2,20,20));
 //        pr.setPaint( Color.red );
 //        ppc.addScreenChild( pr );
@@ -41,7 +41,7 @@ public class LegendTest extends JFrame {
 
 //        getContentPane().add( jp2 );
 //        getContentPane().add( ppc );
-        getContentPane().add(  new Legend() );
+        getContentPane().add( new Legend() );
 
         pack();
         setVisible( true );

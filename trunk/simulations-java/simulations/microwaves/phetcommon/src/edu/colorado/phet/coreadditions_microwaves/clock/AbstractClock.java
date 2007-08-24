@@ -17,7 +17,7 @@ public abstract class AbstractClock implements IClock {
     boolean started = false;
     protected ApplicationModel parent;
 //    protected double requestedDT;
-//    int requestedWaitTime;
+    //    int requestedWaitTime;
     double timeLimit = Double.POSITIVE_INFINITY;
     double runningTime;
     ArrayList clockStateListeners = new ArrayList();

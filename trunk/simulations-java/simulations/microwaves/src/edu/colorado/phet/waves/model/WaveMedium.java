@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * This class represents a medium through which an arbitrary number of
  * Wavefronts progagate.
- * <p>
+ * <p/>
  * TODO: Make this 2D. It is currently pnly 1D
  */
 public class WaveMedium extends ModelElement {
@@ -45,6 +45,7 @@ public class WaveMedium extends ModelElement {
 
     /**
      * Returns the length of the longest wavefront in the medium
+     *
      * @return
      */
     public int getMaxX() {
@@ -59,6 +60,7 @@ public class WaveMedium extends ModelElement {
     /**
      * Returns the combined amplitude of all wavefronts in the medium at
      * a specified point in the medium
+     *
      * @param x
      * @return
      */
@@ -67,7 +69,7 @@ public class WaveMedium extends ModelElement {
         for( int i = 0; i < wavefronts.size(); i++ ) {
             Wave wavefront = (Wave)wavefronts.get( i );
             if( wavefront.isEnabled() ) {
-                amplitude += wavefront.getAmplitude()[ (int)x ];
+                amplitude += wavefront.getAmplitude()[(int)x];
             }
         }
         amplitude /= wavefronts.size();
@@ -75,13 +77,14 @@ public class WaveMedium extends ModelElement {
     }
 
     private Vector2D tempVector2D = new Vector2D();
+
     public Vector2D getFieldAtLocation( Point2D.Double latticePtLocation ) {
         tempVector2D.setX( 0 );
         tempVector2D.setY( 0 );
         float amplitude = 0;
         for( int i = 0; i < wavefronts.size(); i++ ) {
             Wave wave = (Wave)wavefronts.get( i );
-            amplitude += wave.getAmplitude()[ (int)latticePtLocation.getX() ];
+            amplitude += wave.getAmplitude()[(int)latticePtLocation.getX()];
         }
         tempVector2D.setY( amplitude );
         return tempVector2D;

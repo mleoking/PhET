@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Feb 9, 2004
  * Time: 12:26:33 PM
- *
  */
 public class PlusGraphic extends ParticleGraphic {
     private PlusCharge plusCharge;

@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 5:19:04 AM
- *
  */
 
 public class IntensityColorMap implements ColorMap {

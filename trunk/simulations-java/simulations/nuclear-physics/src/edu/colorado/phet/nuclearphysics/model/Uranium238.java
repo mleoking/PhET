@@ -40,6 +40,7 @@ public class Uranium238 extends Nucleus {
 
     /**
      * Removes the U238 nucleus from the model and replaces it with a U239 nucleus
+     *
      * @param neutron
      */
     public void fission( Neutron neutron ) {

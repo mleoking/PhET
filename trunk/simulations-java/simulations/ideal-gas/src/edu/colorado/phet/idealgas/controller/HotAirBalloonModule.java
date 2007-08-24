@@ -10,7 +10,6 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision_idealgas.SphereHotAirBalloonExpert;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.*;
@@ -30,7 +29,7 @@ public class HotAirBalloonModule extends IdealGasModule {
 
     public HotAirBalloonModule( SimulationClock clock ) {
         super( clock, IdealGasResources.getString( "ModuleTitle.HotAirBalloon" ) );
-        
+
         // Add collision experts to the model
         getIdealGasModel().addCollisionExpert( new SphereHotAirBalloonExpert( getIdealGasModel(), clock.getDt() ) );
 

@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jan 1, 2006
  * Time: 5:47:15 PM
- *
  */
 
 public class ClearButton extends JButton {

@@ -51,7 +51,7 @@ public class PhotonGlassPaneCollisionModel {
             y = glassPane.getBounds().getMinY();
         }
         newPhoton.setLocation( Math.random() * glassPane.getWidth() + glassPane.getBounds().getX(), y );
-        photon.setVelocity( 0,0);
+        photon.setVelocity( 0, 0 );
         glassPane.absorbPhoton( photon );
         glassPane.emitPhoton( newPhoton );
     }

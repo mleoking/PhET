@@ -1,8 +1,8 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 4:09:57 PM
- *
  */
 public class CircleGraphic implements Graphic, TransformListener {
     private int x;

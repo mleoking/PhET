@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.common_1200.view.components.menu;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.util.VersionUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -17,11 +17,11 @@ import java.awt.event.ActionListener;
 public class HelpMenu extends JMenu {
     public HelpMenu( final ApplicationModel appDescriptor ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        SimStrings.setStrings( "emf-localization/CommonStrings");
-        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt(0) );
+        SimStrings.setStrings( "emf-localization/CommonStrings" );
+        this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
 
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
-        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt(0) );
+        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         final String name = appDescriptor.getWindowTitle();
         String desc = appDescriptor.getDescription();
         String version = appDescriptor.getVersion();

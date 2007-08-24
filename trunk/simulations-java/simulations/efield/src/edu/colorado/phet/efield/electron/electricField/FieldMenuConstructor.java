@@ -1,7 +1,7 @@
 package edu.colorado.phet.efield.electron.electricField;
 
-import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.efield.electron.gui.popupMenu.MenuConstructor;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 import javax.swing.*;
@@ -13,16 +13,16 @@ public class FieldMenuConstructor implements MenuConstructor {
     ChargeFieldSource cfs;
     Component paintMe;
 
-    public FieldMenuConstructor(ChargeFieldSource cfs, Component paintMe) {
+    public FieldMenuConstructor( ChargeFieldSource cfs, Component paintMe ) {
         this.cfs = cfs;
         this.paintMe = paintMe;
     }
 
-    public JMenu getMenu(Particle p) {
-        JMenu jm = new JMenu( SimStrings.get( "FieldMenuConstructor.ParticleMenuTitle" ));
-        ShowEField se = (new ShowEField(cfs, p, paintMe));
-        se.setSelected(!cfs.isIgnoring(p));
-        jm.add(se);
+    public JMenu getMenu( Particle p ) {
+        JMenu jm = new JMenu( SimStrings.get( "FieldMenuConstructor.ParticleMenuTitle" ) );
+        ShowEField se = ( new ShowEField( cfs, p, paintMe ) );
+        se.setSelected( !cfs.isIgnoring( p ) );
+        jm.add( se );
         return jm;
     }
 
@@ -31,20 +31,21 @@ public class FieldMenuConstructor implements MenuConstructor {
         Particle p;
         Component paintMe;
 
-        public ShowEField(ChargeFieldSource cfs, Particle p, Component paintMe) {
-            super( SimStrings.get( "FieldMenuConstructor.ShowContributionCheckBox" ), true);
+        public ShowEField( ChargeFieldSource cfs, Particle p, Component paintMe ) {
+            super( SimStrings.get( "FieldMenuConstructor.ShowContributionCheckBox" ), true );
             this.cfs = cfs;
             this.p = p;
-            addActionListener(this);
+            addActionListener( this );
             this.paintMe = paintMe;
         }
 
-        public void actionPerformed(ActionEvent ae) {
-            if (isSelected()) {
-                cfs.removeFromIgnore(p);
-            } else {
+        public void actionPerformed( ActionEvent ae ) {
+            if( isSelected() ) {
+                cfs.removeFromIgnore( p );
+            }
+            else {
                 //util.Debug.traceln("Ignoring: "+p);
-                cfs.ignore(p);
+                cfs.ignore( p );
             }
             paintMe.repaint();
         }

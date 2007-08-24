@@ -15,7 +15,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:47:29 PM
- *
  */
 
 public class OscillatingSpeakerGraphic2Layers extends ImageOscillatorPNode {
@@ -29,7 +28,7 @@ public class OscillatingSpeakerGraphic2Layers extends ImageOscillatorPNode {
         cone.setOffset( 30, 0 );
         addChild( cone );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        PSwing pswing = new PSwing(new ShinyPanel( oscillatorOnOffControlPanel ) );
+        PSwing pswing = new PSwing( new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
     }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */implements PhotonEmitter, PhotonAbsorber {
+public class Atmosphere extends Annulus /*extends BasicPhotonAbsorber */ implements PhotonEmitter, PhotonAbsorber {
 
     public static final double troposphereThickness = 16;
     public static final double stratosphereThickness = 30;

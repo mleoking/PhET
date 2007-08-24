@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2005
  * Time: 11:00:14 AM
- *
  */
 
 public abstract class TimeSeriesModel extends ClockTickListener {

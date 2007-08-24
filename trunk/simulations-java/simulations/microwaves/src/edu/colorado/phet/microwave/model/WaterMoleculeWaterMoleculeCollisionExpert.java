@@ -26,6 +26,7 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
      * to avoid allocating a new Vector2D on every invocation.
+     *
      * @param bodyA
      * @param bodyB
      * @return
@@ -36,7 +37,7 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
         WaterMolecule moleculeB = (WaterMolecule)bodyB;
 
         if( moleculeA.isVisible() && moleculeB.isVisible()
-                || !moleculeA.isVisible() && !moleculeB.isVisible() ) {
+            || !moleculeA.isVisible() && !moleculeB.isVisible() ) {
 
             CollisionSpec collisionSpec = getCollisionSpec( moleculeA, moleculeB );
             if( collisionSpec != null ) {
@@ -53,6 +54,7 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
     /**
      * This is so similar to the areInContact() method that we should try to figure out how to
      * combine them
+     *
      * @param bodyA
      * @param bodyB
      * @return
@@ -75,7 +77,7 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
         double dx = Math.abs( moleculeA.getLocation().getX() - moleculeB.getLocation().getX() );
         double dy = Math.abs( moleculeA.getLocation().getY() - moleculeB.getLocation().getY() );
         boundingBoxesOverlap = dx <= moleculeA.getWidth() + moleculeB.getWidth()
-                && dy < moleculeA.getHeight() + moleculeB.getHeight();
+                               && dy < moleculeA.getHeight() + moleculeB.getHeight();
 
         // Do finer grained test. Each molecule is composed of three circles
         Lobe[] lobesA = moleculeA.getLobes();
@@ -88,8 +90,8 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
 
                 // Are lobes touching?
                 if( lobesA[i].getDistanceSq( lobesB[j] )
-                        <= ( lobesA[i].getRadius() + lobesB[j].getRadius() )
-                        * ( lobesA[i].getRadius() + lobesB[j].getRadius() ) ) {
+                    <= ( lobesA[i].getRadius() + lobesB[j].getRadius() )
+                       * ( lobesA[i].getRadius() + lobesB[j].getRadius() ) ) {
                     inContact = true;
                     loa.setComponents( (float)( lobesA[i].getCenterX() - lobesB[j].getCenterX() ),
                                        (float)( lobesA[i].getCenterY() - lobesB[j].getCenterY() ) );
@@ -108,7 +110,6 @@ public class WaterMoleculeWaterMoleculeCollisionExpert {
     }
 
     /**
-     *
      * @param bodyA
      * @param bodyB
      * @param loa

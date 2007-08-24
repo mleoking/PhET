@@ -56,9 +56,9 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     public Object clone() {
         SimpleMolecule clone = (SimpleMolecule)super.clone();
 
-        clone.boundingBox     = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
-        clone.eventChannel    = new EventChannel( ChangeListener.class );
-        clone.listenerProxy   = (ChangeListener)eventChannel.getListenerProxy();
+        clone.boundingBox = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
+        clone.eventChannel = new EventChannel( ChangeListener.class );
+        clone.listenerProxy = (ChangeListener)eventChannel.getListenerProxy();
         clone.selectionStatus = null;
 
         return clone;
@@ -131,7 +131,6 @@ public class SimpleMolecule extends AbstractMolecule implements Selectable {
     public Selection getSelectionStatus() {
         return selectionStatus;
     }
-
 
     //--------------------------------------------------------------------------------------------------
     // Events

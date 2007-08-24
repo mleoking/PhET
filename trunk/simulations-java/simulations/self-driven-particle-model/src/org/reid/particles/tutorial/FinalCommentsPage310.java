@@ -10,7 +10,7 @@ package org.reid.particles.tutorial;
 
 public class FinalCommentsPage310 extends Page {
     public FinalCommentsPage310( BasicTutorialCanvas page ) {
-        super( page  );
+        super( page );
         String initText = "For further reading on the Self-Driven Particle Model, please see:\n" +
                           "The original paper and results [1], " +
                           "more realistic models and frameworks [3], " +

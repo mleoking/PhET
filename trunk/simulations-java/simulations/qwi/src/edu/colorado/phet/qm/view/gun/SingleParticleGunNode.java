@@ -16,7 +16,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 4:03:38 PM
- *
  */
 
 public class SingleParticleGunNode extends AbstractGunNode implements FireParticle {

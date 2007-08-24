@@ -5,7 +5,6 @@ package edu.colorado.phet.theramp.model;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 10:01:42 PM
- *
  */
 
 public class Collision {

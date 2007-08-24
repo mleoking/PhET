@@ -11,7 +11,6 @@ import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:08:38 PM
- *
  */
 
 public class DGSchrodingerPanel extends IntensityBeamPanel {

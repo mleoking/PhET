@@ -205,8 +205,7 @@ public abstract class Lattice {
                         && MathUtil.isApproxEqual( existingBond.getOrigin().getPosition(),
                                                    testPoint,
                                                    SAME_POSITION_TOLERANCE )
-                        && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) )
-                    {
+                        && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) ) {
                         existingBond.setDestination( newNode );
                         newNode.addBond( existingBond );
                         addNewBond = false;
@@ -231,7 +230,6 @@ public abstract class Lattice {
      * <li>the ion should have no bonds with children at the other end
      * <li>the ion be the child on a minimum number of bonds
      *
-     *
      * @param ionsInLattice
      * @param preferredIonType
      * @return the best ion in the lattice to release
@@ -241,7 +239,7 @@ public abstract class Lattice {
         int numLists = 6;
         ArrayList[] preferredIons = new ArrayList[numLists];
         for( int i = 0; i < preferredIons.length; i++ ) {
-            preferredIons[i] = new ArrayList( );
+            preferredIons[i] = new ArrayList();
         }
         ArrayList[] otherIons = new ArrayList[numLists];
         for( int i = 0; i < otherIons.length; i++ ) {
@@ -261,7 +259,7 @@ public abstract class Lattice {
             }
 
             if( node.hasNoChildren() ) {
-                if( preferredIonType.isAssignableFrom( node.getIon().getClass() )) {
+                if( preferredIonType.isAssignableFrom( node.getIon().getClass() ) ) {
                     preferredIons[node.getNumFilledBonds()].add( node );
 //                    preferredCandidates.add( node );
                 }
@@ -503,8 +501,8 @@ public abstract class Lattice {
      */
     public static void main( String[] args ) {
         Lattice testLattice = new TwoToOneLattice( Copper.class,
-                                                           Hydroxide.class,
-                                                           Copper.RADIUS + Hydroxide.RADIUS );
+                                                   Hydroxide.class,
+                                                   Copper.RADIUS + Hydroxide.RADIUS );
         testLattice.setBounds( new Rectangle2D.Double( 0, 0, 1000, 1000 ) );
 
         Ion ion1 = new Copper();

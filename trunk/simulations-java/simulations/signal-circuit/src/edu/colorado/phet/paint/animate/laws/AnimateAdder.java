@@ -20,7 +20,7 @@ public class AnimateAdder implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep( waitTime);
+            Thread.sleep( waitTime );
         }
         catch( InterruptedException e ) {
             e.printStackTrace();

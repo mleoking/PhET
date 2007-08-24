@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.controls.ResolutionControl;
  * User: Sam Reid
  * Date: Jul 14, 2005
  * Time: 12:33:12 PM
- *
  */
 
 public class PhotonBeamParticle extends GunParticle {

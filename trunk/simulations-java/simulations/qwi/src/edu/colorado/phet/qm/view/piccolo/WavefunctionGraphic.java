@@ -16,7 +16,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 12:48:33 PM
- *
  */
 
 public class WavefunctionGraphic extends SimpleWavefunctionGraphic {

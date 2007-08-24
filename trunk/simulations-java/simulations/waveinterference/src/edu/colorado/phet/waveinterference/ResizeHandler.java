@@ -11,7 +11,6 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: May 24, 2006
  * Time: 1:27:08 PM
- *
  */
 
 public class ResizeHandler {

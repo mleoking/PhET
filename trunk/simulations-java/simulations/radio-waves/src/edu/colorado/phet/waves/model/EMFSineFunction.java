@@ -12,7 +12,6 @@ public class EMFSineFunction implements EMFPeriodicFunction {
     }
 
     /**
-     *
      * @param time
      * @return
      */

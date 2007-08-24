@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.molecularreactions.view.energy;
 
-import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 import java.awt.*;
@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * EnergyCursor
- * <p>
+ * <p/>
  * A vertical gray bar that moves around on the EnergyView to show where the reacting molecules
  * are on the energy profile
  *

@@ -16,7 +16,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:00:25 AM
- *
  */
 public class TestPressureWaveModule extends BasicWaveTestModule {
     private PressureWaveGraphic pressureWaveGraphic;

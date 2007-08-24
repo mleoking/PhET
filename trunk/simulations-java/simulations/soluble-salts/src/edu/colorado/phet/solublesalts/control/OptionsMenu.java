@@ -173,7 +173,7 @@ public class OptionsMenu extends JMenu {
         optionsMenu.add( debugMI );
 
         // Color picker
-        final JMenuItem colorPicker = new JMenuItem( "Select background color");
+        final JMenuItem colorPicker = new JMenuItem( "Select background color" );
         colorPicker.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(), "Select background color", Color.gray );

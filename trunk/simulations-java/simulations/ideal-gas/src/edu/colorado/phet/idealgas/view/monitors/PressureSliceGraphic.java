@@ -138,7 +138,6 @@ public class PressureSliceGraphic extends CompositePhetGraphic implements Pressu
             }
             temperature = pressureSlice.getTemperature();
 
-
             // Clear the drawing area and rebuild it
             drawingArea.exclusiveOr( drawingArea );
             drawingArea.add( new Area( boundingRect ) );

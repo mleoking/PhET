@@ -2,10 +2,10 @@ package edu.colorado.phet.batteryvoltage.man;
 
 import edu.colorado.phet.batteryvoltage.Battery;
 import edu.colorado.phet.batteryvoltage.ParticleMoveListener;
-import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.PropagatingParticle;
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
+import edu.colorado.phet.batteryvoltage.man.voltListeners.VoltageListener;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

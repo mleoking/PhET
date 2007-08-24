@@ -16,7 +16,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:43:24 PM
- *
  */
 
 public class IntensityManager {

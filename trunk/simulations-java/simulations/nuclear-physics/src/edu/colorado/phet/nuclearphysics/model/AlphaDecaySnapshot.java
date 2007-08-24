@@ -11,16 +11,16 @@
 package edu.colorado.phet.nuclearphysics.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.view.Kaboom;
 
-import java.util.List;
-import java.util.Map;
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.awt.geom.Point2D;
+import java.util.List;
+import java.util.Map;
 
 /**
  * AlphaDecaySnapshot

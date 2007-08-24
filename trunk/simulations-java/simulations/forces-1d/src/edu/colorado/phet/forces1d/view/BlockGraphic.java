@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.math.Function;
@@ -19,7 +18,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Nov 13, 2004
  * Time: 10:27:14 AM
- *
  */
 public class BlockGraphic extends CompositePhetGraphic {
     private Block block;
@@ -28,7 +26,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private Function.LinearFunction transform1d;
     private PhetImageGraphic graphic;
     private Force1DPanel panel;
-//    private Force1dObject force1dObject;
+    //    private Force1dObject force1dObject;
     private Point lastCenter;
     private ThresholdedDragAdapter mouseListener;
 

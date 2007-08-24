@@ -10,9 +10,8 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
@@ -22,7 +21,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-import java.io.IOException;
 
 /**
  *
@@ -44,12 +42,13 @@ public class LightSpeciesGraphic extends GasMoleculeGraphic {
 
     /**
      * Sets the color of the graphic to a duotone based on a specified color. Scale is 1
+     *
      * @param color
      */
     public static void setColor( Color color ) {
         GasMoleculeGraphic.setColor( color );
         s_particleImage = IdealGasResources.getImage( s_imageName );
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );
         op.filter( s_particleImage, s_particleImage );
         myImage = s_particleImage;
     }

@@ -1,7 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 
 /**
  * Author: Sam Reid

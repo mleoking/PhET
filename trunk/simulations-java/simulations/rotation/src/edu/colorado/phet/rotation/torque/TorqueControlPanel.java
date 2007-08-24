@@ -84,7 +84,7 @@ public class TorqueControlPanel extends JPanel {
                 massSlider,
                 frictionSlider
         };
-        AlignedSliderSetLayoutStrategy alignedSliderSetLayoutStrategy=new AlignedSliderSetLayoutStrategy(sliders);
+        AlignedSliderSetLayoutStrategy alignedSliderSetLayoutStrategy = new AlignedSliderSetLayoutStrategy( sliders );
         alignedSliderSetLayoutStrategy.doLayout();
         for( int i = 0; i < sliders.length; i++ ) {
             sliderPanel.add( sliders[i], sliderSetConstraints );

@@ -19,14 +19,13 @@ package edu.colorado.phet.molecularreactions.model;
 public class ProvisionalBondPostReaction extends ProvisionalBond {
 
     /**
-     *
      * @param sm1
      * @param sm2
      * @param maxBondLength
      * @param model
      * @param pe            Potential energy to be in the spring when its compressed
      */
-    public ProvisionalBondPostReaction( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model,  double pe ) {
+    public ProvisionalBondPostReaction( SimpleMolecule sm1, SimpleMolecule sm2, double maxBondLength, MRModel model, double pe ) {
         super( sm1, sm2, maxBondLength, model, pe, true );
     }
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 9, 2004
  * Time: 10:08:51 AM
- *
  */
 public class StateChain implements BandParticleState {
     ArrayList states = new ArrayList();

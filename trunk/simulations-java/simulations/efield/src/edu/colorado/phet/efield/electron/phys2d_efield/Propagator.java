@@ -4,12 +4,10 @@
 
 package edu.colorado.phet.efield.electron.phys2d_efield;
 
-
 // Referenced classes of package phys2d:
 //            Particle
 
-public interface Propagator
-{
+public interface Propagator {
 
-    public abstract void propagate(double d, Particle particle);
+    public abstract void propagate( double d, Particle particle );
 }

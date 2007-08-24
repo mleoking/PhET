@@ -10,7 +10,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jan 5, 2006
  * Time: 1:26:48 AM
- *
  */
 
 public class CollapseComputation {

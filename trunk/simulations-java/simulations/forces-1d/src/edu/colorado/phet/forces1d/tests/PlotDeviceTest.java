@@ -1,7 +1,6 @@
 /*  */
 package edu.colorado.phet.forces1d.tests;
 
-import edu.colorado.phet.force1d_tag_chart.Range2D;
 import edu.colorado.phet.common_force1d.model.BaseModel;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
@@ -14,6 +13,7 @@ import edu.colorado.phet.common_force1d.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetTextField;
 import edu.colorado.phet.common_force1d.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.force1d_tag_chart.Range2D;
 import edu.colorado.phet.forces1d.common.TitleGraphic;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice2;
 
@@ -29,7 +29,6 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
- *
  */
 
 public class PlotDeviceTest {

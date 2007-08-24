@@ -45,8 +45,8 @@ public class FilteredWavContactForce extends Out {
 
     // gain ratios
     protected float physicalToAudioGainSlide = 1,
-    physicalToAudioGainRoll = 1,
-    physicalToAudioGainImpact = 1;
+            physicalToAudioGainRoll = 1,
+            physicalToAudioGainImpact = 1;
 
     /**
      * Set model parameters mapping physical units to audio units

@@ -15,7 +15,7 @@ import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 
 /**
  * MoleculeAB
- * <p>
+ * <p/>
  * A composite molecule that has an A and a B.
  *
  * @author Ron LeMaster
@@ -39,7 +39,7 @@ public class MoleculeAB extends CompositeMolecule {
     }
 
     public double getPE() {
-        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)((MRModel)PhetUtilities.getActiveModule().getModel()).getReaction();
+        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)( (MRModel)PhetUtilities.getActiveModule().getModel() ).getReaction();
         return reaction.getPotentialEnergy( this, this );
     }
 

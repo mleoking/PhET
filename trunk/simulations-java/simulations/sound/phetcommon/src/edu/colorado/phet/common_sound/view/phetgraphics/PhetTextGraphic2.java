@@ -23,7 +23,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
-    
+
     /// Justification values
     public static final int NONE = 0;
     public static final int NORTH_WEST = 1;
@@ -41,11 +41,11 @@ public class PhetTextGraphic2 extends PhetGraphic {
     private static final String DEFAULT_TEXT = "";
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final int DEFAULT_JUSTIFICATION = NONE;
-    
+
     //----------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------
-    
+
     private Font font;
     private String text;
     private Color color;
@@ -55,10 +55,10 @@ public class PhetTextGraphic2 extends PhetGraphic {
     //----------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------
-    
+
     /**
      * Creates a PhetTextGraphic at a specified location.
-     * 
+     *
      * @param component
      * @param font
      * @param text
@@ -74,9 +74,9 @@ public class PhetTextGraphic2 extends PhetGraphic {
         setJustification( DEFAULT_JUSTIFICATION );
         setLocation( x, y );
     }
-    
+
     /**
-     * Creates a PhetTextGraphic at (0,0).  
+     * Creates a PhetTextGraphic at (0,0).
      * You can now set location easily with setLocation().
      *
      * @param component
@@ -87,10 +87,10 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public PhetTextGraphic2( Component component, Font font, String text, Color color ) {
         this( component, font, text, color, 0, 0 );
     }
-    
+
     /**
      * Creates a default PhetTextGraphic at (0,0).
-     * 
+     *
      * @param component
      */
     public PhetTextGraphic2( Component component ) {
@@ -102,11 +102,11 @@ public class PhetTextGraphic2 extends PhetGraphic {
      */
     public PhetTextGraphic2() {
     }
-    
+
     //----------------------------------------------------------------
     // Setters and getters 
     //----------------------------------------------------------------
-    
+
     public void setText( String text ) {
         this.text = text;
         setJustification( justification );
@@ -117,7 +117,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public String getText() {
         return text;
     }
-    
+
     public void setColor( Color color ) {
         this.color = color;
         setBoundsDirty();
@@ -127,7 +127,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public Color getColor() {
         return color;
     }
-    
+
     public void setFont( Font font ) {
         this.font = font;
         this.fontMetrics = getComponent().getFontMetrics( font );
@@ -139,26 +139,26 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public Font getFont() {
         return font;
     }
-    
+
     /**
      * Provides for Java Bean conformance, should not be used by clients.
      */
     public void setFontMetrics( FontMetrics fontMetrics ) {
         this.fontMetrics = fontMetrics;
     }
-    
+
     public FontMetrics getFontMetrics() {
         return fontMetrics;
     }
-    
+
     /**
      * Convenience routine for setting the reference point.
-     * <p>
-     * Locates the reference point by specifying a compass point 
+     * <p/>
+     * Locates the reference point by specifying a compass point
      * on a rectangle.  The top, left and right edges of the rectangle
-     * correspond to the graphic's bounds. The bottom edge of the 
+     * correspond to the graphic's bounds. The bottom edge of the
      * rectangle is the text's baseline!
-     * <p>
+     * <p/>
      * By default, justification is NONE. If you set the justification
      * to something other than NONE, then the graphic will be
      * re-justified whenever you change the text or font.
@@ -176,7 +176,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
                 setRegistrationPoint( 0, 0 );
                 break;
             case NORTH:
-                setRegistrationPoint( getWidth()/2, 0 );
+                setRegistrationPoint( getWidth() / 2, 0 );
                 break;
             case NORTH_EAST:
                 setRegistrationPoint( getWidth(), 0 );
@@ -185,25 +185,25 @@ public class PhetTextGraphic2 extends PhetGraphic {
                 setRegistrationPoint( getWidth(), ascentHeight ); // on the baseline
                 break;
             case SOUTH:
-                setRegistrationPoint( getWidth()/2, ascentHeight ); // on the baseline
+                setRegistrationPoint( getWidth() / 2, ascentHeight ); // on the baseline
                 break;
             case SOUTH_WEST:
                 setRegistrationPoint( 0, ascentHeight ); // on the baseline
                 break;
             case EAST:
-                setRegistrationPoint( getWidth(), ascentHeight/2 );
+                setRegistrationPoint( getWidth(), ascentHeight / 2 );
                 break;
             case WEST:
-                setRegistrationPoint( 0, ascentHeight/2 );
+                setRegistrationPoint( 0, ascentHeight / 2 );
                 break;
             case CENTER:
-                setRegistrationPoint( getWidth()/2, ascentHeight/2 );
+                setRegistrationPoint( getWidth() / 2, ascentHeight / 2 );
                 break;
             default:
                 throw new IllegalArgumentException( "invalid justification: " + justification );
         }
     }
-    
+
     //----------------------------------------------------------------
     // PhetGraphic implementation
     //----------------------------------------------------------------

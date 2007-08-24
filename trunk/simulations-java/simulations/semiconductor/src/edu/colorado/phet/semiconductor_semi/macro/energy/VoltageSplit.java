@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -7,7 +6,6 @@ import edu.colorado.phet.common_semiconductor.model.ModelElement;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 5:12:04 PM
- *
  */
 public class VoltageSplit implements ModelElement {
     EnergySection energySection;

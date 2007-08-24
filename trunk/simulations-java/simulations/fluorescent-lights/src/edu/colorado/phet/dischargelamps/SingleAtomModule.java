@@ -11,10 +11,10 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.Tube;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.control.ElectronProductionControl;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.view.CollisionEnergyIndicator;
@@ -95,11 +95,11 @@ public class SingleAtomModule extends DischargeLampModule {
         // Add text that labels the ground state
         PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
                                                                         DischargeLampsConfig.DEFAULT_CONTROL_FONT,
-                                                                        SimStrings.getInstance().getString("Misc.groundState" ),
+                                                                        SimStrings.getInstance().getString( "Misc.groundState" ),
                                                                         Color.black,
                                                                         110,
                                                                         270 );
-        elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1);
+        elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1 );
 
         // Set the size of the panel
         elmp.getElmp().setPreferredSize( new Dimension( 200, 300 ) );

@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:09:55 PM
- *
  */
 
 public class ParticleBeam extends IntensityBeam {

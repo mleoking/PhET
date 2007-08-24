@@ -16,9 +16,9 @@ public class MotionPanel extends JPanel implements ActionListener //, Runnable
 {
     private Motion2DPanel myJP;
     private JRadioButton constAIRadBtn, constAIIRadBtn, sHMRadBtn, circularRadBtn, stopRadBtn;
-    private double amplitude;		//amplitude of motion for either SHM or constant acceleration
-    private double tNow;			//motion time
-    private boolean goingRight;  	//used in const acc motion
+    private double amplitude;        //amplitude of motion for either SHM or constant acceleration
+    private double tNow;            //motion time
+    private boolean goingRight;      //used in const acc motion
     private boolean motionOn;
     private int buttonFlag;
     private final int CONST_AI = 0;

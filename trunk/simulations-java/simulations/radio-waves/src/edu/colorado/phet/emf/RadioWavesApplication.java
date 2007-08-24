@@ -6,21 +6,20 @@
  */
 package edu.colorado.phet.emf;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.ApplicationModel;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
 import edu.colorado.phet.common_1200.view.PhetFrame;
 import edu.colorado.phet.common_1200.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions.emf.LecturePhetLookAndFeel;
 import edu.colorado.phet.coreadditions.emf.PhetLookAndFeel;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
-import java.util.logging.Logger;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 public class RadioWavesApplication {
 
@@ -37,7 +36,7 @@ public class RadioWavesApplication {
 
         // Initialize simulation strings using resource bundle for the locale.
         SimStrings.setStrings( EmfConfig.localizedStringsPath );//todo: add String[] args to this
-        SimStrings.getInstance().addStrings( "emf-localization/phetcommon-strings");//todo: add String[] args to this
+        SimStrings.getInstance().addStrings( "emf-localization/phetcommon-strings" );//todo: add String[] args to this
 
         // Log a few message at different severity levels
         PhetLookAndFeel lookAndFeel = new edu.colorado.phet.coreadditions.emf.ClientPhetLookAndFeel();
@@ -49,15 +48,15 @@ public class RadioWavesApplication {
             }
         }
 
-        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true  );
+        SwingTimerClock clock = new SwingTimerClock( 0.5, 40, true );
 //        SwingTimerClock clock = new SwingTimerClock( 1, 40, false  );
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
                 new String( SimStrings.get( "EmfApplication.title" )
-                        + " ("
-                        + EmfConfig.VERSION
-                        + ")" ),
+                            + " ("
+                            + EmfConfig.VERSION
+                            + ")" ),
                 SimStrings.get( "EmfApplication.description" ),
                 EmfConfig.VERSION, fs );
         appDescriptor.setModule( antennaModule );
@@ -93,7 +92,7 @@ public class RadioWavesApplication {
 //            }
 //        } );
 //        optionsMenu.add( scalarRepCB );
-        final JCheckBoxMenuItem fadeScalarRepCB = new JCheckBoxMenuItem( "Fade scalar representation");
+        final JCheckBoxMenuItem fadeScalarRepCB = new JCheckBoxMenuItem( "Fade scalar representation" );
         fadeScalarRepCB.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 WaveMediumGraphic.Y_GRADIENT = fadeScalarRepCB.isSelected();

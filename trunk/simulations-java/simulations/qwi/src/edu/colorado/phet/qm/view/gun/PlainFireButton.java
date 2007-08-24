@@ -21,7 +21,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 6, 2006
  * Time: 10:32:23 PM
- *
  */
 
 public class PlainFireButton extends PNode {

@@ -20,7 +20,7 @@ import java.awt.*;
  * @version $Revision$
  */
 public class CurrentSlider extends JSlider {
-//public class CurrentSlider extends ModelSlider {
+    //public class CurrentSlider extends ModelSlider {
     private double maxCurrent;
     JSlider slider;
 
@@ -35,9 +35,9 @@ public class CurrentSlider extends JSlider {
 
 //        setTextFieldVisible( false );
         setPaintLabels( false );
-        setPaintTicks(false );
-        setBorder( null);
-        setPreferredSize( new Dimension( 150, 30));
+        setPaintTicks( false );
+        setBorder( null );
+        setPreferredSize( new Dimension( 150, 30 ) );
     }
 
     public void setMaxCurrent( double maxCurrent ) {

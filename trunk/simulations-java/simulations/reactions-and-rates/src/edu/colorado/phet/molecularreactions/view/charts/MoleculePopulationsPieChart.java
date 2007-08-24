@@ -33,12 +33,12 @@ public class MoleculePopulationsPieChart extends PieChartNode {
     private double updateInterval;
     private double timeSinceLastUpdate;
     private PieValue[] values = new PieValue[]{
-        new PieValue(),
-        new PieValue(),
-        new PieValue(),
-        new PieValue()
+            new PieValue(),
+            new PieValue(),
+            new PieValue(),
+            new PieValue()
     };
-    
+
     private MoleculeCounter counterA;
     private MoleculeCounter counterAB;
     private MoleculeCounter counterBC;
@@ -53,7 +53,7 @@ public class MoleculePopulationsPieChart extends PieChartNode {
         setBounds( bounds );
 
         // Add the title
-        PText titleNode = new PText( MRConfig.RESOURCES.getLocalizedString("StripChart.title") );
+        PText titleNode = new PText( MRConfig.RESOURCES.getLocalizedString( "StripChart.title" ) );
         addChild( titleNode );
 
         // If we don't position it here, the stripped paints get seams in them 
@@ -61,19 +61,19 @@ public class MoleculePopulationsPieChart extends PieChartNode {
 
         this.updateInterval = updateInterval;
 
-        setPaintsForProfile( module.getMRModel().getEnergyProfile());
+        setPaintsForProfile( module.getMRModel().getEnergyProfile() );
 
-        module.getMRModel().addListener(new MRModel.ModelListenerAdapter() {
+        module.getMRModel().addListener( new MRModel.ModelListenerAdapter() {
             public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                setPaintsForProfile(profile);
+                setPaintsForProfile( profile );
             }
         } );
 
         // Create counters for each of the molecule types
-        counterA  = new MoleculeCounter( MoleculeA.class,  module.getMRModel() );
+        counterA = new MoleculeCounter( MoleculeA.class, module.getMRModel() );
         counterAB = new MoleculeCounter( MoleculeAB.class, module.getMRModel() );
         counterBC = new MoleculeCounter( MoleculeBC.class, module.getMRModel() );
-        counterC  = new MoleculeCounter( MoleculeC.class,  module.getMRModel() );
+        counterC = new MoleculeCounter( MoleculeC.class, module.getMRModel() );
 
         module.getClock().addClockListener( new PieChartUpdater() );
 

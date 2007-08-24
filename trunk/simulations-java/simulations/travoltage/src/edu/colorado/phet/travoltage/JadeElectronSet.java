@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 10:59:17 PM
- *
  */
 
 public class JadeElectronSet {

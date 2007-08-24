@@ -14,11 +14,11 @@ import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -50,12 +50,12 @@ public class AtmosphereGraphic extends CompositeGraphic implements Observer, Sha
                 Component component = e.getComponent();
                 Rectangle2D newBounds = component.getBounds();
                 if( atmosphereImageGraphic != null ) {
-                BufferedImage bi = atmosphereImageGraphic.getBufferedImage();
-                double scaleWidth = newBounds.getWidth() / bi.getWidth();
-                double scaleHeight = newBounds.getHeight() / bi.getHeight();
-                AffineTransform atx = AffineTransform.getScaleInstance( scaleWidth, scaleHeight );
-                AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
-                bi = atxOp.filter( bi, null );
+                    BufferedImage bi = atmosphereImageGraphic.getBufferedImage();
+                    double scaleWidth = newBounds.getWidth() / bi.getWidth();
+                    double scaleHeight = newBounds.getHeight() / bi.getHeight();
+                    AffineTransform atx = AffineTransform.getScaleInstance( scaleWidth, scaleHeight );
+                    AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+                    bi = atxOp.filter( bi, null );
                     removeGraphic( atmosphereImageGraphic );
                     atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, 0 ) );
 //                    atmosphereImageGraphic = new ImageGraphic( bi, new Point2D.Double( -modelBounds.getWidth() / 2, -.50 ) );

@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 10:05:29 PM
- *
  */
 
 public class WaveSideViewFull extends WaveSideView {

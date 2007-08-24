@@ -30,6 +30,6 @@ public class RunAction implements ActionListener {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        module.getClock().start();        
+        module.getClock().start();
     }
 }

@@ -60,7 +60,7 @@ public class PropertiesDemo {
                 Locale.ENGLISH
         };
 
-        for( int i = 0; i < supportedLocales.length; i ++ ) {
+        for( int i = 0; i < supportedLocales.length; i++ ) {
             displayValue( supportedLocales[i], "s2" );
         }
 

@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 17, 2005
  * Time: 7:40:43 PM
- *
  */
 
 public class ParticleVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {

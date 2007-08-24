@@ -12,10 +12,10 @@ package edu.colorado.phet.photoelectric.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
@@ -251,7 +251,7 @@ public class PhotoelectricModel extends DischargeLampModel {
      * of the target material.
      *
      * @return The current that will hit the cathode based on the electrons that are currently leaving
-     * the anode
+     *         the anode
      */
     public double getCurrent() {
         return getCurrentForVoltage( getVoltage() );

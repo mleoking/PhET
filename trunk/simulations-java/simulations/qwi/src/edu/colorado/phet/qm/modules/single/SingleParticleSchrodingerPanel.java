@@ -12,7 +12,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:20:13 AM
- *
  */
 
 public class SingleParticleSchrodingerPanel extends QWIPanel {
@@ -25,7 +24,7 @@ public class SingleParticleSchrodingerPanel extends QWIPanel {
         getSchrodingerScreenNode().setGunControlPanel( abstractGun.getGunControlPanel() );
         ImagePComboBox comboBox = abstractGun.getComboBox();
 
-        PSwing pSwing = new PSwing(comboBox );
+        PSwing pSwing = new PSwing( comboBox );
         comboBox.setEnvironment( pSwing, this );
         getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
 

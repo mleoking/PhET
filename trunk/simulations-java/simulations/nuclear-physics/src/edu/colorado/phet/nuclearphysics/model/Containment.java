@@ -6,18 +6,18 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Area;
 import java.util.*;
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * A vessel that is supposed to emulate the containment vessel of a nuclear bomb.
  * <p/>
  * This class implements Modelelement, so it can detect when nuclei and neutrons hit it.
- * <p>
+ * <p/>
  * The vessel is represented as an Area to make it easy to do collision detection.
  */
 public class Containment extends SimpleObservable implements ModelElement {
@@ -223,7 +223,7 @@ public class Containment extends SimpleObservable implements ModelElement {
 
         private NuclearPhysicsModel model;
         private double absorptionProbability = Config.CONTAINMENT_NEUTRON_ABSORPTION_PROBABILITY;
-//        private double absorptionProbability = 0.5;
+        //        private double absorptionProbability = 0.5;
         private double reflectionSpreadAngle = Math.toRadians( 30 );
 
         public MyCollisionDetector( NuclearPhysicsModel model ) {

@@ -7,11 +7,11 @@
 package edu.colorado.phet.common_microwaves.view.help;
 
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-import edu.colorado.phet.common_microwaves.view.graphics.TransformListener;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common_microwaves.view.graphics.TransformListener;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 public class ApparatusHelpItem extends HelpItem implements Graphic, TransformListener {
 
@@ -22,17 +22,17 @@ public class ApparatusHelpItem extends HelpItem implements Graphic, TransformLis
         super.paint( g );
     }
 
-    public ApparatusHelpItem(String text, Point2D.Double location, ModelViewTransform2D tx ) {
-        this(text, location, Color.BLACK, tx );
+    public ApparatusHelpItem( String text, Point2D.Double location, ModelViewTransform2D tx ) {
+        this( text, location, Color.BLACK, tx );
     }
 
-    public ApparatusHelpItem(String text, Point2D.Double location, Color color, ModelViewTransform2D tx ) {
+    public ApparatusHelpItem( String text, Point2D.Double location, Color color, ModelViewTransform2D tx ) {
         this( text, (float)location.getX(), (float)location.getY(), tx );
     }
 
     public ApparatusHelpItem( String text, double x, double y, ModelViewTransform2D tx ) {
-        super( text,  new Point2D.Float( (float)x, (float)y ));
-        modelLoc = new Point2D.Double(x, y);
+        super( text, new Point2D.Float( (float)x, (float)y ) );
+        modelLoc = new Point2D.Double( x, y );
         this.tx = tx;
         transformChanged( tx );
         tx.addTransformListener( this );

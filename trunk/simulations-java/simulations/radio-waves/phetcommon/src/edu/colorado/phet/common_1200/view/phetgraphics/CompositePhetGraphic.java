@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.phetgraphics;
 
 import java.awt.*;

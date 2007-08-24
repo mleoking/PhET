@@ -3,11 +3,9 @@ package org.reid.particles.tutorial.unit2;
 
 import edu.umd.cs.piccolo.PNode;
 import org.reid.particles.model.ParticleModel;
-import org.reid.particles.tutorial.unit2.OrderParameter90;
-import org.reid.particles.tutorial.unit2.OrderParameterVsTimeChart;
+import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.PButton;
 import org.reid.particles.tutorial.TutorialChartFrame;
-import org.reid.particles.tutorial.BasicTutorialCanvas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

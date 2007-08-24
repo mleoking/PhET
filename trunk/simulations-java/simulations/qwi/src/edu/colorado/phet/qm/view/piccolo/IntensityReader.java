@@ -24,7 +24,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 11:28:29 PM
- *
  */
 
 public class IntensityReader extends PComposite {

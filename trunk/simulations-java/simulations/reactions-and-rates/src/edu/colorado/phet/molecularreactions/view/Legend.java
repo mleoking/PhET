@@ -33,11 +33,11 @@ public class Legend extends JPanel {
     public Legend() {
         super( new GridBagLayout() );
 
-        setBorder( ControlBorderFactory.createPrimaryBorder( "Legend ") );
+        setBorder( ControlBorderFactory.createPrimaryBorder( "Legend " ) );
 
         if( !true ) {
-            setLayout( new BorderLayout( ));
-            add( new JLabel( "ASEDF"));
+            setLayout( new BorderLayout() );
+            add( new JLabel( "ASEDF" ) );
             return;
         }
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
@@ -55,7 +55,7 @@ public class Legend extends JPanel {
         add( createMoleculeIconComponent( pA ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "A"), gbc );
+        add( new JLabel( "A" ), gbc );
 
         gbc.gridx = 0;
         gbc.gridy++;
@@ -63,7 +63,7 @@ public class Legend extends JPanel {
         add( createMoleculeIconComponent( pB ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "B"), gbc );
+        add( new JLabel( "B" ), gbc );
 
         gbc.gridx = 0;
         gbc.gridy++;
@@ -71,7 +71,7 @@ public class Legend extends JPanel {
         add( createMoleculeIconComponent( pC ), gbc );
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        add( new JLabel( "C"), gbc );
+        add( new JLabel( "C" ), gbc );
 
 
     }
@@ -81,8 +81,8 @@ public class Legend extends JPanel {
         Dimension renderingSize = new Dimension( 25, 25 );
         PCanvas canvasA = new PCanvas();
         canvasA.setBackground( backgroundColor );
-        canvasA.setBounds( 0,0,renderingSize.width, renderingSize.height );
-        pA.setOffset( canvasA.getWidth()/2, canvasA.getHeight()/2);
+        canvasA.setBounds( 0, 0, renderingSize.width, renderingSize.height );
+        pA.setOffset( canvasA.getWidth() / 2, canvasA.getHeight() / 2 );
         canvasA.getLayer().addChild( pA );
         JPanel jp = new JPanel( null );
         jp.setPreferredSize( renderingSize );

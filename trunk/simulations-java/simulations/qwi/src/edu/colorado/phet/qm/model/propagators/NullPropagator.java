@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Dec 11, 2005
  * Time: 12:16:25 PM
- *
  */
 
 public class NullPropagator extends Propagator {

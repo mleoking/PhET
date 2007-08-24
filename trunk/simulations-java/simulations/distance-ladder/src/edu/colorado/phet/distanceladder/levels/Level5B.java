@@ -22,8 +22,8 @@ import java.awt.geom.Point2D;
 public class Level5B extends Exercise {
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.white, 1E6, new Point2D.Double( 200, -50 ), 0 ),
-        new NormalStar( Color.white, 1E6, new Point2D.Double( 400, 50 ), 0 ),
+            new NormalStar( Color.white, 1E6, new Point2D.Double( 200, -50 ), 0 ),
+            new NormalStar( Color.white, 1E6, new Point2D.Double( 400, 50 ), 0 ),
     };
 
     public Level5B( JFrame frame, final UniverseModel model ) {

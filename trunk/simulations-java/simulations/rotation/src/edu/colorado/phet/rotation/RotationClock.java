@@ -17,29 +17,29 @@ public class RotationClock extends ConstantDtClock {
     private long lastEvalTime;
     private long lastTickFinishTime = System.currentTimeMillis();
     private long lastActualDelay;
-    
+
     private static final boolean DEBUG_PAINT_OVERHEAD = false;
 
-    public RotationClock(int delay, double clockDt) {
-        super(delay, clockDt);
+    public RotationClock( int delay, double clockDt ) {
+        super( delay, clockDt );
     }
 
     protected void doTick() {
         lastActualDelay = System.currentTimeMillis() - lastTickFinishTime;
-        tickTimes.add(new Long(System.currentTimeMillis()));
-        if (tickTimes.size() > 100) {
-            tickTimes.remove(0);
+        tickTimes.add( new Long( System.currentTimeMillis() ) );
+        if( tickTimes.size() > 100 ) {
+            tickTimes.remove( 0 );
         }
         QuickProfiler qp = new QuickProfiler();
         super.doTick();
         lastEvalTime = qp.getTime();
         lastTickFinishTime = System.currentTimeMillis();
-        
-        if (DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null) {
+
+        if( DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null ) {
             JComponent component = AbstractRotationModule.INSTANCE.getRotationSimulationPanel();
 
-            for (int nx = 1; nx <= 10; nx++) {
-                paintScreen(nx, nx, component);
+            for( int nx = 1; nx <= 10; nx++ ) {
+                paintScreen( nx, nx, component );
 
             }
         }
@@ -51,15 +51,15 @@ public class RotationClock extends ConstantDtClock {
         }
     }
 
-    private void paintScreen(int nx, int ny, JComponent component) {
-        QuickProfiler qp2 = new QuickProfiler("nx=" + nx + ", ny=" + ny);
+    private void paintScreen( int nx, int ny, JComponent component ) {
+        QuickProfiler qp2 = new QuickProfiler( "nx=" + nx + ", ny=" + ny );
         int w = component.getWidth() / nx;
         int h = component.getHeight() / ny;
-        for (int i = 0; i < nx; i++) {
-            for (int j = 0; j < ny; j++) {
+        for( int i = 0; i < nx; i++ ) {
+            for( int j = 0; j < ny; j++ ) {
 
-                Rectangle repaintRegion = new Rectangle(i * w, j * h, w, h);
-                component.paintImmediately(repaintRegion);
+                Rectangle repaintRegion = new Rectangle( i * w, j * h, w, h );
+                component.paintImmediately( repaintRegion );
             }
         }
         qp2.println();
@@ -74,19 +74,19 @@ public class RotationClock extends ConstantDtClock {
     }
 
     public double getLastFrameRate() {
-        if (tickTimes.size() < 2) {
+        if( tickTimes.size() < 2 ) {
             return 0.0;
         }
         else {
-            long a = getTickTime(tickTimes.size() - 1);
-            long b = getTickTime(tickTimes.size() - 2);
+            long a = getTickTime( tickTimes.size() - 1 );
+            long b = getTickTime( tickTimes.size() - 2 );
             double deltaT = a - b;
             return 1000.0 / deltaT;
         }
     }
 
-    private long getTickTime(int i) {
-        return ((Long)tickTimes.get(i)).longValue();
+    private long getTickTime( int i ) {
+        return ( (Long)tickTimes.get( i ) ).longValue();
     }
 
 }

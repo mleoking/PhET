@@ -92,11 +92,13 @@ the other segments are in C[1], C[2], ...  C[n-1] */
         }
     }
 
-    /** this class represents a cubic polynomial */
+    /**
+     * this class represents a cubic polynomial
+     */
 
     public class Cubic {
 
-        float a,b,c,d;         /* a + b*u + c*u^2 +d*u^3 */
+        float a, b, c, d;         /* a + b*u + c*u^2 +d*u^3 */
 
         public Cubic( float a, float b, float c, float d ) {
             this.a = a;
@@ -106,7 +108,9 @@ the other segments are in C[1], C[2], ...  C[n-1] */
         }
 
 
-        /** evaluate cubic */
+        /**
+         * evaluate cubic
+         */
         public float eval( float u ) {
             return ( ( ( d * u ) + c ) * u + b ) * u + a;
         }

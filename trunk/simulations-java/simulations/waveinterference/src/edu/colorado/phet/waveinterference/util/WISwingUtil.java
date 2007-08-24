@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 19, 2006
  * Time: 1:19:12 AM
- *
  */
 
 public class WISwingUtil {

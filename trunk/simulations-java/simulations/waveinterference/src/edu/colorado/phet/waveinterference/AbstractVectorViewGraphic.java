@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 7:47:46 PM
- *
  */
 
 public abstract class AbstractVectorViewGraphic extends WaveSideView {

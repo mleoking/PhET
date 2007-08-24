@@ -18,6 +18,7 @@ import java.io.IOException;
 public class ReceivingElectronGraphic extends ElectronGraphic {
 
     private static BufferedImage image;
+
     static {
         try {
 //            image = ImageLoader.loadBufferedImage( Config.bigElectronImg );

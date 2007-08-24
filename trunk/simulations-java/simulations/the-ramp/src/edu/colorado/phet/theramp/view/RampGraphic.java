@@ -18,7 +18,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:17:00 AM
- *
  */
 
 public class RampGraphic extends SurfaceGraphic {

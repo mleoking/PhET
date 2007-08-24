@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.view;
 
 import java.awt.*;
@@ -7,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 8, 2004
  * Time: 3:20:49 PM
- *
  */
 public class PlotDeviceFontManager {
     private static MMFontSet fontSet;

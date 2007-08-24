@@ -28,14 +28,15 @@ public class ElectronSpring implements ModelElement {
 
     private Vector2D a = new Vector2D.Float();
     private Point2D.Float newLoc = new Point2D.Float();
+
     public void stepInTime( double dt ) {
         Point2D electronLoc = electron.getCurrentPosition();
         float springLength = (float)origin.distance( electronLoc );
         float fMag = springLength * k;
         double m = electron.getMass();
         double aMag = fMag / m;
-        a.setX( (float)( origin.getX() - electronLoc.getX() ));
-        a.setY( (float)( origin.getY() - electronLoc.getY() ));
+        a.setX( (float)( origin.getX() - electronLoc.getX() ) );
+        a.setY( (float)( origin.getY() - electronLoc.getY() ) );
         a.normalize();
         a.scale( (float)aMag );
         newLoc.setLocation( electronLoc );

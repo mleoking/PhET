@@ -310,7 +310,7 @@ public class ModalQuencher extends InOut {
                 modeData[imode].a = mm.a[0][k] * mm.ascale;
                 if( modeData[imode].d != 0 ) {
                     modeData[imode].a2_d =
-                    modeData[imode].a * modeData[imode].a / modeData[imode].d;
+                            modeData[imode].a * modeData[imode].a / modeData[imode].d;
                 }
                 else {
                     modeData[imode].a2_d = 0;

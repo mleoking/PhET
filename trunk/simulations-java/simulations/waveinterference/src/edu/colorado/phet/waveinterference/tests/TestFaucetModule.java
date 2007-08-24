@@ -12,7 +12,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 12:12:49 AM
- *
  */
 
 public class TestFaucetModule extends BasicWaveTestModule {

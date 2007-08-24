@@ -16,7 +16,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 10:26:56 AM
- *
  */
 
 public class BarrierSideView extends SlitPotentialGraphic {
@@ -43,7 +42,7 @@ public class BarrierSideView extends SlitPotentialGraphic {
         setChildrenPickable( getVisible() );
 
         removeAllChildren();
-        Rectangle[]r = getSlitPotential().getBarrierRectangles();
+        Rectangle[] r = getSlitPotential().getBarrierRectangles();
         for( int i = 0; i < r.length; i++ ) {
             Rectangle rectangle = r[i];
             if( !rectangle.isEmpty() ) {

@@ -15,7 +15,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 7:04:39 PM
- *
  */
 
 public class BasicWaveTestModule extends Module {

@@ -9,7 +9,6 @@ import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 2:13:06 PM
- *
  */
 
 public class SpeakerControlPanel extends HorizontalLayoutPanel {

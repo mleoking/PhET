@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common_sound.view.phetgraphics;
 
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common_sound.view.BasicGraphicsSetup;
 import edu.colorado.phet.common_sound.view.GraphicsSetup;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

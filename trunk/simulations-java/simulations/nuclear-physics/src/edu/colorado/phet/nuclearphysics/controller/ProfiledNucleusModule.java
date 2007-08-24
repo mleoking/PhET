@@ -25,7 +25,7 @@ import java.awt.geom.AffineTransform;
  * <p.
  * The apparatus panel has a physical representation, and overlaid on it is a graphic showing the
  * energy profile for the nucleus.
- * <p>
+ * <p/>
  * The code to get things to lay out in the right places is, unfortunately, spread out and obtuse. The basic origin
  * is in the middel of the apparatus panel, but calling setOrigin() on the PhysicalPanel translates the origin from
  * there.
@@ -51,7 +51,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
                                                    GridBagConstraints.CENTER,
                                                    GridBagConstraints.BOTH,
                                                    new Insets( 0, 0, 0, 0 ), 0, 0 );
-        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(), 
+        energyProfilePanel = new EnergyProfilePanelGraphic( getApparatusPanel(),
                                                             profileType,
                                                             getEnergyLegendHeader(),
                                                             getPotentialEnergyLegend(),
@@ -60,7 +60,6 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
     }
 
     /**
-     *
      * @param component
      */
     protected void addPhysicalPanel( Component component ) {
@@ -69,7 +68,7 @@ public abstract class ProfiledNucleusModule extends NuclearPhysicsModule {
         // Add the energy profile panel
         AffineTransform atx = new AffineTransform( getPhysicalPanel().getNucleonTx() );
         atx.translate( -energyProfilePanel.getWidth() / 2, 130 );
-        TxGraphic txg = new TxGraphic( energyProfilePanel, atx ) ;
+        TxGraphic txg = new TxGraphic( energyProfilePanel, atx );
         getPhysicalPanel().addOriginCenteredGraphic( txg, 1E12 );
         getApparatusPanel().add( component, physicalPanelGBC );
     }

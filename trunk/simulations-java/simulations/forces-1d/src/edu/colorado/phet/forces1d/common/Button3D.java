@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 2, 2005
  * Time: 6:57:30 PM
- *
  */
 
 public class Button3D extends CompositePhetGraphic {

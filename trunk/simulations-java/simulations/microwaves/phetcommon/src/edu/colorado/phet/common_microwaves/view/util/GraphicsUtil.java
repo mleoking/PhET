@@ -109,7 +109,6 @@ public class GraphicsUtil {
     }
 
     /**
-     *
      * @param newMenu
      * @param menuBar
      * @param index
@@ -137,6 +136,7 @@ public class GraphicsUtil {
     /**
      * Add a component to a container with a GridBagLayout, creating
      * GridBagConstraints for it.
+     *
      * @param container
      * @param component
      * @param gridX
@@ -173,6 +173,7 @@ public class GraphicsUtil {
     /**
      * Places a frame on the screen, centered left and right and placed
      * vertically at the golden mean
+     *
      * @param frame
      */
     public static void centerFrameOnScreen( JFrame frame ) {
@@ -192,6 +193,7 @@ public class GraphicsUtil {
 
     /**
      * Sets the bounds for a dialog so it is centered over a frame
+     *
      * @param dialog
      */
     public static void centerDialogInParent( JDialog dialog ) {

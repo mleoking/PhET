@@ -26,7 +26,7 @@ public class ParticleGraphicWithTail extends PNode {
         this( p, new double[]{8, 7, 6, 5, 4}, 1 );
     }
 
-    public ParticleGraphicWithTail( Particle p, double[]segSizes, int mod ) {
+    public ParticleGraphicWithTail( Particle p, double[] segSizes, int mod ) {
         this.p = p;
         this.mod = mod;
         this.segSizes = segSizes;

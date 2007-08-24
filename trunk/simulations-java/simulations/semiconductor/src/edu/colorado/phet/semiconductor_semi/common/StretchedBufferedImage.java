@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 2:21:07 AM
- *
  */
 public class StretchedBufferedImage implements Graphic {
     private BufferedImage battIm;
@@ -50,6 +49,6 @@ public class StretchedBufferedImage implements Graphic {
     }
 
     public void setOutputRect( Rectangle outputRect ) {
-        this.rectangle=outputRect;
+        this.rectangle = outputRect;
     }
 }

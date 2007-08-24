@@ -57,7 +57,7 @@ public class EnergyTimePlot {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
 
-//    public static final double MAX_TIME = 50.0;
+    //    public static final double MAX_TIME = 50.0;
     //    public static final double MAX_TIME = 30.0;
     public static final double MAX_TIME = 20.0;
     private JDialog developerControlDialog;

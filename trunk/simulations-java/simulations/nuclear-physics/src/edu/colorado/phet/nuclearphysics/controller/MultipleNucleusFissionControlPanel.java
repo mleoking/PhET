@@ -13,11 +13,11 @@
 package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 import edu.colorado.phet.nuclearphysics.model.Uranium235;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
-import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -26,9 +26,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Random;
 
 /**
  * The only way I could get the sliders to work properly with the code that limits the number of nuclei that can

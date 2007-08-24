@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 9:04:48 PM
- *
  */
 
 public class CrossSectionGraphic extends PhetPNode {

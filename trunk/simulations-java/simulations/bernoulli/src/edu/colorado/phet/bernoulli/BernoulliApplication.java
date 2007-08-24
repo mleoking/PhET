@@ -14,12 +14,6 @@ import edu.colorado.phet.bernoulli.watertower.WaterTower;
 import edu.colorado.phet.bernoulli.zoom.ZoomPins;
 import edu.colorado.phet.common.bernoulli.application.Module;
 import edu.colorado.phet.common.bernoulli.application.PhetApplication;
-import edu.colorado.phet.common.bernoulli.model.BaseModel;
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
-import edu.colorado.phet.common.bernoulli.view.ApplicationDescriptor;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.DefaultClock;
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.IdentityTimeConverter;
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.SimulationTimeListener;
@@ -30,6 +24,12 @@ import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelView
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.model.BaseModel;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.ApplicationDescriptor;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
+import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import javax.swing.*;
@@ -46,10 +46,9 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 12:46:01 AM
- *
  */
 public class BernoulliApplication extends Module {
-    private static final String VERSION = PhetApplicationConfig.getVersion("bernoulli").formatForTitleBar();
+    private static final String VERSION = PhetApplicationConfig.getVersion( "bernoulli" ).formatForTitleBar();
     private int backgroundGraphicLevel = 0;
     int vesselGraphicLevel = 50;
     private int valveGraphicLevel = 60;

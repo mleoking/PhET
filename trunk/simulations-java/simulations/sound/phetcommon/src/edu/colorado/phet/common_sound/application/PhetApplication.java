@@ -11,15 +11,7 @@
 
 package edu.colorado.phet.common_sound.application;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.MessageFormat;
-
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockTickListener;
 import edu.colorado.phet.common_sound.view.ApparatusPanel;
@@ -27,7 +19,14 @@ import edu.colorado.phet.common_sound.view.ApparatusPanel2;
 import edu.colorado.phet.common_sound.view.PhetFrame;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.MessageFormat;
 
 /**
  * The top-level class for all PhET applications.
@@ -159,7 +158,7 @@ public class PhetApplication {
         s_instance = this;
 
 //        PhetJComponent.init( phetFrame );
-        
+
         // Handle command line arguments
         parseArgs( args );
     }

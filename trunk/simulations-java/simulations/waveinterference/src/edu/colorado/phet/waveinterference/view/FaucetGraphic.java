@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 12:00:58 AM
- *
  */
 
 public class FaucetGraphic extends PhetPNode {

@@ -7,29 +7,34 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.*;
+import edu.colorado.phet.nuclearphysics.view.AlphaDecayPhysicalPanel;
+import edu.colorado.phet.nuclearphysics.view.EnergyProfileGraphic;
+import edu.colorado.phet.nuclearphysics.view.Kaboom;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EventListener;
+import java.util.EventObject;
 
 public class AlphaDecayModule extends ProfiledNucleusModule implements DecayListener, PreDecayListener {
 
@@ -237,9 +242,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
             } );
 
 //                Image image = ImageLoader.loadBufferedImage( ClockControlPanel.IMAGE_REWIND );
-                Image image = PhetCommonResources.getInstance().getImage( ClockControlPanel.IMAGE_REWIND );
-                Icon icon = new ImageIcon( image );
-                rewindToDecayBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.Rewind" ), icon );
+            Image image = PhetCommonResources.getInstance().getImage( ClockControlPanel.IMAGE_REWIND );
+            Icon icon = new ImageIcon( image );
+            rewindToDecayBtn = new JButton( SimStrings.getInstance().getString( "AlphaDecayControlPanel.Rewind" ), icon );
             rewindToDecayBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( snapshot != null ) {
@@ -322,9 +327,9 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
                 if( !displayed ) {
                     Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
                     wiggleMe = new PhetTextGraphic2( getPhysicalPanel(),
-                                                                 font,
-                                                                 SimStrings.getInstance().getString( "AlphaDecayControlPanel.DecayMessage" ),
-                                                                 Color.red, 30, 100 );
+                                                     font,
+                                                     SimStrings.getInstance().getString( "AlphaDecayControlPanel.DecayMessage" ),
+                                                     Color.red, 30, 100 );
                     getPhysicalPanel().addGraphic( wiggleMe, 1E6 );
                     wiggleMe.repaint();
                     clock.pause();

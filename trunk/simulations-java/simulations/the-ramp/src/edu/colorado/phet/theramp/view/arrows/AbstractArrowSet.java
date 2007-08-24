@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 9:02:45 PM
- *
  */
 
 public class AbstractArrowSet extends PNode {

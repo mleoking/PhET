@@ -10,14 +10,16 @@
  */
 package edu.colorado.phet.waves.view;
 
-import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.emf.model.Electron;
-import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.emf.EmfConfig;
+import edu.colorado.phet.emf.model.Electron;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.awt.geom.*;
 
 /**
  * WaveMdeiumGraphic
@@ -50,8 +52,6 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
         return gc.createCompatibleImage( 800, 800 );
         //        return gc.createCompatibleImage( 300, 200 );
     }
-
-
 
     //----------------------------------------------------------------
     // Instance data and methods

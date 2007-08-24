@@ -28,7 +28,7 @@ public class EnergySimpleMoleculeGraphic extends ObservingMoleculeGraphic {
         super( molecule, profile );
 
         this.molecule = molecule;
-        this.profile  = profile;
+        this.profile = profile;
     }
 
     public void update() {

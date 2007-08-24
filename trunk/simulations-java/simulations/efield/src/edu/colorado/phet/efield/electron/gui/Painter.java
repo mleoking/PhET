@@ -4,10 +4,9 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
-public interface Painter
-{
+public interface Painter {
 
-    public abstract void paint(Graphics2D graphics2d);
+    public abstract void paint( Graphics2D graphics2d );
 }

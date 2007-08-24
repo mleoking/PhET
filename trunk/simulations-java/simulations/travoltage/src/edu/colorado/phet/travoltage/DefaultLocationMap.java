@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 11:39:24 PM
- *
  */
 
 public class DefaultLocationMap implements LocationMap {

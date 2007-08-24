@@ -12,7 +12,6 @@ public class SineFunction implements PeriodicFunction {
     }
 
     /**
-     *
      * @param time
      * @return
      */

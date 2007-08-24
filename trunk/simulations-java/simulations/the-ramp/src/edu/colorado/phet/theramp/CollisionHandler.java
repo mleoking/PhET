@@ -9,14 +9,13 @@ import edu.colorado.phet.theramp.model.Collision;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 10:05:37 PM
- *
  */
 
 public class CollisionHandler extends Block.Adapter {
     private RampModule rampModule;
 //    private URL url0;
 //    private URL url1;
-//    private URL url2;
+    //    private URL url2;
     private PhetAudioClip smash0;
     private PhetAudioClip smash1;
     private PhetAudioClip smash2;

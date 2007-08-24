@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:47:54 AM
- *
  */
 
 public class VerticalTextGraphic extends PNode {

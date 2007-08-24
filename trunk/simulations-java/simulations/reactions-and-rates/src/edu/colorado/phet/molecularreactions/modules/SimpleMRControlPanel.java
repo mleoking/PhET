@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 
 /**
  * SimpleMRControlPanel
- * <p>
+ * <p/>
  * Control panel for the Simple module
  *
  * @author Ron LeMaster
@@ -46,7 +46,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
         add( new ReactionChooserPanel( module ), gbc );
 
         gbc.fill = GridBagConstraints.NONE;
-        JButton reloadBtn = new JButton( MRConfig.RESOURCES.getLocalizedString("Control.reload"));
+        JButton reloadBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reload" ) );
         reloadBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reload();
@@ -55,7 +55,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
         gbc.anchor = GridBagConstraints.CENTER;
         add( reloadBtn, gbc );
 
-        JButton resetAllBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset") );
+        JButton resetAllBtn = new JButton( MRConfig.RESOURCES.getLocalizedString( "Control.reset" ) );
         resetAllBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.reset();
@@ -70,7 +70,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
     }
 
 
-    private class LauncherOptionsPanel extends JPanel implements  Resetable {
+    private class LauncherOptionsPanel extends JPanel implements Resetable {
         private SimpleModule module;
         private JRadioButton oneDRB;
         private JRadioButton twoDRB;
@@ -128,7 +128,7 @@ public class SimpleMRControlPanel extends MRControlPanel {
             public void actionPerformed( ActionEvent e ) {
                 Launcher.MovementType movementType = null;
                 if( oneDRB.isSelected() ) {
-                    movementType=Launcher.ONE_DIMENSIONAL;
+                    movementType = Launcher.ONE_DIMENSIONAL;
                 }
                 if( twoDRB.isSelected() ) {
                     movementType = Launcher.TWO_DIMENSIONAL;

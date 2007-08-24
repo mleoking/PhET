@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
@@ -7,7 +6,6 @@ import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:11:18 AM
- *
  */
 public class ConductLeft1 extends VoltageSplit {
 

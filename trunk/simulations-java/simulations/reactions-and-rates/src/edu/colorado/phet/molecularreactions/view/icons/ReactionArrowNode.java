@@ -28,24 +28,24 @@ public class ReactionArrowNode extends PNode {
 
     public ReactionArrowNode( Paint arrowColor ) {
         Arrow arrowC = new Arrow( new Point2D.Double( 0, 0 ),
-                                 new Point2D.Double( 30, 0 ),
-                                 12, 8, 1 );
+                                  new Point2D.Double( 30, 0 ),
+                                  12, 8, 1 );
         Arrow arrowA = new Arrow( new Point2D.Double( 30, 0 ),
-                                 new Point2D.Double( 0, 0 ),
-                                 12, 8, 1 );
-        PNode arrowNode = new PNode( );
+                                  new Point2D.Double( 0, 0 ),
+                                  12, 8, 1 );
+        PNode arrowNode = new PNode();
         PPath arrowANode = new PPath( arrowA.getShape() );
         arrowANode.setPaint( arrowColor );
-        arrowANode.setStrokePaint( arrowColor);
+        arrowANode.setStrokePaint( arrowColor );
         arrowNode.addChild( arrowANode );
         PPath arrowCNode = new PPath( arrowC.getShape() );
         arrowCNode.setPaint( arrowColor );
-        arrowCNode.setStrokePaint( arrowColor);
+        arrowCNode.setStrokePaint( arrowColor );
         arrowNode.addChild( arrowCNode );
         arrowANode.setOffset( 0, arrowANode.getFullBounds().getHeight() / 2 );
         arrowCNode.setOffset( arrowANode.getWidth(), arrowANode.getFullBounds().getHeight() / 2 );
 
         addChild( arrowANode );
-        addChild( arrowCNode );        
+        addChild( arrowCNode );
     }
 }

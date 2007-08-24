@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.*;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -31,7 +31,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     private Uranium235 nucleus;
     private Neutron neutron;
     private ArrayList transientModelElements = new ArrayList();
-    private Point gunMuzzelLocation = new Point( -240, 0);
+    private Point gunMuzzelLocation = new Point( -240, 0 );
 
     public SingleNucleusFissionModule( IClock clock ) {
         super( SimStrings.getInstance().getString( "ModuleTitle.SingleNucleusFissionModule" ), clock, EnergyProfileGraphic.POTENTIAL_ENERGY );
@@ -59,8 +59,8 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         setPhysicalPanel( physicalPanel );
         addPhysicalPanel( physicalPanel );
 
-        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ));
-        
+        physicalPanel.setOrigin( new Point2D.Double( 0, -150 ) );
+
         super.addControlPanelElement( new SingleNucleusFissionControlPanel( this ) );
         getModel().addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -93,7 +93,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                                                               EnergyProfileGraphic.POTENTIAL_ENERGY );
 
                     // Only add one profile. Otherwise, the fission products end up with profiles
-                    ((NuclearPhysicsModel)getModel()).removeNucleusListener( this );
+                    ( (NuclearPhysicsModel)getModel() ).removeNucleusListener( this );
                 }
             }
 
@@ -104,21 +104,20 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
 
         // Ray gun
         PhetImageGraphic gunGraphic;
-        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "nuclear-physics/images/gun-8A.png");
+        gunGraphic = new PhetImageGraphic( getPhysicalPanel(), "nuclear-physics/images/gun-8A.png" );
         gunGraphic.setRegistrationPoint( gunGraphic.getWidth() - 15, 25 );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY) );
+                                                          RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
         gunGraphic.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING,
-                                                          RenderingHints.VALUE_ANTIALIAS_ON) );
+                                                          RenderingHints.VALUE_ANTIALIAS_ON ) );
         gunGraphic.setLocation( gunMuzzelLocation );
         getPhysicalPanel().addGraphic( gunGraphic );
 
-
         // Add a fire button to the play area
-        FireButton fireButton = new FireButton( getPhysicalPanel());
+        FireButton fireButton = new FireButton( getPhysicalPanel() );
         getPhysicalPanel().addGraphic( fireButton, 1E6 );
-        fireButton.setLocation(  (int)gunMuzzelLocation.getX() + 285,
-                                 (int)gunMuzzelLocation.getY() + 145 );
+        fireButton.setLocation( (int)gunMuzzelLocation.getX() + 285,
+                                (int)gunMuzzelLocation.getY() + 145 );
         fireButton.addActionListener( new FireButton.ActionListener() {
             public void actionPerformed( FireButton.ActionEvent event ) {
                 fireNeutron();
@@ -186,7 +185,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
                                     25, 300, getPhysicalPanel(),
                                     getModel() );
         getPhysicalPanel().addGraphic( kaboom );
-        
+
         // Add fission products
         final Neutron[] neutronProducts = products.getNeutronProducts();
         for( int i = 0; i < neutronProducts.length; i++ ) {
@@ -274,7 +273,6 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
         }
     }
 
-
     //--------------------------------------------------------------------------------------------------
     // Implementation of abstract methods
     //--------------------------------------------------------------------------------------------------
@@ -282,6 +280,7 @@ public class SingleNucleusFissionModule extends ProfiledNucleusModule implements
     //--------------------------------------------------------------------------------------------------
     // Abstract methods
     //--------------------------------------------------------------------------------------------------
+
     protected String getEnergyLegendHeader() {
         return null;
     }

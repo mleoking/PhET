@@ -27,11 +27,11 @@ public interface InteractiveGraphic extends Graphic {
 
     void mouseDragged( MouseEvent event, Point2D.Double modelLoc );
 
-    void mousePressed(MouseEvent event, Point2D.Double modelLoc );
+    void mousePressed( MouseEvent event, Point2D.Double modelLoc );
 
-    void mouseReleased(MouseEvent event, Point2D.Double modelLoc );
+    void mouseReleased( MouseEvent event, Point2D.Double modelLoc );
 
-    void mouseEntered(MouseEvent event, Point2D.Double modelLoc );
+    void mouseEntered( MouseEvent event, Point2D.Double modelLoc );
 
-    void mouseExited(MouseEvent event, Point2D.Double modelLoc );
+    void mouseExited( MouseEvent event, Point2D.Double modelLoc );
 }

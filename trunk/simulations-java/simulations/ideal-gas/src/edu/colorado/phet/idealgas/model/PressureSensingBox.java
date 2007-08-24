@@ -126,7 +126,7 @@ public class PressureSensingBox extends Box2D {
     public void clearData() {
         gaugeSlice.clear();
         for( int i = 0; i < averagingSlices.size(); i++ ) {
-            ((PressureSlice)averagingSlices.get( i )).clear();
+            ( (PressureSlice)averagingSlices.get( i ) ).clear();
         }
     }
 

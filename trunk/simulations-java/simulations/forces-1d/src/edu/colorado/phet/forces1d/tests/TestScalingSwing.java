@@ -10,7 +10,6 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Feb 2, 2005
  * Time: 1:04:43 AM
- *
  */
 
 public class TestScalingSwing {

@@ -26,11 +26,11 @@ public class LectureLookAndFeel2 extends MetalLookAndFeel {
     }
 
     String[] types = new String[]{
-        "Button", "MenuItem", "Panel", "Dialog",
-        "CheckBox", "RadioButton", "ComboBox",
-        "Menu", "MenuItem", "MenuBar",
-        "Slider", "Spinner", "Border", "TextField", "TextArea",
-        "Label", "TextPane", "FormattedTextField", "List"
+            "Button", "MenuItem", "Panel", "Dialog",
+            "CheckBox", "RadioButton", "ComboBox",
+            "Menu", "MenuItem", "MenuBar",
+            "Slider", "Spinner", "Border", "TextField", "TextArea",
+            "Label", "TextPane", "FormattedTextField", "List"
     };
 
     protected void initComponentDefaults( UIDefaults table ) {

@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 
 /**
  * ComplexMRControlPanel
- * <p>
+ * <p/>
  * The control panel for the ComplexModule
  *
  * @author Ron LeMaster
@@ -79,7 +79,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     }
 
     public void reset() {
-        experimentSetupPanel.reset();        
+        experimentSetupPanel.reset();
         optionsPanel.reset();
         setExperimentRunning( false );
     }
@@ -91,7 +91,7 @@ public class RateExperimentsMRControlPanel extends MRControlPanel {
     public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
-        if (!adjusting) {
+        if( !adjusting ) {
             adjusting = experimentSetupPanel.isTemperatureBeingAdjusted();
         }
 

@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.model;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:44:31 PM
- *
  */
 
 public interface Potential {

@@ -49,7 +49,7 @@ public class ScalarDataRecorder {
     private double timeWindow;
     private double timeSpanOfEntries;
     private IClock clock;
-//    private AbstractClock clock;
+    //    private AbstractClock clock;
     private PeriodicDataComputer periodicDataComputer;
     private double minVal;
     private double maxVal;
@@ -72,8 +72,8 @@ public class ScalarDataRecorder {
      */
     public ScalarDataRecorder( IClock clock,
 //    public ScalarDataRecorder( AbstractClock clock,
-                               int clientUpdateInterval,
-                               int simulationTimeWindow ) {
+int clientUpdateInterval,
+int simulationTimeWindow ) {
         this.clock = clock;
         this.timeWindow = simulationTimeWindow;
         periodicDataComputer = new PeriodicDataComputer( clientUpdateInterval );
@@ -163,6 +163,7 @@ public class ScalarDataRecorder {
 
     /**
      * Returns the total of the data collected in the simulation time window
+     *
      * @return
      */
     public double getDataTotal() {
@@ -171,6 +172,7 @@ public class ScalarDataRecorder {
 
     /**
      * Returns the aveage of the data collected in the simulation time window
+     *
      * @return
      */
     public double getDataAverage() {
@@ -179,6 +181,7 @@ public class ScalarDataRecorder {
 
     /**
      * Returns the avearage of the data collected in the simulation time window
+     *
      * @return
      */
     public int getNumEntries() {
@@ -197,6 +200,7 @@ public class ScalarDataRecorder {
 
     /**
      * Returns the minimum value recorded in the simulation time window
+     *
      * @return
      */
     public double getMinVal() {
@@ -205,6 +209,7 @@ public class ScalarDataRecorder {
 
     /**
      * Returns the minimum value recorded in the simulation time window
+     *
      * @return
      */
     public double getMaxVal() {

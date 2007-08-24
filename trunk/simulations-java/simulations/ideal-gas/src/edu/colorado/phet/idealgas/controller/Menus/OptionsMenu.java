@@ -12,12 +12,11 @@ package edu.colorado.phet.idealgas.controller.Menus;
 
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.controller.DiffusionModule;
 import edu.colorado.phet.idealgas.controller.MovableWallsModule;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -60,7 +59,7 @@ public class OptionsMenu extends JMenu {
 
     private class AdvancedPanelsMI extends JCheckBoxMenuItem {
         public AdvancedPanelsMI() {
-            super( IdealGasResources.getString("OptionsMenu.Advanced_panels"), false );
+            super( IdealGasResources.getString( "OptionsMenu.Advanced_panels" ), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( AdvancedPanelsMI.this.isSelected() ) {
@@ -89,7 +88,7 @@ public class OptionsMenu extends JMenu {
 
     private class AddHeatFromFloorMI extends JCheckBoxMenuItem {
         public AddHeatFromFloorMI() {
-            super( IdealGasResources.getString( "OptionsMenu.Add_remove_heat_from_floor_only"), false );
+            super( IdealGasResources.getString( "OptionsMenu.Add_remove_heat_from_floor_only" ), false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     IdealGasConfig.HEAT_ONLY_FROM_FLOOR = isSelected();

@@ -19,7 +19,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jan 21, 2006
  * Time: 7:03:02 PM
- *
  */
 
 public class ClockGraphic extends PNode {

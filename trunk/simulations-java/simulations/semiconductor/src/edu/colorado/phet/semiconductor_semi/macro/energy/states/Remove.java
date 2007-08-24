@@ -8,7 +8,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.BandParticleState
  * User: Sam Reid
  * Date: Feb 9, 2004
  * Time: 12:49:20 PM
- *
  */
 public class Remove implements BandParticleState {
     private EnergySection diodeSection;

@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 24, 2006
  * Time: 2:48:42 PM
- *
  */
 
 public class ColorizeCheckBoxMenuItem extends JCheckBoxMenuItem {

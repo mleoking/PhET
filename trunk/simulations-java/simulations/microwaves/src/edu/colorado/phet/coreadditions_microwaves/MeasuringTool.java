@@ -6,13 +6,12 @@
  */
 package edu.colorado.phet.coreadditions_microwaves;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
-
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -99,7 +98,7 @@ public class MeasuringTool extends MouseInputAdapter {
         startPoint = tx.viewToModel( (int)e.getPoint().getX(), (int)e.getPoint().getY() );
         endPoint = tx.viewToModel( (int)e.getPoint().getX(), (int)e.getPoint().getY() );
         dialog.setLocation( (int)( panel.getLocationOnScreen().getX() + e.getPoint().getX() ),
-                            (int)( panel.getLocationOnScreen().getY() + e.getPoint().getY() +10));
+                            (int)( panel.getLocationOnScreen().getY() + e.getPoint().getY() + 10 ) );
 
     }
 

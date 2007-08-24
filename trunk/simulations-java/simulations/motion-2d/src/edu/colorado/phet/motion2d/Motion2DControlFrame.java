@@ -6,10 +6,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
 
 public class Motion2DControlFrame extends JFrame implements ChangeListener {
     private JSlider timeStepBar;

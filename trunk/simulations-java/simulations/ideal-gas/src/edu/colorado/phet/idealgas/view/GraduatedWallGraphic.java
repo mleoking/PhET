@@ -53,7 +53,6 @@ public class GraduatedWallGraphic extends WallGraphic {
         return ( wall.getBounds().contains( x, y ) && Math.abs( y - wall.getBounds().getMinY() ) < 5 );
     }
 
-    
 
     /**
      * Wall only should respond to the mouse if it is on the top edge of the wall
@@ -96,12 +95,12 @@ public class GraduatedWallGraphic extends WallGraphic {
             g2.drawLine( (int)bounds.getMaxX(), (int)bounds.getMaxY() - i,
                          (int)bounds.getMaxX() - 5, (int)bounds.getMaxY() - i );
             if( i > 0 ) {
-                String s = Integer.toString( i / ( majorTickInterval / minorTickInterval ));
+                String s = Integer.toString( i / ( majorTickInterval / minorTickInterval ) );
                 g2.setFont( graduationFont );
                 FontMetrics fm = g2.getFontMetrics();
-                int sdx = fm.stringWidth( s ) / 2 ;
+                int sdx = fm.stringWidth( s ) / 2;
                 int sdy = fm.getAscent() / 2;
-                g2.drawString( s, (int)( bounds.getMinX() + bounds.getWidth() / 2 - sdx), (int)bounds.getMaxY() - i + sdy);
+                g2.drawString( s, (int)( bounds.getMinX() + bounds.getWidth() / 2 - sdx ), (int)bounds.getMaxY() - i + sdy );
             }
         }
 

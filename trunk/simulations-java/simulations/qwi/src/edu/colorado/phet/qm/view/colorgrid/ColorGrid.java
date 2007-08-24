@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 9, 2005
  * Time: 2:54:21 PM
- *
  */
 
 public class ColorGrid {

@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 11:11:38 PM
- *
  */
 
 public class RotationGlyph extends PNode {

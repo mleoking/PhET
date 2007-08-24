@@ -50,11 +50,11 @@ public class CloudGraphic implements Graphic, ShapeGraphicType {
         baseOval = cloud.getBounds();
         for( int i = 0; i < auxillaryOvals.length; i++ ) {
             double height = Math.max( random.nextDouble() * baseOval.getHeight(), baseOval.getHeight() / 4 );
-            double width = Math.max( random.nextDouble() * (baseOval.getWidth() / 3), height * 8 );
-            double dx = random.nextDouble() * (baseOval.getWidth() / 3 ) * (random.nextBoolean() ? 1 : -1 );
+            double width = Math.max( random.nextDouble() * ( baseOval.getWidth() / 3 ), height * 8 );
+            double dx = random.nextDouble() * ( baseOval.getWidth() / 3 ) * ( random.nextBoolean() ? 1 : -1 );
             double x = baseOval.getX() + baseOval.getWidth() / 2 + dx;
-            double y = baseOval.getY() + (random.nextBoolean() ? 1 : 0) * baseOval.getHeight() - height / 2 ;
-            auxillaryOvals[i].setFrame( x,y,width, height );
+            double y = baseOval.getY() + ( random.nextBoolean() ? 1 : 0 ) * baseOval.getHeight() - height / 2;
+            auxillaryOvals[i].setFrame( x, y, width, height );
         }
 
     }

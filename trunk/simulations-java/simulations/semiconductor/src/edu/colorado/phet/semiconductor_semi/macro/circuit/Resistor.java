@@ -6,7 +6,6 @@ import edu.colorado.phet.common_semiconductor.math.PhetVector;
  * User: Sam Reid
  * Date: Jan 15, 2004
  * Time: 1:12:48 PM
- *
  */
 public class Resistor extends LinearBranch {
     private double thickness;

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.molecularreactions.model.collision.HardBodyCollision;
@@ -68,11 +68,11 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
 
 
     public Object clone() {
-        CompositeMolecule clone =  (CompositeMolecule)super.clone();
+        CompositeMolecule clone = (CompositeMolecule)super.clone();
 
-        clone.components  = (SimpleMolecule[])components.clone();
+        clone.components = (SimpleMolecule[])components.clone();
         clone.boundingBox = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
-        clone.bonds       = (Bond[])bonds.clone();
+        clone.bonds = (Bond[])bonds.clone();
 
         return clone;
     }
@@ -215,7 +215,7 @@ abstract public class CompositeMolecule extends AbstractMolecule implements Pote
             }
         }
         else {
-            boundingBox.setRect( 0,0,0,0 );
+            boundingBox.setRect( 0, 0, 0, 0 );
         }
         return boundingBox;
     }

@@ -56,6 +56,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
      * Computes the next position dictated by the movement. Note that
      * this method does not modify the position parameter, and that this
      * method is not reentrant.
+     *
      * @param position
      * @param t
      * @return

@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.sound;
 
-import edu.colorado.phet.sound.view.SoundApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.sound.view.SoundApparatusPanel;
 
 import java.awt.*;
 
@@ -27,7 +27,7 @@ public class SoundConfig {
     }
 
     // Version
-    public static final String VERSION = PhetApplicationConfig.getVersion( "sound").formatForTitleBar();
+    public static final String VERSION = PhetApplicationConfig.getVersion( "sound" ).formatForTitleBar();
 
     // Localization
     public static final String localizedStringsPath = "sound/localization/sound-strings";
@@ -72,7 +72,7 @@ public class SoundConfig {
     public static final String LISTENER_W_EARS_IMAGE_FILE = IMAGE_DIRECTORY + "head-1-small.gif";
     public static final String METER_STICK_IMAGE_FILE = IMAGE_DIRECTORY + "five-meter-stick.gif";
     public static final String[] HEAD_IMAGE_FILES = {IMAGE_DIRECTORY + "head-1-small.gif",
-                                                     IMAGE_DIRECTORY + "head-2-small.gif"};
+            IMAGE_DIRECTORY + "head-2-small.gif"};
 
     // Offset for locating objects in the apparatus panel
     public static final int X_BASE_OFFSET = 100;

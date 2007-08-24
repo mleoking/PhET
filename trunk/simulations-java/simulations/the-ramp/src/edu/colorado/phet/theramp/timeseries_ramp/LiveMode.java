@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
  * User: Sam Reid
  * Date: Oct 23, 2005
  * Time: 12:20:16 PM
- *
  */
 
 public class LiveMode extends Mode {

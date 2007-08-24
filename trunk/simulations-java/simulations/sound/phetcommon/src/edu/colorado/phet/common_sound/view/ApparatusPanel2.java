@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockTickEvent;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common_sound.util.EventChannel;
 import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common_sound.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -453,8 +453,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockTickListener
         scaledComponentLayout.layoutSwingComponents( scale );
         repaint( 0, 0, getWidth(), getHeight() );
     }
-
-
 
     //-------------------------------------------------------------------------
     // Inner classes

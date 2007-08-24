@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 9:05:13 AM
- *
  */
 
 public class Damping extends QWIModel.Adapter {

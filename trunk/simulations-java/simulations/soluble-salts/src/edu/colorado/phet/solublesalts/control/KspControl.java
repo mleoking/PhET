@@ -12,16 +12,16 @@ package edu.colorado.phet.solublesalts.control;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.OrderOfMagnitudeSpinner;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
-import java.text.DecimalFormat;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.text.DecimalFormat;
 
 /**
  * KspControl
@@ -36,15 +36,14 @@ public class KspControl extends JPanel {
     private ModelSlider kspSlider;
     private JSpinner mantissaSpinner;
     private JSpinner oomSpinner;
-//    private OrderOfMagnitudeSpinner oomSpinner;
+    //    private OrderOfMagnitudeSpinner oomSpinner;
     private SolubleSaltsModel model;
     private double maxExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP;
     private double minExponent = -40;
-//    private double minExponent = 1E-40;
+    //    private double minExponent = 1E-40;
     private double defaultExponent = SolubleSaltsConfig.DEFAULT_CONFIGURABLE_KSP_EXP;
 
     /**
-     *
      * @param model
      */
     public KspControl( final SolubleSaltsModel model ) {
@@ -52,7 +51,7 @@ public class KspControl extends JPanel {
 
         kspSlider = createSlider( model, 1E-15 );
 
-        mantissaSpinner = new JSpinner( new SpinnerNumberModel(1, 0, 10, 0.1 ));
+        mantissaSpinner = new JSpinner( new SpinnerNumberModel( 1, 0, 10, 0.1 ) );
         mantissaSpinner.setPreferredSize( new Dimension( 45, (int)mantissaSpinner.getPreferredSize().getHeight() ) );
 //        mantissaSpinner.setPreferredSize( new Dimension( 10, (int)mantissaSpinner.getPreferredSize().getHeight() ) );
         mantissaSpinner.addChangeListener( new ChangeListener() {
@@ -61,7 +60,7 @@ public class KspControl extends JPanel {
             }
         } );
 
-        oomSpinner = new JSpinner( new SpinnerNumberModel( defaultExponent, minExponent, maxExponent, 1));
+        oomSpinner = new JSpinner( new SpinnerNumberModel( defaultExponent, minExponent, maxExponent, 1 ) );
         oomSpinner.setPreferredSize( new Dimension( 45, (int)oomSpinner.getPreferredSize().getHeight() ) );
         oomSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -78,12 +77,11 @@ public class KspControl extends JPanel {
 //            }
 //        } );
 
-
         // Initialize the model
         setKsp();
 
 
-        setBorder( new TitledBorder( "Ksp") );
+        setBorder( new TitledBorder( "Ksp" ) );
         setLayout( new GridBagLayout() );
 
         final GridBagConstraints gbc = new DefaultGridBagConstraints();
@@ -92,7 +90,7 @@ public class KspControl extends JPanel {
         gbc.gridy = 0;
         add( mantissaSpinner, gbc );
         gbc.gridx = 1;
-        add( new JLabel( " E "), gbc );
+        add( new JLabel( " E " ), gbc );
         gbc.gridx = 2;
         gbc.anchor = GridBagConstraints.WEST;
         add( oomSpinner, gbc );
@@ -118,7 +116,7 @@ public class KspControl extends JPanel {
 
     private void sliderChanger( SolubleSaltsModel model, OrderOfMagnitudeSpinner oomSpinner, GridBagConstraints gbc ) {
         remove( kspSlider );
-        kspSlider = createSlider( model, ((Double)oomSpinner.getValue()).doubleValue() );
+        kspSlider = createSlider( model, ( (Double)oomSpinner.getValue() ).doubleValue() );
         gbc.gridwidth = 2;
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -143,11 +141,12 @@ public class KspControl extends JPanel {
 
     /**
      * Returns the Ksp value specified by the controls in this panel.
+     *
      * @return Ksp
      */
     public double getKsp() {
-        double mantissa = ((Double)mantissaSpinner.getValue()).doubleValue();
-        double exponent = ((Double)oomSpinner.getValue()).doubleValue();
+        double mantissa = ( (Double)mantissaSpinner.getValue() ).doubleValue();
+        double exponent = ( (Double)oomSpinner.getValue() ).doubleValue();
         double ksp = mantissa * Math.pow( 10, exponent );
         return ksp;
 //        System.out.println( "ksp = " + ksp );

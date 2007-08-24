@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.forces1d.common.plotdevice;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 15, 2005
  * Time: 10:37:22 AM
- *
  */
 public class FloatingControl extends VerticalLayoutPanel {
     private static BufferedImage play;

@@ -21,7 +21,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:38 PM
- *
  */
 
 public class RectangleGraphic extends PNode {

@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
@@ -43,8 +43,8 @@ public class Gravity implements ModelElement {
         double change = acceleration.getMagnitude() - oldAmt;
 //        fireEvent( new ChangeEvent( this, change ) );
 
-        try{
-        listenerProxy.gravityChanged( new ChangeEvent( this, change ) );
+        try {
+            listenerProxy.gravityChanged( new ChangeEvent( this, change ) );
         }
         catch( java.lang.reflect.UndeclaredThrowableException e ) {
             System.out.println( "e = " + e );

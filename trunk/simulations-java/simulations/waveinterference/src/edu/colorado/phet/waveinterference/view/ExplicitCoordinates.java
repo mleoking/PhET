@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 3:16:40 AM
- *
  */
 
 public class ExplicitCoordinates extends LatticeScreenCoordinates {

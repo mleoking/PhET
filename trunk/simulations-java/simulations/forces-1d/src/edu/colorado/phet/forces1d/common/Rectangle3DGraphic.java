@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:34:31 AM
- *
  */
 
 public class Rectangle3DGraphic extends CompositePhetGraphic {

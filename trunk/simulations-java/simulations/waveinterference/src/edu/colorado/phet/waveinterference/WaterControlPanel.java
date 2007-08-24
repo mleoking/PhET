@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.*;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:15:03 PM
- *
  */
 
 public class WaterControlPanel extends WaveInterferenceControlPanel {

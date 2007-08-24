@@ -178,7 +178,7 @@ public class PlayingField extends JPanel {
 
 
     public void paintComponent( Graphics g ) {
-        super.paintComponent( g );	//necessary for painting background
+        super.paintComponent( g );    //necessary for painting background
         g2D = (Graphics2D)g;
         if( electricHockeyApplication.isAntialias() ) {
             g2D.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -211,9 +211,8 @@ public class PlayingField extends JPanel {
             int y = BarrierList.currentRectArray[barrierState][i].y;
             int w = BarrierList.currentRectArray[barrierState][i].width;
             int h = BarrierList.currentRectArray[barrierState][i].height;
-            g2D.fill3DRect( x, y, w, h, true );	//last argument: true = raised, false = sunken; doesn't work!
+            g2D.fill3DRect( x, y, w, h, true );    //last argument: true = raised, false = sunken; doesn't work!
         }
-
 
         //paint charges and forces
         for( int i = 0; i < electricHockeyApplication.getModel().getChargeListSize(); i++ ) {

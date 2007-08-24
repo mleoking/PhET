@@ -19,7 +19,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 28, 2005
  * Time: 3:35:37 PM
- *
  */
 
 public class SplitOperatorPropagator extends Propagator {

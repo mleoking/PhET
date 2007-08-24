@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 1:29:46 PM
- *
  */
 
 public class MandelControlPanel extends QWIControlPanel {

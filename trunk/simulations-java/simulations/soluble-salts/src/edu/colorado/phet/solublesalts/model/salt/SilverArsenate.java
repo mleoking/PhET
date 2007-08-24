@@ -12,10 +12,8 @@ package edu.colorado.phet.solublesalts.model.salt;
 
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.ThreeToOneLattice;
-import edu.colorado.phet.solublesalts.model.ion.Chromium;
-import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
-import edu.colorado.phet.solublesalts.model.ion.Silver;
 import edu.colorado.phet.solublesalts.model.ion.Arsenate;
+import edu.colorado.phet.solublesalts.model.ion.Silver;
 
 import java.util.ArrayList;
 

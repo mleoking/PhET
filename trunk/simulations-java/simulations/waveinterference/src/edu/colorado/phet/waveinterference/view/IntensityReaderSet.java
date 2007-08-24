@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 8:05:39 PM
- *
  */
 
 public class IntensityReaderSet extends PhetPNode {

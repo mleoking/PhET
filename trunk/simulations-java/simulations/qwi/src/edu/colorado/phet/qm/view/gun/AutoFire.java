@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 8:16:11 AM
- *
  */
 
 public class AutoFire implements IntensityManager.Listener {
@@ -16,7 +15,7 @@ public class AutoFire implements IntensityManager.Listener {
     private IntensityManager intensityManager;
     private boolean autoFire = false;
     private ModelElement element;
-//    public static final double THRESHOLD = 0.015;
+    //    public static final double THRESHOLD = 0.015;
     public static final double THRESHOLD = 0.04;
     private long lastFire = 0;
     private static final long MIN_WAIT_TIME = 500;//todo this may be unnecessary because of the new gun.isFiring() method

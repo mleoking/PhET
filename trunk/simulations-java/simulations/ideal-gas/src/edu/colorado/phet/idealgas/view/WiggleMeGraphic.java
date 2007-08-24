@@ -8,11 +8,10 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 
@@ -35,12 +34,12 @@ public class WiggleMeGraphic extends CompositePhetGraphic {
 
         PhetMultiLineTextGraphic textGraphic = new PhetMultiLineTextGraphic( component, font,
                                                                              new String[]{IdealGasResources.getString( "WiggleMe.Pump_the" ),
-                                                                                          IdealGasResources.getString( "WiggleMe.handle!" )}, color );
+                                                                                     IdealGasResources.getString( "WiggleMe.handle!" )}, color );
         addGraphic( textGraphic, 0 );
-        Arrow arrow = new Arrow( new Point2D.Double( 0,0 ),
+        Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ),
                                  new Point2D.Double( 15, 12 ), 6, 6, 2, 100, false );
         PhetShapeGraphic arrowGraphic = new PhetShapeGraphic( component, arrow.getShape(), color );
-        arrowGraphic.setLocation(  80, 20 );
+        arrowGraphic.setLocation( 80, 20 );
         addGraphic( arrowGraphic, 1 );
 
 
@@ -49,8 +48,8 @@ public class WiggleMeGraphic extends CompositePhetGraphic {
 
             public void stepInTime( double dt ) {
                 cnt += 0.1;
-                setLocation( (int)(startLocation.getX() + 30 * Math.cos( cnt )),
-                             (int)(startLocation.getY() + 15 * Math.sin( cnt ))  );
+                setLocation( (int)( startLocation.getX() + 30 * Math.cos( cnt ) ),
+                             (int)( startLocation.getY() + 15 * Math.sin( cnt ) ) );
                 setBoundsDirty();
                 repaint();
             }

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.transitions;
 
 import edu.colorado.phet.semiconductor_semi.macro.energy.EnergySection;
@@ -13,7 +12,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.Speed;
  * User: Sam Reid
  * Date: Mar 27, 2004
  * Time: 10:54:23 AM
- *
  */
 public class Move extends StateTransition {
     EnergyCell src;
@@ -31,7 +29,7 @@ public class Move extends StateTransition {
     }
 
     public String toString() {
-        return "src="+src+", dst="+dst;
+        return "src=" + src + ", dst=" + dst;
     }
 
     public BandParticleState getState( BandParticle particle, EnergySection section ) {

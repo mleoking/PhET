@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 23, 2006
  * Time: 9:16:43 PM
- *
  */
 
 public class ThisSideUpWrapper extends PhetPNode {

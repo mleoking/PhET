@@ -58,7 +58,7 @@ public class GreenhouseConfig {
     // Parameter for the units displayed by the thermometer
     public static final Object FAHRENHEIT = new Object();
     public static final Object CELSIUS = new Object();
-    public static Object TEMPERATURE_UNITS = FAHRENHEIT;    
+    public static Object TEMPERATURE_UNITS = FAHRENHEIT;
 
     // Graphics-related parameters
     public static double EARTH_BASE_LAYER = ApparatusPanel.LAYER_DEFAULT;
@@ -66,5 +66,5 @@ public class GreenhouseConfig {
     public static double IR_PHOTON_GRAPHIC_LAYER = SUNLIGHT_PHOTON_GRAPHIC_LAYER - 0.000000001;
     public static double ATMOSPHERE_GRAPHIC_LAYER = SUNLIGHT_PHOTON_GRAPHIC_LAYER - 3;
     public static double EARTH_BACKDROP_LAYER = SUNLIGHT_PHOTON_GRAPHIC_LAYER - 2;
-    public static final Color PANEL_BACKGROUND_COLOR = new Color( 206,206,206 );
+    public static final Color PANEL_BACKGROUND_COLOR = new Color( 206, 206, 206 );
 }

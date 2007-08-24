@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class LevelIconAnnotatedAtomGraphic extends AnnotatedAtomGraphic {
     public LevelIconAnnotatedAtomGraphic( Component component, Atom atom ) {
-        super(component, atom );
+        super( component, atom );
         super.setNumberGraphicText();
     }
 

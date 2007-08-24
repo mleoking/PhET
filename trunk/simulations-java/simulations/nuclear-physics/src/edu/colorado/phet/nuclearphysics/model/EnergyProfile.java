@@ -14,7 +14,9 @@ import edu.colorado.phet.coreadditions_nuclearphysics.CubicUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 
 /**
  * This class represents the energy profile of a particular atom.
@@ -31,17 +33,16 @@ import java.awt.geom.*;
  * <p/>
  *  according to Kathy Perkins' notes, k = 8.99E3
  * </pre>
- * <p>
+ * <p/>
  * <h2>IMPORTANT NOTE!!!</h2>
- * <p>
+ * <p/>
  * Currently, this class is sort of screwed up between model and view units. Internally,
  * all computations are done in model units. All getters, however, report things in
  * view units. This should definitely be changed so that everything comes out in model units.
- *
  */
 public class EnergyProfile implements IEnergyProfile {
 
-    public  static final double alphaParticleKE = 7.595;
+    public static final double alphaParticleKE = 7.595;
 
     private double width;
     private double maxEnergy;
@@ -156,7 +157,7 @@ public class EnergyProfile implements IEnergyProfile {
         potentilaProfilePath = potentialPath;
 
         // Generate the line for the total energy
-        totalEnergyPath = new Line2D.Double( -(profileWidth / 2),
+        totalEnergyPath = new Line2D.Double( -( profileWidth / 2 ),
                                              -getTotalEnergy(),
                                              profileWidth / 2,
                                              -getTotalEnergy() );

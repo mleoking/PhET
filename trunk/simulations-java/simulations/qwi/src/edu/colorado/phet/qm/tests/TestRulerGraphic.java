@@ -10,7 +10,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jan 21, 2006
  * Time: 5:23:02 PM
- *
  */
 
 public class TestRulerGraphic {

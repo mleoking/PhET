@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.MeasurementToolSet;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 11:13:47 PM
- *
  */
 
 public class TestMeasurementTools extends TestTopView {

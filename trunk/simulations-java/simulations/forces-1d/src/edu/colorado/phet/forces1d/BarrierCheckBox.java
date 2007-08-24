@@ -12,7 +12,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:18:39 AM
- *
  */
 
 public class BarrierCheckBox extends JCheckBox {

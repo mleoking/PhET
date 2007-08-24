@@ -21,7 +21,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:02:48 PM
- *
  */
 public class DefaultGunParticle extends GunParticle {
     private JSlider velocitySlider;

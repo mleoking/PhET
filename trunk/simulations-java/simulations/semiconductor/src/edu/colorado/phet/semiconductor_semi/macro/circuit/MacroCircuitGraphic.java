@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 5:42:34 PM
- *
  */
 public class MacroCircuitGraphic implements Graphic, BatteryListener {
     public static final Color COPPER = new Color( Integer.parseInt( "D98719", 16 ) );//new Color(214, 18, 34);

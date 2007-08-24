@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.view.util.GraphicsUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,7 +18,7 @@ public class GreenhouseLegend extends JPanel {
     GreenhouseLegend() {
 
         // Draw an IR photon and a sunlight photon
-        BufferedImage irPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
+        BufferedImage irPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D)irPhotonBI.getGraphics();
         Photon irPhoton = new Photon( GreenhouseConfig.irWavelength, null );
         PhotonGraphic irPhotonGraphic = new PhotonGraphic( this, irPhoton );
@@ -31,7 +31,7 @@ public class GreenhouseLegend extends JPanel {
         ImageIcon irPhotonIcon = new ImageIcon( irPhotonGraphic.getImage() );
 //        ImageIcon irPhotonIcon = new ImageIcon( irPhotonBI );
 
-        BufferedImage sunlightPhotonBI = new BufferedImage(15, 15, BufferedImage.TYPE_INT_ARGB );
+        BufferedImage sunlightPhotonBI = new BufferedImage( 15, 15, BufferedImage.TYPE_INT_ARGB );
         g2 = (Graphics2D)sunlightPhotonBI.getGraphics();
         Photon sunlightPhoton = new Photon( GreenhouseConfig.sunlightWavelength, null );
         PhotonGraphic sunlightPhotonGraphic = new PhotonGraphic( this, sunlightPhoton );
@@ -45,12 +45,12 @@ public class GreenhouseLegend extends JPanel {
 //        ImageIcon sunlightPhotonIcon = new ImageIcon( sunlightPhotonBI );
 
         setLayout( new GridBagLayout() );
-        this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(),SimStrings.get( "GreenhouseLegend.LegendTitle" ) ) );
+        this.setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "GreenhouseLegend.LegendTitle" ) ) );
 //            ImageIcon electronImg = new ImageIcon( ImageLoader.fetchImage( "greenhouse/images/small-yellow-electron.gif" ));
         int rowIdx = 0;
         try {
             JLabel sunlightLegend = new JLabel( SimStrings.get( "GreenhouseLegend.SunlightPhotonLabel" ),
-                                                          sunlightPhotonIcon, SwingConstants.LEFT );
+                                                sunlightPhotonIcon, SwingConstants.LEFT );
             GraphicsUtil.addGridBagComponent( this, sunlightLegend,
                                               0, rowIdx++,
                                               1, 1,

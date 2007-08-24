@@ -21,12 +21,12 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     private int y0; //fixed tail of arrow
     private int xF; //movable head of arrow
     private int yF;
-    private int controlState;	//Control state = 0 (R), 1(V), or 2(A);
+    private int controlState;    //Control state = 0 (R), 1(V), or 2(A);
     private ParticleArena pArena;
     private GeneralPath trace;
 
-    private boolean traceOn;			//set by edu.colorado.phet.mazegame.ScorePanel
-    private boolean traceStarted;		//true if trace started
+    private boolean traceOn;            //set by edu.colorado.phet.mazegame.ScorePanel
+    private boolean traceStarted;        //true if trace started
 
     private Font arrowFont;
     private Color fontColor;
@@ -55,11 +55,11 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
         setBorder( compound2 );
         arrow = new ArrowA();
         x0 = MazeGameApplet.fullWidth / 4;
-        ;  			//changed from getWidth()/2; when Applet changed to Panel
+        ;              //changed from getWidth()/2; when Applet changed to Panel
         y0 = MazeGameApplet.fullHeight / 4;
-        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;  	//Initial Position of throttle
+        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;      //Initial Position of throttle
         yF = y0 - 5 * ( MazeGameApplet.fullHeight / 4 ) / 10;
-        controlState = POSITION;  				//Start with throttle in POSITION-control-state
+        controlState = POSITION;                  //Start with throttle in POSITION-control-state
 
         trace = new GeneralPath();
         traceStarted = false;
@@ -170,7 +170,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 //            System.out.println("x= " + deltX + "   y= " + deltY);
             xF = deltX + x0;
             yF = deltY + y0;
-            arrow.setPosition( x0, y0, xF, yF );			//Initial Position of throttle
+            arrow.setPosition( x0, y0, xF, yF );            //Initial Position of throttle
 
             //System.out.println(getControlState());
         }
@@ -196,7 +196,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
     //reset game to starting position
     public void reset() {
         rButton.doClick();
-        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;  	//Initial Position of throttle
+        xF = x0 + 9 * ( MazeGameApplet.fullWidth / 4 ) / 10;      //Initial Position of throttle
         yF = y0 - 5 * ( MazeGameApplet.fullHeight / 4 ) / 10;
         arrow.setPosition( x0, y0, xF, yF );
         this.controlState = POSITION;
@@ -222,7 +222,7 @@ public class ControlBoxPanel extends JPanel    //possible to replace Applet with
 
     public void setTraceToZero() {
         trace.reset();
-        traceStarted=false;
+        traceStarted = false;
         //System.out.println("Trace zeroed.");
     }
 

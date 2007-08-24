@@ -12,7 +12,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 7:55:21 AM
- *
  */
 
 public class ImageComboBox extends JComboBox {

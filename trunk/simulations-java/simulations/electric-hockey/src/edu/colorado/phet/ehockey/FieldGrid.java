@@ -7,12 +7,12 @@ public class FieldGrid //extends JLabel
 {
     private ElectricHockeyApplication electricHockeyApplication;
     private int width, height;
-    private int gridNbrWidth;			//number of grid points across width of field
-    private int gridSpacing;			//grid spacing
-    private int gridNbrHeight;			//number of grid points across height of field
-    private Charge[][] gridChargeArray;	//+1 test charge on every grid point
-    private Force[][] gridForceArray;	//net force on test charge at every grid point
-    private double gridForceFactor;		//arbitrary scale factor controlling force arrow length
+    private int gridNbrWidth;            //number of grid points across width of field
+    private int gridSpacing;            //grid spacing
+    private int gridNbrHeight;            //number of grid points across height of field
+    private Charge[][] gridChargeArray;    //+1 test charge on every grid point
+    private Force[][] gridForceArray;    //net force on test charge at every grid point
+    private double gridForceFactor;        //arbitrary scale factor controlling force arrow length
     private boolean antialias = false;
 
     public FieldGrid( int width, int height, ElectricHockeyApplication electricHockeyApplication ) {
@@ -60,13 +60,13 @@ public class FieldGrid //extends JLabel
                 //gridForceArray[i][j] = new edu.colorado.phet.ehockey.Force(Math.pow(gridIJNetX, 0.5), Math.pow(gridIJNetY, 0.5), gridChargeArray[i][j]);
                 //gridForceArray[i][j] = new edu.colorado.phet.ehockey.Force(gridForceFactor*gridIJNetX, gridForceFactor*gridIJNetY, gridChargeArray[i][j]);
                 int colorFactor = 100;
-                double potential = Math.pow( forceMag, power );					//white
-                colorFactor = (int)( -255.0 * potential / 300.0 + 255.0 );			//gray
+                double potential = Math.pow( forceMag, power );                    //white
+                colorFactor = (int)( -255.0 * potential / 300.0 + 255.0 );            //gray
                 if( colorFactor < 1 ) {
-                    colorFactor = 1;						//black
+                    colorFactor = 1;                        //black
                 }
                 else if( colorFactor > 255 ) {
-                    colorFactor = 255;				//white
+                    colorFactor = 255;                //white
                 }
                 Color gridColor = new Color( colorFactor, colorFactor, colorFactor );
                 //System.out.println("edu.colorado.phet.ehockey.Force = " + (int)forceMag + "  Factor = " + forceFactor);

@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 1, 2004
  * Time: 2:19:43 PM
- *
  */
 public class ModelLocation {
     PhetVector modelLocation;

@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 9:30:26 PM
- *
  */
 
 public class CircularPotential extends AtomPotential {

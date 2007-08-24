@@ -1,10 +1,10 @@
 package edu.colorado.phet.qm.tests;
 
 import java.io.Serializable;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * A collection of objects with scalar weights.

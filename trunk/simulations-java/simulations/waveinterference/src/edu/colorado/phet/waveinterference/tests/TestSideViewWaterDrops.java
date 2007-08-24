@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 11:03:18 PM
- *
  */
 
 public class TestSideViewWaterDrops extends TestTopView {

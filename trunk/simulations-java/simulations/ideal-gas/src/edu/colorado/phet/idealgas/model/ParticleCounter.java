@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * ParticleCounter
- * <p>
+ * <p/>
  * A model element that counts the number of particles in a region of the model.
  *
  * @author Ron LeMaster

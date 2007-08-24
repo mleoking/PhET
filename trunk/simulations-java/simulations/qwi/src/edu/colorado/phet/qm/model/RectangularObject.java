@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:11 PM
- *
  */
 
 public class RectangularObject extends SimpleObservable {

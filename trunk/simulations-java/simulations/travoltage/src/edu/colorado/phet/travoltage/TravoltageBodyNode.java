@@ -9,7 +9,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:26:24 PM
- *
  */
 
 public class TravoltageBodyNode extends PNode {

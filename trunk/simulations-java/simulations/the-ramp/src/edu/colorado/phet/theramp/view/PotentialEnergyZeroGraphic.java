@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -20,7 +20,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 6, 2005
  * Time: 3:59:25 PM
- *
  */
 
 public class PotentialEnergyZeroGraphic extends PNode {

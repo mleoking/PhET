@@ -22,6 +22,7 @@ public class SwingTimerClock extends AbstractClock {
         super( clockModel );
         ActionListener ticker = new ActionListener() {
             private long lastTickTime = System.currentTimeMillis();
+
             public void actionPerformed( ActionEvent e ) {
 
                 if( isAlive() ) {

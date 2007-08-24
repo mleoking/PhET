@@ -11,7 +11,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jun 15, 2005
  * Time: 10:34:28 PM
- *
  */
 public abstract class Propagator {
     private double simulationTime;

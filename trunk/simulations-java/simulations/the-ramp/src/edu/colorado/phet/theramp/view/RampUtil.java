@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 10:10:38 AM
- *
  */
 
 public class RampUtil {

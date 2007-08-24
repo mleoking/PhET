@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 11:56:56 PM
- *
  */
 
 public class PhysicalSystem {

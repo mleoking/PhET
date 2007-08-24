@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  * User: Sam Reid
  * Date: Aug 21, 2006
  * Time: 1:16:01 PM
- *
  */
 
 public class QWIStrings {

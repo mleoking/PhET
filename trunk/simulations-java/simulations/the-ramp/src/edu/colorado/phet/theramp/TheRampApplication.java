@@ -4,10 +4,10 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
@@ -29,7 +29,7 @@ public class TheRampApplication extends PhetApplication {
         super( args, TheRampStrings.getString( "the.ramp" ), TheRampStrings.getString( "the.ramp.simulation" ),
                VERSION, frameSetup );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), createClock() );
-        advancedFeatureModule = new RampModule( getPhetFrame(), createClock());
+        advancedFeatureModule = new RampModule( getPhetFrame(), createClock() );
         setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
     }
 

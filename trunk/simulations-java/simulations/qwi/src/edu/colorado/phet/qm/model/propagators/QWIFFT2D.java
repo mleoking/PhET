@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 11:53:56 PM
- *
  */
 
 public class QWIFFT2D {
@@ -53,7 +52,7 @@ public class QWIFFT2D {
 ////        FFT_N_Dimensional.ndfft( data, new int[]{psi.getWidth()-1, psi.getHeight()-1}, 2, +1 );
 //        Wavefunction wavefunction = parseData( data, psi.getWidth(), psi.getHeight() );
 //        return wavefunction;
-        throw new RuntimeException( "forwardFFT not defined");
+        throw new RuntimeException( "forwardFFT not defined" );
     }
 
     public static Wavefunction inverseFFT( Wavefunction phi ) {
@@ -62,6 +61,6 @@ public class QWIFFT2D {
 ////        FFT_N_Dimensional.ndfft( data, new int[]{phi.getWidth(), phi.getHeight()}, 2, -1);
 //        Wavefunction wavefunction = parseData( data, phi.getWidth(), phi.getHeight() );
 //        return wavefunction;
-        throw new RuntimeException( "inverseFFT not defined");
+        throw new RuntimeException( "inverseFFT not defined" );
     }
 }

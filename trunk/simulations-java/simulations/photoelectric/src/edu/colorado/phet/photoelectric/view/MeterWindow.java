@@ -19,5 +19,5 @@ import javax.swing.*;
  * @version $Revision$
  */
 public class MeterWindow extends JDialog {
-    
+
 }

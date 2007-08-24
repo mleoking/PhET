@@ -155,8 +155,8 @@ public class StripChart implements Resetable, ResizableChart {
 
     public void setMinX( double x ) {
         XYPlot plot = (XYPlot)chart.getPlot();
-        double minX = Math.max( 0, Math.min( x, getMaxTime() - xAxisRange ));
-        double maxX = Math.max( xAxisRange, Math.min( x + xAxisRange, getMaxTime() ));
+        double minX = Math.max( 0, Math.min( x, getMaxTime() - xAxisRange ) );
+        double maxX = Math.max( xAxisRange, Math.min( x + xAxisRange, getMaxTime() ) );
         plot.getDomainAxis().setRange( minX, maxX );
     }
 
@@ -209,7 +209,7 @@ public class StripChart implements Resetable, ResizableChart {
     /**
      * Causes the chart to start recording
      */
-    public void startRecording( double t0 ) {        
+    public void startRecording( double t0 ) {
         recording = true;
         this.t0 = t0;
     }

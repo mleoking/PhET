@@ -1,15 +1,11 @@
 package edu.colorado.phet.molecularreactions;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Paint;
-
-import javax.swing.UIManager;
-
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
+
+import javax.swing.*;
+import java.awt.*;
 
 /*
  * CVS Info -
@@ -40,7 +36,7 @@ public class MRConfig {
     // Model constants
     //--------------------------------------------------------------------------------------------------
     public static int CLOCK_FPS = 25;
-    public static double MAX_REACTION_THRESHOLD = 5E2;      
+    public static double MAX_REACTION_THRESHOLD = 5E2;
     public static final int MAX_MOLECULE_CNT = 200;
     public static double DEFAULT_REACTION_THRESHOLD = MAX_REACTION_THRESHOLD * .7;
     public static final double MAX_SPEED = 100; // Loeblein approved!!

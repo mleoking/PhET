@@ -7,7 +7,6 @@
 package edu.colorado.phet.coreadditions_microwaves;
 
 
-
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class BarometerView /*implements InteractiveGraphic */{
+public class BarometerView /*implements InteractiveGraphic */ {
 
     JDialog display;
     private BufferedImage crosshairs;
@@ -28,14 +27,14 @@ public class BarometerView /*implements InteractiveGraphic */{
         display.setUndecorated( true );
         Container contentPane = display.getContentPane();
         contentPane.setLayout( new BorderLayout() );
-        crosshairs = new BufferedImage( targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        crosshairs = new BufferedImage( targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB );
         Graphics2D g2 = (Graphics2D)crosshairs.getGraphics();
         g2.setColor( Color.black );
         g2.drawOval( 0, 0, targetWidth / 2, targetHeight / 2 );
         crosshairPanel = new JPanel( null );
         contentPane.add( crosshairPanel, BorderLayout.WEST );
         JPanel readoutPane = new JPanel();
-        readoutPane.add( new JLabel( SimStrings.get( "BarometerView.PressureLabel" ) + ": " ));
+        readoutPane.add( new JLabel( SimStrings.get( "BarometerView.PressureLabel" ) + ": " ) );
         contentPane.add( readoutPane, BorderLayout.CENTER );
     }
 

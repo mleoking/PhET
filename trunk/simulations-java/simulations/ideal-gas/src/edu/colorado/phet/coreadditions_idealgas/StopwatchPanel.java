@@ -12,7 +12,8 @@ package edu.colorado.phet.coreadditions_idealgas;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import javax.swing.*;
@@ -226,7 +227,6 @@ public class StopwatchPanel extends JPanel implements ClockListener, ModelElemen
 //        String s = clockFormat.format( c.getRunningTime() );
 //        clockTF.setText( s );
 //    }
-
     public void stepInTime( double dt ) {
         if( isRunning ) {
             runningTime += dt;

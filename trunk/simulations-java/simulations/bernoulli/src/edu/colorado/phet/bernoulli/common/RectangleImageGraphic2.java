@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 23, 2003
  * Time: 2:29:58 AM
- *
  */
 public class RectangleImageGraphic2 implements Graphic {
     BufferedImage image;

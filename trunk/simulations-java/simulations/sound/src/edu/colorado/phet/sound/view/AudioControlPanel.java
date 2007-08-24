@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.sound.SoundModule;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.sound.SoundModule;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;

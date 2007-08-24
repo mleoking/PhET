@@ -4,8 +4,8 @@ package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
@@ -58,8 +58,8 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     public Object clone() {
         AbstractMolecule clone = (AbstractMolecule)super.clone();
 
-        clone.collidableAdapter = new CollidableAdapter ( this );
-        clone.parentComposite   = parentComposite == null ? null : (CompositeMolecule)parentComposite.clone();
+        clone.collidableAdapter = new CollidableAdapter( this );
+        clone.parentComposite = parentComposite == null ? null : (CompositeMolecule)parentComposite.clone();
 
         return clone;
     }
@@ -131,7 +131,6 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     }
 
 
-
     public CompositeMolecule getParentComposite() {
         return parentComposite;
     }
@@ -197,7 +196,6 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     }
 
     /**
-     *
      * @param force
      * @param ptOfApplication
      */

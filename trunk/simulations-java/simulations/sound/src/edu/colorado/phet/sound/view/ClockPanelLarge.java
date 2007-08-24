@@ -7,12 +7,12 @@
  */
 package edu.colorado.phet.sound.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.ModelElement;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.util.EventChannel;
 import edu.colorado.phet.sound.SoundConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -94,7 +94,7 @@ public class ClockPanelLarge extends JPanel {
         gbc = new GridBagConstraints( 1, rowIdx, 1, 1, 1, 1,
                                       GridBagConstraints.WEST, GridBagConstraints.NONE,
                                       insets, padX, padY );
-        this.add( new JLabel( SimStrings.get( "ClockPanelLarge.Seconds") ), gbc );
+        this.add( new JLabel( SimStrings.get( "ClockPanelLarge.Seconds" ) ), gbc );
         rowIdx++;
         gbc = new GridBagConstraints( 0, rowIdx, 2, 1, 1, 1,
                                       GridBagConstraints.CENTER, GridBagConstraints.NONE,

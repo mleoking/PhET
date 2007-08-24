@@ -1,13 +1,10 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.theramp.TheRampStrings;
-
 /**
  * User: Sam Reid
  * Date: May 17, 2005
  * Time: 1:26:37 AM
- *
  */
 
 public class Ground extends Surface {

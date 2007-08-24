@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 5:58:36 PM
- *
  */
 
 public class WaveInterferenceModelUnits {

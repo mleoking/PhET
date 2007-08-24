@@ -1,14 +1,14 @@
 package edu.colorado.phet.batteryvoltage.man;
 
 import edu.colorado.phet.batteryvoltage.Battery;
-import edu.colorado.phet.batteryvoltage.man.dir.CarryToDir;
-import edu.colorado.phet.batteryvoltage.man.dir.PropagatorDir;
-import edu.colorado.phet.batteryvoltage.man.dir.SpeedDir;
 import edu.colorado.phet.batteryvoltage.common.electron.man.Man;
 import edu.colorado.phet.batteryvoltage.common.electron.man.motions.*;
 import edu.colorado.phet.batteryvoltage.common.phys2d.DoublePoint;
 import edu.colorado.phet.batteryvoltage.common.phys2d.Propagator;
 import edu.colorado.phet.batteryvoltage.common.phys2d.System2D;
+import edu.colorado.phet.batteryvoltage.man.dir.CarryToDir;
+import edu.colorado.phet.batteryvoltage.man.dir.PropagatorDir;
+import edu.colorado.phet.batteryvoltage.man.dir.SpeedDir;
 
 import java.util.Hashtable;
 import java.util.Vector;

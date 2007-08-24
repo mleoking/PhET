@@ -16,7 +16,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:23:11 AM
- *
  */
 
 public class IntensityBeamPanel extends QWIPanel {
@@ -79,7 +78,7 @@ public class IntensityBeamPanel extends QWIPanel {
 
     protected void addGunChooserGraphic() {
         if( useGunChooserGraphic() ) {
-            PSwing pSwing = new PSwing(intensityGun.getComboBox() );
+            PSwing pSwing = new PSwing( intensityGun.getComboBox() );
             intensityGun.getComboBox().setEnvironment( pSwing, this );
             getSchrodingerScreenNode().setGunTypeChooserGraphic( pSwing );
         }

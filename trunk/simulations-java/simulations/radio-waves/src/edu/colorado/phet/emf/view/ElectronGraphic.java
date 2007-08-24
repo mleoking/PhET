@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.emf.view;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common_1200.view.ApparatusPanel;
 import edu.colorado.phet.common_1200.view.graphics.BufferedImageGraphic;
 import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
@@ -13,7 +14,6 @@ import edu.colorado.phet.common_1200.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
 import edu.colorado.phet.emf.EmfConfig;
 import edu.colorado.phet.emf.model.Electron;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -26,7 +26,7 @@ public class ElectronGraphic extends BufferedImageGraphic
     private Point location = new Point();
     private ApparatusPanel apparatusPanel;
     private Electron electron;
-    private AffineTransform atx = new AffineTransform( );
+    private AffineTransform atx = new AffineTransform();
     private AffineTransform containerTx;
 
     public ElectronGraphic( ApparatusPanel apparatusPanel, BufferedImage image, Electron electron ) {
@@ -53,7 +53,7 @@ public class ElectronGraphic extends BufferedImageGraphic
         location.x = (int)electron.getCurrentPosition().getX();
         location.y = (int)electron.getCurrentPosition().getY();
 
-        atx.setToTranslation( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2);
+        atx.setToTranslation( location.x - getImage().getWidth( null ) / 2, location.y - getImage().getHeight( null ) / 2 );
         AffineTransform totalTx = new AffineTransform();
         if( containerTx != null ) {
             totalTx.concatenate( containerTx );

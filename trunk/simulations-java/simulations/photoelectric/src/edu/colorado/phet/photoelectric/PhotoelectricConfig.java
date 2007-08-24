@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.photoelectric;
 
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -25,15 +25,15 @@ import java.text.DecimalFormat;
 public class PhotoelectricConfig {
 
     public static final String PROJECT_NAME = "photoelectric";
-    
+
     // Version
-//    public static final String VERSION = "1.05.00, 15065";
-    public static final String VERSION = PhetApplicationConfig.getVersion( "photoelectric").formatForTitleBar();
+    //    public static final String VERSION = "1.05.00, 15065";
+    public static final String VERSION = PhetApplicationConfig.getVersion( "photoelectric" ).formatForTitleBar();
 
     public static final String LOCALIZATION_RESOURCE_NAME = PROJECT_NAME + "/localization/" + PROJECT_NAME + "-strings";
 
     // Images
-    public static final String IMAGE_DIRECTORY = PROJECT_NAME+"/images/";
+    public static final String IMAGE_DIRECTORY = PROJECT_NAME + "/images/";
     public static final String LAMP_IMAGE_FILE = "lasers/images/flashlight.png";
     public static final String BEAM_CONTROL_PANEL_IMAGE = IMAGE_DIRECTORY + "photoelectric-beam-control.png";
     public static final String SNAPSHOT_BUTTON_IMAGE = IMAGE_DIRECTORY + "camera.png";
@@ -53,8 +53,8 @@ public class PhotoelectricConfig {
     public static final Point BEAM_CONTROL_LOCATION = new Point( DischargeLampsConfig.CATHODE_X_LOCATION + 290, 20 );
 
 
-    public static final DecimalFormat BEAM_PERCENTAGE_FORMAT =new DecimalFormat( "#%" );
-    public static final DecimalFormat BEAM_WAVELENGTH_FORMAT =new DecimalFormat( "### nm" );
+    public static final DecimalFormat BEAM_PERCENTAGE_FORMAT = new DecimalFormat( "#%" );
+    public static final DecimalFormat BEAM_WAVELENGTH_FORMAT = new DecimalFormat( "### nm" );
 
     // Model related fields
     public static final double MIN_WAVELENGTH = 100;

@@ -24,14 +24,14 @@ import java.util.List;
  * <p/>
  * This is a ModelElement. At each time step, it looks at all the molecules in the model
  * to see if any qualify for provisional bonds.
- * <p>
+ * <p/>
  * ProvisionalBonds are created whenever two molecules that could potential react are within
- * a certain distance of each other. This detector only creates 
+ * a certain distance of each other. This detector only creates
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapter implements ModelElement  {
+public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapter implements ModelElement {
     private MRModel model;
     private List bondedMolecules = new ArrayList();
 
@@ -70,7 +70,7 @@ public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapte
         List newBondList = new ArrayList();
         for( int i = 0; i < modelElements.size(); i++ ) {
             Object o = modelElements.get( i );
-            if( o instanceof SimpleMolecule && !((SimpleMolecule)o).isPartOfComposite() ) {
+            if( o instanceof SimpleMolecule && !( (SimpleMolecule)o ).isPartOfComposite() ) {
                 SimpleMolecule sm1 = (SimpleMolecule)o;
 
                 for( int j = 0; j < modelElements.size(); j++ ) {
@@ -88,7 +88,7 @@ public class ProvisionalBondDetector extends PublishingModel.ModelListenerAdapte
 
                             // Are the molecules within the provisional bonding distance?
                             double moleculeSeparation = reaction.getDistanceToCollision( sm1, cm );
-                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= 0 ) {
+                            if( !Double.isNaN( moleculeSeparation ) && moleculeSeparation <= 0 ) {
 //                            if( !Double.isNaN( moleculeSeparation) && moleculeSeparation <= provisionalBondMaxLength ) {
 
                                 // If no provisional bond exists for either of these two simple molecules, create one

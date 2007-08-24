@@ -17,7 +17,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 8:35:37 AM
- *
  */
 
 public class MandelGunSet extends IntensityGunNode {

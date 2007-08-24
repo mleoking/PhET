@@ -8,22 +8,22 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 public class Force {
-    private double magnitude;		//magnitude of force, never used
-    private Charge puck;			//charged positivePuckImage force acts on
-    private Charge charge;			//charge causing force on positivePuckImage
+    private double magnitude;        //magnitude of force, never used
+    private Charge puck;            //charged positivePuckImage force acts on
+    private Charge charge;            //charge causing force on positivePuckImage
     private Color gridColor;
-    private Point chargePt;			//position of charge producing force
+    private Point chargePt;            //position of charge producing force
     //private Point2D.Double chargePt2D;
-    private Point2D displacement;  	//displacement vector from charge to positivePuckImage
-    private double r;				//magnitude of displacement
-    private double cutoff;			//value of r at which force divergence is cutoff
-    private double rSq;				//magnitude of displacement-squared
-    private double xComp, yComp;	//x- and y-component of the force
-    private int xCompInt, yCompInt;	//x- and y-component of the force
-    private double x0, y0;			//x- and y-components of the tail of the arrow, double-valued
-    private int x0Int, y0Int;		//x- and y-components of the tail of the arrow, integer-valued
-    private double forceFactor = 1000000.0;		//arbitrary factor
-    private ArrowB forceArrow;				//arrow representing force
+    private Point2D displacement;      //displacement vector from charge to positivePuckImage
+    private double r;                //magnitude of displacement
+    private double cutoff;            //value of r at which force divergence is cutoff
+    private double rSq;                //magnitude of displacement-squared
+    private double xComp, yComp;    //x- and y-component of the force
+    private int xCompInt, yCompInt;    //x- and y-component of the force
+    private double x0, y0;            //x- and y-components of the tail of the arrow, double-valued
+    private int x0Int, y0Int;        //x- and y-components of the tail of the arrow, integer-valued
+    private double forceFactor = 1000000.0;        //arbitrary factor
+    private ArrowB forceArrow;                //arrow representing force
 //    private edu.colorado.phet.ehockey.ArrowC gridArrow;		//needed if arrow head must be drawn
 
     public Force( Charge charge, Charge puck )  //force on positivePuckImage due to charge
@@ -39,7 +39,7 @@ public class Force {
         r = puck.getPosition2D().distance( chargePt );
         cutoff = 25.0;
         if( r < cutoff ) {
-            r = cutoff;		//short distance cutoff
+            r = cutoff;        //short distance cutoff
         }
         rSq = r * r;
         //rSq = positivePuckImage.getPosition2D().distanceSq((Point2D)chargePt);
@@ -100,7 +100,7 @@ public class Force {
 
     public void paintGridArrowOrig( Graphics2D g2D ) {
         g2D.setColor( gridColor );
-        if( gridColor.getBlue() < 252 )		//don't bother to paint is grid arrow too faint
+        if( gridColor.getBlue() < 252 )        //don't bother to paint is grid arrow too faint
         {
             g2D.drawLine( x0Int, y0Int, x0Int + xCompInt, y0Int + yCompInt );
             g2D.fillOval( x0Int - 2, y0Int - 2, 4, 4 );

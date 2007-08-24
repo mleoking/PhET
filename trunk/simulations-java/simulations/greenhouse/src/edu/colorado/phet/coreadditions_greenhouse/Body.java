@@ -101,17 +101,18 @@ public abstract class Body extends ModelElement {
 
     /**
      * Determines the new state of the body using the Verlet method
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
 
         // New location
         double xNew = location.getX()
-                + dt * velocity.getX()
-                + dt * dt * acceleration.getX() / 2;
+                      + dt * velocity.getX()
+                      + dt * dt * acceleration.getX() / 2;
         double yNew = location.getY()
-                + dt * velocity.getY()
-                + dt * dt * acceleration.getY() / 2;
+                      + dt * velocity.getY()
+                      + dt * dt * acceleration.getY() / 2;
         setLocation( xNew, yNew );
 
         // velocity prime
@@ -132,7 +133,7 @@ public abstract class Body extends ModelElement {
 
     public double getKineticEnergy() {
         return ( getMass() * getVelocity().getMagnitudeSq() / 2 ) +
-                getMomentOfInertia() * omega * omega / 2;
+               getMomentOfInertia() * omega * omega / 2;
     }
 
     public Body getLastColidedBody() {

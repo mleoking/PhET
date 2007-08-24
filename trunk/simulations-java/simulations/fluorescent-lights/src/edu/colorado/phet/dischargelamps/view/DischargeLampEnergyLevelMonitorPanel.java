@@ -12,28 +12,28 @@
 package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.GroundState;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
-import edu.colorado.phet.dischargelamps.model.ConfigurableElementProperties;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
 import edu.colorado.phet.quantum.model.Electron;
@@ -55,7 +55,7 @@ import java.util.Map;
 /**
  * A panel that displays graphics for energy levels and squiggles for the energy of the photons in collimated beams.
  * A disc is drawn on the energy levels for each atom in that state.
- * <p>
+ * <p/>
  * This class is completely wrapped by DischargeLampEnergyLevelMonitorPanel2 and should be folded into it. No other
  * classes instantiate this one.
  */
@@ -489,6 +489,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
             clock.addClockListener( new ClockAdapter() {
                 double t0 = clock.getSimulationTime();
                 double timeout = DischargeLampsConfig.ENERGY_SQUIGGLE_PERSISTENCE;
+
                 public void clockTicked( ClockEvent clockEvent ) {
                     double t1 = clock.getSimulationTime();
                     if( t1 - t0 > timeout ) {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Oct 25, 2006
  * Time: 7:57:19 PM
- *
  */
 
 public class LabeledTextField extends JPanel {

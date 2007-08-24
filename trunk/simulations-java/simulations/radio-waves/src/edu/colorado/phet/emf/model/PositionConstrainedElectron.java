@@ -30,7 +30,7 @@ public class PositionConstrainedElectron extends Electron {
     }
 
     public Point2D.Double getMinPos() {
-        Point2D.Double minPos = new Point2D.Double( Double.MIN_VALUE, Double.MIN_VALUE);
+        Point2D.Double minPos = new Point2D.Double( Double.MIN_VALUE, Double.MIN_VALUE );
         minPos = (Point2D.Double)positionConstraint.constrainPosition( minPos );
         return minPos;
     }

@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
 public class ScientificNotation {
 
     /**
-     *
      * @param num
      * @param numSignificantDigits
      * @param prefix
@@ -31,11 +30,11 @@ public class ScientificNotation {
     public static String toHtml( double num, int numSignificantDigits, String prefix, String suffix ) {
         String s = null;
 
-        StringBuffer formatString = new StringBuffer("0.");
-        for( int i = 0; i < numSignificantDigits; i++ ){
-            formatString.append( '0');
+        StringBuffer formatString = new StringBuffer( "0." );
+        for( int i = 0; i < numSignificantDigits; i++ ) {
+            formatString.append( '0' );
         }
-        formatString.append( "E0");
+        formatString.append( "E0" );
         DecimalFormat format = new DecimalFormat( formatString.toString() );
         String str = format.format( num );
         String mant = str.substring( 0, str.indexOf( 'E' ) );

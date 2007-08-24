@@ -12,7 +12,7 @@ package edu.colorado.phet.collision_idealgas;
 
 /**
  * WallFixupStrategy
- * <p>
+ * <p/>
  * A way to fixup problems with a wall and sphere collision. Intended to be used as a last-ditch
  * effort to fix problems that can't be addressed through physically accurate model features.
  *
@@ -20,5 +20,5 @@ package edu.colorado.phet.collision_idealgas;
  * @version $Revision$
  */
 public interface WallFixupStrategy {
-    void fixup( Wall wall, SphericalBody sphere);
+    void fixup( Wall wall, SphericalBody sphere );
 }

@@ -7,7 +7,6 @@ import edu.colorado.phet.common_semiconductor.view.util.framesetup.FrameSetup;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:38:22 AM
- *
  */
 public class ApplicationDescriptor {
     String windowTitle;
@@ -38,7 +37,7 @@ public class ApplicationDescriptor {
     public FrameSetup getFrameSetup() {
         return frameSetup;
     }
-    
+
     public void setName( String name ) {
         this.name = name;
     }

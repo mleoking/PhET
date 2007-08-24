@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:14:01 AM
- *
  */
 
 public class Block {

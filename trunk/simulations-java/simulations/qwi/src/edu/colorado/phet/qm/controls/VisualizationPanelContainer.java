@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
  * User: Sam Reid
  * Date: May 5, 2006
  * Time: 9:56:45 AM
- *
  */
 
 public class VisualizationPanelContainer extends VerticalLayoutPanel {

@@ -171,7 +171,7 @@ public class BetaChart {
 
     public void showLine( Point2D lhs, Point2D rhs ) {
         bestFitSeries.clear();
-        bestFitSeries.add( lhs.getX(), lhs.getY());
-        bestFitSeries.add( rhs.getX(), rhs.getY());
+        bestFitSeries.add( lhs.getX(), lhs.getY() );
+        bestFitSeries.add( rhs.getX(), rhs.getY() );
     }
 }

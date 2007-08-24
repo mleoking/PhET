@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
@@ -10,7 +9,6 @@ import java.util.Iterator;
  * User: Sam Reid
  * Date: Mar 26, 2004
  * Time: 8:56:40 AM
- *
  */
 public class SemiconductorBandSet extends BandSet {
     private DopantType dopantType;
@@ -82,8 +80,8 @@ public class SemiconductorBandSet extends BandSet {
         return new EnergyLevelIterator();
     }
 
-    public void trickDopantType(DopantType dopantType){
-        this.dopantType=dopantType;
+    public void trickDopantType( DopantType dopantType ) {
+        this.dopantType = dopantType;
     }
 
     public void setDopantType( DopantType dopantType ) {

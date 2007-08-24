@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 25, 2006
  * Time: 12:32:59 AM
- *
  */
 
 public class ScreenNode extends PhetPNode {

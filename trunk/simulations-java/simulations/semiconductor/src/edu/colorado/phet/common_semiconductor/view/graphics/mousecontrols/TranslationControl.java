@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:43:47 AM
- *
  */
 public class TranslationControl implements MouseInputListener {
     private Translatable t;

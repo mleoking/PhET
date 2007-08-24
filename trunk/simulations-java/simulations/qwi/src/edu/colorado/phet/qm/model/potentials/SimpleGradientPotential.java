@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.model.Potential;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 11:07:25 AM
- *
  */
 
 public class SimpleGradientPotential implements Potential {

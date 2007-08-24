@@ -20,10 +20,10 @@ import java.awt.geom.Point2D;
 public class Level1 extends Exercise {
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, Config.maxStarLuminance, new Point2D.Double( 100, -20 ), -45 ),
-        new NormalStar( Color.red, Config.maxStarLuminance, new Point2D.Double( 250, 10 ), -5 ),
-        new NormalStar( Color.blue, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 4, 30 ), 5 ),
-        new NormalStar( Color.yellow, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 2, -15 ), 0 )
+            new NormalStar( Color.green, Config.maxStarLuminance, new Point2D.Double( 100, -20 ), -45 ),
+            new NormalStar( Color.red, Config.maxStarLuminance, new Point2D.Double( 250, 10 ), -5 ),
+            new NormalStar( Color.blue, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 4, 30 ), 5 ),
+            new NormalStar( Color.yellow, Config.maxStarLuminance, new Point2D.Double( Config.universeWidth / 2, -15 ), 0 )
     };
 
     public Level1( JFrame frame, UniverseModel model ) {
@@ -35,7 +35,6 @@ public class Level1 extends Exercise {
         }
         model.setStarField( model.getStarField() );
     }
-
 
 //    private static class Level1Model extends ExerciseModel {
 //        static Answer correctAnswer = new Answer( "b", "The blue star" );

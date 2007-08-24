@@ -15,22 +15,22 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
-import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
+import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
 import edu.colorado.phet.photoelectric.view.util.RotatedTextLabel;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class CompositeGraphPanel extends JPanel {
 //    private BufferedImage snapshotBtnImage;
 //    private BufferedImage zoomOutImage;
 //    private BufferedImage zoomInImage;
-//    private ArrayList graphPanels = new ArrayList();
+    //    private ArrayList graphPanels = new ArrayList();
     private JButton snapshotBtn;
     private ImageIcon snapshotIcon;
     private ImageIcon zoomInIcon;
@@ -310,7 +310,7 @@ public class CompositeGraphPanel extends JPanel {
             }
             else {
                 title = "Photon Rate";
-                value =  model.getBeam().getPhotonsPerSecond() / PhotoelectricModel.MAX_PHOTONS_PER_SECOND;
+                value = model.getBeam().getPhotonsPerSecond() / PhotoelectricModel.MAX_PHOTONS_PER_SECOND;
             }
 //            String intensity = Double.toString( model.getBeam().getPhotonsPerSecond());
 //            String intensity = Double.toString( PhotoelectricModelUtil.photonRateToIntensity( model.getBeam().getPhotonsPerSecond(),

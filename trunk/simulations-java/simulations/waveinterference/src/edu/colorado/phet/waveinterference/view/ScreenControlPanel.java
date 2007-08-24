@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 25, 2006
  * Time: 12:30:28 AM
- *
  */
 
 public class ScreenControlPanel extends VerticalLayoutPanel {

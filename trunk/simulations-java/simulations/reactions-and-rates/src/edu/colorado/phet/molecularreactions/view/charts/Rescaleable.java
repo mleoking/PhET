@@ -17,5 +17,5 @@ package edu.colorado.phet.molecularreactions.view.charts;
  * @version $Revision$
  */
 public interface Rescaleable {
-    void rescale();    
+    void rescale();
 }

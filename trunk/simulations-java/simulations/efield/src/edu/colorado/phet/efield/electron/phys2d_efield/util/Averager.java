@@ -7,31 +7,26 @@ package edu.colorado.phet.efield.electron.phys2d_efield.util;
 import java.io.Serializable;
 
 public class Averager
-    implements Serializable
-{
+        implements Serializable {
 
-    public Averager()
-    {
+    public Averager() {
         reset();
     }
 
-    public void update(double d)
-    {
+    public void update( double d ) {
         sum += d;
         num++;
         average = sum / (double)num;
     }
 
-    public double value()
-    {
+    public double value() {
         return average;
     }
 
-    public void reset()
-    {
+    public void reset() {
         sum = 0.0D;
         num = 0;
-        average = (0.0D / 0.0D);
+        average = ( 0.0D / 0.0D );
     }
 
     double average;

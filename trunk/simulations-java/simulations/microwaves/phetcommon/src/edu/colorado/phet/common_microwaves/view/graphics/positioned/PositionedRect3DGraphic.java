@@ -15,24 +15,24 @@ public class PositionedRect3DGraphic implements PositionedGraphic {
     Color c;
     boolean raised;
 
-    public PositionedRect3DGraphic(int width, int height, Color c, boolean raised) {
+    public PositionedRect3DGraphic( int width, int height, Color c, boolean raised ) {
         this.width = width;
         this.height = height;
         this.c = c;
         this.raised = raised;
     }
 
-    public void paint(Graphics2D g, int x, int y) {
+    public void paint( Graphics2D g, int x, int y ) {
         int left = x - width / 2;
         int top = y - height / 2;
-        g.setColor(c);
-        g.fill3DRect(left, top, width, height, raised);
+        g.setColor( c );
+        g.fill3DRect( left, top, width, height, raised );
     }
 
-    public Rectangle getRectangle(int x, int y) {
+    public Rectangle getRectangle( int x, int y ) {
         int left = x - width / 2;
         int top = y - height / 2;
 
-        return new Rectangle(left, top, width, height);
+        return new Rectangle( left, top, width, height );
     }
 }

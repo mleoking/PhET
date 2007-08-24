@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
 import edu.colorado.phet.coreadditions_microwaves.chart.StripChartDelegate;
@@ -15,8 +16,6 @@ import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
 import edu.colorado.phet.util_microwaves.StripChart;
-
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +35,7 @@ public class OneMoleculeModule extends MicrowaveModule {
         molecule = new WaterMolecule();
 
         molecule.setLocation( getMicrowaveModel().getOven().getMinX() + ( getMicrowaveModel().getOven().getMaxX() - getMicrowaveModel().getOven().getMinX() ) / 2,
-                              getMicrowaveModel().getOven().getMinY() + ( getMicrowaveModel().getOven().getMaxY() - getMicrowaveModel().getOven().getMinY() )/ 2);
+                              getMicrowaveModel().getOven().getMinY() + ( getMicrowaveModel().getOven().getMaxY() - getMicrowaveModel().getOven().getMinY() ) / 2 );
 
         molecule.setDipoleOrientation( 0 );
 //        molecule.setDipoleOrientation( 3 * Math.PI / 2 );

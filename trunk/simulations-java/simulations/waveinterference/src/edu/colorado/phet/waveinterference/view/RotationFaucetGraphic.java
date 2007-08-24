@@ -9,7 +9,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 12:00:58 AM
- *
  */
 
 public class RotationFaucetGraphic extends FaucetGraphic {

@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.view.help.HelpItem;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
@@ -14,10 +15,9 @@ import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.*;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;

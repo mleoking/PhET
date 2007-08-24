@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:40:30 PM
- *
  */
 
 public class DGPlotFrame extends JDialog {

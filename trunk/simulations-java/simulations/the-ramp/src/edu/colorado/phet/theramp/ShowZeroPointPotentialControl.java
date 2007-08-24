@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 8, 2005
  * Time: 10:09:08 PM
- *
  */
 
 public class ShowZeroPointPotentialControl {

@@ -9,12 +9,12 @@ package edu.colorado.phet.bernoulli;
 import edu.colorado.phet.bernoulli.pipe.*;
 import edu.colorado.phet.bernoulli.tube.Tube;
 import edu.colorado.phet.bernoulli.tube.TubeGraphic;
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.DefaultClock;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -60,11 +60,11 @@ public class PipeModule extends BernoulliApplication {
         //Add the volume graphic inside the pipe graphic.  Sweet.
         pipeGraphic.addGraphic( volumeGraphic, vesselGraphicLevel + 1 );
         volumeTimeStep =
-        ( new ModelElement() {
-            public void stepInTime( double dt ) {
-                volume.stepInTime( dt );
-            }
-        } );
+                ( new ModelElement() {
+                    public void stepInTime( double dt ) {
+                        volume.stepInTime( dt );
+                    }
+                } );
         getModel().addModelElement( volumeTimeStep );
         pipe.recomputeState();
         pipeOn = true;

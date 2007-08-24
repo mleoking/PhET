@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.nuclearphysics.model.*;
 import edu.colorado.phet.nuclearphysics.view.NeutronGraphic;
 import edu.colorado.phet.nuclearphysics.view.NuclearPhysicsApparatusPanel;
@@ -23,14 +23,13 @@ import java.util.List;
 
 /**
  * An abstract class that has base behaviors for all modules in this simulation.
- * <p>
+ * <p/>
  * Abstract methods:
  * <ul>
  * <li>init()   This is called on the first activation of the module, so that initialization can be defered
  * <li>getLegendClasses() - Provides the classes of model elements for
  * which there should be graphics in the control panel's legend
  * </ul>
- *
  */
 abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     private ApparatusPanel apparatusPanel;
@@ -75,6 +74,7 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     /**
      * Returns a list of LegendPanel.LegendItem instances that indicate which items should be in the module's
      * legend in the control panel
+     *
      * @return a list
      */
     protected abstract List getLegendClasses();
@@ -139,7 +139,6 @@ abstract public class NuclearPhysicsModule extends PhetGraphicsModule {
     public PhysicalPanel getPhysicalPanel() {
         return physicalPanel;
     }
-
 
 
 }

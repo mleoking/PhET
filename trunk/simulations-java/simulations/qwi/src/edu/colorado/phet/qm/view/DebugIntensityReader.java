@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Dec 19, 2005
  * Time: 9:56:01 PM
- *
  */
 
 public class DebugIntensityReader extends QWIModel.Adapter {

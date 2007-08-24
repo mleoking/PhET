@@ -76,24 +76,24 @@ public class ThermometerGraphic extends PNode {
         this.model = model;
         this.maxModelValue = maxModelValue;
 
-        column = new Rectangle2D.Double(0,0,columnWidth, overallHeight - bulbRadius );
+        column = new Rectangle2D.Double( 0, 0, columnWidth, overallHeight - bulbRadius );
         PPath columnBackground = new PPath( column );
         columnBackground.setPaint( Color.white );
-        fillHeightScale = (overallHeight - bulbRadius) / maxModelValue;
+        fillHeightScale = ( overallHeight - bulbRadius ) / maxModelValue;
         PPath columnNode = new PPath( column );
-        columnNode.setPaint( new Color( 0,0,0,0 ) );
+        columnNode.setPaint( new Color( 0, 0, 0, 0 ) );
 
         columnFill = new Rectangle2D.Double();
         fillNode = new PPath( columnFill );
         fillNode.setPaint( Color.red );
-        bulb = new Ellipse2D.Double( 0,0, bulbRadius * 2, bulbRadius * 2 );
+        bulb = new Ellipse2D.Double( 0, 0, bulbRadius * 2, bulbRadius * 2 );
         PPath bulbNode = new PPath( bulb );
         bulbNode.setPaint( Color.red );
         setPickable( false );
 
-        columnBackground.setOffset(  -columnWidth / 2, 0 );
+        columnBackground.setOffset( -columnWidth / 2, 0 );
         fillNode.setOffset( -columnWidth / 2, 0 );
-        bulbNode.setOffset( -bulbRadius, overallHeight - bulbRadius * 2);
+        bulbNode.setOffset( -bulbRadius, overallHeight - bulbRadius * 2 );
         columnNode.setOffset( -columnWidth / 2, 0 );
 
         addChild( columnBackground );
@@ -108,9 +108,9 @@ public class ThermometerGraphic extends PNode {
         double energy = model.getTotalEnergy() / 1.5;
 
         double modelValue = Math.min( energy, maxModelValue );
-        double ke =  modelValue * fillHeightScale;
+        double ke = modelValue * fillHeightScale;
         columnFill.setFrame( 0, column.getHeight() - ke, column.getWidth(), ke );
-        fillNode.setPathTo( columnFill);
+        fillNode.setPathTo( columnFill );
     }
 
     private class Updater extends ClockAdapter {

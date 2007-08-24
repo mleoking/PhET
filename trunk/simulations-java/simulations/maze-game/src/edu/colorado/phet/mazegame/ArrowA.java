@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class ArrowA {
 
-    private double L;  	//length of arrow
-    private double w;		//width of arrow
-    private double h;		//length of arrow head
-    private int[] xInt = new int[8];	//positions of arrow corners for polygon()
+    private double L;      //length of arrow
+    private double w;        //width of arrow
+    private double h;        //length of arrow head
+    private int[] xInt = new int[8];    //positions of arrow corners for polygon()
     private int[] yInt = new int[8];
 
 
@@ -20,35 +20,36 @@ public class ArrowA {
     //set arrow position arrow to head:(xFinal, yFinal), tail:(x0, y0)
 
     //formula for width of arrow line
+
     public double computeWidth() {
         return ( this.L / 8.0 );
     }
 
     public void setPosition( int x0, int y0, int xFinal, int yFinal ) {
-        double x1 = xFinal - x0;  	//x-component of arrow
-        double y1 = yFinal - y0;	//y-component of arrow
+        double x1 = xFinal - x0;      //x-component of arrow
+        double y1 = yFinal - y0;    //y-component of arrow
         this.L = Math.pow( ( x1 * x1 + y1 * y1 ), 0.5 );
         //this.thta = Math.asin((yFinal - y0)/L);  //not necessary
         this.w = this.computeWidth();
         this.h = 4 * w * Math.sqrt( 3 ) / 2.0;
 
         double[] x = new double[]{( w / 2 ) * ( -y1 / L ),
-                                  ( w / 2 ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( L ) * ( x1 / L ),
-                                  ( w ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w / 2 ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
-                                  ( w / 2 ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -y1 / L )};
+                ( w / 2 ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w ) * ( -y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( L ) * ( x1 / L ),
+                ( w ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w / 2 ) * ( y1 / L ) + ( L - h ) * ( x1 / L ),
+                ( w / 2 ) * ( y1 / L ),
+                ( w / 2 ) * ( -y1 / L )};
 
         double[] y = new double[]{( w / 2 ) * x1 / L,
-                                  ( w / 2 ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( L ) * ( y1 / L ),
-                                  ( w ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
-                                  ( w / 2 ) * ( -x1 / L ),
-                                  ( w / 2 ) * ( x1 / L )};
+                ( w / 2 ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w ) * ( x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( L ) * ( y1 / L ),
+                ( w ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w / 2 ) * ( -x1 / L ) + ( L - h ) * ( y1 / L ),
+                ( w / 2 ) * ( -x1 / L ),
+                ( w / 2 ) * ( x1 / L )};
 
         for( int i = 0; i < x.length; i++ ) {
             xInt[i] = x0 + (int)( x[i] );

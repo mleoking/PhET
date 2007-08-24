@@ -50,6 +50,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
     /**
      * Determines if the sphere is hitting the wall and returns an object that describes the
      * nature of the contact.
+     *
      * @param bodyA
      * @param bodyB
      * @return
@@ -115,7 +116,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
             result = TOP;
         }
         if( PQ.intersectsLine( wallDesc.BC ) && sphere.getVelocity().getX() < 0 ) {
-                result = RIGHT_SIDE;
+            result = RIGHT_SIDE;
         }
         if( PQ.intersectsLine( wallDesc.CD ) && sphere.getVelocity().getY() < 0 ) {
             result = BOTTOM;
@@ -128,6 +129,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
     /**
      * Last-ditch method to get a sphere out of the wall. A total hack.
+     *
      * @param wall
      * @param sphere
      */
@@ -139,28 +141,27 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         Point2D Q = sphere.getPosition();
         Point2D P = new Point2D.Double( Q.getX() + v.getX(), Q.getY() + v.getY() );
         Line2D PQ = new Line2D.Double( Q, P );
-        if( PQ.intersectsLine( wallDesc.AB )) {
-            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY());
+        if( PQ.intersectsLine( wallDesc.AB ) ) {
+            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             sphere.setPosition( sphere.getPosition().getX(), wallDesc.AB.getY1() );
             System.out.println( "SphereWallExpert.fixup: AB" );
         }
-        if( PQ.intersectsLine( wallDesc.BC )) {
-            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY());
+        if( PQ.intersectsLine( wallDesc.BC ) ) {
+            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             sphere.setPosition( wallDesc.BC.getX1(), sphere.getPosition().getY() );
             System.out.println( "SphereWallExpert.fixup: BC" );
         }
-        if( PQ.intersectsLine( wallDesc.CD )) {
-            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY());
+        if( PQ.intersectsLine( wallDesc.CD ) ) {
+            sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             sphere.setPosition( sphere.getPosition().getX(), wallDesc.CD.getY1() );
             System.out.println( "SphereWallExpert.fixup: CD" );
         }
-        if( PQ.intersectsLine( wallDesc.AD )) {
-            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY());
+        if( PQ.intersectsLine( wallDesc.AD ) ) {
+            sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             sphere.setPosition( wallDesc.AD.getX1(), sphere.getPosition().getY() );
             System.out.println( "SphereWallExpert.fixup: AD" );
         }
     }
-
 
     //----------------------------------------------------------------
     // Inner classes

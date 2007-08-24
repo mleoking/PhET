@@ -163,25 +163,25 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         // Initial temperature slider:
         initialTemperaturePanel = new InitialTemperaturePanel( (MRModel)module.getModel() );
 
-        c.gridx      = 0;
-        c.gridy      = GridBagConstraints.RELATIVE;
-        c.gridwidth  = GridBagConstraints.REMAINDER;
-        add(initialTemperaturePanel, c);
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        add( initialTemperaturePanel, c );
 
         // Buttons on button panel
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        JPanel buttonPanel = new JPanel( new GridBagLayout() );
 
-        c.anchor     = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.CENTER;
         buttonPanel.add( goButton );
 
         // Button panel
-        c.anchor     = GridBagConstraints.CENTER;
-        c.gridx      = 0;
-        c.gridy      = GridBagConstraints.RELATIVE;
-        c.gridwidth  = GridBagConstraints.REMAINDER;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridheight = GridBagConstraints.REMAINDER;
 
-        add(buttonPanel, c);
+        add( buttonPanel, c );
     }
 
     private void generateMolecules( Class moleculeClass, int numMolecules ) {
@@ -236,10 +236,10 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
     public void reset() {
         endExperiment();
 
-        numATF.setText(  "0" );
+        numATF.setText( "0" );
         numBCTF.setText( "0" );
         numABTF.setText( "0" );
-        numCTF.setText(  "0" );
+        numCTF.setText( "0" );
 
         if( module.isActive() ) {
             module.getClock().start();
@@ -304,15 +304,17 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         }
 
         public void actionPerformed( ActionEvent e ) {
-            if (toggleInProgress) return;
+            if( toggleInProgress ) {
+                return;
+            }
 
             toggleInProgress = true;
 
-            if (!experimentInProgress ) {
+            if( !experimentInProgress ) {
 
                 int moleculeCount = module.getMRModel().countWholeMolecules();
 
-                if (moleculeCount > 0) {
+                if( moleculeCount > 0 ) {
                     module.getMRModel().removeAllMolecules();
                     new Thread( new Runnable() {
                         public void run() {
@@ -330,7 +332,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
                             } );
                         }
                     } ).start();
-                            
+
                 }
                 else {
                     beginExperiment();
@@ -342,7 +344,7 @@ public class ExperimentSetupPanel extends JPanel implements Resetable {
         }
     }
 
-    private void runOnce(final Runnable runnable, int time) {
+    private void runOnce( final Runnable runnable, int time ) {
         new Timer().schedule( new TimerTask() {
             public void run() {
                 runnable.run();

@@ -18,10 +18,11 @@ import java.awt.geom.Point2D;
 public class TxBoundary implements Boundary {
     AffineTransform transform;
     ModelBoundary modelBounds;
+
     /**
-     * @deprecated 
      * @param modelBounds
      * @param transform
+     * @deprecated
      */
     public TxBoundary( ModelBoundary modelBounds, AffineTransform transform ) {
         this.transform = transform;

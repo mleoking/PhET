@@ -11,14 +11,13 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.SphereHollowSphereExpert;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Command;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
 
@@ -31,7 +30,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 /**
- * 
+ *
  */
 public class HeliumBalloonModule extends IdealGasModule implements GasSource, IdealGasModule.ResetListener {
 
@@ -118,7 +117,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         // Randomize which end of the list of bodies we start searching from,
         // just to make sure there is no non-random effect on the temperature
         // of the system. We must also take care to remove the particle from the
-       // balloon or the box, depending on the parameter we got
+        // balloon or the box, depending on the parameter we got
         Object obj = null;
         while( obj == null ) {
             boolean randomB = new Random().nextBoolean();
@@ -168,8 +167,6 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
     public int getLightSpeciesCnt() {
         return super.getLightSpeciesCnt() - balloon.getLightSpeciesCnt();
     }
-
-
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes

@@ -5,7 +5,6 @@ package edu.colorado.phet.travoltage;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:58:15 AM
- *
  */
 
 public class PickUpElectrons implements LegNode.Listener {
@@ -18,7 +17,7 @@ public class PickUpElectrons implements LegNode.Listener {
     }
 
     public void limbRotated() {
-        double[]history = legNode.getAngleHistory();
+        double[] history = legNode.getAngleHistory();
         if( history.length >= 2 && inRange( history[history.length - 1] ) && inRange( history[history.length - 2] ) ) {
             addElectron();
         }

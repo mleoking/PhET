@@ -45,7 +45,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
     private void setMoleculeTracked( SimpleMolecule newMoleculeTracked ) {
         SimpleMolecule prevMolecule = moleculeTracked;
 
-        if (prevMolecule != newMoleculeTracked) {
+        if( prevMolecule != newMoleculeTracked ) {
             // If the previously tracked molecule is different than the one we are to
             // track now, tell the previously tracked molecule that it is no longer
             // selected
@@ -55,7 +55,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             }
             moleculeTracked = newMoleculeTracked;
 
-            System.out.println("Selected molecule changing to " + moleculeTracked);
+            System.out.println( "Selected molecule changing to " + moleculeTracked );
 
             determineNearestToSelected();
 
@@ -66,7 +66,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
     private void setClosestMolecule( SimpleMolecule newClosestMolecule ) {
         SimpleMolecule prevClosest = closestMolecule;
 
-        if (prevClosest != newClosestMolecule) {
+        if( prevClosest != newClosestMolecule ) {
             // If the previously tracked molecule is different than the one we are to
             // track now, tell the previously tracked molecule that it is no longer
             // selected
@@ -76,7 +76,7 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             }
             closestMolecule = newClosestMolecule;
 
-            System.out.println("Closest molecule changing to " + closestMolecule);
+            System.out.println( "Closest molecule changing to " + closestMolecule );
 
             listenerProxy.closestMoleculeChanged( closestMolecule, prevClosest );
             listenerProxy.moleculeBeingTrackedChanged( moleculeTracked, moleculeTracked );
@@ -111,9 +111,13 @@ public class SelectedMoleculeTracker extends PublishingModel.ModelListenerAdapte
             for( int i = 0; i < modelElements.size(); i++ ) {
                 SimpleMolecule testMolecule = (SimpleMolecule)modelElements.get( i );
 
-                if ( testMolecule == moleculeTracked ) continue;
+                if( testMolecule == moleculeTracked ) {
+                    continue;
+                }
 
-                if ( moleculeTrackedComponents.contains( testMolecule ) ) continue;
+                if( moleculeTrackedComponents.contains( testMolecule ) ) {
+                    continue;
+                }
 
                 double distSq = moleculeTracked.getPosition().distanceSq( testMolecule.getPosition() );
 

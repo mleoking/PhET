@@ -57,7 +57,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        final JPopupMenu jPopupMenu = new JPopupMenu(  );
+        final JPopupMenu jPopupMenu = new JPopupMenu();
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -84,7 +84,7 @@ public class IntensityReaderDecorator extends PhetPNode {
             }
         } );
 
-        buttonPSwing = new PSwing(close );
+        buttonPSwing = new PSwing( close );
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

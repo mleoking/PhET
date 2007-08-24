@@ -14,7 +14,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jul 18, 2006
  * Time: 12:35:09 AM
- *
  */
 
 public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {

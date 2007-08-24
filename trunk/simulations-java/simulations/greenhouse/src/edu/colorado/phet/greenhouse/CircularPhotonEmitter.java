@@ -33,7 +33,7 @@ public class CircularPhotonEmitter extends AbstractPhotonEmitter {
         Photon photon = new Photon( wavelength, this );
         photon.setDirection( theta );
         photon.setLocation( center.getX() + radius * Math.cos( theta ),
-                            center.getY() + radius * Math.sin( theta ));
+                            center.getY() + radius * Math.sin( theta ) );
         return photon;
     }
 }

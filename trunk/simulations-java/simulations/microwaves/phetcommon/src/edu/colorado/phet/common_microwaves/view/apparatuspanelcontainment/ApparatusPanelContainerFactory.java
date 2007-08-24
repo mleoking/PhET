@@ -9,5 +9,5 @@ package edu.colorado.phet.common_microwaves.view.apparatuspanelcontainment;
 import edu.colorado.phet.common_microwaves.application.ModuleManager;
 
 public interface ApparatusPanelContainerFactory {
-    ApparatusPanelContainer createApparatusPanelContainer(ModuleManager manager);
+    ApparatusPanelContainer createApparatusPanelContainer( ModuleManager manager );
 }

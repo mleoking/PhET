@@ -21,7 +21,7 @@ public class AudioIn extends Out {
     private String nativeString;
     private boolean useASIO = false;
     private short[] dataCommingIn;
-    private boolean writing = true;	// a safety flag to ensure that reading and writing don't occur at the same time
+    private boolean writing = true;    // a safety flag to ensure that reading and writing don't occur at the same time
 
     /**
      * Constructor. Default mixer, uses JavaSound API

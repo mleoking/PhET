@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 2, 2006
  * Time: 12:01:51 AM
- *
  */
 
 public class DoorknobNode extends PNode {

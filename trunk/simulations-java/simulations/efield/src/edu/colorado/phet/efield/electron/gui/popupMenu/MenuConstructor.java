@@ -4,11 +4,11 @@
 
 package edu.colorado.phet.efield.electron.gui.popupMenu;
 
-import javax.swing.JMenu;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
-public interface MenuConstructor
-{
+import javax.swing.*;
 
-    public abstract JMenu getMenu(Particle particle);
+public interface MenuConstructor {
+
+    public abstract JMenu getMenu( Particle particle );
 }

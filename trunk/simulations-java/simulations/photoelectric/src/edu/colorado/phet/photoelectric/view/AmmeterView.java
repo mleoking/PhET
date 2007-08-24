@@ -29,13 +29,13 @@ public class AmmeterView extends JPanel {
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
 
     public AmmeterView( final Ammeter ammeter ) {
-        this(ammeter, true );
+        this( ammeter, true );
     }
 
     public AmmeterView( final Ammeter ammeter, boolean horizontal ) {
         LayoutManager layout = horizontal ? new GridLayout( 1, 2 ) : new GridLayout( 2, 1 );
         JPanel currentPanel = new JPanel( layout );
-        currentPanel.add( new JLabel( "Current: "));
+        currentPanel.add( new JLabel( "Current: " ) );
         currentTF = new JTextField( 6 );
         currentPanel.add( currentTF );
         add( currentPanel );
@@ -43,7 +43,7 @@ public class AmmeterView extends JPanel {
         ammeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
             public void update( ScalarDataRecorder.UpdateEvent event ) {
                 double current = ammeter.getCurrent();
-                currentTF.setText( format.format( current ));
+                currentTF.setText( format.format( current ) );
             }
         } );
     }

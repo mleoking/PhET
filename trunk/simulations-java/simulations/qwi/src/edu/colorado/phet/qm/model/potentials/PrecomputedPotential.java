@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.model.Potential;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 8:58:00 PM
- *
  */
 
 public class PrecomputedPotential implements Potential {

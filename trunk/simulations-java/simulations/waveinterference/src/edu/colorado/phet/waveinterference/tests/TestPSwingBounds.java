@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 10:06:26 AM
- *
  */
 
 public class TestPSwingBounds extends Module {
@@ -28,7 +27,7 @@ public class TestPSwingBounds extends Module {
         PSwingCanvas panel = new PSwingCanvas();
         setSimulationPanel( panel );
         TestJComponent child = new TestJComponent();
-        pswing = new PSwing(child );
+        pswing = new PSwing( child );
         panel.getLayer().addChild( pswing );
     }
 

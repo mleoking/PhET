@@ -4,10 +4,10 @@ import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.Branch;
 import edu.colorado.phet.cck.model.components.Resistor;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -57,7 +57,7 @@ public class GrabBagButton extends JButton {
         for( int i = 0; i < bag.numItems(); i++ ) {
             final GrabBagItem it = bag.itemAt( i );
             BufferedImage image = it.getImage();
-            BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio(image, 40 );
+            BufferedImage fixedSize = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 40 );
 //            JButton jb = new JButton( it.getName(), new ImageIcon( fixedSize ) );
             ImageIcon icon = new ImageIcon( fixedSize );
             JButton jb = new JButton( it.getName() );

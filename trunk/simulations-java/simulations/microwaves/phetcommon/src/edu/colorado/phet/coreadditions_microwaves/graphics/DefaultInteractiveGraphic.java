@@ -50,11 +50,11 @@ public class DefaultInteractiveGraphic implements InteractiveGraphic {
     public void mousePressed( MouseEvent event ) {
         Point2D.Double current = new Point2D.Double( bounds.getX(), bounds.getY() );
         dragHandler = new DragHandler( new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() )
-                                       , current );
+                , current );
     }
 
     public void mouseDragged( MouseEvent event ) {
-        final Point2D.Double rel = dragHandler.getNewLocation( new Point2D.Double( event.getPoint().getX(), event.getPoint().getY()));
+        final Point2D.Double rel = dragHandler.getNewLocation( new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() ) );
         location.setLocation( rel.getX(),
                               rel.getY() );
         bounds.setRect( rel.getX(), rel.getY(), bounds.getWidth(), bounds.getHeight() );

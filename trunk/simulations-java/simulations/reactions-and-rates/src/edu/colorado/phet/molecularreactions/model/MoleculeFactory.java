@@ -32,7 +32,7 @@ public class MoleculeFactory {
      * @return a molecule
      */
     public static AbstractMolecule createMolecule( Class moleculeClass,
-                                           MoleculeParamGenerator moleculeParamGenerator ) {
+                                                   MoleculeParamGenerator moleculeParamGenerator ) {
         AbstractMolecule molecule = null;
         MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
         Point2D position = params.getPosition();
@@ -49,8 +49,8 @@ public class MoleculeFactory {
             molecule.setOmega( angularVelocity );
 
             double d = getComponentMoleculesOffset( mA, mB );
-            mA.setPosition( position.getX() - d/2, position.getY() );
-            mB.setPosition( position.getX() + d/2, position.getY() );
+            mA.setPosition( position.getX() - d / 2, position.getY() );
+            mB.setPosition( position.getX() + d / 2, position.getY() );
         }
         else if( moleculeClass == MoleculeBC.class ) {
             SimpleMolecule mC = new MoleculeC();
@@ -63,8 +63,8 @@ public class MoleculeFactory {
             molecule.setOmega( angularVelocity );
 
             double d = getComponentMoleculesOffset( mC, mB );
-            mC.setPosition( position.getX() - d/2, position.getY() );
-            mB.setPosition( position.getX() + d/2, position.getY() );
+            mC.setPosition( position.getX() - d / 2, position.getY() );
+            mB.setPosition( position.getX() + d / 2, position.getY() );
         }
         else {
             try {
@@ -85,6 +85,6 @@ public class MoleculeFactory {
     }
 
     public static double getComponentMoleculesOffset( SimpleMolecule mA, SimpleMolecule mB ) {
-        return Math.max( mA.getRadius(), mB.getRadius());
+        return Math.max( mA.getRadius(), mB.getRadius() );
     }
 }

@@ -9,10 +9,6 @@ package edu.colorado.phet.idealgas.model;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.util.ScalarDataRecorder;
 
 import java.util.List;

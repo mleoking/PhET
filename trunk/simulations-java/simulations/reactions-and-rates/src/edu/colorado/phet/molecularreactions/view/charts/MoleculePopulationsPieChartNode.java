@@ -54,7 +54,7 @@ public class MoleculePopulationsPieChartNode extends PNode {
         pieChart.setOffset( -bounds.getWidth() / 6, 0 );
 
         // Title
-        PText title = new PText( MRConfig.RESOURCES.getLocalizedString( "StripChart.title"));
+        PText title = new PText( MRConfig.RESOURCES.getLocalizedString( "StripChart.title" ) );
         title.setFont( MRConfig.CHART_TITLE_FONT );
         addChild( title );
         double x = bounds.getWidth() - title.getFullBounds().getWidth() - 20;
@@ -75,9 +75,9 @@ public class MoleculePopulationsPieChartNode extends PNode {
 
         setLegendMoleculePaints( profile );
 
-        model.addListener(new MRModel.ModelListenerAdapter() {
+        model.addListener( new MRModel.ModelListenerAdapter() {
             public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                setLegendMoleculePaints(profile);
+                setLegendMoleculePaints( profile );
             }
         } );
 
@@ -95,7 +95,7 @@ public class MoleculePopulationsPieChartNode extends PNode {
         addChild( mBCTextNode );
         addChild( mABTextNode );
         addChild( mCTextNode );
-        this.addChild( new PPath( bounds ));
+        this.addChild( new PPath( bounds ) );
 
         Insets paintSwatchInsets = new Insets( 5, 0, 5, 80 );
         Insets textInsets = new Insets( 5, 0, 5, 50 );
@@ -105,17 +105,17 @@ public class MoleculePopulationsPieChartNode extends PNode {
                                yPaintSwatchOffset );
         mATextNode.setOffset( bounds.getWidth() - textInsets.right,
                               yPaintSwatchOffset + yTextAdjustment );
-        yPaintSwatchOffset += + paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
+        yPaintSwatchOffset += +paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
         mBCPaintNode.setOffset( bounds.getWidth() - paintSwatchInsets.right,
                                 yPaintSwatchOffset );
         mBCTextNode.setOffset( bounds.getWidth() - textInsets.right,
                                yPaintSwatchOffset + yTextAdjustment );
-        yPaintSwatchOffset += + paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
+        yPaintSwatchOffset += +paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
         mABPaintNode.setOffset( bounds.getWidth() - paintSwatchInsets.right,
                                 yPaintSwatchOffset );
         mABTextNode.setOffset( bounds.getWidth() - textInsets.right,
                                yPaintSwatchOffset + yTextAdjustment );
-        yPaintSwatchOffset += + paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
+        yPaintSwatchOffset += +paintSwatchInsets.top + paintSwatchInsets.bottom + 10;
         mCPaintNode.setOffset( bounds.getWidth() - paintSwatchInsets.right,
                                yPaintSwatchOffset );
         mCTextNode.setOffset( bounds.getWidth() - textInsets.right,

@@ -113,7 +113,7 @@ public class TestModule extends MRModule {
      */
     void testK( MRModel model ) {
         {
-            model.setReaction( new A_BC_AB_C_Reaction(model) );
+            model.setReaction( new A_BC_AB_C_Reaction( model ) );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );
@@ -144,7 +144,7 @@ public class TestModule extends MRModule {
      */
     void testJ( MRModel model ) {
         {
-            model.setReaction( new A_BC_AB_C_Reaction(model) );
+            model.setReaction( new A_BC_AB_C_Reaction( model ) );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );
@@ -155,7 +155,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0.1 );
                 cm.setVelocity( 0, 4 );
                 model.addModelElement( cm );
@@ -175,7 +175,7 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
                 cm.setOmega( 0.1 );
                 cm.setVelocity( 0, -0.4 );
                 model.addModelElement( cm );
@@ -196,7 +196,7 @@ public class TestModule extends MRModule {
      */
     void testI( MRModel model ) {
         {
-            model.setReaction( new A_BC_AB_C_Reaction(model ) );
+            model.setReaction( new A_BC_AB_C_Reaction( model ) );
             {
                 SimpleMolecule m1 = new MoleculeA();
                 m1.setPosition( 180, 60 );
@@ -207,9 +207,9 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
-            cm.setOmega( 0.1 );
-            cm.setVelocity( 0, -0.4);
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
+                cm.setOmega( 0.1 );
+                cm.setVelocity( 0, -0.4 );
                 model.addModelElement( cm );
 
                 SimpleMolecule m2 = new MoleculeC();
@@ -227,9 +227,9 @@ public class TestModule extends MRModule {
                 m1a.setVelocity( 0, 0 );
                 model.addModelElement( m1a );
 
-                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a});
-            cm.setOmega( 0.1 );
-            cm.setVelocity( 0, -0.4);
+                CompositeMolecule cm = new MoleculeAB( new SimpleMolecule[]{m1, m1a} );
+                cm.setOmega( 0.1 );
+                cm.setVelocity( 0, -0.4 );
                 model.addModelElement( cm );
 
                 SimpleMolecule m2 = new MoleculeC();

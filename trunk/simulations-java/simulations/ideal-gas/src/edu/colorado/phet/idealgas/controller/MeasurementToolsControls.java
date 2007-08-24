@@ -12,9 +12,8 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import javax.swing.*;
 import java.awt.event.*;

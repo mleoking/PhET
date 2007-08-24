@@ -1,16 +1,14 @@
-
 package edu.colorado.phet.forces1d.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -19,7 +17,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 11:29:31 AM
- *
  */
 public class ArrowSetGraphic extends CompositePhetGraphic {
     private Force1DPanel force1DPanel;

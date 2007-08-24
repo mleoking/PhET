@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.molecularreactions.model.CompositeBody;
 import edu.colorado.phet.molecularreactions.model.PotentialEnergySource;

@@ -7,11 +7,11 @@
 package edu.colorado.phet.common_1200.view.graphics.bounds;
 
 /**
- * @deprecated 
+ * @deprecated
  */
 public interface ModelBoundary {
     /**
      * @deprecated
-    */
+     */
     boolean contains( double x, double y );
 }

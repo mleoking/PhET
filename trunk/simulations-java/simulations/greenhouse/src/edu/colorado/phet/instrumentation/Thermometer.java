@@ -36,7 +36,7 @@ public class Thermometer extends ModelElement {
         temperature = sum / temperatureHistorySize;
 
         setChanged();
-        notifyObservers( new Double( temperature ));
+        notifyObservers( new Double( temperature ) );
     }
 
     public Point2D.Double getLocation() {

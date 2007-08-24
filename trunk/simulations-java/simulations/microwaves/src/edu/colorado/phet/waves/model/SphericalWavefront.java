@@ -10,8 +10,8 @@ package edu.colorado.phet.waves.model;
 public class SphericalWavefront implements WavefrontType {
 
     public float computeAmplitudeAtDistance( Wave wavefront,
-                                              float amplitude,
-                                              float distance ) {
+                                             float amplitude,
+                                             float distance ) {
         float[] amplitudes = wavefront.getAmplitude();
         float factor = 1.0f - (float)( 0.05 * distance / amplitudes.length );
 //        float factor = 1.0 - ( (float)wavefront.getPropagationSpeed()) / ( amplitudes.length - (int)distance );

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.util;
 
 import java.awt.*;
@@ -9,7 +8,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 17, 2004
  * Time: 3:15:06 PM
- *
  */
 public class RectangleUtils {
     public static Rectangle2D expandRectangle2D( Rectangle2D r, double dx, double dy ) {

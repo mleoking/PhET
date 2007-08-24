@@ -13,7 +13,7 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 16, 2003
  * Time: 9:34:20 AM
- *
+ * <p/>
  * This level of granularity is required because different loaders return different
  * pixel data, and the final result is highly dependent on that
  * and the conversion mechanism.

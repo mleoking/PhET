@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 24, 2005
  * Time: 5:09:07 PM
- *
  */
 
 public class ObservablePanel extends AdvancedPanel {

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.idealgas.model.HollowSphere;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.HollowSphere;
 import edu.colorado.phet.idealgas.model.LightSpecies;
 
 

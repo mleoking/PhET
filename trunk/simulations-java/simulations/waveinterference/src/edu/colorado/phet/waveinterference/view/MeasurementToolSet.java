@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 8:24:31 PM
- *
  */
 
 public class MeasurementToolSet extends PhetPNode {
@@ -40,7 +39,7 @@ public class MeasurementToolSet extends PhetPNode {
         addChild( measuringTape );
 
         stopwatchDecorator = new StopwatchPanelDectorator( clock, timeScale, timeUnits );
-        pswing = new PSwing(stopwatchDecorator );
+        pswing = new PSwing( stopwatchDecorator );
         stopwatchGraphic = new PhetPNode( pswing );
         stopwatchGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         stopwatchGraphic.addInputEventListener( new PDragEventHandler() );

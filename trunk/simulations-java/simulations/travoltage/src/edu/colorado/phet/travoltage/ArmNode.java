@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:03:58 AM
- *
  */
 
 public class ArmNode extends LimbNode {

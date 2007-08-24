@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 3:14:15 PM
- *
  */
 
 public class RestrictedDetectorGraphic extends DetectorGraphic {

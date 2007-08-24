@@ -34,7 +34,7 @@ public class SSCanvas extends PhetPCanvas {
         if( !this.zoomEnabled && zoomEnabled ) {
             setZoomEventHandler( zoomHandler );
         }
-        else if( this.zoomEnabled && !zoomEnabled ){
+        else if( this.zoomEnabled && !zoomEnabled ) {
             setZoomEventHandler( null );
         }
         this.zoomEnabled = zoomEnabled;

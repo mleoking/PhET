@@ -18,7 +18,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 5, 2005
  * Time: 5:03:07 AM
- *
  */
 
 public class GoPauseClearPanel extends VerticalLayoutPanel {
@@ -133,8 +132,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         clearButton.repaint( 0, 0, clearButton.getWidth(), clearButton.getHeight() );
         if( module instanceof RampTimeSeriesModel ) {
             RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
-            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null )
-            {
+            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
 //                System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
                 rampTimeSeriesModel.getRampModule().getRampPanel().repaint();
             }
@@ -152,7 +150,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     }
 
     static class ControlButton extends JButton {
-//        static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
+        //        static Font font = new Font( "Lucida Sans", Font.BOLD, 14 );
         private static Font font = RampFontSet.getFontSet().getNormalButtonFont();
 
         public ControlButton( String text ) {

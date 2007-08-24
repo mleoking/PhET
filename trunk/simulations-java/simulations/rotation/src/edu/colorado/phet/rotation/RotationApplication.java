@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
-import edu.umd.cs.piccolo.util.PDebug;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;

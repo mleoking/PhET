@@ -32,7 +32,7 @@ public class WaterMolecule extends PolarBody {
         Body oxygen = new Disk( this.getLocation(), s_oxygenRadius );
 
         // Assume that the mass is equal to the area
-        oxygen.setMass( Math.PI * ( 2 * s_hydrogenAngleRad *  s_hydrogenAngleRad
+        oxygen.setMass( Math.PI * ( 2 * s_hydrogenAngleRad * s_hydrogenAngleRad
                                     + s_oxygenRadius * s_oxygenRadius ) );
 
         super.addBody( oxygen );
@@ -145,15 +145,15 @@ public class WaterMolecule extends PolarBody {
         lobes[0].setCenter( this.getLocation().getX(), this.getLocation().getY() );
 
         x = this.getLocation().getX()
-                + s_hydrogenOxygenDist * Math.cos( dipoleOrientation + s_hydrogenAngleRad / 2 );
+            + s_hydrogenOxygenDist * Math.cos( dipoleOrientation + s_hydrogenAngleRad / 2 );
         y = this.getLocation().getY()
-                + s_hydrogenOxygenDist * Math.sin( dipoleOrientation + s_hydrogenAngleRad / 2 );
+            + s_hydrogenOxygenDist * Math.sin( dipoleOrientation + s_hydrogenAngleRad / 2 );
         lobes[1].setCenter( x, y );
 
         x = this.getLocation().getX()
-                + s_hydrogenOxygenDist * Math.cos( dipoleOrientation - s_hydrogenAngleRad / 2 );
+            + s_hydrogenOxygenDist * Math.cos( dipoleOrientation - s_hydrogenAngleRad / 2 );
         y = this.getLocation().getY()
-                + s_hydrogenOxygenDist * Math.sin( dipoleOrientation - s_hydrogenAngleRad / 2 );
+            + s_hydrogenOxygenDist * Math.sin( dipoleOrientation - s_hydrogenAngleRad / 2 );
         lobes[2].setCenter( x, y );
 
         super.setDipoleOrientation( dipoleOrientation );
@@ -176,7 +176,6 @@ public class WaterMolecule extends PolarBody {
     }
 
     /**
-     *
      * @return
      */
     public Lobe[] getLobes() {
@@ -207,7 +206,7 @@ public class WaterMolecule extends PolarBody {
     // electrical field
     // Changed to values recommended by Trish Loeblien on 12/08/05
     public static double s_c = 7E-4;
-    public static double s_b = 3E-4 ;
+    public static double s_b = 3E-4;
 //    public static double s_c = 1E-3;
 //    public static double s_b = s_c * 5 ;
 

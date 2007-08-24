@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 12:04:22 PM
- *
  */
 
 public class PlaneWave implements Wave {

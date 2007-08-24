@@ -26,7 +26,7 @@ public class TestApparatusPanel extends ApparatusPanel {
 //    }
 
     public void setModelBounds( Rectangle2D.Double bounds ) {
-        super.setAffineTransformFactory( new FlipperAffineTransformFactory( bounds ));
+        super.setAffineTransformFactory( new FlipperAffineTransformFactory( bounds ) );
         super.updateTransform();
     }
 }

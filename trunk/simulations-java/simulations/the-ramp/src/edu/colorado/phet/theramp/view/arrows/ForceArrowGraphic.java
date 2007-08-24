@@ -5,13 +5,13 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,7 +22,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 8:22:35 PM
- *
  */
 public class ForceArrowGraphic extends PNode {
     private double arrowTailWidth = 7;
@@ -34,7 +33,7 @@ public class ForceArrowGraphic extends PNode {
     private AbstractArrowSet.ForceComponent forceComponent;
     private HTMLNode textGraphic;
     private PPath shapeGraphic;
-//    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
+    //    private final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
     private final Font font = RampFontSet.getFontSet().getForceArrowLabelFont();
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;
@@ -44,10 +43,10 @@ public class ForceArrowGraphic extends PNode {
     private static final double THRESHOLD = 10E-8;
     private Color baseColor;
     private double verticalOffset = 0;
-//    private int textOffset=42;
+    //    private int textOffset=42;
     private int textOffset = 30;
     private int boundGraphicInsetX = 2;
-//    private double boundGraphicInsetY=0.5;
+    //    private double boundGraphicInsetY=0.5;
     private double boundGraphicInsetY = 0;
 
     public ForceArrowGraphic( Component component, String name, Color color,

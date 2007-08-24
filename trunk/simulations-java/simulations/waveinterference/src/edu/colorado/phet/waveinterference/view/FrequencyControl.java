@@ -21,7 +21,7 @@ public class FrequencyControl extends VerticalLayoutPanel {
 //        final LinearValueControl frequencySlider = new LinearValueControl( 0, 3, WIStrings.getString( "controls.frequency" ), "0.00", WIStrings.getString( "units.frequency" ) );
         final LinearValueControl frequencySlider = new LinearValueControl( 0, 3, WIStrings.getString( "controls.frequency" ), "0.00",
                                                                            null,//no units visible
-                                                                           new ModelSliderLayoutStrategy( ));//center the title
+                                                                           new ModelSliderLayoutStrategy() );//center the title
         frequencySlider.setValue( oscillator.getFrequency() );
         frequencySlider.setBorder( null );
         frequencySlider.addChangeListener( new ChangeListener() {

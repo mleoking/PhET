@@ -151,7 +151,7 @@ public class Electron extends Body {
 
     public edu.colorado.phet.common.phetcommon.math.Vector2D getVelocity() {
 //    public Vector2D.Float getVelocity() {
-        return new edu.colorado.phet.common.phetcommon.math.Vector2D.Double(velocity.getX(),velocity.getY());
+        return new edu.colorado.phet.common.phetcommon.math.Vector2D.Double( velocity.getX(), velocity.getY() );
 //        return this.velocity;
     }
 
@@ -173,6 +173,7 @@ public class Electron extends Body {
      * Returns a the dynamic electric field at a specified point. Note that to minimize
      * memory allocation, the Vector2D.Float returned is re-used by every call to this method.
      * Therefore, clients should copy the values from it. Also, the method is not reentrant
+     *
      * @param location
      * @return
      */
@@ -313,7 +314,7 @@ public class Electron extends Body {
         return result;
     }
 
-//    public Point2D getCM() {
+    //    public Point2D getCM() {
     public Point2D getCM() {
         return getPosition();
     }

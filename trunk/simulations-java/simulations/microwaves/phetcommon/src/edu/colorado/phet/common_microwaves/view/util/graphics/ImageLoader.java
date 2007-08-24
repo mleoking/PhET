@@ -11,7 +11,6 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Apr 16, 2003
  * Time: 9:34:20 AM
- *
  */
 public class ImageLoader {
 

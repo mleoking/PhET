@@ -10,6 +10,7 @@ public interface PeriodicFunction {
 
     /**
      * Gives the amplitude of the wave funtion at a specified time
+     *
      * @param time
      * @return
      */

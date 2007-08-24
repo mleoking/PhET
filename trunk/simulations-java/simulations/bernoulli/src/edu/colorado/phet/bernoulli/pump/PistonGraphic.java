@@ -3,13 +3,13 @@ package edu.colorado.phet.bernoulli.pump;
 //import edu.colorado.phet.bernoulli.common.DifferentialDragHandler;
 
 import edu.colorado.phet.bernoulli.common.RepaintManager;
-import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
-import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHandler;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows.LineSegment;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -22,7 +22,6 @@ import java.util.Observer;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:08:54 AM
- *
  */
 public class PistonGraphic implements InteractiveGraphic, Observer, TransformListener {
     Rectangle shape;
@@ -32,7 +31,7 @@ public class PistonGraphic implements InteractiveGraphic, Observer, TransformLis
     private RepaintManager rm;
     LineSegment segment = new LineSegment( new BasicStroke( 4 ), Color.black );
 
-//    private Point targetPoint;
+    //    private Point targetPoint;
     private Point anchor;
     private Point center;
     PistonRectangle centeredRectangle = new PistonRectangle( 30, 80 );

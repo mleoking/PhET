@@ -29,6 +29,7 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
         implements BoundedGraphic, Translatable, TransformListener {
 
     private static BufferedImage image;
+
     static {
         try {
             image = ImageLoader.loadBufferedImage( EmfConfig.bigElectronImg );
@@ -78,8 +79,8 @@ public class TransmitterElectronGraphic extends DefaultInteractiveGraphic
     private void init( ApparatusPanel apparatusPanel, /*final Point origin,*/ Electron electron ) {
         this.apparatusPanel = apparatusPanel;
         electronGraphic = new ElectronGraphic( apparatusPanel, image, electron );
-        super.setBoundary( electronGraphic);
-        super.setGraphic( electronGraphic);
+        super.setBoundary( electronGraphic );
+        super.setGraphic( electronGraphic );
         electron.addObserver( electronGraphic );
         this.addCursorHandBehavior();
         this.addTranslationBehavior( this );

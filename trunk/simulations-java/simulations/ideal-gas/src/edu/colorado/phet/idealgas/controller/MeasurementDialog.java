@@ -8,9 +8,8 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -130,9 +129,10 @@ public class MeasurementDialog extends JDialog {
     class StopwatchControl extends JPanel {
 
         public StopwatchControl() {
-           final JCheckBox stopwatchCB = new JCheckBox( IdealGasResources.getString("MeasurementControlPanel.Stopwatch"), false );
+            final JCheckBox stopwatchCB = new JCheckBox( IdealGasResources.getString( "MeasurementControlPanel.Stopwatch" ), false );
             stopwatchCB.addActionListener( new ActionListener() {
                 PhetFrame frame = PhetApplication.instance().getPhetFrame();
+
                 public void actionPerformed( ActionEvent e ) {
                     module.setStopwatchEnabled( stopwatchCB.isSelected() );
                 }

@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 12:40:41 PM
- *
  */
 
 public class SquareAtomLattice extends FractionalAtomLattice {

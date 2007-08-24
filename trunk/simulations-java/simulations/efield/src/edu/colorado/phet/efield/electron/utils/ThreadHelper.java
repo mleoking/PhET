@@ -6,18 +6,14 @@ package edu.colorado.phet.efield.electron.utils;
 
 //Testing subclipse
 
-public class ThreadHelper
-{
+public class ThreadHelper {
 
-    public static void quietNap(int i)
-    {
-        try
-        {
-            Thread.sleep(i);
+    public static void quietNap( int i ) {
+        try {
+            Thread.sleep( i );
         }
-        catch(InterruptedException interruptedexception)
-        {
-            System.out.println("Napping disturbed");
+        catch( InterruptedException interruptedexception ) {
+            System.out.println( "Napping disturbed" );
         }
     }
 

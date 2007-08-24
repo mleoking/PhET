@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics;
 
 import java.awt.*;
@@ -7,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 5:59:29 PM
- *
  */
 public class BasicTextGraphic extends BasicGraphic implements ITextGraphic {
     private Font font;

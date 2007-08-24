@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 9:23:32 PM
- *
  */
 
 public class SRRWavelengthSlider extends PNode {

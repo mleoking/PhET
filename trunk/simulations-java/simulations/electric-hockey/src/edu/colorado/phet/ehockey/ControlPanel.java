@@ -17,7 +17,7 @@ public class ControlPanel extends JPanel {
     private JButton clearBtn; //pauseBtn;
     private JCheckBox pauseChkBox;
     private JButton traceBtn;
-    private boolean toggleTrace, showField;	//togglePause,
+    private boolean toggleTrace, showField;    //togglePause,
     private JCheckBox traceChkBox;
     private JCheckBox fieldGridChkBox;
 
@@ -28,8 +28,8 @@ public class ControlPanel extends JPanel {
     private JLabel difficultyLbl;
 
     private int nbrTries;
-    private JLabel nbrTriesLbl;			//nbr of tries at present level
-    private JLabel nbrChargesLbl;		//nbr of charges on the playing field
+    private JLabel nbrTriesLbl;            //nbr of tries at present level
+    private JLabel nbrChargesLbl;        //nbr of charges on the playing field
 
     private JLabel massLbl;
     private JTextField massText;
@@ -40,7 +40,7 @@ public class ControlPanel extends JPanel {
     public static final int LEVEL_2 = 2;
     public static final int LEVEL_3 = 3;
 
-    private int levelState;			//0, 1, 2, or 3 depending on BarrierState
+    private int levelState;            //0, 1, 2, or 3 depending on BarrierState
 
     private ButtonGroup btnGroup;
 
@@ -196,7 +196,6 @@ public class ControlPanel extends JPanel {
         panelBottomRight.add( massLbl );
         panelBottomRight.add( massText );
         panelBottomRight.add( massSlider );
-
 
 //        panelTop.setLayout( new GridLayout( 1, 3 ) );
         panelTop.setLayout( new FlowLayout() );

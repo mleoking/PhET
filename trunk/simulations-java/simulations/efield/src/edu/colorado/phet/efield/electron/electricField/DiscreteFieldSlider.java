@@ -16,34 +16,35 @@ public class DiscreteFieldSlider implements ActionListener, ChangeListener {
     JSlider s;
     Component paintMe;
 
-    public DiscreteFieldSlider(ElectricFieldPainter efp, Component paintMe) {
+    public DiscreteFieldSlider( ElectricFieldPainter efp, Component paintMe ) {
         this.paintMe = paintMe;
         //b=new JButton( SimStrings.get( "DiscreteFieldSlider.ChangeElectricFieldButton" ) );
         //b.addActionListener(this);
-        sliderFrame = new JFrame( SimStrings.get( "DiscreteFieldSlider.ElectricFieldDiscretenessTitle" ));
-        s = new JSlider(1, 30, 10);
-        s.setMajorTickSpacing(1);
-        s.setPaintTicks(true);
-        s.setPaintLabels(true);
-        s.setSnapToTicks(true);
-        sliderFrame.setContentPane(s);
+        sliderFrame = new JFrame( SimStrings.get( "DiscreteFieldSlider.ElectricFieldDiscretenessTitle" ) );
+        s = new JSlider( 1, 30, 10 );
+        s.setMajorTickSpacing( 1 );
+        s.setPaintTicks( true );
+        s.setPaintLabels( true );
+        s.setSnapToTicks( true );
+        sliderFrame.setContentPane( s );
         sliderFrame.pack();
-        sliderFrame.setSize(sliderFrame.getWidth() * 3, sliderFrame.getHeight());
-        s.addChangeListener(this);
+        sliderFrame.setSize( sliderFrame.getWidth() * 3, sliderFrame.getHeight() );
+        s.addChangeListener( this );
         this.efp = efp;
     }
 //      public JButton getButton()
 //      {
 //  	return b;
-//      }
-    public void actionPerformed(ActionEvent ae) {
-        sliderFrame.setVisible(true);
+
+    //      }
+    public void actionPerformed( ActionEvent ae ) {
+        sliderFrame.setVisible( true );
     }
 
-    public void stateChanged(ChangeEvent ce) {
+    public void stateChanged( ChangeEvent ce ) {
         int nx = s.getValue();
-        efp.setNX(nx);
-        efp.setNY(nx);
+        efp.setNX( nx );
+        efp.setNY( nx );
         paintMe.repaint();
     }
 }

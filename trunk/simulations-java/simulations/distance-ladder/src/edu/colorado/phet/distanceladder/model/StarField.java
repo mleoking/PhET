@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.distanceladder.model;
 
-import edu.colorado.phet.distanceladder.common.model.CompositeModelElement;
 import edu.colorado.phet.distanceladder.Config;
+import edu.colorado.phet.distanceladder.common.model.CompositeModelElement;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;

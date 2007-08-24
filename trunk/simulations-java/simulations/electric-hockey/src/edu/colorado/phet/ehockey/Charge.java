@@ -6,16 +6,16 @@ import java.awt.geom.Point2D;
 
 
 public class Charge extends JComponent {
-    Point position;			//integer position
-    Point2D position2D;		//Double position
+    Point position;            //integer position
+    Point2D position2D;        //Double position
     private Color color;
 
-    int sign;  				//O = plus, 1 = minus
+    int sign;                  //O = plus, 1 = minus
     double magnitude;
     int radius;
     public static final int NEGATIVE = -1;
     public static final int POSITIVE = 1;
-    public static final int GRID = 3;		//field grid test charges are +1 positive and are colored gray
+    public static final int GRID = 3;        //field grid test charges are +1 positive and are colored gray
 
     public Charge( Point2D position2D, int sign ) {
         this( position2D, sign, getColor( sign ) );

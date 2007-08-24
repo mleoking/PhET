@@ -28,7 +28,7 @@ import java.util.List;
 public class CollisionAgent implements ModelElement {
 
     private MRCollisionAgent moleculeMoleculeCollisionAgent;
-//    private MoleculeMoleculeHardSphereCollisionAgent moleculeMoleculeCollisionAgent;
+    //    private MoleculeMoleculeHardSphereCollisionAgent moleculeMoleculeCollisionAgent;
     private MoleculeBoxCollisionAgent moleculeBoxCollisionAgent;
     private MRModel model;
 

@@ -18,7 +18,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 10:09:01 AM
- *
  */
 
 public class JFreeChartIcon {

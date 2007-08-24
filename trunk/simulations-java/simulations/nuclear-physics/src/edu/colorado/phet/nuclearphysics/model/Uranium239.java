@@ -22,7 +22,7 @@ public class Uranium239 extends Nucleus {
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------
-    
+
     public Uranium239( Point2D position, BaseModel model ) {
         super( position, NUM_PROTONS, NUM_NEUTRONS );
     }

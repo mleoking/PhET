@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 8:00:39 AM
- *
  */
 public class AbsoluteFrameSetup implements FrameSetup {
     private int width;

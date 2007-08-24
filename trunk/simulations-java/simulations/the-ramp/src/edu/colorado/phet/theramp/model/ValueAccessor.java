@@ -11,7 +11,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 9:42:43 PM
- *
  */
 
 public abstract class ValueAccessor {
@@ -103,7 +102,7 @@ public abstract class ValueAccessor {
 
     public static class AppliedWork extends WorkAccessor {
         public AppliedWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "forces.applied" ), rampLookAndFeel.getAppliedWorkColor(), TheRampStrings.getString( "forces.applied" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.applied" ), rampLookAndFeel.getAppliedWorkColor(), TheRampStrings.getString( "forces.applied" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -123,7 +122,7 @@ public abstract class ValueAccessor {
 
     public static class GravityWork extends WorkAccessor {
         public GravityWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "forces.Gravity" ), rampLookAndFeel.getGravityWorkColor(), TheRampStrings.getString( "forces.Gravity" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.Gravity" ), rampLookAndFeel.getGravityWorkColor(), TheRampStrings.getString( "forces.Gravity" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -133,7 +132,7 @@ public abstract class ValueAccessor {
 
     public static class TotalWork extends WorkAccessor {
         public TotalWork( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "forces.Net" ), rampLookAndFeel.getTotalWorkColor(), TheRampStrings.getString( "forces.Net" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.Net" ), rampLookAndFeel.getTotalWorkColor(), TheRampStrings.getString( "forces.Net" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -173,7 +172,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelAppliedAccessor extends ParallelForceAccessor {
         public ParallelAppliedAccessor( RampLookAndFeel lookAndFeel ) {
-            super( TheRampStrings.getString( "forces.parallel-applied" ), lookAndFeel.getAppliedForceColor(), TheRampStrings.getString( "forces.applied" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.parallel-applied" ), lookAndFeel.getAppliedForceColor(), TheRampStrings.getString( "forces.applied" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -183,7 +182,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelGravityAccessor extends ParallelForceAccessor {
         public ParallelGravityAccessor( RampLookAndFeel lookAndFeel ) {
-            super( TheRampStrings.getString( "forces.parallel-gravity" ), lookAndFeel.getWeightColor(), TheRampStrings.getString( "forces.Gravity" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.parallel-gravity" ), lookAndFeel.getWeightColor(), TheRampStrings.getString( "forces.Gravity" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {
@@ -193,7 +192,7 @@ public abstract class ValueAccessor {
 
     public static class ParallelWallForceAccessor extends ParallelForceAccessor {
         public ParallelWallForceAccessor( RampLookAndFeel rampLookAndFeel ) {
-            super( TheRampStrings.getString( "forces.parallel-wall" ), rampLookAndFeel.getWallForceColor(), TheRampStrings.getString( "forces.Wall" ).toLowerCase( ) );
+            super( TheRampStrings.getString( "forces.parallel-wall" ), rampLookAndFeel.getWallForceColor(), TheRampStrings.getString( "forces.Wall" ).toLowerCase() );
         }
 
         public double getValue( RampPhysicalModel rampPhysicalModel ) {

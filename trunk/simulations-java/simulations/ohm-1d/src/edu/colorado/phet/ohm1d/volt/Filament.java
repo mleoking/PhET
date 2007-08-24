@@ -7,11 +7,11 @@
  */
 package edu.colorado.phet.ohm1d.volt;
 
-import edu.colorado.phet.ohm1d.gui.CoreCountListener;
-import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 import edu.colorado.phet.ohm1d.common.wire1d.paint.WirePatchPainter;
+import edu.colorado.phet.ohm1d.gui.CoreCountListener;
+import edu.colorado.phet.ohm1d.gui.VoltageListener;
 
 import java.awt.*;
 

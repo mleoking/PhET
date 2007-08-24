@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
+import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.common.application.Module;
 import edu.colorado.phet.distanceladder.common.view.ApparatusPanel;
-import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.CockpitView;
 import edu.colorado.phet.distanceladder.view.ParallaxReticle;

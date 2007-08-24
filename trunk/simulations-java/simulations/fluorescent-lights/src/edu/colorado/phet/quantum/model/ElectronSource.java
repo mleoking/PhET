@@ -12,8 +12,8 @@ package edu.colorado.phet.quantum.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 
 import java.awt.geom.Point2D;
 import java.util.EventListener;
@@ -50,7 +50,7 @@ public class ElectronSource implements ModelElement {
     private double electronsPerSecond;
     private double timeSincelastElectronEmitted;
     private ElectromotiveForce emf;
-//    private DischargeLampModel emf;
+    //    private DischargeLampModel emf;
     private Point2D p1;
     private Point2D p2;
     private Plate plate;
@@ -61,8 +61,8 @@ public class ElectronSource implements ModelElement {
      * Emits electrons along a line between two points
      *
      * @param emf
-     * @param p1    One endpoint of the line
-     * @param p2    The other endpoint of the line
+     * @param p1  One endpoint of the line
+     * @param p2  The other endpoint of the line
      */
     public ElectronSource( ElectromotiveForce emf, Point2D p1, Point2D p2, Plate plate ) {
 //    public ElectronSource( DischargeLampModel emf, Point2D p1, Point2D p2, Plate plate ) {

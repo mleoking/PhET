@@ -42,6 +42,7 @@ public abstract class LaserElementProperties extends ElementProperties {
 //    }
 
     //
+
     public AtomicState getMiddleEnergyState() {
         return getStates()[1];
     }

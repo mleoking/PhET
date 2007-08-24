@@ -22,7 +22,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 6:35:56 PM
- *
  */
 
 public class SchrodingerRulerGraphic extends PhetPNode {
@@ -44,13 +43,13 @@ public class SchrodingerRulerGraphic extends PhetPNode {
         addChild( this.rulerGraphic );
 
         JButton rotate = createRotateButton();
-        PSwing rotateButton = new PSwing(rotate );
+        PSwing rotateButton = new PSwing( rotate );
         addChild( rotateButton );
         rotateButton.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         rotateButton.setOffset( -2 - rotateButton.getWidth(), 0 );
 
         JButton closeButton = createCloseButton();
-        PSwing closeGraphic = new PSwing(closeButton );
+        PSwing closeGraphic = new PSwing( closeButton );
         addChild( closeGraphic );
         closeGraphic.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         closeGraphic.setOffset( rotateButton.getX(), rotateButton.getY() - rotateButton.getHeight() - 2 );

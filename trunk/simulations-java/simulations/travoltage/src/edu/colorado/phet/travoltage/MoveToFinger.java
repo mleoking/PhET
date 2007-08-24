@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: Jul 2, 2006
  * Time: 12:53:51 AM
- *
  */
 
 public class MoveToFinger extends MoveElectronsJade {

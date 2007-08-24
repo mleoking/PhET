@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -14,7 +13,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 17, 2004
  * Time: 8:56:23 AM
- *
  */
 public class ColumnDebugGraphic implements Graphic {
     EnergySection energySection;

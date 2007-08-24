@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -12,7 +11,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 2:14:24 PM
- *
  */
 public class DepleteLeft implements ModelElement {
     int bandSet;

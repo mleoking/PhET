@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2WithBuffer;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.image.ImageObserver;
@@ -12,7 +12,6 @@ import java.awt.image.ImageObserver;
  * User: Sam Reid
  * Date: Sep 30, 2003
  * Time: 12:58:36 AM
- *
  */
 public class CastleView implements Graphic {
     private Castle castle;

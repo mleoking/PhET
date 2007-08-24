@@ -13,17 +13,17 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.NuclearPhysicsModule;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,7 +41,7 @@ public class ExplodingContainmentGraphic {
     private List kaboomGraphics = new ArrayList();
 //    private JLabel labelMessage;
 //    private PhetShapeGraphic backgroundGraphic;
-//    private double blackBacgroundLayer = Double.MAX_VALUE - 2;
+    //    private double blackBacgroundLayer = Double.MAX_VALUE - 2;
     private double tileLayer = Double.MAX_VALUE;
     private ApparatusPanel apparatusPanel;
 
@@ -89,15 +89,15 @@ public class ExplodingContainmentGraphic {
                 }
                 double txX = ( ( x + tile.getWidth() / 2 ) - snapshot.getWidth() / 2 ) * 0.03;
                 double txY = ( ( y + tile.getHeight() / 2 ) - snapshot.getHeight() / 2 ) * 0.03;
-                PhetGraphic graphic = new KaboomGraphic(                         module,
-                                                                                 tile, new Point( (int)x + snapshot.getWidth() / 2,
-                                                                                                  (int)y + snapshot.getHeight() / 2 ),
-                                                                                 zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
+                PhetGraphic graphic = new KaboomGraphic( module,
+                                                         tile, new Point( (int)x + snapshot.getWidth() / 2,
+                                                                          (int)y + snapshot.getHeight() / 2 ),
+                                                         zoom, spin, 0, 0, flipFactorX, flipFactorY, txX, txY );
                 apparatusPanel.addGraphic( graphic, tileLayer );
                 graphic.setLocation( (int)x, (int)y );
                 // We need to do this because otherwise the mouse never gets through after a reset. This is
                 // obviously due to a bug somewhere else!!!!!
-                graphic.setIgnoreMouse( true);
+                graphic.setIgnoreMouse( true );
                 kaboomGraphics.add( graphic );
             }
         }

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -13,7 +12,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 27, 2004
  * Time: 10:40:11 PM
- *
  */
 public class GoToMagnet implements BandParticleState {
     Magnet magnet;
@@ -22,7 +20,7 @@ public class GoToMagnet implements BandParticleState {
     private double dy;
     EnergyCell from;
 
-    public GoToMagnet( Magnet magnet,EnergyCell from ) {
+    public GoToMagnet( Magnet magnet, EnergyCell from ) {
         this.magnet = magnet;
         this.from = from;
         double delta = magnet.getBounds().getWidth() * .3;

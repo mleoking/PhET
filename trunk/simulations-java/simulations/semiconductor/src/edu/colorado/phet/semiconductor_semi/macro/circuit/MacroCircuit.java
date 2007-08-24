@@ -6,7 +6,6 @@ import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.Battery;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 5:38:39 PM
- *
  */
 public class MacroCircuit extends Circuit {
     private Resistor resistor;

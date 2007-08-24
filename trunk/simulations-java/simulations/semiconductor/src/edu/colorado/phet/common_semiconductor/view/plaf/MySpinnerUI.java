@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_semiconductor.view.plaf;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -15,10 +14,9 @@ import java.awt.event.MouseListener;
  * User: Sam Reid
  * Date: Apr 2, 2004
  * Time: 2:45:20 PM
- *
  */
 public class MySpinnerUI extends BasicSpinnerUI {
-//    static String path="semiconductor/images/animfactory/suites/alum/";
+    //    static String path="semiconductor/images/animfactory/suites/alum/";
     static String path = "semiconductor/images/animfactory/suites/graymarble/";
     static ImageIcon up = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up.gif" ) ) );
     static ImageIcon uppressed = ( new ImageIcon( MySpinnerUI.class.getClassLoader().getResource( path + "up2.gif" ) ) );

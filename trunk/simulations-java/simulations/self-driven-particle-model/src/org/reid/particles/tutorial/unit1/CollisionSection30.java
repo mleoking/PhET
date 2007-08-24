@@ -27,7 +27,7 @@ public class CollisionSection30 extends Page {
                  "I'll indicate visual range with a yellow highlight.  " +
                  "In the nonrandom case, particles choose their direction of motion as the average of all particles within their visual range (including themselves)." );
         setFinishText( "\nYou can run it again if you like." );
-        dy = getParticleModel().getBoxHeight()*0.2;
+        dy = getParticleModel().getBoxHeight() * 0.2;
     }
 
     public void init() {
@@ -36,8 +36,8 @@ public class CollisionSection30 extends Page {
         super.clearParticles();
         getBasePage().getParticleModel().setRandomness( 0 );
 
-        getBasePage().addParticle( getParticleModel().getBoxWidth() / 2, getParticleModel().getBoxHeight() * 0.9-dy, -Math.PI / 2, Color.red );
-        getBasePage().addParticle( getParticleModel().getBoxWidth() * 0.1, getParticleModel().getBoxHeight() * 0.5-dy, 0, Color.blue );
+        getBasePage().addParticle( getParticleModel().getBoxWidth() / 2, getParticleModel().getBoxHeight() * 0.9 - dy, -Math.PI / 2, Color.red );
+        getBasePage().addParticle( getParticleModel().getBoxWidth() * 0.1, getParticleModel().getBoxHeight() * 0.5 - dy, 0, Color.blue );
 
         getBasePage().setHalosVisible( true );
         againButton = new PButton( getBasePage(), "Again!" );
@@ -68,8 +68,8 @@ public class CollisionSection30 extends Page {
     private void runAgain() {
         pauseModel();
         clearParticles();
-        getBasePage().addParticle( getParticleModel().getBoxWidth() / 2, getParticleModel().getBoxHeight() * 0.9-dy, -Math.PI / 2, Color.red );
-        getBasePage().addParticle( getParticleModel().getBoxWidth() * 0.1, getParticleModel().getBoxHeight() * 0.5-dy, 0, Color.blue );
+        getBasePage().addParticle( getParticleModel().getBoxWidth() / 2, getParticleModel().getBoxHeight() * 0.9 - dy, -Math.PI / 2, Color.red );
+        getBasePage().addParticle( getParticleModel().getBoxWidth() * 0.1, getParticleModel().getBoxHeight() * 0.5 - dy, 0, Color.blue );
 
         getBasePage().addHalos();
         startModel();

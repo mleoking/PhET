@@ -4,12 +4,12 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -25,7 +25,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:55:39 AM
- *
  */
 
 public class BlockGraphic extends PNode {

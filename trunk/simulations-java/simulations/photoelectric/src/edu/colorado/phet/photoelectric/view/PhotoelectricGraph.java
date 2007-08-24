@@ -12,14 +12,14 @@
 package edu.colorado.phet.photoelectric.view;
 
 import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.Range2D;
 
 import java.awt.*;
 
 /**
  * PhotoelectricGraph
- * <p>
+ * <p/>
  * A Chart for graphs for the Photoelectric simulation. It has an abstract method for clearing the data,
  * and methods to zoom in and out on the vertical axis.
  */
@@ -34,13 +34,13 @@ public abstract class PhotoelectricGraph extends Chart {
 
     public void zoomIn() {
         Range2D range = getRange();
-        range.setMaxY( range.getMaxY() * (1 - zoomFactor ));
+        range.setMaxY( range.getMaxY() * ( 1 - zoomFactor ) );
         setRange( range );
     }
 
     public void zoomOut() {
         Range2D range = getRange();
-        range.setMaxY( range.getMaxY() * (1 + zoomFactor ));
+        range.setMaxY( range.getMaxY() * ( 1 + zoomFactor ) );
         setRange( range );
     }
 

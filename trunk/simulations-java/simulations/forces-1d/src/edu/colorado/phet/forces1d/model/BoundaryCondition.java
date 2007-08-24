@@ -5,7 +5,6 @@ package edu.colorado.phet.forces1d.model;
  * User: Sam Reid
  * Date: Jan 30, 2005
  * Time: 11:05:48 AM
- *
  */
 public abstract class BoundaryCondition {
     Force1DModel model;

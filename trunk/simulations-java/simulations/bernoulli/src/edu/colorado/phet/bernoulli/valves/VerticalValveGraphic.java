@@ -1,10 +1,10 @@
 package edu.colorado.phet.bernoulli.valves;
 
-import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
-import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 1:09:19 AM
- *
  */
 public class VerticalValveGraphic implements InteractiveGraphic, SimpleObserver, TransformListener {
     Color color = Color.red;

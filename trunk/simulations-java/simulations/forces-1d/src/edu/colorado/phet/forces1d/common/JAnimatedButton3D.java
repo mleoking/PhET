@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 12:56:03 AM
- *
  */
 
 public class JAnimatedButton3D extends ApparatusPanel {

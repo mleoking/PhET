@@ -13,17 +13,17 @@ package edu.colorado.phet.nuclearphysics.view;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.*;
 
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  * LegendPanel
- * <p>
+ * <p/>
  * This is the class used for the legend for all modules. A module indicates
  * what items it wants to have in the legend by implementing the abstract method
  * List getLegendClasses(), which returns a list of LegendItem instances. LegendItem
@@ -139,7 +139,7 @@ public class LegendPanel extends JPanel {
             add( new JLabel( SimStrings.getInstance().getString( "NuclearPhysicsControlPanel.Lead207Label" ), SwingConstants.LEFT ), textGbc );
         }
         if( allModelClasses || modelClasses.contains( DAUGHTER_NUCLEI ) ) {
-            JPanel jp = new JPanel( new GridLayout( 1,2));
+            JPanel jp = new JPanel( new GridLayout( 1, 2 ) );
             jp.add( new JLabel( ruIcon, SwingConstants.RIGHT ) );
             jp.add( new JLabel( csIcon, SwingConstants.RIGHT ) );
             add( jp, iconGbc );

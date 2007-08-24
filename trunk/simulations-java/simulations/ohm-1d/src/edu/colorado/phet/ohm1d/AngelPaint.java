@@ -7,13 +7,13 @@
  */
 package edu.colorado.phet.ohm1d;
 
-import edu.colorado.phet.ohm1d.gui.VoltageListener;
-import edu.colorado.phet.ohm1d.volt.WireRegion;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.phys2d.DoublePoint;
 import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 import edu.colorado.phet.ohm1d.common.wire1d.WireSystem;
+import edu.colorado.phet.ohm1d.gui.VoltageListener;
+import edu.colorado.phet.ohm1d.volt.WireRegion;
 
 import javax.swing.*;
 import java.awt.*;

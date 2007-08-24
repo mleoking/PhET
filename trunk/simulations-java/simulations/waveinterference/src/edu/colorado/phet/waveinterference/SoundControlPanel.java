@@ -11,7 +11,6 @@ import edu.colorado.phet.waveinterference.view.SlitControlPanel;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:15:03 PM
- *
  */
 
 public class SoundControlPanel extends WaveInterferenceControlPanel {

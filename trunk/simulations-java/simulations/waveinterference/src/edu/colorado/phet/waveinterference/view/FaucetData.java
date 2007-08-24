@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:17:59 AM
- *
  */
 
 public class FaucetData {

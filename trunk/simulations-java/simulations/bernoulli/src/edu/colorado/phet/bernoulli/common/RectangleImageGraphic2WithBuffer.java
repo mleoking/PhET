@@ -12,7 +12,6 @@ import java.awt.image.ImageObserver;
  * User: Sam Reid
  * Date: Sep 23, 2003
  * Time: 2:29:58 AM
- *
  */
 public class RectangleImageGraphic2WithBuffer implements Graphic {
     BufferedImage image;

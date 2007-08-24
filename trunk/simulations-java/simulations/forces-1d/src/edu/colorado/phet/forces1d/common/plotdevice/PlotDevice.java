@@ -1,12 +1,7 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.force1d_tag_chart.BufferedLinePlot;
-import edu.colorado.phet.force1d_tag_chart.Chart;
-import edu.colorado.phet.force1d_tag_chart.DataSet;
-import edu.colorado.phet.force1d_tag_chart.Range2D;
-import edu.colorado.phet.force1d_tag_chart.controllers.HorizontalCursor2;
-import edu.colorado.phet.force1d_tag_chart.controllers.VerticalChartSlider2;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -14,10 +9,15 @@ import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.*;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
+import edu.colorado.phet.force1d_tag_chart.BufferedLinePlot;
+import edu.colorado.phet.force1d_tag_chart.Chart;
+import edu.colorado.phet.force1d_tag_chart.DataSet;
+import edu.colorado.phet.force1d_tag_chart.Range2D;
+import edu.colorado.phet.force1d_tag_chart.controllers.HorizontalCursor2;
+import edu.colorado.phet.force1d_tag_chart.controllers.VerticalChartSlider2;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:54:39 AM
- *
  */
 public class PlotDevice extends GraphicLayerSet {
     private boolean adorned = false;
@@ -51,7 +50,7 @@ public class PlotDevice extends GraphicLayerSet {
     private HorizontalCursor2 horizontalCursor;
     private TextBox textBox;
     private ChartComponent chartComponent;
-//    private ChartButton showButton;
+    //    private ChartButton showButton;
     private PhetGraphic showButtonGraphic;
     private DecimalFormat format = new DecimalFormat( "0.00" );
     private String units;
@@ -401,7 +400,6 @@ public class PlotDevice extends GraphicLayerSet {
         return d;
     }
 
-
 //    public ChartButton getShowButton() {
 //        return showButton;
 //    }
@@ -525,10 +523,10 @@ public class PlotDevice extends GraphicLayerSet {
 //    }
 
     public class ChartComponent {
-//        private CloseButton closeButton;
+        //        private CloseButton closeButton;
         private ArrayList series = new ArrayList();
 //        private MagButton magPlus;
-//        private MagButton magMinus;
+        //        private MagButton magMinus;
         private Chart chart;
         private float lastTime;
         private double xShift;
@@ -537,7 +535,6 @@ public class PlotDevice extends GraphicLayerSet {
         private PhetGraphic magMinusGraphic;
         private PhetGraphic closeButtonGraphic;
         private CloseButton closeButton = new CloseButton();
-
 
 //        public MagButton getMagPlus() {
 //            return magPlus;
@@ -921,7 +918,7 @@ public class PlotDevice extends GraphicLayerSet {
         private PlotDeviceModel plotDeviceModel;
         private PlotDeviceView plotDeviceView;
         private DataSeries series;
-//        private PhetTimer timer;
+        //        private PhetTimer timer;
         private Color color;
         private Stroke stroke;
         private Rectangle2D.Double inputBox;
@@ -1043,7 +1040,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         private void parseAndSetValue() {
             String text = getText();
-            text=text.replace( ',','.');//to handle multi-lingual
+            text = text.replace( ',', '.' );//to handle multi-lingual
             double value = Double.parseDouble( text );
             plotDevice.setValue( value );//needs error handling.
 
@@ -1051,7 +1048,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public static class TextBox extends JPanel {
-//        boolean changedByUser;
+        //        boolean changedByUser;
         private TypingTextField textField;
         JLabel label;
         static Font font = PlotDeviceFontManager.getFontSet().getTextBoxFont();

@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 9, 2005
  * Time: 9:32:50 AM
- *
  */
 
 public class PhetGraphicTarget extends HelpTarget {

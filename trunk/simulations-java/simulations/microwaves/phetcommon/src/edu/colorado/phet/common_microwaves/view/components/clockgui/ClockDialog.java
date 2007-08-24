@@ -8,10 +8,10 @@
  */
 package edu.colorado.phet.common_microwaves.view.components.clockgui;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.model.FixedClock;
 import edu.colorado.phet.common_microwaves.model.IClock;
 import edu.colorado.phet.coreadditions_microwaves.clock.ThreadedClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,52 +23,52 @@ public class ClockDialog extends JDialog {
     private IClock clock;
     private ClockControlPanel clockControlPanel;
 
-    public ClockDialog(JFrame parentFrame, ThreadedClock clock) {
-        super(parentFrame, SimStrings.get( "ClockDialog.FixedClockSettingsTitle" ), false);
-        init(clock);
+    public ClockDialog( JFrame parentFrame, ThreadedClock clock ) {
+        super( parentFrame, SimStrings.get( "ClockDialog.FixedClockSettingsTitle" ), false );
+        init( clock );
         this.pack();
-        clock.addClockStateListener(clockControlPanel);
+        clock.addClockStateListener( clockControlPanel );
     }
 
-    private void init(ThreadedClock clock) {
+    private void init( ThreadedClock clock ) {
         this.clock = clock;
         Container contentPane = this.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        clockControlPanel = new ClockControlPanel(clock);
-        contentPane.add(clockControlPanel, BorderLayout.CENTER);
-        contentPane.add(buildButtonPanel(), BorderLayout.SOUTH);
+        contentPane.setLayout( new BorderLayout() );
+        clockControlPanel = new ClockControlPanel( clock );
+        contentPane.add( clockControlPanel, BorderLayout.CENTER );
+        contentPane.add( buildButtonPanel(), BorderLayout.SOUTH );
     }
 
     private JPanel buildButtonPanel() {
-        JPanel buttonPnl = new JPanel(new FlowLayout());
-        JButton okBtn = new JButton( SimStrings.get( "ClockDialog.OKButton" ));
-        okBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+        JPanel buttonPnl = new JPanel( new FlowLayout() );
+        JButton okBtn = new JButton( SimStrings.get( "ClockDialog.OKButton" ) );
+        okBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
                 updateClock();
                 ClockDialog.this.hide();
             }
-        });
-        buttonPnl.add(okBtn);
+        } );
+        buttonPnl.add( okBtn );
 
-        JButton cancelBtn = new JButton( SimStrings.get( "ClockDialog.CancelButton" ));
-        cancelBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
+        JButton cancelBtn = new JButton( SimStrings.get( "ClockDialog.CancelButton" ) );
+        cancelBtn.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
                 ClockDialog.this.hide();
             }
-        });
-        buttonPnl.add(cancelBtn);
+        } );
+        buttonPnl.add( cancelBtn );
         return buttonPnl;
     }
 
     private void updateClock() {
-        clock.setRequestedDT(clockControlPanel.getDt());
-        clock.setRequestedWaitTime(clockControlPanel.getSleepInterval());
+        clock.setRequestedDT( clockControlPanel.getDt() );
+        clock.setRequestedWaitTime( clockControlPanel.getSleepInterval() );
         this.hide();
     }
 
-    public void setClock(FixedClock c) {
+    public void setClock( FixedClock c ) {
         this.clock = c;
-        clockControlPanel.setClock(c);
+        clockControlPanel.setClock( c );
     }
 
 //    public void waitTimeChanged(int waitTime) {

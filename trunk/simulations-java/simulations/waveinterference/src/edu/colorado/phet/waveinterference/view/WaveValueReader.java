@@ -7,7 +7,6 @@ import edu.colorado.phet.waveinterference.model.Lattice2D;
  * User: Sam Reid
  * Date: Apr 9, 2006
  * Time: 3:47:45 PM
- *
  */
 
 public interface WaveValueReader {

@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 2:04:07 PM
- *
  */
 public class MagnitudeColorMap implements ComplexColorMap {
     private double intensityScale = 20;

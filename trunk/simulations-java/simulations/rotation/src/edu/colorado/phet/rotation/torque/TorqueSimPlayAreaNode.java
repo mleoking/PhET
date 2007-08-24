@@ -33,7 +33,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
                 updateArrows();
             }
         } );
-        brakeNode = new BrakeNode( torqueModel.getRotationPlatform(),torqueModel );
+        brakeNode = new BrakeNode( torqueModel.getRotationPlatform(), torqueModel );
         addChild( tangentialComponentVector );
         addChild( appliedForceVector );
         addChild( brakeNode );

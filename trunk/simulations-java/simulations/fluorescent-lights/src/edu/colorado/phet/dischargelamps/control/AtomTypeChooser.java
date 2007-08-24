@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.ElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
@@ -36,7 +36,7 @@ public class AtomTypeChooser extends JPanel {
     public AtomTypeChooser( final DischargeLampModel model, ElementProperties[] elementProperties ) {
         super( new GridBagLayout() );
 
-        setBorder( new TitledBorder( SimStrings.getInstance().getString("Controls.AtomType" )) );
+        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Controls.AtomType" ) ) );
         JComboBox comboBox = new JComboBox( elementProperties );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

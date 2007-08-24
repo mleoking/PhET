@@ -1,5 +1,6 @@
 package edu.colorado.phet.semiconductor_semi.macro.doping;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.ApparatusPanel;
 import edu.colorado.phet.common_semiconductor.view.CompositeInteractiveGraphic;
@@ -15,7 +16,6 @@ import edu.colorado.phet.common_semiconductor.view.graphics.transforms.Transform
 import edu.colorado.phet.semiconductor_semi.common.BorderGraphic;
 import edu.colorado.phet.semiconductor_semi.common.ModelLocation;
 import edu.colorado.phet.semiconductor_semi.common.TextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -33,7 +33,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 1:54:01 AM
- *
  */
 public class DopantPanel extends CompositeInteractiveGraphic {
     Rectangle viewRect;

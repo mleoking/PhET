@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.RampModule;
@@ -14,11 +14,11 @@ import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.common.BorderPNode;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModelListenerAdapter;
 import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModelListenerAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,8 +27,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
@@ -56,7 +56,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:17:06 PM
- *
  */
 
 public class TimePlotSuitePNode extends PhetPNode {
@@ -182,7 +181,7 @@ public class TimePlotSuitePNode extends PhetPNode {
 
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing(minBut );
+            minButNode = new PSwing( minBut );
             minButNode.setOffset( 1, 1 );
             addChild( minButNode );
         }
@@ -200,7 +199,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             }
         } );
         maximize.setBackground( EarthGraphic.earthGreen );
-        maxButNode = new PSwing(maximize );
+        maxButNode = new PSwing( maximize );
         addChild( maxButNode );
 
         double maxVisibleRange = getMaxRangeValue();
@@ -210,7 +209,7 @@ public class TimePlotSuitePNode extends PhetPNode {
             final ZoomButton zoomIn = new ZoomButton( new ImageIcon( loadZoomInImage() ),
                                                       -dzPress, -dzHold, 100, maxVisibleRange * 4, maxVisibleRange, TheRampStrings.getString( "camera.zoom-in" ) );
 
-            zoomInGraphic = new PSwing(zoomIn );
+            zoomInGraphic = new PSwing( zoomIn );
             addChild( zoomInGraphic );
 
             final ZoomButton zoomOut = new ZoomButton( new ImageIcon( loadZoomOutImage() ),
@@ -222,7 +221,7 @@ public class TimePlotSuitePNode extends PhetPNode {
                     zoomIn.setValue( rangeY );
                 }
             } );
-            zoomOutGraphic = new PSwing(zoomOut );
+            zoomOutGraphic = new PSwing( zoomOut );
             addChild( zoomOutGraphic );
 
             zoomIn.addListener( new ZoomButton.Listener() {

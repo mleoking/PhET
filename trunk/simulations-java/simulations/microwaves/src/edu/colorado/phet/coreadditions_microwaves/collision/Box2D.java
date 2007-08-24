@@ -8,6 +8,7 @@ package edu.colorado.phet.coreadditions_microwaves.collision;
 //import edu.colorado.phet.physics.PhysicalSystem;
 //import edu.colorado.phet.physics.Vector2D;
 //import edu.colorado.phet.physics.body.Body;
+
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.coreadditions_microwaves.CompositeBody;
 import edu.colorado.phet.physics.collision_microwaves.CollidableBody;
@@ -34,8 +35,8 @@ public class Box2D extends CompositeBody {
 
     // TODO: put the opening characteristics in a specialization of this class.
     private Vector2D[] opening = new Vector2D[]{
-        new Vector2D( 0, 0 ),
-        new Vector2D( 0, 0 )};
+            new Vector2D( 0, 0 ),
+            new Vector2D( 0, 0 )};
 
     private Wall[] walls = new Wall[4];
 
@@ -134,7 +135,6 @@ public class Box2D extends CompositeBody {
     }
 
     /**
-     *
      * @param body
      * @return
      */
@@ -144,10 +144,11 @@ public class Box2D extends CompositeBody {
         if( body instanceof SphericalBody ) {
             SphericalBody particle = (SphericalBody)body;
             if( particle.getLocation().getX() >= this.opening[0].getX()
-                    && particle.getLocation().getX() <= this.opening[1].getX()
-                    && particle.getLocation().getY() - particle.getRadius() <= this.getMinY() ) {
+                && particle.getLocation().getX() <= this.opening[1].getX()
+                && particle.getLocation().getY() - particle.getRadius() <= this.getMinY() ) {
                 result = true;
-            } else {
+            }
+            else {
                 result = false;
             }
         }
@@ -256,13 +257,14 @@ public class Box2D extends CompositeBody {
      *
      */
     private Vector2D closestCornerResult = new Vector2D();
+
     public Vector2D getClosestCorner( Vector2D point ) {
 
         double x = Math.abs( point.getX() - minX ) < Math.abs( point.getX() - maxX )
-                ? minX : maxX;
+                   ? minX : maxX;
 
         double y = Math.abs( point.getY() - minY ) < Math.abs( point.getY() - maxY )
-                ? minY : maxY;
+                   ? minY : maxY;
         closestCornerResult.setX( (float)x );
         closestCornerResult.setY( (float)y );
         return closestCornerResult;
@@ -275,14 +277,13 @@ public class Box2D extends CompositeBody {
         Point2D.Double p = particle.getLocation();
         double rad = particle.getRadius();
         boolean isInBox = p.getX() - rad >= this.getMinX()
-                && p.getX() + rad <= this.getMaxX()
-                && p.getY() - rad >= this.getMinY()
-                && p.getY() + rad <= this.getMaxY();
+                          && p.getX() + rad <= this.getMaxX()
+                          && p.getY() - rad >= this.getMinY()
+                          && p.getY() + rad <= this.getMaxY();
         return !isInBox;
     }
 
     /**
-     *
      * @param vx
      */
     public void setLeftWallVelocity( float vx ) {

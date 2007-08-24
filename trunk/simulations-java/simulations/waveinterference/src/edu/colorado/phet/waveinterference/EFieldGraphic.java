@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 7:47:46 PM
- *
  */
 
 public class EFieldGraphic extends AbstractVectorViewGraphic {

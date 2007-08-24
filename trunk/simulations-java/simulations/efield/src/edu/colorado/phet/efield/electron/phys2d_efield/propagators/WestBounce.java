@@ -9,29 +9,24 @@ import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 // Referenced classes of package phys2d.propagators:
 //            BoundsBounce
 
-public class WestBounce extends BoundsBounce
-{
+public class WestBounce extends BoundsBounce {
 
-    public WestBounce(double d, double d1)
-    {
+    public WestBounce( double d, double d1 ) {
         xMin = d;
         distFromWall = d1;
     }
 
-    public boolean isOutOfBounds(DoublePoint doublepoint)
-    {
+    public boolean isOutOfBounds( DoublePoint doublepoint ) {
         return doublepoint.getX() < xMin;
     }
 
-    public DoublePoint getNewVelocity(DoublePoint doublepoint)
-    {
-        double d = Math.abs(doublepoint.getX());
-        return new DoublePoint(d, doublepoint.getY());
+    public DoublePoint getNewVelocity( DoublePoint doublepoint ) {
+        double d = Math.abs( doublepoint.getX() );
+        return new DoublePoint( d, doublepoint.getY() );
     }
 
-    public DoublePoint getPointAtBounds(DoublePoint doublepoint)
-    {
-        return new DoublePoint(xMin + distFromWall, doublepoint.getY());
+    public DoublePoint getPointAtBounds( DoublePoint doublepoint ) {
+        return new DoublePoint( xMin + distFromWall, doublepoint.getY() );
     }
 
     double xMin;

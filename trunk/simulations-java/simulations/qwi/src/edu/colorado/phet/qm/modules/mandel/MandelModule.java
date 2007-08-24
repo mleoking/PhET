@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 8:00:58 AM
- *
  */
 
 public class MandelModule extends QWIModule {

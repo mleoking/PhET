@@ -4,53 +4,45 @@
 
 package edu.colorado.phet.efield.electron.particleFactory;
 
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyDialog
 
 public class ShowParticlePropertyDialog
-    implements ActionListener
-{
+        implements ActionListener {
     public static class HideListener
-        implements ActionListener
-    {
+            implements ActionListener {
 
-        public void actionPerformed(ActionEvent actionevent)
-        {
-            jf.setVisible(false);
+        public void actionPerformed( ActionEvent actionevent ) {
+            jf.setVisible( false );
         }
 
         Component jf;
 
-        public HideListener(Component component)
-        {
+        public HideListener( Component component ) {
             jf = component;
         }
     }
 
 
-    public ShowParticlePropertyDialog(double d, double d1)
-    {
-        ppd = new ParticlePropertyDialog(d, d1);
+    public ShowParticlePropertyDialog( double d, double d1 ) {
+        ppd = new ParticlePropertyDialog( d, d1 );
         jf = new JFrame();
-        jf.setContentPane(ppd);
-        ppd.getDoneButton().addActionListener(new HideListener(jf));
+        jf.setContentPane( ppd );
+        ppd.getDoneButton().addActionListener( new HideListener( jf ) );
         jf.pack();
     }
 
-    public ParticlePropertyDialog getDialog()
-    {
+    public ParticlePropertyDialog getDialog() {
         return ppd;
     }
 
-    public void actionPerformed(ActionEvent actionevent)
-    {
-        jf.setVisible(true);
+    public void actionPerformed( ActionEvent actionevent ) {
+        jf.setVisible( true );
     }
 
     ParticlePropertyDialog ppd;

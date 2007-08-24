@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.model.QWIModel;
  * User: Sam Reid
  * Date: Jan 1, 2006
  * Time: 5:25:55 PM
- *
  */
 
 public class ExpandableDoubleSlitPanel extends AdvancedPanel {

@@ -76,8 +76,6 @@ public class ThreeToTwoLattice extends Lattice {
 //        }
 //        return openSites;
 //    }
-
-
     public static void main( String[] args ) {
 //        Ion s1 = new Sodium();
 //        s1.setPosition( 0, 0 );

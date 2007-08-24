@@ -65,11 +65,11 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
                                                               r.getWidth() - 40,
                                                               r.getHeight() - 40 );
         moleculeParamGenerator = new ConstantTemperatureMoleculeParamGenerator( generatorBounds,
-                                                                   model,
-                                                                   .1,
-                                                                   0,
-                                                                   Math.PI * 2,
-                                                                   moleculeClass );
+                                                                                model,
+                                                                                .1,
+                                                                                0,
+                                                                                Math.PI * 2,
+                                                                                moleculeClass );
         setValue( new Integer( 0 ) );
 
         // Respond to changes in the spinner
@@ -138,7 +138,7 @@ public class MoleculeCountSpinner extends JSpinner implements PublishingModel.Mo
         }
         cnt = n;
 
-        if (!hasFocus) {
+        if( !hasFocus ) {
             setValue( new Integer( n ) );
         }
     }

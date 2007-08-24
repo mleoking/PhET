@@ -11,7 +11,7 @@ public class Average implements Serializable {
         reset();
     }
 
-    public void update(double newValue) {
+    public void update( double newValue ) {
         sum += newValue;
         num++;
         average = sum / num;
@@ -21,14 +21,18 @@ public class Average implements Serializable {
         return average;
     }
 
-    /** Returns the number of values since last reset().
-     *@return the number of values since last reset().     */
+    /**
+     * Returns the number of values since last reset().
+     *
+     * @return the number of values since last reset().
+     */
     public int numValues() {
         return num;
     }
 
     /**
-     * Reset the Average.*/
+     * Reset the Average.
+     */
     public void reset() {
         sum = 0;
         num = 0;

@@ -1,7 +1,7 @@
 package edu.colorado.phet.ohm1d.regions;
 
-import edu.colorado.phet.ohm1d.volt.WireRegion;
 import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
+import edu.colorado.phet.ohm1d.volt.WireRegion;
 
 import java.util.ArrayList;
 

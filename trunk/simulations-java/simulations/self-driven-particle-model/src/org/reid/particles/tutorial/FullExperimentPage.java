@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.tutorial.unit2.OrderParameterVsTimeChart;
 import org.reid.particles.tutorial.unit2.PlotBeta240;

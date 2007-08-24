@@ -10,7 +10,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:38:29 AM
- *
  */
 
 public class OscillatorControlPanel extends VerticalLayoutPanel {

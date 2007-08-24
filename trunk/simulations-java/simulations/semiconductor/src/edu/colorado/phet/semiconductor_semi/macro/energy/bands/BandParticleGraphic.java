@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor_semi.common.TransformGraphic;
 
@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:54:53 PM
- *
  */
 public class BandParticleGraphic extends TransformGraphic {
     BandParticle bandParticle;
@@ -53,7 +52,7 @@ public class BandParticleGraphic extends TransformGraphic {
 //            graphics2D.drawString( "f=" + bandParticle.getMessage(), pt.x, pt.y );
 //        }
 //        graphics2D.setClip( null );
-        
+
 //        graphics2D.setColor(Color.black);
 //        graphics2D.setClip(0,0,1000,1000);
 //        if (bandParticle.isMoving()){

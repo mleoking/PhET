@@ -20,7 +20,7 @@ import java.awt.*;
 
 /**
  * SpatialSimpleMoleculeGraphic
- * <p>
+ * <p/>
  * Graphic for simple molecules for use in the SpatialView. The additional behavior
  * this class adds to the base class is that instances are selectable with the mouse.
  * with the mouse.
@@ -35,7 +35,6 @@ public class SpatialSimpleMoleculeGraphic extends ObservingMoleculeGraphic {
     private final EnergyProfile profile;
 
     /**
-     * 
      * @param molecule
      * @param profile
      */
@@ -43,7 +42,7 @@ public class SpatialSimpleMoleculeGraphic extends ObservingMoleculeGraphic {
         super( molecule, profile );
 
         this.molecule = molecule;
-        this.profile  = profile;
+        this.profile = profile;
 
         // Catch mouse clicks that select this graphic's molecule
         if( molecule instanceof MoleculeA || molecule instanceof MoleculeC ) {
@@ -76,7 +75,6 @@ public class SpatialSimpleMoleculeGraphic extends ObservingMoleculeGraphic {
             boundingBox.setOffset( -getMolecule().getPosition().getX(),
                                    -getMolecule().getPosition().getY() );
         }
-
 
 //        if( getMolecule().isPartOfComposite() && debugNode == null ) {
 //            debugNode = new PPath( new Ellipse2D.Double(0,0,4,4));

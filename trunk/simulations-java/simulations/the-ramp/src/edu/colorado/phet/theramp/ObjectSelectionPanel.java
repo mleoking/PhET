@@ -17,7 +17,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 12:58:15 AM
- *
  */
 
 public class ObjectSelectionPanel extends JPanel {

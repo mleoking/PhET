@@ -1,14 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.view;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import org.reid.particles.model.ParticleModel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.text.DecimalFormat;
-
-import org.reid.particles.model.ParticleModel;
 
 /**
  * User: Sam Reid
@@ -25,7 +24,7 @@ public class NumberSliderPanel extends HorizontalLayoutPanel {
         this( particleApp, 0, 1000, 10, null );
     }
 
-    public NumberSliderPanel( final IParticleApp particleApp, int min, int max, int increment, int []ticks ) {
+    public NumberSliderPanel( final IParticleApp particleApp, int min, int max, int increment, int[] ticks ) {
 //        add( new JLabel( "Number of Particles" ) );
         modelSlider = new ModelSlider( "Number of Particles", "", min, max, particleApp.getParticleModel().numParticles(), new DecimalFormat( "#" ) );
         modelSlider.addChangeListener( new ChangeListener() {
@@ -37,7 +36,7 @@ public class NumberSliderPanel extends HorizontalLayoutPanel {
         } );
         add( modelSlider );
         if( ticks != null ) {
-            double[]ticky = new double[ticks.length];
+            double[] ticky = new double[ticks.length];
             for( int i = 0; i < ticky.length; i++ ) {
                 ticky[i] = ticks[i];
 
@@ -49,7 +48,7 @@ public class NumberSliderPanel extends HorizontalLayoutPanel {
             public void particleCountChanged() {
                 modelSlider.setValue( particleApp.getParticleModel().numParticles() );
             }
-        });
+        } );
 //        numberSpinner = new JSpinner( new SpinnerNumberModel( particleApp.getParticleModel().numParticles(), min, max, increment ) );
 //        numberSpinner.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {

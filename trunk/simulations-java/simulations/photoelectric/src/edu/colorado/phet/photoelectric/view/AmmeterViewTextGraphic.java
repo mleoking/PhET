@@ -36,7 +36,7 @@ public class AmmeterViewTextGraphic extends PhetTextGraphic {
         ammeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
             public void update( ScalarDataRecorder.UpdateEvent event ) {
                 double current = ammeter.getCurrent();
-                currentTF.setText( format.format( current ));
+                currentTF.setText( format.format( current ) );
                 AmmeterViewTextGraphic.this.setBoundsDirty();
                 AmmeterViewTextGraphic.this.repaint();
             }

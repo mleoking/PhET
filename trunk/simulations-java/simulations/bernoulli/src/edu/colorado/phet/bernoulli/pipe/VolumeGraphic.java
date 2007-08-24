@@ -1,16 +1,15 @@
 package edu.colorado.phet.bernoulli.pipe;
 
+import edu.colorado.phet.bernoulli.BernoulliResources;
 import edu.colorado.phet.bernoulli.common.*;
 import edu.colorado.phet.bernoulli.spline.segments.Segment;
 import edu.colorado.phet.bernoulli.spline.segments.SegmentPath;
-import edu.colorado.phet.bernoulli.BernoulliResources;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
-import edu.colorado.phet.common.bernoulli.view.util.graphics.ImageLoader;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows.Arrow;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -21,7 +20,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 9:31:25 PM
- *
  */
 public class VolumeGraphic implements Graphic, SimpleObserver, TransformListener {
     CrossSectionalVolume volume;

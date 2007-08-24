@@ -6,22 +6,18 @@ package edu.colorado.phet.efield.electron.gui.mouse;
 
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 
-public class TimedPoint
-{
+public class TimedPoint {
 
-    public TimedPoint(DoublePoint doublepoint, long l)
-    {
+    public TimedPoint( DoublePoint doublepoint, long l ) {
         dp = doublepoint;
         time = l;
     }
 
-    public long getAge(long l)
-    {
+    public long getAge( long l ) {
         return l - time;
     }
 
-    public DoublePoint getDoublePoint()
-    {
+    public DoublePoint getDoublePoint() {
         return dp;
     }
 

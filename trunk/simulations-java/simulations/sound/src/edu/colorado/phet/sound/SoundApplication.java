@@ -66,8 +66,8 @@ public class SoundApplication extends PhetApplication {
 //        Locale.setDefault( new Locale( "ie", "ga" ));
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                SimStrings.getInstance().addStrings(SoundConfig.localizedStringsPath );
-                SimStrings.getInstance().addStrings("sound/localization/phetcommon-strings");
+                SimStrings.getInstance().addStrings( SoundConfig.localizedStringsPath );
+                SimStrings.getInstance().addStrings( "sound/localization/phetcommon-strings" );
 
                 PhetApplication app = new SoundApplication( args );
                 app.getPhetFrame().setResizable( false );

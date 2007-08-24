@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:42:11 AM
- *
  */
 
 public class TestBothViews extends TestTopView {

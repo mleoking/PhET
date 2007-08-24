@@ -12,7 +12,7 @@ package edu.colorado.phet.molecularreactions.model;
 
 /**
  * CollisionParams
- * <p>
+ * <p/>
  * A data structure class that provides important parameters for a
  * collision between two molecules
  *
@@ -38,7 +38,7 @@ public class CollisionParams {
             freeMolecule = (SimpleMolecule)am1;
         }
         else {
-            throw new IllegalArgumentException( "internal error");
+            throw new IllegalArgumentException( "internal error" );
         }
 
         if( am2 instanceof CompositeMolecule ) {
@@ -48,17 +48,17 @@ public class CollisionParams {
             freeMolecule = (SimpleMolecule)am1;
         }
         else {
-            throw new IllegalArgumentException( "internal error");
+            throw new IllegalArgumentException( "internal error" );
         }
 
         if( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeB ) {
             bMolecule = compositeMolecule.getComponentMolecules()[0];
         }
-        else            if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeB ) {
+        else if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeB ) {
             bMolecule = compositeMolecule.getComponentMolecules()[1];
         }
         else {
-            throw new IllegalArgumentException( "internal error");
+            throw new IllegalArgumentException( "internal error" );
         }
     }
 

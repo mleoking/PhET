@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
-import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -41,7 +41,7 @@ public class Legend extends JPanel {
 
     public Legend() {
         super( new GridBagLayout() );
-        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ));
+        setBorder( new TitledBorder( SimStrings.getInstance().getString( "Legend.title" ) ) );
         createIcons();
         layoutPanel();
     }
@@ -90,7 +90,7 @@ public class Legend extends JPanel {
         BufferedImage atomBI = new BufferedImage( atomGraphic.getWidth(), atomGraphic.getHeight(),
                                                   BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2BI = (Graphics2D)atomBI.getGraphics();
-        g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2);
+        g2BI.translate( atomGraphic.getWidth() / 2, atomGraphic.getHeight() / 2 );
         g2BI.scale( .8, .8 );
         atomGraphic.paint( g2BI );
         atomIcon = new ImageIcon( atomBI );

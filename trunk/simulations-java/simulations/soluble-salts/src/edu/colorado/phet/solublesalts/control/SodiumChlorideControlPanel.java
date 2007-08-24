@@ -10,19 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.salt.Salt;
-import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.view.IonGraphicManager;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
 
 /**

@@ -1,9 +1,9 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolo.PNode;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.TutorialChartFrame;
@@ -21,12 +21,12 @@ import java.awt.geom.Point2D;
  */
 
 public class PlotOrderParameterVsRandomness extends OrderParameter90 {
-//    private PButton plotButton;
+    //    private PButton plotButton;
     private OrderParameterVsRandomnessChart orderParameterVsRandomnessChart;
     private TutorialChartFrame tutorialChartFrame;
     private ParticleModel.Adapter listener;
     public static final long MOD = 4;
-//    private PButton resetPlotButton;
+    //    private PButton resetPlotButton;
     private PNode orderPlotPanel;
 
     public PlotOrderParameterVsRandomness( BasicTutorialCanvas page ) {

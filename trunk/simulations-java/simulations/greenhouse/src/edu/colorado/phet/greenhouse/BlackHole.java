@@ -21,8 +21,8 @@ public class BlackHole extends BasicPhotonAbsorber {
     public void stepInTime( double v ) {
 
         eventHorizon.setRect( model.getBounds().x - 10, model.getBounds().y - 10,
-                              model.getBounds().getWidth()+ 20,
-                              model.getBounds().getWidth()+ 20 );
+                              model.getBounds().getWidth() + 20,
+                              model.getBounds().getWidth() + 20 );
         // If a photon is way outside the view, delete it
         ArrayList photonsToRemove = new ArrayList();
         for( int i = 0; i < model.getPhotons().size(); i++ ) {

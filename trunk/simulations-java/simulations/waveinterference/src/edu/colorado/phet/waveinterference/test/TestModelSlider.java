@@ -13,7 +13,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 10:55:42 AM
- *
  */
 
 public class TestModelSlider {

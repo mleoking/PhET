@@ -33,7 +33,7 @@ import java.util.Random;
 public class DistanceLadderApplication {
     private static ApplicationDescriptor appDesc;
     private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
-                                         Color.white, Color.yellow};
+            Color.white, Color.yellow};
     private int noInfoMessages;
 
     public void test1() {

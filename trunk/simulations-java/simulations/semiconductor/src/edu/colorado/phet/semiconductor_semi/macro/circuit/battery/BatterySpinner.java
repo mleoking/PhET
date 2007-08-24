@@ -13,7 +13,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jan 17, 2004
  * Time: 3:22:17 PM
- *
  */
 public class BatterySpinner {
     JSpinner spinner;

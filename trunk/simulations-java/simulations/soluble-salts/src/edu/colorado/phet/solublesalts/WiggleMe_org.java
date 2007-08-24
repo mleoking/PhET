@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 import javax.swing.*;
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * WiggleMe

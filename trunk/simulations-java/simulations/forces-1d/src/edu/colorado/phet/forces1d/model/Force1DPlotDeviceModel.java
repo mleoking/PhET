@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.forces1d.Force1DApplication;
@@ -9,7 +8,6 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 8:01:44 PM
- *
  */
 public class Force1DPlotDeviceModel extends PlotDeviceModel {
     private Force1DApplication module;
@@ -40,8 +38,6 @@ public class Force1DPlotDeviceModel extends PlotDeviceModel {
         int index = super.getPlaybackIndex();
         model.resetRecordPointer( index );
     }
-
-
 
 //    private void clearFutureData() {
 //        double recordTime = super.getPlaybackTimer().getTime();

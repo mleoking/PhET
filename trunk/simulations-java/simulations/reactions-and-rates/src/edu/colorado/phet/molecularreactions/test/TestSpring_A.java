@@ -9,13 +9,11 @@ package edu.colorado.phet.molecularreactions.test;/* Copyright 2003-2004, Univer
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
-import edu.colorado.phet.molecularreactions.model.MoleculeBC;
 import edu.colorado.phet.molecularreactions.model.MoleculeB;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
-import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
+import edu.colorado.phet.molecularreactions.model.collision.Spring;
 
 import java.awt.geom.Point2D;
 
@@ -31,7 +29,7 @@ public class TestSpring_A {
         MoleculeA mA = new MoleculeA();
 
         Point2D.Double fixedEnd = new Point2D.Double( 100, 50 );
-        Spring spring = new Spring( 1, 30, fixedEnd, 0);
+        Spring spring = new Spring( 1, 30, fixedEnd, 0 );
 
         mA.setPosition( fixedEnd.getX() - mA.getRadius(), fixedEnd.getY() );
         spring.attachBodyAtSpringLength( mA, 0 );
@@ -39,10 +37,10 @@ public class TestSpring_A {
         double pe = spring.getPotentialEnergy();
         System.out.println( "pe = " + pe );
 
-        MoleculeB mB = new MoleculeB( );
+        MoleculeB mB = new MoleculeB();
         mB.setPosition( fixedEnd.getX() + mB.getRadius(), fixedEnd.getY() );
 
-        ReactionSpring rSpring = new ReactionSpring( 500, 50, 100, new SimpleMolecule[]{ mA, mB },
+        ReactionSpring rSpring = new ReactionSpring( 500, 50, 100, new SimpleMolecule[]{mA, mB},
                                                      true );
         System.out.println( "rSpring.getPotentialEnergy() = " + rSpring.getPotentialEnergy() );
 

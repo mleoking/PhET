@@ -3,9 +3,9 @@ package edu.colorado.phet.mazegame;
 //Helper class for
 
 public class PositionUpdater {
-    private double x;		//position
+    private double x;        //position
     private double y;
-    private double vX;		//velocity
+    private double vX;        //velocity
     private double vY;
 //    private double aX;		//acceleration
 //    private double aY;

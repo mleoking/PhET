@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import edu.colorado.phet.common_sound.application.*;
+import edu.colorado.phet.common_sound.application.Module;
+import edu.colorado.phet.common_sound.application.ModuleEvent;
+import edu.colorado.phet.common_sound.application.ModuleObserver;
+import edu.colorado.phet.common_sound.application.PhetApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

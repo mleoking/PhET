@@ -23,7 +23,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:01:59 PM
- *
  */
 
 public class WaveChartGraphic extends PNode {
@@ -132,7 +131,7 @@ public class WaveChartGraphic extends PNode {
 
     public void updateChart() {
         GeneralPath generalPath = new GeneralPath();
-        Point2D[]pts = readValues();//todo this just assumes the chart transform matches perfectly
+        Point2D[] pts = readValues();//todo this just assumes the chart transform matches perfectly
         if( pts.length > 0 ) {
             generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );//todo crop to fit inside data area.
         }

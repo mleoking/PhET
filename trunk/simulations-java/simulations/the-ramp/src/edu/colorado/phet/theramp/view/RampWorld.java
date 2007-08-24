@@ -20,7 +20,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 1, 2005
  * Time: 2:56:14 PM
- *
  */
 
 public class RampWorld extends PNode {

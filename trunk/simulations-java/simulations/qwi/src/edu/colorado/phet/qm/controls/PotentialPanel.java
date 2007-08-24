@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 1, 2006
  * Time: 7:22:27 AM
- *
  */
 
 public class PotentialPanel extends VerticalLayoutPanel {

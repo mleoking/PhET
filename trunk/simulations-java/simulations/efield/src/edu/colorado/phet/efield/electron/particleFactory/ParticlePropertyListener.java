@@ -6,8 +6,7 @@ package edu.colorado.phet.efield.electron.particleFactory;
 
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
-public interface ParticlePropertyListener
-{
+public interface ParticlePropertyListener {
 
-    public abstract void propertiesChanged(Particle particle);
+    public abstract void propertiesChanged( Particle particle );
 }

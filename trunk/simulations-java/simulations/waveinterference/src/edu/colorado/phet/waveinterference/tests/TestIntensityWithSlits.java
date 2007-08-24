@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:35:59 AM
- *
  */
 
 public class TestIntensityWithSlits extends TestTopView {

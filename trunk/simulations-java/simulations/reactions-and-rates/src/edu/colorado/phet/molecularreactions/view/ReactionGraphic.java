@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
 import edu.colorado.phet.molecularreactions.view.icons.ReactionArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -33,12 +33,11 @@ import java.awt.geom.Point2D;
  */
 public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelListener {
     private PImage aNode = new PImage();
-    private PImage cNode = new PImage( );
-    private PImage abNode= new PImage( );
-    private PImage bcNode = new PImage( );
+    private PImage cNode = new PImage();
+    private PImage abNode = new PImage();
+    private PImage bcNode = new PImage();
 
     /**
-     *
      * @param reaction
      * @param arrowColor
      * @param model
@@ -52,7 +51,7 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
             PNode arrowNode = new ReactionArrowNode( arrowColor );
 
 
-            Font font = new Font( "Lucida sans", Font.BOLD, 18);
+            Font font = new Font( "Lucida sans", Font.BOLD, 18 );
             PText plusA = new PText( "+" );
             plusA.setTextPaint( arrowColor );
             plusA.setFont( font );
@@ -83,7 +82,7 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
         }
     }
 
-    private void setChainedOffset( PNode nodeToSet, PNode nodeToLeft, Insets insets) {
+    private void setChainedOffset( PNode nodeToSet, PNode nodeToLeft, Insets insets ) {
         Point2D offset = new Point2D.Double( nodeToLeft.getOffset().getX() + nodeToLeft.getFullBounds().getWidth() + insets.left + insets.right,
                                              -nodeToSet.getFullBounds().getHeight() / 2 );
         nodeToSet.setOffset( offset );

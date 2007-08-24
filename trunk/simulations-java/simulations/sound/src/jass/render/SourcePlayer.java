@@ -471,7 +471,7 @@ public class SourcePlayer extends In {
         }
         else {
 
-            if( useNativeSound ) {	//Must now be RTAudio
+            if( useNativeSound ) {    //Must now be RTAudio
                 pb = new RTPlay( srate, nchannels, bufferSize, numRtAudioBuffers );
                 try {
                     sleep( 100 ); // allow native stuff some time
@@ -517,7 +517,7 @@ public class SourcePlayer extends In {
             System.out.println( "Could not load shared library JassAsio" );
         }
 
-        try {	//wait for the native stuff to get going
+        try {    //wait for the native stuff to get going
             sleep( 500 );
         }
         catch( Exception e ) {
@@ -531,15 +531,14 @@ public class SourcePlayer extends In {
                 if( audioAPI.equals( "ASIO" ) ) {
                     cleanupASIO();
                 }
-                try {	//wait for the DLL to do its destruction before terminating!
+                try {    //wait for the DLL to do its destruction before terminating!
                     sleep( 1500 );
                 }
                 catch( Exception e ) {
                     System.out.print( "The sleep function is broken" );
                 }
             }
-        } );	//end of ASIO destruction code
-
+        } );    //end of ASIO destruction code
 
         //initialize the ASIO system and it will begin running and getting
         //its buffers from getNextBuffer()

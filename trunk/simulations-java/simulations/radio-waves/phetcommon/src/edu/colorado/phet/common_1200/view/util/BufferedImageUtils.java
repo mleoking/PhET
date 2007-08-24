@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2003
  * Time: 10:07:55 AM
- *
  */
 public class BufferedImageUtils {
 //    public static BufferedImage rescaleYMaintainAspectRatio( BufferedImage im, int height ) {
@@ -38,7 +37,8 @@ public class BufferedImageUtils {
 //        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
 //        ato.filter( in, out );
 //        return out;
-//    }
+
+    //    }
     public static BufferedImage rescaleYMaintainAspectRatio( Component parent, BufferedImage im, int height ) {
         double iny = im.getHeight();
         double dy = height / iny;

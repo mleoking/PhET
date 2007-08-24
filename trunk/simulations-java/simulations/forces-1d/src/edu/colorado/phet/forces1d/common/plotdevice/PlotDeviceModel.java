@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.common.plotdevice;
 
 import edu.colorado.phet.common_force1d.model.ModelElement;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 7:55:40 PM
- *
  */
 public abstract class PlotDeviceModel implements ModelElement {
     private double minTime = 0;
@@ -188,7 +186,7 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     private class RecordMode extends Mode {
         int recordIndex = 0;
-//        private double conversionFactor;
+        //        private double conversionFactor;
         DataSeries recordedTimes = new DataSeries();
 
         public RecordMode() {

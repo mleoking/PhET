@@ -17,7 +17,6 @@ import java.util.Vector;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:26:37 PM
- *
  */
 
 public class SparkNode extends PNode {
@@ -85,7 +84,7 @@ public class SparkNode extends PNode {
     private void update() {
         if( getVisible() ) {
             removeAllChildren();
-            Point2D[]path = newPath( 100 );
+            Point2D[] path = newPath( 100 );
             DoubleGeneralPath generalPath = new DoubleGeneralPath();
             for( int i = 0; i < path.length; i++ ) {
                 if( i == 0 ) {

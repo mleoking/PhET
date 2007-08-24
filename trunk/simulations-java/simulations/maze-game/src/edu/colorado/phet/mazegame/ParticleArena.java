@@ -16,18 +16,18 @@ public class ParticleArena extends JPanel
     private MazeGameApplet mazeGUI1;
     private ScorePanel scrPanel;
     private Particle myParticle;
-    private int radius;				//radius of particle (and goal)
-    private int barrierState; 		//Barrier State is level 0, 1, 2, or 3
+    private int radius;                //radius of particle (and goal)
+    private int barrierState;         //Barrier State is level 0, 1, 2, or 3
     private Color barrierColor;
     private boolean collisionDetected;
     private boolean goalDetected;
-    private int nbrCollisions;		//number of collisions with walls during play
-    private int lastX, lastY;		//last location
-    private int collisionX;			//X, Y location just before collision
+    private int nbrCollisions;        //number of collisions with walls during play
+    private int lastX, lastY;        //last location
+    private int collisionX;            //X, Y location just before collision
     private int collisionY;
 
     boolean setToPlayTada = true;  //used to prevent multiple restarting audioclip
-    private int goalX = MazeGameApplet.fullWidth / 8; 	//position of goal
+    private int goalX = MazeGameApplet.fullWidth / 8;     //position of goal
     private int goalY = 3 * MazeGameApplet.fullHeight / 8;
     private ControlBoxPanel cbPanel;
 
@@ -35,8 +35,8 @@ public class ParticleArena extends JPanel
     private Thread myThread;
     private int timeStep = 30;
 
-    private double positionFactor = 1.5;		//"gain" of controller arrow in Position state
-    private double vTimeStep = (double)( 0.0010 * timeStep );	//timeStep for velocity update
+    private double positionFactor = 1.5;        //"gain" of controller arrow in Position state
+    private double vTimeStep = (double)( 0.0010 * timeStep );    //timeStep for velocity update
     private double aTimeStep = (double)( 0.0010 * timeStep ); //timeStep for acceleration update
 
     private Border raisedBevel, loweredBevel, compound2;
@@ -113,7 +113,7 @@ public class ParticleArena extends JPanel
             {
                 if( BarrierList.currentCollisionArray[x][y] == 0 && !collisionDetected ) {
                     lastX = x;
-                    lastY = y; 		//record last position
+                    lastY = y;         //record last position
                 }
                 else if( BarrierList.currentCollisionArray[x][y] > 0 && !collisionDetected ) {
                     collisionDetected = true;
@@ -253,7 +253,7 @@ public class ParticleArena extends JPanel
             int y = BarrierList.currentRectArray[barrierState][i].y;
             int w = BarrierList.currentRectArray[barrierState][i].width;
             int h = BarrierList.currentRectArray[barrierState][i].height;
-            g.fill3DRect( x, y, w, h, false );	//last argument: true = raised, false = sunken; doesn't work!
+            g.fill3DRect( x, y, w, h, false );    //last argument: true = raised, false = sunken; doesn't work!
         }
 
         //Draw collision report
@@ -289,7 +289,6 @@ public class ParticleArena extends JPanel
         //myParticle.paint(g);
         g.drawImage( mazeGUI1.ballImage, (int)myParticle.getX() - radius, (int)myParticle.getY() - radius, this );
     }//end of paintComponent()
-
 
 //    public void mouseDragged(MouseEvent mevt) {
 //        int xF = mevt.getX();

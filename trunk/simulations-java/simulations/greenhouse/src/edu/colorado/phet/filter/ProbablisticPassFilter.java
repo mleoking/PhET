@@ -22,6 +22,6 @@ public class ProbablisticPassFilter extends Filter1D {
     }
 
     public boolean passes( double value ) {
-        return Math.random() <= probability ;
+        return Math.random() <= probability;
     }
 }

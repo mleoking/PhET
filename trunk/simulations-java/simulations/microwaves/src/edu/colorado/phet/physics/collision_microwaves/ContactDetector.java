@@ -32,6 +32,7 @@ abstract public class ContactDetector {
      * applies to the types of the arguments will make the determination. This means if
      * there are detectors that apply to superclasses of the arguments, they may make
      * the determination, if they are considered before more type-specific detectors.
+     *
      * @param bodyA
      * @param bodyB
      * @return
@@ -40,8 +41,8 @@ abstract public class ContactDetector {
         boolean result = false;
         boolean resultEstablished = false;
         for( int i = 0; i < s_contactExperts.size() && !resultEstablished; i++ ) {
-            ContactDetector contactExpert = (ContactDetector) s_contactExperts.get( i );
-            if( contactExpert.applies( bodyA, bodyB )) {
+            ContactDetector contactExpert = (ContactDetector)s_contactExperts.get( i );
+            if( contactExpert.applies( bodyA, bodyB ) ) {
                 result = contactExpert.areInContact( bodyA, bodyB );
                 resultEstablished = true;
             }

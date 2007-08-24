@@ -16,7 +16,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Dec 21, 2005
  * Time: 4:20:17 PM
- *
  */
 
 public class TestUnits {

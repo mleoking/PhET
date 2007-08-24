@@ -19,7 +19,7 @@ import java.awt.*;
 
 /**
  * SimpleMoleculeIcon
- * <p>
+ * <p/>
  * An ImageIcon for a specified class of molecule
  *
  * @author Ron LeMaster
@@ -71,7 +71,7 @@ public class MoleculeIcon extends ImageIcon {
             super( molecule, profile, true );
 
             this.molecule = molecule;
-            this.profile  = profile;
+            this.profile = profile;
         }
 
 

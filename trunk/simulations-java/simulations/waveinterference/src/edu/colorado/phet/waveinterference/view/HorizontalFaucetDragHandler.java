@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 12:58:21 PM
- *
  */
 
 public class HorizontalFaucetDragHandler extends FaucetDragHandler {

@@ -1,10 +1,10 @@
 package edu.colorado.phet.ohm1d;
 
 import edu.colorado.phet.ohm1d.collisions.DefaultCollisionEvent;
-import edu.colorado.phet.ohm1d.oscillator2d.Core;
 import edu.colorado.phet.ohm1d.common.wire1d.WireParticle;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
 import edu.colorado.phet.ohm1d.common.wire1d.propagators.CompositePropagator1d;
+import edu.colorado.phet.ohm1d.oscillator2d.Core;
 
 public class Electron extends WireParticle {
     boolean collided = false;

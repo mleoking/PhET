@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.model;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 8:58:00 PM
- *
  */
 
 public class PrecomputedPotential implements Potential {

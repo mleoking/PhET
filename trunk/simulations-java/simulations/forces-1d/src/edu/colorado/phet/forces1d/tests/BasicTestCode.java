@@ -9,7 +9,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 4:43:03 PM
- *
  */
 
 public class BasicTestCode {

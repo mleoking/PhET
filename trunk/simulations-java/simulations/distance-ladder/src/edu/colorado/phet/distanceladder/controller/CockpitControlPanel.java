@@ -7,14 +7,14 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.distanceladder.common.StringResourceReader;
 import edu.colorado.phet.distanceladder.common.view.ApparatusPanel;
 import edu.colorado.phet.distanceladder.common.view.util.GraphicsUtil;
-import edu.colorado.phet.distanceladder.common.StringResourceReader;
 import edu.colorado.phet.distanceladder.exercise.HelpDialog;
 import edu.colorado.phet.distanceladder.model.*;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
 import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -92,7 +92,6 @@ public class CockpitControlPanel extends JPanel {
 //                                              GridBagConstraints.HORIZONTAL,
 //                                              GridBagConstraints.NORTH );
 
-
 //            GraphicsUtil.addGridBagComponent( this, pilotingPanel,
 //                                              0, 0,
 //                                              1, 1,
@@ -153,7 +152,6 @@ public class CockpitControlPanel extends JPanel {
     public void setStarshipCordinateGraphicEnabled( boolean isEnabled ) {
         this.starMapPanel.setStarshipCordinateGraphicEnabled( isEnabled );
     }
-
 
     //
     // Inner Classes
@@ -217,7 +215,7 @@ public class CockpitControlPanel extends JPanel {
         private double leftRightSliderFactor = 1;
         private JTextField alphaTF;
         private JTextField betaTF;
-//        private JSlider leftRightSlider;
+        //        private JSlider leftRightSlider;
         private JTextField leftRightTF;
         private JButton computeBtn;
         private JButton markBtn;
@@ -534,7 +532,6 @@ public class CockpitControlPanel extends JPanel {
             // Load messages
             StringResourceReader srr = new StringResourceReader();
             hyperjumpHelp = srr.read( "distance-ladder/messages/hyperjump-help.html" );
-
 
             // Create controls
             final JTextField distanceTF = new JTextField( 6 );

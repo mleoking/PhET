@@ -25,13 +25,14 @@ public class FieldVector {
     // arrowhead parameters
     private static int maxArrowHeadWidth = 10;
     private static int headWidthToLengthRatio = 3;
-//    private static Color arrowColor = Color.BLACK;
+    //    private static Color arrowColor = Color.BLACK;
     private static Color arrowColor = new Color( 235, 235, 235 );
     private static BasicStroke arrowHeadStroke = new BasicStroke( 1 );
     private static Polygon arrowHead = new Polygon();
 
 
     private static int length = 15;
+
     public static void setLength( int length ) {
         FieldVector.length = length;
     }
@@ -52,8 +53,7 @@ public class FieldVector {
             Graphics2D g2d = buffImg.createGraphics();
             g2d.setColor( arrowColor );
             float alpha = (float)magnitude / 100;
-            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-
+            g2d.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
 
             // draw the line
             g2d.setStroke( arrowStroke );

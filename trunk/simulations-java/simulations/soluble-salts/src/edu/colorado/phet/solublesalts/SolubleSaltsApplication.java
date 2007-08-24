@@ -36,7 +36,6 @@ import java.awt.*;
 public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
     /**
-     *
      * @param args
      */
     public SolubleSaltsApplication( String[] args ) {
@@ -55,7 +54,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
         IClock moduleCClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         Module moduleC = new SodiumChlorideModule( moduleCClock );
 
-        setModules( new Module[]{moduleC, moduleA, moduleB } );
+        setModules( new Module[]{moduleC, moduleA, moduleB} );
 
 //        setUpOptionsMenu();
     }
@@ -79,7 +78,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
             }
             if( arg.startsWith( "-w" ) ) {
                 int d = Integer.parseInt( arg.substring( 3 ) );
-                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d ;
+                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d;
             }
             if( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;

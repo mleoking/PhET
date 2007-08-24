@@ -15,7 +15,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 8:11:07 PM
- *
  */
 
 public class WavelengthControlPanel extends VerticalLayoutPanel {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.ehockey;
 
 public class HockeyConfig {

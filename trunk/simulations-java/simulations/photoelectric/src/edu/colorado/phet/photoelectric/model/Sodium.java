@@ -17,7 +17,7 @@ import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrateg
 
 /**
  * Sodium
- * <p>
+ * <p/>
  * Note that this differs from the SodiumProperties used in DischargeLamps because it has a metal energy
  * absorption strategy
  *
@@ -55,7 +55,7 @@ public class Sodium extends DischargeLampElementProperties {
     private static final EnergyAbsorptionStrategy ENERGY_ABSORPTION_STRATEGY = new MetalEnergyAbsorptionStrategy( WORK_FUNCTION );
 
     /**
-     * 
+     *
      */
     public Sodium() {
         super( NAME,
@@ -63,7 +63,7 @@ public class Sodium extends DischargeLampElementProperties {
                new LevelSpecificEnergyEmissionStrategy( teA ),
                ENERGY_ABSORPTION_STRATEGY );
 
-        ((LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy()).setStates( getStates() );
+        ( (LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy() ).setStates( getStates() );
         setWorkFunction( WORK_FUNCTION );
     }
 }

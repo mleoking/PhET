@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -74,7 +74,6 @@ public class MoleculeMoleculeCollisionAgentB {
             if( collisionSpec != null ) {
 
 
-
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
             }
 
@@ -104,7 +103,7 @@ public class MoleculeMoleculeCollisionAgentB {
                 double yDiff = rmA.getCM().getY() - rmB.getCM().getY();
                 double aFrac = rmA.getRadius() / ( rmA.getRadius() + rmB.getRadius() );
                 Point2D.Double collisionPt = new Point2D.Double( rmA.getCM().getX() - xDiff * aFrac,
-                                                                               rmA.getCM().getY() - yDiff * aFrac );
+                                                                 rmA.getCM().getY() - yDiff * aFrac );
                 loa.setComponents( xDiff, yDiff );
                 collisionSpec = new MoleculeMoleculeCollisionSpec( loa, collisionPt,
                                                                    (SimpleMolecule)moleculeA,

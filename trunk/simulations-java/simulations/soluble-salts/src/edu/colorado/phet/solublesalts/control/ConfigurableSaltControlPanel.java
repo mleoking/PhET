@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableAnion;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableCation;
 import edu.colorado.phet.solublesalts.model.salt.ConfigurableSalt;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -51,7 +51,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         SpinnerModel cationSpinnerModel = new SpinnerNumberModel( 1, 1, 3, 1 );
         final JSpinner cationChargeSpinner = new JSpinner( cationSpinnerModel );
 
-        JLabel cationLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.CationCharge") + ": " );
+        JLabel cationLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.CationCharge" ) + ": " );
         JSpinner.NumberEditor cationNumberEditor = new JSpinner.NumberEditor( cationChargeSpinner, "+#" );
         cationChargeSpinner.setEditor( cationNumberEditor );
         cationChargeSpinner.addChangeListener( new ChangeListener() {
@@ -65,7 +65,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
             }
         } );
 
-        JLabel anionLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.AnionCharge") + ": " );
+        JLabel anionLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.AnionCharge" ) + ": " );
         SpinnerModel anionSpinnerModel = new SpinnerNumberModel( -1, -3, -1, 1 );
         final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
         anionSpinnerModel.addChangeListener( new ChangeListener() {
@@ -105,7 +105,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridy++;
         panel.add( saltSPinnerPanel, gbc );
-        
+
         return panel;
     }
 }

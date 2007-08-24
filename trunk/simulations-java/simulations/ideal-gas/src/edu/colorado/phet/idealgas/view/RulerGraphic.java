@@ -7,19 +7,17 @@
  */
 package edu.colorado.phet.idealgas.view;
 
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class RulerGraphic extends PhetGraphic {
     private PhetImageGraphic rulerGraphic;

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2003
  * Time: 10:07:55 AM
- *
  */
 // TODO: Move up one level in package hierarchy
 public class RescaleOp {

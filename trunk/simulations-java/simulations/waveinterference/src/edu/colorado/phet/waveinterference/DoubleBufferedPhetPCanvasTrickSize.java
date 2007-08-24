@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 12:28:18 AM
- *
  */
 
 public class DoubleBufferedPhetPCanvasTrickSize extends PhetPCanvas {

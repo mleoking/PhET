@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 10:35:15 PM
- *
  */
 
 public class BrightnessScreenGraphic extends AbstractScreenGraphic {

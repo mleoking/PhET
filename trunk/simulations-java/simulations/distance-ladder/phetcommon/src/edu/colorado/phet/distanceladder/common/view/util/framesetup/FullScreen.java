@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:42:50 AM
- *
  */
 public class FullScreen implements FrameSetup {
     public FullScreen() {

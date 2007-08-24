@@ -14,7 +14,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 9:56:53 AM
- *
  */
 
 public class VerticalConnector extends ConnectorGraphic {

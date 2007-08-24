@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
 import edu.colorado.phet.common.bernoulli.bernoulli.physics2d.Force;
 import edu.colorado.phet.common.bernoulli.bernoulli.physics2d.Particle2d;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 import java.awt.geom.Point2D;
 
@@ -11,7 +11,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 9:54:40 PM
- *
  */
 public class Drop extends ModelElement {
     Particle2d particle;

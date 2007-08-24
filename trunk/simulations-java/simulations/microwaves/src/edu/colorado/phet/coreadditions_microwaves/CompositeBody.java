@@ -24,7 +24,7 @@ public class CompositeBody extends Body {
         double ySum = 0;
         double massSum = 0;
         for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get(i);
+            Body body = (Body)bodies.get( i );
             double mass = body.getMass();
             xSum += mass * body.getCM().getX();
             ySum += mass * body.getCM().getY();
@@ -41,7 +41,7 @@ public class CompositeBody extends Body {
             Body body = (Body)bodies.get( i );
             double dist = cm.distance( body.getCM() );
             double mOfIComponent = body.getMomentOfInertia() + body.getMass()
-                    * dist * dist;
+                                                               * dist * dist;
             mOfI += mOfIComponent;
         }
         return mOfI;

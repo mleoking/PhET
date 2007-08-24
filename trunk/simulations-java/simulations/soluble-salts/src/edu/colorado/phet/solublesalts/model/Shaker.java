@@ -66,7 +66,7 @@ public class Shaker extends Particle {
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
                 Vessel vessel = event.getVessel();
-                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() -model.getDrain().getPosition().getY();
+                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() - model.getDrain().getPosition().getY();
                 enabled = vessel.getWaterLevel() > drainLevel;
             }
         } );

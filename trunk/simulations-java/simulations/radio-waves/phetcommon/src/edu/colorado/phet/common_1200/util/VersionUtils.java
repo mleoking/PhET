@@ -6,13 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- *
  */
 public class VersionUtils {
     public static class VersionInfo {
@@ -36,7 +34,8 @@ public class VersionUtils {
 
 //        public String toString() {
 //            return "Name = " + name + ", Build Number = " + buildNumber + ", Build Time = " + buildTime;
-//        }
+
+        //        }
         public String toString() {
             return name + " #" + buildNumber + ": " + buildTime;
         }
@@ -61,7 +60,7 @@ public class VersionUtils {
 //        retur
 //        if( name == null ) {
 //            new RuntimeException( "Cannot read version info for name=" + name ).printStackTrace( );
-            return new VersionInfo[0];
+        return new VersionInfo[0];
 //        }
 //        VersionUtils vu = new VersionUtils();
 //        ClassLoader cl = vu.getClass().getClassLoader();
@@ -100,7 +99,7 @@ public class VersionUtils {
         String buildnumberName = name + ".build.number";
         URL buildNumberURL = cl.getResource( buildnumberName );
         if( buildNumberURL == null ) {
-            return new VersionInfo( name,-1,"");
+            return new VersionInfo( name, -1, "" );
 //            throw new IOException( "No resource found: " + buildnumberName );
         }
         System.out.println( "loading resource info=" + name + ", BuildURL = " + buildNumberURL );

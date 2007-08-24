@@ -12,13 +12,13 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.LauncherGraphic;
 import edu.colorado.phet.molecularreactions.view.LauncherLoadPanel;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -92,10 +92,10 @@ public class SimpleModule extends MRModule {
         createWiggleMe();
     }
 
-   public boolean isTemperatureBeingAdjusted() {
+    public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
-        if (!adjusting) {
+        if( !adjusting ) {
             adjusting = launcherGraphic.isTemperatureBeingAdjusted();
         }
 
@@ -133,7 +133,7 @@ public class SimpleModule extends MRModule {
 
     public void resetMolecules() {
         MRModel model = getThisModel();
-        
+
         // Create the appropriate molecule for the launcher
         SimpleMolecule launcherMolecule = null;
         if( launcherMoleculeClass == MoleculeC.class ) {
@@ -168,7 +168,7 @@ public class SimpleModule extends MRModule {
 
         if( this.launcherMolecule != null ) {
             launcherMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
-            
+
             model.removeModelElement( this.launcherMolecule );
         }
         if( cm != null ) {
@@ -240,7 +240,7 @@ public class SimpleModule extends MRModule {
         pCanvas.addWorldChild( wiggleMe );
         wiggleMe.setVisible( true );
         wiggleMe.animateTo( launcher.getRestingTipLocation().getX() - wiggleMe.getFullBounds().getWidth() - 15,
-                            launcher.getRestingTipLocation().getY() + 85  );
+                            launcher.getRestingTipLocation().getY() + 85 );
         launcherGraphic.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 super.mousePressed( event );

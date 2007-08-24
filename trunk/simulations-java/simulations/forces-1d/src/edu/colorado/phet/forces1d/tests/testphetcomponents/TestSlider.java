@@ -21,7 +21,6 @@ import java.awt.geom.AffineTransform;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 1:19:40 PM
- *
  */
 
 public class TestSlider {

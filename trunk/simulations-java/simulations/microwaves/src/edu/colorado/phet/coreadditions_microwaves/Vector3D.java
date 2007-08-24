@@ -30,10 +30,14 @@ public class Vector3D extends PhysicalVector {
         this.setZ( z );
         if( Double.isNaN( x ) )
         //throw new RuntimeException( "x was NaN" );
+        {
             System.out.println( "Vector2D constructor: x was NaN" );
+        }
         if( Double.isNaN( y ) )
         //throw new RuntimeException( "Y was NaN" );
+        {
             System.out.println( "Vector2D constructor: y was NaN" );
+        }
     }
 
     public String toString() {
@@ -49,12 +53,16 @@ public class Vector3D extends PhysicalVector {
         this.setY( y );
         this.setZ( z );
         return this;
-    };
+    }
+
+    ;
 
     public Vector3D setComponents( Vector3D that ) {
         this.setComponents( that.getX(), that.getY(), that.getZ() );
         return this;
-    };
+    }
+
+    ;
 
     public float getX() {
         return getScalarAt( X );

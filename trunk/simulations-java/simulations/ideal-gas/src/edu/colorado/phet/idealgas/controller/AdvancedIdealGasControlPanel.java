@@ -11,7 +11,6 @@
 
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_idealgas.ToggleButton;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
@@ -84,7 +83,6 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
                                       GridBagConstraints.CENTER,
                                       GridBagConstraints.HORIZONTAL,
                                       new Insets( 0, 0, 0, 0 ), 0, 0 );
-
 
         // Add controls for the number and type of molecules to put in the box
         add( particleControlsPanel, gbc );
@@ -231,8 +229,8 @@ public class AdvancedIdealGasControlPanel extends JPanel implements Gravity.Chan
         GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
 //                                                         GridBagConstraints.WEST,
-                                                         GridBagConstraints.NONE,
-                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
+GridBagConstraints.NONE,
+new Insets( 0, 0, 0, 0 ), 0, 0 );
         gravitySlider = new JSlider( JSlider.HORIZONTAL, 0, IdealGasConfig.MAX_GRAVITY, 0 );
         gravitySlider.setPreferredSize( new Dimension( 150, 50 ) );
         gravitySlider.setPaintTicks( true );

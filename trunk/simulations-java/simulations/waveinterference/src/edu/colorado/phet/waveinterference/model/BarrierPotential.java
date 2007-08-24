@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 3:24:07 PM
- *
  */
 
 public class BarrierPotential implements Potential {

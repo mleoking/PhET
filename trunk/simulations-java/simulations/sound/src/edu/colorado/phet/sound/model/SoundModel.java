@@ -24,7 +24,6 @@ public class SoundModel extends BaseModel {
     private boolean octaveEnabled = false;
 
     /**
-     *
      * @param clock
      */
     public SoundModel( AbstractClock clock ) {

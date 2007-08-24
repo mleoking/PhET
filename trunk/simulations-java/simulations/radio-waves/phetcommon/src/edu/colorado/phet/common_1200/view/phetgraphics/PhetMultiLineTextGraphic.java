@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.phetgraphics;
 
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
@@ -13,7 +12,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 10:45:57 PM
- *
  */
 public class PhetMultiLineTextGraphic extends PhetGraphic {
     private ArrayList textGraphics = new ArrayList();

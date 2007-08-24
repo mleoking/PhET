@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.components;
 
 import javax.swing.*;
@@ -8,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 13, 2004
  * Time: 10:10:30 AM
- *
  */
 public class HorizontalLayoutPanel extends JPanel {
     private GridBagConstraints gridBagConstraints;

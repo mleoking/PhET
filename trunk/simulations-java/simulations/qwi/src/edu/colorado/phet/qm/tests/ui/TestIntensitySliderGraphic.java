@@ -6,7 +6,6 @@ package edu.colorado.phet.qm.tests.ui;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 9:17:39 PM
- *
  */
 
 public class TestIntensitySliderGraphic {

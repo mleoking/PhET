@@ -33,18 +33,18 @@ public class AlignedSliderSetLayoutStrategy implements ILayoutStrategy {
         JComponent textField = valueControl.getTextField();
         JComponent valueLabel = valueControl.getValueLabel();
         JComponent unitsLabel = valueControl.getUnitsLabel();
-        int sliderHeight=slider.getPreferredSize().height;
-        valueLabel.setBounds( 0, (sliderHeight-valueLabel.getPreferredSize().height)/2, valueLabel.getPreferredSize().width, valueLabel.getPreferredSize().height );
+        int sliderHeight = slider.getPreferredSize().height;
+        valueLabel.setBounds( 0, ( sliderHeight - valueLabel.getPreferredSize().height ) / 2, valueLabel.getPreferredSize().width, valueLabel.getPreferredSize().height );
         textField.setBounds( getMaxX( new ValueGetter() {
             public JComponent getPreviousComponent( AbstractValueControl v ) {
                 return v.getValueLabel();
             }
-        } ), (sliderHeight-textField.getPreferredSize().height)/2, textField.getPreferredSize().width, textField.getPreferredSize().height );
+        } ), ( sliderHeight - textField.getPreferredSize().height ) / 2, textField.getPreferredSize().width, textField.getPreferredSize().height );
         unitsLabel.setBounds( getMaxX( new ValueGetter() {
             public JComponent getPreviousComponent( AbstractValueControl v ) {
                 return v.getTextField();
             }
-        } ), (sliderHeight-unitsLabel.getPreferredSize().height)/2, unitsLabel.getPreferredSize().width, unitsLabel.getPreferredSize().height );
+        } ), ( sliderHeight - unitsLabel.getPreferredSize().height ) / 2, unitsLabel.getPreferredSize().width, unitsLabel.getPreferredSize().height );
         slider.setBounds( getMaxX( new ValueGetter() {
             public JComponent getPreviousComponent( AbstractValueControl v ) {
                 return v.getUnitsLabel();

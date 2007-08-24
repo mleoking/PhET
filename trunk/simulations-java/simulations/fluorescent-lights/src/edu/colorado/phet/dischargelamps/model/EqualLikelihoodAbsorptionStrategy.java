@@ -37,15 +37,15 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
      *
      * @param electron
      */
-    public void collideWithElectron(Atom atom, Electron electron) {
+    public void collideWithElectron( Atom atom, Electron electron ) {
         AtomicState[] states = atom.getStates();
         AtomicState currState = atom.getCurrState();
-        double electronEnergy = getElectronEnergyAtCollision((DischargeLampAtom) atom, electron);
+        double electronEnergy = getElectronEnergyAtCollision( (DischargeLampAtom)atom, electron );
 
         // Find the index of the current state
         int currStateIdx = 0;
-        for (; currStateIdx < states.length; currStateIdx++) {
-            if (states[currStateIdx] == currState) {
+        for( ; currStateIdx < states.length; currStateIdx++ ) {
+            if( states[currStateIdx] == currState ) {
                 break;
             }
         }
@@ -53,8 +53,8 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
         // Find the index of the highest energy state whose energy is not higher than that of the current state
         // by more than the energy of the electron
         int highestPossibleNewStateIdx = currStateIdx + 1;
-        for (; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++) {
-            if (states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy) {
+        for( ; highestPossibleNewStateIdx < states.length; highestPossibleNewStateIdx++ ) {
+            if( states[highestPossibleNewStateIdx].getEnergyLevel() - currState.getEnergyLevel() > electronEnergy ) {
                 break;
             }
         }
@@ -63,16 +63,16 @@ public class EqualLikelihoodAbsorptionStrategy extends EnergyAbsorptionStrategy 
         // Pick a state between that of the next higher energy state and the highest energy state
         // we found in the preceding block. The highest state has a 50% chance of being picked, and
         // all other states have equal probablity within the remaining 50%
-        if (highestPossibleNewStateIdx > currStateIdx) {
-            int rand = EqualLikelihoodAbsorptionStrategy.random.nextInt(highestPossibleNewStateIdx - currStateIdx) + 1;
+        if( highestPossibleNewStateIdx > currStateIdx ) {
+            int rand = EqualLikelihoodAbsorptionStrategy.random.nextInt( highestPossibleNewStateIdx - currStateIdx ) + 1;
             int newStateIdx = rand + currStateIdx;
             AtomicState newState = states[newStateIdx];
 
             // Put the atom in the randomly picked state, and reduce the energy of the electron by the difference
             // in energy between the new state and the old state
             double energyDiff = newState.getEnergyLevel() - currState.getEnergyLevel();
-            atom.setCurrState(newState);
-            electron.setEnergy(electronEnergy - energyDiff);
+            atom.setCurrState( newState );
+            electron.setEnergy( electronEnergy - energyDiff );
         }
     }
 }

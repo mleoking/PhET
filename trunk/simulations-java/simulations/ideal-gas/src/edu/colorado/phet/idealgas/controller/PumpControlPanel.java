@@ -12,7 +12,6 @@ package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.idealgas.model.*;
 
-import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -102,15 +101,15 @@ public class PumpControlPanel extends SpeciesSelectionPanel implements Pump.List
 //                               box.getBoundsInternal().getWidth() + padding * 2,
 //                               box.getBoundsInternal().getHeight() + padding * 2 );
 
-                    b = box.getBoundsInternal();
-                    if( !b.contains( molecule.getPosition() ) && isInBox ) {
-                        isInBox = false;
-                        spinner.updateValue();
-                    }
-                    if( b.contains( molecule.getPosition() ) && !isInBox ) {
-                        isInBox = true;
-                        spinner.updateValue();
-                    }
+            b = box.getBoundsInternal();
+            if( !b.contains( molecule.getPosition() ) && isInBox ) {
+                isInBox = false;
+                spinner.updateValue();
+            }
+            if( b.contains( molecule.getPosition() ) && !isInBox ) {
+                isInBox = true;
+                spinner.updateValue();
+            }
 //                }
 //            } );
         }

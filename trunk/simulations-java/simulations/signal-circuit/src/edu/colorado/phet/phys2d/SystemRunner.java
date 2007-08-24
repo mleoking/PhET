@@ -1,7 +1,6 @@
 package edu.colorado.phet.phys2d;
 
 
-
 public class SystemRunner implements Runnable {
     System2D system;
     boolean running = true;
@@ -32,7 +31,7 @@ public class SystemRunner implements Runnable {
             while( running ) {
                 system.iterate( dt );
                 try {
-                    Thread.sleep( waitTime);
+                    Thread.sleep( waitTime );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();

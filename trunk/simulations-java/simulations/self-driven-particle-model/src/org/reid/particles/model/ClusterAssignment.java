@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 
 public class ClusterAssignment {
-    public int[]assignClusters( ParticleModel model ) {
+    public int[] assignClusters( ParticleModel model ) {
         int clusterIndex = 0;
-        int[]result = new int[model.numParticles()];
+        int[] result = new int[model.numParticles()];
         for( int i = 0; i < result.length; i++ ) {
             result[i] = -1;//unseen
         }
@@ -22,7 +22,7 @@ public class ClusterAssignment {
             //find all in same cluster
             if( result[i] == -1 ) {
                 Particle particle = model.particleAt( i );
-                Particle[]cluster = getCluster( model, particle );
+                Particle[] cluster = getCluster( model, particle );
 //                System.out.println( "cluster [" + i + "].length= " + cluster.length );
                 for( int j = 0; j < cluster.length; j++ ) {
                     Particle particle1 = cluster[j];
@@ -47,7 +47,7 @@ public class ClusterAssignment {
             Particle tv = (Particle)toVisit.get( i );
             if( !visited.contains( tv ) ) {
                 visited.add( tv );
-                Particle[]inRange = model.getNeighborsInRadius( tv );
+                Particle[] inRange = model.getNeighborsInRadius( tv );
                 for( int j = 0; j < inRange.length; j++ ) {
                     if( !visited.contains( inRange[j] ) && !toVisit.contains( inRange[j] ) ) {
                         toVisit.add( inRange[j] );

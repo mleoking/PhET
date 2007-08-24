@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 1:39:24 PM
- *
  */
 
 public class IntegralModelElement implements ModelElement {

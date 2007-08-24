@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.theramp.common.BarGraphic2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
@@ -14,7 +15,6 @@ import edu.colorado.phet.theramp.view.EarthGraphic;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:16:45 PM
- *
  */
 
 public class BarGraphSet extends PNode {
@@ -79,7 +78,7 @@ public class BarGraphSet extends PNode {
         } );
         max.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         max.setBackground( EarthGraphic.earthGreen );
-        maximizeButton = new PSwing(max );
+        maximizeButton = new PSwing( max );
     }
 
     public void setBarChartHeight( double baselineY ) {
@@ -111,7 +110,7 @@ public class BarGraphSet extends PNode {
                 }
             } );
             minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
-            minButNode = new PSwing(minBut );
+            minButNode = new PSwing( minBut );
             minButNode.setOffset( 5, topY + 10 );
             addChild( minButNode );
         }

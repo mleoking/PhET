@@ -200,7 +200,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
 //                int result = backdropGraphic.getBufferedImage().getRGB( i, j );
 //                if( result == 0xFFFFFFFF ) {
 //                    Point2D.Double p = new Point2D.Double( i, j);
-                    earthTx.transform( pUtil,null );
+        earthTx.transform( pUtil, null );
 //                    snowPoints.add( earthTx.transform( p,null ));
 //                }
 //            }
@@ -237,7 +237,7 @@ public class EarthGraphic implements Graphic, ReflectivityAssessor, ShapeGraphic
                 && photon.getWavelength() == GreenhouseConfig.sunlightWavelength ) {
 
                 // The 1 in the following line is a hack number that is needed to make the locations work out
-                pUtil.setLocation( photon.getLocation().getX(), photon.getLocation().getY() + 1);
+                pUtil.setLocation( photon.getLocation().getX(), photon.getLocation().getY() + 1 );
                 int pixel = backdropGraphic.getRGB( pUtil );
                 ColorModel colorModel = backdropGraphic.getBufferedImage().getColorModel();
                 int red = colorModel.getRed( pixel );

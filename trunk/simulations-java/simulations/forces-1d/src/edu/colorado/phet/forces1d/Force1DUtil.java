@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d;
 
 import javax.swing.*;
@@ -9,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 10:27:37 PM
- *
  */
 public class Force1DUtil {
 

@@ -10,7 +10,6 @@ import edu.colorado.phet.qm.model.waves.PlaneWave2D;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 9:33:30 AM
- *
  */
 
 public class MandelWave implements Wave {

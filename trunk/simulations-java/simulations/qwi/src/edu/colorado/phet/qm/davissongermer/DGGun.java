@@ -13,7 +13,6 @@ import java.awt.event.ItemListener;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:08:56 PM
- *
  */
 
 public class DGGun extends IntensityGunNode implements FireParticle {

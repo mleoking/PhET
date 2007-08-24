@@ -21,8 +21,9 @@ public class GraphicsUtil {
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
      * buffered image. The transform is done so that the image is not truncated.
+     *
      * @param bImage
-     * @param theta Angle the image is to be rotated, in radians.
+     * @param theta  Angle the image is to be rotated, in radians.
      * @return
      */
     public static BufferedImage getRotatedImage( BufferedImage bImage, double theta ) {
@@ -31,7 +32,7 @@ public class GraphicsUtil {
         // quadrants
         Point2D pr = new Point2D.Double();
         // Normalize theta to be between 0 and PI*2
-        theta = ( (theta % (Math.PI * 2)) + Math.PI * 2 ) % ( Math.PI * 2 );
+        theta = ( ( theta % ( Math.PI * 2 ) ) + Math.PI * 2 ) % ( Math.PI * 2 );
         if( theta >= 0 && theta <= Math.PI / 2 ) {
             pr.setLocation( 0, bImage.getHeight() );
         }

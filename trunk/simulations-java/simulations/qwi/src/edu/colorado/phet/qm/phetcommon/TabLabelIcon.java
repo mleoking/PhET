@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 28, 2006
  * Time: 8:32:12 PM
- *
  */
 
 public class TabLabelIcon extends ImageIcon {
@@ -28,6 +27,6 @@ public class TabLabelIcon extends ImageIcon {
         };
         example.setText( name );
         example.setFont( new Font( "Lucida Sans", Font.BOLD, 18 ) );
-        setImage( new PSwing(example ).toImage() );
+        setImage( new PSwing( example ).toImage() );
     }
 }

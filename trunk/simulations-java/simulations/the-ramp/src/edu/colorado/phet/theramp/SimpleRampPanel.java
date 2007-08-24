@@ -7,7 +7,6 @@ import edu.colorado.phet.theramp.view.RampPanel;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 1:25:55 AM
- *
  */
 
 public class SimpleRampPanel extends RampPanel {

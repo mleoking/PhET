@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 /**
  * SimulationClock
- * <p>
+ * <p/>
  * An adapter to provide an older interface for the newer SwingClock class. The older
  * interface is used throughout the simulation
  *

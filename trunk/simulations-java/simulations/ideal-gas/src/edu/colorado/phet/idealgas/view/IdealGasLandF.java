@@ -23,19 +23,19 @@ public class IdealGasLandF extends MetalLookAndFeel {
 //    public IdealGasLandF() {
 //        super( BACKGROUND_COLOR, buttonBackgroundColor, controlTextColor, font );
 //    }
-//    static private class LandF extends MetalLookAndFeel {
+    //    static private class LandF extends MetalLookAndFeel {
     public static Color backgroundColor = new Color( 200, 200, 220 );
-//            Color BACKGROUND_COLOR = new Color( 160, 180, 160 );
+    //            Color BACKGROUND_COLOR = new Color( 160, 180, 160 );
     public static Color buttonBackgroundColor = new Color( 160, 160, 200 );
     Color controlTextColor = new Color( 0, 0, 0 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 12 );
     static String[] controlTypes = new String[]{
-        "Menu",
-        "MenuItem",
-        "RadioButton",
-        "Button",
-        "CheckBox",
-        "Label"
+            "Menu",
+            "MenuItem",
+            "RadioButton",
+            "Button",
+            "CheckBox",
+            "Label"
     };
 
     protected void initComponentDefaults( UIDefaults table ) {
@@ -54,14 +54,14 @@ public class IdealGasLandF extends MetalLookAndFeel {
         ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
 
         Object[] defaults = {
-            "Panel.background", background
-            , "Menu.background", background
-            , "MenuItem.background", background
-            , "MenuBar.background", background
-            , "Slider.background", background
-            , "RadioButton.background", background
-            , "CheckBox.background", background
-            , "Button.background", buttonBackground
+                "Panel.background", background
+                , "Menu.background", background
+                , "MenuItem.background", background
+                , "MenuBar.background", background
+                , "Slider.background", background
+                , "RadioButton.background", background
+                , "CheckBox.background", background
+                , "Button.background", buttonBackground
         };
         def.addAll( Arrays.asList( defaults ) );
         table.putDefaults( def.toArray() );
@@ -69,11 +69,11 @@ public class IdealGasLandF extends MetalLookAndFeel {
         Font font = (Font)table.get( "Label.font" );
         Color color = (Color)table.get( "Label.foreground" );
         Object[] moreDefaults = {
-            "TextField.font", font
-            , "Spinner.font", font
-            , "FormattedTextField.font", font
-            , "TitledBorder.font", font
-            , "TitledBorder.titleColor", color
+                "TextField.font", font
+                , "Spinner.font", font
+                , "FormattedTextField.font", font
+                , "TitledBorder.font", font
+                , "TitledBorder.titleColor", color
         };
         table.putDefaults( moreDefaults );
     }

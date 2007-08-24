@@ -7,7 +7,6 @@ import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:42:07 AM
- *
  */
 
 public class TestFrequencyAmplitudeControlPanel extends TestTopView {

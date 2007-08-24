@@ -35,8 +35,9 @@ public class SingleApparatusPanelContainer implements ApparatusPanelContainer {
     }
 
     public void activeModuleChanged( Module m ) {
-        if( apparatusPanel != null )
+        if( apparatusPanel != null ) {
             container.remove( apparatusPanel );
+        }
         this.apparatusPanel = m.getApparatusPanel();
         this.container.add( m.getApparatusPanel(), BorderLayout.CENTER );
     }

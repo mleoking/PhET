@@ -1,12 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.view;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import org.reid.particles.experiment.JFreeChartExperiment2;
 import org.reid.particles.model.Particle;
 import org.reid.particles.model.ParticleModel;

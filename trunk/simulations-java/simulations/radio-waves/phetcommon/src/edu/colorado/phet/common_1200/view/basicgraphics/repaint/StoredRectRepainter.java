@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics.repaint;
 
 import javax.swing.*;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 13, 2004
  * Time: 7:38:34 PM
- *
  */
 public abstract class StoredRectRepainter implements SynchronizedRepaintDelegate {
     private ArrayList list = new ArrayList();

@@ -57,7 +57,7 @@ public class FadingMagnetControl extends SliderControl {
                 System.out.println( "FadingMagnetControl.mouseReleased" );
                 if( model.isTransitionMatch() ) {
                     double magnetStrength = model.getMatchingMainMagnetField();
-                    System.out.println( "magnet strength="+magnetStrength );
+                    System.out.println( "magnet strength=" + magnetStrength );
                     setValue( magnetStrength );
                 }
             }

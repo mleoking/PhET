@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.RepaintDebugGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -200,7 +200,7 @@ public class ApparatusPanel extends JPanel {
      * Provided so that subclasses (e.g. ApparatusPanel2) can get Java components to
      * paint without them having to call super.paintComponent() and incurring a redundant
      * painting of the graphic instance.
-     *  
+     *
      * @param graphics
      */
     protected void doPaintSuper( Graphics graphics ) {

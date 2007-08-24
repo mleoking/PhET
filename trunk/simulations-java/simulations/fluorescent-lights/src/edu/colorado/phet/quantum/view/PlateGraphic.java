@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.quantum.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.dischargelamps.model.HeatingElement;
 
 import java.awt.*;
@@ -22,7 +22,7 @@ import java.io.IOException;
 
 /**
  * PlateGraphic
- * <p>
+ * <p/>
  * A graphic for an anode or cathode plate
  *
  * @author Ron LeMaster
@@ -109,7 +109,7 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
             alphaLut[i] = (short)temperature;
             redLut[i] = 255;
         }
-        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB );
 //        BufferedImage newImg = new BufferedImage( image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
         temperatureOp.filter( image, newImg );
 

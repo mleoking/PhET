@@ -16,7 +16,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 23, 2003
  * Time: 9:17:12 PM
- *
  */
 public class CrossSectionalVolume extends SimpleObservable {
     Pipe parent;
@@ -31,7 +30,7 @@ public class CrossSectionalVolume extends SimpleObservable {
     private Segment topIntersectionSegment;
     private double volumeWidth;
     private SegmentPath topPath;
-//    private static double speedScaleFactor = .001;
+    //    private static double speedScaleFactor = .001;
     private static double speedScaleFactor = .00035;
 
     public double getVolumeWidth() {

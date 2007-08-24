@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 29, 2005
  * Time: 9:34:53 AM
- *
  */
 
 public class ResolutionControl extends AdvancedPanel {

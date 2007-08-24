@@ -27,63 +27,62 @@ package javasound;
 import javax.sound.sampled.*;
 import java.io.IOException;
 
-
 /*	+DocBookXML
-	<title>Playing waveforms</title>
+    <title>Playing waveforms</title>
 
-	<formalpara><title>Purpose</title>
-	<para>
-	Plays waveforms (sine, square, ...).
-	</para></formalpara>
+    <formalpara><title>Purpose</title>
+    <para>
+    Plays waveforms (sine, square, ...).
+    </para></formalpara>
 
-	<formalpara><title>Level</title>
-	<para>Advanced</para></formalpara>
+    <formalpara><title>Level</title>
+    <para>Advanced</para></formalpara>
 
-	<formalpara><title>Usage</title>
-	<para>
-	<cmdsynopsis>
-	<command>java OscillatorPlayer</command>
-	<arg><option>-t <replaceable>waveformtype</replaceable></option></arg>
-	<arg><option>-f <replaceable>signalfrequency</replaceable></option></arg>
-	<arg><option>-r <replaceable>samplerate</replaceable></option></arg>
-	<arg><option>-a <replaceable>amplitude</replaceable></option></arg>
-	</cmdsynopsis>
-	</para>
-	</formalpara>
+    <formalpara><title>Usage</title>
+    <para>
+    <cmdsynopsis>
+    <command>java OscillatorPlayer</command>
+    <arg><option>-t <replaceable>waveformtype</replaceable></option></arg>
+    <arg><option>-f <replaceable>signalfrequency</replaceable></option></arg>
+    <arg><option>-r <replaceable>samplerate</replaceable></option></arg>
+    <arg><option>-a <replaceable>amplitude</replaceable></option></arg>
+    </cmdsynopsis>
+    </para>
+    </formalpara>
 
-	<formalpara><title>Parameters</title>
-	<variablelist>
-	<varlistentry>
-	<term><option>-t <replaceable>waveformtype</replaceable></option></term>
-	<listitem><para>the waveform to play. One of sine, sqaure, triangle and sawtooth. Default: sine.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	<term><option>-f <replaceable>signalfrequency</replaceable></option></term>
-	<listitem><para>the frequency of the signal to create. Default: 1000 Hz.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	<term><option>-r <replaceable>samplerate</replaceable></option></term>
-	<listitem><para>the sample rate to use. Default: 44.1 kHz.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	<term><option>-a <replaceable>amplitude</replaceable></option></term>
-	<listitem><para>the amplitude of the generated signal. May range from 0.0 to 1.0. 1.0 means a full-scale wave. Default: 0.7.</para></listitem>
-	</varlistentry>
-	</variablelist>
-	</formalpara>
+    <formalpara><title>Parameters</title>
+    <variablelist>
+    <varlistentry>
+    <term><option>-t <replaceable>waveformtype</replaceable></option></term>
+    <listitem><para>the waveform to play. One of sine, sqaure, triangle and sawtooth. Default: sine.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+    <term><option>-f <replaceable>signalfrequency</replaceable></option></term>
+    <listitem><para>the frequency of the signal to create. Default: 1000 Hz.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+    <term><option>-r <replaceable>samplerate</replaceable></option></term>
+    <listitem><para>the sample rate to use. Default: 44.1 kHz.</para></listitem>
+    </varlistentry>
+    <varlistentry>
+    <term><option>-a <replaceable>amplitude</replaceable></option></term>
+    <listitem><para>the amplitude of the generated signal. May range from 0.0 to 1.0. 1.0 means a full-scale wave. Default: 0.7.</para></listitem>
+    </varlistentry>
+    </variablelist>
+    </formalpara>
 
-	<formalpara><title>Bugs, limitations</title>
-	<para>
-	Full-scale waves can lead to clipping. It is currently not known
-	which component is responsible for this.
-	</para></formalpara>
+    <formalpara><title>Bugs, limitations</title>
+    <para>
+    Full-scale waves can lead to clipping. It is currently not known
+    which component is responsible for this.
+    </para></formalpara>
 
-	<formalpara><title>Source code</title>
-	<para>
-	<ulink url="OscillatorPlayer.java.html">OscillatorPlayer.java</ulink>,
-	<ulink url="Oscillator.java.html">Oscillator.java</ulink>,
-	<ulink url="http://www.urbanophile.com/arenn/hacking/download.html">gnu.getopt.Getopt</ulink>
-	</para></formalpara>
+    <formalpara><title>Source code</title>
+    <para>
+    <ulink url="OscillatorPlayer.java.html">OscillatorPlayer.java</ulink>,
+    <ulink url="Oscillator.java.html">Oscillator.java</ulink>,
+    <ulink url="http://www.urbanophile.com/arenn/hacking/download.html">gnu.getopt.Getopt</ulink>
+    </para></formalpara>
 
 -DocBookXML
 */

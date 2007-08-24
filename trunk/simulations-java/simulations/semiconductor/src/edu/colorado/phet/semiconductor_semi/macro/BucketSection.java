@@ -16,7 +16,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Feb 9, 2004
  * Time: 7:49:27 PM
- *
  */
 public class BucketSection extends TransformGraphic {
     EnergySection model;

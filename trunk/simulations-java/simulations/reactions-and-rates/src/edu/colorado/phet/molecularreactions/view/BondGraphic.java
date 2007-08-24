@@ -20,7 +20,7 @@ import java.awt.geom.Line2D;
 
 /**
  * BondGraphic
- * <p>
+ * <p/>
  * A graphic that represents the bond between two simple molecules
  *
  * @author Ron LeMaster
@@ -28,13 +28,12 @@ import java.awt.geom.Line2D;
  */
 public class BondGraphic extends PPath implements SimpleObserver {
     private Stroke bondStroke = new BasicStroke( 3 );
-//    private Paint bondPaint = new Color( 0, 160, 0, 180 );
+    //    private Paint bondPaint = new Color( 0, 160, 0, 180 );
     private Paint bondPaint = new Color( 255, 0, 0, 180 );
-    private Line2D bondLine = new Line2D.Double( );
+    private Line2D bondLine = new Line2D.Double();
     private Bond bond;
 
     /**
-     *
      * @param bond
      */
     public BondGraphic( Bond bond ) {
@@ -46,7 +45,7 @@ public class BondGraphic extends PPath implements SimpleObserver {
         bond.addObserver( this );
 
         setPickable( false );
-        
+
         update();
     }
 
@@ -60,7 +59,7 @@ public class BondGraphic extends PPath implements SimpleObserver {
         bondLine.setLine( m0.getPosition().getX(),
                           m0.getPosition().getY(),
                           m1.getPosition().getX(),
-                          m1.getPosition().getY());
+                          m1.getPosition().getY() );
         setPathTo( bondLine );
     }
 }

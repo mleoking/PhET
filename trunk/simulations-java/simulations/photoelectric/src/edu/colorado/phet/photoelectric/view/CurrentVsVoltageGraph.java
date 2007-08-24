@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.charts.GridLineSet;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.charts.ScatterPlot;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
@@ -50,7 +53,7 @@ public class CurrentVsVoltageGraph extends PhotoelectricGraph {
 
     public CurrentVsVoltageGraph( Component component, final PhotoelectricModel model ) {
         super( component, range, chartSize, 2, 2, PhotoelectricModel.MAX_CURRENT / 6,
-                PhotoelectricModel.MAX_CURRENT / 6 );
+               PhotoelectricModel.MAX_CURRENT / 6 );
 
         GridLineSet horizontalGls = this.getHorizonalGridlines();
         horizontalGls.setMajorGridlinesColor( new Color( 200, 200, 200 ) );

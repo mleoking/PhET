@@ -24,7 +24,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 1:31:12 PM
- *
  */
 
 public class AdvancedRampControlPanel extends RampControlPanel {

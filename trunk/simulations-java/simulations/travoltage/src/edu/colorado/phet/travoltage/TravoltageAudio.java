@@ -10,7 +10,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jul 3, 2006
  * Time: 9:38:53 AM
- *
  */
 
 public class TravoltageAudio implements Runnable {

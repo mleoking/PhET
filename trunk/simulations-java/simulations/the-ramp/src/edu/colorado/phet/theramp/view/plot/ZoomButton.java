@@ -4,18 +4,17 @@ package edu.colorado.phet.theramp.view.plot;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
  * User: Sam Reid
  * Date: Aug 8, 2005
  * Time: 11:23:40 PM
- *
  */
 
 public class ZoomButton extends JButton {
@@ -42,7 +41,7 @@ public class ZoomButton extends JButton {
 
     public ZoomButton( Icon icon, double dzPress, double dzHold, double min, double max, double value, String tooltip ) {
         super( icon );
-        setMargin( new Insets( 1,1,1,1) );
+        setMargin( new Insets( 1, 1, 1, 1 ) );
         this.min = min;
         this.max = max;
         this.value = value;

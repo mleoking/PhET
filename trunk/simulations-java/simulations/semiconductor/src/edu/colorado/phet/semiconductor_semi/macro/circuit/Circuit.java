@@ -7,7 +7,6 @@ import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.Battery;
  * User: Sam Reid
  * Date: Jan 15, 2004
  * Time: 1:03:55 PM
- *
  */
 public class Circuit {
     CompositeLinearBranch circuit = new CompositeLinearBranch();

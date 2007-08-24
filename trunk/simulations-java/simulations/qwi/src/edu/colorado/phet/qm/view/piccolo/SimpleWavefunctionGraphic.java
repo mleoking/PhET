@@ -22,7 +22,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 12:48:33 PM
- *
  */
 
 public class SimpleWavefunctionGraphic extends PNode {

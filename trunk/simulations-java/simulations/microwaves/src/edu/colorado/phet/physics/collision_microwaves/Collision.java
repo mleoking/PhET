@@ -13,5 +13,5 @@ public interface Collision {
 
     void collide();
 
-    Collision createIfApplicable( Body bodyA, Body bodyB);
+    Collision createIfApplicable( Body bodyA, Body bodyB );
 }

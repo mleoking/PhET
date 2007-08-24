@@ -10,18 +10,18 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
-import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.AffineTransformOp;
-import java.awt.geom.AffineTransform;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 /**
  * BigNeutronGraphic
- * <p>
+ * <p/>
  * This class provides a bigger image of a neutron for use in the
  * ControlledFissionModule. It is a bit of a hack.
  *
@@ -30,8 +30,9 @@ import java.awt.*;
  */
 public class BigNeutronGraphic extends NeutronGraphic {
     private static BufferedImage myBufferedImage;
+
     static {
-        AffineTransform atx = AffineTransform.getScaleInstance( Config.BIG_NEUTRON_SCALE, Config.BIG_NEUTRON_SCALE);
+        AffineTransform atx = AffineTransform.getScaleInstance( Config.BIG_NEUTRON_SCALE, Config.BIG_NEUTRON_SCALE );
         AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         myBufferedImage = atxOp.filter( NeutronGraphic.getNeutronImage(), null );
     }

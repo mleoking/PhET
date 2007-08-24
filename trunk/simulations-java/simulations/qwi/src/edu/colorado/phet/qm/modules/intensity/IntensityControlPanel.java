@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:23:25 AM
- *
  */
 
 public class IntensityControlPanel extends QWIControlPanel {

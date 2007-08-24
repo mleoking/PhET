@@ -110,7 +110,7 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
             //match the state
             double exactTransitionEnergy = match.getTransitionEnergy();
             double wavelength = PhysicsUtil.energyToWavelength( Math.abs( exactTransitionEnergy ) );
-            System.out.println( "exactTransitionEnergy = " + exactTransitionEnergy +", wavelength="+wavelength);
+            System.out.println( "exactTransitionEnergy = " + exactTransitionEnergy + ", wavelength=" + wavelength );
             beam.setWavelength( wavelength );
 
 //            double energy = match.getMatchingEnergy();

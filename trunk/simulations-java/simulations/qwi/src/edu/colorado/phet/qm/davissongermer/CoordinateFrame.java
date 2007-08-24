@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  * User: Sam Reid
  * Date: Jul 18, 2006
  * Time: 2:49:12 AM
- *
  */
 public class CoordinateFrame {
     double min;

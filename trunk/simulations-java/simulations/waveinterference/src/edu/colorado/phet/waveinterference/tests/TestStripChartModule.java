@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:04:03 AM
- *
  */
 public class TestStripChartModule extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;

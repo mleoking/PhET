@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.common_sound.view.components.menu;
 
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.*;
 import edu.colorado.phet.common_sound.util.VersionUtils;
 import edu.colorado.phet.common_sound.view.PhetFrame;
-
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -115,7 +114,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private void showAboutDialogPhet() {
         String credits = "";
         PhetAboutDialog phetAboutDialog = new PhetAboutDialog( phetFrame, new PhetAboutDialog.SimpleDialogConfig( title, description, version, credits ) );
-        phetAboutDialog.show( );
+        phetAboutDialog.show();
     }
 
     private void showAboutDialogOrig() {

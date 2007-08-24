@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 9:33:11 PM
- *
  */
 
 public class ShinyBorder extends CompoundBorder {

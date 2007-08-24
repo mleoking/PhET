@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.graphics;
 
 import java.awt.*;
@@ -8,7 +7,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 2, 2004
  * Time: 3:15:07 PM
- *
  */
 public class ShadowTextGraphic implements Graphic {
     TextGraphic foreground;

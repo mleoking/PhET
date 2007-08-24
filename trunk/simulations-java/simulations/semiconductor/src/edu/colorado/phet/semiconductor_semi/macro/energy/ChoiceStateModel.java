@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 7:18:58 AM
- *
  */
 public class ChoiceStateModel implements ModelElement {
     private EnergySection energySection;

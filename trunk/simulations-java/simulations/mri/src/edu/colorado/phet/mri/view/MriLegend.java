@@ -134,7 +134,7 @@ public class MriLegend extends JPanel {
 
             child2.setOffset( child1.getFullBounds().getCenterX() - child2.getFullBounds().getWidth() / 2, text.getFullBounds().getMaxY() );
 
-            canvas.setSize( Math.max( top.getWidth(), bottom.getWidth() ), (int)Math.max( child2.getFullBounds().getMaxY(),text.getFullBounds().getMaxY( )) );
+            canvas.setSize( Math.max( top.getWidth(), bottom.getWidth() ), (int)Math.max( child2.getFullBounds().getMaxY(), text.getFullBounds().getMaxY() ) );
             BufferedImage buf = new BufferedImage( canvas.getWidth(), canvas.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
             Graphics2D graphics = buf.createGraphics();
             canvas.paintComponent( graphics );

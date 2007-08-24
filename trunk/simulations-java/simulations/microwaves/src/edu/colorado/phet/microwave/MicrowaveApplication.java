@@ -6,6 +6,8 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
@@ -16,9 +18,6 @@ import edu.colorado.phet.coreadditions_microwaves.PhetLookAndFeel;
 import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
 import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-
 
 import javax.swing.*;
 import java.util.logging.Logger;
@@ -35,7 +34,7 @@ public class MicrowaveApplication {
 
     // Localization
     public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
-    private static final String VERSION = PhetApplicationConfig.getVersion( "microwaves").formatForTitleBar();
+    private static final String VERSION = PhetApplicationConfig.getVersion( "microwaves" ).formatForTitleBar();
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {

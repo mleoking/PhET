@@ -11,8 +11,8 @@
 package edu.colorado.phet.molecularreactions.model;
 
 import edu.colorado.phet.common.collision.Box2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
@@ -173,24 +173,24 @@ public class MRModel extends PublishingModel {
         // Adjust the velocities of objects so energy is conserved
         double keF = pe0 + ke0 - pe1 + dEnergy;
         double r = Math.sqrt( ke1 != 0 ? keF / ke1 : 1 );
-        List modelElements = selectFor(Body.class);
+        List modelElements = selectFor( Body.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
-            Body body = (Body)modelElements.get( i );            
+            Body body = (Body)modelElements.get( i );
             body.setVelocity( body.getVelocity().scale( r ) );
             body.setOmega( body.getOmega() * r );
         }
     }
 
     public void monitorEnergy() {
-        List modelElements = selectFor(AbstractMolecule.class);
+        List modelElements = selectFor( AbstractMolecule.class );
 
         Vector2D m = new Vector2D.Double();
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
 
-            if (abstractMolecule.isPartOfComposite()) {
+            if( abstractMolecule.isPartOfComposite() ) {
                 m.add( ( (Body)abstractMolecule ).getMomentum() );
             }
         }
@@ -198,10 +198,10 @@ public class MRModel extends PublishingModel {
 
     public double getTotalKineticEnergy() {
         double keTotal = 0;
-        List modelElements = selectFor(new Class[]{Body.class, KineticEnergySource.class});
+        List modelElements = selectFor( new Class[]{Body.class, KineticEnergySource.class} );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
-            Body body = (Body)modelElements.get(i);
+            Body body = (Body)modelElements.get( i );
             keTotal += body.getKineticEnergy();
         }
 
@@ -212,7 +212,7 @@ public class MRModel extends PublishingModel {
      * Gets the temperature of the system, which is taken to be the
      * average kinetic energy of all the KineticEnergySources.
      *
-     * @return  The temperature of the system.
+     * @return The temperature of the system.
      */
     public double getTemperature() {
         int cnt = countWholeMolecules();
@@ -224,7 +224,7 @@ public class MRModel extends PublishingModel {
         return defaultTemperature;
     }
 
-    public void setDefaultTemperature(double defaultTemperature) {
+    public void setDefaultTemperature( double defaultTemperature ) {
         this.defaultTemperature = defaultTemperature;
 
         modelListenerProxy.notifyDefaultTemperatureChanged( defaultTemperature );
@@ -232,25 +232,25 @@ public class MRModel extends PublishingModel {
 
     // TODO: Factor out common code from 'averaging' methods
     public double getAverageKineticEnergyPerClass() {
-        Map peMap    = new HashMap(),
-            totalMap = new HashMap();
+        Map peMap = new HashMap(),
+                totalMap = new HashMap();
 
-        List modelElements = selectFor(Body.class);
+        List modelElements = selectFor( Body.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             Body source = (Body)modelElements.get( i );
 
             Class key = source.getClass();
 
-            if (!(source instanceof AbstractMolecule) ||
-                (!((AbstractMolecule)source).isPartOfComposite())) {
+            if( !( source instanceof AbstractMolecule ) ||
+                ( !( (AbstractMolecule)source ).isPartOfComposite() ) ) {
 
 
-                double peTotal = peMap.containsKey(key) ? ((Double)peMap.get(key)).doubleValue() : 0.0;
-                int    total   = totalMap.containsKey(key) ? ((Integer)totalMap.get(key)).intValue() : 0;
+                double peTotal = peMap.containsKey( key ) ? ( (Double)peMap.get( key ) ).doubleValue() : 0.0;
+                int total = totalMap.containsKey( key ) ? ( (Integer)totalMap.get( key ) ).intValue() : 0;
 
-                peMap.put(key,    new Double(peTotal + source.getKineticEnergy()));
-                totalMap.put(key, new Integer(total + 1));
+                peMap.put( key, new Double( peTotal + source.getKineticEnergy() ) );
+                totalMap.put( key, new Integer( total + 1 ) );
             }
         }
 
@@ -258,11 +258,11 @@ public class MRModel extends PublishingModel {
 
         double keTotal = 0.0;
 
-        while (keyIterator.hasNext()) {
+        while( keyIterator.hasNext() ) {
             Class key = (Class)keyIterator.next();
 
-            double pe  = ((Double)peMap.get(key)).doubleValue();
-            int    num = ((Integer)totalMap.get(key)).intValue();
+            double pe = ( (Double)peMap.get( key ) ).doubleValue();
+            int num = ( (Integer)totalMap.get( key ) ).intValue();
 
             keTotal += pe / (double)num;
         }
@@ -271,25 +271,25 @@ public class MRModel extends PublishingModel {
     }
 
     public double getAveragePotentialEnergyPerClass() {
-        Map peMap    = new HashMap(),
-            totalMap = new HashMap();
+        Map peMap = new HashMap(),
+                totalMap = new HashMap();
 
-        List modelElements = selectFor(PotentialEnergySource.class);
+        List modelElements = selectFor( PotentialEnergySource.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             PotentialEnergySource source = (PotentialEnergySource)modelElements.get( i );
 
             Class key = source.getClass();
 
-            if (!(source instanceof AbstractMolecule) ||
-                (!((AbstractMolecule)source).isPartOfComposite())) {
+            if( !( source instanceof AbstractMolecule ) ||
+                ( !( (AbstractMolecule)source ).isPartOfComposite() ) ) {
 
 
-                double peTotal = peMap.containsKey(key)    ? ((Double)peMap.get(key)).doubleValue() : 0.0;
-                int    total   = totalMap.containsKey(key) ? ((Integer)totalMap.get(key)).intValue() : 0;
+                double peTotal = peMap.containsKey( key ) ? ( (Double)peMap.get( key ) ).doubleValue() : 0.0;
+                int total = totalMap.containsKey( key ) ? ( (Integer)totalMap.get( key ) ).intValue() : 0;
 
-                peMap.put(key,    new Double(peTotal + source.getPE()));
-                totalMap.put(key, new Integer(total + 1));
+                peMap.put( key, new Double( peTotal + source.getPE() ) );
+                totalMap.put( key, new Integer( total + 1 ) );
             }
         }
 
@@ -297,11 +297,11 @@ public class MRModel extends PublishingModel {
 
         double peTotal = 0.0;
 
-        while (keyIterator.hasNext()) {
+        while( keyIterator.hasNext() ) {
             Class key = (Class)keyIterator.next();
 
-            double pe  = ((Double)peMap.get(key)).doubleValue();
-            int    num = ((Integer)totalMap.get(key)).intValue();
+            double pe = ( (Double)peMap.get( key ) ).doubleValue();
+            int num = ( (Integer)totalMap.get( key ) ).intValue();
 
             peTotal += pe / (double)num;
         }
@@ -311,15 +311,15 @@ public class MRModel extends PublishingModel {
 
     public double getTotalPotentialEnergy() {
         double peTotal = 0;
-        
-        List modelElements = selectFor(PotentialEnergySource.class);
-        
+
+        List modelElements = selectFor( PotentialEnergySource.class );
+
         for( int i = 0; i < modelElements.size(); i++ ) {
             PotentialEnergySource body = (PotentialEnergySource)modelElements.get( i );
 
             peTotal += body.getPE();
         }
-        
+
         return peTotal;
     }
 
@@ -331,11 +331,11 @@ public class MRModel extends PublishingModel {
      * Removes all molecules and bonds from the model
      */
     public void removeAllMolecules() {
-        List modelElements = selectForAny(new Class[]{AbstractMolecule.class, Bond.class, ProvisionalBond.class});
+        List modelElements = selectForAny( new Class[]{AbstractMolecule.class, Bond.class, ProvisionalBond.class} );
 
         for( int i = modelElements.size() - 1; i >= 0; i-- ) {
             ModelElement me = (ModelElement)modelElements.get( i );
-            
+
             removeModelElement( me );
         }
     }
@@ -343,23 +343,25 @@ public class MRModel extends PublishingModel {
     private double getAverageTotalEnergy() {
         int wholeMoleculeCount = countWholeMolecules();
 
-        if (wholeMoleculeCount != 0) {
+        if( wholeMoleculeCount != 0 ) {
             return getTotalKineticEnergy() / wholeMoleculeCount;
         }
 
         return getDefaultTemperature();
     }
 
-    public void setAverageTotal(boolean averageTotal) {
+    public void setAverageTotal( boolean averageTotal ) {
         this.averageTotal = averageTotal;
     }
 
     public double getTotalEnergy() {
-        if (averageTotal) return getAverageTotalEnergy();
+        if( averageTotal ) {
+            return getAverageTotalEnergy();
+        }
 
         int wholeMoleculeCount = countWholeMolecules();
 
-        if (wholeMoleculeCount != 0) {
+        if( wholeMoleculeCount != 0 ) {
             return getAverageKineticEnergyPerClass() +
                    getAveragePotentialEnergyPerClass();
         }
@@ -398,12 +400,12 @@ public class MRModel extends PublishingModel {
     public int countSimpleMolecules() {
         int cnt = 0;
 
-        List modelElements = selectFor(AbstractMolecule.class);
+        List modelElements = selectFor( AbstractMolecule.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
 
-            if (abstractMolecule.isSimpleMolecule()) {
+            if( abstractMolecule.isSimpleMolecule() ) {
                 cnt++;
             }
         }
@@ -414,12 +416,12 @@ public class MRModel extends PublishingModel {
     public int countCompositeMolecules() {
         int cnt = 0;
 
-        List modelElements = selectFor(AbstractMolecule.class);
+        List modelElements = selectFor( AbstractMolecule.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
 
-            if (abstractMolecule.isComposite()) {
+            if( abstractMolecule.isComposite() ) {
                 cnt++;
             }
         }
@@ -430,16 +432,16 @@ public class MRModel extends PublishingModel {
     public int countWholeMolecules() {
         int cnt = 0;
 
-        List modelElements = selectFor(AbstractMolecule.class);
+        List modelElements = selectFor( AbstractMolecule.class );
 
         for( int i = 0; i < modelElements.size(); i++ ) {
             AbstractMolecule abstractMolecule = (AbstractMolecule)modelElements.get( i );
 
-            if (abstractMolecule.isWholeMolecule()){
+            if( abstractMolecule.isWholeMolecule() ) {
                 cnt++;
             }
         }
-        
+
         return cnt;
     }
 }

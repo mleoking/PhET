@@ -10,10 +10,9 @@
  */
 package edu.colorado.phet.common_sound.view.help;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.PhetApplication;
-
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;

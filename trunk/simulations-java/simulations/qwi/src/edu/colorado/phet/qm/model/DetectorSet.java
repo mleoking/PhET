@@ -8,7 +8,6 @@ import java.util.Collections;
  * User: Sam Reid
  * Date: Jun 21, 2005
  * Time: 9:41:09 PM
- *
  */
 
 public class DetectorSet {

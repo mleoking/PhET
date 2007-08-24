@@ -97,6 +97,6 @@ public class WaveMedium extends SimpleObservable implements ModelElement {
     }
 
     public void clear() {
-        
+
     }
 }

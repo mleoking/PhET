@@ -16,11 +16,10 @@ import edu.colorado.phet.collision_idealgas.VerticalWallFixupStrategy;
 import edu.colorado.phet.collision_idealgas.Wall;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.WallGraphic;
-import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +40,6 @@ public class DiffusionModule extends AdvancedModule {
     private double minimumWallSeparation = GasMolecule.s_radius * 2;
 
     /**
-     *
      * @param clock
      */
     public DiffusionModule( final SimulationClock clock ) {
@@ -55,7 +53,7 @@ public class DiffusionModule extends AdvancedModule {
         setControlPanel( controlPanel );
         controlPanel.add( new AdvancedIdealGasControlPanel( this,
                                                             IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ),
-                                                            IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ) ));
+                                                            IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ) ) );
 
         createWalls( box );
 
@@ -85,7 +83,7 @@ public class DiffusionModule extends AdvancedModule {
                              IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ) );
 
         // Change title of control under the pump
-        setPumpSelectorPanelTitle( IdealGasResources.getString( "IdealGasControlPanel.Pump_Particles"));
+        setPumpSelectorPanelTitle( IdealGasResources.getString( "IdealGasControlPanel.Pump_Particles" ) );
 
         // Remove the mannequin graphic and the box door
         getApparatusPanel().removeGraphic( getPusher() );
@@ -96,7 +94,7 @@ public class DiffusionModule extends AdvancedModule {
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ((IdealGasModel)getModel()).stepInTime( -clock.getDt() );
+                ( (IdealGasModel)getModel() ).stepInTime( -clock.getDt() );
             }
         } );
     }
@@ -104,18 +102,18 @@ public class DiffusionModule extends AdvancedModule {
     private void createWalls( final Box2D box ) {
         // Create the lower vertical wall
         verticalWall = new VerticalBarrier( new Rectangle2D.Double( box.getCorner1X() + box.getWidth() / 2 - wallThickness / 2,
-                                                      box.getCorner1Y() + box.getHeight() * 2 / 3,
-                                                      wallThickness, box.getHeight() * 1 / 3 ),
-                              box.getBoundsInternal() );
+                                                                    box.getCorner1Y() + box.getHeight() * 2 / 3,
+                                                                    wallThickness, box.getHeight() * 1 / 3 ),
+                                            box.getBoundsInternal() );
         verticalWall.setFixupStrategy( new VerticalWallFixupStrategy() );
         verticalWall.setMinimumWidth( wallThickness );
         verticalWall.setMovementBounds( new Rectangle2D.Double( box.getCorner1X() + GasMolecule.s_radius * 8,
-                                                             box.getCorner1Y() + GasMolecule.s_radius * 8,
-                                                             box.getWidth() - GasMolecule.s_radius * 16,
-                                                             box.getHeight() ) );
+                                                                box.getCorner1Y() + GasMolecule.s_radius * 8,
+                                                                box.getWidth() - GasMolecule.s_radius * 16,
+                                                                box.getHeight() ) );
         WallGraphic verticalWallGraphic = new WallGraphic( verticalWall, getApparatusPanel(),
-                                                        Color.gray, Color.black,
-                                                        WallGraphic.EAST_WEST );
+                                                           Color.gray, Color.black,
+                                                           WallGraphic.EAST_WEST );
         verticalWallGraphic.setIsResizable( true );
         getModel().addModelElement( verticalWall );
         addGraphic( verticalWallGraphic, 1000 );
@@ -155,12 +153,12 @@ public class DiffusionModule extends AdvancedModule {
             // Don't let the lower wall get too close to the upper one
             if( verticalWall.getBounds().getMinY() < minY ) {
                 verticalWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), minY,
-                                                             oldBounds.getWidth(), oldBounds.getMaxY() - minY ) );
+                                                                oldBounds.getWidth(), oldBounds.getMaxY() - minY ) );
             }
             // Don't let the lower wall get too thin
             if( verticalWall.getBounds().getMinY() > verticalWall.getBounds().getMaxY() - minimumWallSeparation ) {
                 verticalWall.setBounds( new Rectangle2D.Double( oldBounds.getMinX(), verticalWall.getBounds().getMaxY() - minimumWallSeparation,
-                                                             oldBounds.getWidth(), minimumWallSeparation ) );
+                                                                oldBounds.getWidth(), minimumWallSeparation ) );
             }
         }
 
@@ -184,7 +182,7 @@ public class DiffusionModule extends AdvancedModule {
     // Implementation of abstract methods
     //----------------------------------------------------------------
     public Pump[] getPumps() {
-        return new Pump[] { getPump() };        
+        return new Pump[]{getPump()};
     }
 
     //-----------------------------------------------------------------

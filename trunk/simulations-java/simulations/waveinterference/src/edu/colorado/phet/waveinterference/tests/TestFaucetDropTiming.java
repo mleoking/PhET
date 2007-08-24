@@ -11,7 +11,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 11:33:59 PM
- *
  */
 
 public class TestFaucetDropTiming {

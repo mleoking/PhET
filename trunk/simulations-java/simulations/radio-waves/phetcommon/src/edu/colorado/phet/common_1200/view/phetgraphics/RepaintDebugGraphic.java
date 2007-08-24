@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.phetgraphics;
 
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
@@ -12,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 1, 2004
  * Time: 3:33:37 AM
- *
  */
 public class RepaintDebugGraphic implements Graphic, ClockTickListener {
     private int r = 255;

@@ -9,32 +9,26 @@ import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
 public class SystemAdapter
-    implements ParticleContainer
-{
+        implements ParticleContainer {
 
-    public SystemAdapter(System2D system2d)
-    {
+    public SystemAdapter( System2D system2d ) {
         sys = system2d;
     }
 
-    public void add(Particle particle)
-    {
-        sys.addParticle(particle);
+    public void add( Particle particle ) {
+        sys.addParticle( particle );
     }
 
-    public void remove(Particle particle)
-    {
-        sys.remove(particle);
+    public void remove( Particle particle ) {
+        sys.remove( particle );
     }
 
-    public int numParticles()
-    {
+    public int numParticles() {
         return sys.numParticles();
     }
 
-    public Particle particleAt(int i)
-    {
-        return sys.particleAt(i);
+    public Particle particleAt( int i ) {
+        return sys.particleAt( i );
     }
 
     System2D sys;

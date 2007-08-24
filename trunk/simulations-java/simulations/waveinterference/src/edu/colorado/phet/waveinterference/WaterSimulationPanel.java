@@ -17,7 +17,6 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:31:39 PM
- *
  */
 
 public class WaterSimulationPanel extends WaveInterferenceCanvas implements ModelElement, TopViewBarrierVisibility {

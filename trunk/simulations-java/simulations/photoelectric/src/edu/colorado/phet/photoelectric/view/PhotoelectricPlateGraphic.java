@@ -21,9 +21,9 @@ import java.util.ArrayList;
 
 /**
  * PhotoelectricPlateGraphic
- * <p>
+ * <p/>
  * A PlateGraphic that displays a number of "+" or "-" characters on it, the number being proportional
- * to the voltage between the plate and the other plate in the model 
+ * to the voltage between the plate and the other plate in the model
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -49,12 +49,10 @@ public class PhotoelectricPlateGraphic extends PlateGraphic {
         model.addChangeListener( new PotentialChangeListener() );
     }
 
-
-
     //----------------------------------------------------------------
     // Inner classes 
     //----------------------------------------------------------------
-    
+
     /**
      * Listens for changes in the voltage between the plates of the model, and paints "+" or "-"
      * characters on the plate to represent the plate's potential
@@ -84,7 +82,7 @@ public class PhotoelectricPlateGraphic extends PlateGraphic {
             // Add new indicators to the list and display them
             chargeIndicatorGraphics.clear();
             int numChargeIndicators = (int)Math.abs( model.getVoltage() * 10 );
-            double indicatorSpacing = (double)(getHeight() - 10) / ( numChargeIndicators + 1 );
+            double indicatorSpacing = (double)( getHeight() - 10 ) / ( numChargeIndicators + 1 );
             for( int i = 0; i < numChargeIndicators; i++ ) {
                 PhetTextGraphic indicator = new PhetTextGraphic( getComponent(),
                                                                  DischargeLampsConfig.DEFAULT_CONTROL_FONT,

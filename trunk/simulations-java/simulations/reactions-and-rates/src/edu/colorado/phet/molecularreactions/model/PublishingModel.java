@@ -33,11 +33,13 @@ public class PublishingModel extends BaseModel {
     //----------------------------------------------------------------
 
     public static interface ModelListener extends EventListener {
-        void modelElementAdded( ModelElement element);
-        void modelElementRemoved( ModelElement element);
+        void modelElementAdded( ModelElement element );
+
+        void modelElementRemoved( ModelElement element );
 
         /**
          * Called at the end of every time step
+         *
          * @param model
          * @param event
          */
@@ -45,9 +47,14 @@ public class PublishingModel extends BaseModel {
     }
 
     public static class ModelListenerAdapter implements ModelListener {
-        public void modelElementAdded( ModelElement element ) {}
-        public void modelElementRemoved( ModelElement element ) {}
-        public void endOfTimeStep( PublishingModel model, ClockEvent event ) {}
+        public void modelElementAdded( ModelElement element ) {
+        }
+
+        public void modelElementRemoved( ModelElement element ) {
+        }
+
+        public void endOfTimeStep( PublishingModel model, ClockEvent event ) {
+        }
     }
 
     private EventChannel eventChannel = new EventChannel( ModelListener.class );
@@ -56,6 +63,7 @@ public class PublishingModel extends BaseModel {
     public void addListener( ModelListener listener ) {
         eventChannel.addListener( listener );
     }
+
     public void removeListener( ModelListener listener ) {
         eventChannel.removeListener( listener );
     }
@@ -64,7 +72,7 @@ public class PublishingModel extends BaseModel {
     // ModelStepper
     //----------------------------------------------------------------
 
-    private static class ModelStepper extends ClockAdapter  {
+    private static class ModelStepper extends ClockAdapter {
         private PublishingModel model;
 
         public ModelStepper( PublishingModel model ) {
@@ -109,8 +117,8 @@ public class PublishingModel extends BaseModel {
      */
     public void removeAllModelElements() {
         while( modelElements.size() > 0 ) {
-            removeModelElement( (ModelElement)modelElements.get( 0 ));
-        }        
+            removeModelElement( (ModelElement)modelElements.get( 0 ) );
+        }
     }
 
     public ArrayList getModelElements() {

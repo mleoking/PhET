@@ -4,58 +4,51 @@
 
 package edu.colorado.phet.efield.electron.gui.addRemove;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
 import edu.colorado.phet.efield.electron.gui.ParticlePainter;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.media.EFieldResettable;
+import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.utils.Debug;
 
-import java.awt.Component;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
-import javax.swing.*;
-import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
-import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.addRemove:
 //            SystemAdapter, PanelAdapter
 
 public class AddRemove
-    implements EFieldResettable {
+        implements EFieldResettable {
     public class Remover
-        implements ActionListener
-    {
+            implements ActionListener {
 
-        public void actionPerformed(ActionEvent actionevent)
-        {
+        public void actionPerformed( ActionEvent actionevent ) {
             remove();
         }
 
-        public Remover()
-        {
+        public Remover() {
         }
     }
 
     public class Adder
-        implements ActionListener
-    {
+            implements ActionListener {
 
-        public void actionPerformed(ActionEvent actionevent)
-        {
+        public void actionPerformed( ActionEvent actionevent ) {
             addElectron();
         }
 
-        public Adder()
-        {
+        public Adder() {
         }
     }
 
 
-    public AddRemove(Vector vector, ParticleFactory particlefactory, Component component, ParticlePainter particlepainter)
-    {
+    public AddRemove( Vector vector, ParticleFactory particlefactory, Component component, ParticlePainter particlepainter ) {
         paintMe = component;
         electrons = vector;
         pf = particlefactory;
@@ -63,73 +56,67 @@ public class AddRemove
         painter = particlepainter;
     }
 
-    public void add(ParticleContainer particlecontainer)
-    {
-        containers.add(particlecontainer);
+    public void add( ParticleContainer particlecontainer ) {
+        containers.add( particlecontainer );
     }
 
-    public void fireResetAction(System2D system2d, ParticlePanel particlepanel)
-    {
+    public void fireResetAction( System2D system2d, ParticlePanel particlepanel ) {
         containers = new Vector();
-        add(new SystemAdapter(system2d));
-        add(new PanelAdapter(particlepanel, painter));
-        for(int i = 0; i < system2d.numLaws(); i++)
-            if(system2d.lawAt(i) instanceof ParticleContainer)
-                add((ParticleContainer)system2d.lawAt(i));
+        add( new SystemAdapter( system2d ) );
+        add( new PanelAdapter( particlepanel, painter ) );
+        for( int i = 0; i < system2d.numLaws(); i++ ) {
+            if( system2d.lawAt( i ) instanceof ParticleContainer ) {
+                add( (ParticleContainer)system2d.lawAt( i ) );
+            }
+        }
 
     }
 
-    public JPanel getJPanel()
-    {
-        JButton jbutton = new JButton( SimStrings.get( "AddRemove.AddButton" ));
-        jbutton.addActionListener(new Adder());
-        JButton jbutton1 = new JButton( SimStrings.get( "AddRemove.RemoveButton" ));
-        jbutton1.addActionListener(new Remover());
+    public JPanel getJPanel() {
+        JButton jbutton = new JButton( SimStrings.get( "AddRemove.AddButton" ) );
+        jbutton.addActionListener( new Adder() );
+        JButton jbutton1 = new JButton( SimStrings.get( "AddRemove.RemoveButton" ) );
+        jbutton1.addActionListener( new Remover() );
         JPanel jpanel = new JPanel();
-        jpanel.setLayout(new BoxLayout(jpanel, 1));
-        jpanel.add(jbutton);
-        jpanel.add(jbutton1);
+        jpanel.setLayout( new BoxLayout( jpanel, 1 ) );
+        jpanel.add( jbutton );
+        jpanel.add( jbutton1 );
         return jpanel;
     }
 
-    public ParticleContainer containerAt(int i)
-    {
-        return (ParticleContainer)containers.get(i);
+    public ParticleContainer containerAt( int i ) {
+        return (ParticleContainer)containers.get( i );
     }
 
-    public void addElectron()
-    {
+    public void addElectron() {
         Particle particle = pf.newParticle();
-        for(int i = 0; i < containers.size(); i++)
-        {
-            ParticleContainer particlecontainer = containerAt(i);
-            Debug.traceln("Adding to: " + particlecontainer);
-            particlecontainer.add(particle);
+        for( int i = 0; i < containers.size(); i++ ) {
+            ParticleContainer particlecontainer = containerAt( i );
+            Debug.traceln( "Adding to: " + particlecontainer );
+            particlecontainer.add( particle );
         }
 
-        electrons.add(particle);
+        electrons.add( particle );
         paintMe.repaint();
     }
 
-    public void remove()
-    {
-        if(electrons.size() == 0)
-        {
+    public void remove() {
+        if( electrons.size() == 0 ) {
             return;
-        } else
-        {
+        }
+        else {
             Particle particle = (Particle)electrons.lastElement();
-            remove(particle);
+            remove( particle );
             return;
         }
     }
 
-    public void remove(Particle particle)
-    {
-        for(int i = 0; i < containers.size(); i++)
-            containerAt(i).remove(particle);
+    public void remove( Particle particle ) {
+        for( int i = 0; i < containers.size(); i++ ) {
+            containerAt( i ).remove( particle );
+        }
 
-        electrons.remove(particle);
+        electrons.remove( particle );
         paintMe.repaint();
     }
 

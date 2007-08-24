@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.statemodels;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -13,7 +12,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.MoveToCell;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 12:39:21 PM
- *
  */
 public class Entrance implements ModelElement {
     private EnergyCell cell;

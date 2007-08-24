@@ -21,7 +21,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 10:54:25 PM
- *
  */
 
 public class DGControlPanel extends ControlPanel {

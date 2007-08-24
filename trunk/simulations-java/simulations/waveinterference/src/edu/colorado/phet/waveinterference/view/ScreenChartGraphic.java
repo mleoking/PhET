@@ -22,7 +22,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:01:59 PM
- *
  */
 
 public class ScreenChartGraphic extends PhetPNode {
@@ -41,7 +40,7 @@ public class ScreenChartGraphic extends PhetPNode {
         this.brightnessScreenGraphic = brightnessScreenGraphic;//todo factor out a common model piece
         XYSeries series = new XYSeries( "0" );
         XYDataset dataset = new XYSeriesCollection( series );
-        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "readout.intensity" ).toLowerCase( ), WIStrings.getString( "readout.position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
+        jFreeChart = ChartFactory.createXYLineChart( title, WIStrings.getString( "readout.intensity" ).toLowerCase(), WIStrings.getString( "readout.position" ), dataset, PlotOrientation.VERTICAL, false, false, false );
 //        jFreeChart.getTitle().setFont( new Font("Lucida Sans",Font.PLAIN, 14));
         jFreeChart.getXYPlot().getDomainAxis().setRange( 0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
@@ -138,7 +137,7 @@ public class ScreenChartGraphic extends PhetPNode {
 
     private void fillPath( GeneralPath generalPath ) {
         double dx = latticeScreenCoordinates.getCellWidth();
-        Point2D[]pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
+        Point2D[] pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
         if( pts.length > 0 ) {
             generalPath.moveTo( (float)pts[0].getY(), (float)pts[pts.length - 1].getX() );
         }

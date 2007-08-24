@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +24,7 @@ public class VerticalGuideline extends CompositePhetGraphic {
         this.setCursor( Cursor.getPredefinedCursor( Cursor.W_RESIZE_CURSOR ) );
         this.xLocation = position;
         this.addTranslationListener( new TranslationListener() {
-            public void translationOccurred( TranslationEvent event) {
+            public void translationOccurred( TranslationEvent event ) {
                 xLocation += event.getDx();
                 verticalLine.setLocation( xLocation );
                 component.repaint();

@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 13, 2006
  * Time: 11:21:47 PM
- *
  */
 
 public abstract class AtomPotential implements Potential {

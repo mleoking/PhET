@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common_sound.view;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 /**
  * The content pane for the JFrame of a PhetApplication.
- * 
- * @deprecated use edu.colorado.phet.common.view.ContentPanel
+ *
  * @author ?
  * @version $Revision$
+ * @deprecated use edu.colorado.phet.common.view.ContentPanel
  */
 public class BasicPhetPanel extends ContentPanel {
 

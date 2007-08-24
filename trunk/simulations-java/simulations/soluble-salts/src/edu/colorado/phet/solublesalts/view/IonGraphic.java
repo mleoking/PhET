@@ -51,7 +51,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     private PPath pDebugPath;
 
     /**
-     *
      * @param ion
      * @param imageName
      */
@@ -62,7 +61,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     }
 
     /**
-     *
      * @param ion
      * @param image
      */
@@ -96,10 +94,10 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
         // Draws a mark on the ion if it's bound
         if( showBondIndicators && ion.isBound() /* && pDebugPath == null */ ) {
             if( pDebugPath == null ) {
-            pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
-                                                          ( pImage.getHeight() / 2 ) - 2,
-                                                          4,
-                                                          4 ) );
+                pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
+                                                              ( pImage.getHeight() / 2 ) - 2,
+                                                              4,
+                                                              4 ) );
                 addChild( pDebugPath );
             }
             Color color = Color.red;

@@ -11,7 +11,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:38:29 AM
- *
  */
 
 public class OscillatorWavelengthControlPanel extends VerticalLayoutPanel {

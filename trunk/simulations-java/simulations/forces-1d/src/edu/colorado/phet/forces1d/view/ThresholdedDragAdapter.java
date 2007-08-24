@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:01:28 AM
- *
  */
 
 public class ThresholdedDragAdapter implements MouseInputListener {

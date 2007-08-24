@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 9:46:47 PM
- *
  */
 
 public class DGModel {

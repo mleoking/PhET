@@ -13,7 +13,7 @@ import edu.colorado.phet.common_microwaves.model.command.CommandQueue;
  * There should be only one of these per PhetApplication. It contains at any time a single
  * instance of BaseModel, which is the root of the all the ModelElements in the active
  * model.
- *
+ * <p/>
  * The only class that talks to this is PhetApplication.
  */
 public class ApplicationModel {
@@ -23,7 +23,7 @@ public class ApplicationModel {
 
     public ApplicationModel( IClock clock ) {
         this.clock = clock;
-        clock.setParent(this);
+        clock.setParent( this );
     }
 
     public BaseModel getBaseModel() {
@@ -62,7 +62,7 @@ public class ApplicationModel {
     }
 
     public void tickOnce() {
-        clock.tickOnce(clock.getRequestedDT());
+        clock.tickOnce( clock.getRequestedDT() );
     }
 
     public double getRequestedDT() {

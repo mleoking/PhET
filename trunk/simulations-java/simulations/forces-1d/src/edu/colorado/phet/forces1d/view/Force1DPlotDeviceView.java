@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.view;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
@@ -11,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 8:32:03 PM
- *
  */
 public class Force1DPlotDeviceView implements PlotDeviceView {
     private Force1DApplication module;

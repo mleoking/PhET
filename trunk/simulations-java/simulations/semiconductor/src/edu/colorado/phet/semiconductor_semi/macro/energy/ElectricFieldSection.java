@@ -8,7 +8,6 @@ import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.Battery;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 9:47:48 AM
- *
  */
 public class ElectricFieldSection {
     ElectricField internalField;

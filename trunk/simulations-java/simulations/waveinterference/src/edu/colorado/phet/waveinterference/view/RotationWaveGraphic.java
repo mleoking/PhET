@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:20:39 PM
- *
  */
 
 public class RotationWaveGraphic extends PNode {

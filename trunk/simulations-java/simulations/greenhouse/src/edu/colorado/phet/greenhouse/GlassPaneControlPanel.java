@@ -154,16 +154,16 @@ public class GlassPaneControlPanel extends JPanel {
                 || component instanceof JCheckBox ) {
 //                component.setForeground( panelForeground );
             }
-            if( ! ( component instanceof JButton ) ) {
+            if( !( component instanceof JButton ) ) {
 //                component.setBackground( panelBackground );
             }
             if( component.getForeground().equals( Color.black )
-                && ! ( component instanceof JButton ) ) {
+                && !( component instanceof JButton ) ) {
 //                component.setForeground( panelForeground );
             }
             if( component instanceof Container
-                && ! ( component instanceof JButton )
-                && ! ( component instanceof JSpinner ) ) {
+                && !( component instanceof JButton )
+                && !( component instanceof JSpinner ) ) {
                 setBackground( (Container)component );
             }
         }

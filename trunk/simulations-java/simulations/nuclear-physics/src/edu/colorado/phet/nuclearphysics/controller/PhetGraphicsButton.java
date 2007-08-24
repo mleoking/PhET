@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * PhetGraphicsButton

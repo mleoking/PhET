@@ -29,7 +29,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
 //    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE.getLeftLevel(),
 //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getPeakLevel(),
 //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getRightLevel(),
-//                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getThresholdWidth() );
+    //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getThresholdWidth() );
     private MRModel model;
 
     /**
@@ -442,9 +442,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
             SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
-            if( sm.getPosition().distanceSq( bm.getPosition() ) < ( sm.getRadius() + bm.getRadius() ) * ( sm.getRadius() + bm.getRadius() ) )
-            {
-                collisionDist = - collisionDist;
+            if( sm.getPosition().distanceSq( bm.getPosition() ) < ( sm.getRadius() + bm.getRadius() ) * ( sm.getRadius() + bm.getRadius() ) ) {
+                collisionDist = -collisionDist;
             }
 
             return collisionDist;

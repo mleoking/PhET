@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:06:44 AM
- *
  */
 public class TestTopView extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;

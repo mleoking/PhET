@@ -177,7 +177,7 @@ public class SingleAtomModule extends BaseLaserModule {
             Point pumpControlLocation = new Point( (int)( pumpingBeam.getPosition().getX() + 170 ),
                                                    (int)( pumpingBeam.getPosition().getY() - 90 ) );
             pumpBeamControl = new BeamControl( getApparatusPanel(),
-                                               this, 
+                                               this,
                                                pumpControlLocation,
                                                pumpingBeam,
                                                QuantumConfig.MIN_WAVELENGTH,

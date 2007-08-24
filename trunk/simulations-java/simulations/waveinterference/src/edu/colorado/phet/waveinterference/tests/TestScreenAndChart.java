@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:17:23 AM
- *
  */
 
 public class TestScreenAndChart extends TestWaveColor {

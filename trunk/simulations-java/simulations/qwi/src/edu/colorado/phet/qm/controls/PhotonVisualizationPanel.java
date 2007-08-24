@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Dec 17, 2005
  * Time: 7:40:43 PM
- *
  */
 
 public class PhotonVisualizationPanel extends VerticalLayoutPanel implements IVisualizationPanel {

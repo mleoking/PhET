@@ -13,7 +13,6 @@ import java.awt.event.ContainerListener;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 9:47:44 PM
- *
  */
 
 public class ShinyPanel extends JPanel {

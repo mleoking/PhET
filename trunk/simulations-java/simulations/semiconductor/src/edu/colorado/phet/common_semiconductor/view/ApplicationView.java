@@ -13,7 +13,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;

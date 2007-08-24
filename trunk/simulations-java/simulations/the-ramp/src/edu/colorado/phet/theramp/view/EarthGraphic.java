@@ -10,14 +10,13 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 8, 2005
  * Time: 8:11:05 AM
- *
  */
 
 public class EarthGraphic extends PNode {
     private PPath phetShapeGraphic;
     private RampPanel rampPanel;
     private RampWorld rampWorld;
-//    public static final Color earthGreen = new Color( 83, 175, 38 );
+    //    public static final Color earthGreen = new Color( 83, 175, 38 );
     public static final Color earthGreen = new Color( 150, 200, 140 );
 //    public static final Color earthGreen = new Color( 110,210,100);
 

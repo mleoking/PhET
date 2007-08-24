@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 10:04:32 AM
- *
  */
 
 public class SlitDetectorPanel extends VerticalLayoutPanel {

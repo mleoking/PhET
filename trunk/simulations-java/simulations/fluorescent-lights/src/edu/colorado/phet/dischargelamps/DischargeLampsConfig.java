@@ -54,7 +54,7 @@ public class DischargeLampsConfig {
                                                                ANODE_LOCATION.getY() + ANODE_LENGTH / 2 );
     public static final Insets ELECTRODE_INSETS = new Insets( 15, 30, 15, 30 );
     public static final Point BEAM_CONTROL_CENTER_PT = new Point( ( CATHODE_X_LOCATION + ANODE_X_LOCATION ) / 2,
-                                                                 195 );
+                                                                  195 );
 
     // Images
     public static final String IMAGE_FILE_DIRECTORY = "fluorescent-lights/images/";
@@ -85,7 +85,7 @@ public class DischargeLampsConfig {
     public static double PIXELS_PER_NM = 1E6;
     // Factor that converts volts on the control panel slider to real volts
     public static final double VOLTAGE_CALIBRATION_FACTOR = 1;
-//    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
+    //    public static final double VOLTAGE_CALIBRATION_FACTOR = 5.55;
     // Factor that makes the electron acceleration come out right for the potential between the plates
     public static final double ELECTRON_ACCELERATION_CALIBRATION_FACTOR = 1 / 5.55;
 

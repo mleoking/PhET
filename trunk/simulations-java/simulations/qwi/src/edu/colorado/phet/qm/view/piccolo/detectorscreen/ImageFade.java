@@ -8,7 +8,6 @@ import java.awt.image.WritableRaster;
  * User: Sam Reid
  * Date: Jul 15, 2005
  * Time: 9:53:39 AM
- *
  */
 
 public class ImageFade {

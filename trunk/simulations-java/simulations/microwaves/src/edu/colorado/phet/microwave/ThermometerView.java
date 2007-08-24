@@ -26,7 +26,7 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
     private Point2D.Double modelLocation = new Point2D.Double( 20, 50 );
     private Point2D.Double viewLocation = modelLocation;
     private static final int keArraySize = 20;
-    private double[] keArray = new double[ keArraySize ];
+    private double[] keArray = new double[keArraySize];
     private ImageGraphic backgroundGraphic;
     private ImageGraphic bodyGraphic;
 
@@ -68,7 +68,7 @@ public class ThermometerView implements Graphic, ImageObserver, Observer {
             for( int i = keArray.length - 2; i >= 0; i-- ) {
                 double t = keArray[i];
                 totalKe += keArray[i];
-                keArray[i+1] = keArray[i];
+                keArray[i + 1] = keArray[i];
             }
 
             // 5 is a scaling factor

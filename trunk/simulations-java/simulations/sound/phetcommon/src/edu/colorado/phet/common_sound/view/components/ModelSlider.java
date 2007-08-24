@@ -11,9 +11,9 @@
 package edu.colorado.phet.common_sound.view.components;
 
 
+import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

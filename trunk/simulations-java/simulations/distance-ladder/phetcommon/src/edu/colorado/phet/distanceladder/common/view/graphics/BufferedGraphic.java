@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Feb 21, 2004
  * Time: 1:15:56 AM
- *
  */
 public class BufferedGraphic implements Graphic {
     BufferedImage buffer;

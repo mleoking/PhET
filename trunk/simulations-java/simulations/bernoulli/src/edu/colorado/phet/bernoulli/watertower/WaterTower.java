@@ -7,9 +7,9 @@ import edu.colorado.phet.bernoulli.PressureListener;
 import edu.colorado.phet.bernoulli.common.PumpListener;
 import edu.colorado.phet.bernoulli.pump.Pump;
 import edu.colorado.phet.bernoulli.valves.Valve;
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -18,7 +18,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:00:16 AM
- *
  */
 public class WaterTower extends SimpleObservable implements PumpListener {
     double x;
@@ -66,6 +65,7 @@ public class WaterTower extends SimpleObservable implements PumpListener {
 
     public ModelElement getModelElement() {
         return new ModelElement() {//the price I pay for using SimpleObserver.
+
             public void stepInTime( double dt ) {
                 WaterTower.this.stepInTime( dt );
             }

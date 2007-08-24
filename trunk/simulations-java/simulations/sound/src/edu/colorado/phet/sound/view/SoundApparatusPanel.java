@@ -29,6 +29,7 @@ public class SoundApparatusPanel extends ApparatusPanel2 {
     public final static int LISTENER_SOURCE = 2;
 
     private SoundModel model;
+
     public SoundApparatusPanel( SoundModel model, AbstractClock clock ) {
         super( model, clock );
     }

@@ -11,7 +11,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 7:11:02 PM
- *
  */
 public class BasicWaveTestControlPanel extends ControlPanel {
     private BasicWaveTestModule testWaveModule;

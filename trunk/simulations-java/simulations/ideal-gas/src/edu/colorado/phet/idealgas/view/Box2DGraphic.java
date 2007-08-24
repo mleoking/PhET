@@ -6,14 +6,11 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-//import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationEvent;
-//import edu.colorado.phet.common.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.Box2D;
@@ -23,7 +20,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeListener {
 
@@ -45,7 +41,7 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
     private boolean leftWallHighlighted;
     private InternalBoxGraphic internalBoxGraphic;
     private Rectangle2D.Double mouseableArea = new Rectangle2D.Double();
-//    private TranslationListener translationListener;
+    //    private TranslationListener translationListener;
     private Color wallColor = new Color( 180, 180, 180 );
 
     /**
@@ -143,7 +139,6 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
         }
     }
 
-
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -165,6 +160,7 @@ public class Box2DGraphic extends CompositePhetGraphic implements Box2D.ChangeLi
 
         /**
          * Always report the bounds that include the handle, even when it isn't showing
+         *
          * @return
          */
         protected Rectangle determineBounds() {

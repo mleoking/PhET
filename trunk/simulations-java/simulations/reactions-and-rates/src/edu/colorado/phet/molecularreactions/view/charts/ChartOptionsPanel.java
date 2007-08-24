@@ -63,7 +63,7 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
         showBondsBtn.setSelected( false );
         module.setGraphicTypeVisible( showBondsBtn.isSelected() );
 
-        showStopwatchBtn = new JCheckBox(MRConfig.RESOURCES.getLocalizedString( "Control.showStopwatch" ));
+        showStopwatchBtn = new JCheckBox( MRConfig.RESOURCES.getLocalizedString( "Control.showStopwatch" ) );
         showStopwatchBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 module.setStopwatchVisible( showStopwatchBtn.isSelected() );
@@ -143,8 +143,8 @@ public class ChartOptionsPanel extends JPanel implements Resetable {
                                                          GridBagConstraints.HORIZONTAL,
                                                          insets, 0, 0 );
         add( chartOptionsPanel, gbc );
-        gbc.fill   = GridBagConstraints.NONE;
-        gbc.anchor = GridBagConstraints.WEST; 
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST;
         add( showBondsBtn, gbc );
         add( showStopwatchBtn, gbc );
     }

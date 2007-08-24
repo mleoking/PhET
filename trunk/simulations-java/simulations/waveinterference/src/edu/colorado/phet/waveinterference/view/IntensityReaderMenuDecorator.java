@@ -28,7 +28,7 @@ public class IntensityReaderMenuDecorator extends PNode {
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         JButton options = new JButton( WIStrings.getString( "controls.options" ) );
         options.setFont( new Font( "Lucida Sans", Font.PLAIN, 10 ) );
-        final JPopupMenu jPopupMenu = new JPopupMenu(  );
+        final JPopupMenu jPopupMenu = new JPopupMenu();
         final JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem( WIStrings.getString( "readout.display" ), intensityReader.isReadoutVisible() );
         menuItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -73,7 +73,7 @@ public class IntensityReaderMenuDecorator extends PNode {
                 }
             }
         } );
-        buttonPSwing = new PSwing(options );
+        buttonPSwing = new PSwing( options );
         addChild( intensityReader );
         addChild( buttonPSwing );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {

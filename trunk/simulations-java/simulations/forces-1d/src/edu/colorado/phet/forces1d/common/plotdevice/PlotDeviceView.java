@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 8:23:13 PM
- *
  */
 public interface PlotDeviceView {
     void relayout();

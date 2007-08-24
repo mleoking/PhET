@@ -7,7 +7,6 @@ import edu.colorado.phet.common_semiconductor.math.PhetVector;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 9:59:15 AM
- *
  */
 public class ElectricField {
     private PhetVector center;

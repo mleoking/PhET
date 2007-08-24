@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 8:16:39 AM
- *
  */
 
 public class GaussianWave2D extends WaveSetup implements Wave {

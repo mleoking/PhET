@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,7 +17,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jan 11, 2005
  * Time: 8:15:29 PM
- *
  */
 
 public class SimpleControlPanel extends IForceControl {

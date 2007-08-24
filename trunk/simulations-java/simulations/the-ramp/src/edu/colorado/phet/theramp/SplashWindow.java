@@ -81,7 +81,7 @@ public class SplashWindow extends Window {
             mt.waitForID( 0 );
         }
         catch( InterruptedException ie ) {}
-        
+
         // Center the window on the screen
         int imgWidth = image.getWidth( this );
         int imgHeight = image.getHeight( this );
@@ -89,7 +89,7 @@ public class SplashWindow extends Window {
         Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation( ( screenDim.width - imgWidth ) / 2,
                      ( screenDim.height - imgHeight ) / 2 );
-        
+
         // Users shall be able to close the splash window by
         // clicking on its display area. This mouse listener
         // listens for mouse clicks and disposes the splash window.
@@ -126,7 +126,7 @@ public class SplashWindow extends Window {
      */
     public void paint( Graphics g ) {
         g.drawImage( image, 0, 0, this );
-        
+
         // Notify method splash that the window
         // has been painted.
         // Note: To improve performance we do not enter
@@ -145,13 +145,13 @@ public class SplashWindow extends Window {
     public static void splash( Image image ) {
         if( instance == null && image != null ) {
             Frame f = new Frame();
-            
+
             // Create the splash image
             instance = new SplashWindow( f, image );
-            
+
             // Show the window.
             instance.show();
-            
+
             // Note: To make sure the user gets a chance to see the
             // splash window we wait until its paint method has been
             // called at least once by the AWT event dispatcher thread.

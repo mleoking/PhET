@@ -16,8 +16,7 @@ public class ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         float neigh = 0.0f;
-        if( last == null || last2 == null || !w.getSize().equals( last.getSize() ) || !w.getSize().equals( last2.getSize() ) )
-        {
+        if( last == null || last2 == null || !w.getSize().equals( last.getSize() ) || !w.getSize().equals( last2.getSize() ) ) {
             last = w.copy();
             last2 = w.copy();
             return;

@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor_semi.macro.energy.EnergySection;
 
@@ -16,7 +16,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:19:30 AM
- *
  */
 public class BandGraphic implements Graphic {
     private EnergySection diodeSection;

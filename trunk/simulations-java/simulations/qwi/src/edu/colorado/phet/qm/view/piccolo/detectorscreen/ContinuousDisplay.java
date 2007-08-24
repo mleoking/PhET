@@ -15,7 +15,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:43:24 PM
- *
  */
 
 public class ContinuousDisplay {

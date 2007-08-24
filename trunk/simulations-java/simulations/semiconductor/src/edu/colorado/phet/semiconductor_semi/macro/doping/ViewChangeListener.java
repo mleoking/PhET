@@ -5,7 +5,6 @@ package edu.colorado.phet.semiconductor_semi.macro.doping;
  * User: Sam Reid
  * Date: Mar 1, 2004
  * Time: 2:24:01 PM
- *
  */
 public interface ViewChangeListener {
     void viewCoordinateChanged( int x, int y );

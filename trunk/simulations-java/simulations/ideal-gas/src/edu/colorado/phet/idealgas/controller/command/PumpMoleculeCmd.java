@@ -38,7 +38,6 @@ public class PumpMoleculeCmd extends AddModelElementCmd {
 
 
     /**
-     *
      * @param model
      * @param molecule
      * @param module

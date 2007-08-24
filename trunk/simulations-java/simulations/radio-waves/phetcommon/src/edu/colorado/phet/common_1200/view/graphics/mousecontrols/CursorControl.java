@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 12:53:40 AM
- *
  */
 public class CursorControl implements MouseInputListener {
     private Cursor cursor;

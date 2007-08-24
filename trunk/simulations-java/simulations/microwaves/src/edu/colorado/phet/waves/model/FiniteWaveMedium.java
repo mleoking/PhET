@@ -22,14 +22,14 @@ public class FiniteWaveMedium extends WaveMedium {
         setBounds( origin, width, height );
     }
 
-    public void setBounds(  Point2D.Double origin, double width, double height ) {
+    public void setBounds( Point2D.Double origin, double width, double height ) {
         this.origin = origin;
         this.width = width;
         this.height = height;
     }
 
     public float getAmplitudeAt( float x, float y ) {
-        return super.getAmplitudeAt( x - (float)origin.getX() , y - (float)origin.getY() );
+        return super.getAmplitudeAt( x - (float)origin.getX(), y - (float)origin.getY() );
     }
 
     public Vector2D getFieldAtLocation( Point2D.Double latticePtLocation ) {

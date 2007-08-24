@@ -14,7 +14,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 8:33:35 AM
- *
  */
 
 public class RampTimeSeriesModel extends TimeSeriesModel {

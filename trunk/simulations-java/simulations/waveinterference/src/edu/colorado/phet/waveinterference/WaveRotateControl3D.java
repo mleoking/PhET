@@ -9,7 +9,6 @@ import edu.colorado.phet.waveinterference.view.WaveRotateControl;
  * User: Sam Reid
  * Date: May 17, 2006
  * Time: 11:28:46 AM
- *
  */
 
 public class WaveRotateControl3D extends WaveRotateControl {

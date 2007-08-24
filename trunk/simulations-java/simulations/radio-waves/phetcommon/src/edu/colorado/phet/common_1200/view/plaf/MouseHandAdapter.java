@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.plaf;
 
 import java.awt.*;
@@ -9,7 +8,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Apr 3, 2004
  * Time: 11:42:01 PM
- *
  */
 public class MouseHandAdapter extends MouseAdapter {
     public void mouseEntered( MouseEvent e ) {

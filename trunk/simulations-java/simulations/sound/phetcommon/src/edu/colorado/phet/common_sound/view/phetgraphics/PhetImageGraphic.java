@@ -109,7 +109,6 @@ public class PhetImageGraphic extends PhetGraphic {
         return image;
     }
 
-
     ///////////////////////////////////////////////////
     // Persistence support
     //

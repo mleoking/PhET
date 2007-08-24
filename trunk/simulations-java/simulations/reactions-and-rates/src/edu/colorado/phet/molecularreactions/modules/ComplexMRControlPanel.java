@@ -25,7 +25,7 @@ import java.awt.event.ActionListener;
 
 /**
  * ComplexMRControlPanel
- * <p>
+ * <p/>
  * The control panel for the ComplexModule
  *
  * @author Ron LeMaster
@@ -38,7 +38,6 @@ public class ComplexMRControlPanel extends MRControlPanel {
     private static InitialTemperaturePanel initialTemperaturePanel;
 
     /**
-     *
      * @param module
      */
     public ComplexMRControlPanel( final ComplexModule module ) {
@@ -82,9 +81,9 @@ public class ComplexMRControlPanel extends MRControlPanel {
 
     private static JPanel createReactionSelectionPanel( ComplexModule module ) {
         // TODO: There's a lot in common with ExperimentSetupPanel; factor out common class
-        JPanel reactionSelectionPanel = new JPanel(new GridBagLayout());
+        JPanel reactionSelectionPanel = new JPanel( new GridBagLayout() );
 
-        reactionSelectionPanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.initialConditions" )));
+        reactionSelectionPanel.setBorder( ControlBorderFactory.createPrimaryBorder( MRConfig.RESOURCES.getLocalizedString( "Control.initialConditions" ) ) );
 
         GridBagConstraints c = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                        1, 1, 1, 1,
@@ -93,25 +92,25 @@ public class ComplexMRControlPanel extends MRControlPanel {
                                                        new Insets( 2, 3, 3, 3 ),
                                                        0, 0 );
 
-        c.gridx     = 0;
+        c.gridx = 0;
         c.gridwidth = 4;
-        c.anchor    = GridBagConstraints.WEST;
+        c.anchor = GridBagConstraints.WEST;
 
         reactionSelectionPanel.add( new JLabel( MRConfig.RESOURCES.getLocalizedString( "Control.selectReaction" ) ), c );
 
-        c.anchor     = GridBagConstraints.CENTER;
+        c.anchor = GridBagConstraints.CENTER;
 
         reactionSelectionPanel.add( new ReactionChooserComboBox( module ), c );
 
-        c.anchor     = GridBagConstraints.CENTER;
-        c.gridx      = 0;
-        c.gridy      = GridBagConstraints.RELATIVE;
-        c.gridwidth  = GridBagConstraints.REMAINDER;
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        c.gridwidth = GridBagConstraints.REMAINDER;
         c.gridheight = GridBagConstraints.REMAINDER;
 
-        initialTemperaturePanel = new InitialTemperaturePanel(module.getMRModel());
+        initialTemperaturePanel = new InitialTemperaturePanel( module.getMRModel() );
 
-        reactionSelectionPanel.add( initialTemperaturePanel, c);
+        reactionSelectionPanel.add( initialTemperaturePanel, c );
 
         return reactionSelectionPanel;
     }
@@ -127,7 +126,7 @@ public class ComplexMRControlPanel extends MRControlPanel {
     public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
-        if (!adjusting) {
+        if( !adjusting ) {
             adjusting = initialTemperaturePanel.isTemperatureBeingAdjusted();
         }
 

@@ -8,13 +8,13 @@ package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.bernoulli.tube.Tube;
 import edu.colorado.phet.bernoulli.tube.TubeGraphic;
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.clock2.DefaultClock;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -32,7 +32,8 @@ public class FirefighterModule extends BernoulliApplication {
     private SimpleObservable firefighter;
     static private double firefighterY = firefighterHeight / 2;
     static private double nozzleLength = 2;
-    static private double nozzleAngle = Math.PI / 4;;
+    static private double nozzleAngle = Math.PI / 4;
+    ;
     private int nozzleLevel = super.tubeGraphicLevel + 1;
     private Nozzle nozzle;
     private int time;
@@ -123,7 +124,7 @@ public class FirefighterModule extends BernoulliApplication {
 //                System.out.println("pressure = " + pressure);
                 nozzle.setInputPressure( pressure <= 0 ? 0 :
 //                        pressure + Water.rho * Water.g * (getTower().getY() - nozzle.getOutlet().getY() )
-                                         getInputPressure() );
+getInputPressure() );
             }
         } );
         getTower().notifyPressureListeners();

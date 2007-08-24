@@ -77,7 +77,7 @@ public class StarGraphic extends DiskGraphic {
 
     double dAlpha = 0;
     int numFlares = 25;
-    double[] dR = new double[ numFlares ];
+    double[] dR = new double[numFlares];
 
     class Sunbeam {
         double theta;

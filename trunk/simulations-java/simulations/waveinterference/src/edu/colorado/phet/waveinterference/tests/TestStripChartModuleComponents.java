@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:04:03 AM
- *
  */
 public class TestStripChartModuleComponents extends BasicWaveTestModule {
     private WaveModelGraphic waveModelGraphic;

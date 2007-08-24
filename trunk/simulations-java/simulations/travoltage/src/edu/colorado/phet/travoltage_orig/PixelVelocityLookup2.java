@@ -68,7 +68,7 @@ public class PixelVelocityLookup2 implements PixelVelocity {
                 return ( (DoublePoint)dp.get( i ) );
             }
         }
-        new RuntimeException( "No Velocity found for pixel: " + p.toString()).printStackTrace( );
+        new RuntimeException( "No Velocity found for pixel: " + p.toString() ).printStackTrace();
         return null;
     }
 }

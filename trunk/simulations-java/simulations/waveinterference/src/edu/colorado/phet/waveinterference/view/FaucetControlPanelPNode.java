@@ -13,7 +13,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 3:45:13 PM
- *
  */
 
 public class FaucetControlPanelPNode extends PNode {
@@ -22,7 +21,7 @@ public class FaucetControlPanelPNode extends PNode {
 
     public FaucetControlPanelPNode( PhetPCanvas phetPCanvas, JComponent faucetControlPanel, final FaucetGraphic faucetGraphic, WaveModelGraphic waveModelGraphic ) {
         this.waveModelGraphic = waveModelGraphic;
-        PSwing pSwing = new PSwing(faucetControlPanel );
+        PSwing pSwing = new PSwing( faucetControlPanel );
 
         this.faucetGraphic = faucetGraphic;
         faucetGraphic.addPropertyChangeListener( "fullBounds", new PropertyChangeListener() {

@@ -74,8 +74,8 @@ public class MoleculeSelectionTracker {
     }
 
     public boolean isTracking() {
-        if (getFreeMolecule() != null && getBoundMolecule() != null) {
-            if (getSelectedMolecule() != null && getNearestToSelectedMolecule() != null) {
+        if( getFreeMolecule() != null && getBoundMolecule() != null ) {
+            if( getSelectedMolecule() != null && getNearestToSelectedMolecule() != null ) {
                 return true;
             }
         }
@@ -99,7 +99,7 @@ public class MoleculeSelectionTracker {
         return listenerController.getAllListeners();
     }
 
-    public void reset() {        
+    public void reset() {
     }
 
     // This class keeps track of the selected, and nearest to selected molecules.
@@ -109,7 +109,7 @@ public class MoleculeSelectionTracker {
             getSelectionListenerController().notifySelectedChanged( prevTrackedMolecule, newTrackedMolecule );
         }
 
-        public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {            
+        public void closestMoleculeChanged( SimpleMolecule newClosestMolecule, SimpleMolecule prevClosestMolecule ) {
             getSelectionListenerController().notifyClosestChanged( prevClosestMolecule, newClosestMolecule );
         }
 

@@ -43,10 +43,10 @@ public class SpringCollision implements Collision {
 
         // For the separation of the molecules, we use how far apart their edges were HALF-WAY
         // THROUGH THE LAST TIME STEP.
-        double dx = ((smA.getPosition().getX() + smA.getPositionPrev().getX() ) / 2 )
-                    - ((smB.getPosition().getX() + smB.getPositionPrev().getX() ) / 2 );
-        double dy = ((smA.getPosition().getY() + smA.getPositionPrev().getY() ) / 2 )
-                    - ((smB.getPosition().getY() + smB.getPositionPrev().getY() ) / 2 );
+        double dx = ( ( smA.getPosition().getX() + smA.getPositionPrev().getX() ) / 2 )
+                    - ( ( smB.getPosition().getX() + smB.getPositionPrev().getX() ) / 2 );
+        double dy = ( ( smA.getPosition().getY() + smA.getPositionPrev().getY() ) / 2 )
+                    - ( ( smB.getPosition().getY() + smB.getPositionPrev().getY() ) / 2 );
 //        double separation = Math.sqrt(dx * dx + dy * dy ) - smA.getRadius() - smB.getRadius();
         double separation = smA.getPosition().distance( smB.getPosition() )
                             - smA.getRadius() - smB.getRadius();
@@ -61,11 +61,11 @@ public class SpringCollision implements Collision {
         Reaction.ReactionCriteria reactionCriteria = model.getReaction().getReactionCriteria();
         if( reactionCriteria.moleculesAreProperTypes( mA, mB )
 //        && spring.getEnergy( sep ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
-        && spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
+&& spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB ) ) {
             doReaction( mA, mB, collisionSpec );
         }
         if( separation <= 0 && !model.getReaction().areCriteriaMet( mA, mB, collisionSpec )
-            && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB )) {
+            && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB ) ) {
             System.out.println( "SpringCollision.collide" );
         }
 
@@ -76,9 +76,9 @@ public class SpringCollision implements Collision {
 
             if( true ) {
                 spring.pushOnMolecule( mA, separation, new Vector2D.Double( mA.getPosition(),
-                                                                            mB.getPosition()) );
+                                                                            mB.getPosition() ) );
                 spring.pushOnMolecule( mB, separation, new Vector2D.Double( mB.getPosition(),
-                                                                            mA.getPosition()) );
+                                                                            mA.getPosition() ) );
                 return;
             }
 
@@ -90,8 +90,7 @@ public class SpringCollision implements Collision {
 //                double fMagA =
 //            }
             Vector2D fA = new Vector2D.Double( collisionSpec.getLoa() ).normalize().scale( fMag );
-            Vector2D fB = new Vector2D.Double( fA).scale( -1 );
-
+            Vector2D fB = new Vector2D.Double( fA ).scale( -1 );
 
             // Accelerate each of the bodies with the force
             mA.applyForce( fA, collisionSpec.getCollisionPt() );
@@ -150,6 +149,7 @@ public class SpringCollision implements Collision {
 
         /**
          * Gets the magnitude of the force exerted by the spring.
+         *
          * @param length
          * @return
          */
@@ -164,6 +164,7 @@ public class SpringCollision implements Collision {
 
         /**
          * Returns the stored energy in the spring if it is at A specified length
+         *
          * @param length
          * @return the energy stored in the spring
          */
@@ -195,17 +196,17 @@ public class SpringCollision implements Collision {
             // energy. If the change in potential is greater than the kinetic energy the molecule
             // has in that direction, reverse the molecule's direction of travel.
             double ss = molecule.getVelocity().dot( loa );
-            double keS = ss* ss * molecule.getMass() / 2;
+            double keS = ss * ss * molecule.getMass() / 2;
 
 //            if( keS > dPe ) {
-                keS -= dPe;
+            keS -= dPe;
 
             if( keS < 0 ) {
                 System.out.println( "SpringCollision$Spring.pushOnMolecule" );
             }
-                int sign = MathUtil.getSign( keS );
-                double deltaS = sign * Math.sqrt( 2 * ( keS * sign ) /molecule.getMass()) - ss;
-                molecule.getVelocity().add( loa.scale( deltaS ));
+            int sign = MathUtil.getSign( keS );
+            double deltaS = sign * Math.sqrt( 2 * ( keS * sign ) / molecule.getMass() ) - ss;
+            molecule.getVelocity().add( loa.scale( deltaS ) );
 //            }
         }
     }

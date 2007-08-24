@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  */
 
 public abstract class Page {
-//    private double dy = 1;
+    //    private double dy = 1;
     private double dy = 0;
     private String text = "";//includes activity
     private boolean noActivity = false;

@@ -20,7 +20,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:20:42 AM
- *
  */
 
 public class SingleParticleControlPanel extends QWIControlPanel {

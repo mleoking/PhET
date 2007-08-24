@@ -19,7 +19,6 @@ import java.text.SimpleDateFormat;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 12:34:48 AM
- *
  */
 
 public class TestJFreeStripChart {

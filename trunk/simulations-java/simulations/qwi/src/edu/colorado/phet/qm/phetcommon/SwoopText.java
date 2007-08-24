@@ -19,7 +19,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Sep 19, 2005
  * Time: 1:02:56 AM
- *
  */
 
 public class SwoopText extends PNode {

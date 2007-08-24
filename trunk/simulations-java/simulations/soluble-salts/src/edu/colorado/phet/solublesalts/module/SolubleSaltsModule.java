@@ -18,9 +18,9 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
+import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.view.BondGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.SSCanvas;
@@ -41,9 +41,9 @@ import java.util.HashMap;
  */
 public class SolubleSaltsModule extends PiccoloModule {
 
-//    static public final double viewScale = 1;
+    //    static public final double viewScale = 1;
     static public final double viewScale = 0.1;
-    
+
     private SSCanvas simPanel;
     private SolubleSaltsConfig.Calibration calibration;
     private PNode fullScaleCanvas;

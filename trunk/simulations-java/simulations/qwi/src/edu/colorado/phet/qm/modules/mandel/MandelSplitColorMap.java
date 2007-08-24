@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 3, 2006
  * Time: 12:52:00 AM
- *
  */
 
 public class MandelSplitColorMap implements ColorMap {

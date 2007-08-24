@@ -32,43 +32,43 @@ public class ShakerGraphic extends RegisterablePNode {
 
     private Shaker shaker;
 
-    public ShakerGraphic(Shaker shaker) {
+    public ShakerGraphic( Shaker shaker ) {
         this.shaker = shaker;
         PImage shakerImage = PImageFactory.create( SolubleSaltsConfig.SHAKER_IMAGE_NAME );
-        this.addChild(shakerImage );
+        this.addChild( shakerImage );
 
-        this.addInputEventListener(new PBasicInputEventHandler() {
+        this.addInputEventListener( new PBasicInputEventHandler() {
 
-            public void mouseEntered(PInputEvent event) {
-                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-                ppc.setCursor(new Cursor(Cursor.N_RESIZE_CURSOR));
+            public void mouseEntered( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( new Cursor( Cursor.N_RESIZE_CURSOR ) );
             }
 
-            public void mouseExited(PInputEvent event) {
-                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
-                ppc.setCursor(Cursor.getDefaultCursor());
+            public void mouseExited( PInputEvent event ) {
+                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                ppc.setCursor( Cursor.getDefaultCursor() );
             }
 
-            public void mouseDragged(PInputEvent event) {
+            public void mouseDragged( PInputEvent event ) {
                 Shaker shaker = ShakerGraphic.this.shaker;
                 double dy = event.getDelta().getHeight();
                 Point2D p = getOffset();
                 double y = p.getY() + dy;
-                if (y <= shaker.getMaxY() && y >= shaker.getMinY() ) {
-                    setOffset(p.getX(), p.getY() + dy);
-                    shaker.shake(dy);
+                if( y <= shaker.getMaxY() && y >= shaker.getMinY() ) {
+                    setOffset( p.getX(), p.getY() + dy );
+                    shaker.shake( dy );
                 }
 
                 // If the shaker moved up, then reset it so it can shake out more salt the next time it
                 // moves down
-                if (dy < 0) {
+                if( dy < 0 ) {
                     shaker.reset();
                 }
             }
 
-            public void mousePressed(PInputEvent event) {
+            public void mousePressed( PInputEvent event ) {
                 ShakerGraphic.this.shaker.reset();
             }
-        });
+        } );
     }
 }

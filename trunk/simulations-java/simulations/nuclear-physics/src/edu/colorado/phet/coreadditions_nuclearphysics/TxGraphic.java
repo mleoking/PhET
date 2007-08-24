@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.coreadditions_nuclearphysics;
 
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

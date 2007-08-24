@@ -26,7 +26,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 4:03:38 PM
- *
  */
 
 public abstract class AbstractGunNode extends PNode {
@@ -50,7 +49,7 @@ public abstract class AbstractGunNode extends PNode {
         }
 
         addChild( gunImageGraphic );
-        onGunGraphic = new PSwing(new JButton( QWIStrings.getString( "gun.fire" ) ) );
+        onGunGraphic = new PSwing( new JButton( QWIStrings.getString( "gun.fire" ) ) );
         addChild( onGunGraphic );
         this.comboBox = initComboBox();
         updateGunLocation();

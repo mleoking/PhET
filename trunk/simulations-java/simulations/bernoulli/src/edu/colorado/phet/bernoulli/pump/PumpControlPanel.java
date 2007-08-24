@@ -16,13 +16,11 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:40:36 PM
- *
  */
 public class PumpControlPanel extends JPanel {
 
     public PumpControlPanel( final BernoulliApplication application ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
 
 //        final JCheckBox antialias = new JCheckBox("Antialias", BernoulliModule.antialias);
 //        antialias.addActionListener(new ActionListener() {

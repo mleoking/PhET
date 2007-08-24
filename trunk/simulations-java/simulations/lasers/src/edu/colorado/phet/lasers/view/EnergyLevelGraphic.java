@@ -329,7 +329,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
         //        RenderStrategy strategy = new FlowLine();
         //        RenderStrategy strategy = new Blink( Color.gray );
-        RenderStrategy strategy = new Blink( QuantumConfig.BLINK_LINE_COLOR);
+        RenderStrategy strategy = new Blink( QuantumConfig.BLINK_LINE_COLOR );
 
         //----------------------------------------------------------------
         // Rendering
@@ -368,7 +368,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                 }
 //                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
 //                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
-                boolean timeOn = ( System.currentTimeMillis() / ((long)(QuantumConfig.FLASH_DELAY_MILLIS*2))) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / ( (long)( QuantumConfig.FLASH_DELAY_MILLIS * 2 ) ) ) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
                 if( System.currentTimeMillis() - lastMatchTime > QuantumConfig.TOTAL_FLASH_TIME ) {
                     timeOn = false;

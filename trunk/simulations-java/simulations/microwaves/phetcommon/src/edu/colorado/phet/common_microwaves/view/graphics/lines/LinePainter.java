@@ -6,8 +6,7 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 18, 2003
  * Time: 12:30:02 AM
- *
  */
 public interface LinePainter {
-    public void drawLine(Graphics2D g, int x, int y, int x2, int y2);
+    public void drawLine( Graphics2D g, int x, int y, int x2, int y2 );
 }

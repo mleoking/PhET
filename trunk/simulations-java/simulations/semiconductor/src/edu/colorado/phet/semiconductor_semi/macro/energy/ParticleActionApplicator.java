@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 1:29:19 PM
- *
  */
 public class ParticleActionApplicator implements ModelElement {
     ArrayList particleActions = new ArrayList();

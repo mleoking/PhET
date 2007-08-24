@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 4:27:46 PM
- *
  */
 
 public class TitleGraphic extends CompositePhetGraphic {

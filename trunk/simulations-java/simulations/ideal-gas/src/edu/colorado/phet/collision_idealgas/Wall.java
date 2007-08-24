@@ -50,6 +50,7 @@ public class Wall extends CollidableBody implements Translatable {
 
     /**
      * Does nothing. This is so the wall is not affected by gravity
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
@@ -163,7 +164,7 @@ public class Wall extends CollidableBody implements Translatable {
     public void fixup( SphericalBody sphere ) {
         fixupStrategy.fixup( this, sphere );
     }
-    
+
     //----------------------------------------------------------------
     // Event-related data, classes, and methods
     //----------------------------------------------------------------

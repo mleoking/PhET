@@ -98,7 +98,8 @@ public class PressureMeasurementTool extends MouseInputAdapter {
         private int readoutHeight = 50;
         private int leading = 20;
         Point location = new Point();
-        public int width = crosshairRadius * 2 + readoutWidth + 30;;
+        public int width = crosshairRadius * 2 + readoutWidth + 30;
+        ;
         public int height = readoutHeight + 20;
 
         private Point getLocation() {
@@ -112,22 +113,22 @@ public class PressureMeasurementTool extends MouseInputAdapter {
                                                upperLeft.y + crosshairRadius - readoutHeight / 2 );
 
             g2.setColor( Color.white );
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f ));
-            g2.fillRoundRect(upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 0.5f ) );
+            g2.fillRoundRect( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
                               width, height,
-                              5, 5);
+                              5, 5 );
 
             g2.setColor( Color.white );
 //            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.DST_OUT, 1f ));
             g2.fillOval( upperLeft.x, upperLeft.y, crosshairRadius * 2, crosshairRadius * 2 );
 
-            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC, 1f ));
+            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC, 1f ) );
             g2.setColor( Color.BLACK );
-            g2.setStroke( new BasicStroke( 2f ));
+            g2.setStroke( new BasicStroke( 2f ) );
             g2.drawRoundRect( upperLeft.x - 10, upperLeft.y + crosshairRadius - readoutHeight / 2 - 10,
                               crosshairRadius * 2 + readoutWidth + 30,
                               readoutHeight + 20,
-                              5, 5);
+                              5, 5 );
 
             g2.setStroke( new BasicStroke( 3f ) );
             g2.drawOval( upperLeft.x, upperLeft.y, crosshairRadius * 2, crosshairRadius * 2 );

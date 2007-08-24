@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics;
 
 import java.awt.*;
@@ -8,7 +7,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 24, 2004
  * Time: 11:44:02 PM
- *
  */
 public class BasicShadowTextGraphic extends BasicGraphic implements ITextGraphic {
     private BasicTextGraphic foreground;

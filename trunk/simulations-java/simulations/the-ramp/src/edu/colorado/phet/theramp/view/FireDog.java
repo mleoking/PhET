@@ -22,7 +22,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Aug 3, 2005
  * Time: 8:11:45 AM
- *
  */
 
 public class FireDog extends PNode {

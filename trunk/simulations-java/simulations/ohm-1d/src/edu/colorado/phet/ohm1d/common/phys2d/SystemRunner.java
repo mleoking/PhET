@@ -26,14 +26,14 @@ public class SystemRunner implements Runnable {
             while( running ) {
                 system.iterate( dt );
                 try {
-                    Thread.sleep(waitTime);
+                    Thread.sleep( waitTime );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
             try {
-                Thread.sleep( notRunningWaitTime);
+                Thread.sleep( notRunningWaitTime );
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();
@@ -42,7 +42,7 @@ public class SystemRunner implements Runnable {
     }
 
     public void setRunning( boolean b ) {
-        running=b;
+        running = b;
     }
 }
 

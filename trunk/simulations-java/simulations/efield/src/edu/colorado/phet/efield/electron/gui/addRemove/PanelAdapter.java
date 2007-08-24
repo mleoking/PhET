@@ -10,33 +10,27 @@ import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
 public class PanelAdapter
-    implements ParticleContainer
-{
+        implements ParticleContainer {
 
-    public PanelAdapter(ParticlePanel particlepanel, ParticlePainter particlepainter)
-    {
+    public PanelAdapter( ParticlePanel particlepanel, ParticlePainter particlepainter ) {
         pan = particlepanel;
         pp = particlepainter;
     }
 
-    public void add(Particle particle)
-    {
-        pan.add(particle, pp);
+    public void add( Particle particle ) {
+        pan.add( particle, pp );
     }
 
-    public void remove(Particle particle)
-    {
-        pan.remove(particle);
+    public void remove( Particle particle ) {
+        pan.remove( particle );
     }
 
-    public int numParticles()
-    {
+    public int numParticles() {
         return pan.numParticles();
     }
 
-    public Particle particleAt(int i)
-    {
-        return pan.particleAt(i);
+    public Particle particleAt( int i ) {
+        return pan.particleAt( i );
     }
 
     ParticlePanel pan;

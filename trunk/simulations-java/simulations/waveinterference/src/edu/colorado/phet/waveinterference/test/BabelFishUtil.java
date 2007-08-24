@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 7:42:03 PM
- *
  */
 
 public class BabelFishUtil {

@@ -23,6 +23,7 @@ public class WaterMoleculeWallCollisionExpert {
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
      * to avoid allocating a new Vector2D on every invocation.
+     *
      * @param bodyA
      * @param bodyB
      * @return
@@ -142,8 +143,8 @@ public class WaterMoleculeWallCollisionExpert {
         // Get the magnitude along the line of action of the bodies' relative velocities at the
         // point of contact
         Vector3D omega = new Vector3D( 0, 0, (float)bodyA.getOmega() );
-        Vector3D ot = omega.crossProduct( new Vector3D( r1 )).add( new Vector3D( bodyA.getVelocity() ));
-        float vr = ot.dot( new Vector3D( n ));
+        Vector3D ot = omega.crossProduct( new Vector3D( r1 ) ).add( new Vector3D( bodyA.getVelocity() ) );
+        float vr = ot.dot( new Vector3D( n ) );
 
         // Assume the coefficient of restitution is 1
         float e = 1;
@@ -152,21 +153,20 @@ public class WaterMoleculeWallCollisionExpert {
         float numerator = -vr * ( 1 + e );
         Vector3D n3D = new Vector3D( n );
         Vector3D r13D = new Vector3D( r1 );
-        Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float)( 1 / bodyA.getMomentOfInertia() ));
+        Vector3D t1 = r13D.crossProduct( n3D ).multiply( (float)( 1 / bodyA.getMomentOfInertia() ) );
         Vector3D t1A = t1.crossProduct( t1 );
         float t1B = n3D.dot( t1A );
         double denominator = ( 1 / bodyA.getMass() ) + t1B;
         denominator = ( 1 / bodyA.getMass() ) +
-                ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float)bodyA.getMomentOfInertia() ).crossProduct( r13D )));
+                      ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float)bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
         double j = numerator / denominator;
-
 
         // Compute the new linear and angular velocities, based on the impulse
         bodyA.getVelocity().add( new Vector2D( n ).multiply( (float)( j / bodyA.getMass() ) ) );
 
         double I = bodyA.getMomentOfInertia();
         Vector3D nj = new Vector3D( n ).multiply( (float)j );
-        double omegaB = bodyA.getOmega() + ( r13D.crossProduct( nj ).getZ() / bodyA.getMomentOfInertia() ) ;
+        double omegaB = bodyA.getOmega() + ( r13D.crossProduct( nj ).getZ() / bodyA.getMomentOfInertia() );
         bodyA.setOmega( bodyA.getOmega() + ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( bodyA.getMomentOfInertia() ) );
 
         // tweak the energy to be constant

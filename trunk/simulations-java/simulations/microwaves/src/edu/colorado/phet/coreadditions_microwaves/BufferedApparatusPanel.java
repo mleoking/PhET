@@ -33,9 +33,9 @@ public class BufferedApparatusPanel extends ApparatusPanel {
     protected void paintComponent( Graphics graphics ) {
 
         if( bounds.getMinX() != super.getBounds().getMinX()
-                || bounds.getMinY() != super.getBounds().getMinY()
-                || bounds.getMaxX() != super.getBounds().getMaxX()
-                || bounds.getMaxY() != super.getBounds().getMaxY() ) {
+            || bounds.getMinY() != super.getBounds().getMinY()
+            || bounds.getMaxX() != super.getBounds().getMaxX()
+            || bounds.getMaxY() != super.getBounds().getMaxY() ) {
             bImg = new BufferedImage( (int)getBounds().getWidth(),
                                       (int)getBounds().getHeight(),
                                       BufferedImage.TYPE_INT_ARGB );
@@ -44,6 +44,6 @@ public class BufferedApparatusPanel extends ApparatusPanel {
         }
         Graphics2D g2 = (Graphics2D)bImg.getGraphics();
         super.paintComponent( g2 );
-        ((Graphics2D)graphics).drawImage( bImg, 0, 0, imgObs );
+        ( (Graphics2D)graphics ).drawImage( bImg, 0, 0, imgObs );
     }
 }

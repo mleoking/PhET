@@ -11,12 +11,11 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:05:17 AM
- *
  */
 public class TestWaveRotateModule extends BasicWaveTestModule {
 //    private WaveSideView waveSideView;
 //    private WaveModelGraphic waveModelGraphic;
-//    private RotationGlyph rotationGlyph;
+    //    private RotationGlyph rotationGlyph;
     private RotationWaveGraphic rotationWaveGraphic;
 
     public TestWaveRotateModule() {

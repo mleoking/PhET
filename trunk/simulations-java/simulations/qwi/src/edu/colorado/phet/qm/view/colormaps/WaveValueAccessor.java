@@ -6,7 +6,6 @@ import edu.colorado.phet.qm.model.Wavefunction;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 9:07:38 AM
- *
  */
 public interface WaveValueAccessor {
     public double getValue( Wavefunction wavefunction, int i, int j );

@@ -13,7 +13,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Oct 7, 2005
  * Time: 9:00:54 PM
- *
  */
 
 public class PositionController {

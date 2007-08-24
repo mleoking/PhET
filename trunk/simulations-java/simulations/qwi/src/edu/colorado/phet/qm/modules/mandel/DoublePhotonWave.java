@@ -11,7 +11,6 @@ import edu.colorado.phet.qm.model.Wave;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 9:07:32 AM
- *
  */
 
 public class DoublePhotonWave extends PhotonWave {

@@ -16,13 +16,12 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 2:04:53 AM
- *
  */
 public class DopantGraphic extends TransformGraphic implements Boundary {
     Dopant dopant;
     private Point viewLoc;
     private SimpleBufferedImageGraphic imageGraphic;
-//    private Rectangle2D.Double rect;
+    //    private Rectangle2D.Double rect;
     private BufferedImage buffer;
 
     public DopantGraphic( Dopant dopant, ModelViewTransform2D transform, BufferedImage image, double width ) {

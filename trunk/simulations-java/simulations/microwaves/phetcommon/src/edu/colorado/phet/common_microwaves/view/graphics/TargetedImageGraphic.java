@@ -1,18 +1,15 @@
 /*, 2003.*/
 package edu.colorado.phet.common_microwaves.view.graphics;
 
-import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
-
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.AffineTransform;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
  * Date: Oct 8, 2003
  * Time: 11:58:25 PM
- *
  */
 public class TargetedImageGraphic implements Graphic {
     BufferedImage image;

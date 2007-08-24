@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 16, 2004
  * Time: 9:57:07 PM
- *
  */
 public class StateTransitionList implements ModelElement {
     ArrayList t = new ArrayList();

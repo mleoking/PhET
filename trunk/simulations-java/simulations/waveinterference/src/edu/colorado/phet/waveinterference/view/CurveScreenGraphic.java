@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 10:35:03 PM
- *
  */
 
 public class CurveScreenGraphic extends AbstractScreenGraphic {

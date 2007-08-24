@@ -10,10 +10,10 @@ import java.awt.image.BufferedImage;
  * Class for rendering HTML Text.
  */
 public class HTMLGraphic extends CompositePhetGraphic {
-    
+
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
-    
+
     private String html;
     private Font font;
     private Color color;
@@ -22,11 +22,11 @@ public class HTMLGraphic extends CompositePhetGraphic {
     public HTMLGraphic( Component component ) {
         this( component, DEFAULT_FONT, "", DEFAULT_COLOR );
     }
-    
+
     /**
      * Constructor.
      * If the string provided is not in HTML format, then it is converted to HTML.
-     * 
+     *
      * @param component
      * @param font
      * @param html
@@ -45,22 +45,22 @@ public class HTMLGraphic extends CompositePhetGraphic {
     /**
      * Sets the HTML string.
      * If the string provided is not in HTML format, then it is converted to HTML.
-     * 
+     *
      * @param html
      */
     public void setHTML( String html ) {
         this.html = makeHTML( html );
         update();
     }
-    
+
     public String getHTML() {
         return html;
     }
-    
+
     public void setHtml( String html ) {
         setHTML( html );
     }
-    
+
     public String getHtml() {
         return getHTML();
     }
@@ -73,26 +73,26 @@ public class HTMLGraphic extends CompositePhetGraphic {
     public Font getFont() {
         return font;
     }
-    
+
     public void setColor( Color color ) {
         this.color = color;
         update();
     }
-    
+
     public Color getColor() {
         return color;
     }
-    
+
     /**
      * Converts a plain text string to HTML.
      * If the text string is already HTML, then it is simply returned.
-     * 
+     *
      * @param s
      * @return HTML
      */
     private String makeHTML( String s ) {
         String htmlString = s;
-        if ( ! BasicHTML.isHTMLString( s ) ) {
+        if( !BasicHTML.isHTMLString( s ) ) {
             htmlString = "<html>" + s + "</html>";
         }
         return htmlString;
@@ -114,10 +114,10 @@ public class HTMLGraphic extends CompositePhetGraphic {
             View htmlView = BasicHTML.createHTMLView( label, html );
 
             Dimension dim = label.getPreferredSize();
-            if ( dim.width == 0 || dim.height == 0 ) {
+            if( dim.width == 0 || dim.height == 0 ) {
                 return null;
             }
-            
+
             BufferedImage image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             final Graphics2D g = image.createGraphics();
             g.setColor( new Color( 255, 255, 255, 0 ) );//transparent background

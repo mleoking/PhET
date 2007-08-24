@@ -2,9 +2,9 @@ package edu.colorado.phet.balloons;
 
 import edu.colorado.phet.balloons.common.paint.LayeredPainter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
+import edu.colorado.phet.balloons.common.phys2d.NullPropagator;
 import edu.colorado.phet.balloons.common.phys2d.Particle;
 import edu.colorado.phet.balloons.common.phys2d.Propagator;
-import edu.colorado.phet.balloons.common.phys2d.NullPropagator;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

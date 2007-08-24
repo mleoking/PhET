@@ -1,5 +1,6 @@
 package edu.colorado.phet.efield.electron.electricField;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.efield.electron.core.ParticleContainer;
 import edu.colorado.phet.efield.electron.core.RandomSystemFactory;
 import edu.colorado.phet.efield.electron.gui.*;
@@ -23,7 +24,6 @@ import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 import edu.colorado.phet.efield.electron.phys2d_efield.SystemRunner;
 import edu.colorado.phet.efield.electron.utils.ResourceLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;

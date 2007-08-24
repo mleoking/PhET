@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.TemperatureControl;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
-import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -105,7 +105,7 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setPreferredSize( new Dimension( 100, 60 ) );
         stoveSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
-                if (stoveSlider.getValueIsAdjusting()) {
+                if( stoveSlider.getValueIsAdjusting() ) {
                     adjustmentInProgress = true;
                 }
                 else {
@@ -137,12 +137,12 @@ public class TemperatureControlGraphic extends RegisterablePNode implements Temp
         stoveSlider.setBackground( background );
 
         // Fix horizontal size to make room for border title
-        stovePanel.setLayout( new BorderLayout( 2,1 ));
-        stovePanel.add( Box.createHorizontalStrut( 125 ), BorderLayout.NORTH);
+        stovePanel.setLayout( new BorderLayout( 2, 1 ) );
+        stovePanel.add( Box.createHorizontalStrut( 125 ), BorderLayout.NORTH );
         stovePanel.add( stoveSlider );
 
 
-        PSwing sliderNode = new PSwing(stovePanel );
+        PSwing sliderNode = new PSwing( stovePanel );
         sliderNode.setOffset( stoveGraphic.getWidth() + 5, 0 );
 
         return sliderNode;

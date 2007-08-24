@@ -13,6 +13,7 @@ public class Motion2DArrow {
     //set arrow position arrow to head:(xFinal, yFinal), tail:(x0, y0)
 
     //formula for width of arrow line
+
     public double computeWidth() {
         return ( Math.min( 6.0, this.L / 10.0 ) );
     }

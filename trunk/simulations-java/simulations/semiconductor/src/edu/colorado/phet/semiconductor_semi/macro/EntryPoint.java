@@ -8,7 +8,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyCell;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 12:29:41 PM
- *
  */
 public class EntryPoint {
     PhetVector source;

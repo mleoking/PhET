@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:13:41 PM
- *
  */
 
 public class WaveInterferenceControlPanel extends ControlPanel {

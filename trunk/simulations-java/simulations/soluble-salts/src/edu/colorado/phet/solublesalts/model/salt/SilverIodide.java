@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class SilverIodide extends Salt {
 
     static private Lattice lattice = new OneToOneLattice( Silver.RADIUS + Iodide.RADIUS );
-//    static private Lattice lattice = new PlainCubicLattice( Silver.RADIUS + Iodine.RADIUS );
+    //    static private Lattice lattice = new PlainCubicLattice( Silver.RADIUS + Iodine.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {

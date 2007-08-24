@@ -52,7 +52,7 @@ public class BatteryVoltageApplication extends JApplet {
 
     public static void main( String[] args ) {
         PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( args, new FrameSetup.NoOp(), BatteryVoltageResources.getResourceLoader() );
-        JFrame f = new JFrame(phetApplicationConfig.getName()+" ("+phetApplicationConfig.getVersion().formatForTitleBar()+")");
+        JFrame f = new JFrame( phetApplicationConfig.getName() + " (" + phetApplicationConfig.getVersion().formatForTitleBar() + ")" );
         f.setContentPane( new BatteryVoltageApplication() );
         f.setSize( new Dimension( 850, 525 ) );
         f.setVisible( true );

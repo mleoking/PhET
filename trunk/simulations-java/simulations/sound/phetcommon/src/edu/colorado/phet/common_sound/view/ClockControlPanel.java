@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.model.clock.ClockStateEvent;
 import edu.colorado.phet.common_sound.model.clock.ClockStateListener;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -89,12 +88,12 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
         play.setEnabled( false );
         pause.setEnabled( true );
     }
-    
+
     /**
      * Enables or disables the clock control panel.
      * When disabled, all buttons (play/pause/step) are also disabled.
      * When enabled, the buttons are enabled to correspond to the clock state.
-     * 
+     *
      * @param enabled true or false
      */
     public void setEnabled( boolean enabled ) {

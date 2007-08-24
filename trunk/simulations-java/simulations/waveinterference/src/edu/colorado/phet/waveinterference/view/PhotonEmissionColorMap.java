@@ -1,8 +1,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 import java.awt.*;
 
