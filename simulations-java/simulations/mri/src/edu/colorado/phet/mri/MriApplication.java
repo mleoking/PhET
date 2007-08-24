@@ -45,9 +45,9 @@ public class MriApplication extends PiccoloPhetApplication {
 
     private Module[] fullAppModules = new Module[]{
             new NmrModule(),
-            new HeadModule(),
-            new ScanModule(),
-            new ScanModuleB(),
+            new HeadModule()
+//            ,new ScanModule(),
+//            new ScanModuleB(),
     };
 
     private Module[] modules = fullAppModules;
