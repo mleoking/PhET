@@ -23,7 +23,6 @@ MEDIUM PRIORITY:
 - help items don't refresh fast enough (AWT priority issue?)
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
-- when position histogram is reopened, restore its location
 
 LOW PRIORITY:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
@@ -52,6 +51,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/24/07 - when position histogram is reopened, restore its previous location
+8/24/07 - refactor common code related to dialog management
 8/24/07 - when fluid controls dialog is reopened, restore its previous location
 8/24/07 - bugfix: enzyme inner sphere wobbles when it rotates (because of conversion to image)
 8/24/07 - scale enzyme rotation speed as clock speed changes
