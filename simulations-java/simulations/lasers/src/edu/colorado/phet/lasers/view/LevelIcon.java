@@ -44,6 +44,7 @@ public class LevelIcon extends CompositePhetGraphic {
         // to reset the radius to its original value, or the atom grows in size
         atom.setRadius( 5 );
         atomGraphic.setRegistrationPoint( (int)atom.getRadius() / 2, 0 );
+        atomGraphic.stateChanged( null );
     }
 
     public void updateEnergy( double newEnergy ) {
