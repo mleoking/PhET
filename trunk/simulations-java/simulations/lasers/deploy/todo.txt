@@ -3,6 +3,9 @@ Also, I found a bug in Lasers.  It's there in the old version, and no one's ever
 1. Get it lasing.
 2. Set lower transition from photon view to wave view.  There should be
   a big wave going.
-3. Move energy level 1 up or down so that it's now lasing in a different color.  The wave will immediately change color even though most of the photons in the laser are still the old color (this is a little weird, but I don't know how else it could behave, so it's probably fine).
-4. Wait a few seconds and then switch back to photon view.  All the photons in the laser cavity are gone!  Where did they go?  The wave view
+3. Move energy level 1 up or down so that it's now lasing in a different color.
+The wave will immediately change color even though most of the photons in the laser are
+still the old color (this is a little weird, but I don't know how else it could behave, so it's probably fine).
+4. Wait a few seconds and then switch back to photon view.  All the photons in the laser
+cavity are gone!  Where did they go?  The wave view
   and the laser power meter still indicate that they're in there, but you can't see them.
