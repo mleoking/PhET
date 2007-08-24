@@ -24,7 +24,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.LogoPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -667,6 +669,12 @@ public class PhetTabbedPane extends JPanel {
         public TabPane( Color selectedTabColor ) {
             Image image = PhetCommonResources.getInstance().getImage( IMAGE_PHET_LOGO );
             logo = new PImage( image );
+            logo.addInputEventListener( new CursorHandler( ) );
+            logo.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    PhetServiceManager.showPhetPage();
+                }
+            });
             tabBase = new TabBase( selectedTabColor );
             setPanEventHandler( null );
             setZoomEventHandler( null );

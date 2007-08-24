@@ -4,14 +4,16 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:17484 $
+ * Date modified : $Date:2007-08-23 18:23:07 -0500 (Thu, 23 Aug 2007) $
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
 import javax.jnlp.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Provides the functionality of ServiceManager for both JNLP and local runtimes.
@@ -19,7 +21,7 @@ import java.awt.*;
  * We are prevented from extending ServiceManager since it is static and final, this is the workaround.
  *
  * @author Sam Reid
- * @Revision : $Revision$
+ * @Revision : $Revision:17484 $
  */
 public class PhetServiceManager {
     /**
@@ -54,5 +56,20 @@ public class PhetServiceManager {
             return (FileSaveService)ServiceManager.lookup( "javax.jnlp.FileSaveService" );
         }
         return new LocalFileSaveService( owner );
+    }
+
+    /**
+     * Opens a browser window to show the phet homepage.
+     */
+    public static void showPhetPage() {
+        try {
+            PhetServiceManager.getBasicService().showDocument( new URL( "http://phet.colorado.edu" ) );
+        }
+        catch( MalformedURLException e ) {
+            e.printStackTrace();
+        }
+        catch( UnavailableServiceException e ) {
+            e.printStackTrace();
+        }
     }
 }
