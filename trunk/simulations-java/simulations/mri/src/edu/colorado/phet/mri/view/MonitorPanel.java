@@ -141,7 +141,6 @@ public class MonitorPanel extends PhetPCanvas {
         this.dipoleRepresentationPolicy = dipoleRepresentationPolicy;
     }
 
-
     /*
      * Establish the center point of the panel, and position the energy levels
      * symetrically above and below it
