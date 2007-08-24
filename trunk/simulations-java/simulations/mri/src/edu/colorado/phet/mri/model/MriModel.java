@@ -58,12 +58,6 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     private RadiowaveSource radiowaveSource;
     private DipoleMonitor dipoleMonitor;
 
-
-    /**
-     * Constructor
-     *
-     * @param clock
-     */
     public MriModel( IClock clock, Rectangle2D bounds, Sample sample ) {
 
         this.dipoleMonitor = new DipoleMonitor( this );
@@ -285,10 +279,20 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     }
 
     public boolean isTransitionMatch() {
-        Point2D p = new Point2D.Double( getBounds().getCenterX(), getBounds().getCenterY() );
-        double bEnergy = PhysicsUtil.frequencyToEnergy( getTotalFieldStrengthAt( p ) * getSampleMaterial().getMu() );
         double rfEnergy = PhysicsUtil.frequencyToEnergy( radiowaveSource.getFrequency() );
-        return Math.abs( bEnergy - rfEnergy ) <= MriConfig.ENERGY_EPS;
+        return Math.abs( getFieldEnergy() - rfEnergy ) <= MriConfig.ENERGY_EPS;
+    }
+
+    private double getFieldEnergy() {
+        Point2D p = new Point2D.Double( getBounds().getCenterX(), getBounds().getCenterY() );
+        return PhysicsUtil.frequencyToEnergy( getTotalFieldStrengthAt( p ) * getSampleMaterial().getMu() );
+    }
+
+    /*
+    Determine the frequency that would result in an exact match.
+     */
+    public double getMatchingFrequency() {
+        return PhysicsUtil.energyToFrequency( getFieldEnergy() );
     }
 
     //--------------------------------------------------------------------------------------------------

@@ -13,7 +13,6 @@ package edu.colorado.phet.mri.view;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.mri.MriConfig;
@@ -31,7 +30,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
@@ -49,14 +50,15 @@ public class RadiowaveSourceGraphic extends PNode {
     private double panelDepth = 93;
     private EnergySquiggle energySquiggle;
     private MriModel model;
+    private RadiowaveSource radiowaveSource;
+    private ModelSlider frequencySlider;
 
-    public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, PhetPCanvas canvas, AbstractMriModule module ) {
-
+    public RadiowaveSourceGraphic( final RadiowaveSource radiowaveSource, final AbstractMriModule module ) {
         model = (MriModel)module.getModel();
+        this.radiowaveSource = radiowaveSource;
 
         // todo: this line and variable is just for debugging
         double length = 700;
-//        double length = 600;
 
         double w = 0;
         double h = 0;
@@ -76,44 +78,52 @@ public class RadiowaveSourceGraphic extends PNode {
         }
         setOffset( x, y );
 
-//        Rectangle2D box = new Rectangle2D.Double( 0, 0, length, h );
-//        PPath boxGraphic = new PPath( box );
-//        boxGraphic.setPaint( new Color( 80, 80, 80 ) );
-//        addChild( boxGraphic );
-
         // Background for the entire control
         PImage background = PImageFactory.create( "mri/images/radiowave-control-background.png", new Dimension( (int)length, (int)h ) );
         addChild( background );
 
         // Frequency control
         Insets controlInsets = new Insets( 5, 5, 5, 5 );
-        final ModelSlider freqCtrl = new ModelSlider( SimStrings.getInstance().getString( "Misc.Frequency" ),
-                                                      "MHz",
-                                                      MriConfig.MIN_FEQUENCY,
-                                                      MriConfig.MAX_FEQUENCY,
-                                                      MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
-                                                      new DecimalFormat( "0.0" ),
-                                                      new DecimalFormat( "0" ) );
-        freqCtrl.setNumMajorTicks( 5 );
-        freqCtrl.setFont( font );
+        frequencySlider = new ModelSlider( SimStrings.getInstance().getString( "Misc.Frequency" ),
+                                           "MHz",
+                                           MriConfig.MIN_FEQUENCY,
+                                           MriConfig.MAX_FEQUENCY,
+                                           MriConfig.MIN_FEQUENCY + ( MriConfig.MAX_FEQUENCY - MriConfig.MIN_FEQUENCY ) / 2,
+                                           new DecimalFormat( "0.0" ),
+                                           new DecimalFormat( "0" ) );
+        frequencySlider.setNumMajorTicks( 5 );
+        frequencySlider.setFont( font );
         {
-            JTextField unitsReadout = freqCtrl.getUnitsReadout();
+            JTextField unitsReadout = frequencySlider.getUnitsReadout();
             Font orgFont = unitsReadout.getFont();
             Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() );
             unitsReadout.setFont( newFont );
         }
-        freqCtrl.addChangeListener( new ChangeListener() {
+        frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
+                radiowaveSource.setFrequency( frequencySlider.getValue() * MriConfig.FREQUENCY_UNIT );
+                System.out.println( "radiowaveSource.getFrequency() = " + radiowaveSource.getFrequency() );
             }
         } );
-        radiowaveSource.setFrequency( freqCtrl.getValue() * MriConfig.FREQUENCY_UNIT );
-        final PNode freqPSwing = new GraphicPSwing( new PSwing( freqCtrl ), "mri/images/control-background.png" );
+        frequencySlider.getSlider().addMouseListener( new MouseInputAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                System.out.println( "RadiowaveSourceGraphic.mouseReleased: snap" );
+                if( module.getMriModel().isTransitionMatch() ) {
+                    System.out.println( "RadiowaveSourceGraphic.mouseReleased: match" );
+                    double frequency = module.getMriModel().getMatchingFrequency();
+                    System.out.println( "frequency = " + frequency );
+                    radiowaveSource.setFrequency( frequency );
+                    updateFrequencySliderValue();
+                }
+            }
+        } );
+        radiowaveSource.setFrequency( frequencySlider.getValue() * MriConfig.FREQUENCY_UNIT );
+        final PNode freqPSwing = new GraphicPSwing( new PSwing( frequencySlider ), "mri/images/control-background.png" );
         freqPSwing.setOffset( length - controlInsets.right - freqPSwing.getBounds().getWidth(),
                               controlInsets.top );
-        freqCtrl.getTextField().setOpaque( true );
+        frequencySlider.getTextField().setOpaque( true );
         addChild( freqPSwing );
-        freqCtrl.addChangeListener( new ChangeListener() {
+        frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 freqPSwing.repaint();
             }
@@ -164,8 +174,7 @@ public class RadiowaveSourceGraphic extends PNode {
         title.setOffset( length / 2 - title.getBounds().getWidth() / 2, 10 );
         addChild( title );
 
-        // Update the sliders if the radiowave source changes its state through some mechanism other than our
-        // sliders
+        // Update the sliders if the radiowave source changes its state through some mechanism other than our sliders
         radiowaveSource.addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
                 powerCtrl.setValue( ( (RadiowaveSource)event.getSource() ).getPower() );
@@ -173,9 +182,13 @@ public class RadiowaveSourceGraphic extends PNode {
         } );
         radiowaveSource.addWavelengthChangeListener( new PhotonSource.WavelengthChangeListener() {
             public void wavelengthChanged( PhotonSource.WavelengthChangeEvent event ) {
-                freqCtrl.setValue( PhysicsUtil.wavelengthToFrequency( ( (RadiowaveSource)event.getSource() ).getWavelength() ) );
+                updateFrequencySliderValue();
             }
         } );
+    }
+
+    private void updateFrequencySliderValue() {
+        frequencySlider.setValue( PhysicsUtil.wavelengthToFrequency( radiowaveSource.getWavelength() )/MriConfig.FREQUENCY_UNIT );
     }
 
     private void addAuxiliarySquiggle( double length, Insets controlInsets, PNode freqPSwing, RadiowaveSource radiowaveSource ) {

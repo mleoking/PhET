@@ -72,22 +72,6 @@ public class NmrModule extends AbstractMriModule {
 
         // Put up a wiggle-me
         createWiggleMe();
-
-//
-//        final JSlider js = new JSlider( 0, 100, 50 );
-//        js.setOpaque( false );
-//        final PImage pi = PImageFactory.create( "mri/images/background.png");
-//        PSwing pSwing = new PSwing( getPhetPCanvas(), js );
-//        final PNode pNode = new PNode();
-//        pNode.addChild( pi );
-//        pNode.addChild( pSwing );
-//        pNode.setOffset( 50, 50);
-//        js.addChangeListener( new ChangeListener() {
-//            public void stateChanged( ChangeEvent e ) {
-//                js.revalidate();
-//            }
-//        } );
-//        getPhetPCanvas().addScreenChild( pNode );
     }
 
     private void createWiggleMe() {

@@ -110,7 +110,7 @@ public class ModelElementGraphicManager extends MriModel.ChangeAdapter {
         }
         else if( modelElement instanceof RadiowaveSource
                  && !( modelElement instanceof PlaneWaveCycle ) ) {
-            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, phetPCanvas, module );
+            graphic = new RadiowaveSourceGraphic( (RadiowaveSource)modelElement, module );
 //            graphic = new RadiowaveSourceGraphicPrev( (RadiowaveSource)modelElement, phetPCanvas, module );
             layer = controlLayer;
         }
