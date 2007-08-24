@@ -289,7 +289,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             if( textGraphic != null ) {
-                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight );
+                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight -2);
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
