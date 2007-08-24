@@ -7,7 +7,6 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -31,10 +30,7 @@ public class TestRotationPlatformNode {
 
         phetPCanvas = new PhetPCanvas();
         phetPCanvas.setSize( frame.getSize() );
-        rotationPlatformNode = new RotationPlatformNode( new IPositionDriven() {
-            public void setPositionDriven() {
-            }
-        }, rotationPlatform );
+        rotationPlatformNode = new RotationPlatformNode( rotationPlatform );
         phetPCanvas.addScreenChild( rotationPlatformNode );
 
         final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );

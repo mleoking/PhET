@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.view;
 
-import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -30,7 +29,7 @@ public class RotationPlatformNode extends PNode {
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
     private PhetPPath handleNode;
 
-    public RotationPlatformNode( final IPositionDriven environment, final RotationPlatform rotationPlatform ) {
+    public RotationPlatformNode( final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
         contentNode = new PNode();
 
@@ -138,7 +137,7 @@ public class RotationPlatformNode extends PNode {
         return angle;
     }
 
-    class RingNode extends PNode {
+    private static class RingNode extends PNode {
 
         private double x;
         private double y;

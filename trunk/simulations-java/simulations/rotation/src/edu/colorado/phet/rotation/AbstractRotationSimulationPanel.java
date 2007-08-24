@@ -144,7 +144,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     private void relayout() {
         new RotationLayout( this, rotationPlayAreaNode, rotationControlPanelNode,
-                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode() ).layout();
+                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode(),getRotationModel().getRotationPlatform() ).layout();
     }
 
     public GraphSuite getGraphSuite( int i ) {

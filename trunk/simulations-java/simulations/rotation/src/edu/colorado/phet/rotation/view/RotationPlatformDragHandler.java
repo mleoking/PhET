@@ -6,6 +6,7 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.MathUtil;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Point2D;
 
@@ -18,16 +19,17 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     public Point2D initLoc;
     private final IPositionDriven environment;
     private final RotationPlatform rotationPlatform;
-    private RotationPlatformNode rotationPlatformNode;
+    private PNode rotationPlatformNode;
 
-    public RotationPlatformDragHandler( RotationPlatformNode rotationPlatformNode, IPositionDriven environment, RotationPlatform rotationPlatform ) {
+    public RotationPlatformDragHandler( PNode rotationPlatformNode, IPositionDriven environment, RotationPlatform rotationPlatform ) {
         this.rotationPlatformNode = rotationPlatformNode;
         this.environment = environment;
         this.rotationPlatform = rotationPlatform;
     }
 
     public void mousePressed( PInputEvent event ) {
-        resetDrag( rotationPlatformNode.getAngle(), event );
+//        resetDrag( rotationPlatformNode.getAngle(), event );
+        resetDrag( rotationPlatform.getAngle().getValue(), event );//todo: used to be angle of graphic, maybe model value is incorrect
         environment.setPositionDriven();
     }
 

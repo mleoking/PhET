@@ -17,7 +17,7 @@ import java.awt.geom.AffineTransform;
 
 public class RotationPlayAreaNode extends PNode {
 
-    private RotationPlatformNode rotationPlatformNode;
+    private PNode rotationPlatformNode;
     private PNode rotationBodyLayer = new PNode();
     private RotationModel rotationModel;
     private PNode vectorLayer = new PNode();
@@ -29,10 +29,11 @@ public class RotationPlayAreaNode extends PNode {
 
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
-        rotationPlatformNode = new RotationPlatformNode( rotationModel, rotationModel.getRotationPlatform() );
+        rotationPlatformNode = new RotationPlatformNode( rotationModel.getRotationPlatform() );
+//        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
 //        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 3, 14 );
-        rulerNode = new RotationRulerNode( rotationPlatformNode.getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 4, 14 );
+        rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 4, 14 );
         rulerNode.setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
         rulerNode.setVisible( false );
 
@@ -66,7 +67,7 @@ public class RotationPlayAreaNode extends PNode {
         vectorLayer.addChild( new BodyVectorLayer( rotationModel, rotationBody, vectorViewModel ) );
     }
 
-    public RotationPlatformNode getPlatformNode() {
+    public PNode getPlatformNode() {
         return rotationPlatformNode;
     }
 
