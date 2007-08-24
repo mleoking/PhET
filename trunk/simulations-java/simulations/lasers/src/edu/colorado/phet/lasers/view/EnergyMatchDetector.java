@@ -1,5 +1,6 @@
 package edu.colorado.phet.lasers.view;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
@@ -52,11 +53,12 @@ public class EnergyMatchDetector implements AtomicState.Listener, Beam.Wavelengt
     }
 
     public MatchState getMatch() {
-        double energyAboveGround = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
-        boolean match = beam.isEnabled() &&
-                        Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - energyAboveGround ) <= QuantumConfig.ENERGY_TOLERANCE
-                        && beam.getPhotonsPerSecond() > 0;
-        return new MatchState( match, System.currentTimeMillis(), PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) + model.getGroundState().getEnergyLevel() );
+        double e0 = model.getGroundState().getEnergyLevel();
+        double transitionEnergy = atomicState.getEnergyLevel() - e0;
+        double beamEnergy = PhysicsUtil.wavelengthToEnergy( beam.getWavelength() );
+        boolean match = beam.isEnabled() && beam.getPhotonsPerSecond() > 0
+                        && MathUtil.isApproxEqual( beamEnergy, transitionEnergy, QuantumConfig.ENERGY_TOLERANCE );
+        return new MatchState( match, System.currentTimeMillis(), beamEnergy + e0, e0, transitionEnergy, beamEnergy );
     }
 
     public void meanLifetimechanged( AtomicState.Event event ) {

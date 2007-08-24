@@ -11,6 +11,7 @@
 package edu.colorado.phet.lasers.controller;
 
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -105,7 +106,19 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
 
     private void handleMatch() {
         MatchState match = baseLaserModule.getMatch( beam );
-        System.out.println( "BeamControl.mouseReleased, match=" + match );
+        if( match != null ) {
+            //match the state
+            double exactTransitionEnergy = match.getTransitionEnergy();
+            double wavelength = PhysicsUtil.energyToWavelength( Math.abs( exactTransitionEnergy ) );
+            System.out.println( "exactTransitionEnergy = " + exactTransitionEnergy +", wavelength="+wavelength);
+            beam.setWavelength( wavelength );
+
+//            double energy = match.getMatchingEnergy();
+//            double wavelength = PhysicsUtil.energyToWavelength( Math.abs( energy ) );
+//            System.out.println( "energy = " + energy + ", wavelength=" + wavelength );
+//            beam.setWavelength( wavelength );//hopefully fires an update
+//            System.out.println( "BeamControl.mouseReleased, match=" + match );
+        }
     }
 
     private void addIntensitySlider( final Beam beam, double maximumRate ) {

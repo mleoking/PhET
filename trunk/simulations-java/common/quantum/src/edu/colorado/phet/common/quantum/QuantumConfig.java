@@ -24,7 +24,6 @@ public class QuantumConfig {
     public static boolean ENABLE_ALL_STIMULATED_EMISSIONS = true;
 
     // Tolerances used to determine if a photon matches with an atomic state energy
-//    public static final double ENERGY_TOLERANCE = 0.01;
     public static final double ENERGY_TOLERANCE = 0.05;
 
     public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
