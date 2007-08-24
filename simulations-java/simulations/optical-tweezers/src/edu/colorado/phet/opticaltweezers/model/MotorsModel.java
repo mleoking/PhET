@@ -113,7 +113,8 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrand,
-                 _fluid );
+                 _fluid,
+                 _clock.getFastRange().getMax() );
          _enzymeA.setEnabled( true );
          _modelElements.add( _enzymeA );
          
@@ -121,7 +122,8 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrand,
-                 _fluid );
+                 _fluid,
+                 _clock.getFastRange().getMax() );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );
          _modelElements.add( _enzymeB );
 
