@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

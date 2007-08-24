@@ -1,7 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
-import edu.colorado.phet.rotation.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 
 /**
  * Author: Sam Reid

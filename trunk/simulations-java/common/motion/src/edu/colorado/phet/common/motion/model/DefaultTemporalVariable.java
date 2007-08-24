@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.model;
+package edu.colorado.phet.common.motion.model;
 
 import edu.colorado.phet.common.motion.model.*;
 
