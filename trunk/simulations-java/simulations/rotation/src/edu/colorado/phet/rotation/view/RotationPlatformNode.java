@@ -56,11 +56,9 @@ public class RotationPlatformNode extends PNode {
 
         rotationPlatform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
-                setAngle( rotationPlatform.getPosition() );
+                doUpdateAngle();
             }
         } );
-
-        setAngle( rotationPlatform.getPosition() );
         rotationPlatform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
                 updateRadius();
@@ -70,8 +68,14 @@ public class RotationPlatformNode extends PNode {
                 updateInnerRadius();
             }
         } );
+
+        doUpdateAngle();
         updateRadius();
         updateInnerRadius();
+    }
+
+    private void doUpdateAngle(  ) {
+        setAngle( rotationPlatform.getPosition() );
     }
 
     public RotationPlatform getRotationPlatform() {
