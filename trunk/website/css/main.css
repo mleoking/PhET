@@ -331,7 +331,8 @@ table.form td.invalid {
 }
 table.form tr.error-message td {
 	padding-left: 	1ex;
-	font-weight:    bold;
+	font-weight:    italic;
+	font-size:      smaller;
 }
 
 
