@@ -53,7 +53,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
-8/23/07 - first pass at enzyme speed model, rotation varies with ATP and DNA force
+8/24/07 - first pass at enzyme speed model, rotation varies with ATP and DNA force
 8/23/07 - add persistence for enzyme choice
 8/23/07 - javadoc
 8/23/07 - set visibility of enzyme nodes based on notification of enzymes enabled state
