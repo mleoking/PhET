@@ -223,7 +223,7 @@ EOT;
         print <<<EOT
             <div class="full-width">                
                 <div class="rage_button_218928">
-                	<a href="../teacher_ideas/browse.php?cat=$cat_encoding">Related Activities & Ideas</a>
+                	<a href="../teacher_ideas/browse.php?cat=$cat_encoding">Related Activities &amp; Ideas</a>
                 </div>
             </div>
 EOT;
