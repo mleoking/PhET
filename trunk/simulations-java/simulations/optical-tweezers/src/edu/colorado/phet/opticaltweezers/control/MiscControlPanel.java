@@ -61,6 +61,7 @@ public class MiscControlPanel extends JPanel implements Observer {
         _fluid.addObserver( this );
         
         _fluidControlsDialog = null;
+        _fluidControlsDialogLocation = null;
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
         _rulerCheckBox.setFont( controlFont );
@@ -249,8 +250,7 @@ public class MiscControlPanel extends JPanel implements Observer {
 
             // called when the close button in the dialog's window dressing is clicked
             public void windowClosing( WindowEvent e ) {
-                _fluidControlsDialogLocation = _fluidControlsDialog.getLocation();
-                _fluidControlsDialog.dispose();
+                closeFluidControlsDialog();
             }
 
             // called by JDialog.dispose
@@ -263,7 +263,7 @@ public class MiscControlPanel extends JPanel implements Observer {
         } );
         
         if ( _fluidControlsDialogLocation == null ) {
-            // Position at the lower-left of the main frame
+            // initial placement is at the lower-left of the main frame
             Point p = _parentFrame.getLocationOnScreen();
             _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() - 60 ) );
         }

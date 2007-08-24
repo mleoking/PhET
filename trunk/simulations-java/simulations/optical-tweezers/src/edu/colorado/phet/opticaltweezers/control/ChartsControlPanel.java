@@ -38,6 +38,7 @@ public class ChartsControlPanel extends JPanel {
     private LaserNode _laserNode;
     
     private PositionHistogramDialog _positionHistogramDialog;
+    private Point _positionHistogramDialogLocation;
     private int _positionHistogramZoomIndex;
     private boolean _positionHistogramRulerVisible;
 
@@ -72,6 +73,7 @@ public class ChartsControlPanel extends JPanel {
         _laserNode = laserNode;
         
         _positionHistogramDialog = null;
+        _positionHistogramDialogLocation = null;
         _positionHistogramZoomIndex = -1; // force an update
         _positionHistogramRulerVisible = false;
 
@@ -223,13 +225,19 @@ public class ChartsControlPanel extends JPanel {
         // Restore the ruler visibility
         _positionHistogramDialog.getPanel().setRulerVisible( _positionHistogramRulerVisible );
         
-        // Place the dialog at the upper-left corner of the parent frame
-        _positionHistogramDialog.setLocation( (int) _parentFrame.getLocation().getX() + 15, (int) _parentFrame.getLocation().getY() + 80 );
+        if ( _positionHistogramDialogLocation == null ) {
+            // initial placement is at the upper-left corner of the parent frame
+            _positionHistogramDialog.setLocation( (int) _parentFrame.getLocation().getX() + 15, (int) _parentFrame.getLocation().getY() + 80 );
+        }
+        else {
+            _positionHistogramDialog.setLocation( _positionHistogramDialogLocation );
+        }
         _positionHistogramDialog.show();
     }
     
     private void closePositionHistogramDialog() {
         if ( _positionHistogramDialog != null ) {
+            _positionHistogramDialogLocation = _positionHistogramDialog.getLocation();
             _positionHistogramZoomIndex = _positionHistogramDialog.getPanel().getZoomIndex();
             _positionHistogramRulerVisible = _positionHistogramDialog.getPanel().isRulerVisible();
             _positionHistogramDialog.dispose();
