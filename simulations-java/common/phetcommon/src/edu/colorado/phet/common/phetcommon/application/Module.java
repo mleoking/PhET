@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.application;
 
@@ -166,16 +166,7 @@ public abstract class Module {
     public void setMonitorPanel( JComponent panel ) {
         modulePanel.setMonitorPanel( panel );
     }
-    
-    /**
-     * Gets the monitor panel.
-     * 
-     * @return the monitor 
-     */
-    public JComponent getMonitorPanel() {
-        return modulePanel.getMonitorPanel();
-    }
-    
+
     /**
      * Sets the simulation panel.
      *
@@ -453,26 +444,6 @@ public abstract class Module {
      */
     public String toString() {
         return "name=" + name + ", model=" + model + ", simulationPanel=" + getSimulationPanel();
-    }
-
-    /**
-     * Returns a ModuleStateDescriptor for this Module.
-     * <p/>
-     * This method should be extended by subclasses that have state attributes.
-     *
-     * @return a ModuleStateDescriptor for this Module.
-     */
-    public ModuleStateDescriptor getModuleStateDescriptor() {
-        return new ModuleStateDescriptor( this );
-    }
-
-    /**
-     * Get any help for persistence.
-     *
-     * @return an array of Classes which can be used as transient property sources.
-     */
-    public Class[] getTransientPropertySources() {
-        return new Class[0];
     }
 
     /**

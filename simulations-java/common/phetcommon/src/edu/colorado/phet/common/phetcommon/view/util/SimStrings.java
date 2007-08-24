@@ -39,10 +39,6 @@ public class SimStrings {
         }
     }
 
-    public void init( String bundleName ) {
-        init(null, bundleName);
-    }
-
     /**
      * Initialize application localization.
      *

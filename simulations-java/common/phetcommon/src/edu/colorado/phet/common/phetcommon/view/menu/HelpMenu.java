@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14677 $
+ * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
  */
 package edu.colorado.phet.common.phetcommon.view.menu;
 
@@ -15,18 +15,16 @@ import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.VersionUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * HelpMenu
  *
  * @author ?
- * @version $Revision$
+ * @version $Revision:14677 $
  */
 public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
@@ -102,36 +100,6 @@ public class HelpMenu extends JMenu implements ModuleObserver {
      */
     public void setHelpSelected( boolean selected ) {
         onscreenHelp.setSelected( selected );
-    }
-
-    /**
-     * Reads the versioning information for this application.
-     * When constructed with ant tasks using build.number and time.stamp, files are generated of the form:
-     * phetcommon.build.number
-     * and
-     * phetcommon.build.time.stamp
-     * <p/>
-     * for example.
-     * When a main file depends on these libraries, their version info can be read as well.
-     * To refer to a library for the purpose of reading version info, add a file named
-     * ${root}.resources that lists each of the names of the dependencies.
-     * <p/>
-     * For example, Force1D depends on chart and phetcommon.  So the final jar contains
-     * build.number and build.time.stamp with prefixes force1d, chart, and phetcommon.
-     * By adding force1d.resources, and adding the text:
-     * chart
-     * phetcommon
-     * (on separate lines),
-     * their version info can be read as well, and reported by this ApplicationModel.
-     */
-    private VersionUtils.VersionInfo[] readVersionInfo( String title ) throws IOException {
-        if( title == null ) {
-//            System.out.println( "ApplicationModel.readVersionInfo: null module name for module (with window title=" + windowTitle + ")" );
-            return new VersionUtils.VersionInfo[0];
-        }
-        else {
-            return VersionUtils.readVersionInfo( title );
-        }
     }
 
     //----------------------------------------------------------------
