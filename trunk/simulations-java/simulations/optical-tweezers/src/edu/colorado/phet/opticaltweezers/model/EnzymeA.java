@@ -23,8 +23,8 @@ public class EnzymeA extends AbstractEnzyme {
     private static final double D1 = 2.281;
     private static final double D2 = 5000; // nm/s
 
-    public EnzymeA( Point2D position, double outerDiameter, double innerDiameter, DNAStrand dnaStrand, Fluid fluid ) {
-        super( position, outerDiameter, innerDiameter, dnaStrand, fluid, C1, C2, C3, C4, C5, C6, C7, C8, D1, D2 );
+    public EnzymeA( Point2D position, double outerDiameter, double innerDiameter, DNAStrand dnaStrand, Fluid fluid, double maxDt ) {
+        super( position, outerDiameter, innerDiameter, dnaStrand, fluid, maxDt, C1, C2, C3, C4, C5, C6, C7, C8, D1, D2 );
     }
 
 }

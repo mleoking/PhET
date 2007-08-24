@@ -26,7 +26,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     public static final String PROPERTY_ENABLED = "enabled";
     public static final String PROPERTY_INNER_ORIENTATION = "innerOrientation";
     
-    public static final double MAX_ROTATION_PER_CLOCK_STEP = Math.toRadians( 20 );
+    public static final double MAX_ROTATION_PER_CLOCK_STEP = Math.toRadians( 35 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,6 +34,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     
     private DNAStrand _dnaStrand;
     private Fluid _fluid;
+    private final double _maxDt;
     
     // constants used in the velocity model
     private final double _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _d1, _d2;
@@ -47,7 +48,10 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractEnzyme( Point2D position, double outerDiameter, double innerDiameter, DNAStrand dnaStrand, Fluid fluid,
+    public AbstractEnzyme( Point2D position, 
+            double outerDiameter, double innerDiameter,
+            DNAStrand dnaStrand, Fluid fluid,
+            double maxDt,
             double c1, double c2, double c3, double c4, double c5, double c6, double c7, double c8, double d1, double d2 ) {
         super( position, 0 /* orientation */ );
         
@@ -58,6 +62,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         
         _dnaStrand = dnaStrand;
         _fluid = fluid;
+        _maxDt = maxDt;
         
         _c1 = c1;
         _c2 = c2;
@@ -171,8 +176,11 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     public void stepInTime( double dt ) {
         if ( _enabled ) {
             final double dnaStrandSpeed = getDNAStrandSpeed();
-//            System.out.println( "AbstractEnzyme.stepInTime dnaStrandSpeed=" + dnaStrandSpeed );//XXX
-            _innerOrientation += MAX_ROTATION_PER_CLOCK_STEP * ( dnaStrandSpeed / _maxDNAStrandSpeed );
+//          System.out.println( "AbstractEnzyme.stepInTime dnaStrandSpeed=" + dnaStrandSpeed );//XXX
+            final double speedScale = dnaStrandSpeed / _maxDNAStrandSpeed;
+            final double dtScale = dt / _maxDt;
+            final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
+            _innerOrientation += deltaAngle;
             notifyObservers( PROPERTY_INNER_ORIENTATION );
         }
     }
