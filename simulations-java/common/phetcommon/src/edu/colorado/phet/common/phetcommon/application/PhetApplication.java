@@ -120,6 +120,7 @@ public class PhetApplication {
     private ModuleManager moduleManager;
     private AWTSplashWindow splashWindow;
     private Frame splashWindowOwner;
+    private PhetAboutDialog aboutDialog;
 
     /**
      * Initialize a PhetApplication with a default FrameSetup.
@@ -520,7 +521,10 @@ public class PhetApplication {
      * Displays an About Dialog for the simulation, including version information, license information and references.
      */
     public void showAboutDialog() {
-        createPhetAboutDialog().show();
+        if ( aboutDialog == null ) {
+            aboutDialog = createPhetAboutDialog();
+        }
+        aboutDialog.show();
     }
 
     /**
