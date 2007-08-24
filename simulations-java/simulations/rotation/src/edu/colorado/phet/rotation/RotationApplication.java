@@ -64,7 +64,7 @@ public class RotationApplication extends PhetApplication {
                 System.out.println( "Rotation Application started in = " + appStartTime );
 //                PDebug.debugRegionManagement=true;
 //                PDebug.debugFullBounds=true;
-                PDebug.debugBounds=true;
+//                PDebug.debugBounds=true;
             }
         } );
     }
