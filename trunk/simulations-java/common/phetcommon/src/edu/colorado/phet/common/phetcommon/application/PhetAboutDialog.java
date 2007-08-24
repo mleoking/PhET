@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
@@ -117,9 +118,16 @@ public class PhetAboutDialog extends JDialog {
 //        JLabel copyrightLabel = new JLabel( getLocalizedString( "Common.About.Copyright" ) );
         JEditorPane copyrightLabel = new JEditorPane();
         copyrightLabel.setEditorKit( new HTMLEditorKit() );
-        copyrightLabel.setText( getLocalizedString( "Common.About.Copyright" ) );
+        String html = getLocalizedString( "Common.About.Copyright" );
+        html=html.replaceAll( "@FONT_SIZE@",new PhetDefaultFont().getSize()+"pt");
+        html=html.replaceAll( "@FONT_FAMILY@",new PhetDefaultFont( ).getFamily( ));
+        copyrightLabel.setText( html );
         copyrightLabel.setEditable( false );
         copyrightLabel.setBackground( new JLabel().getBackground() );
+
+
+        copyrightLabel.setFont( new Font( "Lucida Sans",Font.BOLD, 24) );
+        
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
 

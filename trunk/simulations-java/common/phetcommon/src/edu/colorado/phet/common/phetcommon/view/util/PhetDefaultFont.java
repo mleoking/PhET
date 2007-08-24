@@ -8,9 +8,12 @@ import java.awt.Font;
  * Simplified interface for instantiating the default font used in PhET simulations.
  */
 public class PhetDefaultFont extends Font {
-    
-    private static final String FONT_NAME = new JLabel().getFont().getFontName();
+    private static final Font referenceFont = new JLabel().getFont();
+    private static final String FONT_NAME = referenceFont.getFontName();
 
+    public PhetDefaultFont() {
+        this( referenceFont.getSize() );
+    }
     /**
      * Constructs a PhetDefaultFont with a specified point size.
      *
@@ -51,4 +54,5 @@ public class PhetDefaultFont extends Font {
     public PhetDefaultFont( int size, boolean bold, boolean italics ) {
         this( ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
     }
+
 }
