@@ -45,7 +45,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     private boolean isAdjustable;
     private double iconLocX;
     private Color color;
-    private double xLoc;
+    private double x;
     private double width;
     private EnergyLevelRep energyLevelRep;
     // This transform controls the y location of the line
@@ -73,7 +73,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         // Add a listener that will track changes in the atomic state
         atomicState.addListener( new AtomicStateChangeListener() );
 
-        this.xLoc = xLoc;
+        this.x = xLoc;
         this.width = width;
         energyLevelRep = new EnergyLevelRep( component );
         addGraphic( energyLevelRep );
@@ -234,8 +234,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
      */
     public class EnergyLevelRep extends CompositePhetGraphic {
 
-        private Rectangle2D levelLine = new Rectangle2D.Double();
-        private double thickness = 2;
+        private Rectangle2D energyLevelShape = new Rectangle2D.Double();
+        private double height = 2;
         private Arrow arrow1;
         private Arrow arrow2;
         private Rectangle boundingRect;
@@ -244,7 +244,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
         protected EnergyLevelRep( Component component ) {
             super( component );
-            PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, levelLine, color );
+            PhetShapeGraphic lineGraphic = new PhetShapeGraphic( component, energyLevelShape, color );
             lineGraphic.setVisible( true );
             addGraphic( lineGraphic );
             instances.add( this );
@@ -265,10 +265,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             // is the best hack to use.
             color = new Color( color.getRed(), color.getGreen(), color.getBlue() );
             int y = energyYTx.modelToView( atomicState.getEnergyLevel() );
-            levelLine.setRect( xLoc, y - thickness / 2, width, thickness );
+
+            //todo: not sure why this was off by 1 pixel
+//            energyLevelShape.setRect( x, y - thickness / 2, width, thickness );
+
+            //todo: this one seems to work properly
+            energyLevelShape.setRect( x, y , width, height );
 
             if( levelIcon != null ) {
-                levelIcon.setLocation( (int)( iconLocX ), (int)( y - thickness ) );
+                levelIcon.setLocation( (int)( iconLocX ), (int)( y - height ) );
             }
 
             if( isAdjustable ) {
@@ -276,15 +281,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                 int arrowHt = 16;
                 int arrowHeadWd = 10;
                 int tailWd = 3;
-                arrow1 = new Arrow( new Point2D.Double( xLoc + xOffset, y ),
-                                    new Point2D.Double( xLoc + xOffset, y + arrowHt ),
+                arrow1 = new Arrow( new Point2D.Double( x + xOffset, y ),
+                                    new Point2D.Double( x + xOffset, y + arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
-                arrow2 = new Arrow( new Point2D.Double( xLoc + xOffset, y ),
-                                    new Point2D.Double( xLoc + xOffset, y - arrowHt ),
+                arrow2 = new Arrow( new Point2D.Double( x + xOffset, y ),
+                                    new Point2D.Double( x + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
             if( textGraphic != null ) {
-                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)levelLine.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight );
+                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight );
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
@@ -300,11 +305,11 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             if( arrow1 != null && arrowsEnabled ) {
                 Area a = new Area( arrow1.getShape() );
                 a.add( new Area( arrow2.getShape() ) );
-                a.add( new Area( levelLine ) );
+                a.add( new Area( energyLevelShape ) );
                 return a.getBounds();
             }
             else {
-                return levelLine.getBounds();
+                return energyLevelShape.getBounds();
             }
         }
 
@@ -337,7 +342,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         }
 
         public Point2D getLinePosition() {
-            return levelLine.getBounds().getLocation();
+            return energyLevelShape.getBounds().getLocation();
         }
 
         public void setBlinkRenderer( Color color ) {
@@ -376,7 +381,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                 else {
                     levelIcon.setVisible( true );
                 }
-                g.fill( levelLine );
+                g.fill( energyLevelShape );
             }
 
         }
