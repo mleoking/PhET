@@ -350,6 +350,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
         public class Blink implements RenderStrategy {
             Color targetColor;
+            private long FLASH_TIME_MS=1500/2;
 
             public Blink( Color targetColor ) {
                 this.targetColor = targetColor;
@@ -364,12 +365,12 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 //                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
                 boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
-                if( System.currentTimeMillis() - lastMatchTime > 1500 ) {
+                if( System.currentTimeMillis() - lastMatchTime > FLASH_TIME_MS ) {
                     timeOn = false;
                 }
 //                g.setColor( timeOn && match ? targetColor : color );
                 g.setColor( timeOn ? targetColor : color );
-                if( System.currentTimeMillis() - lastMatchTime < 1500 ) {
+                if( System.currentTimeMillis() - lastMatchTime < FLASH_TIME_MS ) {
                     levelIcon.setVisible( !timeOn );
                 }
                 else {
