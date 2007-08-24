@@ -39,7 +39,7 @@ import java.util.Set;
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
  * mouse, and it's range of movement is limited by the energy levels of the next higher and next lower energy states.
  */
-public class EnergyLevelGraphic extends CompositePhetGraphic {
+public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMatchDetector.Listener {
     private AtomicState atomicState;
     private double groundStateEnergy;
     private boolean isAdjustable;
@@ -55,16 +55,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
     private int minPixelsBetweenLevels = EnergyLifetimeSlider.sliderHeight;
 
     // Strategy for setting to color of this energy level graphic
-    //    private ColorStrategy colorStrategy = new BlackStrategy();
     private ColorStrategy colorStrategy = new VisibleColorStrategy();
     private LevelIcon levelIcon;
 
-    /**
-     * @param component
-     * @param atomicState
-     * @param groundStateEnergy
-     * @param xLoc
-     * @param width
+    /*
      * @param isAdjustable      Determines if the graphic can be moved up and down with the mouse
      */
     public EnergyLevelGraphic( Component component, AtomicState atomicState, double groundStateEnergy, double xLoc, double width,
@@ -100,9 +94,9 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         Set set = matchTable.keySet();
         for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
             Beam o = (Beam)iterator.next();
-            MatchState matchState= (MatchState)matchTable.get(o);
-            if (matchState.isMatch() ){
-                setEnergy( matchState.getMatchingEnergy());
+            MatchState matchState = (MatchState)matchTable.get( o );
+            if( matchState.isMatch() ) {
+                setEnergy( matchState.getMatchingEnergy() );
                 break;
             }
         }
@@ -135,10 +129,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
         this.minPixelsBetweenLevels = minPixelsBetweenLevels;
     }
 
-    /**
+    /*
      * Sets the strategy used to pick the color for the graphic
-     *
-     * @param colorStrategy
      */
     public void setColorStrategy( ColorStrategy colorStrategy ) {
         this.colorStrategy = colorStrategy;
@@ -146,33 +138,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic {
 
     HashMap matchTable = new HashMap();
 
-    static class MatchState {
-        boolean match;
-        long time;
-        private double matchingEnergy;
-
-        public MatchState( boolean match, long time, double matchingEnergy ) {
-            this.match = match;
-            this.time = time;
-            this.matchingEnergy = matchingEnergy;
-        }
-
-        public boolean isMatch() {
-            return match;
-        }
-
-        public long getTime() {
-            return time;
-        }
-
-        public double getMatchingEnergy() {
-            return matchingEnergy;
-        }
-    }
-
-    public void setMatch( Beam beam, boolean match, double matchingEnergy ) {
-        matchTable.put( beam, new MatchState( match, System.currentTimeMillis(),matchingEnergy ) );
-//        System.out.println( "matchTable = " + matchTable );
+    public void putMatch( Beam beam, MatchState matchState ) {
+        matchTable.put( beam, matchState );
         energyLevelRep.update();
         repaint();
     }

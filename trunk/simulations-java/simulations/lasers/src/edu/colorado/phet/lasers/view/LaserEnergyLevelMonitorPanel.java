@@ -25,11 +25,9 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
@@ -202,8 +200,8 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
                 // Add a listener that will flash the line when it matches the wavelength of
                 // either of the beams
-                new EnergyMatchDetector( state, model.getSeedBeam(), elg );
-                new EnergyMatchDetector( state, model.getPumpingBeam(), elg );
+                new EnergyMatchDetector( model, state, model.getSeedBeam(), elg );
+                new EnergyMatchDetector( model, state, model.getPumpingBeam(), elg );
             }
 
             // Add an icon to the level. This requires a dummy atom in the state the icon is to represent
@@ -332,7 +330,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         this.repaint();
     }
 
-    /**
+    /*
      * Creates a buffered image for a squiggle
      */
     private BufferedImage computeSquiggleImage( Beam beam, double phaseAngle, int length, int height ) {
@@ -385,11 +383,7 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
 
     //----------------------------------------------------------------
     // Rendering
-    //----------------------------------------------------------------
-
-    /**
-     * @param graphics
-     */
+    //---
     protected void paintComponent( Graphics graphics ) {
         super.paintComponent( graphics );
 
@@ -534,47 +528,4 @@ public class LaserEnergyLevelMonitorPanel extends MonitorPanel implements Simple
         }
     }
 
-    /**
-     * Flashes a PhetGraphic when the wavelength of a beam matches (or is acceptably close to) the
-     * difference in energy between an atomic state and the model's ground state
-     */
-    private class EnergyMatchDetector implements AtomicState.Listener, Beam.WavelengthChangeListener {
-        private AtomicState atomicState;
-        private Beam beam;
-        private EnergyLevelGraphic graphic;
-
-        public EnergyMatchDetector( AtomicState atomicState, Beam beam, EnergyLevelGraphic graphic ) {
-            this.atomicState = atomicState;
-            this.beam = beam;
-            this.graphic = graphic;
-            atomicState.addListener( this );
-            beam.addWavelengthChangeListener( this );
-            beam.addRateChangeListener( new PhotonSource.RateChangeListener() {
-                public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
-                    checkForMatch();
-                }
-            } );
-//            checkForMatch();
-        }
-
-        public void energyLevelChanged( AtomicState.Event event ) {
-            checkForMatch();
-        }
-
-        private void checkForMatch() {
-            double energyAboveGround = atomicState.getEnergyLevel() - model.getGroundState().getEnergyLevel();
-            boolean match = beam.isEnabled() &&
-                            Math.abs( PhysicsUtil.wavelengthToEnergy( beam.getWavelength() ) - energyAboveGround ) <= QuantumConfig.ENERGY_TOLERANCE
-                            && beam.getPhotonsPerSecond() > 0;
-            graphic.setMatch( beam, match,PhysicsUtil.wavelengthToEnergy( beam.getWavelength() )+model.getGroundState().getEnergyLevel() );
-        }
-
-        public void meanLifetimechanged( AtomicState.Event event ) {
-            // noop
-        }
-
-        public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-            checkForMatch();
-        }
-    }
 }

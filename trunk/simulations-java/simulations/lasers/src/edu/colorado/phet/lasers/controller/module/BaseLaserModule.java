@@ -526,6 +526,10 @@ public class BaseLaserModule extends PhetGraphicsModule {
         getModel().addModelElement( kaboom );
     }
 
+    public MatchState getMatch( Beam beam ) {
+        return getLaserModel().getMatch(beam);
+    }
+
     //-------------------------------------------------------------------------------------------------
     // Event handling
     //-------------------------------------------------------------------------------------------------

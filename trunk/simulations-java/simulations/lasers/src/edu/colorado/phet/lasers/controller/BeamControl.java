@@ -17,10 +17,14 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
+import edu.colorado.phet.lasers.view.MatchState;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * BeamControl
@@ -32,6 +36,7 @@ import java.awt.*;
  */
 public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListener, Beam.WavelengthChangeListener {
     private ApparatusPanel apparatusPanel;
+    private BaseLaserModule baseLaserModule;
     private IntensitySlider intensitySlider;
 
     private Point intensitySliderRelLoc = new Point( -87, 28 );
@@ -42,27 +47,24 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     private Point spectrumSliderRelLoc = new Point( -77, 92 );
     private Dimension spectrumSize = new Dimension( 101, 31 );
     private SpectrumSliderWithSquareCursor wavelengthSlider;
-    ;
+    private Beam beam;
 
-    /**
-     * @param apparatusPanel
-     * @param location
-     * @param beam
-     */
     public BeamControl( ApparatusPanel apparatusPanel,
+                        BaseLaserModule baseLaserModule,
                         Point location,
                         Beam beam,
                         double minWavelength,
                         double maxWavelength,
                         String imageFile ) {
         this.apparatusPanel = apparatusPanel;
+        this.baseLaserModule = baseLaserModule;
+        this.beam = beam;
         this.setLocation( location );
 
-        // The background panel
-        PhetImageGraphic panelGraphic = new PhetImageGraphic( apparatusPanel, imageFile );
-        panelGraphic.setRegistrationPoint( 100, 0 );
-        addGraphic( panelGraphic );
-        panelGraphic.setLocation( 0, 0 );
+        PhetImageGraphic backgroundPanel = new PhetImageGraphic( apparatusPanel, imageFile );
+        backgroundPanel.setRegistrationPoint( 100, 0 );
+        addGraphic( backgroundPanel );
+        backgroundPanel.setLocation( 0, 0 );
 
         intensitySliderLoc = new Point( location.x + intensitySliderRelLoc.x,
                                         location.y + intensitySliderRelLoc.y );
@@ -89,14 +91,24 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         wavelengthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int value = wavelengthSlider.getValue();
-                beam.setWavelength( (int)( value ) );
+                beam.setWavelength( value );
+            }
+        } );
+        wavelengthSlider.addMouseInputListener( new MouseInputAdapter() {
+            // implements java.awt.event.MouseListener
+            public void mouseReleased( MouseEvent e ) {
+                handleMatch();
             }
         } );
         wavelengthSlider.setValue( (int)( beam.getWavelength() ) );
     }
 
-    private void addIntensitySlider( final Beam beam, double maximumRate ) {
+    private void handleMatch() {
+        MatchState match = baseLaserModule.getMatch( beam );
+        System.out.println( "BeamControl.mouseReleased, match=" + match );
+    }
 
+    private void addIntensitySlider( final Beam beam, double maximumRate ) {
         intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
                                                IntensitySlider.HORIZONTAL, intensitySliderSize );
         intensitySlider.setMaximum( (int)maximumRate );
@@ -117,7 +129,6 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
     }
 
     public class WavelengthChangeListener implements Beam.WavelengthChangeListener {
-
         public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
             intensitySlider.setColor( VisibleColor.wavelengthToColor( event.getWavelength() ) );
             if( wavelengthSlider.getValue() != (int)( event.getWavelength() ) ) {
@@ -131,15 +142,10 @@ public class BeamControl extends GraphicLayerSet implements Beam.RateChangeListe
         intensitySlider.setVisible( visible );
     }
 
-    //----------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------
-
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
         intensitySlider.setValue( (int)event.getRate() );
     }
 
     public void wavelengthChanged( Beam.WavelengthChangeEvent event ) {
-        // noop
     }
 }
