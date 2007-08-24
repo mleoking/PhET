@@ -33,23 +33,17 @@ public class LevelIcon extends CompositePhetGraphic {
         super( component );
         this.atom = atom;
         atom.setRadius( 5 );
+        atomGraphic = new LevelIconAnnotatedAtomGraphic( getComponent(), atom );
+        addGraphic( atomGraphic );
         update();
     }
 
     public void update() {
-        if( atomGraphic != null ) {
-            removeGraphic( atomGraphic );
-        }
-        atomGraphic = new LevelIconAnnotatedAtomGraphic( getComponent(), atom );
-
         // Note that the AnnotatedAtomGraphic changes the size of the atom in the
         // model so that it will detect hits by photons on it's energy halo. We need
         // to reset the radius to its original value, or the atom grows in size
         atom.setRadius( 5 );
         atomGraphic.setRegistrationPoint( (int)atom.getRadius() / 2, 0 );
-        addGraphic( atomGraphic );
-
-
     }
 
     public void updateEnergy( double newEnergy ) {

@@ -1,3 +1,5 @@
+8-23-2007: fixed a bug on the first panel.  If I have two energy levels and move the 2nd level down to the energy that the 1st level starts by default, then the number on the 2nd level changes to 1.  The atom in the play area still has the appropriate level number indicated when it's excited.
+8-23-2007: Added snap-to feature for dragged energy level
 8-23-2007: Made energy level sliders smaller in vertical direction.
 8-23-2007: Improved match graphic.
 8-20-2007: Switched tabs to PhetTabbedPane
