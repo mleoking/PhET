@@ -4,6 +4,7 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationPlatformNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.PNode;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -13,13 +14,13 @@ import java.awt.geom.Point2D;
  * Aug 8, 2007, 7:30:12 PM
  */
 public class RotationPlatformTorqueHandler extends PBasicInputEventHandler {
-    private RotationPlatformNode platformNode;
+    private PNode platformNode;
     private TorqueModel rotationModel;
     private RotationPlatform rotationPlatform;
     private Point2D sourcePoint;
     private Point2D dstPoint;
 
-    public RotationPlatformTorqueHandler( RotationPlatformNode platformNode, TorqueModel rotationModel, RotationPlatform rotationPlatform ) {
+    public RotationPlatformTorqueHandler( PNode platformNode, TorqueModel rotationModel, RotationPlatform rotationPlatform ) {
         this.platformNode = platformNode;
         this.rotationModel = rotationModel;
         this.rotationPlatform = rotationPlatform;
