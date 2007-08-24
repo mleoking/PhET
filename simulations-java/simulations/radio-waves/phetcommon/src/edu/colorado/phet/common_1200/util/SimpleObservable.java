@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:48:52 AM
- *
  */
 public class SimpleObservable {
     private ArrayList observers = new ArrayList();

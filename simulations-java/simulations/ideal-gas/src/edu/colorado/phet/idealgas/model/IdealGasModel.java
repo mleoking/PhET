@@ -72,7 +72,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     private boolean isWorkDoneByMovingWall = true;
 
 
-
     /**
      * @param dt
      */
@@ -506,7 +505,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
 
                 // If the molecule has just passed through the opening of the box, let it know
                 if( box.passedThroughOpening( gasMolecule ) ) {
-                    if( box.containsBody( gasMolecule )) {
+                    if( box.containsBody( gasMolecule ) ) {
                         box.removeContainedBody( gasMolecule );
                     }
                     else {
@@ -706,7 +705,7 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
      * extend from the left edge of the screen to the right, so that molecules aren't removed when the
      * left wall gets moved. The upper and lower bounds are the top and bottom of the box, plus the
      * column that extends above the opening in the box when the door is open.
-     * <p>
+     * <p/>
      * The whole screen can't be used for the bounds because we need to remove molecules when they get out
      * of the box and out of the column above the opening. Otherwise, we would have to handle collisions between
      * molecules and the outside of the box when gravity is turned on.
@@ -785,7 +784,6 @@ public class IdealGasModel extends BaseModel implements Gravity.ChangeListener {
     public interface ChangeListener extends EventListener {
         void stateChanged( ChangeEvent event );
     }
-
 
 
     private EventChannel heatSourceChangeChannel = new EventChannel( HeatSourceChangeListener.class );

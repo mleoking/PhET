@@ -18,7 +18,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:28:16 AM
- *
  */
 
 public class SlitControlPanel extends VerticalLayoutPanelWithDisable {

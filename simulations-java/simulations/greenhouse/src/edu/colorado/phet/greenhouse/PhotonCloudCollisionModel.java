@@ -88,7 +88,7 @@ public class PhotonCloudCollisionModel {
             float t1B = n3D.dot( t1A );
             double denominator = ( 1 / bodyA.getMass() ) + t1B;
             denominator = ( 1 / bodyA.getMass() ) +
-                    ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float)bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
+                          ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float)bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
             double j = numerator / denominator;
 
             // Compute the new linear and angular velocities, based on the impulse

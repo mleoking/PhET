@@ -12,7 +12,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:02:57 AM
- *
  */
 public class TestSideViewModule extends BasicWaveTestModule {
     private WaveSideView waveSideView;

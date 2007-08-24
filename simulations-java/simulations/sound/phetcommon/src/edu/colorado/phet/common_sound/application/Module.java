@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.common_sound.application;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.BaseModel;
 import edu.colorado.phet.common_sound.model.ModelElement;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
@@ -20,7 +21,6 @@ import edu.colorado.phet.common_sound.view.ApparatusPanel;
 import edu.colorado.phet.common_sound.view.ControlPanel;
 import edu.colorado.phet.common_sound.view.help.HelpManager;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 
@@ -55,7 +55,7 @@ public class Module implements ClockTickListener {
         SimStrings.getInstance().addStrings( "localization/CommonStrings" );
         helpManager = new HelpManager();
         helpEnabled = false;
-        
+
         // Handle redrawing while the clock is paused.
 //        clock.addClockStateListener( new ClockPausedHandler( this ) );
     }
@@ -165,10 +165,10 @@ public class Module implements ClockTickListener {
         app.removeClockTickListener( this );
         isActive = false;
     }
-    
+
     /**
      * Is this module active?
-     * 
+     *
      * @return true or false
      */
     public boolean isActive() {
@@ -207,17 +207,17 @@ public class Module implements ClockTickListener {
     public void setHelpEnabled( boolean h ) {
         helpEnabled = h;
         helpManager.setHelpEnabled( apparatusPanel, h );
-        if ( controlPanel instanceof ControlPanel ) {
+        if( controlPanel instanceof ControlPanel ) {
             // If our control panel is a Phet control panel, then change the 
             // state of its Help button.
-            ((ControlPanel)controlPanel).setHelpEnabled( h );
+            ( (ControlPanel)controlPanel ).setHelpEnabled( h );
         }
     }
 
     public boolean isHelpEnabled() {
         return helpEnabled;
     }
-    
+
     /**
      * Adds an onscreen help item to the module
      *
@@ -278,7 +278,7 @@ public class Module implements ClockTickListener {
 
     /**
      * Refreshes the Module.
-     * This is typically called by something else (eg, ClockPausedHandler) 
+     * This is typically called by something else (eg, ClockPausedHandler)
      * while the clock is paused.
      */
     public void refresh() {
@@ -287,7 +287,7 @@ public class Module implements ClockTickListener {
         // Paint the apparatus panel
         apparatusPanel.paint();
     }
-    
+
     //----------------------------------------------------------------
     // Main loop
     //----------------------------------------------------------------
@@ -310,7 +310,6 @@ public class Module implements ClockTickListener {
     public BaseModel getModel() {
         return model;
     }
-
 
 //    public void setState( StateDescriptor stateDescriptor ) {
 //        stateDescriptor.setState( this );

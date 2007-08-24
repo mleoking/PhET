@@ -14,7 +14,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 1:46:56 PM
- *
  */
 
 public class Wavefunction {

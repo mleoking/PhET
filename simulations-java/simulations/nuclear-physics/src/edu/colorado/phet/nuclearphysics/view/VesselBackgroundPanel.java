@@ -11,8 +11,8 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.nuclearphysics.model.Vessel;
 import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.nuclearphysics.model.Vessel;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;

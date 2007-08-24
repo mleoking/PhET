@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 
 import javax.swing.*;
@@ -17,7 +17,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 8:12:57 AM
- *
  */
 
 public class ObjectSelectionPanel extends JPanel {

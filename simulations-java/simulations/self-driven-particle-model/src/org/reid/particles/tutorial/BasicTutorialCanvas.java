@@ -53,8 +53,8 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
 
         public void doReshape() {
             getComponent().setBounds( 0, 0, getComponent().getPreferredSize().width, getComponent().getPreferredSize().height );
-            double height=Math.max( getComponent().getPreferredSize().height ,150);
-            setBounds( 0, 0, getComponent().getPreferredSize().width, height);
+            double height = Math.max( getComponent().getPreferredSize().height, 150 );
+            setBounds( 0, 0, getComponent().getPreferredSize().width, height );
         }
     }
 

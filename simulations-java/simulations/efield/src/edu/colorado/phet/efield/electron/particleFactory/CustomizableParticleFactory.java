@@ -5,45 +5,40 @@
 package edu.colorado.phet.efield.electron.particleFactory;
 
 import edu.colorado.phet.efield.electron.core.ParticleFactory;
-import edu.colorado.phet.efield.electron.utils.Debug;
-
-import java.awt.Rectangle;
-import java.util.Random;
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
+import edu.colorado.phet.efield.electron.utils.Debug;
+
+import java.awt.*;
+import java.util.Random;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.particleFactory:
 //            ParticlePropertyListener
 
 public class CustomizableParticleFactory
-    implements ParticleFactory, ParticlePropertyListener
-{
+        implements ParticleFactory, ParticlePropertyListener {
 
-    public CustomizableParticleFactory(int i, int j, int k, int l, Particle particle)
-    {
-        this(new Rectangle(i, j, k, l), particle);
+    public CustomizableParticleFactory( int i, int j, int k, int l, Particle particle ) {
+        this( new Rectangle( i, j, k, l ), particle );
     }
 
-    public CustomizableParticleFactory(Rectangle rectangle, Particle particle)
-    {
+    public CustomizableParticleFactory( Rectangle rectangle, Particle particle ) {
         bounds = rectangle;
         properties = particle;
     }
 
-    public void propertiesChanged(Particle particle)
-    {
+    public void propertiesChanged( Particle particle ) {
         properties = particle;
     }
 
-    public Particle newParticle()
-    {
+    public Particle newParticle() {
         Particle particle = new Particle();
-        int i = rand.nextInt(bounds.width) + bounds.x;
-        int j = rand.nextInt(bounds.height) + bounds.y;
-        particle.setPosition(new DoublePoint(i, j));
-        particle.setCharge(properties.getCharge());
-        particle.setMass(properties.getMass());
-        Debug.traceln("created: " + particle);
+        int i = rand.nextInt( bounds.width ) + bounds.x;
+        int j = rand.nextInt( bounds.height ) + bounds.y;
+        particle.setPosition( new DoublePoint( i, j ) );
+        particle.setCharge( properties.getCharge() );
+        particle.setMass( properties.getMass() );
+        Debug.traceln( "created: " + particle );
         return particle;
     }
 

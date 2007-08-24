@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 
@@ -73,7 +73,7 @@ public class CircuitGraphic extends PhetImageGraphic implements DischargeLampMod
         }
     }
 
-    public void currentChanged(DischargeLampModel.ChangeEvent event) {
+    public void currentChanged( DischargeLampModel.ChangeEvent event ) {
         // noop
     }
 }

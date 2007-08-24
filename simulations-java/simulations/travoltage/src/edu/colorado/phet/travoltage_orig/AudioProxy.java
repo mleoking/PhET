@@ -16,7 +16,7 @@ public class AudioProxy implements Runnable {
 
     public void run() {
         try {
-            Thread.sleep( napTime);
+            Thread.sleep( napTime );
         }
         catch( InterruptedException e ) {
             e.printStackTrace();

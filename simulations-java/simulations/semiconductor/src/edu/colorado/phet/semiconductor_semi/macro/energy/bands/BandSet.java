@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:58:25 PM
- *
  */
 public class BandSet {
     ArrayList bands = new ArrayList();

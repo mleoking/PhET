@@ -25,7 +25,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 9:33:23 PM
- *
  */
 
 public class MandelGun extends PhetPNode {
@@ -83,7 +82,7 @@ public class MandelGun extends PhetPNode {
                 fireIntensityChanged();
             }
         } );
-        onGunGraphic = new PSwing(onOffCheckBox );
+        onGunGraphic = new PSwing( onOffCheckBox );
         onGunGraphic.addInputEventListener( new CursorHandler() );
         addChild( onGunGraphic );
         onGunGraphic.setOffset( pimage.getFullBounds().getX() + pimage.getFullBounds().getWidth() / 2 - onGunGraphic.getFullBounds().getWidth() / 2 + BlueGunDetails.onGunControlDX, BlueGunDetails.gunControlAreaY + pimage.getFullBounds().getY() );

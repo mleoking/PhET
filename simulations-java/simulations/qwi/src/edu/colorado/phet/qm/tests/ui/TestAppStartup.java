@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.qm.tests.ui;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -126,7 +126,7 @@ public class TestAppStartup extends PhetApplication {
                 // PSwing button
                 JButton jButton = new JButton( "Press Me" );
                 jButton.setOpaque( false );
-                _pButton = new PSwing(jButton );
+                _pButton = new PSwing( jButton );
                 parentNode.addChild( _pButton );
                 jButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

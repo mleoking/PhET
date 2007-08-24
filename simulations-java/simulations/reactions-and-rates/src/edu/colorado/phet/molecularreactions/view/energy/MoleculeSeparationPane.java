@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 public class MoleculeSeparationPane extends PPath {
     private final MoleculeSelectionTracker tracker;
 
-    private final PNode selectedMoleculeGraphic          = new PNode();
+    private final PNode selectedMoleculeGraphic = new PNode();
     private final PNode nearestToSelectedMoleculeGraphic = new PNode();
 
     private Insets paneInsets = new Insets( 20, 30, 40, 10 );
@@ -89,7 +89,7 @@ public class MoleculeSeparationPane extends PPath {
     public void terminate() {
         tracker.terminate();
 
-        module.getClock().removeClockListener(updatingClockListener);
+        module.getClock().removeClockListener( updatingClockListener );
     }
 
     /*
@@ -120,7 +120,7 @@ public class MoleculeSeparationPane extends PPath {
         private final MRModule module;
         private int direction;
         private double yMin, yMax;
-        private Point2D.Double midPoint = new Point2D.Double(0, 0);
+        private Point2D.Double midPoint = new Point2D.Double( 0, 0 );
 
         public MoleculeGraphicController( MRModule module ) {
             this.module = module;
@@ -135,17 +135,19 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private boolean shouldDrawMoleculeOnTop( AbstractMolecule molecule ) {
-            if (molecule==null){
+            if( molecule == null ) {
                 return false;
             }
-             if (molecule.getClass() == MoleculeA.class) return true;
+            if( molecule.getClass() == MoleculeA.class ) {
+                return true;
+            }
 
-            if (molecule.isComposite()) {
-                if (molecule.getComponentMolecules()[0].getClass() == MoleculeA.class) {
+            if( molecule.isComposite() ) {
+                if( molecule.getComponentMolecules()[0].getClass() == MoleculeA.class ) {
                     return true;
                 }
 
-                if (molecule.getComponentMolecules()[1].getClass() == MoleculeA.class) {
+                if( molecule.getComponentMolecules()[1].getClass() == MoleculeA.class ) {
                     return true;
                 }
             }
@@ -153,20 +155,20 @@ public class MoleculeSeparationPane extends PPath {
             return false;
         }
 
-        private void addMoleculeGraphic( PNode node, AbstractMolecule element, boolean top) {
+        private void addMoleculeGraphic( PNode node, AbstractMolecule element, boolean top ) {
             node.removeAllChildren();
 
             if( element != null ) {
                 EnergyMoleculeGraphic graphic = new EnergyMoleculeGraphic( element.getFullMolecule(), module.getMRModel().getEnergyProfile() );
-                graphic.translate( midPoint.getX(), top?yMin:yMax);
+                graphic.translate( midPoint.getX(), top ? yMin : yMax );
                 node.addChild( graphic );
             }
         }
 
         private void updateMoleculeGraphics() {
-            boolean selectedTop=shouldDrawMoleculeOnTop( tracker.getSelectedMolecule( ));
-            addMoleculeGraphic( selectedMoleculeGraphic,          tracker.getSelectedMolecule(),selectedTop);
-            addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule(),!selectedTop);
+            boolean selectedTop = shouldDrawMoleculeOnTop( tracker.getSelectedMolecule() );
+            addMoleculeGraphic( selectedMoleculeGraphic, tracker.getSelectedMolecule(), selectedTop );
+            addMoleculeGraphic( nearestToSelectedMoleculeGraphic, tracker.getNearestToSelectedMolecule(), !selectedTop );
         }
 
         private void updateEnergyCursor() {
@@ -183,10 +185,10 @@ public class MoleculeSeparationPane extends PPath {
 
         private void updateDirection() {
             if( tracker.isTracking() ) {
-                SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
-                               boundMolecule = tracker.getBoundMolecule();
+                SimpleMolecule freeMolecule = tracker.getFreeMolecule(),
+                        boundMolecule = tracker.getBoundMolecule();
 
-                assert freeMolecule  != null;
+                assert freeMolecule != null;
                 assert boundMolecule != null;
 
                 // Figure out on which side of the centerline the molecules should appear
@@ -195,15 +197,18 @@ public class MoleculeSeparationPane extends PPath {
                     direction = -1;
                 }
                 // If the selected molecule is an A molecule and it's bound, we're on the right
-                else if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == boundMolecule ) {
+                else
+                if( tracker.getSelectedMolecule() instanceof MoleculeA && tracker.getSelectedMolecule() == boundMolecule ) {
                     direction = 1;
                 }
                 // If the selected molecule is a C molecule and it's free, we're on the right
-                else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == freeMolecule ) {
+                else
+                if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == freeMolecule ) {
                     direction = 1;
                 }
                 // If the selected molecule is a C molecule and it's bound, we're on the left
-                else if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == boundMolecule ) {
+                else
+                if( tracker.getSelectedMolecule() instanceof MoleculeC && tracker.getSelectedMolecule() == boundMolecule ) {
                     direction = -1;
                 }
                 else {
@@ -213,8 +218,8 @@ public class MoleculeSeparationPane extends PPath {
         }
 
         private SimpleMolecule getBMolecule( SimpleMolecule[] componentMolecules ) {
-            for (int i = 0; i < componentMolecules.length; i++) {
-                if (componentMolecules[i].getClass() == MoleculeB.class) {
+            for( int i = 0; i < componentMolecules.length; i++ ) {
+                if( componentMolecules[i].getClass() == MoleculeB.class ) {
                     return componentMolecules[i];
                 }
             }
@@ -222,11 +227,11 @@ public class MoleculeSeparationPane extends PPath {
             return null;
         }
 
-        private SimpleMolecule getFreeOrBMolecule(SimpleMolecule molecule) {
-            if (molecule.isPartOfComposite()) {
+        private SimpleMolecule getFreeOrBMolecule( SimpleMolecule molecule ) {
+            if( molecule.isPartOfComposite() ) {
                 molecule = getBMolecule( molecule.getFullMolecule().getComponentMolecules() );
             }
-            else if (molecule.isComposite()) {
+            else if( molecule.isComposite() ) {
                 molecule = getBMolecule( molecule.getComponentMolecules() );
             }
 
@@ -248,8 +253,8 @@ public class MoleculeSeparationPane extends PPath {
 
         private void updatePositions() {
             if( tracker.isTracking() ) {
-                SimpleMolecule freeMolecule  = tracker.getFreeMolecule(),
-                               boundMolecule = tracker.getBoundMolecule();
+                SimpleMolecule freeMolecule = tracker.getFreeMolecule(),
+                        boundMolecule = tracker.getBoundMolecule();
 
                 // Position the molecule graphics
                 double cmDist = getDistanceBetweenTrackedMolecules();
@@ -288,7 +293,7 @@ public class MoleculeSeparationPane extends PPath {
                 //
                 // Note: This is a hack implemented because the physics of the
                 //       simulation are fudged.
-                if ( direction < 0 ) {
+                if( direction < 0 ) {
                     double maxX = curvePane.getIntersectionWithHorizontal( x );
 
                     x = Math.min( x, maxX );

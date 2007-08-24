@@ -55,7 +55,8 @@ public class HelpItem extends JLabel {
 //    public void setLocation( int x, int y ) {
 //        this.setBounds((int) location.getX(), (int) location.getY(),
 //                s_helpItemIcon.getWidth(this), s_helpItemIcon.getHeight(this));
-//    }
+
+    //    }
     /**
      * @param inString
      * @return

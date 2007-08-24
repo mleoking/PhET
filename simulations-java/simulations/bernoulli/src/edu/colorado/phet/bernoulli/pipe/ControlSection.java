@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 12:08:16 PM
- *
  */
 public class ControlSection {
     PhetVector top;

@@ -8,6 +8,6 @@ package edu.colorado.phet.coreadditions_microwaves;
 
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
-public class DesktopLF extends MetalLookAndFeel{
+public class DesktopLF extends MetalLookAndFeel {
 
 }

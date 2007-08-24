@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
@@ -18,8 +20,6 @@ import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -44,24 +44,24 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     static private HashMap ionClassToName = new HashMap();
 
     static {
-        ionClassToName.put( ConfigurableCation.class, SimStrings.getInstance().getString("Ion.cation" ));
-        ionClassToName.put( Sodium.class, SimStrings.getInstance().getString("Ion.sodium" ));
-        ionClassToName.put( Lead.class, SimStrings.getInstance().getString("Ion.lead" ));
-        ionClassToName.put( Chromium.class, SimStrings.getInstance().getString("Ion.chromium" ));
-        ionClassToName.put( Copper.class, SimStrings.getInstance().getString("Ion.copper" ));
-        ionClassToName.put( Silver.class, SimStrings.getInstance().getString("Ion.silver" ));
-        ionClassToName.put( Thallium.class, SimStrings.getInstance().getString("Ion.thallium" ));
-        ionClassToName.put( Strontium.class, SimStrings.getInstance().getString("Ion.strontium" ));
-        ionClassToName.put( Mercury.class, SimStrings.getInstance().getString("Ion.mercury" ));
+        ionClassToName.put( ConfigurableCation.class, SimStrings.getInstance().getString( "Ion.cation" ) );
+        ionClassToName.put( Sodium.class, SimStrings.getInstance().getString( "Ion.sodium" ) );
+        ionClassToName.put( Lead.class, SimStrings.getInstance().getString( "Ion.lead" ) );
+        ionClassToName.put( Chromium.class, SimStrings.getInstance().getString( "Ion.chromium" ) );
+        ionClassToName.put( Copper.class, SimStrings.getInstance().getString( "Ion.copper" ) );
+        ionClassToName.put( Silver.class, SimStrings.getInstance().getString( "Ion.silver" ) );
+        ionClassToName.put( Thallium.class, SimStrings.getInstance().getString( "Ion.thallium" ) );
+        ionClassToName.put( Strontium.class, SimStrings.getInstance().getString( "Ion.strontium" ) );
+        ionClassToName.put( Mercury.class, SimStrings.getInstance().getString( "Ion.mercury" ) );
 
-        ionClassToName.put( ConfigurableAnion.class, SimStrings.getInstance().getString("Ion.anion" ));
-        ionClassToName.put( Phosphate.class, SimStrings.getInstance().getString("Ion.phosphate" ));
-        ionClassToName.put( Bromine.class, SimStrings.getInstance().getString("Ion.bromide" ));
-        ionClassToName.put( Arsenate.class, SimStrings.getInstance().getString("Ion.aresenate" ));
-        ionClassToName.put( Sulfur.class, SimStrings.getInstance().getString("Ion.sulfide" ));
-        ionClassToName.put( Chlorine.class, SimStrings.getInstance().getString("Ion.chloride" ));
-        ionClassToName.put( Iodide.class, SimStrings.getInstance().getString("Ion.iodide" ));
-        ionClassToName.put( Hydroxide.class, SimStrings.getInstance().getString("Ion.hydroxide" ));
+        ionClassToName.put( ConfigurableAnion.class, SimStrings.getInstance().getString( "Ion.anion" ) );
+        ionClassToName.put( Phosphate.class, SimStrings.getInstance().getString( "Ion.phosphate" ) );
+        ionClassToName.put( Bromine.class, SimStrings.getInstance().getString( "Ion.bromide" ) );
+        ionClassToName.put( Arsenate.class, SimStrings.getInstance().getString( "Ion.aresenate" ) );
+        ionClassToName.put( Sulfur.class, SimStrings.getInstance().getString( "Ion.sulfide" ) );
+        ionClassToName.put( Chlorine.class, SimStrings.getInstance().getString( "Ion.chloride" ) );
+        ionClassToName.put( Iodide.class, SimStrings.getInstance().getString( "Ion.iodide" ) );
+        ionClassToName.put( Hydroxide.class, SimStrings.getInstance().getString( "Ion.hydroxide" ) );
     }
 
     //----------------------------------------------------------------
@@ -151,7 +151,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         model.getVessel().addChangeListener( new Vessel.ChangeListener() {
             public void stateChanged( Vessel.ChangeEvent event ) {
                 Vessel vessel = event.getVessel();
-                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() -model.getDrain().getPosition().getY();
+                double drainLevel = vessel.getLocation().getY() + vessel.getDepth() - model.getDrain().getPosition().getY();
                 boolean b = vessel.getWaterLevel() > drainLevel;
                 anionSpinner.setEnabled( b );
                 cationSpinner.setEnabled( b );
@@ -159,10 +159,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         } );
 
         // Make labels for the columns
-        ionsLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Ions" ));
-        totalNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Total" ));
-        freeNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Free") );
-        boundNumLabel = new JLabel( SimStrings.getInstance().getString("ControlLabels.Bound") );
+        ionsLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Ions" ) );
+        totalNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Total" ) );
+        freeNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Free" ) );
+        boundNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Bound" ) );
 
         layoutPanel();
 //        layoutPanel2();
@@ -420,7 +420,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
                         // If a free ion wasn't available, remove one from a crystal
                         if( !found ) {
                             java.util.List crystals = model.getCrystals();
-                            Crystal crystal = (Crystal)crystals.get( random.nextInt( crystals.size() ));
+                            Crystal crystal = (Crystal)crystals.get( random.nextInt( crystals.size() ) );
                             crystal.releaseIon( SolubleSaltsConfig.DT );
                         }
                     }

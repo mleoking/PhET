@@ -1,6 +1,7 @@
 /*, 2003.*/
 package edu.colorado.phet.common_microwaves.view;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.ModuleManager;
 import edu.colorado.phet.common_microwaves.application.ModuleObserver;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common_microwaves.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.coreadditions_microwaves.components.ApplicationModelControlPanel;
 import edu.colorado.phet.coreadditions_microwaves.components.BasicPhetPanel;
 import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 
@@ -18,7 +18,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:27:29 AM
- *
  */
 public class ApplicationView {
     private PhetFrame phetFrame;
@@ -26,7 +25,7 @@ public class ApplicationView {
     private ApplicationModelControlPanel controlPanel;
 
     private BasicPhetPanel basicPhetPanel;
-//    private ApparatusPanelContainerFactory containerStrategy;
+    //    private ApparatusPanelContainerFactory containerStrategy;
     private PhetApplication application;
 
     public ApplicationView( PhetApplication application ) {
@@ -66,19 +65,21 @@ public class ApplicationView {
     public BasicPhetPanel getBasicPhetPanel() {
         return basicPhetPanel;
     }
+
     public void setVisible( boolean isVisible ) {
         phetFrame.setVisible( isVisible );
     }
 
     public void addFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.addFileMenuItem(menuItem);
+        phetFrame.addFileMenuItem( menuItem );
     }
-    public void addFileMenuSeparator()
-    {
+
+    public void addFileMenuSeparator() {
         phetFrame.addFileMenuSeparator();
     }
+
     public void removeFileMenuItem( JMenuItem menuItem ) {
-        phetFrame.removeFileMenuItem(menuItem);
+        phetFrame.removeFileMenuItem( menuItem );
     }
 
     public void removeFileMenuSeparator() {

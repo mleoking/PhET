@@ -17,7 +17,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:37:46 AM
- *
  */
 
 public class LimbNode extends PNode {

@@ -42,7 +42,7 @@ public class VesselGraphic extends CompositePhetGraphic {
                                                                                   vessel.getWidth() + wallThickness,
                                                                                   vessel.getHeight() + wallThickness - 5 ),
 //                                                          new BasicStroke( 10 ), Color.black );
-                                                          new BasicStroke( (float)wallThickness ), Color.black );
+new BasicStroke( (float)wallThickness ), Color.black );
         addGraphic( boundary );
 
 //        BufferedImage vesselImage = null;

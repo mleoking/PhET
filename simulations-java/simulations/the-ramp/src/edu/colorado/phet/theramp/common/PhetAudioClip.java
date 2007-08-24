@@ -8,7 +8,6 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Dec 31, 2005
  * Time: 11:15:34 AM
- *
  */
 
 public class PhetAudioClip {

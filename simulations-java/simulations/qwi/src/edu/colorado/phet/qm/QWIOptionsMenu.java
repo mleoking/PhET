@@ -19,7 +19,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 11:33:39 AM
- *
  */
 
 public class QWIOptionsMenu extends JMenu {

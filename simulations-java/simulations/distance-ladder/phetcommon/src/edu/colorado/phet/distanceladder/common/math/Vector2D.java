@@ -48,12 +48,16 @@ public class Vector2D extends PhysicalVector {
         this.setX( x );
         this.setY( y );
         return this;
-    };
+    }
+
+    ;
 
     public Vector2D setComponents( Vector2D that ) {
         this.setComponents( that.getX(), that.getY() );
         return this;
-    };
+    }
+
+    ;
 
     public float getX() {
         return getScalarAt( X );

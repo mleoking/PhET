@@ -9,7 +9,6 @@ import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 5:35:10 PM
- *
  */
 
 public class RampModel {

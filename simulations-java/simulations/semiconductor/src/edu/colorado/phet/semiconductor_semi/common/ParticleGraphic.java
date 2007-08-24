@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:54:53 PM
- *
  */
 public class ParticleGraphic extends TransformGraphic {
     protected Particle particle;

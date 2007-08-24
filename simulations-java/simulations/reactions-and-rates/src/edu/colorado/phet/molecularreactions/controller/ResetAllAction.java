@@ -29,6 +29,6 @@ public class ResetAllAction extends AbstractAction {
     }
 
     public void actionPerformed( ActionEvent e ) {
-        
+
     }
 }

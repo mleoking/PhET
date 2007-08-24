@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:55:13 AM
- *
  */
 public class WireParticleGraphic extends TransformGraphic {
     WireParticle particle;

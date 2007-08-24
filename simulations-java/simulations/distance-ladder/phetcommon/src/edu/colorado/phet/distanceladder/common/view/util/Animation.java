@@ -86,7 +86,6 @@ public class Animation {
         return frames.length;
     }
 
-
     //
     // Static fields and methods
     //

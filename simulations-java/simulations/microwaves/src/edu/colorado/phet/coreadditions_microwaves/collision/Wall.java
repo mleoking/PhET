@@ -69,7 +69,7 @@ public class Wall extends Body {
 
     public Point2D.Double getCM() {
         cm.setLocation( ( end1.getX() + end2.getX() ) / 2,
-                        ( end1.getY() + end2.getY() ) / 2);
+                        ( end1.getY() + end2.getY() ) / 2 );
         return cm;
     }
 

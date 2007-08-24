@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.qm;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -26,11 +26,10 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:48:21 PM
- *
  */
 
 public class QWIApplication extends PiccoloPhetApplication {
-//    public static String VERSION = "1.05";
+    //    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
     public SingleParticleModule singleParticleModule;
     public MandelModule mandelModule;
@@ -48,7 +47,7 @@ public class QWIApplication extends PiccoloPhetApplication {
 
         mandelModule = new MandelModule( this, createClock() );
         addModule( mandelModule );
-        
+
         JMenuItem save = new JMenuItem( QWIStrings.getString( "menus.save" ) );
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -80,7 +79,7 @@ public class QWIApplication extends PiccoloPhetApplication {
     }
 
     public static String getQWIVersion() {
-        return PhetApplicationConfig.getVersion( "qwi").formatForTitleBar();
+        return PhetApplicationConfig.getVersion( "qwi" ).formatForTitleBar();
     }
 
     private QWIModule getActiveSchrodingerModule() {

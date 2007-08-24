@@ -6,14 +6,13 @@
  */
 package edu.colorado.phet.util;
 
-import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
+import edu.colorado.phet.common_1200.model.clock.ClockTickListener;
 import edu.colorado.phet.common_1200.model.clock.SwingTimerClock;
-//import edu.SwingTimerClock;
 
 import javax.swing.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 public class StripChart extends JPanel {
 
@@ -34,14 +33,13 @@ public class StripChart extends JPanel {
     private int yOffset;
 
     /**
-     *
-     * @param width     Display width of the plot area, in pixels
-     * @param height    Display height of the plot area, in pixels
-     * @param minX      Minimum x value to be plotted
-     * @param maxX      Maximum x value to be plotted
-     * @param minY      Minimum y value to be plotted
-     * @param maxY      Maximum y value to be plotted
-     * @param timeStep  Time step between data points
+     * @param width    Display width of the plot area, in pixels
+     * @param height   Display height of the plot area, in pixels
+     * @param minX     Minimum x value to be plotted
+     * @param maxX     Maximum x value to be plotted
+     * @param minY     Minimum y value to be plotted
+     * @param maxY     Maximum y value to be plotted
+     * @param timeStep Time step between data points
      */
     public StripChart( int width, int height, double minX, double maxX, double minY, double maxY, double timeStep ) {
         this.width = width;
@@ -81,7 +79,7 @@ public class StripChart extends JPanel {
         // Draw horizontal lines
         g2.setColor( tickColor );
         g2.drawLine( plotAreaULC.x, plotAreaULC.y + ( height / 2 ),
-                     plotAreaULC.x + width, plotAreaULC.y + ( height / 2 ));
+                     plotAreaULC.x + width, plotAreaULC.y + ( height / 2 ) );
 
         for( int i = 1; i < data.length; i++ ) {
 //        for( int i = 1; i < numData; i++ ) {
@@ -128,6 +126,7 @@ public class StripChart extends JPanel {
     /**
      * Tests the strip chart class by creating a strip chart that tracks
      * a sine function
+     *
      * @param args
      */
     public static void main( String[] args ) {

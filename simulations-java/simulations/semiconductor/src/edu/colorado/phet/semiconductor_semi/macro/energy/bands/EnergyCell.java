@@ -7,7 +7,6 @@ import edu.colorado.phet.common_semiconductor.math.PhetVector;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 5:57:59 PM
- *
  */
 public class EnergyCell {
     double x;

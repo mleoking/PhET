@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
-import org.reid.particles.tutorial.Page;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
+import org.reid.particles.tutorial.Page;
 
 /**
  * User: Sam Reid

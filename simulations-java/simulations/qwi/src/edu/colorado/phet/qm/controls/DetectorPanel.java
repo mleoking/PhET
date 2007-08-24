@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 29, 2005
  * Time: 11:41:25 AM
- *
  */
 
 public class DetectorPanel extends VerticalLayoutPanel {

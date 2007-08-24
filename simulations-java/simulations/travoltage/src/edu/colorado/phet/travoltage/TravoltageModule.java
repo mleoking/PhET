@@ -9,7 +9,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:22:45 PM
- *
  */
 
 public class TravoltageModule extends PiccoloModule {

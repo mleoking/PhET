@@ -8,15 +8,15 @@ public class StrokedLinePainter implements LinePainter {
     Color c;
     Color selectionColor;
 
-    public StrokedLinePainter(Stroke s, Color c) {
+    public StrokedLinePainter( Stroke s, Color c ) {
         this.s = s;
         this.c = c;
     }
 
-    public void drawLine(Graphics2D graphics2D, int x, int y, int x2, int y2) {
-        graphics2D.setStroke(s);
-        graphics2D.setColor(c);
-        graphics2D.drawLine(x, y, x2, y2);
+    public void drawLine( Graphics2D graphics2D, int x, int y, int x2, int y2 ) {
+        graphics2D.setStroke( s );
+        graphics2D.setColor( c );
+        graphics2D.drawLine( x, y, x2, y2 );
     }
 }
 

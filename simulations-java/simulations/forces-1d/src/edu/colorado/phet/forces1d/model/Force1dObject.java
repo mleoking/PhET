@@ -10,7 +10,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 15, 2004
  * Time: 12:19:35 PM
- *
  */
 public class Force1dObject {
     private String location;

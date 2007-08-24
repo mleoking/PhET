@@ -60,14 +60,15 @@ public class HistogramModel {
     /**
      * Adds a datum to the histogram. If the datum is above or below the range
      * of the histogram, it is not added.
+     *
      * @param value
      * @return One of the following values depending on where the value falls in
-     * relation to the range of the histogram:
-     * <ul>
-     * <li>IN_RANGE
-     * <li>BELOW_RANGE
-     * <li>ABOVE_RANGE
-     * </ul>
+     *         relation to the range of the histogram:
+     *         <ul>
+     *         <li>IN_RANGE
+     *         <li>BELOW_RANGE
+     *         <li>ABOVE_RANGE
+     *         </ul>
      */
     public int add( double value ) {
         int returnValue = IN_RANGE;
@@ -76,10 +77,10 @@ public class HistogramModel {
             bucket.increment();
             returnValue = IN_RANGE;
         }
-        else if( value < ((Bucket)buckets.get(0)).lowerBound ) {
-                returnValue = BELOW_RANGE;
+        else if( value < ( (Bucket)buckets.get( 0 ) ).lowerBound ) {
+            returnValue = BELOW_RANGE;
         }
-        else if( value >= ((Bucket)buckets.get( buckets.size() - 1)).upperBound ) {
+        else if( value >= ( (Bucket)buckets.get( buckets.size() - 1 ) ).upperBound ) {
             dataOutOfRange = true;
         }
         return returnValue;

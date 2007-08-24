@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.SimpleMolecule;
@@ -121,7 +121,7 @@ public class HardBodyCollision {
      */
     public void doCollision( Body bodyA, Body bodyB, HardBodyCollision.CollisionSpec collisionSpec ) {
 
-        Vector2D mTotal1 = new Vector2D.Double( bodyA.getMomentum()).add( bodyB.getMomentum() );
+        Vector2D mTotal1 = new Vector2D.Double( bodyA.getMomentum() ).add( bodyB.getMomentum() );
 
 
         Vector2D loa = collisionSpec.getLoa();
@@ -197,7 +197,7 @@ public class HardBodyCollision {
 //        bodyB.getVelocity().multiply( fvB );
         }
 
-        Vector2D mTotal2 = new Vector2D.Double( bodyA.getMomentum()).add( bodyB.getMomentum() );
+        Vector2D mTotal2 = new Vector2D.Double( bodyA.getMomentum() ).add( bodyB.getMomentum() );
     }
 
     //--------------------------------------------------------------------------------------------------

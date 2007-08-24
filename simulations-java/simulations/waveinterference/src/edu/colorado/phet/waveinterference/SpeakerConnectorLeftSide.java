@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 6:14:38 PM
- *
  */
 
 public class SpeakerConnectorLeftSide extends VerticalConnector {

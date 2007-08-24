@@ -9,7 +9,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 9:47:37 PM
- *
  */
 
 public class MutableColorChooser extends JColorChooser {

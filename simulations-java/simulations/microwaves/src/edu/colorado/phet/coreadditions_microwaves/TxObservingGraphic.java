@@ -26,8 +26,8 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
     }
 
     protected void setBoundsMapping( Rectangle2D.Double modelBounds,
-                                         Rectangle viewBounds,
-                                         edu.colorado.phet.common_microwaves.view.ApparatusPanel apparatusPanel ) {
+                                     Rectangle viewBounds,
+                                     edu.colorado.phet.common_microwaves.view.ApparatusPanel apparatusPanel ) {
         modelViewTx = new ModelViewTransform2D( modelBounds, viewBounds );
 //        modelViewTx = new ModelViewTransform2D( modelBounds, viewBounds );
         ApparatusPanelModelViewTxAdapter adapter = new ApparatusPanelModelViewTxAdapter( modelViewTx, apparatusPanel );
@@ -36,9 +36,9 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
 
     protected void setTxViewBounds( Dimension proposedSize ) {
         modelViewTx.setViewBounds( new Rectangle( (int)modelViewTx.getViewBounds().getMinX(),
-                                         (int)modelViewTx.getViewBounds().getMinY(),
-                                         (int)proposedSize.getWidth(),
-                                         (int)proposedSize.getHeight() ) );
+                                                  (int)modelViewTx.getViewBounds().getMinY(),
+                                                  (int)proposedSize.getWidth(),
+                                                  (int)proposedSize.getHeight() ) );
     }
 
     protected int modelToViewX( double x ) {
@@ -140,7 +140,7 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
         }
 
         public void setValue( double x, double y ) {
-            point.setLocation( modelToViewX( x ), modelToViewY( y ));
+            point.setLocation( modelToViewX( x ), modelToViewY( y ) );
         }
 
         public Point getValue() {
@@ -148,8 +148,8 @@ public abstract class TxObservingGraphic implements ObservingGraphic, TransformL
         }
 
         public void setUpperLeftCornerFromCenter( double modelDx, double modelDy ) {
-            point.setLocation( point.getX() - modelToViewDifferentialX( modelDx),
-                               point.getY() + modelToViewDifferentialY( modelDy ));
+            point.setLocation( point.getX() - modelToViewDifferentialX( modelDx ),
+                               point.getY() + modelToViewDifferentialY( modelDy ) );
         }
     }
 

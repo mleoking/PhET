@@ -6,9 +6,10 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.nuclearphysics.model.AlphaDecaySnapshot;
+import edu.colorado.phet.nuclearphysics.model.PreDecayListener;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -24,7 +25,7 @@ public class AlphaDecayControlPanel extends JPanel {
     private JTextField timerTF;
     private Timer timer = new Timer();
     private SloMoAgent sloMoAgent;
-//    private JCheckBox pauseOnDelayCB;
+    //    private JCheckBox pauseOnDelayCB;
     private AlphaDecaySnapshot snapshot;
 
 
@@ -107,7 +108,7 @@ public class AlphaDecayControlPanel extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.EAST,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 5, 5, 5, 5 ),0,0 );
+                                                         new Insets( 5, 5, 5, 5 ), 0, 0 );
         add( new JLabel( SimStrings.getInstance().getString( "AlphaDecayControlPanel.RunningTimeLabel" ) ), gbc );
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -123,7 +124,6 @@ public class AlphaDecayControlPanel extends JPanel {
 //        add( rewindToDecayBtn, gbc );
         gbc.gridy = 2;
         add( resetBtn, gbc );
-
 
 //        int rowIdx = 0;
 //        try {

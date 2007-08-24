@@ -15,11 +15,11 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -30,7 +30,7 @@ import java.awt.geom.Point2D;
 
 /**
  * SpringTestModule
- * <p>
+ * <p/>
  * Tests
  *
  * @author Ron LeMaster
@@ -60,7 +60,7 @@ public class SpringTestModule2 extends Module {
                                                                           simPanel.getPhetRootNode() );
         model.addListener( megm );
         megm.addGraphicFactory( new SimpleMoleculeGraphicFactory( model, canvas ) );
-        megm.addGraphicFactory( new SpringGraphicFactory( Spring.class, canvas ));
+        megm.addGraphicFactory( new SpringGraphicFactory( Spring.class, canvas ) );
 
         {
             // Make a couple of molecules
@@ -114,7 +114,7 @@ public class SpringTestModule2 extends Module {
             sA.attachBody( mA );
 
             Spring sBC = new Spring( 3,
-                                     fixedPt.distance( mBC.getPosition()),
+                                     fixedPt.distance( mBC.getPosition() ),
                                      fixedPt,
                                      0 );
             model.addModelElement( sBC );

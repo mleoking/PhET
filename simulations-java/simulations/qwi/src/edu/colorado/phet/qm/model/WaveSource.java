@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 15, 2005
  * Time: 9:33:23 AM
- *
  */
 
 public class WaveSource extends QWIModel.Adapter {

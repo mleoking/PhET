@@ -12,14 +12,13 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:47:29 PM
- *
  */
 
 public class SpeakerGraphic extends ImageOscillatorPNode {
     public SpeakerGraphic( PSwingCanvas pSwingCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         super( oscillator, latticeScreenCoordinates, "waveinterference/images/speaker.gif" );
         OscillatorOnOffControlPanel oscillatorOnOffControlPanel = new OscillatorOnOffControlPanel( oscillator );
-        PSwing pswing = new PSwing(oscillatorOnOffControlPanel );
+        PSwing pswing = new PSwing( oscillatorOnOffControlPanel );
         addChild( pswing );
     }
 }

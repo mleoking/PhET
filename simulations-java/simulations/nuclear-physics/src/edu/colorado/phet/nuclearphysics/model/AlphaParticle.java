@@ -31,7 +31,7 @@ public class AlphaParticle extends Nucleus {
     // Controls how fast the alpha particle accelerates down the profile
     private static double forceScale = Config.ALPHA_PARTICLE_FORCE_SCALE;
 //    private static double forceScale = 0.015;
-//    private static double forceScale = 0.01;
+    //    private static double forceScale = 0.01;
     private int stepCnt;
     private int stepsBetweenRandomPlacements = 4;
 

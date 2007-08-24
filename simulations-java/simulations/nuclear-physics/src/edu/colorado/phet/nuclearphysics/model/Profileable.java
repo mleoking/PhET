@@ -12,7 +12,7 @@ package edu.colorado.phet.nuclearphysics.model;
 
 /**
  * EnergyProfilable
- * <p>
+ * <p/>
  * Can be used to create an EnergyProfile
  *
  * @author Ron LeMaster

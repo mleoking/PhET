@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:25:26 PM
- *
  */
 
 public class TravoltageRootNode extends PNode {

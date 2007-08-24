@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.ReleasingReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -67,15 +67,15 @@ public class SpringTestModule5 extends Module {
         // Make model objects
         MoleculeA mA = new MoleculeA();
         Point2D.Double fixedEnd = new Point2D.Double( 300, 250 );
-        Spring spring = new Spring( 1, 30, fixedEnd, 0);
+        Spring spring = new Spring( 1, 30, fixedEnd, 0 );
 
         mA.setPosition( fixedEnd.getX() - mA.getRadius(), fixedEnd.getY() );
         spring.attachBodyAtSpringLength( mA, 0 );
 
-        MoleculeB mB = new MoleculeB( );
+        MoleculeB mB = new MoleculeB();
         mB.setPosition( fixedEnd.getX() + mB.getRadius(), fixedEnd.getY() );
 
-        ReactionSpring rSpring = new ReleasingReactionSpring( 500, 50, 100, new SimpleMolecule[]{ mA, mB } );
+        ReactionSpring rSpring = new ReleasingReactionSpring( 500, 50, 100, new SimpleMolecule[]{mA, mB} );
 
         model.addModelElement( mA );
         model.addModelElement( mB );

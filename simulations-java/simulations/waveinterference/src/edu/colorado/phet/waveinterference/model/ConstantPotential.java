@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.model;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:54:29 AM
- *
  */
 
 public class ConstantPotential implements Potential {

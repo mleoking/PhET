@@ -13,8 +13,6 @@ import edu.colorado.phet.common_1200.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class PhetFrame extends JFrame {
     HelpMenu helpMenu;

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -17,7 +16,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Nov 27, 2004
  * Time: 11:29:31 AM
- *
  */
 public class YArrowSet extends AbstractArrowSet {
 

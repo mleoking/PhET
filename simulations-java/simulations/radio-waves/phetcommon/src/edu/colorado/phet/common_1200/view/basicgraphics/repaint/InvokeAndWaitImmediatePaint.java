@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics.repaint;
 
 import javax.swing.*;
@@ -9,7 +8,6 @@ import java.lang.reflect.InvocationTargetException;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 9:15:25 AM
- *
  */
 public class InvokeAndWaitImmediatePaint extends StoredRectRepainter {
     public InvokeAndWaitImmediatePaint( JComponent component ) {

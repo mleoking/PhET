@@ -53,8 +53,8 @@ public class RelativisticManualMovement extends ManualMovement {
                 vy = (float)RadioWavesApplication.s_speedOfLight * 0.9f;
             }
             else {
-                double a = f.getY() /  m;
-                vy = (float)(vy + a * dt);
+                double a = f.getY() / m;
+                vy = (float)( vy + a * dt );
             }
             position.setLocation( position.getX(), position.getY() + vy * dt );
             super.setPosition( position );

@@ -74,7 +74,7 @@ public class RotationPlatformNode extends PNode {
         updateInnerRadius();
     }
 
-    private void doUpdateAngle(  ) {
+    private void doUpdateAngle() {
         setAngle( rotationPlatform.getPosition() );
     }
 

@@ -7,8 +7,8 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_sound.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_sound.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_sound.ScalarObservable;
 import edu.colorado.phet.coreadditions_sound.ScalarObserver;

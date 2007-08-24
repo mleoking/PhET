@@ -15,11 +15,11 @@ import java.util.Random;
 
 /**
  * Uranium235
- * <p>
+ * <p/>
  * These are special nuclei that can fission and decay. The stepInTime() method is
  * pretty complicated, and could benefit from refactoring it into a state machine, or pluggable
  * behaviors (perhaps a stepInTimeStrategy).
- * <p>
+ * <p/>
  * A Uranium235 notifies certain listeners when it is about to decay on its next time step,
  * and then notifies other listeners in that next time step.
  */

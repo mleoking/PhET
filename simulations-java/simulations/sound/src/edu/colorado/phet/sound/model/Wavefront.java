@@ -87,7 +87,6 @@ public class Wavefront extends SimpleObservable /*implements ModelElement*/ {
             amplitude[i] = wavefrontType.computeAmplitudeAtDistance( this, amplitude[i], (float)i )
                            * attenuationFunction.getAttenuation( i * this.propagationSpeed, 0 );
 
-
             // Has the frequency changed for the listener since the last time step?
             if( ( i - stepSize ) == listenerLocation && frequencyAtTime[i] != prevFrequencyAtTime[i] ) {
                 notifyObservers();

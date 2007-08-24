@@ -11,8 +11,8 @@
 package edu.colorado.phet.molecularreactions.util;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.molecularreactions.model.PublishingModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.util.*;
@@ -23,7 +23,7 @@ import java.util.*;
  * Creates graphics when elements are added to the model, and adds the graphics in a well defined set
  * of layers according to their types. When model elements leave the model, its corresponding graphic
  * is removed from the view.
- * <p>
+ * <p/>
  * The graphics are created by instances of ModelElementGraphicManager.GraphicFactory that are created
  * by the client and plugged into the ModelElementGraphicManager with the addGraphicFactory() method.
  * ModelElementGraphicManager.GraphicFactory is an abstract class whose concrete subclasses must
@@ -53,7 +53,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
 
     /**
      * Constructor
-     * <p>
+     * <p/>
      * If you use this constructor and then add GraphicFactory instances to it,
      * call scanModel() to create graphics for the model elements that are
      * already in the model
@@ -73,7 +73,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
 
     /**
      * Constructor
-     * <p>
+     * <p/>
      * This constructor calls scanModel(), so that instances of ModelElements
      * that are already in the model get graphics created for them. DO NOT
      * call scanModel() after using this constructor, or you'll get duplicate
@@ -81,7 +81,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
      *
      * @param model
      * @param canvas
-     * @param graphicFactories  A list of GraphicFactory instances
+     * @param graphicFactories A list of GraphicFactory instances
      */
     public ModelElementGraphicManager( PublishingModel model,
                                        PNode canvas,
@@ -95,7 +95,6 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     }
 
     /**
-     *
      * @param graphicFactory
      */
     public void addGraphicFactory( GraphicFactory graphicFactory ) {
@@ -107,7 +106,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
      * Scans the model and creates graphics for all the model elements it
      * currently has that don't have graphics. Use this after you have
      * added a new factory to the ModelElementGraphicManager instance.
-     * <p>
+     * <p/>
      * This method is called by the constructor of this class that gets a list
      * of GraphicFactories as an argument, so it will pick up all the elements
      * that are already in the model.
@@ -226,8 +225,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     /**
      * Get all the graphics for model elemenst of a specified class
      *
-     * @param modelElementClass     The model element class.
-     * 
+     * @param modelElementClass The model element class.
      * @return all the graphics for the model elements of a specified class
      */
     public List getGraphicsForModelElementClass( Class modelElementClass ) {
@@ -235,7 +233,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         Iterator keyIt = modelElementToGraphicMap.keySet().iterator();
         while( keyIt.hasNext() ) {
             ModelElement modelElement = (ModelElement)keyIt.next();
-            if( modelElementClass.isInstance( modelElement )) {
+            if( modelElementClass.isInstance( modelElement ) ) {
                 GraphicRecord record = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
 
                 graphics.add( record.getGraphic() );
@@ -247,8 +245,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
     /**
      * Get the graphic for a model element.
      *
-     * @param modelElement  The model element.
-     *
+     * @param modelElement The model element.
      * @return all the graphics for the model elements of a specified class
      */
     public PNode getGraphicsForModelElement( ModelElement modelElement ) {
@@ -257,7 +254,7 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         while( keyIt.hasNext() ) {
             ModelElement cur = (ModelElement)keyIt.next();
 
-            if ( cur == modelElement ) {
+            if( cur == modelElement ) {
                 GraphicRecord record = (GraphicRecord)modelElementToGraphicMap.get( modelElement );
 
                 return record.getGraphic();
@@ -265,7 +262,6 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         }
         return null;
     }
-
 
     //--------------------------------------------------------------------------------------------------
     // Inner classes
@@ -300,9 +296,8 @@ public class ModelElementGraphicManager extends PublishingModel.ModelListenerAda
         private PNode layer;
 
         /**
-         *
          * @param modelElementClass The class of ModelElement that this factory creates graphics for
-         * @param layer The layer on which graphics created by this factory are to be placed
+         * @param layer             The layer on which graphics created by this factory are to be placed
          */
         protected GraphicFactory( Class modelElementClass, PNode layer ) {
             this.modelElementClass = modelElementClass;

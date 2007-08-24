@@ -80,8 +80,6 @@ public class FastPaintShapeGraphic extends ShapeGraphic implements FastPaint.Gra
     //        this.transform = transform;
     //    }
 
-
-
     //    public void paint( Graphics2D g ) {
     //        //        AffineTransform orgTx = g.getTransform();
     //        //        g.transform( this.transform );

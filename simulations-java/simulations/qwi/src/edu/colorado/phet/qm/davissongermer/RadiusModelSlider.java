@@ -11,7 +11,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Jul 18, 2006
  * Time: 12:33:52 AM
- *
  */
 
 public class RadiusModelSlider extends ModelSlider {

@@ -38,9 +38,9 @@ public class ModelSlider extends JPanel {
         int rowIdx = 0;
         try {
             GridBagUtil.addGridBagComponent( this, new JLabel( title ), 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                             GridBagConstraints.NONE, GridBagConstraints.CENTER );
             GridBagUtil.addGridBagComponent( this, slider, 0, rowIdx++, 1, 1,
-                                              GridBagConstraints.NONE, GridBagConstraints.CENTER );
+                                             GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();
@@ -60,14 +60,14 @@ public class ModelSlider extends JPanel {
     }
 
     public void setMajorTickSpacing( double spacing ) {
-        slider.setMajorTickSpacing( (int)tx.modelToView( spacing ));
+        slider.setMajorTickSpacing( (int)tx.modelToView( spacing ) );
     }
 
     public void setMinorTickSpacing( double spacing ) {
-        slider.setMinorTickSpacing( (int)tx.modelToView( spacing ));
+        slider.setMinorTickSpacing( (int)tx.modelToView( spacing ) );
     }
 
-    public void setPaintTicks( boolean b) {
+    public void setPaintTicks( boolean b ) {
         slider.setPaintTicks( b );
     }
 

@@ -11,12 +11,11 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -35,7 +34,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
 
     // The following factors make the speed of molecules displayed correct
     private double s_screenToModelFactor = 476.0 / 327;
-//    private double s_screenToModelFactor = 476.0 / 290;
+    //    private double s_screenToModelFactor = 476.0 / 290;
     private double s_aveSpeedReadoutFactor = 10 * s_screenToModelFactor;
 
 
@@ -78,7 +77,7 @@ public class GasSpeciesMonitorPanel extends PhetMonitorPanel implements SimpleOb
         aveSpeedTF = new JTextField( 6 );
         aveSpeedTF.setEditable( false );
         this.add( aveSpeedTF );
-        this.add( new JLabel( "m/sec"));
+        this.add( new JLabel( "m/sec" ) );
 
         // Hook up to the model
         model.addObserver( this );

@@ -6,7 +6,6 @@ package edu.colorado.phet.theramp;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 12:44:38 AM
- *
  */
 
 public class SimpleRampControlPanel extends RampControlPanel {

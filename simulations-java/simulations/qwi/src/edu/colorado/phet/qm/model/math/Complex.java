@@ -5,7 +5,6 @@ package edu.colorado.phet.qm.model.math;
  * User: Sam Reid
  * Date: Jun 9, 2005
  * Time: 4:20:11 PM
- *
  */
 
 public class Complex {

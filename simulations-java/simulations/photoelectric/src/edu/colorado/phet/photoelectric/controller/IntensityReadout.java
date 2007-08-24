@@ -11,16 +11,16 @@
 package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,7 +97,7 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
         if( mode == BeamControl.INTENSITY ) {
             value = PhotoelectricModelUtil.photonRateToIntensity( value, beam.getWavelength() );
         }
-        readout.setText( format.format( value ));
+        readout.setText( format.format( value ) );
     }
 
     void setValue( double wavelength ) {
@@ -105,12 +105,12 @@ public class IntensityReadout extends GraphicLayerSet implements Beam.RateChange
     }
 
     public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-            update( event.getRate() );
+        update( event.getRate() );
     }
 
     public void stateChanged( ChangeEvent e ) {
         if( e.getSource() instanceof BeamControl ) {
-            mode = ((BeamControl)e.getSource()).getMode();
+            mode = ( (BeamControl)e.getSource() ).getMode();
         }
     }
 }

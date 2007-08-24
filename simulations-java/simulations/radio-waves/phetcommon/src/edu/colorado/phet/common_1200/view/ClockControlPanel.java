@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.common_1200.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.model.clock.ClockStateListener;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 18, 2003
  * Time: 10:24:21 PM
- *
  */
 public class ClockControlPanel extends JPanel implements ClockStateListener {
     private JButton play;

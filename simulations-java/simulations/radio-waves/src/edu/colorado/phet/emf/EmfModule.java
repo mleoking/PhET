@@ -7,6 +7,7 @@
 package edu.colorado.phet.emf;
 
 import edu.colorado.phet.command.AddTransmittingElectronCmd;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.application.Module;
 import edu.colorado.phet.common_1200.application.PhetApplication;
 import edu.colorado.phet.common_1200.model.Command;
@@ -14,9 +15,9 @@ import edu.colorado.phet.common_1200.model.clock.AbstractClock;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
 import edu.colorado.phet.common_1200.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_1200.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
 import edu.colorado.phet.common_1200.view.util.ImageLoader;
-import edu.colorado.phet.common_1200.view.help.HelpItem;
 import edu.colorado.phet.coreadditions.emf.PhetControlPanel;
 import edu.colorado.phet.emf.command.DynamicFieldIsEnabledCmd;
 import edu.colorado.phet.emf.command.SetMovementCmd;
@@ -30,7 +31,6 @@ import edu.colorado.phet.emf.model.movement.SinusoidalMovement;
 import edu.colorado.phet.emf.view.*;
 import edu.colorado.phet.util.StripChart;
 import edu.colorado.phet.waves.view.WaveMediumGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -153,7 +153,6 @@ public class EmfModule extends Module {
 
         // Create the wave medium graphics
         createScalarRepresentations();
-
 
         // Create some help items
         HelpItem helpItem1 = new HelpItem( SimStrings.get( "EmfModule.help1" ),
@@ -359,7 +358,7 @@ public class EmfModule extends Module {
     public void setFieldDisplay( int display ) {
         apparatusPanel.setFieldDisplay( display );
         // This makes the display refresh if the clock is paused
-        getModel().stepInTime( 0 );        
+        getModel().stepInTime( 0 );
     }
 
     public void setCurveVisible( boolean isVisible ) {

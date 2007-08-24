@@ -6,9 +6,6 @@ import org.reid.particles.tutorial.TutorialApplication;
 import org.reid.particles.tutorial.TutorialCanvas;
 import org.reid.particles.tutorial.Unit;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-
 /**
  * User: Sam Reid
  * Date: Aug 22, 2005
@@ -18,7 +15,7 @@ import java.awt.event.KeyEvent;
 
 public class IntroductionUnit extends Unit {
     public IntroductionUnit( TutorialApplication tutorialApplication ) {
-        TutorialCanvas[]pages = new TutorialCanvas[]{new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) )};
+        TutorialCanvas[] pages = new TutorialCanvas[]{new BasicTutorialCanvas( tutorialApplication, new Unit1( tutorialApplication ) )};
         setCanvases( pages );
     }
 }

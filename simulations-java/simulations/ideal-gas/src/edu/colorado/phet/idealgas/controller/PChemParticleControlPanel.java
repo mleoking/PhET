@@ -11,10 +11,10 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.Pump;
 
 /**
  * PumpControlPanel
@@ -29,7 +29,7 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
         super( module );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
-        ((IdealGasModel)getModule().getModel()).addObserver( new SimpleObserver() {
+        ( (IdealGasModel)getModule().getModel() ).addObserver( new SimpleObserver() {
             public void update() {
                 int h = getModule().getIdealGasModel().getHeavySpeciesCnt();
                 getHeavySpinner().setValue( new Integer( h ) );
@@ -37,15 +37,15 @@ public class PChemParticleControlPanel extends SpeciesSelectionPanel implements 
         } );
 
         // Hook the spinner up so it will track molecules put in the box by the pump
-        ((IdealGasModel)getModule().getModel()).addObserver( new SimpleObserver() {
+        ( (IdealGasModel)getModule().getModel() ).addObserver( new SimpleObserver() {
             public void update() {
                 int h = getModule().getIdealGasModel().getLightSpeciesCnt();
                 getLightSpinner().setValue( new Integer( h ) );
             }
         } );
 
-        setHeavySpeciesLabelText(labelA  );
-        setLightSpeciesLabelText( labelB  );
+        setHeavySpeciesLabelText( labelA );
+        setLightSpeciesLabelText( labelB );
 //        setHeavySpeciesLabelText(SimStrings.get( "AdvancedModule.Particle_Type_A" ) );
 //        setLightSpeciesLabelText( SimStrings.get( "AdvancedModule.Particle_Type_B" ) );
         setHeavySpeciesLabelColor( AdvancedModule.COLOR_A );

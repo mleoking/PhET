@@ -19,12 +19,12 @@ import java.awt.event.ActionEvent;
 
 /**
  * SelectReactionAction
- * <p>
+ * <p/>
  * This started out to be an action that would be shared by a set of radio buttons
  * and a combo box, but after writing them, it didn't seem to pan out cleanly. The
  * way that the choice of reaction is selected is through the command attribute
  * of the ActionEvent, which is a string. Not what I would use if I weren't tied to
- * using an AbstractAction. 
+ * using an AbstractAction.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -58,7 +58,6 @@ public class SelectReactionAction extends AbstractAction {
     private static Reaction DEFAULT = new Reaction( Profiles.DEFAULT );
     private static Reaction DYO = new Reaction( Profiles.DYO );
 
-    
     //--------------------------------------------------------------------------------------------------
     // Instance fields and methods
     //--------------------------------------------------------------------------------------------------

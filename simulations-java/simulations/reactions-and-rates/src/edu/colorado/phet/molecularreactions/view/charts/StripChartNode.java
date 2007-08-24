@@ -3,10 +3,10 @@
 package edu.colorado.phet.molecularreactions.view.charts;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import org.jfree.chart.ChartPanel;
@@ -64,7 +64,7 @@ public class StripChartNode extends AbstractRescaleableChartNode implements Rese
         chartPanel.setPreferredSize( new Dimension( size.width,
                                                     size.height - (int)scrollBarNode.getFullBounds().getHeight() - scrollBarInsets.bottom - scrollBarInsets.top ) );
 
-        final PNode stripChartNode = new PSwing(chartPanel );
+        final PNode stripChartNode = new PSwing( chartPanel );
         stripChartCanvas.addScreenChild( stripChartNode );
         scrollBar.addAdjustmentListener( new AdjustmentListener() {
             public void adjustmentValueChanged( AdjustmentEvent e ) {
@@ -76,7 +76,7 @@ public class StripChartNode extends AbstractRescaleableChartNode implements Rese
         scrollBar.setVisible( true );
         scrollBar.setEnabled( true );
 
-        addZoomControl( size, stripChartCanvas,  stripChart );
+        addZoomControl( size, stripChartCanvas, stripChart );
 
         stripChartCanvas.setOpaque( true );
 

@@ -6,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 11:42:56 AM
- *
  */
 public class PistonRectangle {
     int width;

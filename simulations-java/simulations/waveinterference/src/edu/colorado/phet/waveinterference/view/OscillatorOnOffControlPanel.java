@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 2:11:57 PM
- *
  */
 
 public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {

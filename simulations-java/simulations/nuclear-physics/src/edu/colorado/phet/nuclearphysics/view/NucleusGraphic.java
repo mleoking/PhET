@@ -7,8 +7,8 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.nuclearphysics.model.NuclearParticle;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
@@ -61,7 +61,7 @@ public class NucleusGraphic extends PhetImageGraphic implements SimpleObserver {
     private AffineTransform atx = new AffineTransform();
 
     public NucleusGraphic( Nucleus nucleus ) {
-        this( nucleus, computeImage( nucleus));
+        this( nucleus, computeImage( nucleus ) );
     }
 
     protected NucleusGraphic( Nucleus nucleus, BufferedImage img ) {

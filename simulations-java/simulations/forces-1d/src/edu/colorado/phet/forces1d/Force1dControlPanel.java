@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.forces1d;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.components.ModelSlider;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
@@ -8,7 +8,6 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,7 +21,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Nov 22, 2004
  * Time: 11:11:57 AM
- *
  */
 public class Force1dControlPanel extends IForceControl {
     private Force1DApplication module;

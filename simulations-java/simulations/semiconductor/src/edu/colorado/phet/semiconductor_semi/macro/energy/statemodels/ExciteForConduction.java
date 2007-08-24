@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.statemodels;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -13,7 +12,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 12:21:33 PM
- *
  */
 public class ExciteForConduction implements ModelElement {
     private StateTransitionList list;

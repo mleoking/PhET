@@ -108,7 +108,9 @@ public class ModalObject extends InOut {
                           ( b1 * modalModel.a[p1][i] + b2 * modalModel.a[p2][i] + b3 * modalModel.a[p3][i] );
             }
         }
-    };
+    }
+
+    ;
 
     /**
      * Used a a temp buffer in inner loop to store array of gains for all contacts.

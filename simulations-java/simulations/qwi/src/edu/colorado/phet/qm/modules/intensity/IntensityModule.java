@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:06:16 AM
- *
  */
 
 public class IntensityModule extends QWIModule {

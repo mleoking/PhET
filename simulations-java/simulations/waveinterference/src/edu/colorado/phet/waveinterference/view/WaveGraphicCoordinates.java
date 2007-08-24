@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:48:21 AM
- *
  */
 
 public class WaveGraphicCoordinates extends LatticeScreenCoordinates {

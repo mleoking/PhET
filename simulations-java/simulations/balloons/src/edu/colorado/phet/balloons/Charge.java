@@ -47,7 +47,8 @@ public class Charge extends PropagatingParticle {
 //      {
 //  	this.level=level;
 //  	this.p=p;
-//      }
+
+    //      }
     public int getLevel() {
         return level;
     }

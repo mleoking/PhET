@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 
 /**
  * MoleculeParameterGenerator
- * <p>
+ * <p/>
  * Generates kinematic parameters for a Molecule
  *
  * @author Ron LeMaster

@@ -7,5 +7,5 @@
 package edu.colorado.phet.common_microwaves.model;
 
 public interface ClockTickListener {
-    public void clockTicked(IClock c, double dt);
+    public void clockTicked( IClock c, double dt );
 }

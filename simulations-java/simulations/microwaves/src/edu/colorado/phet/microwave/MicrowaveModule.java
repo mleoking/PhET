@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.Module;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.FlipperAffineTransformFactory;
@@ -23,7 +24,6 @@ import edu.colorado.phet.microwave.view.FieldVector;
 import edu.colorado.phet.microwave.view.MicrowaveControlPanel;
 import edu.colorado.phet.microwave.view.OvenGraphic;
 import edu.colorado.phet.waves.model.WaveMedium;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

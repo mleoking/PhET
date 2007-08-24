@@ -21,7 +21,7 @@ public class Annulus extends Body {
     }
 
     public double distanceFromInnerDiameter( Point2D.Double point ) {
-        double distance = Math.abs( point.distance( center ) - ( innerDiameter / 2 ));
+        double distance = Math.abs( point.distance( center ) - ( innerDiameter / 2 ) );
         return distance;
     }
 
@@ -42,7 +42,7 @@ public class Annulus extends Body {
     }
 
     public double getMomentOfInertia() {
-        return ( Math.PI / 4 ) * (( outerDiameter * outerDiameter * outerDiameter * outerDiameter ) -
-                (innerDiameter * innerDiameter * innerDiameter * innerDiameter ));
+        return ( Math.PI / 4 ) * ( ( outerDiameter * outerDiameter * outerDiameter * outerDiameter ) -
+                                   ( innerDiameter * innerDiameter * innerDiameter * innerDiameter ) );
     }
 }

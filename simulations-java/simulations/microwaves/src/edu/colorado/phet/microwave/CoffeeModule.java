@@ -7,7 +7,7 @@
 package edu.colorado.phet.microwave;
 
 
-
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
@@ -17,7 +17,6 @@ import edu.colorado.phet.microwave.model.MicrowaveModel;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.view.CoffeeControlPanel;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -46,7 +45,6 @@ public class CoffeeModule extends MicrowaveModule {
                          new Point2D.Double( 380, 320 ) );
         getModel().addModelElement( mug );
         ( (MicrowaveModel)getModel() ).setOven( mug );
-
 
         // Put a bunch of water molecules randomly on the screen. Make sure they don't overlap
         // so the collision mechanics stay sane
@@ -80,7 +78,7 @@ public class CoffeeModule extends MicrowaveModule {
         if( coffeeControlPanel == null ) {
             coffeeControlPanel = new CoffeeControlPanel( this, getMicrowaveModel() );
         }
-            setControlPanel( coffeeControlPanel );
+        setControlPanel( coffeeControlPanel );
 
         // Set initial conditions
         ovenOn = false;

@@ -6,7 +6,6 @@ package edu.colorado.phet.theramp.timeseries_ramp;
  * User: Sam Reid
  * Date: Mar 24, 2005
  * Time: 11:36:31 AM
- *
  */
 public class TimeSeriesModelListenerAdapter implements TimeSeriesModelListener {
 

@@ -13,16 +13,14 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision_idealgas.SphereBoxExpert;
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_idealgas.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
@@ -45,7 +43,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -117,8 +114,6 @@ public class IdealGasModule extends PhetGraphicsModule {
     private Color boxColor = new Color( 180, 180, 180 );
     private Random random = new Random();
     private PressureDialGauge pressureGauge;
-
-
 
     //-----------------------------------------------------------------
     // Constructors and initialization
@@ -377,7 +372,7 @@ public class IdealGasModule extends PhetGraphicsModule {
     public int getLightSpeciesCnt() {
         return idealGasModel.getLightSpeciesCnt();
     }
-    
+
     //-----------------------------------------------------------------
     // Setters
     //-----------------------------------------------------------------
@@ -700,9 +695,9 @@ public class IdealGasModule extends PhetGraphicsModule {
         getIdealGasModel().removeAllMolecules();
         resetListenersProxy.resetOccurred( new ResetEvent( this ) );
         box.setBounds( xOrigin, yOrigin, xDiag, yDiag );
-        box.setOpening( new Point2D[] {new Point2D.Double( ), new Point2D.Double( ) } );
+        box.setOpening( new Point2D[]{new Point2D.Double(), new Point2D.Double()} );
         box.clearData();
-        
+
         if( stopwatchPanel != null ) {
             stopwatchPanel.reset();
         }

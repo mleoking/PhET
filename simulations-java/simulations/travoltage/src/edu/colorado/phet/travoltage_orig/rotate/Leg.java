@@ -33,7 +33,7 @@ public class Leg implements AngleListener {
             Particle p = fact.newParticle();
             cpc.add( p );
             try {
-                Thread.sleep( 15);
+                Thread.sleep( 15 );
             }
             catch( InterruptedException e ) {
                 e.printStackTrace();

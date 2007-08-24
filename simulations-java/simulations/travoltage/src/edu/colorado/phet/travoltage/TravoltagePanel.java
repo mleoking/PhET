@@ -16,7 +16,6 @@ import java.awt.event.MouseListener;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:24:07 PM
- *
  */
 
 public class TravoltagePanel extends PhetPCanvas {

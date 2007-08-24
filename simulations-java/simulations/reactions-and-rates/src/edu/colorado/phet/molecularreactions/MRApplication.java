@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.molecularreactions;
 
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+
+import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * edu.colorado.phet.molecularreactions.MRApplication
@@ -48,7 +47,7 @@ public class MRApplication extends PiccoloPhetApplication {
                 phetLookAndFeel.setFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.setTitledBorderFont( MRConfig.CONTROL_FONT );
                 phetLookAndFeel.initLookAndFeel();
-                
+
                 FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
                 PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
                 MRApplication application = new MRApplication( config );

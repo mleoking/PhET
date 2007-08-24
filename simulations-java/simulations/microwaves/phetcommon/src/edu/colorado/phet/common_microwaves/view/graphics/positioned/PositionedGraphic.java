@@ -10,6 +10,8 @@ import java.awt.*;
  * To change this template use Options | File Templates.
  */
 public interface PositionedGraphic {
-    /**Paints centered at the specified positioned.*/
-    public void paint(Graphics2D g, int x, int y);
+    /**
+     * Paints centered at the specified positioned.
+     */
+    public void paint( Graphics2D g, int x, int y );
 }

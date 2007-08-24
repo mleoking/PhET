@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.molecularreactions.view.charts;
 
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -24,7 +24,7 @@ import java.awt.*;
 
 /**
  * MoleculePopulationsBarChartNode
- * <p>
+ * <p/>
  * A PNode that has a MoleculePopulationsBarChart and icons beneath
  * it for each type of molecule in the chart
  *
@@ -33,10 +33,10 @@ import java.awt.*;
  */
 public class MoleculePopulationsBarChartNode extends AbstractRescaleableChartNode implements Rescaleable {
     private final MoleculePopulationsBarChart barChart;
-    private final PImage mANode  = new PImage();
+    private final PImage mANode = new PImage();
     private final PImage mBCNode = new PImage();
     private final PImage mABNode = new PImage();
-    private final PImage mCNode  = new PImage();
+    private final PImage mCNode = new PImage();
 
     public MoleculePopulationsBarChartNode( ComplexModule module, Dimension size, PhetPCanvas phetPCanvas ) {
         PhetPCanvas barChartCanvas = new PhetPCanvas();
@@ -44,20 +44,20 @@ public class MoleculePopulationsBarChartNode extends AbstractRescaleableChartNod
         barChart = new MoleculePopulationsBarChart( module.getMRModel(), module.getClock(), 0, MRConfig.BAR_CHART_MAX_Y, 1 );
         ChartPanel barChartPanel = new ChartPanel( barChart.getChart() );
 
-        Insets barChartInsets = new Insets( 0, 10, 0,0);
+        Insets barChartInsets = new Insets( 0, 10, 0, 0 );
 
         barChartPanel.setPreferredSize( new Dimension( (int)size.getWidth() - barChartInsets.left + barChartInsets.right,
                                                        (int)( size.getHeight() - 40 ) ) );
-        PSwing barChartPSwing = new PSwing(barChartPanel );
-        barChartPSwing.setOffset( barChartInsets.left,0 );
+        PSwing barChartPSwing = new PSwing( barChartPanel );
+        barChartPSwing.setOffset( barChartInsets.left, 0 );
 
         barChartCanvas.addScreenChild( barChartPSwing );
 
-        updateLegendGraphics(module.getMRModel().getEnergyProfile());
+        updateLegendGraphics( module.getMRModel().getEnergyProfile() );
 
-        module.getMRModel().addListener(new MRModel.ModelListenerAdapter() {
+        module.getMRModel().addListener( new MRModel.ModelListenerAdapter() {
             public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                updateLegendGraphics(profile);
+                updateLegendGraphics( profile );
             }
         } );
 
@@ -65,7 +65,7 @@ public class MoleculePopulationsBarChartNode extends AbstractRescaleableChartNod
         barChartCanvas.addScreenChild( mBCNode );
         barChartCanvas.addScreenChild( mABNode );
         barChartCanvas.addScreenChild( mCNode );
-        barChartCanvas.addScreenChild( new PPath( new Rectangle(0,0, (int)size.getWidth(), (int)size.getHeight() )));
+        barChartCanvas.addScreenChild( new PPath( new Rectangle( 0, 0, (int)size.getWidth(), (int)size.getHeight() ) ) );
 
         double y = barChartPSwing.getFullBounds().getHeight() + 18;
         double xIncr = 58;
@@ -92,10 +92,10 @@ public class MoleculePopulationsBarChartNode extends AbstractRescaleableChartNod
     }
 
     private void updateLegendGraphics( EnergyProfile profile ) {
-        mANode.setImage (new MoleculeIcon( MoleculeA.class,  profile ).getImage() );
-        mBCNode.setImage(new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
-        mABNode.setImage(new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
-        mCNode.setImage (new MoleculeIcon( MoleculeC.class,  profile ).getImage() );
+        mANode.setImage( new MoleculeIcon( MoleculeA.class, profile ).getImage() );
+        mBCNode.setImage( new MoleculeIcon( MoleculeBC.class, profile ).getImage() );
+        mABNode.setImage( new MoleculeIcon( MoleculeAB.class, profile ).getImage() );
+        mCNode.setImage( new MoleculeIcon( MoleculeC.class, profile ).getImage() );
     }
 
     public void rescale() {

@@ -70,7 +70,7 @@ public class MicrowaveModel extends BaseModel {
                 // The two bodies were the last ones to contact each other, don't consider
                 // that they might be colliding
                 if( !( moleculeA.getLastColidedBody() == moleculeB
-                        && moleculeB.getLastColidedBody() == moleculeA ) ) {
+                       && moleculeB.getLastColidedBody() == moleculeA ) ) {
 
                     if( WaterMoleculeWaterMoleculeCollisionExpert.areInContact(
                             moleculeA, moleculeB ) ) {

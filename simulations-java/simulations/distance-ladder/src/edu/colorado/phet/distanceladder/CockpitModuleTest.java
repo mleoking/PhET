@@ -25,7 +25,7 @@ import java.util.Random;
 public class CockpitModuleTest {
     private static ApplicationDescriptor appDesc;
     private Color[] colors = new Color[]{Color.green, Color.magenta, Color.orange,
-                                         Color.white, Color.yellow};
+            Color.white, Color.yellow};
 
     public void test1() {
 

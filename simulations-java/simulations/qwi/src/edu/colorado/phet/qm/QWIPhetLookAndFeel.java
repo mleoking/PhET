@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 11, 2006
  * Time: 10:21:56 AM
- *
  */
 
 public class QWIPhetLookAndFeel extends PhetLookAndFeel {

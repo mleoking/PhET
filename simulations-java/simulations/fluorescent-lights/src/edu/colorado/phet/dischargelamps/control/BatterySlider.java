@@ -37,16 +37,16 @@ public class BatterySlider extends GraphicSlider {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int DEFAULT_TRACK_WIDTH = 2;
     private static final Color DEFAULT_TRACK_COLOR = Color.BLACK;
     private Battery model;
     private double voltageCalibrationFactor;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Creates a slider with a specified track length.
      * Defaults are used for the track width and color.
@@ -78,17 +78,17 @@ public class BatterySlider extends GraphicSlider {
         this.addChangeListener( new SliderListener() );
 
         // Background - none
-        
+
         // Track
         Shape shape = new Rectangle( 0, 0, trackLength, trackWidth );
         PhetGraphic track = new PhetShapeGraphic( component, shape, trackColor );
         setTrack( track );
-        
+
         // Knob
         PhetGraphic knob = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_IMAGE );
         knob.centerRegistrationPoint();
         setKnob( knob );
-        
+
         // Knob Highlight
         PhetGraphic knobHighlight = new PhetImageGraphic( component, DischargeLampsConfig.SLIDER_KNOB_HIGHLIGHT_IMAGE );
         knobHighlight.centerRegistrationPoint();
@@ -107,7 +107,7 @@ public class BatterySlider extends GraphicSlider {
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     /**
      * SliderListener handles changes to the amplitude slider.
      */

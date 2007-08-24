@@ -38,7 +38,7 @@ public class FullFeatureBaseClass extends Page {
         checkBoxGraphic = new PSwing( basicPage, showHalos );
         RandomnessSlider randomnessSlider = new RandomnessSlider( getParticleModel() );
         randomnessGraphic = new PSwing( basicPage, randomnessSlider );
-        numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 1,new int[]{0,10,20,30,40,50} );
+        numberSliderPanel = new NumberSliderPanel( basicPage, 0, 50, 1, new int[]{0, 10, 20, 30, 40, 50} );
         particleCountGraphic = new PSwing( basicPage, numberSliderPanel );
         InteractionRadiusControl interactionRadiusControl = new InteractionRadiusControl( getParticleModel() );
         radiusControlGraphic = new PSwing( basicPage, interactionRadiusControl );
@@ -52,9 +52,9 @@ public class FullFeatureBaseClass extends Page {
         super.init();
 
         checkBoxGraphic.setOffset( getBasePage().getPreviousButton().getFullBounds().getX(), getBasePage().getPreviousButton().getFullBounds().getMaxY() );
-        randomnessGraphic.setOffset( checkBoxGraphic.getFullBounds().getX(), checkBoxGraphic.getFullBounds().getMaxY() + getDy());
-        particleCountGraphic.setOffset( randomnessGraphic.getFullBounds().getX(), randomnessGraphic.getFullBounds().getMaxY() + getDy());
-        radiusControlGraphic.setOffset( particleCountGraphic.getFullBounds().getX(), particleCountGraphic.getFullBounds().getMaxY() + getDy());
+        randomnessGraphic.setOffset( checkBoxGraphic.getFullBounds().getX(), checkBoxGraphic.getFullBounds().getMaxY() + getDy() );
+        particleCountGraphic.setOffset( randomnessGraphic.getFullBounds().getX(), randomnessGraphic.getFullBounds().getMaxY() + getDy() );
+        radiusControlGraphic.setOffset( particleCountGraphic.getFullBounds().getX(), particleCountGraphic.getFullBounds().getMaxY() + getDy() );
         addChild( checkBoxGraphic );
         addChild( randomnessGraphic );
         addChild( particleCountGraphic );

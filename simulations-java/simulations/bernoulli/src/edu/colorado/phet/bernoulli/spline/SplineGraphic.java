@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli.spline;
 
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 2:45:28 PM
- *
  */
 public class SplineGraphic implements SimpleObserver, TransformListener, Graphic {
     Spline spline;

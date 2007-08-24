@@ -65,7 +65,6 @@ public class HelpItem extends PhetGraphic {
     private boolean inited = false;
     private boolean antiAlias = false;
 
-
     //----------------------------------------------------------------
     // Constructors and initialization
     //----------------------------------------------------------------
@@ -249,6 +248,7 @@ public class HelpItem extends PhetGraphic {
 
     /**
      * Set whether the text is antialiased or not
+     *
      * @param antiAlias
      */
     public void setAntiAlias( boolean antiAlias ) {
@@ -257,6 +257,7 @@ public class HelpItem extends PhetGraphic {
 
     /**
      * Sets wheter a drop shadow is displayed or not
+     *
      * @param displayDropShadow
      */
     public void setDisplayDropShadow( boolean displayDropShadow ) {
@@ -264,7 +265,7 @@ public class HelpItem extends PhetGraphic {
             setShadowColor( shadowColor );
         }
         else {
-            setShadowColor( new Color( 0,0,0,0 ));
+            setShadowColor( new Color( 0, 0, 0, 0 ) );
         }
     }
 }

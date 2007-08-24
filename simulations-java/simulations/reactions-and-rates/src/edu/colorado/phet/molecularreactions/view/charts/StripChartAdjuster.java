@@ -15,7 +15,7 @@ import java.awt.event.AdjustmentListener;
 
 /**
  * StripChartAdjuster
- * <p>
+ * <p/>
  * Adjusts the visible range of a StripChart. Used in conjunction with
  * a control like a JScrollBar
  *

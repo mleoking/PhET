@@ -11,16 +11,10 @@
 package edu.colorado.phet.common_sound.application;
 
 import edu.colorado.phet.common_sound.util.EventChannel;
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.beans.*;
-import java.io.*;
+import java.beans.XMLEncoder;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 /**
  * ModuleManager

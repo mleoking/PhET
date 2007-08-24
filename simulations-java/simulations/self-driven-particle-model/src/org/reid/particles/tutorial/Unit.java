@@ -15,13 +15,13 @@ public class Unit {
     ArrayList pages = new ArrayList();
     TutorialCanvas currentTutorialCanvas;
 
-    protected void setCanvases( TutorialCanvas[]pages ) {
+    protected void setCanvases( TutorialCanvas[] pages ) {
         this.pages.addAll( Arrays.asList( pages ) );
         currentTutorialCanvas = pages[0];
     }
 
     public void teardown( TutorialApplication tutorialApplication ) {
-        getCurrentPage().teardown(tutorialApplication);
+        getCurrentPage().teardown( tutorialApplication );
     }
 
     public void start( TutorialApplication tutorialApplication ) {

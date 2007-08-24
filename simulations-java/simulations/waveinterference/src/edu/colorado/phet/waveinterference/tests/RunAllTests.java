@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:08:36 AM
- *
  */
 
 public class RunAllTests extends PhetApplication {

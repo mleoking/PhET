@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:49:48 AM
- *
  */
 
 public class VerticalDoubleSlit extends VerticalBarrier {
@@ -68,7 +67,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
         return new Rectangle[]{new Rectangle( topSlit ), new Rectangle( bottomSlit )};
     }
 
-    public Rectangle[]getRectangleBarriers() {
+    public Rectangle[] getRectangleBarriers() {
         ArrayList r = new ArrayList();
         if( getInverse() ) {
             r.add( topSlit );

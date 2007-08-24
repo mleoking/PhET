@@ -527,7 +527,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     }
 
     public MatchState getMatch( Beam beam ) {
-        return getLaserModel().getMatch(beam);
+        return getLaserModel().getMatch( beam );
     }
 
     //-------------------------------------------------------------------------------------------------

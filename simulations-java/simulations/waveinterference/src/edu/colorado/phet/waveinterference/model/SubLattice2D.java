@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 11:19:48 PM
- *
  */
 
 public class SubLattice2D extends Lattice2D {

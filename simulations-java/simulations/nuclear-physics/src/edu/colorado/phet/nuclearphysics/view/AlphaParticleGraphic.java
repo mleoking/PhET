@@ -16,18 +16,19 @@ import java.awt.image.BufferedImage;
 
 public class AlphaParticleGraphic extends NucleusGraphic {
     public static BufferedImage alphaBi;
+
     static {
         double h = NuclearParticle.RADIUS * 4;
         double w = NuclearParticle.RADIUS * 4;
         alphaBi = new BufferedImage( (int)w, (int)h,
-                                                   BufferedImage.TYPE_INT_ARGB );
+                                     BufferedImage.TYPE_INT_ARGB );
         Graphics2D ga = (Graphics2D)alphaBi.getGraphics();
         ProtonGraphic pg = new ProtonGraphic();
         NeutronGraphic ng = new NeutronGraphic();
         pg.paint( ga, w * 0, h * 0 );
         ng.paint( ga, w * 0, h * 0.3 );
         pg.paint( ga, w * 0.3, h * 0.3 );
-        ng.paint( ga, w * 0.3, h * 0. );        
+        ng.paint( ga, w * 0.3, h * 0. );
     }
 
     /**

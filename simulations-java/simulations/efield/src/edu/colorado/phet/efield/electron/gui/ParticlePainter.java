@@ -4,14 +4,13 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
 import edu.colorado.phet.efield.electron.phys2d_efield.Particle;
 
-public interface ParticlePainter
-{
+import java.awt.*;
 
-    public abstract void paint(Particle particle, Graphics2D graphics2d);
+public interface ParticlePainter {
 
-    public abstract boolean contains(Particle particle, Point point);
+    public abstract void paint( Particle particle, Graphics2D graphics2d );
+
+    public abstract boolean contains( Particle particle, Point point );
 }

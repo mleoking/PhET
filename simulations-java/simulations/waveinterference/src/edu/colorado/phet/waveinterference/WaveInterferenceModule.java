@@ -11,7 +11,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:12:28 PM
- *
  */
 
 public class WaveInterferenceModule extends PiccoloModule {

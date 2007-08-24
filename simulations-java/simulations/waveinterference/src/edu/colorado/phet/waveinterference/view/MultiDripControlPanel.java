@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 11:38:54 PM
- *
  */
 
 public class MultiDripControlPanel extends VerticalLayoutPanel {

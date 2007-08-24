@@ -6,9 +6,9 @@
  */
 package edu.colorado.phet.distanceladder.common;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.distanceladder.common.math.Vector2D;
 import edu.colorado.phet.distanceladder.common.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 import java.awt.geom.Point2D;
 

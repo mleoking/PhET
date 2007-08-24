@@ -13,9 +13,9 @@ package edu.colorado.phet.nuclearphysics.model;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.view.Cesium;
 
-import java.util.Random;
-import java.util.ArrayList;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Polonium210

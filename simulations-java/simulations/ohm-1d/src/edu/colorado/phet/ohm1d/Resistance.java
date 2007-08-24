@@ -1,9 +1,5 @@
 package edu.colorado.phet.ohm1d;
 
-import edu.colorado.phet.ohm1d.gui.CoreCountListener;
-import edu.colorado.phet.ohm1d.gui.ShowPainters;
-import edu.colorado.phet.ohm1d.oscillator2d.Core;
-import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
 import edu.colorado.phet.ohm1d.common.paint.LayeredPainter;
 import edu.colorado.phet.ohm1d.common.paint.Painter;
 import edu.colorado.phet.ohm1d.common.paint.SwitchablePainter;
@@ -14,6 +10,10 @@ import edu.colorado.phet.ohm1d.common.phys2d.Law;
 import edu.colorado.phet.ohm1d.common.phys2d.Particle;
 import edu.colorado.phet.ohm1d.common.phys2d.System2D;
 import edu.colorado.phet.ohm1d.common.wire1d.WirePatch;
+import edu.colorado.phet.ohm1d.gui.CoreCountListener;
+import edu.colorado.phet.ohm1d.gui.ShowPainters;
+import edu.colorado.phet.ohm1d.oscillator2d.Core;
+import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
 
 import java.util.Vector;
 

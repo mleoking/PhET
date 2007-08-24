@@ -16,7 +16,7 @@ public class Microwave extends Wave {
 
     public Microwave( float freq, float amp ) {
         super( new PlaneWavefront(), new SineFunction(),
-                freq, amp );
+               freq, amp );
     }
 
     public void stepInTime( double dt ) {

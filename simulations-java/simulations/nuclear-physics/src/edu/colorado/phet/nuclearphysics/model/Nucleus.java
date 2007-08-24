@@ -39,9 +39,10 @@ public class Nucleus extends NuclearModelElement {
     /**
      * Returns the radius of the nucleus. This is a rough calculation based on the number of protons and neutrons
      * in the nucleus.
-     * <p>
+     * <p/>
      * This is essentially a derived attribute, in that its value isn't determined until the first time it is
      * called for.
+     *
      * @return a rough estimate of the nucleus' radius
      */
     public double getRadius() {
@@ -82,7 +83,8 @@ public class Nucleus extends NuclearModelElement {
 //    public EnergyProfile getEnergyProfile() {
 //        return energyProfile;
 //    }
-//
+
+    //
     public PotentialProfile getPotentialProfile() {
         return potentialProfile;
     }

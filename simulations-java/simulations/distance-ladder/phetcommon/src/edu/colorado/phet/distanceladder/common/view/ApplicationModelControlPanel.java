@@ -1,10 +1,9 @@
 /*, 2003.*/
 package edu.colorado.phet.distanceladder.common.view;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.distanceladder.common.model.clock.AbstractClock;
 import edu.colorado.phet.distanceladder.common.view.util.graphics.ImageLoader;
-
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +16,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 18, 2003
  * Time: 10:24:21 PM
- *
  */
 public class ApplicationModelControlPanel extends JPanel {
     JButton play;

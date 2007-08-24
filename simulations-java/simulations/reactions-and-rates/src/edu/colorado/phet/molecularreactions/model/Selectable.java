@@ -18,8 +18,12 @@ package edu.colorado.phet.molecularreactions.model;
  */
 public interface Selectable {
     static class Selection {
-        private Selection(){};
+        private Selection() {
+        }
+
+        ;
     }
+
     static Selection NOT_SELECTED = new Selection();
     static Selection SELECTED = new Selection();
     static Selection NEAREST_TO_SELECTED = new Selection();

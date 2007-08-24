@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.theramp.timeseries_ramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -13,7 +12,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Nov 6, 2004
  * Time: 3:21:19 PM
- *
  */
 public class TimeSeriesPlaybackPanel extends JPanel {
     private JButton record;

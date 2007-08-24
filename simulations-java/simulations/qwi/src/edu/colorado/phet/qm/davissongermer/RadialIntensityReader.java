@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 1:04:57 PM
- *
  */
 
 public class RadialIntensityReader implements DGIntensityReader {

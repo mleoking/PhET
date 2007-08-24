@@ -97,9 +97,9 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         super( new ByteArrayInputStream( new byte[0] ), audioFormat, streamLength );
 
 //        assert( fourierSeries != null );
-        assert( volume >= -1 && volume <= +1 );
-        assert( audioFormat != null );
-        assert( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
+        assert ( volume >= -1 && volume <= +1 );
+        assert ( audioFormat != null );
+        assert ( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
 
         // generateData() requires 16-bit little endian
         if( audioFormat.getSampleSizeInBits() != 16 || audioFormat.isBigEndian() ) {
@@ -187,6 +187,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * <p>
      * Note: This algorithm is implemented for 16-bit little endian only!
      */
+
     private void generateData() {
         // Max value we can represent with the sample size (assuming signed values).
         final float maxSampleValue = (float)Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;

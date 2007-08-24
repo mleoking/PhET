@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 10, 2005
  * Time: 7:05:02 PM
- *
  */
 
 public class WaveModel {

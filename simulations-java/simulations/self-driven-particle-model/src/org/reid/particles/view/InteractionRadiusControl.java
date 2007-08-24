@@ -1,13 +1,12 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.view;
 
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import org.reid.particles.model.ParticleModel;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.text.DecimalFormat;
-
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid

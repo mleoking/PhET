@@ -16,7 +16,7 @@ import java.awt.image.ColorModel;
 
 /**
  * GlassPaneGraphic
- * <p>
+ * <p/>
  * A graphic that fakes a glass pane. Rather than using alpha compositing in the Graphics2D,
  * we paint it with an opaque paint that is computed to look like the glass pane being
  * composited with alpha. This is done so that photons can appear to disappear into the glass
@@ -40,10 +40,10 @@ public class GlassPaneGraphic implements Graphic {
         // compute the paint that we will need for the glass pane to look right over the
         // background
         BufferedImage bi = backgroundGraphic.getBufferedImage();
-        int y = (int)(bi.getHeight() - (glassPane.getBounds().getY() * bi.getHeight() / modelBounds.getHeight()));
+        int y = (int)( bi.getHeight() - ( glassPane.getBounds().getY() * bi.getHeight() / modelBounds.getHeight() ) );
         int rgb = bi.getRGB( bi.getWidth() / 2, y );
         ColorModel colorModel = bi.getColorModel();
-        int whiteComponent = (int)(glassAlpha * 255 );
+        int whiteComponent = (int)( glassAlpha * 255 );
         int red = getSrcOver( colorModel.getRed( rgb ), whiteComponent, glassAlpha );
         int green = getSrcOver( colorModel.getGreen( rgb ), whiteComponent, glassAlpha );
         int blue = getSrcOver( colorModel.getBlue( rgb ), whiteComponent, glassAlpha );
@@ -51,7 +51,7 @@ public class GlassPaneGraphic implements Graphic {
     }
 
     private int getSrcOver( int cd, int cs, float as ) {
-        return (int)(( 1 - as)*(float)cd )+ cs;
+        return (int)( ( 1 - as ) * (float)cd ) + cs;
     }
 
     public void paint( Graphics2D g2 ) {

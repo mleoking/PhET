@@ -10,8 +10,8 @@ package edu.colorado.phet.collision_idealgas;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereBoxCollision implements Collision {
 
@@ -55,7 +55,7 @@ public class SphereBoxCollision implements Collision {
         boolean rightWall = false;
         boolean topWall = false;
         boolean bottomWall = false;
-        if( true||!( sphere instanceof GasMolecule ) || box.containsBody(sphere) /* (GasMolecule)sphere ).isInBox()*/ ) {
+        if( true || !( sphere instanceof GasMolecule ) || box.containsBody( sphere ) /* (GasMolecule)sphere ).isInBox()*/ ) {
 //        if( !( sphere instanceof GasMolecule ) || ( (GasMolecule)sphere ).isInBox() ) {
             leftWall = ( sx - r ) <= box.getMinX();
             rightWall = ( sx + r ) >= box.getMaxX();
@@ -74,8 +74,6 @@ public class SphereBoxCollision implements Collision {
 //                System.out.println( "SphereBoxCollision.collide" );
 //            }
 //        }
-
-
 
         // Collision with left wall?
         if( leftWall && !rightWall ) {

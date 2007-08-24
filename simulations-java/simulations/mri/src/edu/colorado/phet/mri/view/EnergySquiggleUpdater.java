@@ -15,8 +15,6 @@ import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.model.MriModel;
 import edu.colorado.phet.mri.model.RadiowaveSource;
 
-import java.awt.geom.Point2D;
-
 /**
  * EnergySquiggleUpdater
  * <p/>

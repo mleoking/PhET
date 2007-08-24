@@ -47,7 +47,7 @@ public class CoulombsLaw implements ForceLaw {
         }
         catch( RuntimeException e ) {
             e.printStackTrace();
-            new RuntimeException( "Using force: " + force + ", diff=" + diff ).printStackTrace( );
+            new RuntimeException( "Using force: " + force + ", diff=" + diff ).printStackTrace();
             throw e;
         }
     }

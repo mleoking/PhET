@@ -11,7 +11,6 @@ import javax.swing.plaf.ComponentUI;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 10:52:38 PM
- *
  */
 
 public class TestWIAUI extends PhetApplication {

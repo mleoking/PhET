@@ -22,7 +22,7 @@ public class Level2A extends Exercise {
     private static Point2D.Double starLocation = new Point2D.Double( 650, -80 );
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, 1E6, starLocation, -20 ),
+            new NormalStar( Color.green, 1E6, starLocation, -20 ),
     };
 
     public Level2A( JFrame frame, final UniverseModel model ) {

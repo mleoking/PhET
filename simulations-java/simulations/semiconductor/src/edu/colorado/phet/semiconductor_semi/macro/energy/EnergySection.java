@@ -5,10 +5,10 @@ import edu.colorado.phet.common_semiconductor.model.ModelElement;
 import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObserver;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.semiconductor_semi.SemiconductorApplication;
 import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;
 import edu.colorado.phet.semiconductor_semi.macro.BucketSection;
 import edu.colorado.phet.semiconductor_semi.macro.EntryPoint;
-import edu.colorado.phet.semiconductor_semi.SemiconductorApplication;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.ConductionListener;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.MacroCircuitGraphic;
@@ -34,7 +34,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 8:26:00 PM
- *
  */
 public class EnergySection implements ModelElement, Graphic, DopantChangeListener, BatteryListener {
     ArrayList conductionListeners = new ArrayList();
@@ -58,7 +57,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     private BufferedImage plusImage;
 
     ChoiceStateModel stateModel = new ChoiceStateModel( this );
-//    final StateModel stateModel = new CompleteStateModel( this );
+    //    final StateModel stateModel = new CompleteStateModel( this );
     private Speed speed;
     private Rectangle2D.Double bounds;
     private BucketSection bucketSection;

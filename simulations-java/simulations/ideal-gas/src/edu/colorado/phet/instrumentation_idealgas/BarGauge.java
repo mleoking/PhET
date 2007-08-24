@@ -58,12 +58,12 @@ public class BarGauge extends AbstractGauge {
     }
 
     /**
-     * 
      * @return
      */
     public Rectangle getBounds() {
         return frame.getBounds();
     }
+
     /**
      * @param g
      */

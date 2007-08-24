@@ -4,12 +4,10 @@
 
 package edu.colorado.phet.efield.electron.phys2d_efield;
 
-
 // Referenced classes of package phys2d:
 //            System2D
 
-public interface Law
-{
+public interface Law {
 
-    public abstract void iterate(double d, System2D system2d);
+    public abstract void iterate( double d, System2D system2d );
 }

@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli;
 
 import edu.colorado.phet.bernoulli.common.RectangleImageGraphic2;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 29, 2003
  * Time: 11:56:29 PM
- *
  */
 public class FireDog implements Graphic {
     RectangleImageGraphic2 rig2;

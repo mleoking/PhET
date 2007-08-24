@@ -12,7 +12,7 @@ import jass.generators.OnePoleLowPass;
  * Delay line with a one pole low-pass. Used in Moorers reverb. See e.g.
  *
  * @author Kees van den Doel (kvdoel@cs.ubc.ca)
- * @book{Steiglitz96, title		= {A Digital Signal Processing Primer with
+ * @book{Steiglitz96, title        = {A Digital Signal Processing Primer with
  * Applications to Digital Audio and Computer Music},
  * author          =  {Ken Steiglitz},
  * publisher	= {Addison-Wesley},

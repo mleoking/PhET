@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:45:47 AM
- *
  */
 public class PhetTimer {
     private String name;

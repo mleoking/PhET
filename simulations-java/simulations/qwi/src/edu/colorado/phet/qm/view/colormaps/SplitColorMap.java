@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:43:06 PM
- *
  */
 
 public class SplitColorMap implements ColorMap {

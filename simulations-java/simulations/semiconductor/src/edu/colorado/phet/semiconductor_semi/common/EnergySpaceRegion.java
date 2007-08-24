@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.common;
 
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
@@ -9,7 +8,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 26, 2004
  * Time: 1:23:42 AM
- *
  */
 public class EnergySpaceRegion {
     double minX;

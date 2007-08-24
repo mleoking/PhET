@@ -1,7 +1,7 @@
 package edu.colorado.phet.bernoulli.pump;
 
-import edu.colorado.phet.common.bernoulli.model.AutomatedObservable;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.model.AutomatedObservable;
 
 import java.awt.geom.Rectangle2D;
 
@@ -9,7 +9,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 10:08:12 AM
- *
  */
 public class Piston extends AutomatedObservable {
     PhetVector unitVector;

@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 1:23:59 PM
- *
  */
 
 public class DGReaderControlPanel extends VerticalLayoutPanel {

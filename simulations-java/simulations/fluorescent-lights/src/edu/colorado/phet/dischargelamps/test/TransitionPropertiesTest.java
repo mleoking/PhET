@@ -9,17 +9,16 @@ package edu.colorado.phet.dischargelamps.test;/* Copyright 2003-2004, University
  * Date modified : $Date$
  */
 
-import junit.framework.TestCase;
-import edu.colorado.phet.common.quantum.model.Atom;
-import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.dischargelamps.model.NeonProperties;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
-import edu.colorado.phet.dischargelamps.model.LevelSpecificEnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.model.LaserModel;
+import junit.framework.TestCase;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * TransitionPropertiesTest
@@ -36,7 +35,7 @@ public class TransitionPropertiesTest {
         private DischargeLampAtom atom;
 
         protected void setUp() throws Exception {
-            SimStrings.setStrings( "fluorescent-lights/localization/fluorescent-lights-strings");
+            SimStrings.setStrings( "fluorescent-lights/localization/fluorescent-lights-strings" );
             properties = new HydrogenProperties();
             model = new LaserModel();
             atom = new DischargeLampAtom( model, properties, properties.getEnergyEmissionStrategy() );
@@ -59,7 +58,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 5" );
@@ -80,7 +79,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 4" );
@@ -101,7 +100,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 3" );
@@ -122,7 +121,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 2" );
@@ -143,7 +142,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 1" );
@@ -164,7 +163,7 @@ public class TransitionPropertiesTest {
                 if( cnt == null ) {
                     cnt = new Integer( 0 );
                 }
-                results.put( stateF, new Integer( cnt.intValue() + 1));
+                results.put( stateF, new Integer( cnt.intValue() + 1 ) );
             }
 
             System.out.println( "Hydrogen tx from level 0" );

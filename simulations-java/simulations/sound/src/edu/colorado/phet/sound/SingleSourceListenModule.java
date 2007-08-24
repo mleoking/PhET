@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.view.help.HelpItem;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common_sound.view.util.ImageLoader;
@@ -15,7 +16,6 @@ import edu.colorado.phet.sound.view.AudioControlPanel;
 import edu.colorado.phet.sound.view.ListenerGraphic;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

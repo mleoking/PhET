@@ -6,13 +6,12 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  * User: Sam Reid
  * Date: Aug 21, 2006
  * Time: 2:21:41 PM
- *
  */
 
-public class TheRampStrings {     
+public class TheRampStrings {
     private static String bundleName = "the-ramp/localization/the-ramp-strings";
 
-    public static void init( String[]args ) {
+    public static void init( String[] args ) {
         SimStrings.getInstance().init( args, bundleName );
     }
 

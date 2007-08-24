@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 5:20:43 PM
- *
  */
 
 public class SoundWaveGraphic extends PNode {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
 import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;
@@ -7,7 +6,6 @@ import edu.colorado.phet.semiconductor_semi.common.EnergySpaceRegion;
  * User: Sam Reid
  * Date: Mar 26, 2004
  * Time: 1:13:21 AM
- *
  */
 public class BandDescriptor {
     private int numLevels;

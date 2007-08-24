@@ -12,11 +12,11 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.image.BufferedImage;
+import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -27,7 +27,8 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
     private static Color s_color;
     private AffineTransform scaleAtx = new AffineTransform();
     private BufferedImage baseImage;
-                                  private static Dimension dim=null;
+    private static Dimension dim = null;
+
     public GasMoleculeGraphic( final ApparatusPanel apparatusPanel, BufferedImage image, GasMolecule molecule ) {
         super( apparatusPanel, image );
         this.apparatusPanel = apparatusPanel;
@@ -38,24 +39,24 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
         update();
 
 //        final Dimension startingSize = apparatusPanel.getSize( );
-        if (dim==null){
-            dim=apparatusPanel.getSize( );
+        if( dim == null ) {
+            dim = apparatusPanel.getSize();
         }
         apparatusPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                handleResize( apparatusPanel, dim);
+                handleResize( apparatusPanel, dim );
             }
         } );
         handleResize( apparatusPanel, dim );
     }
 
     private void handleResize( ApparatusPanel apparatusPanel, Dimension startingSize ) {
-        Dimension newSize = apparatusPanel.getSize( );
+        Dimension newSize = apparatusPanel.getSize();
         double scale = newSize.getWidth() / startingSize.getWidth();
         scaleAtx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp atxOp = new AffineTransformOp( scaleAtx, new RenderingHints( RenderingHints.KEY_INTERPOLATION,
-                                                                                       RenderingHints.VALUE_INTERPOLATION_BICUBIC ));
-        setImage( atxOp.filter( baseImage, null ));
+                                                                                       RenderingHints.VALUE_INTERPOLATION_BICUBIC ) );
+        setImage( atxOp.filter( baseImage, null ) );
     }
 
 
@@ -65,7 +66,7 @@ public abstract class GasMoleculeGraphic extends PhetImageGraphic implements Gas
 //        g2.setTransform( new AffineTransform( ) );
 //        super.paint( g2 );
 //        g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
-        g2.drawImage( getImage(),(int)orgTx.getTranslateX(),(int)orgTx.getTranslateY(),null);
+        g2.drawImage( getImage(), (int)orgTx.getTranslateX(), (int)orgTx.getTranslateY(), null );
 //        g2.setTransform( orgTx );
     }
 

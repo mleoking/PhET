@@ -10,10 +10,9 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyCell;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 6:52:53 PM
- *
  */
 public class MoveToCell implements BandParticleState {
-//    private BandParticle bp;
+    //    private BandParticle bp;
     private EnergyCell target;
     Speed speed;
 

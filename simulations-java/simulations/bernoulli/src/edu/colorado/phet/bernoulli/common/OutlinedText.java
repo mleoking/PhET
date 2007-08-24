@@ -7,7 +7,6 @@ import java.awt.font.GlyphVector;
  * User: Sam Reid
  * Date: Sep 2, 2003
  * Time: 1:09:32 AM
- *
  */
 public class OutlinedText {
     public void paint( Graphics2D g, String text, int x, int y, Color textColor, Color outlineColor, Stroke outlineStroke, Font font ) {

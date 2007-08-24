@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * LauncherLoadPanel
- * <p>
+ * <p/>
  * Provides options for which type of molecule is loaded in the launcher
  *
  * @author Ron LeMaster
@@ -94,7 +94,7 @@ public class LauncherLoadPanel extends JPanel {
 
     private void updateIcons() {
         moleculeALabel.setIcon( new MoleculeIcon( MoleculeA.class, module.getMRModel().getEnergyProfile() ) );
-        moleculeCLabel.setIcon(new MoleculeIcon( MoleculeC.class, module.getMRModel().getEnergyProfile() ) );
+        moleculeCLabel.setIcon( new MoleculeIcon( MoleculeC.class, module.getMRModel().getEnergyProfile() ) );
     }
 
     public void setMolecule( SimpleMolecule launcherMolecule ) {

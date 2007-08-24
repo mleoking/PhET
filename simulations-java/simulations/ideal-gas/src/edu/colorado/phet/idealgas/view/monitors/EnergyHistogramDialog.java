@@ -12,12 +12,11 @@ package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.instrumentation_idealgas.Histogram;
 
 import javax.swing.*;
@@ -71,11 +70,11 @@ public class EnergyHistogramDialog extends JDialog {
     private JLabel lightSpeciesSpeedOutOfRangeIndicator = new JLabel( outOfRangeIndicator );
     private JLabel outOfRangeIndicatorLegend1 = new JLabel( outOfRangeIndicator );
     private JLabel outOfRangeIndicatorLegend2 = new JLabel(
-            new String( " - ").concat( IdealGasResources.getString( "EnergyHistorgramDialog.OutOfRangeIndicatorLegend")));
+            new String( " - " ).concat( IdealGasResources.getString( "EnergyHistorgramDialog.OutOfRangeIndicatorLegend" ) ) );
     private Font outOfRangeIndicatorFont;
-    private String[] speedDetailsLegends = new String[] {
-        IdealGasResources.getString( "EnergyHistorgramDialog.Heavy_Speed_label" ),
-        IdealGasResources.getString( "EnergyHistorgramDialog.Light_Speed_label" )
+    private String[] speedDetailsLegends = new String[]{
+            IdealGasResources.getString( "EnergyHistorgramDialog.Heavy_Speed_label" ),
+            IdealGasResources.getString( "EnergyHistorgramDialog.Light_Speed_label" )
     };
 
 
@@ -167,7 +166,6 @@ public class EnergyHistogramDialog extends JDialog {
     }
 
     /**
-     *
      * @param g
      */
     public void paint( Graphics g ) {
@@ -188,7 +186,7 @@ public class EnergyHistogramDialog extends JDialog {
         Insets xAxisTitleInsets = new Insets( 0, 0, 12, 0 );
         Insets outOfBoundsAnnunciatorInsets = new Insets( 0, 0, 12, 20 );
 
-        JPanel contentPane=new JPanel( );
+        JPanel contentPane = new JPanel();
         contentPane.setLayout( new GridBagLayout() );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -271,7 +269,7 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.gridy++;
         gbc.gridx = 0;
         gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets( 0, 25, 0,0 );
+        gbc.insets = new Insets( 0, 25, 0, 0 );
         outOfRangeIndicatorLegend1.setForeground( Color.red );
         contentPane.add( outOfRangeIndicatorLegend1, gbc );
         gbc.gridx++;
@@ -285,7 +283,7 @@ public class EnergyHistogramDialog extends JDialog {
         gbc.insets = new Insets( 10, 10, 10, 10 );
         contentPane.add( detailsBtn, gbc );
 
-        setContentPane( new JScrollPane(contentPane));
+        setContentPane( new JScrollPane( contentPane ) );
     }
 
     //----------------------------------------------------------------

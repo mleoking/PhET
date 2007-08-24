@@ -23,11 +23,11 @@ public class Level3A extends Exercise {
     private static Point2D.Double targetPt = new Point2D.Double( -1300, 800 );
 
     private Star[] starField = new Star[]{
-        new NormalStar( Color.green, 1E6, new Point2D.Double( -900, -300 ), 20 ),
-        new NormalStar( Color.yellow, 1E6, new Point2D.Double( 200, 700 ), -10 ),
-        new NormalStar( Color.green, 1E6, new Point2D.Double( 800, -200 ), -15 ),
-        new NormalStar( Color.yellow, 1E6, new Point2D.Double( 550, -100 ), 15 ),
-        new NormalStar( Color.red, 1E6, targetPt, 0 )
+            new NormalStar( Color.green, 1E6, new Point2D.Double( -900, -300 ), 20 ),
+            new NormalStar( Color.yellow, 1E6, new Point2D.Double( 200, 700 ), -10 ),
+            new NormalStar( Color.green, 1E6, new Point2D.Double( 800, -200 ), -15 ),
+            new NormalStar( Color.yellow, 1E6, new Point2D.Double( 550, -100 ), 15 ),
+            new NormalStar( Color.red, 1E6, targetPt, 0 )
     };
 
     public Level3A( JFrame frame, final UniverseModel model ) {

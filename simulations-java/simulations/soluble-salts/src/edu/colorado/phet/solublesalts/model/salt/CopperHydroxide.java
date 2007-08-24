@@ -27,8 +27,8 @@ public class CopperHydroxide extends Salt {
 
     static private Lattice lattice = new TwoToOneLattice( Copper.class,
 //    static private Lattice lattice = new TwoToOneLattice( Copper.class,
-                                                                  Hydroxide.class,
-                                                                  Copper.RADIUS + Hydroxide.RADIUS );
+Hydroxide.class,
+Copper.RADIUS + Hydroxide.RADIUS );
     static private ArrayList components = new ArrayList();
 
     static {

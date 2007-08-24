@@ -14,7 +14,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Apr 16, 2006
  * Time: 8:51:43 PM
- *
  */
 
 public class LaserWaveChartGraphic extends WaveChartGraphic {

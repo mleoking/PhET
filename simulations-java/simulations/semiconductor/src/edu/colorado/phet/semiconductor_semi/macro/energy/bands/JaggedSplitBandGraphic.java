@@ -15,7 +15,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 23, 2004
  * Time: 2:25:44 PM
- *
  */
 public class JaggedSplitBandGraphic extends BandSetGraphic {
     VerticalTearLine rightTear;

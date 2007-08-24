@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 12:32:35 AM
- *
  */
 
 public class ClearWaveControl extends JPanel {

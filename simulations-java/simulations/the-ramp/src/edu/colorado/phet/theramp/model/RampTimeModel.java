@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 10, 2005
  * Time: 8:32:43 AM
- *
  */
 
 public class RampTimeModel implements ClockListener {

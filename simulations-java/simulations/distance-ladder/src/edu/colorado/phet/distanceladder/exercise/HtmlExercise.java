@@ -34,6 +34,6 @@ public class HtmlExercise extends ExerciseModel {
     }
 
     public boolean evaluate( Answer choice ) {
-        throw new RuntimeException( "Not implemented");
+        throw new RuntimeException( "Not implemented" );
     }
 }

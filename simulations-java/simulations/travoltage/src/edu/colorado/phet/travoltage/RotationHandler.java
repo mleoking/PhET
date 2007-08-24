@@ -8,7 +8,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:14:45 AM
- *
  */
 
 public class RotationHandler extends PBasicInputEventHandler {

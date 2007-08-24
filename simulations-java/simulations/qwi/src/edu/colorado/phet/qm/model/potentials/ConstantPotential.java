@@ -7,7 +7,6 @@ import edu.colorado.phet.qm.model.Potential;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 8:20:04 AM
- *
  */
 
 public class ConstantPotential implements Potential {

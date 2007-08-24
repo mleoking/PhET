@@ -11,7 +11,6 @@ import edu.umd.cs.piccolo.PNode;
  * User: Sam Reid
  * Date: May 17, 2006
  * Time: 11:22:16 AM
- *
  */
 
 public class RotationWaveGraphic3D extends RotationWaveGraphic {

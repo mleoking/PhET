@@ -26,14 +26,13 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Mar 23, 2006
  * Time: 12:25:21 AM
- *
  */
 
 public class PressureWaveGraphic extends PNode {
     private Lattice2D lattice;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private SlitPotential slitPotential;
-//    private WaveInterferenceModel waveInterferenceModel;
+    //    private WaveInterferenceModel waveInterferenceModel;
     private BufferedImage blueImageORIG;
     private int spacingBetweenCells = 10;
     private ArrayList particles = new ArrayList();
@@ -394,8 +393,7 @@ public class PressureWaveGraphic extends PNode {
                 for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
                     if( inBounds( homeX + i, homeY + j ) ) {
                         //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
-                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) < bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) )
-                        {
+                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) < bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
                             bestPoint = new Point( homeX + i, homeY + j );
                             bestValue = lattice.getValue( homeX + i, homeY + j );
                         }
@@ -413,8 +411,7 @@ public class PressureWaveGraphic extends PNode {
                 for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
                     if( inBounds( homeX + i, homeY + j ) ) {
                         //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
-                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) )
-                        {
+                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
                             bestPoint = new Point( homeX + i, homeY + j );
                             bestValue = lattice.getValue( homeX + i, homeY + j );
                         }

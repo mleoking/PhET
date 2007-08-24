@@ -7,13 +7,12 @@
 package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.IdealGasModule;
@@ -22,10 +21,9 @@ import edu.colorado.phet.idealgas.model.PressureSensingBox;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class BoxDoorGraphic extends CompositePhetGraphic
         implements SimpleObserver,
@@ -48,7 +46,6 @@ public class BoxDoorGraphic extends CompositePhetGraphic
     private double blowOffRotation = 0;
 
     /**
-     *
      * @param component
      * @param x
      * @param y
@@ -185,8 +182,8 @@ public class BoxDoorGraphic extends CompositePhetGraphic
      */
     public void resetOccurred( IdealGasModule.ResetEvent event ) {
         blowOffRotation = 0;
-        this.setTransform( new AffineTransform());
-        this.setLocation( 0,0 );
+        this.setTransform( new AffineTransform() );
+        this.setLocation( 0, 0 );
         // Close the door
         translateDoor( Double.MAX_VALUE, 0 );
     }

@@ -20,7 +20,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Apr 15, 2006
  * Time: 1:42:49 PM
- *
  */
 
 public class ExpandableScreenChartGraphic extends PNode {
@@ -50,8 +49,8 @@ public class ExpandableScreenChartGraphic extends PNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        closeNode = new PhetPNode( new PSwing(closeButton ) );
-        expandNode = new PhetPNode( new PSwing(showChart ) );
+        closeNode = new PhetPNode( new PSwing( closeButton ) );
+        expandNode = new PhetPNode( new PSwing( showChart ) );
         addChild( screenChart );
         addChild( expandNode );
         addChild( closeNode );

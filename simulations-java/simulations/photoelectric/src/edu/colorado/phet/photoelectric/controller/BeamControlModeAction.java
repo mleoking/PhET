@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 
 /**
  * BeamControlModeAction
- * <p>
+ * <p/>
  * An action that sets the mode of the beam control. Provided as a separate class so that it will
  * be easy to change the way in which the user controls the mode.
  *

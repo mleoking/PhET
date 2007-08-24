@@ -8,7 +8,6 @@ import edu.colorado.phet.common_semiconductor.view.util.DoubleGeneralPath;
  * User: Sam Reid
  * Date: Mar 23, 2004
  * Time: 11:43:27 AM
- *
  */
 public class VerticalTearLine {
     DoubleGeneralPath path;

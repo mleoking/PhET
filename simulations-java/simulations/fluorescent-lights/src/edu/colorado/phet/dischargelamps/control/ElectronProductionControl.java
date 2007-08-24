@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.dischargelamps.control;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ElectronPulser;
@@ -173,13 +173,13 @@ new Insets( 0, 0, 0, 0 ), 0, 0 );
                 }
                 try {
                     double value = Double.parseDouble( txt );
-                    if( value <0 || value > 100 ) {
+                    if( value < 0 || value > 100 ) {
                         throw new NumberFormatException();
                     }
                     model.setCurrent( value * maxCurrent / 100, currentDisplayFactor );
                 }
                 catch( NumberFormatException nfe ) {
-                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.getInstance().getString( "Message.notPctFormat"));
+                    JOptionPane.showMessageDialog( PhetUtilities.getPhetFrame(), SimStrings.getInstance().getString( "Message.notPctFormat" ) );
                 }
             }
         } );

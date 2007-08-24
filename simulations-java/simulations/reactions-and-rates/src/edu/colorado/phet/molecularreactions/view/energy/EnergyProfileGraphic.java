@@ -4,9 +4,9 @@ package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -54,7 +54,6 @@ class EnergyProfileGraphic extends PNode {
      * @param energyProfile The energy profile to which this graphic will be bound.
      * @param size          size of the area in which the curve is to be drawn
      * @param color         Color of the curve
-     *
      */
     EnergyProfileGraphic( EnergyProfile energyProfile, Dimension size, Color color ) {
         this.energyProfile = energyProfile;
@@ -106,38 +105,36 @@ class EnergyProfileGraphic extends PNode {
      * Retrieves the intersection of the energy profile with the specified
      * horizontal line.
      *
-     * @param y             The y value of the line.
-     *
-     * @param defaultValue  A default value to use in case of no intersection.
-     *
-     * @return  The x coordinate of the intersection, or the default value if
-     *          there was no intersection.
+     * @param y            The y value of the line.
+     * @param defaultValue A default value to use in case of no intersection.
+     * @return The x coordinate of the intersection, or the default value if
+     *         there was no intersection.
      */
-    public double getIntersectionWithHorizontal(double y, double defaultValue) {
+    public double getIntersectionWithHorizontal( double y, double defaultValue ) {
         double[] coords = new double[6];
 
         GeneralPath path = centralCurve.getPathReference();
 
-        PathIterator pathIterator = path.getPathIterator(null, 0.5);
+        PathIterator pathIterator = path.getPathIterator( null, 0.5 );
 
         double startX = 0.0, startY = 0.0;
 
-        while (!pathIterator.isDone()) {
-            int code = pathIterator.currentSegment(coords);
+        while( !pathIterator.isDone() ) {
+            int code = pathIterator.currentSegment( coords );
 
-            if (code == PathIterator.SEG_MOVETO) {
+            if( code == PathIterator.SEG_MOVETO ) {
                 startX = coords[0];
                 startY = coords[1];
             }
-            else if (code == PathIterator.SEG_LINETO) {
+            else if( code == PathIterator.SEG_LINETO ) {
                 double endX = coords[0];
                 double endY = coords[1];
 
-                double midX = startX + (endX - startX) / 2;
+                double midX = startX + ( endX - startX ) / 2;
 
-                Line2D.Double line = new Line2D.Double(startX, startY, endX, endY);
+                Line2D.Double line = new Line2D.Double( startX, startY, endX, endY );
 
-                if (line.getBounds().contains(midX, y)) {
+                if( line.getBounds().contains( midX, y ) ) {
                     return midX;
                 }
 

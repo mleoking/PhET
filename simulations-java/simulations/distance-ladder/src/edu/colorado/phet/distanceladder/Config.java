@@ -17,7 +17,7 @@ public class Config {
     public static final double starLayer = 7;
     public static final double measurementInstrumentLayer = Double.MAX_VALUE;
 
-//    public static final double universeWidth = .5E3;
+    //    public static final double universeWidth = .5E3;
     public static final double universeWidth = 5E3;
     public static final double maxStarLuminance = 1E6;
     public static double viewAngle = Math.PI / 2;

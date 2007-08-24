@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -29,8 +29,8 @@ public class SolubleSaltsConfig {
 
     // Descriptive information
     public static final String TITLE = SimStrings.getInstance().getString( "soluble-salts.name" );
-    public static final String DESCRIPTION = SimStrings.getInstance().getString("soluble-salts.description");
-    public static final String VERSION = PhetApplicationConfig.getVersion( "soluble-salts").formatForTitleBar();
+    public static final String DESCRIPTION = SimStrings.getInstance().getString( "soluble-salts.description" );
+    public static final String VERSION = PhetApplicationConfig.getVersion( "soluble-salts" ).formatForTitleBar();
 
     // Clock parameters
     public static final double DT = 1;
@@ -46,12 +46,12 @@ public class SolubleSaltsConfig {
     // equal to this many times the free ion's radius
     public static double BINDING_DISTANCE_FACTOR = 2;
     public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.4;
-//    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
+    //    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
     public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
     public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
 
     // Physical things
-//    public static final double SCALE = 500 / 580E-16;
+    //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
@@ -90,7 +90,7 @@ public class SolubleSaltsConfig {
 
     // Initial water level
     public static double DEFAULT_WATER_LEVEL = 5E-16;
-//    public static final double DEFAULT_CONFIGURABLE_KSP = -12;
+    //    public static final double DEFAULT_CONFIGURABLE_KSP = -12;
     public static final double DEFAULT_CONFIGURABLE_KSP = 1E-12;
     public static final double DEFAULT_CONFIGURABLE_KSP_EXP = -12;
     public static final int MAX_ION_SPINNER_NUM = 400;

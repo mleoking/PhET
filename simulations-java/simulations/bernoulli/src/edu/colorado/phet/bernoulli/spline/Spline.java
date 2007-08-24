@@ -10,7 +10,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 2:35:12 PM
- *
  */
 public class Spline extends SimpleObservable {
     ArrayList interpolatedPoints = new ArrayList();

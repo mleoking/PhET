@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:45:43 AM
- *
  */
 public class FrameCenterer implements FrameSetup {
     private int insetX;

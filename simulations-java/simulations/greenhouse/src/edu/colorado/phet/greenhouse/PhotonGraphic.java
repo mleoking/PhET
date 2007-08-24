@@ -6,12 +6,12 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common_greenhouse.view.CompositeGraphic;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.BufferedImageUtils;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.DuotoneImageOp;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ShapeGraphicType;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -21,11 +21,11 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.io.IOException;
 
 public class PhotonGraphic extends CompositeGraphic implements Observer {
 
@@ -40,9 +40,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
 //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575 copy.png";
 //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin-575-2.png";
-//        private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575.png";
+    //        private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575.png";
     private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin2.png";
-//    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin3.png";
+    //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin3.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
     private DuotoneImageOp duotoneImageOp;
@@ -58,9 +58,9 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 //        baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
         try {
             baseImage = ImageLoader.loadBufferedImage( IMAGE_PATH );
-            double photonScale=0.8*0.7;
-            redImage=BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_RED ),photonScale, photonScale );
-            yellowImage=BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW ),photonScale, photonScale );
+            double photonScale = 0.8 * 0.7;
+            redImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_RED ), photonScale, photonScale );
+            yellowImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW ), photonScale, photonScale );
 //            yellowImage=ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW );
         }
         catch( IOException e ) {
@@ -182,7 +182,7 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
             if( photonImage != null ) {
                 removeGraphic( photonImage );
             }
-            photonImage = new ImageGraphic( photon.getWavelength()>6E-7?redImage:yellowImage, position );
+            photonImage = new ImageGraphic( photon.getWavelength() > 6E-7 ? redImage : yellowImage, position );
             this.addGraphic( photonImage, 0 );
         }
 

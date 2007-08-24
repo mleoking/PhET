@@ -14,7 +14,7 @@ import java.awt.geom.Point2D;
 
 /**
  * BoxHeater
- * <p>
+ * <p/>
  * An agent that tracks the setting of a TemperatureControl and
  * adjusts the temperature of an MRBox accordingly
  *
@@ -31,7 +31,7 @@ public class BoxHeater implements TemperatureControl.ChangeListener {
     }
 
     public void settingChanged( double setting ) {
-        box.setTemperature( setting);
+        box.setTemperature( setting );
     }
 
     public void positionChanged( Point2D newPosition ) {

@@ -10,10 +10,9 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_idealgas.ToggleButton;
-import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.model.Pump;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -21,7 +20,7 @@ import java.awt.*;
 
 /**
  * ToolPanel
- * <p>
+ * <p/>
  * A JPanel with controls for enabling/disabling the measurement tools
  *
  * @author Ron LeMaster

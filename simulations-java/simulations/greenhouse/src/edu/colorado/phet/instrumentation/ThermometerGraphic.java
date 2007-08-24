@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.instrumentation;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
 import edu.colorado.phet.common_greenhouse.view.util.graphics.ImageLoader;
 import edu.colorado.phet.greenhouse.GreenhouseConfig;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;

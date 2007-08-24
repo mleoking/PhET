@@ -9,8 +9,8 @@ package edu.colorado.phet.microwave.view;
 import edu.colorado.phet.common_microwaves.math.MathUtil;
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
-import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
+import edu.colorado.phet.common_microwaves.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_microwaves.TxObservingGraphic;
 import edu.colorado.phet.microwave.MicrowaveConfig;
 import edu.colorado.phet.microwave.view.graphics.splines.CubicSpline;
@@ -31,7 +31,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     private Point2D.Double origin;
     private double latticeSpacingX;
     private double latticeSpacingY;
-//    private ApparatusPanel panel;
+    //    private ApparatusPanel panel;
     private int numLatticePtsX;
     private int numLatticePtsY;
     private Vector2D[][] latticePts;
@@ -45,7 +45,6 @@ public class FieldLatticeView extends TxObservingGraphic {
     private boolean splineVisible;
 
     /**
-     *
      * @param waveMedium
      * @param origin
      * @param width
@@ -117,11 +116,11 @@ public class FieldLatticeView extends TxObservingGraphic {
                         if( viewType == VIEW_FULL ) {
                             int arrowWidthSave = arrowWidth;
                             int headWidthSave = arrowHeadWidth;
-                            arrowWidth = (int)( 4 * ( l / 20 ));
-                            arrowHeadWidth = (int)( 8 * ( l / 20 ));
+                            arrowWidth = (int)( 4 * ( l / 20 ) );
+                            arrowHeadWidth = (int)( 8 * ( l / 20 ) );
                             float alpha = (float)l / this.latticeViewSpacingY;
                             Composite orgComposite = g2.getComposite();
-                            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+                            g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha ) );
                             drawHollowArrow( g2, x, y - fy / 2, x, y + fy / 2 );
                             g2.setComposite( orgComposite );
                             arrowWidth = arrowWidthSave;
@@ -185,7 +184,7 @@ public class FieldLatticeView extends TxObservingGraphic {
         originView.setLocation( origin.x, origin.y );
     }
 
-    private  void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
+    private void drawHollowArrow( Graphics2D g2, int x1, int y1, int x2, int y2 ) {
         if( x1 != x2 || y1 != y2 ) {
             g2.setColor( arrowColor );
 
@@ -228,7 +227,7 @@ public class FieldLatticeView extends TxObservingGraphic {
     // Statics
     //
     private static Color arrowColor = new Color( 235, 235, 235 );
-//    private static Color arrowColor = new Color( 32, 32, 32 );
+    //    private static Color arrowColor = new Color( 32, 32, 32 );
     private static Color curveColor = new Color( 80, 0, 230 );
     private static Polygon arrowHead = new Polygon();
     private static int maxWidth = 10; // width of arrowhead

@@ -1,9 +1,9 @@
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.shapes.ArrowShape;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.common.TransformGraphic;
 
 import java.awt.*;
@@ -15,7 +15,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 19, 2004
  * Time: 3:49:26 PM
- *
  */
 public class EnergyTextGraphic extends TransformGraphic {
     private Font font;

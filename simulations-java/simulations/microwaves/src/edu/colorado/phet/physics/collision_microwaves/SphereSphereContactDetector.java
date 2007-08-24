@@ -21,12 +21,13 @@ public class SphereSphereContactDetector extends ContactDetector {
     /**
      * Note: This method is not thread-safe, because we use an instance attribute
      * to avoid allocating a new Vector2D on every invocation.
+     *
      * @param bodyA
      * @param bodyB
      * @return
      */
     public boolean areInContact( Body bodyA, Body bodyB ) {
         double distance = bodyA.getLocation().distanceSq( bodyB.getLocation() );
-        return ( distance <= ((SphericalBody)bodyA).getRadius() + ((SphericalBody)bodyB).getRadius() );
+        return ( distance <= ( (SphericalBody)bodyA ).getRadius() + ( (SphericalBody)bodyB ).getRadius() );
     }
 }

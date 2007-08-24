@@ -36,7 +36,7 @@ public class MRModelUtil {
         CollisionParams params = new CollisionParams( sm, comp );
         Vector2D cv = new Vector2D.Double( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
         if( params.getFreeMolecule() instanceof MoleculeB ) {
-new CollisionParams( sm, comp );            
+            new CollisionParams( sm, comp );
         }
         cv.normalize();
 

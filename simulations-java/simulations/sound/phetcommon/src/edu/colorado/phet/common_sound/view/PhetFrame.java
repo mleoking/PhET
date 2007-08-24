@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common_sound.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_sound.application.ApplicationModel;
 import edu.colorado.phet.common_sound.application.Module;
 import edu.colorado.phet.common_sound.application.ModuleManager;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.components.menu.HelpMenu;
 import edu.colorado.phet.common_sound.view.components.menu.PhetFileMenu;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;

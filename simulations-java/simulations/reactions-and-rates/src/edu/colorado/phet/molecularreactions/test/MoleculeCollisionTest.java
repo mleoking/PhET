@@ -193,11 +193,11 @@ public class MoleculeCollisionTest {
         }
 
         public void testCollisionDistanceComputation() {
-            CompositeMolecule pc=mB.getParentComposite();
-            mB.setParentComposite( null);//step in time has different semantics for composite particles
+            CompositeMolecule pc = mB.getParentComposite();
+            mB.setParentComposite( null );//step in time has different semantics for composite particles
             setPositions( new Point2D.Double( 0, 0 ), new Point2D.Double( 0 + mA.getRadius() + mB.getRadius() + 2, 0 ) );
             assertEquals( "collision distance is not properly computed", 2.0, model.getReaction().getDistanceToCollision( mA, mBC ), 1E-6 );
-            
+
             // Check that the collision distance is properly computed
             setVelocitiesAndStepInTime( new Vector2D.Double( 1, 0 ), new Vector2D.Double( -1, 0 ) );
             assertEquals( "collision distance is not properly computed", 0.0, model.getReaction().getDistanceToCollision( mA, mBC ), 1E-6 );

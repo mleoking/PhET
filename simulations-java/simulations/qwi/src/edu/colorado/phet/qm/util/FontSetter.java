@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 15, 2006
  * Time: 11:27:32 AM
- *
  */
 
 public class FontSetter {

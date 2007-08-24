@@ -11,13 +11,12 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 8, 2004
  * Time: 4:21:48 PM
- *
  */
 public class DopantSlotGraphic implements Graphic {
     private TexturePaint green;
     private TexturePaint red;
     private Shape shape;
-//    private String name;
+    //    private String name;
     private TexturePaint texture;
     static final Font font = new Font( "Lucida Sans", Font.BOLD, 18 );
 

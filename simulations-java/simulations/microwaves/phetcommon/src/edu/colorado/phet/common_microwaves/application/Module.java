@@ -6,17 +6,17 @@
  */
 package edu.colorado.phet.common_microwaves.application;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common_microwaves.model.BaseModel;
 import edu.colorado.phet.common_microwaves.model.ModelElement;
 import edu.colorado.phet.common_microwaves.view.ApparatusPanel;
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.graphics.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 
 /**
  * This class encapsulates the parts of an application that make up

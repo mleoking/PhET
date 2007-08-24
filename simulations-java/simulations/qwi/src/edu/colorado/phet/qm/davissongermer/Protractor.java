@@ -26,7 +26,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 10:50:18 AM
- *
  */
 
 public class Protractor extends PhetPNode {

@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 22, 2006
  * Time: 5:09:23 PM
- *
  */
 
 public class WaveSideView extends AbstractWaveSideView {
@@ -22,7 +21,7 @@ public class WaveSideView extends AbstractWaveSideView {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private double distBetweenPoints = 5;
 //    private double amplitudeScale = -150;
-//    private double amplitudeScale = -150/2.0;
+    //    private double amplitudeScale = -150/2.0;
     private double amplitudeScale = -150 / 1.8;
     private WaveSampler waveSampler;
 

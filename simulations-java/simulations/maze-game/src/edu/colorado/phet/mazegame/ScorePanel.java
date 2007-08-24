@@ -48,8 +48,8 @@ public class ScorePanel extends JPanel implements ItemListener {
     JPanel panel3R = new JPanel();
     JPanel panel4 = new JPanel();
     JPanel panel4L = new JPanel();  //Panel 4, Left
-    JPanel panel4M = new JPanel();	//Panel 4, Mid
-    JPanel panel4R = new JPanel();	//Panel 4, Right
+    JPanel panel4M = new JPanel();    //Panel 4, Mid
+    JPanel panel4R = new JPanel();    //Panel 4, Right
 
 
     public ScorePanel( ParticleArena pArena, ControlBoxPanel cbPanel ) {
@@ -151,7 +151,6 @@ public class ScorePanel extends JPanel implements ItemListener {
             }
 
         } ); //end of anonymous class
-
 
         //soundBtn.addActionListener(new SoundBtnHandler());
         soundChkBox.addActionListener( new SoundChkBoxHandler() );

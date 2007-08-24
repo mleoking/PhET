@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.dischargelamps.model;
 
-import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.quantum.AtomicStateFactory;
 
 /**
  * ConfigurableElementProperties
- * <p>
+ * <p/>
  * These are the properties for the configurable element.
  *
  * @author Ron LeMaster

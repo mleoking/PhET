@@ -24,30 +24,30 @@ import java.util.Random;
  * @version $Revision$
  */
 public class OneToOneLattice extends Lattice {
-    private static final Random random = new Random(System.currentTimeMillis());
+    private static final Random random = new Random( System.currentTimeMillis() );
 
     /**
      * @param spacing
      */
-    public OneToOneLattice(double spacing) {
-        super(spacing);
+    public OneToOneLattice( double spacing ) {
+        super( spacing );
     }
 
     public Object clone() {
-        return new OneToOneLattice(this.spacing);
+        return new OneToOneLattice( this.spacing );
     }
 
-    protected int getNumNeighboringSites(Ion ion) {
+    protected int getNumNeighboringSites( Ion ion ) {
         return 4;
     }
 
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         Ion a = new Sodium();
-        a.setPosition(300, 500);
-        SolubleSaltsConfig.Calibration calibration =  new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-                                            5E-16,
-                                            1E-16,
-                                            0.5E-16 );
+        a.setPosition( 300, 500 );
+        SolubleSaltsConfig.Calibration calibration = new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
+                                                                                         5E-16,
+                                                                                         1E-16,
+                                                                                         0.5E-16 );
 //        Crystal l = new Crystal(new SolubleSaltsModel( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ),
 //                                                       calibration),
 //                                new OneToOneLattice(10));
@@ -87,11 +87,11 @@ public class OneToOneLattice extends Lattice {
 //        }
     }
 
-    private static void printLattice(Crystal l) {
+    private static void printLattice( Crystal l ) {
         List ions = l.getIons();
-        for (int i = 0; i < ions.size(); i++) {
-            Ion ion = (Ion) ions.get(i);
-            System.out.println("ion.getPosition() = " + ion.getPosition());
+        for( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion)ions.get( i );
+            System.out.println( "ion.getPosition() = " + ion.getPosition() );
         }
     }
 }

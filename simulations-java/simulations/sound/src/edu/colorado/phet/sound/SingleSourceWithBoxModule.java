@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.coreadditions_sound.ScalarObservable;
 import edu.colorado.phet.sound.model.AttenuationFunction;
@@ -14,7 +15,6 @@ import edu.colorado.phet.sound.model.WaveMedium;
 import edu.colorado.phet.sound.view.DialGauge;
 import edu.colorado.phet.sound.view.SoundApparatusPanel;
 import edu.colorado.phet.sound.view.SoundControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -24,8 +24,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     private AirBoxGraphic boxInteriorGraphic;
@@ -207,7 +207,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             setAirDensity( densitySlider, maxValue, attenuationFunction );
             densitySlider.setEnabled( false );
 
-            JButton resetBtn = new JButton( SimStrings.get("ClockPanelLarge.Reset" ));
+            JButton resetBtn = new JButton( SimStrings.get( "ClockPanelLarge.Reset" ) );
             resetBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if( boxEvacuator != null ) {
@@ -300,7 +300,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                 }
             }
 
-            synchronized void  kill() {
+            synchronized void kill() {
                 kill = Boolean.TRUE;
                 reset();
             }

@@ -18,7 +18,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:55:04 PM
- *
  */
 
 public class QWIModel implements ModelElement {
@@ -246,8 +245,7 @@ public class QWIModel implements ModelElement {
 
     //todo refactor using WaveModel
     private void copyActualToSource( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator )
-        {
+        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator actualPropagator = (ClassicalWavePropagator)getPropagator();
             ClassicalWavePropagator sourcePropagator = (ClassicalWavePropagator)getSourcePropagator();
             if( actualPropagator.getLast() != null && sourcePropagator.getLast() != null ) {
@@ -270,8 +268,7 @@ public class QWIModel implements ModelElement {
     }
 
     private void copySourceToActual( int x, int y ) {
-        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator )
-        {
+        if( getPropagator() instanceof ClassicalWavePropagator && getSourcePropagator() instanceof ClassicalWavePropagator ) {
             ClassicalWavePropagator actualPropagator = (ClassicalWavePropagator)getPropagator();
             ClassicalWavePropagator sourcePropagator = (ClassicalWavePropagator)getSourcePropagator();
             if( actualPropagator.getLast() != null && sourcePropagator.getLast() != null ) {

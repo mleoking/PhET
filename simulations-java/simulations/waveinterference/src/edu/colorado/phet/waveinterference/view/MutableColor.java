@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 9:43:52 PM
- *
  */
 
 public class MutableColor {

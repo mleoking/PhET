@@ -14,15 +14,15 @@ public class ClientLookAndFeel extends MetalLookAndFeel {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
         Object[] defaults = {
-            "Panel.background", background
-            , "Menu.background", background
-            , "MenuItem.background", background
-            , "MenuBar.background", background
-            , "Slider.background", background
-            , "RadioButton.background", background
-            , "CheckBox.background", background
-            , "Button.background", buttonBackground
-            , "ComboBox.background", background
+                "Panel.background", background
+                , "Menu.background", background
+                , "MenuItem.background", background
+                , "MenuBar.background", background
+                , "Slider.background", background
+                , "RadioButton.background", background
+                , "CheckBox.background", background
+                , "Button.background", buttonBackground
+                , "ComboBox.background", background
         };
         table.putDefaults( defaults );
     }

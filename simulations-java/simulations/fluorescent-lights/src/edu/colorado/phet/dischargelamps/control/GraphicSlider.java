@@ -42,14 +42,14 @@ public class GraphicSlider extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Graphics layers
     private static final double BACKGROUND_LAYER = 0;
     private static final double TICK_LAYER = 1;
     private static final double TRACK_LAYER = 2;
     private static final double KNOB_LAYER = 3;
     private static final double KNOB_HIGHLIGHT_LAYER = 4;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -81,7 +81,7 @@ public class GraphicSlider extends GraphicLayerSet {
      */
     public GraphicSlider( Component component ) {
         super( component );
-        
+
         // Initialize instance data.
         _knob = _knobHighlight = _track = _background = null;
         _knobHighlight = null;
@@ -92,7 +92,7 @@ public class GraphicSlider extends GraphicLayerSet {
         _tickSize = new Dimension( 1, 12 );
         _listenerList = new EventListenerList();
         _knobListener = new KnobListener();
-        
+
         // Enable anti-aliasing.
         RenderingHints hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         setRenderingHints( hints );
@@ -333,14 +333,15 @@ public class GraphicSlider extends GraphicLayerSet {
             addGraphic( tick, TICK_LAYER );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // UI update
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Updates the user interface.
-     */
+    * Updates the user interface.
+    */
+
     private void update() {
         // Set the knob's location based on the value.
         double percent = ( _value - _minimum ) / (double)( _maximum - _minimum );
@@ -451,7 +452,7 @@ public class GraphicSlider extends GraphicLayerSet {
             catch( NoninvertibleTransformException e ) {
                 e.printStackTrace();
             }
-            
+
             // Constrain the knob position to the drag boundaries.
             double dx = mouseX - _dragStartPoint.getX();
             double knobX = _knobStartPoint.getX() + dx;

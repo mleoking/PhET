@@ -4,8 +4,6 @@
 
 package edu.colorado.phet.efield.electron.utils;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -13,22 +11,21 @@ import java.net.URL;
 // Referenced classes of package edu.colorado.phet.efield.electron.utils:
 //            ImageConverter
 
-public class ResourceLoader
-{
+public class ResourceLoader {
 
-    public static URL findResource(String s, Component component)
-    {
+    public static URL findResource( String s, Component component ) {
         ClassLoader classloader = component.getClass().getClassLoader();
-        URL url = classloader.getResource(s);
+        URL url = classloader.getResource( s );
         return url;
     }
 
-    public static BufferedImage loadBufferedImage(String s, Component component, boolean flag) throws InterruptedException {
-        URL url = findResource(s, component);
-        Image image = component.getToolkit().createImage(url);
-        if(flag)
-            return ImageConverter.toBufferedImageARGB(image, component);
-        return ImageConverter.toBufferedImageRGB(image, component);
+    public static BufferedImage loadBufferedImage( String s, Component component, boolean flag ) throws InterruptedException {
+        URL url = findResource( s, component );
+        Image image = component.getToolkit().createImage( url );
+        if( flag ) {
+            return ImageConverter.toBufferedImageARGB( image, component );
+        }
+        return ImageConverter.toBufferedImageRGB( image, component );
 //        Exception exception;
 //        exception;
 //        throw new RuntimeException(exception.toString() + " -> looked for resource : " + s + ", fileLoc=" + url);

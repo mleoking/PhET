@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Oct 31, 2006
  * Time: 9:28:16 AM
- *
  */
 
 public class SingleParticleClockControlPanel extends ClockControlPanel {

@@ -17,7 +17,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 6, 2005
  * Time: 4:23:38 AM
- *
  */
 
 public class InitialConditionPanel extends VerticalLayoutPanel {

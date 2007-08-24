@@ -16,7 +16,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 8:22:47 PM
- *
  */
 
 public class MeasurementControlPanel extends VerticalLayoutPanel {

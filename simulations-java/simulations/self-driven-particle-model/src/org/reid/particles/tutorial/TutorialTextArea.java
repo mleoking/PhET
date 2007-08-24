@@ -11,7 +11,7 @@ import java.awt.*;
  * Copyright (c) Aug 23, 2005 by Sam Reid
  */
 
-public class TutorialTextArea extends JTextArea{
+public class TutorialTextArea extends JTextArea {
     public TutorialTextArea() {
 
         setWrapStyleWord( true );

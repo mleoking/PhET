@@ -4,21 +4,19 @@
 
 package edu.colorado.phet.efield.electron.gui;
 
-import java.awt.Component;
 import edu.colorado.phet.efield.electron.phys2d_efield.Law;
 import edu.colorado.phet.efield.electron.phys2d_efield.System2D;
 
-public class RepaintLaw
-    implements Law
-{
+import java.awt.*;
 
-    public RepaintLaw(Component component)
-    {
+public class RepaintLaw
+        implements Law {
+
+    public RepaintLaw( Component component ) {
         panel = component;
     }
 
-    public void iterate(double d, System2D system2d)
-    {
+    public void iterate( double d, System2D system2d ) {
         panel.repaint();
     }
 

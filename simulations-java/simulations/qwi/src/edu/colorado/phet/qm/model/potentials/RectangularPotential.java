@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.model.RectangularObject;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:11 PM
- *
  */
 
 public class RectangularPotential extends RectangularObject implements Potential {

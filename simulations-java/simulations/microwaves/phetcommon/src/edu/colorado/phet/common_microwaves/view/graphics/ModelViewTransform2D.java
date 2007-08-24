@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.common_microwaves.view.graphics;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class ModelViewTransform2D {
     private Rectangle2D.Double modelBounds;
@@ -26,23 +26,28 @@ public class ModelViewTransform2D {
 
     /**
      * Constructs a transform from the specified model bounds to view bounds.
+     *
      * @param modelBounds
      * @param viewBounds
      */
     public ModelViewTransform2D( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
         this.modelBounds = modelBounds;
         this.viewBounds = viewBounds;
-        if( viewBounds.getWidth() <= 0 )
+        if( viewBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "View Bounds width must be positive." );
-        if( viewBounds.getHeight() <= 0 )
+        }
+        if( viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
+        }
     }
 
     public void addTransformListener( TransformListener tl ) {
         listeners.addTransformListener( tl );
     }
 
-    /**Transforms the model coordinate to the corresponding view coordinate.*/
+    /**
+     * Transforms the model coordinate to the corresponding view coordinate.
+     */
     public Point modelToView( double x, double y ) {
         return new Point( modelToViewX( x ), modelToViewY( y ) );
     }
@@ -63,15 +68,16 @@ public class ModelViewTransform2D {
         return out;
     }
 
-    public AffineTransform toAffineTransform()
-    {
-        return toAffineTransform(new Point2D.Double() );
+    public AffineTransform toAffineTransform() {
+        return toAffineTransform( new Point2D.Double() );
     }
-    /**Creates a new AffineTransform that corresponds to this transformation.
+
+    /**
+     * Creates a new AffineTransform that corresponds to this transformation.
      *
      * @return a new AffineTransform that corresponds to this transformation.
      */
-    public AffineTransform toAffineTransform(Point2D.Double src) {
+    public AffineTransform toAffineTransform( Point2D.Double src ) {
 //        Point2D.Double p = new Point2D.Double( 0, 0 );
 
 //        System.out.println( "src = " + src +"____________");
@@ -130,9 +136,9 @@ public class ModelViewTransform2D {
         double m02 = viewBounds.x - m00 * modelBounds.x;
         double m10 = 0;
         double m11 = -viewBounds.height / modelBounds.height;
-        double m12 = viewBounds.y + viewBounds.height / modelBounds.height * (modelBounds.y + modelBounds.height);
+        double m12 = viewBounds.y + viewBounds.height / modelBounds.height * ( modelBounds.y + modelBounds.height );
 //        double m12 =viewBounds.y-m11*modelBounds.y;
-        return new AffineTransform(m00, m10, m01, m11, m02, m12);
+        return new AffineTransform( m00, m10, m01, m11, m02, m12 );
     }
 
     public Point2D.Double viewToModel( int x, int y ) {
@@ -160,10 +166,12 @@ public class ModelViewTransform2D {
     }
 
     public void setViewBounds( Rectangle viewBounds ) {
-        if( viewBounds.getWidth() <= 0 )
+        if( viewBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "View Bounds width must be positive." );
-        if( viewBounds.getHeight() <= 0 )
+        }
+        if( viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
+        }
         this.viewBounds = viewBounds;
         listeners.transformChanged( this );
     }
@@ -204,7 +212,9 @@ public class ModelViewTransform2D {
         return new Point( modelToViewDifferentialX( dx ), modelToViewDifferentialY( dy ) );
     }
 
-    /**Converts a model rectangle to the corresponding view rectangle.*/
+    /**
+     * Converts a model rectangle to the corresponding view rectangle.
+     */
     public Rectangle modelToView( Rectangle2D.Double modelRect ) {
         Point cornerA = modelToView( modelRect.x, modelRect.y );
         Point cornerB = modelToView( modelRect.x + modelRect.width, modelRect.y + modelRect.height );

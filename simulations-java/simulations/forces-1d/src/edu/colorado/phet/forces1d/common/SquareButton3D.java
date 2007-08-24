@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 13, 2005
  * Time: 10:55:16 AM
- *
  */
 
 public class SquareButton3D extends CompositePhetGraphic {

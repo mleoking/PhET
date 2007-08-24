@@ -15,7 +15,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:02:40 PM
- *
  */
 public class Photon extends GunParticle {
     private SRRWavelengthSlider wavelengthSliderGraphic;

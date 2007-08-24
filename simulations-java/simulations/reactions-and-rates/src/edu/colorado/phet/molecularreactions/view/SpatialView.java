@@ -84,7 +84,7 @@ public class SpatialView extends PNode {
                                                      module.getClock(),
                                                      10,
                                                      MRConfig.DEFAULT_TEMPERATURE * 3 );
-        thermometerGraphic.setOffset( model.getBox().getMaxX() +8,
+        thermometerGraphic.setOffset( model.getBox().getMaxX() + 8,
                                       model.getBox().getMinY() - 20 );
 
         megm.addGraphic( thermometerGraphic, topLayer );
@@ -112,10 +112,10 @@ public class SpatialView extends PNode {
 
         java.util.List graphics = megm.getGraphicsForModelElementClass( TemperatureControl.class );
 
-        for (int i = 0; i < graphics.size(); i++) {
-            TemperatureControlGraphic graphic = (TemperatureControlGraphic)graphics.get(i);
+        for( int i = 0; i < graphics.size(); i++ ) {
+            TemperatureControlGraphic graphic = (TemperatureControlGraphic)graphics.get( i );
 
-            if (graphic.isTemperatureBeingAdjusted()) {
+            if( graphic.isTemperatureBeingAdjusted() ) {
                 adjusting = true;
 
                 break;

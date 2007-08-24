@@ -12,7 +12,6 @@ import java.util.Iterator;
  * User: Sam Reid
  * Date: Nov 3, 2003
  * Time: 2:14:33 AM
- *
  */
 public class MouseManager implements MouseInputListener {
     MultiMap am;

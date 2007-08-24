@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 9:17:04 AM
- *
  */
 
 public class IntensityScreenPanel extends VerticalLayoutPanel {

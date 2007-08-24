@@ -24,7 +24,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 10:50:45 PM
- *
  */
 
 public class DGModule extends IntensityModule {

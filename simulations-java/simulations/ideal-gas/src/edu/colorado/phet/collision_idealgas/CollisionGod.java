@@ -42,7 +42,6 @@ public class CollisionGod {
     private HashMap wallToRegion = new HashMap();
 
     /**
-     *
      * @param model
      * @param dt
      * @param bounds
@@ -107,7 +106,6 @@ public class CollisionGod {
     }
 
     /**
-     *
      * @param bodies
      */
     private void adjustMoleculeWallRelations( List bodies ) {

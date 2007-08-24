@@ -36,7 +36,7 @@ public class PieChartNode extends PNode {
         Paint paint;
 
         public PieValue() {
-            this(0.0, Color.BLACK);
+            this( 0.0, Color.BLACK );
         }
 
         public PieValue( double value, Paint paint ) {
@@ -44,11 +44,11 @@ public class PieChartNode extends PNode {
             this.paint = paint;
         }
 
-        public void setValue( double value ){
+        public void setValue( double value ) {
             this.value = value;
         }
 
-        public void setPaint(Paint paint) {
+        public void setPaint( Paint paint ) {
             this.paint = paint;
         }
     }

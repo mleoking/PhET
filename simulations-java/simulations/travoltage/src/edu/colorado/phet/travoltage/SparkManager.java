@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * User: Sam Reid
  * Date: Jul 2, 2006
  * Time: 12:31:08 AM
- *
  */
 
 public class SparkManager implements ModelElement {

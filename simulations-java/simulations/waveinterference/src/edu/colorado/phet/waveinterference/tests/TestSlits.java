@@ -11,7 +11,6 @@ import edu.colorado.phet.waveinterference.view.WaveInterferenceScreenUnits;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:35:59 AM
- *
  */
 
 public class TestSlits extends TestTopView {

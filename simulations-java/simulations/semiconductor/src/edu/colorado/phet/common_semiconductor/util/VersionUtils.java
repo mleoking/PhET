@@ -10,7 +10,6 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- *
  */
 public class VersionUtils {
     public static class VersionInfo {

@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:43:29 PM
- *
  */
 
 public class PinkGunDetails {

@@ -11,7 +11,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: Oct 9, 2003
  * Time: 1:07:02 AM
- *
  */
 public class BringToFront implements MouseInputListener {
     CompositeInteractiveGraphic graphicTree;

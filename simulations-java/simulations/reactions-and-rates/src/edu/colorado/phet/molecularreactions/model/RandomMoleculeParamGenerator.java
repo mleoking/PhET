@@ -19,7 +19,7 @@ import java.util.Random;
 
 /**
  * RandomMoleculeParamGenerator
- * <p>
+ * <p/>
  * Generates a random position and velocity within specified rectangular bounds
  *
  * @author Ron LeMaster
@@ -37,11 +37,11 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
     /**
      * Generates a Params object for a molecule.
      *
-     * @param bounds    The bounds within which the molecule's CM lies
-     * @param maxSpeed  Max initial speed
-     * @param maxAlpha  Max angular velocity
-     * @param minTheta  Min angle of the molecule's initial velocity
-     * @param maxTheta  Max angle of the molecule's initial velocity
+     * @param bounds   The bounds within which the molecule's CM lies
+     * @param maxSpeed Max initial speed
+     * @param maxAlpha Max angular velocity
+     * @param minTheta Min angle of the molecule's initial velocity
+     * @param maxTheta Max angle of the molecule's initial velocity
      */
     public RandomMoleculeParamGenerator( Rectangle2D bounds,
                                          double maxSpeed,
@@ -64,7 +64,7 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
         // Generate velocity
         double phi = ( maxTheta - minTheta ) * random.nextDouble() + minTheta;
         double speed = maxSpeed * random.nextDouble();
-        Vector2D v = new Vector2D.Double( speed, 0).rotate( phi );
+        Vector2D v = new Vector2D.Double( speed, 0 ).rotate( phi );
 
         // Generate angular velocity
         double a = maxAlpha * random.nextDouble() * MathUtil.nextRandomSign();

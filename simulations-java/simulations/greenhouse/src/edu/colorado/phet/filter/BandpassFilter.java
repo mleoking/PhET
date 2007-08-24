@@ -11,7 +11,7 @@ public class BandpassFilter extends Filter1D {
     private double low;
     private double high;
 
-    public BandpassFilter( double low, double high ){
+    public BandpassFilter( double low, double high ) {
         this.low = low;
         this.high = high;
     }

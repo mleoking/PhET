@@ -14,8 +14,12 @@ import java.awt.geom.Point2D;
 public interface MovementType {
 
     void stepInTime( Electron electron, double dt );
+
     Vector2D getVelocity( Electron electron );
+
     float getAcceleration( Electron electron );
+
     Point2D getNextPosition( Point2D position, double t );
+
     float getMaxAcceleration( Electron electron );
 }

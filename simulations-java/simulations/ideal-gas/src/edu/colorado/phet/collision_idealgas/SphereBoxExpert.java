@@ -7,12 +7,12 @@
 package edu.colorado.phet.collision_idealgas;
 
 import edu.colorado.phet.idealgas.model.Box2D;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
-//    private SphereBoxCollisionExpert detector = new SphereBoxCollisionExpert();
+    //    private SphereBoxCollisionExpert detector = new SphereBoxCollisionExpert();
     private IdealGasModel model;
 
     public SphereBoxExpert( IdealGasModel model ) {
@@ -30,7 +30,7 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
                         (Box2D)bodyA : (Box2D)bodyB;
 
             // todo: This should not happen in this class!!!!!
-            if( sphere instanceof GasMolecule && !box.containsBody( sphere )) {
+            if( sphere instanceof GasMolecule && !box.containsBody( sphere ) ) {
 //            if( sphere instanceof GasMolecule && !( (GasMolecule)sphere ).isInBox() ) {
 //                return haveCollided;
             }

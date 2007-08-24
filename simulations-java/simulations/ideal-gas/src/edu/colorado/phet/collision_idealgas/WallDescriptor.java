@@ -16,9 +16,9 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * WallDescriptor
- * <p>
+ * <p/>
  * Describes the contact bounds of a wall, and line segments that constitute those bounds
- *
+ * <p/>
  * The descriptor contains line segments that represent a rectangle around the wall that
  * a particle's center of mass would be inside of if the particle were to be in contact
  * with the wall. The line segments are labeled according to the corners of that rectangle
@@ -40,7 +40,6 @@ public class WallDescriptor implements Wall.ChangeListener {
     private double contactRadius;
 
     /**
-     *
      * @param wall
      * @param contactRadius The radius of the particles that are hitting the wall
      */

@@ -18,7 +18,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Feb 4, 2005
  * Time: 7:55:21 AM
- *
  */
 
 public class ObjectComboBox extends JComboBox {

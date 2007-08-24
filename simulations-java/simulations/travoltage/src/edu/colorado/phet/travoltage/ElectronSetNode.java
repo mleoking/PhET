@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2006
  * Time: 11:26:31 PM
- *
  */
 
 public class ElectronSetNode extends PNode {

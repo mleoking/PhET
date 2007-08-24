@@ -52,7 +52,7 @@ public class FinishedUnit2 extends Page {
     }
 
     public void showNextSectionButton() {
-        nextUnit.setOffset( getBasePage().getWidth() - nextUnit.getFullBounds().getWidth() - 2, getBasePage().getNextButtonLocation() .getY() );
+        nextUnit.setOffset( getBasePage().getWidth() - nextUnit.getFullBounds().getWidth() - 2, getBasePage().getNextButtonLocation().getY() );
 //        nextUnit.setOffset( );
         addChild( nextUnit );
     }

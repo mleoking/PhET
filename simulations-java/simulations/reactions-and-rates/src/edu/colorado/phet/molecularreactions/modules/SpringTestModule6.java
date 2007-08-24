@@ -14,12 +14,12 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.model.collision.ReactionSpring;
 import edu.colorado.phet.molecularreactions.model.collision.Spring;
 import edu.colorado.phet.molecularreactions.util.ModelElementGraphicManager;
 import edu.colorado.phet.molecularreactions.view.factories.SimpleMoleculeGraphicFactory;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -63,8 +63,8 @@ public class SpringTestModule6 extends Module {
 
         mA.setPosition( fixedEnd.getX() - 200 - mA.getRadius(), fixedEnd.getY() );
 
-        MoleculeB mB = new MoleculeB( );
-        MoleculeC mC = new MoleculeC( );
+        MoleculeB mB = new MoleculeB();
+        MoleculeC mC = new MoleculeC();
         mB.setPosition( fixedEnd.getX() + mB.getRadius(), fixedEnd.getY() );
         mC.setPosition( fixedEnd.getX() + mB.getRadius() * 2 + mC.getRadius(), fixedEnd.getY() );
         MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );

@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 5:56:06 PM
- *
  */
 
 public class PhotonWave {

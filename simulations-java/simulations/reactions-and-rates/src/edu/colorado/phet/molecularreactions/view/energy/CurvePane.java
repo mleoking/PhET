@@ -26,24 +26,23 @@ public class CurvePane extends PPath implements Resetable {
     private MRModel mrModel;
     private CurveCreatingModelListener curveCreatingModelListener;
 
-    public CurvePane(final MRModule module, Dimension upperPaneSize) {
+    public CurvePane( final MRModule module, Dimension upperPaneSize ) {
         super( new Rectangle2D.Double( 0,
-              0,
-              upperPaneSize.width - 1,
-              (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
-                - upperPaneSize.height
-                - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
-        ));
+                                       0,
+                                       upperPaneSize.width - 1,
+                                       (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
+                                       - upperPaneSize.height
+                                       - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height
+        ) );
 
         mrModel = module.getMRModel();
 
         curvePaneSize = new Dimension( upperPaneSize.width, (int)( MRConfig.ENERGY_VIEW_SIZE.getHeight() )
-                                              - upperPaneSize.height
-                                              - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
+                                                            - upperPaneSize.height
+                                                            - MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height );
 
         curveAreaSize = new Dimension( (int)curvePaneSize.getWidth() - curveAreaInsets.left - curveAreaInsets.right,
                                        (int)curvePaneSize.getHeight() - curveAreaInsets.top - curveAreaInsets.bottom );
-
 
 
         PNode totalEnergyLineLayer = new PNode();
@@ -51,7 +50,7 @@ public class CurvePane extends PPath implements Resetable {
 
         PNode curveLayer = new PNode();
         curveLayer.setOffset( curveAreaInsets.left, curveAreaInsets.top );
-        curveLayer.setWidth(  curveAreaSize.getWidth() );
+        curveLayer.setWidth( curveAreaSize.getWidth() );
         curveLayer.setHeight( curveAreaSize.getHeight() );
 
         PNode cursorLayer = new PNode();
@@ -86,11 +85,11 @@ public class CurvePane extends PPath implements Resetable {
 
         // Add axes
         PNode xAxis = new AxisNode( MRConfig.RESOURCES.getLocalizedString( "EnergyView.ReactionCoordinate" ),
-                                                                       curveAreaSize.getWidth(),
-                                                                       MRConfig.ENERGY_PANE_TEXT_COLOR,
-                                                                       AxisNode.HORIZONTAL,
-                                                                       AxisNode.BOTTOM );
-        
+                                    curveAreaSize.getWidth(),
+                                    MRConfig.ENERGY_PANE_TEXT_COLOR,
+                                    AxisNode.HORIZONTAL,
+                                    AxisNode.BOTTOM );
+
         xAxis.setOffset( curveAreaInsets.left - 2,
                          this.getHeight() - 25 );
         addChild( xAxis );
@@ -100,7 +99,7 @@ public class CurvePane extends PPath implements Resetable {
                                     AxisNode.VERTICAL,
                                     AxisNode.TOP );
         yAxis.setOffset( curveAreaInsets.left - 2, this.getHeight() - 25 );
-        
+
         addChild( yAxis );
     }
 
@@ -136,7 +135,7 @@ public class CurvePane extends PPath implements Resetable {
         energyLine.setLabel( propertyName );
     }
 
-    public void setEnergyCursorOffset(double offset) {
+    public void setEnergyCursorOffset( double offset ) {
         energyCursor.setOffset( offset, 0 );
     }
 
@@ -145,7 +144,7 @@ public class CurvePane extends PPath implements Resetable {
             try {
                 curveLayer.removeChild( energyProfileGraphic );
             }
-            catch (ArrayIndexOutOfBoundsException e) {
+            catch( ArrayIndexOutOfBoundsException e ) {
 
             }
         }
@@ -155,21 +154,21 @@ public class CurvePane extends PPath implements Resetable {
         curveLayer.addChild( energyProfileGraphic );
     }
 
-    public void setProfileManipulable(boolean manipulable ) {
-        energyProfileGraphic.setManipulable( manipulable ); 
+    public void setProfileManipulable( boolean manipulable ) {
+        energyProfileGraphic.setManipulable( manipulable );
     }
 
     public void setTotalEnergyLineVisible( boolean visible ) {
         energyLine.setVisible( visible );
     }
 
-    public void setLegendVisible(boolean visible) {
+    public void setLegendVisible( boolean visible ) {
         energyLine.setLegendVisible( visible );
-        energyProfileGraphic.setVisible(visible);
+        energyProfileGraphic.setVisible( visible );
     }
 
-    public double getIntersectionWithHorizontal(double x) {
-        return energyProfileGraphic.getIntersectionWithHorizontal( energyLine.getEnergyLineY(), x);
+    public double getIntersectionWithHorizontal( double x ) {
+        return energyProfileGraphic.getIntersectionWithHorizontal( energyLine.getEnergyLineY(), x );
     }
 
     public void setEnergyCursorVisible( boolean b ) {

@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 11:41:32 PM
- *
  */
 
 public class MultiOscillator {

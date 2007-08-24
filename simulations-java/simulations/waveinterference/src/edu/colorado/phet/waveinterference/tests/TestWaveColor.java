@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.WavelengthControlPanel;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:17:23 AM
- *
  */
 
 public class TestWaveColor extends TestTopView {

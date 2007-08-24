@@ -12,7 +12,7 @@ package edu.colorado.phet.coreadditions.emf;
 
 /**
  * CircularBuffer
- * <p>
+ * <p/>
  * A circular buffer of objects. Can be used as to implement of a queue
  * without requiring memory allocation every time an element is added.
  *
@@ -74,9 +74,9 @@ public class CircularBuffer {
 
     public static void main( String[] args ) {
         CircularBuffer cb = new CircularBuffer( 3 );
-        cb.add( new Integer( 1 ));
-        cb.add( new Integer(2 ));
-        cb.add( new Integer(3 ));
+        cb.add( new Integer( 1 ) );
+        cb.add( new Integer( 2 ) );
+        cb.add( new Integer( 3 ) );
         System.out.println( "cb = " + cb );
         Object v = cb.remove();
 //        double d1 = cb.get( 0 );
@@ -84,7 +84,7 @@ public class CircularBuffer {
 //
 //        System.out.println( "v = " + v );
         System.out.println( "cb = " + cb );
-        cb.add( new Integer( 9 ));
+        cb.add( new Integer( 9 ) );
         System.out.println( "cb = " + cb );
 
 //        double d2 = cb.get( 2 );

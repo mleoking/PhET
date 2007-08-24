@@ -97,7 +97,7 @@ public class RTAudioIn extends Thread {
             public void run() {
                 System.out.println( "The shutdown hook in RTAudioIn is executing" );
                 close();
-                try {	//wait for the DLL to do its destruction before terminating!
+                try {    //wait for the DLL to do its destruction before terminating!
                     sleep( 100 );
                 }
                 catch( Exception e ) {

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 28, 2006
  * Time: 8:32:12 PM
- *
  */
 
 public class TabLabelIcon2 extends ImageIcon {

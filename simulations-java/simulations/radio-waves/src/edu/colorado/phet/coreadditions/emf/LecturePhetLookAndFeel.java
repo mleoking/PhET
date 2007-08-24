@@ -16,7 +16,7 @@ import java.io.IOException;
 public class LecturePhetLookAndFeel implements PhetLookAndFeel {
 
     Color background = new Color( 60, 80, 60 );
-    Color buttonBackground = new Color( 60,60, 100 );
+    Color buttonBackground = new Color( 60, 60, 100 );
     Color controlTextColor = new Color( 230, 230, 230 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 16 );
     String smallIconPath = "radio-waves/images/Phet-logo-16x16.gif";
@@ -24,12 +24,12 @@ public class LecturePhetLookAndFeel implements PhetLookAndFeel {
     Image smallIconImage;
 
     static String[] controlTypes = new String[]{
-        "Menu",
-        "MenuItem",
-        "RadioButton",
-        "Button",
-        "CheckBox",
-        "Label"
+            "Menu",
+            "MenuItem",
+            "RadioButton",
+            "Button",
+            "CheckBox",
+            "Label"
     };
 
 

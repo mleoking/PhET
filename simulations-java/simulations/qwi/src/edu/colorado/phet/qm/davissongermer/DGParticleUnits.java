@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 28, 2006
  * Time: 2:29:36 PM
- *
  */
 
 public class DGParticleUnits extends ParticleUnits {

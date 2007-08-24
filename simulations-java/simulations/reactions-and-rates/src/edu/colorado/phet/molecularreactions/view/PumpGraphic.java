@@ -11,13 +11,13 @@
 package edu.colorado.phet.molecularreactions.view;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.*;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.ControlBorderFactory;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
-import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -145,19 +145,19 @@ public class PumpGraphic extends PNode implements Resetable {
             Rectangle2D creationBounds = new Rectangle2D.Double( x, y, 1, 1 );
 
             MoleculeParamGenerator moleculeParamGenerator =
-                    
-            new ConstantTemperatureMoleculeParamGenerator(
-                creationBounds,
-                model,
-                .1,
-                Math.PI * 3 / 4,
-                Math.PI * 5 / 4,
-                currentMoleculeType
-            );
 
-            return MoleculeFactory.createMolecule( 
-                currentMoleculeType,
-                moleculeParamGenerator
+                    new ConstantTemperatureMoleculeParamGenerator(
+                            creationBounds,
+                            model,
+                            .1,
+                            Math.PI * 3 / 4,
+                            Math.PI * 5 / 4,
+                            currentMoleculeType
+                    );
+
+            return MoleculeFactory.createMolecule(
+                    currentMoleculeType,
+                    moleculeParamGenerator
             );
         }
     }

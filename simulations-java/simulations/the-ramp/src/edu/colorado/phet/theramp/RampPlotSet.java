@@ -5,12 +5,12 @@ import edu.colorado.phet.theramp.common.LayoutSet;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeries;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeries;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
@@ -23,7 +23,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 16, 2005
  * Time: 10:49:44 AM
- *
  */
 
 public class RampPlotSet extends PNode {

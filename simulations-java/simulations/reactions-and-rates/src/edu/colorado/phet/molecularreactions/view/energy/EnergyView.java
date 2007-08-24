@@ -4,13 +4,13 @@ package edu.colorado.phet.molecularreactions.view.energy;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.services.PNodeShowHideControl;
 import edu.colorado.phet.molecularreactions.MRApplication;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.MRModel;
 import edu.colorado.phet.molecularreactions.modules.MRModule;
 import edu.colorado.phet.molecularreactions.util.Resetable;
 import edu.colorado.phet.molecularreactions.view.ReactionGraphic;
-import edu.colorado.phet.common.piccolophet.services.PNodeShowHideControl;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -97,8 +97,8 @@ public class EnergyView extends PNode implements Resetable {
 
         // The graphic that shows the reaction mechanics. It appears below the profile pane.
         legendNode = new PPath( new Rectangle2D.Double( 0, 0,
-                                                                     MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
-                                                              MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
+                                                        MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.width,
+                                                        MRConfig.ENERGY_VIEW_REACTION_LEGEND_SIZE.height ) );
         legendNode.setPaint( MRConfig.ENERGY_PANE_BACKGROUND );
         legendNode.setStrokePaint( new Color( 0, 0, 0, 0 ) );
         legendNode.setOffset( 0, upperPaneSize.getHeight() + curvePane.getSize().getHeight() );
@@ -114,7 +114,7 @@ public class EnergyView extends PNode implements Resetable {
     private void addMolecularSeparationPane( MRModule module, Dimension upperPaneSize ) {
         removeUpperPaneCloser();
 
-        if (moleculeSeparationPane != null) {
+        if( moleculeSeparationPane != null ) {
             moleculeSeparationPane.terminate();
         }
 
@@ -127,33 +127,33 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void removeMolecularSeparationPane() {
-         removeUpperPaneCloser();
+        removeUpperPaneCloser();
 
-        if (moleculeSeparationPane != null) {
-            if (getChildrenReference().contains( moleculeSeparationPane )) {
+        if( moleculeSeparationPane != null ) {
+            if( getChildrenReference().contains( moleculeSeparationPane ) ) {
                 removeChild( moleculeSeparationPane );
             }
-            
+
             moleculeSeparationPane.terminate();
             moleculeSeparationPane = null;
         }
     }
 
     private void addUpperPaneCloser() {
-        if ( moleculeSeparationCloser == null) {
+        if( moleculeSeparationCloser == null ) {
             moleculeSeparationCloser = new PNodeShowHideControl( moleculeSeparationPane, MRConfig.RESOURCES.getLocalizedString( "SeparationView.restoreViewName" ) );
         }
     }
 
     private void removeUpperPaneCloser() {
-        if (moleculeSeparationCloser != null) {
+        if( moleculeSeparationCloser != null ) {
             moleculeSeparationCloser.uninstall();
             moleculeSeparationCloser = null;
         }
     }
 
     private void addUpperPane( Dimension upperPaneSize ) {
-        upperPane = new UpperEnergyPane(upperPaneSize);
+        upperPane = new UpperEnergyPane( upperPaneSize );
 
         addChild( upperPane );
     }
@@ -161,12 +161,12 @@ public class EnergyView extends PNode implements Resetable {
     private void addCurvePane( MRModule module, Dimension upperPaneSize ) {
         disableCurvePaneCloser();
 
-        if (curvePane != null) {
+        if( curvePane != null ) {
             curvePane.terminate();
         }
 
         // The pane that has the curve and cursor
-        curvePane = new CurvePane(module, upperPaneSize);
+        curvePane = new CurvePane( module, upperPaneSize );
 
         addChild( curvePane );
 
@@ -174,20 +174,22 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     private void enableCurvePaneCloser() {
-        if (curvePaneCloser == null) {
+        if( curvePaneCloser == null ) {
             curvePaneCloser = new PNodeShowHideControl( curvePane, MRConfig.RESOURCES.getLocalizedString( "EnergyView.restoreViewName" ) );
         }
     }
 
     private void disableCurvePaneCloser() {
-        if (curvePaneCloser != null) {
+        if( curvePaneCloser != null ) {
             curvePaneCloser.uninstall();
             curvePaneCloser = null;
         }
     }
 
     public void reset() {
-        if ( upperPane == null ) throw new InternalError();
+        if( upperPane == null ) {
+            throw new InternalError();
+        }
 
         //initialize( module,  getUpperPaneSize() );
     }
@@ -210,7 +212,7 @@ public class EnergyView extends PNode implements Resetable {
         upperPane.addChild( pNode );
         upperPaneContent = pNode;
 
-        upperPaneContent.setVisible ( true );
+        upperPaneContent.setVisible( true );
 
         upperPane.setVisible( true );
     }
@@ -226,7 +228,7 @@ public class EnergyView extends PNode implements Resetable {
      */
     public void clearUpperPaneContent( PNode node ) {
         removeMolecularSeparationPane();
-        
+
         if( node != null && upperPane.getChildrenReference().contains( node ) ) {
             upperPane.removeChild( upperPaneContent );
 
@@ -237,7 +239,7 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void setSeparationViewVisible( boolean visible ) {
-        if ( visible ) {
+        if( visible ) {
             moleculeSeparationCloser.show();
         }
         else {
@@ -246,7 +248,7 @@ public class EnergyView extends PNode implements Resetable {
     }
 
     public void setEnergyViewVisible( boolean visible ) {
-        if ( visible ) {
+        if( visible ) {
             curvePaneCloser.show();
         }
         else {
@@ -257,7 +259,7 @@ public class EnergyView extends PNode implements Resetable {
     public void setEnergyLineLabel( String propertyName ) {
         curvePane.setEnergyLineLabel( propertyName );
     }
-    
+
     public void setProfileManipulable( boolean manipulable ) {
         curvePane.setProfileManipulable( manipulable );
     }
@@ -283,7 +285,7 @@ public class EnergyView extends PNode implements Resetable {
 
         //canvas.getLayer().addChild( ev.moleculeSeparationPane );
 
-        JFrame frame = new JFrame( );
+        JFrame frame = new JFrame();
 
         frame.setContentPane( canvas );
 
@@ -293,10 +295,10 @@ public class EnergyView extends PNode implements Resetable {
 
         frame.setVisible( true );
 
-        canvas.getLayer().addChild (
-            ev.moleculeSeparationPane.getChild( 0 ).getChild( 0 )
+        canvas.getLayer().addChild(
+                ev.moleculeSeparationPane.getChild( 0 ).getChild( 0 )
         );
 
-        
+
     }
 }

@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.util.WISwingUtil;
  * User: Sam Reid
  * Date: May 19, 2006
  * Time: 1:26:06 AM
- *
  */
 
 public class VerticalLayoutPanelWithDisable extends VerticalLayoutPanel {

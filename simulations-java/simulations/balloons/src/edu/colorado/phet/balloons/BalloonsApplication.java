@@ -12,9 +12,9 @@ import edu.colorado.phet.balloons.common.phys2d.Repaint;
 import edu.colorado.phet.balloons.common.phys2d.System2D;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -100,10 +100,10 @@ public class BalloonsApplication extends JApplet implements IHelp {
         String blueBalloonIm = "balloon-blue.gif";
         String yellowBalloonIm = "balloon-yellow.gif";
         //require a deep copy so we can edit it independently of other reference
-        BufferedImage balloon = BufferedImageUtils.copyImage( BalloonsResources.getImage( "" + blueBalloonIm ),BufferedImage.TYPE_INT_ARGB );
+        BufferedImage balloon = BufferedImageUtils.copyImage( BalloonsResources.getImage( "" + blueBalloonIm ), BufferedImage.TYPE_INT_ARGB );
         BufferedImage blueCharge = BalloonsResources.getImage( "" + blueBalloonIm );
 
-        BufferedImage yelBal = BufferedImageUtils.copyImage(BalloonsResources.getImage( "" + yellowBalloonIm ),BufferedImage.TYPE_INT_ARGB );
+        BufferedImage yelBal = BufferedImageUtils.copyImage( BalloonsResources.getImage( "" + yellowBalloonIm ), BufferedImage.TYPE_INT_ARGB );
         BufferedImage yelCharge = BalloonsResources.getImage( "" + yellowBalloonIm );
 
         paintCharge( yelCharge );

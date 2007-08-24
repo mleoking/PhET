@@ -66,7 +66,7 @@ public class CompositeMoleculeGraphic extends PNode implements SimpleObserver {
             boundingBox.setPathTo( compositeMolecule.getBoundingBox() );
         }
         if( DebugFlags.SHOW_CM ) {
-            if( cmNode == null || compositeMolecule == null) {
+            if( cmNode == null || compositeMolecule == null ) {
                 System.out.println( "CompositeMoleculeGraphic.update" );
             }
             cmNode.setOffset( compositeMolecule.getCM() );

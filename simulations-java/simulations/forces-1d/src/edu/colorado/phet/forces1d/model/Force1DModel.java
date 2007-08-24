@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.model;
 
 import edu.colorado.phet.common_force1d.model.ModelElement;
@@ -14,7 +13,6 @@ import java.util.List;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 9:54:55 PM
- *
  */
 public class Force1DModel implements ModelElement {
 

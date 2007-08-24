@@ -10,7 +10,6 @@ import java.net.URL;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 3:30:56 PM
- *
  */
 
 public class CrashAudioPlayer implements Force1DModel.CollisionListener {

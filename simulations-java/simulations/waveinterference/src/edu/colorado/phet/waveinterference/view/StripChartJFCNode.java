@@ -21,7 +21,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 20, 2005
  * Time: 1:18:43 AM
- *
  */
 
 public class StripChartJFCNode extends PNode {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.semiconductor_semi.macro.energy.bands.BandParticle;
@@ -8,7 +7,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.bands.EnergyCell;
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 10:32:27 AM
- *
  */
 public class Unexcite implements ParticleAction {
     EnergyCell cell;
@@ -20,7 +18,7 @@ public class Unexcite implements ParticleAction {
     public void apply( BandParticle particle ) {
         if( particle.getEnergyCell() == cell
             && particle.isLocatedAtCell()
-        ) {
+                ) {
             particle.setExcited( false );
         }
     }

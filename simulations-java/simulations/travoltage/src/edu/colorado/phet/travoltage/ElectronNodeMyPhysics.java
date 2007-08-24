@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 1:07:31 AM
- *
  */
 
 public class ElectronNodeMyPhysics extends PNode {

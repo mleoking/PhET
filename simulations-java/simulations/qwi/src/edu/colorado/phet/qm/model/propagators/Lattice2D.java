@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 9, 2006
  * Time: 10:20:35 PM
- *
  */
 
 public class Lattice2D {

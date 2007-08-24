@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ExciteForConduction;
@@ -7,7 +6,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ExciteForCo
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 9:44:55 AM
- *
  */
 public class SimpleConductionLeft extends DefaultStateDiagram {
     public SimpleConductionLeft( EnergySection energySection, int band, int bandSet, int srcLevel ) {

@@ -10,12 +10,14 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.nuclearphysics.Config;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.model.ControlRod;
@@ -78,12 +80,12 @@ public class ControlRodGroupGraphic extends CompositePhetGraphic {
         // If we do the following test to help performance, we have problems if the graphic
         // gets this call before it has be set to its final size.
 //        if( invAtx == null ) {
-            try {
-                this.invAtx = atx.createInverse();
-            }
-            catch( NoninvertibleTransformException e ) {
-                e.printStackTrace();
-            }
+        try {
+            this.invAtx = atx.createInverse();
+        }
+        catch( NoninvertibleTransformException e ) {
+            e.printStackTrace();
+        }
 //        }
         invAtx.transform( p, p );
         return super.contains( (int)p.getX(), (int)p.getY() );

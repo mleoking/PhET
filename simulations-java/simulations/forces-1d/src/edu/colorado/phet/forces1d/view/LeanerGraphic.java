@@ -17,7 +17,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Dec 6, 2004
  * Time: 8:53:15 AM
- *
  */
 
 public class LeanerGraphic extends PhetImageGraphic {

@@ -2,7 +2,6 @@
 package org.reid.particles.tutorial.unit2;
 
 import org.reid.particles.tutorial.*;
-import org.reid.particles.tutorial.unit1.ThisPageForRent;
 
 /**
  * User: Sam Reid
@@ -81,22 +80,22 @@ public class Unit2 implements AbstractUnit {
                 },
                 new PageMaker() {
                     public Page createPage() {
-                        return new PlotBeta240(page);
+                        return new PlotBeta240( page );
                     }
                 },
                 new PageMaker() {
                     public Page createPage() {
-                        return new ExplainBeta250(page);
+                        return new ExplainBeta250( page );
                     }
                 },
                 new PageMaker() {
                     public Page createPage() {
-                        return new ExplainBeta260(page);
+                        return new ExplainBeta260( page );
                     }
                 },
                 new PageMaker() {
                     public Page createPage() {
-                        return new FinishedUnit2(page,tutorialApplication);
+                        return new FinishedUnit2( page, tutorialApplication );
                     }
                 }
 //                ,

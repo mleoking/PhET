@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 
 /**
  * ReactionChooserComboBox
- * <p>
+ * <p/>
  * A JComboBox whose items are selectors for the reaction to be used
  * by the model
  *
@@ -46,15 +46,13 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
     private String designYourOwnItem;
 
 
-
     /**
-     * 
      * @param module
      */
     public ReactionChooserComboBox( MRModule module ) {
 
         module.getMRModel().addListener( this );
-        
+
         setRenderer( new DefaultListCellRenderer() );
         ButtonGroup bg = new ButtonGroup();
         defaultRB = new JRadioButton();
@@ -70,11 +68,11 @@ public class ReactionChooserComboBox extends JComboBox implements MRModel.ModelL
         bg.add( designYourOwnRB );
 
         selectionAction = new SelectReactionAction( module );
-        defaultRB.addActionListener( selectionAction  );
-        r1RB.addActionListener( selectionAction  );
+        defaultRB.addActionListener( selectionAction );
+        r1RB.addActionListener( selectionAction );
         r2RB.addActionListener( selectionAction );
-        r3RB.addActionListener( selectionAction  );
-        designYourOwnRB.addActionListener( selectionAction  );
+        r3RB.addActionListener( selectionAction );
+        designYourOwnRB.addActionListener( selectionAction );
 
         defaultItem = ReactionSelectorIcons.getIcon( Profiles.DEFAULT );
         r1Item = ReactionSelectorIcons.getIcon( Profiles.R1 );

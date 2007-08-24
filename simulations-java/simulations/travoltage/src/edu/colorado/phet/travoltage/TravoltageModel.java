@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:50:51 AM
- *
  */
 
 public class TravoltageModel extends BaseModel {

@@ -8,20 +8,22 @@
 package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.coreadditions_nuclearphysics.TxApparatusPanel;
 import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
 import edu.colorado.phet.nuclearphysics.Config;
-import edu.colorado.phet.nuclearphysics.model.*;
+import edu.colorado.phet.nuclearphysics.model.NuclearModelElement;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * A panel thst shows the physical representation of what's going on.

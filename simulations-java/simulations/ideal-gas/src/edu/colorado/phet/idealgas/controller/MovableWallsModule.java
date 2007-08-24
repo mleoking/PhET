@@ -13,15 +13,13 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision_idealgas.*;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
-import edu.colorado.phet.idealgas.model.Box2D;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
@@ -149,7 +147,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ((IdealGasModel)getModel()).stepInTime( -clock.getDt() );
+                ( (IdealGasModel)getModel() ).stepInTime( -clock.getDt() );
             }
         } );
     }
@@ -344,7 +342,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                      getBox().getMaxY() - rightFloor.getBounds().getMinY() );
         verticalWall.setMinHeight( minHeight );
 
-
         // Set the region for the walls
         setWallBounds();
     }
@@ -373,7 +370,6 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                                                               boxBounds.getMaxX() - verticalWallBounds.getMaxX(),
                                                               boxBounds.getMaxY() - verticalWallBounds.getMinY() ) );
     }
-
 
     //----------------------------------------------------------------
     // Reset

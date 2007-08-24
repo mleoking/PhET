@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: May 5, 2006
  * Time: 9:57:30 AM
- *
  */
 
 public interface IVisualizationPanel {

@@ -18,7 +18,7 @@ import java.util.Random;
 
 /**
  * IonInitilizer
- * <p>
+ * <p/>
  * Assigns an ion a random position within the water in the vessel, and
  * a random velocity within specified bounds.
  *
@@ -57,7 +57,7 @@ public class IonInitializer {
      */
     private static Vector2D genIonVelocity() {
         return new Vector2D.Double( ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ),
-                                    (random.nextDouble() * ( vMax - vMin ) + vMin )* ( random.nextBoolean() ? 1 : -1 ) );
+                                    ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ) );
     }
 
 }

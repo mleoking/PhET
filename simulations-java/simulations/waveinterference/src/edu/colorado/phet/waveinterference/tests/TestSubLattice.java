@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 11:23:11 PM
- *
  */
 
 public class TestSubLattice extends Module {

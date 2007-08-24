@@ -12,10 +12,10 @@ import edu.colorado.phet.idealgas.model.IdealGasModel;
 public class SphereSphereExpert implements CollisionExpert {
 
     private static boolean ignoreGasMoleculeInteractions = false;
+
     public static void setIgnoreGasMoleculeInteractions( boolean ignoreGasMoleculeInteractions ) {
         SphereSphereExpert.ignoreGasMoleculeInteractions = ignoreGasMoleculeInteractions;
     }
-
 
 
     private SphereSphereContactDetector detector = new SphereSphereContactDetector();

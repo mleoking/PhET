@@ -30,7 +30,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:48:21 PM
- *
  */
 
 public class QWIModule extends PiccoloModule {

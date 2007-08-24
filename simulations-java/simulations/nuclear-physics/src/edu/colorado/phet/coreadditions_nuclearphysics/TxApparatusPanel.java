@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class TxApparatusPanel extends ApparatusPanel2 {
 
-    static ArrayList instances = new ArrayList( );
+    static ArrayList instances = new ArrayList();
     static boolean init = false;
 
 

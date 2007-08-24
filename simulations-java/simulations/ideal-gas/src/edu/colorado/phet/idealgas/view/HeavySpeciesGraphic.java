@@ -7,16 +7,14 @@
  */
 package edu.colorado.phet.idealgas.view;
 
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.GasMolecule;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  *
@@ -28,7 +26,7 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
 
     static {
         s_particleImage = IdealGasResources.getImage( s_imageName );
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 90, 90, 255 ));
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 90, 90, 255 ) );
 //            MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( 120, 120, 255 ));
         op.filter( s_particleImage, s_particleImage );
     }
@@ -36,18 +34,19 @@ public class HeavySpeciesGraphic extends GasMoleculeGraphic {
 
     /**
      * Sets the color of the graphic to a duotone based on a specified color
+     *
      * @param color
      */
     public static void setColor( Color color ) {
         GasMoleculeGraphic.setColor( color );
         s_particleImage = IdealGasResources.getImage( s_imageName );
-        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ));
+        MakeDuotoneImageOp op = new MakeDuotoneImageOp( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );
         op.filter( s_particleImage, s_particleImage );
     }
 
     /**
      * Constructor
-     * 
+     *
      * @param apparatusPanel
      * @param molecule
      */

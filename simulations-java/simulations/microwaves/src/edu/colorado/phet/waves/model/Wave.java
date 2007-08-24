@@ -9,8 +9,7 @@ package edu.colorado.phet.waves.model;
 import edu.colorado.phet.common_microwaves.model.ModelElement;
 
 /**
- *
- * <p>
+ * <p/>
  * TODO: Make this 2D. It is currently pnly 1D
  */
 public class Wave extends ModelElement {
@@ -40,7 +39,6 @@ public class Wave extends ModelElement {
     private boolean enabled = true;
 
     /**
-     *
      * @param wavefrontType
      */
     public Wave( WavefrontType wavefrontType,
@@ -54,7 +52,6 @@ public class Wave extends ModelElement {
     }
 
     /**
-     *
      * @return
      */
     public boolean isEnabled() {
@@ -62,7 +59,6 @@ public class Wave extends ModelElement {
     }
 
     /**
-     *
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
@@ -70,7 +66,6 @@ public class Wave extends ModelElement {
     }
 
     /**
-     *
      * @param waveFunction
      */
     public void setWaveFunction( PeriodicFunction waveFunction ) {
@@ -158,9 +153,10 @@ public class Wave extends ModelElement {
      * Returns the frequency at which the amplitude at a particular index
      * was generated. This enables a client to get the frequency at some
      * point in the wave train other than what is being generated right now.
-     * <p>
+     * <p/>
      * This method protects against attempted references outside the range of
      * legitimate indexes.
+     *
      * @param frequencyIdx
      * @return
      */
@@ -185,7 +181,6 @@ public class Wave extends ModelElement {
     }
 
     /**
-     *
      * @return
      */
     public float getWavelengthAtTime( int t, float dt ) {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.bernoulli.pipe;
 
 import edu.colorado.phet.bernoulli.spline.SplineGraphic;
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Sep 9, 2003
  * Time: 2:37:40 AM
- *
  */
 public class LeftPipeEndGraphic implements Graphic {
     private BufferedImage endImage;

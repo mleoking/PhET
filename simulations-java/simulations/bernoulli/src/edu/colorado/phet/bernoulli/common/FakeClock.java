@@ -6,7 +6,6 @@ import edu.colorado.phet.common.bernoulli.model.*;
  * User: Sam Reid
  * Date: Aug 19, 2003
  * Time: 12:48:27 AM
- *
  */
 public class FakeClock implements IClock {
     public void addClockStateListener( ClockStateListener csl ) {

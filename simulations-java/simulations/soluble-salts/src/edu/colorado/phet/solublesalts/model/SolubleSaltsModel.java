@@ -28,7 +28,6 @@ import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
-import java.util.List;
 
 /**
  * SolubleSaltsModel
@@ -92,7 +91,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     //---------------------------------------------------------------
 
     /**
-     *
      * @param clock
      * @param module
      */
@@ -219,7 +217,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
             Ion ion = (Ion)ions.get( i );
             removeModelElement( ion );
         }
-        vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel/ SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
+        vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel / SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
         waterSource.setFlow( 0 );
         drain.setFlow( 0 );
         heatSource.setHeatChangePerClockTick( 0 );
@@ -459,7 +457,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         return randomWalkAgent;
     }
 
-
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -546,7 +543,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
                 Crystal crystal = (Crystal)crystals.get( i );
-                if( crystal.isInWater(vessel.getWater().getBounds()) ) {
+                if( crystal.isInWater( vessel.getWater().getBounds() ) ) {
                     crystal.releaseIon( dt );
                     ionReleased = true;
                 }

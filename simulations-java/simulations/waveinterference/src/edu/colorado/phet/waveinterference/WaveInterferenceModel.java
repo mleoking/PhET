@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:34:05 PM
- *
  */
 
 public class WaveInterferenceModel implements ModelElement {

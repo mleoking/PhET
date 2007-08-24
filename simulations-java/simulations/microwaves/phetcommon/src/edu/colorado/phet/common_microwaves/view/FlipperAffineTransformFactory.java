@@ -8,9 +8,9 @@ package edu.colorado.phet.common_microwaves.view;
 
 import edu.colorado.phet.coreadditions_microwaves.graphics.AffineTransformFactory;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 
 /**
  * Produces affine transforms that map from model to view coordinates,
@@ -30,6 +30,7 @@ public class FlipperAffineTransformFactory implements AffineTransformFactory {
     /**
      * Returns an affine transform that will transform from model to
      * view coordinates, and invert the y axis.
+     *
      * @param viewBounds
      * @return
      */

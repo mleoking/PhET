@@ -18,7 +18,8 @@ public class ScatterEventGraphic implements Graphic {
     private ScatterEvent se;
     private double radius;
     private Point2D.Double loc;
-    Ellipse2D.Double ellipse=new Ellipse2D.Double();
+    Ellipse2D.Double ellipse = new Ellipse2D.Double();
+
     public ScatterEventGraphic( ScatterEvent se ) {
         this.se = se;
         se.addObserver( new Observer() {
@@ -31,14 +32,14 @@ public class ScatterEventGraphic implements Graphic {
 
     private void doUpdate() {
         radius = se.getRadius();
-        this.loc=se.getLocation();
-        ellipse.setFrameFromCenter(loc.x,loc.y,loc.x+radius,loc.y+radius);
+        this.loc = se.getLocation();
+        ellipse.setFrameFromCenter( loc.x, loc.y, loc.x + radius, loc.y + radius );
     }
 
     public void paint( Graphics2D graphics2D ) {
-        graphics2D.setColor(new Color( 180, 180, 0 ));
+        graphics2D.setColor( new Color( 180, 180, 0 ) );
 //        graphics2D.setColor(Color.yellow);
 //        graphics2D.drawArc();
-        graphics2D.fill(ellipse );
+        graphics2D.fill( ellipse );
     }
 }

@@ -9,7 +9,6 @@ import edu.colorado.phet.waveinterference.view.WaveSideView;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 7:45:45 PM
- *
  */
 
 public class WaveSideViewPhoton extends WaveSideView {

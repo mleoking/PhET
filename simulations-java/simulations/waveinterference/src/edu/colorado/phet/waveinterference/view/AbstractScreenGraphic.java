@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 10:34:49 PM
- *
  */
 
 public class AbstractScreenGraphic extends PNode {

@@ -39,7 +39,7 @@ public class BeamIntensityMeter extends ScalarDataRecorder {
 
     public double getIntesity() {
         double intensity = getDataTotal() / getTimeSpanOfEntries();
-        if( Double.isNaN( intensity ) || Double.isInfinite( intensity )) {
+        if( Double.isNaN( intensity ) || Double.isInfinite( intensity ) ) {
             intensity = 0;
         }
         return intensity;

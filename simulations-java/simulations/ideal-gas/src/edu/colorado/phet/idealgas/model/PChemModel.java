@@ -30,7 +30,6 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
     double centerlineLoc;
 
     /**
-     *
      * @param dt
      */
     public PChemModel( double dt ) {
@@ -38,7 +37,6 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
     }
 
     /**
-     *
      * @param centerlineLoc
      */
     public void setCenterlineLoc( double centerlineLoc ) {
@@ -46,7 +44,6 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
     }
 
     /**
-     *
      * @param verticalWall
      */
     public void setVerticalWall( Wall verticalWall ) {
@@ -58,12 +55,13 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
     /**
      * Changes the type of an object (GasMolecule) if it crosses the centerline of the
      * energy profile
+     *
      * @param dt
      */
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
 
-        List bodies= super.getBodies();
+        List bodies = super.getBodies();
         for( int i = 0; i < bodies.size(); i++ ) {
             Object o = bodies.get( i );
             if( o instanceof GasMolecule ) {
@@ -73,8 +71,8 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
                     Vector2D vOld = molecule.getVelocity();
-                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass()));
-                    lightMolecule.setVelocity(  vNew );
+                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass() ) );
+                    lightMolecule.setVelocity( vNew );
                     addModelElement( lightMolecule );
                     removeModelElement( molecule );
                     listenerProxy.moleculeCreated( new MoleculeCreationEvent( this, lightMolecule ) );
@@ -84,8 +82,8 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
                     Vector2D vOld = molecule.getVelocity();
-                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass()));
-                    heavyMolecule.setVelocity(  vNew );
+                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass() ) );
+                    heavyMolecule.setVelocity( vNew );
                     addModelElement( heavyMolecule );
                     removeModelElement( molecule );
                     listenerProxy.moleculeCreated( new MoleculeCreationEvent( this, heavyMolecule ) );

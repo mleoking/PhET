@@ -10,7 +10,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 27, 2006
  * Time: 9:59:46 AM
- *
  */
 
 public class FaucetControlPanel extends HorizontalLayoutPanel {

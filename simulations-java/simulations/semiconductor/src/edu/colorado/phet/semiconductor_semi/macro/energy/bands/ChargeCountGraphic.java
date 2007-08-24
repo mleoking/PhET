@@ -1,10 +1,10 @@
 /*, 2003.*/
 package edu.colorado.phet.semiconductor_semi.macro.energy.bands;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor_semi.util.RectangleUtils;
 
@@ -14,7 +14,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 17, 2004
  * Time: 10:23:00 AM
- *
  */
 public class ChargeCountGraphic implements Graphic {
     private EnergySection es;

@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.view.gun.PhotonBeam;
  * User: Sam Reid
  * Date: Jul 22, 2005
  * Time: 8:46:23 AM
- *
  */
 
 public class PhotonMandelBeam extends PhotonBeam {

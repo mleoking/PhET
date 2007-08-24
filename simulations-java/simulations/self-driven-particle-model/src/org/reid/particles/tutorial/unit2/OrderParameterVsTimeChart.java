@@ -19,7 +19,7 @@ import java.awt.*;
 
 public class OrderParameterVsTimeChart {
     private XYSeries meanSeries;
-//    private XYSeries rawSeries;
+    //    private XYSeries rawSeries;
     private XYSeriesCollection xySeriesCollection;
     private NumberAxis domainAxis;
     private NumberAxis rangeAxis;

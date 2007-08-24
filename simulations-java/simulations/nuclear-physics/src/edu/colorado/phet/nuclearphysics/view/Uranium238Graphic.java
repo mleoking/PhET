@@ -6,14 +6,14 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.Uranium238;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Uranium238Graphic extends NucleusGraphic {
@@ -33,8 +33,9 @@ public class Uranium238Graphic extends NucleusGraphic {
     private static int numImagesToUse = 15;
     // An array of differently randomized images of U235 nuclei, that we will choose randomly between at runtime
     private static BufferedImage[] imagesToUse = new BufferedImage[numImagesToUse];
+
     static {
-        Nucleus nucleus = new Nucleus( new Point2D.Double( ), Uranium238.NUM_PROTONS, Uranium238.NUM_NEUTRONS );
+        Nucleus nucleus = new Nucleus( new Point2D.Double(), Uranium238.NUM_PROTONS, Uranium238.NUM_NEUTRONS );
         for( int i = 0; i < imagesToUse.length; i++ ) {
             imagesToUse[i] = computeImage( nucleus );
         }
@@ -45,7 +46,7 @@ public class Uranium238Graphic extends NucleusGraphic {
     //--------------------------------------------------------------------------------------------------
 
     public Uranium238Graphic( Nucleus nucleus ) {
-        super( nucleus, imagesToUse[ random.nextInt( numImagesToUse )] );
+        super( nucleus, imagesToUse[random.nextInt( numImagesToUse )] );
     }
 
     public void paint( Graphics2D g ) {
@@ -55,7 +56,7 @@ public class Uranium238Graphic extends NucleusGraphic {
         AffineTransform orgTx = g.getTransform();
         g.transform( nucleusTx );
 
-        g.setColor( NucleusLabelColors.getColor( this.getClass() ));
+        g.setColor( NucleusLabelColors.getColor( this.getClass() ) );
         g.setFont( isotopeFont );
         FontMetrics fm = g.getFontMetrics();
         g.drawString( SimStrings.getInstance().getString( "Uranium238Graphic.Number" ), -fm.stringWidth( SimStrings.getInstance().getString( "Uranium238Graphic.Number" ) ), 0 );

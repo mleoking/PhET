@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.balloons;
 
 public class BalloonsConfig {

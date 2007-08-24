@@ -8,7 +8,6 @@ import edu.colorado.phet.qm.view.gun.DefaultGunParticle;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:34:12 PM
- *
  */
 
 public class DGParticle extends DefaultGunParticle {

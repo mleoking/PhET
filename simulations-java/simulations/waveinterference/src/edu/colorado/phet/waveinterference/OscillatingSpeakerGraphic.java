@@ -15,7 +15,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 7:47:29 PM
- *
  */
 
 public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
@@ -34,7 +33,7 @@ public class OscillatingSpeakerGraphic extends ImageOscillatorPNode {
         foreground = PImageFactory.create( "waveinterference/images/speaker-front.png" );
         addChild( foreground );
 
-        PSwing pswing = new PSwing(new ShinyPanel( oscillatorOnOffControlPanel ) );
+        PSwing pswing = new PSwing( new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pswing );
         update();
 

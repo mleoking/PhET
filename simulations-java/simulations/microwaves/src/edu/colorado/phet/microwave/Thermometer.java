@@ -40,10 +40,10 @@ public class Thermometer extends ModelElement {
         ke /= 3;
 
         for( int i = historySize - 1; i > 0; i-- ) {
-            history[i] = history[i-1];
+            history[i] = history[i - 1];
         }
         history[0] = ke;
-        Double result = new Double( MedianFilter.getMedian( history ));
+        Double result = new Double( MedianFilter.getMedian( history ) );
 
         setChanged();
 //        notifyObservers( new Double( ke ) );

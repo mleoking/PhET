@@ -51,106 +51,107 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
      * @param panelWidth
      * @param panelHeight
      */
-    public DischargeLampEnergyMonitorPanel2(final DischargeLampModel model,
-                                            AtomicState[] atomicStates,
-                                            int panelWidth, int panelHeight,
-                                            final ConfigurableElementProperties configurableElement) {
-        super(new GridBagLayout());
+    public DischargeLampEnergyMonitorPanel2( final DischargeLampModel model,
+                                             AtomicState[] atomicStates,
+                                             int panelWidth, int panelHeight,
+                                             final ConfigurableElementProperties configurableElement ) {
+        super( new GridBagLayout() );
 
         //--------------------------------------------------------------------------------------------------------------
         // Add listeners to the model
         //--------------------------------------------------------------------------------------------------------------
 
         this.model = model;
-        model.addChangeListener(new SpinnerManager());
+        model.addChangeListener( new SpinnerManager() );
 
         // Listen to the plates to for when electrons are emitted
-        model.getLeftHandPlate().addElectronProductionListener(new ElectronSource.ElectronProductionListener() {
-            public void electronProduced(ElectronSource.ElectronProductionEvent event) {
-                if (showElectrons) {
-                    addElectron(event.getElectron());
+        model.getLeftHandPlate().addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
+            public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+                if( showElectrons ) {
+                    addElectron( event.getElectron() );
                 }
             }
-        });
-        model.getRightHandPlate().addElectronProductionListener(new ElectronSource.ElectronProductionListener() {
-            public void electronProduced(ElectronSource.ElectronProductionEvent event) {
-                if (showElectrons) {
-                    addElectron(event.getElectron());
+        } );
+        model.getRightHandPlate().addElectronProductionListener( new ElectronSource.ElectronProductionListener() {
+            public void electronProduced( ElectronSource.ElectronProductionEvent event ) {
+                if( showElectrons ) {
+                    addElectron( event.getElectron() );
                 }
             }
-        });
+        } );
 
-        elmp = new DischargeLampEnergyLevelMonitorPanel(model, atomicStates, panelWidth, panelHeight);
-        elmp.setBorder(new EtchedBorder());
-        GridBagConstraints gbc = new GridBagConstraints(0, 0, 1, 1, 0, 0,
-                GridBagConstraints.CENTER,
-                GridBagConstraints.NONE,
-                new Insets(0, 10, 0, 10), 0, 0);
-        this.add(elmp, gbc);
+        elmp = new DischargeLampEnergyLevelMonitorPanel( model, atomicStates, panelWidth, panelHeight );
+        elmp.setBorder( new EtchedBorder() );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                         GridBagConstraints.CENTER,
+                                                         GridBagConstraints.NONE,
+                                                         new Insets( 0, 10, 0, 10 ), 0, 0 );
+        this.add( elmp, gbc );
 
         // Add the spinner that controls the number of energy levels
-        numLevelsSpinner = new JSpinner(new SpinnerNumberModel(DischargeLampsConfig.NUM_ENERGY_LEVELS, 2,
-                DischargeLampsConfig.MAX_NUM_ENERGY_LEVELS,
-                1));
+        numLevelsSpinner = new JSpinner( new SpinnerNumberModel( DischargeLampsConfig.NUM_ENERGY_LEVELS, 2,
+                                                                 DischargeLampsConfig.MAX_NUM_ENERGY_LEVELS,
+                                                                 1 ) );
 
         // Add a listener that will create the number of atomic states specified by the spinner, and apply them
         // to all the existing atoms
-        numLevelsSpinner.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                int numLevels = ((Integer) numLevelsSpinner.getValue()).intValue();
-                configurableElement.setNumEnergyLevels(numLevels);
-                model.setElementProperties(configurableElement);
+        numLevelsSpinner.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                int numLevels = ( (Integer)numLevelsSpinner.getValue() ).intValue();
+                configurableElement.setNumEnergyLevels( numLevels );
+                model.setElementProperties( configurableElement );
             }
-        });
+        } );
 
-        spinnerPanel = new JPanel(new GridBagLayout());
-        JLabel spinnerLabel = new JLabel("# of levels");
-        GridBagConstraints gbc2 = new GridBagConstraints(0, 0, 1, 1, 0, 0,
-                GridBagConstraints.CENTER,
-                GridBagConstraints.NONE,
-                new Insets(4, 2, 4, 2), 0, 0);
+        spinnerPanel = new JPanel( new GridBagLayout() );
+        JLabel spinnerLabel = new JLabel( "# of levels" );
+        GridBagConstraints gbc2 = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
+                                                          GridBagConstraints.CENTER,
+                                                          GridBagConstraints.NONE,
+                                                          new Insets( 4, 2, 4, 2 ), 0, 0 );
         gbc2.anchor = GridBagConstraints.EAST;
-        spinnerPanel.add(spinnerLabel, gbc2);
+        spinnerPanel.add( spinnerLabel, gbc2 );
         gbc2.gridx = 1;
         gbc2.anchor = GridBagConstraints.WEST;
-        spinnerPanel.add(numLevelsSpinner, gbc2);
+        spinnerPanel.add( numLevelsSpinner, gbc2 );
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        this.add(spinnerPanel, gbc);
-        setSpinnerVisibility(model);
+        this.add( spinnerPanel, gbc );
+        setSpinnerVisibility( model );
     }
 
-    public void addElectron(Electron electron) {
-        elmp.addElectron(electron);
+    public void addElectron( Electron electron ) {
+        elmp.addElectron( electron );
     }
 
     public void reset() {
-        elmp.setEnergyLevels(model.getAtomicStates());
-        elmp.setEnergyLevelsMovable(model.getElementProperties().isLevelsMovable());
+        elmp.setEnergyLevels( model.getAtomicStates() );
+        elmp.setEnergyLevelsMovable( model.getElementProperties().isLevelsMovable() );
     }
 
-    public void addAtom(Atom atom) {
-        elmp.addAtom(atom);
+    public void addAtom( Atom atom ) {
+        elmp.addAtom( atom );
     }
 
-    public void setEnergyLevels(AtomicState[] atomicStates) {
-        elmp.setEnergyLevels(atomicStates);
-        elmp.setEnergyLevelsMovable(model.getElementProperties().isLevelsMovable());
+    public void setEnergyLevels( AtomicState[] atomicStates ) {
+        elmp.setEnergyLevels( atomicStates );
+        elmp.setEnergyLevelsMovable( model.getElementProperties().isLevelsMovable() );
     }
 
-    public void setSquigglesEnabled(boolean selected) {
-        elmp.setSquigglesEnabled(selected);
+    public void setSquigglesEnabled( boolean selected ) {
+        elmp.setSquigglesEnabled( selected );
     }
 
     public DischargeLampEnergyLevelMonitorPanel getElmp() {
         return elmp;
     }
 
-    private void setSpinnerVisibility(DischargeLampModel model) {
-        if (model.getElementProperties() instanceof ConfigurableElementProperties) {
-            spinnerPanel.setVisible(true);
-        } else {
-            spinnerPanel.setVisible(false);
+    private void setSpinnerVisibility( DischargeLampModel model ) {
+        if( model.getElementProperties() instanceof ConfigurableElementProperties ) {
+            spinnerPanel.setVisible( true );
+        }
+        else {
+            spinnerPanel.setVisible( false );
         }
     }
 
@@ -158,12 +159,12 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
         return showElectrons;
     }
 
-    public void setShowElectrons(boolean showElectrons) {
+    public void setShowElectrons( boolean showElectrons ) {
         this.showElectrons = showElectrons;
     }
 
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    protected void paintComponent( Graphics g ) {
+        super.paintComponent( g );
     }
 
     //----------------------------------------------------------------
@@ -171,8 +172,8 @@ public class DischargeLampEnergyMonitorPanel2 extends JPanel {
     //----------------------------------------------------------------
 
     private class SpinnerManager extends DischargeLampModel.ChangeListenerAdapter {
-        public void energyLevelsChanged(DischargeLampModel.ChangeEvent event) {
-            setSpinnerVisibility(event.getDischargeLampModel());
+        public void energyLevelsChanged( DischargeLampModel.ChangeEvent event ) {
+            setSpinnerVisibility( event.getDischargeLampModel() );
         }
     }
 }

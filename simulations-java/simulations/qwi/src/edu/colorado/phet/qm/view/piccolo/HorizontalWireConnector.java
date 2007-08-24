@@ -11,7 +11,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:21:42 PM
- *
  */
 
 public class HorizontalWireConnector extends HorizontalConnector {

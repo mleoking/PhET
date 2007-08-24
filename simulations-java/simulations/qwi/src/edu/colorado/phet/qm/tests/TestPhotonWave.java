@@ -23,7 +23,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 14, 2006
  * Time: 8:37:03 PM
- *
  */
 
 public class TestPhotonWave {

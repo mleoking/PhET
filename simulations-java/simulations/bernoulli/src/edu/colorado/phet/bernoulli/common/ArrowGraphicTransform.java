@@ -1,9 +1,9 @@
 package edu.colorado.phet.bernoulli.common;
 
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.arrows.Arrow;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 
@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 2, 2003
  * Time: 12:42:30 AM
- *
  */
 public class ArrowGraphicTransform implements Graphic {
     Arrow arrowPaint;
@@ -24,7 +23,8 @@ public class ArrowGraphicTransform implements Graphic {
     Point end;
 //    int x;
 //    int y;
-//    int
+
+    //    int
     public ArrowGraphicTransform( Arrow arrowPaint, double x, double y, double x2, double y2, ModelViewTransform2d transform2d ) {
         this.arrowPaint = arrowPaint;
         this.x = x;

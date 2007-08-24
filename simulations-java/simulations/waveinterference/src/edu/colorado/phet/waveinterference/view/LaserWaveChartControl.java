@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Apr 16, 2006
  * Time: 9:16:12 PM
- *
  */
 
 public class LaserWaveChartControl extends PNode {
@@ -49,7 +48,7 @@ public class LaserWaveChartControl extends PNode {
         verticalLayoutPanel.add( vectors );
 //        verticalLayoutPanel.add( colorized );
 
-        PSwing pSwing = new PSwing(verticalLayoutPanel );
+        PSwing pSwing = new PSwing( verticalLayoutPanel );
         addChild( pSwing );
         reset();
     }

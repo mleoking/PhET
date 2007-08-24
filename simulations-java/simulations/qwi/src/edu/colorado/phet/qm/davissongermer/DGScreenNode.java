@@ -9,7 +9,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * User: Sam Reid
  * Date: Jul 14, 2006
  * Time: 12:17:14 PM
- *
  */
 
 public class DGScreenNode extends QWIScreenNode {

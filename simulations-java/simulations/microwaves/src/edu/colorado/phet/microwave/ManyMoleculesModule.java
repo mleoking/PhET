@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.coreadditions_microwaves.chart.StripChartDelegate;
 import edu.colorado.phet.coreadditions_microwaves.collision.Box2D;
@@ -15,8 +16,6 @@ import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
 import edu.colorado.phet.util_microwaves.StripChart;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,12 +38,12 @@ public class ManyMoleculesModule extends MicrowaveModule {
             WaterMolecule molecule = new WaterMolecule();
             double x = -1;
             while( x < oven.getMinX() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                    || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+                   || x > oven.getMaxX() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 x = Math.random() * oven.getMaxX();
             }
             double y = -1;
             while( y < oven.getMinY() + WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2
-                    || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
+                   || y > oven.getMaxY() - ( WaterMolecule.s_hydrogenOxygenDist + WaterMolecule.s_hydrogenRadius * 2 ) ) {
                 y = Math.random() * oven.getMaxY();
             }
             molecule.setLocation( x, y );
@@ -70,7 +69,6 @@ public class ManyMoleculesModule extends MicrowaveModule {
 
     public void deactivate( PhetApplication app ) {
     }
-
 
     //
     // Inner classes

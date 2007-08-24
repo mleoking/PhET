@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 27, 2004
  * Time: 1:59:44 AM
- *
  */
 public class BorderGraphic implements Graphic {
     private Border border;

@@ -9,7 +9,6 @@ import edu.colorado.phet.waveinterference.view.WaveSideView;
  * User: Sam Reid
  * Date: Mar 31, 2006
  * Time: 8:20:34 PM
- *
  */
 
 public class EBFieldGraphic extends WaveSideView {

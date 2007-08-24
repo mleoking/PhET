@@ -10,15 +10,13 @@ package edu.colorado.phet.microwave.test;
 import edu.colorado.phet.microwave.model.WaterMolecule;
 import edu.colorado.phet.microwave.model.WaterMoleculeWaterMoleculeCollisionExpert;
 
-import java.awt.geom.Point2D;
-
 public class WaterMoleculeWaterMolecuelContactExpertTest {
 
     public static void main( String[] args ) {
         for( int i = 0; i < 2; i++ ) {
             WaterMolecule molecule = new WaterMolecule();
-            molecule.setLocation( 400 + ( i * 40), 250 + ( i * 20) );
-            molecule.setDipoleOrientation( i * Math.PI / 2  );
+            molecule.setLocation( 400 + ( i * 40 ), 250 + ( i * 20 ) );
+            molecule.setDipoleOrientation( i * Math.PI / 2 );
         }
 
         WaterMoleculeWaterMoleculeCollisionExpert detector = new WaterMoleculeWaterMoleculeCollisionExpert();

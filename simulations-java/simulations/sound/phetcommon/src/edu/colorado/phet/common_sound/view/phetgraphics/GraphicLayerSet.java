@@ -369,13 +369,13 @@ public class GraphicLayerSet extends PhetGraphic {
     protected PhetGraphic getHandler( Point p ) {
 
         // If the GraphicLayerSet is ignoring the mouse, then don't check any children.
-        if ( getIgnoreMouse() == true ) {
+        if( getIgnoreMouse() == true ) {
             return null;
         }
-        
+
         PhetGraphic[] graphics = getGraphics();
         PhetGraphic result = null;
-             
+
         // For each graphic, working from foreground to background layer...
         for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
@@ -394,7 +394,7 @@ public class GraphicLayerSet extends PhetGraphic {
                 }
             }
         }
-        
+
         // We picked a graphic with no mouse listener, 
         // and this GraphicLayerSet does have a mouse listener.
         // So let the GraphicLayerSet handle the event.
@@ -577,11 +577,11 @@ public class GraphicLayerSet extends PhetGraphic {
 
         return bounds;
     }
-    
+
     /*
-     * When a GraphicLayerSet's visibility changes, we need to also
-     * notify all of its children's listeners.
-     */
+    * When a GraphicLayerSet's visibility changes, we need to also
+    * notify all of its children's listeners.
+    */
     protected void fireVisibilityChanged() {
         super.fireVisibilityChanged();
         Iterator it = graphicMap.iterator();

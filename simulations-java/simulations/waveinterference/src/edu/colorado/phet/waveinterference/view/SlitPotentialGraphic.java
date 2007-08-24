@@ -17,7 +17,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:11:44 AM
- *
  */
 
 public class SlitPotentialGraphic extends PhetPNode {
@@ -83,7 +82,7 @@ public class SlitPotentialGraphic extends PhetPNode {
     public void update() {
         removeAllChildren();
         if( topViewBarrierVisibility.isTopVisible() ) {
-            Rectangle[]r = slitPotential.getBarrierRectangles();
+            Rectangle[] r = slitPotential.getBarrierRectangles();
             for( int i = 0; i < r.length; i++ ) {
                 Rectangle rectangle = r[i];
                 if( !rectangle.isEmpty() ) {

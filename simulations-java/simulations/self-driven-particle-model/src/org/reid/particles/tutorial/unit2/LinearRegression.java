@@ -28,10 +28,11 @@ public class LinearRegression {
         }
 
         public String toString() {
-            return "slope="+slope+", intercept="+intercept;
+            return "slope=" + slope + ", intercept=" + intercept;
         }
-        public double evaluate(double x){
-            return slope*x+intercept;
+
+        public double evaluate( double x ) {
+            return slope * x + intercept;
         }
 
         public double getSlope() {
@@ -48,7 +49,7 @@ public class LinearRegression {
         // first pass: read in data, compute xbar and ybar
         double sumx = 0.0, sumy = 0.0, sumx2 = 0.0;
         while( !StdIn.isEmpty() ) {
-            Point2D pt=StdIn.readPoint();
+            Point2D pt = StdIn.readPoint();
             x[n] = pt.getX();
             y[n] = pt.getY();
             sumx += x[n];
@@ -95,6 +96,6 @@ public class LinearRegression {
         System.out.println( "SSE  = " + rss );
         System.out.println( "SSR  = " + ssr );
         System.out.println( "http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html" );
-        return new Result( beta1,beta0);
+        return new Result( beta1, beta0 );
     }
 }

@@ -1,6 +1,6 @@
-
 package edu.colorado.phet.forces1d.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
@@ -20,7 +20,6 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
@@ -33,7 +32,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 10:16:32 PM
- *
  */
 public class Force1DPanel extends ApparatusPanel2 {
     private Force1DApplication module;
@@ -58,7 +56,7 @@ public class Force1DPanel extends ApparatusPanel2 {
     private Color bottom = new Color( 180, 200, 180 );
     private FloatingControl floatingControl;
     private WiggleMe sliderWiggleMe;
-//    private HelpItem2 goButtonHelp;
+    //    private HelpItem2 goButtonHelp;
     private HelpItem2 soloGoButtonHelp;
     private boolean goButtonPressed;
     private PhetGraphic floatingControlGraphic;
@@ -95,9 +93,9 @@ public class Force1DPanel extends ApparatusPanel2 {
         PlotDevice.ParameterSet forceParams = new PlotDevice.ParameterSet( this, SimStrings.get( "Force1DPanel.appliedForce" ), model.getPlotDeviceModel(),
                                                                            forcePlotDeviceView, model.getAppliedForceDataSeries().getSmoothedDataSeries(),
 //                                                                           laf.getAppliedForceColor(), new BasicStroke( 0 ),
-                                                                           Color.black, new BasicStroke( 10 ),
-                                                                           new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
-                                                                           0, SimStrings.get( "Force1DPanel.newtonsAbbrev" ), SimStrings.get( "Force1DPanel.appliedForce" ), true, SimStrings.get( "Force1DPanel.forceWithUnits" ) );
+Color.black, new BasicStroke( 10 ),
+new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMaxTime(), appliedForceRange * 2 ),
+0, SimStrings.get( "Force1DPanel.newtonsAbbrev" ), SimStrings.get( "Force1DPanel.appliedForce" ), true, SimStrings.get( "Force1DPanel.forceWithUnits" ) );
 
         forceParams.setZoomRates( 300, 100, 5000 );
 
@@ -290,17 +288,17 @@ public class Force1DPanel extends ApparatusPanel2 {
 
         sliderWiggleMe = new WiggleMe( this, module.getClock(), SimStrings.get( "Force1DPanel.wiggleMeText" ),
 //                                       new WiggleMe.SwingComponentTarget( this.forcePlotDevice.getVerticalChartSlider().getSlider() ) );
-                                       new WiggleMe.Target() {
-                                           public Point getLocation() {
-                                               int x = forcePlotDevice.getVerticalChartSlider().getSlider().getX() + sliderWiggleMe.getWidth() + 10;
-                                               int y = forcePlotDevice.getY() + forcePlotDevice.getHeight() / 2;
-                                               return new Point( x, y );
-                                           }
+new WiggleMe.Target() {
+    public Point getLocation() {
+        int x = forcePlotDevice.getVerticalChartSlider().getSlider().getX() + sliderWiggleMe.getWidth() + 10;
+        int y = forcePlotDevice.getY() + forcePlotDevice.getHeight() / 2;
+        return new Point( x, y );
+    }
 
-                                           public int getHeight() {
-                                               return forcePlotDevice.getVerticalChartSlider().getSlider().getHeight();
-                                           }
-                                       } );
+    public int getHeight() {
+        return forcePlotDevice.getVerticalChartSlider().getSlider().getHeight();
+    }
+} );
         sliderWiggleMe.setArrow( -30, 5 );
         forcePlotDevice.getVerticalChartSlider().getSlider().addChangeListener( new javax.swing.event.ChangeListener() {
             public void stateChanged( javax.swing.event.ChangeEvent e ) {

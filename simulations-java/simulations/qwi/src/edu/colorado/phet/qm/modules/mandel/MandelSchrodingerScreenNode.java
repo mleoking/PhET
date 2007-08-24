@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
  * User: Sam Reid
  * Date: Mar 2, 2006
  * Time: 11:13:19 PM
- *
  */
 
 public class MandelSchrodingerScreenNode extends QWIScreenNode {

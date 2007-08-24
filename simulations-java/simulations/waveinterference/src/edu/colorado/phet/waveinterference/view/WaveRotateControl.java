@@ -14,7 +14,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:18:38 PM
- *
  */
 
 public class WaveRotateControl extends HorizontalLayoutPanel {

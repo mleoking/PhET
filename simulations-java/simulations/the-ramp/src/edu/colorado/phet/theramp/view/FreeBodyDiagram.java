@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +26,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 5:57:05 PM
- *
  */
 
 public class FreeBodyDiagram extends PNode {
@@ -177,7 +176,7 @@ public class FreeBodyDiagram extends PNode {
         private HTMLNode textGraphic;
         private FreeBodyDiagram fbd;
 //        private double dx;
-//        private double dy;
+        //        private double dy;
         private String name;
         private Arrow lastArrow;
         private double verticalOffset = 0;

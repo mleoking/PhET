@@ -25,7 +25,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:41:14 PM
- *
  */
 
 public class DGPlotPanel extends PSwingCanvas {

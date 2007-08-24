@@ -106,7 +106,6 @@ public class ScalarDataRecorder {
         this.timeWindow = timeWindow;
     }
 
-
     //
     // Inner classes
     //

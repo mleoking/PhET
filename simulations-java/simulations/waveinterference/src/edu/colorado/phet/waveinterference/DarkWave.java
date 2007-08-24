@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 21, 2006
  * Time: 10:14:51 PM
- *
+ * <p/>
  * <p/>
  * Dark wave should propagate through barrier because otherwise for a solid barrier, the light will never disappear.
  */
@@ -73,13 +73,11 @@ public class DarkWave {
             }
         }
         else {//2 source
-            if( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() )
-            {
+            if( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
             }
             else
-            if( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() )
-            {
+            if( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getSecondaryOscillator() );
             }
         }

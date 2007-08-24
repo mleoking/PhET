@@ -14,10 +14,10 @@ public class DynamicLookAndFeel extends MetalLookAndFeel {
     Color backgroundColor;
 
     private String[] types = new String[]{
-        "Button", "MenuItem", "Panel", "Dialog",
-        "CheckBox", "RadioButton", "ComboBox",
-        "Menu", "MenuItem", "MenuBar",
-        "Slider"
+            "Button", "MenuItem", "Panel", "Dialog",
+            "CheckBox", "RadioButton", "ComboBox",
+            "Menu", "MenuItem", "MenuBar",
+            "Slider"
     };
 
     public DynamicLookAndFeel( Font font, Color foregroundColor, Color backgroundColor ) {

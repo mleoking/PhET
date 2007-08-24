@@ -55,8 +55,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         //copy to large lattice
-        if( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() )
-        {
+        if( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() ) {
             largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
         }
         for( int i = 0; i < w.getWidth(); i++ ) {

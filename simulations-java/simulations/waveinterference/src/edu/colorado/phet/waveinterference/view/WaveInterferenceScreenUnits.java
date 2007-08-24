@@ -12,7 +12,6 @@ import java.util.Hashtable;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 6:22:32 PM
- *
  */
 
 public class WaveInterferenceScreenUnits {

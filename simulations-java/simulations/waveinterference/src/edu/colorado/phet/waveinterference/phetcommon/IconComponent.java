@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 9:55:23 AM
- *
  */
 
 public class IconComponent extends HorizontalLayoutPanel {

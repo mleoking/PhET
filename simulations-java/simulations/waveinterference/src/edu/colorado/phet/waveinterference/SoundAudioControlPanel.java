@@ -9,7 +9,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 1:15:10 AM
- *
  */
 
 public class SoundAudioControlPanel extends JPanel {

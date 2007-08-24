@@ -58,21 +58,21 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
         counterBC = new MoleculeCounter( MoleculeBC.class, model );
         counterC = new MoleculeCounter( MoleculeC.class, model );
 
-        setChartColors(model.getEnergyProfile());
+        setChartColors( model.getEnergyProfile() );
 
         // Hook up to the clock
         clock.addClockListener( new Updater() );
         updateChart();
 
-        model.addListener(new MRModel.ModelListenerAdapter() {
-                public void notifyEnergyProfileChanged( EnergyProfile profile ) {
-                    setChartColors(profile);
-                }
+        model.addListener( new MRModel.ModelListenerAdapter() {
+            public void notifyEnergyProfileChanged( EnergyProfile profile ) {
+                setChartColors( profile );
             }
+        }
         );
     }
 
-    private void setChartColors(EnergyProfile profile) {
+    private void setChartColors( EnergyProfile profile ) {
         // Set graphic attributes
         setSeriesPaint( 0, MoleculePaints.getPaint( MoleculeA.class, profile ) );
         setSeriesPaint( 1, MoleculePaints.getPaint( MoleculeBC.class, profile ) );
@@ -85,7 +85,7 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
         getChart().getTitle().setFont( MRConfig.CHART_TITLE_FONT );
     }
 
-    private void updateChart(){
+    private void updateChart() {
         addData( counterA.getCnt(), seriesNames[0], "" );
         addData( counterBC.getCnt(), seriesNames[1], "" );
         addData( counterAB.getCnt(), seriesNames[2], "" );
@@ -103,7 +103,7 @@ public class MoleculePopulationsBarChart extends BarChart implements Rescaleable
 
         // Make vertical scale 1.5x the max count
         double min = MRConfig.STRIP_CHART_MIN_RANGE_Y * 1.5;
-        setYRange( 0, (int)Math.max(min, (maxCnt * 1.5 )));
+        setYRange( 0, (int)Math.max( min, ( maxCnt * 1.5 ) ) );
     }
 
     /**

@@ -89,7 +89,7 @@ public class Oscillator
 
 
         for( int nFrame = 0; nFrame < nPeriodLengthInFrames; nFrame++ ) {
-            /**	The relative position inside the period
+            /**    The relative position inside the period
              of the waveform. 0.0 = beginning, 1.0 = end
              */
             float fPeriodPosition = (float)nFrame / (float)nPeriodLengthInFrames;
@@ -211,6 +211,5 @@ public class Oscillator
         return nReturn;
     }
 }
-
 
 /*** Oscillator.java ***/

@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 6:32:34 PM
- *
  */
 
 public class ImageOscillatorPNode extends PNode {

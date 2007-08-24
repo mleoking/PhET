@@ -11,7 +11,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 9:56:53 AM
- *
  */
 
 public class HorizontalConnector extends ConnectorGraphic {

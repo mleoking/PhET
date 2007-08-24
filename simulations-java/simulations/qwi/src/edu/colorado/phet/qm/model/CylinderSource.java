@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 15, 2005
  * Time: 9:33:23 AM
- *
  */
 
 public class CylinderSource {

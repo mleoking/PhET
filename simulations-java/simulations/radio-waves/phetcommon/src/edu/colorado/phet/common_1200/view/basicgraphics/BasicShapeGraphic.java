@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics;
 
 import java.awt.*;
@@ -7,7 +6,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 7:34:52 AM
- *
  */
 public class BasicShapeGraphic extends BasicGraphic {
     private Shape shape;

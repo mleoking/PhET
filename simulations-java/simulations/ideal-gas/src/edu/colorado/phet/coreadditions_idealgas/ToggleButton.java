@@ -8,8 +8,8 @@
 package edu.colorado.phet.coreadditions_idealgas;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public abstract class ToggleButton extends JButton {
     private boolean isOn;

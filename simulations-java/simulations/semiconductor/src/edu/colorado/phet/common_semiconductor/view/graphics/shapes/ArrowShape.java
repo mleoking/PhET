@@ -10,7 +10,6 @@ import java.awt.geom.GeneralPath;
  * User: Sam Reid
  * Date: Jan 3, 2004
  * Time: 4:49:08 PM
- *
  */
 public class ArrowShape {
     GeneralPath arrowPath;

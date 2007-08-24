@@ -18,10 +18,10 @@ public class PhotonEarthCollisionModel {
 
     public static void handle( Photon photon, Earth earth ) {
 
-        double separation = Math.abs( photon.getLocation().distance( earth.getLocation() ));
+        double separation = Math.abs( photon.getLocation().distance( earth.getLocation() ) );
         if( separation <= Earth.radius ) {
             loa.setComponents( (float)( photon.getLocation().getX() - earth.getLocation().getX() ),
-                               (float)( photon.getLocation().getY() - earth.getLocation().getY() ));
+                               (float)( photon.getLocation().getY() - earth.getLocation().getY() ) );
             earth.absorbPhoton( photon );
         }
 
@@ -31,7 +31,7 @@ public class PhotonEarthCollisionModel {
 
 //        if( earth.getReflectivity( photon ) > 1 ) {
         if( earth.getReflectivity( photon ) >= Math.random() ) {
-            photon.setVelocity( photon.getVelocity().getX(), - photon.getVelocity().getY() );
+            photon.setVelocity( photon.getVelocity().getX(), -photon.getVelocity().getY() );
         }
     }
 }

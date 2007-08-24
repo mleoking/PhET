@@ -18,7 +18,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:38 PM
- *
  */
 
 public class DetectorGraphic extends RectangleGraphic {
@@ -57,7 +56,7 @@ public class DetectorGraphic extends RectangleGraphic {
                 QWIPanel.removeDetectorGraphic( DetectorGraphic.this );
             }
         } );
-        closeGraphic = new PSwing(closeButton );
+        closeGraphic = new PSwing( closeButton );
         addChild( closeGraphic );
 
         updateDetectorReadouts();

@@ -37,6 +37,7 @@ public class IonGraphicManager implements IonListener {
 
     /**
      * Returns the buffered image for a specified ion class
+     *
      * @param ionClass
      * @return a BufferedImage
      */
@@ -67,7 +68,7 @@ public class IonGraphicManager implements IonListener {
         putImage( new Thallium(), new Color( 180, 0, 220 ) );
         putImage( new Sulfur(), new Color( 255, 255, 0 ) );
 //        putImage( new Sulfur(), new Color( 255, 90, 13 ) );
-        putImage( new Arsenate(), new Color( 255, 90, 13 ));
+        putImage( new Arsenate(), new Color( 255, 90, 13 ) );
     }
 
     static private void putImage( Ion ion, Color color ) {

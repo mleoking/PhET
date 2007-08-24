@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy.statemodels;
 
 import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 20, 2004
  * Time: 7:20:46 AM
- *
  */
 public class TypeCriteria implements ModelCriteria {
     ArrayList dopantTypes;
@@ -27,19 +25,19 @@ public class TypeCriteria implements ModelCriteria {
 
     }
 
-    public TypeCriteria( DopantType p, DopantType p1) {
-        this( toArray( p, p1 ));
+    public TypeCriteria( DopantType p, DopantType p1 ) {
+        this( toArray( p, p1 ) );
     }
 
-    public TypeCriteria( DopantType n, DopantType n1, DopantType n2) {
-        this(toArray( n,n1,n2));
+    public TypeCriteria( DopantType n, DopantType n1, DopantType n2 ) {
+        this( toArray( n, n1, n2 ) );
     }
 
     private static ArrayList toArray( DopantType n, DopantType n1, DopantType n2 ) {
-        ArrayList list=new ArrayList( );
-        list.add(n);
-        list.add(n1);
-        list.add(n2);
+        ArrayList list = new ArrayList();
+        list.add( n );
+        list.add( n1 );
+        list.add( n2 );
         return list;
     }
 

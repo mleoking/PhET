@@ -115,10 +115,10 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
         int iceHeight = baseFlameHeight + value;
         flamesGraphicImage.setLocation( (int)flamesGraphicImage.getLocation().getX(),
                                         (int)Math.max( Math.min( (float)flameHeight, baseFlameHeight ),
-                                                       baseFlameHeight - stoveImg.getHeight()));
+                                                       baseFlameHeight - stoveImg.getHeight() ) );
         iceGraphicImage.setLocation( (int)iceGraphicImage.getLocation().getX(),
                                      (int)Math.max( Math.min( (float)iceHeight, baseFlameHeight ),
-                                                    baseFlameHeight - stoveImg.getHeight() ));
+                                                    baseFlameHeight - stoveImg.getHeight() ) );
         this.repaint();
     }
 

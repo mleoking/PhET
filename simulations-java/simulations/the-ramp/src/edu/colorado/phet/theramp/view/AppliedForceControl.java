@@ -18,7 +18,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 4, 2005
  * Time: 6:38:01 PM
- *
  */
 
 public class AppliedForceControl extends PNode {
@@ -31,7 +30,7 @@ public class AppliedForceControl extends PNode {
         double maxValue = 3000;
         final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied-force" ), TheRampStrings.getString( "units.newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
         modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
-        PSwing pSwing = new PSwing(modelSlider );
+        PSwing pSwing = new PSwing( modelSlider );
         addChild( pSwing );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

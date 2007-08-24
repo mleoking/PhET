@@ -23,7 +23,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 6:47:28 PM
- *
  */
 
 public class SavedScreenGraphic extends PNode {
@@ -53,7 +52,7 @@ public class SavedScreenGraphic extends PNode {
             BufferedImage closeImage = ImageLoader.loadBufferedImage( "qwi/images/x-14.jpg" );
             JButton closeButton = new JButton( new ImageIcon( closeImage ) );
             closeButton.setMargin( m );
-            PSwing button = new PSwing(closeButton );
+            PSwing button = new PSwing( closeButton );
             addChild( button );
             button.setOffset( -button.getWidth() - 2, 0 );
             closeButton.addActionListener( new ActionListener() {

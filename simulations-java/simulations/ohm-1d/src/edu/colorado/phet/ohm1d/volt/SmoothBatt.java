@@ -8,7 +8,8 @@ public class SmoothBatt extends Batt {
     WireRegion minus;
     WireSystem sys;
     double desiredVolts;
-//    DoubleSeries ds;
+
+    //    DoubleSeries ds;
     public void valueChanged( double val ) {
         //System.err.println("Set desired volts="+val);
         this.desiredVolts = val;

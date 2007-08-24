@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Aug 19, 2005
  * Time: 9:43:58 AM
- *
  */
 
 public class RampFontSet {

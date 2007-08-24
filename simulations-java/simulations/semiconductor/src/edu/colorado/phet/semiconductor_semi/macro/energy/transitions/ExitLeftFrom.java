@@ -13,7 +13,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.ExitLeftState;
  * User: Sam Reid
  * Date: Mar 17, 2004
  * Time: 8:27:41 AM
- *
  */
 public class ExitLeftFrom extends StateTransition {
     EnergyCell from;

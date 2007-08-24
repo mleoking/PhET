@@ -18,7 +18,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 4:43:03 PM
- *
  */
 
 public class TestRelativeLocationSetter {

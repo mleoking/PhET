@@ -99,6 +99,7 @@ public class PhetApplication {
 
     /**
      * TODO: Added by RJL, 6/20/03
+     *
      * @param moduleClass
      */
     public void activateModuleOfClass( Class moduleClass ) {
@@ -110,6 +111,7 @@ public class PhetApplication {
     // Static fields and methods
     //
     private static PhetApplication s_instance = null;
+
     public static PhetApplication instance() {
         return s_instance;
     }

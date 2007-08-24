@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 30, 2003
  * Time: 12:38:31 AM
- *
  */
 public class ObjectTimeSeries {
     private ArrayList pts = new ArrayList();

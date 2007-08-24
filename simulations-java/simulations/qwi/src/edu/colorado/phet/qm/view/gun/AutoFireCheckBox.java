@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 8:20:48 AM
- *
  */
 
 public class AutoFireCheckBox extends JCheckBox {

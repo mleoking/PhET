@@ -8,7 +8,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.EnergySection;
  * User: Sam Reid
  * Date: Mar 17, 2004
  * Time: 11:48:44 AM
- *
  */
 public class ExitRightState extends StateChain {
 

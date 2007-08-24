@@ -6,8 +6,8 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.nuclearphysics.view.*;
 import edu.colorado.phet.coreadditions_nuclearphysics.GridBagUtil;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,9 +22,9 @@ public class NuclearPhysicsControlPanel extends JPanel {
 
     public NuclearPhysicsControlPanel( final NuclearPhysicsModule module, java.util.List modelClasses ) {
         this.module = module;
-        JPanel panel = new JPanel(  );
+        JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
-        panel.add( new LegendPanel(modelClasses), BorderLayout.NORTH );
+        panel.add( new LegendPanel( modelClasses ), BorderLayout.NORTH );
         mainPanel = new JPanel( new GridBagLayout() );
         panel.add( mainPanel, BorderLayout.CENTER );
         this.add( panel );
@@ -37,10 +37,10 @@ public class NuclearPhysicsControlPanel extends JPanel {
     public void addPanelElement( JPanel panel ) {
         try {
             GridBagUtil.addGridBagComponent( mainPanel, panel,
-                                              0, rowIdx++,
-                                              1, 1,
-                                              GridBagConstraints.HORIZONTAL,
-                                              GridBagConstraints.CENTER );
+                                             0, rowIdx++,
+                                             1, 1,
+                                             GridBagConstraints.HORIZONTAL,
+                                             GridBagConstraints.CENTER );
         }
         catch( AWTException e ) {
             e.printStackTrace();

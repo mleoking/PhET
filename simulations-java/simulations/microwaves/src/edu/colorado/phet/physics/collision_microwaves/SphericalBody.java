@@ -17,11 +17,11 @@ public abstract class SphericalBody extends CollidableBody {
     private float radius;
 
     protected SphericalBody( Point2D.Double center,
-                      Vector2D velocity,
-                      Vector2D acceleration,
-                      float mass,
-                      float radius,
-                      float charge ) {
+                             Vector2D velocity,
+                             Vector2D acceleration,
+                             float mass,
+                             float radius,
+                             float charge ) {
         super( center, velocity, acceleration, mass, 0 );
         this.radius = radius;
     }

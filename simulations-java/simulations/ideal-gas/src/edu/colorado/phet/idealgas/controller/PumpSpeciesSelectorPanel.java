@@ -9,10 +9,9 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -24,7 +23,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PumpSpeciesSelectorPanel extends GraphicLayerSet {
-    private Color backgroundColor = new Color( 240, 230, 255 );;
+    private Color backgroundColor = new Color( 240, 230, 255 );
+    ;
     private JPanel basePanel;
 
 //    protected void paintComponent( Graphics g ) {
@@ -135,7 +135,7 @@ public class PumpSpeciesSelectorPanel extends GraphicLayerSet {
             lightSpeciesRB.addActionListener( new ActionListener() {
                 public void actionPerformed
                         ( ActionEvent
-                        event ) {
+                                event ) {
                     if( lightSpeciesRB.isSelected() ) {
                         gasSource.setCurrentGasSpecies( LightSpecies.class );
                         module.setCurrentPumpImage( Color.red );

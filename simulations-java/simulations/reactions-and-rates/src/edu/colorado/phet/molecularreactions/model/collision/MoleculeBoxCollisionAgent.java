@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.*;
 
 import java.awt.geom.Line2D;
@@ -105,7 +105,7 @@ public class MoleculeBoxCollisionAgent {
             // Hitting left wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMinX(), box.getMaxY() );
             if( velocity.getX() < 0 &&
-                rm.getPosition().getX() - rm.getRadius() < wall.getX1() ){
+                rm.getPosition().getX() - rm.getRadius() < wall.getX1() ) {
 //                wall.intersectsLine( rm.getPosition().getX() - rm.getRadius(), rm.getPosition().getY(),
 //                                     rm.getPositionPrev().getX() - rm.getRadius(), rm.getPositionPrev().getY() ) ) {
                 loa.setComponents( loa.getX() - 1, loa.getY() + 0 );
@@ -116,7 +116,7 @@ public class MoleculeBoxCollisionAgent {
             // Hitting right wall?
             wall.setLine( box.getMaxX(), box.getMinY(), box.getMaxX(), box.getMaxY() );
             if( velocity.getX() > 0 &&
-                rm.getPosition().getX() + rm.getRadius() > wall.getX1() ){
+                rm.getPosition().getX() + rm.getRadius() > wall.getX1() ) {
 //                wall.intersectsLine( rm.getPosition().getX() + rm.getRadius(), rm.getPosition().getY(),
 //                                     rm.getPositionPrev().getX() + rm.getRadius(), rm.getPositionPrev().getY() ) ) {
                 loa.setComponents( loa.getX() + 1, loa.getY() + 0 );
@@ -127,7 +127,7 @@ public class MoleculeBoxCollisionAgent {
             // Hitting bottom wall?
             wall.setLine( box.getMinX(), box.getMaxY(), box.getMaxX(), box.getMaxY() );
             if( velocity.getY() > 0 &&
-                rm.getPosition().getY() + rm.getRadius() > wall.getY1() ){
+                rm.getPosition().getY() + rm.getRadius() > wall.getY1() ) {
 //                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() + rm.getRadius(),
 //                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() + rm.getRadius() ) ) {
                 loa.setComponents( loa.getX() + 0, loa.getY() + 1 );
@@ -138,7 +138,7 @@ public class MoleculeBoxCollisionAgent {
             // Hitting top wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMaxX(), box.getMinY() );
             if( velocity.getY() < 0 &&
-                rm.getPosition().getY() - rm.getRadius() < wall.getY1() ){ 
+                rm.getPosition().getY() - rm.getRadius() < wall.getY1() ) {
 //                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() - rm.getRadius(),
 //                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() - rm.getRadius() ) ) {
                 loa.setComponents( loa.getX() + 0, loa.getY() - 1 );

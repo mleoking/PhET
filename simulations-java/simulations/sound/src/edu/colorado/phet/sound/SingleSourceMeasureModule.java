@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.sound;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.application.PhetApplication;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.help.HelpItem;
@@ -15,7 +16,6 @@ import edu.colorado.phet.sound.view.ClockPanelLarge;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,7 +49,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             MeterStickGraphic meterStickGraphic = new MeterStickGraphic( getApparatusPanel(),
                                                                          ruler,
                                                                          new Point2D.Double( SoundConfig.s_meterStickBaseX,
-                                                                                             SoundConfig.s_meterStickBaseY ));
+                                                                                             SoundConfig.s_meterStickBaseY ) );
             this.addGraphic( meterStickGraphic, 9 );
 
             // Add help items

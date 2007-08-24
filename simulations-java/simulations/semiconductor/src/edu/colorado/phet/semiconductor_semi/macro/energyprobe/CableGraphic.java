@@ -14,7 +14,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 2, 2004
  * Time: 8:57:33 PM
- *
  */
 public class CableGraphic extends TransformGraphic implements SimpleObserver {
     Cable cable;

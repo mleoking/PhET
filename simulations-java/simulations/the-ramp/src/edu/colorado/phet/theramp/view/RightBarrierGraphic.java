@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 30, 2005
  * Time: 10:20:22 PM
- *
  */
 
 public class RightBarrierGraphic extends BarrierGraphic {

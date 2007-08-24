@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:34:20 PM
- *
  */
 
 public class WaveSampler {

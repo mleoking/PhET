@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 3, 2006
  * Time: 8:40:06 PM
- *
  */
 
 public class TestAboutDialogs {

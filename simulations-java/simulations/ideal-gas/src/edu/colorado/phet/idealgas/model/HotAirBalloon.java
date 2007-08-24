@@ -7,18 +7,15 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.idealgas.model.GasMolecule;
-import edu.colorado.phet.idealgas.model.HollowSphere;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.EventListener;
 import java.util.EventObject;
+import java.util.List;
 
 public class HotAirBalloon extends HollowSphere {
 
@@ -125,7 +122,7 @@ public class HotAirBalloon extends HollowSphere {
     }
 
     public interface ChangeListener extends EventListener {
-        void heatSourceChanged( ChangeEvent event);
+        void heatSourceChanged( ChangeEvent event );
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );

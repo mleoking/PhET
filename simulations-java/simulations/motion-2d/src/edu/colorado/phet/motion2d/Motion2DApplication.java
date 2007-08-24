@@ -1,8 +1,8 @@
 package edu.colorado.phet.motion2d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +31,7 @@ public class Motion2DApplication {
                     Motion2DApplet ja = new Motion2DApplet();
                     ja.init();
 
-                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d").formatForTitleBar()+ ")" );
+                    JFrame f = new JFrame( SimStrings.getInstance().getString( "Motion2dApplication.title" ) + " (" + PhetApplicationConfig.getVersion( "motion-2d" ).formatForTitleBar() + ")" );
 
                     f.setContentPane( ja );
 

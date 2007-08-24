@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics;
 
 import edu.colorado.phet.common_1200.view.basicgraphics.repaint.Repaint;
@@ -10,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Sep 10, 2004
  * Time: 7:56:13 AM
- *
  */
 public class RenderedGraphic implements Graphic {
     private RepaintDelegate repaintDelegate;//so we can switch strategies easily.

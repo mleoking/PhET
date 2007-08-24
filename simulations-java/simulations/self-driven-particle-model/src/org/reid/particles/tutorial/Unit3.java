@@ -33,7 +33,7 @@ public class Unit3 implements AbstractUnit {
                 },
                 new PageMaker() {
                     public Page createPage() {
-                        return new FinalCommentsPage310(page);
+                        return new FinalCommentsPage310( page );
                     }
                 },
                 new PageMaker() {

@@ -5,7 +5,6 @@ package edu.colorado.phet.theramp.timeseries_ramp;
  * User: Sam Reid
  * Date: Mar 24, 2005
  * Time: 11:36:22 AM
- *
  */
 public interface TimeSeriesModelListener {
     void recordingStarted();

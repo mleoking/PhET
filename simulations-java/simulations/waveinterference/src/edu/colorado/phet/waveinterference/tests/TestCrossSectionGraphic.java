@@ -7,7 +7,6 @@ import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 9:05:15 PM
- *
  */
 
 public class TestCrossSectionGraphic extends TestTopView {

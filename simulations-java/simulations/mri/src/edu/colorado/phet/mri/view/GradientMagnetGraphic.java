@@ -36,7 +36,7 @@ public class GradientMagnetGraphic extends RegisterablePNode implements Electrom
     private GradientElectromagnet magnet;
 //    private Arrow upperArrow;
 //    private RegisterablePNode upperArrowGraphic;
-//    private Arrow lowerArrow;
+    //    private Arrow lowerArrow;
     //    private RegisterablePNode lowerArrowGraphic;
     private Point2D upperArrowCenterPoint;
     private Point2D lowerArrowCenterPoint;

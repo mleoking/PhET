@@ -1,8 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +21,7 @@ public class ParticleModel {
     private Random random = new Random();
     private double speed = 5.0;
 //    private double angleRandomness = 0;//zero to 2pi
-//    private double angleRandomness = Math.PI * 2 / 10;//zero to 2pi
+    //    private double angleRandomness = Math.PI * 2 / 10;//zero to 2pi
     private double randomness = Math.PI * 2;
     private double boxWidth;
     private double boxHeight;
@@ -49,7 +49,7 @@ public class ParticleModel {
             factorOutNetMovement();
         }
         if( doCountClusters ) {
-            int[]clusters = new ClusterAssignment().assignClusters( this );
+            int[] clusters = new ClusterAssignment().assignClusters( this );
 
             Arrays.sort( clusters );
             this.clusterResult = clusters;
@@ -126,10 +126,10 @@ public class ParticleModel {
     }
 
     private void updateAngles() {
-        double[]newAngles = new double[particles.size()];
+        double[] newAngles = new double[particles.size()];
         for( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle)particles.get( i );
-            Particle[]neighbors = getNeighborsInRadius( particle );
+            Particle[] neighbors = getNeighborsInRadius( particle );
             newAngles[i] = getNewAngle( particle, neighbors );
         }
         for( int i = 0; i < newAngles.length; i++ ) {
@@ -167,7 +167,7 @@ public class ParticleModel {
         return randomContribution + angle;
     }
 
-    public Particle[]getNeighborsInRadius( Particle particle ) {
+    public Particle[] getNeighborsInRadius( Particle particle ) {
         return getNeighborsInRadius( particle, radius );
     }
 

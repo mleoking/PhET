@@ -1,8 +1,8 @@
 package edu.colorado.phet.ohm1d.volt;
 
 import edu.colorado.phet.ohm1d.Electron;
-import edu.colorado.phet.ohm1d.gui.VoltageListener;
 import edu.colorado.phet.ohm1d.common.wire1d.WireSystem;
+import edu.colorado.phet.ohm1d.gui.VoltageListener;
 
 /**
  * Created by IntelliJ IDEA.

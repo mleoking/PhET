@@ -12,7 +12,6 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:07:29 PM
- *
  */
 
 public class HitGraphic extends PNode {

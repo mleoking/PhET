@@ -6,16 +6,16 @@
  */
 package edu.colorado.phet.sound.view;
 
-import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationEvent;
+import edu.colorado.phet.common_sound.view.graphics.mousecontrols.TranslationListener;
+import edu.colorado.phet.common_sound.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.sound.TwoSpeakerInterferenceModule;
 import edu.colorado.phet.sound.model.Listener;
 import edu.colorado.phet.sound.model.SoundModel;
 import edu.colorado.phet.sound.model.Wavefront;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.geom.Point2D;
 

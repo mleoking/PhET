@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Sep 30, 2003
  * Time: 1:20:51 AM
- *
  */
 public class Flame extends SimpleObservable {
     private double x;

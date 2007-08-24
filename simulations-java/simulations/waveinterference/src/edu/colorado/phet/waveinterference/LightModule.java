@@ -12,7 +12,6 @@ import edu.colorado.phet.waveinterference.view.*;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:07:30 PM
- *
  */
 
 public class LightModule extends WaveInterferenceModule {

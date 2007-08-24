@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 3:29:42 AM
- *
  */
 
 public class SlitPotential implements Potential {

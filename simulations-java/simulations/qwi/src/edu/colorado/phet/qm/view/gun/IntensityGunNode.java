@@ -25,7 +25,6 @@ import java.awt.event.ItemListener;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 4:03:38 PM
- *
  */
 
 public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
@@ -77,7 +76,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
         setupObject( beams[0] );
 
         alwaysOnCheckBox.setBackground( BlueGunDetails.gunBackgroundColor );
-        onPswing = new PSwing(alwaysOnCheckBox );
+        onPswing = new PSwing( alwaysOnCheckBox );
         onPswing.addInputEventListener( new CursorHandler() );
         setOnGunControl( onPswing );
 

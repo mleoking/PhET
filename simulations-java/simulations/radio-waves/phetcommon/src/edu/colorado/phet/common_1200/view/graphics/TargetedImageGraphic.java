@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Oct 8, 2003
  * Time: 11:58:25 PM
- *
  */
 public class TargetedImageGraphic extends BufferedImageGraphic {
     private Rectangle2D modelBounds;

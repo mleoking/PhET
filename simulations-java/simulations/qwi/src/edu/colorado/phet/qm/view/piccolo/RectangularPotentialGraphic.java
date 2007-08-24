@@ -19,7 +19,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:38 PM
- *
  */
 
 public class RectangularPotentialGraphic extends RectangleGraphic {
@@ -54,7 +53,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
                 remove();
             }
         } );
-        closeGraphic = new PSwing(closeButton );
+        closeGraphic = new PSwing( closeButton );
         addChild( closeGraphic );
         closeGraphic.setOffset( -closeGraphic.getWidth() - 2, 0 );
         update();

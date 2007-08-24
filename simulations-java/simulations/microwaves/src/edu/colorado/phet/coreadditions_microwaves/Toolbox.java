@@ -7,7 +7,6 @@
 package edu.colorado.phet.coreadditions_microwaves;
 
 
-
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
@@ -30,79 +29,79 @@ public class Toolbox extends JToolBar {
         pressureButton.setText( SimStrings.get( "Toolbox.PressureButton" ) );
 
         DragButton btn = new DragButton( SimStrings.get( "Toolbox.DragButton" ) );
-        btn.setIcon(new ImageIcon( "microwaves/images/thermometer.gif"));
+        btn.setIcon( new ImageIcon( "microwaves/images/thermometer.gif" ) );
         this.add( btn );
     }
 
     static class DropTargetPanel extends JPanel {
-         private int acceptableActions = DnDConstants.ACTION_COPY;
-         private DropTargetListener dtListener;
-         private DropTarget dropTarget;
+        private int acceptableActions = DnDConstants.ACTION_COPY;
+        private DropTargetListener dtListener;
+        private DropTarget dropTarget;
 
-         public DropTargetPanel() {
-             this.dtListener = new DTListener();
-             this.dropTarget = new DropTarget( this,
-                                               this.acceptableActions,
-                                               this.dtListener,
-                                               true );
-         }
+        public DropTargetPanel() {
+            this.dtListener = new DTListener();
+            this.dropTarget = new DropTarget( this,
+                                              this.acceptableActions,
+                                              this.dtListener,
+                                              true );
+        }
 
-         class DTListener implements DropTargetListener {
-             public void dragEnter( DropTargetDragEvent dtde ) {
-                 if( !isDragOk( dtde ) ) {
-                     dtde.rejectDrag();
-                     return;
-                 }
-                 else {
-                     DropTargetPanel.this.setBackground( Color.blue );
-                     dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
-                 }
-             }
+        class DTListener implements DropTargetListener {
+            public void dragEnter( DropTargetDragEvent dtde ) {
+                if( !isDragOk( dtde ) ) {
+                    dtde.rejectDrag();
+                    return;
+                }
+                else {
+                    DropTargetPanel.this.setBackground( Color.blue );
+                    dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
+                }
+            }
 
-             public void dragOver( DropTargetDragEvent dtde ) {
-                 if( !isDragOk( dtde ) ) {
-                     dtde.rejectDrag();
-                     return;
-                 }
-                 else {
-                     dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
-                 }
-             }
+            public void dragOver( DropTargetDragEvent dtde ) {
+                if( !isDragOk( dtde ) ) {
+                    dtde.rejectDrag();
+                    return;
+                }
+                else {
+                    dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
+                }
+            }
 
-             public void dropActionChanged( DropTargetDragEvent dtde ) {
-                 if( !isDragOk( dtde ) ) {
-                     dtde.rejectDrag();
-                     return;
-                 }
-                 else {
-                     dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
-                 }
-             }
+            public void dropActionChanged( DropTargetDragEvent dtde ) {
+                if( !isDragOk( dtde ) ) {
+                    dtde.rejectDrag();
+                    return;
+                }
+                else {
+                    dtde.acceptDrag( DropTargetPanel.this.acceptableActions );
+                }
+            }
 
-             public void dragExit( DropTargetEvent dte ) {
-                 DropTargetPanel.this.setBackground( Color.gray );
-             }
+            public void dragExit( DropTargetEvent dte ) {
+                DropTargetPanel.this.setBackground( Color.gray );
+            }
 
-             public void drop( DropTargetDropEvent dtde ) {
-                 System.out.println( "drop" );
-             }
+            public void drop( DropTargetDropEvent dtde ) {
+                System.out.println( "drop" );
+            }
 
-             private boolean isDragOk( DropTargetDragEvent dtde ) {
-                 boolean result = false;
-                 DataFlavor[] flavors = ToolTransferable.flavors;
-                 DataFlavor chosen = null;
-                 for( int i = 0; i < flavors.length && chosen == null; i++ ) {
-                     DataFlavor flavor = flavors[i];
-                     if( dtde.isDataFlavorSupported( flavor )) {
-                         chosen = flavors[i];
-                         int sourceActions = dtde.getSourceActions();
-                         result = ( sourceActions & DropTargetPanel.this.acceptableActions ) != 0;
-                     }
-                 }
-                 return result;
-             }
-         }
-     }
+            private boolean isDragOk( DropTargetDragEvent dtde ) {
+                boolean result = false;
+                DataFlavor[] flavors = ToolTransferable.flavors;
+                DataFlavor chosen = null;
+                for( int i = 0; i < flavors.length && chosen == null; i++ ) {
+                    DataFlavor flavor = flavors[i];
+                    if( dtde.isDataFlavorSupported( flavor ) ) {
+                        chosen = flavors[i];
+                        int sourceActions = dtde.getSourceActions();
+                        result = ( sourceActions & DropTargetPanel.this.acceptableActions ) != 0;
+                    }
+                }
+                return result;
+            }
+        }
+    }
 
     /**
      *
@@ -168,7 +167,7 @@ public class Toolbox extends JToolBar {
                 DataFlavor chosen = null;
                 for( int i = 0; i < flavors.length && chosen == null; i++ ) {
                     DataFlavor flavor = flavors[i];
-                    if( dtde.isDataFlavorSupported( flavor )) {
+                    if( dtde.isDataFlavorSupported( flavor ) ) {
                         chosen = flavors[i];
                         int sourceActions = dtde.getSourceActions();
                         result = ( sourceActions & DropButton.this.acceptableActions ) != 0;
@@ -201,7 +200,7 @@ public class Toolbox extends JToolBar {
 
     static class ToolTransferable implements Transferable {
 
-        public static final DataFlavor[] flavors = { DataFlavor.stringFlavor };
+        public static final DataFlavor[] flavors = {DataFlavor.stringFlavor};
 
         public synchronized DataFlavor[] getTransferDataFlavors() {
             return flavors;
@@ -210,6 +209,7 @@ public class Toolbox extends JToolBar {
         private List flavorList() {
             return Arrays.asList( flavors );
         }
+
         public boolean isDataFlavorSupported( DataFlavor flavor ) {
             return flavorList().contains( flavor );
         }
@@ -218,7 +218,7 @@ public class Toolbox extends JToolBar {
             Object result = null;
             if( flavorList().contains( flavor ) ) {
                 System.out.println( "getTransferData successful" );
-                result = new String("it worked!!");
+                result = new String( "it worked!!" );
             }
             else {
                 throw new UnsupportedFlavorException( flavor );
@@ -304,7 +304,7 @@ public class Toolbox extends JToolBar {
         mainPane.add( new Toolbox( centerPane ), BorderLayout.NORTH );
         mainPane.add( centerPane, BorderLayout.CENTER );
         DropTargetPanel dtp = new DropTargetPanel();
-        dtp.setPreferredSize( new Dimension( 500, 600 ));
+        dtp.setPreferredSize( new Dimension( 500, 600 ) );
         dtp.setBackground( Color.white );
         centerPane.add( dtp );
         dtp.add( new DropButton( "foo" ) );

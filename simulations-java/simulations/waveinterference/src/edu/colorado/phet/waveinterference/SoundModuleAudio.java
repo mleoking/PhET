@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 1:15:40 AM
- *
  */
 
 public class SoundModuleAudio {

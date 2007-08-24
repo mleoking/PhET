@@ -18,7 +18,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jan 23, 2006
  * Time: 3:15:30 PM
- *
  */
 
 public class TestAppStartup2 {

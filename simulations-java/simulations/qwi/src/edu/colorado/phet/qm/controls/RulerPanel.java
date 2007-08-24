@@ -15,7 +15,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 2:15:10 PM
- *
  */
 
 public class RulerPanel extends HorizontalLayoutPanel {

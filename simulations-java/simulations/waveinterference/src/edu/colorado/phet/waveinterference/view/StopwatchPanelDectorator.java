@@ -14,7 +14,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 11:24:23 PM
- *
  */
 
 public class StopwatchPanelDectorator extends VerticalLayoutPanel {

@@ -22,7 +22,6 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 5:31:39 PM
- *
  */
 
 public class SoundSimulationPanel extends WaveInterferenceCanvas implements ModelElement {
@@ -143,7 +142,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( thisSideUpWrapper );
 //        addScaleTest();
         SoundWaveGraphicRadioControl soundWaveGraphicRadioControl = new SoundWaveGraphicRadioControl( soundWaveGraphic );
-        final PSwing pSwing = new PSwing(new ShinyPanel( soundWaveGraphicRadioControl ) );
+        final PSwing pSwing = new PSwing( new ShinyPanel( soundWaveGraphicRadioControl ) );
         addScreenChild( pSwing );
 
         getLatticeScreenCoordinates().addListener( new LatticeScreenCoordinates.Listener() {

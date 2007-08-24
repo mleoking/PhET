@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.ModelElement;
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.coreadditions_greenhouse.graphics.ImageGraphic;
 
 import java.awt.geom.Point2D;
@@ -25,7 +25,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
     private int numGlassPanes = 3;
     private ArrayList glassPanes = new ArrayList();
 
-    private double[][] jimmyArray = new double [][]{
+    private double[][] jimmyArray = new double[][]{
             new double[]{0, 0},
             new double[]{255, 255},
             new double[]{272, 303},
@@ -111,7 +111,7 @@ public class GlassPaneModule extends BaseGreenhouseModule {
             GlassPane glassPane = (GlassPane)glassPanes.get( i );
             getGreenhouseModel().addGlassPane( glassPane );
             // Put the glass pane on a layer between the sunlight and IR photons
-            double layer = (GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER + GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER )/2;
+            double layer = ( GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER + GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER ) / 2;
             getApparatusPanel().addGraphic( (Graphic)glassPanesToGraphicMap.get( glassPane ), layer );
         }
     }

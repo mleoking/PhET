@@ -14,7 +14,6 @@ import java.awt.event.ComponentEvent;
  * User: Sam Reid
  * Date: Mar 6, 2005
  * Time: 3:37:42 PM
- *
  */
 public abstract class RelativeLocationSetter {
     public static interface Target {

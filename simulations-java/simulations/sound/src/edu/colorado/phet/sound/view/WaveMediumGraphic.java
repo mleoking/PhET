@@ -52,7 +52,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
     private WaveMedium waveMedium;
     private RgbReporter rgbReporter;
 
-       private int grayScaleZero = s_lineColor.length / 2;
+    private int grayScaleZero = s_lineColor.length / 2;
 
     static public boolean drawTest;
 
@@ -103,6 +103,7 @@ public class WaveMediumGraphic extends PhetImageGraphic implements SimpleObserve
      * Gets the color corresponding to a particular amplitude at a particular point. The idea is to
      * match the zero pressure point in the wave medium to the background color reported by the
      * rgbReporter
+     *
      * @param amplitude
      * @param x
      * @param y

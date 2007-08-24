@@ -5,7 +5,6 @@ package edu.colorado.phet.qm.model;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:23:06 AM
- *
  */
 
 public class FractionalDoubleSlit {

@@ -10,15 +10,15 @@ import java.awt.event.*;
 import java.util.Vector;
 
 public class BarrierMaker extends JFrame {
-    static int del = 10 / 2;  			//grid size
-    static int hN = 60 * 2;				//height in grid squares
-    static int wN = 70 * 2;				//width in grid squares
-    static int fullWidth = wN * del; 	//dimensions in pixels
+    static int del = 10 / 2;              //grid size
+    static int hN = 60 * 2;                //height in grid squares
+    static int wN = 70 * 2;                //width in grid squares
+    static int fullWidth = wN * del;     //dimensions in pixels
     static int fullHeight = hN * del;
     static int radius = 8;
 
 
-    edu.colorado.phet.ehockey.PaintPanel paintPnl;			//
+    edu.colorado.phet.ehockey.PaintPanel paintPnl;            //
 
     public BarrierMaker() {
         super( SimStrings.getInstance().getString( "HockeyBarrierMaker.MakeBarriers" ) );
@@ -41,17 +41,17 @@ public class BarrierMaker extends JFrame {
 
 class PaintPanel extends JPanel
         implements ActionListener, MouseListener, MouseMotionListener {
-    static int count = 0;		//number of rectang's
-    int del = BarrierMaker.del;	//grid spacing
+    static int count = 0;        //number of rectang's
+    int del = BarrierMaker.del;    //grid spacing
     int startX;
-    int startY;		//corner one of rectang
+    int startY;        //corner one of rectang
     int endX;
-    int endY;			//corner two of rectang
+    int endY;            //corner two of rectang
     Point p;
     // gmwb - calling static method before PaintPanel construction?
     JButton finishBtn = new JButton( SimStrings.getInstance().getString( "HockeyBarrierMaker.Finished" ) );
 
-    boolean finished;		//job done, write to file
+    boolean finished;        //job done, write to file
     private Rectangle goal;
 
     Vector myRectVect = new Vector();
@@ -72,7 +72,6 @@ class PaintPanel extends JPanel
 
     public void paintComponent( Graphics g ) {
         super.paintComponent( g );
-
 
         //draw goal and positivePuckImage
         g.setColor( Color.black );

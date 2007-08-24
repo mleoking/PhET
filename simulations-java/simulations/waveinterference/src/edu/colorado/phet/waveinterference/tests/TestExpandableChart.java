@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 12, 2006
  * Time: 8:00:15 PM
- *
  */
 
 public class TestExpandableChart extends TestTopView {

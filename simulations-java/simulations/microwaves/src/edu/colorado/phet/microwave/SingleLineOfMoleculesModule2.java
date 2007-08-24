@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.microwave;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_microwaves.application.PhetApplication;
 import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
 import edu.colorado.phet.coreadditions_microwaves.chart.StripChartDelegate;
@@ -16,7 +17,6 @@ import edu.colorado.phet.microwave.view.DipoleStripChartSubject;
 import edu.colorado.phet.microwave.view.MicrowaveStripCharSubject;
 import edu.colorado.phet.microwave.view.WaterMoleculeGraphic;
 import edu.colorado.phet.util_microwaves.StripChart;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,7 +25,7 @@ public class SingleLineOfMoleculesModule2 extends MicrowaveModule {
 
     private int fieldWidth = 1000;
     private int fieldHeight = 700;
-//    private MicrowaveModel model;
+    //    private MicrowaveModel model;
     private Microwave muWave;
     private WaterMolecule molecule;
 

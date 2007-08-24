@@ -6,6 +6,7 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.IClock;
@@ -17,7 +18,6 @@ import edu.colorado.phet.filter.BandpassFilter;
 import edu.colorado.phet.filter.Filter1D;
 import edu.colorado.phet.instrumentation.Thermometer;
 import edu.colorado.phet.instrumentation.ThermometerGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +106,7 @@ public abstract class BaseGreenhouseModule extends Module {
         atmosphereGraphic = new AtmosphereGraphic( atmosphere, finalModelBounds, apparatusPanel );
         atmosphere.addScatterEventListener( new ModuleScatterEventListener() );
         atmosphereGraphic.setVisible( false );
-        drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE);
+        drawingCanvas.addGraphic( atmosphereGraphic, Double.MAX_VALUE );
 
         model.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
@@ -293,8 +293,8 @@ public abstract class BaseGreenhouseModule extends Module {
             if( n >= invisiblePhotonCnt ) {
                 photonView.setVisible( true );
                 double layer = irFilter.absorbs( photon.getWavelength() )
-                        ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
-                        : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
+                               ? GreenhouseConfig.IR_PHOTON_GRAPHIC_LAYER
+                               : GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER;
                 drawingCanvas.addGraphic( photonView, layer );
 
                 // reset counter

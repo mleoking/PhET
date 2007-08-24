@@ -1,18 +1,18 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.help.TargetedWiggleMe;
-import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.common.piccolophet.help.TargetedWiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
-import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -29,7 +29,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:01:59 AM
- *
  */
 
 public class RampPanel extends PhetPCanvas {
@@ -155,7 +154,7 @@ public class RampPanel extends PhetPCanvas {
         appliedForceControl = new AppliedForceSimpleControl( module, this );
         addScreenChild( appliedForceControl );
 
-        goPauseClear = new PSwing(new GoPauseClearPanel( module.getTimeSeriesModel() ) );
+        goPauseClear = new PSwing( new GoPauseClearPanel( module.getTimeSeriesModel() ) );
         addScreenChild( goPauseClear );
 
         layoutAll();
@@ -417,8 +416,7 @@ public class RampPanel extends PhetPCanvas {
 
     public void graphLayoutChanged() {
         layoutAll();
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN )
-        {
+        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
             if( allThreeGraphsUp() ) {
                 rampPlotSet.setTimeSeriesPlotFont( new PhetDefaultFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );

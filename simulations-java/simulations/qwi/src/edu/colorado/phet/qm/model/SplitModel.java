@@ -14,7 +14,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:55:04 PM
- *
  */
 
 public class SplitModel extends QWIModel {

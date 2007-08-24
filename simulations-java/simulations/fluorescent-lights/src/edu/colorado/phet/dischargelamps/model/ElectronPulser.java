@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * ElectronPulser
- *
+ * <p/>
  * Puts current into the circuit and fires an electron
  *
  * @author Ron LeMaster

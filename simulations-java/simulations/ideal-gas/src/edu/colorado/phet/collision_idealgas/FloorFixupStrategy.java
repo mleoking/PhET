@@ -12,16 +12,16 @@ package edu.colorado.phet.collision_idealgas;
 
 /**
  * FloorFixupStrategy
- * <p>
-  * Keeps spheres from getting through a wall from top to bottom
-  *
+ * <p/>
+ * Keeps spheres from getting through a wall from top to bottom
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
 public class FloorFixupStrategy implements WallFixupStrategy {
 
     public void fixup( Wall wall, SphericalBody sphere ) {
-        sphere.setVelocity( sphere.getVelocity().getX(), -Math.abs( sphere.getVelocity().getY() ));
+        sphere.setVelocity( sphere.getVelocity().getX(), -Math.abs( sphere.getVelocity().getY() ) );
         sphere.setPosition( sphere.getPosition().getX(), wall.getBounds().getMinY() - sphere.getRadius() );
     }
 }

@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.common_1200.view.components;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_1200.math.ModelViewTx1D;
 import edu.colorado.phet.common_1200.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -229,8 +229,8 @@ public class PhetSlider extends JPanel {
             String youentered = SimStrings.get( "Common.PhetSlider.YouEntered" );
             String description = SimStrings.get( "Common.PhetSlider.Description" );
             JOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
-                                + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
-                                + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
+                                                 + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
+                                                 + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();
             textField.setText( formatter.format( value ) );
             return false;

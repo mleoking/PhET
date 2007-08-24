@@ -11,7 +11,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 29, 2005
  * Time: 11:49:21 PM
- *
  */
 
 public class QWILookAndFeel {

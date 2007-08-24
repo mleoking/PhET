@@ -32,7 +32,7 @@ public class BalloonHelpPainter implements Painter {
         double w = g.getFont().getStringBounds( bringNear, g.getFontRenderContext() ).getWidth();
         int x = (int)( balloonsApplication.getWallX() - w - 10 );
         int y = (int)( balloonsApplication.getWallHeight() - height * 5 );
-        g.drawString( bringNear, x, y );                                   
+        g.drawString( bringNear, x, y );
         g.drawString( BalloonsResources.getString( "near.the.wall" ), x, (int)( y + height ) );
     }
 }

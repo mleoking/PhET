@@ -8,8 +8,8 @@
 package edu.colorado.phet.idealgas.model;
 
 import edu.colorado.phet.collision_idealgas.SphericalBody;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
@@ -52,7 +52,6 @@ public class HollowSphereMustContainParticle extends MustContain {
             throw new RuntimeException( "Contained not instance of SphericalBody " +
                                         "in method apply() in class HollowSphereMustContainParticle" );
         }
-
 
         // Apply the constraint. The particle must be completely contained in the hollowSphere
         double particleDistFromCenter = hollowSphere.getCenter().distance( particle.getCenter() );

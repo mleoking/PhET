@@ -1,8 +1,8 @@
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -12,7 +12,6 @@ import java.awt.geom.Ellipse2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 12:51:08 AM
- *
  */
 public class EarthGraphic implements Graphic, TransformListener {
     private double x;

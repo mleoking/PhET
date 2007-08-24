@@ -14,7 +14,8 @@ public class NormalStar extends Star {
 //    public NormalStar( double luminance, Point2D.Double location, double syntheticZBound ) {
 //        super( luminance, location, syntheticZBound );
 //    }
-//
+
+    //
     public NormalStar( Color color, double luminance, Point2D.Double location, double syntheticZBound ) {
         super( color, luminance, location, syntheticZBound );
     }

@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 9:47:44 PM
- *
  */
 
 public class ShinyPanel extends JPanel {
@@ -105,7 +104,7 @@ public class ShinyPanel extends JPanel {
         }
 
         protected static CompoundBorder createCompoundBorder() {
-            Color[]gradient = new Color[8];
+            Color[] gradient = new Color[8];
             for( int i = 0; i < gradient.length; i++ ) {
                 float value = ( (float)i ) / ( gradient.length - 1 );
                 gradient[i] = new Color( 1 - value, 1 - value, 1 - value );

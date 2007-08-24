@@ -14,7 +14,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Mar 1, 2006
  * Time: 7:30:43 AM
- *
  */
 
 //public class StopwatchCheckBox extends JCheckBox {

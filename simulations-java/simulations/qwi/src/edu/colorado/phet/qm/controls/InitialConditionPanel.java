@@ -17,7 +17,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 30, 2005
  * Time: 9:07:55 AM
- *
  */
 
 public class InitialConditionPanel extends VerticalLayoutPanel {

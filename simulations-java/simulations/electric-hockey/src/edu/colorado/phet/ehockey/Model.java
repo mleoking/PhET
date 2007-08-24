@@ -17,25 +17,25 @@ public class Model {
     private boolean pathStarted;
     private boolean puckMoving;
     private GeneralPath path;
-    private Vector chargeList;	//methods of Vector class: elementAt(int), size(), removeElementAt(int), addElement(Object)
+    private Vector chargeList;    //methods of Vector class: elementAt(int), size(), removeElementAt(int), addElement(Object)
     //private Vector displacementList;
-    private Vector forceList;	//list of forces on positivePuckImage
+    private Vector forceList;    //list of forces on positivePuckImage
     //private final Point initialPuckPosition;
     private final Point2D initialPuckPosition2D;
     private Point puckPosition;
     private Point2D puckPosition2D;
     private Charge puck;
-    private double mass = 25.0;			//mass of positivePuckImage
-    private Force netForce;		//net force on positivePuckImage
+    private double mass = 25.0;            //mass of positivePuckImage
+    private Force netForce;        //net force on positivePuckImage
     private double fFactor = 0.0020; //arbitrary multiplicative factor in acceleration, adjusted for correct speed of positivePuckImage
-    private javax.swing.Timer timer;		//timer controlling motion of positivePuckImage
-    private int dt = 3;  				//time step in milliseconds
-    private int time;  					//total time in milliseconds
-    private double x, y;				//instantaneous positivePuckImage position
-    private double xBefore, yBefore;	//position in prior step
-    private double xTemp, yTemp;		//temporary storage of x, y
+    private javax.swing.Timer timer;        //timer controlling motion of positivePuckImage
+    private int dt = 3;                  //time step in milliseconds
+    private int time;                      //total time in milliseconds
+    private double x, y;                //instantaneous positivePuckImage position
+    private double xBefore, yBefore;    //position in prior step
+    private double xTemp, yTemp;        //temporary storage of x, y
     private boolean starting;
-    private double vX, vY;  	//x, y components of velocity and acceleration of positivePuckImage
+    private double vX, vY;      //x, y components of velocity and acceleration of positivePuckImage
 
     public Model( int width, int height, ElectricHockeyApplication electricHockeyApplication ) {
         this.electricHockeyApplication = electricHockeyApplication;
@@ -56,7 +56,7 @@ public class Model {
         path = new GeneralPath();
 
         puck = new Charge( puckPosition2D, Charge.POSITIVE );
-        Force netForce;		//net force on positivePuckImage
+        Force netForce;        //net force on positivePuckImage
 
         x = puckPosition2D.getX();
         y = puckPosition2D.getY();
@@ -198,7 +198,7 @@ public class Model {
 
         puck.setPosition2D( new Point2D.Double( x, y ) );
         puck.setPosition( new Point( (int)x, (int)y ) );
-        updateForceList();		//Attention! Rounding error in updated forces because puckPosition integer
+        updateForceList();        //Attention! Rounding error in updated forces because puckPosition integer
 
         if( x > 3 * fieldWidth || x < -3 * fieldWidth || y > 3 * fieldHeight || y < -3 * fieldHeight ) {
             stopTimer();

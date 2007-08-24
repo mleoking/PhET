@@ -1,11 +1,11 @@
 package edu.colorado.phet.semiconductor_semi.macro.circuit;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.math.PhetVector;
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.semiconductor_semi.SemiconductorApplication;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.BatterySpinner;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.particles.WireParticle;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 7:17:44 PM
- *
  */
 public class CircuitSection implements ModelElement, Graphic, DopantDropListener, ConductionListener, Speed {
 

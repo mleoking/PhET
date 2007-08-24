@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 1:23:37 PM
- *
  */
 public class AtomShapeControlPanel extends VerticalLayoutPanel {
     public AtomShapeControlPanel( final DGModule dgModule ) {

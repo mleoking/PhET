@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:23:06 AM
- *
  */
 
 public abstract class VerticalBarrier implements Potential {
@@ -50,7 +49,7 @@ public abstract class VerticalBarrier implements Potential {
         this.listeners.add( listener );
     }
 
-    public abstract Rectangle[]getRectangleBarriers();
+    public abstract Rectangle[] getRectangleBarriers();
 
     public abstract Rectangle[] getSlitAreas();
 

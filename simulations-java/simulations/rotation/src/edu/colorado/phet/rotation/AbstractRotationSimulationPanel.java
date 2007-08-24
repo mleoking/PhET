@@ -144,7 +144,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     private void relayout() {
         new RotationLayout( this, rotationPlayAreaNode, rotationControlPanelNode,
-                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode(),getRotationModel().getRotationPlatform() ).layout();
+                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode(), getRotationModel().getRotationPlatform() ).layout();
     }
 
     public GraphSuite getGraphSuite( int i ) {
@@ -170,7 +170,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     public void startApplication() {
         timeSeriesGraphSetNode.forceRelayout();
         timeSeriesGraphSetNode.forceRepaintGraphs();
-        paintImmediately( 0,0,getWidth(), getHeight() );//workaround for gray rect
+        paintImmediately( 0, 0, getWidth(), getHeight() );//workaround for gray rect
     }
 
     public void setGraphsBufferedImmediateSeries() {

@@ -12,8 +12,8 @@ package edu.colorado.phet.nuclearphysics.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.IEnergyProfile;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
 import edu.colorado.phet.nuclearphysics.model.ProfileableNucleus;
 
 import java.awt.*;
@@ -32,18 +32,19 @@ public class EnergyProfileGraphic extends PhetShapeGraphic {
         private ProfileType() {
         }
     }
+
     public static ProfileType TOTAL_ENERGY = new ProfileType();
     public static ProfileType POTENTIAL_ENERGY = new ProfileType();
 
 
-    public static Color potentialProfileColor = new Color(150,25,255);
-//    public static Color potentialProfileColor = Color.blue;
+    public static Color potentialProfileColor = new Color( 150, 25, 255 );
+    //    public static Color potentialProfileColor = Color.blue;
     public static Stroke potentialProfileStroke = new BasicStroke( 2f );
     private static float miterLimit = 10f;
     private static float[] dashPattern = {10f};
     private static float dashPhase = 0f;
 //    public static Stroke totalEnergyStroke = new BasicStroke( 1f, BasicStroke.CAP_BUTT,
-//                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
+    //                                                              BasicStroke.JOIN_MITER, miterLimit, dashPattern, dashPhase );
     public static Stroke totalEnergyStroke = new BasicStroke( 2f );
     public static Color totalEnergyColor = new Color( 0, 180, 0 );
 //    public static Color totalEnergyColor = Color.green;

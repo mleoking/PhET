@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 6:03:05 PM
- *
  */
 public class JadeElectron extends CircleParticle {
 

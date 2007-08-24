@@ -9,7 +9,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 10:51:19 PM
- *
  */
 
 public class TestIL8N {

@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 6, 2005
  * Time: 4:06:59 PM
- *
  */
 
 public class RampTickSetGraphic extends PNode {

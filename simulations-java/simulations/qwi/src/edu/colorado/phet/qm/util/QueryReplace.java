@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 9, 2005
  * Time: 1:48:01 PM
- *
  */
 
 public class QueryReplace {

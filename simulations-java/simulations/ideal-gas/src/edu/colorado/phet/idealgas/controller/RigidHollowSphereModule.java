@@ -8,9 +8,8 @@
 package edu.colorado.phet.idealgas.controller;
 
 import edu.colorado.phet.collision_idealgas.SphereHollowSphereExpert;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
@@ -187,6 +186,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     /**
      * Overrides behavior of superclass to only remove molecules that are NOT in the sphere
+     *
      * @param species
      */
     public void removeGasMolecule( Class species ) {
@@ -201,7 +201,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             if( randomB ) {
                 for( int i = 0; i < bodies.size(); i++ ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj )) {
+                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj ) ) {
                         break;
                     }
                 }
@@ -209,13 +209,13 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
             else {
                 for( int i = bodies.size() - 1; i >= 0; i-- ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj )) {
+                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj ) ) {
                         break;
                     }
                 }
             }
         }
-        if( obj instanceof GasMolecule  && !sphere.containsBody( (Body)obj )) {
+        if( obj instanceof GasMolecule && !sphere.containsBody( (Body)obj ) ) {
             GasMolecule molecule = (GasMolecule)obj;
             getIdealGasModel().removeModelElement( molecule );
         }
@@ -223,6 +223,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     /**
      * Overrides parent behavior to return the count of heavy molecules in the box, but not in the sphere
+     *
      * @return
      */
     public int getHeavySpeciesCnt() {
@@ -231,6 +232,7 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     /**
      * Overrides parent behavior to return the count of light molecules in the box, but not in the sphere
+     *
      * @return
      */
     public int getLightSpeciesCnt() {

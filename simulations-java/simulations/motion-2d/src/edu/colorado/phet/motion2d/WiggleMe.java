@@ -3,10 +3,10 @@ package edu.colorado.phet.motion2d;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -16,7 +16,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jul 12, 2004
  * Time: 11:47:26 AM
- *
  */
 public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private Sine sine;
@@ -44,7 +43,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     }
 
     public int getWidth() {
-        return (int) (textGraphic.getBounds().width + .5);
+        return (int)( textGraphic.getBounds().width + .5 );
     }
 
     public void stepInTime( double dt ) {

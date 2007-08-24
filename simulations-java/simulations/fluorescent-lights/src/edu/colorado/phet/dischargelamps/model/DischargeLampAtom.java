@@ -11,14 +11,16 @@
 
 package edu.colorado.phet.dischargelamps.model;
 
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.quantum.model.Electron;
-import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
-import java.util.EventObject;
 import java.util.EventListener;
+import java.util.EventObject;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
@@ -31,9 +33,9 @@ public class DischargeLampAtom extends Atom {
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
-//    private EnergyEmissionStrategy energyEmissionStrategy;
+    //    private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
-//    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
+    //    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new EqualLikelihoodAbsorptionStrategy();
 //    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();

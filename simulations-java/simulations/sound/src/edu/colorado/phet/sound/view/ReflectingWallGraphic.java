@@ -95,7 +95,7 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
         double x0 = Double.isInfinite( tan ) ? x : x - ( yMax - y ) / tan;
         double x1 = Double.isInfinite( tan ) ? x : x - ( 0 - y ) / tan;
         double y0 = Double.isInfinite( tan ) ? tan : y - ( xMax - x ) * tan;
-        
+
         synchronized( interferingWaveMask ) {
             interferingWaveMask.reset();
 
@@ -110,8 +110,8 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
             else {
                 // The +2 is here so the wall will show
                 interferingWaveMask.moveTo( (float)x0 + 2, (float)yMax );
-                interferingWaveMask.lineTo( (float)x1 + 2, (float) 0 );
-                interferingWaveMask.lineTo( (float)xMax + 2, (float) 0 );
+                interferingWaveMask.lineTo( (float)x1 + 2, (float)0 );
+                interferingWaveMask.lineTo( (float)xMax + 2, (float)0 );
                 interferingWaveMask.lineTo( (float)xMax + 2, (float)yMax );
                 interferingWaveMask.closePath();
                 wallEdge.setLine( x0, yMax, x1, 0.0 );
@@ -123,14 +123,14 @@ public class ReflectingWallGraphic extends PhetShapeGraphic {
      * @return
      */
     public int getX() {
-        return (int) (x + .5);
+        return (int)( x + .5 );
     }
 
     /**
      * @return
      */
     public int getY() {
-        return (int) (y + .5);
+        return (int)( y + .5 );
     }
 
     /**

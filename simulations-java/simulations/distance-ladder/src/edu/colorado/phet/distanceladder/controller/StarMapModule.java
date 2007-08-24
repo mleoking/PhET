@@ -7,9 +7,9 @@
  */
 package edu.colorado.phet.distanceladder.controller;
 
+import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.common.application.Module;
 import edu.colorado.phet.distanceladder.common.view.ApparatusPanel;
-import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.model.UniverseModel;
 import edu.colorado.phet.distanceladder.view.StarMapGraphic;
 import edu.colorado.phet.distanceladder.view.StarshipCoordsGraphic;

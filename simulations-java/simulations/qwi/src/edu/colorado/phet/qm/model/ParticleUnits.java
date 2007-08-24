@@ -10,7 +10,6 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Jan 5, 2006
  * Time: 2:33:36 PM
- *
  */
 
 public class ParticleUnits {

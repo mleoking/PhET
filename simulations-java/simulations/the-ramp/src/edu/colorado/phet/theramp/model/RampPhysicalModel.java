@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:12:09 AM
- *
  */
 
 public class RampPhysicalModel implements ModelElement, Surface.CollisionListener {
@@ -46,7 +45,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     private RampPhysicalModel lastState;
     private double appliedForceSetValue = 0.0;
 //    private static final double INIT_ANGLE = 0.0;
-//    private static final double INIT_ANGLE = 30 * Math.PI * 2 / 360;
+    //    private static final double INIT_ANGLE = 30 * Math.PI * 2 / 360;
     private static final double INIT_ANGLE = 10.0 * Math.PI * 2 / 360;
 
     public RampPhysicalModel() {

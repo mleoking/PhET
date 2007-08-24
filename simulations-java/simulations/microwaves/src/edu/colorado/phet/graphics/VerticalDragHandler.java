@@ -7,9 +7,6 @@
 package edu.colorado.phet.graphics;
 
 
-
-
-
 public class VerticalDragHandler {
 
 //    private DragHandler internalDragHandler;

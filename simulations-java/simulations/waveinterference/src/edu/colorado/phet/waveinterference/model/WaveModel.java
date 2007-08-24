@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:30:20 AM
- *
  */
 
 public class WaveModel {

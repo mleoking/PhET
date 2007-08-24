@@ -12,7 +12,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 12, 2005
  * Time: 9:32:14 AM
- *
  */
 
 public class BarGraphic2D extends PNode {

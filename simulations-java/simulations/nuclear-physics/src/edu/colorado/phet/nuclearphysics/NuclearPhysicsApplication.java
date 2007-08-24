@@ -13,13 +13,13 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.controller.ControlledFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.MultipleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.controller.SingleNucleusFissionModule;
 import edu.colorado.phet.nuclearphysics.util.ClockFactory;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,16 +36,15 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     private static Color backgroundColor;
 
     /**
-     *
      * @param args
      */
     public NuclearPhysicsApplication( String[] args ) {
         super( args, SimStrings.getInstance().getString( "NuclearPhysicsApplication.title" ),
                SimStrings.getInstance().getString( "NuclearPhysicsApplication.description" ),
-               PhetApplicationConfig.getVersion( "nuclear-physics").formatForTitleBar(),
+               PhetApplicationConfig.getVersion( "nuclear-physics" ).formatForTitleBar(),
                new FrameSetup.CenteredWithSize( 1024, 768 ) );
 
-        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, Config.ALPHA_DECAY_SIM_TIME_STEP  ) );
+        Module alphaModule = new AlphaDecayModule( ClockFactory.create( 40, Config.ALPHA_DECAY_SIM_TIME_STEP ) );
         alphaModule.setLogoPanelVisible( false );
         Module singleNucleusFissionModule = new SingleNucleusFissionModule( ClockFactory.create( 40, 1.5 ) );
         singleNucleusFissionModule.setLogoPanelVisible( false );
@@ -69,18 +68,18 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
 
     /**
      * An override so we can set the color of the selected tab
+     *
      * @param modules
      * @return a JComponent that's the PhetTabbedPane for the app
      */
     public JComponent createTabbedPane( Module[] modules ) {
-        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane(  );
+        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane();
 //        phetTabbedPane = (PhetTabbedPane)super.createTabbedPane( modules );
         phetTabbedPane.setSelectedTabColor( backgroundColor );
         return phetTabbedPane;
     }
 
     /**
-     *
      * @param args
      */
     public static void main( final String[] args ) {
@@ -89,7 +88,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
         // Initialize the look and feel
         phetLookAndFeel = new PhetLookAndFeel();
 //        phetLookAndFeel.setBackgroundColor( new Color( 236, 239, 254) );
-        backgroundColor = new Color( 237, 232, 159);
+        backgroundColor = new Color( 237, 232, 159 );
 //        backgroundColor = new Color( 227, 211, 175 );
         phetLookAndFeel.setBackgroundColor( backgroundColor );
 //        phetLookAndFeel.setBackgroundColor( new Color( 203, 224, 249) );
@@ -110,7 +109,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
     private class OptionsMenu extends JMenu {
 
         public OptionsMenu() {
-            super( "Options");
+            super( "Options" );
             JMenuItem backgroundColorMI = new JMenuItem( "Background color" );
             add( backgroundColorMI );
             backgroundColorMI.addActionListener( new ActionListener() {
@@ -129,7 +128,7 @@ public class NuclearPhysicsApplication extends PiccoloPhetApplication {
                 public void actionPerformed( ActionEvent e ) {
                     Color newColor = JColorChooser.showDialog( PhetUtilities.getPhetFrame(),
                                                                "Foreground Color",
-                                                               phetLookAndFeel.getForegroundColor());
+                                                               phetLookAndFeel.getForegroundColor() );
                     phetLookAndFeel.setForegroundColor( newColor );
                     phetLookAndFeel.initLookAndFeel();
                 }

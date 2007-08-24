@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 18, 2005
  * Time: 10:58:38 PM
- *
  */
 public class ColorData {
     private float r;

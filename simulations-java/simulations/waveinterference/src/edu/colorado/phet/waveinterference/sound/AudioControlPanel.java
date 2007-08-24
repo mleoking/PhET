@@ -18,7 +18,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 15, 2006
  * Time: 12:57:37 AM
- *
  */
 
 public class AudioControlPanel extends JPanel {

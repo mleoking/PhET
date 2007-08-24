@@ -14,9 +14,9 @@ import edu.colorado.phet.common_sound.view.util.ImageLoader;
 import edu.colorado.phet.sound.SoundConfig;
 import edu.colorado.phet.sound.model.WaveMedium;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.*;
 import java.io.IOException;
 
 public class SpeakerGraphic extends CompositePhetGraphic {

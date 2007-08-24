@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Feb 27, 2005
  * Time: 4:14:11 PM
- *
  */
 
 public class Viewport extends GraphicLayerSet {

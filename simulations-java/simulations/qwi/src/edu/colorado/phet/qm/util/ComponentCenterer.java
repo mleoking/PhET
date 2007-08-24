@@ -10,7 +10,6 @@ import java.awt.event.ComponentListener;
  * User: Sam Reid
  * Date: Mar 14, 2006
  * Time: 6:17:12 PM
- *
  */
 
 public class ComponentCenterer {

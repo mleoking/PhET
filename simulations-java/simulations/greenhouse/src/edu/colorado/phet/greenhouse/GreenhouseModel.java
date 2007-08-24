@@ -127,7 +127,7 @@ public class GreenhouseModel extends BaseModel implements PhotonEmitter.Listener
     }
 
     public void removeGlassPane( GlassPane glassPane ) {
-        glassPanes.remove( glassPane  );
+        glassPanes.remove( glassPane );
     }
 
     public void setGreenhouseGasConcentration( double concentration ) {

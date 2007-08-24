@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:54:41 PM
- *
  */
 
 public class BasicColorMap implements ColorMap {

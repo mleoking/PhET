@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 17, 2006
  * Time: 11:08:36 AM
- *
  */
 
 public class DiodeIn3Handler implements ModelCriteria, ModelElement {

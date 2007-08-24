@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 11, 2005
  * Time: 8:54:38 PM
- *
  */
 
 public class ImagePotentialGraphic extends RectangularPotentialGraphic {

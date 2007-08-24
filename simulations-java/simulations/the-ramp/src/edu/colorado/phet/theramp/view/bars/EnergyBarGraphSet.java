@@ -11,7 +11,6 @@ import edu.colorado.phet.theramp.view.RampPanel;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 8:17:25 PM
- *
  */
 
 public class EnergyBarGraphSet extends BarGraphSet {

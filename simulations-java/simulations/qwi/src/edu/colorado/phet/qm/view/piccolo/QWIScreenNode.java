@@ -47,7 +47,6 @@ import java.util.Arrays;
  * User: Sam Reid
  * Date: Sep 17, 2005
  * Time: 7:52:28 PM
- *
  */
 
 public class QWIScreenNode extends PNode {
@@ -150,7 +149,7 @@ public class QWIScreenNode extends PNode {
         } );
         stopwatchPanel.getTimeDisplay().setEditable( false );
         stopwatchPanel.setBorder( BorderFactory.createBevelBorder( BevelBorder.RAISED ) );
-        stopwatchPanelPSwing = new PSwing(stopwatchPanel );
+        stopwatchPanelPSwing = new PSwing( stopwatchPanel );
 //        stopwatchPanelPSwing = new PSwing( schrodingerPanel, new JButton( "Test Button" ));
 //        stopwatchPanelPSwing.addInputEventListener( new PDragEventHandler() );
 //        stopwatchPanelPSwing.addInputEventListener( new HalfOnscreenDragHandler( schrodingerPanel, stopwatchPanelPSwing ) );

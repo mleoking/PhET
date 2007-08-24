@@ -17,7 +17,6 @@ import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 10:05:52 AM
- *
  */
 
 public class SingleParticleModule extends QWIModule {

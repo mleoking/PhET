@@ -4,9 +4,9 @@ package edu.colorado.phet.theramp.common;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
+import edu.colorado.phet.theramp.TheRampStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,7 +23,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 10:42:18 PM
- *
  */
 
 public class MeasuringTape extends PNode {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 3, 2003
  * Time: 3:05:32 AM
- *
  */
 public class CompositeMouseInputListener implements MouseInputListener {
     ArrayList list = new ArrayList();

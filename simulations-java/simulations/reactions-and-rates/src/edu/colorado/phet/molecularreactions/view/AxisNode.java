@@ -22,7 +22,7 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * AxisNode
- * <p>
+ * <p/>
  * A PNode with text and an arrow to designate an axis of the EnergyView
  *
  * @author Ron LeMaster
@@ -32,14 +32,18 @@ public class AxisNode extends PNode {
     private static final int TEXT_PADDING = 5;
 
     public static class VerticalAlignment {
-        private VerticalAlignment() {}
+        private VerticalAlignment() {
+        }
     }
+
     public static final VerticalAlignment TOP = new VerticalAlignment();
     public static final VerticalAlignment BOTTOM = new VerticalAlignment();
 
     public static class Orientation {
-        private Orientation() {}
+        private Orientation() {
+        }
     }
+
     public static final Orientation HORIZONTAL = new Orientation();
     public static final Orientation VERTICAL = new Orientation();
 
@@ -54,7 +58,7 @@ public class AxisNode extends PNode {
 
         double arrowNodeWidth;
 
-        if (orientation == HORIZONTAL) {
+        if( orientation == HORIZONTAL ) {
             arrowNodeWidth = addLineNode( length, color );
         }
         else {
@@ -73,7 +77,7 @@ public class AxisNode extends PNode {
         if( textVerticalAlignment == TOP ) {
             labelOffsetY = -TEXT_PADDING - labelNode.getHeight();
         }
-        labelNode.setOffset( (arrowNodeWidth - labelNode.getFullBounds().getWidth()) / 2, labelOffsetY );
+        labelNode.setOffset( ( arrowNodeWidth - labelNode.getFullBounds().getWidth() ) / 2, labelOffsetY );
         addChild( labelNode );
 
         if( orientation == VERTICAL ) {
@@ -82,8 +86,8 @@ public class AxisNode extends PNode {
     }
 
     private double addArrowNode( double length, Color color, VerticalAlignment textVerticalAlignment ) {
-        Arrow arrow = new Arrow( new Point2D.Double( 0,      0),
-                                 new Point2D.Double( length, 0),
+        Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ),
+                                 new Point2D.Double( length, 0 ),
                                  12, 8, 1 );
 
         PPath arrowNode = addAxisNode( arrow.getShape(), color );
@@ -91,7 +95,7 @@ public class AxisNode extends PNode {
         return arrowNode.getFullBounds().getWidth();
     }
 
-    private double addLineNode( double length, Color color) {
+    private double addLineNode( double length, Color color ) {
         Rectangle2D rect = new Rectangle2D.Double( 0, 0, length, 1 );
 
         return addAxisNode( rect, color ).getFullBounds().getWidth();
@@ -101,7 +105,7 @@ public class AxisNode extends PNode {
         PPath arrowNode = new PPath( line );
 
         arrowNode.setPaint( color );
-        arrowNode.setStroke( new BasicStroke( 1 ));
+        arrowNode.setStroke( new BasicStroke( 1 ) );
         arrowNode.setStrokePaint( color );
         addChild( arrowNode );
 

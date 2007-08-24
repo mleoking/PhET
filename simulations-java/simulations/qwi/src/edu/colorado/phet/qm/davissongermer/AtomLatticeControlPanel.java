@@ -9,7 +9,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Feb 4, 2006
  * Time: 9:41:18 PM
- *
  */
 
 public class AtomLatticeControlPanel extends VerticalLayoutPanel {

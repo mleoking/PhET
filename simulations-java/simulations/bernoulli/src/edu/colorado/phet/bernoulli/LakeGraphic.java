@@ -1,8 +1,8 @@
 package edu.colorado.phet.bernoulli;
 
-import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
+import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 22, 2003
  * Time: 1:52:09 AM
- *
  */
 public class LakeGraphic implements TransformListener, Graphic {
     double x;

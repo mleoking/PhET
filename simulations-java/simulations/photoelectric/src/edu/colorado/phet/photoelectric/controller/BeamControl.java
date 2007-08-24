@@ -12,18 +12,18 @@ package edu.colorado.phet.photoelectric.controller;
 
 import edu.colorado.phet.common.controls.SpectrumSliderWithSquareCursor;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
@@ -32,9 +32,9 @@ import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -204,7 +204,7 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
     private void addIntensitySlider( final Beam beam, double maximumRate ) {
         // Make a spectrum intensitySlider
         intensitySlider = new MyIntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
-                                               IntensitySlider.HORIZONTAL, intensitySliderSize );
+                                                 IntensitySlider.HORIZONTAL, intensitySliderSize );
 //        intensitySlider = new IntensitySlider( VisibleColor.wavelengthToColor( beam.getWavelength() ),
 //                                               IntensitySlider.HORIZONTAL, intensitySliderSize );
         intensitySlider.setMaximum( (int)maximumRate );
@@ -311,7 +311,6 @@ public class BeamControl extends GraphicLayerSet implements SwingThreadModelList
             } );
         }
     }
-
 
 
     private class MyIntensitySlider extends IntensitySlider {

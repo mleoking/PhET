@@ -10,7 +10,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:46:29 AM
- *
  */
 
 public abstract class LatticeScreenCoordinates {

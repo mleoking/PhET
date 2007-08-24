@@ -2,14 +2,14 @@ package edu.colorado.phet.bernoulli.watertower;
 
 //import edu.colorado.phet.bernoulli.common.DifferentialDragHandler;
 
-import edu.colorado.phet.bernoulli.valves.HorizontalValveGraphic;
 import edu.colorado.phet.bernoulli.pump.RectangleGraphic;
-import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
-import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
+import edu.colorado.phet.bernoulli.valves.HorizontalValveGraphic;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.DifferentialDragHandler;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.ModelViewTransform2d;
 import edu.colorado.phet.common.bernoulli.bernoulli.graphics.transform.TransformListener;
 import edu.colorado.phet.common.bernoulli.bernoulli.simpleobserver.SimpleObserver;
+import edu.colorado.phet.common.bernoulli.view.ApparatusPanel;
+import edu.colorado.phet.common.bernoulli.view.graphics.InteractiveGraphic;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 2:47:13 AM
- *
  */
 public class WaterTowerGraphic implements InteractiveGraphic, SimpleObserver, TransformListener {
     WaterTower tower;
@@ -33,7 +32,7 @@ public class WaterTowerGraphic implements InteractiveGraphic, SimpleObserver, Tr
     RectangleGraphic pumpContainer;
     ArrayList struts = new ArrayList( 6 );
     private Stroke strutStroke = new BasicStroke( 4.0f );
-//    private VerticalValveGraphic bottomValveGraphic;
+    //    private VerticalValveGraphic bottomValveGraphic;
     private HorizontalValveGraphic horizontalValveGraphic;
 
     public WaterTowerGraphic( WaterTower tower, ModelViewTransform2d transform, ApparatusPanel target, Color backgroundColor ) {

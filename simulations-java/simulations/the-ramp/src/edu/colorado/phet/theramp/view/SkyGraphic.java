@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 8, 2005
  * Time: 8:15:23 AM
- *
  */
 
 public class SkyGraphic extends PNode {

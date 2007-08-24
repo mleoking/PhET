@@ -22,7 +22,7 @@ public class MeasuringGraphicNew {
     public int width = crosshairRadius * 2 + readoutWidth + 30;
     public int height = readoutHeight + 20;
     private Font font = new Font( "dialog", Font.BOLD, 14 );
-//    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0#" );
+    //    private DecimalFormat decimalFormat = new DecimalFormat( "#0.0#" );
     private Stroke crossHairStroke = new BasicStroke( 1f );
     private Stroke holeStroke = new BasicStroke( 3f );
     private Stroke boundsStroke = new BasicStroke( 2f );

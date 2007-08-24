@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.common_1200.view.basicgraphics;
 
 import java.awt.*;
@@ -9,7 +8,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jun 25, 2004
  * Time: 5:59:39 PM
- *
  */
 public class BasicImageGraphic extends BasicGraphic {
     private BufferedImage image;

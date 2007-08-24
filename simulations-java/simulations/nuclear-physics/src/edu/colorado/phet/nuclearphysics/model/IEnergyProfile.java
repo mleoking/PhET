@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.nuclearphysics.model;
 
-import java.awt.geom.GeneralPath;
 import java.awt.*;
+import java.awt.geom.GeneralPath;
 
 /**
  * IEnergyProfile

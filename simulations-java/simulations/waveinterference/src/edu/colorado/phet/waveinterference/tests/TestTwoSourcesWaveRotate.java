@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 1:37:43 AM
- *
  */
 
 public class TestTwoSourcesWaveRotate extends TestWaveRotateModule {

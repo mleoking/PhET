@@ -12,10 +12,10 @@ import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampModel;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.theramp.view.FireDog;
-import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesPlaybackPanel;
+import edu.colorado.phet.theramp.view.FireDog;
+import edu.colorado.phet.theramp.view.RampPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +29,6 @@ import java.util.Comparator;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 9:57:09 AM
- *
  */
 
 public class RampModule extends PiccoloModule {
@@ -44,7 +43,7 @@ public class RampModule extends PiccoloModule {
     public static final double FORCE_LENGTH_SCALE = 0.06;//1.0;
     private PhetFrame phetFrame;
     public static final int MAX_TIME = 30;
-//    public static final int MAX_TIME = 5;//testing only
+    //    public static final int MAX_TIME = 5;//testing only
     public static final boolean MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN = false;
     private boolean firedogInProgress = false;
 //    private Timer timer;

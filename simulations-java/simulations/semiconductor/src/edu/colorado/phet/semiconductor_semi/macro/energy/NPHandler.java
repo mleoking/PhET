@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.common_semiconductor.model.ModelElement;
@@ -15,7 +14,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.transitions.Move;
  * User: Sam Reid
  * Date: May 2, 2004
  * Time: 9:21:49 AM
- *
  */
 public class NPHandler implements ModelElement, ModelCriteria {
     private EnergySection energySection;

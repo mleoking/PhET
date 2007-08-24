@@ -184,7 +184,7 @@ public class RadiowaveSourceGraphic extends PNode {
     }
 
     private void updateFrequencySliderValue() {
-        frequencySlider.setValue( PhysicsUtil.wavelengthToFrequency( radiowaveSource.getWavelength() )/MriConfig.FREQUENCY_UNIT );
+        frequencySlider.setValue( PhysicsUtil.wavelengthToFrequency( radiowaveSource.getWavelength() ) / MriConfig.FREQUENCY_UNIT );
     }
 
     private void addAuxiliarySquiggle( double length, Insets controlInsets, PNode freqPSwing, RadiowaveSource radiowaveSource ) {

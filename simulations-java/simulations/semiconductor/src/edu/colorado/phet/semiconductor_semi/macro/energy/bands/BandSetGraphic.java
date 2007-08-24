@@ -18,12 +18,11 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 6:21:26 PM
- *
  */
 public class BandSetGraphic extends TransformGraphic implements BandParticleObserver {
     CompositeInteractiveGraphic graphic = new CompositeInteractiveGraphic();
     ClipGraphic clipGraphic;
-//    private boolean showPlusses = true;
+    //    private boolean showPlusses = true;
     ShapeGraphic backgroundWhite;
     ShapeGraphic backgroundBorder;
     private ChargeCountGraphic chargeCountGraphic;

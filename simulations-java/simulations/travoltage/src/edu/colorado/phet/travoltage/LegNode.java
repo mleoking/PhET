@@ -10,14 +10,13 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 12:04:09 AM
- *
  */
 
 public class LegNode extends LimbNode {
     private ArrayList angleHistory = new ArrayList();
 
     private static final int MAX_HISTORY_SIZE = 20;
-//    private double insetAngle = -1.05;//more negative means more left on his foot.
+    //    private double insetAngle = -1.05;//more negative means more left on his foot.
     private double insetAngle = -1.2;//more negative means more left on his foot.
 
     public LegNode() {
@@ -33,7 +32,7 @@ public class LegNode extends LimbNode {
     }
 
     public double[] getAngleHistory() {
-        double[]d = new double[angleHistory.size()];
+        double[] d = new double[angleHistory.size()];
         for( int i = 0; i < d.length; i++ ) {
             d[i] = ( (Double)angleHistory.get( i ) ).doubleValue();
         }

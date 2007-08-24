@@ -1,6 +1,9 @@
 package edu.colorado.phet.rotation.model;
 
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.IPositionDriven;
+import edu.colorado.phet.common.motion.model.MotionModel;
+import edu.colorado.phet.common.motion.model.PositionDriven;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 

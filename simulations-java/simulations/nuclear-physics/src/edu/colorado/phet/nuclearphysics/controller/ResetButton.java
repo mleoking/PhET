@@ -12,8 +12,8 @@ package edu.colorado.phet.nuclearphysics.controller;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
-import java.awt.image.BufferedImage;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -25,10 +25,11 @@ import java.io.IOException;
 public class ResetButton extends PhetGraphicsButton {
     private static BufferedImage buttonUpImg;
     private static BufferedImage buttonDownImg;
+
     static {
         try {
-            ResetButton.buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-down.png");
-            ResetButton.buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-up.png");
+            ResetButton.buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-down.png" );
+            ResetButton.buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/reset-button-up.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -37,6 +38,6 @@ public class ResetButton extends PhetGraphicsButton {
     }
 
     public ResetButton( Component component ) {
-        super( component, ResetButton.buttonUpImg, ResetButton.buttonDownImg  );
+        super( component, ResetButton.buttonUpImg, ResetButton.buttonDownImg );
     }
 }

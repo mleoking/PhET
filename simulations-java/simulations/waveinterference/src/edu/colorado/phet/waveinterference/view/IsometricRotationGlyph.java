@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Mar 23, 2006
  * Time: 12:19:43 AM
- *
  */
 
 public class IsometricRotationGlyph extends RotationGlyph {

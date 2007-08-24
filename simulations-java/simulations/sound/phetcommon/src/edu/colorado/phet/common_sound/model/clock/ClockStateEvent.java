@@ -21,34 +21,35 @@ import java.util.EventObject;
  */
 public class ClockStateEvent extends EventObject {
 
-    public ClockStateEvent( Object source) {
+    public ClockStateEvent( Object source ) {
         super( source );
     }
 
     public double getDt() {
-        return ((AbstractClock)getSource()).getDt();
+        return ( (AbstractClock)getSource() ).getDt();
     }
 
     public int getDelay() {
-        return (int)((AbstractClock)getSource()).getDelay();
+        return (int)( (AbstractClock)getSource() ).getDelay();
     }
 
     public boolean getIsPaused() {
-        return ((AbstractClock)getSource()).isPaused();
+        return ( (AbstractClock)getSource() ).isPaused();
     }
 
     public boolean getIsRunning() {
-        return ((AbstractClock)getSource()).isRunning();
+        return ( (AbstractClock)getSource() ).isRunning();
     }
 
     /**
      * Returns the priority of the clock thread if the clock is a ThreadedClock.
      * Otherwise, returns the priority of the current thread.
+     *
      * @return
      */
     public int getThreadPriority() {
         if( getSource() instanceof ThreadedClock ) {
-            return ((ThreadedClock)getSource()).getThreadPriority();
+            return ( (ThreadedClock)getSource() ).getThreadPriority();
         }
         else {
             return Thread.currentThread().getPriority();

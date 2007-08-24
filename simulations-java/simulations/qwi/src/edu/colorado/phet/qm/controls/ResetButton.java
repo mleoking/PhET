@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Jan 1, 2006
  * Time: 5:16:43 PM
- *
  */
 
 public class ResetButton extends JButton {

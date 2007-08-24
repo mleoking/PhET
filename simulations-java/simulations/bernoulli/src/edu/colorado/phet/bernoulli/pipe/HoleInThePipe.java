@@ -2,8 +2,8 @@ package edu.colorado.phet.bernoulli.pipe;
 
 import edu.colorado.phet.bernoulli.BernoulliApplication;
 import edu.colorado.phet.bernoulli.Drop;
-import edu.colorado.phet.common.bernoulli.model.ModelElement;
 import edu.colorado.phet.common.bernoulli.bernoulli.math.PhetVector;
+import edu.colorado.phet.common.bernoulli.model.ModelElement;
 
 import java.util.Random;
 
@@ -11,7 +11,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Sep 8, 2003
  * Time: 2:12:46 AM
- *
  */
 public class HoleInThePipe extends ModelElement {
     private Pipe pipe;

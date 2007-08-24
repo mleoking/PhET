@@ -14,13 +14,13 @@ public class DragHandler {
     private Point2D.Double viewStart;
     private Point2D.Double newLocation = new Point2D.Double();
 
-    public DragHandler(Point2D.Double mouseStart, Point2D.Double viewStart) {
+    public DragHandler( Point2D.Double mouseStart, Point2D.Double viewStart ) {
         this.dragStartPt = mouseStart;
         this.viewStart = viewStart;
     }
 
 
-    public Point2D.Double getNewLocation(Point2D.Double p) {
+    public Point2D.Double getNewLocation( Point2D.Double p ) {
         double dx = p.x - dragStartPt.x;
         double dy = p.y - dragStartPt.y;
         newLocation.x = dx + viewStart.x;

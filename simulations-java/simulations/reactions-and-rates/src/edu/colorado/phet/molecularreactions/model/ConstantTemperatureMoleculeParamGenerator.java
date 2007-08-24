@@ -42,13 +42,13 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
     /**
      * Generates a Params object for a molecule.
      *
-     * @param bounds        The bounds within which the molecule's CM lies
-     * @param model         A reference to the model, from which we will get the current temperature
-     * @param maxAlpha      Max angular velocity
-     * @param minTheta      Min angle of the molecule's initial velocity
-     * @param maxTheta      Max angle of the molecule's initial velocity
-     * @param moleculeType  The type of the molecule for which params are to be generated.
-     *                      This provides the mass needed to determine the velocity.
+     * @param bounds       The bounds within which the molecule's CM lies
+     * @param model        A reference to the model, from which we will get the current temperature
+     * @param maxAlpha     Max angular velocity
+     * @param minTheta     Min angle of the molecule's initial velocity
+     * @param maxTheta     Max angle of the molecule's initial velocity
+     * @param moleculeType The type of the molecule for which params are to be generated.
+     *                     This provides the mass needed to determine the velocity.
      */
     public ConstantTemperatureMoleculeParamGenerator( Rectangle2D bounds,
                                                       MRModel model,
@@ -56,8 +56,8 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
                                                       double minTheta,
                                                       double maxTheta,
                                                       Class moleculeType ) {
-        this.bounds   = bounds;
-        this.model    = model;
+        this.bounds = bounds;
+        this.model = model;
         this.minTheta = minTheta;
         this.maxTheta = maxTheta;
         this.maxAlpha = maxAlpha;

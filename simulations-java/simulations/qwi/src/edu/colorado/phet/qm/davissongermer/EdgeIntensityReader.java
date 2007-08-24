@@ -10,7 +10,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 18, 2006
  * Time: 1:01:19 PM
- *
  */
 
 public class EdgeIntensityReader implements DGIntensityReader {

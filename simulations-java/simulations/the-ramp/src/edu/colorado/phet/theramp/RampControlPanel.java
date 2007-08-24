@@ -18,7 +18,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Aug 9, 2005
  * Time: 12:43:40 AM
- *
  */
 
 public class RampControlPanel extends ControlPanel {

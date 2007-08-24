@@ -9,7 +9,6 @@ import edu.colorado.phet.qm.model.math.Complex;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 2:29:00 PM
- *
  */
 
 public class PyValue {

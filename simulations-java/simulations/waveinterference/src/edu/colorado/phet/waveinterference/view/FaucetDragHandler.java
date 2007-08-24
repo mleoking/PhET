@@ -12,7 +12,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 12:58:21 PM
- *
  */
 
 public class FaucetDragHandler extends PDragEventHandler {

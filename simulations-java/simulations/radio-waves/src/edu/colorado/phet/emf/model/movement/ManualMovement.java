@@ -27,7 +27,7 @@ public class ManualMovement implements MovementType {
     private double[] yAHistory = new double[s_posHistoryLength - 2];
     private float vAve;
     private float aAve;
-    private Vector2D.Float velocity =  new Vector2D.Float();
+    private Vector2D.Float velocity = new Vector2D.Float();
     private MedianFilter dataFilter = new MedianFilter( yVHistory );
 
     /**
@@ -45,8 +45,8 @@ public class ManualMovement implements MovementType {
         if( this.position != null ) {
             numHistoryEntries = Math.min( numHistoryEntries + 1, s_posHistoryLength );
             electron.setCurrentPosition( this.position );
-            for( int i = yPosHistory.length - 1; i > 0; i-- ){
-                yPosHistory[i] = yPosHistory[i-1];
+            for( int i = yPosHistory.length - 1; i > 0; i-- ) {
+                yPosHistory[i] = yPosHistory[i - 1];
             }
             yPosHistory[0] = (float)electron.getCurrentPosition().getY();
             computeKinetics();
@@ -57,7 +57,7 @@ public class ManualMovement implements MovementType {
         // Compute velocities
         vAve = 0;
         for( int i = 0; i < numHistoryEntries - 1; i++ ) {
-            float v = yPosHistory[i+1] - yPosHistory[i];
+            float v = yPosHistory[i + 1] - yPosHistory[i];
             yVHistory[i] = v;
             vAve += v;
         }
@@ -68,7 +68,7 @@ public class ManualMovement implements MovementType {
         dataFilter.filter( 3 );
         aAve = 0;
         for( int i = 0; i < numHistoryEntries - 2; i++ ) {
-            double a = yVHistory[i+1] - yVHistory[i];
+            double a = yVHistory[i + 1] - yVHistory[i];
             yAHistory[i] = a;
             aAve += a;
         }

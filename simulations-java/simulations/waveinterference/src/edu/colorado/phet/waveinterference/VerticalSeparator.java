@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 10:35:28 AM
- *
  */
 
 public class VerticalSeparator extends JPanel {

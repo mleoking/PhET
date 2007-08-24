@@ -10,11 +10,9 @@ import java.awt.*;
 //            Painter
 
 public class WallPainter
-    implements Painter
-{
+        implements Painter {
 
-    public WallPainter(int i, int j, int k, int l, Stroke stroke1, Color color)
-    {
+    public WallPainter( int i, int j, int k, int l, Stroke stroke1, Color color ) {
         x = i;
         y = j;
         width = k;
@@ -23,11 +21,10 @@ public class WallPainter
         c = color;
     }
 
-    public void paint(Graphics2D graphics2d)
-    {
-        graphics2d.setColor(c);
-        graphics2d.setStroke(stroke);
-        graphics2d.draw(new Rectangle(x, y, width, height));
+    public void paint( Graphics2D graphics2d ) {
+        graphics2d.setColor( c );
+        graphics2d.setStroke( stroke );
+        graphics2d.draw( new Rectangle( x, y, width, height ) );
     }
 
     int x;

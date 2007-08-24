@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 18, 2005
  * Time: 10:55:00 PM
- *
  */
 
 public class PhotonColorMap implements ColorMap {

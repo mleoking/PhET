@@ -33,10 +33,10 @@ public class SingleNucleusFissionControlPanel extends JPanel {
             }
         } );
 
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets(  15,0,15,0 ),0,0 );
+                                                         new Insets( 15, 0, 15, 0 ), 0, 0 );
         add( resetBtn, gbc );
 
         BevelBorder baseBorder = (BevelBorder)BorderFactory.createRaisedBevelBorder();

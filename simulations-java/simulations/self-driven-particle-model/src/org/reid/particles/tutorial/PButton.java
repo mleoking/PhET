@@ -1,15 +1,13 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -22,9 +20,9 @@ public class PButton extends PNode {
     private JButton button;
 
     public PButton( PSwingCanvas pSwingCanvas, String label ) {
-        button = new JButton( label ){
+        button = new JButton( label ) {
             protected void paintComponent( Graphics g ) {
-                Graphics2D g2=(Graphics2D)g;
+                Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
                 super.paintComponent( g );
@@ -39,7 +37,7 @@ public class PButton extends PNode {
     }
 
     public String toString() {
-        return "PButton["+button.getText()+"]: "+super.toString();
+        return "PButton[" + button.getText() + "]: " + super.toString();
     }
 
 }

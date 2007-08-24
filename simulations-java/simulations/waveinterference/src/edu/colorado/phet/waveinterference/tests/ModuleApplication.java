@@ -11,7 +11,6 @@ import javax.swing.*;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:18:50 AM
- *
  */
 
 public class ModuleApplication {
@@ -19,7 +18,7 @@ public class ModuleApplication {
         new WaveIntereferenceLookAndFeel().initLookAndFeel();
     }
 
-    public void startApplication( String[]args, Module module ) {
+    public void startApplication( String[] args, Module module ) {
         PhetApplication phetApplication = new PhetApplication( args, module.getName(), "", "" );
         phetApplication.addModule( module );
         SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );

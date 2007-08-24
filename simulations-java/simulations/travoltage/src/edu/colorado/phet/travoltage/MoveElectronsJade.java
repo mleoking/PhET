@@ -18,7 +18,6 @@ import java.util.StringTokenizer;
  * User: Sam Reid
  * Date: Jul 1, 2006
  * Time: 1:22:41 AM
- *
  */
 
 public class MoveElectronsJade implements ModelElement {

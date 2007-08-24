@@ -7,8 +7,9 @@
 
 package edu.colorado.phet.molecularreactions.test;
 
-import javax.swing.JPanel;
-
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,9 +22,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+
+import javax.swing.*;
 
 /**
  * A simple demonstration of the {@link XYLineAndShapeRenderer} class.
@@ -61,7 +61,7 @@ public class XYLineAndShapeRendererDemo1 extends ApplicationFrame {
                     series2.remove( 0 );
                 }
                 series1.add( x1, 3 * Math.sin( t ) );
-                series2.add( x2, 3 * Math.cos( t ));
+                series2.add( x2, 3 * Math.cos( t ) );
             }
         } );
         clock.start();

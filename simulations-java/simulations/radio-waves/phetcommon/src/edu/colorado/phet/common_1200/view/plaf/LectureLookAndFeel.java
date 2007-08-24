@@ -14,12 +14,12 @@ public class LectureLookAndFeel extends MetalLookAndFeel {
     Color controlTextColor = new Color( 230, 230, 230 );
     Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
     static String[] controlTypes = new String[]{
-        "Menu",
-        "MenuItem",
-        "RadioButton",
-        "Button",
-        "CheckBox",
-        "Label"
+            "Menu",
+            "MenuItem",
+            "RadioButton",
+            "Button",
+            "CheckBox",
+            "Label"
     };
 
     protected void initComponentDefaults( UIDefaults table ) {
@@ -38,14 +38,14 @@ public class LectureLookAndFeel extends MetalLookAndFeel {
         ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
 
         Object[] defaults = {
-            "Panel.background", background
-            , "Menu.background", background
-            , "MenuItem.background", background
-            , "MenuBar.background", background
-            , "Slider.background", background
-            , "RadioButton.background", background
-            , "CheckBox.background", background
-            , "Button.background", buttonBackground
+                "Panel.background", background
+                , "Menu.background", background
+                , "MenuItem.background", background
+                , "MenuBar.background", background
+                , "Slider.background", background
+                , "RadioButton.background", background
+                , "CheckBox.background", background
+                , "Button.background", buttonBackground
         };
         def.addAll( Arrays.asList( defaults ) );
 

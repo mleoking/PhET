@@ -29,15 +29,15 @@ public class IntensityView extends JPanel {
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
 
     public IntensityView( final BeamIntensityMeter beamIntensityMeter ) {
-        setLayout( new GridLayout( 1, 2 ));
-        add( new JLabel( "Intensity: "));
+        setLayout( new GridLayout( 1, 2 ) );
+        add( new JLabel( "Intensity: " ) );
         intensityTF = new JTextField( 10 );
         add( intensityTF );
 
         beamIntensityMeter.addUpdateListener( new ScalarDataRecorder.UpdateListener() {
             public void update( ScalarDataRecorder.UpdateEvent event ) {
                 double current = beamIntensityMeter.getIntesity();
-                intensityTF.setText( format.format( current ));
+                intensityTF.setText( format.format( current ) );
             }
         } );
     }

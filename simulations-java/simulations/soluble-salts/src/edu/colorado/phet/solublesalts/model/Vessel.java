@@ -129,7 +129,7 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
-        this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ));
+        this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ) );
         changeListenerProxy.stateChanged( new ChangeEvent( this ) );
     }
 
@@ -151,10 +151,10 @@ public class Vessel implements ModelElement, Collidable {
 //                && getShape().getMaxY() > p.getY()
 //            );
         return !( getShape().getMinX() - wallThickness < p.getX()
-                && getShape().getMinY() < p.getY()
-                && getShape().getMaxX() + wallThickness > p.getX()
-                && getShape().getMaxY() + wallThickness > p.getY()
-            );
+                  && getShape().getMinY() < p.getY()
+                  && getShape().getMaxX() + wallThickness > p.getX()
+                  && getShape().getMaxY() + wallThickness > p.getY()
+        );
     }
 
     public Point2D getLocation() {

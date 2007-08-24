@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe_org;
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.ion.IonListener;
-import edu.colorado.phet.solublesalts.model.ion.IonEvent;
 import edu.colorado.phet.solublesalts.control.SodiumChlorideControlPanel;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.ion.IonEvent;
+import edu.colorado.phet.solublesalts.model.ion.IonListener;
 
-import java.awt.geom.Point2D;
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 /**
  * SolubleSaltsModule
@@ -53,7 +53,7 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
         final SolubleSaltsModel model = (SolubleSaltsModel)getModel();
         double x = model.getShaker().getPosition().getX() - 200;
         double y = model.getShaker().getPosition().getY() - 100;
-        final WiggleMe_org wiggleMe = new WiggleMe_org( SimStrings.getInstance().getString("WiggleMe.message"),
+        final WiggleMe_org wiggleMe = new WiggleMe_org( SimStrings.getInstance().getString( "WiggleMe.message" ),
                                                         new Point2D.Double( x, y ),
                                                         50,
                                                         new Color( 30, 100, 60 ) );

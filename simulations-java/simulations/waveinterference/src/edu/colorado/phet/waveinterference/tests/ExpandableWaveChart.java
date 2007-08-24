@@ -24,7 +24,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Apr 14, 2006
  * Time: 4:19:58 PM
- *
  */
 
 public class ExpandableWaveChart extends PNode {
@@ -60,8 +59,8 @@ public class ExpandableWaveChart extends PNode {
             }
         } );
         addChild( waveChartGraphic );
-        expandPSwing = new PSwing(expand );
-        collapsePSwing = new PSwing(collapse );
+        expandPSwing = new PSwing( expand );
+        collapsePSwing = new PSwing( collapse );
 //        addChild( new PSwing( pSwingCanvas, collapse ) );
         addChild( waveChartGraphic );
         this.waveChartGraphic = waveChartGraphic;

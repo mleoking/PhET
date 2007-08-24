@@ -25,10 +25,11 @@ import java.io.IOException;
 public class FireButton extends PhetGraphicsButton {
     private static BufferedImage buttonUpImg;
     private static BufferedImage buttonDownImg;
+
     static {
         try {
-            buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button-down.png");
-            buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button.png");
+            buttonDownImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button-down.png" );
+            buttonUpImg = ImageLoader.loadBufferedImage( "nuclear-physics/images/fire-button.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -37,6 +38,6 @@ public class FireButton extends PhetGraphicsButton {
     }
 
     public FireButton( Component component ) {
-        super( component, buttonUpImg, buttonDownImg  );
+        super( component, buttonUpImg, buttonDownImg );
     }
 }

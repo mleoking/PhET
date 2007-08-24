@@ -4,7 +4,6 @@
 // Source File Name:   ToneDelegator.java
 package javasound.tone;
 
-
 // Referenced classes of package srr.tone:
 //            Tone
 

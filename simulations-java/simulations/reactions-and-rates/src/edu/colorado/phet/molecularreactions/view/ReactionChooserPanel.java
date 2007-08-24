@@ -28,7 +28,7 @@ import java.awt.event.MouseEvent;
 
 /**
  * ReactionChooserPanel
- * <p>
+ * <p/>
  * A JPanel with radio buttons for selecting a reaction
  *
  * @author Ron LeMaster
@@ -65,11 +65,11 @@ public class ReactionChooserPanel extends JPanel implements MRModel.ModelListene
         bg.add( designYourOwnRB );
 
         selectionListener = new SelectionHandler();
-        defaultRB.addActionListener( selectionListener  );
-        r1RB.addActionListener( selectionListener  );
+        defaultRB.addActionListener( selectionListener );
+        r1RB.addActionListener( selectionListener );
         r2RB.addActionListener( selectionListener );
-        r3RB.addActionListener( selectionListener  );
-        designYourOwnRB.addActionListener( selectionListener  );
+        r3RB.addActionListener( selectionListener );
+        designYourOwnRB.addActionListener( selectionListener );
 
         JLabel iconDefault = new JLabel( ReactionSelectorIcons.getIcon( Profiles.DEFAULT ) );
         iconDefault.addMouseListener( new MoleculeIconMouseAdapter( defaultRB ) );

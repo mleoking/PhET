@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 17, 2006
  * Time: 9:30:18 AM
- *
  */
 
 public class QWIFrameSetup implements FrameSetup {

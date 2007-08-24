@@ -11,11 +11,10 @@
 package edu.colorado.phet.idealgas.view.monitors;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.IdealGasResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,8 +24,8 @@ import java.awt.*;
  */
 public class SpeciesMonitorDialog extends JDialog {
     private String[] speciesPanelTitles = new String[]{
-        IdealGasResources.getString( "IdealGasMonitorPanel.Heavy_species" ),
-        IdealGasResources.getString( "IdealGasMonitorPanel.Light_species" )
+            IdealGasResources.getString( "IdealGasMonitorPanel.Heavy_species" ),
+            IdealGasResources.getString( "IdealGasMonitorPanel.Light_species" )
     };
     private GasSpeciesMonitorPanel heavySpeciesPanel;
     private GasSpeciesMonitorPanel lightSpeciesPanel;

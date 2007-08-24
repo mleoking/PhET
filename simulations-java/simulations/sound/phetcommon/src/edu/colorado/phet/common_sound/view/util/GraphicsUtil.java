@@ -10,9 +10,7 @@
  */
 package edu.colorado.phet.common_sound.view.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**

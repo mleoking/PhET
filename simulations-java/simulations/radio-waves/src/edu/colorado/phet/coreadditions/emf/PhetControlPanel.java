@@ -79,7 +79,7 @@ public class PhetControlPanel extends JPanel {
         int controlPaneWidth = (int)Math.round( controlPaneSize.getWidth() );
         int controlPaneHeight = (int)Math.round( controlPaneSize.getHeight() );
         int width = (int)Math.max( imageIcon.getIconWidth() + padX * 2,
-                                   controlPaneWidth /*+ padX * 2 */);
+                                   controlPaneWidth /*+ padX * 2 */ );
         int height = (int)( padY * 4 + imageIcon.getIconHeight()
                             + helpPanel.getPreferredSize().getHeight()
                             + controlPaneHeight );
@@ -121,7 +121,7 @@ public class PhetControlPanel extends JPanel {
         layout.putConstraint( SpringLayout.WEST, helpPanel, leftOfHelpPanelS,
                               SpringLayout.WEST, this );
         Spring bottomOfControlsS = Spring.sum( controlsTopSS, Spring.constant( controlPaneHeight ) );
-        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() )));
+        Spring minOffsetY = Spring.sum( containerSouthEdge, Spring.minus( Spring.constant( (int)helpPanel.getPreferredSize().getHeight() ) ) );
         Spring s = Spring.max( Spring.sum( bottomOfControlsS, Spring.constant( padY ) ),
                                minOffsetY );
         layout.putConstraint( SpringLayout.NORTH, helpPanel, s,

@@ -4,25 +4,20 @@
 
 package edu.colorado.phet.efield.electron.phys2d_efield;
 
-
 // Referenced classes of package phys2d:
 //            DoublePoint
 
-public class Particle
-{
+public class Particle {
 
-    public Particle()
-    {
-        this(new DoublePoint(), new DoublePoint(), new DoublePoint(), 1.0D);
+    public Particle() {
+        this( new DoublePoint(), new DoublePoint(), new DoublePoint(), 1.0D );
     }
 
-    public Particle(DoublePoint doublepoint, DoublePoint doublepoint1, DoublePoint doublepoint2, double d)
-    {
-        this(doublepoint, doublepoint1, doublepoint2, d, 0.0D);
+    public Particle( DoublePoint doublepoint, DoublePoint doublepoint1, DoublePoint doublepoint2, double d ) {
+        this( doublepoint, doublepoint1, doublepoint2, d, 0.0D );
     }
 
-    public Particle(DoublePoint doublepoint, DoublePoint doublepoint1, DoublePoint doublepoint2, double d, double d1)
-    {
+    public Particle( DoublePoint doublepoint, DoublePoint doublepoint1, DoublePoint doublepoint2, double d, double d1 ) {
         x = doublepoint;
         v = doublepoint1;
         a = doublepoint2;
@@ -30,58 +25,47 @@ public class Particle
         charge = d1;
     }
 
-    public void setCharge(double d)
-    {
+    public void setCharge( double d ) {
         charge = d;
     }
 
-    public double getCharge()
-    {
+    public double getCharge() {
         return charge;
     }
 
-    public String toString()
-    {
+    public String toString() {
         return "Position=" + x + ", Velocity=" + v + ", Acceleration=" + a + ", Mass=" + mass + ", Charge=" + charge;
     }
 
-    public void setMass(double d)
-    {
+    public void setMass( double d ) {
         mass = d;
     }
 
-    public double getMass()
-    {
+    public double getMass() {
         return mass;
     }
 
-    public void setAcceleration(DoublePoint doublepoint)
-    {
+    public void setAcceleration( DoublePoint doublepoint ) {
         a = doublepoint;
     }
 
-    public DoublePoint getAcceleration()
-    {
+    public DoublePoint getAcceleration() {
         return a;
     }
 
-    public DoublePoint getVelocity()
-    {
+    public DoublePoint getVelocity() {
         return v;
     }
 
-    public void setVelocity(DoublePoint doublepoint)
-    {
+    public void setVelocity( DoublePoint doublepoint ) {
         v = doublepoint;
     }
 
-    public DoublePoint getPosition()
-    {
+    public DoublePoint getPosition() {
         return x;
     }
 
-    public void setPosition(DoublePoint doublepoint)
-    {
+    public void setPosition( DoublePoint doublepoint ) {
         x = doublepoint;
     }
 

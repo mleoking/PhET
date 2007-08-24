@@ -9,7 +9,6 @@ import edu.colorado.phet.common_semiconductor.model.simpleobservable.SimpleObser
  * User: Sam Reid
  * Date: Dec 31, 2003
  * Time: 2:48:10 PM
- *
  */
 public class Particle extends SimpleObservable implements ModelElement {
     PhetVector position;

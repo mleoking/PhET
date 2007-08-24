@@ -1,6 +1,7 @@
 /*  */
 package edu.colorado.phet.forces1d.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
@@ -9,7 +10,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
@@ -26,7 +26,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Dec 16, 2004
  * Time: 5:57:05 PM
- *
  */
 
 public class FreeBodyDiagram extends CompositePhetGraphic {
@@ -235,7 +234,7 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
     public class AxesGraphic extends CompositePhetGraphic {
         private PhetShapeGraphic xAxis;
         private PhetShapeGraphic yAxis;
-//        private PhetTextGraphic xLabel;
+        //        private PhetTextGraphic xLabel;
         private PhetGraphic xLabel;
         private PhetGraphic yLabel;
 

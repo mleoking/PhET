@@ -9,12 +9,11 @@ import edu.colorado.phet.semiconductor_semi.macro.circuit.Circuit;
  * User: Sam Reid
  * Date: Jan 16, 2004
  * Time: 12:50:49 AM
- *
  */
 public class WireParticle extends SimpleObservable implements ModelElement {
     double dist;
     Circuit circuit;
-//    private double speed=-.004;
+    //    private double speed=-.004;
     private double speed = 0;
 
     public WireParticle( double dist, Circuit circuit ) {

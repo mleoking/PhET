@@ -7,55 +7,46 @@ package edu.colorado.phet.efield.electron.gui.popupMenu;
 import edu.colorado.phet.efield.electron.gui.ParticlePanel;
 import edu.colorado.phet.efield.electron.gui.mouse.ParticleSelector;
 
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import javax.swing.JMenu;
-import javax.swing.JPopupMenu;
 
 // Referenced classes of package edu.colorado.phet.efield.electron.gui.popupMenu:
 //            MenuConstructor
 
 public class ParticlePopupListener
-    implements MouseListener
-{
+        implements MouseListener {
 
-    public ParticlePopupListener(ParticlePanel particlepanel, MenuConstructor menuconstructor)
-    {
+    public ParticlePopupListener( ParticlePanel particlepanel, MenuConstructor menuconstructor ) {
         mc = menuconstructor;
-        ps = new ParticleSelector(particlepanel);
+        ps = new ParticleSelector( particlepanel );
     }
 
-    public void mouseClicked(MouseEvent mouseevent)
-    {
+    public void mouseClicked( MouseEvent mouseevent ) {
     }
 
-    public void mousePressed(MouseEvent mouseevent)
-    {
+    public void mousePressed( MouseEvent mouseevent ) {
     }
 
-    public void mouseReleased(MouseEvent mouseevent)
-    {
-        if(mouseevent.isPopupTrigger())
-        {
-            if(last != null)
-                last.getPopupMenu().setVisible(false);
-            edu.colorado.phet.efield.electron.phys2d_efield.Particle particle = ps.selectAt(mouseevent.getPoint());
-            if(particle != null)
-            {
-                last = mc.getMenu(particle);
-                last.setMenuLocation(mouseevent.getPoint().x, mouseevent.getPoint().y);
+    public void mouseReleased( MouseEvent mouseevent ) {
+        if( mouseevent.isPopupTrigger() ) {
+            if( last != null ) {
+                last.getPopupMenu().setVisible( false );
+            }
+            edu.colorado.phet.efield.electron.phys2d_efield.Particle particle = ps.selectAt( mouseevent.getPoint() );
+            if( particle != null ) {
+                last = mc.getMenu( particle );
+                last.setMenuLocation( mouseevent.getPoint().x, mouseevent.getPoint().y );
                 JPopupMenu jpopupmenu = last.getPopupMenu();
-                jpopupmenu.show(mouseevent.getComponent(), mouseevent.getX(), mouseevent.getY());
+                jpopupmenu.show( mouseevent.getComponent(), mouseevent.getX(), mouseevent.getY() );
             }
         }
     }
 
-    public void mouseEntered(MouseEvent mouseevent)
-    {
+    public void mouseEntered( MouseEvent mouseevent ) {
     }
 
-    public void mouseExited(MouseEvent mouseevent)
-    {
+    public void mouseExited( MouseEvent mouseevent ) {
     }
 
     ParticleSelector ps;

@@ -12,8 +12,6 @@ import edu.colorado.phet.phys2d.laws.Validate;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Locale;
 
 //import edu.colorado.phet.util.ExitOnClose;

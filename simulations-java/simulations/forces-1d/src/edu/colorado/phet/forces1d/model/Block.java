@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.forces1d.model;
 
 import java.util.ArrayList;
@@ -7,7 +6,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Nov 12, 2004
  * Time: 9:58:08 PM
- *
  */
 public class Block {
     private double kineticFriction = 1.0;

@@ -12,7 +12,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 11, 2005
  * Time: 10:12:53 AM
- *
  */
 
 public abstract class Surface extends SimpleObservable {
@@ -53,9 +52,9 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public void setAngle( double angle ) {
-        if (this.angle!=angle){
-        this.angle = angle;
-        notifyObservers();
+        if( this.angle != angle ) {
+            this.angle = angle;
+            notifyObservers();
         }
     }
 

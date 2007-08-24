@@ -21,7 +21,7 @@ public class SystemRunner implements Runnable {
             while( running ) {
                 iterate();
                 try {
-                    Thread.sleep(waitTime);
+                    Thread.sleep( waitTime );
                 }
                 catch( InterruptedException e ) {
                     e.printStackTrace();

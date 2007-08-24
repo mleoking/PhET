@@ -9,7 +9,6 @@ import java.text.MessageFormat;
  * User: Sam Reid
  * Date: Jul 29, 2005
  * Time: 9:50:41 AM
- *
  */
 
 public class DetectionRateDebugger {

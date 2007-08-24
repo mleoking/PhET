@@ -55,7 +55,7 @@ public class Antenna implements PositionConstraint {
         if( pos.getY() < this.minY ) {
             pos.setLocation( getXForY( this.minY, pos.getX() ), this.minY );
         }
-        pos.setLocation( pos.getX(), getYForX( pos.getX(), pos.getY() ));
+        pos.setLocation( pos.getX(), getYForX( pos.getX(), pos.getY() ) );
         return pos;
     }
 
@@ -107,10 +107,11 @@ public class Antenna implements PositionConstraint {
 
     /**
      * Test driver
+     *
      * @param args
      */
     public static void main( String[] args ) {
-        Antenna a = new Antenna( new Point2D.Double( 2, 1), new Point2D.Double( 2, 6 ) );
+        Antenna a = new Antenna( new Point2D.Double( 2, 1 ), new Point2D.Double( 2, 6 ) );
         Point2D.Double p = new Point2D.Double( 2, 7 );
         p = (Point2D.Double)a.constrainPosition( p );
         System.out.println( "-->" + p.getX() + "," + p.getY() );

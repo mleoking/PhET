@@ -8,9 +8,9 @@
 package edu.colorado.phet.common_1200.view;
 
 import edu.colorado.phet.common_1200.util.MultiMap;
+import edu.colorado.phet.common_1200.view.graphics.Boundary;
 import edu.colorado.phet.common_1200.view.graphics.BoundedGraphic;
 import edu.colorado.phet.common_1200.view.graphics.Graphic;
-import edu.colorado.phet.common_1200.view.graphics.Boundary;
 
 import java.awt.*;
 import java.util.ArrayList;

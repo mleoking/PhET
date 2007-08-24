@@ -11,7 +11,6 @@
 package edu.colorado.phet.common_sound.view.components.menu;
 
 
-
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;

@@ -51,7 +51,7 @@ public class SimpleMoleculeGraphicNode extends PNode {
         }
     }
 
-    private static BufferedImage scaleImage( BufferedImage img, double scale) {
+    private static BufferedImage scaleImage( BufferedImage img, double scale ) {
         AffineTransform atx = AffineTransform.getScaleInstance( scale, scale );
         BufferedImageOp op = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
         return op.filter( img, null );

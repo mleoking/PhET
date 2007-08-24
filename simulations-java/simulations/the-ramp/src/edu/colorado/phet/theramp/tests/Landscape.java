@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.theramp.tests;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
@@ -17,16 +17,15 @@ import java.util.Random;
  * User: Sam Reid
  * Date: Feb 27, 2005
  * Time: 4:04:37 PM
- *
  */
 
 public class Landscape extends GraphicLayerSet {
     ElementMaker[] elementMakers = new ElementMaker[]{
-        new RectangleMaker(), new EllipseMaker(), new TriangleMaker()
+            new RectangleMaker(), new EllipseMaker(), new TriangleMaker()
     };
     Random random = new Random();
     private Color[] colors = new Color[]{
-        Color.red, Color.blue, Color.green, Color.black, Color.yellow
+            Color.red, Color.blue, Color.green, Color.black, Color.yellow
     };
     private Stroke stroke = new BasicStroke( 1 );
 

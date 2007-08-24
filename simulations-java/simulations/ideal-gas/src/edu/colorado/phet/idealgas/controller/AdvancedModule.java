@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGrap
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.model.*;
@@ -33,16 +32,16 @@ import java.awt.geom.Rectangle2D;
 
 /**
  * AdvancedModule
- * <p>
+ * <p/>
  * This module shows a reversible reaction with a potential energy barrier between the reactants
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
 abstract public class AdvancedModule extends IdealGasModule {
-//    public static final Color COLOR_B = Color.orange;
+    //    public static final Color COLOR_B = Color.orange;
     public static final Color COLOR_B = new Color( 252, 65, 40 );
-//    public static final Color COLOR_B = new Color( 200, 100, 0 );
+    //    public static final Color COLOR_B = new Color( 200, 100, 0 );
     public static final Color COLOR_A = new Color( 0, 150, 0 );
 
     private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
@@ -144,8 +143,8 @@ abstract public class AdvancedModule extends IdealGasModule {
         Arrow lrArrow = new Arrow( new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 20 ),
                                    new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 20 ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
-        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 0  ),
-                                   new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 0  ),
+        Arrow rlArrow = new Arrow( new Point2D.Double( rightTextGraphic.getLocation().x - 100, rightTextGraphic.getLocation().y - 0 ),
+                                   new Point2D.Double( leftTextGraphic.getLocation().x + 100, leftTextGraphic.getLocation().y - 0 ),
                                    arrowThickness * headMultiplier, arrowThickness * headMultiplier, arrowThickness );
         Color arrowColor = new Color( 200, 200, 200 );
         addGraphic( new PhetShapeGraphic( getApparatusPanel(), lrArrow.getShape(), arrowColor ), IdealGasConfig.READOUT_LAYER );
@@ -159,7 +158,7 @@ abstract public class AdvancedModule extends IdealGasModule {
      */
     protected String[] getSpeciesNames() {
         return new String[]{IdealGasResources.getString( "AdvancedModule.Particle_Type_A" ),
-                            IdealGasResources.getString( "AdvancedModule.Particle_Type_B" )};
+                IdealGasResources.getString( "AdvancedModule.Particle_Type_B" )};
     }
 
     /**

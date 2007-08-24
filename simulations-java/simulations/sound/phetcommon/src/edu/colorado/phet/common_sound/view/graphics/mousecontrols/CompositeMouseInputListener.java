@@ -30,11 +30,11 @@ public class CompositeMouseInputListener implements MouseInputListener {
     public void removeMouseInputListener( MouseInputListener mil ) {
         listeners.remove( mil );
     }
-    
+
     public void removeAllMouseInputListeners() {
         listeners.clear();
     }
-    
+
     public int numMouseInputListeners() {
         return listeners.size();
     }

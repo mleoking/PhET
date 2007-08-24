@@ -2,7 +2,6 @@ package edu.colorado.phet.cck.piccolo_cck;
 
 import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.CCKModel;
@@ -11,6 +10,7 @@ import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbComponentNode;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

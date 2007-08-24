@@ -10,15 +10,18 @@
  */
 package edu.colorado.phet.nuclearphysics.view;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.coreadditions_nuclearphysics.TxGraphic;
-import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
 import edu.colorado.phet.nuclearphysics.Config;
+import edu.colorado.phet.nuclearphysics.controller.AlphaDecayModule;
+import edu.colorado.phet.nuclearphysics.model.*;
 
 import java.awt.*;
 import java.awt.geom.*;
@@ -161,7 +164,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
                                                   EnergyProfilePanelGraphic.backgroundColor,
                                                   new BasicStroke( (float)strokeWidth ),
                                                   Color.gray );
-        backgroundGraphic.setLocation( -(int)(strokeWidth / 2), 0 );
+        backgroundGraphic.setLocation( -(int)( strokeWidth / 2 ), 0 );
         addGraphic( backgroundGraphic, 0 );
 
 //        PhetImageGraphic bezel = new PhetImageGraphic( component, "nuclear-physics/images/energy-panel-bezel.png" );
@@ -316,8 +319,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         // Tick marks
         // Asked to remove by Danielle Harlow, 11/2006
-        if( false)
-        {
+        if( false ) {
             g2.setTransform( orgTx );
             int tickSpacing = 35;
             int tickHeight = 10;
@@ -378,7 +380,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
         Insets insets = new Insets( 20, 20, 0, 0 );
         int legendWidth = 180;
 //        int legendWidth = 180;
-        int legendHeight = 60 + ( legendHeader != null && !legendHeader.equals( "" )? insets.top : 0 );
+        int legendHeight = 60 + ( legendHeader != null && !legendHeader.equals( "" ) ? insets.top : 0 );
         Insets insetsFromPanel = new Insets( 0, 0, 100, 28 );
         Stroke borderStroke = new BasicStroke( 3 );
         Point legendLoc = new Point( getWidth() - legendWidth - insetsFromPanel.right, getHeight() - legendHeight - insetsFromPanel.bottom );
@@ -388,7 +390,7 @@ public class EnergyProfilePanelGraphic extends CompositePhetGraphic {
 
         g2.translate( legendLoc.x, legendLoc.y );
         int yLoc = insets.top;
-        if( legendHeader != null && !legendHeader.equals( "" )) {
+        if( legendHeader != null && !legendHeader.equals( "" ) ) {
             g2.setColor( Color.black );
             g2.setFont( legendFont );
             Rectangle2D stringBounds = GraphicsUtil.getStringBounds( legendHeader, g2 );

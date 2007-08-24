@@ -4,14 +4,11 @@ package edu.colorado.phet.distanceladder.common.util;
 import edu.colorado.phet.distanceladder.common.application.PhetApplication;
 
 import javax.swing.*;
-import java.io.*;
-import java.net.URL;
 
 /**
  * User: Sam Reid
  * Date: Sep 15, 2003
  * Time: 2:53:11 AM
- *
  */
 public class VersionUtils {
     public static class VersionInfo {
@@ -50,7 +47,7 @@ public class VersionUtils {
     }
 
     public static VersionInfo readVersionInfo( PhetApplication app ) {
-        return new VersionInfo( -1,"");
+        return new VersionInfo( -1, "" );
 //        ClassLoader cl = Thread.currentThread().getContextClassLoader();
 //        URL buildNumberURL = cl.getResource( "build.number" );
 //        if (buildNumberURL==null){

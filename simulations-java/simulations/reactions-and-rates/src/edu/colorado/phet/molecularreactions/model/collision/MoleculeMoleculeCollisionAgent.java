@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.molecularreactions.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.CompositeMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -76,10 +76,10 @@ public class MoleculeMoleculeCollisionAgent {
         if( !moleculeA.isPartOfComposite()
             && !moleculeB.isPartOfComposite() ) {
 //            if( model.getReaction().moleculesAreProperTypes( moleculeA, moleculeB ) ) {
-                collisionSpec = getCollisionSpec( moleculeA, moleculeB, reactantCollision.getInteractionDistance() );
-                if( collisionSpec != null ) {
-                    reactantCollision.collide( moleculeA, moleculeB, collisionSpec );
-                }
+            collisionSpec = getCollisionSpec( moleculeA, moleculeB, reactantCollision.getInteractionDistance() );
+            if( collisionSpec != null ) {
+                reactantCollision.collide( moleculeA, moleculeB, collisionSpec );
+            }
 //            }
 //            else {
 //                collisionSpec = getCollisionSpec( moleculeA, moleculeB, nonReactantCollision.getInteractionDistance() );

@@ -12,7 +12,6 @@ import java.awt.event.MouseListener;
  * User: Sam Reid
  * Date: Jan 22, 2006
  * Time: 11:00:29 PM
- *
  */
 
 public class SRRWavelengthSliderComponent extends PCanvas {

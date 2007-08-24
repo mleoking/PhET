@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.photoelectric.view;
 
-import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.charts.GridLineSet;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.charts.ScatterPlot;
 import edu.colorado.phet.photoelectric.PhotoelectricConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.util.PhotoelectricModelUtil;
@@ -105,7 +108,7 @@ public class CurrentVsIntensityGraph extends PhotoelectricGraph {
      * @param current
      */
     private void addDataPoint( double intensity, double current ) {
-        setDotDataPoint(  intensity, current );
+        setDotDataPoint( intensity, current );
         getLineDataSet().addPoint( intensity, current );
     }
 }

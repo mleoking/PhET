@@ -37,7 +37,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     // Distance, in ion radii, between an ion and the drain opening that will cause the ion to be
     // captured by the drain when it's open
     private int ionCaptureDistance = 2;
-//    private int ionCaptureDistance = 8;
+    //    private int ionCaptureDistance = 8;
     private Vector2D.Double inputToOutputOffset = new Vector2D.Double( -95, 50 );
 
     public Drain( SolubleSaltsModel model,
@@ -91,8 +91,8 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
             for( int i = 0; i < capturedIons.size(); i++ ) {
                 Ion ion = (Ion)capturedIons.get( i );
                 ion.setPosition( new Point2D.Double( getPosition().getX() + inputToOutputOffset.getX(),
-                                                     getPosition().getY() + inputToOutputOffset.getY()) );
-                ion.setVelocity( new Vector2D.Double( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ));
+                                                     getPosition().getY() + inputToOutputOffset.getY() ) );
+                ion.setVelocity( new Vector2D.Double( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ) );
             }
         }
     }

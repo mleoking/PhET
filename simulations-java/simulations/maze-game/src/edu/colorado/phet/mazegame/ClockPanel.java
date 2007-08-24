@@ -18,8 +18,8 @@ public class ClockPanel extends JPanel {
     private JLabel timeLbl;
     //private JPanel topPanel, bottomPanel;
 
-    private int clockTick;  	//number of clock ticks; tick can be 1.0 s or 0.1 s
-    private double clockTime;  	//time in seconds
+    private int clockTick;      //number of clock ticks; tick can be 1.0 s or 0.1 s
+    private double clockTime;      //time in seconds
     private String clockTimeString;
 
     private Border raisedBevel, loweredBevel, compound1;
@@ -32,7 +32,7 @@ public class ClockPanel extends JPanel {
         compound1 = BorderFactory.createCompoundBorder( raisedBevel, loweredBevel );
         setBorder( compound1 );
 
-        clockTick = 0;  		//initial clock setting in clock ticks
+        clockTick = 0;          //initial clock setting in clock ticks
         clockTime = ( (double)clockTick ) / 10.0;
 
         clockTimeString = new Double( clockTime ).toString();

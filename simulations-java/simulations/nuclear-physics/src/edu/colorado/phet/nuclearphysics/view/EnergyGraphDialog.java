@@ -41,7 +41,7 @@ public class EnergyGraphDialog extends JDialog {
     int size = 14;
     private Font font = new Font( family, Font.BOLD, size );
     private Dimension panelSize = new Dimension( 100, 245 );
-    private Insets barInsets = new Insets( 5, 0, 5,0);
+    private Insets barInsets = new Insets( 5, 0, 5, 0 );
 
 
     public EnergyGraphDialog( Frame owner, int numNuclei ) throws HeadlessException {
@@ -52,16 +52,16 @@ public class EnergyGraphDialog extends JDialog {
         contentPane.setBackground( BACKGROUND_COLOR );
         setContentPane( contentPane );
 
-        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE,0,
-                                                         1,1,1,1,
+        GridBagConstraints gbc = new GridBagConstraints( GridBagConstraints.RELATIVE, 0,
+                                                         1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 5, 0, 5, 0),0,0);
+                                                         new Insets( 5, 0, 5, 0 ), 0, 0 );
 
         energyRatePanel = new EnergyRatePanel();
         contentPane.add( energyRatePanel, gbc );
         totalEnergyPanel = new TotalEnergyPanel();
-        contentPane.add( totalEnergyPanel, gbc  );
+        contentPane.add( totalEnergyPanel, gbc );
 
         reset( numNuclei );
         setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
@@ -93,7 +93,7 @@ public class EnergyGraphDialog extends JDialog {
         public EnergyRatePanel() {
             super( null );
             setBackground( BACKGROUND_COLOR );
-            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ));
+            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ) );
             rateGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
                                       getPreferredSize().getHeight() - 2,
                                       Color.orange,
@@ -114,7 +114,7 @@ public class EnergyGraphDialog extends JDialog {
         }
 
         public void temperatureChanged( Vessel.ChangeEvent event ) {
-            rateGauge.setLevel( event.getVessel().getTemperature() * scale  );
+            rateGauge.setLevel( event.getVessel().getTemperature() * scale );
             EnergyGraphDialog.this.repaint();
         }
     }
@@ -123,7 +123,7 @@ public class EnergyGraphDialog extends JDialog {
         public TotalEnergyPanel() {
             super( null );
             setBackground( BACKGROUND_COLOR );
-            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ));
+            setPreferredSize( new Dimension( panelSize.width / 2, panelSize.height - barInsets.top - barInsets.bottom ) );
             totalEnergyGauge = new BarGauge( new Point2D.Double( ( getPreferredSize().getWidth() - barWidth ) / 2, 0 ),
                                              getPreferredSize().getHeight() - 2,
                                              Color.green, barWidth, true, 0, 200 );

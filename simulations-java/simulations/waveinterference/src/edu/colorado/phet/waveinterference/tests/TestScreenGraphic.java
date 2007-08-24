@@ -8,7 +8,6 @@ import edu.colorado.phet.waveinterference.view.ScreenNode;
  * User: Sam Reid
  * Date: Mar 24, 2006
  * Time: 2:17:23 AM
- *
  */
 
 public class TestScreenGraphic extends TestWaveColor {

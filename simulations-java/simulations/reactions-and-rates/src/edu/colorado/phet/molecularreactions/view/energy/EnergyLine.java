@@ -47,12 +47,12 @@ public class EnergyLine extends PNode implements Resetable {
     /**
      * @param bounds The bounds within which this line is to be drawn
      * @param module The module.
-     * @param clock The clock.
+     * @param clock  The clock.
      */
     public EnergyLine( Dimension bounds, MRModule module, IClock clock ) {
         this.module = module;
         this.bounds = bounds;
-        this.model  = module.getMRModel();
+        this.model = module.getMRModel();
 
         line = new Line2D.Double();
         lineNode = new PPath( line );
@@ -74,20 +74,20 @@ public class EnergyLine extends PNode implements Resetable {
             public void clockTicked( ClockEvent clockEvent ) {
                 update();
             }
-        });
+        } );
 
         model.addListener( new MRModel.ModelListenerAdapter() {
             public void notifyDefaultTemperatureChanged( double newInitialTemperature ) {
                 update();
             }
-        });
+        } );
 
         setChildrenPickable( false );
         setPickable( false );
 
         curEnergy = model.getTotalEnergy();
     }
-    
+
     public double getEnergyLineY() {
         return line.getY1();
     }
@@ -97,11 +97,11 @@ public class EnergyLine extends PNode implements Resetable {
     }
 
     public void update() {
-        if (module.isTemperatureBeingAdjusted() || module.isResetInProgress() || curEnergy < 0.0) {
+        if( module.isTemperatureBeingAdjusted() || module.isResetInProgress() || curEnergy < 0.0 ) {
             curEnergy = model.getTotalEnergy();
         }
 
-        double y = Math.max( bounds.getHeight() - ( curEnergy * scale ), 0 );        
+        double y = Math.max( bounds.getHeight() - ( curEnergy * scale ), 0 );
         line.setLine( 0, y, bounds.getWidth(), y );
         lineNode.setPathTo( line );
 

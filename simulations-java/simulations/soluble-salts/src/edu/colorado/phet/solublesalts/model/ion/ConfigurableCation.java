@@ -28,7 +28,7 @@ public class ConfigurableCation extends Ion {
 
     public static void setClassCharge( int charge ) {
         if( charge <= 0 ) {
-            throw new IllegalArgumentException( "charge must be > 0");
+            throw new IllegalArgumentException( "charge must be > 0" );
         }
         CHARGE = charge;
     }
@@ -39,7 +39,7 @@ public class ConfigurableCation extends Ion {
 
 
     public ConfigurableCation() {
-        super( new IonProperties( MASS, CHARGE, RADIUS) );
+        super( new IonProperties( MASS, CHARGE, RADIUS ) );
     }
 
     public ConfigurableCation( Point2D position, Vector2D velocity, Vector2D acceleration ) {

@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 1, 2004
  * Time: 2:04:28 PM
- *
  */
 public class TextGraphic implements Graphic {
     float x;

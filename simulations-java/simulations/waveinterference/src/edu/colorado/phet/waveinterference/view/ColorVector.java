@@ -7,7 +7,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Apr 13, 2006
  * Time: 5:25:18 AM
- *
  */
 public class ColorVector {
     float r;

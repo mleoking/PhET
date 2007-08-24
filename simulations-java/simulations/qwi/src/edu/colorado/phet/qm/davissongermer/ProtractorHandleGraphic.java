@@ -12,7 +12,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Feb 5, 2006
  * Time: 9:47:20 PM
- *
  */
 
 public class ProtractorHandleGraphic extends PhetPNode {

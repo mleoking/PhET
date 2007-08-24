@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
  * User: Sam Reid
  * Date: Jan 25, 2005
  * Time: 3:01:28 AM
- *
  */
 
 public class ThresholdedPDragAdapter extends PBasicInputEventHandler {

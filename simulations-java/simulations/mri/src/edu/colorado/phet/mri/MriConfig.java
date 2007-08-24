@@ -56,7 +56,7 @@ public class MriConfig {
     public static final double MIN_FEQUENCY = 10;
     public static final double MAX_FEQUENCY = 110;
     public static final double FREQUENCY_UNIT = 1E6;
-//    public static final double MIN_FEQUENCY = 20E6;
+    //    public static final double MIN_FEQUENCY = 20E6;
     //    public static final double MAX_FEQUENCY = 80E6;
     public static final double MAX_FADING_HEIGHT = 30;
     // Conversion factor between current and B field

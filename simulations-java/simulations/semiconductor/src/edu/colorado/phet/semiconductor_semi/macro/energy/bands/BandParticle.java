@@ -10,7 +10,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.states.Waiting;
  * User: Sam Reid
  * Date: Jan 18, 2004
  * Time: 1:54:11 PM
- *
  */
 public class BandParticle extends SimpleObservable implements ModelElement {
     double x;

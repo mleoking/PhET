@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jan 20, 2006
  * Time: 12:07:38 PM
- *
  */
 
 public class TestGlassPane extends PCanvas {

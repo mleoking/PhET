@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public abstract class AbstractRescaleableChartNode extends PNode implements Repaintable {
     private static final int PADDING = 3;
-    
+
     protected void addZoomControl( Dimension size, PhetPCanvas chartCanvas, ResizableChart chart ) {
         ZoomControlNode zoomControl = new ZoomControlNode( ZoomControlNode.VERTICAL );
 
@@ -19,6 +19,6 @@ public abstract class AbstractRescaleableChartNode extends PNode implements Repa
 
         chartCanvas.addScreenChild( zoomControl );
 
-        zoomControl.addZoomListener( new ChartRescalingZoomListener(chart, this) );
+        zoomControl.addZoomListener( new ChartRescalingZoomListener( chart, this ) );
     }
 }

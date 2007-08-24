@@ -22,7 +22,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:51:18 PM
- *
  */
 
 public class QWIControlPanel extends ControlPanel {

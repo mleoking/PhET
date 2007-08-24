@@ -12,10 +12,10 @@ package edu.colorado.phet.molecularreactions.model;
 
 /**
  * KineticEnergySource
- * <p>
+ * <p/>
  * A marker interface so that the model can tell if an object
  * should be considered as a contributor to the system's total
- * kinetic energy 
+ * kinetic energy
  *
  * @author Ron LeMaster
  * @version $Revision$

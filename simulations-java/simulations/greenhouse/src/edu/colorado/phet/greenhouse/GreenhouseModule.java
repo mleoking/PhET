@@ -6,10 +6,10 @@
  */
 package edu.colorado.phet.greenhouse;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import javax.swing.*;
 import java.awt.geom.Ellipse2D;
@@ -41,9 +41,9 @@ public class GreenhouseModule extends BaseGreenhouseModule {
                      6, .4 );
 
         // Set up the controls
-        JPanel pnl = new JPanel( );
+        JPanel pnl = new JPanel();
         GreenhouseControlPanel greenhouseControlPanel = new GreenhouseControlPanel( this );
-        pnl.add(  greenhouseControlPanel );
+        pnl.add( greenhouseControlPanel );
         setControlPanel( pnl );
 
         // Tell the Earth not to jimmy the temperature

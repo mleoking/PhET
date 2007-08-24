@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jan 16, 2006
  * Time: 2:37:08 PM
- *
  */
 
 public class RulerGraphic extends PhetPNode {

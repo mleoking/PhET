@@ -2,10 +2,10 @@
 package edu.colorado.phet.theramp.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -19,7 +19,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Jun 6, 2005
  * Time: 11:34:54 PM
- *
  */
 
 public class OverheatButton extends PNode {
@@ -42,7 +41,7 @@ public class OverheatButton extends PNode {
                 rampPanel.getRampModule().clearHeat();
             }
         } );
-        PSwing buttonGraphic = new PSwing(overheat );
+        PSwing buttonGraphic = new PSwing( overheat );
         buttonGraphic.setOffset( 0, shadowHTMLNode.getHeight() );
         addChild( buttonGraphic );
         module.getModel().addModelElement( new ModelElement() {

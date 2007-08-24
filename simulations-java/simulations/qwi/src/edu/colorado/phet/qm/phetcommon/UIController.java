@@ -13,7 +13,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Feb 20, 2006
  * Time: 9:18:07 PM
- *
  */
 
 public class UIController extends VerticalLayoutPanel {

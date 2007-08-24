@@ -8,7 +8,6 @@ package edu.colorado.phet.coreadditions_microwaves.graphics;
 
 import edu.colorado.phet.common_microwaves.view.graphics.Graphic;
 import edu.colorado.phet.common_microwaves.view.util.graphics.ImageLoader;
-import edu.colorado.phet.coreadditions_microwaves.graphics.ImageGraphicType;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -45,6 +44,7 @@ public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
     /**
      * Assumes the incoming Graphics2D has an AffineTransform that transforms model coordinates
      * to view coordinates. This method renders the image in view coordinates.
+     *
      * @param g2
      */
     public void paint( Graphics2D g2 ) {
@@ -72,8 +72,8 @@ public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
     public boolean contains( Point2D.Double p ) {
         boolean result = false;
         if( orgTx != null
-                && p.getX() >= location.getX() && p.getX() < this.location.getX() + image.getWidth() / orgTx.getScaleX()
-                && p.getY() >= location.getY() && p.getY() < this.location.getY() + Math.abs( image.getHeight() / orgTx.getScaleY() ) ) {
+            && p.getX() >= location.getX() && p.getX() < this.location.getX() + image.getWidth() / orgTx.getScaleX()
+            && p.getY() >= location.getY() && p.getY() < this.location.getY() + Math.abs( image.getHeight() / orgTx.getScaleY() ) ) {
             result = true;
         }
         return result;

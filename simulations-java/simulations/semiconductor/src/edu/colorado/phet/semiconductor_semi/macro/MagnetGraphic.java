@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro;
 
 import edu.colorado.phet.common_semiconductor.view.graphics.Graphic;
@@ -13,13 +12,12 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Apr 27, 2004
  * Time: 10:17:55 PM
- *
  */
 public class MagnetGraphic implements Graphic {
     private Magnet magnet;
     private ModelViewTransform2D transform;
     private BufferedImage image;
-    boolean visible=true;
+    boolean visible = true;
 
     public MagnetGraphic( Magnet magnet, ModelViewTransform2D transform, BufferedImage image ) {
         this.magnet = magnet;
@@ -40,6 +38,6 @@ public class MagnetGraphic implements Graphic {
     }
 
     public void setVisible( boolean visible ) {
-        this.visible=visible;
+        this.visible = visible;
     }
 }

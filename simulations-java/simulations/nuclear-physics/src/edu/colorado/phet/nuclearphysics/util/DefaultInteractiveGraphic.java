@@ -22,15 +22,15 @@ import java.awt.*;
  */
 public class DefaultInteractiveGraphic extends PhetGraphic {
 
-    public DefaultInteractiveGraphic(Component component) {
-        super(component);
+    public DefaultInteractiveGraphic( Component component ) {
+        super( component );
     }
 
     protected Rectangle determineBounds() {
-        throw new RuntimeException( "not implemented  ");
+        throw new RuntimeException( "not implemented  " );
     }
 
-    public void paint(Graphics2D g2) {
-        throw new RuntimeException( "not implemented  ");
+    public void paint( Graphics2D g2 ) {
+        throw new RuntimeException( "not implemented  " );
     }
 }

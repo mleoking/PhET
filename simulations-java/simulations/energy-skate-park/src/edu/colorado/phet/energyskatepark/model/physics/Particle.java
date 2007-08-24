@@ -676,8 +676,8 @@ public class Particle implements Serializable {
         if( userControlled ) {
             setThermalEnergy( 0.0 );
         }
-        if (!userControlled){
-            
+        if( !userControlled ) {
+
         }
     }
 
@@ -694,7 +694,6 @@ public class Particle implements Serializable {
     private void update() {
         notifyListeners();
     }
-
 
 
     public SerializablePoint2D getPosition() {

@@ -13,8 +13,11 @@ package edu.colorado.phet.dischargelamps.model;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
+import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.quantum.model.*;
@@ -258,7 +261,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         leftHandHeatingElement.setTemperature( 0 );
         rightHandHeatingElement.setTemperature( 0 );
         double temperature = 255 * value * 1000 / maxCurrent;   // The 1000 here works, but I haven't dug into
-                                                                // exactly why it's needed.
+        // exactly why it's needed.
 
         // Set the current of the appropriate plate, and the temperature of the appropriate heating element
         if( leftHandPlate.getPotential() > rightHandPlate.getPotential() ) {
@@ -271,7 +274,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
             leftHandPlate.setCurrent( 0 );
             rightHandHeatingElement.setTemperature( temperature );
         }
-        changeListenerProxy.currentChanged( new ChangeEvent(this ));
+        changeListenerProxy.currentChanged( new ChangeEvent( this ) );
     }
 
     public double getCurrent() {
@@ -396,7 +399,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         public void voltageChanged( ChangeEvent event ) {
         }
 
-        public void currentChanged(ChangeEvent event) {
+        public void currentChanged( ChangeEvent event ) {
         }
     }
 

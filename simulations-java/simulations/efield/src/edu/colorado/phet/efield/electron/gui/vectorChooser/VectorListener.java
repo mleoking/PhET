@@ -6,8 +6,7 @@ package edu.colorado.phet.efield.electron.gui.vectorChooser;
 
 import edu.colorado.phet.efield.electron.phys2d_efield.DoublePoint;
 
-public interface VectorListener
-{
+public interface VectorListener {
 
-    public abstract void vectorChanged(DoublePoint doublepoint);
+    public abstract void vectorChanged( DoublePoint doublepoint );
 }

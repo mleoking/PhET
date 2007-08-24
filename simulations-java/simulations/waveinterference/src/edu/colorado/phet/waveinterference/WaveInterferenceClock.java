@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * User: Sam Reid
  * Date: Mar 21, 2006
  * Time: 11:09:48 PM
- *
  */
 
 public class WaveInterferenceClock extends SwingClock {

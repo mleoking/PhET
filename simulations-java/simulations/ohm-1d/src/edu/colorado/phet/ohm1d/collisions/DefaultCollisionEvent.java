@@ -1,11 +1,11 @@
 package edu.colorado.phet.ohm1d.collisions;
 
 import edu.colorado.phet.ohm1d.Electron;
+import edu.colorado.phet.ohm1d.common.phys2d.Law;
+import edu.colorado.phet.ohm1d.common.phys2d.System2D;
 import edu.colorado.phet.ohm1d.oscillator2d.Core;
 import edu.colorado.phet.ohm1d.oscillator2d.Oscillate;
 import edu.colorado.phet.ohm1d.oscillator2d.OscillateFactory;
-import edu.colorado.phet.ohm1d.common.phys2d.Law;
-import edu.colorado.phet.ohm1d.common.phys2d.System2D;
 
 public class DefaultCollisionEvent implements CollisionEvent, Law {
     double distThreshold;

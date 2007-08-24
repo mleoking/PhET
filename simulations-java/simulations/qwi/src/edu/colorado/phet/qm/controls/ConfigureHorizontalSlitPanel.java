@@ -14,7 +14,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jun 27, 2005
  * Time: 10:12:30 AM
- *
  */
 
 public class ConfigureHorizontalSlitPanel extends VerticalLayoutPanel {

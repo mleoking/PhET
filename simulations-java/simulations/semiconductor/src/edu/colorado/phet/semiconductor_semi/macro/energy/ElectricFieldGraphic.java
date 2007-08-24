@@ -13,7 +13,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 9:59:23 AM
- *
  */
 public class ElectricFieldGraphic extends TransformGraphic {
     private String name;
@@ -49,7 +48,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 double headHeight = .1;
                 double dist = start.getSubtractedInstance( dest ).getMagnitude();
                 if( dist < headHeight ) {
-                    headHeight = dist*.9;
+                    headHeight = dist * .9;
 //                    headWidth=headHeight;
 //                    tailWidth=headHeight/2;
                 }
@@ -63,7 +62,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
 //        int viewdx = super.getTransform().modelToViewDifferentialX(strength);
             }
             catch( RuntimeException re ) {
-                re.printStackTrace( );
+                re.printStackTrace();
             }
         }
         Point ctr = super.getTransform().modelToView( field.getCenter() );
@@ -73,7 +72,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
         String text = "" + name;
         if( field.getStrength() == 0 ) {
             text += "=0";
-            h=-getTransform().modelToViewDifferentialY( .2);
+            h = -getTransform().modelToViewDifferentialY( .2 );
         }
         Rectangle2D textBounds = font.getStringBounds( text, g.getFontRenderContext() );
         double dx = textBounds.getWidth() / 2;

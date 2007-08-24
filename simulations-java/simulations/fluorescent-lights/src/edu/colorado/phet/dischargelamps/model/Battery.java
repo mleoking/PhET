@@ -19,7 +19,7 @@ import java.util.EventObject;
 
 /**
  * Battery
- * <p>
+ * <p/>
  * For the purposed of the Discharge Lamps simulation, the battery cannot have a
  * 0 voltage. This is done so that if one of the plates is being heated, electrons
  * will be produced even if the voltage on the batter reads 0. See setVoltage().

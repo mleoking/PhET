@@ -10,21 +10,20 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.idealgas.model.HeavySpecies;
-import edu.colorado.phet.idealgas.model.LightSpecies;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.IdealGasResources;
+import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 /**
  * A JPanel with two spinners for adding and removing molecules from the model.
@@ -115,7 +114,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
         // Spinner for heavy species
         SpinnerNumberModel heavySpinnerModel = new SpinnerNumberModel( value, min, max, step );
-        heavySpinner = new MoleculeCountSpinner( heavySpinnerModel,new IntegerValue() {
+        heavySpinner = new MoleculeCountSpinner( heavySpinnerModel, new IntegerValue() {
             public int getValue() {
                 return getHeavySpeciesCnt();
             }
@@ -141,7 +140,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 
         // Spinner for light species
         SpinnerNumberModel lightSpinnerModel = new SpinnerNumberModel( value, min, max, step );
-        lightSpinner = new MoleculeCountSpinner( lightSpinnerModel,new IntegerValue() {
+        lightSpinner = new MoleculeCountSpinner( lightSpinnerModel, new IntegerValue() {
             public int getValue() {
                 return getLightSpeciesCnt();
             }
@@ -220,17 +219,17 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
-    public static interface IntegerValue{
+    public static interface IntegerValue {
         public int getValue();
     }
+
     public class MoleculeCountSpinner extends JSpinner {
         private IntegerValue value;
 
-        public MoleculeCountSpinner( SpinnerModel model,IntegerValue value ) {
+        public MoleculeCountSpinner( SpinnerModel model, IntegerValue value ) {
             super( model );
-            this.value=value;
+            this.value = value;
         }
-
 
 //        public void incrementValue() {
 //            changeValue( ( (Integer)getValue() ).intValue() + 1 );
@@ -248,7 +247,7 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
 //        }
 
         public void updateValue() {
-            setValue( new Integer(value.getValue()));
+            setValue( new Integer( value.getValue() ) );
         }
     }
 }

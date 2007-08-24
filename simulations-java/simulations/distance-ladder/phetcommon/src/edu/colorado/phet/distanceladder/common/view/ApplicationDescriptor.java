@@ -10,7 +10,6 @@ import edu.colorado.phet.distanceladder.common.view.util.framesetup.FullScreen;
  * User: Sam Reid
  * Date: Jun 12, 2003
  * Time: 7:38:22 AM
- *
  */
 public class ApplicationDescriptor {
     String windowTitle;

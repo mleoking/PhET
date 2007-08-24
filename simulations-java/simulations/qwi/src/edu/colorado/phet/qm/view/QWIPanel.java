@@ -2,8 +2,8 @@
 package edu.colorado.phet.qm.view;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.qm.QWIModule;
 import edu.colorado.phet.qm.model.Detector;
 import edu.colorado.phet.qm.model.ParticleUnits;
@@ -38,7 +38,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 10, 2005
  * Time: 6:55:21 PM
- *
  */
 
 public class QWIPanel extends BufferedPhetPCanvas {

@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: May 23, 2005
  * Time: 8:48:02 AM
- *
  */
 
 public class TestPanelLayout {

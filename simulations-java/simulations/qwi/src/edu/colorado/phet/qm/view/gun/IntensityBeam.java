@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:04:25 PM
- *
  */
 public abstract class IntensityBeam extends ImageComboBox.Item {
     private boolean highIntensityModeOn;

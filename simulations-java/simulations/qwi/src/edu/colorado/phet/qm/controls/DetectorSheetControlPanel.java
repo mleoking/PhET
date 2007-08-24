@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Jul 27, 2005
  * Time: 12:54:31 PM
- *
  */
 
 public class DetectorSheetControlPanel extends VerticalLayoutPanel {

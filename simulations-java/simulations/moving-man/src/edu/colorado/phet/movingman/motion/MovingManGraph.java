@@ -7,7 +7,6 @@ import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Author: Sam Reid

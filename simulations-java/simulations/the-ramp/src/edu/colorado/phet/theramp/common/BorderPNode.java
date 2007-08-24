@@ -11,7 +11,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Oct 14, 2005
  * Time: 8:33:16 AM
- *
  */
 
 public class BorderPNode extends PNode {

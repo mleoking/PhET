@@ -10,9 +10,9 @@ import edu.colorado.phet.collision_idealgas.SphericalBody;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Line2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
@@ -36,8 +36,8 @@ public class Box2D extends CollidableBody {
 
     // TODO: put the opening characteristics in a specialization of this class.
     private Point2D[] opening = new Point2D.Double[]{
-        new Point2D.Double(),
-        new Point2D.Double()};
+            new Point2D.Double(),
+            new Point2D.Double()};
 
     IdealGasModel model;
     private double oldMinX;
@@ -62,7 +62,7 @@ public class Box2D extends CollidableBody {
 
     /**
      * Attach a listener to the model that will decide if the box's volume should be fixed based
-     * on the model's constant property 
+     * on the model's constant property
      */
     private void attachModelListener() {
         model.addChangeListener( new IdealGasModel.ChangeListener() {
@@ -176,7 +176,7 @@ public class Box2D extends CollidableBody {
     public boolean passedThroughOpening( GasMolecule gasMolecule ) {
         Point2D p1 = gasMolecule.getPosition();
         Point2D p2 = gasMolecule.getPositionPrev();
-        return openingLine.intersectsLine( p1.getX(), p1.getY(), p2.getX(), p2.getY());
+        return openingLine.intersectsLine( p1.getX(), p1.getY(), p2.getX(), p2.getY() );
     }
 
     public void stepInTime( double dt ) {

@@ -7,12 +7,12 @@
  */
 package edu.colorado.phet.distanceladder.view;
 
+import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.common.view.CompositeInteractiveGraphic;
 import edu.colorado.phet.distanceladder.common.view.graphics.DefaultInteractiveGraphic;
 import edu.colorado.phet.distanceladder.common.view.graphics.Graphic;
 import edu.colorado.phet.distanceladder.common.view.graphics.bounds.Boundary;
 import edu.colorado.phet.distanceladder.common.view.util.graphics.ImageLoader;
-import edu.colorado.phet.distanceladder.Config;
 import edu.colorado.phet.distanceladder.controller.CockpitModule;
 import edu.colorado.phet.distanceladder.controller.ParallaxButton;
 import edu.colorado.phet.distanceladder.controller.PhotometerButton;

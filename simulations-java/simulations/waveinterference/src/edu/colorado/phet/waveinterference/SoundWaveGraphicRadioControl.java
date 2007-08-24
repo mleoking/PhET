@@ -12,7 +12,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 28, 2006
  * Time: 5:20:27 PM
- *
  */
 
 public class SoundWaveGraphicRadioControl extends VerticalLayoutPanelWithDisable {

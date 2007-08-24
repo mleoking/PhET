@@ -20,7 +20,6 @@ import java.util.Map;
  * User: Sam Reid
  * Date: Jul 8, 2005
  * Time: 9:02:12 PM
- *
  */
 public abstract class GunParticle extends ImageComboBox.Item {
     private AbstractGunNode gunNode;

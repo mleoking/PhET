@@ -15,7 +15,7 @@ import java.awt.*;
 
 /**
  * Histogram
- * <p>
+ * <p/>
  * The graphical representation of a histogram. The data for the histogram itself is maintained
  * in an instance of HistogramModel, which is contained in a Histogram
  *
@@ -65,9 +65,8 @@ public class Histogram extends JPanel {
     public void setColor( Color color ) {
         this.color = color;
     }
-    
+
     /**
-     *
      * @param g
      */
     public void paintComponent( Graphics g ) {
@@ -83,7 +82,7 @@ public class Histogram extends JPanel {
         g2.setColor( new Color( 230, 230, 230 ) );
         g2.setStroke( new BasicStroke( 1 ) );
         int y = displayHeight + plotULC.y;
-        for ( int i = 0; y > plotULC.y; i++ ) {
+        for( int i = 0; y > plotULC.y; i++ ) {
             y = displayHeight + plotULC.y - lineSpacing * i * maxBuckHeight / clippingLevel;
             g2.drawLine( plotULC.x, y, plotULC.x + displayWidth, y );
         }
@@ -109,7 +108,7 @@ public class Histogram extends JPanel {
      */
     public void add( double datum ) {
         int datumCharacteristic = model.add( datum );
-        switch( datumCharacteristic ){
+        switch( datumCharacteristic ) {
             case HistogramModel.BELOW_RANGE:
                 break;
             case HistogramModel.ABOVE_RANGE:
@@ -136,6 +135,7 @@ public class Histogram extends JPanel {
     /**
      * Tells is some data that has been added to the histogram is out
      * of its range
+     *
      * @return
      */
     public boolean hasDataOutOfRange() {
@@ -144,6 +144,7 @@ public class Histogram extends JPanel {
 
     /**
      * Small test program
+     *
      * @param args
      */
     public static void main( String[] args ) {

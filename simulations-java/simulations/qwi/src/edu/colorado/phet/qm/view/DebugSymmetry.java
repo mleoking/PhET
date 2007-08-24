@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
  * User: Sam Reid
  * Date: Nov 1, 2006
  * Time: 12:28:42 AM
- *
  */
 
 public class DebugSymmetry implements KeyListener {

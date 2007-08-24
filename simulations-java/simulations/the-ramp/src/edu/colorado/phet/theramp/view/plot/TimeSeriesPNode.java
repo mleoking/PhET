@@ -2,12 +2,12 @@
 package edu.colorado.phet.theramp.view.plot;
 
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.timeseries_ramp.TimePoint;
 import edu.colorado.phet.theramp.timeseries_ramp.TimeSeries;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -22,7 +22,6 @@ import java.text.DecimalFormat;
  * User: Sam Reid
  * Date: Aug 2, 2005
  * Time: 2:41:09 PM
- *
  */
 
 public class TimeSeriesPNode {
@@ -36,7 +35,7 @@ public class TimeSeriesPNode {
     private Stroke stroke;
     private Color transparentColor;
     private boolean visible = true;
-//    private ShadowHTMLGraphic readoutGraphic;
+    //    private ShadowHTMLGraphic readoutGraphic;
     private DecimalFormat decimalFormat;
     private HTMLLabel htmlLabel;
     private double lastUpdateValue = Double.NaN;

@@ -21,7 +21,8 @@ public class Finger// implements AngleListener, Painter
 //  	this.paintMe=paintMe;
 //  	this.sr=sparky.newSparkRunner(paintMe,100000,20);
 //  	new Thread(sr).start();
-//      }
+
+    //      }
     public static Point getFingerLocation( RotatingImage source ) {
         return getFingerLocation( source, 115, 6 );
     }

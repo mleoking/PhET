@@ -6,7 +6,6 @@ import java.awt.geom.Rectangle2D;
  * User: Sam Reid
  * Date: Aug 21, 2003
  * Time: 4:19:56 AM
- *
  */
 public class WallRep {
     double x;

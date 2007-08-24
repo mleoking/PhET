@@ -10,7 +10,6 @@ import java.awt.event.MouseEvent;
  * User: Sam Reid
  * Date: May 10, 2005
  * Time: 12:37:03 AM
- *
  */
 
 public class UserAddingEnergyHandler extends MouseAdapter {

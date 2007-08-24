@@ -4,8 +4,8 @@ import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.model.CircuitListenerAdapter;
 import edu.colorado.phet.cck.model.components.Branch;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 import java.text.DecimalFormat;
 

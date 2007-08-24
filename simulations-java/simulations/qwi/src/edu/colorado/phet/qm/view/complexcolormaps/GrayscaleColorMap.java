@@ -9,7 +9,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Dec 17, 2005
  * Time: 5:16:49 PM
- *
  */
 
 public abstract class GrayscaleColorMap implements ComplexColorMap {

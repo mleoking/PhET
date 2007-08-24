@@ -20,7 +20,6 @@ import java.io.IOException;
  * User: Sam Reid
  * Date: May 22, 2006
  * Time: 12:50:43 AM
- *
  */
 
 public class PlayAreaReducedScreenControlPanel extends PhetPNode {
@@ -38,7 +37,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
                 screenNode.setScreenEnabled( true );
             }
         } );
-        showButton = new PhetPNode( new PSwing(button ) );
+        showButton = new PhetPNode( new PSwing( button ) );
         addChild( showButton );
 
         lightSimulationPanel.getLatticeScreenCoordinates().addListener( new LatticeScreenCoordinates.Listener() {
@@ -69,7 +68,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
         catch( IOException e ) {
             e.printStackTrace();
         }
-        closeButtonNode = new PhetPNode( new PSwing(closeButton ) );
+        closeButtonNode = new PhetPNode( new PSwing( closeButton ) );
         addChild( closeButtonNode );
         update();
         updateExpanded();

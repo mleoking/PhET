@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Jan 2, 2004
  * Time: 12:35:20 AM
- *
  */
 public class BufferedImageGraphic implements BoundedGraphic {
     private BufferedImage image;

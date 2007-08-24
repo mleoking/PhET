@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 26, 2006
  * Time: 4:48:25 PM
- *
  */
 
 public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {

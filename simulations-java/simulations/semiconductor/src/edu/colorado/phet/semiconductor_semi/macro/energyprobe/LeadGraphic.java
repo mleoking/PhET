@@ -13,7 +13,6 @@ import java.awt.image.BufferedImage;
  * User: Sam Reid
  * Date: Feb 2, 2004
  * Time: 8:26:16 PM
- *
  */
 public class LeadGraphic extends TransformGraphic implements SimpleObserver {
     Lead lead;

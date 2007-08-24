@@ -1,5 +1,7 @@
 package edu.colorado.phet.semiconductor_semi;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_semiconductor.application.Module;
 import edu.colorado.phet.common_semiconductor.application.PhetApplication;
 import edu.colorado.phet.common_semiconductor.math.DoubleSeries;
@@ -21,11 +23,10 @@ import edu.colorado.phet.common_semiconductor.view.graphics.bounds.Boundary;
 import edu.colorado.phet.common_semiconductor.view.graphics.mousecontrols.Translatable;
 import edu.colorado.phet.common_semiconductor.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_semiconductor.view.util.AspectRatioLayout;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common_semiconductor.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.HashedImageLoader;
 import edu.colorado.phet.common_semiconductor.view.util.graphics.ImageLoader;
+import edu.colorado.phet.semiconductor_semi.macro.*;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor_semi.macro.circuit.battery.BatterySpinner;
@@ -43,7 +44,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energyprobe.Cable;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.CableGraphic;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.Lead;
 import edu.colorado.phet.semiconductor_semi.macro.energyprobe.LeadGraphic;
-import edu.colorado.phet.semiconductor_semi.macro.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,12 +60,11 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Feb 7, 2004
  * Time: 7:11:36 PM
- *
  */
 public class SemiconductorApplication extends Module implements Graphic {
     // Localization
     public static final String localizedStringsPath = "semiconductor/localization/semiconductor-strings";
-    private static final String VERSION = PhetApplicationConfig.getVersion( "semiconductor").formatForTitleBar();
+    private static final String VERSION = PhetApplicationConfig.getVersion( "semiconductor" ).formatForTitleBar();
 
     CircuitSection circuitSection;
     EnergySection energySection;

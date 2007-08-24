@@ -8,7 +8,6 @@ import java.awt.*;
  * User: Sam Reid
  * Date: Mar 15, 2004
  * Time: 10:34:12 AM
- *
  */
 public class MyJSpinner extends JSpinner {
     public MyJSpinner( SpinnerNumberModel spinnerNumberModel ) {

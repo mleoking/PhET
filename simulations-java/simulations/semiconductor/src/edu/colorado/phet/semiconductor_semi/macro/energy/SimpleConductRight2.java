@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.semiconductor_semi.macro.energy;
 
 import edu.colorado.phet.semiconductor_semi.macro.doping.DopantType;
@@ -8,7 +7,6 @@ import edu.colorado.phet.semiconductor_semi.macro.energy.statemodels.ExciteForCo
  * User: Sam Reid
  * Date: Apr 26, 2004
  * Time: 9:24:11 PM
- *
  */
 public class SimpleConductRight2 extends DefaultStateDiagram {
     private ExciteForConduction leftExcite;

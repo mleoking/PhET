@@ -33,7 +33,7 @@ public class Photon extends Disk {
 
     public void setDirection( double theta ) {
         super.setVelocity( (float)( speedOfLight * Math.cos( theta ) ),
-                           (float)( speedOfLight * Math.sin( theta )));
+                           (float)( speedOfLight * Math.sin( theta ) ) );
     }
 
     public double getMass() {

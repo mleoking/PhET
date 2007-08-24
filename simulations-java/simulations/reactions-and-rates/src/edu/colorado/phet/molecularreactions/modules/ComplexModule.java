@@ -12,6 +12,7 @@ package edu.colorado.phet.molecularreactions.modules;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.molecularreactions.MRConfig;
 import edu.colorado.phet.molecularreactions.model.AbstractMolecule;
 import edu.colorado.phet.molecularreactions.model.MRModel;
@@ -20,7 +21,6 @@ import edu.colorado.phet.molecularreactions.view.PumpGraphic;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsBarChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.MoleculePopulationsPieChartNode;
 import edu.colorado.phet.molecularreactions.view.charts.StripChartNode;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -37,7 +37,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class ComplexModule extends MRModule {
     //private static final double DEFAULT_TEMPERATURE = 500.0;
-    
+
     private MRControlPanel controlPanel;
     private PumpGraphic pumpGraphic;
     private MoleculePopulationsBarChartNode barChartNode;
@@ -56,13 +56,12 @@ public class ComplexModule extends MRModule {
     }
 
     /**
-     *
      * @param title
      */
     protected ComplexModule( String title ) {
         super( title, MRConfig.CHART_PANE_SIZE );
 
-        addMovableStopwatch(29.0, 453.0 );
+        addMovableStopwatch( 29.0, 453.0 );
 
         getEnergyView().setEnergyLineLabel( "EnergyView.Legend.totalAverageEnergy" );
 
@@ -88,14 +87,14 @@ public class ComplexModule extends MRModule {
         getControlPanel().addControl( controlPanel );
 
         // Create an agent that will start the strip chart when the first molecule is added to the model
-        getMRModel().addListener( new PublishingModel.ModelListenerAdapter(){
+        getMRModel().addListener( new PublishingModel.ModelListenerAdapter() {
 
             public void modelElementAdded( ModelElement element ) {
                 if( element instanceof AbstractMolecule ) {
                     setStripChartRecording( true );
                 }
             }
-        });
+        } );
 
         getEnergyView().clearUpperPaneContent();
     }
@@ -103,7 +102,7 @@ public class ComplexModule extends MRModule {
     public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
-        if (!adjusting && controlPanel != null) {            
+        if( !adjusting && controlPanel != null ) {
             adjusting = controlPanel.isTemperatureBeingAdjusted();
         }
 
@@ -194,7 +193,7 @@ public class ComplexModule extends MRModule {
     }
 
     public void setStripChartRecording( boolean recording ) {
-            stripChartNode.setRecording( recording);
+        stripChartNode.setRecording( recording );
     }
 
     public void setStopwatchVisible( boolean visible ) {
@@ -202,15 +201,15 @@ public class ComplexModule extends MRModule {
     }
 
     protected void addMovableStopwatch( double x, double y ) {
-        StopwatchPanel stopwatchPanel = new StopwatchPanel(getClock());
+        StopwatchPanel stopwatchPanel = new StopwatchPanel( getClock() );
 
-        stopwatchAdapter = new PSwing(stopwatchPanel);
+        stopwatchAdapter = new PSwing( stopwatchPanel );
 
-        stopwatchAdapter.setOffset(x, y);
+        stopwatchAdapter.setOffset( x, y );
 
         stopwatchAdapter.addInputEventListener( new PDragEventHandler() );
 
-        getCanvas().addScreenChild(stopwatchAdapter);
+        getCanvas().addScreenChild( stopwatchAdapter );
     }
 }
 

@@ -33,7 +33,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 23, 2005
  * Time: 1:06:32 PM
- *
  */
 
 public class DetectorSheetPNode extends PhetPNode {
@@ -84,7 +83,7 @@ public class DetectorSheetPNode extends PhetPNode {
             }
         }, DEFAULT_FADE_DELAY );
         this.detectorSheetControlPanel = new DetectorSheetControlPanel( this );
-        detectorSheetControlPanelPNode = new PSwing(new ShinyPanel( detectorSheetControlPanel ) );
+        detectorSheetControlPanelPNode = new PSwing( new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
 
 //        FontSetter.setFont( new Font( "Lucida Sans",Font.PLAIN, 8 ),detectorSheetControlPanel );

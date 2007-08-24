@@ -16,7 +16,7 @@ public class ClientPhetLookAndFeel implements PhetLookAndFeel {
     Color background = new Color( 220, 255, 220 );
     Color buttonBackground = new Color( 220, 220, 240 );
     String smallIconPath = "images/Phet-logo-16x16.gif";
-    Icon  smallIcon;
+    Icon smallIcon;
     Image smallIconImage;
 
     public ClientPhetLookAndFeel() {

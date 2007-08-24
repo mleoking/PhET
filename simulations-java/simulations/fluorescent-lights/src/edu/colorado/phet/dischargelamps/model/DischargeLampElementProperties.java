@@ -23,7 +23,6 @@ public class DischargeLampElementProperties extends ElementProperties {
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
 
     /**
-     *
      * @param name
      * @param energyLevels
      * @param energyEmissionStrategy
@@ -37,7 +36,6 @@ public class DischargeLampElementProperties extends ElementProperties {
     }
 
     /**
-     *
      * @param name
      * @param energyLevels
      * @param energyEmissionStrategy
@@ -55,7 +53,7 @@ public class DischargeLampElementProperties extends ElementProperties {
 
     /**
      * Provided for elements that use a LevelSpecificeEnergyEmissionStrategy.
-     * 
+     *
      * @param name
      * @param energyLevels
      * @param teA
@@ -67,8 +65,8 @@ public class DischargeLampElementProperties extends ElementProperties {
                energyLevels,
                new LevelSpecificEnergyEmissionStrategy( teA ),
                DischargeLampAtom.DEFAULT_STATE_LIFETIME );
-        setEnergyAbsorptionStrategy( new EqualLikelihoodAbsorptionStrategy());
-        ((LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy()).setStates( getStates() );
+        setEnergyAbsorptionStrategy( new EqualLikelihoodAbsorptionStrategy() );
+        ( (LevelSpecificEnergyEmissionStrategy)getEnergyEmissionStrategy() ).setStates( getStates() );
     }
 
     public EnergyAbsorptionStrategy getEnergyAbsorptionStrategy() {
@@ -78,7 +76,6 @@ public class DischargeLampElementProperties extends ElementProperties {
     public void setEnergyAbsorptionStrategy( EnergyAbsorptionStrategy energyAbsorptionStrategy ) {
         this.energyAbsorptionStrategy = energyAbsorptionStrategy;
     }
-
 
 
     public static class TransitionEntry {

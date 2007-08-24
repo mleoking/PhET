@@ -17,7 +17,6 @@ import java.beans.PropertyChangeListener;
  * User: Sam Reid
  * Date: May 18, 2006
  * Time: 11:11:27 PM
- *
  */
 
 public class CrosshairConnection extends PhetPNode {
