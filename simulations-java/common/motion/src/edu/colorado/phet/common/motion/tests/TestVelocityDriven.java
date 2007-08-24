@@ -22,20 +22,20 @@ import java.text.DecimalFormat;
 public class TestVelocityDriven {
     private JFrame frame;
     private Timer timer;
-    private SingleBodyMotionModel rotationModel;
+    private SingleBodyMotionModel singleBodyMotionModel;
 
     public TestVelocityDriven() {
         frame = new JFrame();
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
+        singleBodyMotionModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         final VelocityDriven updateStrategy = new VelocityDriven();
-        rotationModel.setUpdateStrategy( updateStrategy );
-        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, rotationModel.getMotionBody().getVelocity() );
+        singleBodyMotionModel.setUpdateStrategy( updateStrategy );
+        final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, singleBodyMotionModel.getMotionBody().getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                rotationModel.getMotionBody().setVelocity( modelSlider.getValue() );
+                singleBodyMotionModel.getMotionBody().setVelocity( modelSlider.getValue() );
             }
         } );
         timer = new Timer( 30, new ActionListener() {
@@ -47,7 +47,7 @@ public class TestVelocityDriven {
     }
 
     private void step() {
-        rotationModel.stepInTime( 1.0 );
+        singleBodyMotionModel.stepInTime( 1.0 );
         DecimalFormat decimalFormat = new DecimalFormat( "0.000" );
 //        System.out.println( decimalFormat.format( rotationModel.getLastState().getPosition() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getVelocity() ) + "\t" + decimalFormat.format( rotationModel.getLastState().getAcceleration() ) );
     }

@@ -27,7 +27,7 @@ public class TestMotionGraphs {
     private Timer timer;
     private PhetPCanvas phetPCanvas;
 
-    private SingleBodyMotionModel rotationModel;
+    private SingleBodyMotionModel singleBodyMotionModel;
 
     private ControlGraph xGraph;
     private ControlGraph vGraph;
@@ -39,28 +39,28 @@ public class TestMotionGraphs {
         frame.setSize( 600, 600 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
-        rotationModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
+        singleBodyMotionModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setBackground( new Color( 200, 240, 200 ) );
 
-        xGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getXVariable() ), "Angle", -10, 10, rotationModel.getTimeSeriesModel() );
+        xGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( singleBodyMotionModel.getXVariable() ), "Angle", -10, 10, singleBodyMotionModel.getTimeSeriesModel() );
         xGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
-                rotationModel.setPositionDriven();
+                singleBodyMotionModel.setPositionDriven();
             }
         } );
 
-        vGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getVVariable() ), "Angular Velocity", -5, 5, rotationModel.getTimeSeriesModel() );
+        vGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( singleBodyMotionModel.getVVariable() ), "Angular Velocity", -5, 5, singleBodyMotionModel.getTimeSeriesModel() );
         vGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
-                rotationModel.setVelocityDriven();
+                singleBodyMotionModel.setVelocityDriven();
             }
         } );
 
-        aGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( rotationModel.getAVariable() ), "Angular Acceleration", -1, 1, rotationModel.getTimeSeriesModel() );
+        aGraph = new ControlGraph( phetPCanvas, new ControlGraphSeries( singleBodyMotionModel.getAVariable() ), "Angular Acceleration", -1, 1, singleBodyMotionModel.getTimeSeriesModel() );
         aGraph.addListener( new ControlGraph.Adapter() {
             public void controlFocusGrabbed() {
-                rotationModel.setAccelerationDriven();
+                singleBodyMotionModel.setAccelerationDriven();
             }
         } );
 
@@ -89,12 +89,11 @@ public class TestMotionGraphs {
     }
 
     private void step() {
-        rotationModel.stepInTime( 1.0 );
+        singleBodyMotionModel.stepInTime( 1.0 );
 
-        xGraph.addValue( rotationModel.getLastPosition().getTime(), rotationModel.getLastPosition().getValue() );
-        vGraph.addValue( rotationModel.getLastVelocity().getTime(), rotationModel.getLastVelocity().getValue() );
-        vGraph.addValue( rotationModel.getLastAcceleration().getTime(), rotationModel.getLastAcceleration().getValue() );
-//        aGraph.addValue( rotationModel.getLastState().getTime(), rotationModel.getLastState().getAcceleration() );
+        xGraph.addValue( singleBodyMotionModel.getLastPosition().getTime(), singleBodyMotionModel.getLastPosition().getValue() );
+        vGraph.addValue( singleBodyMotionModel.getLastVelocity().getTime(), singleBodyMotionModel.getLastVelocity().getValue() );
+        vGraph.addValue( singleBodyMotionModel.getLastAcceleration().getTime(), singleBodyMotionModel.getLastAcceleration().getValue() );
     }
 
     public static void main( String[] args ) {

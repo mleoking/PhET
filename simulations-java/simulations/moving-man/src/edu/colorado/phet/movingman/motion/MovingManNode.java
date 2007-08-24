@@ -97,9 +97,9 @@ public class MovingManNode extends PNode {
 
     }
 
-    private void updateObject( PNode object, SingleBodyMotionModel rotationModel ) {
+    private void updateObject( PNode object, SingleBodyMotionModel model ) {
 //        object.setOffset( rotationModel.getPosition() - object.getFullBounds().getWidth() / 2/object.getScale(), 2.0 - object.getFullBounds().getHeight()/object.getScale() );
-        object.setOffset( rotationModel.getMotionBody().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
+        object.setOffset( model.getMotionBody().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
     public static void main( String[] args ) {
@@ -111,9 +111,9 @@ public class MovingManNode extends PNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         ConstantDtClock swingClock = new ConstantDtClock( 30, 1.0 );
-        final SingleBodyMotionModel rotationModel = new SingleBodyMotionModel( swingClock );
+        final SingleBodyMotionModel model = new SingleBodyMotionModel( swingClock );
 
-        MovingManNode movingManNode = new MovingManNode( rotationModel );
+        MovingManNode movingManNode = new MovingManNode( model );
         movingManNode.scale( 50 );
         movingManNode.translate( 10.5, 0 );
         phetPCanvas.addScreenChild( movingManNode );
@@ -121,7 +121,7 @@ public class MovingManNode extends PNode {
         frame.setVisible( true );
 
 //        swingClock.start();
-        rotationModel.setVelocityDriven();
-        rotationModel.getMotionBody().setVelocity( 0.1 );
+        model.setVelocityDriven();
+        model.getMotionBody().setVelocity( 0.1 );
     }
 }
