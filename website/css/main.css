@@ -299,11 +299,17 @@ div.form_content {
 	position: relative;
 	top:      -1ex;
 }
+
+/* For table-based forms */
 table.form {
+	width: 100%;
+}
+table.form tr td {
 	width: 100%;
 }
 table.form tr td:first-child {
 	font-weight: bold;
+	width: 20em;
 }
 table.form tr td input[type="submit"] {
 	float: right;
@@ -317,6 +323,18 @@ table.form select.auto-width, table.form input.auto-width {
 table.form tr td input[type="submit"] {
 	width: auto;
 }
+table.form td.valid {
+	color: black;
+}
+table.form td.invalid {
+	color: red;
+}
+table.form tr.error-message td {
+	padding-left: 	1ex;
+	font-weight:    bold;
+}
+
+
 .button {
 	clear: 			right;
 	float: 			none;

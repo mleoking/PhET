@@ -279,7 +279,7 @@ EOT;
 
 */
         print <<<EOT
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
 <html xmlns="http://www.w3.org/1999/xhtml">
             <head>
                 <title>PhET :: Physics Education Technology at CU Boulder</title>
@@ -302,6 +302,7 @@ EOT;
                 <script src="$prefix/js/jquery_std.js"          type="text/javascript"></script>
                 <script src="$prefix/js/jquery.autocomplete.js" type="text/javascript"></script>              
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>   
+                <script src="$prefix/js/form-validation.js"     type="text/javascript"></script>   
                 
                 <script type="text/javascript">
                     // AJAX login stuff:
@@ -745,6 +746,53 @@ EOT;
                             );
                             
                             select_current_navbar_category();
+
+							// DEFAULT VALIDATIONS
+							$('#contributor_email_uid').each(
+								function() {									
+									this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+								}
+							);
+							
+							$('#contributor_name_uid').each(
+								function() {									
+									this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
+								}
+							);							
+							
+							$('#contributor_organization_uid').each(
+								function() {									
+									this.pattern = /^\S{2,}.*$/;
+								}
+							);						
+							
+							$('#contributor_password_uid').each(
+								function() {									
+									this.pattern = /^\S+$/;
+								}
+							);
+
+							$('input, button, textarea, select').each(
+								function() {
+									if (this.pattern) {										
+										// Perform immediate validation:
+										validate_form_element(this, this.pattern);
+										
+										// Validate on key up:
+										this.onkeyup = function() {
+											validate_form_element(this, this.pattern);
+										}
+									}
+								}
+							);
+							
+							$('input').each(
+								function() {
+									if (this.getAttribute('type') == 'submit') {
+										this.onclick = validate_entire_form;
+									}
+								}
+							);
                         }
                     );
                     
