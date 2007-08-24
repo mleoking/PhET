@@ -156,7 +156,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      * @return max speed (nm/s)
      */
     private double calcMaxSpeed( final double fDNA ) {
-        return ( _d2 * _c1 ) / ( _c2 + _c3 * Math.exp( fDNA * _c4 ) );
+        return ( _d2 * _c1 ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
     }
     
     /*
@@ -166,7 +166,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      * @return KM
      */
     private double calcRateConstant( final double fDNA ) {
-        return _d1 * ( _c6 + _c7 * Math.exp( fDNA * _c8 ) ) / ( _c2 + _c3 * Math.exp( fDNA * _c4 ) );
+        return _d1 * ( _c6 + ( _c7 * Math.exp( fDNA * _c8 ) ) ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
     }
     
     //----------------------------------------------------------------------------
