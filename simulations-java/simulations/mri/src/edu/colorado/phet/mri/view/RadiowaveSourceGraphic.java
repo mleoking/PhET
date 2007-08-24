@@ -102,16 +102,12 @@ public class RadiowaveSourceGraphic extends PNode {
         frequencySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 radiowaveSource.setFrequency( frequencySlider.getValue() * MriConfig.FREQUENCY_UNIT );
-                System.out.println( "radiowaveSource.getFrequency() = " + radiowaveSource.getFrequency() );
             }
         } );
         frequencySlider.getSlider().addMouseListener( new MouseInputAdapter() {
             public void mouseReleased( MouseEvent e ) {
-                System.out.println( "RadiowaveSourceGraphic.mouseReleased: snap" );
                 if( module.getMriModel().isTransitionMatch() ) {
-                    System.out.println( "RadiowaveSourceGraphic.mouseReleased: match" );
                     double frequency = module.getMriModel().getMatchingFrequency();
-                    System.out.println( "frequency = " + frequency );
                     radiowaveSource.setFrequency( frequency );
                     updateFrequencySliderValue();
                 }

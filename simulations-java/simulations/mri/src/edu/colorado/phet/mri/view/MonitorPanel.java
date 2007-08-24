@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDebug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,6 +127,7 @@ public class MonitorPanel extends PhetPCanvas {
                 updateLineFlash();
             }
         } );
+//        PDebug.debugRegionManagement=true;
     }
 
     private void updatePanel() {
@@ -242,7 +245,11 @@ public class MonitorPanel extends PhetPCanvas {
         }
 
         public void setPaint( Paint paint ) {
-            lineNode.setStrokePaint( paint );
+            if( lineNode.getStrokePaint() != paint ) {
+                lineNode.setStrokePaint( paint );
+                //workaround to ensure the flashing energy line is painted correctly 
+                paintImmediately( lineNode.getGlobalFullBounds().getBounds() );
+            }
         }
 
         public void setDipoleRepImage( BufferedImage dipoleRepImage ) {
