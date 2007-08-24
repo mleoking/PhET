@@ -6,6 +6,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -15,17 +16,25 @@ import java.awt.image.BufferedImage;
  * Aug 24, 2007, 3:32:33 AM
  */
 public class BufferedRotationPlatformNode extends PNode {
+    private RotationPlatformNode node;
+
     public BufferedRotationPlatformNode( RotationPlatform rotationPlatform ) {
-//        super(rotationPlatform );
-        final RotationPlatformNode node = new RotationPlatformNode( rotationPlatform );
-        BufferedImage image = BufferedImageUtils.toBufferedImage( node.toImage() );
+        node = new RotationPlatformNode( rotationPlatform );
+        BufferedImage image = getImage();
+        System.out.println( "image.getWidth() = " + image.getWidth() + ", h=" + image.getHeight() );
+
         final PImage pimage = new PImage( image );
+        pimage.translate( 0,-500);
         addChild( pimage );
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                pimage.setImage( BufferedImageUtils.toBufferedImage( node.toImage() ) );
+                pimage.setImage( getImage() );
             }
         } );
         timer.start();
+    }
+
+    private BufferedImage getImage() {
+        return BufferedImageUtils.toBufferedImage( node.toImage( 500, 500, Color.white ) );
     }
 }
