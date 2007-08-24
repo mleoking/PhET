@@ -63,29 +63,22 @@ public class MyRepaintManager extends RepaintManager {
         return newList;
     }
 
-
-    public boolean isDoMyCoalesce() {
-        return doMyCoalesce;
-    }
-
-    public void setDoMyCoalesce( boolean doMyCoalesce ) {
-        this.doMyCoalesce = doMyCoalesce;
-    }
-
     public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
-        if( doMyCoalesce ) {
+        if( doMyCoalesce && coalesceRectangles ) {
             if( !componentToDirtyRects.containsKey( c ) ) {
                 componentToDirtyRects.put( c, new ArrayList() );
             }
             ArrayList list = (ArrayList)componentToDirtyRects.get( c );
             list.add( new Rectangle( x, y, w, h ) );
-            if( !coalesceRectangles ) {
-                doUpdateNow();
-            }
         }
         else {
+            componentToDirtyRects.clear();
             super.addDirtyRegion( c, x, y, w, h );
         }
+    }
+
+    public void setDoMyCoalesce( boolean doMyCoalesce ) {
+        this.doMyCoalesce = doMyCoalesce;
     }
 
     public boolean isCoalesceRectangles() {

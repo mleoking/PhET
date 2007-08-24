@@ -10,7 +10,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.umd.cs.piccolox.pswing.SynchronizedPSwingRepaintManager;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 
 import javax.swing.*;
