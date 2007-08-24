@@ -105,13 +105,13 @@ public class PhetAboutDialog extends JDialog {
 
         BufferedImage image = PhetCommonResources.getInstance().getImage( PhetLookAndFeel.PHET_LOGO_120x50 );
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
-        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
+//        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
         logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ));
         logoLabel.addMouseListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
-                showPhetPage();
+                PhetServiceManager.showPhetPage();
             }
         } );
 
@@ -130,9 +130,8 @@ public class PhetAboutDialog extends JDialog {
         
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
-
                 if( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                    showPhetPage();
+                    PhetServiceManager.showPhetPage();
                 }
             }
         } );
@@ -143,18 +142,6 @@ public class PhetAboutDialog extends JDialog {
         logoPanel.add( copyrightLabel );
 
         return logoPanel;
-    }
-
-    private void showPhetPage() {
-        try {
-            PhetServiceManager.getBasicService().showDocument( new URL( "http://phet.colorado.edu" ) );
-        }
-        catch( MalformedURLException e ) {
-            e.printStackTrace();
-        }
-        catch( UnavailableServiceException e ) {
-            e.printStackTrace();
-        }
     }
 
     /*
