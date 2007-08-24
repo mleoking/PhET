@@ -60,18 +60,19 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
         _modelViewTransform = modelViewTransform;
         
         final double outerDiameter = _modelViewTransform.modelToView( _enzyme.getOuterDiameter() );
-        SphericalNode outerSphere = new SphericalNode( true /* convertToImage */ );
+        SphericalNode outerSphere = new SphericalNode( false /* convertToImage */ );
         outerSphere.setDiameter( outerDiameter );
         outerSphere.setPaint( outerPaint );
         outerSphere.setStroke( null );
         
         final double innerDiameter = _modelViewTransform.modelToView( _enzyme.getInnerDiameter() );
-        SphericalNode innerSphere = new SphericalNode( true /* convertToImage */ );
+        SphericalNode innerSphere = new SphericalNode( false /* convertToImage */ );
         innerSphere.setDiameter( innerDiameter );
         innerSphere.setPaint( innerPaint );
         innerSphere.setStroke(  null );
 
-        Line2D tickPath = new Line2D.Double( 0, 0, 0, innerSphere.getFullBoundsReference().getHeight() / 2 );
+        // tick starts in center of inner sphere, extends not quite to the outer eddge
+        Line2D tickPath = new Line2D.Double( 0, 0, 0, innerSphere.getFullBoundsReference().getHeight() / 3 );
         PPath tickMark = new PPath( tickPath );
         tickMark.setStroke( TICK_STROKE );
         tickMark.setStrokePaint( tickColor );
