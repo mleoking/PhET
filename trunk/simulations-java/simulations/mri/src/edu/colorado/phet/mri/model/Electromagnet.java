@@ -78,43 +78,6 @@ public class Electromagnet extends Particle {
         return bounds;
     }
 
-//    public void setCurrent( double current ) {
-//        this.current = current;
-//        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
-////        fieldChanger.setTarget( current * MriConfig.CURRENT_TO_FIELD_FACTOR );
-//    }
-
-    //----------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------
-
-    private class FieldChangerA extends ClockAdapter {
-        private double target;
-        private double dB;
-        private double eps;
-
-        FieldChangerA( IClock clock, double dB, double eps ) {
-            this.dB = dB;
-            this.eps = eps;
-            clock.addClockListener( this );
-        }
-
-        public void setTarget( double target ) {
-            this.target = target;
-        }
-
-        public void clockTicked( ClockEvent clockEvent ) {
-            double diff = target - getFieldStrength();
-            if( Math.abs( diff ) > eps ) {
-                double dField = dB * MathUtil.getSign( diff );
-                setFieldStrength( getFieldStrength() + dField );
-            }
-            else if( getFieldStrength() != target ) {
-                setFieldStrength( target );
-            }
-        }
-    }
-
     //----------------------------------------------------------------
     // Events and listeners
     //----------------------------------------------------------------
