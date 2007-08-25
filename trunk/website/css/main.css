@@ -47,6 +47,10 @@ input, textarea, select {
 .clear {
 	clear:both;
 }
+*.example {
+	font-size: smaller;
+	font-style: italic;
+}
 a img {
 	border:none;
 }
@@ -309,6 +313,7 @@ table.form {
 }*/
 table.form tr td {
 	width: 70%;
+	vertical-align: top;
 }
 table.form tr td:first-child {
 	font-weight: bold;
@@ -410,7 +415,10 @@ div.horizontal_center {
 	margin-bottom: 1em;
 }
 #twofacelogin table.form select, #twofacelogin table.form input {
-	width: 150px;
+	width: 140px;
+}
+#twofacelogin table.form input[type="submit"] {
+	width: auto;
 }
 #twofacelogin table.top {
 	width: 100%;
@@ -444,58 +452,15 @@ div.horizontal_center {
     font-weight:bold;
     font-size: 14pt;
 }
-#contributioneditform .label {
-	padding-left: 0px;
-	margin-left:  0px;
-}
-
-/*
-#contributioneditform label, p {
-    display:		block;
-	clear:			right;
-    padding-top:    0px;
-	padding-bottom: 0px;
-}
-#contributioneditform input, #contributioneditform textarea {
-    border:			1px solid #999999;
-    background:		#CCCCCC;
-}*/
 #contributioneditform fieldset p {
 	padding: 0;
 	margin:  0;
 }
 #contributioneditform fieldset *.multiselector {
-	width:          500px;
-    float:			right;
 	margin-top:        0;
 	margin-bottom:     1ex;
 	margin-left:	   0;
 	padding-left:	   0;
-}
-#contributioneditform fieldset ul li {
-	width: 500px;
-}
-#contributioneditform *.selector, #contributioneditform *.inputcontainer {
-	width:          400px;
-    float:			right;
-}
-#contributioneditform hr {
-	height: 1px;
-    background:#E6E6FA;
-	clear: right;
-    margin: 3px 150px 5px 150px;    
-}
-#contributioneditform *.error {
-    color:red;
-    font-weight:bold;
-}
-#contributioneditform *.required {
-    color:     #B22222;
-    font-weight:bold;
-}
-#contributioneditform *.required:hover {
-    color:      red;
-    font-weight:bold;
 }
 
 /* -------- modified sliding doors on globalNav -------- */

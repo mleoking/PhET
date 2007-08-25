@@ -758,7 +758,13 @@ EOT;
 								function() {									
 									this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
 								}
-							);							
+							);
+							
+							$('*[@name=contribution_title]').each(
+								function() {									
+									this.pattern = /^\S+\s+\S+.*$/;
+								}
+							);
 							
 							$('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
 								function() {									
@@ -766,11 +772,17 @@ EOT;
 								}
 							);						
 							
-							$('*[@name=contributor_password], *[@name=contribution_title], *[@name=contribution_keywords]').each(
+							$('*[@name=contributor_password]').each(
 								function() {									
-									this.pattern = /^\S+$/;
+									this.pattern = /\S+/;
 								}
 							);	
+							
+							$('*[@name=contribution_keywords]').each(
+								function() {
+									this.pattern = /\S{3,}.*/;
+								}
+							);
 
 							$('input, button, textarea, select').each(
 								function() {

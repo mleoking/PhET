@@ -557,7 +557,7 @@ EOT;
 
                         <td>
                             <input type="text" name="contribution_authors" value="$contribution_authors" size="30" />
-							<span class="example">John Smith, Mary Jane</span>
+							<span class="example"><br/> e.g. John Smith, Mary Jane</span>
                         </td>
                     </tr>
 
