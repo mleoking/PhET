@@ -2,9 +2,12 @@
 package edu.colorado.phet.qm;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
 import edu.colorado.phet.qm.modules.intensity.IntensityModule;
@@ -37,6 +40,16 @@ public class QWIApplication extends PiccoloPhetApplication {
     public QWIApplication( String[] args ) {
         super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
                getQWIVersion(), new QWIFrameSetup() );
+        setTabbedPaneType( new TabbedPaneType() {
+            public ITabbedModulePane createTabbedPane() {
+                return new TabbedModulePanePiccolo( ){
+                    //workaround for bug: "High Intensity" module tab renders as "High      " under Java 1.4
+                    public void addTab( Module module ) {
+                        super.addTab( "<html>"+module.getName()+"</html>", module.getModulePanel() );
+                    }
+                };
+            }
+        } );
 //        super.setPhetLookAndFeel( new QWILookAndFeel());
 
         intensityModule = new IntensityModule( this, createClock() );
