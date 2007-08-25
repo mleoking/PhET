@@ -279,7 +279,7 @@ EOT;
 					
 					<table class="form">							
 						<tr>
-							<td>description</td>	
+							<td>description*</td>	
 
 							<td>
 EOT;
@@ -291,14 +291,14 @@ EOT;
 						</tr>
 
 						<tr>
-							<td>email</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
+							<td>email*</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
 						</tr>
 EOT;
 
 						if ($print_password) {
 							print <<<EOT
 								<tr>
-									<td>password</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
+									<td>password*</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
 								</tr>
 EOT;
 						}
@@ -306,11 +306,11 @@ EOT;
 						print <<<EOT
 
 						<tr>
-							<td>name</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
+							<td>name*</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
-							<td>organization</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
+							<td>organization*</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
@@ -357,18 +357,18 @@ EOT;
                                     <div class="horizontal_center">
 
                                         <tr>
-                                            <td>email</td>
+                                            <td>email*</td>
 
                                             <td>
-                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled" title="You must enter a valid email address"/>
+                                                <input type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled" />
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td>password</td>
+                                            <td>password*</td>
 
                                             <td>
-                                                <input type="password" size="15" name="contributor_password" value="$contributor_password"  class="always-enabled" title="You must enter a password with at least one character" />
+                                                <input type="password" size="15" name="contributor_password" value="$contributor_password"  class="always-enabled" />
                                             </td>
                                         </tr>
 
@@ -505,275 +505,298 @@ EOT;
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
                 <fieldset>
                     <legend>Required</legend>
+
+					<table class="form">
 EOT;
 
         if (!$contributor_authenticated) {
             if (isset($_REQUEST['loginmethod']) && strtolower($_REQUEST['loginmethod']) == 'dynamic') {
                 contributor_print_quick_login();
-                
-                print <<<EOT
-                        
-                            <hr/>
-EOT;
             }
         }
 
 		if ($contributor_is_team_member) {
 			print <<<EOT
-					<div class="field">
+					<tr>
+						<td>
+	                        contributor*
+	                    </td>
+	
+						<td>
 EOT;
 
-			$contributor_names = array();
+							$contributor_names = array();
 
-			foreach (contributor_get_all_contributors() as $c) {
-				if (strlen(trim($c['contributor_name'])) > 0) {
-					$contributor_names[$c['contributor_id']] = $c['contributor_name'];
-				}
-			}
+							foreach (contributor_get_all_contributors() as $c) {
+								if (strlen(trim($c['contributor_name'])) > 0) {
+									$contributor_names[$c['contributor_id']] = $c['contributor_name'];
+								}
+							}
 			
-			$current_contributor = contributor_get_contributor_by_id($contributor_id);
-			$current_contributor_name = $current_contributor['contributor_name'];
+							$current_contributor = contributor_get_contributor_by_id($contributor_id);
+							$current_contributor_name = $current_contributor['contributor_name'];
 			
-			print_single_selection(
-	            "new_contributor_id",
-	            $contributor_names,
-	            $current_contributor_name
-	        );
+							print_single_selection(
+					            "new_contributor_id",
+					            $contributor_names,
+					            $current_contributor_name
+					        );
 
 			print <<<EOT
-					<span class="label">
-                        contributor
-                    </span>
-
-					</div>
+						</td>
+					</tr>
 EOT;
 		}
 
         print <<<EOT
 
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" name="contribution_authors" 
-                                value="$contribution_authors" id="contribution_authors_uid" size="40" />
-                        </span>
-                        
-                        <span class="label">
+                    <tr>
+						<td>
                             authors*
-                        </span>
-                    </div>
+                        </td>
 
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" name="contribution_authors_organization" 
-                                value="$contribution_authors_organization" id="contribution_authors_organization_uid" size="40"/>
-                        </span>
-                        
-                        <span class="label">
+                        <td>
+                            <input type="text" name="contribution_authors" value="$contribution_authors" size="30" />
+							<span class="example">John Smith, Mary Jane</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
                             authors organization*
-                        </span>
-                    </div>
+                        </td>
+
+                        <td>
+                            <input type="text" name="contribution_authors_organization" value="$contribution_authors_organization" size="30"/>
+                        </td>
+                    </tr>
                     
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" name="contribution_contact_email" 
-                                value="$contribution_contact_email" id="contribution_contact_email_uid" size="40"
-                                onfocus="javascript:select_question_marks_in_input('contribution_contact_email_uid');"
-                                onclick="javascript:select_question_marks_in_input('contribution_contact_email_uid');" />
-                        </span>
-                        
-                        <span class="label">
-                            contact email*
-                        </span>
-                    </div>
-
-                    <hr/>              
-
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" name="contribution_title" value="$contribution_title" id="contribution_title_uid" size="40"/>
-                        </span>
-                        
-                        <span class="label">
-                            title*
-                        </span>
-                    </div>
-                    
-                    <div class="field">
-                        <span class="label_content">
-                            <input type="text" name="contribution_keywords"
-                                value="$contribution_keywords" id="contribution_keywords_uid" size="40" />
-                        </span>
-                        
-                        <span class="label">
-                            keywords*
-                        </span>
-                    </div>
-
-
-
-EOT;
-
-		if ($contributor_is_team_member) {
-			print <<<EOT
-				<div class="field">
-EOT;
-
-			print_checkbox(
-	            "contribution_from_phet",
-	            "",
-	            $contribution_from_phet
-	        );
+                    <tr>
+	                    <td>
+	                        contact email*
+	                    </td>
 	
-			print <<<EOT
-	                <span class="label">
-	                    from phet*
-	                </span>
-	            </div>
+                        <td>
+                            <input type="text" name="contribution_contact_email" value="$contribution_contact_email" size="30" />
+                        </td>
+                    </tr>         
+
+                    <tr>
+	                    <td>
+	                        title*
+	                    </td>
+	
+                        <td>
+                            <input type="text" name="contribution_title" value="$contribution_title" size="30"/>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+	                    <td>
+	                        keywords*
+	                    </td>
+
+                        <td>
+                            <input type="text" name="contribution_keywords" value="$contribution_keywords" size="30" />
+                        </td>
+                    </tr>
 EOT;
-		}
+
+			if ($contributor_is_team_member) {
+				print <<<EOT
+					<tr>
+						<td>
+		                    from phet*
+		                </td>
+		
+						<td>
+EOT;
+
+				print_checkbox(
+		            "contribution_from_phet",
+		            "",
+		            $contribution_from_phet
+		        );
+	
+				print <<<EOT
+						</td>
+		            </tr>
+EOT;
+			}
 
 		print <<<EOT
-                    
-                    <hr/>
 
-                    <p>Choose the simulations that the contribution was designed for:*</p>
+					<tr>
+						<td>simulation(s)*</td>
+						
+                    	<td>
 EOT;
 
-        print_multiple_selection(
-			'Simulation',
-            sim_get_all_sim_names(),
-            contribution_get_associated_simulation_listing_names($contribution_id)
-        );
+					        print_multiple_selection(
+								'Simulation',
+					            sim_get_all_sim_names(),
+					            contribution_get_associated_simulation_listing_names($contribution_id)
+					        );
                     
         print <<<EOT
-                    <hr/>
+						</td>
+					</tr>
                     
-                    <p>Choose the type of contribution:*</p>
+                    <tr>
+						<td>type(s)</td>
+						
+						<td>
                     
 EOT;
-        print_multiple_selection('Type', $all_contribution_types, $contribution_types);
+        					print_multiple_selection('Type', $all_contribution_types, $contribution_types);
         
         print <<<EOT
-                    <p>Choose the level of the contribution:*</p>
+						</td>
+					</tr>
+					
+					<tr>
+                    	<td>grade level(s)*</td>
+
+						<td>
                     
 EOT;
 
-        print_multiple_selection(
-			'Level',
-            contribution_get_all_template_level_names(),
-            contribution_get_level_names_for_contribution($contribution_id)
-        );
+					        print_multiple_selection(
+								'Level',
+					            contribution_get_all_template_level_names(),
+					            contribution_get_level_names_for_contribution($contribution_id)
+					        );
 
         print <<<EOT
-                    <hr/>
+						</td>
+					</tr>
                     
-                    <p>Remove existing files from the contribution:</p>
+                    <tr>
+						<td>existing files*</td>
+						
+						<td>
 EOT;
     
-        print_deletable_list(
-			'File',
-            contribution_get_contribution_file_names($contribution_id)
-        );
+					        print_deletable_list(
+								'File',
+					            contribution_get_contribution_file_names($contribution_id)
+					        );
     
         print <<<EOT
-                    <p>Add any number of files to the contribution:*</p>
-                    
-                    <span class="label_content">
-                        <input type="file" name="contribution_file_url" class="multi" />
-                    </span>
+						</td>
+					</tr>
+					
+					<tr>
+						<td>new files*</td>
+						
+						<td>
+                        	<input type="file" name="contribution_file_url" class="multi" />
+ 						</td>
+					</tr>
 
-                    <br/>
-
-                    <div class="button">
-                        <input name="submit" type="submit" id="submit" value="$button_name" />
-                    </div>
-
-
+                    <tr>
+						<td colspan="2">
+                        	<input name="submit" class="button" type="submit" value="$button_name" />	
+						</td>
+                    </tr>
+				</table>
+				
                 </fieldset>
+
                 <fieldset>
                     <legend>Optional</legend>
                                         
-                    <div class="field">
-                        <span class="label_content">
-                            <textarea name="contribution_desc" id="contribution_desc_uid" rows="5" cols="40">$contribution_desc</textarea>
-                        </span>
-                        
-                        <span class="label">
-                            description
-                        </span>
-                    </div>
+					<table class="form">
+                    <tr>
+	                    <td>
+	                        description
+	                    </td>
+
+                        <td>
+                            <textarea name="contribution_desc" rows="5" cols="40">$contribution_desc</textarea>
+                        </td>
+                    </tr>                    
                     
-                    
-                    <div class="field">
-                        <p>Please choose the subject areas covered by the contribution:</p>
+                    <tr>
+                        <td>
+							subject areas
+						</td>
+						
+						<td>
 
 EOT;
+
+					        print_multiple_selection(
+								'Subject',
+					            contribution_get_all_template_subject_names(),
+					            contribution_get_subject_names_for_contribution($contribution_id)
+					        );
         
-        print_multiple_selection(
-			'Subject',
-            contribution_get_all_template_subject_names(),
-            contribution_get_subject_names_for_contribution($contribution_id)
-        );
-        
         print <<<EOT
-                    </div>
+						</td>
+                    </tr>
                     
-                    <div class="field">
+                    <tr>
+	                    <td>
+	                        duration
+	                    </td>
+	
+						<td>
 EOT;
 
-        print_single_selection(
-            "contribution_duration",
-            array(
-                "0"     => "NA",
-                "30"    => "30 minutes",
-                "60"    => "60 minutes",
-				"90"    => "90 minutes",
-                "120"   => "120 minutes"
-            ),
-            $contribution_duration
-        );
+					        print_single_selection(
+					            "contribution_duration",
+					            array(
+					                "0"     => "NA",
+					                "30"    => "30 minutes",
+					                "60"    => "60 minutes",
+									"90"    => "90 minutes",
+					                "120"   => "120 minutes"
+					            ),
+					            $contribution_duration
+					        );
 
         print <<<EOT
-                        
-                        <span class="label">
-                            duration
-                        </span>
-                    </div>
+						</td>
+                    </tr>
                     
-                    <div class="field">
+                    <tr>
+	                    <td>
+	                        answers included
+	                    </td>
+	
+						<td>
 EOT;
 
-        print_checkbox(
-            "contribution_answers_included",
-            "",
-            $contribution_answers_included
-        );
+					        print_checkbox(
+					            "contribution_answers_included",
+					            "",
+					            $contribution_answers_included
+					        );
 
         print <<<EOT
-                        <span class="label">
-                            answers included
-                        </span>
-                    </div>
+						</td>
+                    </tr>
                     
-                    <div class="field">
-                        <p>
-							Please describe how the contribution complies with the <a href="http://www.nap.edu/readingroom/books/nses/html/6a.html">K-12 National Science Standards</a>:
-                        </p>
-                    </div>
+					</table>
+					
+					<p>Please describe how the contribution complies with the <a href="http://www.nap.edu/readingroom/books/nses/html/6a.html">K-12 National Science Standards</a>:</p>
 
 EOT;
 
-        contribution_print_standards_compliance($contribution_standards_compliance);
+   					contribution_print_standards_compliance($contribution_standards_compliance);
 
         print <<<EOT
-
-                    <input type="hidden" name="referrer"        value="$referrer" />
-                    <input type="hidden" name="contribution_id" value="$contribution_id" />
-                    <input type="hidden" name="action"          value="update" />
-                    
-                    <div class="button">
-                        <input name="submit" type="submit" id="submit" value="$button_name" />
-                    </div>
+					<table class="form">
+						<tr>
+							<td colspan="2">
+	                        	<input name="submit" class="button" type="submit" value="$button_name" />
+			                    <input type="hidden" name="referrer"        value="$referrer" />
+			                    <input type="hidden" name="contribution_id" value="$contribution_id" />
+			                    <input type="hidden" name="action"          value="update" />
+							</td>
+	                    </tr>
+					</table>
                  </fieldset>
             </form>
 EOT;
@@ -2021,144 +2044,138 @@ EOT;
         print <<<EOT
                     $standard_message
                     
-                    <div class="form_content">
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="password" name="contributor_password" 
-                                    value="$contributor_password" id="password" size="25"/>                        
-                            </span>
+					<table class="form">
+                    	<tr>
+                        	<td>password*</td>
                             
-                            <span class="label">password*</span>
-                        </div>
+							<td>
+                                <input type="password" name="contributor_password" value="$contributor_password" size="25"/>                        
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="text" name="contributor_name" 
-                                    value="$contributor_name" id="name" size="25"/>
-                            </span>
-                            
-                            <span class="label">name*</span>
-                        </div>
-                    
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="text" name="contributor_organization" 
-                                    value="$contributor_organization" id="contributor_organization" size="25"/>
-                            </span>
-                            
-                            <span class="label">organization*</span>
-                        </div>
+                        <tr>
+                            <td>name*</td>
 
-						<div class="field">
+                            <td>
+                                <input type="text" name="contributor_name" value="$contributor_name" size="25"/>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td>organization*</td>
+
+                            <td>
+                                <input type="text" name="contributor_organization" value="$contributor_organization" size="25"/>
+                            </td>
+                        </tr>
+
+						<tr>
+							<td>description*</td>
+							
+							<td>
 EOT;
-						contributor_print_desc_list($contributor_desc, true);
+								contributor_print_desc_list($contributor_desc, true);
 						
 						print <<<EOT
-							<span class="label">description*</span>
-						</div>
+							</td>
+						</tr>
                     
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="text" name="contributor_title"
-                                    value="$contributor_title" id="title" size="25" />
-                            </span>
-                            
-                            <span class="label">title</span>
-                        </div>
+                        <tr>
+                            <td>title</td>
+
+                            <td>
+                                <input type="text" name="contributor_title" value="$contributor_title" size="25" />
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="text" name="contributor_address"
-                                    value="$contributor_address" id="address" size="25" />
-                            </span>
-                            
-                            <span class="label">address</span>
-                        </div>
+                        <tr>
+                        	<td>address</td>
+
+                            <td>
+                                <input type="text" name="contributor_address" value="$contributor_address" size="25" />
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="text" name="contributor_office"
-                                    value="$contributor_office" id="office" size="15" />
-                            </span>
-                            
-                            <span class="label">office</span>
-                        </div>
+                        <tr>
+                            <td>office</td>
+
+                            <td>
+                                <input type="text" name="contributor_office" value="$contributor_office" size="15" />
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>city</td>
+
+                            <td>
                                 <input type="text" name="contributor_city"
                                     value="$contributor_city" id="city" size="15" />
-                            </span>
-                            
-                            <span class="label">city</span>
-                        </div>
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>state/province</td>
+
+                            <td>
                                 <input type="text" name="contributor_state"
                                     value="$contributor_state" id="state" size="15" />
-                            </span>
-                            
-                            <span class="label">state/province</span>
-                        </div>
+                            </td>
+                        </tr>
 
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>country</td>
+
+                            <td>
                                 <input type="text" name="contributor_country"
                                     value="$contributor_country" id="state" size="15" />
-                            </span>
-
-                            <span class="label">country</span>
-                        </div>
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>postal code</td>
+
+                            <td>
                                 <input type="text" name="contributor_postal_code"
                                     value="$contributor_postal_code" id="postal_code" size="10" />
-                            </span>
-                            
-                            <span class="label">postal code</span>
-                        </div>
+                            </td>
+                        </tr>
                     
-                    
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>primary phone</td>
+
+                            <td>
                                 <input type="text" name="contributor_primary_phone"
                                     value="$contributor_primary_phone" id="primary_phone" size="12" />
-                            </span>
-                            
-                            <span class="label">primary phone</span>
-                        </div>
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>secondary phone</td>
+
+                            <td>
                                 <input type="text" name="contributor_secondary_phone"
                                     value="$contributor_secondary_phone" id="secondary_phone" size="12" />
-                            </span>
-                            
-                            <span class="label">secondary phone</span>
-                        </div>
+                            </td>
+                        </tr>
                     
-                        <div class="field">
-                            <span class="label_content">
+                        <tr>
+                            <td>fax</td>
+
+                            <td>
                                 <input type="text" name="contributor_fax"
                                     value="$contributor_fax" id="fax" size="12" />
-                            </span>                        
-                            
-                            <span class="label">fax</span>
-                        </div>
+                            </td>                        
+                        </tr>
                     
-                        <input type="hidden" name="contributor_receive_email" value="0" />
-                    
-                        <div class="field">
-                            <span class="label_content">
-                                <input type="checkbox" name="contributor_receive_email"
-                                    value="1" $contributor_receive_email_checked />
-                            </span>
-                            
-                            <span class="label">receive phet email</span>                            
-                        </div>
-                    </div>
+                        <tr>
+                            <td>receive phet email</td>                            
+
+                            <td>
+								<input type="hidden"   name="contributor_receive_email" value="0" />
+                                <input type="checkbox" name="contributor_receive_email" value="1" $contributor_receive_email_checked />
+                            </td>
+                        </tr>
+                    </table>
 
 					<p class="footnote">The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.</p>
 

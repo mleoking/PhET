@@ -921,13 +921,10 @@ EOT;
 
         if ($print_select) {
             print <<<EOT
-
-                <span class="multiselector">
-                    <select name="$select_name" id="$select_id" 
-                        onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
-                        $options
-                    </select>
-                </span>
+                  <select name="$select_name" id="$select_id" 
+                      onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                      $options
+                  </select>
 EOT;
         }
         
@@ -952,7 +949,6 @@ EOT;
 
     function print_single_selection($select_name, $value_to_text, $selected, $other_attributes = '') {
         print <<<EOT
-            <span class="label_content">
             <select name="$select_name" id="${select_name}_uid" $other_attributes>
 EOT;
 
@@ -975,7 +971,6 @@ EOT;
 
         print <<<EOT
             </select>
-            </span>
 EOT;
     }
     
@@ -983,10 +978,8 @@ EOT;
         $is_checked = $checkbox_value == "1" ? "checked=\"checked\"" : "";
         
         print <<<EOT
-            <span class="label_content">
                 <input type="hidden"   name="$checkbox_name" value="0" />
                 <input type="checkbox" name="$checkbox_name" value="1" id="${checkbox_name}_uid" $is_checked>$checkbox_text</input>
-            </span>
 EOT;
     }
     

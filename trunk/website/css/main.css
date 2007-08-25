@@ -304,18 +304,18 @@ div.form_content {
 table.form {
 	width: 100%;
 }
-table.form tr td {
+/*table.form tr td {
 	width: 100%;
+}*/
+table.form tr td {
+	width: 70%;
 }
 table.form tr td:first-child {
 	font-weight: bold;
-	width: 20em;
+	width: 30%;
 }
 table.form tr td input[type="submit"] {
 	float: right;
-}
-table.form select, table.form input {
-	width: 150px;
 }
 table.form select.auto-width, table.form input.auto-width {
 	width: auto;
@@ -409,9 +409,9 @@ div.horizontal_center {
 	margin:  0;
 	margin-bottom: 1em;
 }
-/*#twofacelogin table table {
-	width: 50%;
-}*/
+#twofacelogin table.form select, #twofacelogin table.form input {
+	width: 150px;
+}
 #twofacelogin table.top {
 	width: 100%;
 	margin:  0;
