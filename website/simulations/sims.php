@@ -199,52 +199,54 @@ EOT;
         <div class="p-indentation">
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
 			<div>
-	            <input type="hidden" name="sim_id"   value="$sim_id" />
+				<input type="hidden" name="sim_id"   value="$sim_id" />
+			</div>
+			
+			<table class="form">
+	            <tr>
+	                <td>
+	                    title*
+	                </td>
 
-	            <div class="field">
-	                <span class="label_content">
-	                    <input type="text" name="contribution_title" size="50" />
-	                </span>
-                
-	                <span class="label">
-	                    title:
-	                </span>
-	            </div>  
+	                <td>
+	                    <input type="text" name="contribution_title" size="40" />
+	                </td>
+	            </tr>  
             
-	            <div class="field">                
-	                <span class="label_content">
+	            <tr>     
+		            <td>
+	                    files*
+	                </td>
+	
+	                <td>
 	                    <input type="file" class="multi" name="contribution_file_url" />
-	                </span>
-                
-	                <span class="label">
-	                    files:
-	                </span>
-	            </div>
+	                </td>
+	            </tr>
             
-	            <hr/>
-            
-	            <div class="field">                
-	                <span class="label_content">
+	            <tr>   
+		            <td>
+	                    level*
+	                </td>
+	
+	                <td>
 EOT;
 
-                    print_multiple_selection(
-						'Level',
-                        contribution_get_all_template_level_names(),
-                        array()
-                    );
+						print_multiple_selection(
+							'Level',
+							contribution_get_all_template_level_names(),
+							array()
+						);
 
                 print <<<EOT
-	                </span>
-                
-	                <span class="label">
-	                    level:
-	                </span>
-	            </div>
+	                </td>
+	            </tr>
             
-	            <div class="button">
-	                <input type="submit" value="Contribute"  />
-	            </div>
-			</div>
+	            <tr>
+					<td colspan="2">
+	                	<input type="submit" name="submit" value="Contribute"  />
+					</td>
+	            </tr>
+			</table>
         </form>
         </div>
 

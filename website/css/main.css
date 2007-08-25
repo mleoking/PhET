@@ -1042,24 +1042,9 @@ h1.indi-sim {
 	clear: 		right;
     margin: 	15px 150px 15px 150px;    
 }
-#quicksubmit *.field div.button {
-	width:        578px;
-	float: 		  right;
-	margin-top:   1em;
+#quicksubmit table.form tr td:first-child {
+	width: 10%;
 }
-#quicksubmit *.field {
-	margin-bottom: 1em;
-}
-#quicksubmit div.field .label_content {
-	width: 450px;
-}
-#quicksubmit div.button input {
-	margin:       0;
-	padding:      0;
-	position:     relative;
-	left:         70%;
-}
-
 #content #keywords *.keywordlist {
 	padding:        0;
 	margin: 		0;	
