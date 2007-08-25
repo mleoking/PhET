@@ -9,6 +9,7 @@
  * Date modified : $Date$
  */
 package edu.colorado.phet.common.phetgraphics.application;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -39,7 +40,7 @@ public abstract class DeferredInitializationModule extends PhetGraphicsModule {
      * @param clock
      */
     public DeferredInitializationModule( String name, IClock clock ) {
-        super ( name, clock );
+        super( name, clock );
 
         // Provide dummy panels for the ModuleManager to reference until we are
         // properly initialized

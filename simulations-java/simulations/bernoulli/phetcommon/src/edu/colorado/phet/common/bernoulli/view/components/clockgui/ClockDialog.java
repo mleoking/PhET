@@ -9,7 +9,6 @@
 package edu.colorado.phet.common.bernoulli.view.components.clockgui;
 
 import edu.colorado.phet.common.bernoulli.model.IClock;
-import edu.colorado.phet.common.bernoulli.model.FixedClock;
 
 import javax.swing.*;
 import java.awt.*;

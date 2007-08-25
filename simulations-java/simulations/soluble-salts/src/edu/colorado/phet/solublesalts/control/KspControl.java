@@ -11,7 +11,6 @@
 package edu.colorado.phet.solublesalts.control;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.OrderOfMagnitudeSpinner;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
@@ -112,16 +111,6 @@ public class KspControl extends JPanel {
 
     private void setKsp() {
         model.setKsp( getKsp() );
-    }
-
-    private void sliderChanger( SolubleSaltsModel model, OrderOfMagnitudeSpinner oomSpinner, GridBagConstraints gbc ) {
-        remove( kspSlider );
-        kspSlider = createSlider( model, ( (Double)oomSpinner.getValue() ).doubleValue() );
-        gbc.gridwidth = 2;
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add( kspSlider, gbc );
-        revalidate();
     }
 
     private ModelSlider createSlider( final SolubleSaltsModel model, double maxValue ) {

@@ -10,7 +10,6 @@ import edu.colorado.phet.distanceladder.common.model.clock.AbstractClock;
 import edu.colorado.phet.distanceladder.common.view.ApplicationDescriptor;
 import edu.colorado.phet.distanceladder.common.view.ApplicationView;
 import edu.colorado.phet.distanceladder.common.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.distanceladder.common.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.distanceladder.common.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
 
 import java.io.IOException;
@@ -21,10 +20,6 @@ public class PhetApplication {
     private AbstractClock clock;
     private ApplicationDescriptor descriptor;
     private ApparatusPanelContainerFactory containerStrategy;
-
-    public PhetApplication( ApplicationDescriptor descriptor, Module m, AbstractClock clock ) {
-        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, clock );
-    }
 
     /**
      * Create a PhET Application that uses a TabbedApparatusPanelStrategy.

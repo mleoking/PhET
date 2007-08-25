@@ -92,7 +92,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
      */
     private String makeHTML( String s ) {
         String htmlString = s;
-        if( ! BasicHTML.isHTMLString( s ) ) {
+        if( !BasicHTML.isHTMLString( s ) ) {
             htmlString = "<html>" + s + "</html>";
         }
         return htmlString;

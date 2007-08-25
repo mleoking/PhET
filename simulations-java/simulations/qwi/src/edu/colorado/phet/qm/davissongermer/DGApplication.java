@@ -1,13 +1,11 @@
 /*  */
 package edu.colorado.phet.qm.davissongermer;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
-import edu.colorado.phet.common.phetcommon.view.TabbedModulePane;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIFrameSetup;
@@ -41,12 +39,6 @@ public class DGApplication extends PiccoloPhetApplication {
 
     protected PhetFrame createPhetFrame( PhetApplication phetApplication ) {
         return new PhetFrameWorkaround( phetApplication );
-    }
-
-    class MyTabbedModulePane extends TabbedModulePane {
-        public MyTabbedModulePane( PhetApplication application, Module[] modules ) {
-            super( application, modules );
-        }
     }
 
     public static void main( String[] args ) {

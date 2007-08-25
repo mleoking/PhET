@@ -15,7 +15,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
-public class ImageGraphic implements Graphic, ImageObserver, ImageGraphicType {
+public class ImageGraphic implements Graphic, ImageObserver{
 
     private BufferedImage image;
     private Point2D.Double modeLocation;

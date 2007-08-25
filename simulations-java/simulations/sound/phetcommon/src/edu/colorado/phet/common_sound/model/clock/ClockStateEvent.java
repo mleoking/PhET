@@ -41,18 +41,4 @@ public class ClockStateEvent extends EventObject {
         return ( (AbstractClock)getSource() ).isRunning();
     }
 
-    /**
-     * Returns the priority of the clock thread if the clock is a ThreadedClock.
-     * Otherwise, returns the priority of the current thread.
-     *
-     * @return
-     */
-    public int getThreadPriority() {
-        if( getSource() instanceof ThreadedClock ) {
-            return ( (ThreadedClock)getSource() ).getThreadPriority();
-        }
-        else {
-            return Thread.currentThread().getPriority();
-        }
-    }
 }

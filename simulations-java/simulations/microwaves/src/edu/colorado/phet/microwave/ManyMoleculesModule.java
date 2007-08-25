@@ -74,27 +74,4 @@ public class ManyMoleculesModule extends MicrowaveModule {
     // Inner classes
     //
 
-    private class StripChartDialog extends JDialog {
-
-        StripChartDialog( JFrame frame, Microwave muWave, WaterMolecule molecule ) {
-            super( frame );
-            setTitle( SimStrings.get( "ManyMoleculesModule.StripChartDialogTitle" ) );
-            StripChart waterChart = new StripChart( 200, 100, 0, 100, 0, Math.PI * 2, 0.01 );
-
-            DipoleStripChartSubject dscs = new DipoleStripChartSubject( molecule );
-            new StripChartDelegate( dscs, waterChart );
-
-            StripChart waveChart = new StripChart( 200, 100, 0, 100, -muWave.getMaxAmplitude(), muWave.getMaxAmplitude(), 0.01 );
-//            StripChart waveChart = new StripChart( 200, 100, 0, 100, -Math.PI, Math.PI, 0.01 );
-            MicrowaveStripCharSubject escs = new MicrowaveStripCharSubject( muWave );
-            new StripChartDelegate( escs, waveChart );
-
-            getContentPane().setLayout( new GridLayout( 2, 1, 10, 10 ) );
-            getContentPane().add( waveChart );
-            getContentPane().add( waterChart );
-            pack();
-        }
-
-    }
-
 }

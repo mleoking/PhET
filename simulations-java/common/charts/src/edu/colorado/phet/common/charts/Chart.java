@@ -267,10 +267,6 @@ public class Chart extends GraphicLayerSet {
             minorTicks.setSpacing( minorTickSpacing );
         }
 
-        public void setMajorGridlines( double[] lines ) {
-            majorTicks.setGridlines( lines );
-        }
-
         public void setMajorOffset( int dx, int dy ) {
             majorTicks.setOffset( dx, dy );
         }

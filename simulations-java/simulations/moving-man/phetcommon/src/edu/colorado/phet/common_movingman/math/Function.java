@@ -10,32 +10,6 @@ public interface Function {
 
     public Function createInverse();
 
-    public static class IdentityFunction implements Function {
-        public double evaluate( double x ) {
-            return x;
-        }
-
-        public Function createInverse() {
-            return this;
-        }
-    }
-
-    public static class PowerFunction implements Function {
-        private double power;
-
-        public PowerFunction( double power ) {
-            this.power = power;
-        }
-
-        public double evaluate( double x ) {
-            return Math.pow( x, power );
-        }
-
-        public Function createInverse() {
-            throw new RuntimeException( "Not yet implemented" );
-        }
-    }
-
     public static class LinearFunction implements Function {
         private double minInput;
         private double maxInput;

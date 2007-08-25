@@ -16,7 +16,7 @@ public abstract class AbstractClock implements IClock {
     boolean isAlive = false;//The Thread has not yet exited run()
     boolean started = false;
     protected ApplicationModel parent;
-//    protected double requestedDT;
+    //    protected double requestedDT;
     //    int requestedWaitTime;
     double timeLimit = Double.POSITIVE_INFINITY;
     double runningTime;

@@ -15,11 +15,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.TransformManager;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
@@ -198,10 +198,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
             default:
                 throw new RuntimeException( "Invalid paint strategy specified" );
         }
-    }
-
-    public void setPaintStrategyDisjoint() {
-        paintStrategy = new DisjointRectanglePaintStrategy( this );
     }
 
     /**
@@ -631,36 +627,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         void render( Graphics2D g2, AffineTransform graphicTx );
 
         void componentResized();
-    }
-
-    private static class DisjointRectanglePaintStrategy implements PaintStrategy {
-
-        ApparatusPanel2 apparatusPanel2;
-
-        public DisjointRectanglePaintStrategy( ApparatusPanel2 apparatusPanel2 ) {
-            this.apparatusPanel2 = apparatusPanel2;
-            componentResized();
-        }
-
-        public void paintImmediately() {
-            apparatusPanel2.paintImmediatelyDisjoint();
-        }
-
-        public void render( Graphics2D g2, AffineTransform graphicTx ) {
-            g2.transform( graphicTx );
-            apparatusPanel2.getGraphic().paint( g2 );
-        }
-
-        public void componentResized() {
-        }
-    }
-
-    private void paintImmediatelyDisjoint() {
-        for( int i = 0; i < rectangles.size(); i++ ) {
-            Rectangle rectangle = (Rectangle)rectangles.get( i );
-            paintImmediately( transformManager.transform( rectangle ) );
-        }
-        rectangles.clear();
     }
 
     public class OffscreenBufferDirtyRegion extends OffscreenBufferStrategy {

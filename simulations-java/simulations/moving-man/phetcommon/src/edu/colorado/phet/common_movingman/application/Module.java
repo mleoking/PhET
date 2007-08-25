@@ -18,8 +18,6 @@ import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickEvent;
 import edu.colorado.phet.common_movingman.model.clock.ClockTickListener;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
-import edu.colorado.phet.common_movingman.view.ControlPanel;
-import edu.colorado.phet.common_movingman.view.help.HelpItem;
 import edu.colorado.phet.common_movingman.view.help.HelpManager;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetGraphic;
 
@@ -192,30 +190,6 @@ public class Module implements ClockTickListener {
         helpManager.setHelpEnabled( apparatusPanel, h );
     }
 
-    /**
-     * Adds an onscreen help item to the module
-     *
-     * @param helpItem
-     */
-    public void addHelpItem( HelpItem helpItem ) {
-        helpManager.addHelpItem( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( true );
-        }
-    }
-
-    /**
-     * Removes an onscreen help item from the module
-     *
-     * @param helpItem
-     */
-    public void removeHelpItem( HelpItem helpItem ) {
-        helpManager.removeHelpItem( helpItem );
-        if( controlPanel != null && controlPanel instanceof ControlPanel && helpManager.getNumHelpItems() == 0 ) {
-            ( (ControlPanel)controlPanel ).setHelpPanelEnabled( false );
-        }
-    }
-
     public HelpManager getHelpManager() {
         return helpManager;
     }
@@ -272,18 +246,6 @@ public class Module implements ClockTickListener {
 //        stateDescriptor.setState( this );
 ////        restoreState( (ModuleStateDescriptor)stateDescriptor );
 //    }
-
-    /**
-     * Returns a ModuleStateDescriptor for this Module.
-     * <p/>
-     * This method should be extended by subclasses that have state attributes.
-     *
-     * @return
-     */
-    public ModuleStateDescriptor getState() {
-        ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
-        return sd;
-    }
 
     /**
      * Restores the state of this Module to that specificied in a ModuleStateDescriptor

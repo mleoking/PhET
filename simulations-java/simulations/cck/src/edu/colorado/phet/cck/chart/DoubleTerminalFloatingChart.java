@@ -82,29 +82,6 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
         }
     }
 
-    public static class Phetgraphics extends DoubleTerminalFloatingChart {
-
-        public Phetgraphics( PhetPCanvas pSwingCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
-            super( pSwingCanvas, title, valueReader, clock );
-        }
-
-        protected Shape getRightShape() {
-            return getShape( getRightCrosshairGraphic() );
-        }
-
-        protected Shape getLeftShape() {
-            return getShape( getLeftCrosshairGraphic() );
-        }
-
-        private Shape getShape( CrosshairNode leftCrosshairNode ) {
-            Point2D location = leftCrosshairNode.getGlobalTranslation();
-            location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
-            double w = 2.0;
-            double h = 2.0;
-            return new Rectangle2D.Double( location.getX() - w / 2, location.getY() - h / 2, w, h );
-        }
-    }
-
     public static class Piccolo extends DoubleTerminalFloatingChart {
         private CCKSimulationPanel cckSimulationPanel;
 

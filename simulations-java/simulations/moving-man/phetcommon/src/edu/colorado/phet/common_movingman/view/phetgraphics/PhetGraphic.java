@@ -12,8 +12,6 @@ package edu.colorado.phet.common_movingman.view.phetgraphics;
 
 import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationHandler;
-import edu.colorado.phet.common_movingman.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_movingman.view.util.GraphicsState;
 import edu.colorado.phet.common_movingman.view.util.RectangleUtils;
 
@@ -833,15 +831,6 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Translation interactivity methods
     //----------------------------------------------------------------------------
-
-    /**
-     * Adds a listener for translations (dragging).
-     *
-     * @param translationListener the listener
-     */
-    public void addTranslationListener( TranslationListener translationListener ) {
-        addMouseInputListener( new TranslationHandler( translationListener ) );
-    }
 
     //----------------------------------------------------------------------------
     // Mouse Input interactivity methods

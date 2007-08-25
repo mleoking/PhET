@@ -83,28 +83,8 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         return (Color)colorLUT.get( new Double( wavelength ) );
     }
 
-    private static class ResizeHandler extends ComponentAdapter {
-        public void componentResized( ComponentEvent e ) {
-            if( !init ) {
-                init = true;
-                origBounds = e.getComponent().getBounds();
-            }
-            Component component = e.getComponent();
-            Rectangle2D newBounds = component.getBounds();
-            scale = newBounds.getWidth() / origBounds.getWidth();
-            System.out.println( "scale = " + scale );
-            scaleTx = AffineTransform.getScaleInstance( scale, scale );
-            scaleChanged = true;
-            for( int i = 0; i < instances.size(); i++ ) {
-                PhotonGraphic photonGraphic = (PhotonGraphic)instances.get( i );
-                photonGraphic.update();
-            }
-        }
-    }
-
     // A cache for phton graphic
 
-    private static ResizeHandler resizeHandler;
     private static AffineTransform scaleTx = new AffineTransform();
     private static boolean init;
     private static Rectangle2D origBounds;

@@ -36,14 +36,6 @@ public class HelpManager extends GraphicLayerSet {
         super.setComponent( component );
     }
 
-    public void removeHelpItem( HelpItem helpItem ) {
-        super.removeGraphic( helpItem );
-    }
-
-    public void addHelpItem( HelpItem item ) {
-        super.addGraphic( item );
-    }
-
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
         if( h ) {
             apparatusPanel.addGraphic( this, HELP_LAYER );

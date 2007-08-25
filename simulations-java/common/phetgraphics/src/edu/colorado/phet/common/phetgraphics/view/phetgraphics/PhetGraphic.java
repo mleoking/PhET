@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationHandler;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetcommon.view.util.*;
+import edu.colorado.phet.common.phetgraphics.view.util.CompositeKeyListener;
 import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
 import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
-import edu.colorado.phet.common.phetgraphics.view.util.CompositeKeyListener;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 import javax.swing.*;

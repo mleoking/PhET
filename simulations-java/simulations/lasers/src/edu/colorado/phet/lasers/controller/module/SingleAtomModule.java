@@ -21,19 +21,15 @@ import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
-import edu.colorado.phet.lasers.help.SingleAtomModuleWiggleMe;
 import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -209,29 +205,6 @@ public class SingleAtomModule extends BaseLaserModule {
 
         // Add the Wiggle-me
 //        addWiggleMe( seedBeam );
-    }
-
-    /**
-     * @param seedBeam
-     */
-    private void addWiggleMe( final Beam seedBeam ) {
-        Point2D wiggleMeLoc = new Point2D.Double( seedBeamControl.getBounds().getMinX() + seedBeamControl.getWidth() / 2,
-                                                  seedBeamControl.getBounds().getMaxY() + 30 );
-        final SingleAtomModuleWiggleMe wiggleMe = new SingleAtomModuleWiggleMe( getApparatusPanel(),
-                                                                                wiggleMeLoc,
-                                                                                seedBeamControl.getWidth() / 2 );
-        addGraphic( wiggleMe, 100 );
-        getApparatusPanel().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                wiggleMe.stop();
-            }
-        } );
-        seedBeam.addRateChangeListener( new PhotonSource.RateChangeListener() {
-            public void rateChangeOccurred( Beam.RateChangeEvent event ) {
-                wiggleMe.stop();
-                seedBeam.removeListener( this );
-            }
-        } );
     }
 
     /**

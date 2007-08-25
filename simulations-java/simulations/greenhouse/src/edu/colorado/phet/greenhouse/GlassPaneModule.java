@@ -120,30 +120,4 @@ public class GlassPaneModule extends BaseGreenhouseModule {
         return numGlassPanes;
     }
 
-    //
-    // Inner classes
-    //
-    class ModelToGraphicMap {
-        HashMap map;
-
-        public void put( ModelElement me, Graphic g ) {
-            map.put( me, g );
-        }
-
-        Graphic getGraphic( ModelElement me ) {
-            return (Graphic)map.get( me );
-        }
-    }
-
-    public class ModuleScatterEventListener implements Atmosphere.ScatterEventListener {
-        public void photonScatered( Photon photon ) {
-            if( getPhotonToGraphicsMap().get( photon ) != null ) {
-                ScatterEvent se = new ScatterEvent( photon, GlassPaneModule.this );
-                ScatterEventGraphic seg = new ScatterEventGraphic( se );
-                getModel().addModelElement( se );
-                getApparatusPanel().addGraphic( seg, GreenhouseConfig.SUNLIGHT_PHOTON_GRAPHIC_LAYER - 1 );
-                scatterToGraphicMap.put( se, seg );
-            }
-        }
-    }
 }

@@ -311,57 +311,6 @@ public class Module implements ClockTickListener {
         return model;
     }
 
-//    public void setState( StateDescriptor stateDescriptor ) {
-//        stateDescriptor.setState( this );
-////        restoreState( (ModuleStateDescriptor)stateDescriptor );
-//    }
-
-    /**
-     * Returns a ModuleStateDescriptor for this Module.
-     * <p/>
-     * This method should be extended by subclasses that have state attributes.
-     *
-     * @return
-     */
-    public ModuleStateDescriptor getState() {
-        ModuleStateDescriptor sd = new ModuleStateDescriptor( this );
-        return sd;
-    }
-
-    /**
-     * Restores the state of this Module to that specificied in a ModuleStateDescriptor
-     *
-     * @param stateDescriptor
-     */
-//    private void restoreState( ModuleStateDescriptor stateDescriptor ) {
-//
-//        // Remove and clean up the current model
-//        AbstractClock clock = PhetApplication.instance().getApplicationModel().getClock();
-//        BaseModel oldModel = getModel();
-//        oldModel.removeAllModelElements();
-//        clock.removeClockTickListener( oldModel );
-//
-//        // Set up the restored model
-//        BaseModel newModel = sd.getModel();
-//        clock.addClockTickListener( newModel );
-//        setModel( newModel );
-//
-//        // Set up the restored graphics
-//        // Hook all the graphics up to the current apparatus panel
-//        MultiMap graphicsMap = sd.getGraphicMap();
-//        Iterator it = graphicsMap.iterator();
-//        while( it.hasNext() ) {
-//            Object obj = it.next();
-//            if( obj instanceof PhetGraphic ) {
-//                PhetGraphic phetGraphic = (PhetGraphic)obj;
-//                phetGraphic.setComponent( getApparatusPanel() );
-//            }
-//        }
-//        getApparatusPanel().getGraphic().setGraphicMap( sd.getGraphicMap() );
-//
-//        // Force a repaint on the apparatus panel
-//        getApparatusPanel().repaint();
-//    }
     public JComponent getSimulationPanel() {
         return getApparatusPanel();
     }

@@ -9,15 +9,15 @@ package edu.colorado.phet.common.phetgraphics.test.graphics;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 
 import javax.swing.*;
 import java.awt.*;

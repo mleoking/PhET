@@ -52,17 +52,6 @@ public class GraphicsUtil {
     }
 
     /**
-     * These  stubs are just so Rons code will still compile.  (For distance ladder.)
-     */
-    public static void fastRepaint( final Component parent, final Rectangle bounds ) {
-        FastPaint.fastRepaint( parent, bounds );
-    }
-
-    public static void fastRepaint( Component parent, Rectangle orig, Rectangle newRect ) {
-        FastPaint.fastRepaint( parent, orig, newRect );
-    }
-
-    /**
      * Sets the alpha for a Graphics2D
      *
      * @param g2

@@ -16,7 +16,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Jun 22, 2005
  * Time: 10:48:14 AM
- *
  */
 
 public class PhetJComponentManager {
