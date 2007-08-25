@@ -11,15 +11,15 @@
 package edu.colorado.phet.common_sound.view;
 
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common_sound.model.clock.AbstractClock;
 import edu.colorado.phet.common_sound.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_sound.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_sound.view.phetgraphics.RepaintDebugGraphic;
 
 import javax.swing.*;
 import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -128,35 +128,6 @@ public class ApparatusPanel extends JPanel {
 
     public void addGraphicsSetup( GraphicsSetup setup ) {
         graphicsSetups.add( setup );
-    }
-
-    public void addRepaintDebugGraphic( AbstractClock clock ) {
-
-        final RepaintDebugGraphic rdg = new RepaintDebugGraphic( this, clock );
-        addGraphic( rdg, Double.POSITIVE_INFINITY );
-
-        rdg.setActive( false );
-        rdg.setVisible( false );
-        addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                requestFocus();
-            }
-        } );
-        addKeyListener( new KeyListener() {
-            public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_P ) {
-                    rdg.setActive( !rdg.isActive() );
-                    rdg.setVisible( rdg.isActive() );
-                }
-            }
-
-            public void keyReleased( KeyEvent e ) {
-            }
-
-            public void keyTyped( KeyEvent e ) {
-            }
-        } );
-        requestFocus();
     }
 
     /**

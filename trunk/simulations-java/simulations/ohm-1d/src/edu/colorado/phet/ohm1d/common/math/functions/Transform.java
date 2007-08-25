@@ -1,6 +1,6 @@
 package edu.colorado.phet.ohm1d.common.math.functions;
 
-public class Transform implements Function {
+public class Transform {
     double xmin;
     double width;
     double ymin;

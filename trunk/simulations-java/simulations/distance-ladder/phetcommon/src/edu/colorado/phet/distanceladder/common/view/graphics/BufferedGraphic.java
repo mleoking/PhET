@@ -43,22 +43,6 @@ public class BufferedGraphic implements Graphic {
         g.drawRenderedImage( buffer, transform );
     }
 
-    public static void main( String[] args ) {
-        ApparatusPanel ap = new ApparatusPanel();
-        Ellipse2D.Double ellipse = new Ellipse2D.Double( 10, 10, 40, 40 );
-        ShapeGraphic sg = new ShapeGraphic( ellipse, Color.blue );
-        BufferedImage buffer = new BufferedImage( 50, 50, BufferedImage.TYPE_INT_RGB );
-        GraphicsSetup setup = new BasicGraphicsSetup();
-        BufferedGraphic bufferedGraphic = new BufferedGraphic( buffer, sg, Color.white, setup );
-        bufferedGraphic.repaintBuffer();
-        ap.addGraphic( bufferedGraphic );
-        JFrame jf = new JFrame();
-        jf.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        jf.setContentPane( ap );
-        jf.setSize( 400, 400 );
-        jf.setVisible( true );
-    }
-
     public void setTransform( AffineTransform transform ) {
         this.transform = transform;
     }

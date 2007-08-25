@@ -10,12 +10,9 @@ import edu.colorado.phet.common_greenhouse.model.BaseModel;
 import edu.colorado.phet.common_greenhouse.model.ModelElement;
 import edu.colorado.phet.common_greenhouse.view.ApparatusPanel;
 import edu.colorado.phet.common_greenhouse.view.graphics.Graphic;
-import edu.colorado.phet.common_greenhouse.view.graphics.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.*;
 
 /**
@@ -44,13 +41,6 @@ public abstract class Module {
         d.width *= scale;
         d.height *= scale;
         return d;
-    }
-
-    // Creates the affine transform given model and view bounds
-    protected AffineTransform createTransform( Rectangle2D.Double modelBounds, Rectangle viewBounds ) {
-        ModelViewTransform2D mvtx = new ModelViewTransform2D( modelBounds, viewBounds );
-        AffineTransform atx = mvtx.toAffineTransform();
-        return atx;
     }
 
 

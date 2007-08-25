@@ -4,7 +4,6 @@ package edu.colorado.phet.common_microwaves.view;
 import edu.colorado.phet.common_microwaves.view.util.framesetup.AbsoluteFrameSetup;
 import edu.colorado.phet.common_microwaves.view.util.framesetup.FrameCenterer;
 import edu.colorado.phet.common_microwaves.view.util.framesetup.FrameSetup;
-import edu.colorado.phet.common_microwaves.view.util.framesetup.FullScreen;
 
 /**
  * User: Sam Reid
@@ -32,10 +31,6 @@ public class ApplicationDescriptor {
         else {
             return new AbsoluteFrameSetup( x, y );
         }
-    }
-
-    public ApplicationDescriptor( String windowTitle, String description, String version ) {
-        this( windowTitle, description, version, new FullScreen() );
     }
 
     public ApplicationDescriptor( String windowTitle, String description, String version, FrameSetup frameSetup ) {

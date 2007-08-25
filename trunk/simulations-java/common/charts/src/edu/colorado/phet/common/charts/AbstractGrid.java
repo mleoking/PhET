@@ -63,11 +63,6 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
         return chart;
     }
 
-    public void setGridlines( double[] lines ) {
-        setGridStrategy( new GridStrategy.Absolute( getOrientation(), lines ) );
-        update();
-    }
-
     protected double[] getVisibleGridlines() {
         double[] g = gridStrategy.getVisibleGridLines( chart );
 //        System.out.println( "num gridlines=" + g.length );

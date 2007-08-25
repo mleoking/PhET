@@ -11,15 +11,15 @@
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 import javax.swing.*;
 import java.util.Random;
@@ -28,7 +28,6 @@ import java.util.Random;
  * User: Sam Reid
  * Date: May 18, 2005
  * Time: 1:29:28 PM
- *
  */
 
 public class TestManyPhetJComponents extends PhetGraphicsModule {

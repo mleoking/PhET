@@ -242,12 +242,6 @@ public abstract class AbstractClock {
         }
     }
 
-    public static class RealTime implements TickConverter {
-        public double getSimulationTime( long wallTimeSinceLastTick ) {
-            return wallTimeSinceLastTick / 1000.0;
-        }
-    }
-
     public class TimeScaling implements TickConverter {
         public double getSimulationTime( long wallTimeSinceLastTick ) {
             return dt / delay * wallTimeSinceLastTick;

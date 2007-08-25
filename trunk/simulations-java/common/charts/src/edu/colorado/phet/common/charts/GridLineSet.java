@@ -64,7 +64,4 @@ public class GridLineSet extends CompositePhetGraphic {
         minorGrid.setStroke( stroke );
     }
 
-    public void setMajorGridlines( double[] lines ) {
-        majorGrid.setGridlines( lines );
-    }
 }

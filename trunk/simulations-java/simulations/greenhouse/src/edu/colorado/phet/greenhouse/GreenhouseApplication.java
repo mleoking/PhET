@@ -46,14 +46,6 @@ public class GreenhouseApplication extends PhetApplication {
         return clock;
     }
 
-    public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, Module module, IClock iClock ) {
-        super( applicationDescriptor, module, iClock );
-    }
-
-    public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, Module module ) {
-        super( applicationDescriptor, module );
-    }
-
     public GreenhouseApplication( ApplicationDescriptor applicationDescriptor, Module[] modules, IClock iClock ) {
         super( applicationDescriptor, modules, iClock );
     }

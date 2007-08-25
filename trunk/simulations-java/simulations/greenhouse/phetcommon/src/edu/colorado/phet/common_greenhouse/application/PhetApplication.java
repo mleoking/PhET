@@ -7,15 +7,11 @@
 package edu.colorado.phet.common_greenhouse.application;
 
 import edu.colorado.phet.common_greenhouse.model.ApplicationModel;
-import edu.colorado.phet.common_greenhouse.model.FixedClock;
 import edu.colorado.phet.common_greenhouse.model.IClock;
-import edu.colorado.phet.common_greenhouse.model.ThreadPriority;
 import edu.colorado.phet.common_greenhouse.view.ApplicationDescriptor;
 import edu.colorado.phet.common_greenhouse.view.ApplicationView;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.ApparatusPanelContainerFactory;
-import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.SingleApparatusPanelContainer;
 import edu.colorado.phet.common_greenhouse.view.apparatuspanelcontainment.TabbedApparatusPanelContainer;
-import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
 
 public class PhetApplication {
     ApplicationView view;
@@ -31,14 +27,6 @@ public class PhetApplication {
 
     public ApparatusPanelContainerFactory getContainerStrategy() {
         return containerStrategy;
-    }
-
-    public PhetApplication( ApplicationDescriptor descriptor, Module m, IClock clock ) {
-        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, clock );
-    }
-
-    public PhetApplication( ApplicationDescriptor descriptor, Module m ) {
-        this( descriptor, SingleApparatusPanelContainer.getFactory(), new Module[]{m}, new FixedClock( new StaticClockModel( 1, 20 ), ThreadPriority.NORMAL ) );
     }
 
     /**

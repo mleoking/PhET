@@ -13,10 +13,7 @@ package edu.colorado.phet.common_sound.application;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_sound.model.clock.AbstractClock;
-import edu.colorado.phet.common_sound.util.VersionUtils;
 import edu.colorado.phet.common_sound.view.util.FrameSetup;
-
-import java.io.IOException;
 
 /**
  * This class is essentially a data structure that contains specifications for the top-level
@@ -196,34 +193,4 @@ public class ApplicationModel {
         return name;
     }
 
-    /**
-     * Reads the versioning information for this application.
-     * When constructed with ant tasks using build.number and time.stamp, files are generated of the form:
-     * phetcommon.build.number
-     * and
-     * phetcommon.build.time.stamp
-     * <p/>
-     * for example.
-     * When a main file depends on these libraries, their version info can be read as well.
-     * To refer to a library for the purpose of reading version info, add a file named
-     * ${root}.resources that lists each of the names of the dependencies.
-     * <p/>
-     * For example, Force1D depends on chart and phetcommon.  So the final jar contains
-     * build.number and build.time.stamp with prefixes force1d, chart, and phetcommon.
-     * By adding force1d.resources, and adding the text:
-     * chart
-     * phetcommon
-     * (on separate lines),
-     * their version info can be read as well, and reported by this ApplicationModel.
-     */
-    public VersionUtils.VersionInfo[] readVersionInfo() throws IOException {
-        if( name == null ) {
-//            System.out.println( "ApplicationModel.readVersionInfo: null module name for module (with window title=" + windowTitle + ")" );
-            return new VersionUtils.VersionInfo[0];
-        }
-        else {
-            VersionUtils.VersionInfo[] versionInfos = VersionUtils.readVersionInfo( name );
-            return versionInfos;
-        }
-    }
 }

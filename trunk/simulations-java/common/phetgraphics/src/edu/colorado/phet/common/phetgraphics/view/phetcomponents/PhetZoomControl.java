@@ -16,7 +16,7 @@ import java.util.EventObject;
 
 /**
  * PhetZoomControl is a control for horizontal or vertical zooming.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PhetZoomControl extends GraphicLayerSet {
@@ -31,10 +31,10 @@ public class PhetZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
-    
+
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
-    
+
     private static final String IMAGES_DIRECTORY = "images/zoom/";
     private static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
     private static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
@@ -60,7 +60,7 @@ public class PhetZoomControl extends GraphicLayerSet {
 
     /**
      * Constructor.
-     * 
+     *
      * @param component
      * @param orientation HORIZONTAL or VERTICAL
      */
@@ -130,7 +130,7 @@ public class PhetZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /**
      * ZoomEvent indicates that a zoom action has occurred.
      *
@@ -167,7 +167,7 @@ public class PhetZoomControl extends GraphicLayerSet {
          */
         public ZoomEvent( Object source, int zoomType ) {
             super( source );
-            assert( isValidZoomType( zoomType ) );
+            assert ( isValidZoomType( zoomType ) );
             _zoomType = zoomType;
         }
 
@@ -255,13 +255,13 @@ public class PhetZoomControl extends GraphicLayerSet {
 
         public void mousePressed( MouseEvent event ) {
             if( _inButton.getBounds().contains( event.getPoint() ) ) {
-                if( ! _inButtonPressed.isVisible() ) {
+                if( !_inButtonPressed.isVisible() ) {
                     _inButtonPressed.setVisible( true );
                     _inPressed = true;
                 }
             }
             else if( _outButton.getBounds().contains( event.getPoint() ) ) {
-                if( ! _outButtonPressed.isVisible() ) {
+                if( !_outButtonPressed.isVisible() ) {
                     _outButtonPressed.setVisible( true );
                     _outPressed = true;
                 }
@@ -311,7 +311,7 @@ public class PhetZoomControl extends GraphicLayerSet {
     //----------------------------------------------------------------------------
     // Test
     //----------------------------------------------------------------------------
-    
+
     public static void main( String[] args ) {
         ApparatusPanel ap = new ApparatusPanel();
         PhetZoomControl zc = new PhetZoomControl( ap, HORIZONTAL );

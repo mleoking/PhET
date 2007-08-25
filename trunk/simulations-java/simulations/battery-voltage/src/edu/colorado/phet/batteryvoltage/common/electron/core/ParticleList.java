@@ -5,7 +5,7 @@ import edu.colorado.phet.batteryvoltage.common.phys2d.Particle;
 import java.util.Arrays;
 import java.util.Vector;
 
-public class ParticleList implements ParticleContainer //an adapter.
+public class ParticleList  //an adapter.
 {
     Vector v;
 

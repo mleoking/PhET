@@ -12,8 +12,6 @@ package edu.colorado.phet.common_force1d.view.phetgraphics;
 
 import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.CompositeMouseInputListener;
 import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.CursorControl;
-import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationHandler;
-import edu.colorado.phet.common_force1d.view.graphics.mousecontrols.TranslationListener;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
@@ -833,16 +831,7 @@ public abstract class PhetGraphic {
     //----------------------------------------------------------------------------
     // Translation interactivity methods
     //----------------------------------------------------------------------------
-    
-    /**
-     * Adds a listener for translations (dragging).
-     *
-     * @param translationListener the listener
-     */
-    public void addTranslationListener( TranslationListener translationListener ) {
-        addMouseInputListener( new TranslationHandler( translationListener ) );
-    }
-    
+
     //----------------------------------------------------------------------------
     // Mouse Input interactivity methods
     //----------------------------------------------------------------------------

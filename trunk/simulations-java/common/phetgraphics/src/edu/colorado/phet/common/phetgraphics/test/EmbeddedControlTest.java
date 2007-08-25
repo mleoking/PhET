@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.phetgraphics.test;
 
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetButton;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +27,6 @@ import java.awt.event.ActionListener;
  * User: Sam Reid
  * Date: Mar 2, 2005
  * Time: 2:26:36 PM
- *
  */
 
 public class EmbeddedControlTest {

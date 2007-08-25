@@ -23,13 +23,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * User: Sam Reid
  * Date: Mar 8, 2005
  * Time: 9:06:36 PM
- *
  */
 
 public class PhetJComponent extends PhetGraphic {
@@ -502,8 +504,8 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         public void updateGraphics() {
-            for (Iterator iterator = dirty.iterator(); iterator.hasNext();) {
-                PhetJComponent component = (PhetJComponent) iterator.next();
+            for( Iterator iterator = dirty.iterator(); iterator.hasNext(); ) {
+                PhetJComponent component = (PhetJComponent)iterator.next();
                 component.repaint();
             }
             dirty.clear();

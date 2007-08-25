@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * Loads ARGB BufferedImages, without alpha patching.
  */
-public class ResourceLoader4 implements ImageLoader {
+public class ResourceLoader4 {
     ClassLoader loader;
     Component observer;
 

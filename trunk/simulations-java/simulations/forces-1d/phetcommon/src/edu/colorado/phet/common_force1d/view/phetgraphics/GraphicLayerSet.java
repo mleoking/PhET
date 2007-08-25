@@ -230,28 +230,6 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     /**
-     * Returns graphics that satisfy the specified criteria
-     *
-     * @param criteria the criteria for the graphics to satisfy.
-     * @return the array of graphics in painting order.
-     */
-    public PhetGraphic[] getGraphics( GraphicCriteria criteria ) {
-        ArrayList all = new ArrayList();
-        PhetGraphic[] pg = getGraphics();
-        for( int i = 0; i < pg.length; i++ ) {
-            if( criteria.isSatisfied( pg[i] ) ) {
-                all.add( pg[i] );
-            }
-            if( pg[i] instanceof GraphicLayerSet ) {
-                GraphicLayerSet gls = (GraphicLayerSet)pg[i];
-                PhetGraphic[] sub = gls.getGraphics( criteria );
-                all.addAll( Arrays.asList( sub ) );
-            }
-        }
-        return (PhetGraphic[])all.toArray( new PhetGraphic[0] );
-    }
-
-    /**
      * Add the specified graphic to the specified layer.
      *
      * @param graphic

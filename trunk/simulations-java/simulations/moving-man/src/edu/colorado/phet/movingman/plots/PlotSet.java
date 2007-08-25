@@ -32,7 +32,6 @@ public class PlotSet {
     private MovingManApparatusPanel movingManApparatusPanel;
     private Font readoutFont = MMFontManager.getFontSet().getReadoutFont();
     private ArrayList listeners = new ArrayList();
-    private Color foregroundColor = new Color( 225, 255, 225 );
 
     public PlotSet( final MovingManModule module,
                     final MovingManApparatusPanel movingManApparatusPanel ) {

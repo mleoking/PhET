@@ -181,10 +181,6 @@ public class Axis extends GraphicLayerSet {
         minorTicks.setStroke( stroke );
     }
 
-    public void setMajorGridlines( double[] lines ) {
-        majorTicks.setGridlines( lines );
-    }
-
     public void setMinorTickSpacing( double x ) {
         minorTicks.setSpacing( x );
     }

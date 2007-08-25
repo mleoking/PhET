@@ -13,7 +13,6 @@ package edu.colorado.phet.idealgas.controller;
 import edu.colorado.phet.collision_idealgas.SphereBoxExpert;
 import edu.colorado.phet.collision_idealgas.SphereSphereExpert;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.Command;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
@@ -24,7 +23,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.coreadditions_idealgas.StopwatchPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.controller.command.RemoveMoleculeCmd;
 import edu.colorado.phet.idealgas.model.*;
 import edu.colorado.phet.idealgas.view.*;
 import edu.colorado.phet.idealgas.view.monitors.*;
@@ -461,11 +459,6 @@ public class IdealGasModule extends PhetGraphicsModule {
 
     public void pumpGasMolecules( int numMolecules, Class species ) {
         pump.pump( numMolecules, species );
-    }
-
-    public void removeGasMolecule() {
-        Command cmd = new RemoveMoleculeCmd( idealGasModel, pump.getCurrentGasSpecies() );
-        cmd.doIt();
     }
 
     public void removeGasMolecule( Class species ) {

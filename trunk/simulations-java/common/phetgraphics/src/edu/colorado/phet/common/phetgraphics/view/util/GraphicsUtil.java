@@ -65,6 +65,7 @@ public class GraphicsUtil {
 
     /**
      * Sets anti-aliasing on for a specified Graphics2D
+     *
      * @param g2
      * @return the Graphics2D with the hint set
      */
@@ -75,6 +76,7 @@ public class GraphicsUtil {
 
     /**
      * Gets the bounding rectangle for a string
+     *
      * @param str
      * @param g2
      * @return The bounding rectangle

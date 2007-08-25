@@ -11,8 +11,6 @@ package edu.colorado.phet.coreadditions_microwaves.collision;
 
 import edu.colorado.phet.common_microwaves.math.Vector2D;
 import edu.colorado.phet.coreadditions_microwaves.CompositeBody;
-import edu.colorado.phet.physics.collision_microwaves.CollidableBody;
-import edu.colorado.phet.physics.collision_microwaves.SphericalBody;
 
 import java.awt.geom.Point2D;
 
@@ -135,27 +133,6 @@ public class Box2D extends CompositeBody {
     }
 
     /**
-     * @param body
-     * @return
-     */
-    public boolean isInOpening( CollidableBody body ) {
-
-        boolean result = false;
-        if( body instanceof SphericalBody ) {
-            SphericalBody particle = (SphericalBody)body;
-            if( particle.getLocation().getX() >= this.opening[0].getX()
-                && particle.getLocation().getX() <= this.opening[1].getX()
-                && particle.getLocation().getY() - particle.getRadius() <= this.getMinY() ) {
-                result = true;
-            }
-            else {
-                result = false;
-            }
-        }
-        return result;
-    }
-
-    /**
      *
      */
     public void stepInTime( float dt ) {
@@ -271,19 +248,6 @@ public class Box2D extends CompositeBody {
     }
 
     /**
-     *
-     */
-    public boolean isOutsideBox( SphericalBody particle ) {
-        Point2D.Double p = particle.getLocation();
-        double rad = particle.getRadius();
-        boolean isInBox = p.getX() - rad >= this.getMinX()
-                          && p.getX() + rad <= this.getMaxX()
-                          && p.getY() - rad >= this.getMinY()
-                          && p.getY() + rad <= this.getMaxY();
-        return !isInBox;
-    }
-
-    /**
      * @param vx
      */
     public void setLeftWallVelocity( float vx ) {
@@ -336,9 +300,5 @@ public class Box2D extends CompositeBody {
 //    public float getContactOffset( Body body ) {
 //        return 0;
 //    }
-
-    public float getContactOffset( CollidableBody body ) {
-        return 0;
-    }
 
 }
