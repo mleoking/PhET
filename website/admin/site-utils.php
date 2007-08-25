@@ -748,29 +748,29 @@ EOT;
                             select_current_navbar_category();
 
 							// DEFAULT VALIDATIONS
-							$('*[@name=contributor_email]').each(
+							$('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
 								function() {									
 									this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
 								}
 							);
 							
-							$('*[@name=contributor_name]').each(
+							$('*[@name=contributor_name], *[@name=contribution_authors]').each(
 								function() {									
 									this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
 								}
 							);							
 							
-							$('*[@name=contributor_organization]').each(
+							$('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
 								function() {									
 									this.pattern = /^\S{2,}.*$/;
 								}
 							);						
 							
-							$('*[@name=contributor_password]').each(
+							$('*[@name=contributor_password], *[@name=contribution_title], *[@name=contribution_keywords]').each(
 								function() {									
 									this.pattern = /^\S+$/;
 								}
-							);
+							);	
 
 							$('input, button, textarea, select').each(
 								function() {

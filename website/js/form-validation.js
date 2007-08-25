@@ -122,7 +122,7 @@ function validate_entire_form(specified_form) {
 	);
 	
 	if (num_invalid_fields > 0) {
-		alert("Please correct the errors in the form before proceeding.");
+		alert("Please fill in all required information before proceeding.");
 		
 		return false;
 	}
