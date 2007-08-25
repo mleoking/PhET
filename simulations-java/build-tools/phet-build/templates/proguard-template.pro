@@ -4,6 +4,9 @@
 -verbose
 -ignorewarnings
 
+#uncomment the option below to display unused classes, methods and fields
+#-printusage
+
 -keep class * extends edu.colorado.phet.common.phetcommon.util.IProguardKeepClass {
     <fields>;
     <methods>;
