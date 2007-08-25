@@ -53,6 +53,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
+    <property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
     <property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
     <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
     
@@ -151,6 +152,10 @@ PhET-team specific tasks are located in an auxiliary build file.
                  classname="${phet-build-gui-classname}"
                  classpath="${phetbuild-classpath}"/>
 
+        <taskdef name="phet-build-all-sim-jar"
+                 classname="${phet-build-all-sim-jar-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
         <taskdef name="imageio"
                  classname="${imageio-classname}"
                  classpath="${phetbuild-classpath}"/>
@@ -177,6 +182,10 @@ PhET-team specific tasks are located in an auxiliary build file.
     <target name="gui" depends="_init">
         <phet-build-gui/>
     </target>
+
+<target name="build-all-sim-jar" depends="_init">
+<phet-build-all-sim-jar/>
+</target>
 
     <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
     <target name="_list-sims">

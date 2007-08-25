@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -69,7 +71,7 @@ public class FlavorLauncher extends JFrame {
 
     private void createUI() {
 
-        JPanel inputPanel = createInputPanel();
+        JComponent inputPanel = createInputPanel();
         JPanel actionsPanel = createActionsPanel();
 
         JPanel bottomPanel = new JPanel( new BorderLayout() );
@@ -84,6 +86,11 @@ public class FlavorLauncher extends JFrame {
 
         getContentPane().add( mainPanel );
         pack();
+
+        //Workaround for the case of many simulations
+        if (getHeight()>Toolkit.getDefaultToolkit().getScreenSize().height*0.75){
+            setSize( getWidth(), (int)( Toolkit.getDefaultToolkit().getScreenSize().height*0.75 ) );
+        }
     }
 
     /*
@@ -91,7 +98,7 @@ public class FlavorLauncher extends JFrame {
      *
      * @return the input panel
      */
-    private JPanel createInputPanel() {
+    private JComponent createInputPanel() {
 
         JLabel instructions = new JLabel( "<html>" +
                                           "This program contains "+info.length+" simulations.<br>" +
@@ -108,7 +115,11 @@ public class FlavorLauncher extends JFrame {
 
         ButtonGroup buttonGroup = new ButtonGroup();
         for( int i = 0; i < this.info.length; i++ ) {
-            JRadioButton radioButton = new JRadioButton( info[i].getTitle(), i == 0 );
+            String title = info[i].getTitle();
+            if (title==null||title.trim().length()==0){
+                title=info[i].getMainClass().substring( info[i].getMainClass().lastIndexOf( '.')+1);
+            }
+            JRadioButton radioButton = new JRadioButton( title, i == 0 );
             final int flavorIndex = i;
             radioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -119,7 +130,9 @@ public class FlavorLauncher extends JFrame {
             layout.addComponent( radioButton, row++, column );
         }
         selectedSim = info[0];
-
+        if( info.length > 10 ) {//workaround for case of many sims
+            return new JScrollPane( inputPanel );
+        }
         return inputPanel;
     }
 
@@ -248,7 +261,14 @@ public class FlavorLauncher extends JFrame {
     public static void main( String args[] ) throws IOException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
         //Read flavors:
         Properties prop = new Properties();
-        prop.load( Thread.currentThread().getContextClassLoader().getResource( "flavors.properties" ).openStream() );
+
+        URL resource = Thread.currentThread().getContextClassLoader().getResource( "flavors.properties" );
+        if( resource != null ) {//works running from a JAR file
+            prop.load( resource.openStream() );
+        }
+        else {//fallback plan in case not running in a JAR file
+            prop.load( new FileInputStream( new File( "flavors.properties" ) ) );
+        }
 
         SimulationInfo[] info = getSimInfo( prop );
         if( info.length == 0 ) {
