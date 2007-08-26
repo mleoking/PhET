@@ -116,22 +116,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                 s_IRphotonGraphic.setRGB( x, y, newRGB );
             }
         }
-
     }
-
-    // A map that matches photon wavelengths to display colors
-    static HashMap colorMap = new HashMap();
-
-    static {
-        colorMap.put( new Double( Photon.RED ), Color.red );
-        colorMap.put( new Double( Photon.BLUE ), Color.blue );
-        colorMap.put( new Double( Photon.DEEP_RED ), new Color( 100, 0, 0 ) );
-    }
-
-    // A map of maps for holding photon animations. Inner maps hold animations keyed
-    // by their angle of travel. The outer map keys the inner maps by color
-    static HashMap s_animationMap = new HashMap();
-
 
     /*
      * Removes all instances of PhotonGraphic from a specified ApparatusPanel
@@ -191,14 +176,13 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         photon.addObserver( this );
         photon.addVelocityChangedListener( this );
 
-        Vector2D velocity = new Vector2D.Double( photon.getVelocity() );
-        createImage( photon );
+        updateImage();
 
-        computeOffsets( velocity.getAngle() );
+        computeOffsets( photon.getVelocity().getAngle() );
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
     }
 
-    private void createImage( Photon photon ) {
+    private void updateImage() {
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi;
         // If the wavelength is in the IR, use the special graphic
@@ -222,8 +206,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
         // Rotate the image
         theta = photon.getVelocity().getAngle();
-        BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi, theta );
-        setImage( bi2 );
+        setImage( BufferedImageUtils.getRotatedImage( bi, theta ) );
     }
 
     public void update() {
@@ -233,7 +216,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {
-        createImage( (Photon)event.getSource() );
+        updateImage();
         computeOffsets( photon.getVelocity().getAngle() );
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
     }
