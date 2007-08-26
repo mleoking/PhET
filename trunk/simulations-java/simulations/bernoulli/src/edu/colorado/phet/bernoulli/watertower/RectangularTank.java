@@ -103,13 +103,11 @@ public class RectangularTank extends Vessel {
         return Math.abs( waterVolume - volume ) < .0001;
     }
 
-    //TODO allocating lots o' memory here.
     public boolean waterContainsPoint( double x, double y ) {
         return new Rectangle2D.Double( this.x, this.y, width, getWaterHeight() ).contains( x, y );
     }
 
     public double getPressure( double x, double y ) {
-//        double h = y - this.y;
         double topOfWater = this.y + this.getWaterHeight();
         double h = topOfWater - y;
         return Water.rho * Water.g * h;
