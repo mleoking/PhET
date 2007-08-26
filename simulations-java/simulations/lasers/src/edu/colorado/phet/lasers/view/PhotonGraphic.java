@@ -46,6 +46,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     private Color color;
     private double baseImageHeight;
     private double baseImageWidth;
+    private double xOffset;
+    private double yOffset;
 
     //----------------------------------------------------------------
     // Class
@@ -117,7 +119,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     }
 
-
     // A map that matches photon wavelengths to display colors
     static HashMap colorMap = new HashMap();
 
@@ -130,8 +131,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     // A map of maps for holding photon animations. Inner maps hold animations keyed
     // by their angle of travel. The outer map keys the inner maps by color
     static HashMap s_animationMap = new HashMap();
-    private double xOffset;
-    private double yOffset;
+
 
     /*
      * Removes all instances of PhotonGraphic from a specified ApparatusPanel
@@ -159,7 +159,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     static public void removeInstance( PhotonGraphic graphic ) {
         s_instances.remove( graphic );
     }
-
 
     static public PhotonGraphic getInstance( Component component, Photon photon ) {
         PhotonGraphic photonGraphic;
@@ -224,12 +223,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         setImage( bi2 );
     }
 
-    public void setPhaseToZero() {
-    }
-
-    /*
-     *
-     */
     public void update() {
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
         setBoundsDirty();
