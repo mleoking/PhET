@@ -57,4 +57,11 @@ public class PhetDefaultFont extends Font {
         this( ( bold ? Font.BOLD : Font.PLAIN ) | ( italics ? Font.ITALIC : Font.PLAIN ), size );
     }
 
+    /**
+     * Returns the font family name for the default font.
+     * @return the font family name for the default font
+     */
+    public static String getDefaultFontName() {
+        return FONT_NAME;
+    }
 }
