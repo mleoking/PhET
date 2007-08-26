@@ -1,12 +1,11 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
-import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -16,7 +15,7 @@ import java.awt.geom.Point2D;
  * PhotonNode is the visual representation of a photon.
  * The look is loosely based on examples that Wendy Adams found on a
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
- *
+ * <p/>
  * This implementation currently just creates a BufferedImage, future versions
  * should make this class extend PNode
  *
@@ -41,25 +40,25 @@ public class PhetPhotonNode {
     private static final Color CROSSHAIRS_COLOR = new Color( 255, 255, 255, 100 );
 
 
-    private static final Color UV_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 400 );
-    private static final Color IR_CROSSHAIRS_COLOR = ColorUtils.wavelengthToColor( 715 );
+    private static final Color UV_CROSSHAIRS_COLOR = wavelengthToColor( 400 );
+    private static final Color IR_CROSSHAIRS_COLOR = wavelengthToColor( 715 );
     private static final Color UV_LABEL_COLOR = UV_CROSSHAIRS_COLOR;
     private static final Color IR_LABEL_COLOR = IR_CROSSHAIRS_COLOR;
-    private static final Font UV_IR_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 9 );
+    private static final Font UV_IR_FONT = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 9 );
+
     /**
      * Creates the image used to represent a photon.
      *
      * @return Image
      */
-    public static final Image createPhotonImage( double wavelength )
-    {
+    public static final Image createPhotonImage( double wavelength ) {
         PNode parentNode = new PNode();
 
-        Color photonColor = ColorUtils.wavelengthToColor( wavelength );
+        Color photonColor = wavelengthToColor( wavelength );
 
         // Outer transparent ring
         final double outerDiameter = DIAMETER;
-        Shape outerShape = new Ellipse2D.Double( -outerDiameter/2, -outerDiameter/2, outerDiameter, outerDiameter );
+        Shape outerShape = new Ellipse2D.Double( -outerDiameter / 2, -outerDiameter / 2, outerDiameter, outerDiameter );
         Color outerColor = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), 0 );
         Paint outerPaint = new RoundGradientPaint( 0, 0, photonColor, new Point2D.Double( 0.4 * outerDiameter, 0.4 * outerDiameter ), outerColor );
         PPath outerOrb = new PPath();
@@ -70,7 +69,7 @@ public class PhetPhotonNode {
 
         // Inner orb, saturated color with hilite in center
         final double innerDiameter = 0.5 * DIAMETER;
-        Shape innerShape = new Ellipse2D.Double( -innerDiameter/2, -innerDiameter/2, innerDiameter, innerDiameter );
+        Shape innerShape = new Ellipse2D.Double( -innerDiameter / 2, -innerDiameter / 2, innerDiameter, innerDiameter );
         Color photonColorTransparent = new Color( photonColor.getRed(), photonColor.getGreen(), photonColor.getBlue(), PHOTON_COLOR_ALPHA );
         Paint innerPaint = new RoundGradientPaint( 0, 0, HILITE_COLOR, new Point2D.Double( 0.25 * innerDiameter, 0.25 * innerDiameter ), photonColorTransparent );
         PPath innerOrb = new PPath();
@@ -80,7 +79,7 @@ public class PhetPhotonNode {
         parentNode.addChild( innerOrb );
 
         // Crosshairs (disabled if we're showing UV/IR labels)
-        if ( !SHOW_UV_IR_LABELS || ( SHOW_UV_IR_LABELS && wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH ) ) {
+        if( !SHOW_UV_IR_LABELS || ( SHOW_UV_IR_LABELS && wavelength >= VisibleColor.MIN_WAVELENGTH && wavelength <= VisibleColor.MAX_WAVELENGTH ) ) {
             PNode crosshairs = new PNode();
             {
                 PNode bigCrosshair = createCrosshair( wavelength, 1.15 * innerDiameter );
@@ -94,15 +93,15 @@ public class PhetPhotonNode {
         }
 
         // Labels for UV and IR wavelengths
-        if ( SHOW_UV_IR_LABELS ) {
-            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+        if( SHOW_UV_IR_LABELS ) {
+            if( wavelength < VisibleColor.MIN_WAVELENGTH ) {
                 PText uvText = new PText( "UV" );
                 uvText.setFont( UV_IR_FONT );
                 uvText.setTextPaint( UV_LABEL_COLOR );
                 uvText.setOffset( -uvText.getWidth() / 2, -uvText.getHeight() / 2 );
                 parentNode.addChild( uvText );
             }
-            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+            else if( wavelength > VisibleColor.MAX_WAVELENGTH ) {
                 PText irText = new PText( "IR" );
                 irText.setFont( UV_IR_FONT );
                 irText.setTextPaint( IR_LABEL_COLOR );
@@ -120,11 +119,11 @@ public class PhetPhotonNode {
     private static PNode createCrosshair( double wavelength, double diameter ) {
 
         Color crosshairsColor = CROSSHAIRS_COLOR;
-        if ( SHOW_UV_IR_CROSSHAIRS ) {
-            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+        if( SHOW_UV_IR_CROSSHAIRS ) {
+            if( wavelength < VisibleColor.MIN_WAVELENGTH ) {
                 crosshairsColor = UV_CROSSHAIRS_COLOR;
             }
-            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+            else if( wavelength > VisibleColor.MAX_WAVELENGTH ) {
                 crosshairsColor = IR_CROSSHAIRS_COLOR;
             }
         }
@@ -149,5 +148,10 @@ public class PhetPhotonNode {
         crosshairs.addChild( verticalPart );
 
         return crosshairs;
+    }
+
+    private static Color wavelengthToColor( double wavelength ) {
+        boolean gray = wavelength < VisibleColor.MIN_WAVELENGTH || wavelength > VisibleColor.MAX_WAVELENGTH;
+        return gray ? new Color( 160, 160, 160 ) : VisibleColor.wavelengthToColor( wavelength );
     }
 }
