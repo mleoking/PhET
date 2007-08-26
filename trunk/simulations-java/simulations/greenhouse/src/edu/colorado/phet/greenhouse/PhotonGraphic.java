@@ -33,21 +33,12 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     // Class fields and methods
     //----------------------------------------------------------------
 
-    private static ArrayList instances = new ArrayList();
-    private static double scale = 1;
     private static final String IMAGE_PATH = "greenhouse/images/photon-comet.png";
     private static final String IMAGE_PATH_RED = "greenhouse/images/photon-660.png";
 
-//    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575 copy.png";
-//    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin-575-2.png";
-    //        private static final String IMAGE_PATH_YELLOW = "greenhouse/images/photon-575.png";
     private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin2.png";
-    //    private static final String IMAGE_PATH_YELLOW = "greenhouse/images/thin3.png";
     private static BufferedImage baseImage;
     private static HashMap colorLUT = new HashMap();
-    private DuotoneImageOp duotoneImageOp;
-    private AffineTransformOp scaleAtxOp;
-    private BufferedImage bi;
 
     private static BufferedImage redImage;
 
@@ -55,19 +46,16 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
 
     // get the base image
     static {
-//        baseImage = new ImageLoader().fetchBufferedImage( IMAGE_PATH );
         try {
             baseImage = ImageLoader.loadBufferedImage( IMAGE_PATH );
             double photonScale = 0.8 * 0.7;
             redImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_RED ), photonScale, photonScale );
             yellowImage = BufferedImageUtils.rescaleFractional( ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW ), photonScale, photonScale );
-//            yellowImage=ImageLoader.loadBufferedImage( IMAGE_PATH_YELLOW );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
         AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.4, 0.4 );
-//        AffineTransform scaleTx = AffineTransform.getScaleInstance( 0.5, 0.5 );
         AffineTransformOp scaleOp = new AffineTransformOp( scaleTx, AffineTransformOp.TYPE_BILINEAR );
         baseImage = scaleOp.filter( baseImage, null );
     }
@@ -96,68 +84,24 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
     Point2D.Double position = new Point2D.Double();
     private Photon photon;
     private ImageGraphic photonImage;
-    private ShapeGraphicType debugGraphic;
     private boolean isVisible;
     private double directionOfTravel = Double.POSITIVE_INFINITY;
     private static boolean scaleChanged = false;
 
-    public PhotonGraphic( Component component, Photon photon ) {
-        instances.add( this );
-
-        this.duotoneImageOp = new DuotoneImageOp( genColor( photon.getWavelength() ) );
-        bi = duotoneImageOp.filter( baseImage, null );
+    public PhotonGraphic( Photon photon ) {
+        DuotoneImageOp duotoneImageOp = new DuotoneImageOp( genColor( photon.getWavelength() ) );
         this.photon = photon;
         photon.addObserver( this );
         isVisible = true;
 
-//        if( resizeHandler == null && component instanceof ApparatusPanel ) {
-////            resizeHandler = new ResizeHandler();
-////            component.addComponentListener( resizeHandler );
-////        }
-//            component.addComponentListener( new ComponentAdapter() {
-//                public void componentResized( ComponentEvent e ) {
-//                    if( !init ) {
-//                        init = true;
-//                        origBounds = e.getComponent().getBounds();
-//                    }
-//                    Component component = e.getComponent();
-//                    Rectangle2D newBounds = component.getBounds();
-//                    scale = newBounds.getWidth() / origBounds.getWidth();
-//                    scaleTx = AffineTransform.getScaleInstance( scale, scale );
-//                    scaleChanged = true;
-//                    scaleAtxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-//                                                                                     RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
-//                    update();
-//                }
-//            } );
-//        }
-        scaleAtxOp = new AffineTransformOp( scaleTx, new RenderingHints( RenderingHints.KEY_ALPHA_INTERPOLATION,
-                                                                         RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY ) );
         this.update();
-
-        // TEST
-//        ApparatusPanel ap = (ApparatusPanel)component;
-
-    }
-
-    public void leaveSystem() {
-        instances.remove( this );
-    }
-
-    protected void finalize() throws Throwable {
-        super.finalize();
     }
 
     public void update() {
-
         double theta = Math.atan2( -photon.getVelocity().getY(), photon.getVelocity().getX() );
         if( theta != directionOfTravel || scaleChanged ) {
             scaleChanged = false;
             directionOfTravel = theta;
-            // Scale the image
-            BufferedImage bi1A = scaleAtxOp.filter( bi, null );
-            // Rotate the image
-            BufferedImage bi2 = BufferedImageUtils.getRotatedImage( bi1A, directionOfTravel );
 
             if( photonImage != null ) {
                 removeGraphic( photonImage );
@@ -193,16 +137,4 @@ public class PhotonGraphic extends CompositeGraphic implements Observer {
         return photonImage.getBufferedImage();
     }
 
-    public void paint( Graphics2D g2 ) {
-        super.paint( g2 );
-
-        // DEBUG
-//        Color orgColor = g2.getColor();
-//        g2.setColor( Color.green );
-//        Ellipse2D e = new Ellipse2D.Double( photon.getLocation().getX() - 0.1,
-//                                            photon.getLocation().getY() - 0.1,
-//                                            0.2, 0.2 );
-//        g2.fill( e );
-//        g2.setColor( orgColor );
-    }
 }

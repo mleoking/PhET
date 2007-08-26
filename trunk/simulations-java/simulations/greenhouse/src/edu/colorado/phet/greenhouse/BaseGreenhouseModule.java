@@ -287,7 +287,7 @@ public abstract class BaseGreenhouseModule extends Module {
 
         public void photonEmitted( Photon photon ) {
             n++;
-            PhotonGraphic photonView = new PhotonGraphic( getApparatusPanel(), photon );
+            PhotonGraphic photonView = new PhotonGraphic( photon );
             photonToGraphicsMap.put( photon, photonView );
             photonView.setVisible( false );
             if( n >= invisiblePhotonCnt ) {
@@ -313,7 +313,6 @@ public abstract class BaseGreenhouseModule extends Module {
 //            getApparatusPanel().removeGraphic( photonView );
             drawingCanvas.removeGraphic( photonView );
             photonToGraphicsMap.remove( photon );
-            photonView.leaveSystem();
         }
     }
 
