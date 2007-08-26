@@ -162,11 +162,13 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     static public PhotonGraphic getInstance( Component component, Photon photon ) {
         PhotonGraphic photonGraphic;
+        //Perhaps this code is done to reduce the number of photongraphic instantiations?
+        //it looks unnecessary
         if( s_inactiveInstances.size() > 0 ) {
             int idx = s_inactiveInstances.size() - 1;
             photonGraphic = (PhotonGraphic)s_inactiveInstances.get( idx );
             s_inactiveInstances.remove( idx );
-            photonGraphic.init( component, photon );
+            photonGraphic.setState( component, photon );
         }
         else {
             photonGraphic = new PhotonGraphic( component, photon );
@@ -176,15 +178,16 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     private PhotonGraphic( Component component, Photon photon ) {
         super( component, s_particleImage );
-        init( component, photon );
+        setState( component, photon );
         photon.addLeftSystemListener( this );
         s_instances.add( this );
     }
 
-    private void init( Component component, Photon photon ) {
+    private void setState( Component component, Photon photon ) {
         this.setComponent( component );
         this.photon = photon;
         this.color = VisibleColor.wavelengthToColor( photon.getWavelength() );
+        //todo: where is the removeObserver call?
         photon.addObserver( this );
         photon.addVelocityChangedListener( this );
 
