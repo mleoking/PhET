@@ -10,22 +10,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -194,9 +192,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
             // See if we've already got an image for this photon's color. If not, make one and cache it
             bi = (BufferedImage)s_colorToImage.get( wavelength );
             if( bi == null ) {
-                BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
-                bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
-                op.filter( s_particleImage, bi );
+                bi = createImage();
                 s_colorToImage.put( wavelength, bi );
             }
         }
@@ -207,6 +203,26 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         // Rotate the image
         theta = photon.getVelocity().getAngle();
         setImage( BufferedImageUtils.getRotatedImage( bi, theta ) );
+    }
+
+//    private BufferedImage createImage() {
+//        BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
+//        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+//        op.filter( s_particleImage, bi );
+//        return bi;
+//    }
+
+//    private BufferedImage createImage() {
+//        BufferedImage im = new BufferedImage( 100,100,BufferedImage.TYPE_4BYTE_ABGR_PRE);
+//        Graphics2D g2=im.createGraphics();
+//        g2.setPaint( VisibleColor.wavelengthToColor( photon.getWavelength( )));
+//        g2.fill( new Rectangle( 10,10,10,10) );
+//        g2.dispose();
+//        return im;
+
+    //    }
+    private BufferedImage createImage() {
+        return BufferedImageUtils.toBufferedImage( PhotonNode.createPhotonImage( photon.getWavelength() ) );
     }
 
     public void update() {
