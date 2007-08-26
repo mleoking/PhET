@@ -16,10 +16,9 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPhotonNode;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPhotonNode;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -222,6 +221,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 //        return im;
 
     //    }
+
     private BufferedImage createImage() {
         return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( photon.getWavelength() ) );
     }
