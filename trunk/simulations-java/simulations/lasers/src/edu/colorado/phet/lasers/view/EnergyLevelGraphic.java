@@ -10,9 +10,25 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -22,18 +38,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -317,8 +321,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
             if( isAdjustable ) {
-//                textGraphic = new PhetTextGraphic2( getComponent(), new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 ), "Lifetime", Color.black );
-                textGraphic = new PhetTextGraphic2( getComponent(), new JLabel().getFont(), "Lifetime", Color.black );
+                textGraphic = new PhetTextGraphic2( getComponent(), new PhetDefaultFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
             }
         }
