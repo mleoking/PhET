@@ -19,6 +19,7 @@ import org.jfree.data.Range;
 import edu.colorado.phet.boundstates.color.BSBlackColorScheme;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 
 /**
@@ -68,7 +69,7 @@ public class BSConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final String FONT_NAME = "Lucida Sans";
+    public static final String FONT_NAME = PhetDefaultFont.getDefaultFontName();
     public static final Font AXIS_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 20 );
     public static final Font AXIS_TICK_LABEL_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 14 );
     public static final Font HILITE_ENERGY_FONT = new Font( BSConstants.FONT_NAME, Font.PLAIN, 16 );
