@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPhotonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
 
@@ -213,7 +213,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private static BufferedImage createImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( wavelength, PHOTON_DIAMETER ) );
+        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( wavelength, PHOTON_DIAMETER ) );
     }
 
     public void update() {

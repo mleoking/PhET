@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * PhotonNode is the visual representation of a photon.
+ * PhotonImageFactory creates images that represent photons.
  * The look is loosely based on examples that Wendy Adams found on a
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
  * <p>
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhetPhotonNode extends PhetPNode {
+public class PhotonImageFactory extends PhetPNode {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -44,21 +44,8 @@ public class PhetPhotonNode extends PhetPNode {
     // Constructors
     //----------------------------------------------------------------------------
     
-    /**
-     * Constructor.
-     * 
-     * @param wavelength
-     * @param diameter
-     */
-    public PhetPhotonNode( double wavelength, double diameter ) {
-        super();
-        
-        // add as a child image node so we can center it's origin
-        Image image = createPhotonImage( wavelength, diameter );
-        PImage imageNode = new PImage( image );
-        addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBounds().getWidth()/2, -imageNode.getFullBounds().getHeight()/2 );
-    }
+    /* not intended for instantiation */
+    private PhotonImageFactory() {}
     
     //----------------------------------------------------------------------------
     // Utilities

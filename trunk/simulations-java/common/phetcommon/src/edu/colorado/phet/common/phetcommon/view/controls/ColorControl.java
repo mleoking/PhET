@@ -15,7 +15,6 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 
@@ -40,6 +39,7 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Frame parentFrame;
     private String labelString; // label that appear to left of color chip
     private JLabel colorChip; // color chip, show the current color, click to open color chooser
     private Dimension chipSize;
@@ -57,8 +57,8 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
      * @param labelString
      * @param color
      */
-    public ColorControl( String labelString, Color color ) {
-        this( labelString, color, DEFAULT_CHIP_SIZE );
+    public ColorControl( Frame parentFrame, String labelString, Color color ) {
+        this( parentFrame, labelString, color, DEFAULT_CHIP_SIZE );
     }
     
     /**
@@ -68,9 +68,10 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
      * @param color
      * @param chipSize
      */
-    public ColorControl( String labelString, Color color, Dimension chipSize ) {
+    public ColorControl( Frame parentFrame, String labelString, Color color, Dimension chipSize ) {
         super();
         
+        this.parentFrame = parentFrame;
         this.labelString = labelString;
         this.color = color;
         this.chipSize = new Dimension( chipSize );
@@ -142,8 +143,7 @@ public class ColorControl extends HorizontalLayoutPanel implements ColorChooserF
      */
     private void openColorChooser() {
         closeColorChooser();
-        Frame parent = PhetApplication.instance().getPhetFrame();
-        colorChooserDialog = ColorChooserFactory.createDialog( labelString, parent, color, this );
+        colorChooserDialog = ColorChooserFactory.createDialog( labelString, parentFrame, color, this );
         colorChooserDialog.show();
     }
     

@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -55,8 +56,10 @@ public class DeveloperControlsDialog extends JDialog {
     
     private JPanel createInputPanel() {
         
+        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        
         Color controlPanelBackground = _app.getControlPanelBackground();
-        final ColorControl controlPanelColorControl = new ColorControl( "control panel background color: ", controlPanelBackground );
+        final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
         controlPanelColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 _app.setControlPanelBackground( controlPanelColorControl.getColor() );
@@ -64,7 +67,7 @@ public class DeveloperControlsDialog extends JDialog {
         } );
         
         Color selectedTabColor = _app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( "selected module tab color: ", selectedTabColor );
+        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
         selectedTabColorControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 _app.setSelectedTabColor( selectedTabColorControl.getColor() );

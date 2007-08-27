@@ -15,7 +15,7 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPhotonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -133,7 +133,7 @@ public class PhotonNode extends PhetPNode implements Observer {
      * @return the photon image
      */
     public static Image createPhotonImage( double wavelength ) {
-        return PhetPhotonNode.createPhotonImage( wavelength, DIAMETER );
+        return PhotonImageFactory.createPhotonImage( wavelength, DIAMETER );
     }
 
     //----------------------------------------------------------------------------
