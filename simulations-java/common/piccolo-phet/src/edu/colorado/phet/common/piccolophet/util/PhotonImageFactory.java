@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.util;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -28,6 +29,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class PhotonImageFactory extends PhetPNode {
 
     //----------------------------------------------------------------------------
+    // Debugging
+    //----------------------------------------------------------------------------
+    
+    /* enable debug output for the image cache */
+    private static final boolean DEBUG_CACHE_ENABLED = false;
+    
+    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
@@ -40,6 +48,11 @@ public class PhotonImageFactory extends PhetPNode {
     private static final Color UV_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 400, UV_IR_COLOR, UV_IR_COLOR );
     private static final Color IR_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 715, UV_IR_COLOR, UV_IR_COLOR );
     
+    // Image cache
+    private static final Integer UV_IMAGE_KEY = new Integer( (int)( VisibleColor.MIN_WAVELENGTH - 1 ) );
+    private static final Integer IR_IMAGE_KEY = new Integer( (int)( VisibleColor.MAX_WAVELENGTH + 1 ) );
+    private static final ImageCache IMAGE_CACHE = new ImageCache();
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -52,7 +65,27 @@ public class PhotonImageFactory extends PhetPNode {
     //----------------------------------------------------------------------------
     
     /**
+     * Gets a photon image from the cache.
+     * If we don't have an image for the specified wavelength and diameter,
+     * create one and add it to the cache.
+     * 
+     * @param wavelength
+     * @param diameter
+     * @return Image
+     */
+    public static final Image lookupPhotonImage( double wavelength, double diameter ) {
+        Image image = IMAGE_CACHE.get( wavelength, diameter );
+        if ( image == null ) {
+            image = createPhotonImage( wavelength, diameter );
+            IMAGE_CACHE.put( wavelength, diameter, image );
+        }     
+        return image;
+    }
+    
+    /**
      * Creates the image used to represent a photon.
+     * The image is NOT obtained from the cache.
+     * Use this method if you don't care about caching, or need to modify the image.
      *
      * @param wavelength
      * @param diameter
@@ -133,5 +166,91 @@ public class PhotonImageFactory extends PhetPNode {
         crosshairs.addChild( verticalPart );
 
         return crosshairs;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Image cache
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Cache that maps wavelengths and diameters to images.
+     * A double mapping is involved.
+     * Diameter maps to a HashMap, which then maps wavelength to an Image.
+     * Mapping of wavelength is done with integer precision.
+     */
+    private static class ImageCache {
+
+        private HashMap _diameterMap; // key=diameter (Double), value=HashMap
+
+        public ImageCache() {
+            _diameterMap = new HashMap();
+        }
+
+        /**
+         * Puts an image in the cache.
+         * 
+         * @param wavelength
+         * @param diameter
+         * @param image
+         */
+        public void put( double wavelength, double diameter, Image image ) {
+            // find the map for this diameter
+            Object diameterKey = diameterToKey( diameter );
+            HashMap wavelengthMap = (HashMap) _diameterMap.get( diameterKey );
+            if ( wavelengthMap == null ) {
+                // no map for this diameter, so create one
+                wavelengthMap = new HashMap();
+                _diameterMap.put( diameterKey, wavelengthMap );
+            }
+            Object wavelengthKey = wavelengthToKey( wavelength );
+            wavelengthMap.put( wavelengthKey, image );
+            if ( DEBUG_CACHE_ENABLED ) {
+                System.out.println( "PhotonImageFactory.ImageCache.put diameterMap.size=" + _diameterMap.size() + " wavelengthMap.size=" + wavelengthMap.size() );
+            }
+        }
+
+        /**
+         * Gets an image from the cache.
+         * 
+         * @param wavelength
+         * @param diameter
+         * @return Image, possibly null
+         */
+        public Image get(double wavelength, double diameter ) {
+            Image image = null;
+            Object diameterKey = diameterToKey( diameter );
+            HashMap wavelengthMap = (HashMap) _diameterMap.get( diameterKey );
+            if ( wavelengthMap != null ) {
+                Object wavelengthKey = wavelengthToKey( wavelength );
+                image = (Image) wavelengthMap.get( wavelengthKey );
+            }
+            return image;
+        }
+        
+        /*
+         * Converts a diameter to a key.
+         */
+        private Object diameterToKey( double diameter ) {
+            return new Double( diameter );
+        }
+        
+        /*
+         * Converts a wavelength to a key.
+         * Visible wavelengths are mapped with integer precision.
+         * All UV wavelengths map to the same key, ditto for IR.
+         */
+        private Object wavelengthToKey( double wavelength ) {
+            Object key = null;
+            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+                key = UV_IMAGE_KEY;
+            }
+            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
+                key = IR_IMAGE_KEY;
+            }
+            else {
+                key = new Integer( (int) wavelength );
+            }
+            return key;
+        }
     }
 }
