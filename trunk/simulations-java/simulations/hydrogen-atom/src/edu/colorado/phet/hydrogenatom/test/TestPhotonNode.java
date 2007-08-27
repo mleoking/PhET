@@ -19,7 +19,7 @@ import java.awt.Insets;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 
 
 public class TestPhotonNode extends JFrame {
@@ -69,7 +69,7 @@ public class TestPhotonNode extends JFrame {
     }
     
     private static JLabel createLabel( double wavelength ) {
-        Image image = PhotonNode.createPhotonImage( wavelength );
+        Image image = PhotonImageFactory.createPhotonImage( wavelength, 30 /* diameter */ );
         Icon icon = new ImageIcon( image );
         JLabel label = new JLabel( icon );
         label.setOpaque( false );
