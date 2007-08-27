@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of BSSerializable
 8/16/07 - bugfix: after loading a config, drag handles are no longer attached to well shapes
 ********* version 1.03.00 (17033)
