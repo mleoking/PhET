@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2007, University of Colorado */
 
 package edu.colorado.phet.hydrogenatom.view.particle;
 
@@ -30,11 +21,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * PhotonNode is the visual representation of a photon.
- * The look is loosely based on examples that Wendy Adams found on a 
- * Disney website at http://disney.go.com/fairies/meetfairies.html.
+ * Photon images are cached to minimize memory requirements.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PhotonNode extends PhetPNode implements Observer {
 
@@ -42,7 +31,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     // Debug
     //----------------------------------------------------------------------------
     
-    /* enabled debug output for the image cache */
+    /* enable debug output for the image cache */
     private static final boolean DEBUG_CACHE_ENABLED = false;
     
     /* draws an outline around the full bonds of the node */
@@ -51,16 +40,17 @@ public class PhotonNode extends PhetPNode implements Observer {
     /* adds an arrow to the node showing the orientation */
     private static final boolean DEBUG_ORIENTATION = false;
 
-    public static final double DIAMETER = PhetPhotonNode.DIAMETER;
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
 
+    // public because it's used by collision detection code in the model
+    public static final double DIAMETER = 30;
+    
     //----------------------------------------------------------------------------
     // Private class data
     //----------------------------------------------------------------------------
 
-    
     // Image cache, shared by all instances
     private static final Integer UV_IMAGE_KEY = new Integer( (int)( VisibleColor.MIN_WAVELENGTH - 1 ) );
     private static final Integer IR_IMAGE_KEY = new Integer( (int)( VisibleColor.MAX_WAVELENGTH + 1 ) );
@@ -130,7 +120,7 @@ public class PhotonNode extends PhetPNode implements Observer {
     private static final Image lookupPhotonImage( double wavelength ) {
         Image image = IMAGE_CACHE.get( wavelength );
         if ( image == null ) {
-            image = PhetPhotonNode.createPhotonImage( wavelength );
+            image = createPhotonImage( wavelength );
             IMAGE_CACHE.put( wavelength, image );
         }     
         return image;
@@ -141,10 +131,9 @@ public class PhotonNode extends PhetPNode implements Observer {
      *
      * @param wavelength the wavelength in nanometers
      * @return the photon image
-     * @deprecated use PhetPhotonNode.createPhotonImage
      */
     public static Image createPhotonImage( double wavelength ) {
-        return PhetPhotonNode.createPhotonImage( wavelength );
+        return PhetPhotonNode.createPhotonImage( wavelength, DIAMETER );
     }
 
     //----------------------------------------------------------------------------

@@ -19,13 +19,13 @@ import java.util.Random;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
 import edu.colorado.phet.hydrogenatom.event.GunFiredEvent;
 import edu.colorado.phet.hydrogenatom.event.GunFiredListener;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 
 /**
  * Gun is the model of a gun that can fire either photons or alpha particles.
@@ -296,7 +296,7 @@ public class Gun extends FixedObject implements ModelElement {
      * @return Color
      */
     public Color getWavelengthColor() {
-        return ColorUtils.wavelengthToColor( _wavelength );
+        return VisibleColor.wavelengthToColor( _wavelength, HAConstants.UV_COLOR, HAConstants.IR_COLOR );
     }
     
     /**

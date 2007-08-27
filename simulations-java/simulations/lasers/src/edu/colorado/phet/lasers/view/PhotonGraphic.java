@@ -36,6 +36,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                                                                Photon.LeftSystemEventListener,
                                                                Photon.VelocityChangedListener {
 
+    private static final double PHOTON_DIAMETER = 30; // pixels
+    
     private double theta;
     private Photon photon;
     private Color color;
@@ -211,7 +213,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private static BufferedImage createImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( wavelength ) );
+        return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( wavelength, PHOTON_DIAMETER ) );
     }
 
     public void update() {
