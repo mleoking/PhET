@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.hydrogenatom.util;
+package edu.colorado.phet.common.piccolophet.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -55,6 +54,7 @@ public class PhotonImageGenerator extends JFrame {
         
         diameterControl = new LinearValueControl( MIN_DIAMETER, MAX_DIAMETER, "diameter:", "##0", "pixels" );
         diameterControl.setValue( DEFAULT_DIAMETER );
+        diameterControl.setUpDownArrowDelta( 1 );
         diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateImagePreview();
@@ -63,6 +63,7 @@ public class PhotonImageGenerator extends JFrame {
         
         wavelengthControl = new LinearValueControl( MIN_WAVELENGTH, MAX_WAVELENGTH, "wavelength:", "##0", "nm" );
         wavelengthControl.setValue( DEFAULT_WAVELENGTH );
+        wavelengthControl.setUpDownArrowDelta( 1 );
         wavelengthControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 updateImagePreview();
