@@ -20,10 +20,11 @@ import javax.swing.border.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.view.particle.*;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -67,17 +68,17 @@ public class LegendPanel extends JPanel {
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new Font( FONT_NAME, FONT_STYLE, fontSize );
 
-        JLabel photonImage = toJLabel( PhotonNode.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH ) );
+        JLabel photonImage = toJLabel( PhotonImageFactory.createPhotonImage( HAConstants.PHOTON_ICON_WAVELENGTH, PhotonNode.DIAMETER ) );
         JLabel photonText = new JLabel( HAResources.getString( "label.photon" ) );
         photonText.setFont( font );
         photonText.setForeground( LABEL_COLOR );
 
-        JLabel uvPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1 ) );
+        JLabel uvPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MIN_WAVELENGTH - 1, PhotonNode.DIAMETER ) );
         JLabel uvPhotonText = new JLabel( HAResources.getString( "label.uvPhoton" ) );
         uvPhotonText.setFont( font );
         uvPhotonText.setForeground( LABEL_COLOR );
 
-        JLabel irPhotonImage = toJLabel( PhotonNode.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1 ) );
+        JLabel irPhotonImage = toJLabel( PhotonImageFactory.createPhotonImage( VisibleColor.MAX_WAVELENGTH + 1, PhotonNode.DIAMETER ) );
         JLabel irPhotonText = new JLabel( HAResources.getString( "label.irPhoton" ) );
         irPhotonText.setFont( font );
         irPhotonText.setForeground( LABEL_COLOR );

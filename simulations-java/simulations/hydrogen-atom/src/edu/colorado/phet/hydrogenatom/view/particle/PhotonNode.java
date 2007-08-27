@@ -31,9 +31,6 @@ public class PhotonNode extends PhetPNode implements Observer {
     // Debug
     //----------------------------------------------------------------------------
     
-    /* enable debug output for the image cache */
-    private static final boolean DEBUG_CACHE_ENABLED = false;
-    
     /* draws an outline around the full bonds of the node */
     private static final boolean DEBUG_BOUNDS = false;
     
@@ -46,15 +43,6 @@ public class PhotonNode extends PhetPNode implements Observer {
 
     // public because it's used by collision detection code in the model
     public static final double DIAMETER = 30;
-    
-    //----------------------------------------------------------------------------
-    // Private class data
-    //----------------------------------------------------------------------------
-
-    // Image cache, shared by all instances
-    private static final Integer UV_IMAGE_KEY = new Integer( (int)( VisibleColor.MIN_WAVELENGTH - 1 ) );
-    private static final Integer IR_IMAGE_KEY = new Integer( (int)( VisibleColor.MAX_WAVELENGTH + 1 ) );
-    private static final ImageCache IMAGE_CACHE = new ImageCache();
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -75,7 +63,8 @@ public class PhotonNode extends PhetPNode implements Observer {
         setPickable( false );
         setChildrenPickable( false );
         
-        Image image = lookupPhotonImage( photon.getWavelength() );
+        // Get an image from the image cache
+        Image image = PhotonImageFactory.lookupPhotonImage( photon.getWavelength(), DIAMETER );
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         
@@ -111,90 +100,7 @@ public class PhotonNode extends PhetPNode implements Observer {
         _photon = photon;
         _photon.addObserver( this );
     }
-    
-    /*
-     * Gets the photon image from the cache.
-     * If we don't have an image for the specified wavelength,
-     * create one and add it to the cache.
-     */
-    private static final Image lookupPhotonImage( double wavelength ) {
-        Image image = IMAGE_CACHE.get( wavelength );
-        if ( image == null ) {
-            image = createPhotonImage( wavelength );
-            IMAGE_CACHE.put( wavelength, image );
-        }     
-        return image;
-    }
 
-    /**
-     * Creates a photon image.
-     *
-     * @param wavelength the wavelength in nanometers
-     * @return the photon image
-     */
-    public static Image createPhotonImage( double wavelength ) {
-        return PhotonImageFactory.createPhotonImage( wavelength, DIAMETER );
-    }
-
-    //----------------------------------------------------------------------------
-    // Image cache
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Cache that maps wavelengths to images.
-     * The mapping is done with integer precision.
-     */
-    private static class ImageCache {
-
-        private HashMap _map; // key=Integer, value=Image
-
-        public ImageCache() {
-            _map = new HashMap();
-        }
-
-        /**
-         * Puts an image in the cache.
-         * @param wavelength
-         * @param image
-         */
-        public void put( double wavelength, Image image ) {
-            Object key = wavelengthToKey( wavelength );
-            _map.put( key, image );
-            if ( DEBUG_CACHE_ENABLED ) {
-                System.out.println( "PhotonNode.ImageCache.put size=" + _map.size() );
-            }
-        }
-
-        /**
-         * Gets an image from the cache.
-         * @param wavelength
-         * @return Image, possibly null
-         */
-        public Image get( double wavelength ) {
-            Object key = wavelengthToKey( wavelength );
-            return (Image) _map.get( key );
-        }
-        
-        /*
-         * Converts a wavelength to a key.
-         * Visible wavelengths are mapped with integer precision.
-         * All UV wavelengths map to the same key, ditto for IR.
-         */
-        private Object wavelengthToKey( double wavelength ) {
-            Object key = null;
-            if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-                key = UV_IMAGE_KEY;
-            }
-            else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-                key = IR_IMAGE_KEY;
-            }
-            else {
-                key = new Integer( (int) wavelength );
-            }
-            return key;
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
