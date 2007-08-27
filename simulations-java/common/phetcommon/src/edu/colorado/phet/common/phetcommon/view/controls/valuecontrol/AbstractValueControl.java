@@ -4,7 +4,6 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.Toolkit;
 import java.awt.event.*;
 import java.text.DecimalFormat;
@@ -13,12 +12,15 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 
 /**
@@ -108,7 +110,7 @@ public abstract class AbstractValueControl extends JPanel {
         
         _notifyWhileAdjusting = true; // provide change notification while slider is dragging
         _isAdjusting = false;
-        _font = new JLabel().getFont();
+        _font = new PhetDefaultFont();
         _listenerList = new EventListenerList();
 
         // Labels
