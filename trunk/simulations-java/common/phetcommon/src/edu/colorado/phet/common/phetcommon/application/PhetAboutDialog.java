@@ -126,7 +126,7 @@ public class PhetAboutDialog extends JDialog {
         copyrightLabel.setBackground( new JLabel().getBackground() );
 
 
-        copyrightLabel.setFont( new Font( "Lucida Sans",Font.BOLD, 24) );
+        copyrightLabel.setFont( new PhetDefaultFont( Font.BOLD, 24) );
         
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
