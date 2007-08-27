@@ -15,8 +15,8 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieNode.AbstractDeBroglie2DViewStrategy;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;

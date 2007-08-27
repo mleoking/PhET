@@ -15,7 +15,9 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.util.DebugUtils;
 
 /**
@@ -90,7 +92,7 @@ public class Photon extends MovingObject implements ModelElement {
      * @return Color
      */
     public Color getColor() {
-        return ColorUtils.wavelengthToColor( _wavelength );
+        return VisibleColor.wavelengthToColor( _wavelength, HAConstants.UV_COLOR, HAConstants.IR_COLOR );
     }
     
     /**

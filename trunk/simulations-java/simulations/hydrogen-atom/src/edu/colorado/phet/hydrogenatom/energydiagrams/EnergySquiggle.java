@@ -20,8 +20,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
+import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -83,7 +84,7 @@ public class EnergySquiggle extends PComposite {
         double distance = Point2D.distance( x1, y1, x2, y2 );
         
         // Color that corresponds to the wavelength
-        Color color = ColorUtils.wavelengthToColor( wavelength );
+        Color color = VisibleColor.wavelengthToColor( wavelength, HAConstants.UV_COLOR, HAConstants.IR_COLOR );
         
         /*
          * We'll start by drawing all the geometry with this orientation:

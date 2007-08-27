@@ -1,26 +1,14 @@
-/* Copyright 2006, University of Colorado */
+/* Copyright 2006-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
-package edu.colorado.phet.hydrogenatom.util;
+package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.hydrogenatom.HAConstants;
 
 /**
  * ColorUtils is a collection of utilities related to Color.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ColorUtils {
 
@@ -28,22 +16,15 @@ public class ColorUtils {
     private ColorUtils() {}
     
     /**
-     * Converts a wavelength to a Color.
-     * @param wavelength
-     * @return
+     * Creates a new color by taking an existing color and changing its alpha channel.
+     * Useful when you need to modulate the alpha channel.
+     * 
+     * @param c
+     * @param alpha
+     * @return Color
      */
-    public static Color wavelengthToColor( double wavelength ) {
-        Color color = null;
-        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
-            color = HAConstants.UV_COLOR;
-        }
-        else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
-            color = HAConstants.IR_COLOR;
-        }
-        else {
-            color = VisibleColor.wavelengthToColor( wavelength );
-        }
-        return color;
+    public Color createColor( Color c, int alpha ) {
+        return new Color( c.getRed(), c.getGreen(), c.getBlue(), alpha );
     }
     
     /**

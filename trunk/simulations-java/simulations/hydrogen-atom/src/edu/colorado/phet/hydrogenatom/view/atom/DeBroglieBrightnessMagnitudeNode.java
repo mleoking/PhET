@@ -13,8 +13,8 @@ package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.model.DeBroglieModel;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 
 /**

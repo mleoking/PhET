@@ -1,13 +1,4 @@
-/* Copyright 2004, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2004-2007, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
@@ -32,7 +23,6 @@ import java.awt.*;
  * some color information.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class VisibleColor extends Color {
     //----------------------------------------------------------------------------
@@ -138,29 +128,44 @@ public class VisibleColor extends Color {
         return "VisibleColor: RGBA=" + getRed() + "-" + getGreen() + "-" + getBlue() + "-" + getAlpha() +
                ", wavelength=" + _wavelength;
     }
-
+    
     /**
      * Converts a wavelength to an opaque Color.
      * A wavelength of zero corresponds to white.
      * Wavelengths outside the visible spectrum return fully-transparent black.
+     */
+    public static Color wavelengthToColor( double wl ) {
+        return wavelengthToColor( wl, COLOR_INVISIBLE, COLOR_INVISIBLE );
+    }
+    
+    /**
+     * Converts a wavelength to a Color.
+     * A visible wavelength is assigned is corresponding opaque color.
+     * A wavelength of zero corresponds to opaque white.
+     * UV wavelengths are assigned the specified UV color.
+     * IR wavelengths are assigned the specified IR color.
      * <p/>
      * Note that since java.awt.Color uses the sRGB colorspace, it is possible
      * that some color information may be lost in this conversion.  sRGB is
      * not capable of representing all visible colors.
      *
      * @param wl the wavelength
+     * @param uvColor
+     * @param irColor
      * @return the corresponding Color
      */
-    public static Color wavelengthToColor( double wl ) {
+    public static Color wavelengthToColor( double wl, Color uvColor, Color irColor ) {
         Color color = null;
 
         if( wl == WHITE_WAVELENGTH ) {
             // Special case: white light.
             color = Color.WHITE;
         }
-        else if( wl < MIN_WAVELENGTH || wl > MAX_WAVELENGTH ) {
-            // Special case: wavelength outside the visible spectrum.
-            return COLOR_INVISIBLE;
+        else if( wl < MIN_WAVELENGTH ) {
+            color = uvColor;
+        }
+        else if( wl > MAX_WAVELENGTH ) {
+            color = irColor;
         }
         else {
             // Look up the color.
@@ -205,7 +210,7 @@ public class VisibleColor extends Color {
 
         return wavelength;
     }
-
+    
     //----------------------------------------------------------------------------
     // Color Lookup
     //----------------------------------------------------------------------------

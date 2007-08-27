@@ -25,6 +25,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -34,7 +35,6 @@ import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
 import edu.colorado.phet.hydrogenatom.model.Photon;
-import edu.colorado.phet.hydrogenatom.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -672,7 +672,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      */
     private PNode createCell( double wavelength ) {
         PPath cellNode = new PPath( new Ellipse2D.Double( 0, 0, CELL_WIDTH, CELL_HEIGHT ) );
-        Color color = ColorUtils.wavelengthToColor( wavelength );
+        Color color = VisibleColor.wavelengthToColor( wavelength, HAConstants.UV_COLOR, HAConstants.IR_COLOR );
         cellNode.setPaint( color );
         cellNode.setStroke( null );
         return cellNode;
