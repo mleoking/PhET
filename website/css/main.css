@@ -284,26 +284,6 @@ div.form_content {
 	margin-left:    1em;
 	border-style: 	none;
 }
-*.field {
-	clear:   right;
-	width:   100%;
-	border:  0;
-	margin:  0;
-	padding: 0.5ex 0 0.5ex 0;
-}
-*.field *.label {
-	width: 			25%;
-    font-weight:	bold;	
-}
-*.field *.label_content {
-	clear: right;
-	float: right;
-	width: 75%;
-}
-*.field *.label_content input, *.field *.label_content select, *.field *.label_content textarea {
-	position: relative;
-	top:      -1ex;
-}
 
 /* For table-based forms */
 table.form {
@@ -315,6 +295,8 @@ table.form {
 table.form tr td {
 	width: 70%;
 	vertical-align: top;
+	padding-top: 	0.75ex;
+	padding-bottom: 0.75ex;
 }
 table.form tr td:first-child {
 	font-weight: bold;
@@ -322,7 +304,7 @@ table.form tr td:first-child {
 }
 table.form tr td input, table.form tr td textarea, table.form tr td select {
 	position: relative;
-	top:      -1ex;	
+	top:      -0.5ex;	
 }
 table.form tr td input[type="submit"] {
 	float: right;

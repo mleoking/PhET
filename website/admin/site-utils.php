@@ -794,6 +794,11 @@ EOT;
 										this.onkeyup = function() {
 											validate_form_element(this, this.pattern);
 										}
+										
+										// Validate on change:
+										this.onchange = function() {
+											validate_form_element(this, this.pattern);
+										}
 									}
 								}
 							);
