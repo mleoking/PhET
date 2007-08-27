@@ -3,6 +3,9 @@
 package edu.colorado.phet.hydrogenatom.util;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -13,48 +16,89 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * This application can be used to display and save PNG files for photons using PhotonNode.
+ * This application can be used to display and save PNG files for photons.
  *
- * @author Sam Reid
+ * @author Sam Reid / Chris Malley
  */
-public class PhotonImageGenerator {
-    private JFrame frame;
-    private JLabel label;
-    private LinearValueControl valueControl;
+public class PhotonImageGenerator extends JFrame {
+    
+    private static final double MIN_DIAMETER = 5;
+    private static final double MAX_DIAMETER = 200;
+    private static final double DEFAULT_DIAMETER = 30;
+    
+    private static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH - 1; // include UV
+    private static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH + 1; // include IR
+    private static final double DEFAULT_WAVELENGTH = 600;
+    
+    private static final Color DEFAULT_BACKGROUND = Color.BLACK;
+    
+    private LinearValueControl diameterControl;
+    private LinearValueControl wavelengthControl;
+    private ColorControl backgroundControl;
+    private PCanvas canvas;
+    private PNode parentNode;
 
     public PhotonImageGenerator() {
-        frame = new JFrame( "Photon Image Generator" );
-        JPanel contentPane = new JPanel();
-        valueControl = new LinearValueControl( VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH, "wavelength:", "0.0", "nm" );
-        valueControl.addChangeListener( new ChangeListener() {
+        super( "Photon Image Generator" );
+        
+        diameterControl = new LinearValueControl( MIN_DIAMETER, MAX_DIAMETER, "diameter:", "##0", "pixels" );
+        diameterControl.setValue( DEFAULT_DIAMETER );
+        diameterControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                updateImage();
+                updateImagePreview();
             }
         } );
-        contentPane.add( valueControl );
-        label = new JLabel();
-        label.setOpaque( true );
-        label.setBackground( Color.black );
-
-        contentPane.add( label );
-
-        JButton save = new JButton( "Save..." );
-        save.addActionListener( new ActionListener() {
+        
+        wavelengthControl = new LinearValueControl( MIN_WAVELENGTH, MAX_WAVELENGTH, "wavelength:", "##0", "nm" );
+        wavelengthControl.setValue( DEFAULT_WAVELENGTH );
+        wavelengthControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                updateImagePreview();
+            }
+        } );
+        
+        backgroundControl = new ColorControl( this, "background:", DEFAULT_BACKGROUND, new Dimension( 30, 30 ) /* chipSize */ );
+        backgroundControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                updateBackground();
+            }
+        });
+        
+        canvas = new PCanvas();
+        int canvasSize = (int)( 1.2 * MAX_DIAMETER );
+        canvas.setPreferredSize( new Dimension( canvasSize, canvasSize ) );
+        parentNode = new PComposite();
+        canvas.getLayer().addChild( parentNode );
+        
+        final JFrame thisFrame = this;
+        JButton saveButton = new JButton( "Save..." );
+        saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                // create the image
+                double wavelength = wavelengthControl.getValue();
+                double diameter = diameterControl.getValue();
+                Image image = PhotonImageFactory.createPhotonImage( wavelength, diameter );
+                
+                // save the image to a file
+                //TODO - verify that the filename ends with .png
                 JFileChooser fc = new JFileChooser();
-
-                // Show save dialog; this method does not return until the dialog is closed
-                fc.showSaveDialog( frame );
+                fc.showSaveDialog( thisFrame ); // blocks until dialog is closed
                 File outputFile = fc.getSelectedFile();
                 if ( outputFile != null ) {
                     try {
-                        ImageIO.write( BufferedImageUtils.toBufferedImage( PhotonNode.createPhotonImage( valueControl.getValue() ) ), "PNG", outputFile );
+                        ImageIO.write( BufferedImageUtils.toBufferedImage( image ), "PNG", outputFile );
                     }
                     catch ( IOException e1 ) {
                         e1.printStackTrace();
@@ -62,24 +106,50 @@ public class PhotonImageGenerator {
                 }
             }
         } );
-        contentPane.add( save );
-        frame.setContentPane( contentPane );
+        
+        JPanel controlPanel = new JPanel();
+        EasyGridBagLayout layout = new EasyGridBagLayout( controlPanel );
+        layout.setAnchor( GridBagConstraints.CENTER );
+        controlPanel.setLayout( layout );
+        int row = 0;
+        int column = 0;
+        layout.addComponent( diameterControl, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( wavelengthControl, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( backgroundControl, row++, column );
+        layout.addFilledComponent( new JSeparator(), row++, column, GridBagConstraints.HORIZONTAL );
+        layout.addComponent( saveButton, row++, column );
+        
+        JPanel contentPane = new JPanel();
+        contentPane.add( canvas );
+        contentPane.add( controlPanel );
 
-        updateImage();
-
-        frame.pack();
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        setContentPane( contentPane );
+        pack();
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        
+        updateImagePreview();
+        updateBackground();
     }
 
-    private void updateImage() {
-        label.setIcon( new ImageIcon( PhotonNode.createPhotonImage( valueControl.getValue() ) ) );
+    private void updateImagePreview() {
+        double wavelength = wavelengthControl.getValue();
+        double diameter = diameterControl.getValue();
+        Image image = PhotonImageFactory.createPhotonImage( wavelength, diameter );
+        PImage imageNode = new PImage( image );
+        imageNode.setOffset( ( canvas.getWidth() - imageNode.getWidth() ) / 2, ( canvas.getHeight() - imageNode.getHeight() ) / 2 );
+        parentNode.removeAllChildren();
+        parentNode.addChild( imageNode );
+    }
+    
+    private void updateBackground() {
+        Color color = backgroundControl.getColor();
+        canvas.setBackground( color );
     }
 
     public static void main( String[] args ) {
-        new PhotonImageGenerator().start();
-    }
-
-    private void start() {
-        frame.setVisible( true );
+        JFrame frame = new PhotonImageGenerator();
+        frame.show();
     }
 }

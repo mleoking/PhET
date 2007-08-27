@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.control.developer;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
@@ -54,9 +52,11 @@ public class VectorsDeveloperPanel extends JPanel {
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
+        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        
         Paint trapForcePaint = _trapForceNode.getArrowFillPaint();
         Color trapForceColor = ( trapForcePaint instanceof Color ) ? ( (Color)trapForcePaint ) : Color.BLACK;
-        _trapForceColorChip = new ColorControl( "Trap force color:", trapForceColor );
+        _trapForceColorChip = new ColorControl( parentFrame, "Trap force color:", trapForceColor );
         _trapForceColorChip.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 _trapForceNode.setArrowFillPaint( _trapForceColorChip.getColor() );
@@ -65,7 +65,7 @@ public class VectorsDeveloperPanel extends JPanel {
         
         Paint fluidDragForcePaint = _fluidDragForceNode.getArrowFillPaint();
         Color fluidDragForceColor = ( fluidDragForcePaint instanceof Color ) ? ( (Color)fluidDragForcePaint ) : Color.BLACK;
-        _fluidDragForceColorChip = new ColorControl( "Fluid drag force color:", fluidDragForceColor );
+        _fluidDragForceColorChip = new ColorControl( parentFrame, "Fluid drag force color:", fluidDragForceColor );
         _fluidDragForceColorChip.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 _fluidDragForceNode.setArrowFillPaint( _fluidDragForceColorChip.getColor() );
@@ -75,7 +75,7 @@ public class VectorsDeveloperPanel extends JPanel {
         if ( _dnaForceNode != null ) {
             Paint dnaForcePaint = _dnaForceNode.getArrowFillPaint();
             Color dnaForceColor = ( dnaForcePaint instanceof Color ) ? ( (Color) dnaForcePaint ) : Color.BLACK;
-            _dnaForceColorChip = new ColorControl( "DNA force color:", dnaForceColor );
+            _dnaForceColorChip = new ColorControl( parentFrame, "DNA force color:", dnaForceColor );
             _dnaForceColorChip.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     _dnaForceNode.setArrowFillPaint( _dnaForceColorChip.getColor() );
@@ -84,7 +84,7 @@ public class VectorsDeveloperPanel extends JPanel {
         }
         
         if ( _electricFieldNode != null ) {
-            _electricFieldColorChip = new ColorControl( "E-field color:", _electricFieldNode.getVectorColor() );
+            _electricFieldColorChip = new ColorControl( parentFrame, "E-field color:", _electricFieldNode.getVectorColor() );
             _electricFieldColorChip.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent event ) {
                     _electricFieldNode.setVectorColor( _electricFieldColorChip.getColor() );
