@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 8/16/07 - convert persistence code to use IProguardKeepInterface instead of FourierSerializable
 ********* version 3.02.00 (17033)
 7/27/07 - new version published as part of new website deployment
