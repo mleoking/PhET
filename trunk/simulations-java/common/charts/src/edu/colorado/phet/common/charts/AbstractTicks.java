@@ -19,7 +19,7 @@ import java.text.NumberFormat;
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat numberFormat = new DecimalFormat( "#.#" );
-    private Font font = new Font( "Lucida Sans", 0, 12 );
+    private Font font = new Font( "Lucida Sans", Font.PLAIN, 12 );
     private boolean showLabels = true;
     private GraphicLayerSet tickGraphics;
     private GraphicLayerSet labelGraphics;
