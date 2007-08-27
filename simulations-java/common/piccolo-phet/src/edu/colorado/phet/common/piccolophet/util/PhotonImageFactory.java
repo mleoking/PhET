@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.common.piccolophet.nodes;
+package edu.colorado.phet.common.piccolophet.util;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

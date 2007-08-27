@@ -15,7 +15,7 @@ import edu.colorado.phet.hydrogenatom.view.ModelViewTransform;
 import edu.colorado.phet.hydrogenatom.view.OriginNode;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 

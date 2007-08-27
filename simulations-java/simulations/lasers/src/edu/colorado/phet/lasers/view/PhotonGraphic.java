@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.piccolophet.nodes.PhotonImageFactory;
+import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
 
