@@ -6,13 +6,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 
-import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -43,7 +43,7 @@ public class MinimizeMaximizeNode extends PNode {
     //----------------------------------------------------------------------------
     
     private static final double DEFAULT_SPACING = 5; // space between text and button
-    private static final Font DEFAULT_FONT = new JLabel().getFont();
+    private static final Font DEFAULT_FONT = new PhetDefaultFont();
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
     private final static Image MINIMIZE_IMAGE;
