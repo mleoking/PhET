@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>about/who-we-are.php</string>
+	<string>css/main.css</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -27,6 +27,8 @@
 			<string>sponsors</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>teacher_ideas</string>
 			<key>regexFolderFilter</key>
@@ -73,6 +75,8 @@
 			<string>images</string>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>js</string>
 			<key>regexFolderFilter</key>
@@ -151,19 +155,19 @@
 	<integer>346</integer>
 	<key>metaData</key>
 	<dict>
-		<key>about/who-we-are.php</key>
+		<key>admin/contrib-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>12</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>12</integer>
+				<integer>557</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>1</integer>
+			<integer>543</integer>
 		</dict>
 		<key>admin/db.inc</key>
 		<dict>
@@ -221,6 +225,48 @@
 			<key>firstVisibleLine</key>
 			<integer>213</integer>
 		</dict>
+		<key>admin/site-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>782</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>754</integer>
+		</dict>
+		<key>admin/test.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>94</integer>
+				<key>line</key>
+				<integer>28</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>10</integer>
+		</dict>
+		<key>admin/web-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>922</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>908</integer>
+		</dict>
 		<key>admin/xml_parser.php</key>
 		<dict>
 			<key>caret</key>
@@ -254,14 +300,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>18</integer>
 				<key>line</key>
-				<integer>950</integer>
+				<integer>322</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>933</integer>
+			<integer>307</integer>
+		</dict>
+		<key>js/form-validation.js</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>120</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>98</integer>
 		</dict>
 		<key>research/index.php</key>
 		<dict>
@@ -277,19 +337,19 @@
 			<key>firstVisibleLine</key>
 			<integer>8</integer>
 		</dict>
-		<key>simulations/index.php</key>
+		<key>simulations/sims.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>36</integer>
+				<integer>53</integer>
 				<key>line</key>
-				<integer>223</integer>
+				<integer>245</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>201</integer>
+			<integer>219</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -352,12 +412,17 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>about/who-we-are.php</string>
+		<string>js/form-validation.js</string>
+		<string>admin/web-utils.php</string>
 		<string>css/main.css</string>
+		<string>admin/test.php</string>
+		<string>admin/site-utils.php</string>
+		<string>admin/contrib-utils.php</string>
+		<string>simulations/sims.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{68, 174}, {1012, 648}}</string>
+	<string>{{116, 67}, {1012, 648}}</string>
 </dict>
 </plist>

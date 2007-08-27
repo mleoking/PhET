@@ -291,14 +291,14 @@ EOT;
 						</tr>
 
 						<tr>
-							<td>email*</td>		<td><input id="contributor_email_uid" type="text" size="20" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
+							<td>email*</td>		<td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
 						</tr>
 EOT;
 
 						if ($print_password) {
 							print <<<EOT
 								<tr>
-									<td>password*</td>		<td><input id="contributor_password_uid" type="password" size="20" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
+									<td>password*</td>		<td><input id="contributor_password_uid" type="password" size="15" name="contributor_password"  value="$contributor_password" class="always-enabled"/></td>
 								</tr>
 EOT;
 						}
@@ -306,11 +306,11 @@ EOT;
 						print <<<EOT
 
 						<tr>
-							<td>name*</td>		<td><input id="contributor_name_uid" type="text" size="20" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
+							<td>name*</td>		<td><input id="contributor_name_uid" type="text" size="15" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
-							<td>organization*</td> <td><input id="contributor_organization_uid" type="text" size="20" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
+							<td>organization*</td> <td><input id="contributor_organization_uid" type="text" size="15" name="contributor_organization"  value="$contributor_organization" class="always-enabled"/></td>
 						</tr>
 
 						<tr>

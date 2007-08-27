@@ -254,6 +254,7 @@ hr {
     padding:10px;
 }
 #loginform legend {
+	color:       black;
     font-weight:bold;
     font-size:9pt;
 }
@@ -320,7 +321,8 @@ table.form tr td:first-child {
 	width: 30%;
 }
 table.form tr td input, table.form tr td textarea, table.form tr td select {
-	margin-top: -1ex;	
+	position: relative;
+	top:      -1ex;	
 }
 table.form tr td input[type="submit"] {
 	float: right;
@@ -418,7 +420,9 @@ div.horizontal_center {
 	margin-bottom: 1em;
 }
 #twofacelogin table.form select, #twofacelogin table.form input {
-	width: 140px;
+	margin:  0;
+	padding: 0;
+	width: 	 140px;
 }
 #twofacelogin table.form input[type="submit"] {
 	width: auto;
@@ -439,8 +443,9 @@ div.horizontal_center {
 	border-width:  1px;
 }
 #twofacelogin fieldset legend {
-    font-weight:bold;
-    font-size: 10pt;
+	color:       black;
+    font-weight: bold;
+    font-size:   10pt;
 }
 /******** Contribution edit form *********/
 #contributioneditform {
@@ -452,8 +457,9 @@ div.horizontal_center {
     padding:10px;
 }
 #contributioneditform legend {
-    font-weight:bold;
-    font-size: 14pt;
+	color:       black;
+    font-weight: bold;
+    font-size:   14pt;
 }
 #contributioneditform fieldset p {
 	padding: 0;
