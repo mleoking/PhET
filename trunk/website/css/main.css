@@ -423,11 +423,13 @@ div.horizontal_center {
 #twofacelogin fieldset {
 	border-color: rgb(220, 220, 220);
 	border-width:  1px;
+	padding:       7px;
 }
 #twofacelogin fieldset legend {
 	color:       black;
     font-weight: bold;
     font-size:   10pt;
+	padding-bottom: 7px;
 }
 /******** Contribution edit form *********/
 #contributioneditform {
