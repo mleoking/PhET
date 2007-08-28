@@ -12,10 +12,11 @@ package edu.colorado.phet.lasers.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
 
@@ -23,6 +24,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,8 +40,6 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
                                                                Photon.LeftSystemEventListener,
                                                                Photon.VelocityChangedListener {
 
-    private static final double PHOTON_DIAMETER = 30; // pixels
-    
     private double theta;
     private Photon photon;
     private Color color;
@@ -60,11 +62,25 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     static private HashMap s_colorToImage = new HashMap();
 
     static String s_imageName = QuantumConfig.PHOTON_IMAGE_FILE;
+    static String s_highEnergyImageName = QuantumConfig.HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_midEnergyImageName = QuantumConfig.MID_HIGH_ENERGY_PHOTON_IMAGE_FILE;
+    static String s_lowEnergyImageName = QuantumConfig.LOW_ENERGY_PHOTON_IMAGE_FILE;
 
     static BufferedImage s_particleImage;
+    static BufferedImage s_highEnergyImage;
+    static BufferedImage s_midEnergyImage;
+    static BufferedImage s_lowEnergyImage;
 
     static {
-        s_particleImage = createImage( 450 );
+        try {
+            s_particleImage = ImageLoader.loadBufferedImage( s_imageName );
+            s_highEnergyImage = ImageLoader.loadBufferedImage( s_highEnergyImageName );
+            s_midEnergyImage = ImageLoader.loadBufferedImage( s_midEnergyImageName );
+            s_lowEnergyImage = ImageLoader.loadBufferedImage( s_lowEnergyImageName );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         double scale = (double)s_imgHeight / s_particleImage.getHeight();
         AffineTransform sTx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp sTxOp = new AffineTransformOp( sTx, AffineTransformOp.TYPE_BILINEAR );
@@ -72,39 +88,38 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     // Creates an image for infrared photons
-//    static BufferedImage s_IRphotonGraphic;
+    static BufferedImage s_IRphotonGraphic;
 
-//    static {
-//        int bwThreshold = 180;
-//        s_IRphotonGraphic = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(),
-//                                               BufferedImage.TYPE_INT_ARGB_PRE );
-//        ColorModel cm = s_particleImage.getColorModel();
-//        for( int x = 0; x < s_particleImage.getWidth(); x++ ) {
-//            for( int y = 0; y < s_particleImage.getHeight(); y++ ) {
-//                int rgb = s_particleImage.getRGB( x, y );
-//                int alpha = cm.getAlpha( rgb );
-//                int red = cm.getRed( rgb );
-//                int green = cm.getGreen( rgb );
-//                int blue = cm.getBlue( rgb );
-//
-//                if( alpha > 0 ) {
-//                    if( red + green + blue > bwThreshold ) {
-//                        alpha = 0;
-//                    }
-//                    else {
-//                        alpha = 255;
-//                    }
-//                }
-//                int newRGB = alpha * 0x01000000;
-//                s_IRphotonGraphic.setRGB( x, y, newRGB );
-//            }
-//        }
-//    }
+    static {
+        int bwThreshold = 180;
+        s_IRphotonGraphic = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(),
+                                               BufferedImage.TYPE_INT_ARGB_PRE );
+        ColorModel cm = s_particleImage.getColorModel();
+        for( int x = 0; x < s_particleImage.getWidth(); x++ ) {
+            for( int y = 0; y < s_particleImage.getHeight(); y++ ) {
+                int rgb = s_particleImage.getRGB( x, y );
+                int alpha = cm.getAlpha( rgb );
+                int red = cm.getRed( rgb );
+                int green = cm.getGreen( rgb );
+                int blue = cm.getBlue( rgb );
+
+                if( alpha > 0 ) {
+                    if( red + green + blue > bwThreshold ) {
+                        alpha = 0;
+                    }
+                    else {
+                        alpha = 255;
+                    }
+                }
+                int newRGB = alpha * 0x01000000;
+                s_IRphotonGraphic.setRGB( x, y, newRGB );
+            }
+        }
+    }
 
     /*
      * Removes all instances of PhotonGraphic from a specified ApparatusPanel
      */
-
     static public void removeAll( ApparatusPanel apparatusPanel ) {
         for( int i = 0; i < s_instances.size(); i++ ) {
             PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
@@ -170,18 +185,18 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi;
         // If the wavelength is in the IR, use the special graphic
-//        if( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
-//            bi = s_IRphotonGraphic;
-//        }
-        // Otherwise, get an image that is the appropriate duotone color
-//        else {
-        // See if we've already got an image for this photon's color. If not, make one and cache it
-        bi = (BufferedImage)s_colorToImage.get( wavelength );
-        if( bi == null ) {
-            bi = createImage();
-            s_colorToImage.put( wavelength, bi );
+        if( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
+            bi = s_IRphotonGraphic;
         }
-//        }
+        // Otherwise, get an image that is the appropriate duotone color
+        else {
+            // See if we've already got an image for this photon's color. If not, make one and cache it
+            bi = (BufferedImage)s_colorToImage.get( wavelength );
+            if( bi == null ) {
+                bi = createImage();
+                s_colorToImage.put( wavelength, bi );
+            }
+        }
         // Record the height and width of he image before it's rotated
         baseImageHeight = bi.getHeight();
         baseImageWidth = bi.getWidth();
@@ -191,12 +206,12 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         setImage( BufferedImageUtils.getRotatedImage( bi, theta ) );
     }
 
-//    private BufferedImage createImage() {
-//        BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
-//        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
-//        op.filter( s_particleImage, bi );
-//        return bi;
-//    }
+    private BufferedImage createImage() {
+        BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
+        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        op.filter( s_particleImage, bi );
+        return bi;
+    }
 
 //    private BufferedImage createImage() {
 //        BufferedImage im = new BufferedImage( 100,100,BufferedImage.TYPE_4BYTE_ABGR_PRE);
@@ -207,14 +222,9 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 //        return im;
 
     //    }
-
-    private BufferedImage createImage() {
-        return createImage( photon.getWavelength() );
-    }
-
-    private static BufferedImage createImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( wavelength, PHOTON_DIAMETER ) );
-    }
+//    private BufferedImage createImage() {
+//        return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( photon.getWavelength() ) );
+//    }
 
     public void update() {
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
