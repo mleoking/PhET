@@ -5,8 +5,6 @@
 MISSING INFO: 
 
 HIGH PRIORITY:
-- c5 not used in enzyme model
-- d1=c1/c5 in enzyme model
 - pull DNA in enzyme model
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
@@ -53,6 +51,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/28/07 - use d2 as maxSpeed in enzyme speed model
+8/28/07 - replace d1 with c1/c5 in enzyme speed model
 8/24/07 - when position histogram is reopened, restore its previous location
 8/24/07 - refactor common code related to dialog management
 8/24/07 - when fluid controls dialog is reopened, restore its previous location
