@@ -14,9 +14,7 @@ package edu.colorado.phet.colorvision.phetcommon.application;
 import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
 import edu.colorado.phet.colorvision.phetcommon.model.ModelElement;
 import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
-import edu.colorado.phet.colorvision.phetcommon.view.PhetControlPanel;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.Graphic;
-import edu.colorado.phet.colorvision.phetcommon.view.help.HelpItem;
 import edu.colorado.phet.colorvision.phetcommon.view.help.HelpManager;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -170,30 +168,6 @@ public class Module {
      */
     public void setHelpEnabled( boolean h ) {
         helpManager.setHelpEnabled( apparatusPanel, h );
-    }
-
-    /**
-     * Adds a an onscreen help item to the module
-     *
-     * @param helpItem
-     */
-    public void addHelpItem( HelpItem helpItem ) {
-        helpManager.addHelpItem( helpItem );
-        if( controlPanel != null && controlPanel instanceof PhetControlPanel ) {
-            ( (PhetControlPanel)controlPanel ).setHelpPanelEnabled( true );
-        }
-    }
-
-    /**
-     * Removes an onscreen help item from the module
-     *
-     * @param helpItem
-     */
-    public void removeHelpItem( HelpItem helpItem ) {
-        helpManager.removeHelpItem( helpItem );
-        if( controlPanel != null && controlPanel instanceof PhetControlPanel && helpManager.getNumHelpItems() == 0 ) {
-            ( (PhetControlPanel)controlPanel ).setHelpPanelEnabled( false );
-        }
     }
 
     /**
