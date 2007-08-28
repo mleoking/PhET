@@ -25,6 +25,7 @@ MEDIUM PRIORITY:
 - save/load properties of position histogram: running, zoom index, ruler
 
 LOW PRIORITY:
+- migrate OTWiggle to phetcommon PhetDefaultWiggleMe, use in other sims
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 - use phetcommon's Vector2D
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
