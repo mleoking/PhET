@@ -29,10 +29,6 @@ public interface ImmutableVector2D extends AbstractVector2D {
             super( x, y );
         }
 
-        public Double( Vector2D v ) {
-            super( v );
-        }
-
         public Double( AbstractVector2D v ) {
             super( v );
         }
