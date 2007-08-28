@@ -30,8 +30,8 @@ public class HelpMenu extends JMenu {
                 new PhetAboutDialog( appDescriptor.getFrame(), new PhetAboutDialog.SimpleDialogConfig(
                         appDescriptor.getWindowTitle(),
                         appDescriptor.getDescription(),
-                        null,
-                        "" ) ).show();
+                        appDescriptor.getVersion(),
+                        null ) ).show();
             }
         } );
         add( about );
