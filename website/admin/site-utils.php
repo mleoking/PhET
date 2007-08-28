@@ -799,6 +799,11 @@ EOT;
 										this.onchange = function() {
 											validate_form_element(this, this.pattern);
 										}
+										
+										// IE6 workaround (it doesn't fire onchange for autofill):
+										this.onpropertychange = function() {
+											validate_form_element(this, this.pattern);
+										}
 									}
 								}
 							);
