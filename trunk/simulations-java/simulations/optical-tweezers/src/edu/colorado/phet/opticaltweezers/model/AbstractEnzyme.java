@@ -14,6 +14,10 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * The model herein is based on:
  * "Force production by single kinesin motors", Schnitzer et. al.,
  * Nature Cell Biology, Vol 2, October 2000, p. 718-723.
+ * <p>
+ * Also see the simulation design document (optical-tweezers.pdf) and
+ * Excel file (velocityVsForce_Calibration.xls) in the doc directory.
+ * Note that these docs erroneously refer to DNA speed as velocity.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,10 +40,10 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     private Fluid _fluid;
     private final double _maxDt;
     
-    // speed when DNA force=0 and ATP concentration=infinite
+    // speed when DNA force=0 and ATP concentration=infinite (d2 in design doc)
     private final double _maxDNASpeed;
-    // calibration constants for DNA speed model
-    private final double _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8;
+    // calibration constants for DNA speed model (c1 thru c8 in design doc)
+    private final double[] _c;
     
     private final double _outerDiameter, _innerDiameter;
     private double _innerOrientation;
@@ -54,7 +58,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             DNAStrand dnaStrand, Fluid fluid,
             double maxDt,
             double maxDNASpeed,
-            double c1, double c2, double c3, double c4, double c5, double c6, double c7, double c8 ) {
+            double[] calibrationConstants ) {
         super( position, 0 /* orientation */ );
         
         _outerDiameter = outerDiameter;
@@ -68,14 +72,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         
         _maxDNASpeed = maxDNASpeed;
         
-        _c1 = c1;
-        _c2 = c2;
-        _c3 = c3;
-        _c4 = c4;
-        _c5 = c5;
-        _c6 = c6;
-        _c7 = c7;
-        _c8 = c8;
+        _c = calibrationConstants;
+        assert( _c.length == 8 ); // we should have 8 calibration constants
     }
     
     //----------------------------------------------------------------------------
@@ -111,31 +109,31 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     
     /**
      * Gets the speed with which the DNA strand is moving through the enzyme.
-     * <p>
-     * This is erroneously refered to as velocity in the design document.
-     * It is a function of the DNA force magnitude, so it has no orientation
-     * and should be referred to as speed (the magnitude component of velocity).
      * 
      * @return speed (nm/s)
      */
-    public double getDNAStrandSpeed() {
+    public double getDNASpeed() {
         final double atp = _fluid.getATPConcentration();
         final double fDNA = _dnaStrand.getForce().getMagnitude();
-        return getDNAStrandSpeed( atp, fDNA );
+        return getDNASpeed( atp, fDNA );
     }
     
     /*
      * Gets the speed with which the DNA strand is moving through the enzyme
      * for specific ATP and DNA force values.
+     * <p>
+     * This is erroneously refered to as velocity in the design document.
+     * It is a function of the DNA force magnitude, so it has no orientation
+     * and should be referred to as speed (the magnitude component of velocity).
      * 
      * @param atp ATP concentration
      * @param fDNA DNA force magnitude (pN)
      * @return speed (nm/s)
      */
-    public double getDNAStrandSpeed( final double atp, final double fDNA ) {
-        final double maxSpeed = _maxDNASpeed * ( _c1  / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) ) );
-        final double km = ( _c1 / _c5 ) * ( _c6 + ( _c7 * Math.exp( fDNA * _c8 ) ) ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
-        double speed = maxSpeed * atp / ( atp + km );
+    public double getDNASpeed( final double atp, final double fDNA ) {
+        final double maxSpeed = _maxDNASpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) ) );
+        final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( fDNA * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) );
+        final double speed = maxSpeed * atp / ( atp + km );
         return speed;
     }
     
@@ -145,9 +143,9 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
 
     public void stepInTime( double dt ) {
         if ( _enabled ) {
-            final double dnaStrandSpeed = getDNAStrandSpeed();
-//          System.out.println( "AbstractEnzyme.stepInTime dnaStrandSpeed=" + dnaStrandSpeed );//XXX
-            final double speedScale = dnaStrandSpeed / _maxDNASpeed;
+            final double dnaSpeed = getDNASpeed();
+//          System.out.println( "AbstractEnzyme.stepInTime dnaSpeed=" + dnaSpeed );//XXX
+            final double speedScale = dnaSpeed / _maxDNASpeed;
             final double dtScale = dt / _maxDt;
             final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
             _innerOrientation += deltaAngle;

@@ -51,8 +51,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
-8/28/07 - use d2 as maxSpeed in enzyme speed model
-8/28/07 - replace d1 with c1/c5 in enzyme speed model
+8/28/07 - convert c1...c8 args to double[] in enzyme model
+8/28/07 - use d2 as maxSpeed in enzyme model
+8/28/07 - replace d1 with c1/c5 in enzyme model
 8/24/07 - when position histogram is reopened, restore its previous location
 8/24/07 - refactor common code related to dialog management
 8/24/07 - when fluid controls dialog is reopened, restore its previous location
