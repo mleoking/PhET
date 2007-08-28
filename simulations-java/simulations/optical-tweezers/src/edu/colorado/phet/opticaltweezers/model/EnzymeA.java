@@ -15,17 +15,10 @@ public class EnzymeA extends AbstractEnzyme {
     private static final double MAX_DNA_SPEED = 5000; // nm/s
     
     // calibration constants for DNA speed model
-    private static final double C1 = 4.79;
-    private static final double C2 = 4.7;
-    private static final double C3 = 0.09;
-    private static final double C4 = 0.82;
-    private static final double C5 = 2.1;
-    private static final double C6 = 2;
-    private static final double C7 = 0.1;
-    private static final double C8 = 1.2;
+    private static final double[] CALIBRATION_CONSTANTS = { 4.79, 4.7, 0.09, 0.82, 2.1, 2, 0.1, 1.2 };
 
     public EnzymeA( Point2D position, double outerDiameter, double innerDiameter, DNAStrand dnaStrand, Fluid fluid, double maxDt ) {
-        super( position, outerDiameter, innerDiameter, dnaStrand, fluid, maxDt, MAX_DNA_SPEED, C1, C2, C3, C4, C5, C6, C7, C8 );
+        super( position, outerDiameter, innerDiameter, dnaStrand, fluid, maxDt, MAX_DNA_SPEED, CALIBRATION_CONSTANTS );
     }
 
 }
