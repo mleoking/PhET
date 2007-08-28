@@ -30,7 +30,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     public static final String PROPERTY_ENABLED = "enabled";
     public static final String PROPERTY_INNER_ORIENTATION = "innerOrientation";
     
-    public static final double MAX_ROTATION_PER_CLOCK_STEP = Math.toRadians( 35 );
+    public static final double MAX_ROTATION_PER_CLOCK_STEP = Math.toRadians( 45 );
     
     //----------------------------------------------------------------------------
     // Instance data
