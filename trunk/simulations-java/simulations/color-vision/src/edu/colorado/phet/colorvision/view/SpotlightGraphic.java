@@ -17,9 +17,9 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.colorvision.model.Spotlight;
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * SpotlightGraphic is the view component for a 2D spotlight.

@@ -17,8 +17,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.colorvision.model.Filter;
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * FilterGraphic is the UI component that represents a filter.

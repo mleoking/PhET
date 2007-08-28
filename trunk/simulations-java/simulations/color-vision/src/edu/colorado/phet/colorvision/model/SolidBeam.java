@@ -15,9 +15,9 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObservable;
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * SolidBeam is the model of a solid beam of light.

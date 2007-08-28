@@ -32,9 +32,9 @@ import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
 import edu.colorado.phet.colorvision.phetcommon.model.clock.AbstractClock;
 import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel2;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.colorvision.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * SingleBulbModule implements the simulation module that demonstrates how color

@@ -15,9 +15,9 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.model.ModelElement;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 
 /**

@@ -10,8 +10,8 @@
  */
 package edu.colorado.phet.colorvision.phetcommon.view.graphics.shapes;
 
-import edu.colorado.phet.colorvision.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.colorvision.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;

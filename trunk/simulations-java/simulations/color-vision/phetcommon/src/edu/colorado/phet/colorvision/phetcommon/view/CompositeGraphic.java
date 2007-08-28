@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.colorvision.phetcommon.view;
 
-import edu.colorado.phet.colorvision.phetcommon.util.MultiMap;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.Boundary;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.BoundedGraphic;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.Graphic;
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -97,12 +97,12 @@ public class CompositeGraphic implements BoundedGraphic {
     }
 
     public void addGraphic( Graphic graphic, double layer ) {
-        this.graphicMap.add( new Double( layer ), graphic );
+        this.graphicMap.put( new Double( layer ), graphic );
     }
 
     public void moveToTop( Graphic target ) {
         this.removeGraphic( target );
-        graphicMap.add( graphicMap.lastKey(), target );
+        graphicMap.put( graphicMap.lastKey(), target );
     }
 
 }

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.colorvision.phetcommon.view.phetgraphics;
 
-import edu.colorado.phet.colorvision.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
