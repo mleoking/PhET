@@ -795,7 +795,7 @@ EOT;
 											validate_form_element(this, this.pattern);
 										}
 										
-										// Validate on change:
+										// Validate on change (for autofill & such):
 										this.onchange = function() {
 											validate_form_element(this, this.pattern);
 										}
