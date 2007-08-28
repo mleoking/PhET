@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
- * AbstractEnzyme is base class for all enzymes.
+ * AbstractEnzyme is the base class for all enzymes.
  * An enzyme feeds on ATP in the fluid and pulls on the DNA strand,
  * converting chemical energy into work.
  * <p>
