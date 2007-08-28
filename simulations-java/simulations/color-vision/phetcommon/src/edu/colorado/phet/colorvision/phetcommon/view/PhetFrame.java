@@ -13,7 +13,6 @@ package edu.colorado.phet.colorvision.phetcommon.view;
 import edu.colorado.phet.colorvision.phetcommon.application.ApplicationModel;
 import edu.colorado.phet.colorvision.phetcommon.view.components.menu.HelpMenu;
 import edu.colorado.phet.colorvision.phetcommon.view.components.menu.PhetFileMenu;
-import edu.colorado.phet.colorvision.phetcommon.view.util.SwingUtils;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -63,15 +62,6 @@ public class PhetFrame extends JFrame {
 
     public void setVisible(boolean b) {
         super.setVisible(b);
-    }
-
-    /**
-     * Adds a JMenu before the Help Menu.
-     *
-     * @param menu
-     */
-    public void addMenu(JMenu menu) {
-        SwingUtils.addMenuAt(menu, getJMenuBar(), getJMenuBar().getComponentCount() - 1);
     }
 
     public void addFileMenuSeparator() {

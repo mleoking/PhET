@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 
 package edu.colorado.phet.colorvision.phetcommon.math;
@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
  * ImmutableVector2D
  *
  * @author Ron LeMaster
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public interface ImmutableVector2D extends AbstractVector2D {
 
@@ -47,30 +47,4 @@ public interface ImmutableVector2D extends AbstractVector2D {
 
     }
 
-    public class Float extends AbstractVector2D.Float implements ImmutableVector2D {
-
-        public Float() {
-        }
-
-        public Float( float x, float y ) {
-            super( x, y );
-        }
-
-        public Float( Vector2D v ) {
-            super( v );
-        }
-
-        public Float( AbstractVector2D v ) {
-            super( v );
-        }
-
-        public Float( Point2D p ) {
-            super( p );
-        }
-
-        public Float( Point2D initialPt, Point2D finalPt ) {
-            this( (float)( finalPt.getX() - initialPt.getX() ), (float)( finalPt.getY() - initialPt.getY() ) );
-        }
-
-    }
 }
