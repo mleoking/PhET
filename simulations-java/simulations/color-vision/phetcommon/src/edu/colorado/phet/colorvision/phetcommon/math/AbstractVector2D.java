@@ -78,10 +78,6 @@ public interface AbstractVector2D {
             this.y = y;
         }
 
-        protected Double(Vector2D v) {
-            this(v.getX(), v.getY());
-        }
-
         protected Double(AbstractVector2D v) {
             this(v.getX(), v.getY());
         }
