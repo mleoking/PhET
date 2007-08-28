@@ -36,9 +36,10 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     private Fluid _fluid;
     private final double _maxDt;
     
-    // constants used in the velocity model
-    private final double _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _d1, _d2;
-    private final double _maxDNAStrandSpeed;
+    // speed when DNA force=0 and ATP concentration=infinite
+    private final double _maxDNASpeed;
+    // calibration constants for DNA speed model
+    private final double _c1, _c2, _c3, _c4, _c5, _c6, _c7, _c8;
     
     private final double _outerDiameter, _innerDiameter;
     private double _innerOrientation;
@@ -52,7 +53,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             double outerDiameter, double innerDiameter,
             DNAStrand dnaStrand, Fluid fluid,
             double maxDt,
-            double c1, double c2, double c3, double c4, double c5, double c6, double c7, double c8, double d1, double d2 ) {
+            double maxDNASpeed,
+            double c1, double c2, double c3, double c4, double c5, double c6, double c7, double c8 ) {
         super( position, 0 /* orientation */ );
         
         _outerDiameter = outerDiameter;
@@ -64,6 +66,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         _fluid = fluid;
         _maxDt = maxDt;
         
+        _maxDNASpeed = maxDNASpeed;
+        
         _c1 = c1;
         _c2 = c2;
         _c3 = c3;
@@ -72,10 +76,6 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         _c6 = c6;
         _c7 = c7;
         _c8 = c8;
-        _d1 = d1;
-        _d2 = d2;
-        
-        _maxDNAStrandSpeed = getMaxDNAStrandSpeed();
     }
     
     //----------------------------------------------------------------------------
@@ -125,16 +125,6 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     }
     
     /*
-     * Gets the maximum speed with which the DNA strand is moving through the enzyme.
-     * The speed will be at a maximum when the ATP concentration is at its maximum
-     * and the DNA force is zero.
-     */
-    private double getMaxDNAStrandSpeed() {
-        final double maxATP = _fluid.getATPConcentrationRange().getMax();
-        return getDNAStrandSpeed( maxATP, 0 );
-    }
-    
-    /*
      * Gets the speed with which the DNA strand is moving through the enzyme
      * for specific ATP and DNA force values.
      * 
@@ -143,30 +133,10 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      * @return speed (nm/s)
      */
     public double getDNAStrandSpeed( final double atp, final double fDNA ) {
-        final double sMax = calcMaxSpeed( fDNA ); // V_Max in design doc
-        final double km = calcRateConstant( fDNA ); // KM in design doc
-        double speed = sMax * atp / ( atp + km ); // Velocity in design doc
+        final double maxSpeed = _maxDNASpeed * ( _c1  / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) ) );
+        final double km = ( _c1 / _c5 ) * ( _c6 + ( _c7 * Math.exp( fDNA * _c8 ) ) ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
+        double speed = maxSpeed * atp / ( atp + km );
         return speed;
-    }
-    
-    /*
-     * Max speed, referred to erroneously as V_Max in the design document.
-     * 
-     * @param fDNA DNA force magnitude
-     * @return max speed (nm/s)
-     */
-    private double calcMaxSpeed( final double fDNA ) {
-        return ( _d2 * _c1 ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
-    }
-    
-    /*
-     * Rate constant, referred to as KM in the design document.
-     * 
-     * @param fDNA DNA force magnitude
-     * @return KM
-     */
-    private double calcRateConstant( final double fDNA ) {
-        return _d1 * ( _c6 + ( _c7 * Math.exp( fDNA * _c8 ) ) ) / ( _c2 + ( _c3 * Math.exp( fDNA * _c4 ) ) );
     }
     
     //----------------------------------------------------------------------------
@@ -177,7 +147,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         if ( _enabled ) {
             final double dnaStrandSpeed = getDNAStrandSpeed();
 //          System.out.println( "AbstractEnzyme.stepInTime dnaStrandSpeed=" + dnaStrandSpeed );//XXX
-            final double speedScale = dnaStrandSpeed / _maxDNAStrandSpeed;
+            final double speedScale = dnaStrandSpeed / _maxDNASpeed;
             final double dtScale = dt / _maxDt;
             final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
             _innerOrientation += deltaAngle;
