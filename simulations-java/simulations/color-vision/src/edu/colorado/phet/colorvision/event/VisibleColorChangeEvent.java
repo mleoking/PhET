@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.colorvision.event;
 
-import java.util.EventObject;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
-import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
+import java.util.EventObject;
 
 /**
  * VisibleColorChangeEvent occurs when a color changes in some way.
@@ -39,7 +39,6 @@ public class VisibleColorChangeEvent extends EventObject {
      * 
      * @param source the source of the event
      * @param color the color
-     * @param intensity the intensity
      */
     public VisibleColorChangeEvent( Object source, VisibleColor color ) {
         super( source );

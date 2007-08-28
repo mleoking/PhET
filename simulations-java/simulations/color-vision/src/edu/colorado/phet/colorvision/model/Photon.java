@@ -11,8 +11,8 @@
 
 package edu.colorado.phet.colorvision.model;
 
-import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.colorvision.view.PhotonBeamGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 
 /**

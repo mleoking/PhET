@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.colorvision.phetcommon.model;
 
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 import java.util.ArrayList;
 

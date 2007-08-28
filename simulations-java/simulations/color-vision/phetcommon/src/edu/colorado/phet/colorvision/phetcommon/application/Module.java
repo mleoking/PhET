@@ -12,12 +12,12 @@
 package edu.colorado.phet.colorvision.phetcommon.application;
 
 import edu.colorado.phet.colorvision.phetcommon.model.BaseModel;
-import edu.colorado.phet.colorvision.phetcommon.model.ModelElement;
 import edu.colorado.phet.colorvision.phetcommon.view.ApparatusPanel;
 import edu.colorado.phet.colorvision.phetcommon.view.graphics.Graphic;
 import edu.colorado.phet.colorvision.phetcommon.view.help.HelpManager;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 import javax.swing.*;
 

@@ -16,9 +16,9 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.colorvision.model.Photon;
 import edu.colorado.phet.colorvision.model.PhotonBeam;
-import edu.colorado.phet.colorvision.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.colorvision.phetcommon.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.colorvision.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * PhotonBeamGraphic provides a view of a PhotonBeam.

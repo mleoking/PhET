@@ -4,9 +4,9 @@
  * CVS Info -
  * Filename : $Source$
  * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
+ * Modified by : $Author:samreid $
+ * Revision : $Revision:14443 $
+ * Date modified : $Date:2007-04-12 23:10:41 -0600 (Thu, 12 Apr 2007) $
  */
 package edu.colorado.phet.colorvision.phetcommon.view.phetgraphics;
 
@@ -23,7 +23,7 @@ import java.util.Stack;
  * Testing.
  * 
  * @author Sam Reid
- * @version $Revision$
+ * @version $Revision:14443 $
  */
 public abstract class PhetGraphic implements BoundedGraphic {
     private Rectangle lastBounds = new Rectangle();

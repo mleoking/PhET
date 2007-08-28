@@ -18,8 +18,8 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.colorvision.phetcommon.application.PhetApplication;
 import edu.colorado.phet.colorvision.phetcommon.util.PropertiesLoader;
-import edu.colorado.phet.colorvision.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
 
 /**
