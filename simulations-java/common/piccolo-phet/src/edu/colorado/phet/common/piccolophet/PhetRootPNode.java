@@ -31,6 +31,7 @@ public class PhetRootPNode extends PNode {
     private PNode screenNode = new PNode();//used for storing the transform only, nodes are not added to this
 
     /**
+     * Todo: this appears to have a bug; this code is inadvertently changing the parent of the specified node
      * This override of indexOfChild gets the index of the child, first directly, then in the world, then in the screen.
      *
      * @param child
@@ -52,6 +53,9 @@ public class PhetRootPNode extends PNode {
         return -1;
     }
 
+    /**
+     * Todo: this appears to have a bug; see indexOfChild
+     */
     public boolean hasChild(PNode node){
         return indexOfChild( node )>=0;
     }
