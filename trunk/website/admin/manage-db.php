@@ -14,7 +14,7 @@
             if ($action == "backup") {
                 $GLOBALS['success'] = db_backup();
 
-				print_site_page('print_backup', 9, "manage-db.php", 2);
+				print_site_page('print_backup', 9);
             }
             else if ($action == "new") {
                 $GLOBALS['success'] = db_restore();
@@ -29,11 +29,19 @@
 		
 		if ($success) {
 			print <<<EOT
+				<h1>Database Backup Success</h1>
+				
 				<p>The database was successfully backed up.</p>
+				
+				<p>If you wish, you may <a href="db-backup/database.sql">download the SQL backup file</a>. However, this is not necessary in order to use the restore feature.</p>
+				
+				<p>Click <a href="manage-db.php">here</a> to return to the database management panel.</p>
 EOT;
 		}
 		else {
 			print <<<EOT
+				<h1>Database Backup Error</h1>
+				
 				<p>The database could not be backed up.</p>
 EOT;
 		}
@@ -44,11 +52,15 @@ EOT;
 
 		if ($success) {
 			print <<<EOT
+				<h1>Database Restore Success</h1>
+				
 				<p>The database was successfully restored from the last backup.</p>
 EOT;
 		}
 		else {
 			print <<<EOT
+				<h1>Database Restore Error</h1>
+				
 				<p>The database could not be restored.</p>
 EOT;
 		}
