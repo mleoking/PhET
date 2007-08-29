@@ -61,6 +61,14 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private Random _kickRandom;
     private Vector2D _someVector; // reusable vector
     
+    /*
+     * Maximum that the DNA strand can be stretched, expressed as a percentage
+     * of the strand's contour length. As this value gets closer to 1, the 
+     * DNA force gets closer to infinity, increasing the likelihood that the 
+     * bead will rocket off the screen when it is released.
+     */
+    private final double _maxStretchiness;
+    
     // Developer controls
     private double _springConstant; // actually the spring constant divided by mass
     private DoubleRange _springConstantRange;
@@ -85,6 +93,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param contourLength
      * @param persistenceLength
      * @param numberOfSprings
+     * @param maxStretchiness
      * @param springConstantRange
      * @param dragCoefficientRange
      * @param kickConstantRange
@@ -97,7 +106,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      */
     public DNAStrand( double contourLength, 
             double persistenceLength, 
-            int numberOfSprings, 
+            int numberOfSprings,
+            double maxStretchiness,
             DoubleRange springConstantRange, 
             DoubleRange dragCoefficientRange, 
             DoubleRange kickConstantRange, 
@@ -113,6 +123,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
         _numberOfSprings = numberOfSprings;
+        _maxStretchiness = maxStretchiness;
 
         _referenceClockStep = referenceClockStep;
         
@@ -172,6 +183,50 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         return _numberOfSprings;
     }
 
+    /**
+     * Gets the max "stretchiness" of the strand.
+     * This is expressed as a percentage of the strand's contour length.
+     * As this value gets closer to 1, the DNA force gets closer to infinity,
+     * increasing the likelihood that the bead will rocket off the screen when 
+     * it is released.
+     * 
+     * @return
+     */
+    public double getMaxStretchiness() {
+        return _maxStretchiness;
+    }
+    
+    /**
+     * Gets the extension, the distance between the head and tail.
+     * 
+     * @return extension (nm)
+     */
+    public double getExtension() {
+        return getExtension( getHeadX(), getHeadY() );
+    }
+    
+    /*
+     * Gets the distance between the tail and some arbitrary point.
+     * 
+     * @returns extension (nm)
+     */
+    private double getExtension( double x, double y ) {
+        final double dx = x - getTailX();
+        final double dy = y - getTailY();
+        return PolarCartesianConverter.getRadius( dx, dy );
+    }
+    
+    /**
+     * Gets the maximum extension that the strand can have.
+     * This is a function of the strand's "stretchiness" and 
+     * its contour length.  See getMaxStretchiness.
+     * 
+     * @return maximum extension (nm)
+     */
+    public double getMaxExtension() {
+        return getMaxStretchiness() * getContourLength();
+    }
+    
     /**
      * Gets the x coordinate of the strand's head, the end connected to the bead.
      * 
@@ -351,26 +406,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
         final double magnitude = ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - scale ) * ( 1 - scale ) ) ) - ( 0.24 ) + scale );
         
         return new Vector2D.Polar( magnitude, angle );
-    }
-
-    /**
-     * Gets the extension, the distance between the head and tail.
-     * 
-     * @return extension (nm)
-     */
-    public double getExtension() {
-        return getExtension( getHeadX(), getHeadY() );
-    }
-    
-    /*
-     * Gets the distance between the tail and some arbitrary point.
-     * 
-     * @returns extension (nm)
-     */
-    private double getExtension( double x, double y ) {
-        final double dx = x - getTailX();
-        final double dy = y - getTailY();
-        return PolarCartesianConverter.getRadius( dx, dy );
     }
 
     //----------------------------------------------------------------------------

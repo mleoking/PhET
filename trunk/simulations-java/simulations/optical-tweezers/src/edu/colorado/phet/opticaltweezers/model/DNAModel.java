@@ -94,6 +94,7 @@ public class DNAModel extends ClockAdapter {
          _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 
                  DNADefaults.DNA_PERSISTENCE_LENGTH, 
                  DNADefaults.DNA_NUMBER_OF_SPRINGS, 
+                 DNADefaults.DNA_MAX_STRETCHINESS,
                  DNADefaults.DNA_SPRING_CONSTANT_RANGE, 
                  DNADefaults.DNA_DRAG_COEFFICIENT_RANGE, 
                  DNADefaults.DNA_KICK_CONSTANT_RANGE, 

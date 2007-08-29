@@ -84,6 +84,7 @@ public class MotorsDefaults {
     public static final double DNA_CONTOUR_LENGTH = GlobalDefaults.DNA_CONTOUR_LENGTH;
     public static final double DNA_PERSISTENCE_LENGTH = GlobalDefaults.DNA_PERSISTENCE_LENGTH;
     public static final int DNA_NUMBER_OF_SPRINGS = GlobalDefaults.DNA_NUMBER_OF_SPRINGS;
+    public static final double DNA_MAX_STRETCHINESS = GlobalDefaults.DNA_MAX_STRETCHINESS;
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = GlobalDefaults.DNA_SPRING_CONSTANT_RANGE;
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_DRAG_COEFFICIENT_RANGE;
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = GlobalDefaults.DNA_EVOLUTION_DT_RANGE;

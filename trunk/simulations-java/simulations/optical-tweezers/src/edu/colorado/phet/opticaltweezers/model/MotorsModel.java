@@ -97,6 +97,7 @@ public class MotorsModel extends ClockAdapter {
          _dnaStrand = new DNAStrand( MotorsDefaults.DNA_CONTOUR_LENGTH, 
                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
                  MotorsDefaults.DNA_NUMBER_OF_SPRINGS, 
+                 MotorsDefaults.DNA_MAX_STRETCHINESS,
                  MotorsDefaults.DNA_SPRING_CONSTANT_RANGE, 
                  MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE, 
                  MotorsDefaults.DNA_KICK_CONSTANT_RANGE, 
