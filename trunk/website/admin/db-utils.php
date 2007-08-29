@@ -333,12 +333,16 @@
     }
 
 	function db_backup_table($table_name) {
+		// Every statement should be terminated in ";\n\n"; this is used
+		// to split statements up on restore, since mysql_query() doesn't
+		// support more than one statement at a time.
 		$query = "SHOW CREATE TABLE `$table_name`";
+		
 		$result = db_exec_query($query);
 		
 		if (!$result) return false;
 		
-		$sql = '';
+		$sql = "DROP TABLE `$table_name`;\n\n";
 		
 		if ($row = mysql_fetch_assoc($result)) {
 			$sql .= $row['Create Table'].";\n\n";
@@ -424,8 +428,6 @@
 	}
 	
 	function db_restore_table($table_name, $sql) {
-		db_exec_query("DROP `$table_name` ");
-		
 		foreach (explode(";\n\n", $sql) as $query) {
 			if (!db_exec_query($query)) {
 				return false;
@@ -448,7 +450,11 @@
 	}
 	
 	function db_backup() {
-		mkdir("db-backup");
+		if (!file_exists("db-backup")) {
+			mkdir("db-backup");
+		}
+		
+		$master_handle = fopen("db-backup/database.sql", "wt");
 		
 		foreach (db_get_all_table_names() as $table_name) {
 			$handle = fopen("db-backup/$table_name.sql", "wt");
@@ -459,7 +465,12 @@
 			
 			fwrite($handle, $sql);
 			fclose($handle);
+			
+			fwrite($master_handle, $sql);
+			fflush($master_handle);
 		}
+		
+		fclose($master_handle);
 		
 		return true;
 	}
