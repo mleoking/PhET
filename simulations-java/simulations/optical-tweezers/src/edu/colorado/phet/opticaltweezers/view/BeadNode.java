@@ -181,14 +181,6 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
      */
     private class DragHandler extends BoundedDragHandler {
 
-        /*
-         * Maximum that the DNA strand can be stretched, expressed as a percentage
-         * of the strand's contour length. As this value gets closer to 1, the 
-         * DNA force gets closer to infinity, increasing the likelihood that the 
-         * bead will rocket off the screen when it is released.
-         */
-        private static final double MAX_STRETCH = 0.95;
-        
         private Bead _bead;
         private boolean _ignoreDrag;
 
@@ -222,7 +214,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
                 double beadY = _bead.getY();
                 // Do the drag
                 super.mouseDragged( event );
-                if ( dnaStrand.getExtension() > ( MAX_STRETCH * dnaStrand.getContourLength() ) ) {
+                if ( dnaStrand.getExtension() > dnaStrand.getMaxExtension() ) {
                     // Release the bead when the DNA strand becomes fully stretched.
                     _bead.setPosition( beadX, beadY );
                     endDrag( event );
