@@ -14,18 +14,14 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - OutOfMemoryError in Motors module
-- what doesn't setActiveModule(_motorsModule) work?
+- why doesn't setActiveModule(_motorsModule) work?
 - fluid control selected by default in Motors panel
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
-- force dialogs to fully-paint by calling SwingUtils.paintImmediately after JDialog.show
-- help items don't refresh fast enough (AWT priority issue?)
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
 
 LOW PRIORITY:
-- migrate OTWiggle to phetcommon PhetDefaultWiggleMe, use in other sims
-- factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 - use phetcommon's Vector2D
 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg
 - should "Return bead" button move bead to center of trap?
@@ -38,6 +34,11 @@ LOW PRIORITY:
 - package level javadoc
 - Spanish translations
 - improve startup performance
+
+COMMON CODE:
+- factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
+- dialogs don't paint immediately when shown (AWT priority issue?)
+- help items don't refresh fast enough (AWT priority issue?)
 
 CLEANUP:
 - remove unused strings from localization files
