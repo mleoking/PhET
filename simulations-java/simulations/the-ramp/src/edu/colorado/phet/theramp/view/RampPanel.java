@@ -4,7 +4,7 @@ package edu.colorado.phet.theramp.view;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.piccolophet.help.TargetedWiggleMe;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.RampPlotSet;
 import edu.colorado.phet.theramp.TheRampStrings;
@@ -18,11 +18,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -45,6 +43,8 @@ public class RampPanel extends PhetPCanvas {
     public final PNode goPauseClear;
     private boolean recursing = false;
     public static boolean redRampEnabled = false;
+    private DefaultWiggleMe wiggleMe;
+    private Timer wiggleMeTimer;
 
     public static Dimension getDefaultRenderSize() {
         return new Dimension( ORIG_RENDER_SIZE );
@@ -126,29 +126,6 @@ public class RampPanel extends PhetPCanvas {
 
         addMouseListener( new UserAddingEnergyHandler( module ) );
 
-//        addInputEventListener( getZoomEventHandler() );
-
-//        addInputEventListener( getPanEventHandler() );
-//        module.getModel().addModelElement( new ModelElement() {
-//            public void stepInTime( double dt ) {
-//                PCamera cam = getCamera();
-//                System.out.println( "cam.getViewTransform() = " + cam.getViewTransform() );
-//                System.out.println( "cam.getViewScale() = " + cam.getViewScale() );
-//                Point2D viewOffset = new Point2D.Double( cam.getViewTransform().getTranslateX(), cam.getViewTransform().getTranslateY() );
-//                System.out.println( "viewOffset = " + viewOffset );
-//            }
-//        } );
-
-        //find parameters you like:
-//cam.getViewScale() = 0.969001148105626
-//viewOffset = Point2D.Double[23.0, -21.0]
-        //then set them here.
-//        getCamera().setViewScale( 0.969001148105626 );
-//        getCamera().setViewScale( 1.0 );
-//        getCamera().setViewOffset( 23.0, -21.0 );
-
-//        getLayer().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );//DEC_05
-
         rampPlotSet = new RampPlotSet( module, this );
         addScreenChild( rampPlotSet );
         appliedForceControl = new AppliedForceSimpleControl( module, this );
@@ -191,20 +168,12 @@ public class RampPanel extends PhetPCanvas {
     private void layoutChildren() {
         if( !recursing ) {
             recursing = true;
-//            System.out.println( System.currentTimeMillis() + ": RampPanel.layoutChildren" );
             double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
-//            System.out.println( "yOrig = " + yOrig );
             double gopY = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
             double sliderY = getChartTopY() - appliedForceControl.getFullBounds().getHeight() - 2;
-//            System.out.println( "gopY = " + gopY );
             if( gopY <= 0 ) {
                 gopY = yOrig;
-//                System.out.println( "Reverting to orig bar gopY" );
             }
-            else {
-//                System.out.println( "Using new value" );
-            }
-//            gopY=yOrig;
             int insetX = 2;
             appliedForceControl.setOffset( insetX, sliderY );
             goPauseClear.setOffset( insetX, sliderY + appliedForceControl.getFullBounds().getHeight() );
@@ -234,15 +203,18 @@ public class RampPanel extends PhetPCanvas {
         PBounds screenBounds = target.getGlobalFullBounds();
         getCamera().globalToLocal( screenBounds );
 
-        final TargetedWiggleMe wiggleMe = new TargetedWiggleMe( TheRampStrings.getString( "invitation" ),
-                                                                200, 100,
-                                                                getBlockGraphic().getObjectGraphic() );
+        wiggleMe = new DefaultWiggleMe( this, TheRampStrings.getString( "invitation" ) );
+        wiggleMe.setLocation( 0, 0 );
+
+        wiggleMe.setArrowTailPosition( DefaultWiggleMe.RIGHT_CENTER );
         addScreenChild( wiggleMe );
+        System.out.println( "wiggleMe.getRoot() = " + wiggleMe.getRoot() );
 
         MouseAdapter wiggleMeDisappears = new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 removeScreenChild( wiggleMe );
                 removeMouseListener( this );
+                System.out.println( "wiggleMe.getRoot() = " + wiggleMe.getRoot() );
             }
         };
         addMouseListener( wiggleMeDisappears );
@@ -445,5 +417,19 @@ public class RampPanel extends PhetPCanvas {
 
     public void updateReadouts() {
         rampPlotSet.updateReadouts();
+    }
+
+    public void applicationStarted() {
+        //this workaround ensures that the layout of objects is set properly, if this is called immediately,
+        //the pointer graphic shows up in the wrong place
+        //todo: remove the need for this workaround
+        wiggleMeTimer = new Timer( 10000,new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                wiggleMe.animateTo( getBlockGraphic().getObjectGraphic() );
+                wiggleMeTimer.stop();
+            }
+        } );
+        wiggleMeTimer.setInitialDelay( 1000);
+        wiggleMeTimer.start();
     }
 }
