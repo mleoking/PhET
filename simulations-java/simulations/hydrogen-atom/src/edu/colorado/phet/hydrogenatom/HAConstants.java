@@ -16,9 +16,8 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import javax.swing.JLabel;
-
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 
@@ -89,7 +88,7 @@ public class HAConstants {
     // NOTE: font sizes are configurable in the localization file!
     
     // Default font properties
-    public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
+    public static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.BOLD;
     public static final int DEFAULT_FONT_SIZE = 16;
     
