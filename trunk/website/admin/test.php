@@ -39,5 +39,11 @@
 EOT;
 	}
 	
-    print_site_page('print_content', -1);
+    //print_site_page('print_content', -1);
+
+	//print_r(db_get_all_table_names());
+	
+	foreach (explode(";\n\n", db_backup_table('contributor')) as $query) {
+		print ("$query <br/><br/><br/>");
+	}
 ?>
