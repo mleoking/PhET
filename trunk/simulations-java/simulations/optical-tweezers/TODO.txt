@@ -20,7 +20,6 @@ MEDIUM PRIORITY:
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
-- when dragging over-stretches and auto-releases bead, cursor should change from hand to arrow
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
@@ -53,6 +52,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/29/07 - when dragging over-stretches and auto-releases bead, cursor should change from hand to arrow
 8/29/07 - pull out BeadDragHandler into it's own file
 8/29/07 - set "stretchiness" in DNA model, used by bead drag handler
 8/29/07 - migrate OTWiggleMe to piccolo-phet DefaultWiggleMe
