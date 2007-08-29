@@ -93,9 +93,10 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         _modelViewTransform = modelViewTransform;
         _pModel = new Point2D.Double();
 
-        addInputEventListener( new CursorHandler() );
-
-        BeadDragHandler dragHandler = new BeadDragHandler( this, dragBoundsNode );
+        CursorHandler cursorHandler = new CursorHandler();
+        addInputEventListener( cursorHandler );
+        
+        BeadDragHandler dragHandler = new BeadDragHandler( this, dragBoundsNode, cursorHandler );
         addInputEventListener( dragHandler );
 
         // Update the model when this node is dragged.

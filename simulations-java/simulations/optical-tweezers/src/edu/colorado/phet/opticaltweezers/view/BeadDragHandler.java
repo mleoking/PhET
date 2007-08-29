@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.view;
 
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.umd.cs.piccolo.PNode;
@@ -22,6 +23,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 class BeadDragHandler extends BoundedDragHandler {
 
     private Bead _bead;
+    private CursorHandler _cursorHandler;
     private boolean _ignoreDrag;
 
     /**
@@ -30,9 +32,10 @@ class BeadDragHandler extends BoundedDragHandler {
      * @param beadNode
      * @param boundingNode
      */
-    public BeadDragHandler( BeadNode beadNode, PNode boundingNode ) {
+    public BeadDragHandler( BeadNode beadNode, PNode boundingNode, CursorHandler cursorHandler ) {
         super( beadNode, boundingNode );
         _bead = beadNode.getBead();
+        _cursorHandler = cursorHandler;
         _ignoreDrag = false;
     }
 
@@ -83,6 +86,7 @@ class BeadDragHandler extends BoundedDragHandler {
         super.mouseReleased( event );
         _ignoreDrag = true;
         _bead.setMotionEnabled( true );
+        _cursorHandler.mouseReleased( event ); // makes the cursor change back to an arrow
     }
 
     /**
