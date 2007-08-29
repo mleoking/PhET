@@ -64,7 +64,6 @@ public class RampModule extends PiccoloModule {
                 new RampObject( "the-ramp/images/crate.gif", TheRampStrings.getString( "object.crate" ), 0.8, 300, 0.7, 0.7, 0.3 ),
                 new RampObject( "the-ramp/images/ollie.gif", TheRampStrings.getString( "object.dog" ), 0.8, 15, 0.1, 0.1, 0.30, 5 ),
         };
-//        sort( rampObjects );
 
         rampPanel = createRampPanel();
         super.setPhetPCanvas( rampPanel );
@@ -84,23 +83,6 @@ public class RampModule extends PiccoloModule {
         setClockControlPanel( rampMediaPanel );
         rampModel.getBlock().addListener( new CollisionHandler( this ) );
         doReset();
-//        timer = new Timer( 30, new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                if( clock.isPaused() ) {
-//                    updateReadouts();
-//                }
-//            }
-//        } );
-    }
-
-    private void sort( RampObject[] rampObjects ) {
-        Arrays.sort( rampObjects, new Comparator() {
-            public int compare( Object o1, Object o2 ) {
-                RampObject a = (RampObject)o1;
-                RampObject b = (RampObject)o2;
-                return Double.compare( a.getMass(), b.getMass() );
-            }
-        } );
     }
 
     protected RampControlPanel createRampControlPanel() {
@@ -115,26 +97,13 @@ public class RampModule extends PiccoloModule {
         return rampModel.getRampTimeSeriesModel();
     }
 
-    public void activate() {
-        super.activate();
-//        setClockControlPanel( rampMediaPanel );
-//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( rampMediaPanel );
-    }
-
     public PhetFrame getPhetFrame() {
         return phetFrame;
-    }
-
-    public void deactivate() {
-        super.deactivate();
-//        getPhetFrame().getBasicPhetPanel().setAppControlPanel( new JLabel( "This space for rent." ) );
-//        timer.stop();
     }
 
     public void updateGraphics( ClockEvent event ) {
         super.updateGraphics( event );
         rampPanel.updateGraphics();
-//        timer.start();
     }
 
     public RampPanel getRampPanel() {
@@ -263,6 +232,10 @@ public class RampModule extends PiccoloModule {
         firedogInProgress = false;
     }
 
+    public void applicationStarted() {
+        rampPanel.applicationStarted();
+    }
+
     public static interface Listener {
         void objectChanged();
     }
@@ -306,6 +279,5 @@ public class RampModule extends PiccoloModule {
     public RampControlPanel getRampControlPanel() {
         return rampControlPanel;
     }
-
 
 }

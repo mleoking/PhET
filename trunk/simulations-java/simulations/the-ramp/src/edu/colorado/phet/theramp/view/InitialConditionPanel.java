@@ -54,7 +54,7 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         } );
         addFullWidth( rampAngleSlider );
 
-        final ModelSlider blockPosition = new ModelSlider( TheRampStrings.getString( "property.position" ), TheRampStrings.getString( "units.meters.abbreviation" ), rampModule.getGlobalMinPosition(), rampModule.getGlobalMaxPosition(), rampModule.getGlobalBlockPosition() );
+        final ModelSlider blockPosition = new ModelSlider( TheRampStrings.getString( "property.position" ), TheRampStrings.getString( "units.abbr.meters" ), rampModule.getGlobalMinPosition(), rampModule.getGlobalMaxPosition(), rampModule.getGlobalBlockPosition() );
         blockPosition.setModelTicks( new double[]{rampModule.getGlobalMinPosition(), ( rampModule.getGlobalMaxPosition() + rampModule.getGlobalMinPosition() ) / 2, rampModule.getGlobalMaxPosition()} );
         blockPosition.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
