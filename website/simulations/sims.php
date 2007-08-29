@@ -90,9 +90,39 @@
                     </tr>
                 </table>
 
-                <div class="size" title="The size of the simulation, in kilobytes">
-                    $sim_size KB
-                </div>
+				<table id="simtoolbar">
+					<tr>
+						<td class="size" title="The size of the simulation, in kilobytes">
+                    		$sim_size KB
+						</td>
+EOT;
+
+						$slashed_sim_name = addslashes($sim_name);
+						$slashed_sim_desc = addslashes($sim_desc);						
+						
+						print <<<EOT
+						<td>						
+							<script type="text/javascript">
+								digg_title 	  = '$slashed_sim_name - Interactive Physics Simulation';
+								digg_bodytext = '$slashed_sim_desc';
+								digg_topic    = 'general_sciences';
+							</script>
+							<script src="http://digg.com/tools/diggthis.js" type="text/javascript"></script>
+						</td>
+						
+						<td>
+EOT;
+							$url    = urlencode("http://phet.colorado.edu/".$_SERVER['REQUEST_URI']);
+							$title  = urlencode($sim_name);
+							
+						print <<<EOT
+						</td>
+						
+						<td>
+							<a href="http://www.stumbleupon.com/submit?url=$url&amp;title=$title"> <img border="0" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon">Stumble&nbsp;It!</a>
+						</td>
+					</tr>
+				</table>
 
             </div>
                 

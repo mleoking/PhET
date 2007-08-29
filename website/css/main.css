@@ -715,7 +715,7 @@ div.simsummary {
 	border-bottom: 1px dashed #2345a1;
 }
 
-span.size {
+.size {
 	font-family:"Courier New","Times","Arial";
 	color:#000;
 	font-size:15px;
@@ -811,6 +811,9 @@ ul.content-points li a:hover {
 	color:#fff;
 }
 
+#simtoolbar td {
+	text-align: center;
+}
 
 #hb {
 	width:300px;
