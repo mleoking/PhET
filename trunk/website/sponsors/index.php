@@ -48,6 +48,9 @@
 	
 					<li><strong><a href="http://www.royalinteractive.com"><img class="bordered_sponsors" src="../images/royal-interactive.png"/>Royal Interactive</a></strong><br />
 	                <em>For original site concept</em></li>
+	
+					<li><strong><a href="http://www.dynamicalsystems.org"><img class="bordered_sponsors" src="../images/dynamical-systems.gif"/>Dynamical Systems</a></strong><br />
+	                <em>For providing one of their tutorials</em></li>
 	            </ul>
 			</div>
         <?php

@@ -941,6 +941,8 @@ h1.indi-sim {
 	margin-top:10px;
 	font-size: larger;
 	padding:0;
+	margin-left: 2em;
+	margin-right: 2em;
 }
 #people ul li {
 	position:relative;
