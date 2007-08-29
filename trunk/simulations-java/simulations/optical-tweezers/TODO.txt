@@ -9,11 +9,12 @@ HIGH PRIORITY:
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
 - automatically "Reset DNA" when switching between enzymes
+- uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
 - DNA spring closest to bead is the only one changed when dragging the bead, weird with paused clock or slow dt
 - OutOfMemoryError in Motors module
-- why doesn't setActiveModule(_motorsModule) work?
+- why is setActiveModule(_motorsModule) buggy?
 - fluid control selected by default in Motors panel
 - bug: visibility of dialogs (fluid controls, position histogram) isn't restored when changing modules
 - bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
@@ -52,6 +53,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/29/07 - pull out BeadDragHandler into it's own file
 8/29/07 - set "stretchiness" in DNA model, used by bead drag handler
 8/29/07 - migrate OTWiggleMe to piccolo-phet DefaultWiggleMe
 8/29/07 - replace JLabel().getFont() with PhetDefaultFont
