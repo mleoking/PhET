@@ -27,11 +27,13 @@ import javax.swing.event.HyperlinkEvent;
 import javax.jnlp.UnavailableServiceException;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
@@ -67,8 +69,18 @@ public class PhetAboutDialog extends JDialog {
     }
 
     /**
+     * Constructs a PhetAboutDialog given the short-name of a simulation, e.g. "moving-man"
+     * @param ownwer
+     * @param simulationShortName
+     */
+    public PhetAboutDialog(Frame ownwer,String simulationShortName){
+        this(ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simulationShortName) ) ));
+    }
+
+    /**
      * Constructs a dialog.
      * @param config
+     * @param owner
      */
     public PhetAboutDialog(Frame owner,DialogConfig config){
         super( owner );

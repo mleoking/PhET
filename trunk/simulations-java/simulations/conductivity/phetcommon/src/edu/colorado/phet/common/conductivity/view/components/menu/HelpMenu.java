@@ -30,12 +30,7 @@ public class HelpMenu extends JMenu {
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
 //                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "HelpMenu.AboutLabel" ) + " " + name, JOptionPane.INFORMATION_MESSAGE );
-                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( (Frame)SwingUtilities.getWindowAncestor( HelpMenu.this ), new PhetAboutDialog.SimpleDialogConfig(
-                        app.getApplicationDescriptor().getName(),
-                        app.getApplicationDescriptor().getDescription(),
-                        PhetApplicationConfig.getVersion( "conductivity" ).formatForAboutDialog(),
-                        null ) );
-                phetAboutDialog.show();
+                new PhetAboutDialog( (Frame)SwingUtilities.getWindowAncestor( HelpMenu.this ), "conductivity").show( );
             }
         } );
         add( about );

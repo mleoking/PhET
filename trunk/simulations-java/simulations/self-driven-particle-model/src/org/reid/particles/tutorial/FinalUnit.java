@@ -9,7 +9,7 @@ package org.reid.particles.tutorial;
  */
 
 public class FinalUnit extends Unit {
-    public FinalUnit( TutorialApplication tutorialApplication ) {
+    public FinalUnit( SelfDrivenParticleApplication tutorialApplication ) {
         super();
         TutorialCanvas[] pages = new TutorialCanvas[]{new BasicTutorialCanvas( tutorialApplication, new Unit3( tutorialApplication ) )};
         setCanvases( pages );

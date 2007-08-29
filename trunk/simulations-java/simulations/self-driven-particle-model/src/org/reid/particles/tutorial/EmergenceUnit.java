@@ -11,7 +11,7 @@ import org.reid.particles.tutorial.unit2.Unit2;
  */
 
 public class EmergenceUnit extends Unit {
-    public EmergenceUnit( TutorialApplication tutorialApplication ) {
+    public EmergenceUnit( SelfDrivenParticleApplication tutorialApplication ) {
         super();
         TutorialCanvas[] pages = new TutorialCanvas[]{new BasicTutorialCanvas( tutorialApplication, new Unit2( tutorialApplication ) )};
         setCanvases( pages );
