@@ -26,6 +26,12 @@ import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
+import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HADefaults;
 import edu.colorado.phet.hydrogenatom.HAResources;
@@ -37,16 +43,11 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
-import edu.colorado.phet.hydrogenatom.help.HAWiggleMe;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
 import edu.colorado.phet.hydrogenatom.view.SpectrometerNode.SpectrometerSnapshotNode;
 import edu.colorado.phet.hydrogenatom.view.manager.HAModelViewManager;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -113,7 +114,7 @@ public class HAModule extends PiccoloModule {
     private HAModel _model;
     private AbstractHydrogenAtom _atomModel;
     
-    private HAWiggleMe _wiggleMe;
+    private DefaultWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
     
     private HAModelViewManager _modelViewManager;
@@ -605,7 +606,8 @@ public class HAModule extends PiccoloModule {
             
             // Create wiggle me, add to root node.
             String wiggleMeString = HAResources.getString( "wiggleMe.gun" );
-            _wiggleMe = new HAWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe = new DefaultWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe.setArrowTailPosition( MotionHelpBalloon.BOTTOM_CENTER );
             _rootNode.addChild( _wiggleMe );
             
             // Animate from the upper-left to the gun button position
