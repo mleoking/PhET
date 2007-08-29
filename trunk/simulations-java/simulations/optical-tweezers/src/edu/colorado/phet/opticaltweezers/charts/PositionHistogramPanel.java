@@ -190,6 +190,10 @@ public class PositionHistogramPanel extends JPanel implements Observer {
                     handleClockEvent( event );
                 }
             }
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+                // clear the histogram if the clock is reset
+                clearMeasurements();
+            }
         };
         _clock.addClockListener( _clockListener );
 
