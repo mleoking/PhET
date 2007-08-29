@@ -13,7 +13,6 @@ HIGH PRIORITY:
 - automatically "Reset DNA" when switching between enzymes
 
 MEDIUM PRIORITY:
-- restarting the clock should clear position histogram
 - OutOfMemoryError in Motors module
 - what doesn't setActiveModule(_motorsModule) work?
 - fluid control selected by default in Motors panel
@@ -52,6 +51,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+8/29/07 - restarting the clock should clear position histogram
 8/28/07 - increase max rotation delta for enzyme model
 8/28/07 - convert c1...c8 args to one double[] arg in enzyme model
 8/28/07 - use d2 as maxSpeed in enzyme model
