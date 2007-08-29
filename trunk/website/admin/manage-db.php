@@ -8,15 +8,15 @@
     include_once(SITE_ROOT."admin/web-utils.php");
     
     function handle_action() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
-    
-        if (isset($action)) {
+		if (isset($_REQUEST['action'])) {
+			$action = $_REQUEST['action'];
+			
             if ($action == "backup") {
                 $GLOBALS['success'] = db_backup();
 
 				print_site_page('print_backup', 9);
             }
-            else if ($action == "new") {
+            else if ($action == "restore") {
                 $GLOBALS['success'] = db_restore();
 
 				print_site_page('print_restore', 9, "manage-db.php", 2);
@@ -33,7 +33,9 @@
 				
 				<p>The database was successfully backed up.</p>
 				
-				<p>If you wish, you may <a href="db-backup/database.sql">download the SQL backup file</a>. However, this is not necessary in order to use the restore feature.</p>
+				<p>If you wish, you may <a href="db-backup/database.sql">download the SQL backup file</a>. You will need to specify your email and password.</p>
+				
+				<p>Downloading the backup file is not necessary in order to use the restore feature.</p>
 				
 				<p>Click <a href="manage-db.php">here</a> to return to the database management panel.</p>
 EOT;
@@ -77,7 +79,7 @@ EOT;
 			<ul>
 				<li><a href="manage-db.php?action=backup">Backup the database</a></li>
 				
-				<li><a href="manage-db.php?action=backup">Restore the database</a> from the last backup</li>
+				<li><a href="manage-db.php?action=restore">Restore the database</a> from the last backup</li>
 			</ul>
 EOT;
     }
