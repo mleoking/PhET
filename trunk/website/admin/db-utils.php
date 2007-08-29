@@ -450,32 +450,51 @@
 	}
 	
 	function db_backup() {
+		$f = __FILE__;
+		if (is_link($f)) $f = readlink($f);
+		
+		$this_dir = dirname($f);
+		
+		
 		if (!file_exists("db-backup")) {
 			mkdir("db-backup");
 		}
 		
 		$htaccess_file = "db-backup/.htaccess";
+		$htpasswd_file = "db-backup/.htpasswd";
 		
 		if (file_exists($htaccess_file)) {
 			unlink($htaccess_file);
 		}
+		if (file_exists($htpasswd_file)) {
+			unlink($htpasswd_file);
+		}
 		
-		$htaccess_file_contents = "allow from colorado.edu\n";
+		$htaccess_file_contents = '';
+		
+		$htaccess_file_contents .= "AuthUserFile $this_dir/db-backup/.htpasswd\n";
+		$htaccess_file_contents .= "AuthName \"Please enter your email and password.\"\n";
+		$htaccess_file_contents .= "AuthType Basic\n";
+		$htaccess_file_contents .= "allow from colorado.edu\n";		
+		$htaccess_file_contents .= "require valid-user\n";
+		
+		$htpasswd_file_contents = '';
 		
 		foreach (db_get_rows_by_condition('contributor', array('contributor_is_team_member' => '1')) as $admin) {
 			$username = $admin['contributor_email'];
 			$password = $admin['contributor_password'];
-			
-			if (strlen(trim($password)) > 0) {			
-				$htaccess_file_contents .= "AuthUser $username $password \n";
+		
+			if (strlen(trim($password)) > 0) {
+				$htpasswd_file_contents .= exec("htpasswd -nb $username $password");
+				$htpasswd_file_contents .= "\n";
 			}
 		}
 		
-		$htaccess_file_contents .= "AuthName EnterPassword\nAuthType Basic";
-		
 		file_put_contents($htaccess_file, $htaccess_file_contents);
+		file_put_contents($htpasswd_file, $htpasswd_file_contents);
 		
 		exec("chmod 644 $htaccess_file");
+		exec("chmod 644 $htpasswd_file");
 		
 		$master_handle = fopen("db-backup/database.sql", "wt");
 		
