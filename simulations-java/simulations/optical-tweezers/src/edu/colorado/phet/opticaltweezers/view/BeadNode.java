@@ -49,7 +49,6 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
-    private BoundedDragHandler _dragHandler;
     private Point2D _pModel; // reusable point
     
     //----------------------------------------------------------------------------
@@ -96,8 +95,8 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
 
         addInputEventListener( new CursorHandler() );
 
-        _dragHandler = new DragHandler( this, dragBoundsNode, bead );
-        addInputEventListener( _dragHandler );
+        BeadDragHandler dragHandler = new BeadDragHandler( this, dragBoundsNode );
+        addInputEventListener( dragHandler );
 
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );
@@ -114,6 +113,14 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         if ( _bead != null ) {
             _bead.deleteObserver( this );
         }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public Bead getBead() {
+        return _bead;
     }
     
     //----------------------------------------------------------------------------
@@ -168,80 +175,4 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
         setPaint( paint );
     }
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Drag handler that does the following:
-     * 1. constrains dragging to the provided bounds (typically the microscope slide)
-     * 2. if the bead is attached to a DNA strand, prevents over-stretching of the strand
-     * 3. disabled the influence of Brownian and other forces while the bead is dragged
-     */
-    private class DragHandler extends BoundedDragHandler {
-
-        private Bead _bead;
-        private boolean _ignoreDrag;
-
-        public DragHandler( PNode dragNode, PNode boundingNode, Bead bead ) {
-            super( dragNode, boundingNode );
-            _bead = bead;
-            _ignoreDrag = false;
-        }
-
-        /*
-         * Disables the bead's motion model when the drag starts.
-         */
-        public void mousePressed( PInputEvent event ) {
-            _bead.setMotionEnabled( false );
-        }
-
-        /*
-         * After dragging, check the DNA strand's extension length.
-         * If it exceeds the contour length, then the strand is over-stretched,
-         * and we negate the drag operation by moving the bead back to where it
-         * was at the start of the drag.
-         */
-        public void mouseDragged( PInputEvent event ) {
-            DNAStrand dnaStrand = _bead.getDNAStrand();
-            if ( dnaStrand == null ) {
-                super.mouseDragged( event );
-            }
-            else if ( !_ignoreDrag ) {
-                // Save the bead's position before the drag
-                double beadX = _bead.getX();
-                double beadY = _bead.getY();
-                // Do the drag
-                super.mouseDragged( event );
-                if ( dnaStrand.getExtension() > dnaStrand.getMaxExtension() ) {
-                    // Release the bead when the DNA strand becomes fully stretched.
-                    _bead.setPosition( beadX, beadY );
-                    endDrag( event );
-                }
-            }
-        }
-        
-        /*
-         * End a drag before the user has released the mouse button.
-         * All subsequent drag events will be ignored until the user does
-         * release the mouse button.
-         */
-        private void endDrag( PInputEvent event ) {
-            super.mouseReleased( event );
-            _ignoreDrag = true;
-            _bead.setMotionEnabled( true );
-        }
-
-        /*
-         * Enables the bead's motion model when the drag ends.
-         * Sets the flag indicating that it's OK to process drag events.
-         */
-        public void mouseReleased( PInputEvent event ) {
-            super.mouseReleased( event );
-            _ignoreDrag = false;
-            _bead.setMotionEnabled( true );
-        }
-    }
-    
 }
