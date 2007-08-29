@@ -105,14 +105,14 @@ public class CursorHandler extends PBasicInputEventHandler {
     
     private void popCursor( PComponent component ) {
         /* 
-         * Exception handling for case in which: 
+         * Exception handling for case in which the Piccolo cursor stack is popped too many times.
+         * One case (but not the only case) where this can happen is with
          * PNode in PCanvas embedded in PSwing inside PCanvas in JFrame.
-         * This can result in too many pops.
          */
         try {
             component.popCursor();
         }
-        catch( Exception e ) {
+        catch( ArrayIndexOutOfBoundsException e ) {
             System.err.println( "CursorHandler.popCursor attempted to pop an empty cursor stack" );
             // this is a well-known (but benign) problem, so don't print the stack trace
         }
