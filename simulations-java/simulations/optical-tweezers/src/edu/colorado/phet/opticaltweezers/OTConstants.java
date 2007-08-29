@@ -4,10 +4,10 @@ package edu.colorado.phet.opticaltweezers;
 
 import java.awt.*;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 
 /**
@@ -39,7 +39,7 @@ public class OTConstants {
     //----------------------------------------------------------------------------
 
     // Default font properties
-    public static final String DEFAULT_FONT_NAME = new JLabel( "PhET" ).getFont().getName();
+    public static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
     public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     public static final int DEFAULT_FONT_SIZE = 16;
     
