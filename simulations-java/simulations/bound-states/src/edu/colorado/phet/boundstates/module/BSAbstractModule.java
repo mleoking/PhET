@@ -38,17 +38,17 @@ import edu.colorado.phet.boundstates.dialog.BSSuperpositionStateDialog;
 import edu.colorado.phet.boundstates.draghandles.*;
 import edu.colorado.phet.boundstates.enums.BSBottomPlotMode;
 import edu.colorado.phet.boundstates.enums.BSWellType;
-import edu.colorado.phet.boundstates.help.BSWiggleMe;
 import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.umd.cs.piccolo.PNode;
@@ -131,7 +131,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSSquareDragManager _squareDragManager;
     
     // Help
-    private BSWiggleMe _wiggleMe;
+    private DefaultWiggleMe _wiggleMe;
     private boolean _hasWiggleMe;
     private HelpBalloon _dragHandleHelp;
 
@@ -782,7 +782,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         if ( _wiggleMe == null ) {
             // Wiggle Me that points at the eigenstates
             String wiggleMeString = BSResources.getString( "wiggleMe.eigenstates" );
-            _wiggleMe = new BSWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe = new DefaultWiggleMe( _canvas, wiggleMeString );
             _parentNode.addChild( _wiggleMe );
             _wiggleMe.setOffset( 250, -50 );
             _wiggleMe.animateTo( 250, 250 );
