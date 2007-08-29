@@ -8,55 +8,55 @@
     include_once(SITE_ROOT."admin/contrib-utils.php");
 
 	$script = get_self_url();
+	
+	$title = isset($GLOBALS['custom_title']) ? urldecode($GLOBALS['custom_title']) : "Login/Register";
+	$body  = isset($GLOBALS['custom_body'])  ? urldecode($GLOBALS['custom_body'])  : "<p>Please login with your existing PhET account, or create a new one.</p>";
     
-    function print_first_time_login_form() {   
-        print '<h1>Login/Register</h1>';
-        
-		global $script;
+    function print_first_time_login_form() { 
+	    global $title, $body, $script;
+	
+        print "<h1>$title</h1>";
 
-		print_contribute_login_form($script, null, $script,
-			"<p>Please login with your existing PhET account, or create a new one.</p>"
-		);
+		print_contribute_login_form($script, null, $script, "$body");
     }
 
-    function print_retry_login_form() {        
-        print '<h1>Login Incorrect</h1>';
-        
-        global $script;
-
+    function print_retry_login_form() {
+		global $title, $body, $script;
+	     
+        print "<h1>$title - Login Incorrect</h1>";
 		print_contribute_login_form($script, null, $script,
             "<p><strong>The password you entered is incorrect.</strong> If you entered the correct email address, please check your email now for a password reminder.</p>
-            <p>If you don't have an account on the PhET website, please create a new account.</p>");
+            $body");
     }
 
-	function print_not_an_existing_account() {  
-	    print '<h1>Unknown Account</h1>';
-	
-		global $script;
+	function print_not_an_existing_account() {
+		global $title, $body, $script;
+		
+	    print "<h1>$title - Unknown Account</h1>";
 		
 		print_contribute_login_form($script, null, $script,
             "<p><strong>The email address you entered does not have an existing PhET account.</strong></p>
-             <p>To create a new PhET account, use the New Account form.</p>");
+             $body");
     }
 
-    function print_not_an_email_login_form() {  
-	    print '<h1>Invalid Email</h1>';
-	
-		global $script;
+    function print_not_an_email_login_form() {
+		global $title, $body, $script;
+		
+	    print "<h1>$title - Invalid Email</h1>";
 		
 		print_contribute_login_form($script, null, $script,
             "<p><strong>The email address you entered is not a valid email address.</strong></p>
-             <p>If you don't have an account on the PhET website, please create a new account.</p>");
+             $body");
     }    
 
     function print_empty_password_login_form() {
-        print '<h1>No Password Specified</h1>';
-        
-		global $script;
+		global $title, $body, $script;
+		
+        print "<h1>$title - No Password Specified</h1>";
 		
 		print_contribute_login_form($script, null, $script,
                          "<p><strong>You forgot to specify a password for your new account.</strong></p>
-                         <p>Please specify a password now.</p>");
+                         $body");
     }    
 
     function do_authentication($login_required = true) {
