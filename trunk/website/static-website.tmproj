@@ -155,19 +155,49 @@
 	<integer>346</integer>
 	<key>metaData</key>
 	<dict>
+		<key>admin/authentication.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>admin/contrib-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>95</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>312</integer>
+				<integer>345</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>294</integer>
+			<integer>340</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>21</integer>
+				<key>line</key>
+				<integer>345</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>345</integer>
+			</dict>
 		</dict>
 		<key>admin/db.inc</key>
 		<dict>
@@ -230,14 +260,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>10</integer>
+				<integer>25</integer>
 				<key>line</key>
-				<integer>796</integer>
+				<integer>801</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>788</integer>
+			<integer>780</integer>
 		</dict>
 		<key>admin/test.php</key>
 		<dict>
@@ -300,14 +330,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>13</integer>
 				<key>line</key>
-				<integer>298</integer>
+				<integer>409</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>290</integer>
+			<integer>400</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
@@ -415,6 +445,7 @@
 		<string>js/form-validation.js</string>
 		<string>admin/web-utils.php</string>
 		<string>css/main.css</string>
+		<string>admin/authentication.php</string>
 		<string>admin/test.php</string>
 		<string>admin/site-utils.php</string>
 		<string>admin/contrib-utils.php</string>
@@ -423,6 +454,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{159, 152}, {1012, 648}}</string>
+	<string>{{236, 179}, {921, 648}}</string>
 </dict>
 </plist>

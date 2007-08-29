@@ -200,11 +200,11 @@
         
     $SIM_RATING_TO_IMAGE_HTML = 
         array(
-            SIM_RATING_BETA_MINUS   => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Beta Minus Rating Image" 	title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
-            SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'" 	alt="Beta Plus Rating Image" 	title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
-            SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'" 		alt="Beta Rating Image" 		title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
-            SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'" 		alt="Checkmark Rating Image" 	title="Classroom Tested: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews." /></a>',
-            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'" 		alt="Alpha Rating Image" 		title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
+            SIM_RATING_BETA_MINUS   => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_MINUS].'" alt="Beta Minus Rating Image" 	width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
+            SIM_RATING_BETA_PLUS    => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA_PLUS].'" 	alt="Beta Plus Rating Image" 	width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
+            SIM_RATING_BETA         => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_BETA].'" 		alt="Beta Rating Image" 		width="37" title="This simulation has undergone minimal testing, but may not have been fully refined or subjected to extensive user testing." /></a>',
+            SIM_RATING_CHECK        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_CHECK].'" 		alt="Checkmark Rating Image" 	width="37" title="Classroom Tested: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews." /></a>',
+            SIM_RATING_ALPHA        => '<a href="../about/legend.php"><img src="../images/sims/ratings/'.$SIM_RATING_TO_IMAGE[SIM_RATING_ALPHA].'" 		alt="Alpha Rating Image" 		width="37" title="Under Construction: This simulation is an early preview version, and may have functional or usability bugs." /></a>'
         );
 
     $SIM_TYPE_TO_IMAGE_HTML = 
@@ -222,12 +222,12 @@
             "<a href=\"../about/legend.php\"><img src=\"".SIM_NO_MAC_IMAGE."\" alt=\"No Mac\" title=\"Not supported on Mac\"/></a>");
             
     define("SIM_CRUTCH_IMAGE_HTML", 
-        "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");    
+        "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" width=\"37\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");    
 
 	define("SIM_THUMBNAIL_CACHE_ROOT", "../admin/cached-thumbnails/");
 
     define("SIMS_PER_PAGE", 9);
-    
+
     define("SQL_SELECT_ALL_VISIBLE_CATEGORIES", 
            "SELECT * FROM `category` WHERE `cat_is_visible`='1' ORDER BY `cat_order` ASC ");
     
