@@ -97,13 +97,9 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n";
-        final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetApplicationConfig phetApplicationConfig = new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "moving-man" ) );
-                new PhetAboutDialog( frame, new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) ).show();
-//                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
+                new PhetAboutDialog( frame, "moving-man" ).show();
             }
         } );
         add( about );

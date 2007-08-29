@@ -27,11 +27,7 @@ public class HelpMenu extends JMenu {
         about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PhetAboutDialog( appDescriptor.getFrame(), new PhetAboutDialog.SimpleDialogConfig(
-                        appDescriptor.getWindowTitle(),
-                        appDescriptor.getDescription(),
-                        appDescriptor.getVersion(),
-                        null ) ).show();
+                new PhetAboutDialog( appDescriptor.getFrame(), "color-vision" ).show();
             }
         } );
         add( about );

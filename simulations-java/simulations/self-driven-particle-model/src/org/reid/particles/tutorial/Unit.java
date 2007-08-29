@@ -20,11 +20,11 @@ public class Unit {
         currentTutorialCanvas = pages[0];
     }
 
-    public void teardown( TutorialApplication tutorialApplication ) {
+    public void teardown( SelfDrivenParticleApplication tutorialApplication ) {
         getCurrentPage().teardown( tutorialApplication );
     }
 
-    public void start( TutorialApplication tutorialApplication ) {
+    public void start( SelfDrivenParticleApplication tutorialApplication ) {
         getCurrentPage().start( tutorialApplication );
     }
 

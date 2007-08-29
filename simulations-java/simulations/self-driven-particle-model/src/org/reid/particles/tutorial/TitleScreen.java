@@ -2,7 +2,6 @@
 package org.reid.particles.tutorial;
 
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
@@ -27,20 +26,20 @@ import java.io.IOException;
  */
 
 public class TitleScreen extends PSwingCanvas {
-    private TutorialApplication tutorialApplication;
+    private SelfDrivenParticleApplication tutorialApplication;
     private PSwing startButton;
     private PImage titleImage;
     private static final String simName = "self-driven-particle-model";
     private PSwing aboutSwing;
 
-    public TitleScreen( final TutorialApplication tutorialApplication ) {
+    public TitleScreen( final SelfDrivenParticleApplication tutorialApplication ) {
         this.tutorialApplication = tutorialApplication;
         setBackground( Color.lightGray );
         setPanEventHandler( null );
         setZoomEventHandler( null );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "self-driven-particle-model/images/title-page3.jpg" );
-            if( TutorialApplication.isLowResolution() ) {
+            if( SelfDrivenParticleApplication.isLowResolution() ) {
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, tutorialApplication.getTutorialFrame().getHeight() - 30 );
             }
             titleImage = new PImage( image );
@@ -68,11 +67,8 @@ public class TitleScreen extends PSwingCanvas {
 
             aboutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig(
-                            "Self-Driven Particle Model", "",
-                            PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),
-                            PhetApplicationConfig.getCredits( simName )
-                    ) ).show();
+//                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), new PhetAboutDialog.SimpleDialogConfig("Self-Driven Particle Model", "",PhetApplicationConfig.getVersion( simName ).formatForAboutDialog(),PhetApplicationConfig.getCredits( simName )) ).show();
+                    new PhetAboutDialog( tutorialApplication.getTutorialFrame(), "self-driven-particle-model").show();
                 }
             } );
             aboutSwing = new PSwing( aboutButton );

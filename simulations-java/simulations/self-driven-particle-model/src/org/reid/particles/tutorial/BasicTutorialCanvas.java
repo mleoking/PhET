@@ -42,7 +42,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
     private PButton prevSwing;
     private boolean showedPrevButton = false;
     private int viewingPageIndex = 0;
-    private TutorialApplication tutorialApplication;
+    private SelfDrivenParticleApplication tutorialApplication;
     private MyPSwing textAreaPSwing;
 
     static class MyPSwing extends PSwing {
@@ -58,13 +58,13 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         }
     }
 
-    public BasicTutorialCanvas( TutorialApplication tutorialApplication, AbstractUnit unit ) {
+    public BasicTutorialCanvas( SelfDrivenParticleApplication tutorialApplication, AbstractUnit unit ) {
         this.tutorialApplication = tutorialApplication;
         unit.setBasePage( this );
         particleModel = new ParticleModel( 550, 550 );
         particleModel.setRandomness( 0.0 );
         universeGraphic = new UniverseGraphic( particleModel );
-        if( TutorialApplication.isLowResolution() ) {
+        if( SelfDrivenParticleApplication.isLowResolution() ) {
             universeGraphic.scale( 0.82 );
         }
         textArea = new TutorialTextArea();
@@ -329,7 +329,7 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         getRoot().getActivityScheduler().removeActivity( modelActivity );
     }
 
-    public void start( TutorialApplication tutorialApplication ) {
+    public void start( SelfDrivenParticleApplication tutorialApplication ) {
         super.start( tutorialApplication );
         sectionAt( viewingPageIndex ).init();
 //        currentPage.init();
@@ -399,13 +399,13 @@ public class BasicTutorialCanvas extends TutorialCanvas implements IParticleApp 
         return prevSwing;
     }
 
-    public void teardown( TutorialApplication tutorialApplication ) {
+    public void teardown( SelfDrivenParticleApplication tutorialApplication ) {
         super.teardown( tutorialApplication );
 //        stopModel();
         System.out.println( "Stopped model in " + this );
     }
 
-    public TutorialApplication getTutorialApplication() {
+    public SelfDrivenParticleApplication getTutorialApplication() {
         return tutorialApplication;
     }
 

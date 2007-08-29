@@ -228,8 +228,9 @@ public class BalloonsApplication extends JApplet implements IHelp {
 
 
             public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig(
-                        phetApplicationConfig.getName(), phetApplicationConfig.getDescription(), phetApplicationConfig.getVersion().formatForAboutDialog(), phetApplicationConfig.getCredits() ) );
+                PhetAboutDialog phetAboutDialog=new PhetAboutDialog( frame,new PhetAboutDialog.PhetApplicationConfigDialogConfig( phetApplicationConfig ) );
+//                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( frame, new PhetAboutDialog.SimpleDialogConfig(
+//                        phetApplicationConfig.getName(), phetApplicationConfig.getDescription(), phetApplicationConfig.getVersion().formatForAboutDialog(), phetApplicationConfig.getCredits() ) );
                 phetAboutDialog.show();
             }
         } );

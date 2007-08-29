@@ -29,9 +29,6 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private ImageIcon icon;
     private JMenuItem onscreenHelp;
     private PhetFrame phetFrame;
-    private String title;
-    private String description;
-    private String version;
 
     public HelpMenu( PhetApplication application ) {
         this( application.getPhetFrame(), application.getModuleManager(), application.getApplicationModel().getName(),
@@ -42,9 +39,6 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                      String description, String version ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
         this.phetFrame = phetFrame;
-        this.title = title;
-        this.description = description;
-        this.version = version;
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );
 
@@ -110,16 +104,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     }
 
     private void showAboutDialogPhet() {
-        String credits = "";
-        PhetAboutDialog phetAboutDialog = new PhetAboutDialog( phetFrame, new PhetAboutDialog.SimpleDialogConfig( title, description, version, credits ) );
-        phetAboutDialog.show();
-    }
-
-    private void showAboutDialogOrig() {
-        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n\n" + javaVersion + "\n";
-        final String msg = message;
-        JOptionPane.showMessageDialog( this, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
+        new PhetAboutDialog( phetFrame, "sound" ).show();
     }
 
     /**

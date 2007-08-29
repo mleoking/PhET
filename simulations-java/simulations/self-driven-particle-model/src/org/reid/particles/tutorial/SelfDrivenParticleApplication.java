@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Copyright (c) Aug 22, 2005 by Sam Reid
  */
 
-public class TutorialApplication {
+public class SelfDrivenParticleApplication {
     TutorialFrame tutorialFrame;
     TitleScreen titleScreen;
     ArrayList units = new ArrayList();
@@ -24,7 +24,7 @@ public class TutorialApplication {
     private int currentUnitIndex = 0;
     private TutorialKeyHandler keyHandler;
 
-    public TutorialApplication() {
+    public SelfDrivenParticleApplication() {
         tutorialFrame = new TutorialFrame( this );
         keyHandler = new TutorialKeyHandler();
         if( isLowResolution() ) {
@@ -113,7 +113,7 @@ public class TutorialApplication {
     }
 
     public static void main( String[] args ) {
-        TutorialApplication tutorialApplication = new TutorialApplication();
+        SelfDrivenParticleApplication tutorialApplication = new SelfDrivenParticleApplication();
         tutorialApplication.start();
     }
 
