@@ -454,6 +454,29 @@
 			mkdir("db-backup");
 		}
 		
+		$htaccess_file = "db-backup/.htaccess";
+		
+		if (file_exists($htaccess_file)) {
+			unlink($htaccess_file);
+		}
+		
+		$htaccess_file_contents = "allow from colorado.edu\n";
+		
+		foreach (db_get_rows_by_condition('contributor', array('contributor_is_team_member' => '1')) as $admin) {
+			$username = $admin['contributor_email'];
+			$password = $admin['contributor_password'];
+			
+			if (strlen(trim($password)) > 0) {			
+				$htaccess_file_contents .= "AuthUser $username $password \n";
+			}
+		}
+		
+		$htaccess_file_contents .= "AuthName EnterPassword\nAuthType Basic";
+		
+		file_put_contents($htaccess_file, $htaccess_file_contents);
+		
+		exec("chmod 644 $htaccess_file");
+		
 		$master_handle = fopen("db-backup/database.sql", "wt");
 		
 		foreach (db_get_all_table_names() as $table_name) {
