@@ -9,11 +9,11 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.rutherfordscattering.RSConstants;
 import edu.colorado.phet.rutherfordscattering.RSResources;
 import edu.colorado.phet.rutherfordscattering.control.PlumPuddingAtomControlPanel;
-import edu.colorado.phet.rutherfordscattering.help.RSWiggleMe;
 import edu.colorado.phet.rutherfordscattering.model.*;
 import edu.colorado.phet.rutherfordscattering.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -57,7 +57,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
     private PlumPuddingAtomControlPanel _controlPanel;
     
     // Help
-    private RSWiggleMe _wiggleMe;
+    private DefaultWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
     
     //----------------------------------------------------------------------------
@@ -300,7 +300,7 @@ public class PlumPuddingAtomModule extends AbstractModule {
             
             // Create wiggle me, add to root node.
             String wiggleMeString = RSResources.getString( "string.turnOnTheGun" );
-            _wiggleMe = new RSWiggleMe( _canvas, wiggleMeString );
+            _wiggleMe = new DefaultWiggleMe( _canvas, wiggleMeString );
             _wiggleMe.setArrowTailPosition( MotionHelpBalloon.TOP_LEFT );
             _wiggleMe.setArrowLength( 60 );
             _rootNode.addChild( _wiggleMe );
