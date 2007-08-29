@@ -45,6 +45,7 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
 
     private Cursor cursor;  // cursor to change to
+    private boolean cursorIsOnStack; // did we push the cursor onto the stack?
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,6 +74,7 @@ public class CursorHandler extends PBasicInputEventHandler {
      */
     public CursorHandler( Cursor cursor ) {
         this.cursor = cursor;
+        cursorIsOnStack = false;
     }
 
     //----------------------------------------------------------------------------
@@ -100,21 +102,33 @@ public class CursorHandler extends PBasicInputEventHandler {
     //----------------------------------------------------------------------------
     
     private void pushCursor( PComponent component ) {
-        component.pushCursor( cursor );
+        if( !cursorIsOnStack ) {
+            component.pushCursor( cursor );
+            cursorIsOnStack = true;
+        }
     }
     
     private void popCursor( PComponent component ) {
-        /* 
-         * Exception handling for case in which the Piccolo cursor stack is popped too many times.
-         * One case (but not the only case) where this can happen is with
-         * PNode in PCanvas embedded in PSwing inside PCanvas in JFrame.
-         */
-        try {
-            component.popCursor();
-        }
-        catch( ArrayIndexOutOfBoundsException e ) {
-            System.err.println( "CursorHandler.popCursor attempted to pop an empty cursor stack" );
-            // this is a well-known (but benign) problem, so don't print the stack trace
+        if( cursorIsOnStack ) {
+            /* 
+             * WORKAROUND:
+             * 
+             * Exception handling for case in which the Piccolo cursor stack is popped too many times.
+             * One case (but not the only case) where this can happen is with
+             * PNode in PCanvas embedded in PSwing inside PCanvas in JFrame.
+             * 
+             * NOTE: This should no longer be necessary because we are keeping track of 
+             * the stack state with the cursorOnStack variable. But I've left it in here
+             * to remind us that it's a problem that should be fixed in Piccolo.
+             */
+            try {
+                component.popCursor();
+            }
+            catch ( ArrayIndexOutOfBoundsException e ) {
+                System.err.println( "CursorHandler.popCursor attempted to pop an empty cursor stack" );
+                // this is a well-known (but benign) problem, so don't print the stack trace
+            }
+            cursorIsOnStack = false;
         }
     }
 }
