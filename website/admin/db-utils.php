@@ -331,4 +331,148 @@
             
         return db_exec_query($query);
     }
+
+	function db_backup_table($table_name) {
+		$query = "SHOW CREATE TABLE `$table_name`";
+		$result = db_exec_query($query);
+		
+		if (!$result) return false;
+		
+		$sql = '';
+		
+		if ($row = mysql_fetch_assoc($result)) {
+			$sql .= $row['Create Table'].";\n\n";
+		}
+		
+		mysql_free_result($result);
+		
+		$query = "SELECT * FROM `$table_name`";
+		
+		$result = db_exec_query($query);
+		
+		if (!$result) return $sql;
+		
+		$num_rows   = mysql_num_rows($result);
+		$num_fields = mysql_num_fields($result);
+
+		if ($num_rows > 0) {
+			$field_type = array();
+			
+			$i = 0;
+			
+			while ($i < $num_fields) {
+				$meta = mysql_fetch_field($result, $i);
+				
+				array_push($field_type, $meta->type);
+				
+				$i++;
+			}
+
+			$sql .= "INSERT INTO `$table_name` VALUES \n";
+			
+			$index = 0;
+			
+			// Loop through all rows in the table:
+			while ($row = mysql_fetch_row($result)) {
+				$sql .= "(";
+				
+				// Loop through all fields in the current row:
+				for ($i = 0; $i < $num_fields; $i++) {
+					if (is_null($row[$i])) {
+						$sql .= "null";
+					}
+					
+					else {
+						switch ($field_type[$i]) {
+							case 'int':
+								$sql .= $row[$i];
+							break;
+							
+							case 'string':
+							case 'blob' :
+							default:
+								$sql .= "'".mysql_real_escape_string($row[$i])."'";
+						}
+					}
+					
+					if ($i < $num_fields-1) {
+						// At least one more field left:
+						$sql .= ",";
+					}
+				}
+				
+				$sql .= ")";
+
+				if ($index < $num_rows-1) {
+					// At least one more row left:
+					$sql .= ",";
+				}
+				else {
+					// Final row; end statement:
+					$sql .= ";\n";
+				}
+				
+				$sql .= "\n";
+
+				$index++;
+			}
+		}
+			
+		mysql_free_result($result);
+		
+		return $sql;
+	}
+	
+	function db_restore_table($table_name, $sql) {
+		db_exec_query("DROP `$table_name` ");
+		
+		foreach (explode(";\n\n", $sql) as $query) {
+			if (!db_exec_query($query)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
+	function db_get_all_table_names() {
+		$tables = array();
+		
+		$result = db_exec_query('SHOW TABLES');
+
+		while ($table = mysql_fetch_array($result)) {
+			$tables[] = $table[0];
+		}
+		
+		return $tables;
+	}
+	
+	function db_backup() {
+		mkdir("db-backup");
+		
+		foreach (db_get_all_table_names() as $table_name) {
+			$handle = fopen("db-backup/$table_name.sql", "wt");
+			
+			$sql = db_backup_table($table_name);
+			
+			if (!$sql) return false;
+			
+			fwrite($handle, $sql);
+			fclose($handle);
+		}
+		
+		return true;
+	}
+	
+	function db_restore() {
+		foreach (db_get_all_table_names() as $table_name) {
+			$sql = file_get_contents("db-backup/$table_name.sql");
+			
+			if (!$sql || !db_restore_table($table_name, $sql)) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 ?>

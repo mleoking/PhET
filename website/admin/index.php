@@ -17,6 +17,8 @@
                 <li><a href="manage-contributors.php">Manage Contributors</a></li>
                 
                 <li><a href="compose-newsletter.php">Compose Newsletter</a></li>
+
+                <li><a href="manage-db.php">Manage Database</a></li>
             </ul>
 EOT;
     }

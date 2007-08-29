@@ -189,7 +189,8 @@ EOT;
                     'admin/organize-cats.php'       => 'Organize Categories',                   
                     'admin/organize-sims.php'       => 'Organize Simulations',            
                     'admin/manage-contributors.php' => 'Manage Contributors',                 
-                    'admin/compose-newsletter.php'  => 'Compose Newsletter'
+                    'admin/compose-newsletter.php'  => 'Compose Newsletter',
+                    'admin/manage-db.php'  			=> 'Manage Database'
                 )
             );
         }
