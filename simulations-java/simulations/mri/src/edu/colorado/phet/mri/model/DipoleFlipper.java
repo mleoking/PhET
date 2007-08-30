@@ -73,7 +73,7 @@ public class DipoleFlipper implements ModelElement {
      * Emit a photon
      */
     private void emitPhoton() {
-        Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.SPEED );
+        Vector2D velocity = new Vector2D.Double( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
         double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         MriEmittedPhoton photon = new MriEmittedPhoton();
         photon.setWavelength( wavelength );

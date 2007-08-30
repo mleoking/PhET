@@ -21,7 +21,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
-import java.util.Random;
 
 /**
  * Class: Photon
@@ -35,7 +34,8 @@ public class Photon extends Particle implements Collidable {
     // Class data and methods
     //----------------------------------------------------------------
 
-    static public double SPEED = 1;
+//    static public double SPEED = 1;
+    static public double DEFAULT_SPEED = 1;
     static public double RADIUS = 10;
     static public double RED = 680;
     static public double DEEP_RED = 640;
@@ -91,7 +91,7 @@ public class Photon extends Particle implements Collidable {
      */
     protected Photon() {
         collidableAdapter = new CollidableAdapter( this );
-        setVelocity( SPEED, 0 );
+        setVelocity( DEFAULT_SPEED, 0 );
     }
 
     /**

@@ -81,9 +81,6 @@ public class LaserModel extends QuantumModel {
     // Replacement for behavior that was previously built into BaseModel
     private SimpleObservable observable = new SimpleObservable();
 
-    /**
-     *
-     */
     public LaserModel() {
 
         setCurrentElementProperties( twoLevelProperties );
@@ -175,7 +172,7 @@ public class LaserModel extends QuantumModel {
                 atom.setCurrState( getGroundState() );
             }
         }
-        Photon photon = null;
+        Photon photon;
         while( !photons.isEmpty() ) {
             photon = (Photon)photons.get( 0 );
             photon.removeFromSystem();
@@ -384,7 +381,7 @@ public class LaserModel extends QuantumModel {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
                     || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
+                    || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
                     for( int j = 0; j < collidablesB.size(); j++ ) {
                         Collidable collidable2 = (Collidable)collidablesB.get( j );
                         if( collidable1 != collidable2
@@ -409,7 +406,7 @@ public class LaserModel extends QuantumModel {
                 Collidable collidable1 = (Collidable)collidablesA.get( i );
                 if( !( collidable1 instanceof Photon )
                     || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPosition() ) )
-                    || ( tube.getBounds().contains( ( (Photon)collidable1 ).getPositionPrev() ) ) ) {
+                    || ( tube.getBounds().contains( collidable1.getPositionPrev() ) ) ) {
                     for( int k = 0; k < collisionExperts.size(); k++ ) {
                         CollisionExpert collisionExpert = (CollisionExpert)collisionExperts.get( k );
                         collisionExpert.detectAndDoCollision( collidable1, body );

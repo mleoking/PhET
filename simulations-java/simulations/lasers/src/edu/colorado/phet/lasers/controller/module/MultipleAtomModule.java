@@ -173,8 +173,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         atoms = new ArrayList();
         int numAtoms = 30;
         for( int i = 0; i < numAtoms; i++ ) {
-            int numEnergyLevels = getThreeEnergyLevels() ? 3 : 2;
-            ElementProperties properties = null;
+            ElementProperties properties;
             if( getThreeEnergyLevels() ) {
                 properties = new ThreeLevelElementProperties();
             }

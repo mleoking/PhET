@@ -75,7 +75,7 @@ public class Beam extends Particle implements PhotonSource {
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.setPosition( origin );
-        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
         this.length = length;
         this.beamWidth = beamWidth;
     }
@@ -118,7 +118,7 @@ public class Beam extends Particle implements PhotonSource {
     }
 
     public void setDirection( Vector2D.Double direction ) {
-        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.SPEED );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
     }
 
     public double getDirection() {

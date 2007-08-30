@@ -78,7 +78,7 @@ class StateLifetimeManager implements ModelElement {
 
             AtomicState nextState = atom.getEnergyStateAfterEmission();
             if( emitOnStateChange ) {
-                double speed = Photon.SPEED;
+                double speed = Photon.DEFAULT_SPEED;
                 double theta = emissionDirectionStrategy.getEmissionDirection();
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
