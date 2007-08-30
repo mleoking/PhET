@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -172,19 +173,12 @@ public class LaserApplication extends PiccoloPhetApplication {
     }
 
     private static void setLAF() {
-        UIManager.LookAndFeelInfo[] lafs = UIManager.getInstalledLookAndFeels();
-        for( int i = 0; i < lafs.length; i++ ) {
-            UIManager.LookAndFeelInfo laf = lafs[i];
-            System.out.println( "laf.getName() = " + laf.getClassName() );
-        }
         // Install the look and feel. If we're not on Windows,
         // then use the native L&F
-        String arch = System.getProperty( "os.name", "" );
-        if( !arch.toLowerCase().startsWith( "windows" ) ) {
+        if( !PhetUtilities.isWindows() ) {
             // Get the native look and feel class name
-            String nativeLF = UIManager.getSystemLookAndFeelClassName();
             try {
-                UIManager.setLookAndFeel( nativeLF );
+                UIManager.setLookAndFeel( UIManager.getSystemLookAndFeelClassName());
             }
             catch( InstantiationException e ) {
             }
@@ -196,7 +190,6 @@ public class LaserApplication extends PiccoloPhetApplication {
             }
         }
         else {
-//            new LaserAppLookAndFeel().apply();
             try {
                 UIManager.setLookAndFeel( new LaserAppLookAndFeel() );
             }
