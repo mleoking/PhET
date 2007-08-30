@@ -212,15 +212,6 @@ public class SingleAtomModule extends BaseLaserModule {
      */
     public void activate() {
         super.activate();
-
-        // TODO: This fixed a race condition that caused the module to come up in 3 energy levels sometimes.
-        // This should either be fixed on its own, or revisited when the Discharge Lamps code is merged with Lasers
-        try {
-            Thread.sleep( 1000 );
-        }
-        catch( InterruptedException e ) {
-            e.printStackTrace();
-        }
         laserControlPanel.setThreeEnergyLevels( getThreeEnergyLevels() );
     }
 
