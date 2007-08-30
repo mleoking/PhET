@@ -4,9 +4,13 @@ package edu.colorado.phet.movingman.view;
 import edu.colorado.phet.chart_movingman.controllers.ChartSlider;
 import edu.colorado.phet.common_movingman.model.clock.AbstractClock;
 import edu.colorado.phet.movingman.MovingManModule;
+import edu.colorado.phet.movingman.plotdevice.PlotDeviceListener;
 import edu.colorado.phet.movingman.common.Force1DWiggleMe;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * User: Sam Reid
@@ -15,23 +19,25 @@ import java.awt.*;
  */
 
 public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.Listener {
-    private MovingManApparatusPanel movingManApparatusPanel;
-    private MovingManModule module;
-    private AbstractClock clock;
     private boolean disposed = false;
 
     public SliderWiggleMe( MovingManApparatusPanel movingManApparatusPanel,
                            MovingManModule module, AbstractClock clock ) {
-        super( movingManApparatusPanel, clock, "Drag the Slider", new SliderWiggleMe.FirstSliderTarget( movingManApparatusPanel ) );
-        this.movingManApparatusPanel = movingManApparatusPanel;
-        this.module = module;
-        this.clock = clock;
+        super( movingManApparatusPanel, clock, SimStrings.get( "help.drag-the-slider" ), new SliderWiggleMe.FirstSliderTarget( movingManApparatusPanel ) );
         setArrow( -30, 5 );
         ChartSlider.Listener listener = new ChartSlider.Listener() {
             public void valueChanged( double value ) {
                 dispose();
             }
         };
+        java.awt.event.KeyAdapter keyListener = new java.awt.event.KeyAdapter() {
+            public void keyPressed( KeyEvent e ) {
+                dispose();
+            }
+        };
+        movingManApparatusPanel.getPlotSet().getPositionPlotSuite().getTextBox().addKeyListener( keyListener );
+        movingManApparatusPanel.getPlotSet().getVelocityPlotSuite().getTextBox().addKeyListener( keyListener );
+        movingManApparatusPanel.getPlotSet().getAccelerationPlotSuite().getTextBox().addKeyListener( keyListener );
         movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().addListener( listener );
         movingManApparatusPanel.getPlotSet().getVelocityPlot().getChartSlider().addListener( listener );
         movingManApparatusPanel.getPlotSet().getAccelerationPlot().getChartSlider().addListener( listener );
@@ -63,8 +69,7 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
     }
 
     protected Point getOscillationCenter( Point targetLoc ) {
-        Point oscillationCenter = new Point( targetLoc.x + 5, targetLoc.y );
-        return oscillationCenter;
+        return new Point( targetLoc.x + 5, targetLoc.y );
     }
 
     public static class FirstSliderTarget implements Target {
@@ -75,8 +80,7 @@ public class SliderWiggleMe extends Force1DWiggleMe implements MovingManModule.L
         }
 
         public Point getLocation() {
-            Point loc = movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().getBounds().getLocation();
-            return loc;
+            return movingManApparatusPanel.getPlotSet().getPositionPlot().getChartSlider().getBounds().getLocation();
         }
 
         public int getHeight() {
