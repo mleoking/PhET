@@ -230,10 +230,19 @@ EOT;
                 $new_last_index = $new_index - 1;
                 
                 foreach($contrib as $cur_field => $cur_value) {
+					if (!isset($new[$new_last_index][$cur_field])) {
+						$new[$new_last_index][$cur_field] = '';
+					}
+					
                     $new_last_value = $new[$new_last_index][$cur_field];
                     
                     if ($cur_value != '' && !strrchr($new_last_value, $cur_value)) {
-                        $new[$new_last_index][$cur_field] .= ", $cur_value";
+						if (strlen(trim($new[$new_last_index][$cur_field])) == 0) {
+							$new[$new_last_index][$cur_field] .= "$cur_value";
+						}
+						else {
+                        	$new[$new_last_index][$cur_field] .= ", $cur_value";
+						}
                     }
                 }
             }
@@ -266,7 +275,7 @@ EOT;
         
         $date = get_sorting_link('contribution_date_updated', 'Updated');
         
-        // $contributions = consolidate_identical_adjacent_titles($contributions);
+        $contributions = consolidate_identical_adjacent_titles($contributions);
 
 		if (count($contributions) == 0) {
 			if ($GLOBALS['g_content_only']) {
