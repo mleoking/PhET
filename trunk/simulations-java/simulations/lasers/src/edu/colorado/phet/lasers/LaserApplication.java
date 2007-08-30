@@ -315,7 +315,6 @@ public class LaserApplication extends PiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 setLAF();
-                EnergyLevelGraphic.laserApplicationRunning = true;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
                 LaserApplication application = new LaserApplication( args );
