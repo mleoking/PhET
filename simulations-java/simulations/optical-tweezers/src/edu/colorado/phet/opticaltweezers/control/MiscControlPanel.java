@@ -230,7 +230,9 @@ public class MiscControlPanel extends JPanel implements Observer {
     private void handleFluidControlsCheckBox() {
         final boolean selected = _fluidRadioButton.isSelected() && _fluidControlsCheckBox.isSelected();
         if ( selected ) {
-            openFluidControlsDialog();
+            if ( _parentFrame.isVisible() ) {
+                openFluidControlsDialog();
+            }
         }
         else {
             closeFluidControlsDialog();

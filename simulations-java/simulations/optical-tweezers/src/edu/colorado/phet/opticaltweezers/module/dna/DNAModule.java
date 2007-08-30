@@ -34,6 +34,9 @@ public class DNAModule extends AbstractModule {
     private DNAControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
 
+    private boolean _fluidControlsWasSelected;
+    private boolean _positionHistogramWasSelected;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -77,6 +80,8 @@ public class DNAModule extends AbstractModule {
         
         // Set initial state
         resetAll();
+        _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
+        _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
     }
     
     //----------------------------------------------------------------------------
@@ -105,9 +110,20 @@ public class DNAModule extends AbstractModule {
     }
 
     /**
-     * Close all dialogs when switching to another module.
+     * Open selected dialogs when this module is activated.
+     */
+    public void activate() {
+        super.activate();
+        _controlPanel.getMiscControlPanel().setFluidControlsSelected( _fluidControlsWasSelected );
+        _controlPanel.getChartsControlPanel().setPositionHistogramSelected( _positionHistogramWasSelected );
+    }
+    
+    /**
+     * Close all dialogs when this module is deactivated.
      */
     public void deactivate() {
+        _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
+        _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
         _controlPanel.closeAllDialogs();
         super.deactivate();
     }
