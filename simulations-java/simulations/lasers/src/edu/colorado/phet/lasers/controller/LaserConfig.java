@@ -15,9 +15,6 @@ import java.awt.geom.Point2D;
 
 public class LaserConfig {
 
-    // Version
-    public static final String VERSION = "4.02.01";
-
     // Localization
     public static final String localizedStringsPath = "lasers/localization/lasers-strings";
 
@@ -49,13 +46,6 @@ public class LaserConfig {
     public static final int DEFAULT_SPONTANEOUS_EMISSION_TIME = 50;
 
     public static int MINIMUM_GROUND_STATE_LIFETIME = 200;
-//    public static final double STIMULATION_LIKELIHOOD = 0.2;
-
-//    public static final double MIN_WAVELENGTH = VisibleColor.MIN_WAVELENGTH;
-//    public static final double MAX_WAVELENGTH = VisibleColor.MAX_WAVELENGTH;
-
-    // Tolerances used to determine if a photon matches with an atomic state energy
-//    public static final double ENERGY_TOLERANCE = 0.01;
 
     // Angle within which a photon is considered to be moving horizontally. This is used by the
     // mirrors to "cheat" photons into lasing, and by the wave graphic to determine its amplitude
