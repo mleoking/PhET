@@ -285,27 +285,17 @@ public class LaserApplication extends PiccoloPhetApplication {
         }
     }
 
-    /**
-     * @param args
-     */
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                setLAF();
                 EnergyLevelGraphic.laserApplicationRunning = true;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
-                setLAF();
 
                 LaserApplication application = new LaserApplication( args );
                 application.startApplication();
-
-                application.updateComponentTreeUI();
             }
         } );
-    }
-
-    private void updateComponentTreeUI() {
-        SwingUtilities.updateComponentTreeUI( singleAtomModule.getModulePanel() );
-        SwingUtilities.updateComponentTreeUI( multipleAtomModule.getModulePanel() );
     }
 
 }
