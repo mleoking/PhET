@@ -90,6 +90,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     // Creates an image for infrared photons
     static BufferedImage s_IRphotonGraphic;
+    private static int PHOTON_SIZE = 25;
 
     static {
         int bwThreshold = 180;
@@ -218,7 +219,7 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 //        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 50) );
 //        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 25) );
 //        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 10) );
-        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 20) );
+        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), PHOTON_SIZE ) );
     }
 
     public void update() {
@@ -271,5 +272,16 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         s_instances.remove( this );
         photon = null;
+    }
+
+    public static void setPhotonSize( int photonSize ) {
+        if (PHOTON_SIZE!=photonSize){
+            PHOTON_SIZE=photonSize;
+            s_colorToImage.clear();
+        }
+    }
+
+    public static int getPhotonSize() {
+        return PHOTON_SIZE;
     }
 }
