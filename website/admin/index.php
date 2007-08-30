@@ -18,6 +18,8 @@
                 
                 <li><a href="compose-newsletter.php">Compose Newsletter</a></li>
 
+				<li><a href="view-statistics.php">View Statistics</a></li>
+
                 <li><a href="manage-db.php">Manage Database</a></li>
             </ul>
 EOT;

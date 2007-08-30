@@ -33,7 +33,7 @@
 				
 				<p>The database was successfully backed up.</p>
 				
-				<p>If you wish, you may <a href="db-backup/database.sql">download the SQL backup file</a>. You will need to specify your email and password.</p>
+				<p>If you wish, you may <a href="db-backup/database.sql">download the SQL backup file</a>. You will need to specify your email and password and you must be accessing this web page from colorado.edu.</p>
 				
 				<p>Downloading the backup file is not necessary in order to use the restore feature.</p>
 				

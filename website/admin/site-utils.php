@@ -190,6 +190,7 @@ EOT;
                     'admin/organize-sims.php'       => 'Organize Simulations',            
                     'admin/manage-contributors.php' => 'Manage Contributors',                 
                     'admin/compose-newsletter.php'  => 'Compose Newsletter',
+                    'admin/view-statistics.php' 	=> 'View Statistics',
                     'admin/manage-db.php'  			=> 'Manage Database'
                 )
             );
