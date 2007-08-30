@@ -64,4 +64,12 @@ public class PhetDefaultFont extends Font {
     public static String getDefaultFontName() {
         return FONT_NAME;
     }
+
+    /**
+     * Returns the font size for the default font.
+     * @return the font size for the default font
+     */
+    public static int getDefaultFontSize(){
+       return REFERENCE_FONT.getSize();
+    }
 }
