@@ -6,6 +6,7 @@
 	include_once(SITE_ROOT."admin/password-protection.php");
 	include_once(SITE_ROOT."admin/contrib-utils.php");
 	include_once(SITE_ROOT."admin/web-utils.php");
+	include_once(SITE_ROOT."admin/nominate-utils.php");	
 
 	function print_file_to_stats($file_to_stats, $print_missing = true) {
 		if (count($file_to_stats) > 0) {
@@ -83,6 +84,29 @@ EOT;
 			print "<h3>$month Statistics</h3>";
 		
 			print_file_to_stats($file_to_stats);
+		}
+		
+		print <<<EOT
+			<h2>Gold Star Nomination Statistics</h2>
+EOT;
+
+		$stats = get_nomination_statistics();
+
+		if (count($stats) > 0) {
+			print "<ul>";
+		
+			foreach ($stats as $contribution_id => $count) {
+				$contribution = contribution_get_contribution_by_id($contribution_id);
+			
+				$title = $contribution['contribution_title'];
+				
+				print "<li>$title - $count Gold Star Nominations</li>";
+			}
+			
+			print "</ul>";			
+		}
+		else {
+			print "<p>No contributions have been nominated as Gold Star contributions.</p>";
 		}
 	}
 	

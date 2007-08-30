@@ -7,6 +7,7 @@
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/sim-utils.php");    
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
+    include_once(SITE_ROOT."admin/nominate-utils.php");
     
     define("UP_ARROW",   SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW", SITE_ROOT."images/sorting-darrow.gif");    

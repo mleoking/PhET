@@ -284,6 +284,32 @@ div.form_content {
 	margin-left:    1em;
 	border-style: 	none;
 }
+div.form_content {
+	padding: 		0;
+	margin:  		1ex;
+	margin-left:    1em;
+	border-style: 	none;
+}
+*.field {
+	clear:   right;
+	width:   100%;
+	border:  0;
+	margin:  0;
+	padding: 0.5ex 0 0.5ex 0;
+}
+*.field *.label {
+	width: 			25%;
+    font-weight:	bold;	
+}
+*.field *.label_content {
+	clear: right;
+	float: right;
+	width: 75%;
+}
+*.field *.label_content input, *.field *.label_content select, *.field *.label_content textarea {
+	position: relative;
+	top:      -1ex;
+}
 
 /* For table-based forms */
 table.form {
@@ -307,6 +333,7 @@ table.form tr td input, table.form tr td textarea, table.form tr td select {
 	top:      -0.5ex;	
 }
 table.form tr td input[type="submit"] {
+	padding-top: 1em;
 	float: right;
 }
 table.form select.auto-width, table.form input.auto-width {
@@ -402,9 +429,7 @@ div.horizontal_center {
 	margin-bottom: 1em;
 }
 #twofacelogin table.form select, #twofacelogin table.form input {
-	margin:  0;
-	padding: 0;
-	width: 	 140px;
+	width: 	140px;
 }
 #twofacelogin table.form input[type="submit"] {
 	width: auto;

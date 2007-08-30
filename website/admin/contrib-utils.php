@@ -9,6 +9,7 @@
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/sys-utils.php"); 
     include_once(SITE_ROOT."admin/sim-utils.php");  
+    include_once(SITE_ROOT."admin/nominate-utils.php");  
 
 	define('DEFAULT_CONTRIBUTOR_DESC', 'I am a teacher who uses PhET in my classes');
     
@@ -978,8 +979,10 @@ EOT;
 
     function contribution_print_summary3($contribution, $print_sims = true) {    
         global $referrer;
-        
+
         eval(get_code_to_create_variables_from_array($contribution));
+
+		$gold_star_html = get_gold_star_html_for_contribution($contribution_id, 10);
         
         $sim_list = "None";
         
@@ -1042,6 +1045,8 @@ EOT;
 		if ($contribution_from_phet == 1) {
 			$title_html = "${title_html} ".FROM_PHET_IMAGE_HTML;
 		}
+		
+		$title_html .= $gold_star_html;
         
         print <<<EOT
             <tr>

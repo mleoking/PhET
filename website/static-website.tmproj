@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/view-statistics.php</string>
+	<string>admin/index.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -248,9 +248,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>38</integer>
+				<integer>82</integer>
 				<key>line</key>
-				<integer>20</integer>
+				<integer>16</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -320,9 +320,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>76</integer>
+				<integer>48</integer>
 				<key>line</key>
-				<integer>191</integer>
+				<integer>192</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -348,14 +348,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>67</integer>
+				<integer>14</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>14</integer>
+			<integer>3</integer>
 		</dict>
 		<key>admin/xml_parser.php</key>
 		<dict>
@@ -501,6 +501,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{14, 322}, {921, 648}}</string>
+	<string>{{14, 315}, {1293, 655}}</string>
 </dict>
 </plist>
