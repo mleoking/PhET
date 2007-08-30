@@ -28,6 +28,8 @@ public class StimulatedPhoton extends Photon {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
+    private static double SEPARATION=Photon.RADIUS;
+
     public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
         StimulatedPhoton.stimulationBounds = stimulationBounds;
     }
@@ -36,7 +38,8 @@ public class StimulatedPhoton extends Photon {
         Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
         int idx = 1;
-        int yOffset = ( 1 + idx / 2 ) * 4;
+//        double yOffset = (double)(( 1 + idx / 2 ) * 4);
+        double yOffset = SEPARATION;
         int sign = idx % 2 == 0 ? 1 : -1;
         double dy = yOffset * sign * ( stimulatingPhoton.getVelocity().getX() / stimulatingPhoton.getVelocity().getMagnitude() );
         double dx = yOffset * -sign * ( stimulatingPhoton.getVelocity().getY() / stimulatingPhoton.getVelocity().getMagnitude() );
@@ -50,10 +53,18 @@ public class StimulatedPhoton extends Photon {
         double maxY = stimulationBounds.getMaxY();
         if( newY < minY || newY > maxY ) {
             newY = atom.getPosition().getY();
-            newX = atom.getPosition().getX() - 10;
+            newX = atom.getPosition().getX() - Photon.RADIUS;
         }
         newPhoton.setPosition( newX, newY );
 
         return newPhoton;
+    }
+
+    public static double getSeparation() {
+        return SEPARATION;
+    }
+
+    public static void setSeparation( double sep ) {
+        StimulatedPhoton.SEPARATION = sep;
     }
 }

@@ -43,15 +43,9 @@ public class Photon extends Particle implements Collidable {
     static public double MIN_VISIBLE_WAVELENGTH = 380;
     static public double MAX_VISIBLE_WAVELENGTH = 710;
     static public double GRAY = 5000;
-    static private Random random = new Random();
 
     static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
     static private PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
-
-    // Free pool of photons. We do this so we don't have to use the heap
-    // at run-time
-    static private int freePoolSize = 2000;
-//    static private ArrayList freePool = new ArrayList( freePoolSize );
 
     static public Photon create( Point2D location, Vector2D velocity ) {
         Photon newPhoton = new Photon();

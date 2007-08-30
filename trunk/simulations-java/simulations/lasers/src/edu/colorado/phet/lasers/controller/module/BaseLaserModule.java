@@ -609,4 +609,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
             graphic = null;
         }
     }
+
+    public void setBackgroundColor( Color backgroundColor ) {
+        getApparatusPanel().setBackground( backgroundColor );
+    }
+
+    public Color getBackgroundColor() {
+        return getApparatusPanel().getBackground();
+    }
 }

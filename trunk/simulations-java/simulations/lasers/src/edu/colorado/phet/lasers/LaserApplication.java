@@ -26,6 +26,7 @@ import edu.colorado.phet.lasers.controller.module.MultipleAtomModule;
 import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -42,8 +43,8 @@ import java.util.Arrays;
 
 public class LaserApplication extends PiccoloPhetApplication {
 
-    private Module singleAtomModule;
-    private Module multipleAtomModule;
+    private SingleAtomModule singleAtomModule;
+    private MultipleAtomModule multipleAtomModule;
 
     private JDialog photoDlg;
     private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
@@ -156,6 +157,14 @@ public class LaserApplication extends PiccoloPhetApplication {
                 }
             }
         } );
+
+        final JMenuItem optionsButton = new JMenuItem( "View Options" );
+        optionsButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new OptionsDialog( LaserApplication.this ).show();
+            }
+        } );
+        optionMenu.add( optionsButton );
     }
 
     public void displayHighToMidEmission( boolean selected ) {
@@ -195,6 +204,23 @@ public class LaserApplication extends PiccoloPhetApplication {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setBackgroundColor( Color backgroundColor ) {
+        singleAtomModule.setBackgroundColor( backgroundColor );
+        multipleAtomModule.setBackgroundColor( backgroundColor );
+    }
+
+    public Color getBackgroundColor() {
+        return singleAtomModule.getBackgroundColor();
+    }
+
+    public void setPhotonSize( int photonSize ) {
+        PhotonGraphic.setPhotonSize( photonSize );
+    }
+
+    public int getPhotonSize() {
+        return PhotonGraphic.getPhotonSize();
     }
 
     //----------------------------------------------------------------

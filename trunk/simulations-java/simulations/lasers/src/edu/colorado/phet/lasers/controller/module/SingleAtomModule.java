@@ -233,4 +233,5 @@ public class SingleAtomModule extends BaseLaserModule {
             getBeamCurtainGraphic().setVisible( threeEnergyLevels );
         }
     }
+
 }
