@@ -50,7 +50,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
-********* version 1.00.06 (?)
+********* version 1.00.06 (17653)
 8/29/07 - restore dialogs when main frame is minimized/maximized
 8/29/07 - fluid control selected by default in Motors panel
 8/29/07 - restore visibility of dialogs (fluid controls, position histogram) when switching modules
