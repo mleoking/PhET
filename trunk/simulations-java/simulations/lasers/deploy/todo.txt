@@ -1,10 +1,18 @@
-1.  After the laser blows up, the sim is still using most of his processor.  If he hits pause, it goes down to 15% or so. Then if he hits play it's back up to 80-100%. So the sim is still running after the laser blows up.
 
-2.  This one is related to Sam's bug that she found and a problem associated with the fact that we don't address the concept that the chamber has to be an integral number of wavelengths to work.  So he will get a laser of one color (in photon view) and then move the lower energy level.  It quickly builds up photons of the new color and is lasing in the new color while there are still a large number of photons of the old color still oscillating and lasing.  See attached screen shot.  We might want to do something simple like reset when a person moves the lower energy level while lasing.
+
+1.  After the laser blows up, the sim is still using most of his processor.  If he hits pause, it goes down to 15% or so.
+Then if he hits play it's back up to 80-100%. So the sim is still running after the laser blows up.
+
+2.  This one is related to Sam's bug that she found and a problem associated with the fact that we don't address the concept that the
+chamber has to be an integral number of wavelengths to work.  So he will get a laser of one color (in photon view)
+and then move the lower energy level.  It quickly builds up photons of the new color and is lasing in the new color
+while there are still a large number of photons of the old color still oscillating and lasing.  See attached screen shot.
+We might want to do something simple like reset when a person moves the lower energy level while lasing.
 
 
 8-24-2007 bug report from McKagan
-Also, I found a bug in Lasers.  It's there in the old version, and no one's ever complained about it before, so it's probably not a high priority to fix, but it's worth at least documenting it.  Here's how you reproduce it:
+Also, I found a bug in Lasers.  It's there in the old version, and no one's ever complained about it before,
+so it's probably not a high priority to fix, but it's worth at least documenting it.  Here's how you reproduce it:
 1. Get it lasing.
 2. Set lower transition from photon view to wave view.  There should be
   a big wave going.

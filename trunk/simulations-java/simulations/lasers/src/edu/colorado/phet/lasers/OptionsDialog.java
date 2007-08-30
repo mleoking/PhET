@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.quantum.model.StimulatedPhoton;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,7 +22,7 @@ public class OptionsDialog extends JDialog {
     private LaserApplication laserApplication;
 
     public OptionsDialog( final LaserApplication laserApplication ) {
-        super( laserApplication.getPhetFrame(), "View Options",false );
+        super( laserApplication.getPhetFrame(), "View Options", false );
         VerticalLayoutPanel pane = new VerticalLayoutPanel();
         pane.setFillNone();
         setContentPane( pane );
@@ -55,14 +56,22 @@ public class OptionsDialog extends JDialog {
         } );
         getContentPane().add( photonSize );
 
-        final LinearValueControl photonSeparation=new LinearValueControl( 1,100,"Pair Separation","000","");
-        photonSeparation.setValue( StimulatedPhoton.getSeparation());
+        final LinearValueControl photonSeparation = new LinearValueControl( 1, 100, "Pair Separation", "000", "" );
+        photonSeparation.setValue( StimulatedPhoton.getSeparation() );
         photonSeparation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 StimulatedPhoton.setSeparation( photonSeparation.getValue() );
             }
         } );
-        getContentPane().add(photonSeparation);
+        getContentPane().add( photonSeparation );
+
+        final JCheckBox jcb = new JCheckBox( "Comet", PhotonGraphic.isCometGraphic() );
+        jcb.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                PhotonGraphic.setCometGraphic( jcb.isSelected() );
+            }
+        } );
+        getContentPane().add( jcb );
 
         pack();
         SwingUtils.centerDialogInParent( this );

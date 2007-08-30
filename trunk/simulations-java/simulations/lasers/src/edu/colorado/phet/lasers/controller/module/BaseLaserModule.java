@@ -566,6 +566,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
             // Create a photon graphic, add it to the appratus panel and attach a
             // listener to the photon that will remove the graphic if and when the
             // photon goes away. Set it's visibility based on the state of the simulation
+//            final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             final PhotonGraphic pg = PhotonGraphic.getInstance( getApparatusPanel(), photon );
             pg.setVisible( isPhotonGraphicVisible );
             addGraphic( pg, LaserConfig.PHOTON_LAYER );
