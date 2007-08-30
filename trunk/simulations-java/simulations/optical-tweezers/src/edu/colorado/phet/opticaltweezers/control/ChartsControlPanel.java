@@ -180,7 +180,9 @@ public class ChartsControlPanel extends JPanel {
     
     private void handlePositionHistogramCheckBox() {
         if ( _positionHistogramCheckBox.isSelected() ) {
-            openPositionHistogramDialog();
+            if ( _parentFrame.isVisible() ) {
+                openPositionHistogramDialog();
+            }
         }
         else {
             closePositionHistogramDialog();

@@ -31,6 +31,9 @@ public class MotorsModule extends AbstractModule {
     private MotorsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
 
+    private boolean _fluidControlsWasSelected;
+    private boolean _positionHistogramWasSelected;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -49,7 +52,7 @@ public class MotorsModule extends AbstractModule {
         // Control Panel
         _controlPanel = new MotorsControlPanel( this );
         setControlPanel( _controlPanel );
-
+        
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         _clockControlPanel.setTimeColumns( MotorsDefaults.CLOCK_TIME_COLUMNS );
@@ -74,6 +77,8 @@ public class MotorsModule extends AbstractModule {
 
         // Set initial state
         resetAll();
+        _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
+        _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
     }
 
     //----------------------------------------------------------------------------
@@ -102,9 +107,20 @@ public class MotorsModule extends AbstractModule {
     }
 
     /**
-     * Close all dialogs when switching to another module.
+     * Open selected dialogs when this module is activated.
+     */
+    public void activate() {
+        super.activate();
+        _controlPanel.getMiscControlPanel().setFluidControlsSelected( _fluidControlsWasSelected );
+        _controlPanel.getChartsControlPanel().setPositionHistogramSelected( _positionHistogramWasSelected );
+    }
+    
+    /**
+     * Close all dialogs when this module is deactivated.
      */
     public void deactivate() {
+        _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
+        _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
         _controlPanel.closeAllDialogs();
         super.deactivate();
     }
