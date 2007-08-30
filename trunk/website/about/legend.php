@@ -4,6 +4,7 @@
     
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/sim-utils.php");
+    include_once(SITE_ROOT."admin/nominate-utils.php");
     
     function print_legend() {
         global $SIM_RATING_TO_IMAGE_HTML;
@@ -15,6 +16,7 @@
         $beta_plus_html  = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA_PLUS]; 
         $check_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_CHECK]; 
         $alpha_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_ALPHA]; 
+		$gold_star_html  = get_gold_star_html();
 		$from_phet_html  = FROM_PHET_IMAGE_HTML;
         
         print <<<EOT
@@ -40,6 +42,10 @@
                         <tr>
                             <td>$check_html</td>    	<td><strong>Classroom Tested</strong>: This simulation has been used and tested in the classroom, and on multiple computer platforms. The simulation has been refined based on that experience and on student interviews.</td>
                         </tr>
+
+						<tr>
+							<td>$gold_star_html</td>	<td><strong>Gold Star Contribution</strong>: Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.</td>
+						</tr>
 
                         <tr>
                             <td>$from_phet_html</td>	<td><strong>PhET Designed</strong>: This contribution was designed by PhET.</td>

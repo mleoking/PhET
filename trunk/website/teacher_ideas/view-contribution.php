@@ -6,6 +6,7 @@
     include_once(SITE_ROOT."admin/site-utils.php");   
     include_once(SITE_ROOT."admin/web-utils.php");       
     include_once(SITE_ROOT."admin/db-utils.php");        
+    include_once(SITE_ROOT."admin/nominate-utils.php");
 
     function print_content() {
         global $contribution_id, $referrer;
@@ -52,12 +53,15 @@
         }
 
 		$contribution_simulations = contribution_get_simulation_listings_as_list($contribution_id);
-        
+		
+		$gold_star_html = get_gold_star_html_for_contribution($contribution_id);
+		
         print <<<EOT
 		<h1>$contribution_title</h1>
 		
+		$gold_star_html
+		
         <div id="contributionview">
-        
             <h3>Download Files</h3>
         
             $files_html          
@@ -225,6 +229,28 @@ EOT;
                     
                 </form>
             </div>
+
+			<h3>Nominations</h3>
+			
+			<p><em>Contributions that meet the Gold Star criteria may be nominated as Gold Star contributions to direct teachers toward them and to recognize the teachers that created them.</em></p>
+
+			<p><a href="../teacher_ideas/nominate-contribution.php?contribution_id=$contribution_id">Nominate this contribution as a Gold Star Activity</a></p>
+
+        	<div id="nominate-contribution" style="display: none;">
+				<form method="post" action="">
+					<table class="form">
+						<tr>
+							<td>reason for nomination</td>	<td><textarea name="contribution_nomination_reason" rows="5" cols="50"></textarea></td>
+						</tr>
+						
+						<tr>
+							<td colspan="2">
+								<input type="submit" name="submit" value="Nominate" />
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
             
         </div>
         
