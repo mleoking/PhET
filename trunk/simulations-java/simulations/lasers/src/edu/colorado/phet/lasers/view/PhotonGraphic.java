@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -206,25 +207,19 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         setImage( BufferedImageUtils.getRotatedImage( bi, theta ) );
     }
 
-    private BufferedImage createImage() {
-        BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
-        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
-        op.filter( s_particleImage, bi );
-        return bi;
-    }
-
 //    private BufferedImage createImage() {
-//        BufferedImage im = new BufferedImage( 100,100,BufferedImage.TYPE_4BYTE_ABGR_PRE);
-//        Graphics2D g2=im.createGraphics();
-//        g2.setPaint( VisibleColor.wavelengthToColor( photon.getWavelength( )));
-//        g2.fill( new Rectangle( 10,10,10,10) );
-//        g2.dispose();
-//        return im;
-
-    //    }
-//    private BufferedImage createImage() {
-//        return BufferedImageUtils.toBufferedImage( PhetPhotonNode.createPhotonImage( photon.getWavelength() ) );
+//        BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
+//        BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+//        op.filter( s_particleImage, bi );
+//        return bi;
 //    }
+
+    private BufferedImage createImage() {
+//        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 50) );
+//        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 25) );
+//        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 10) );
+        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( photon.getWavelength(), 20) );
+    }
 
     public void update() {
         setLocation( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
