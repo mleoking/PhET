@@ -10,21 +10,6 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.swing.event.MouseInputAdapter;
-
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -38,6 +23,17 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
+
+import javax.swing.event.MouseInputAdapter;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -189,8 +185,6 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         }
     }
 
-    public static boolean laserApplicationRunning = false;//todo: fix this awkward workaround for problem in EnergyLevelGraphic
-
     /**
      * Inner class that handles translation of the graphic
      */
@@ -205,12 +199,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                                                    atomicState.getEnergyLevel() + energyChange ),
                                          atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
 
-            // The following line was screwing things up for the configurable atom in Discharge Lamps when I
-            // rebuilton 9/11/06
-            if( laserApplicationRunning ) {//todo: fix this awkward workaround for problem in EnergyLevelGraphic
-                newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
-            }
-
+            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
             setEnergy( newEnergy );
         }
 
