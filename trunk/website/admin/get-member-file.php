@@ -19,6 +19,7 @@ EOT;
 
 	include_once(SITE_ROOT."admin/sys-utils.php");
 	include_once(SITE_ROOT."admin/site-utils.php");	
+	include_once(SITE_ROOT."admin/db-utils.php");		
 	
 	do_authentication(true);
 	
@@ -37,6 +38,15 @@ EOT;
 	}
 	
 	if ($download) {
+		// Keep track of download statistics:
+		db_insert_row(
+			'download_statistics', 
+			array(
+				'download_statistics_file' => $file,
+				'contributor_id'           => $contributor_id
+			)
+		);		
+		
 		send_file_to_browser($file, null, null, "attachment");
 	}
 	else {
