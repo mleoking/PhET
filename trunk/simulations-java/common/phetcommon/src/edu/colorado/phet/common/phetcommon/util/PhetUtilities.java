@@ -129,4 +129,15 @@ public class PhetUtilities {
     public static boolean isMacintosh() {
         return getOperatingSystem() == OS_MACINTOSH;
     }
+
+
+    /**
+     * Determines whether we're running on a Windows
+     *
+     * @return true or false
+     */
+    public static boolean isWindows() {
+        return getOperatingSystem() == OS_WINDOWS;
+    }
+
 }
