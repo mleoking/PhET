@@ -1,3 +1,5 @@
+8-29-2007: Lasers (4.04) - User interface improvements
+8-29-2007: MRI (1.05) - User interface improvements
 8-16-2007: Plinko Probability - added.
 8-16-2007: Equation Grapher - user interface improvements
 8-12-2007: Maze Game (1.03) - bugfixes
