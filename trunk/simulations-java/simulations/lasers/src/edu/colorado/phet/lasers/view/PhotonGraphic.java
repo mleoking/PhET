@@ -71,8 +71,11 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
 
     // Creates an image for infrared photons
     static BufferedImage s_IRphotonGraphic;
-    private static int PHOTON_SIZE = 25;
-    private static boolean COMET_GRAPHIC = true;
+//    private static int PHOTON_SIZE = 25;
+    //    private static boolean COMET_GRAPHIC = true;
+
+    private static int PHOTON_SIZE = 18;
+    private static boolean COMET_GRAPHIC = false;
 
     public static boolean isCometGraphic() {
         return COMET_GRAPHIC;
