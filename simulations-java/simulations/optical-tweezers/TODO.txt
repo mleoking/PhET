@@ -15,9 +15,9 @@ MEDIUM PRIORITY:
 - DNA spring closest to bead is the only one changed when dragging the bead, weird with paused clock or slow dt
 - OutOfMemoryError in Motors module
 - why is setActiveModule(_motorsModule) buggy?
-- bug: dialogs (fluid controls, position histogram) are disposed when main frame is minimized
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
+- save/load state of dialogs (fluid controls, position histogram) in deactivated modules
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
@@ -50,6 +50,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+********* version 1.00.06 (?)
+8/29/07 - restore dialogs when main frame is minimized/maximized
 8/29/07 - fluid control selected by default in Motors panel
 8/29/07 - restore visibility of dialogs (fluid controls, position histogram) when switching modules
 8/29/07 - add workaround to CursorHandler so that it's impossible to pop the stack too many times
