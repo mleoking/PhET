@@ -83,9 +83,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
 
-    /**
-     *
-     */
     public BaseLaserModule( String title, IClock clock ) {
         super( title, clock );
 
@@ -128,9 +125,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createHelp();
     }
 
-    /**
-     *
-     */
     public void activate() {
         super.activate();
         StimulatedPhoton.setStimulationBounds( cavity.getBounds() );
@@ -140,9 +134,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         getLaserModel().getHighEnergyState().setMeanLifetime( highStateMeanLifetime );
     }
 
-    /**
-     *
-     */
     public void deactivate() {
         super.deactivate();
         middleStateMeanLifetime = getLaserModel().getMiddleEnergyState().getMeanLifeTime();
@@ -153,11 +144,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
     // Create model elements and their associated graphics
     //----------------------------------------------------------------
 
-    /**
+    /*
      * Sets up the energy levels dialog
-     *
-     * @param clock
-     * @param frame
      */
     protected void createEnergyLevelsDialog( IClock clock, PhetFrame frame ) {
         laserEnergyLevelsMonitorPanel = new LaserEnergyLevelMonitorPanel( this, clock );
