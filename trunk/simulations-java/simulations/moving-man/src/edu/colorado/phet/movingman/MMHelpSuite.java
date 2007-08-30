@@ -19,17 +19,9 @@ public class MMHelpSuite {
     private HelpItem3 typeValue;
     private HelpItem3 dragCursor;
 
-    /*
-     * 1.	Drag the man.
-2.	adjust slider
-3.	set a value for position
-4.	drag the cursor.
-
-     */
     public MMHelpSuite( MovingManModule module ) {
         this.module = module;
         init();
-
         setHelpEnabled( false );
     }
 
