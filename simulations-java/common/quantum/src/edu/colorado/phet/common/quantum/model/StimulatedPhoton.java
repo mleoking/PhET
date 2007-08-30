@@ -28,7 +28,8 @@ public class StimulatedPhoton extends Photon {
     // laser cavity
     static private Rectangle2D stimulationBounds;
 
-    private static double SEPARATION=Photon.RADIUS;
+    //    private static double SEPARATION=Photon.RADIUS;
+    private static double SEPARATION = 9;
 
     public static void setStimulationBounds( Rectangle2D stimulationBounds ) {
         StimulatedPhoton.stimulationBounds = stimulationBounds;
