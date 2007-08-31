@@ -71,6 +71,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
      *
      */
     public DischargeLampModel() {
+        super( 1.0 );
 
         // Make the battery
         battery = new Battery( -MAX_VOLTAGE, MAX_VOLTAGE );

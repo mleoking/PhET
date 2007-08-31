@@ -81,7 +81,8 @@ public class LaserModel extends QuantumModel {
     // Replacement for behavior that was previously built into BaseModel
     private SimpleObservable observable = new SimpleObservable();
 
-    public LaserModel() {
+    public LaserModel(double photonSpeedScale) {
+        super(photonSpeedScale);
 
         setCurrentElementProperties( twoLevelProperties );
 

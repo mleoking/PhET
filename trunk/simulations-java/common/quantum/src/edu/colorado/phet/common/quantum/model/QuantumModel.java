@@ -20,8 +20,15 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
  */
 public class QuantumModel extends BaseModel implements Photon.LeftSystemEventListener {
     private ElementProperties currentElementProperties;
-//    private LaserElementProperties currentElementProperties;
+    private double photonSpeedScale;
 
+    public QuantumModel( double photonSpeedScale ) {
+        this.photonSpeedScale = photonSpeedScale;
+    }
+
+    public double getPhotonSpeedScale() {
+        return photonSpeedScale;
+    }
 
     public void leftSystemEventOccurred( Photon.LeftSystemEvent event ) {
         removeModelElement( event.getPhoton() );

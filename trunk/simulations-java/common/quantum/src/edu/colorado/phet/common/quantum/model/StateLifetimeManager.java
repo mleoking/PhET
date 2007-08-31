@@ -14,6 +14,7 @@ package edu.colorado.phet.common.quantum.model;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
@@ -31,7 +32,7 @@ class StateLifetimeManager implements ModelElement {
     private double lifeTime;
     private double deathTime;
     private AtomicState state;
-    private BaseModel model;
+    private QuantumModel model;
     private EmissionDirectionStrategy emissionDirectionStrategy =
             new SometimesHorizontalButMostlyRandomEmissionDirectionStrategy( 0.10 );
 
@@ -40,7 +41,7 @@ class StateLifetimeManager implements ModelElement {
      * @param emitOnStateChange Does the atom emit a photon when it changes state?
      * @param model             The model
      */
-    public StateLifetimeManager( Atom atom, boolean emitOnStateChange, BaseModel model ) {
+    public StateLifetimeManager( Atom atom, boolean emitOnStateChange, QuantumModel model ) {
         this.atom = atom;
         this.emitOnStateChange = emitOnStateChange;
         this.model = model;
@@ -78,7 +79,7 @@ class StateLifetimeManager implements ModelElement {
 
             AtomicState nextState = atom.getEnergyStateAfterEmission();
             if( emitOnStateChange ) {
-                double speed = Photon.DEFAULT_SPEED;
+                double speed = Photon.DEFAULT_SPEED*model.getPhotonSpeedScale();
                 double theta = emissionDirectionStrategy.getEmissionDirection();
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
