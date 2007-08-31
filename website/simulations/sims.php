@@ -109,7 +109,7 @@ EOT;
 						$stumble_link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
 						
 						print <<<EOT
-					<span class="promote">		
+					<span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
 							share sim: 
 						
 							<a href="$digg_link"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg"/></a>
@@ -129,15 +129,15 @@ EOT;
                     <table>
                         <tr>
                             <td>
-                                <div class="rage_button_358398">
-                                	<a href="$sim_launch_url" $on_click_html title="Click here to run the simulation from your browser">Run Now!</a>
-                                </div>
+	                            <div class="rage_button_928365">
+	                            	<a href="$sim_run_offline_link" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Run Offline</a>
+	                            </div>
                             </td>
                         
                             <td>
-                                <div class="rage_button_928365">
-                                	<a href="$sim_run_offline_link" title="Click here to download the simulation to your computer, to run when you do not have an Internet connection">Run Offline</a>
-                                </div>
+	                            <div class="rage_button_358398">
+	                            	<a href="$sim_launch_url" $on_click_html title="Click here to run the simulation from your browser">Run Now!</a>
+	                            </div>
                             </td>
                         </tr>
                     </table>
