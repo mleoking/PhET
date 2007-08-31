@@ -55,10 +55,12 @@ public class ReadoutTitleNode extends PNode {
             }
         } );
         updateText();
-        titleNode.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>= " );
-//        Image im=titleNode.toImage();
-//        PImage p=new PImage( im );
-//        addChild( p);
+        if( series.getCharacterName() != null ) {
+            titleNode.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>= " );
+        }
+        else {
+            titleNode.setHtml( series.getAbbr() + "= " );
+        }
 
         valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
     }

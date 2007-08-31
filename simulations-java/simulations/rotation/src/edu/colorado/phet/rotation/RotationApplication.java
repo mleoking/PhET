@@ -57,13 +57,11 @@ public class RotationApplication extends PhetApplication {
                 PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
+
                 QuickProfiler appStartTime = new QuickProfiler();
                 new RotationLookAndFeel().initLookAndFeel();
                 new RotationApplication( args ).startApplication();
                 System.out.println( "Rotation Application started in = " + appStartTime );
-//                PDebug.debugRegionManagement=true;
-//                PDebug.debugFullBounds=true;
-//                PDebug.debugBounds=true;
             }
         } );
     }

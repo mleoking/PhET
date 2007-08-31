@@ -25,7 +25,7 @@ import java.awt.geom.Point2D;
  * Jul 17, 2007, 12:15:12 AM
  */
 public class CircularRegression {
-    JFrame frame = new JFrame();
+    private JFrame frame = new JFrame();
     private PhetPPath circlePath;
     private PNode pointLayer = new PNode();
     private Circle lastCircle;

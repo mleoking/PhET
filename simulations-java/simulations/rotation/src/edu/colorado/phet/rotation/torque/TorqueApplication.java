@@ -6,6 +6,7 @@ import edu.colorado.phet.rotation.RotationFrameSetup;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 import javax.swing.*;
 
@@ -20,13 +21,15 @@ public class TorqueApplication extends PiccoloPhetApplication {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
         rotationModule = new TorqueModule( getPhetFrame() );
         addModule( rotationModule );
-
         getPhetFrame().addMenu( new RotationTestMenu() );
     }
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
+                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
                 new RotationLookAndFeel().initLookAndFeel();
                 new TorqueApplication( args ).startApplication();
             }
