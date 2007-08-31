@@ -44,31 +44,6 @@ public class Photon extends Particle implements Collidable {
     static public double MAX_VISIBLE_WAVELENGTH = 710;
     static public double GRAY = 5000;
 
-    static private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
-    static private PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
-
-    static public Photon create( Point2D location, Vector2D velocity ) {
-        Photon newPhoton = new Photon();
-        newPhoton.setPosition( location );
-        newPhoton.setVelocity( velocity );
-        photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( Photon.class, newPhoton ) );
-        return newPhoton;
-    }
-
-    /**
-     * If the photon is created by a CollimatedBeam, it should use this method,
-     * so that the photon can tell the CollimatedBeam if it is leaving the system.
-     */
-    static public Photon create( double wavelength, Point2D location, Vector2D velocity ) {
-        Photon newPhoton = create( location, velocity );
-        newPhoton.setWavelength( wavelength );
-        return newPhoton;
-    }
-
-    static public void addClassListener( PhotonEmissionListener listener ) {
-        photonEmittedEventChannel.addListener( listener );
-    }
-
     //----------------------------------------------------------------
     // Instance data and methods
     //----------------------------------------------------------------
@@ -81,8 +56,6 @@ public class Photon extends Particle implements Collidable {
     private Photon childPhoton;
     private CollidableAdapter collidableAdapter;
     private double wavelength;
-    // This list keeps track of atoms that the photon has collided with
-    private ArrayList contactedAtoms = new ArrayList();
 
     /**
      * Constructor is protected so that clients of the class must use static createPrimaryBorder()
@@ -93,6 +66,27 @@ public class Photon extends Particle implements Collidable {
         collidableAdapter = new CollidableAdapter( this );
         setVelocity( DEFAULT_SPEED, 0 );
     }
+
+    public Photon(Point2D location, Vector2D velocity){
+        this();
+        setPosition( location );
+        setVelocity( velocity );
+    }
+
+    public Photon(double wavelength,Point2D location, Vector2D velocity){
+        this(location, velocity );
+        setWavelength( wavelength );
+    }
+//    /**
+//     * If the photon is created by a CollimatedBeam, it should use this method,
+//     * so that the photon can tell the CollimatedBeam if it is leaving the system.
+//     */
+//    static public Photon create( double wavelength, Point2D location, Vector2D velocity ) {
+//        Photon newPhoton = create( location, velocity );
+//        newPhoton.setWavelength( wavelength );
+//        return newPhoton;
+//    }
+
 
     /**
      * Rather than use the superclass behavior, the receiver
@@ -117,10 +111,6 @@ public class Photon extends Particle implements Collidable {
 
     public double getEnergy() {
         return PhysicsUtil.wavelengthToEnergy( wavelength );
-    }
-
-    public boolean hasCollidedWithAtom( Atom atom ) {
-        return contactedAtoms.contains( atom );
     }
 
     public Photon getParentPhoton() {

@@ -21,6 +21,7 @@ import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.lasers.controller.BeamControl;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.controller.UniversalLaserControlPanel;
@@ -51,7 +52,7 @@ public class SingleAtomModule extends BaseLaserModule {
     private BeamControl seedBeamControl;
 
     public SingleAtomModule( IClock clock ) {
-        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock );
+        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED/10.0 );
         init();
     }
 

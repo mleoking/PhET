@@ -79,7 +79,7 @@ public class Legend extends JPanel {
         }
 
         // Make the photon icon
-        Photon photon = Photon.create( 400, new Point2D.Double(), new Vector2D.Double() );
+        Photon photon = new Photon( 400, new Point2D.Double(), new Vector2D.Double() );
         BufferedImage photonImage = PhotonGraphic.getInstance( this, photon ).getImage();
         photonIcon = new ImageIcon( photonImage );
 
