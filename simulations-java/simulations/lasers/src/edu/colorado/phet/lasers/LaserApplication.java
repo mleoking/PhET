@@ -41,6 +41,7 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class LaserApplication extends PiccoloPhetApplication {
 
@@ -304,11 +305,18 @@ public class LaserApplication extends PiccoloPhetApplication {
         }
     }
 
+    public static double ONE_ATOM_MODULE_SPEED=0.5;
+    public static double MULTI_ATOM_MODULE_SPEED=1.0;
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 setLAF();
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
+
+                String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED+" "+MULTI_ATOM_MODULE_SPEED );
+                StringTokenizer st = new StringTokenizer( str );
+                ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+                MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
 
                 LaserApplication application = new LaserApplication( args );
                 application.startApplication();

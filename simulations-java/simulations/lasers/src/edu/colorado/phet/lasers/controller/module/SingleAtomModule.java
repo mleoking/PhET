@@ -29,6 +29,7 @@ import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.lasers.LaserApplication;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -52,7 +53,9 @@ public class SingleAtomModule extends BaseLaserModule {
     private BeamControl seedBeamControl;
 
     public SingleAtomModule( IClock clock ) {
-        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
+//        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock , Photon.DEFAULT_SPEED*0.65 );
+//        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * 0.5 );
+        super( SimStrings.getInstance().getString( "ModuleTitle.SingleAtomModule" ), clock, Photon.DEFAULT_SPEED * LaserApplication.ONE_ATOM_MODULE_SPEED);
         init();
     }
 

@@ -89,7 +89,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         this.photonSpeed = photonSpeed;
 
         // Create the model
-        laserModel = new LaserModel();
+        laserModel = new LaserModel( photonSpeed );
         setModel( laserModel );
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
