@@ -837,7 +837,10 @@ EOT;
         static $child_id_index = 1;
         
         $list_id = "${name}_list_uid";
-        
+
+		// Create some javascript code to add all the initial entries to the multiselection list:
+        $script_creation_code = '';
+
         foreach($selections_array as $text) {
             if (isset($text_to_identifier["$text"])) {
                 $identifier = $text_to_identifier["$text"];
@@ -845,15 +848,8 @@ EOT;
             else {
                 $identifier = "$text";
             }
-            
-            $child_id = "child_${name}_${child_id_index}";
-            
-            $selections .= "<li id=\"$child_id\">";
-            $selections .= "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('$list_id', '$child_id')\">remove</a>] $text";
-            $selections .= "<input type=\"hidden\" name=\"$identifier\" value=\"$text\" />";
-            $selections .= "</li>";
-            
-            ++$child_id_index;
+
+            $script_creation_code .= "ms_add_li('$name', '$list_id', '$text', '$identifier');";
         }
         
         $select_id   = "${name}_uid";
@@ -868,17 +864,67 @@ EOT;
 
                 var child_id_index = $child_id_index;
 
+				function ms_get_parent_table_row(node) {
+					while (node && node.tagName != 'TR') {
+						node = node.parentNode;
+					}
+					
+					return node;
+				}
+				
+				function ms_get_first_td(node) {
+					var parentNode = ms_get_parent_table_row(node);
+					
+					for (var i = 0; i < parentNode.childNodes.length; i++) {
+						if (parentNode.childNodes[i].tagName == 'TD') {
+							return parentNode.childNodes[i];
+						}
+					}
+				}
+				
+				function ms_mark_as_valid(node) {
+					var label_td = ms_get_first_td(node);
+					
+					if (label_td) {	
+						label_td.className = 'valid';
+					}
+				}
+				
+				function ms_mark_as_invalid(node) {
+					var label_td = ms_get_first_td(node);
+					
+					if (label_td) {
+						label_td.className = 'invalid';
+					}
+				}
+				
+				function ms_has_any_li(node) {
+					for (var i = 0; i < node.childNodes.length; i++) {
+						if (node.childNodes[i].tagName == 'LI') {
+							return true;
+						}
+					}
+					
+					return false;
+				}
+
                 function ms_remove_li(id, child_id) {
                     var Parent = document.getElementById(id);
                     var Child  = document.getElementById(child_id);
 
                     Parent.removeChild(Child);
 
+					if (!ms_has_any_li(Parent)) {
+						ms_mark_as_invalid(Parent);
+					}
+
                     return false;
                 }
 
                 function ms_add_li(basename, list_id, text, name) {
                     var Parent = document.getElementById(list_id);
+
+					ms_mark_as_valid(Parent);
 
                     var li_children = Parent.getElementsByTagName("li");
 
@@ -932,6 +978,10 @@ EOT;
 			<ul id="$list_id">
                 $selections
             </ul>
+
+			<script type="text/javascript">
+				$script_creation_code
+			</script>
 EOT;
     }
 

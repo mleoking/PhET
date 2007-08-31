@@ -42,7 +42,6 @@ fieldset {
 }
 input, textarea, select {
 	background: rgb(220, 220, 220);
-	border:1px solid #999999;
 }
 .clear {
 	clear:both;
@@ -333,7 +332,7 @@ table.form tr td input, table.form tr td textarea, table.form tr td select {
 	top:      -0.5ex;	
 }
 table.form tr td input[type="submit"] {
-	padding-top: 1em;
+	margin-top: 1ex;
 	float: right;
 }
 table.form select.auto-width, table.form input.auto-width {
@@ -1301,7 +1300,7 @@ img.sponsors {
 	padding: 0;
 }
 #simrunoptions div.rage_button_358398 {
-	float: left;
+	float: right;
 	width: 80px;
 	height: 20px;
 }
@@ -1333,7 +1332,7 @@ img.sponsors {
 
 
 #simrunoptions div.rage_button_928365 {
-	float: right;
+	float: left;
 	width: 90px;
 	height: 20px;
 }
