@@ -680,43 +680,7 @@ span.logo-title {
 span.sub {
 	margin-left:14px;
 }
-div.simpreview {
-	float:	 left;
-	border:	 none;
-	width:   300px;
-	padding: 0;
-	margin:	 0 0 0 20px;
-}
-div.simpreview table {
-	width:				200px;
-	background-color: 	transparent;
-	padding:			0;
-	margin: 		  	0;
-	border-collapse:    collapse;
-}
-div.simsummary table tr td {
-	margin:  0;
-	padding: 0;
-	width:   66px;
-}
-div.simsummary table tr td:first-child img {
-	text-align: left;
-}
-div.simsummary table tr td + td img {
-	text-align: center;
-}
-div.simsummary table tr td + td + td img {
-	text-align: right;
-}
-img.rating {
-	margin: 0;
-}
-div.simsummary {
-	margin:  0;
-	padding: 0;
-	float: 	 right;
-	width: 	 230px;
-}
+
 #container div.simsummary p {
 	padding: 0;
 	margin:  0;
@@ -740,11 +704,7 @@ div.simsummary {
 	border-bottom: 1px dashed #2345a1;
 }
 
-.size {
-	font-family:"Courier New","Times","Arial";
-	color:#000;
-	font-size:15px;
-}
+
 ul.content-points {
 	padding:      0;
 	margin-left:  1em;
@@ -836,8 +796,69 @@ ul.content-points li a:hover {
 	color:#fff;
 }
 
-#simtoolbar td {
+#simsummary p {
+	margin: 0;
+	padding: 0;
+}
+#simsummary table {
+	padding-bottom: 1em;
+}
+#simsummary table tr td {
+	margin:  0;
+	padding: 0;
+	width:   66px;
+}
+#simsummary table tr td:first-child img {
+	text-align: left;
+}
+#simsummary table tr td + td img {
 	text-align: center;
+}
+#simsummary table tr td + td + td img {
+	text-align: right;
+}
+
+#simtoolbar {
+	width: 100%;
+}
+#simtoolbar span.size {
+	float: left;
+	font-family:"Courier New","Times","Arial";
+	color:#000;
+	font-size:15px;
+	position: relative;
+	top: 4px;
+}
+#simtoolbar span.promote {
+	float: right;
+}
+#simtoolbar span.promote img.stumble {
+	position: relative;
+	top: 3px;
+}
+
+#simpreview table {
+	width:				200px;
+	background-color: 	transparent;
+	padding:			0;
+	margin: 		  	0;
+	border-collapse:    collapse;
+}
+#simpreview {
+	float:	 left;
+	border:	 none;
+	width:   300px;
+	padding: 0;
+	margin:	 0 0 0 20px;
+}
+img.rating {
+	margin: 0;
+}
+#simsummary {
+	margin:  0;
+	padding: 0;
+	float: 	 right;
+	width: 	 230px;
 }
 
 #hb {

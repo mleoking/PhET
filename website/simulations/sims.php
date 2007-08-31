@@ -81,7 +81,7 @@
             print <<<EOT
             
 
-            <div class="simsummary">
+            <div id="simsummary">
                 <p>$sim_desc</p>
 
                 <table>
@@ -90,43 +90,37 @@
                     </tr>
                 </table>
 
-				<table id="simtoolbar">
-					<tr>
-						<td class="size" title="The size of the simulation, in kilobytes">
-                    		$sim_size KB
-						</td>
+				<div id="simtoolbar">
+					<span class="size">
+                   		$sim_size KB
+					</span>
 EOT;
 
 						$slashed_sim_name = addslashes($sim_name);
-						$slashed_sim_desc = addslashes($sim_desc);						
+						$slashed_sim_desc = addslashes($sim_desc);	
+
+						$url        = urlencode("http://phet.colorado.edu/".$_SERVER['REQUEST_URI']);						
+						$title      = urlencode("$sim_name - Interactive Physics Simulation");
+						
+						$digg_body  = urlencode("$sim_desc");
+						$digg_topic = urlencode("general_sciences");						
+						$digg_link  = "http://digg.com/submit?phase=2&amp;url=$url&amp;title=$title&amp;bodytext=$digg_body&amp;topic=$digg_topic";
+						
+						$stumble_link = "http://www.stumbleupon.com/submit?url=$url&amp;title=$title";
 						
 						print <<<EOT
-						<td>						
-							<script type="text/javascript">
-								digg_title 	  = '$slashed_sim_name - Interactive Physics Simulation';
-								digg_bodytext = '$slashed_sim_desc';
-								digg_topic    = 'general_sciences';
-							</script>
-							<script src="http://digg.com/tools/diggthis.js" type="text/javascript"></script>
-						</td>
+					<span class="promote">		
+							share sim: 
 						
-						<td>
-EOT;
-							$url    = urlencode("http://phet.colorado.edu/".$_SERVER['REQUEST_URI']);
-							$title  = urlencode($sim_name);
-							
-						print <<<EOT
-						</td>
-						
-						<td>
-							<a href="http://www.stumbleupon.com/submit?url=$url&amp;title=$title"> <img border="0" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon">Stumble&nbsp;It!</a>
-						</td>
-					</tr>
-				</table>
+							<a href="$digg_link"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg"/></a>
+
+							<a href="$stumble_link"><img class="stumble" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon"></a>
+					</span>
+				</div>
 
             </div>
                 
-            <div class="simpreview">    
+            <div id="simpreview">    
                 <a href="$sim_launch_url" $on_click_html>
                     <img src="$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
                 </a>
