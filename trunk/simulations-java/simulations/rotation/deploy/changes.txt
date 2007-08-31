@@ -1,3 +1,6 @@
+8-31-2007: Torque - bugfixes for graphs
+8-31-2007: Torque - converted to use new repaint manager
+
 1.03.24
 Performance improvements
 

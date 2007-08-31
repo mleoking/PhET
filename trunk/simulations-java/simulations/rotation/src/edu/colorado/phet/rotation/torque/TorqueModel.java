@@ -49,6 +49,9 @@ public class TorqueModel extends RotationModel {
         super.setPlaybackTime( time );
         torque.setPlaybackTime( time );
         force.setPlaybackTime( time );
+        brakeForce.setPlaybackTime( time );
+        angularMomentum.setPlaybackTime( time );
+        momentOfInertia.setPlaybackTime( time );
     }
 
     public double getBrakeForce() {
@@ -116,6 +119,7 @@ public class TorqueModel extends RotationModel {
     public class TorqueDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
+            force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
             finishUpdate( motionBody, dt, time );
         }
     }

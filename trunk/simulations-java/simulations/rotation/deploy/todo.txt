@@ -4,21 +4,15 @@
 
 1. Move get/set DT into parent level for clocks?
 2. PSwingCanvas could be integrated with PCanvas
-3. RotationBody and RotationPlatform need to have a closer ancestor (one that implements series variables).
-4. getValue collision in SeriesVariable
 5. support in ControlGraph for series pair
 
 Torque:
-1. Add better titles/labels/subscripts for the torque/force graphs
-2. Outer radius should always be bigger or equal to inner radius
-3. Add a visualization for the mass
-4. Ladybug should be constrained to stay on the platform during radius change.
-5. Better layout for sliders in play area (should align)
+1. Add better titles/labels for the torque/force graphs
+3. Add a visualization for the mass?  Thickness of platform?
 
 My biggest concerns with the arrows are:
-
 1) When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
-and
+    and
 2) The delay in the vectors between when I let go and when the vectors stop moving.
 
 If these could be improved upon, that would be great.
@@ -32,7 +26,6 @@ Gathering data while time is stopped:
 
 Performance
 •	Improve performance
-        30% app is in HTMLNode update
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this is due in part to time series filling up in "live mode", early enough data should be discarded
 
