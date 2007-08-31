@@ -2,8 +2,6 @@
 #     To Do
 ################################
 
-5. support in ControlGraph for series pair
-
 Torque:
 1. Add better titles/labels for the torque/force graphs
 2. Angular acceleration for the platform is incorrect when brake force is applied
