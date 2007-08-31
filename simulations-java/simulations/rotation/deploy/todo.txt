@@ -3,27 +3,20 @@
 ################################
 
 Torque:
-1. Add better titles/labels for the torque/force graphs
+1. Add better titles/labels for the torque/force graphs?
 2. Angular acceleration for the platform is incorrect when brake force is applied
 3. Add a visualization for the mass?  Thickness of platform?
+4. Should the user be able to drag the brake & character graphic to apply brake?
+5. What colors should be used for forces/torques?
 
-My biggest concerns with the arrows are:
-1) When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
-    and
-2) The delay in the vectors between when I let go and when the vectors stop moving.
-
-If these could be improved upon, that would be great.
-
-UI issues:
-•	Better graphics/characters?  Beetle will be undesirable for some?
-
-Gathering data while time is stopped:
-•	when paused or stopped and hand is manually rotated or rotated by the slider, bugs should update
-        Is this fixed?  Angle is updated during pause + drag now, does anything else need to be?
-
-Performance
-•	Improve performance
-•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+Rotation & Torque:
+1. When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
+    >>Did performance improvements fix this problem?
+    >>I can relax the conditions that must be met to recognize circular motion.
+2. The delay in the vectors between when I let go and when the vectors stop moving.
+    >>Did performance improvements fix this problem?
+3. Improve performance
+4. There is still a performance leak. After about 10-15 minutes it is now crawling.
     -this is due in part to time series filling up in "live mode", early enough data should be discarded
 
 The beetle graphs show up when you put him on the platform.
@@ -53,6 +46,7 @@ Lower Priority:
 •	Bug: Beetle graph appears empty before beetle is on the platform, why isn't this interpolating like the other graphs?
     -values for RotationBody's angleSeries aren't set while off platform
 •	Consolidate MovingMan, Forces1D, Ramp, Rotation, Torque into a single codebase.
+•	Better graphics/characters?  Beetle will be undesirable for some?
 
 ################################################
 #           Implementation issues
