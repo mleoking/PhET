@@ -82,9 +82,11 @@ public class BaseLaserModule extends PhetGraphicsModule {
     private double highStateMeanLifetime = LaserConfig.MAXIMUM_STATE_LIFETIME / 2;
     private HelpManager energyLevelsPanelHelpManager;
     private Kaboom kaboom;
+    private double photonSpeed;
 
-    public BaseLaserModule( String title, IClock clock ) {
+    public BaseLaserModule( String title, IClock clock, double photonSpeed ) {
         super( title, clock );
+        this.photonSpeed = photonSpeed;
 
         // Create the model
         laserModel = new LaserModel();
@@ -125,6 +127,11 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createHelp();
     }
 
+
+    public double getPhotonSpeed() {
+        return photonSpeed;
+    }
+
     public void activate() {
         super.activate();
         StimulatedPhoton.setStimulationBounds( cavity.getBounds() );
@@ -147,6 +154,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
     /*
      * Sets up the energy levels dialog
      */
+
     protected void createEnergyLevelsDialog( IClock clock, PhetFrame frame ) {
         laserEnergyLevelsMonitorPanel = new LaserEnergyLevelMonitorPanel( this, clock );
     }
@@ -173,7 +181,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                              s_boxHeight - Photon.RADIUS,
                              new Vector2D.Double( 1, 0 ),
                              LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                             LaserConfig.SEED_BEAM_FANOUT );
+                             LaserConfig.SEED_BEAM_FANOUT, getPhotonSpeed() );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         seedBeam.setEnabled( true );
         getLaserModel().setStimulatingBeam( seedBeam );
@@ -184,7 +192,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                 cavity.getWidth(),
                                 new Vector2D.Double( 0, 1 ),
                                 LaserConfig.MAXIMUM_SEED_PHOTON_RATE,
-                                LaserConfig.PUMPING_BEAM_FANOUT );
+                                LaserConfig.PUMPING_BEAM_FANOUT, getPhotonSpeed() );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
         pumpingBeam.setEnabled( true );
         getLaserModel().setPumpingBeam( pumpingBeam );

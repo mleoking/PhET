@@ -84,9 +84,9 @@ class StateLifetimeManager implements ModelElement {
                 double y = speed * Math.sin( theta );
 
                 if( nextState != atom.getCurrState() ) {
-                    Photon emittedPhoton = Photon.create( state.determineEmittedPhotonWavelength( nextState ),
-                                                          new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
-                                                          new Vector2D.Double( x, y ) );
+                    Photon emittedPhoton = new Photon( state.determineEmittedPhotonWavelength( nextState ),
+                                                       new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
+                                                       new Vector2D.Double( x, y ) );
 
                     // Place the replacement photon beyond the atom, so it doesn't collide again
                     // right away

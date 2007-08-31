@@ -109,7 +109,7 @@ public class PhotoelectricModule extends BaseLaserModule {
     public PhotoelectricModule( PhotoelectricApplication application ) {
         super( SimStrings.getInstance().getString( "ModuleTitle.PhotoelectricEfect" ),
                new SwingClock( 1000 / PhotoelectricApplication.FPS,
-                               PhotoelectricApplication.DT ) );
+                               PhotoelectricApplication.DT ) ,Photon.DEFAULT_SPEED );
 
         // Set up the basic stuff
         IClock clock = getClock();

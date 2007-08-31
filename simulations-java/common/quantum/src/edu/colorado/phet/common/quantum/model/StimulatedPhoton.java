@@ -36,7 +36,7 @@ public class StimulatedPhoton extends Photon {
     }
 
     static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
-        Photon newPhoton = create( stimulatingPhoton.getWavelength(), location,
+        Photon newPhoton = new Photon( stimulatingPhoton.getWavelength(), location,
                                    stimulatingPhoton.getVelocity() );
         int idx = 1;
 //        double yOffset = (double)(( 1 + idx / 2 ) * 4);

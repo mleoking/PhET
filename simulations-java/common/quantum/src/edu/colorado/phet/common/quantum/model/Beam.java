@@ -58,6 +58,7 @@ public class Beam extends Particle implements PhotonSource {
     private boolean isPhotonProductionGaussian = false;
     private double length;
     private double beamWidth;
+    private double speed;
 
 
     /**
@@ -70,12 +71,14 @@ public class Beam extends Particle implements PhotonSource {
      * @param fanout              spread of beam, in radians
      */
     public Beam( double wavelength, Point2D origin, double length, double beamWidth,
-                 Vector2D direction, double maxPhotonsPerSecond, double fanout ) {
+                 Vector2D direction, double maxPhotonsPerSecond, double fanout ,double speed) {
+        this.speed=speed;
         this.fanout = fanout;
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.setPosition( origin );
-        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
+//        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( speed );
         this.length = length;
         this.beamWidth = beamWidth;
     }
@@ -113,12 +116,11 @@ public class Beam extends Particle implements PhotonSource {
         path.lineToRelative( -getLength() * Math.cos( alpha ), -getLength() * Math.sin( alpha ) / 2 );
         path.lineTo( getPosition() );
         AffineTransform atx = AffineTransform.getRotateInstance( getDirection(), getPosition().getX(), getPosition().getY() );
-        Shape shape = path.getGeneralPath().createTransformedShape( atx );
-        return shape;
+        return path.getGeneralPath().createTransformedShape( atx );
     }
 
     public void setDirection( Vector2D.Double direction ) {
-        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
+        this.velocity = new Vector2D.Double( direction ).normalize().scale( speed );
     }
 
     public double getDirection() {
@@ -216,9 +218,9 @@ public class Beam extends Particle implements PhotonSource {
                         angle *= -1;
                     }
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
-                    final Photon newPhoton = Photon.create( this.getWavelength(),
-                                                            photonLoc,
-                                                            photonVelocity );
+                    final Photon newPhoton = new Photon( this.getWavelength(),
+                                                         photonLoc,
+                                                         photonVelocity );
                     photonEmittedListenerProxy.photonEmitted( new PhotonEmittedEvent( this, newPhoton ) );
                 }
                 nextTimeToProducePhoton = getNextTimeToProducePhoton();
@@ -262,10 +264,11 @@ public class Beam extends Particle implements PhotonSource {
      * Allows concrete classes that implement more than one interface to be removed with
      * a single call. This is a screwy settup that I threw in when I had to refactor things
      * to work with several simulations.
-     * @todo refactor this whole listener mechanism to have a single ChangeListener interface
+     *
+     * @param listener
+     * todo refactor this whole listener mechanism to have a single ChangeListener interface
      * that handles both rate and wavelength changes, and a separate interface for photon emission
      * events.
-     * @param listener
      */
     public void removeListener( EventListener listener ) {
         if( listener instanceof RateChangeListener ) {
