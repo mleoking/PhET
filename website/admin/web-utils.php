@@ -839,7 +839,14 @@ EOT;
         $list_id = "${name}_list_uid";
 
 		// Create some javascript code to add all the initial entries to the multiselection list:
-        $script_creation_code = '';
+		if (!$print_select) {
+			$script_creation_code = '';
+		}
+		else {
+        	$script_creation_code = "ms_mark_as_invalid(document.getElementById('$list_id'));";
+		}
+		
+		$should_invalidate_on_empty = $print_select ? 'true' : 'false';
 
         foreach($selections_array as $text) {
             if (isset($text_to_identifier["$text"])) {
@@ -849,7 +856,7 @@ EOT;
                 $identifier = "$text";
             }
 
-            $script_creation_code .= "ms_add_li('$name', '$list_id', '$text', '$identifier');";
+            $script_creation_code .= "ms_add_li('$name', '$list_id', '$text', '$identifier', $should_invalidate_on_empty);";
         }
         
         $select_id   = "${name}_uid";
@@ -908,20 +915,24 @@ EOT;
 					return false;
 				}
 
-                function ms_remove_li(id, child_id) {
+                function ms_remove_li(id, child_id, invalidate_on_empty) {					
                     var Parent = document.getElementById(id);
                     var Child  = document.getElementById(child_id);
 
                     Parent.removeChild(Child);
 
-					if (!ms_has_any_li(Parent)) {
-						ms_mark_as_invalid(Parent);
+					if (invalidate_on_empty == true) {
+						if (!ms_has_any_li(Parent)) {
+							ms_mark_as_invalid(Parent);
+						}
 					}
 
                     return false;
                 }
 
-                function ms_add_li(basename, list_id, text, name) {
+                function ms_add_li(basename, list_id, text, name, invalidate_on_empty) {
+					if (invalidate_on_empty == undefined) invalidate_on_empty = true;
+					
                     var Parent = document.getElementById(list_id);
 
 					ms_mark_as_valid(Parent);
@@ -939,7 +950,7 @@ EOT;
                     var NewLI = document.createElement("li");
 
                     NewLI.id        = "child_" + basename + "_" + child_id_index;                    
-                    NewLI.innerHTML = "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "')\">remove</a>] " + text +
+                    NewLI.innerHTML = "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "','" + invalidate_on_empty + "')\">remove</a>] " + text +
                                       "<input type=\"hidden\" name=\"" + name + "\" value=\"" + text + "\" />";
 
                     Parent.appendChild(NewLI);
@@ -947,14 +958,14 @@ EOT;
                     child_id_index++;
                 }
 
-                function ms_on_change(basename, list_id, dropdown) {
+                function ms_on_change(basename, list_id, dropdown, invalidate_on_empty) {
                 	var index  = dropdown.selectedIndex;
 
                 	var text   = dropdown.options[index].text;
                 	var value  = dropdown.options[index].value;
 
 					if (value && value != '') {
-                    	ms_add_li(basename, list_id, text, value);
+                    	ms_add_li(basename, list_id, text, value, invalidate_on_empty);
 					}
 
                 	return false;
@@ -968,7 +979,7 @@ EOT;
         if ($print_select) {
             print <<<EOT
                   <select name="$select_name" id="$select_id" 
-                      onchange="ms_on_change('$name', '$list_id', this.form.$select_name);">
+                      onchange="ms_on_change('$name', '$list_id', this.form.$select_name, $should_invalidate_on_empty);">
                       $options
                   </select>
 EOT;
