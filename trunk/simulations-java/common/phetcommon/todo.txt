@@ -2,9 +2,8 @@
 "To Do" list for phetcommon
 ===============================================================================
 
-8/27/07 
-add tooltip for PhET icon in PhetTabbedPanel, identical to tooltip 
-used on PhET icon in PhetAboutDialog
+8/31/2007 (reid)
+Move get/set requested DT into parent level for clocks?  Does this make sense for all clock implementations?  
 
 8/7/07 (cmalley) :
 update all sims to use PhetDefaultFont instead of hardcoding specific physical
