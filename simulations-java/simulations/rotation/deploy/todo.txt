@@ -2,12 +2,11 @@
 #     To Do
 ################################
 
-1. Move get/set DT into parent level for clocks?
-2. PSwingCanvas could be integrated with PCanvas
 5. support in ControlGraph for series pair
 
 Torque:
 1. Add better titles/labels for the torque/force graphs
+2. Angular acceleration for the platform is incorrect when brake force is applied
 3. Add a visualization for the mass?  Thickness of platform?
 
 My biggest concerns with the arrows are:
