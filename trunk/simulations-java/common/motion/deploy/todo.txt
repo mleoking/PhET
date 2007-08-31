@@ -2,6 +2,8 @@
 #     To Do
 ################
 
+support in ControlGraph for series pair and units changing
+
 When resizing a graph, the layout can change (due to difference in axis labels), so realignment should be done after any data area changes.
 
 Performance optimization.
