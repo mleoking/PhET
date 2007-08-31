@@ -2,6 +2,8 @@
 "To Do" list for piccolo-phet
 ===============================================================================
 
+- PSwingCanvas could be integrated with PCanvas
+    -first verify that this won't cause any problems (with new repaint manager, etc)
 - make TargetedWiggleMe and WiggleMe subclasses of DefaultWiggleMe, rename WiggleMe
 - fix bug in PhetRootPNode.indexOfChild
 - fix problem with piccolo's cursor stack, as manifested in CursorHandler.popCursor
