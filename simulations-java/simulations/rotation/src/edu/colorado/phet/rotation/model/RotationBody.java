@@ -37,8 +37,12 @@ public class RotationBody {
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
     private CircularRegression circularRegression = new CircularRegression();
+    private CircleDiscriminant circleDiscriminant = new DefaultCircleDiscriminant();
+
     private double lastNonZeroRadiusAngle = 0.0;//to remember the last angle the bug was at (in case the user shrinks the disk to radius zero)
+
     private ArrayList listeners = new ArrayList();
+
     private RotationPlatform.Listener listener = new RotationPlatform.Adapter() {
         public void innerRadiusChanged() {
             platformInnerRadiusChanged();
@@ -48,6 +52,7 @@ public class RotationBody {
             platformOuterRadiusChanged();
         }
     };
+
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -238,7 +243,7 @@ public class RotationBody {
             }
 //        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
-            if( isCircularMotion( pointHistory ) ) {
+            if( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
                 AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
                                                                     circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
@@ -264,13 +269,29 @@ public class RotationBody {
         angularAccel.addValue( a.getValue(), a.getTime() );
     }
 
-    private boolean isCircularMotion( Point2D[] pointHistory ) {
+    public static interface CircleDiscriminant {
+        boolean isCircularMotion( CircularRegression.Circle circle, Point2D[] pointHistory );
+    }
+
+    public static class DefaultCircleDiscriminant implements CircleDiscriminant {
         double circularMotionMSE = 0.01;
         double noncircularMotionMSE = 0.15;
         double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
 
-        double linearRegressionMSE = getLinearRegressionMSE( pointHistory );
-        return circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE && linearRegressionMSE > 0.01;
+        public DefaultCircleDiscriminant() {
+        }
+
+        public DefaultCircleDiscriminant( double circularMotionMSE, double noncircularMotionMSE, double thresholdMSE ) {
+            this.circularMotionMSE = circularMotionMSE;
+            this.noncircularMotionMSE = noncircularMotionMSE;
+            this.thresholdMSE = thresholdMSE;
+        }
+
+        public boolean isCircularMotion( CircularRegression.Circle circle, Point2D[] pointHistory ) {
+            return circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 &&
+                   circle.getMeanSquaredError( pointHistory ) < thresholdMSE &&
+                   getLinearRegressionMSE( pointHistory ) > 0.01;
+        }
     }
 
     private double getUserSetAngle() {
@@ -313,8 +334,7 @@ public class RotationBody {
         yBody.addAccelerationData( ay.getValue(), ay.getTime() );
     }
 
-
-    private double getLinearRegressionMSE( Point2D[] pointHistory ) {
+    private static double getLinearRegressionMSE( Point2D[] pointHistory ) {
         double[][] pts = new double[2][pointHistory.length];
         for( int i = 0; i < pts[0].length; i++ ) {
 
