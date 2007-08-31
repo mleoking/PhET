@@ -229,37 +229,32 @@ public class RotationBody {
         //avoid the expense of circular regression if possible
         if( boundingBox.getWidth() <= 0.2 && boundingBox.getHeight() <= 0.2 ) {
             updateAccelByDerivative();
-            return;
-        }
-        circle = circularRegression.getCircle( pointHistory, 50, circle );
-        if( circle.getRadius() > 5.0 ) {
-            //assume something went wrong in nonlinear regression
-            circle = circularRegression.getCircle( pointHistory, 50, null );
-        }
-        double circularMotionMSE = 0.01;
-        double noncircularMotionMSE = 0.15;
-        double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
-
-        double linearRegressionMSE = getLinearRegressionMSE( pointHistory );
-//        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
-//        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
-        if( circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE && linearRegressionMSE > 0.01 ) {
-            AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
-                                                                circle.getCenter2D() );
-            double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
-
-
-            if( accelVector.getMagnitude() < 0.1 ) {
-                accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
-            }
-            accelVector = accelVector.getInstanceOfMagnitude( aMag );
-            accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
-            xBody.addAccelerationData( accelVector.getX(), time );
-            yBody.addAccelerationData( accelVector.getY(), time );
         }
         else {
+            circle = circularRegression.getCircle( pointHistory, 50, circle );
+            if( circle.getRadius() > 5.0 ) {
+                //assume something went wrong in nonlinear regression
+                circle = circularRegression.getCircle( pointHistory, 50, null );
+            }
+//        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
+//        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
+            if( isCircularMotion( pointHistory ) ) {
+                AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                                                                    circle.getCenter2D() );
+                double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
+
+                if( accelVector.getMagnitude() < 0.1 ) {
+                    accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
+                }
+                accelVector = accelVector.getInstanceOfMagnitude( aMag );
+                accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
+                xBody.addAccelerationData( accelVector.getX(), time );
+                yBody.addAccelerationData( accelVector.getY(), time );
+            }
+            else {
 //            System.out.println( "RotationBody.updateOffPlatform: Linear" );
-            updateAccelByDerivative();
+                updateAccelByDerivative();
+            }
         }
 
         angle.addValue( getUserSetAngle(), time );
@@ -269,13 +264,20 @@ public class RotationBody {
         angularAccel.addValue( a.getValue(), a.getTime() );
     }
 
+    private boolean isCircularMotion( Point2D[] pointHistory ) {
+        double circularMotionMSE = 0.01;
+        double noncircularMotionMSE = 0.15;
+        double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
+
+        double linearRegressionMSE = getLinearRegressionMSE( pointHistory );
+        return circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 && circle.getMeanSquaredError( pointHistory ) < thresholdMSE && linearRegressionMSE > 0.01;
+    }
+
     private double getUserSetAngle() {
         return getLastAngle() + getDTheta();
     }
 
     private double getLastAngle() {
-//        return angle.getSampleCount() > 0 ? angle.getLastValue() : getAngleNoWindingNumber();//only works while clock running
-
         //this implementation works even while the clock is paused and the user is manually dragging the RotationBody
         return angle.getValue();//todo: this implementation of getLastAngle only works if this value is not updated during computation
     }
@@ -314,8 +316,6 @@ public class RotationBody {
 
     private double getLinearRegressionMSE( Point2D[] pointHistory ) {
         double[][] pts = new double[2][pointHistory.length];
-//        pts[0]=new double[pointHistory.length];
-//        pts[1]=new double[pointHistory.length];
         for( int i = 0; i < pts[0].length; i++ ) {
 
             pts[0][i] = pointHistory[i].getX();
