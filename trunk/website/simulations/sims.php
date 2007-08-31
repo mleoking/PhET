@@ -100,9 +100,9 @@ EOT;
 						$slashed_sim_desc = addslashes($sim_desc);	
 
 						$url        = urlencode("http://phet.colorado.edu/".$_SERVER['REQUEST_URI']);						
-						$title      = urlencode("$sim_name - Interactive Physics Simulation");
+						$title      = urlencode(html_entity_decode($sim_name)." - Interactive Physics Simulation");
 						
-						$digg_body  = urlencode("$sim_desc");
+						$digg_body  = urlencode(html_entity_decode($sim_desc));
 						$digg_topic = urlencode("general_sciences");						
 						$digg_link  = "http://digg.com/submit?phase=2&amp;url=$url&amp;title=$title&amp;bodytext=$digg_body&amp;topic=$digg_topic";
 						
