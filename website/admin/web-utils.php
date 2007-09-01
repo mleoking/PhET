@@ -921,7 +921,7 @@ EOT;
 
                     Parent.removeChild(Child);
 
-					if (invalidate_on_empty == 'true') {
+					if (invalidate_on_empty == true) {
 						if (!ms_has_any_li(Parent)) {
 							ms_mark_as_invalid(Parent);
 						}
@@ -950,7 +950,7 @@ EOT;
                     var NewLI = document.createElement("li");
 
                     NewLI.id        = "child_" + basename + "_" + child_id_index;                    
-                    NewLI.innerHTML = "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "','" + invalidate_on_empty + "')\">remove</a>] " + text +
+                    NewLI.innerHTML = "[<a href=\"javascript:void(0)\" onclick=\"ms_remove_li('" + list_id + "','" + NewLI.id + "'," + invalidate_on_empty + ")\">remove</a>] " + text +
                                       "<input type=\"hidden\" name=\"" + name + "\" value=\"" + text + "\" />";
 
                     Parent.appendChild(NewLI);
