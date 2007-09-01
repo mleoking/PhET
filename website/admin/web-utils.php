@@ -921,7 +921,7 @@ EOT;
 
                     Parent.removeChild(Child);
 
-					if (invalidate_on_empty == true) {
+					if (invalidate_on_empty == 'true') {
 						if (!ms_has_any_li(Parent)) {
 							ms_mark_as_invalid(Parent);
 						}
