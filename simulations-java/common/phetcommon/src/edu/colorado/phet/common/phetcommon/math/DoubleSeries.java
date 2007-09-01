@@ -1,10 +1,11 @@
-package edu.colorado.phet.rotation.controls;
+package edu.colorado.phet.common.phetcommon.math;
 
 import java.util.ArrayList;
 
 /**
- * Author: Sam Reid
- * Aug 20, 2007, 2:09:20 AM
+ * The DoubleSeries allows the user to add foating point data, then to compute average and sum.
+ *
+ * @author Sam Reid
  */
 public class DoubleSeries {
     private ArrayList data = new ArrayList();
@@ -22,10 +23,10 @@ public class DoubleSeries {
     }
 
     public double average() {
-        return sum() / numValues();
+        return sum() / getSampleCount();
     }
 
-    private double numValues() {
+    public double getSampleCount() {
         return data.size();
     }
 
@@ -35,5 +36,9 @@ public class DoubleSeries {
             sum += ( (Double)data.get( i ) ).doubleValue();
         }
         return sum;
+    }
+
+    public void clear() {
+        data.clear();
     }
 }
