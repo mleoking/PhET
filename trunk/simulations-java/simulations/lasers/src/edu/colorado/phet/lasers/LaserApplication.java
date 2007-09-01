@@ -11,14 +11,17 @@
 package edu.colorado.phet.lasers;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.lasers.controller.LaserConfig;
@@ -64,8 +67,8 @@ public class LaserApplication extends PiccoloPhetApplication {
         // Set the default representation strategy for energy levels
         AtomGraphic.setEnergyRepColorStrategy( new AtomGraphic.VisibleColorStrategy() );
 
-        singleAtomModule = new SingleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
-        multipleAtomModule = new MultipleAtomModule( new SwingClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
+        singleAtomModule = new SingleAtomModule( new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
+        multipleAtomModule = new MultipleAtomModule( new ConstantDtClock( 1000 / LaserConfig.FPS, LaserConfig.DT ) );
         Module[] modules = new Module[]{
                 singleAtomModule,
                 multipleAtomModule
@@ -87,7 +90,7 @@ public class LaserApplication extends PiccoloPhetApplication {
         }
 
         // Options menu
-        createMenuItems();
+        addMenuItems();
 
 //        addEnergyLevelMatchIndicatorRenderDialog();
     }
@@ -116,10 +119,7 @@ public class LaserApplication extends PiccoloPhetApplication {
         dialog.show();
     }
 
-    /**
-     *
-     */
-    private void createMenuItems() {
+    private void addMenuItems() {
         JMenu optionMenu = new JMenu( "Options" );
         getPhetFrame().addMenu( optionMenu );
 
@@ -167,10 +167,29 @@ public class LaserApplication extends PiccoloPhetApplication {
             }
         } );
         optionMenu.add( optionsButton );
-    }
 
-    public void displayHighToMidEmission( boolean selected ) {
-        throw new RuntimeException( "TBI" );
+        JMenuItem profileOption = new JMenuItem( "Profile" );
+        //todo: remove need for this cast
+        final ClockProfiler profiler = new ClockProfiler( getPhetFrame(),
+                                                          ( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getName(),
+                                                          (ConstantDtClock)( getActiveModule() == null ? getModule( 0 ) : getActiveModule() ).getClock() );
+        addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( ModuleEvent event ) {
+            }
+
+            public void activeModuleChanged( ModuleEvent event ) {
+                profiler.setModule( getActiveModule().getName(), (ConstantDtClock)getActiveModule().getClock() );
+            }
+
+            public void moduleRemoved( ModuleEvent event ) {
+            }
+        } );
+        profileOption.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                profiler.show();
+            }
+        } );
+        optionMenu.add( profileOption );
     }
 
     private static void setLAF() {
@@ -305,15 +324,16 @@ public class LaserApplication extends PiccoloPhetApplication {
         }
     }
 
-    public static double ONE_ATOM_MODULE_SPEED=0.5;
-    public static double MULTI_ATOM_MODULE_SPEED=1.0;
+    public static double ONE_ATOM_MODULE_SPEED = 0.5;
+    public static double MULTI_ATOM_MODULE_SPEED = 1.0;
+
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 setLAF();
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
-                String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED+" "+MULTI_ATOM_MODULE_SPEED );
+                String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED );
                 StringTokenizer st = new StringTokenizer( str );
                 ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
                 MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );

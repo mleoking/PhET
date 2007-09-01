@@ -4,6 +4,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.rotation.RotationFrameSetup;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
@@ -21,6 +22,7 @@ public class TorqueApplication extends PiccoloPhetApplication {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
         rotationModule = new TorqueModule( getPhetFrame() );
         addModule( rotationModule );
+        getPhetFrame().addMenu( new RotationDevMenu( this, rotationModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );
     }
 

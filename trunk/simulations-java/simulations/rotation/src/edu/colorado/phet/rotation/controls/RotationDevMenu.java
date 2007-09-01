@@ -1,7 +1,8 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.RotationApplication;
-import edu.colorado.phet.rotation.RotationModuleProfiler;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -13,17 +14,19 @@ import java.awt.event.ActionListener;
  * Jul 15, 2007, 3:56:14 PM
  */
 public class RotationDevMenu extends JMenu {
-    private RotationApplication rotationApplication;
+    private PhetApplication rotationApplication;
+    private AbstractRotationModule rotationModule;
 
-    public RotationDevMenu( final RotationApplication rotationApplication ) {
+    public RotationDevMenu( final PhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
         super( "Options" );
         this.rotationApplication = rotationApplication;
+        this.rotationModule = rotationModule;
         setMnemonic( 'o' );
         {
             JMenuItem bim = new JMenuItem( "Buffered Immediate" );
             bim.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    rotationApplication.getRotationModule().getRotationSimulationPanel().setGraphsBufferedImmediateSeries();
+                    rotationModule.getRotationSimulationPanel().setGraphsBufferedImmediateSeries();
                 }
             } );
             add( bim );
@@ -33,7 +36,7 @@ public class RotationDevMenu extends JMenu {
             JMenuItem bim = new JMenuItem( "Buffered" );
             bim.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    rotationApplication.getRotationModule().getRotationSimulationPanel().setGraphsBufferedSeries();
+                    rotationModule.getRotationSimulationPanel().setGraphsBufferedSeries();
                 }
             } );
             add( bim );
@@ -43,7 +46,7 @@ public class RotationDevMenu extends JMenu {
             JMenuItem bim = new JMenuItem( "Piccolo" );
             bim.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    rotationApplication.getRotationModule().getRotationSimulationPanel().setGraphsPiccoloSeries();
+                    rotationModule.getRotationSimulationPanel().setGraphsPiccoloSeries();
                 }
             } );
             add( bim );
@@ -61,14 +64,13 @@ public class RotationDevMenu extends JMenu {
         final JMenuItem profiler = new JMenuItem( "Profile" );
         profiler.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                RotationModuleProfiler rotationModuleProfiler = new RotationModuleProfiler( rotationApplication, rotationApplication.getRotationModule() );
-                rotationModuleProfiler.start();
+                new ClockProfiler( rotationApplication.getPhetFrame(), rotationModule.getName(), rotationModule.getConstantDTClock() ).show();
             }
         } );
         add( profiler );
     }
 
     private PNode getCircleNode() {
-        return rotationApplication.getRotationModule().getRotationSimulationPanel().getRotationPlayAreaNode().getCircularMotionNode();
+        return rotationModule.getRotationSimulationPanel().getRotationPlayAreaNode().getCircularMotionNode();
     }
 }
