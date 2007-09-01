@@ -230,7 +230,8 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
     }
 
     private static BufferedImage createTwinkleImage( double wavelength ) {
-        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( wavelength, PHOTON_SIZE ) );
+        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.lookupPhotonImage( wavelength, PHOTON_SIZE ) );
+//        return BufferedImageUtils.toBufferedImage( PhotonImageFactory.createPhotonImage( wavelength, PHOTON_SIZE ) );
     }
 
     public void update() {
