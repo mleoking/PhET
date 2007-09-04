@@ -12,7 +12,7 @@
     include_once(SITE_ROOT."teacher_ideas/user-login.php");
 
 	$contribution_id = $_REQUEST['contribution_id'];
-	$contribution_nomination_desc = $_REQUEST['contribution_nomination_desc']
+	$contribution_nomination_desc = $_REQUEST['contribution_nomination_desc'];
 
 	function print_nomination_success() {
 		global $contribution_id;
@@ -22,7 +22,7 @@
 		eval(get_code_to_create_variables_from_array($contribution));
 		
 		print <<<EOT
-			<p>Thank you for nominating &quot;$contribution_title&quot; as a Gold Star contribution.</p>
+			<p>Thank you for nominating &quot;$contribution_title&quot; for a Gold Star.</p>
 			
 			<p>If PhET determines the contribution meets Gold Star criteria, the contribution will receive a Gold Star.</p>
 EOT;
@@ -30,6 +30,6 @@ EOT;
 	
 	nominate_contribution($contribution_id, $contribution_nomination_desc);
 	
-	print_site_page('print_nomination_success', 3, "view-contribution.php?contribution_id=$contribution_id", 2);
+	print_site_page('print_nomination_success', 3, "view-contribution.php?contribution_id=$contribution_id", 3);
 
 ?>

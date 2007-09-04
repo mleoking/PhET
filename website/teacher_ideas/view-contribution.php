@@ -179,7 +179,7 @@ EOT;
             
             <div class="field">
                 <span class="label_content">
-                    <a href="javascript:void;" onclick="$(this).parent().parent().next().toggle(300);">$comment_count comments</a>
+                    <a href="javascript:void;" onclick="$(this).parent().parent().next().toggle(300); return false;">$comment_count comments</a>
                     (<a href="javascript:void;" onclick="$(this).parent().parent().next().next().next().toggle(300);">add</a>)
                 </span>
                 
@@ -234,13 +234,17 @@ EOT;
 			
 			<p><em>Contributions that meet the Gold Star criteria may be nominated as Gold Star contributions to direct teachers toward them and to recognize the teachers that created them.</em></p>
 
-			<p><a href="../teacher_ideas/nominate-contribution.php?contribution_id=$contribution_id">Nominate this contribution as a Gold Star Activity</a></p>
+			<p><a href="javascript:void;" onclick="$(this).parent().next().toggle(300); return false;">Nominate this contribution as a Gold Star Activity</a></p>
 
         	<div id="nominate-contribution" style="display: none;">
-				<form method="post" action="">
+				<form method="post" action="../teacher_ideas/nominate-contribution.php">
+					<div>
+						<input type="hidden" name="contribution_id" value="$contribution_id" />
+					</div>
+					
 					<table class="form">
 						<tr>
-							<td>reason for nomination</td>	<td><textarea name="contribution_nomination_reason" rows="5" cols="50"></textarea></td>
+							<td>reason for nomination</td>	<td><textarea name="contribution_nomination_desc" rows="5" cols="50"></textarea></td>
 						</tr>
 						
 						<tr>
