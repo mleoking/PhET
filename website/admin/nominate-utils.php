@@ -1,6 +1,7 @@
 <?php
-
-	include_once("../admin/global.php");
+	if (!defined('SITE_ROOT')) {
+		include_once("../admin/global.php");
+	}
 
 	include_once(SITE_ROOT."admin/db.inc");
 	include_once(SITE_ROOT."admin/db-utils.php");
@@ -28,7 +29,7 @@
 		return count(get_all_nominations_for_contribution($contribution_id));
 	}
 
-	function nominate_contribution($contribution_id) {
+	function nominate_contribution($contribution_id, $contribution_nomination_desc) {
 		global $contributor_id;
 		
 		if (is_contribution_nominated_by($contribution_id, $contributor_id)) {
@@ -39,7 +40,8 @@
 			'contribution_nomination',
 			array(
 				'contribution_id' => $contribution_id,
-				'contributor_id'  => $contributor_id
+				'contributor_id'  => $contributor_id,
+				'contribution_nomination_desc' => $contribution_nomination_desc
 			)
 		);
 	}
@@ -68,34 +70,5 @@
 		asort($contrib_to_nom_count);
 		
 		return $contrib_to_nom_count;
-	}
-	
-	function is_gold_star_contribution($contribution_id) {
-		$stats = get_nomination_statistics();
-		$count = get_nomination_count_for_contribution($contribution_id);
-		
-		if (count($stats) > 10) {
-			$cutoff_index = (int)floor(count($stats) * 0.33);
-			$cutoff       = $stats[$cutoff_index];
-			
-			if ($count >= $cutoff) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	function get_gold_star_html($image_width = 37) {
-		return "<img src=\"../images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" />";
-	}
-	
-	function get_gold_star_html_for_contribution($contribution_id, $image_width = 37) {
-		if (is_gold_star_contribution($contribution_id)) {
-			return get_gold_star_html($image_width);
-		}
-		else {
-			return "";
-		}
 	}
 ?>

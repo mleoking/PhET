@@ -28,9 +28,10 @@
             $contribution['contributor_id'] = $GLOBALS['contributor_id'];
         }
 
-		// Only allow team members to change this field:
+		// Only allow team members to change these fields:
 		if ($GLOBALS['contributor_is_team_member'] != 1) {
 			unset($contribution['contribution_from_phet']);
+			unset($contribution['contribution_is_gold_star']);
 		}
 		else {
 			if (isset($_REQUEST['new_contributor_id'])) {
