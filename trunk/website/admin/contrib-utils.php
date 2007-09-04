@@ -112,7 +112,7 @@
 	
 	function contribution_get_gold_star_html_for_contribution($contribution_id, $image_width = 37) {
 		if (contribution_is_gold_star_contribution($contribution_id)) {
-			return get_gold_star_html($image_width);
+			return contribution_get_gold_star_html($image_width);
 		}
 		else {
 			return "";
