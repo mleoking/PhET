@@ -91,6 +91,7 @@ EOT;
 EOT;
 
 		$stats = get_nomination_statistics();
+		$descs = get_nomination_descriptions();
 
 		if (count($stats) > 0) {
 			print "<ul>";
@@ -98,9 +99,12 @@ EOT;
 			foreach ($stats as $contribution_id => $count) {
 				$contribution = contribution_get_contribution_by_id($contribution_id);
 			
-				$title = $contribution['contribution_title'];
+				$title      = $contribution['contribution_title'];
+				$title_html = "<a href=\"../teacher_ideas/edit-contribution.php?contribution_id=$contribution_id\">$title</a>";
 				
-				print "<li>$title - $count Gold Star Nominations</li>";
+				$desc  = $descs[$contribution_id];
+				
+				print "<li>$title_html - $count Gold Star Nominations $desc</li>";
 			}
 			
 			print "</ul>";			
