@@ -16,7 +16,7 @@
         $beta_plus_html  = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_BETA_PLUS]; 
         $check_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_CHECK]; 
         $alpha_html      = $SIM_RATING_TO_IMAGE_HTML[SIM_RATING_ALPHA]; 
-		$gold_star_html  = get_gold_star_html();
+		$gold_star_html  = contribution_get_gold_star_html();
 		$from_phet_html  = FROM_PHET_IMAGE_HTML;
         
         print <<<EOT
