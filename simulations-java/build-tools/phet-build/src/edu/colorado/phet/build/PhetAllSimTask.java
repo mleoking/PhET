@@ -1,7 +1,11 @@
 package edu.colorado.phet.build;
 
+import org.apache.tools.ant.BuildException;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Sam Reid
@@ -26,5 +30,28 @@ public class PhetAllSimTask extends AbstractPhetTask {
 
     private static boolean isSimulation( File simulation ) {
         return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" );
+    }
+
+    protected List getAllPhetProjects() {
+        List phetProjects = new ArrayList();
+
+        String[] sims = getSimNames();
+
+        for( int i = 0; i < sims.length; i++ ) {
+            String sim = sims[i];
+
+            File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), sim );
+
+            try {
+                PhetProject phetProject = new PhetProject( projectDir, sim );
+
+                phetProjects.add(phetProject);
+            }
+            catch (IOException e) {
+                throw new BuildException(e);
+            }
+        }
+
+        return phetProjects;
     }
 }

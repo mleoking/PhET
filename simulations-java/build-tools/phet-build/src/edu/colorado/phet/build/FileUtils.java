@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
@@ -58,6 +59,29 @@ public class FileUtils {
         }
     }
 
+    private static String replaceAll(String body, String find, String replacement) {
+        boolean changed;
+
+        do {
+            changed = false;
+
+            int indexOfFindText = body.indexOf(find);
+
+            if (indexOfFindText != -1) {
+                changed = true;
+
+                String before = body.substring(0, indexOfFindText);
+                String after  = body.substring(indexOfFindText + find.length());
+
+                body = before + replacement + after;
+            }
+
+        }
+        while (changed);
+
+        return body;
+    }
+
     public static String filter( HashMap map, String file ) {
         Set set = map.keySet();
         for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
@@ -66,7 +90,7 @@ public class FileUtils {
 
             //echo( "key = " + key + ", value=" + value );
 
-            file = file.replaceAll( "@" + key + "@", value );
+            file = replaceAll(file, "@" + key + "@", value );
         }
         return file;
     }

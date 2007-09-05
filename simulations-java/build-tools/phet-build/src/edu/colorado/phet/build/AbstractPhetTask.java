@@ -15,4 +15,8 @@ public class AbstractPhetTask extends Task implements AntTaskRunner {
         childTask.init();
         childTask.execute();
     }
+
+    protected void echo(String string) {
+        PhetBuildUtils.antEcho( this, string, getClass() );
+    }
 }

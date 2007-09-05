@@ -29,9 +29,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         ClassLoader cl = this.getClass().getClassLoader();
         URL url = cl.getResource( resource );
 
-        if (url == null) {
-            new Exception("The resource " + resource + " could not be found").printStackTrace();
-        }
+        //if (url == null) {
+        //    new Exception("The resource " + resource + " could not be found").printStackTrace();
+        //}
 
         return url != null;
     }
