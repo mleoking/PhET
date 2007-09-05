@@ -5,6 +5,7 @@ import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Author: Sam Reid
@@ -29,23 +30,23 @@ public class PhetBuildAllSimJarTask extends PhetAllSimTask {
                           "project.name=\n" +
                           "project.description=\n" +
                           "project.screenshot=\n";
-        for( int i = 0; i < sims.length; i++ ) {
-            String sim = sims[i];
-            File projectDir = PhetBuildUtils.resolveProject( getProject().getBaseDir(), sim );
-            template+="\n# Simulation entry for "+sim+"\n";
-            try {
-                PhetProject phetProject = new PhetProject( projectDir, sim );
-                PhetProjectFlavor[] f = phetProject.getFlavors();
-                for( int j = 0; j < f.length; j++ ) {
-                    PhetProjectFlavor phetProjectFlavor = f[j];
-                    String flavorname = sim + "_" + phetProjectFlavor.getFlavorName();
-                    template += "project.flavor." + flavorname + ".mainclass=" + phetProjectFlavor.getMainclass() + "\n" +
-                                "project.flavor." + flavorname + ".args=" + toArgsList( phetProjectFlavor.getArgs() )+"\n";
-                }
 
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
+        List phetProjects = getAllPhetProjects();
+
+        for( int i = 0; i < phetProjects.size(); i++ ) {
+            PhetProject phetProject = (PhetProject)phetProjects.get(i);
+
+            String sim = phetProject.getName();
+
+            template+="\n# Simulation entry for "+sim+"\n";
+
+            PhetProjectFlavor[] f = phetProject.getFlavors();
+            
+            for( int j = 0; j < f.length; j++ ) {
+                PhetProjectFlavor phetProjectFlavor = f[j];
+                String flavorname = sim + "_" + phetProjectFlavor.getFlavorName();
+                template += "project.flavor." + flavorname + ".mainclass=" + phetProjectFlavor.getMainclass() + "\n" +
+                            "project.flavor." + flavorname + ".args=" + toArgsList( phetProjectFlavor.getArgs() )+"\n";
             }
         }
         System.out.println( "template=\n" + template );

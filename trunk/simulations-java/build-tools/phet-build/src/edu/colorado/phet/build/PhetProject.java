@@ -104,7 +104,7 @@ public class PhetProject {
         return (File[])all.toArray( new File[0] );
     }
 
-    public File[] getSrcFiles() {
+    public File[] getSourceRoots() {
         return expandPath( getSource() );
     }
 
@@ -211,7 +211,7 @@ public class PhetProject {
         ArrayList srcDirs = new ArrayList();
         for( int i = 0; i < dependencies.length; i++ ) {
             PhetProject dependency = dependencies[i];
-            File[] jf = dependency.getSrcFiles();
+            File[] jf = dependency.getSourceRoots();
             for( int j = 0; j < jf.length; j++ ) {
                 File file = jf[j];
                 if( !srcDirs.contains( file ) ) {
@@ -291,7 +291,7 @@ public class PhetProject {
         if (getMainClass()!=null){
             mainClasses.add( getMainClass( ));
         }
-        
+
         mainClasses.addAll( Arrays.asList( getKeepMains() ) );
         mainClasses.addAll( Arrays.asList( getAllFlavorMainClasses() ) );
         return (String[])mainClasses.toArray( new String[0] );
@@ -443,7 +443,7 @@ public class PhetProject {
         return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
 
-    //Can't reuse the property loading code from phetcommon since the build process currently is GPL only. 
+    //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
     public String getVersionString() {
         Properties prop=new Properties( );
         try {

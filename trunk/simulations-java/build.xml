@@ -56,7 +56,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
     <property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
     <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
-    
+    <property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
     
@@ -163,7 +163,11 @@ PhET-team specific tasks are located in an auxiliary build file.
         <taskdef name="create-installer-build-file"
                  classname="${create-installer-build-file-classname}"
                  classpath="${phetbuild-classpath}"/>
-
+                 
+        <taskdef name="build-intellij-idea-file"
+                 classname="${build-intellij-idea-file-classname}"
+                 classpath="${phetbuild-classpath}"/>
+                 
         <typedef
                 name="fileexists"
                 classname="${phet-file-exists-classname}"
@@ -181,6 +185,10 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <target name="gui" depends="_init">
         <phet-build-gui/>
+    </target>
+    
+    <target name="build-intellij-idea" depends="_init">
+        <build-intellij-idea-file/>
     </target>
 
 <target name="build-all-sim-jar" depends="_init">

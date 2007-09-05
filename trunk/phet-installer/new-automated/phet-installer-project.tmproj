@@ -3,20 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>BitRock/projects/phet-installer-buildfile.xml</string>
+	<string>config.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>autorun.php</string>
 			<key>lastUsed</key>
-			<date>2007-07-13T18:38:48Z</date>
+			<date>2007-07-27T17:38:53Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>build-install.html</string>
 			<key>lastUsed</key>
-			<date>2007-07-12T23:35:05Z</date>
+			<date>2007-07-27T15:40:06Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -28,45 +28,45 @@
 			<key>filename</key>
 			<string>config.php</string>
 			<key>lastUsed</key>
-			<date>2007-07-14T02:31:19Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>build-install.php</string>
-			<key>lastUsed</key>
-			<date>2007-07-14T02:32:49Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>global.php</string>
-			<key>lastUsed</key>
-			<date>2007-07-13T03:34:03Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>ia.php</string>
-			<key>lastUsed</key>
-			<date>2007-07-14T04:22:27Z</date>
-		</dict>
-		<dict>
-			<key>filename</key>
-			<string>BitRock/projects/phet-installer-buildfile.xml</string>
-			<key>lastUsed</key>
-			<date>2007-07-14T04:22:27Z</date>
+			<date>2007-07-28T17:03:22Z</date>
 			<key>selected</key>
 			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
+			<string>build-install.php</string>
+			<key>lastUsed</key>
+			<date>2007-07-28T17:03:22Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>global.php</string>
+			<key>lastUsed</key>
+			<date>2007-07-27T17:44:18Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>ia.php</string>
+			<key>lastUsed</key>
+			<date>2007-07-28T17:03:14Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
+			<string>BitRock/projects/phet-installer-buildfile.xml</string>
+			<key>lastUsed</key>
+			<date>2007-07-28T06:33:04Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
 			<string>jnlp.php</string>
 			<key>lastUsed</key>
-			<date>2007-07-12T23:34:37Z</date>
+			<date>2007-07-27T15:46:56Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
 			<string>test.php</string>
 			<key>lastUsed</key>
-			<date>2007-07-12T14:50:41Z</date>
+			<date>2007-07-27T17:22:54Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -108,38 +108,159 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>20</integer>
+				<integer>23</integer>
 				<key>line</key>
-				<integer>211</integer>
+				<integer>138</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>199</integer>
+			<integer>126</integer>
+		</dict>
+		<key>autorun.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>21</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>columnSelection</key>
+			<false/>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>26</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+		</dict>
+		<key>build-install.html</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>build-install.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>8</integer>
+				<key>line</key>
+				<integer>97</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>config.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>105</integer>
+				<key>line</key>
+				<integer>67</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>40</integer>
+		</dict>
+		<key>global.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>52</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>ia.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>33</integer>
+				<integer>16</integer>
 				<key>line</key>
-				<integer>86</integer>
+				<integer>74</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>68</integer>
+			<integer>30</integer>
+		</dict>
+		<key>jnlp.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>96</integer>
+				<key>line</key>
+				<integer>92</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>77</integer>
+		</dict>
+		<key>test.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>6</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
 		<string>ia.php</string>
+		<string>global.php</string>
 		<string>BitRock/projects/phet-installer-buildfile.xml</string>
+		<string>autorun.php</string>
+		<string>jnlp.php</string>
+		<string>test.php</string>
+		<string>config.php</string>
+		<string>build-install.php</string>
+		<string>build-install.html</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{244, 418}, {1236, 610}}</string>
+	<string>{{473, 211}, {1236, 610}}</string>
 </dict>
 </plist>

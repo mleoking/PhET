@@ -25,10 +25,6 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
         }
     }
 
-    protected void echo(String string) {
-        PhetBuildUtils.antEcho( this, string, getClass() );
-    }
-
     protected abstract void executeImpl( PhetProject phetProject ) throws Exception;
 
     public void setProject( String projectName ) {
