@@ -26,8 +26,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return true or false
      */
     public boolean exists( String resource ) {
-        //ClassLoader cl = this.getClass().getClassLoader();
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        ClassLoader cl = this.getClass().getClassLoader();
         URL url = cl.getResource( resource );
         return url != null;
     }
