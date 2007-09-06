@@ -228,7 +228,7 @@ EOT;
     }
 
 	function get_sitewide_utility_html($prefix = "..") {
-		$php_self = $_SERVER['PHP_SELF'];
+		$php_self = $_SERVER['REQUEST_URI'];
 		
 		// Don't require authentication, but do it if the cookies are available:
         do_authentication(false);

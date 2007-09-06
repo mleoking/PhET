@@ -100,9 +100,7 @@
         return $simulations_html;
     }
 
-	function contribution_is_gold_star_contribution($contribution_id) {
-		$contribution = contribution_get_contribution_by_id($contribution_id);
-		
+	function contribution_is_gold_star_contribution($contribution) {		
 		return $contribution['contribution_is_gold_star'] == '1';
 	}
 	
@@ -110,8 +108,8 @@
 		return "<img src=\"../images/gold-star.jpg\" width=\"$image_width\" alt=\"Image of Gold Star\" title=\"Gold Star Contribution: This contribution has received a Gold Star for its quality and usefulness to many teachers.\" />";
 	}
 	
-	function contribution_get_gold_star_html_for_contribution($contribution_id, $image_width = 37) {
-		if (contribution_is_gold_star_contribution($contribution_id)) {
+	function contribution_get_gold_star_html_for_contribution($contribution, $image_width = 37) {
+		if (contribution_is_gold_star_contribution($contribution)) {
 			return contribution_get_gold_star_html($image_width);
 		}
 		else {
@@ -1027,7 +1025,7 @@ EOT;
 
         eval(get_code_to_create_variables_from_array($contribution));
 
-		$gold_star_html = contribution_get_gold_star_html_for_contribution($contribution_id, 10);
+		$gold_star_html = contribution_get_gold_star_html_for_contribution($contribution, 10);
         
         $sim_list = "None";
         
