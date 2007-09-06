@@ -204,10 +204,22 @@
     
     function send_file_to_browser($file_path, $file_contents = null, $opt_mime_type = null, $send_mode = "inline") {
         ini_set("zlib.output_compression", "Off");
-        
-        if ($file_contents == null) {
+
+		$print_incrementally = $file_contents == null && file_exists($file_path);
+
+        if (!$print_incrementally) {
             $file_contents = file_get_contents($file_path);
+            $file_size 	   = strlen($file_contents);
+
+			if (!$file_contents) {
+				print ("The file contents of file $file_path could not be retrieved");
+				
+				return false;
+			}
         }
+		else {
+			$file_size = filesize($file_path);
+		}
 
 		$mime_type = $opt_mime_type;
 
@@ -234,11 +246,16 @@
 				else if ($ext == 'jpg' || $ext == 'jpeg') {
 					$mime_type = "image/jpeg";
 				}
+				else if ($ext == 'zip') {
+					$mime_type = "application/zip";
+				}
 	        }
 	
 	 		if ($mime_type == null){
+				if ($file_contents == null) $file_contents = file_get_contents($file_path);
+				
                 // Auto-detection of mime-type:
-               $mime_type = auto_detect_mime_type($file_contents);
+               $mime_type = auto_detect_mime_type();
             }
         }
         
@@ -248,8 +265,6 @@
         else {
             $name = $file_path;
         }
-        
-        $file_size = strlen($file_contents);
 
         expire_page_immediately();
         
@@ -260,8 +275,19 @@
         header("Content-Transfer-Encoding: binary");
         header("Connection: close");
         
-        print($file_contents);
-        
+		if ($print_incrementally) {
+			$handle = fopen($file_path, "rb");
+			
+			while (!feof($handle)) {
+			  print fread($handle, 8192);
+			}
+			
+			fclose($handle);
+		}
+		else {
+        	print($file_contents);			
+		}
+		
         flush();
     }
     
