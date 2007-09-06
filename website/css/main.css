@@ -353,6 +353,18 @@ table.form tr.error-message td {
 	font-size:      smaller;
 }
 
+#downloadspeeds {
+	padding-left:   2em;
+	padding-right:  2em;
+	padding-bottom: 2em;
+	margin-left:    auto;
+	margin-right:   auto;
+}
+
+#downloadspeeds table tr:first-child td,
+#downloadspeeds table tr td:first-child {
+	font-weight: bold;
+}
 
 .button {
 	clear: 			right;

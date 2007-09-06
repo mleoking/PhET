@@ -54,7 +54,7 @@
 
 		$contribution_simulations = contribution_get_simulation_listings_as_list($contribution_id);
 		
-		$gold_star_html = contribution_get_gold_star_html_for_contribution($contribution_id);
+		$gold_star_html = contribution_get_gold_star_html_for_contribution($contribution);
 		
         print <<<EOT
 		<h1>$contribution_title</h1>

@@ -28,26 +28,49 @@ EOT;
 		
 		$name = basename($file);
 		
+		$size = filesize($file);
+		
+		// Estimate download times for users with fast & slow connections:
+		$slow_time = floor($size * 8 / 56000   / 60 + 0.5);
+		$fast_time = floor($size * 8 / 1000000 / 60 + 0.5);
+		
 		print <<<EOT
 			<h1>Downloading File</h1>
 			
-			<p>Your download of the file "$name" will begin shortly.</p>
+			<p>Your download of the file "$name" will begin automatically.</p>
 			
-			<p>If you encounter difficulty, you can try <a href="$file">downloading the file directly</a>.</p>
+			<p>If the download does not complete in a reasonable amount of time, you can try <a href="$file">downloading the file directly</a>.</p>
+			
+			<div id="downloadspeeds">
+				<table>
+					<tr>
+						<td>&nbsp;</td>			<td>Slow Connection</td>		<td>Fast Connection</td>
+					</tr>
+				
+					<tr>
+						<td>Time</td>			<td>$slow_time minutes</td>		<td>$fast_time minutes</td>
+					</tr>
+				</table>
+			</div>
 EOT;
 	}
 	
 	if ($download) {
-		// Keep track of download statistics:
-		db_insert_row(
-			'download_statistics', 
-			array(
-				'download_statistics_file' => $file,
-				'contributor_id'           => $contributor_id
-			)
-		);		
+		if ($file == '../../phet-dist/'.basename($file)) {
+			// Keep track of download statistics:
+			db_insert_row(
+				'download_statistics', 
+				array(
+					'download_statistics_file' => $file,
+					'contributor_id'           => $contributor_id
+				)
+			);		
 		
-		send_file_to_browser($file, null, null, "attachment");
+			//send_file_to_browser($file, null, null, "attachment");
+		}
+		else {
+			print "Due to security restrictions, the specified file may not be accessed.";
+		}
 	}
 	else {
 		print_site_page('print_content', -1, $self."&amp;download=1", 1);
