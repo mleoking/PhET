@@ -20,7 +20,7 @@ public class PiccoloTestingUtils {
 
         PBounds nodeBounds = node.getGlobalFullBounds();
 
-        TestCase.assertTrue("The bounds of the node " + node + " do not fully fall within the visible portion of the canvas.", visibleBounds.contains(nodeBounds));
+        TestCase.assertTrue("The bounds of the node " + node.getClass() + ": "+nodeBounds+" do not fully fall within the visible portion of the canvas.", visibleBounds.contains(nodeBounds));
     }
 
     public static void testBoundsAreVisible(PNode node, PCanvas canvas) {
@@ -50,8 +50,8 @@ public class PiccoloTestingUtils {
         Point2D nodeCenter = nodeBounds.getCenter2D();
 
         double distance = canvasCenter.distance(nodeCenter);
-
-        TestCase.assertTrue("The node " + node + " does not lie near the center of the visible portion of the canvas.", distance < maxDistance);
+        System.out.println("PiccoloTestingUtils.testIsRoughlyCentered");
+        TestCase.assertTrue("The "+node.getClass() +" node with global full bounds " + nodeBounds + " does not lie near the center of the visible portion of the canvas.", distance < maxDistance);
     }
 
     public static void testIsSmallSized(PNode node, PCanvas canvas) {
