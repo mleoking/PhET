@@ -25,11 +25,11 @@ import javax.swing.*;
  */
 
 public abstract class Module {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private String name;
 
     private BaseModel model;
@@ -38,19 +38,12 @@ public abstract class Module {
     private boolean active = false;
     private boolean clockRunningWhenActive = true;
     private ClockAdapter moduleRunner;
-    
+
     private ModulePanel modulePanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
-    /**
-     * Initialize an emtpy module.  
-     * This is for subclasses who intend something rather different than the norm.
-     */
-    protected Module() {
-    }
 
     /**
      * Initialize a Module.
@@ -65,7 +58,7 @@ public abstract class Module {
 
     /**
      * Initializes a Module.
-     * 
+     *
      * @param name
      * @param clock
      * @param startsPaused
@@ -74,13 +67,12 @@ public abstract class Module {
         this.name = name;
         this.clock = clock;
         setModel( new BaseModel() );
-//        PhetCommonProjectConfig.getInstance().addStrings( "localization/CommonStrings" );
 
         this.modulePanel = new ModulePanel();
         setClockControlPanel( new ClockControlPanel( clock ) );
         setLogoPanel( new LogoPanel() );
         setHelpPanel( new HelpPanel( this ) );
-        
+
         moduleRunner = new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 handleClockTick( clockEvent );
@@ -89,11 +81,11 @@ public abstract class Module {
         clock.addClockListener( moduleRunner );
         this.clockRunningWhenActive = !startsPaused;
     }
-    
+
     //----------------------------------------------------------------------------
     // Clock
     //----------------------------------------------------------------------------
-    
+
     /**
      * Get the clock associated with this Module.
      *
@@ -113,11 +105,11 @@ public abstract class Module {
         model.update( event );
         updateGraphics( event );
     }
-    
+
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the base model.
      *
@@ -144,11 +136,11 @@ public abstract class Module {
     protected void addModelElement( final ModelElement modelElement ) {
         getModel().addModelElement( modelElement );
     }
-    
+
     //----------------------------------------------------------------------------
     // Panel Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Get the ModulePanel, which contains all the subpanels for the module.
      *
@@ -157,7 +149,7 @@ public abstract class Module {
     public ModulePanel getModulePanel() {
         return modulePanel;
     }
-    
+
     /**
      * Sets the monitor panel.
      *
@@ -175,10 +167,10 @@ public abstract class Module {
     protected void setSimulationPanel( JComponent panel ) {
         modulePanel.setSimulationPanel( panel );
     }
-    
+
     /**
      * Gets the simulation panel.
-     * 
+     *
      * @return the simulation panel
      */
     public JComponent getSimulationPanel() {
@@ -193,7 +185,7 @@ public abstract class Module {
     protected void setClockControlPanel( JComponent panel ) {
         modulePanel.setClockControlPanel( panel );
     }
-    
+
     /**
      * Gets the clock control panel.
      * If you have replaced the standard ClockControlPanel,
@@ -209,7 +201,7 @@ public abstract class Module {
         }
         return clockControlPanel;
     }
-    
+
     /**
      * Sets the logo panel.
      *
@@ -218,12 +210,12 @@ public abstract class Module {
     protected void setLogoPanel( JComponent panel ) {
         modulePanel.setLogoPanel( panel );
     }
-    
+
     /**
      * Gets the logo panel.
      * If you have replaced the standard LogoPanel,
      * then use getModulePanel().getLogoPanel().
-     * 
+     *
      * @return LogoPanel
      */
     public LogoPanel getLogoPanel() {
@@ -234,7 +226,7 @@ public abstract class Module {
         }
         return logoPanel;
     }
-    
+
     /**
      * Sets the control panel.
      *
@@ -243,12 +235,12 @@ public abstract class Module {
     protected void setControlPanel( JComponent panel ) {
         modulePanel.setControlPanel( panel );
     }
-    
+
     /**
      * Gets the control panel.
      * If you have replaced the standard ControlPanel,
      * then use getModulePanel().getControlPanel().
-     * 
+     *
      * @return ControlPanel
      */
     public ControlPanel getControlPanel() {
@@ -259,7 +251,7 @@ public abstract class Module {
         }
         return controlPanel;
     }
-    
+
     /**
      * Sets the help panel.
      *
@@ -268,12 +260,12 @@ public abstract class Module {
     protected void setHelpPanel( JComponent panel ) {
         modulePanel.setHelpPanel( panel );
     }
-    
+
     /**
      * Gets the help panel.
      * If you have replaced the standard HelpPanel,
      * then use getModulePanel().getHelpPanel().
-     * 
+     *
      * @return HelpPanel
      */
     public HelpPanel getHelpPanel() {
@@ -284,11 +276,11 @@ public abstract class Module {
         }
         return helpPanel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Help
     //----------------------------------------------------------------------------
-    
+
    /**
     * Tells whether this module has on-screen help.
     *
@@ -297,7 +289,7 @@ public abstract class Module {
    public boolean hasHelp() {
        return false;
    }
-   
+
    /**
     * This must be overriden by subclasses that have megahelp to return true.
     *
@@ -336,20 +328,20 @@ public abstract class Module {
        }
        return enabled;
    }
-   
+
    /**
     * This must be overrideen by subclasses that have MegaHelp.
     */
    public void showMegaHelp() {
    }
-    
+
     //----------------------------------------------------------------------------
     // Logo
     //----------------------------------------------------------------------------
-    
+
     /**
      * Shows/hides the PhET logo.
-     * 
+     *
      * @param visible
      */
     public void setLogoPanelVisible( boolean visible ) {
@@ -361,7 +353,7 @@ public abstract class Module {
 
     /**
      * Is the PhET logo visible?
-     * 
+     *
      * @return true or false
      */
     public boolean isLogoPanelVisible() {
@@ -372,7 +364,7 @@ public abstract class Module {
         }
         return visible;
     }
-    
+
     //----------------------------------------------------------------------------
     // Activation
     //----------------------------------------------------------------------------
@@ -427,7 +419,7 @@ public abstract class Module {
     //----------------------------------------------------------------------------
     // Misc.
     //----------------------------------------------------------------------------
-    
+
     /**
      * Get the name of the Module.
      *
@@ -436,7 +428,7 @@ public abstract class Module {
     public String getName() {
         return name;
     }
-    
+
     /**
      * Returns a String to represent the Module.
      *
