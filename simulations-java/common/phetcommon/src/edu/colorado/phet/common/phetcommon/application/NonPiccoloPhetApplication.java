@@ -57,7 +57,7 @@ import java.util.ArrayList;
  *
  * @author ?
  * @version $Revision$
- * @deprecated Use PhetApplication
+ *
  */
 public class NonPiccoloPhetApplication {
 
