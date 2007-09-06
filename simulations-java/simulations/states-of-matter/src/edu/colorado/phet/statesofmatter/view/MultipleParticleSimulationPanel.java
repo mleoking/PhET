@@ -17,15 +17,22 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
     public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST);
     private boolean layoutPerformed=false;
 
+    private PNode particleLayer = new PNode();
+
     public MultipleParticleSimulationPanel(MultipleParticleModel model) {
         this.model = model;
         particleContainer = new ParticleContainerNode(new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS));
 
         addWorldChild(particleContainer);
+        addWorldChild(particleLayer);
 
         addComponentListener(new LayoutAdjustingComponentListener());
 
         performLayout();
+
+        for ( int i = 0; i < model.getParticles().size(); i++ ) {
+            particleLayer.addChild(new ParticleNode(model.getParticle(i)));
+        }
     }
 
     private void performLayout() {
@@ -34,8 +41,7 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
         phetRootPNode.translateWorld(getBounds().getWidth() / 2.0, getBounds().getHeight() / 2.0);
         phetRootPNode.scaleWorldAboutPoint(35, new Point2D.Double(0, 0));
         layoutPerformed=true;
-        System.out.println("particleContainer.getGlobalFullBounds() = " + particleContainer.getGlobalFullBounds());
-    }
+   }
 
     public ParticleContainerNode getParticleContainer() {
         return particleContainer;
@@ -51,7 +57,7 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
      * @return
      */
     public PNode getParticleNode(int i) {
-        return new PNode();
+        return particleLayer.getChild(i);
     }
 
     public boolean isLayoutPerformed() {
@@ -61,7 +67,6 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
     private class LayoutAdjustingComponentListener implements ComponentListener {
         public void componentResized(ComponentEvent componentEvent) {
             performLayout();
-            System.out.println("componentEvent.getComponent().getBounds() = " + componentEvent.getComponent().getBounds());
         }
 
         public void componentMoved(ComponentEvent componentEvent) {

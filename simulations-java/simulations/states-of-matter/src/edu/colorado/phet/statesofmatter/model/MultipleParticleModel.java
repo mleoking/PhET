@@ -28,4 +28,8 @@ public class MultipleParticleModel extends BaseModel {
     public List getParticles() {
         return Collections.unmodifiableList(particles);
     }
+
+    public StatesOfMatterParticle getParticle(int i) {
+        return (StatesOfMatterParticle)particles.get(i);
+    }
 }

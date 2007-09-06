@@ -3,7 +3,7 @@ package edu.colorado.phet.statesofmatter.model;
 import java.util.List;
 
 public class RandomParticleCreationStrategy implements ParticleCreationStrategy {
-    public Particle createNewParticle(List particles) {
-        return new Particle(Math.random(), Math.random());
+    public StatesOfMatterParticle createNewParticle(List particles) {
+        return new StatesOfMatterParticle(Math.random(), Math.random());
     }
 }

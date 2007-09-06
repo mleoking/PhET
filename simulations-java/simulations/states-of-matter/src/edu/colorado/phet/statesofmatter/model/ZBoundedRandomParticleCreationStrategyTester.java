@@ -19,7 +19,7 @@ public class ZBoundedRandomParticleCreationStrategyTester extends TestCase {
         Rectangle2D.Double bounds = StatesOfMatterConfig.CONTAINER_BOUNDS;
 
         for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            Particle particle = strategy.createNewParticle(new ArrayList());
+            StatesOfMatterParticle particle = strategy.createNewParticle(new ArrayList());
 
             assertTrue(bounds.contains(particle.getX(), particle.getY()));
         }
