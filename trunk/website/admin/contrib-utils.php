@@ -773,7 +773,8 @@ EOT;
 					        print_multiple_selection(
 								'Subject',
 					            contribution_get_all_template_subject_names(),
-					            contribution_get_subject_names_for_contribution($contribution_id)
+					            contribution_get_subject_names_for_contribution($contribution_id),
+								false
 					        );
         
         print <<<EOT

@@ -811,10 +811,10 @@ EOT;
     }    
 
     function print_deletable_list($select_user_name, $selections_array) {
-        print_multiple_selection($select_user_name, $selections_array, $selections_array, false, $name_prefix = "dl");
+        print_multiple_selection($select_user_name, $selections_array, $selections_array, false, false, $name_prefix = "dl");
     }
 
-    function print_multiple_selection($select_user_name, $options_array, $selections_array = array(), $print_select = true, $name_prefix = "ms") {
+    function print_multiple_selection($select_user_name, $options_array, $selections_array = array(), $should_validate = true, $print_select = true, $name_prefix = "ms") {
         static $has_printed_javascript = false;
         static $ms_id_num = 1;
         
@@ -839,7 +839,7 @@ EOT;
         $list_id = "${name}_list_uid";
 
 		// Create some javascript code to add all the initial entries to the multiselection list:
-		if (!$print_select) {
+		if (!$should_validate) {
 			$script_creation_code = '';
 		}
 		else {
