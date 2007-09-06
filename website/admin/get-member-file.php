@@ -1,5 +1,7 @@
 <?php
 
+	error_reporting(E_ALL);
+
 	include_once("../admin/global.php");
 
 	include_once(SITE_ROOT."admin/web-utils.php");	
@@ -56,7 +58,7 @@ EOT;
 	}
 	
 	if ($download) {
-		if ($file == '../../phet-dist/'.basename($file)) {
+		if ($file == '../../phet-dist/'.basename($file) && file_exists($file)) {
 			// Keep track of download statistics:
 			db_insert_row(
 				'download_statistics', 
