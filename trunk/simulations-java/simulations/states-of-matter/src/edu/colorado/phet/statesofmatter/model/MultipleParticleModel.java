@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MultipleParticleModel extends BaseModel {
     private final List particles = new ArrayList();
+    public static final MultipleParticleModel TEST = new MultipleParticleModel();
 
     public MultipleParticleModel() {
         initialize();
