@@ -2,10 +2,13 @@ package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.umd.cs.piccolo.PNode;
 import junit.framework.TestCase;
 
 import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.IdentityHashMap;
+import java.util.Map;
 
 public class ZMultipleParticleSimulationPanelTester extends TestCase {
     private volatile MultipleParticleSimulationPanel panel;
@@ -23,43 +26,79 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
                 panel.setBounds(0, 0, 600, 600);
             }
         });
+
+        
     }
 
     public void testLayoutPerformed() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                assertTrue("layout should have been performed by now", panel.isLayoutPerformed());
-            }
-        });
-
+        assertTrue("layout should have been performed by now", panel.isLayoutPerformed());
     }
 
+    ParticleContainerNode particleContainer;
     public void testThatParticleContainerIsCentered() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                PiccoloTestingUtils.testIsRoughlyCentered(panel.getParticleContainer(), panel);
-            }
-        });
+        //SwingUtilities.invokeAndWait(new Runnable() { public void run() {
+        particleContainer = panel.getParticleContainer();
+        //}});
 
+        PiccoloTestingUtils.testIsRoughlyCentered(particleContainer, panel);
     }
 
     public void testThatParticleContainerIsMediumSized() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                PiccoloTestingUtils.testIsMediumSized(panel.getParticleContainer(), panel);
-            }
-        });
+        PiccoloTestingUtils.testIsMediumSized(panel.getParticleContainer(), panel);
+    }
 
+    public void testThatNumParticlesIsNonZero() {
+        assertTrue(panel.getNumParticles() > 0);
+    }
+
+    public void testParticleNodesAreNotNull() {
+        for (int i = 0; i < panel.getNumParticles(); i++ ) {
+            assertNotNull(panel.getParticleNode(i));
+        }
     }
 
     public void testParticlesVisible() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
+        for (int i = 0; i < panel.getNumParticles(); i++ ) {
+            PiccoloTestingUtils.testIsVisible(panel.getParticleNode(i), panel);
+        }
+    }
+
+    public void testParticleIdentityIsUnique() {
+        Map identities = new IdentityHashMap();
 
         for (int i = 0; i < panel.getNumParticles(); i++) {
-            PiccoloTestingUtils.testBoundsAreFullyVisible(panel.getParticleNode(i), panel);
+            PNode node = panel.getParticleNode(i);
+
+            identities.put(node, node);
         }
-            }
-        });
+
+        assertEquals(panel.getNumParticles(), identities.size());
     }
+
+    public void testParticleIdentityIsConsistent() {
+        PNode[] particles = new PNode[panel.getNumParticles()];
+
+        for (int i = 0; i < panel.getNumParticles(); i++) {
+            PNode node = panel.getParticleNode(i);
+
+            particles[i] = node;
+        }
+
+        for (int i = 0; i < panel.getNumParticles(); i++) {
+            PNode node = panel.getParticleNode(i);
+
+            assertSame(particles[i], node);
+        }
+    }
+
+//    public void testParticlesAreSmallNonEmpty() throws InvocationTargetException, InterruptedException {
+//        for (int i = 0; i < panel.getNumParticles(); i++) {
+//            PiccoloTestingUtils.testIsSmallSized(panel.getParticleNode(i), panel);
+//            PiccoloTestingUtils.testBoundsAreNonZero(panel.getParticleNode(i));
+//        }
+//    }
+
+    //public void testContains(){
+    //    assertTrue(new Rectangle2D.Double(-2,-2,4,4).contains(new Rectangle2D.Double(0,0,0,0)));
+    //}
 }

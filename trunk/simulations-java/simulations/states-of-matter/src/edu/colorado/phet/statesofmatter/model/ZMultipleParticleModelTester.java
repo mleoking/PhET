@@ -28,7 +28,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
     public void testThatParticleListIsUnmodifiable() {
         try {
-            model.getParticles().add(Particle.TEST);
+            model.getParticles().add(StatesOfMatterParticle.TEST);
 
             fail();
         }

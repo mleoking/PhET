@@ -15,5 +15,4 @@ public class ZParticleContainerNodeTester extends TestCase {
     public void testThatBoundsAreNotEmpty() {
         PiccoloTestingUtils.testBoundsAreNonZero(node);
     }
-
 }

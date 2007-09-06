@@ -10,5 +10,5 @@ public interface ParticleCreationStrategy {
      *
      * @return The new particle.
      */
-    Particle createNewParticle(List particles);
+    StatesOfMatterParticle createNewParticle(List particles);
 }

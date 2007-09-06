@@ -1,17 +1,17 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.statesofmatter.model.Particle;
+import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class ParticleNode extends PNode {
-    private Particle particle;
+    private StatesOfMatterParticle particle;
     private PhetPPath path;
 
-    public ParticleNode(Particle particle) {
+    public ParticleNode(StatesOfMatterParticle particle) {
         this.particle = particle;
         this.path=new PhetPPath(Color.blue);
         addChild(path);

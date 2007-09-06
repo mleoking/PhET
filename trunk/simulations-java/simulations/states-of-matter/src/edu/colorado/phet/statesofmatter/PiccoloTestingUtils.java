@@ -7,6 +7,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import junit.framework.TestCase;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 public class PiccoloTestingUtils {
     private static final double SMALL_SIZE = 1.0 / 3.0;
@@ -20,7 +21,23 @@ public class PiccoloTestingUtils {
 
         PBounds nodeBounds = node.getGlobalFullBounds();
 
-        TestCase.assertTrue("The bounds of the node " + node.getClass() + ": "+nodeBounds+" do not fully fall within the visible portion of the canvas.", visibleBounds.contains(nodeBounds));
+        TestCase.assertTrue("The bounds of the node " + node.getClass() + ": "+nodeBounds+" do not fully fall within the visible portion of the canvas.", contains(visibleBounds, nodeBounds));
+    }
+
+    public static boolean contains(Rectangle2D container,Rectangle2D child){
+        return child.isEmpty()?container.contains(child.getX(),child.getY()) :container.contains(child);
+    }
+
+    public static boolean intersects(Rectangle2D r1,Rectangle2D r2){
+        if (r2.isEmpty()) {
+            return r1.contains(r2.getX(), r2.getY());
+        }
+        else if (r1.isEmpty()) {
+            return r2.contains(r1.getX(), r1.getY());
+        }
+        else {
+            return r1.intersects(r2);
+        }
     }
 
     public static void testBoundsAreVisible(PNode node, PCanvas canvas) {
@@ -30,7 +47,9 @@ public class PiccoloTestingUtils {
 
         PBounds nodeBounds = node.getGlobalFullBounds();
 
-        TestCase.assertTrue("The bounds of the node " + node + " do not fall within the visible portion of the canvas.", visibleBounds.intersects(nodeBounds));
+        boolean visibleBoundsIntersectsNodeBounds = intersects(visibleBounds, nodeBounds);
+
+        TestCase.assertTrue("The bounds of the node " + node + " do not fall within the visible portion of the canvas.", visibleBoundsIntersectsNodeBounds);
     }
 
     public static void testBoundsAreNonZero(PNode node) {
@@ -50,7 +69,7 @@ public class PiccoloTestingUtils {
         Point2D nodeCenter = nodeBounds.getCenter2D();
 
         double distance = canvasCenter.distance(nodeCenter);
-        System.out.println("PiccoloTestingUtils.testIsRoughlyCentered");
+
         TestCase.assertTrue("The "+node.getClass() +" node with global full bounds " + nodeBounds + " does not lie near the center of the visible portion of the canvas.", distance < maxDistance);
     }
 
@@ -91,5 +110,25 @@ public class PiccoloTestingUtils {
         if (!canvas.getCamera().getTransform().equals(new PAffineTransform())) {
             throw new IllegalArgumentException("Cannot deal with camera transform: " + canvas.getCamera().getTransform());
         }
+    }
+
+    public static void testIsVisible(PNode node, PCanvas canvas) {
+        PNode originalNode = node;
+
+        if (node.getGlobalFullBounds().isEmpty()) {
+            TestCase.fail("The node " + originalNode.getClass() + " is not visible because it has zero global full bounds.");
+        }
+
+        testBoundsAreVisible(node, canvas);
+
+        while (node != null) {
+            if (node == canvas.getLayer()) {
+                return;
+            }
+
+            node = node.getParent();
+        }
+
+        TestCase.fail("The node " + originalNode.getClass() + " is not visible on the canvas " + canvas + ".");
     }
 }

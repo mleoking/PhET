@@ -1,7 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
-import edu.colorado.phet.statesofmatter.model.Particle;
+import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
 public class ZParticleNodeTester extends TestCase {
@@ -11,7 +11,7 @@ public class ZParticleNodeTester extends TestCase {
     }
 
     protected void setUp() throws Exception {
-        node = new ParticleNode(Particle.TEST);
+        node = new ParticleNode(StatesOfMatterParticle.TEST);
     }
 
     public void testParticleNodeBoundsExists(){
