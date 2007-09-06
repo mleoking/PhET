@@ -11,7 +11,7 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ModelClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -72,7 +72,7 @@ public class PhetUtilities {
      * @return The active module
      */
     public static Module getActiveModule() {
-        return PhetApplication.instance().getActiveModule();
+        return NonPiccoloPhetApplication.instance().getActiveModule();
     }
 
     /**
@@ -81,7 +81,7 @@ public class PhetUtilities {
      * @return The PhetFrame
      */
     public static PhetFrame getPhetFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return NonPiccoloPhetApplication.instance().getPhetFrame();
     }
 
     /**
@@ -120,10 +120,10 @@ public class PhetUtilities {
 
         return os;
     }
-    
+
     /**
      * Determines whether we're running on a Macintosh.
-     * 
+     *
      * @return true or false
      */
     public static boolean isMacintosh() {

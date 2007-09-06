@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 import javax.swing.*;
@@ -29,7 +29,7 @@ import java.awt.event.ActionListener;
 public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
 
-    public HelpMenu( final PhetApplication phetApplication ) {
+    public HelpMenu( final NonPiccoloPhetApplication phetApplication ) {
         super( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.Title" ) );
         this.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         phetApplication.addModuleObserver( this );
@@ -56,7 +56,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                     phetApplication.getActiveModule().showMegaHelp();
                 }
                 else {
-                    JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(),
+                    JOptionPane.showMessageDialog( NonPiccoloPhetApplication.instance().getPhetFrame(),
                                                    "No MegaHelp available for this module." );
                 }
             }

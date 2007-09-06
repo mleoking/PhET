@@ -10,21 +10,21 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
-import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 import javax.swing.*;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.EventListener;
 
 /**
@@ -150,7 +150,7 @@ public class TestThreadSeparation {
      */
     public static void main( String[] args ) {
 
-        PhetApplication app = new PhetApplication( args, "Thread Separation Test", "", "",
+        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "Thread Separation Test", "", "",
                                                    new FrameSetup.CenteredWithSize( 600, 500 ) );
         app.addModule( new TestModule() );
         app.startApplication();

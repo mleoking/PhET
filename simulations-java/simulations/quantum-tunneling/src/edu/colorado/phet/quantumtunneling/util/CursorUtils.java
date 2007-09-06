@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.util;
 
-import java.awt.Cursor;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+
+import java.awt.*;
 
 
 /**
@@ -27,17 +27,17 @@ public class CursorUtils {
 
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
-    
+
     /* Not intended for instantiation */
     private CursorUtils() {}
-    
+
     /**
      * Turns the wait cursor on and off.
-     * 
+     *
      * @param enabled true or false
      */
     public static void setWaitCursorEnabled( boolean enabled ) {
-        PhetFrame frame = PhetApplication.instance().getPhetFrame();
+        PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
         if ( enabled ) {
             frame.setCursor( WAIT_CURSOR );
         }
@@ -45,5 +45,5 @@ public class CursorUtils {
             frame.setCursor( DEFAULT_CURSOR );
         }
     }
-    
+
 }

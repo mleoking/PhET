@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +23,7 @@ import java.util.Arrays;
  * Time: 9:17:52 AM
  */
 
-public class CCKApplication extends PiccoloPhetApplication {
+public class CCKApplication extends PhetApplication {
     //version is generated automatically (with ant)
     public static final String localizedStringsPath = "cck/localization/cck-strings";
     private CCKPiccoloModule cckPiccoloModule;

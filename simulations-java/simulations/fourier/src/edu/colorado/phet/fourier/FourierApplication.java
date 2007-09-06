@@ -11,14 +11,7 @@
 
 package edu.colorado.phet.fourier;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.control.OptionsMenu;
@@ -27,6 +20,11 @@ import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.GameModule;
 import edu.colorado.phet.fourier.persistence.ConfigManager;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
 
 /**
  * FourierApplication is the main application for the PhET "Fourier Analysis" simulation.
@@ -34,22 +32,22 @@ import edu.colorado.phet.fourier.persistence.ConfigManager;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class FourierApplication extends PhetApplication {
+public class FourierApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Set this to true to test one module and disable all others.
     private static final boolean TEST_ONE_MODULE = false;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     // PersistanceManager handles loading/saving application configurations.
     private ConfigManager _persistenceManager;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -60,17 +58,17 @@ public class FourierApplication extends PhetApplication {
     public FourierApplication( PhetApplicationConfig config )
     {
         super( config );
-        initModules();  
+        initModules();
         initMenubar();
     }
-    
+
     //----------------------------------------------------------------------------
     // Modules
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes the modules.
-     * 
+     *
      * @param clock
      */
     private void initModules() {
@@ -81,22 +79,22 @@ public class FourierApplication extends PhetApplication {
         D2CModule d2cModule = new D2CModule();
         addModule( d2cModule );
     }
-    
+
     //----------------------------------------------------------------------------
     // Menubar
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes the menubar.
      */
     private void initMenubar() {
-     
+
         if ( _persistenceManager == null ) {
             _persistenceManager = new ConfigManager( this );
         }
-        
+
         PhetFrame frame = getPhetFrame();
-        
+
         // File menu
         {
             JMenuItem saveItem = new JMenuItem( FourierResources.getString( "FileMenu.save" ) );
@@ -106,7 +104,7 @@ public class FourierApplication extends PhetApplication {
                     _persistenceManager.save();
                 }
             } );
-            
+
             JMenuItem loadItem = new JMenuItem( FourierResources.getString( "FileMenu.load" ) );
             loadItem.setMnemonic( FourierResources.getChar( "FileMenu.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
@@ -119,7 +117,7 @@ public class FourierApplication extends PhetApplication {
             frame.addFileMenuItem( loadItem );
             frame.addFileMenuSeparator();
         }
-        
+
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu( this );
         getPhetFrame().addMenu( optionsMenu );
@@ -131,17 +129,17 @@ public class FourierApplication extends PhetApplication {
 
     /**
      * Main entry point for the PhET Fourier application.
-     * 
+     *
      * @param args command line arguments
      */
     public static void main( final String[] args ) throws IOException {
 
-        /* 
-         * Wrap the body of main in invokeLater, so that all initialization occurs 
+        /*
+         * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
          * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the 
-         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * seem to cause startup deadlock problems if they aren't initialized in the
+         * event dispatch thread. Since we don't have an easy way to separate Swing and
          * non-Swing init, we're stuck doing everything in invokeLater.
          */
         SwingUtilities.invokeLater( new Runnable() {

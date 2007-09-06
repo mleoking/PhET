@@ -6,7 +6,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.examples;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -27,7 +27,7 @@ import java.awt.event.*;
 import java.util.Random;
 
 public class TestPhetApplication2 {
-    private static PhetApplication app;
+    private static NonPiccoloPhetApplication app;
 
     static class TestApparatusPanel extends ApparatusPanel {
         public TestApparatusPanel() {
@@ -201,7 +201,7 @@ public class TestPhetApplication2 {
         MyModule3 module4 = new MyModule3( clock );
         PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, module4};
 
-        app = new PhetApplication( args, "title", "desc", "version" );
+        app = new NonPiccoloPhetApplication( args, "title", "desc", "version" );
         app.setModules( m );
         app.startApplication();
 

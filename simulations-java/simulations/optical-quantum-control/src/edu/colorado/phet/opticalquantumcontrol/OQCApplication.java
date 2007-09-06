@@ -11,19 +11,16 @@
 
 package edu.colorado.phet.opticalquantumcontrol;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
-import javax.swing.JDialog;
-import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 
 /**
@@ -32,7 +29,7 @@ import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OQCApplication extends PhetApplication {
+public class OQCApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -60,7 +57,7 @@ public class OQCApplication extends PhetApplication {
 
     /*
      * Initializes the modules.
-     * 
+     *
      * @param clock
      */
     private void initModules() {
@@ -112,17 +109,17 @@ public class OQCApplication extends PhetApplication {
 
     /**
      * Main entry point.
-     * 
+     *
      * @param args command line arguments
      */
     public static void main( final String[] args ) throws IOException {
 
-        /* 
-         * Wrap the body of main in invokeLater, so that all initialization occurs 
+        /*
+         * Wrap the body of main in invokeLater, so that all initialization occurs
          * in the event dispatch thread. Sun now recommends doing all Swing init in
          * the event dispatch thread. And the Piccolo-based tabs in TabbedModulePanePiccolo
-         * seem to cause startup deadlock problems if they aren't initialized in the 
-         * event dispatch thread. Since we don't have an easy way to separate Swing and 
+         * seem to cause startup deadlock problems if they aren't initialized in the
+         * event dispatch thread. Since we don't have an easy way to separate Swing and
          * non-Swing init, we're stuck doing everything in invokeLater.
          */
         SwingUtilities.invokeLater( new Runnable() {

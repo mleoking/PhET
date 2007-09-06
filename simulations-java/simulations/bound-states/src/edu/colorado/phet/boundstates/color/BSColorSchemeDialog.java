@@ -11,28 +11,27 @@
 
 package edu.colorado.phet.boundstates.color;
 
+import edu.colorado.phet.boundstates.BSAbstractApplication;
+import edu.colorado.phet.boundstates.BSResources;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-
-import edu.colorado.phet.boundstates.BSAbstractApplication;
-import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-
 
 /**
  * BSColorSchemeDialog is the dialog used to edit the color scheme.
  * <p>
- * NOTE: If you add a new property to the color scheme, you'll need to 
+ * NOTE: If you add a new property to the color scheme, you'll need to
  * add support for that property in these methods:
  * <ul>
  * <li>createInputPanel
@@ -49,57 +48,57 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int COLOR_CHIP_WIDTH = 30;
     private static final int COLOR_CHIP_HEIGHT = 30;
     private static final Stroke COLOR_CHIP_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Frame _parent;
     private BSAbstractApplication _app;
     private BSColorScheme _scheme;
     private BSColorScheme _restoreScheme;
-    
+
     private JLabel _currentChip;
     private JLabel _chartChip, _ticksChip, _gridlinesChip;
     private JLabel _eigenstateNormalChip, _eigenstateHiliteChip, _eigenstateSelectionChip, _potentialEnergyChip;
     private JLabel _realChip, _imaginaryChip, _magnitudeChip;
     private JLabel _magnifyingGlassBezelChip, _magnifyingGlassHandleChip;
     private JLabel _dragHandleChip, _dragHandleHiliteChip, _dragHandleValueChip, _dragHandleMarkersChip;
-    
+
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app the application
      */
     public BSColorSchemeDialog( BSAbstractApplication app, BSColorScheme scheme ) {
-        super( PhetApplication.instance().getPhetFrame() );
+        super( NonPiccoloPhetApplication.instance().getPhetFrame() );
         super.setTitle( BSResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = PhetApplication.instance().getPhetFrame();
+        _parent = NonPiccoloPhetApplication.instance().getPhetFrame();
         _app = app;
         _scheme = scheme;
         _restoreScheme = new BSColorScheme( scheme );
         createUI();
         setLocationRelativeTo( _parent );
     }
-   
+
     //----------------------------------------------------------------------------
     // User interface construction
     //----------------------------------------------------------------------------
-    
+
     /*
      * Creates the user interface for the dialog.
      */
@@ -117,14 +116,14 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         this.getContentPane().add( panel );
         this.pack();
     }
-    
+
     /*
      * Creates the dialog's input panel.
-     * 
+     *
      * @return the input panel
      */
     private JPanel createInputPanel() {
-        
+
         MouseInputListener listener = new MouseInputAdapter() {
             public void mouseClicked( MouseEvent event ) {
                 if ( event.getSource() instanceof JLabel ) {
@@ -132,21 +131,21 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
                 }
             }
         };
-        
+
         JPanel inputPanel = new JPanel();
         inputPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         EasyGridBagLayout inputPanelLayout = new EasyGridBagLayout( inputPanel );
         inputPanel.setLayout( inputPanelLayout );
         int row = 0;
-        
+
         // Font used for titles
         Font titleFont = null;
         {
             JLabel label = new JLabel();
             Font defaultFont = label.getFont();
-            titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );   
+            titleFont = new Font( defaultFont.getName(), Font.BOLD, defaultFont.getSize() );
         }
-        
+
         // Chart section
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.chartSection" ) );
@@ -154,7 +153,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Chart background
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.chartBackground" ) );
@@ -165,7 +164,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _chartChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Ticks
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.ticks" ) );
@@ -176,7 +175,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _ticksChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Gridlines
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.gridlines" ) );
@@ -187,11 +186,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _gridlinesChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Horizontal separator
         inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
-        
+
         // Energy Plots section
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.energySection" ) );
@@ -199,7 +198,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Potential Energy
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.potentialEnergy" ) );
@@ -210,7 +209,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _potentialEnergyChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Eigenstate normal
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateNormal" ) );
@@ -221,7 +220,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _eigenstateNormalChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Eigenstate hilite
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateHilite" ) );
@@ -232,7 +231,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _eigenstateHiliteChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Eigenstate selection
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.eigenstateSelection" ) );
@@ -243,11 +242,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _eigenstateSelectionChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Horizontal separator
         inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
-        
+
         // Wave Function Plots section
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.waveFunctionSection" ) );
@@ -255,7 +254,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Real
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.real" ) );
@@ -266,7 +265,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _realChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Imaginary
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.imaginary" ) );
@@ -277,7 +276,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _imaginaryChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Magnitude
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.magnitude" ) );
@@ -288,11 +287,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _magnitudeChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Horizontal separator
         inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
-        
+
         // Magnifying Glass section
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassSection" ) );
@@ -300,7 +299,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Magnifying Glass bezel
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassBezel" ) );
@@ -311,7 +310,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _magnifyingGlassBezelChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Magnifying Glass handle
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.magnifyingGlassHandle" ) );
@@ -322,11 +321,11 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _magnifyingGlassHandleChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Horizontal separator
         inputPanelLayout.addFilledComponent( new JSeparator(), row, 0, 2, 1, GridBagConstraints.HORIZONTAL );
         row++;
-        
+
         // Drag Handles section
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleSection" ) );
@@ -334,7 +333,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( label, row, 0, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Drag handle "normal" color
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.dragHandle" ) );
@@ -345,7 +344,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _dragHandleChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Drag handle "hilite" color
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleHilite" ) );
@@ -356,7 +355,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _dragHandleHiliteChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Drag handle "value" color
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleValue" ) );
@@ -367,7 +366,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _dragHandleValueChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Drag handle "markers" color
         {
             JLabel label = new JLabel( BSResources.getString( "label.color.dragHandleMarkers" ) );
@@ -378,13 +377,13 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             inputPanelLayout.addAnchoredComponent( _dragHandleMarkersChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         return inputPanel;
     }
-    
+
     /*
      * Creates the dialog's actions panel, consisting of OK and Cancel buttons.
-     * 
+     *
      * @return the actions panel
      */
     private JPanel createActionsPanel() {
@@ -413,23 +412,23 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
 
         return actionPanel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Color editing
     //----------------------------------------------------------------------------
-    
+
     /*
      * Edits one of the colors.
-     * 
+     *
      * @param order
      */
     private void editColor( JLabel colorChip ) {
-        
+
         _currentChip = colorChip;
 
         String titlePrefix = null;
         Color initialColor = null;
-        
+
         if ( _currentChip == _chartChip ) {
             titlePrefix = BSResources.getString( "label.color.chartBackground" );
             initialColor = _scheme.getChartColor();
@@ -480,31 +479,31 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         }
         else if ( _currentChip == _dragHandleChip ) {
             titlePrefix = BSResources.getString( "label.color.dragHandle" );
-            initialColor = _scheme.getDragHandleColor(); 
+            initialColor = _scheme.getDragHandleColor();
         }
         else if ( _currentChip == _dragHandleHiliteChip ) {
             titlePrefix = BSResources.getString( "label.color.dragHandleHilite" );
-            initialColor = _scheme.getDragHandleHiliteColor(); 
+            initialColor = _scheme.getDragHandleHiliteColor();
         }
         else if ( _currentChip == _dragHandleValueChip ) {
             titlePrefix = BSResources.getString( "label.color.dragHandleValue" );
-            initialColor = _scheme.getDragHandleValueColor(); 
+            initialColor = _scheme.getDragHandleValueColor();
         }
         else if ( _currentChip == _dragHandleMarkersChip ) {
             titlePrefix = BSResources.getString( "label.color.dragHandleMarkers" );
-            initialColor = _scheme.getDragHandleMarkersColor(); 
+            initialColor = _scheme.getDragHandleMarkersColor();
         }
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
         }
-        
+
         String title = titlePrefix + " " + BSResources.getString( "title.chooseColor" );
-        
+
         closeColorChooser();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, _parent, initialColor, this );
         _colorChooserDialog.show();
     }
-    
+
     /*
      * Resets the color scheme.
      */
@@ -512,7 +511,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         _app.setColorScheme( _restoreScheme );
         _scheme.copy( _restoreScheme );
     }
-    
+
     /*
      * Closes the color chooser dialog.
      */
@@ -521,10 +520,10 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
             _colorChooserDialog.dispose();
         }
     }
-    
+
     /*
      * Sets the color of a color bar.
-     * 
+     *
      * @param colorBar
      * @param color
      */
@@ -543,7 +542,7 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     //----------------------------------------------------------------------------
     // JDialog overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * When this dialog is disposed, also dispose of any dialogs that it has created.
      */
@@ -551,23 +550,23 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
         closeColorChooser();
         super.dispose();
     }
-    
+
     //----------------------------------------------------------------------------
     // ColorChooserFactory.Listener implementation
     //----------------------------------------------------------------------------
-    
+
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#colorChanged(java.awt.Color)
      */
     public void colorChanged( Color color ) {
-        handleColorChange( color ); 
+        handleColorChange( color );
     }
 
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#ok(java.awt.Color)
      */
     public void ok( Color color ) {
-        handleColorChange( color );  
+        handleColorChange( color );
     }
 
     /*
@@ -576,17 +575,17 @@ public class BSColorSchemeDialog extends JDialog implements ColorChooserFactory.
     public void cancelled( Color originalColor ) {
         handleColorChange( originalColor );
     }
-    
+
     /*
      * Handles a color change.
-     * 
+     *
      * @param color
      */
     private void handleColorChange( Color color ) {
 
         // Set the color chip's color...
         setColor( _currentChip, color );
-        
+
         // Set the color property in the color scheme...
         if ( _currentChip == _chartChip ) {
             _scheme.setChartColor( color );

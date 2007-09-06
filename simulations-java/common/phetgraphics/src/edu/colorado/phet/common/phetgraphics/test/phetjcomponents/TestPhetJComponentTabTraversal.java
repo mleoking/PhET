@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -31,7 +31,7 @@ public class TestPhetJComponentTabTraversal {
         String title = "TestPhetJComponentTabTraversal";
         IClock clock = new SwingClock( 40, 1 );
 
-        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "title", "desc", "version" );
 
         // Add modules.
         PhetGraphicsModule module = new TestModule( clock );

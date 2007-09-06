@@ -13,7 +13,7 @@ package edu.colorado.phet.molecularreactions;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.molecularreactions.modules.ComplexModule;
 import edu.colorado.phet.molecularreactions.modules.RateExperimentsModule;
 import edu.colorado.phet.molecularreactions.modules.SimpleModule;
@@ -27,7 +27,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MRApplication extends PiccoloPhetApplication {
+public class MRApplication extends PhetApplication {
 
     public MRApplication( PhetApplicationConfig config ) {
         super( config );

@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetgraphics.test;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -42,7 +42,7 @@ public class TestOffscreenBufferAlpha {
         PhetGraphicsModule module = new TestModule( clock );
 
         // Create and start the application.
-        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "title", "desc", "version" );
         app.addModule( module );
         app.startApplication();
     }

@@ -12,14 +12,13 @@ package edu.colorado.phet.common.piccolophet;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.ModulePanel;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.*;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
@@ -32,7 +31,7 @@ import javax.swing.*;
  */
 public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
     private Module current;
-    private PhetApplication application;
+    private NonPiccoloPhetApplication application;
 
     public TabbedModulePanePiccolo() {
         this(true);
@@ -43,7 +42,7 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
 
-    public void init( final PhetApplication application, final Module[] modules  ) {
+    public void init( final NonPiccoloPhetApplication application, final Module[] modules  ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

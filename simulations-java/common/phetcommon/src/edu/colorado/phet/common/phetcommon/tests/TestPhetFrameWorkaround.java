@@ -1,19 +1,7 @@
 package edu.colorado.phet.common.phetcommon.tests;
 
-import java.awt.Button;
-import java.awt.Color;
-import java.awt.Dialog;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -24,6 +12,13 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * This class is an attempt to demonstrate the problem for which PhetFrameWorkaround is a workaround.
  * This version works correctly (i.e. doesn't exhibit the problem) on Windows Vista on 2.6 GHz x 2 Athlon processors
@@ -31,21 +26,21 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * NOTE! Set USE_WORKAROUND to compare behavior with and without the workaround.
  */
 public class TestPhetFrameWorkaround {
-    
+
     // true = use a PhetFrameWorkaround
     // false = use a PhetFrame
     private static final boolean USE_WORKAROUND = true;
-    
+
     public static void main(final String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                final PhetApplication phetApplication = new PhetApplication(new PhetApplicationConfig(args, new FrameSetup.CenteredWithSize(800, 600), PhetResources.forProject("phetcommon"))) {
+                final NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication(new PhetApplicationConfig(args, new FrameSetup.CenteredWithSize(800, 600), PhetResources.forProject("phetcommon"))) {
                     protected PhetFrame createPhetFrame() {
                         if ( USE_WORKAROUND ) {
-                            return new PhetFrameWorkaround(this); 
+                            return new PhetFrameWorkaround(this);
                         }
                         else {
-                            return new PhetFrame(this);    
+                            return new PhetFrame(this);
                         }
                     }
                 };

@@ -11,6 +11,14 @@
 
 package edu.colorado.phet.boundstates.dialog;
 
+import edu.colorado.phet.boundstates.BSResources;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,20 +27,8 @@ import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.border.EmptyBorder;
-
-import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-
 /**
- * BSAbstractConfigureDialog is the base class for all dialogs that 
+ * BSAbstractConfigureDialog is the base class for all dialogs that
  * are used to configure potential energy types.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -43,28 +39,28 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     protected static final Insets SLIDER_INSETS = new Insets( 0, 0, 0, 0 );
-    
+
     protected static final boolean NOTIFY_WHILE_DRAGGING = false;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private BSAbstractPotential _potential;
-    
+
     private IClock _clock;
-    private boolean _clockWasRunning;    
+    private boolean _clockWasRunning;
     private boolean _isSliderDragging;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param frame
      * @param title
      * @param potential
@@ -76,12 +72,12 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent event ) {
                 dispose();
-            } 
+            }
         } );
         _potential = potential;
         _potential.addObserver( this );
-        
-        _clock = PhetApplication.instance().getActiveModule().getClock();
+
+        _clock = NonPiccoloPhetApplication.instance().getActiveModule().getClock();
         _clockWasRunning = false;
         _isSliderDragging = false;
     }
@@ -89,20 +85,20 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     //----------------------------------------------------------------------------
     // UI initializers
     //----------------------------------------------------------------------------
-    
+
     /*
      * Creates the user interface for the dialog.
-     * 
+     *
      * @param parent the parent Frame
      */
     protected void createUI( JPanel inputPanel ) {
-        
+
         JPanel actionsPanel = createActionsPanel();
 
         JPanel bottomPanel = new JPanel( new BorderLayout() );
         bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
         bottomPanel.add( actionsPanel, BorderLayout.CENTER );
-        
+
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
         mainPanel.add( inputPanel, BorderLayout.CENTER );
@@ -111,10 +107,10 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
         getContentPane().add( mainPanel );
         pack();
     }
-    
+
     /*
      * Creates the dialog's actions panel, consisting of a Close button.
-     * 
+     *
      * @return the actions panel
      */
     protected JPanel createActionsPanel() {
@@ -134,11 +130,11 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
 
         return actionPanel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /*
      * Gets the potential that this dialog will configure.
      * For use by subclasses.
@@ -146,14 +142,14 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
     protected BSAbstractPotential getPotential() {
         return _potential;
     }
-    
+
     /*
      * Determines whether we receive not we receive notification
      * of changes to the potential.  By default, notification is
      * enabled. Subclasses will want to turn off notification
      * when changing the potential as the result of the user
      * manipulating a Swing control.
-     * 
+     *
      * @param enabled
      */
     protected void setObservePotential( boolean enabled ) {
@@ -164,7 +160,7 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
             _potential.deleteObserver( this );
         }
     }
-    
+
     /*
      * Controls the clock while dragging a slider.
      * The clock is paused while the slider is dragged,
@@ -190,11 +186,11 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Synchronizes the view with the model.
      */
@@ -203,16 +199,16 @@ public abstract class BSAbstractConfigureDialog extends JDialog implements Obser
             updateControls();
         }
     }
-    
+
     /*
      * Updates the controls to match the model.
      */
     protected abstract void updateControls();
-    
+
     //----------------------------------------------------------------------------
     // JDialog overrides
     //----------------------------------------------------------------------------
-    
+
     public void dispose() {
         if ( _potential != null ) {
             _potential.deleteObserver( this );

@@ -1,15 +1,15 @@
 /* Copyright 2006, Univeriity of Colorado */
 package edu.colorado.phet.boundstates.test;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -44,37 +44,37 @@ import java.awt.geom.Rectangle2D;
  * The problem is most elegantly summarized in a bug report I referred to
  * earlier:
  * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503
- * 
+ *
  * This bug report acknowledges that swing repaint requests go on the
  * EventQueue with MEDIUM priority while AWT repaint requests go on the queue
  * with LOW priority.  This means our application sometimes never gets around
  * to AWT painting.  Swing painting occurs in opaque components, sometimes our
  * non-opaque paint requests get transferred up to the parent Component.
- * 
+ *
  * I first tried this workaround, overriding the main repaint method in
  * PhetFrame:
- * 
+ *
  * //Don't use this solution, read on...
  * public void repaint( long tm, int x, int y, int width, int height ) {
  *         super.repaint( tm, x, y, width, height );
  *         dispatchEvent( new PaintEvent( this, PaintEvent.UPDATE, new
  * Rectangle( x, y, width, height ) ) );
  * }
- * 
+ *
  * This still calls the super.repaint, in case other things need to happen, and
  * uses the same mechanism for getting the repaint to happen (by calling
  * handleEvent() on the ComponentPeer).  This works great on XP but not at all
  * on mac (as if dispatchEvent does a no-op).  I investigated this, and the
  * PaintEvent propagates to apple.awt.ComponentModel, but after that I stopped
  * looking.
- * 
+ *
  * Here is a less elegant (but more practical) workaround:
  *
  * public void repaint( long tm, int x, int y, int width, int height ) {
  *         super.repaint( tm, x, y, width, height );//just in case other important stuff happens here.
  *         update( getGraphics() );
  * }
- * 
+ *
  * Pros:
  * 1. This workaround produces the desired behavior on xp and mac.
  * 2. PhetFrame.paint() is only called a few times in a few sample applications
@@ -82,7 +82,7 @@ import java.awt.geom.Rectangle2D;
  * debilitating performance problem if it was called every 30 ms.
  * 3. This solution is only one line of code, and only needs to be done in a
  * few places (I recommend on a per-application basis).
- * 
+ *
  * Cons:
  * 1. This workaround ignores a great deal of AWT paint infrastructure,
  * including the Toolkit, the EventQueue and the Component.dispatchEvent().
@@ -93,7 +93,7 @@ import java.awt.geom.Rectangle2D;
  * the Graphics (setting up transforms, etc) before drawing on it.
  * 4. This workaround would need to be applied to each parent component for
  * which this problem is exhibited.
- * 
+ *
  * It would be nice if the AWT exposed the functionality we wanted, say, to
  * just add a PaintEvent with priority MEDIUM, but it looks closed off to me.
  * We could develop our own handler that copies the functionality that we lose
@@ -103,7 +103,7 @@ import java.awt.geom.Rectangle2D;
  * high (maybe more than 1 per 100 millis on average means we should stop
  * calling update).  But these kind of heuristics can be sticky business;
  * better to try without them first.
- * 
+ *
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -126,7 +126,7 @@ public class TestPaintPriorityWorkaround {
         app.startApplication();
     }
 
-    private static class TestApplication extends PiccoloPhetApplication {
+    private static class TestApplication extends PhetApplication {
 
         public TestApplication( String[] args ) throws InterruptedException {
             super( args, "TestHelpRepaint2", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
@@ -225,7 +225,7 @@ public class TestPaintPriorityWorkaround {
             blueSquare.setOffset( 300, 200 );
             parentNode.addChild( blueSquare );
 
-            // Green square, draggable             
+            // Green square, draggable
             PPath greenSquare = new PPath();
             greenSquare.setPaint( Color.GREEN );
             greenSquare.setPathTo( new Rectangle2D.Double( 0, 0, 150, 150 ) );

@@ -11,13 +11,13 @@
 package edu.colorado.phet.solublesalts;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
@@ -33,7 +33,7 @@ import java.awt.*;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class SolubleSaltsApplication extends PiccoloPhetApplication {
+public class SolubleSaltsApplication extends PhetApplication {
 
     /**
      * @param args
@@ -111,7 +111,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
         UIManager.put( "TabbedPane.background", blueBackground );
         UIManager.put( "TabbedPane.selected", blueBackground );
 
-        PhetApplication app = new SolubleSaltsApplication( args );
+        NonPiccoloPhetApplication app = new SolubleSaltsApplication( args );
 
         app.startApplication();
 

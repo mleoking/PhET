@@ -4,7 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 
 import javax.swing.*;
@@ -15,7 +15,7 @@ import javax.swing.*;
  * Time: 10:52:38 PM
  */
 
-public class WaveInterferenceApplication extends PiccoloPhetApplication {
+public class WaveInterferenceApplication extends PhetApplication {
     private static String VERSION = PhetApplicationConfig.getVersion( "waveinterference" ).formatForTitleBar();
     private static final String LOCALIZATION_BUNDLE_BASENAME = "waveinterference/localization/waveinterference-strings";
 

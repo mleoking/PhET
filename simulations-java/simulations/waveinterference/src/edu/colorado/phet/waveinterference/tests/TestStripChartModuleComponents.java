@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderDecorator;
@@ -72,7 +72,7 @@ public class TestStripChartModuleComponents extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( args, "Test Strip Chart", "", "" );
+        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "Test Strip Chart", "", "" );
         phetApplication.addModule( new TestStripChartModuleComponents() );
         phetApplication.startApplication();
     }

@@ -10,20 +10,15 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * HelpPanel
@@ -46,7 +41,7 @@ public class HelpPanel extends JPanel {
 
         miniHelpBtn = new JButton( showHelpStr );
         megaHelpBtn = new JButton( megaHelpStr );
-        
+
         SwingUtils.fixButtonOpacity( miniHelpBtn );
         SwingUtils.fixButtonOpacity( megaHelpBtn );
 
@@ -65,7 +60,7 @@ public class HelpPanel extends JPanel {
                 }
                 module.setHelpEnabled( miniHelpShowing );
                 // Synchronize the Help menu item.
-                PhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
+                NonPiccoloPhetApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( miniHelpShowing );
             }
         } );
         megaHelpBtn.addActionListener( new ActionListener() {
@@ -179,7 +174,7 @@ public class HelpPanel extends JPanel {
             miniHelpBtn.setText( showHelpStr );
         }
     }
-    
+
     public boolean isHelpEnabled() {
         return miniHelpShowing;
     }

@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.qm.modules.intensity;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.qm.QWIApplication;
 import edu.colorado.phet.qm.QWIModule;
@@ -36,7 +36,7 @@ public class IntensityModule extends QWIModule {
         this( QWIStrings.getString( "module.high-intensity" ), app, clock );
     }
 
-    protected IntensityModule( String name, PhetApplication app, IClock clock ) {
+    protected IntensityModule( String name, NonPiccoloPhetApplication app, IClock clock ) {
         super( name, app, clock );
         splitModel = new SplitModel();
         setQWIModel( splitModel );
@@ -62,7 +62,7 @@ public class IntensityModule extends QWIModule {
             }
         } );
 
-        //•	Fixed: If I add double slits, and then add a detector on the left slit, without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be. 
+        //•	Fixed: If I add double slits, and then add a detector on the left slit, without changing anything else first, the detector is shifted to the left, rather than directly over the slit, as it should be.
         getSchrodingerPanel().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 splitModel.synchronizeDetectorRegions();

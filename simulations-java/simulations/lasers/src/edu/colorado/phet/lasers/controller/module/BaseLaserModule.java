@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -116,7 +116,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         createMirrors();
 
         // Create the power meter
-        PowerMeterGraphic powerMeter = new PowerMeterGraphic( PhetApplication.instance().getPhetFrame(),
+        PowerMeterGraphic powerMeter = new PowerMeterGraphic( NonPiccoloPhetApplication.instance().getPhetFrame(),
                                                               getLaserModel(),
                                                               rightMirror );
         powerMeter.setLocation( new Point( 175, 430 ) );

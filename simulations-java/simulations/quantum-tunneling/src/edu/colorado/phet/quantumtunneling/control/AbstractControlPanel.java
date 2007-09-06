@@ -11,19 +11,17 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Frame;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.module.AbstractModule;
 import edu.colorado.phet.quantumtunneling.util.CursorUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -37,17 +35,17 @@ public abstract class AbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private AbstractModule _module; // module that this control panel is associated with
     private JButton _resetButton;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param module
      */
     public AbstractControlPanel( AbstractModule module ) {
@@ -55,42 +53,42 @@ public abstract class AbstractControlPanel extends ControlPanel {
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the module that this control panel is part of.
-     * 
+     *
      * @return the module
      */
     public AbstractModule getModule() {
         return _module;
     }
-    
+
     //----------------------------------------------------------------------------
     // Add things to the control panel
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the reset button, usually for attaching a help item to it.
-     * 
+     *
      * @return the reset button
      */
     public JButton getResetButton() {
         return _resetButton;
     }
-    
+
     /**
      * Adds a Reset button to the control panel.
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
         _resetButton = new JButton( QTResources.getString( "button.reset" ) );
-        _resetButton.addActionListener( new ActionListener() { 
+        _resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Frame frame = PhetApplication.instance().getPhetFrame();
+                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
                 String message = QTResources.getString( "message.reset" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
@@ -102,10 +100,10 @@ public abstract class AbstractControlPanel extends ControlPanel {
         } );
         addControl( _resetButton );
     }
-    
+
     /**
      * Sets the minumum width of the control panel.
-     * 
+     *
      * @param minimumWidth
      */
     public void setMinumumWidth( int minimumWidth ) {

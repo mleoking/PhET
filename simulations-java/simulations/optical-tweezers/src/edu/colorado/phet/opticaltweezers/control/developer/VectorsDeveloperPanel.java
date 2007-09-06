@@ -2,23 +2,21 @@
 
 package edu.colorado.phet.opticaltweezers.control.developer;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
 import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * VectorsDeveloperPanel contains developer controls related to the display of vectors.
@@ -27,7 +25,7 @@ import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VectorsDeveloperPanel extends JPanel {
-    
+
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _fluidDragForceNode;
     private DNAForceNode _dnaForceNode;
@@ -38,22 +36,22 @@ public class VectorsDeveloperPanel extends JPanel {
     private ColorControl _dnaForceColorChip;
     private ColorControl _electricFieldColorChip;
     private JCheckBox _showComponentsCheckBox;
-    
-    public VectorsDeveloperPanel( Font titleFont, Font controlFont, 
+
+    public VectorsDeveloperPanel( Font titleFont, Font controlFont,
             TrapForceNode trapForceNode, FluidDragForceNode fluidDragForceNode, DNAForceNode dnaForceNode, ElectricFieldNode electricFieldNode ) {
         super();
-        
+
         _trapForceNode = trapForceNode;
         _fluidDragForceNode = fluidDragForceNode;
         _dnaForceNode = dnaForceNode;
         _electricFieldNode = electricFieldNode;
-        
+
         TitledBorder border = new TitledBorder( "Vectors" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
-        
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
-        
+
+        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+
         Paint trapForcePaint = _trapForceNode.getArrowFillPaint();
         Color trapForceColor = ( trapForcePaint instanceof Color ) ? ( (Color)trapForcePaint ) : Color.BLACK;
         _trapForceColorChip = new ColorControl( parentFrame, "Trap force color:", trapForceColor );
@@ -62,7 +60,7 @@ public class VectorsDeveloperPanel extends JPanel {
                 _trapForceNode.setArrowFillPaint( _trapForceColorChip.getColor() );
             }
         });
-        
+
         Paint fluidDragForcePaint = _fluidDragForceNode.getArrowFillPaint();
         Color fluidDragForceColor = ( fluidDragForcePaint instanceof Color ) ? ( (Color)fluidDragForcePaint ) : Color.BLACK;
         _fluidDragForceColorChip = new ColorControl( parentFrame, "Fluid drag force color:", fluidDragForceColor );
@@ -71,7 +69,7 @@ public class VectorsDeveloperPanel extends JPanel {
                 _fluidDragForceNode.setArrowFillPaint( _fluidDragForceColorChip.getColor() );
             }
         } );
-        
+
         if ( _dnaForceNode != null ) {
             Paint dnaForcePaint = _dnaForceNode.getArrowFillPaint();
             Color dnaForceColor = ( dnaForcePaint instanceof Color ) ? ( (Color) dnaForcePaint ) : Color.BLACK;
@@ -82,7 +80,7 @@ public class VectorsDeveloperPanel extends JPanel {
                 }
             } );
         }
-        
+
         if ( _electricFieldNode != null ) {
             _electricFieldColorChip = new ColorControl( parentFrame, "E-field color:", _electricFieldNode.getVectorColor() );
             _electricFieldColorChip.addChangeListener( new ChangeListener() {
@@ -91,7 +89,7 @@ public class VectorsDeveloperPanel extends JPanel {
                 }
             } );
         }
-        
+
         _showComponentsCheckBox = new JCheckBox( "Show XY components" );
         _showComponentsCheckBox.setFont( controlFont );
         _showComponentsCheckBox.addActionListener( new ActionListener() {
@@ -99,7 +97,7 @@ public class VectorsDeveloperPanel extends JPanel {
                 handleShowComponentsCheckBox();
             }
         } );
-        
+
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 0, 0, 0 ) );
         this.setLayout( layout );
@@ -115,12 +113,12 @@ public class VectorsDeveloperPanel extends JPanel {
         }
         layout.addComponent( _showComponentsCheckBox, row++, column );
     }
-    
+
     public void setComponentsVisible( boolean visible ) {
         _showComponentsCheckBox.setSelected( visible );
         handleShowComponentsCheckBox();
     }
-    
+
     private void handleShowComponentsCheckBox() {
         final boolean visible = _showComponentsCheckBox.isSelected();
         _trapForceNode.setComponentVectorsVisible( visible );

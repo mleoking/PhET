@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
+import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.umd.cs.piccolo.PNode;
 
 import javax.swing.*;
@@ -14,10 +14,10 @@ import java.awt.event.ActionListener;
  * Jul 15, 2007, 3:56:14 PM
  */
 public class RotationDevMenu extends JMenu {
-    private PhetApplication rotationApplication;
+    private NonPiccoloPhetApplication rotationApplication;
     private AbstractRotationModule rotationModule;
 
-    public RotationDevMenu( final PhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
+    public RotationDevMenu( final NonPiccoloPhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
         super( "Options" );
         this.rotationApplication = rotationApplication;
         this.rotationModule = rotationModule;

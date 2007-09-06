@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.phetcommon.tests;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 
@@ -16,7 +16,7 @@ import java.awt.*;
  *
  */
 
-public class TestPhetLookAndFeel extends PhetApplication {
+public class TestPhetLookAndFeel extends NonPiccoloPhetApplication {
     public TestPhetLookAndFeel( String[] args ) {
         super( args, TestPhetLookAndFeel.class.getName(), "description", "version" );
         addModule( new TestPhetLookAndFeelModule( "Module A" ) );

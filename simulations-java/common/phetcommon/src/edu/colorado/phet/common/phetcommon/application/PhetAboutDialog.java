@@ -10,6 +10,21 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,24 +32,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.net.MalformedURLException;
-
-import javax.swing.*;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.HyperlinkEvent;
-import javax.jnlp.UnavailableServiceException;
-
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
@@ -56,11 +53,11 @@ public class PhetAboutDialog extends JDialog {
      * @param phetApplication
      * @throws HeadlessException
      */
-    public PhetAboutDialog( PhetApplication phetApplication ) {
+    public PhetAboutDialog( NonPiccoloPhetApplication phetApplication ) {
         this(phetApplication.getPhetFrame(), getDialogConfig(phetApplication ));
     }
 
-    private static DialogConfig getDialogConfig( PhetApplication phetApplication ) {
+    private static DialogConfig getDialogConfig( NonPiccoloPhetApplication phetApplication ) {
         if (phetApplication.getApplicationConfig()!=null){
             return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
         }else{
@@ -139,7 +136,7 @@ public class PhetAboutDialog extends JDialog {
 
 
         copyrightLabel.setFont( new PhetDefaultFont( Font.BOLD, 24) );
-        
+
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
                 if( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
@@ -162,7 +159,7 @@ public class PhetAboutDialog extends JDialog {
     private JPanel createInfoPanel() {
 
         VerticalLayoutPanel infoPanel = new VerticalLayoutPanel();
-        
+
         // Simulation title
         JLabel titleLabel = new JLabel( titleString );
         Font f = titleLabel.getFont();
@@ -174,8 +171,8 @@ public class PhetAboutDialog extends JDialog {
         final int columns = 35;
         descriptionTextArea.setColumns( columns );
         // Swing's notion of a text "column" is weakly defined. Short of implementing our own word wrapping,
-        // using FontMetrics provides the closest approximation to the number of rows that we need.  
-        // Since we want a bit of space between the description and the stuff below it, having an 
+        // using FontMetrics provides the closest approximation to the number of rows that we need.
+        // Since we want a bit of space between the description and the stuff below it, having an
         // extra (blank) row is generally OK.
         int rows = ( ( fontMetrics.stringWidth( descriptionString ) / fontMetrics.charWidth( 'm' ) ) / columns ) + 2;
         descriptionTextArea.setRows( rows );
@@ -183,7 +180,7 @@ public class PhetAboutDialog extends JDialog {
         descriptionTextArea.setEditable( false );
         descriptionTextArea.setLineWrap( true );
         descriptionTextArea.setWrapStyleWord( true );
-        
+
         // Simulation version
         String versionHeader = getLocalizedString( "Common.About.Version" ) + " ";
         JLabel versionLabel = new JLabel( versionHeader + versionString );

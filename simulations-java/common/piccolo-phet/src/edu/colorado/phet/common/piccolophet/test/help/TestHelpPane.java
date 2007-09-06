@@ -11,19 +11,8 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -39,27 +28,33 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 
 /**
- * TestHelpPane tests PhET's Piccolo-compatible help subsystem.  
+ * TestHelpPane tests PhET's Piccolo-compatible help subsystem.
  * It tests position and visibilty tracking for various objects.
- * The objects consist of JComponents and PNodes that are 
+ * The objects consist of JComponents and PNodes that are
  * "screen children" and "world children".
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestHelpPane extends PhetApplication {
+public class TestHelpPane extends NonPiccoloPhetApplication {
 
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
-    
+
     // Colors for module 1
     private static final Color CANVAS_COLOR_1 = new Color( 255, 208, 252 );
     private static final Color SCREEN_COLOR_1 = Color.BLUE;
     private static final Color WORLD_COLOR_1 = Color.ORANGE;
-    
+
     // Colors for module 2
     private static final Color CANVAS_COLOR_2 = new Color( 208, 255, 252 );
     private static final Color SCREEN_COLOR_2 = Color.RED;
@@ -86,7 +81,7 @@ public class TestHelpPane extends PhetApplication {
         Module module2 = new TestModule( "Module 2", CANVAS_COLOR_2, SCREEN_COLOR_2, WORLD_COLOR_2 );
         addModule( module2 );
     }
-    
+
     /* Clock */
     private static class TestClock extends SwingClock {
         public TestClock() {
@@ -99,7 +94,7 @@ public class TestHelpPane extends PhetApplication {
 
         /**
          * Constructor.
-         * 
+         *
          * @param title              title that appears in the module's tab
          * @param canvasColor        color of the canvas background
          * @param screenChildColor   color used for all "screen children"
@@ -109,12 +104,12 @@ public class TestHelpPane extends PhetApplication {
             super( title, new TestClock(), true /* startsPaused */);
 
             // Play area --------------------------------------------
-            
+
             // Canvas
             PhetPCanvas canvas = new PhetPCanvas( new Dimension( 1000, 1000 ) );
             setSimulationPanel( canvas );
             canvas.setBackground( canvasColor );
-            
+
             // Composite (path + text) screen child...
             PPath screenPath = new PPath();
             screenPath.setPathToEllipse( 0, 0, 100, 100 );
@@ -128,7 +123,7 @@ public class TestHelpPane extends PhetApplication {
             screenComposite.addInputEventListener( new CursorHandler() );
             screenComposite.addInputEventListener( new PDragEventHandler() );
             canvas.addScreenChild( screenComposite );
-            
+
             // Composite (path + text) world child...
             PPath worldPath = new PPath();
             worldPath.setPathToRectangle( 0, 0, 200, 200 );
@@ -142,7 +137,7 @@ public class TestHelpPane extends PhetApplication {
             worldComposite.addInputEventListener( new CursorHandler() );
             worldComposite.addInputEventListener( new PDragEventHandler() );
             canvas.addWorldChild( worldComposite );
-            
+
             // PSwing screen child...
             JButton screenButton1 = new JButton( "screen button 1" );
             screenButton1.setOpaque( false );
@@ -157,7 +152,7 @@ public class TestHelpPane extends PhetApplication {
             final PSwing screenPSwing = new PSwing(screenPanel );
             screenPSwing.setOffset( 50, 450 );
             canvas.addScreenChild( screenPSwing );
-            
+
             // PSwing world child...
             JButton worldButton1 = new JButton( "world button 1" );
             worldButton1.setOpaque( false );
@@ -172,7 +167,7 @@ public class TestHelpPane extends PhetApplication {
             final PSwing worldPSwing = new PSwing(worldPanel );
             worldPSwing.setOffset( 850, 800 );
             canvas.addWorldChild( worldPSwing );
-            
+
             // Control panel --------------------------------------------
 
             // "Screen children" visibility control
@@ -183,7 +178,7 @@ public class TestHelpPane extends PhetApplication {
                     screenPSwing.setVisible( screenCheckBox.isSelected() );
                 }
             } );
-            
+
             // "World children" visibility control
             final JCheckBox worldCheckBox = new JCheckBox( "world", true /* selected */ );
             worldCheckBox.addActionListener( new ActionListener() {
@@ -192,7 +187,7 @@ public class TestHelpPane extends PhetApplication {
                     worldPSwing.setVisible( worldCheckBox.isSelected() );
                 }
             } );
-            
+
             // Control panel
             ControlPanel controlPanel = new ControlPanel();
             setControlPanel( controlPanel );
@@ -200,7 +195,7 @@ public class TestHelpPane extends PhetApplication {
             controlPanel.addControl( worldCheckBox );
 
             // Debug --------------------------------------------
-            
+
             // Assign names to all PNodes, for debugging...
             screenPath.addAttribute( "name", "screenPath" );
             screenText.addAttribute( "name", "screenText" );
@@ -210,7 +205,7 @@ public class TestHelpPane extends PhetApplication {
             worldComposite.addAttribute( "name", "worldComposite" );
             screenPSwing.addAttribute( "name", "screenPSwing" );
             worldPSwing.addAttribute( "name", "worldPSwing" );
-            
+
             // Assign names to all JComponents, for debugging...
             screenButton1.setName( "screenButton1" );
             screenButton2.setName( "screenButton2" );
@@ -220,81 +215,81 @@ public class TestHelpPane extends PhetApplication {
             worldPanel.setName( "worldPanel" );
             screenCheckBox.setName( "circleCheckBox" );
             worldCheckBox.setName( "squareCheckBox" );
-            
+
             // Help --------------------------------------------
 
             HelpPane helpPane = getDefaultHelpPane();
-            
+
             // Help that doesn't point at anything, has no arrow
             HelpBalloon noArrowHelp = new HelpBalloon( helpPane, "no arrow" );
             noArrowHelp.setLocation( 50, 200 );
             helpPane.add( noArrowHelp );
-            
+
             // Help that points at a static location
             HelpBalloon pointHelp = new HelpBalloon( helpPane, "static point", HelpBalloon.BOTTOM_LEFT, 40, 45 );
             pointHelp.pointAt( 50, 150 );
             helpPane.add( pointHelp );
-            
+
             // Help for stuff in the control panel...
-            
+
             HelpBalloon screenCheckBoxHelp = new HelpBalloon( helpPane, "Show screen children", HelpBalloon.RIGHT_BOTTOM, 40 );
             screenCheckBoxHelp.pointAt( screenCheckBox );
             screenCheckBoxHelp.setArrowFillPaint( screenChildColor );
             helpPane.add( screenCheckBoxHelp );
-            
+
             HelpBalloon worldCheckBoxHelp = new HelpBalloon( helpPane, "Show world children", HelpBalloon.RIGHT_TOP, 40, -45 );
             worldCheckBoxHelp.pointAt( worldCheckBox );
             worldCheckBoxHelp.setArrowFillPaint( worldChildColor );
             helpPane.add( worldCheckBoxHelp );
-            
+
             // Help for screen children...
-            
+
             HelpBalloon screenCompositeHelp = new HelpBalloon( helpPane, "PComposite screen child", HelpBalloon.BOTTOM_CENTER, 20 );
             screenCompositeHelp.pointAt( screenComposite, canvas );
             helpPane.add( screenCompositeHelp );
-            
+
             HelpBalloon screenTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20, -30 );
             screenTextHelp.pointAt( screenText, canvas );
             helpPane.add( screenTextHelp );
-            
+
             HelpBalloon screenPathHelp = new HelpBalloon( helpPane, "PPath in PComposite", HelpBalloon.RIGHT_CENTER, 20 );
             screenPathHelp.pointAt( screenPath, canvas );
             helpPane.add( screenPathHelp );
-            
+
             HelpBalloon screenPSwingHelp = new HelpBalloon( helpPane, "PSwing screen child", HelpBalloon.BOTTOM_CENTER, 20 );
             screenPSwingHelp.pointAt( screenPSwing, canvas );
             helpPane.add( screenPSwingHelp );
-            
+
             HelpBalloon screenPanelHelp = new HelpBalloon( helpPane, "JPanel in PSwing", HelpBalloon.TOP_CENTER, 20 );
             screenPanelHelp.pointAt( screenPanel, screenPSwing, canvas );
             helpPane.add( screenPanelHelp );
-            
+
             HelpBalloon screenButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_BOTTOM, 20, -30 );
             screenButton1Help.pointAt( screenButton1, screenPSwing, canvas );
             helpPane.add( screenButton1Help );
-      
+
             // Help for world children...
-            
+
             HelpBalloon worldCompositeHelp = new HelpBalloon( helpPane, "PComposite world child", HelpBalloon.BOTTOM_CENTER, 20 );
             worldCompositeHelp.pointAt( worldComposite, canvas );
             helpPane.add( worldCompositeHelp );
-            
+
             HelpBalloon worldTextHelp = new HelpBalloon( helpPane, "PText in PComposite", HelpBalloon.LEFT_CENTER, 20, -30 );
             worldTextHelp.pointAt( worldText, canvas );
             helpPane.add( worldTextHelp );
-            
+
             HelpBalloon worldPathHelp = new HelpBalloon( helpPane, "PPath in PComposite", HelpBalloon.RIGHT_CENTER, 20 );
             worldPathHelp.pointAt( worldPath, canvas );
             helpPane.add( worldPathHelp );
-            
+
             HelpBalloon worldPSwingHelp = new HelpBalloon( helpPane, "PSwing world child", HelpBalloon.BOTTOM_CENTER, 20 );
             worldPSwingHelp.pointAt( worldPSwing, canvas );
             helpPane.add( worldPSwingHelp );
-            
+
             HelpBalloon worldPanelHelp = new HelpBalloon( helpPane, "JPanel in PSwing", HelpBalloon.TOP_CENTER, 20 );
             worldPanelHelp.pointAt( worldPanel, worldPSwing, canvas );
             helpPane.add( worldPanelHelp );
-            
+
             HelpBalloon worldButton1Help = new HelpBalloon( helpPane, "JButton in JPanel in PSwing", HelpBalloon.LEFT_BOTTOM, 20, -30 );
             worldButton1Help.pointAt( worldButton1, worldPSwing, canvas );
             helpPane.add( worldButton1Help );

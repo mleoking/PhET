@@ -2,22 +2,18 @@
 
 package edu.colorado.phet.opticaltweezers.dialog;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Insets;
-
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
@@ -26,38 +22,38 @@ import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DeveloperControlsDialog extends JDialog {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private OpticalTweezersApplication _app;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public DeveloperControlsDialog( Frame owner, OpticalTweezersApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
-        
+
         _app = app;
-        
+
         JPanel inputPanel = createInputPanel();
-        
+
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         panel.setFillHorizontal();
         panel.add( inputPanel );
-        
+
         setContentPane( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
     }
-    
+
     private JPanel createInputPanel() {
-        
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
-        
+
+        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
+
         Color controlPanelBackground = _app.getControlPanelBackground();
         final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
         controlPanelColorControl.addChangeListener( new ChangeListener() {
@@ -65,7 +61,7 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setControlPanelBackground( controlPanelColorControl.getColor() );
             }
         } );
-        
+
         Color selectedTabColor = _app.getSelectedTabColor();
         final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
         selectedTabColorControl.addChangeListener( new ChangeListener() {
@@ -73,7 +69,7 @@ public class DeveloperControlsDialog extends JDialog {
                 _app.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
-        
+
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );

@@ -11,16 +11,14 @@
 
 package edu.colorado.phet.faraday.control.dialog;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JDialog;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
+
+import javax.swing.*;
+import java.awt.*;
 
 
 /**
@@ -35,42 +33,42 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private PhetApplication _app;
+
+    private NonPiccoloPhetApplication _app;
     private JDialog _dialog;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app the application
      */
-    public BackgroundColorHandler( PhetApplication app ) {
+    public BackgroundColorHandler( NonPiccoloPhetApplication app ) {
         super();
         _app = app;
         String title = FaradayResources.getString( "BackgroundColorDialog.title" );
         Component parent = app.getPhetFrame();
-        
+
         // Start with the active module's background color.
         Color initialColor = app.getActiveModule().getSimulationPanel().getBackground();
-        
+
         _dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
     }
-    
+
     //----------------------------------------------------------------------------
     // Dialog controls
     //----------------------------------------------------------------------------
-    
-    /** 
+
+    /**
      * Shows the dialog.
      */
     public void showDialog() {
         _dialog.show();
     }
-    
+
     /**
      * Hides the dialog.
      */
@@ -81,19 +79,19 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     //----------------------------------------------------------------------------
     // ColorChooserFactory.Listener implementation
     //----------------------------------------------------------------------------
-    
+
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#colorChanged(java.awt.Color)
      */
     public void colorChanged( Color color ) {
-        handleColorChange( color ); 
+        handleColorChange( color );
     }
 
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#ok(java.awt.Color)
      */
     public void ok( Color color ) {
-        handleColorChange( color );  
+        handleColorChange( color );
     }
 
     /*
@@ -102,11 +100,11 @@ public class BackgroundColorHandler implements ColorChooserFactory.Listener {
     public void cancelled( Color originalColor ) {
         handleColorChange( originalColor );
     }
-    
+
     /*
      * Sets the background color for all apparatus panels in all modules.
      * If the module has a compass grid, sets whether it uses alpha.
-     * 
+     *
      * @param color the color
      */
     private void handleColorChange( Color color ) {

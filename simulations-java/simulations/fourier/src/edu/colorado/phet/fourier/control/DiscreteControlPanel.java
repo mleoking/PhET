@@ -11,15 +11,7 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
@@ -43,6 +35,13 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteSumView;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 
 /**
@@ -107,14 +106,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     private MathForm _mathFormKeyTime;
     private MathForm _mathFormKeySpaceAndTime;
     private EventListener _eventListener;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     /**
      * Sole constructor.
-     * 
+     *
      * @param fourierSeries
      */
     public DiscreteControlPanel( FourierModule module, FourierSeries fourierSeries, DiscreteHarmonicsView harmonicsGraph, DiscreteSumView sumGraph, HarmonicWavelengthTool wavelengthTool, HarmonicPeriodTool periodTool, HarmonicPeriodDisplay periodDisplay, AnimationCycleController animationCycleController ) {
@@ -128,7 +127,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         assert ( periodTool != null );
         assert ( periodDisplay != null );
         assert ( animationCycleController != null );
-        
+
         // Things we'll be controlling.
         _fourierSeries = fourierSeries;
         _harmonicsView = harmonicsGraph;
@@ -373,14 +372,14 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             JLabel soundMinLabel = new JLabel( soundMinIcon );
             ImageIcon soundMaxIcon = new ImageIcon( FourierConstants.SOUND_MAX_IMAGE );
             JLabel soundMaxLabel = new JLabel( soundMaxIcon );
-            
+
             // Sound volume
             _soundSlider = new JSlider();
             _soundSlider.setMaximum( 100 );
             _soundSlider.setMinimum( 0 );
             _soundSlider.setValue( 50 );
             _soundSlider.setPreferredSize( new Dimension( 125, _soundSlider.getPreferredSize().height ) );
-            
+
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -408,7 +407,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         addControlFullWidth( audioControlsPanel );
 
         // Dialogs
-        Frame parentFrame = PhetApplication.instance().getPhetFrame();
+        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
         _expandSumDialog = new ExpandSumDialog( parentFrame, _fourierSeries );
 
         // Set the state of the controls.
@@ -451,43 +450,43 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public void setPreset( Preset preset ) {
         _presetsComboBox.setSelectedKey( preset );
         handlePreset();
     }
-    
+
     public Preset getPreset() {
         return (Preset) _presetsComboBox.getSelectedKey();
     }
-    
+
     public void setNumberOfHarmonics( int n ) {
         _numberOfHarmonicsSlider.setValue( n );
         handleNumberOfHarmonics();
     }
-    
+
     public int getNumberOfHarmonics() {
         return (int) _numberOfHarmonicsSlider.getValue();
     }
-    
+
     public void setShowInfiniteEnabled( boolean enabled ) {
         _showInfiniteCheckBox.setSelected( enabled );
         handleShowInfinite();
     }
-    
+
     public boolean isShowInfiniteEnabled() {
         return _showInfiniteCheckBox.isSelected();
     }
-    
+
     public void setDomain( Domain domain ) {
         _domainComboBox.setSelectedKey( domain );
         handleDomain();
     }
-    
+
     public Domain getDomain() {
         return (Domain) _domainComboBox.getSelectedKey();
     }
-    
+
     public void setWaveType( WaveType waveType ) {
         if ( waveType == WaveType.SINES ) {
             _sinesRadioButton.setSelected( true );
@@ -497,7 +496,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         handleWaveType();
     }
-    
+
     public WaveType getWaveType() {
         WaveType waveType = null;
         if ( _sinesRadioButton.isSelected() ) {
@@ -508,58 +507,58 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         }
         return waveType;
     }
-    
+
     public void setWavelengthToolEnabled( boolean enabled ) {
         _wavelengthToolCheckBox.setSelected( enabled );
         handleWavelengthTool();
     }
-    
+
     public boolean isWavelengthToolEnabled() {
         return _wavelengthToolCheckBox.isSelected();
     }
-    
+
     public void setPeriodToolEnabled( boolean enabled ) {
         _periodToolCheckBox.setSelected( enabled );
         handlePeriodTool();
     }
-    
+
     public boolean isPeriodToolEnabled() {
         return _periodToolCheckBox.isSelected();
     }
-    
+
     public void setShowMathEnabled( boolean enabled ) {
         _showMathCheckBox.setSelected( enabled );
         handleShowMath();
     }
-    
+
     public boolean isShowMathEnabled() {
         return _showMathCheckBox.isSelected();
     }
-    
+
     public void setMathForm( MathForm mathForm ) {
         _mathFormComboBox.setSelectedKey( mathForm );
         handleMathForm();
     }
-    
+
     public MathForm getMathForm() {
         return (MathForm) _mathFormComboBox.getSelectedKey();
     }
-    
+
     public void setExpandSumEnabled( boolean enabled ) {
         _expandSumCheckBox.setSelected( enabled );
         handleExpandSum();
     }
-    
+
     public boolean isExpandSumEnabled() {
         return _expandSumCheckBox.isSelected();
     }
-    
+
     /**
      * Turns sound on and off, but does not initialize sound.
      * <p>
      * We only want to initialize sound when the user attempts
      * to use the feature by clicking on the "Sound" check box.
-     * 
+     *
      * @param enabled true or false
      */
     public void setSoundEnabled( boolean enabled ) {
@@ -568,10 +567,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _soundCheckBox.addActionListener( _eventListener );
         handleSoundOnOff( false /* do not initialize */ );
     }
-    
+
     /**
      * Determines whether sound is on or off.
-     * 
+     *
      * @return true or false
      */
     public boolean isSoundEnabled() {
@@ -582,11 +581,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         _soundSlider.setValue( (int) ( volume * 100F ) );
         handleSoundVolume();
     }
-    
+
     public float getSoundVolume() {
         return _soundSlider.getValue() / 100F;
     }
-    
+
     //----------------------------------------------------------------------------
     // FourierControlPanel implementation
     //----------------------------------------------------------------------------
@@ -1003,10 +1002,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _soundPlayer.setVolume( _soundSlider.getValue() / 100F );
         }
     }
-    
+
     /*
      * Displays a modal error dialog if the user attempts to select
-     * sawtooth preset and cosines wave type.  
+     * sawtooth preset and cosines wave type.
      * You can't make a sawtooth wave out of cosines because it is asymmetric.
      */
     private void showSawtoothCosinesErrorDialog() {
@@ -1014,11 +1013,11 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( this, null ).show();
     }
-    
+
     //----------------------------------------------------------------------------
     // Sound
     //----------------------------------------------------------------------------
-    
+
     /*
      * Initializes the sound features.
      */
@@ -1037,16 +1036,16 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
             _soundPlayer.addSoundErrorListener( this );
         }
     }
-    
+
     /*
      * Is sound initialized?
-     * 
+     *
      * @return true or false
      */
     private boolean isSoundInitialized() {
         return ( _soundPlayer != null );
     }
-    
+
     /*
      * Handles any type of error related to sound.
      */
@@ -1070,10 +1069,10 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
     //----------------------------------------------------------------------------
     // SoundErrorListener implementation
     //----------------------------------------------------------------------------
-   
+
     /**
      * Handles notification of a sound error.
-     * 
+     *
      * @param event a SoundErrorEvent
      */
     public void soundErrorOccurred( SoundErrorEvent event ) {

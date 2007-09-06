@@ -11,11 +11,11 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.HeadlessException;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import java.awt.*;
 
-/** 
+/**
  * PhetFrameWorkaround contains a workaround for Sun bug report 4473503
  * (see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503)
  * <p>
@@ -23,14 +23,14 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
  * and the workaround.
  * <p>
  * First, the problem...
- * Under some conditions, parts of our simulation are not painted properly 
+ * Under some conditions, parts of our simulation are not painted properly
  * while the simulations clock is running. The reason for this is described
  * in bug report 4473503: "All of Swing's repainting architecture
- * funnels into an invokeLater. This results in the event being processed 
+ * funnels into an invokeLater. This results in the event being processed
  * at NORM_PRIORITY. AWT's painting/updating is processed at LOW_PRIORITY.
- * If the machine is bogged down this can result in odd behavior when 
- * heavy weights need to repaint (swing can end painting its components 
- * numerous times before the awt one is painted), as well as not being 
+ * If the machine is bogged down this can result in odd behavior when
+ * heavy weights need to repaint (swing can end painting its components
+ * numerous times before the awt one is painted), as well as not being
  * responsive to the user."
  * <p>
  * The workaround, developed by Sam Reid, overrides repaint and forces
@@ -50,9 +50,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
  * Pros:
  * <ul>
  * <li>This solution produces the desired behavior on XP and Macintosh
- * <li>PhetFrame.paint() is only called a few times in a few sample 
- * applications tried (eg, BoundStates and TestPaintPriorityWorkaround).  
- * This solution could be a debilitating performance problem if it was 
+ * <li>PhetFrame.paint() is only called a few times in a few sample
+ * applications tried (eg, BoundStates and TestPaintPriorityWorkaround).
+ * This solution could be a debilitating performance problem if it was
  * called every 30 ms.
  * <li>This solution is only one line of code, and only needs to be done in a
  * few places (I recommend on a per-application basis).
@@ -70,13 +70,13 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
  * <li>This workaround would need to be applied to each parent component for
  * which this problem is exhibited.
  * </ul>
- * 
+ *
  * @author Sam Reid / Chris Malley
  * @version $Revision$
  */
 public class PhetFrameWorkaround extends PhetFrame {
-    
-    public PhetFrameWorkaround( PhetApplication application ) throws HeadlessException {
+
+    public PhetFrameWorkaround( NonPiccoloPhetApplication application ) throws HeadlessException {
         super( application );
     }
 

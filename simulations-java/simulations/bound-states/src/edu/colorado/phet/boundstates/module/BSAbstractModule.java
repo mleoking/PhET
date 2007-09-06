@@ -11,21 +11,6 @@
 
 package edu.colorado.phet.boundstates.module;
 
-import java.awt.Dimension;
-import java.awt.RenderingHints;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.Observable;
-import java.util.Observer;
-
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.color.BSColorScheme;
@@ -42,7 +27,7 @@ import edu.colorado.phet.boundstates.model.*;
 import edu.colorado.phet.boundstates.persistence.BSModuleConfig;
 import edu.colorado.phet.boundstates.view.*;
 import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -57,9 +42,21 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.Observable;
+import java.util.Observer;
+
 
 /**
- * BSAbstractModule is the module implementation shared by all modules 
+ * BSAbstractModule is the module implementation shared by all modules
  * in this simulation.  The BSAbstractModuleSpec (provided in the constructor)
  * is used to describe how the module should be specialized.
  *
@@ -71,9 +68,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final boolean ENABLE_DRAG_HANDLES = true;
-    
+
     // All of these values are in local coordinates
     private static final int X_MARGIN = 10; // space at left & right edges of canvas
     private static final int Y_MARGIN = 10; // space at top & bottom edges of canvas
@@ -81,7 +78,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1000, 1000 );
     private static final int ZOOM_X_OFFSET = 3; // X offset of zoom buttons from edge of plot
     private static final int ZOOM_Y_OFFSET = 3; // Y offset of zoom buttons from edge of plot
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -95,7 +92,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSCoulomb3DPotential _coulomb3DPotential;
     private BSHarmonicOscillatorPotential _harmonicOscillatorPotential;
     private BSSquarePotential _squarePotential;
-    
+
     // View
     private PhetPCanvas _canvas;
     private Dimension _initialCanvasSize; // the first non-zero canvas size
@@ -108,11 +105,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSSelectedEquation _selectedEquationNode;
     private BSHilitedEquation _hilitedEquationNode;
     private BSMagnifyingGlass _magnifyingGlass;
-    
+
     // Plots
     private BSEnergyPlot _energyPlot;
     private BSBottomPlot _bottomPlot;
-    
+
     // Nodes to draw plots separately from chart
     private XYPlotNode _energyPlotNode;
     private XYPlotNode _bottomPlotNode;
@@ -122,14 +119,14 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private BSClockControls _clockControls;
     private ZoomControl _energyZoomControl;
     private PSwing _energyZoomControlNode;
-    
+
     // Potential drag handles
     private BSAsymmetricDragManager _asymmetricDragManager;
     private BSCoulomb1DDragManager _coulomb1DDragManager;
     private BSCoulomb3DDragManager _coulomb3DDragManager;
     private BSHarmonicOscillatorDragManager _harmonicOscillatorDragManager;
     private BSSquareDragManager _squareDragManager;
-    
+
     // Help
     private DefaultWiggleMe _wiggleMe;
     private boolean _hasWiggleMe;
@@ -138,10 +135,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     // Dialogs
     private JDialog _configureDialog;
     private BSSuperpositionStateDialog _superpositionStateDialog;
-    
-    // Colors 
+
+    // Colors
     private BSColorScheme _colorScheme;
-    
+
     // Module specification
     private BSAbstractModuleSpec _moduleSpec;
 
@@ -151,38 +148,38 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
     /**
      * Constructor.
-     * 
+     *
      * @param title
      * @param moduleSpec
      */
     public BSAbstractModule( String title, BSAbstractModuleSpec moduleSpec ) {
-        
+
         super( title, new BSClock(), false /* startsPaused */ );
-        
+
         if ( moduleSpec.isSuperpositionControlsSupported() && moduleSpec.isAverageProbabilityDensitySupported() ) {
-            throw new UnsupportedOperationException( 
+            throw new UnsupportedOperationException(
                     "Superposition State and Average Probability Density features are mututally exclusive. " +
                     "See the Javadoc for BSEigenstatesNode.setMode for details." );
         }
-        
+
         _moduleSpec = moduleSpec;
         _colorScheme = BSConstants.COLOR_SCHEME;
-        
+
         // hide the PhET logo
         setLogoPanel( null );
-        
+
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
-        
+
         // Objects are created in reset method
-        
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
 
         EventListener listener = new EventListener();
-        
+
         // Piccolo canvas
         {
             _canvas = new PhetPCanvas( CANVAS_RENDERING_SIZE );
@@ -191,37 +188,37 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _canvas.setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
             _canvas.setBackground( BSConstants.CANVAS_BACKGROUND );
             setSimulationPanel( _canvas );
-            
+
             _previousCanvasSize = new Dimension();
         }
-        
+
         // Root of our scene graph
         {
             _parentNode = new PNode();
             _canvas.addScreenChild( _parentNode );
         }
-        
+
         // Combined chart
         {
             _chart = new BSCombinedChart();
             _chart.setBackgroundPaint( BSConstants.CANVAS_BACKGROUND );
-            
+
             _chartNode = new BSCombinedChartNode( _chart );
             _chartNode.setPickable( false );
             _chartNode.setChildrenPickable( false );
             _parentNode.addChild( _chartNode );
         }
-        
+
         // Energy graph legend
-        { 
+        {
             _legend = new BSEnergyLegend();
             _parentNode.addChild( _legend );
         }
-        
+
         // This is where we decide how much of the drawing JFreeChart will be doing...
         if ( BSConstants.JFREECHART_DYNAMIC ) {
             /*
-             * If JFreeChart is being used to draw all elements (both static and dynamic) 
+             * If JFreeChart is being used to draw all elements (both static and dynamic)
              * then get references to the plots that are in the combined chart.
              * We'll add our data to those plots so that the chart changes dynamically.
              */
@@ -232,20 +229,20 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             /*
              * If JFreeChart is being used to draw only static elements, then turn on
              * buffering of the chart node.  The chart will be drawn as an image, and
-             * the image will be created only when the chart changes.  To limit the 
+             * the image will be created only when the chart changes.  To limit the
              * changes that occur to the chart, we won't be adding any data to it.
              * So we'll create our own plots, to which we'll add the data. And we'll
-             * draw those plots top of the static chart using XYPlotNodes.  We'll use 
-             * some of the chart's rendering hints for the XYPlot nodes so that the 
+             * draw those plots top of the static chart using XYPlotNodes.  We'll use
+             * some of the chart's rendering hints for the XYPlot nodes so that the
              * "look" is consistent with the static chart.
              */
             _chartNode.setBuffered( true );
-            
+
             _energyPlot = new BSEnergyPlot();
             _bottomPlot = new BSBottomPlot();
 
             RenderingHints renderingHints = _chart.getRenderingHints();
-            
+
             _energyPlotNode = new XYPlotNode( _energyPlot );
             _energyPlotNode.setRenderingHints( renderingHints );
             _energyPlotNode.setPickable( false );
@@ -260,17 +257,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _bottomPlotNode.setName( "bottomPlotNode" ); // debug
             _parentNode.addChild( _bottomPlotNode );
         }
-        
+
         // Eigenstate interface
         _eigenstatesNode = new BSEigenstatesNode( _chartNode, _canvas );
         _parentNode.addChild( _eigenstatesNode );
-        
+
         // Equations
         _selectedEquationNode = new BSSelectedEquation();
         _parentNode.addChild( _selectedEquationNode );
         _hilitedEquationNode = new BSHilitedEquation();
         _parentNode.addChild( _hilitedEquationNode );
-        
+
         // Potential drag handles
         {
             _asymmetricDragManager = new BSAsymmetricDragManager( _moduleSpec, _chartNode );
@@ -311,7 +308,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _harmonicOscillatorDragManager.addInputEventListener( clockPauser );
             _squareDragManager.addInputEventListener( clockPauser );
         }
-        
+
         // Energy zoom control
         _energyZoomControl = new ZoomControl( ZoomControl.VERTICAL );
         _energyZoomControl.addPlot( _chart.getEnergyPlot() );
@@ -324,25 +321,25 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
         };
         _parentNode.addChild( _energyZoomControlNode );
-        
+
         // Magnifying glass
         if ( _moduleSpec.isMagnifyingGlassSupported() ) {
             _magnifyingGlass = new BSMagnifyingGlass( _chartNode, BSConstants.COLOR_SCHEME );
             _magnifyingGlass.setMagnification( _moduleSpec.getMagnification() );
             _parentNode.addChild( _magnifyingGlass );
         }
-        
+
         // Wave Function plot shows time-dependent data
         getClock().addClockListener( _bottomPlot );
-        
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
+
         // Control Panel
         _controlPanel = new BSControlPanel( this, moduleSpec );
         setControlPanel( _controlPanel );
-        
+
         // Clock Controls
         {
             _clockControls = new BSClockControls( (BSClock)getClock() );
@@ -353,32 +350,32 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                 }
             } );
         }
-        
+
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-        
+
         if ( hasHelp() ) {
             HelpPane helpPane = getDefaultHelpPane();
-            
+
             HelpBalloon restartHelp = new HelpBalloon( helpPane, BSResources.getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
             helpPane.add(  restartHelp );
             restartHelp.pointAt( _clockControls.getRestartComponent() );
-            
+
             HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, BSResources.getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
             helpPane.add(  clockSpeedHelp );
             clockSpeedHelp.pointAt( _clockControls.getClockIndexComponent() );
-            
+
             if ( _magnifyingGlass != null ) {
                 HelpBalloon magnifyingGlassHelp = new HelpBalloon( helpPane, BSResources.getString( "help.magnifyingGlass" ), HelpBalloon.RIGHT_CENTER, 20 );
                 helpPane.add( magnifyingGlassHelp );
                 magnifyingGlassHelp.pointAt( _magnifyingGlass.getPartsNode(), _canvas );
             }
-            
+
             HelpBalloon zoomHelp = new HelpBalloon( helpPane, BSResources.getString( "help.zoom" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( zoomHelp );
             zoomHelp.pointAt( _energyZoomControlNode, _canvas );
-            
+
             _dragHandleHelp = new HelpBalloon( helpPane, BSResources.getString( "help.dragHandle" ), HelpBalloon.RIGHT_CENTER, 20 );
             helpPane.add( _dragHandleHelp );
         }
@@ -386,16 +383,16 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
-       
+
         reset();
         layoutCanvas();
         _canvas.addComponentListener( listener );
     }
-    
+
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
-    
+
     /*
      * Lays out nodes on the canvas.
      * This is called whenever the canvas size changes.
@@ -403,23 +400,23 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void layoutCanvas() {
 
         Dimension canvasSize = _canvas.getSize();
-        
+
         // Do nothing if the canvas has a bogus, typically during startup.
         if ( canvasSize.getWidth() <= 0 || canvasSize.getHeight() <= 0 ) {
             return;
         }
-        
+
         // Remember the initial canvas size, so we can do scaling.
         if ( _initialCanvasSize == null ) {
             _initialCanvasSize = canvasSize;
         }
-        
+
         // Do nothing if the canvas size hasn't changed, typically during startup.
         if ( canvasSize.equals( _previousCanvasSize ) ) {
             return;
         }
         _previousCanvasSize.setSize( canvasSize );
-        
+
         // Height of the legend
         double legendHeight = _legend.getFullBounds().getHeight();
 
@@ -435,11 +432,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             chartTransform.translate( 0, 0 ); // registration point @ upper left
             _chartNode.setTransform( chartTransform );
             _chartNode.updateChartRenderingInfo();
-            
+
             _eigenstatesNode.setTransform( chartTransform );
             _eigenstatesNode.setBounds( _chartNode.getEnergyPlotBounds() );
         }
-        
+
         // Bounds of plots, in global coordinates -- get these after transforming the chart!
         Rectangle2D energyPlotBounds = _chartNode.localToGlobal( _chartNode.getEnergyPlotBounds() );
         Rectangle2D bottomPlotBounds = _chartNode.localToGlobal( _chartNode.getBottomPlotBounds() );
@@ -463,11 +460,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             Point2D p2 = _chartNode.nodeToEnergy( new Point2D.Double( BSConstants.PIXELS_PER_POTENTIAL_SAMPLE_POINT, 0 ) );
             double dx = p2.getX() - p1.getX();
 //            System.out.println( "BSAbstractModule.layout dx=" + dx );
-            
-            if ( dx >= Double.MIN_VALUE && dx <= Double.MAX_VALUE ) {            
+
+            if ( dx >= Double.MIN_VALUE && dx <= Double.MAX_VALUE ) {
                 // Set the dx use to draw the potentials...
                 _energyPlot.setDx( dx );
-            }  
+            }
         }
 
         // Legend
@@ -478,58 +475,58 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             legendTransform.translate( 0, 0 ); // upper left
             _legend.setTransform( legendTransform );
         }
-        
+
         // Equations
         {
             // Move to upper right corner of bottom chart
             double x1 = bottomPlotBounds.getX() + bottomPlotBounds.getWidth() - 5;
             double y1 = bottomPlotBounds.getY() + 2;
             _selectedEquationNode.setLocation( x1, y1 );
-            
+
             // Just below other equations
             double x2 = x1;
             double y2 = bottomPlotBounds.getY() + _selectedEquationNode.getFullBounds().getHeight();
             _hilitedEquationNode.setLocation( x2, y2 );
         }
-        
+
         // Zoom control for "Energy" plot
         {
             final double scale = 0.75;
             AffineTransform transform = new AffineTransform();
             // position it at the lower right corner of the energy plot
-            transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET, 
+            transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET,
                     energyPlotBounds.getY() + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
             // registration point at lower right
             transform.translate( -_energyZoomControlNode.getWidth() * scale, -_energyZoomControlNode.getHeight() * scale );
             transform.scale( scale, scale );
             _energyZoomControlNode.setTransform( transform );
         }
-        
-        // Magnifying glass 
+
+        // Magnifying glass
         if ( _magnifyingGlass != null ) {
-            
+
             AffineTransform transform = new AffineTransform();
-            
+
             // Constrain dragging to the energy plot
             _magnifyingGlass.setDragBounds( energyPlotBounds );
-             
+
             // BUG: The magnifying glass should be scaled, but doing so break constrained dragging.
-            // This is because the magnifying glass' center (for the purposes of dragging) is 
+            // This is because the magnifying glass' center (for the purposes of dragging) is
             // set inside BSMagnifyingGlass, doesn't account for scaling, and doesn't have an
             // interface to adjust it when scaling changes.
 //            final double scale = canvasSize.getWidth() / _initialCanvasSize.getWidth();
 //            transform.scale( scale, scale );
-            
+
             // Position at bottom center of energy plot, near where lowest group of
             // eigenstates will appear with the default settings for "Many Wells" panel.
             final double x = energyPlotBounds.getCenterX();
             final double y = energyPlotBounds.getY() + energyPlotBounds.getHeight() - 22;
             transform.translate( x, y );
-            
+
             _magnifyingGlass.setTransform( transform );
             _magnifyingGlass.updateDisplay();
         }
-        
+
         // Potential drag handles
         _asymmetricDragManager.updateLayout();
         _coulomb1DDragManager.updateLayout();
@@ -537,15 +534,15 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _harmonicOscillatorDragManager.updateLayout();
         _squareDragManager.updateLayout();
     }
-    
+
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
-       
+
     public boolean hasHelp() {
         return true;
     }
-    
+
     /**
      * Starts the wiggle me animation the first time the module is visited.
      */
@@ -555,7 +552,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             addWiggleMe();
         }
     }
-    
+
     /**
      * Disposes of dialogs when we switch to some other module.
      */
@@ -568,11 +565,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         }
         super.deactivate();
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Respond to model changes.
      */
@@ -582,19 +579,19 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
            disableWiggleMe();
         }
     }
-    
+
     //----------------------------------------------------------------------------
-    // 
+    //
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets the module to its initial state.
      */
     public void reset() {
-        
+
         // Close all dialogs...
         closeAllDialogs();
-        
+
         // Model
         BSAbstractDragManager defaultDragManager = null;
         {
@@ -606,46 +603,46 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
             final int numberOfWells = _moduleSpec.getNumberOfWellsRange().getDefault();
             BSPotentialSpec wellSpec = null;
-            
+
             wellSpec = _moduleSpec.getAsymmetricSpec();
             if ( wellSpec != null ) {
-                _asymmetricPotential = new BSAsymmetricPotential( _particle, 
-                    wellSpec.getOffsetRange().getDefault(), 
-                    wellSpec.getHeightRange().getDefault(), 
+                _asymmetricPotential = new BSAsymmetricPotential( _particle,
+                    wellSpec.getOffsetRange().getDefault(),
+                    wellSpec.getHeightRange().getDefault(),
                     wellSpec.getWidthRange().getDefault() );
             }
 
             wellSpec = _moduleSpec.getCoulomb1DSpec();
             if ( wellSpec != null ) {
-                _coulomb1DPotential = new BSCoulomb1DPotential( _particle, 
-                    numberOfWells, 
-                    wellSpec.getOffsetRange().getDefault(), 
+                _coulomb1DPotential = new BSCoulomb1DPotential( _particle,
+                    numberOfWells,
+                    wellSpec.getOffsetRange().getDefault(),
                     wellSpec.getSpacingRange().getDefault() );
             }
-            
+
             wellSpec = _moduleSpec.getCoulomb3DSpec();
             if ( wellSpec != null ) {
-                _coulomb3DPotential = new BSCoulomb3DPotential( _particle, 
+                _coulomb3DPotential = new BSCoulomb3DPotential( _particle,
                     wellSpec.getOffsetRange().getDefault() );
             }
-            
+
             wellSpec = _moduleSpec.getHarmonicOscillatorSpec();
             if ( wellSpec != null ) {
-                _harmonicOscillatorPotential = new BSHarmonicOscillatorPotential( _particle, 
-                    wellSpec.getOffsetRange().getDefault(), 
+                _harmonicOscillatorPotential = new BSHarmonicOscillatorPotential( _particle,
+                    wellSpec.getOffsetRange().getDefault(),
                     wellSpec.getAngularFrequencyRange().getDefault() );
             }
-            
+
             wellSpec = _moduleSpec.getSquareSpec();
             if ( wellSpec != null ) {
-                _squarePotential = new BSSquarePotential( _particle, 
-                    numberOfWells, 
-                    wellSpec.getOffsetRange().getDefault(), 
-                    wellSpec.getHeightRange().getDefault(), 
-                    wellSpec.getWidthRange().getDefault(), 
+                _squarePotential = new BSSquarePotential( _particle,
+                    numberOfWells,
+                    wellSpec.getOffsetRange().getDefault(),
+                    wellSpec.getHeightRange().getDefault(),
+                    wellSpec.getWidthRange().getDefault(),
                     wellSpec.getSeparationRange().getDefault() );
             }
-                   
+
             // Select the default...
             BSAbstractPotential defaultPotential = null;
             BSWellType defaultWellType = _moduleSpec.getDefaultWellType();
@@ -674,7 +671,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
             assert( defaultPotential != null );
             assert( defaultDragManager != null );
-            
+
             // Populate the model...
             if ( _model != null ) {
                 _model.deleteObserver( this );
@@ -682,7 +679,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _model = new BSModel( _particle, defaultPotential, _superpositionCoefficients );
             _model.addObserver( this );
         }
-        
+
         // View
         {
             _energyPlot.setModel( _model );
@@ -694,11 +691,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
                 _magnifyingGlass.setModel( _model );
             }
         }
-        
+
         // Control
         {
             configureZoomControls( _model.getWellType() );
-            
+
             _controlPanel.setWellType( _model.getWellType() );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
@@ -712,39 +709,39 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _controlPanel.setMagnification( _moduleSpec.getMagnification() );
             _controlPanel.setFieldConstant( _moduleSpec.getFieldConstantRange().getDefault() );
         }
-        
+
         // Potential drag handles
         {
             _asymmetricDragManager.setPotential( _asymmetricPotential );
             _asymmetricDragManager.setColorScheme( _colorScheme );
-            
+
             _coulomb1DDragManager.setPotential( _coulomb1DPotential );
             _coulomb1DDragManager.setColorScheme( _colorScheme );
-            
+
             _coulomb3DDragManager.setPotential( _coulomb3DPotential );
             _coulomb3DDragManager.setColorScheme( _colorScheme );
-            
+
             _harmonicOscillatorDragManager.setPotential( _harmonicOscillatorPotential );
             _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
-            
+
             _squareDragManager.setPotential( _squarePotential );
             _squareDragManager.setColorScheme( _colorScheme );
 
             hideAllDragManagers();
             defaultDragManager.setVisible( true );
-            
+
             // Attach help item to drag handle
             PNode dragHandleNode = defaultDragManager.getHelpNode();
             if ( dragHandleNode != null ) {
                 _dragHandleHelp.pointAt( dragHandleNode, _canvas );
             }
         }
-        
+
         // Clock
         _clockControls.setClockIndex( BSConstants.DEFAULT_CLOCK_INDEX );
         resetClock();
     }
-    
+
     /*
      * Closes all dialogs.
      */
@@ -760,21 +757,21 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionStateDialog = null;
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Wiggle Me
     //----------------------------------------------------------------------------
-    
+
     /**
      * Determines whether this module has a wiggle me.
      * This must be called before the module is activated.
-     * 
+     *
      * @param hasWiggleMe
      */
     public void setHasWiggleMe( boolean hasWiggleMe ) {
         _hasWiggleMe = hasWiggleMe;
     }
-    
+
     /*
      * Adds the module's wiggle me.
      */
@@ -794,7 +791,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             } );
         }
     }
-    
+
     /*
      * Remove the module's wiggle me.
      */
@@ -805,22 +802,22 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             // don't set _wiggleMe to null or another one will be added by activate
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
-    
+
     /**
      * Saves the module's configuration by writing it to a provided configuration object.
-     * 
+     *
      * @param config
      */
     public void save( BSModuleConfig config ) {
-        
+
         // Clock
         config.setClockRunning( getClock().isRunning() );
         config.setClockIndex( _clockControls.getClockIndex() );
-        
+
         // Model
         config.saveParticle( _particle );
         config.saveAsymmetricPotential( _asymmetricPotential );
@@ -830,7 +827,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.saveSquarePotential( _squarePotential );
         config.setNumberOfWells( _model.getPotential().getNumberOfWells() );
         config.setSuperpositionCoefficients( _superpositionCoefficients.getCoefficients() );
-        
+
         // Control panel
         config.saveSelectedWellType( _controlPanel.getWellType() );
         config.setMagnifyingGlassSelected( _controlPanel.isMagnifyingGlassSelected() );
@@ -841,16 +838,16 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setFieldConstant( _controlPanel.getFieldConstant() );
     }
-    
+
     /**
      * Loads the module's configuration by reading it from a provided configuration object.
-     * 
+     *
      * @param config
      */
     public void load( BSModuleConfig config ) {
-        
+
         closeAllDialogs();
-        
+
         // Clock
         if ( isActive() ) {
             if ( config.isClockRunning() ) {
@@ -861,14 +858,14 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
         }
         _clockControls.setClockIndex( config.getClockIndex() );
-    
+
         // Model
         _model.setNotifyEnabled( false );
         {
             // load the particle
             _particle = config.loadParticle();
             _model.setParticle( _particle );
-            
+
             // load the potentials
             _asymmetricPotential = config.loadAsymmetricPotential( _particle );
             _coulomb1DPotential = config.loadCoulomb1DPotential( _particle );
@@ -876,7 +873,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _harmonicOscillatorPotential = config.loadHarmonicOscillatorPotential( _particle );
             _squarePotential = config.loadSquarePotential( _particle );
             setNumberOfWells( config.getNumberOfWells() );
-            
+
             // attach drag handles to potentials
             _asymmetricDragManager.setPotential( _asymmetricPotential );
             _asymmetricDragManager.setColorScheme( _colorScheme );
@@ -888,7 +885,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
             _squareDragManager.setPotential( _squarePotential );
             _squareDragManager.setColorScheme( _colorScheme );
-            
+
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
             BSAbstractPotential potential = null;
@@ -914,7 +911,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
             assert ( potential != null );
             _model.setPotential( potential );
-            
+
             // Restore coefficients after setting potential
             double[] c = config.getSuperpositionCoefficients();
             for ( int i = 0; i < c.length; i++ ) {
@@ -922,7 +919,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
         }
         _model.setNotifyEnabled( true );
-        
+
         // Controls
         _controlPanel.setMagnifyingGlassSelected( config.isMagnifyingGlassSelected() );
         _controlPanel.setRealSelected( config.isRealSelected() );
@@ -937,10 +934,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setFieldConstant( config.getFieldConstant() );
         configureZoomControls( _model.getWellType() );
     }
-    
+
     /**
      * Sets the module's color scheme.
-     * 
+     *
      * @param colorScheme
      */
     public void setColorScheme( BSColorScheme colorScheme ) {
@@ -974,11 +971,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
         _squareDragManager.setColorScheme( _colorScheme );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     private class EventListener extends ComponentAdapter {
 
         /*
@@ -990,53 +987,53 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets this module's frame.
-     * 
+     *
      * @return JFrame
      */
     public JFrame getFrame() {
-        return PhetApplication.instance().getPhetFrame();
+        return NonPiccoloPhetApplication.instance().getPhetFrame();
     }
-    
+
     /**
      * Adds a listener to the module's clock.
-     * 
+     *
      * @param listener
      */
     public void addClockListener( ClockListener listener ) {
         getClock().addClockListener( listener );
     }
-    
+
     /**
      * Removes a listener from the module's clock.
-     * 
+     *
      * @param listener
      */
     public void removeClockListener( ClockListener listener ) {
         getClock().removeClockListener( listener );
     }
-    
+
     /**
      * Sets the potential based on a specified type of well.
-     * 
+     *
      * @param wellType
      */
     public void setWellType( BSWellType wellType ) {
 
         if ( wellType != _model.getWellType() ) {
-            
+
             if ( _configureDialog != null ) {
                 _configureDialog.dispose();
             }
 
             configureZoomControls( wellType );
-            
+
             BSAbstractPotential potential = null;
             BSAbstractDragManager dragManager = null;
             if ( wellType == BSWellType.ASYMMETRIC ) {
@@ -1066,19 +1063,19 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
             assert ( potential != null );
             assert ( dragManager != null );
-            
+
             // Drag handles
             {
                 hideAllDragManagers();
                 dragManager.setVisible( true );
-                
+
                 // Attach help item to drag handle
                 PNode dragHandleNode = dragManager.getHelpNode();
                 if ( dragHandleNode != null ) {
                     _dragHandleHelp.pointAt( dragHandleNode, _canvas );
                 }
             }
-            
+
             // Model
             _model.setPotential( potential );
 
@@ -1086,20 +1083,20 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _controlPanel.setWellType( wellType );
             _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
             _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
-            
+
             // Clock
             resetClock();
         }
     }
-    
+
     /**
      * Sets the number of wells in the current potential.
-     * 
+     *
      * @param numberOfWells
      */
     public void setNumberOfWells( int numberOfWells ) {
         if ( numberOfWells != _model.getNumberOfWells() ) {
-            
+
             if ( _asymmetricPotential != null ) {
                 _asymmetricPotential.setNumberOfWells( numberOfWells );
             }
@@ -1115,13 +1112,13 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             if ( _squarePotential != null ) {
                 _squarePotential.setNumberOfWells( numberOfWells );
             }
-            
+
             _eigenstatesNode.updateBandSelection();
-            
+
             resetClock();
         }
     }
-    
+
     /**
      * Opens a "Configure Potential" dialog for the currently-selected potential.
      */
@@ -1139,7 +1136,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _configureDialog.show();
         }
     }
-    
+
     /**
      * Opens a "Superposition State" dialog.
      */
@@ -1157,23 +1154,23 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _superpositionStateDialog.show();
         }
     }
-    
+
     public void setRealVisible( boolean visible ) {
         _bottomPlot.setRealSeriesVisible( visible );
     }
-    
+
     public void setImaginaryVisible( boolean visible ) {
         _bottomPlot.setImaginarySeriesVisible( visible );
     }
-    
+
     public void setMagnitudeVisible( boolean visible ) {
         _bottomPlot.setMagnitudeSeriesVisible( visible );
     }
-    
+
     public void setPhaseVisible( boolean visible ) {
         _bottomPlot.setPhaseSeriesVisible( visible );
     }
-    
+
     public void setBottomPlotMode( BSBottomPlotMode mode ) {
         _chart.getBottomPlot().setMode( mode );
         _bottomPlot.setMode( mode );
@@ -1182,12 +1179,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _eigenstatesNode.setMode( mode );
         _magnifyingGlass.setMode( mode );
     }
-    
+
     public void setParticleMass( double mass ) {
         _particle.setMass( mass );
         resetClock();
     }
-    
+
     public void setMagnifyingGlassVisible( boolean visible ) {
         if ( _magnifyingGlass != null ) {
             _magnifyingGlass.setVisible( visible );
@@ -1197,14 +1194,14 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     private void resetClock() {
         getClock().resetSimulationTime();
     }
-    
+
     /*
      * Does any house-keeping required when the simulation clock is reset.
      */
     private void handleClockReset() {
         // currently nothing to do
     }
-    
+
     /**
      * Configures zoom controls to match the selected well type.
      */
@@ -1214,17 +1211,17 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _energyZoomControlNode.setVisible( zoomSpec.getNumberOfZoomLevels() > 1 );
         _energyZoomControl.setZoomSpec( zoomSpec );
     }
-    
+
     /**
      * Gets the unique identifier that identifies this module,
      * used by the Save/Load feature to restore module selection.
-     * 
+     *
      * @return String
      */
     public String getId() {
         return _moduleSpec.getId();
     }
-    
+
     /*
      * Sets the visibility of all drag handle managers to false.
      */
@@ -1235,10 +1232,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _harmonicOscillatorDragManager.setVisible( false );
         _squareDragManager.setVisible( false );
     }
-    
+
     /**
      * Sets the field constant, applied to all potentials.
-     * 
+     *
      * @param value
      */
     public void setFieldConstant( double value ) {

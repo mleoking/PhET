@@ -10,20 +10,18 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
-
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -34,18 +32,18 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 public class PhetFrame extends JFrame {
     private HelpMenu helpMenu;
     private JMenu defaultFileMenu;
-    private PhetApplication application;
+    private NonPiccoloPhetApplication application;
     private Container contentPanel;
     private Module lastAdded;
 
     public static final String PHET_LOGO_WINDOW_ICON = "images/phet-logo-24x24.jpg";
-    
+
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
      * @param application the application that own the PhetFrame
      */
-    public PhetFrame( final PhetApplication application ) throws HeadlessException {
+    public PhetFrame( final NonPiccoloPhetApplication application ) throws HeadlessException {
         super( application.getTitle() + " (" + application.getVersion() + ")" );
         this.application = application;
 
@@ -127,8 +125,8 @@ public class PhetFrame extends JFrame {
     }
 
     /**
-     * Returns the ITabbedModulePane for this PhetFrame, if it has one; otherwise null.  
-     * That means it must have been created, usually by adding more than one module. 
+     * Returns the ITabbedModulePane for this PhetFrame, if it has one; otherwise null.
+     * That means it must have been created, usually by adding more than one module.
      * @return
      */
     public ITabbedModulePane getTabbedModulePane() {
@@ -169,7 +167,7 @@ public class PhetFrame extends JFrame {
      *
      * @return the PhetApplication associated with this PhetFrame.
      */
-    public PhetApplication getApplication() {
+    public NonPiccoloPhetApplication getApplication() {
         return application;
     }
 

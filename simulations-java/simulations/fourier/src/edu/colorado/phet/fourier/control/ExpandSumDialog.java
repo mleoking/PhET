@@ -11,26 +11,19 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.text.NumberFormat;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.MathForm;
 import edu.colorado.phet.fourier.model.FourierSeries;
+
+import javax.swing.*;
+import java.awt.*;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 
 /**
@@ -45,51 +38,51 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int TERMS_PER_LINE = 3;
     private static final NumberFormat VALUE_FORMATTER = new DecimalFormat( "0.##" );
     private static boolean SHOW_TERMS_WITH_ZERO_AMPLITUDE = true;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private PhetApplication _app;
+
+    private NonPiccoloPhetApplication _app;
     private FourierSeries _fourierSeries;
     private JLabel _label;
     private JButton _closeButton;
     private Domain _domain;
     private MathForm _mathForm;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param parentFrame the parent frame
      */
     public ExpandSumDialog( Frame parentFrame, FourierSeries fourierSeries ) {
         super( parentFrame );
-        
+
         setTitle( FourierResources.getString( "ExpandSumDialog.title" ) );
         setModal( false );
         setResizable( false );
         setLocationRelativeTo( parentFrame );
         setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
-        
+
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
-        
+
         _domain = Domain.SPACE;
         _mathForm = MathForm.WAVE_NUMBER;
-        
+
         createUI();
-        
+
         update();
     }
-    
+
     /**
      * Call this before releasing all references to this object.
      */
@@ -97,11 +90,11 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         dispose();
         _fourierSeries.removeObserver( this );
     }
-    
+
     //----------------------------------------------------------------------------
     // UI construction
     //----------------------------------------------------------------------------
-    
+
     /**
      * Creates the user interface for the dialog.
      */
@@ -116,10 +109,10 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         getContentPane().add( panel );
         pack();
     }
-    
+
     /**
      * Creates the dialog's input panel.
-     * 
+     *
      * @return the input panel
      */
     private JPanel createInputPanel() {
@@ -130,10 +123,10 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         inputPanel.add( _label );
         return inputPanel;
     }
-    
-    /** 
+
+    /**
      * Creates the dialog's actions panel, consisting of OK and Cancel buttons.
-     * 
+     *
      * @return the actions panel
      */
     private JPanel createActionsPanel() {
@@ -148,15 +141,15 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
 
         return actionPanel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the domain and math form.
      * Together they determine the format of the equation.
-     * 
+     *
      * @param domain
      * @param mathForm
      */
@@ -165,32 +158,32 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         _mathForm = mathForm;
         update();
     }
-    
+
     /**
      * Gets a reference to the dialog's close button.
      * It's the client's responsibility to handle the close button,
      * so use this to attach an ActionListener.
-     * 
+     *
      * @return the close button
      */
     public JButton getCloseButton() {
         return _closeButton;
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Updates the dialog to match the model, domain and math form.
      */
     public void update() {
 
         // function on the left side of the equation
-        String function = MathStrings.getFunction( _domain ); 
+        String function = MathStrings.getFunction( _domain );
         // format of one term in the expansion
         String termFormat = MathStrings.getTerm( _domain, _mathForm, _fourierSeries.getWaveType() );
-        
+
         // Build the equation, in HTML format.
         StringBuffer buffer = new StringBuffer( "<html>" );
         buffer.append( function );
@@ -199,11 +192,11 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
         for ( int i = 0; i < _fourierSeries.getNumberOfHarmonics(); i++ ) {
             double amplitude = _fourierSeries.getHarmonic( i ).getAmplitude();
             if ( SHOW_TERMS_WITH_ZERO_AMPLITUDE || amplitude != 0 ) {
-                
+
                 if ( terms != 0 ) {
                     buffer.append( " + " );
                 }
-                
+
                 String amplitudeString = VALUE_FORMATTER.format( amplitude );
                 Object[] args = { amplitudeString, new Integer( i + 1 ) };
                 String term = MessageFormat.format( termFormat, args );
@@ -212,16 +205,16 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
                 if ( ( terms + 1 ) % TERMS_PER_LINE == 0 ) {
                     buffer.append( "<br>" );
                 }
-                
+
                 terms++;
             }
         }
         buffer.append( "</html>" );
-        
+
         // Update the dialog.
         _label.setText( buffer.toString() );
         pack();
-        
+
         // HACK: make the dialog redraw itself
         if ( isVisible() ) {
             hide();

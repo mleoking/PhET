@@ -11,13 +11,22 @@
 
 package edu.colorado.phet.boundstates.test;
 
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Rectangle2D;
-
-import javax.swing.*;
-
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
+import edu.colorado.phet.common.piccolophet.help.HelpPane;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.ValueAxis;
@@ -27,28 +36,17 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.model.clock.*;
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
-import edu.colorado.phet.common.piccolophet.help.HelpPane;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Rectangle2D;
 
 
 /**
  * TestHelpRepaint demonstrates a problem with help items on Macintosh.
  * When the simulation clock is running, turning help on results
- * in the help items being partially painted.  And help items 
+ * in the help items being partially painted.  And help items
  * (or parts of help items) that fall outside the PCanvas are
  * not painted. Other parts of the interface (eg, the Help button
  * in the control panel) are sometimes not properly painted.
@@ -71,7 +69,7 @@ public class TestHelpRepaint {
     private static final double DX = 1;
     private static final double MIN_Y = -100;
     private static final double MAX_Y = 100;
-    
+
     public static void main( final String[] args ) {
         try {
             TestApplication app = new TestApplication( args );
@@ -82,7 +80,7 @@ public class TestHelpRepaint {
         }
     }
 
-    private static class TestApplication extends PiccoloPhetApplication {
+    private static class TestApplication extends PhetApplication {
 
         public TestApplication( String[] args ) throws InterruptedException {
             super( args, "TestHelpRepaint", "description", "0.1", new FrameSetup.CenteredWithSize( 1024, 768 ) );
@@ -131,22 +129,22 @@ public class TestHelpRepaint {
 
                 // Plot
                 XYPlot plot = new XYPlot();
-                
+
                 // X axis
                 ValueAxis xAxis = new NumberAxis( "X" );
                 xAxis.setRange( MIN_X, MAX_X );
                 plot.setDomainAxis( xAxis );
-                
+
                 // Y axis
                 ValueAxis yAxis = new NumberAxis( "Y" );
                 yAxis.setRange( MIN_Y, MAX_Y );
                 plot.setRangeAxis( yAxis );
-                
+
                 // Dataset
                 XYSeriesCollection dataset = new XYSeriesCollection();
                 dataset.addSeries( _series );
                 plot.setDataset( seriesIndex, dataset );
-                
+
                 // Renderer
                 XYItemRenderer renderer = new StandardXYItemRenderer();
                 renderer.setPaint( Color.RED );
@@ -156,7 +154,7 @@ public class TestHelpRepaint {
                 // Chart
                 JFreeChart chart = new JFreeChart( plot );
                 chart.setBackgroundPaint( BACKGROUND );
-                
+
                 _chartNode = new JFreeChartNode( chart );
                 parentNode.addChild( _chartNode );
             }
@@ -170,7 +168,7 @@ public class TestHelpRepaint {
             blueSquare.setOffset( 300, 200 );
             parentNode.addChild( blueSquare );
 
-            // Green square, draggable             
+            // Green square, draggable
             PPath greenSquare = new PPath();
             greenSquare.setPaint( Color.GREEN );
             greenSquare.setPathTo( new Rectangle2D.Double( 0, 0, 150, 150 ) );
@@ -209,7 +207,7 @@ public class TestHelpRepaint {
                 HelpBalloon greenSquareHelp = new HelpBalloon( helpPane, "Drag me", HelpBalloon.RIGHT_CENTER, 30 );
                 helpPane.add( greenSquareHelp );
                 greenSquareHelp.pointAt( greenSquare, _canvas );
-                
+
                 HelpBalloon checkBoxHelp = new HelpBalloon( helpPane, "Check me", HelpBalloon.RIGHT_CENTER, 30 );
                 helpPane.add( checkBoxHelp );
                 checkBoxHelp.pointAt( checkBox );
@@ -236,19 +234,19 @@ public class TestHelpRepaint {
         /* When the help state is changed, immediately repaint everything */
         public void setHelpEnabled( boolean enabled ) {
             super.setHelpEnabled( enabled );
-            PhetFrame frame = PhetApplication.instance().getPhetFrame();
+            PhetFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
             paintImmediately( frame );
         }
-        
+
         /* Immediately paints a component and all of its children */
         private void paintImmediately( Component component ) {
-            
+
             // Paint the component
             if ( component instanceof JComponent ) {
                 JComponent jcomponent = (JComponent)component;
                 jcomponent.paintImmediately( jcomponent.getBounds() );
             }
-            
+
             // Recursively paint children
             if ( component instanceof Container ) {
                 Container container = (Container)component;
@@ -259,7 +257,7 @@ public class TestHelpRepaint {
                 }
             }
         }
-        
+
         // Called whenever the simulation's window size is changed
         private void updateLayout() {
 
@@ -285,6 +283,6 @@ public class TestHelpRepaint {
             }
             _series.setNotify( true );
         }
-        
+
     } // class TestModule
 }
