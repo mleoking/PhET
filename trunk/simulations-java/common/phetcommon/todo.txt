@@ -2,21 +2,25 @@
 "To Do" list for phetcommon
 ===============================================================================
 
+9/6/2007
+Add exceptions for missing resources (not easy; currently all sims depend on
+missing version information resources for common components).
+
 8/31/2007 (reid)
-Move get/set requested DT into parent level for clocks?  Does this make sense for all clock implementations?  
+Move get/set requested DT into parent level for clocks?  Does this make sense for all clock implementations?
 
 8/7/07 (cmalley) :
 update all sims to use PhetDefaultFont instead of hardcoding specific physical
 or logical font names (eg "Lucida Sans")
 
 6/4/07 (cmalley) :
-Consider using PhetFrameWorkaround to address AWT redraw priority problem on slower machines. 
-This is noticeable with all sims that I've tried with Java 1.5.  
+Consider using PhetFrameWorkaround to address AWT redraw priority problem on slower machines.
+This is noticeable with all sims that I've tried with Java 1.5.
 This was not an issue with Java 1.4.
 
 6/4/07 (cmalley) :
 Deferred initialization of modules. All modules are currently instantiated and initialzed
-when creating a PhetApplication. If there are several modules, each with some involved 
+when creating a PhetApplication. If there are several modules, each with some involved
 initialization, it can take quite awhile for the simulation to come up. This is undesirable,
 especilly if the user has no intention of visiting the more advanced panels.
 
