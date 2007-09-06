@@ -11,18 +11,16 @@
 
 package edu.colorado.phet.boundstates.control;
 
-import java.awt.Frame;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
-
 import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.boundstates.module.BSAbstractModule;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
@@ -36,17 +34,17 @@ public abstract class BSAbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private BSAbstractModule _module; // module that this control panel is associated with
     private JButton _resetButton;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param module
      */
     public BSAbstractControlPanel( BSAbstractModule module ) {
@@ -54,42 +52,42 @@ public abstract class BSAbstractControlPanel extends ControlPanel {
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the module that this control panel is associated with.
-     * 
+     *
      * @return the module
      */
     public BSAbstractModule getModule() {
         return _module;
     }
-    
+
     //----------------------------------------------------------------------------
     // Add things to the control panel
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the reset button, usually for attaching a help item to it.
-     * 
+     *
      * @return the reset button
      */
     public JButton getResetButton() {
         return _resetButton;
     }
-    
+
     /**
      * Adds a Reset button to the control panel.
      * The button handler calls the module's reset method.
      */
     public void addResetButton() {
         _resetButton = new JButton( BSResources.getString( "button.reset" ) );
-        _resetButton.addActionListener( new ActionListener() { 
+        _resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Frame frame = PhetApplication.instance().getPhetFrame();
+                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
                 String message = BSResources.getString( "message.reset" );
                 int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
                 if ( option == JOptionPane.YES_OPTION ) {
@@ -99,10 +97,10 @@ public abstract class BSAbstractControlPanel extends ControlPanel {
         } );
         addControl( _resetButton );
     }
-    
+
     /**
      * Sets the minumum width of the control panel.
-     * 
+     *
      * @param minimumWidth
      */
     public void setMinumumWidth( int minimumWidth ) {

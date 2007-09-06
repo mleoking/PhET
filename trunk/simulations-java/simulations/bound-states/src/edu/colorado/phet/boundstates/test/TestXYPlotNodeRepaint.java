@@ -11,13 +11,18 @@
 
 package edu.colorado.phet.boundstates.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Rectangle2D;
-
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.*;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -29,18 +34,10 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.XYPlotNode;
-import edu.colorado.phet.common.phetcommon.model.clock.*;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Rectangle2D;
 
 
 /**
@@ -53,13 +50,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * You'll notice that the XYPlotNode will draw its plot on top of the
  * rectangle that is not being dragged.
  * <p>
- * The problem was fixed in XYPlotNode, by setting the clip 
+ * The problem was fixed in XYPlotNode, by setting the clip
  * using PPaintContext.pushClip instead of Graphics2D.setClip.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestXYPlotNodeRepaint extends PhetApplication {
+public class TestXYPlotNodeRepaint extends NonPiccoloPhetApplication {
 
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
@@ -131,7 +128,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             _series = new XYSeries( "Random data" );
             XYSeriesCollection dataset = new XYSeriesCollection();
             dataset.addSeries( _series );
-            
+
             // Plot
             XYPlot plot = createPlot();
             plot.setDataset( seriesIndex, dataset );
@@ -143,7 +140,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             // Plot node, draws data on top of the static chart
             _plotNode = new XYPlotNode( plot );
             parentNode.addChild( _plotNode );
-            
+
             // Blue square, draggable
             PPath blueSquare = new PPath();
             blueSquare.setPaint( Color.BLUE );
@@ -153,7 +150,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             blueSquare.setOffset( 300, 200 );
             parentNode.addChild( blueSquare );
 
-            // Green square, draggable             
+            // Green square, draggable
             PPath redSquare = new PPath();
             redSquare.setPaint( Color.GREEN );
             redSquare.setPathTo( new Rectangle2D.Double( 0, 0, 150, 150 ) );
@@ -169,7 +166,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
                     updateData( t );
                 }
             } );
-            
+
             // Default layout and data set...
             layoutCanvas();
             updateData( 0 /* t=0 */ );
@@ -187,7 +184,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             plot.setRenderer( new StandardXYItemRenderer() );
             return plot;
         }
-        
+
         // Called whenever the simulation's window size is changed
         private void layoutCanvas() {
 
@@ -201,7 +198,7 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             _chartNode.setBounds( 0, 0, w, h );
             _chartNode.setOffset( x, y );
             _chartNode.updateChartRenderingInfo();
-            
+
             // Plot bounds
             ChartRenderingInfo chartInfo = _chartNode.getChartRenderingInfo();
             PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
@@ -210,12 +207,12 @@ public class TestXYPlotNodeRepaint extends PhetApplication {
             Rectangle2D localBounds = new Rectangle2D.Double();
             localBounds.setRect( dataAreaRef );
             Rectangle2D plotBounds = _chartNode.localToGlobal( localBounds );
-            
+
             // Plot node
             _plotNode.setOffset( 0, 0 );
             _plotNode.setDataArea( plotBounds );
         }
-        
+
         // Called whenever the clock ticks
         private void updateData( final double t ) {
             // Generate some data for a time-varying function...

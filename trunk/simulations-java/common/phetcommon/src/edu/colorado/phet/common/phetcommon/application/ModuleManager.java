@@ -29,7 +29,7 @@ class ModuleManager {
 
     private ArrayList modules = new ArrayList();
     private Module activeModule;
-    private PhetApplication phetApplication;
+    private NonPiccoloPhetApplication phetApplication;
     private ArrayList moduleObservers = new ArrayList();
 
     /**
@@ -37,7 +37,7 @@ class ModuleManager {
      *
      * @param phetApplication
      */
-    ModuleManager( PhetApplication phetApplication ) {
+    ModuleManager( NonPiccoloPhetApplication phetApplication ) {
         this.phetApplication = phetApplication;
     }
 
@@ -168,7 +168,7 @@ class ModuleManager {
     }
 
     /*
-     * Prints an exception stack trace if the collection of modules 
+     * Prints an exception stack trace if the collection of modules
      * being managed don't have the correct activation and clock states.
      * A valid state is:
      * - exactly one module should be active
@@ -238,7 +238,7 @@ class ModuleManager {
         moduleObservers.add( observer );
     }
 
-    private PhetApplication getPhetApplication() {
+    private NonPiccoloPhetApplication getPhetApplication() {
         return phetApplication;
     }
 

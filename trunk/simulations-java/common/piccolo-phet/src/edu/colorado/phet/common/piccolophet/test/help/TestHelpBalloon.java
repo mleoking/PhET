@@ -12,7 +12,7 @@
 package edu.colorado.phet.common.piccolophet.test.help;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -46,7 +46,7 @@ import java.text.MessageFormat;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestHelpBalloon extends PhetApplication {
+public class TestHelpBalloon extends NonPiccoloPhetApplication {
 
     private static final String VERSION = "0.00.01";
     private static final String TITLE = "TestHelpBalloon";
@@ -416,7 +416,7 @@ public class TestHelpBalloon extends PhetApplication {
         }
 
         public JFrame getFrame() {
-            return PhetApplication.instance().getPhetFrame();
+            return NonPiccoloPhetApplication.instance().getPhetFrame();
         }
     }
 

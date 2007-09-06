@@ -3,7 +3,7 @@ package edu.colorado.phet.cck.controls;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.ColorDialog;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +17,7 @@ import java.awt.event.ActionListener;
  */
 
 public class ToolboxColorMenuItem extends JMenuItem {
-    public ToolboxColorMenuItem( final PhetApplication application, final ICCKModule cck ) {
+    public ToolboxColorMenuItem( final NonPiccoloPhetApplication application, final ICCKModule cck ) {
         super( CCKResources.getString( "OptionsMenu.ToolboxcolorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

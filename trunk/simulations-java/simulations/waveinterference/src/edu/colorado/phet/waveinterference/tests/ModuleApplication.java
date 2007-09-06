@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class ModuleApplication {
     }
 
     public void startApplication( String[] args, Module module ) {
-        PhetApplication phetApplication = new PhetApplication( args, module.getName(), "", "" );
+        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, module.getName(), "", "" );
         phetApplication.addModule( module );
         SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );
         phetApplication.startApplication();

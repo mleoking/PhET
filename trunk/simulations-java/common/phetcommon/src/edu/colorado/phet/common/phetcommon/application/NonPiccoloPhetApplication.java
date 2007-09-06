@@ -1,22 +1,22 @@
 /*
-* The Physics Education Technology (PhET) project provides 
-* a suite of interactive educational simulations. 
+* The Physics Education Technology (PhET) project provides
+* a suite of interactive educational simulations.
 * Copyright (C) 2004-2006 University of Colorado.
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or 
+* the Free Software Foundation; either version 2 of the License, or
 * (at your option) any later version.
-* 
-* This program is distributed in the hope that it will be useful, 
-* but WITHOUT ANY WARRANTY; without even the implied warranty of 
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 * See the GNU General Public License for more details.
-* 
+*
 * You should have received a copy of the GNU General Public License along
 * with this program; if not, write to the Free Software Foundation, Inc.,
 * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-* 
+*
 * For additional licensing options, please contact PhET at phethelp@colorado.edu
 */
 
@@ -57,8 +57,9 @@ import java.util.ArrayList;
  *
  * @author ?
  * @version $Revision$
+ * @deprecated Use PhetApplication
  */
-public class PhetApplication {
+public class NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------
     // Class data
@@ -68,20 +69,20 @@ public class PhetApplication {
      * Mechanism for determining which graphics subsystem we're using
      */
     private static final String DEBUG_MENU_ARG = "-d";
-    private static PhetApplication latestInstance = null;
+    private static NonPiccoloPhetApplication latestInstance = null;
     private static ArrayList phetApplications = new ArrayList();
     private TabbedPaneType tabbedPaneType;
 
     private volatile PhetApplicationConfig applicationConfig;
 
 
-    public PhetApplication( PhetApplicationConfig config ) {
+    protected NonPiccoloPhetApplication( PhetApplicationConfig config ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup() );
 
         this.applicationConfig = config;
     }
 
-    public PhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
+    protected NonPiccoloPhetApplication( PhetApplicationConfig config, TabbedPaneType tabbedPaneType ) {
         this( config.getCommandLineArgs(), config.getName(), config.getDescription(), config.getVersion().formatForTitleBar(), config.getFrameSetup(), tabbedPaneType );
 
         this.applicationConfig = config;
@@ -96,7 +97,7 @@ public class PhetApplication {
      *
      * @return last created PhetApplication.
      */
-    public static PhetApplication instance() {
+    public static NonPiccoloPhetApplication instance() {
         return latestInstance;
     }
 
@@ -105,8 +106,8 @@ public class PhetApplication {
      *
      * @return all created PhetApplications.
      */
-    public static PhetApplication[] instances() {
-        return (PhetApplication[])phetApplications.toArray( new PhetApplication[0] );
+    public static NonPiccoloPhetApplication[] instances() {
+        return (NonPiccoloPhetApplication[])phetApplications.toArray( new NonPiccoloPhetApplication[0] );
     }
 
     //----------------------------------------------------------------
@@ -132,7 +133,7 @@ public class PhetApplication {
      *
      * @deprecated
      */
-    public PhetApplication( String[] args, String title, String description, String version
+    public NonPiccoloPhetApplication( String[] args, String title, String description, String version
     ) {
         this( args, title, description, version, new FrameSetup.CenteredWithSize( getScreenSize().width, getScreenSize().height - 150 ) );
     }
@@ -148,7 +149,7 @@ public class PhetApplication {
      *
      * @deprecated
      */
-    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
+    public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         this( args, title, description, version, frameSetup, JTABBED_PANE_TYPE );
     }
 
@@ -158,7 +159,7 @@ public class PhetApplication {
      *
      * @deprecated
      */
-    public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
+    public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
         // Put up a dialog that lets the user know that the simulation is starting up
         showSplashWindow( title );
         this.tabbedPaneType = tabbedPaneType;
@@ -291,7 +292,7 @@ public class PhetApplication {
     public PhetFrame getPhetFrame() {
         return phetFrame;
     }
-    
+
     //----------------------------------------------------------------
     // Module-related methods
     //----------------------------------------------------------------
@@ -449,10 +450,10 @@ public class PhetApplication {
         }
         return version;
     }
-    
+
     /**
      * Gets the credits for the simulations.
-     * 
+     *
      * @return
      * @deprecated use getProjectConfig
      */

@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -44,7 +44,7 @@ public class TestPhetTextGraphic2 {
         boolean useClockControlPanel = false;
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
-        PhetApplication app = new PhetApplication( args,
+        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args,
                                                    title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );

@@ -1,7 +1,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
@@ -52,7 +52,7 @@ public class TestTopView extends BasicWaveTestModule {
     }
 
     public static void main( String[] args ) {
-        PhetApplication phetApplication = new PhetApplication( args, "Test Top View", "", "" );
+        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "Test Top View", "", "" );
         phetApplication.addModule( new TestTopView() );
         phetApplication.startApplication();
     }

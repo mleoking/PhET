@@ -11,17 +11,7 @@
 
 package edu.colorado.phet.hydrogenatom.dialog;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
@@ -40,6 +30,15 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessMagnitudeNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.
  * These controls will not be available to the user, and are not localized.
@@ -48,14 +47,14 @@ import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
  * @version $Revision$
  */
 public class DeveloperControlsDialog extends JDialog implements ColorChooserFactory.Listener {
-    
+
     // Color chips (marker class)
     private static class ColorChip extends JLabel {
         public ColorChip() {
             super();
         }
     }
-    
+
     // Title labels
     private static class TitleLabel extends JLabel {
         public TitleLabel( String title ) {
@@ -64,30 +63,30 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             setFont( TITLE_FONT );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final Insets DEFAULT_INSETS = new Insets( 3, 3, 3, 3 );
-    
+
     private static final int MIN_PARTICLES_IN_BOX = 1;
     private static final int MAX_PARTICLES_IN_BOX = 100;
-    
+
     private static final int COLOR_CHIP_WIDTH = 15;
     private static final int COLOR_CHIP_HEIGHT = 15;
     private static final Stroke COLOR_CHIP_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
-    
+
     private static final Color TITLE_COLOR = Color.RED;
     private static final Font TITLE_FONT = new Font( HAConstants.DEFAULT_FONT_NAME, Font.BOLD, 14 );
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private HAModule _module;
-    
+
     private SpinnerControl _maxParticlesSpinner;
     private SpinnerControl _absorptionClosenessSpinner;
     private JCheckBox _rutherfordScatteringOutputCheckBox;
@@ -103,35 +102,35 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     private ColorChip _deBroglieBrightnessPlusChip;
     private ColorChip _deBroglieBrightnessMinusChip;
     private ColorChip _deBroglieBrightnessZeroChip;
-    
+
     private SpinnerControl _metastableTimeSpinner;
-    
+
     private SpinnerControl _squiggleLifetimeSpinner;
-    
+
     private JDialog _colorChooserDialog;
     private ColorChip _editColorChip;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public DeveloperControlsDialog( Frame owner, HAModule module ) {
         super( owner, "Developer Controls" );
         setResizable( false );
-        
+
         _module = module;
-        
+
         JPanel inputPanel = createInputPanel();
-        
+
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
         panel.setFillHorizontal();
         panel.add( inputPanel );
-        
+
         setContentPane( panel );
         pack();
         SwingUtils.centerDialogInParent( this );
     }
-    
+
     private JPanel createInputPanel() {
 
         // Photon & alpha particle production
@@ -146,7 +145,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _maxParticlesSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _maxParticlesSpinner.setEditable( false );
         }
-        
+
         // How close photon must be to electron for it to be absorbed
         {
             double value = AbstractHydrogenAtom.COLLISION_CLOSENESS;
@@ -159,10 +158,10 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _absorptionClosenessSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _absorptionClosenessSpinner.setEditable( false );
         }
-        
+
         // Enables debug output from Rutherford Scattering algorithm
         _rutherfordScatteringOutputCheckBox = new JCheckBox( "Rutherford Scattering debug output", RutherfordScattering.DEBUG_OUTPUT_ENABLED );
-        
+
         // Hiliting of transition wavelengths on wavelength control
         {
             int value = GunWavelengthControl.KNOB_HILITE_THRESHOLD;
@@ -175,12 +174,12 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _wavelengthHiliteThreshold = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _wavelengthHiliteThreshold.setEditable( false );
         }
-        
+
         // Enable absorption/emission
         _absorptionCheckBox = new JCheckBox( "absorption enabled", BohrModel.DEBUG_ABSORPTION_ENABLED );
         _spontanuousEmissionCheckBox = new JCheckBox( "spontaneous emission enabled", BohrModel.DEBUG_SPONTANEOUS_EMISSION_ENABLED );
         _stimulatedEmissionCheckBox = new JCheckBox( "stimulated emission enabled", BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED );
-        
+
         // Min time that electron stays in a state
         {
             int value = (int) BohrModel.MIN_TIME_IN_STATE;
@@ -193,19 +192,19 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _minStateTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _minStateTimeSpinner.setEditable( false );
         }
-        
+
         // deBroglie "brightness magnitude" colors
         HorizontalLayoutPanel deBroglieBrightnessMagnitudeColorsPanel = new HorizontalLayoutPanel();
         {
             JLabel titleLabel = new JLabel( "Brightness magnitude colors:" );
             JLabel plusLabel = new JLabel( "1=" );
             JLabel zeroLabel = new JLabel( "0=" );
-            
+
             _deBroglieBrightnessMagnitudePlusChip = new ColorChip();
             setColor( _deBroglieBrightnessMagnitudePlusChip, DeBroglieBrightnessMagnitudeNode.MAX_COLOR );
             _deBroglieBrightnessMagnitudeZeroChip = new ColorChip();
             setColor( _deBroglieBrightnessMagnitudeZeroChip, DeBroglieBrightnessMagnitudeNode.MIN_COLOR );
-            
+
             deBroglieBrightnessMagnitudeColorsPanel.setInsets( DEFAULT_INSETS );
             deBroglieBrightnessMagnitudeColorsPanel.add( titleLabel );
             deBroglieBrightnessMagnitudeColorsPanel.add( plusLabel );
@@ -213,7 +212,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             deBroglieBrightnessMagnitudeColorsPanel.add( zeroLabel );
             deBroglieBrightnessMagnitudeColorsPanel.add( _deBroglieBrightnessMagnitudeZeroChip );
         }
-        
+
         // deBroglie "brightness" colors
         HorizontalLayoutPanel deBroglieBrightnessColorsPanel = new HorizontalLayoutPanel();
         {
@@ -221,14 +220,14 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             JLabel plusLabel = new JLabel( "+1=" );
             JLabel zeroLabel = new JLabel( "0=" );
             JLabel minusLabel = new JLabel( "-1=" );
-            
+
             _deBroglieBrightnessPlusChip = new ColorChip();
             setColor( _deBroglieBrightnessPlusChip, DeBroglieBrightnessNode.PLUS_COLOR );
             _deBroglieBrightnessZeroChip = new ColorChip();
             setColor( _deBroglieBrightnessZeroChip, DeBroglieBrightnessNode.ZERO_COLOR );
             _deBroglieBrightnessMinusChip = new ColorChip();
             setColor( _deBroglieBrightnessMinusChip, DeBroglieBrightnessNode.MINUS_COLOR );
-            
+
             deBroglieBrightnessColorsPanel.setInsets( new Insets( 5, 5, 5, 5 ) );
             deBroglieBrightnessColorsPanel.add( titleLabel );
             deBroglieBrightnessColorsPanel.add( plusLabel );
@@ -238,7 +237,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             deBroglieBrightnessColorsPanel.add( minusLabel );
             deBroglieBrightnessColorsPanel.add( _deBroglieBrightnessMinusChip );
         }
-        
+
         // Time that Shcrodinger will be stuck in metastable state before firing absorbable photon
         {
             double value = MetastableHandler.MAX_STUCK_SIM_TIME;
@@ -251,7 +250,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _metastableTimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _metastableTimeSpinner.setEditable( false );
         }
-        
+
         // Time that squiggles are visible in energy diagrams
         {
             double value = AbstractEnergyDiagram.SQUIGGLE_LIFETIME / 1000;
@@ -264,7 +263,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _squiggleLifetimeSpinner = new SpinnerControl( value, min, max, stepSize, columns, label, units );
             _squiggleLifetimeSpinner.setEditable( false );
         }
-        
+
         // Event handling
         EventListener listener = new EventListener();
         _maxParticlesSpinner.getSpinner().addChangeListener( listener );
@@ -282,7 +281,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         _deBroglieBrightnessMinusChip.addMouseListener( listener );
         _metastableTimeSpinner.getSpinner().addChangeListener( listener );
         _squiggleLifetimeSpinner.getSpinner().addChangeListener( listener );
-        
+
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -297,37 +296,37 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             layout.addComponent( _rutherfordScatteringOutputCheckBox, row++, 0 );
             layout.addComponent( _wavelengthHiliteThreshold, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-            
+
             layout.addComponent( new TitleLabel( "Bohr/deBroglie/Schr\u00f6dinger:" ), row++, 0 );
             layout.addComponent( _absorptionCheckBox, row++, 0 );
             layout.addComponent( _spontanuousEmissionCheckBox, row++, 0 );
             layout.addComponent( _stimulatedEmissionCheckBox, row++, 0 );
             layout.addComponent( _minStateTimeSpinner, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-            
+
             layout.addComponent( new TitleLabel( "deBroglie:" ), row++, 0 );
             layout.addComponent( deBroglieBrightnessMagnitudeColorsPanel, row++, 0 );
             layout.addComponent( deBroglieBrightnessColorsPanel, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-            
+
             layout.addComponent( new TitleLabel( "Schr\u00f6dinger:" ), row++, 0 );
             layout.addComponent( _metastableTimeSpinner, row++, 0 );
             layout.addFilledComponent( new JSeparator(), row++, 0, GridBagConstraints.HORIZONTAL );
-            
+
             layout.addComponent( new TitleLabel( "Energy diagrams:" ), row++, 0 );
             layout.addComponent( _squiggleLifetimeSpinner, row++, 0 );
         }
-        
+
         return panel;
     }
-    
+
     //----------------------------------------------------------------------------
     // Utilities
     //----------------------------------------------------------------------------
-    
+
     /*
      * Sets the color of a color chip.
-     * 
+     *
      * @param colorBar
      * @param color
      */
@@ -342,13 +341,13 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         g2.draw( r );
         colorChip.setIcon( new ImageIcon( image ) );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     private class EventListener extends MouseAdapter implements ChangeListener {
-        
+
         public EventListener() {}
 
         public void stateChanged( ChangeEvent event ) {
@@ -387,7 +386,7 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
                 throw new UnsupportedOperationException( "unsupported ChangeEvent source: " + source );
             }
         }
-        
+
         public void mouseClicked( MouseEvent event ) {
             Object source = event.getSource();
             if ( source instanceof ColorChip ) {
@@ -398,53 +397,53 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             }
         }
     }
-    
+
     private void handleMaxParticlesSpinner() {
         int value = _maxParticlesSpinner.getIntValue();
         Gun gun = _module.getGun();
         gun.setMaxParticles( value );
     }
-    
+
     private void handleAbsorptionClosenessSpinner() {
         AbstractHydrogenAtom.COLLISION_CLOSENESS = _absorptionClosenessSpinner.getDoubleValue();
     }
-    
+
     private void handleRutherfordScatteringOutputCheckBox() {
         RutherfordScattering.DEBUG_OUTPUT_ENABLED = _rutherfordScatteringOutputCheckBox.isSelected();
     }
-    
+
     private void handleWavelengthHiliteThresholdSpinner() {
         GunWavelengthControl.KNOB_HILITE_THRESHOLD = _wavelengthHiliteThreshold.getIntValue();
     }
-    
+
     private void handleAbsorptionEmissionCheckBoxes() {
         BohrModel.DEBUG_ABSORPTION_ENABLED = _absorptionCheckBox.isSelected();
         BohrModel.DEBUG_SPONTANEOUS_EMISSION_ENABLED = _spontanuousEmissionCheckBox.isSelected();
         BohrModel.DEBUG_STIMULATED_EMISSION_ENABLED = _stimulatedEmissionCheckBox.isSelected();
     }
-    
+
     private void handleMinStateTime() {
         BohrModel.MIN_TIME_IN_STATE = _minStateTimeSpinner.getIntValue();
     }
-    
+
     private void handleMetastableTimeSpinner() {
         MetastableHandler.MAX_STUCK_SIM_TIME = _metastableTimeSpinner.getDoubleValue();
     }
-    
+
     private void handleSquiggleLifetimeSpinner() {
         AbstractEnergyDiagram.SQUIGGLE_LIFETIME = _squiggleLifetimeSpinner.getDoubleValue() * 1000;
     }
-    
+
     //----------------------------------------------------------------------------
     // Color editing
     //----------------------------------------------------------------------------
-    
+
     private void editColor( ColorChip colorChip ) {
-        
+
         _editColorChip = colorChip;
 
         Color initialColor = null;
-        
+
         if ( colorChip == _deBroglieBrightnessPlusChip ) {
             initialColor = DeBroglieBrightnessNode.PLUS_COLOR;
         }
@@ -463,15 +462,15 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
         else {
             throw new UnsupportedOperationException( "unsupported ColorChip" );
         }
-        
+
         closeColorChooser();
         String title = "Color Chooser";
-        Component parent = PhetApplication.instance().getPhetFrame();
+        Component parent = NonPiccoloPhetApplication.instance().getPhetFrame();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
         _colorChooserDialog.show();
-        
+
     }
-    
+
     /*
      * Closes the color chooser dialog.
      */
@@ -480,11 +479,11 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
             _colorChooserDialog.dispose();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // ColorChooserFactory.Listener implementation
     //----------------------------------------------------------------------------
-    
+
     public void colorChanged( Color color ) {
         handleColorChange( color );
     }
@@ -496,12 +495,12 @@ public class DeveloperControlsDialog extends JDialog implements ColorChooserFact
     public void cancelled( Color originalColor ) {
         handleColorChange( originalColor );
     }
-    
+
     private void handleColorChange( Color color ) {
 
         // Set the color chip's color...
         setColor( _editColorChip, color );
-        
+
         if ( _editColorChip == _deBroglieBrightnessPlusChip ) {
             DeBroglieBrightnessNode.PLUS_COLOR = color;
         }

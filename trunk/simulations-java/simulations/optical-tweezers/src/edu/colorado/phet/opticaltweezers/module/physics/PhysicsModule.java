@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.module.physics;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -98,13 +98,13 @@ public class PhysicsModule extends AbstractModule {
 
     /**
      * Indicates whether this module has help.
-     * 
+     *
      * @return true or false
      */
     public boolean hasHelp() {
         return true;
     }
-    
+
     /**
      * Open selected dialogs when this module is activated.
      */
@@ -113,7 +113,7 @@ public class PhysicsModule extends AbstractModule {
         _controlPanel.getMiscControlPanel().setFluidControlsSelected( _fluidControlsWasSelected );
         _controlPanel.getChartsControlPanel().setPositionHistogramSelected( _positionHistogramWasSelected );
     }
-    
+
     /**
      * Close all dialogs when this module is deactivated.
      */
@@ -265,7 +265,7 @@ public class PhysicsModule extends AbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            PhetApplication.instance().setActiveModule( this );
+            NonPiccoloPhetApplication.instance().setActiveModule( this );
         }
 
         // Clock

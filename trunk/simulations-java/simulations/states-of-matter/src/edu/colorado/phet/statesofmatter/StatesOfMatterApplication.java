@@ -1,11 +1,11 @@
 package edu.colorado.phet.statesofmatter;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 
 import javax.swing.*;
 
-public class StatesOfMatterApplication extends PiccoloPhetApplication {
+public class StatesOfMatterApplication extends PhetApplication {
     private static final FrameSetup FRAME_SETUP = new FrameSetup.CenteredWithSize(StatesOfMatterConfig.WINDOW_WIDTH, StatesOfMatterConfig.WINDOW_HEIGHT);
 
     public StatesOfMatterApplication(String[] args) {

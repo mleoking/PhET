@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.qm.persistence;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.qm.davissongermer.QWIStrings;
@@ -209,7 +209,7 @@ public class PersistenceManager implements IProguardKeepClass {
      */
     private void saveJNLP( Serializable object ) throws Exception {
 
-        final JFrame frame = PhetApplication.instance().getPhetFrame();
+        final JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
 
         // XML encode into a byte output stream.
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

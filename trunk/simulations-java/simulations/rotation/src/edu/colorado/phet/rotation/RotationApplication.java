@@ -1,6 +1,6 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
@@ -17,7 +17,7 @@ import java.awt.event.WindowFocusListener;
  * @author Sam Reid
  */
 
-public class RotationApplication extends PhetApplication {
+public class RotationApplication extends NonPiccoloPhetApplication {
     private RotationModule rotationModule;
 
     public RotationApplication( String[] args ) {
@@ -30,7 +30,7 @@ public class RotationApplication extends PhetApplication {
 //        getPhetFrame().addMenu( new RotationTestMenu() );
         getPhetFrame().addMenu( new RotationDevMenu( this ,rotationModule ) );
 
-        //trial workaround for getting the window to paint when gray, this is a problem due to performance constraints of this application. 
+        //trial workaround for getting the window to paint when gray, this is a problem due to performance constraints of this application.
         getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
                 if( getPhetFrame().getContentPane() instanceof JComponent ) {

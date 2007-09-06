@@ -2,7 +2,7 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.DeferredInitializationModule;
-import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 
 import javax.swing.*;
 
@@ -13,7 +13,7 @@ import javax.swing.*;
  *
  */
 
-public class TestDeferredInitialization extends PiccoloPhetApplication {
+public class TestDeferredInitialization extends PhetApplication {
     public TestDeferredInitialization( String[] args ) {
         super( args, "Test Deferred Initialization", "test", "0.01" );
         DeferredInitializationModule deferredInitializationModule = new TestDeferredModuleA( "Module A" );

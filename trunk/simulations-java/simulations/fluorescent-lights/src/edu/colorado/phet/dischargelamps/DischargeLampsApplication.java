@@ -11,7 +11,7 @@
 package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -34,7 +34,7 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class DischargeLampsApplication extends PhetApplication {
+public class DischargeLampsApplication extends NonPiccoloPhetApplication {
     static private FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     /**
@@ -67,7 +67,7 @@ public class DischargeLampsApplication extends PhetApplication {
         JMenuItem simulationSpeedMI = new JMenuItem( "Simulation speed..." );
         simulationSpeedMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                final IClock clock = PhetApplication.instance().getActiveModule().getClock();
+                final IClock clock = NonPiccoloPhetApplication.instance().getActiveModule().getClock();
                 double dt = clock.getSimulationTimeChange();
                 final JSlider clockTickSlider = new JSlider( 1, 15, (int)DischargeLampsConfig.DT );
                 clockTickSlider.setMajorTickSpacing( 2 );

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.test;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -35,7 +35,7 @@ public class DebugMenuTest {
 //        am.setModules( new PhetGraphicsModule[]{debugMenuTestModule} );
 //        am.setInitialModule( debugMenuTestModule );
 
-        PhetApplication app = new PhetApplication( args, "title", "desc", "version" );
+        NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "title", "desc", "version" );
         DebugMenuTestModule debugMenuTestModule = new DebugMenuTestModule( clock );
         app.addModule( debugMenuTestModule );
         app.startApplication();

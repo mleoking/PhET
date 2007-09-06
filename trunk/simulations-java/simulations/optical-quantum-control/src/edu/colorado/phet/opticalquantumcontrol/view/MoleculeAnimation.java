@@ -11,17 +11,7 @@
 
 package edu.colorado.phet.opticalquantumcontrol.view;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.text.MessageFormat;
-import java.util.Random;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -32,6 +22,14 @@ import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
+import java.util.Random;
 
 
 /**
@@ -45,17 +43,17 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final Dimension BACKGROUND_SIZE = new Dimension( 250, 250 );
-    
+
     private static final double MAX_DISTANCE = 10;  // distance in pixels we would move if closeness=1
-    
+
     private static final double EXPLOSION_ACCELERATION_RATE = 0.10;
-    
+
     private static final Point MOLECULE_POINT = new Point( -70, 300 );
-   
+
     private static final float DASH_SIZE = 3f;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -63,7 +61,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private OQCModule _module;
     private FourierSeries _userFourierSeries;
     private FourierSeries _outputFourierSeries;
-    
+
     // Graphics
     private PhetShapeGraphic _animationFrame;
     private CompositePhetGraphic _moleculeGraphic;
@@ -74,7 +72,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private String _closenessFormat;
     private PhetImageGraphic _explosionGraphic;
     private Point _moleculeHome; // starting point for the graphics in the animation
-    
+
     // State information
     private double _closeness; // how close we are to matching
     private Random _random; // random number generator
@@ -84,43 +82,43 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
     private boolean _isExploding; // true means that we're in the middle of animating the explosion
     private boolean _animationDone; // true means that the animation is done
     private boolean _isAdjusting; // true means that we should ignore model updates
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param component
      * @param module
      * @param userFourierSeries
      * @param outputFourierSeries
      */
-    public MoleculeAnimation( Component component, OQCModule module, 
+    public MoleculeAnimation( Component component, OQCModule module,
             FourierSeries userFourierSeries, FourierSeries outputFourierSeries ) {
         super( component );
-        
+
         _module = module;
         _userFourierSeries = userFourierSeries;
         _outputFourierSeries = outputFourierSeries;
-        
+
         _userFourierSeries.addObserver( this );
         _outputFourierSeries.addObserver( this );
-        
+
         setIgnoreMouse( true );
-        
+
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
         _random = new Random();
         _isAdjusting = false;
-        
+
         // background that everything sits on
         PhetShapeGraphic background = new PhetShapeGraphic( component );
         background.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
         background.setColor(  new Color( 215, 215, 215 ) );
         addGraphic( background );
-        
+
         // Visual cues to indicate that this is a "zoomed in" view.
         {
             // Dashed line strokes
@@ -128,8 +126,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             BasicStroke whiteDashStroke = new BasicStroke( 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 0f, dashArray, 0f );
             BasicStroke blackDashStroke = new BasicStroke( 1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 0f, dashArray, DASH_SIZE );
 
-            /* 
-             * 2 lines starting at the top-level corner, 
+            /*
+             * 2 lines starting at the top-level corner,
              * the inverse of each other so they show up on all backgrounds.
              */
             {
@@ -150,8 +148,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 addGraphic( topBlackDashedLine );
             }
 
-            /* 
-             * 2 lines starting at the bottom-right corner, 
+            /*
+             * 2 lines starting at the bottom-right corner,
              * the inverse of each other so they show up on all backgrounds.
              */
             {
@@ -172,7 +170,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 addGraphic( bottomBlackDashedLine );
             }
 
-            /* 
+            /*
              * Tiny rectangle that indicates where the molecule actually is.
              * All of the above lines terminate at the center of this rectangle.
              */
@@ -184,14 +182,14 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             tinyMolecule.centerRegistrationPoint();
             tinyMolecule.setLocation( MOLECULE_POINT );
             addGraphic( tinyMolecule );
-            
+
             // Magnifying glass, lens centered on the tiny rectangle
             MagnifyingGlass magnifyingGlass = new MagnifyingGlass( component );
             magnifyingGlass.setLocation( MOLECULE_POINT.x + 31, MOLECULE_POINT.y + 2 );
             magnifyingGlass.rotate( Math.toRadians( 140 ) );
             addGraphic( magnifyingGlass );
         }
-        
+
         // The frame around the molecule animation
         _animationFrame = new PhetShapeGraphic( component );
         Rectangle frameShape = new Rectangle( 0, 0, BACKGROUND_SIZE.width - 30, BACKGROUND_SIZE.height - 45 );
@@ -202,7 +200,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         addGraphic( _animationFrame );
         _animationFrame.setRegistrationPoint( _animationFrame.getWidth()/2, 0 ); // top center
         _animationFrame.setLocation( BACKGROUND_SIZE.width/2, 15 );
-        
+
         // The read-out that shows how "close" we are to matching the output pulse.
         _closenessGraphic = new HTMLGraphic( component );
         _closenessGraphic.setColor( Color.BLACK );
@@ -214,16 +212,16 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         addGraphic( _closenessGraphic );
         _closenessGraphic.setRegistrationPoint( _closenessGraphic.getWidth()/2, _closenessGraphic.getHeight() ); // bottom center
         _closenessGraphic.setLocation( BACKGROUND_SIZE.width/2, BACKGROUND_SIZE.height - 5 );
-        
+
         // explosion (Kaboom!)
         _explosionGraphic = new PhetImageGraphic( component, OQCResources.KABOOM_IMAGE );
         _explosionGraphic.setRegistrationPoint( _explosionGraphic.getWidth()/2, 0 ); // top center
         _explosionGraphic.setLocation( _animationFrame.getLocation() );
         addGraphic( _explosionGraphic );
-        
+
         // molecule
         _moleculeGraphic = new CompositePhetGraphic( component );
-        {           
+        {
             _moleculePart1 = new PhetImageGraphic( component );
             _moleculePart2 = new PhetImageGraphic( component );
             _moleculePart3 = new PhetImageGraphic( component );
@@ -234,11 +232,11 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _moleculeHome = new Point( 30, 15 );
         _moleculeGraphic.setLocation( _moleculeHome );
         addGraphic( _moleculeGraphic );
-        
+
         reset();   // put the animation at t=0
         update();  // sync with the model
     }
-    
+
     /**
      * Call this method prior to releasing all references to an object of this type.
      */
@@ -248,11 +246,11 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _outputFourierSeries.removeObserver( this );
         _outputFourierSeries = null;
     }
-    
+
     //----------------------------------------------------------------------------
     // Reset
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets the animation.
      */
@@ -266,14 +264,14 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _moleculePart2.setLocation( 0, 0 );
         _moleculePart3.setLocation( 0, 0 );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the molecule graphic.
-     * 
+     *
      * @param index
      */
     public void setMolecule( int index ) {
@@ -284,7 +282,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         _moleculePart2.setImage( image2 );
         _moleculePart3.setImage( image3 );
     }
-    
+
     /**
      * Enables or disables clipping of the molecules animation.
      * If clipping is enabled, then the molecule will be drawn
@@ -299,27 +297,27 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             _moleculeGraphic.setClip( null );
         }
     }
-    
+
     /*
-     * Sets the "closeness", which determines how fast the molecule 
+     * Sets the "closeness", which determines how fast the molecule
      * is vibrating, and what value appears in the closeness read-out.
-     * 
+     *
      * @param closeness 1=exact match
      */
     private void setCloseness( double closeness ) {
-        
+
         _closeness = closeness;
-        
+
         int percent = (int)( 100 * closeness );
         Object[] args = { new Integer( percent ) };
         String text = MessageFormat.format( _closenessFormat, args );
         _closenessGraphic.setHTML( text );
     }
-    
+
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Animates the molecule when the clock ticks.
      */
@@ -366,7 +364,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         else if ( _closeness >= OQCConstants.CLOSENESS_MATCH ) {
             /*
              * We're close enough to be considered a "match", so start the explosion.
-             * Make the 3 parts of the molecule graphic move away from each other 
+             * Make the 3 parts of the molecule graphic move away from each other
              * in random directions.
              */
             _explosionGraphic.setVisible( true );
@@ -383,8 +381,8 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
         }
         else if ( _closeness > 0 ) {
             /*
-             * We're not close enough to be considered a "match", 
-             * so randomly move the molecule around so that it appears 
+             * We're not close enough to be considered a "match",
+             * so randomly move the molecule around so that it appears
              * to vibrate in a way that is related to the closeness.
              */
             double d = ( _random.nextGaussian() * _closeness * _closeness * MAX_DISTANCE ) * ( Math.random() > 0.5 ? 1 : -1 );
@@ -394,32 +392,32 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
             _moleculeGraphic.setLocation( (int) ( _moleculeHome.x + dx ), (int) ( _moleculeHome.y + dy ) );
         }
     }
-    
+
     /*
      * Encapsulates everything that should be done when the game is over.
      * We open a dialog telling the user that they've matched the output pulse.
      * When the dialog is closed, we ask the module to start a new "game".
      */
     private void gameOver() {
-        
+
         _isAdjusting = true;
 
         // Tell the user they won.
-        JFrame frame = PhetApplication.instance().getPhetFrame();
+        JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
         String message = OQCResources.WIN_DIALOG_MESSAGE;
         String title = OQCResources.WIN_DIALOG_TITLE;
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.PLAIN_MESSAGE );
 
         // Start a new "game".
         _module.newGame();
-        
+
         _isAdjusting = false;
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Updates this graphic to match the Fourier series that it is observing.
      */
@@ -429,11 +427,11 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
 
             /*
              * Compare the Fourier series.
-             * 
+             *
              * The calculation for "closeness" is:
-             * 
+             *
              *     closeness = 1 - ( Math.sqrt( (U1-D1)^2 + (U2-D2)^2 + ...) / Math.sqrt( ( 1+abs(D1))^2 + (1+abs(D2))^2 + ... ) )
-             * 
+             *
              * where:
              *     Un is the user's amplitude for component n
              *     Dn is the desired amplitude for component n
@@ -455,7 +453,7 @@ public class MoleculeAnimation extends CompositePhetGraphic implements ModelElem
                 setCloseness( closeness );
 
                 /*
-                 * WORKAROUND: If we have a match, make sure that all 
+                 * WORKAROUND: If we have a match, make sure that all
                  * other views are updated before the molecule animation
                  * happens and the "you've won" dialog is shown.
                  */

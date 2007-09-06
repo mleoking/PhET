@@ -10,39 +10,38 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Component;
-
-import javax.swing.JComponent;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 
+import javax.swing.*;
+import java.awt.*;
+
 /**
  * PiccoloModule is a module specialized for use with Piccolo.
- * 
+ *
  * @author Sam Reid
  * @version $Revision:14676 $
  */
 
 public class PiccoloModule extends Module {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Component helpPane;
     private Component restoreGlassPane;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
      * The module's clock is running by default.
-     * 
+     *
      * @param name
      * @param clock
      */
@@ -52,7 +51,7 @@ public class PiccoloModule extends Module {
 
     /**
      * Constructor.
-     * 
+     *
      * @param name
      * @param clock
      * @param startsPaused
@@ -60,18 +59,18 @@ public class PiccoloModule extends Module {
     public PiccoloModule( String name, IClock clock, boolean startsPaused ) {
         super( name, clock, startsPaused );
         if ( hasHelp() ) {
-            helpPane = new HelpPane( PhetApplication.instance().getPhetFrame() );
+            helpPane = new HelpPane( NonPiccoloPhetApplication.instance().getPhetFrame() );
         }
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the PhetPCanvas (aka, "play area").
      * If the simulation panel is not a PhetPCanvas, null is returned.
-     * 
+     *
      * @return PhetPCanvas
      */
     public PhetPCanvas getPhetPCanvas() {
@@ -85,7 +84,7 @@ public class PiccoloModule extends Module {
 
     /**
      * Sets the simulation panel (aka, "play area") to a PhetPCanvas.
-     * 
+     *
      * @param phetPCanvas
      * @deprecated use setSimulationPanel
      */
@@ -95,16 +94,16 @@ public class PiccoloModule extends Module {
 
     /* vestige of phetgraphics, called by Module.handleClockTick */
     protected void handleUserInput() {}
-    
+
     //----------------------------------------------------------------------------
     // Help support
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the help pane, which will be used as the glass pane.
      * You can use any subclass of Component, but the default
      * is a HelpPane.
-     * 
+     *
      * @param helpPane
      */
     public void setHelpPane( Component helpPane ) {
@@ -114,23 +113,23 @@ public class PiccoloModule extends Module {
             helpPane.setVisible( isHelpEnabled() );
         }
     }
-    
+
     /**
      * Gets the help pane.
-     * 
+     *
      * @return the help pane
      */
     public Component getHelpPane() {
         return helpPane;
     }
-    
+
     /**
      * Gets the default help pane.
      * The default help pane is a HelpPane.
      * If you have replaced this help pane with your own type
-     * of pane that is not derived from HelpPane, then this 
+     * of pane that is not derived from HelpPane, then this
      * method will return null.
-     * 
+     *
      * @return the default help pane
      */
     public HelpPane getDefaultHelpPane() {
@@ -141,10 +140,10 @@ public class PiccoloModule extends Module {
             return null;
         }
     }
-    
+
     /**
      * Enables (makes visible) help for this module.
-     * 
+     *
      * @param enabled
      */
     public void setHelpEnabled( boolean enabled ) {
@@ -153,7 +152,7 @@ public class PiccoloModule extends Module {
             helpPane.setVisible( enabled );
         }
     }
-    
+
     /**
      * Activates the module.
      * This does all of the stuff that the superclass does,
@@ -166,7 +165,7 @@ public class PiccoloModule extends Module {
             helpPane.setVisible( isHelpEnabled() );
         }
     }
-    
+
     /**
      * Deactivates the module.
      * This does all of the stuff that the superclass does,
@@ -179,15 +178,15 @@ public class PiccoloModule extends Module {
         }
         super.deactivate();
     }
-    
+
     /*
      * Gets the glass pane.
      * @return Component
      */
     private Component getGlassPane() {
-        return PhetApplication.instance().getPhetFrame().getGlassPane();
+        return NonPiccoloPhetApplication.instance().getPhetFrame().getGlassPane();
     }
-    
+
     /*
      * Sets the glass pane.
      * @param component
@@ -195,7 +194,7 @@ public class PiccoloModule extends Module {
     private void setGlassPane( Component component ) {
         if ( component != null ) {
             restoreGlassPane = getGlassPane();
-            PhetApplication.instance().getPhetFrame().setGlassPane( component );
+            NonPiccoloPhetApplication.instance().getPhetFrame().setGlassPane( component );
         }
     }
 

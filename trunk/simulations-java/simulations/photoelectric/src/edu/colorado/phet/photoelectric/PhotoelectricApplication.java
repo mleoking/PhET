@@ -11,7 +11,7 @@
 package edu.colorado.phet.photoelectric;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -28,7 +28,7 @@ import java.awt.event.ActionListener;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class PhotoelectricApplication extends PhetApplication {
+public class PhotoelectricApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------
     // Class data

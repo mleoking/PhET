@@ -2,7 +2,7 @@
 package edu.colorado.phet.waveinterference.tests;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -52,7 +52,7 @@ public class TestPSwingBounds extends Module {
         phetLookAndFeel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 ) );
         phetLookAndFeel.apply();
 //        ModuleApplication moduleApplication = new ModuleApplication();
-        PhetApplication phetApplication = new PhetApplication( args, "", "", "" );
+        NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "", "", "" );
         phetApplication.addModule( module );
 
         SwingUtilities.updateComponentTreeUI( phetApplication.getPhetFrame() );

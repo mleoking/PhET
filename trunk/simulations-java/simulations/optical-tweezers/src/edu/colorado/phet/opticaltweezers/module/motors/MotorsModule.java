@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.module.motors;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.opticaltweezers.OTResources;
@@ -33,7 +33,7 @@ public class MotorsModule extends AbstractModule {
 
     private boolean _fluidControlsWasSelected;
     private boolean _positionHistogramWasSelected;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -52,7 +52,7 @@ public class MotorsModule extends AbstractModule {
         // Control Panel
         _controlPanel = new MotorsControlPanel( this );
         setControlPanel( _controlPanel );
-        
+
         // Clock controls
         _clockControlPanel = new OTClockControlPanel( (OTClock) getClock() );
         _clockControlPanel.setTimeColumns( MotorsDefaults.CLOCK_TIME_COLUMNS );
@@ -99,7 +99,7 @@ public class MotorsModule extends AbstractModule {
 
     /**
      * Indicates whether this module has help.
-     * 
+     *
      * @return true or false
      */
     public boolean hasHelp() {
@@ -114,7 +114,7 @@ public class MotorsModule extends AbstractModule {
         _controlPanel.getMiscControlPanel().setFluidControlsSelected( _fluidControlsWasSelected );
         _controlPanel.getChartsControlPanel().setPositionHistogramSelected( _positionHistogramWasSelected );
     }
-    
+
     /**
      * Close all dialogs when this module is deactivated.
      */
@@ -178,13 +178,13 @@ public class MotorsModule extends AbstractModule {
             dnaStrand.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrand.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.initializeStrand();
-            
-            // Enzyme 
+
+            // Enzyme
             _model.getEnzymeA().setEnabled( MotorsDefaults.ENZYME_A_SELECTED );
             _model.getEnzymeB().setEnabled( MotorsDefaults.ENZYME_B_SELECTED );
         }
 
-        // View 
+        // View
         {
             // DNA Strand node
             DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
@@ -195,26 +195,26 @@ public class MotorsModule extends AbstractModule {
         // Control panel settings that are view-related
         {
             _controlPanel.getSimulationSpeedControlPanel().setSimulationSpeed( MotorsDefaults.DEFAULT_DT );
-            
+
             EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
             enzymeControlPanel.setEnzymeASelected( MotorsDefaults.ENZYME_A_SELECTED );
             enzymeControlPanel.setEnzymeBSelected( MotorsDefaults.ENZYME_B_SELECTED );
-            
+
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             forcesControlPanel.setTrapForceSelected( MotorsDefaults.TRAP_FORCE_SELECTED );
             forcesControlPanel.setDragForceSelected( MotorsDefaults.FLUID_DRAG_FORCE_SELECTED );
             forcesControlPanel.setDNAForceSelected( MotorsDefaults.DNA_FORCE_SELECTED );
             forcesControlPanel.setShowValuesSelected( MotorsDefaults.SHOW_FORCE_VALUES );
             forcesControlPanel.setConstantTrapForceSelected( MotorsDefaults.CONSTANT_TRAP_FORCE );
-            
+
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
             chartsControlPanel.setPositionHistogramSelected( MotorsDefaults.POSITION_HISTOGRAM_SELECTED );
             chartsControlPanel.setPotentialEnergySelected( MotorsDefaults.POTENTIAL_ENERGY_CHART_SELECTED );
-            
+
             MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
             miscControlPanel.setRulerSelected( MotorsDefaults.RULER_SELECTED );
             miscControlPanel.setFluidControlsSelected( MotorsDefaults.FLUID_CONTROLS_SELECTED );
-            
+
             DeveloperControlPanel developerControlPanel = _controlPanel.getDeveloperControlPanel();
             developerControlPanel.getVectorsPanel().setComponentsVisible( MotorsDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE );
         }
@@ -255,7 +255,7 @@ public class MotorsModule extends AbstractModule {
             EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
             config.setEnzymeASelected( enzymeControlPanel.isEnzymeASelected() );
             config.setEnzymeBSelected( enzymeControlPanel.isEnzymeBSelected() );
-            
+
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             config.setTrapForceSelected( forcesControlPanel.isTrapForceSelected() );
             config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
@@ -280,7 +280,7 @@ public class MotorsModule extends AbstractModule {
 
         // Module
         if ( config.isActive() ) {
-            PhetApplication.instance().setActiveModule( this );
+            NonPiccoloPhetApplication.instance().setActiveModule( this );
         }
 
         // Clock
@@ -316,7 +316,7 @@ public class MotorsModule extends AbstractModule {
             EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
             enzymeControlPanel.setEnzymeASelected( config.isEnzymeASelected() );
             enzymeControlPanel.setEnzymeBSelected( config.isEnzymeBSelected() );
-            
+
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
             forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );

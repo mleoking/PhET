@@ -8,18 +8,18 @@
 
 package edu.colorado.phet.common.phetcommon.tests;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
 import javax.swing.*;
 
 public class TestPhetApplication {
-    private final PhetApplication app;
+    private final NonPiccoloPhetApplication app;
 
     public TestPhetApplication() {
-        app = new PhetApplication(new String[0], "Title", "Description", "1.0");
+        app = new NonPiccoloPhetApplication(new String[0], "Title", "Description", "1.0");
 
         MyModule module = new MyModule();
 

@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.view;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
 import javax.swing.*;
 
@@ -26,7 +26,7 @@ import javax.swing.*;
  * @version $Revision$
  */
 public interface ITabbedModulePane extends ModuleObserver {
-    public void init( final PhetApplication application, final Module[] modules );
+    public void init( final NonPiccoloPhetApplication application, final Module[] modules );
     public void addTab( Module module );
     public void moduleAdded( ModuleEvent event );
     public void removeTab( Module module );

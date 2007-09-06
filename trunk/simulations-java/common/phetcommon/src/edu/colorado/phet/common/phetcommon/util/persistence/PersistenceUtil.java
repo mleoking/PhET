@@ -10,11 +10,6 @@
  */
 package edu.colorado.phet.common.phetcommon.util.persistence;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
 /**

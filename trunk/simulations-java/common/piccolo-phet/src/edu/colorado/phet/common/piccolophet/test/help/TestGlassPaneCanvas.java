@@ -11,19 +11,8 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.util.EventObject;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -37,11 +26,21 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.util.EventObject;
+
 
 /**
  * TestGlassPaneCanvas tests GlassPaneCanvas.
  * <p>
- * Pressing the Help button will display a GlassPaneCanvas that puts 
+ * Pressing the Help button will display a GlassPaneCanvas that puts
  * colored circles at the upper-left corner of certain Swing controls.
  * See method markComponents for details.
  * <p>
@@ -51,12 +50,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class TestGlassPaneCanvas extends PhetApplication {
+public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
 
     // Clock parameters
     private static final int CLOCK_RATE = 25; // wall time: frames per second
     private static final double MODEL_RATE = 1; // model time: dt per clock tick
-    
+
     // Cursors
     private static final Cursor HAND_CURSOR = new Cursor( Cursor.HAND_CURSOR );
 
@@ -80,7 +79,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
         Module module2 = new TestModule( "Module 2", new Color( 208, 255, 252 ) /* canvasColor */ );
         addModule( module2 );
-        
+
         // Menu
         EventListener listener = new EventListener();
         JMenu menu = new JMenu( "Test" );
@@ -108,13 +107,13 @@ public class TestGlassPaneCanvas extends PhetApplication {
             super( title, new TestClock(), true /* startsPaused */ );
 
             EventListener listener = new EventListener();
-            
+
             // Simulation panel (aka, play area) -----------------------------------
-            
+
             PhetPCanvas canvas = new PhetPCanvas();
             setSimulationPanel( canvas );
             canvas.setBackground( canvasColor );
-            
+
             // PSwing button
             JButton button0 = new JButton( "button0" );
             button0.setName( "button0" );
@@ -124,7 +123,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             pswing.addInputEventListener( new CursorHandler() );
             pswing.setOffset( 100, 200 );
             canvas.getLayer().addChild( pswing );
-            
+
             // PPath
             PPath pathNode = new PPath();
             pathNode.setPathToRectangle( 0, 0, 50, 50 );
@@ -133,7 +132,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             pathNode.addInputEventListener( new CursorHandler() );
             pathNode.addInputEventListener( new PDragEventHandler() );
             canvas.getLayer().addChild( pathNode );
-            
+
             // Pop-up menu attached to right mouse button
             HTMLNode html = new HTMLNode( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
             html.setFont( new Font( "Lucida Sans", Font.PLAIN, 18 ) );
@@ -153,35 +152,35 @@ public class TestGlassPaneCanvas extends PhetApplication {
                     }
                 }
             } );
-            
+
             // Control panel -----------------------------------
-               
+
             ControlPanel controlPanel = new ControlPanel();
             setControlPanel( controlPanel );
-          
+
             JButton button1 = new JButton( "button1" );
             button1.setName( "button1" );
             button1.setCursor( HAND_CURSOR );
             button1.addActionListener( listener  );
-            
+
             JCheckBox checkBox1 = new JCheckBox( "checkBox1" );
             checkBox1.setName( "checkBox1" );
             checkBox1.addActionListener( listener );
-            
+
             JSlider slider1 = new JSlider();
             slider1.setName( "slider1" );
             slider1.addChangeListener( listener );
-            
+
             Object[] choices = { "choice1", "choice2", "choice3", "choice4" };
             JComboBox comboBox = new JComboBox( choices );
             comboBox.setName( "comboBox" );
             comboBox.addItemListener( listener );
- 
+
             // controls embedded in a JPanel
             JPanel panel = new JPanel();
             {
                 panel.setBorder( new TitledBorder( "title" ) );
-                
+
                 BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
                 panel.setLayout( layout );
 
@@ -193,16 +192,16 @@ public class TestGlassPaneCanvas extends PhetApplication {
                 JCheckBox checkBox2 = new JCheckBox( "checkBox2" );
                 checkBox2.setName( "checkBox2" );
                 checkBox2.addActionListener( listener );
-                
+
                 JSlider slider2 = new JSlider();
                 slider2.setName( "slider2" );
                 slider2.addChangeListener( listener );
-                
+
                 panel.add( button2 );
                 panel.add( checkBox2 );
                 panel.add( slider2 );
             }
-            
+
             controlPanel.addControl( button1 );
             controlPanel.addControl( checkBox1 );
             controlPanel.addControlFullWidth( slider1 );
@@ -210,20 +209,20 @@ public class TestGlassPaneCanvas extends PhetApplication {
             controlPanel.addControlFullWidth( panel );
 
             // Help (glass pane)  -----------------------------------
-            
-            JFrame frame = PhetApplication.instance().getPhetFrame();
+
+            JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
             JComponent glassPane = new MyGlassPane( frame );
             setHelpPane( glassPane );
         }
-        
+
         public boolean hasHelp() {
             return true;
         }
 
         /**
-         * Extension of GlassPaneCanvas that draws circles at the upper-left corner 
+         * Extension of GlassPaneCanvas that draws circles at the upper-left corner
          * of various JComponents.  See markComponents for details.
-         * 
+         *
          * MyGlassPane
          *
          * @author Chris Malley (cmalley@pixelzoom.com)
@@ -233,7 +232,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
             public MyGlassPane( JFrame parentFrame ) {
                 super( parentFrame );
-                
+
                 // Periodically mark certain components with colored circles...
                 Timer timer = new Timer( 500, new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -246,13 +245,13 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
             /*
              * Recursively navigate through the Swing component hierachy.
-             * For certain component types, draw a circle at their upper-left corner 
+             * For certain component types, draw a circle at their upper-left corner
              * using these colors:
-             * 
+             *
              * RED   = AbstractButton
              * BLUE  = JCheckBox
              * GREEN = JSlider
-             * 
+             *
              * @param container
              */
             private void markComponents( Container container ) {
@@ -288,14 +287,14 @@ public class TestGlassPaneCanvas extends PhetApplication {
             }
         }
     }
-  
+
     /* Handles various types of events */
     public static class EventListener implements ActionListener, ChangeListener, ItemListener {
-        
+
         public void actionPerformed( ActionEvent e ) {
             showMessage( getName( e ) + " actionPerformed" );
         }
-        
+
         public void stateChanged( ChangeEvent e ) {
             if ( e.getSource() instanceof JSlider && ((JSlider)e.getSource()).getValueIsAdjusting() ) {
                 // don't do anything while a JSlider is being dragged
@@ -309,7 +308,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
                 showMessage( getName( e ) + " " + e.getItem() + " selected" );
             }
         }
-        
+
         /* for this test program, we've given every JComponent a name using setName */
         private String getName( EventObject event ) {
             String name = "?";
@@ -318,9 +317,9 @@ public class TestGlassPaneCanvas extends PhetApplication {
             }
             return name;
         }
-        
+
         private void showMessage( String message ) {
-            JOptionPane.showMessageDialog( PhetApplication.instance().getPhetFrame(), message );
+            JOptionPane.showMessageDialog( NonPiccoloPhetApplication.instance().getPhetFrame(), message );
         }
     }
 }

@@ -11,28 +11,27 @@
 
 package edu.colorado.phet.quantumtunneling.color;
 
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.quantumtunneling.QTResources;
+import edu.colorado.phet.quantumtunneling.module.QTModule;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.quantumtunneling.QTResources;
-import edu.colorado.phet.quantumtunneling.module.QTModule;
-
 
 /**
  * ColorSchemeDialog is the dialog used to edit the color scheme.
  * <p>
- * NOTE: If you add a new property to the color scheme, you'll need to 
+ * NOTE: If you add a new property to the color scheme, you'll need to
  * add support for that property in these methods:
  * <ul>
  * <li>createInputPanel
@@ -48,16 +47,16 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int COLOR_CHIP_WIDTH = 30;
     private static final int COLOR_CHIP_HEIGHT = 30;
     private static final Stroke COLOR_CHIP_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_CHIP_BORDER_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Frame _parent;
     private QTModule _module;
     private QTColorScheme _scheme;
@@ -68,25 +67,25 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     private JLabel _realChip, _imaginaryChip, _magnitudeChip, _probabilityDensityChip;
     private JButton _okButton, _cancelButton;
     private JDialog _colorChooserDialog;
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app the application
      */
     public ColorSchemeDialog( QTModule module, QTColorScheme scheme ) {
-        super( PhetApplication.instance().getPhetFrame() );
+        super( NonPiccoloPhetApplication.instance().getPhetFrame() );
         super.setTitle( QTResources.getString( "title.colorScheme" ) );
         super.setModal( false );
         super.setResizable( false );
-        _parent = PhetApplication.instance().getPhetFrame();
+        _parent = NonPiccoloPhetApplication.instance().getPhetFrame();
         _module = module;
         _scheme = scheme;
         _restoreScheme = new QTColorScheme( scheme );
         createUI();
         setLocationRelativeTo( _parent );
     }
-    
+
     /*
      * Creates the user interface for the dialog.
      */
@@ -104,14 +103,14 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         this.getContentPane().add( panel );
         this.pack();
     }
-    
+
     /*
      * Creates the dialog's input panel.
-     * 
+     *
      * @return the input panel
      */
     private JPanel createInputPanel() {
-        
+
         MouseInputListener listener = new MouseInputAdapter() {
             public void mouseClicked( MouseEvent event ) {
                 if ( event.getSource() instanceof JLabel ) {
@@ -119,13 +118,13 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
                 }
             }
         };
-        
+
         JPanel inputPanel = new JPanel();
         inputPanel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         EasyGridBagLayout inputPanelLayout = new EasyGridBagLayout( inputPanel );
         inputPanel.setLayout( inputPanelLayout );
         int row = 0;
-        
+
         // Chart
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.chart" ) );
@@ -136,7 +135,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _chartChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Ticks
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.ticks" ) );
@@ -147,7 +146,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _ticksChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Gridlines
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.gridlines" ) );
@@ -158,7 +157,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _gridlinesChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Annotations
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.annotations" ) );
@@ -169,7 +168,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _annotationChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Region Markers
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.regionMarkers" ) );
@@ -180,11 +179,11 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _regionMarkersChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Vertical space
         inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
         row++;
-        
+
         // Total Energy
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.totalEnergy" ) );
@@ -195,7 +194,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _totalEnergyChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Potential Energy
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.potentialEnergy" ) );
@@ -206,11 +205,11 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _potentialEnergyChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Vertical space
         inputPanelLayout.addComponent( createVerticalStrut( 6 ), row, 0 );
         row++;
-        
+
         // Real
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.real" ) );
@@ -221,7 +220,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _realChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Imaginary
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.imaginary" ) );
@@ -232,7 +231,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _imaginaryChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Magnitude
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.magnitude" ) );
@@ -243,7 +242,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _magnitudeChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         // Probability Density
         {
             JLabel label = new JLabel( QTResources.getString( "label.color.probabilityDensity" ) );
@@ -254,13 +253,13 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             inputPanelLayout.addAnchoredComponent( _probabilityDensityChip, row, 1, GridBagConstraints.WEST );
             row++;
         }
-        
+
         return inputPanel;
     }
-    
+
     /*
      * Creates the dialog's actions panel, consisting of OK and Cancel buttons.
-     * 
+     *
      * @return the actions panel
      */
     private JPanel createActionsPanel() {
@@ -292,7 +291,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
 
     /*
      * Creates a vertical strut that is a JComponent.
-     * 
+     *
      * @param height
      * @return
      */
@@ -301,19 +300,19 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         panel.add( Box.createVerticalStrut( height ) );
         return panel;
     }
-    
+
     /*
      * Edits one of the colors.
-     * 
+     *
      * @param order
      */
     private void editColor( JLabel colorChip ) {
-        
+
         _currentChip = colorChip;
 
         String titlePrefix = null;
         Color initialColor = null;
-        
+
         if ( _currentChip == _chartChip ) {
             titlePrefix = QTResources.getString( "label.color.chart" );
             initialColor = _scheme.getChartColor();
@@ -361,14 +360,14 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         else {
             throw new IllegalStateException( "unsupported color scheme property" );
         }
-        
+
         String title = titlePrefix + " " + QTResources.getString( "title.chooseColor" );
-        
+
         closeColorChooser();
         _colorChooserDialog = ColorChooserFactory.createDialog( title, _parent, initialColor, this );
         _colorChooserDialog.show();
     }
-    
+
     /*
      * Resets the color scheme.
      */
@@ -376,7 +375,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         _module.setColorScheme( _restoreScheme );
         _scheme = new QTColorScheme( _restoreScheme );
     }
-    
+
     /*
      * Closes the color chooser dialog.
      */
@@ -385,10 +384,10 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
             _colorChooserDialog.dispose();
         }
     }
-    
+
     /*
      * Sets the color of a color bar.
-     * 
+     *
      * @param colorBar
      * @param color
      */
@@ -407,7 +406,7 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     //----------------------------------------------------------------------------
     // JDialog overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * When this dialog is disposed, also dispose of any dialogs that it has created.
      */
@@ -415,23 +414,23 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
         closeColorChooser();
         super.dispose();
     }
-    
+
     //----------------------------------------------------------------------------
     // ColorChooserFactory.Listener implementation
     //----------------------------------------------------------------------------
-    
+
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#colorChanged(java.awt.Color)
      */
     public void colorChanged( Color color ) {
-        handleColorChange( color ); 
+        handleColorChange( color );
     }
 
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#ok(java.awt.Color)
      */
     public void ok( Color color ) {
-        handleColorChange( color );  
+        handleColorChange( color );
     }
 
     /*
@@ -440,17 +439,17 @@ public class ColorSchemeDialog extends JDialog implements ColorChooserFactory.Li
     public void cancelled( Color originalColor ) {
         handleColorChange( originalColor );
     }
-    
+
     /*
      * Handles a color change.
-     * 
+     *
      * @param color
      */
     private void handleColorChange( Color color ) {
 
         // Set the color chip's color...
         setColor( _currentChip, color );
-        
+
         // Set the color property in the color scheme...
         if ( _currentChip == _chartChip ) {
             _scheme.setChartColor( color );

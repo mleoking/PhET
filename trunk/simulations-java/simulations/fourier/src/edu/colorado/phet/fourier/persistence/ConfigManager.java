@@ -11,25 +11,22 @@
 
 package edu.colorado.phet.fourier.persistence;
 
-import java.awt.Color;
-import java.beans.ExceptionListener;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.*;
-import java.text.MessageFormat;
-
-import javax.jnlp.*;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.fourier.FourierApplication;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.HarmonicColors;
+
+import javax.jnlp.*;
+import javax.swing.*;
+import java.awt.*;
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
+import java.text.MessageFormat;
 
 
 /**
@@ -47,22 +44,22 @@ public class ConfigManager {
     private FourierApplication _app; // the application whose configuration we are managing
     private String _directoryName; // the most recent directory visited in a file chooser
     private boolean _useJNLP; // whether to use JNLP services
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app
      */
     public ConfigManager( FourierApplication app ) {
         _app = app;
         _useJNLP = wasWebStarted();
     }
-    
+
     /**
      * Saves the application state to a file as an XML-encoded FourierConfig object.
      */
     public void save() {
-        
+
         // Save the application's configuration
         FourierConfig config = new FourierConfig();
         {
@@ -77,7 +74,7 @@ public class ConfigManager {
             // Globals
             {
                 FourierConfig.GlobalConfig globalConfig = config.getGlobalConfig();
-                
+
                 // Version & build info
                 globalConfig.setVersionNumber( _app.getVersion() );
 
@@ -96,7 +93,7 @@ public class ConfigManager {
                 globalConfig.setHarmonicColorsBlue( b );
             }
         }
-        
+
         // Save the configuration object to a file.
         try {
             if ( _useJNLP ) {
@@ -110,12 +107,12 @@ public class ConfigManager {
             showError( FourierResources.getString( "Save.error.message" ), e );
         }
     }
-    
+
     /**
      * Loads the application state from a file as an XML-encoded FourierConfig object.
      */
     public void load() {
-        
+
         // Load a configuration object.
         Object object = null;
         try {
@@ -132,13 +129,13 @@ public class ConfigManager {
         if ( object == null ) {
             return;
         }
-        
+
         // Verify the object's type
         if ( !( object instanceof FourierConfig ) ) {
             showError( FourierResources.getString( "Load.error.message" ), FourierResources.getString( "Load.error.contents" ) );
             return;
         }
-        
+
         // Configure the application
         FourierConfig config = (FourierConfig) object;
         JFrame frame = _app.getPhetFrame();
@@ -165,14 +162,14 @@ public class ConfigManager {
         }
         frame.setCursor( FourierConstants.DEFAULT_CURSOR );
     }
-    
+
     /*
      * Implementation of "Save" for non-Web Start clients, uses JFileChooser and java.io.
      */
     public void saveLocal( Object object ) throws Exception {
-       
+
         JFrame frame = _app.getPhetFrame();
-        
+
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
         fileChooser.setDialogTitle( FourierResources.getString( "Save.title" ) );
@@ -208,18 +205,18 @@ public class ConfigManager {
                     showError( FourierResources.getString( "Save.error.encode" ), e );
                     errors++;
                 }
-            }      
+            }
         } );
         encoder.writeObject( object );
         encoder.close();
     }
-    
+
     /*
      * Implementation of "Load" for non-Web Start clients, uses JFileChooser and java.io.
      */
     public Object loadLocal() throws Exception {
         JFrame frame = _app.getPhetFrame();
-        
+
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
         fileChooser.setDialogTitle( FourierResources.getString( "Load.title" ) );
@@ -244,7 +241,7 @@ public class ConfigManager {
                     showError( FourierResources.getString( "Load.error.decode" ), e );
                     errors++;
                 }
-            }      
+            }
         } );
         object = decoder.readObject();
         decoder.close();
@@ -254,14 +251,14 @@ public class ConfigManager {
 
         return object;
     }
-    
+
     /*
      * Implementation of "Save" for Web Start clients, uses JNLP services.
      */
     private void saveJNLP( Object object ) throws Exception {
-        
-        final JFrame frame = PhetApplication.instance().getPhetFrame();
-        
+
+        final JFrame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+
         // XML encode into a byte output stream.
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         XMLEncoder encoder = new XMLEncoder( baos );
@@ -280,36 +277,36 @@ public class ConfigManager {
         if ( object == null ) {
             throw new Exception( FourierResources.getString( "XML encoding failed" ) );
         }
-        
+
         // Convert to a byte input stream.
         ByteArrayInputStream inputStream = new ByteArrayInputStream( baos.toByteArray() );
-        
+
         // Get the JNLP service for saving files.
         FileSaveService fss = (FileSaveService) ServiceManager.lookup( "javax.jnlp.FileSaveService" );
         if ( fss == null ) {
             throw new UnavailableServiceException( "JNLP FileSaveService is unavailable" );
         }
-        
+
         // Save the configuration to a file.
         FileContents fc = fss.saveFileDialog( null, null, inputStream, _directoryName );
         if ( fc != null ) {
             _directoryName = getDirectoryName( fc.getName() );
         }
     }
-    
+
     /*
      * Implementation of "Load" for Web Start clients, uses JNLP services.
      */
     private Object loadJNLP() throws Exception {
-        
+
         JFrame frame = _app.getPhetFrame();
-        
+
         // Get the JNLP service for opening files.
         FileOpenService fos = (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );
         if ( fos == null ) {
             throw new UnavailableServiceException( "JNLP FileOpenService is unavailable" );
         }
-        
+
         // Read the configuration from a file.
         FileContents fc = fos.openFileDialog( _directoryName, null );
         if ( fc == null ) {
@@ -319,7 +316,7 @@ public class ConfigManager {
 
         // Convert the FileContents to an input stream.
         InputStream inputStream = fc.getInputStream();
-        
+
         // XML-decode the input stream.
         Object object = null;
         XMLDecoder decoder = new XMLDecoder( inputStream );
@@ -338,23 +335,23 @@ public class ConfigManager {
         if ( object == null ) {
             throw new Exception( FourierResources.getString( "Load.error.contents" ) );
         }
-        
+
         return object;
     }
-    
+
     /**
      * Determines if you application was started using Java Web Start.
-     * 
+     *
      * @return true or false
      */
     public static boolean wasWebStarted() {
         return ( System.getProperty( "javawebstart.version" ) != null );
     }
-    
+
     /**
      * Shows the error message associated with an exception in an
      * error dialog, and prints a stack trace to the console.
-     * 
+     *
      * @param format
      * @param e
      */
@@ -362,10 +359,10 @@ public class ConfigManager {
         showError( format, e.getMessage() );
         e.printStackTrace();
     }
-    
+
     /**
      * Shows the error message in an error dialog.
-     * 
+     *
      * @param format
      * @param e
      */
@@ -376,10 +373,10 @@ public class ConfigManager {
         String message = MessageFormat.format( format, args );
         JOptionPane.showMessageDialog( frame, message, title, JOptionPane.ERROR_MESSAGE );
     }
-    
+
     /**
      * Gets the directory name portion of a filename.
-     * 
+     *
      * @param filename
      * @return directory name
      */

@@ -11,6 +11,14 @@
 
 package edu.colorado.phet.fourier.control;
 
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.fourier.FourierResources;
+import edu.colorado.phet.fourier.view.HarmonicColors;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,18 +26,9 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
 
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.fourier.FourierResources;
-import edu.colorado.phet.fourier.view.HarmonicColors;
-
 
 /**
- * HarmonicColorsDialog is the dialog for changing the colors 
+ * HarmonicColorsDialog is the dialog for changing the colors
  * used to draw harmonic waveforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -40,40 +39,40 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int COLOR_BAR_WIDTH = 200;
     private static final int COLOR_BAR_HEIGHT = 20;
     private static final Stroke COLOR_BAR_STROKE = new BasicStroke( 1f );
     private static final Color COLOR_BAR_BORDER_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private PhetApplication _app;
+
+    private NonPiccoloPhetApplication _app;
     private JButton _okButton, _cancelButton;
     private Color[] _restoreColors;
     private JLabel[] _colorBars;
     private int _editIndex;
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app the application
      */
-    public HarmonicColorsDialog( PhetApplication app ) {
+    public HarmonicColorsDialog( NonPiccoloPhetApplication app ) {
         super( app.getPhetFrame() );
         _app = app;
         super.setTitle( FourierResources.getString( "HarmonicColorsDialog.title" ) );
         super.setModal( false );
         super.setResizable( false );
-        
+
         createUI( app.getPhetFrame() );
     }
-    
+
     /**
      * Creates the user interface for the dialog.
-     * 
+     *
      * @param parent the parent Frame
      */
     private void createUI( Frame parent ) {
@@ -88,35 +87,35 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
         this.pack();
         this.setLocationRelativeTo( parent );
     }
-    
+
     /**
      * Creates the dialog's input panel.
-     * 
+     *
      * @return the input panel
      */
     private JPanel createInputPanel() {
-        
+
         String editString = FourierResources.getString( "HarmonicColorsDialog.edit" );
         Stroke colorBarStroke = new BasicStroke( 1f );
-        
+
         JPanel inputPanel = new JPanel();
         EasyGridBagLayout inputPanelLayout = new EasyGridBagLayout( inputPanel );
         inputPanel.setLayout( inputPanelLayout );
         int row = 0;
-        
+
         int numberOfHarmonics = HarmonicColors.getInstance().getNumberOfColors();
         _restoreColors = new Color[ numberOfHarmonics ];
         _colorBars = new JLabel[ numberOfHarmonics ];
-        
+
         for ( int i = 0; i < numberOfHarmonics; i++ ) {
-            
+
             JPanel colorBarPanel = new JPanel();
-            
+
             JLabel numberLabel = new JLabel( String.valueOf( i+1 ) );
-            
+
             Color harmonicColor = HarmonicColors.getInstance().getColor( i );
             _restoreColors[i] = harmonicColor;
-            
+
             JLabel colorBar = new JLabel();
             _colorBars[i] = colorBar;
             setColor( colorBar, harmonicColor );
@@ -129,22 +128,22 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
                     }
                 }
             });
-            
+
             EasyGridBagLayout layout = new EasyGridBagLayout( colorBarPanel );
             colorBarPanel.setLayout( layout );
             int column = 0;
             layout.addAnchoredComponent( numberLabel, 0, column++, GridBagConstraints.EAST );
             layout.addAnchoredComponent( colorBar, 0, column++, GridBagConstraints.WEST );
-            
+
             inputPanelLayout.addAnchoredComponent( colorBarPanel, row++, 0, GridBagConstraints.EAST );
         }
-        
+
         return inputPanel;
     }
-    
-    /** 
+
+    /**
      * Creates the dialog's actions panel, consisting of OK and Cancel buttons.
-     * 
+     *
      * @return the actions panel
      */
     private JPanel createActionsPanel() {
@@ -176,7 +175,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
 
     /**
      * Edits the color of one harmonic.
-     * 
+     *
      * @param order
      */
     private void editColor( int order ) {
@@ -189,7 +188,7 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
         JDialog dialog = ColorChooserFactory.createDialog( title, parent, initialColor, this );
         dialog.show();
     }
-    
+
     /**
      * Sets all of the harmonic colors.
      */
@@ -201,10 +200,10 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
             }
         }
     }
-    
+
     /**
      * Sets the color of a color bar.
-     * 
+     *
      * @param colorBar
      * @param color
      */
@@ -223,19 +222,19 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     //----------------------------------------------------------------------------
     // ColorChooserFactory.Listener implementation
     //----------------------------------------------------------------------------
-    
+
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#colorChanged(java.awt.Color)
      */
     public void colorChanged( Color color ) {
-        handleColorChange( color ); 
+        handleColorChange( color );
     }
 
     /*
      * @see edu.colorado.phet.faraday.control.ColorChooserFactory.Listener#ok(java.awt.Color)
      */
     public void ok( Color color ) {
-        handleColorChange( color );  
+        handleColorChange( color );
     }
 
     /*
@@ -244,9 +243,9 @@ public class HarmonicColorsDialog extends JDialog implements ColorChooserFactory
     public void cancelled( Color originalColor ) {
         handleColorChange( originalColor );
     }
-    
+
     /*
-     * 
+     *
      */
     private void handleColorChange( Color color ) {
         setColor( _colorBars[ _editIndex ], color );
