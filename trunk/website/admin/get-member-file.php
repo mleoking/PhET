@@ -66,7 +66,7 @@ EOT;
 				)
 			);		
 		
-			//send_file_to_browser($file, null, null, "attachment");
+			send_file_to_browser($file, null, null, "attachment");
 		}
 		else {
 			print "Due to security restrictions, the specified file may not be accessed.";
