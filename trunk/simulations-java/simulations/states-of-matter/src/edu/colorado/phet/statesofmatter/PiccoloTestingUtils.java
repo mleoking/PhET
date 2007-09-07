@@ -6,8 +6,10 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PBounds;
 import junit.framework.TestCase;
 
+import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 
 public class PiccoloTestingUtils {
     private static final double SMALL_SIZE = 1.0 / 3.0;
@@ -99,11 +101,24 @@ public class PiccoloTestingUtils {
         return fraction < maxSizeRatio;
     }
 
-    private static PBounds getVisibleBounds(PCanvas canvas) {
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+    private static PBounds getVisibleBounds(final PCanvas canvas) {
+//        return new PBounds(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        return new PBounds(0, 0, width, height);
+        //Must interact with Swing in the Swing Thread to avoid race conditions, even for getters.
+        //see: http://java.sun.com/products/jfc/tsc/articles/threads/threads3.html
+        final PBounds[] value = new PBounds[]{null};
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    value[0] =new PBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                }
+            });
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return value[0];
     }
 
     private static void verifyCameraTransformIsIdentity(PCanvas canvas) {
