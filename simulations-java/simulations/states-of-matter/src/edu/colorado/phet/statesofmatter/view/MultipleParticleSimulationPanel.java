@@ -1,5 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -27,6 +29,8 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
         this.model = model;
         this.clock = clock;
         particleContainer = new ParticleContainerNode(new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS));
+
+        clock.addClockListener(new ViewUpdatingClockListener());
 
         addWorldChild(particleContainer);
         addWorldChild(particleLayer);
@@ -86,6 +90,12 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
         }
 
         public void componentHidden(ComponentEvent componentEvent) {
+        }
+    }
+
+    private class ViewUpdatingClockListener extends ClockAdapter {
+        public void clockTicked(ClockEvent clockEvent) {
+            update();
         }
     }
 }

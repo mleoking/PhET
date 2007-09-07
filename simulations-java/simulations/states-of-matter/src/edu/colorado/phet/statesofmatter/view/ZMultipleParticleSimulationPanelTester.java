@@ -14,11 +14,14 @@ import java.util.Map;
 
 public class ZMultipleParticleSimulationPanelTester extends TestCase {
     private volatile MultipleParticleSimulationPanel panel;
+    private volatile ConstantDtClock clock;
 
     public void setUp() throws InterruptedException, InvocationTargetException {
+        clock = new ConstantDtClock(1, 1);
+
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                panel = new MultipleParticleSimulationPanel(new MultipleParticleModel(ConstantDtClock.TEST), ConstantDtClock.TEST);
+                panel = new MultipleParticleSimulationPanel(new MultipleParticleModel(ConstantDtClock.TEST), clock);
 
                 panel.setBounds(0, 0, 600, 600);
             }
@@ -91,6 +94,8 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
     }
 
     public void testParticleViewSynchedWithModel() {
+        clock.start();
+
         StatesOfMatterParticle p = panel.getParticle(0);
         PNode pNode = panel.getParticleNode(0);
 
