@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter;
 
+import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 import junit.framework.TestCase;
 
 public class TestingUtils {
@@ -33,5 +34,11 @@ public class TestingUtils {
         TestCase.assertFalse(notEqualToX.toString().equals(x.toString()));
         TestCase.assertFalse(equalToX.toString().equals(notEqualToX.toString()));
         TestCase.assertFalse(notEqualToX.toString().equals(equalToX.toString()));
+    }
+
+    public static void testClone(PubliclyCloneable x, PubliclyCloneable notEqualToX) {
+        Object equalToX = x.clone();
+
+        testEquality(x, equalToX, notEqualToX);
     }
 }

@@ -22,4 +22,8 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     public void testToString() {
         TestingUtils.testToString(P, EQUAL_TO_P, NOT_EQUAL_TO_P);
     }
+
+    public void testClone() {
+        TestingUtils.testClone(P, NOT_EQUAL_TO_P);
+    }
 }
