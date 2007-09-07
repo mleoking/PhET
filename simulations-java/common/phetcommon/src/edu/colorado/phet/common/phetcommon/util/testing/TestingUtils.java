@@ -28,12 +28,23 @@ public class TestingUtils {
     }
 
     public static void testToString(Object x, Object equalToX, Object notEqualToX) {
+        // User must supply custom toString() method:
+        TestCase.assertFalse("The object " + x.getClass() + " does not define a custom toString() method.", x.toString().equals(x.getClass().getName() + "@" + Integer.toHexString(x.hashCode())));
+
+        // toString() must output properties of object sufficient to distinguish
+        // between 'different' objects:
         TestCase.assertEquals(x.toString(), equalToX.toString());
         TestCase.assertEquals(equalToX.toString(), x.toString());
         TestCase.assertFalse(x.toString().equals(notEqualToX.toString()));
         TestCase.assertFalse(notEqualToX.toString().equals(x.toString()));
         TestCase.assertFalse(equalToX.toString().equals(notEqualToX.toString()));
         TestCase.assertFalse(notEqualToX.toString().equals(equalToX.toString()));
+    }
+
+    public static void testAllObjectMethods(Object x, Object equalToX, Object notEqualToX) {
+        testEquality(x, equalToX, notEqualToX);
+        testHashCode(x, equalToX, notEqualToX);
+        testToString(x, equalToX, notEqualToX);
     }
 
     public static void testClone(PubliclyCloneable x, PubliclyCloneable notEqualToX) {

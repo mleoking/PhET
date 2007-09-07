@@ -39,12 +39,22 @@ public class ZMultipleParticleModelTester extends TestCase {
         catch (Exception e) {
         }
     }
-//
-//    public void testThatParticlesMoveWhenClockRunning() {
-//        StatesOfMatterParticle p = model.getParticle(0);
-//
-//
-//
-//        clock.start();
-//    }
+
+    public void testThatParticlesMoveWhenClockRunning() {
+        StatesOfMatterParticle p = model.getParticle(0);
+
+        StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
+
+        clock.start();
+
+        long startTime = System.currentTimeMillis();
+
+        while (p.equals(originalP)) {
+            Thread.yield();
+
+            if (System.currentTimeMillis() - startTime > 1000) {
+                fail("The particle " + p + " has not moved within the timeout period.");
+            }
+        }
+    }
 }

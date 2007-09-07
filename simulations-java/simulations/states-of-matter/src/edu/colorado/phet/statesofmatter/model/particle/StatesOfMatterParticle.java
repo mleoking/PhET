@@ -77,4 +77,8 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
             throw new InternalError();
         }
     }
+
+    public String toString() {
+        return getClass().getName() + "[x=" + x + ",y=" + y + ",radius=" + radius + "]";
+    }
 }
