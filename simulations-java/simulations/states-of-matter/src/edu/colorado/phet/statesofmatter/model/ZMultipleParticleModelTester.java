@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.model;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
@@ -8,9 +9,11 @@ import java.util.List;
 
 public class ZMultipleParticleModelTester extends TestCase {
     private volatile MultipleParticleModel model;
+    private volatile ConstantDtClock clock;
 
     public void setUp() {
-        this.model = new MultipleParticleModel();
+        this.clock = new ConstantDtClock(30, 1);
+        this.model = new MultipleParticleModel(clock);
     }
 
     public void testThatNewlyConstructedModelContainsDefaultParticles() {
@@ -36,4 +39,12 @@ public class ZMultipleParticleModelTester extends TestCase {
         catch (Exception e) {
         }
     }
+//
+//    public void testThatParticlesMoveWhenClockRunning() {
+//        StatesOfMatterParticle p = model.getParticle(0);
+//
+//
+//
+//        clock.start();
+//    }
 }

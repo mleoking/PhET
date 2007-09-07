@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.umd.cs.piccolo.PNode;
@@ -16,7 +17,7 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
     public void setUp() throws InterruptedException, InvocationTargetException {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-                panel = new MultipleParticleSimulationPanel(new MultipleParticleModel());
+                panel = new MultipleParticleSimulationPanel(new MultipleParticleModel(ConstantDtClock.TEST), ConstantDtClock.TEST);
 
                 panel.setBounds(0, 0, 600, 600);
             }

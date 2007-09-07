@@ -30,4 +30,39 @@ public class StatesOfMatterParticle {
     public double getRadius() {
         return radius;
     }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        StatesOfMatterParticle that = (StatesOfMatterParticle)o;
+
+        if (Double.compare(that.radius, radius) != 0) {
+            return false;
+        }
+        if (Double.compare(that.x, x) != 0) {
+            return false;
+        }
+        if (Double.compare(that.y, y) != 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = x != +0.0d ? Double.doubleToLongBits(x) : 0L;
+        result = (int)(temp ^ (temp >>> 32));
+        temp = y != +0.0d ? Double.doubleToLongBits(y) : 0L;
+        result = 31 * result + (int)(temp ^ (temp >>> 32));
+        temp = radius != +0.0d ? Double.doubleToLongBits(radius) : 0L;
+        result = 31 * result + (int)(temp ^ (temp >>> 32));
+        return result;
+    }
 }

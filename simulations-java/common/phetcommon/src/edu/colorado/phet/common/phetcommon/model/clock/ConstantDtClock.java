@@ -3,10 +3,9 @@
 package edu.colorado.phet.common.phetcommon.model.clock;
 
 
+import javax.swing.event.EventListenerList;
 import java.util.EventListener;
 import java.util.EventObject;
-
-import javax.swing.event.EventListenerList;
 
 
 /**
@@ -17,20 +16,21 @@ import javax.swing.event.EventListenerList;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConstantDtClock extends SwingClock {
+    public static final ConstantDtClock TEST = new ConstantDtClock(30, 1);
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private EventListenerList listenerList;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param delay desired wall time change between ticks
      * @param dt constant simulation time change between ticks
      */
@@ -38,11 +38,11 @@ public class ConstantDtClock extends SwingClock {
         super( delay, dt );
         listenerList = new EventListenerList();
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the desired wall time change between ticks.
      *
@@ -54,7 +54,7 @@ public class ConstantDtClock extends SwingClock {
             fireDelayChanged( new ConstantDtClockEvent( this ) );
         }
     }
-    
+
     /**
      * Sets the constant simulation time change (dt) between ticks.
      *
@@ -65,7 +65,7 @@ public class ConstantDtClock extends SwingClock {
             setTimingStrategy( new TimingStrategy.Constant( dt ) );
         }
     }
-    
+
     /**
      * Gets the constant simulation time change (dt) between ticks.
      *
@@ -74,10 +74,10 @@ public class ConstantDtClock extends SwingClock {
     public double getDt() {
         return ( (TimingStrategy.Constant) getTimingStrategy() ).getSimulationTimeChange();
     }
-    
+
     /**
      * Convenience method for setting the running state.
-     * 
+     *
      * @param running
      */
     public void setRunning( boolean running ) {
@@ -91,22 +91,22 @@ public class ConstantDtClock extends SwingClock {
 
     /**
      * Convenience method for setting the paused state.
-     * 
+     *
      * @param paused
      */
     public void setPaused( boolean paused ) {
         setRunning( !paused );
     }
-    
+
     //----------------------------------------------------------------------------
     // SwingClock overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the timing strategy for the clock.
      * Only constant timing strategies are allowed.
      * It is preferrable to call setDt.
-     * 
+     *
      * @param timingStrategy
      * @throws IllegalArgumentException if timingStrategy is not of type TimingStrategy.Constant
      */
@@ -117,51 +117,51 @@ public class ConstantDtClock extends SwingClock {
         super.setTimingStrategy( timingStrategy );
         fireDtChanged( new ConstantDtClockEvent( this ) );
     }
-    
+
     //----------------------------------------------------------------------------
     // ConstantDtClockListener
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a ConstantDtClockListener.
-     * 
+     *
      * @param listener
      */
     public void addConstantDtClockListener( ConstantDtClockListener listener ) {
         listenerList.add( ConstantDtClockListener.class, listener );
     }
-    
+
     /**
      * Removes a ConstantDtClockListener.
-     * 
+     *
      * @param listener
      */
     public void removeConstantDtClockListener( ConstantDtClockListener listener ) {
         listenerList.remove( ConstantDtClockListener.class, listener );
     }
-    
+
     /**
      * Interface implemented by listeners who are interested in changes to delay or dt.
      */
     public static interface ConstantDtClockListener extends EventListener {
-        
+
         public void delayChanged( ConstantDtClockEvent event );
-        
+
         public void dtChanged( ConstantDtClockEvent event );
     }
-    
+
     /**
      * Adapter for ConstantDtClockListener.
      */
     public static abstract class ConstantDtClockAdapter implements ConstantDtClockListener {
-        
+
         public void delayChanged( ConstantDtClockEvent event ) {}
-        
+
         public void dtChanged( ConstantDtClockEvent event ) {}
     }
-    
+
     /**
-     * Event indicating that one of the properties specific to 
+     * Event indicating that one of the properties specific to
      * ConstantDtClock has changed.
      */
     public static class ConstantDtClockEvent extends EventObject {
@@ -169,12 +169,12 @@ public class ConstantDtClock extends SwingClock {
         public ConstantDtClockEvent( ConstantDtClock source ) {
             super( source );
         }
-        
+
         public ConstantDtClock getClock() {
             return (ConstantDtClock) getSource();
         }
     }
-    
+
     /*
      * Fires an event indicating that the clock's delay has changed.
      */
@@ -186,7 +186,7 @@ public class ConstantDtClock extends SwingClock {
             }
         }
     }
-    
+
     /*
      * Fires an event indicating that the clock's dt has changed.
      */
