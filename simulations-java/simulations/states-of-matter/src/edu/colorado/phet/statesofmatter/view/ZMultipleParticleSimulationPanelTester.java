@@ -27,9 +27,8 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
         assertTrue("layout should have been performed by now", panel.isLayoutPerformed());
     }
 
-    ParticleContainerNode particleContainer;
     public void testThatParticleContainerIsCentered() throws InvocationTargetException, InterruptedException {
-        particleContainer = panel.getParticleContainer();
+        ParticleContainerNode particleContainer = panel.getParticleContainer();
 
         PiccoloTestingUtils.testIsRoughlyCentered(particleContainer, panel);
     }
@@ -82,14 +81,12 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
         }
     }
 
-//    public void testParticlesAreSmallNonEmpty() throws InvocationTargetException, InterruptedException {
-//        for (int i = 0; i < panel.getNumParticles(); i++) {
-//            PiccoloTestingUtils.testIsSmallSized(panel.getParticleNode(i), panel);
-//            PiccoloTestingUtils.testBoundsAreNonZero(panel.getParticleNode(i));
-//        }
-//    }
+    public void testParticlesAreSmallNonEmpty() throws InvocationTargetException, InterruptedException {
+        for (int i = 0; i < panel.getNumParticles(); i++) {
+            PiccoloTestingUtils.testIsSmallSized(panel.getParticleNode(i), panel);
+            PiccoloTestingUtils.testBoundsAreNonZero(panel.getParticleNode(i));
+        }
+    }
 
-    //public void testContains(){
-    //    assertTrue(new Rectangle2D.Double(-2,-2,4,4).contains(new Rectangle2D.Double(0,0,0,0)));
-    //}
+
 }

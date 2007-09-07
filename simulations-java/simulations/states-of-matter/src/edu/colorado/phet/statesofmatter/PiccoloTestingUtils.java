@@ -12,9 +12,9 @@ import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 
 public class PiccoloTestingUtils {
-    private static final double SMALL_SIZE = 1.0 / 3.0;
+    private static final double SMALL_SIZE  = 1.0 / 3.0;
     private static final double MEDIUM_SIZE = SMALL_SIZE * 2;
-    private static final double LARGE_SIZE = SMALL_SIZE * 3;
+    private static final double LARGE_SIZE  = SMALL_SIZE * 3;
 
     public static boolean contains(Rectangle2D container,Rectangle2D child){
         return child.isEmpty()?container.contains(child.getX(),child.getY()) :container.contains(child);
