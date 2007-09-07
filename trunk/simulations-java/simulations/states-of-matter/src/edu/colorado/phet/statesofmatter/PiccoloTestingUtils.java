@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class PiccoloTestingUtils {
     private static final double SMALL_SIZE  = 1.0 / 3.0;
@@ -112,6 +113,67 @@ public class PiccoloTestingUtils {
         }
 
         TestCase.fail("The node " + originalNode.getClass() + " is not visible on the canvas " + canvas + ".");
+    }
+
+    public static void testViewSyncsWithModel(Object modelObject, PNode viewObject) {
+        try {
+            Method setXMethod = modelObject.getClass().getMethod("setX", new Class[0]);
+            Method setYMethod = modelObject.getClass().getMethod("setY", new Class[0]);
+
+            Method getXMethod = modelObject.getClass().getMethod("getX", new Class[0]);
+            Method getYMethod = modelObject.getClass().getMethod("getY", new Class[0]);
+
+            // Test synchronization in all 4 directions, on each axis:
+            for (double deltaX = -1.0; deltaX <= 1.0; deltaX += 2.0) {
+                for (double deltaY = -1.0; deltaY <= 1.0; deltaY += 1.0) {
+                    // Find out where the model is starting from:
+                    double startModelX = getDouble(getXMethod, modelObject);
+                    double startModelY = getDouble(getYMethod, modelObject);
+
+                    double startNodeX = viewObject.getX();
+                    double startNodeY = viewObject.getY();
+
+                    // Set the model element to the new position:
+                    setDouble(setXMethod, modelObject, startModelX + deltaX);
+                    setDouble(setYMethod, modelObject, startModelY + deltaY);
+
+                    // Wait for the view to update (or the timeout to elapse):
+                    long startTime = System.currentTimeMillis();
+
+                    while (viewObject.getX() == startNodeX && viewObject.getY() == startNodeY) {
+                        Thread.yield();
+
+                        if ((System.currentTimeMillis() - startTime) > 1000) {
+                            TestCase.fail("The view object " + viewObject + " did not sync with the model object " + modelObject + " within the timeout period.");
+                        }
+                    }
+
+                    // See if the view's position actually changed in the same
+                    // direction as the model:
+                    double endNodeX = viewObject.getX();
+                    double endNodeY = viewObject.getY();
+
+                    double signX = (endNodeX - startNodeX) > 0 ? 1.0 : -1.0;
+                    double signY = (endNodeY - startNodeY) > 0 ? 1.0 : -1.0;
+
+                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for horizontal adjustment.", deltaX, signX, 0.0);
+                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for vertical adjustment.",   deltaY, signY, 0.0);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("The model object " + modelObject + " must have getX()/getY() and setX()/setY() methods returning/accepting double values.", e);
+        }
+    }
+
+    private static double getDouble(Method getter, Object object) throws Exception {
+        Double d = (Double)getter.invoke(object, new Object[0]);
+
+        return d.doubleValue();
+    }
+
+    private static void setDouble(Method setter, Object object, double value) throws Exception {
+        setter.invoke(object, new Object[]{new Double(value)});
     }
 
     private static void assertSizeIsCorrect(PNode node, PCanvas canvas, double lowerBound, double upperBound) {
