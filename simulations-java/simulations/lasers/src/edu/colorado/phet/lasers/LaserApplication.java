@@ -44,7 +44,6 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.StringTokenizer;
 
 public class LaserApplication extends PhetApplication {
 
@@ -53,6 +52,14 @@ public class LaserApplication extends PhetApplication {
 
     private JDialog photoDlg;
     private static final String VERSION = PhetApplicationConfig.getVersion( "lasers" ).formatForTitleBar();
+
+    public SingleAtomModule getSingleAtomModule() {
+        return singleAtomModule;
+    }
+
+    public MultipleAtomModule getMultipleAtomModule() {
+        return multipleAtomModule;
+    }
 
     public LaserApplication( String[] args ) {
         super( args,
@@ -74,6 +81,7 @@ public class LaserApplication extends PhetApplication {
                 multipleAtomModule
         };
         setModules( modules );
+
 
         for( int i = 0; i < modules.length; i++ ) {
             JButton photoBtn = new JButton( SimStrings.getInstance().getString( "LaserPhotoButtonLabel" ) );
@@ -333,13 +341,14 @@ public class LaserApplication extends PhetApplication {
                 setLAF();
                 SimStrings.getInstance().init( args, LaserConfig.localizedStringsPath );
 
-                String str = JOptionPane.showInputDialog( "Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED );
-                StringTokenizer st = new StringTokenizer( str );
-                ONE_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
-                MULTI_ATOM_MODULE_SPEED = Double.parseDouble( st.nextToken() );
+//                String str = JOptionPane.showInputDialog("Enter the speed for the 1st and 2nd panel, separated by whitespace", ONE_ATOM_MODULE_SPEED + " " + MULTI_ATOM_MODULE_SPEED);
+//                StringTokenizer st = new StringTokenizer(str);
+//                ONE_ATOM_MODULE_SPEED = Double.parseDouble(st.nextToken());
+//                MULTI_ATOM_MODULE_SPEED = Double.parseDouble(st.nextToken());
 
                 LaserApplication application = new LaserApplication( args );
                 application.startApplication();
+                application.setActiveModule( application.getMultipleAtomModule() );
             }
         } );
     }
