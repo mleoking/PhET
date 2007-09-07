@@ -16,16 +16,6 @@ public class PiccoloTestingUtils {
     private static final double MEDIUM_SIZE = SMALL_SIZE * 2;
     private static final double LARGE_SIZE = SMALL_SIZE * 3;
 
-    public static void testBoundsAreFullyVisible(PNode node, PCanvas canvas) {
-        verifyCameraTransformIsIdentity(canvas);
-
-        PBounds visibleBounds = getVisibleBounds(canvas);
-
-        PBounds nodeBounds = node.getGlobalFullBounds();
-
-        TestCase.assertTrue("The bounds of the node " + node.getClass() + ": "+nodeBounds+" do not fully fall within the visible portion of the canvas.", contains(visibleBounds, nodeBounds));
-    }
-
     public static boolean contains(Rectangle2D container,Rectangle2D child){
         return child.isEmpty()?container.contains(child.getX(),child.getY()) :container.contains(child);
     }
@@ -40,6 +30,16 @@ public class PiccoloTestingUtils {
         else {
             return r1.intersects(r2);
         }
+    }
+
+    public static void testBoundsAreFullyVisible(PNode node, PCanvas canvas) {
+        verifyCameraTransformIsIdentity(canvas);
+
+        PBounds visibleBounds = getVisibleBounds(canvas);
+
+        PBounds nodeBounds = node.getGlobalFullBounds();
+
+        TestCase.assertTrue("The bounds of the node " + node.getClass() + ": "+nodeBounds+" do not fully fall within the visible portion of the canvas.", contains(visibleBounds, nodeBounds));
     }
 
     public static void testBoundsAreVisible(PNode node, PCanvas canvas) {
@@ -79,13 +79,6 @@ public class PiccoloTestingUtils {
         assertSizeIsCorrect(node, canvas, 0, SMALL_SIZE);
     }
 
-    private static void assertSizeIsCorrect(PNode node, PCanvas canvas, double lowerBound, double upperBound) {
-        TestCase.assertTrue("node global full bounds=" + node.getGlobalFullBounds() + " canvas bounds=" + getVisibleBounds(canvas) + ", lower bound=" + lowerBound + ", upperBound=" + upperBound,
-                            !isSmallerThan(node, canvas, lowerBound)
-                            && isSmallerThan(node, canvas, upperBound));
-    }
-
-
     public static void testIsMediumSized(PNode node, PCanvas canvas) {
         assertSizeIsCorrect(node, canvas, SMALL_SIZE, MEDIUM_SIZE);
     }
@@ -99,32 +92,6 @@ public class PiccoloTestingUtils {
         double nodeDimension = limitingSize == canvas.getWidth() ? node.getGlobalFullBounds().getWidth() : node.getGlobalFullBounds().getHeight();
         double fraction = nodeDimension / limitingSize;
         return fraction < maxSizeRatio;
-    }
-
-    private static PBounds getVisibleBounds(final PCanvas canvas) {
-//        return new PBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-
-        //Must interact with Swing in the Swing Thread to avoid race conditions, even for getters.
-        //see: http://java.sun.com/products/jfc/tsc/articles/threads/threads3.html
-        final PBounds[] value = new PBounds[]{null};
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    value[0] =new PBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                }
-            });
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-        return value[0];
-    }
-
-    private static void verifyCameraTransformIsIdentity(PCanvas canvas) {
-        if (!canvas.getCamera().getTransform().equals(new PAffineTransform())) {
-            throw new IllegalArgumentException("Cannot deal with camera transform: " + canvas.getCamera().getTransform());
-        }
     }
 
     public static void testIsVisible(PNode node, PCanvas canvas) {
@@ -146,4 +113,37 @@ public class PiccoloTestingUtils {
 
         TestCase.fail("The node " + originalNode.getClass() + " is not visible on the canvas " + canvas + ".");
     }
+
+    private static void assertSizeIsCorrect(PNode node, PCanvas canvas, double lowerBound, double upperBound) {
+        TestCase.assertTrue("node global full bounds=" + node.getGlobalFullBounds() + " canvas bounds=" + getVisibleBounds(canvas) + ", lower bound=" + lowerBound + ", upperBound=" + upperBound,
+                            !isSmallerThan(node, canvas, lowerBound)
+                            && isSmallerThan(node, canvas, upperBound));
+    }
+
+    private static PBounds getVisibleBounds(final PCanvas canvas) {
+        //Must interact with Swing in the Swing Thread to avoid race conditions, even for getters.
+        //see: http://java.sun.com/products/jfc/tsc/articles/threads/threads3.html
+        final PBounds[] value = new PBounds[]{null};
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    value[0] = new PBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                }
+            });
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return value[0];
+    }
+
+    private static void verifyCameraTransformIsIdentity(PCanvas canvas) {
+        if (!canvas.getCamera().getTransform().equals(new PAffineTransform())) {
+            throw new IllegalArgumentException("Cannot deal with camera transform: " + canvas.getCamera().getTransform());
+        }
+    }
+
 }
