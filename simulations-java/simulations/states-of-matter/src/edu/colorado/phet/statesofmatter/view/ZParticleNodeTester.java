@@ -1,7 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
-import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
 public class ZParticleNodeTester extends TestCase {

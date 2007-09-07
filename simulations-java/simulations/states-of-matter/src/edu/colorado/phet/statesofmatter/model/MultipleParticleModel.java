@@ -2,6 +2,9 @@ package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
+import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
+import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +13,7 @@ import java.util.List;
 public class MultipleParticleModel extends BaseModel {
     private final List particles = new ArrayList();
     public static final MultipleParticleModel TEST = new MultipleParticleModel();
+    private double particleRadius = 0.1;
 
     public MultipleParticleModel() {
         initialize();
@@ -18,10 +22,10 @@ public class MultipleParticleModel extends BaseModel {
     public void initialize() {
         particles.clear();
 
-        ParticleCreationStrategy strategy = new RandomParticleCreationStrategy();
+        ParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, particleRadius);
 
         for (int i = 0; i < StatesOfMatterConfig.INITIAL_PARTICLE_COUNT; i++) {
-            particles.add(strategy.createNewParticle(particles));
+            particles.add(strategy.createNewParticle(particles, particleRadius));
         }
     }
 

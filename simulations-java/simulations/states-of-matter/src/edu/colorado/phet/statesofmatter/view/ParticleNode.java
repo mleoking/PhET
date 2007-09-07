@@ -1,7 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.statesofmatter.model.StatesOfMatterParticle;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.*;

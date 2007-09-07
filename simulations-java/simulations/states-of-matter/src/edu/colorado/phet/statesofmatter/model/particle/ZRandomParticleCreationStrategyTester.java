@@ -1,4 +1,4 @@
-package edu.colorado.phet.statesofmatter.model;
+package edu.colorado.phet.statesofmatter.model.particle;
 
 import junit.framework.TestCase;
 
@@ -10,8 +10,8 @@ public class ZRandomParticleCreationStrategyTester extends TestCase {
     public void setUp() {
         this.strategy = new RandomParticleCreationStrategy();
     }
-    
+
     public void testNewParticleNonNull() {
-        assertNotNull(strategy.createNewParticle(new ArrayList()));
+        assertNotNull(strategy.createNewParticle(new ArrayList(), 0.0));
     }
 }
