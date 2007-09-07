@@ -1,4 +1,4 @@
-package edu.colorado.phet.statesofmatter.model;
+package edu.colorado.phet.statesofmatter.model.container;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import junit.framework.TestCase;

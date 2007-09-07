@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.view;
 
-import edu.colorado.phet.statesofmatter.model.AbstractParticleContainer;
+import edu.colorado.phet.statesofmatter.model.container.AbstractParticleContainer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

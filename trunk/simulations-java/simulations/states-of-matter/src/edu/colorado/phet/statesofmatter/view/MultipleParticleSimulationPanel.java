@@ -4,7 +4,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.RectangularParticleContainer;
+import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.ComponentEvent;
