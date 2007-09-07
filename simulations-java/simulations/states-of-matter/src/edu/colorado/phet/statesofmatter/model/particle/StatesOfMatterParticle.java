@@ -1,6 +1,8 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-public class StatesOfMatterParticle {
+import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
+
+public class StatesOfMatterParticle implements PubliclyCloneable {
     public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0);
 
     private volatile double x, y, radius;
@@ -64,5 +66,15 @@ public class StatesOfMatterParticle {
         temp = radius != +0.0d ? Double.doubleToLongBits(radius) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
         return result;
+    }
+
+    public Object clone() {
+        try {
+            // Shallow clone is sufficient
+            return super.clone();
+        }
+        catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
     }
 }
