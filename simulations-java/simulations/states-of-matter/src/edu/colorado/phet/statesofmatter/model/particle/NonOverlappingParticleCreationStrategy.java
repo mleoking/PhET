@@ -9,7 +9,7 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
     private final double particleRadius;
 
     public NonOverlappingParticleCreationStrategy(Rectangle2D.Double bounds, double particleRadius) {
-        this.boundedStrategy = new BoundedRandomParticleCreationStrategy(bounds);
+        this.boundedStrategy = new BoundedParticleCreationStrategy(bounds);
         this.particleRadius  = particleRadius;
     }
 

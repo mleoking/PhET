@@ -6,14 +6,14 @@ import junit.framework.TestCase;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class ZBoundedRandomParticleCreationStrategyTester extends TestCase {
+public class ZBoundedParticleCreationStrategyTester extends TestCase {
     protected static final int NUM_PARTICLES_TO_TEST = 1000;
     protected static final double PARTICLE_RADIUS = 1.0;
 
     protected volatile ParticleCreationStrategy strategy;
 
     public void setUp() {
-         this.strategy = new BoundedRandomParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS);
+         this.strategy = new BoundedParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS);
     }
 
     public void testThatNoParticleCenterIsOutsideBounds() {

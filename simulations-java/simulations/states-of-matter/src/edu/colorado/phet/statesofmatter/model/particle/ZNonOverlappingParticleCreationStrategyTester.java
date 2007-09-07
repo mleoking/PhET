@@ -5,7 +5,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedRandomParticleCreationStrategyTester {
+public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
     public void setUp() {
         strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS);
     }

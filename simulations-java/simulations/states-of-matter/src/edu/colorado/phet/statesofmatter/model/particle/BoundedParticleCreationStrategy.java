@@ -4,11 +4,11 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 
-public class BoundedRandomParticleCreationStrategy implements ParticleCreationStrategy {
+public class BoundedParticleCreationStrategy implements ParticleCreationStrategy {
     private final Random random = new Random();
     private final Rectangle2D.Double bounds;
 
-    public BoundedRandomParticleCreationStrategy(Rectangle2D.Double bounds) {
+    public BoundedParticleCreationStrategy(Rectangle2D.Double bounds) {
         this.bounds = bounds;
     }
 
