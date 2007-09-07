@@ -206,8 +206,8 @@ public class PiccoloTestingUtils {
                     double startModelX = getDouble(getXMethod, modelObject);
                     double startModelY = getDouble(getYMethod, modelObject);
 
-                    double startNodeX = viewObject.getX();
-                    double startNodeY = viewObject.getY();
+                    double startNodeX = viewObject.getFullBounds().getCenterX();
+                    double startNodeY = viewObject.getFullBounds().getCenterY();
 
                     // Set the model element to the new position:
                     setDouble(setXMethod, modelObject, startModelX + deltaX);
@@ -225,7 +225,8 @@ public class PiccoloTestingUtils {
                         }
                     }
 
-                    while (viewObject.getX() == startNodeX && viewObject.getY() == startNodeY) {
+                    while (viewObject.getFullBounds().getCenterX() == startNodeX &&
+                           viewObject.getFullBounds().getCenterY() == startNodeY) {
                         Thread.yield();
 
                         if ((System.currentTimeMillis() - startTime) > 1000) {
@@ -235,8 +236,8 @@ public class PiccoloTestingUtils {
 
                     // See if the view's position actually changed in the same
                     // direction as the model:
-                    double endNodeX = viewObject.getX();
-                    double endNodeY = viewObject.getY();
+                    double endNodeX = viewObject.getFullBounds().getCenterX();
+                    double endNodeY = viewObject.getFullBounds().getCenterY();
 
                     double signX = (endNodeX - startNodeX) > 0 ? 1.0 : -1.0;
                     double signY = (endNodeY - startNodeY) > 0 ? 1.0 : -1.0;

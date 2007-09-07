@@ -44,8 +44,8 @@ public class ZParticleNodeTester extends TestCase {
         modelObject = new StatesOfMatterParticle(3.0, 2.0, 1.0);
         node        = new ParticleNode(modelObject);
 
-        assertEquals(modelObject.getX(), node.getX(), 0);
-        assertEquals(modelObject.getY(), node.getY(), 0);
+        assertEquals(modelObject.getX(), node.getFullBounds().getCenterX(), 0);
+        assertEquals(modelObject.getY(), node.getFullBounds().getCenterY(), 0);
     }
 
     public void testParticleNodeUpdateSynchronizesViewWithModel() {
