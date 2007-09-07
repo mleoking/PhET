@@ -1,6 +1,7 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
 import java.util.List;
