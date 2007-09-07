@@ -16,18 +16,11 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
     public void setUp() throws InterruptedException, InvocationTargetException {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
-
-                //panel = MultipleParticleSimulationPanel.TEST;
-
                 panel = new MultipleParticleSimulationPanel(new MultipleParticleModel());
 
-                //panel.setBounds(0, 0, 600, 600);
-                //panel.setBounds(0, 0, 600, 600);
                 panel.setBounds(0, 0, 600, 600);
             }
         });
-
-        
     }
 
     public void testLayoutPerformed() throws InvocationTargetException, InterruptedException {
@@ -36,9 +29,7 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
 
     ParticleContainerNode particleContainer;
     public void testThatParticleContainerIsCentered() throws InvocationTargetException, InterruptedException {
-        //SwingUtilities.invokeAndWait(new Runnable() { public void run() {
         particleContainer = panel.getParticleContainer();
-        //}});
 
         PiccoloTestingUtils.testIsRoughlyCentered(particleContainer, panel);
     }
