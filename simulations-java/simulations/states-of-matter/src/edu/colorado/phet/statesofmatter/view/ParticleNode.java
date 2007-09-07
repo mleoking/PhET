@@ -19,6 +19,8 @@ public class ParticleNode extends PNode {
     }
 
     private void update() {
-        path.setPathTo(new Ellipse2D.Double(particle.getX(), particle.getY(), 1,1));
+        double length =  2 * particle.getRadius();
+
+        path.setPathTo(new Ellipse2D.Double(particle.getX() - particle.getRadius(), particle.getY() - particle.getRadius(), length, length));
     }
 }
