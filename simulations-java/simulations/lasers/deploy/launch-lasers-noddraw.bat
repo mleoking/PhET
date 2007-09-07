@@ -1,0 +1,1 @@
+java -Dsun.java2d.noddraw=true -jar lasers.jar
