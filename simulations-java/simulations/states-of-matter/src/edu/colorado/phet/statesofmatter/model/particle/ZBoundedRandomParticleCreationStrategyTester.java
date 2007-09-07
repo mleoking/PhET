@@ -10,7 +10,7 @@ public class ZBoundedRandomParticleCreationStrategyTester extends TestCase {
     private static final int NUM_PARTICLES_TO_TEST = 1000;
     private static final double PARTICLE_RADIUS = 1.0;
 
-    private volatile ParticleCreationStrategy strategy;
+    protected volatile ParticleCreationStrategy strategy;
 
     public void setUp() {
          this.strategy = new BoundedRandomParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS);
