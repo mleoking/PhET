@@ -17,17 +17,16 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 
 public class MultipleParticleSimulationPanel extends PhetPCanvas {
+    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, new ConstantDtClock(30, 1));
+
     private ParticleContainerNode particleContainer;
     private MultipleParticleModel model;
-    private final IClock clock;
-    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, new ConstantDtClock(30, 1));
     private boolean layoutPerformed=false;
 
     private PNode particleLayer = new PNode();
 
     public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
-        this.clock = clock;
         particleContainer = new ParticleContainerNode(new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS));
 
         clock.addClockListener(new ViewUpdatingClockListener());
@@ -66,8 +65,10 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
 
     /**
      * Returns the node associated with the ith particle.
-     * @param i
-     * @return
+     *
+     * @param i The index.
+     *
+     * @return  The particle node.
      */
     public PNode getParticleNode(int i) {
         return particleLayer.getChild(i);

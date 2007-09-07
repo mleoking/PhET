@@ -14,16 +14,17 @@ public class ParticleNode extends PNode implements Updatable {
 
     public ParticleNode(StatesOfMatterParticle particle) {
         this.particle = particle;
-        this.path=new PhetPPath(Color.blue);
+        this.path     = new PhetPPath(Color.blue);
+
         addChild(path);
+
         update();
     }
 
     public void update() {
-        setX(particle.getX());
-        setY(particle.getY());
+        this.setOffset(particle.getX(), particle.getY());
 
-        double length =  2 * particle.getRadius();
+        double length = 2 * particle.getRadius();
 
         Ellipse2D.Double circle = new Ellipse2D.Double(-particle.getRadius(), -particle.getRadius(), length, length);
 
