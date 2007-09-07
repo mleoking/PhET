@@ -1,5 +1,7 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
@@ -14,13 +16,15 @@ import java.awt.geom.Point2D;
 public class MultipleParticleSimulationPanel extends PhetPCanvas {
     private ParticleContainerNode particleContainer;
     private MultipleParticleModel model;
-    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST);
+    private final IClock clock;
+    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, new ConstantDtClock(30, 1));
     private boolean layoutPerformed=false;
 
     private PNode particleLayer = new PNode();
 
-    public MultipleParticleSimulationPanel(MultipleParticleModel model) {
+    public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
+        this.clock = clock;
         particleContainer = new ParticleContainerNode(new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS));
 
         addWorldChild(particleContainer);

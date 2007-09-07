@@ -1,6 +1,8 @@
 package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
@@ -12,10 +14,15 @@ import java.util.List;
 
 public class MultipleParticleModel extends BaseModel {
     private final List particles = new ArrayList();
-    public static final MultipleParticleModel TEST = new MultipleParticleModel();
+    private final IClock clock;
+
+    public static final MultipleParticleModel TEST = new MultipleParticleModel(ConstantDtClock.TEST);
+
     private double particleRadius = 0.1;
 
-    public MultipleParticleModel() {
+    public MultipleParticleModel(IClock clock) {
+        this.clock = clock;
+        
         initialize();
     }
 
