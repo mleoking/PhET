@@ -1,4 +1,4 @@
-package edu.colorado.phet.statesofmatter.model;
+package edu.colorado.phet.statesofmatter.model.container;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
