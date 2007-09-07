@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedRandomParticleCreationStrategyTester {
-    private static final double PARTICLE_RADIUS = 0.1;
-    private static final int NUM_PARTICLES_TO_TEST = 100;
-
     public void setUp() {
         strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS);
     }
