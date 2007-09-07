@@ -17,6 +17,7 @@ public class PiccoloTestingUtils {
     private static final double SMALL_SIZE  = 1.0 / 3.0;
     private static final double MEDIUM_SIZE = SMALL_SIZE * 2;
     private static final double LARGE_SIZE  = SMALL_SIZE * 3;
+    private static final int TEST_TIMEOUT = 2000;
 
     public static boolean contains(Rectangle2D container,Rectangle2D child){
         return child.isEmpty()?container.contains(child.getX(),child.getY()) :container.contains(child);
@@ -229,8 +230,8 @@ public class PiccoloTestingUtils {
                            viewObject.getFullBounds().getCenterY() == startNodeY) {
                         Thread.yield();
 
-                        if ((System.currentTimeMillis() - startTime) > 1000) {
-                            //TODO: Uncomment TestCase.fail("The view object " + viewObject + " did not sync with the model object " + modelObject + " within the timeout period.");
+                        if ((System.currentTimeMillis() - startTime) > TEST_TIMEOUT) {
+                            TestCase.fail("The view object " + viewObject + " did not sync with the model object " + modelObject + " within the timeout period.");
                         }
                     }
 
