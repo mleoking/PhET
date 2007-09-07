@@ -1,18 +1,21 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.util.PBounds;
 import junit.framework.TestCase;
 
 public class ZParticleNodeTester extends TestCase {
-    private ParticleNode node;
+    private volatile ParticleNode node;
+    private volatile StatesOfMatterParticle modelObject;
 
     public ZParticleNodeTester() {
     }
 
     protected void setUp() throws Exception {
-        node = new ParticleNode(StatesOfMatterParticle.TEST);
+        this.modelObject = new StatesOfMatterParticle(0.0, 0.0, 1.0);
+        this.node        = new ParticleNode(modelObject);
     }
 
     public void testParticleNodeBoundsExists(){
@@ -28,8 +31,24 @@ public class ZParticleNodeTester extends TestCase {
 
     public void testParticleNodeSizeReflectsParticleRadius() {
         PBounds bounds = node.getFullBounds();
-        
-        assertEquals(StatesOfMatterParticle.TEST.getRadius() * 2, bounds.getWidth(),  0.000001);
-        assertEquals(StatesOfMatterParticle.TEST.getRadius() * 2, bounds.getHeight(), 0.000001);
+
+        assertEquals(modelObject.getRadius() * 2, bounds.getWidth(),  0.000001);
+        assertEquals(modelObject.getRadius() * 2, bounds.getHeight(), 0.000001);
+    }
+
+    public void testParticleNodeImplementsUpdatable() {
+        assertTrue(Updatable.class.isAssignableFrom(node.getClass()));
+    }
+
+    public void testParticleNodesLocationIsSameAsModel() {
+        modelObject = new StatesOfMatterParticle(3.0, 2.0, 1.0);
+        node        = new ParticleNode(modelObject);
+
+        assertEquals(modelObject.getX(), node.getX(), 0);
+        assertEquals(modelObject.getY(), node.getY(), 0);
+    }
+
+    public void testParticleNodeUpdateSynchronizesViewWithModel() {
+        PiccoloTestingUtils.testViewManuallySyncsWithModel(modelObject, node);
     }
 }

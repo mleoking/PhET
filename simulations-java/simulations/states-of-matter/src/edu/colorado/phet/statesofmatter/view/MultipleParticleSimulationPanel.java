@@ -7,6 +7,7 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 
 import java.awt.event.ComponentEvent;
@@ -53,6 +54,10 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
 
     public int getNumParticles() {
         return model.getParticles().size();
+    }
+
+    public StatesOfMatterParticle getParticle(int i) {
+        return model.getParticle(i);
     }
 
     /**
