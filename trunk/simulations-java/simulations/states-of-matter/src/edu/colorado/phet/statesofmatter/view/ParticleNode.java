@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.view;
 
+import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
@@ -7,9 +8,9 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-public class ParticleNode extends PNode {
-    private StatesOfMatterParticle particle;
-    private PhetPPath path;
+public class ParticleNode extends PNode implements Updatable {
+    private final StatesOfMatterParticle particle;
+    private final PhetPPath path;
 
     public ParticleNode(StatesOfMatterParticle particle) {
         this.particle = particle;
@@ -18,9 +19,14 @@ public class ParticleNode extends PNode {
         update();
     }
 
-    private void update() {
+    public void update() {
+        setX(particle.getX());
+        setY(particle.getY());
+
         double length =  2 * particle.getRadius();
 
-        path.setPathTo(new Ellipse2D.Double(particle.getX() - particle.getRadius(), particle.getY() - particle.getRadius(), length, length));
+        Ellipse2D.Double circle = new Ellipse2D.Double(-particle.getRadius(), -particle.getRadius(), length, length);
+
+        path.setPathTo(circle);
     }
 }

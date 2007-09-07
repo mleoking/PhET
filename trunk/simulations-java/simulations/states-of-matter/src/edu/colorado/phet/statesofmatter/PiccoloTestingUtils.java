@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter;
 
+import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
@@ -115,55 +116,12 @@ public class PiccoloTestingUtils {
         TestCase.fail("The node " + originalNode.getClass() + " is not visible on the canvas " + canvas + ".");
     }
 
-    public static void testViewSyncsWithModel(Object modelObject, PNode viewObject) {
-        try {
-            Method setXMethod = modelObject.getClass().getMethod("setX", new Class[0]);
-            Method setYMethod = modelObject.getClass().getMethod("setY", new Class[0]);
+    public static void testViewAutomaticallySyncsWithModel(Object modelObject, PNode viewObject) {
+        testViewSyncsWithModel(modelObject, viewObject, false);
+    }
 
-            Method getXMethod = modelObject.getClass().getMethod("getX", new Class[0]);
-            Method getYMethod = modelObject.getClass().getMethod("getY", new Class[0]);
-
-            // Test synchronization in all 4 directions, on each axis:
-            for (double deltaX = -1.0; deltaX <= 1.0; deltaX += 2.0) {
-                for (double deltaY = -1.0; deltaY <= 1.0; deltaY += 1.0) {
-                    // Find out where the model is starting from:
-                    double startModelX = getDouble(getXMethod, modelObject);
-                    double startModelY = getDouble(getYMethod, modelObject);
-
-                    double startNodeX = viewObject.getX();
-                    double startNodeY = viewObject.getY();
-
-                    // Set the model element to the new position:
-                    setDouble(setXMethod, modelObject, startModelX + deltaX);
-                    setDouble(setYMethod, modelObject, startModelY + deltaY);
-
-                    // Wait for the view to update (or the timeout to elapse):
-                    long startTime = System.currentTimeMillis();
-
-                    while (viewObject.getX() == startNodeX && viewObject.getY() == startNodeY) {
-                        Thread.yield();
-
-                        if ((System.currentTimeMillis() - startTime) > 1000) {
-                            TestCase.fail("The view object " + viewObject + " did not sync with the model object " + modelObject + " within the timeout period.");
-                        }
-                    }
-
-                    // See if the view's position actually changed in the same
-                    // direction as the model:
-                    double endNodeX = viewObject.getX();
-                    double endNodeY = viewObject.getY();
-
-                    double signX = (endNodeX - startNodeX) > 0 ? 1.0 : -1.0;
-                    double signY = (endNodeY - startNodeY) > 0 ? 1.0 : -1.0;
-
-                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for horizontal adjustment.", deltaX, signX, 0.0);
-                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for vertical adjustment.",   deltaY, signY, 0.0);
-                }
-            }
-        }
-        catch (Exception e) {
-            throw new RuntimeException("The model object " + modelObject + " must have getX()/getY() and setX()/setY() methods returning/accepting double values.", e);
-        }
+    public static void testViewManuallySyncsWithModel(Object modelObject, PNode viewObject) {
+        testViewSyncsWithModel(modelObject, viewObject, true);
     }
 
     private static double getDouble(Method getter, Object object) throws Exception {
@@ -208,4 +166,63 @@ public class PiccoloTestingUtils {
         }
     }
 
+    private static void testViewSyncsWithModel(Object modelObject, PNode viewObject, boolean forceUpdate) {
+        try {
+            Method setXMethod = modelObject.getClass().getMethod("setX", new Class[]{double.class});
+            Method setYMethod = modelObject.getClass().getMethod("setY", new Class[]{double.class});
+
+            Method getXMethod = modelObject.getClass().getMethod("getX", new Class[0]);
+            Method getYMethod = modelObject.getClass().getMethod("getY", new Class[0]);
+
+            // Test synchronization in all 4 directions, on each axis:
+            for (double deltaX = -1.0; deltaX <= 1.0; deltaX += 2.0) {
+                for (double deltaY = -1.0; deltaY <= 1.0; deltaY += 2.0) {
+                    // Find out where the model is starting from:
+                    double startModelX = getDouble(getXMethod, modelObject);
+                    double startModelY = getDouble(getYMethod, modelObject);
+
+                    double startNodeX = viewObject.getX();
+                    double startNodeY = viewObject.getY();
+
+                    // Set the model element to the new position:
+                    setDouble(setXMethod, modelObject, startModelX + deltaX);
+                    setDouble(setYMethod, modelObject, startModelY + deltaY);
+
+                    // Wait for the view to update (or the timeout to elapse):
+                    long startTime = System.currentTimeMillis();
+
+                    if (forceUpdate) {
+                        if (viewObject instanceof Updatable) {
+                            ((Updatable)viewObject).update();
+                        }
+                        else {
+                            TestCase.fail("The view object " + viewObject + " does not implement Updatable, and therefore cannot be forced to update.");
+                        }
+                    }
+
+                    while (viewObject.getX() == startNodeX && viewObject.getY() == startNodeY) {
+                        Thread.yield();
+
+                        if ((System.currentTimeMillis() - startTime) > 1000) {
+                            TestCase.fail("The view object " + viewObject + " did not sync with the model object " + modelObject + " within the timeout period.");
+                        }
+                    }
+
+                    // See if the view's position actually changed in the same
+                    // direction as the model:
+                    double endNodeX = viewObject.getX();
+                    double endNodeY = viewObject.getY();
+
+                    double signX = (endNodeX - startNodeX) > 0 ? 1.0 : -1.0;
+                    double signY = (endNodeY - startNodeY) > 0 ? 1.0 : -1.0;
+
+                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for horizontal adjustment.", deltaX, signX, 0.0);
+                    TestCase.assertEquals("The view object " + viewObject + " did not sync with the model object " + modelObject + " for vertical adjustment.",   deltaY, signY, 0.0);
+                }
+            }
+        }
+        catch (Exception e) {
+            throw new RuntimeException("The model object " + modelObject + " must have getX()/getY() and setX()/setY() methods returning/accepting double values.", e);
+        }
+    }
 }

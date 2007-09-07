@@ -3,6 +3,7 @@ package edu.colorado.phet.statesofmatter.view;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.PiccoloTestingUtils;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 import junit.framework.TestCase;
 
@@ -89,5 +90,10 @@ public class ZMultipleParticleSimulationPanelTester extends TestCase {
         }
     }
 
+    public void testParticleViewSynchedWithModel() {
+        StatesOfMatterParticle p = panel.getParticle(0);
+        PNode pNode = panel.getParticleNode(0);
 
+        PiccoloTestingUtils.testViewAutomaticallySyncsWithModel(p, pNode);
+    }
 }
