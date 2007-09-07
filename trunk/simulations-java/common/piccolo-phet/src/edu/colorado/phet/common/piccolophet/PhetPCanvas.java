@@ -10,6 +10,7 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
+import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.util.PDebug;
@@ -31,7 +32,7 @@ import java.awt.geom.Rectangle2D;
  * and convenience methods for usage.
  */
 
-public class PhetPCanvas extends PSwingCanvas {
+public class PhetPCanvas extends PSwingCanvas implements Updatable {
     private TransformStrategy transformStrategy;
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
@@ -84,6 +85,22 @@ public class PhetPCanvas extends PSwingCanvas {
 
     public void setWorldScale( double scale ) {
         phetRootNode.setWorldScale( scale );
+    }
+
+    public void update() {
+        update(phetRootNode);
+    }
+
+    private void update(PNode node) {
+        if (node instanceof Updatable) {
+            Updatable updatable = (Updatable)node;
+
+            updatable.update();
+        }
+
+        for (int i = 0; i < node.getChildrenCount(); i++) {
+            update(node.getChild(i));
+        }
     }
 
     protected class ResizeAdapter extends ComponentAdapter {
@@ -168,28 +185,28 @@ public class PhetPCanvas extends PSwingCanvas {
     public void setDebugFullBounds( boolean debugFullBounds ) {
         PDebug.debugFullBounds = debugFullBounds;
     }
-    
+
     /**
      * Gets the transform that was used for the most recent paintComponent call.
-     * 
+     *
      * @return AffineTransform, null if paintComponent hasn't been called yet
      */
     public AffineTransform getTransform() {
         return transform;
     }
-    
+
     /**
      * Gets the size of the canvas is screen coordinates.
-     * 
+     *
      * @return Dimension2D
      */
     public Dimension2D getScreenSize() {
         return new PDimension( getWidth(), getHeight() );
     }
-    
+
     /**
      * Gets the size of the canvas is world coordinates.
-     * 
+     *
      * @return Dimension2D
      */
     public Dimension2D getWorldSize() {
@@ -197,10 +214,10 @@ public class PhetPCanvas extends PSwingCanvas {
         getPhetRootNode().screenToWorld( dim ); // modifies dim!
         return dim;
     }
-    
+
     /**
      * Remembers the AffineTransform that was used to paint the canvas.
-     * 
+     *
      * @param g
      */
     public void paintComponent( Graphics g ) {

@@ -254,7 +254,7 @@ public class EnergyPositionPlot extends BufferedPhetPCanvas {
 
     int count = 0;
 
-    private void update() {
+    public void update() {
         count++;
         if( !isActive() ) {
             return;

@@ -205,7 +205,7 @@ public class QWIPanel extends BufferedPhetPCanvas {
         }
     }
 
-    protected void update() {
+    public void update() {
         updateWavefunctionColorMap();
         updateWaveGraphic();
     }
