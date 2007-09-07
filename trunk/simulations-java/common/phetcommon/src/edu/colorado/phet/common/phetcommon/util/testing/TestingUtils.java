@@ -1,4 +1,4 @@
-package edu.colorado.phet.statesofmatter;
+package edu.colorado.phet.common.phetcommon.util.testing;
 
 import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 import junit.framework.TestCase;

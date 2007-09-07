@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import edu.colorado.phet.statesofmatter.TestingUtils;
+import edu.colorado.phet.common.phetcommon.util.testing.TestingUtils;
 import junit.framework.TestCase;
 
 public class ZStatesOfMatterParticleTester extends TestCase {
