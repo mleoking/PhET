@@ -140,7 +140,8 @@ public class PiccoloTestingUtils {
 
     /**
      * Tests that the view object synchronizes with the model object whenever
-     * the view object's Updatable.update() method is invoked.
+     * the view object's Updatable.update() method is invoked. This method
+     * assumes the model object contains getX()/getY()/setX()/setY() methods.
      *
      * @param modelObject   The model object.
      *
@@ -249,7 +250,7 @@ public class PiccoloTestingUtils {
             }
         }
         catch (Exception e) {
-            throw new RuntimeException("The model object " + modelObject + " must have getX()/getY() and setX()/setY() methods returning/accepting double values.", e);
+            throw new RuntimeException("The model object " + modelObject + " must have public getX()/getY() and setX()/setY() methods returning/accepting double values.", e);
         }
     }
 }
