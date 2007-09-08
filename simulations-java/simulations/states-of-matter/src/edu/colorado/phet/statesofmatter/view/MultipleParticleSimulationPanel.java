@@ -17,7 +17,7 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
 
 public class MultipleParticleSimulationPanel extends PhetPCanvas {
-    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, new ConstantDtClock(30, 1));
+    public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, ConstantDtClock.TEST);
 
     private ParticleContainerNode particleContainer;
     private MultipleParticleModel model;
