@@ -13,11 +13,11 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
         this.particleRadius  = particleRadius;
     }
 
-    public StatesOfMatterParticle createNewParticle(List particles, double radius) {
+    public StatesOfMatterParticle createNewParticle(List particles, double radius, double mass) {
         for (int i = 0; i < MAX_TRIALS; i++) {
             boolean nonOverlapping = true;
 
-            StatesOfMatterParticle p1 = boundedStrategy.createNewParticle(particles, radius);
+            StatesOfMatterParticle p1 = boundedStrategy.createNewParticle(particles, radius, mass);
 
             for (int j = 0; j < particles.size(); j++) {
                 StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);

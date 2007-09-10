@@ -12,12 +12,12 @@ public class BoundedParticleCreationStrategy implements ParticleCreationStrategy
         this.bounds = bounds;
     }
 
-    public StatesOfMatterParticle createNewParticle(List particles, double radius) {
+    public StatesOfMatterParticle createNewParticle(List particles, double radius, double mass) {
         double length = 2 * radius;
 
         double x = bounds.x + radius + random.nextDouble() * (bounds.width  - length);
         double y = bounds.y + radius + random.nextDouble() * (bounds.height - length);
 
-        return new StatesOfMatterParticle(x, y, radius);
+        return new StatesOfMatterParticle(x, y, radius, mass);
     }
 }

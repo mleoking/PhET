@@ -12,6 +12,6 @@ public class ZRandomParticleCreationStrategyTester extends TestCase {
     }
 
     public void testNewParticleNonNull() {
-        assertNotNull(strategy.createNewParticle(new ArrayList(), 0.0));
+        assertNotNull(strategy.createNewParticle(new ArrayList(), 0.0, 1.0));
     }
 }
