@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.rutherfordscattering.RSResources;
-import edu.colorado.phet.rutherfordscattering.module.AbstractModule;
+import edu.colorado.phet.rutherfordscattering.module.RSAbstractModule;
 
 
 /**
@@ -22,13 +22,13 @@ import edu.colorado.phet.rutherfordscattering.module.AbstractModule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractControlPanel extends ControlPanel {
+public abstract class RSAbstractControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AbstractModule _module; // module that this control panel is associated with
+    private RSAbstractModule _module; // module that this control panel is associated with
     private JButton _resetButton;
 
     //----------------------------------------------------------------------------
@@ -40,7 +40,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public AbstractControlPanel( AbstractModule module ) {
+    public RSAbstractControlPanel( RSAbstractModule module ) {
         super();
         int minWidth = RSResources.getInt( "int.minControlPanelWidth", 200 );
         setMinimumWidth( minWidth );
@@ -57,7 +57,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      *
      * @return the module
      */
-    public AbstractModule getModule() {
+    public RSAbstractModule getModule() {
         return _module;
     }
 

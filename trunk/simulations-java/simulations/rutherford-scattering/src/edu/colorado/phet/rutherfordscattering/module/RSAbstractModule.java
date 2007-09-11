@@ -18,7 +18,7 @@ import edu.colorado.phet.rutherfordscattering.model.RSClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModule extends PiccoloModule {
+public abstract class RSAbstractModule extends PiccoloModule {
 
     private PhetPCanvas _canvas;
 
@@ -33,7 +33,7 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param clock
      * @param startsPaused
      */
-    public AbstractModule( String title, RSClock clock, boolean startsPaused ) {
+    public RSAbstractModule( String title, RSClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
 
         // hide the PhET logo
