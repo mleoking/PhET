@@ -26,7 +26,7 @@ import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class AbstractModule extends PiccoloModule {
+public abstract class QTAbstractModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,7 +39,7 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param clock the simulation clock
      * @param startsPaused initial clock state
      */
-    public AbstractModule( String title, IClock clock, boolean startsPaused ) {
+    public QTAbstractModule( String title, IClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
     }
 

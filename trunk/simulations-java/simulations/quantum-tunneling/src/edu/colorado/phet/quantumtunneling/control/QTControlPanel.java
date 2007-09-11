@@ -44,7 +44,7 @@ import edu.colorado.phet.quantumtunneling.view.ViewLegend;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTControlPanel extends AbstractControlPanel {
+public class QTControlPanel extends QTAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
