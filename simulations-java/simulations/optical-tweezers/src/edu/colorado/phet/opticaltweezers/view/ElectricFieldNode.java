@@ -2,20 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Image;
-import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.util.*;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;

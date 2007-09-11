@@ -2,16 +2,18 @@
 
 package edu.colorado.phet.opticaltweezers.module;
 
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JFrame;
+import javax.swing.text.JTextComponent;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-
-import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import java.awt.*;
 
 
 /**

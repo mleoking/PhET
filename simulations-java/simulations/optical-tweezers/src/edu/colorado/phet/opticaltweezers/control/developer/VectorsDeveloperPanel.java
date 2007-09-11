@@ -2,6 +2,16 @@
 
 package edu.colorado.phet.opticaltweezers.control.developer;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -9,14 +19,6 @@ import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
 import edu.colorado.phet.opticaltweezers.view.ElectricFieldNode;
 import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
 import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * VectorsDeveloperPanel contains developer controls related to the display of vectors.

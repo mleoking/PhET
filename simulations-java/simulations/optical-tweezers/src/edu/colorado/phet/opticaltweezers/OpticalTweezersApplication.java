@@ -2,6 +2,14 @@
 
 package edu.colorado.phet.opticaltweezers;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
@@ -18,12 +26,6 @@ import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * OpticalTweezersApplication is the main application for this simulation.
