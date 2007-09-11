@@ -2,16 +2,19 @@
 
 package edu.colorado.phet.opticaltweezers.menu;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
-import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.

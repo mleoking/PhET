@@ -2,9 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.Color;
-import java.awt.Paint;
-
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.model.EnzymeA;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;

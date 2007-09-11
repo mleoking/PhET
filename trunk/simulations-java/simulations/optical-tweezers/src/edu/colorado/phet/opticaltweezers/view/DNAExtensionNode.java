@@ -9,8 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.text.DecimalFormat;
 
-import javax.swing.JLabel;
-
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PPath;

@@ -2,16 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.view;
 
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
