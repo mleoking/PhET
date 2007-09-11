@@ -11,6 +11,18 @@
 
 package edu.colorado.phet.fourier.persistence;
 
+import java.awt.Color;
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.*;
+import java.text.MessageFormat;
+
+import javax.jnlp.*;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.fourier.FourierApplication;
@@ -18,15 +30,6 @@ import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.module.FourierModule;
 import edu.colorado.phet.fourier.view.HarmonicColors;
-
-import javax.jnlp.*;
-import javax.swing.*;
-import java.awt.*;
-import java.beans.ExceptionListener;
-import java.beans.XMLDecoder;
-import java.beans.XMLEncoder;
-import java.io.*;
-import java.text.MessageFormat;
 
 
 /**

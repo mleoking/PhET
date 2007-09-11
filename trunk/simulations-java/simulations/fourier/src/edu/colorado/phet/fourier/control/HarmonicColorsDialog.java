@@ -11,20 +11,21 @@
 
 package edu.colorado.phet.fourier.control;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.fourier.FourierResources;
-import edu.colorado.phet.fourier.view.HarmonicColors;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.text.MessageFormat;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.fourier.FourierResources;
+import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
