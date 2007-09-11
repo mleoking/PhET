@@ -207,14 +207,6 @@ public class RungeKuttaForceEngine implements ForceEngine {
         }
     }
 
-    double kineticEnergy() {
-		double ke=0.0;
-		for (int i=0;i<particles.length;i++) ke += (vx[i]*vx[i]+vy[i]*vy[i])/(inverseMass(i));
-		ke *= 0.5;
-		return ke;
-	}
-
-
 	double potentialEnergy() {
 		double dx,dy,s2;
 		double pe=0.0;
@@ -256,7 +248,7 @@ public class RungeKuttaForceEngine implements ForceEngine {
 
         storeResultsInVectorArrays(particles);
 
-        return new ForceComputation(newPositions, newVelocities, kineticEnergy(), potentialEnergy());
+        return new ForceComputation(newPositions, newVelocities, potentialEnergy());
     }
 
     private void initialize(EngineConfig config, StatesOfMatterParticle[] particles) {
