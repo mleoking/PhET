@@ -208,8 +208,11 @@
 		$print_incrementally = $file_contents == null && file_exists($file_path);
 
         if (!$print_incrementally) {
-            $file_contents = file_get_contents($file_path);
-            $file_size 	   = strlen($file_contents);
+			if ($file_contents == null) {
+            	$file_contents = file_get_contents($file_path);
+			}
+			
+            $file_size = strlen($file_contents);
 
 			if (!$file_contents) {
 				print ("The file contents of file $file_path could not be retrieved");
