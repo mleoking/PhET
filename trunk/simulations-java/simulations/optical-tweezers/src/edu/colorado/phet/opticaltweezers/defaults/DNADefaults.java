@@ -107,6 +107,7 @@ public class DNADefaults {
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = GlobalDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE;
     
     // Dialog locations
+    public static final Point POSITION_HISTOGRAM_DIALOG_OFFSET = GlobalDefaults.POSITION_HISTOGRAM_DIALOG_OFFSET;
     public static final Point FLUID_CONTROLS_DIALOG_OFFSET = new Point( 10, 400 ); // offset in pixels from upper-left corner of parent frame
     
     // Control panel settings
