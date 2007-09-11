@@ -21,7 +21,7 @@ public class DNADefaults {
     private DNADefaults() {}
     
     // Clock
-    public static final boolean CLOCK_PAUSED = GlobalDefaults.CLOCK_PAUSED;
+    public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
     public static final int FRAME_RATE = GlobalDefaults.FRAME_RATE;
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
     public static final DoubleRange SLOW_DT_RANGE = new DoubleRange( 4E-18, 5E-16 );

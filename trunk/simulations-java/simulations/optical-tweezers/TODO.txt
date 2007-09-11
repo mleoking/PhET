@@ -17,7 +17,6 @@ MEDIUM PRIORITY:
 - why is setActiveModule(_motorsModule) buggy?
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 - save/load properties of position histogram: running, zoom index, ruler
-- save/load state of dialogs (fluid controls, position histogram) in deactivated modules
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
@@ -50,6 +49,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/11/07 - remove startsPaused from module constructors, handled in resetAll
+9/11/07 - save/load clock's run state in active and inactive modules
+9/11/07 - save/load state of dialogs in active and inactive modules
 9/11/07 - rename AbstractCanvas, AbstractControlPanel, AbstractModule (add OT prefix)
 ********* version 1.00.06 (17653)
 8/29/07 - restore dialogs when main frame is minimized/maximized
