@@ -34,7 +34,7 @@ import edu.colorado.phet.fourier.event.SoundErrorEvent;
 import edu.colorado.phet.fourier.event.SoundErrorListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.module.FourierAbstractModule;
 import edu.colorado.phet.fourier.sound.FourierSoundPlayer;
 import edu.colorado.phet.fourier.view.AmplitudeSlider;
 import edu.colorado.phet.fourier.view.AnimationCycleController;
@@ -51,7 +51,7 @@ import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteControlPanel extends FourierControlPanel implements ChangeListener, SoundErrorListener {
+public class DiscreteControlPanel extends FourierAbstractControlPanel implements ChangeListener, SoundErrorListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -117,7 +117,7 @@ public class DiscreteControlPanel extends FourierControlPanel implements ChangeL
      *
      * @param fourierSeries
      */
-    public DiscreteControlPanel( FourierModule module, FourierSeries fourierSeries, DiscreteHarmonicsView harmonicsGraph, DiscreteSumView sumGraph, HarmonicWavelengthTool wavelengthTool, HarmonicPeriodTool periodTool, HarmonicPeriodDisplay periodDisplay, AnimationCycleController animationCycleController ) {
+    public DiscreteControlPanel( FourierAbstractModule module, FourierSeries fourierSeries, DiscreteHarmonicsView harmonicsGraph, DiscreteSumView sumGraph, HarmonicWavelengthTool wavelengthTool, HarmonicPeriodTool periodTool, HarmonicPeriodDisplay periodDisplay, AnimationCycleController animationCycleController ) {
 
         super( module );
 

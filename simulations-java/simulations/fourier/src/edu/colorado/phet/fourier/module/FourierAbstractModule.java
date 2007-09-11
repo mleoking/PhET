@@ -28,7 +28,7 @@ import edu.colorado.phet.fourier.view.BoundsDebugger;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class FourierModule extends PhetGraphicsModule {
+public abstract class FourierAbstractModule extends PhetGraphicsModule {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -52,7 +52,7 @@ public abstract class FourierModule extends PhetGraphicsModule {
      * 
      * @param title the module title
      */
-    public FourierModule( String title ) {
+    public FourierAbstractModule( String title ) {
         super( title, new SwingClock( FourierConstants.CLOCK_DELAY, FourierConstants.CLOCK_STEP ) );
         setLogoPanelVisible( false );
     }

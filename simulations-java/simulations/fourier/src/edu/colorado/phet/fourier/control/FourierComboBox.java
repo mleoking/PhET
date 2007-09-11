@@ -51,7 +51,7 @@ public class FourierComboBox extends JPanel {
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( FourierControlPanel.DEFAULT_INSETS );
+        layout.setInsets( FourierAbstractControlPanel.DEFAULT_INSETS );
         setLayout( layout );
         layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _comboBox, 0, 1, GridBagConstraints.WEST );

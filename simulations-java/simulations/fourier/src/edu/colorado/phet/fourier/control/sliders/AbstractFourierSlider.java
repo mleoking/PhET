@@ -22,7 +22,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.fourier.control.FourierControlPanel;
+import edu.colorado.phet.fourier.control.FourierAbstractControlPanel;
 
 
 /**
@@ -71,7 +71,7 @@ public abstract class AbstractFourierSlider extends JPanel implements ChangeList
 
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        layout.setInsets( FourierControlPanel.DEFAULT_INSETS );
+        layout.setInsets( FourierAbstractControlPanel.DEFAULT_INSETS );
         setLayout( layout );
         layout.addAnchoredComponent( _label, 0, 0, GridBagConstraints.WEST );
         layout.addAnchoredComponent( _slider, 1, 0, GridBagConstraints.WEST );

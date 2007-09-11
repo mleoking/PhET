@@ -43,7 +43,7 @@ import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CModule extends FourierModule implements ApparatusPanel2.ChangeListener {
+public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data

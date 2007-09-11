@@ -52,7 +52,7 @@ import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class DiscreteModule extends FourierModule implements ApparatusPanel2.ChangeListener {
+public class DiscreteModule extends FourierAbstractModule implements ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
