@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractCanvas extends PhetPCanvas {
+public abstract class OTAbstractCanvas extends PhetPCanvas {
 
     private PNode _rootNode;
     
@@ -23,7 +23,7 @@ public abstract class AbstractCanvas extends PhetPCanvas {
      * 
      * @param renderingSize
      */
-    public AbstractCanvas( Dimension renderingSize ) {
+    public OTAbstractCanvas( Dimension renderingSize ) {
         super( renderingSize );
         
         // Root of our scene graph

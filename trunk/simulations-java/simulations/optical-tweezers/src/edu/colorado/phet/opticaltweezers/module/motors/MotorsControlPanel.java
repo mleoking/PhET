@@ -11,14 +11,14 @@ import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
 
 /**
  * MotorsControlPanel is the control panel for MotorsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MotorsControlPanel extends AbstractControlPanel {
+public class MotorsControlPanel extends OTAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data

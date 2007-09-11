@@ -20,7 +20,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
-import edu.colorado.phet.opticaltweezers.module.AbstractCanvas;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractCanvas;
 import edu.colorado.phet.opticaltweezers.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNACanvas extends AbstractCanvas {
+public class DNACanvas extends OTAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data

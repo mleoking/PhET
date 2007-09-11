@@ -11,14 +11,14 @@ import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
-import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
 
 /**
  * PhysicsControlPanel is the control panel for PhysicsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhysicsControlPanel extends AbstractControlPanel {
+public class PhysicsControlPanel extends OTAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
