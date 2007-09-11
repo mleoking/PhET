@@ -137,4 +137,10 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
 
         return inverseMass;
     }
+
+    public double getKineticEnergy() {
+        double v = Math.sqrt(vx * vx + vy * vy);
+
+        return 0.5 * mass * v * v;
+    }
 }

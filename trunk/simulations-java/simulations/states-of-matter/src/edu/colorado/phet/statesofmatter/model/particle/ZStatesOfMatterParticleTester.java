@@ -26,10 +26,19 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     public void testClone() {
         TestingUtils.testClone(P, NOT_EQUAL_TO_P);
     }
-    
+
     public void testGetInverseMass() {
         StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 0, 2);
 
         assertEquals(1.0/2.0, p.getInverseMass(), 0.00000001);
+    }
+
+    public void testGetKineticEnergy() {
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+
+        p.setVx(2.0);
+        p.setVy(1.0);
+
+        assertEquals(0.5 * 3.0 * Math.pow(Math.sqrt(2.0 * 2.0 + 1.0), 2), p.getKineticEnergy(), 0.00001);
     }
 }
