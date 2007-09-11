@@ -58,7 +58,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTModule extends AbstractModule implements Observer {
+public class QTModule extends QTAbstractModule implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data

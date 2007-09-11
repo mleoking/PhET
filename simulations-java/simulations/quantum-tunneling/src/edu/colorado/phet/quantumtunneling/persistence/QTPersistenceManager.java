@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.quantumtunneling.QTApplication;
 import edu.colorado.phet.quantumtunneling.QTResources;
-import edu.colorado.phet.quantumtunneling.module.AbstractModule;
+import edu.colorado.phet.quantumtunneling.module.QTAbstractModule;
 
 
 /**
@@ -81,8 +81,8 @@ public class QTPersistenceManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof AbstractModule ) {
-                    ( (AbstractModule) modules[i] ).save( config );
+                if ( modules[i] instanceof QTAbstractModule ) {
+                    ( (QTAbstractModule) modules[i] ).save( config );
                 }
             }
         }
@@ -229,8 +229,8 @@ public class QTPersistenceManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof AbstractModule ) {
-                    ( (AbstractModule) modules[i] ).load( config );
+                if ( modules[i] instanceof QTAbstractModule ) {
+                    ( (QTAbstractModule) modules[i] ).load( config );
                 }
             }
         }
