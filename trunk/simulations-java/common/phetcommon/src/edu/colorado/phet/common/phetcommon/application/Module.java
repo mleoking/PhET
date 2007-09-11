@@ -106,6 +106,37 @@ public abstract class Module {
         updateGraphics( event );
     }
 
+    /**
+     * Determines whether an inactive module's clock will be running when it's activated.
+     * This is useful when saving/loading the state of a simulation.
+     * 
+     * @param b
+     */
+    public void setClockRunningWhenActive( boolean b ) {
+        clockRunningWhenActive = b;
+        if ( isActive() ) {
+            if ( clockRunningWhenActive ) {
+                clock.start();
+            }
+            else {
+                clock.pause();
+            }
+        }
+    }
+    
+    /**
+     * Will this module's clock be running when it's activated?
+     * This is useful when saving/loading the state of a simulation.
+     * 
+     * @return
+     */
+    public boolean getClockRunningWhenActive() {
+        if ( isActive() ) {
+            clockRunningWhenActive = clock.isRunning(); // normally not refreshed until deactivate is called
+        }
+        return clockRunningWhenActive;
+    }
+    
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
