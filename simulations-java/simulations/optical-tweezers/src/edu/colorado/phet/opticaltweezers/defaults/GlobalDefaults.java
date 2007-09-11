@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.defaults;
 
+import java.awt.Point;
+
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
@@ -74,4 +76,7 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = 125; // pixels
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = false;
+    
+    // Dialog locations
+    public static final Point POSITION_HISTOGRAM_DIALOG_OFFSET = new Point( 15, 80 ); // offset in pixels from upper-left corner of parent frame
 }

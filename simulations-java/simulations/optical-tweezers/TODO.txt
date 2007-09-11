@@ -49,6 +49,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/11/07 - per-module specification of default location for Position Histogram dialog
 9/11/07 - per-module specification of default location for Fluid Controls dialog
 9/11/07 - remove startsPaused from module constructors, handled in resetAll
 9/11/07 - save/load clock's run state in active and inactive modules

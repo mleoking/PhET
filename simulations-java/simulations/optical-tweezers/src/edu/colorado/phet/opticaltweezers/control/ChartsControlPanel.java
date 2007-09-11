@@ -38,6 +38,7 @@ public class ChartsControlPanel extends JPanel {
     private LaserNode _laserNode;
     
     private PositionHistogramDialog _positionHistogramDialog;
+    private Point _positionHistogramDialogOffset;
     private Point _positionHistogramDialogLocation;
     private int _positionHistogramZoomIndex;
     private boolean _positionHistogramRulerVisible;
@@ -55,12 +56,14 @@ public class ChartsControlPanel extends JPanel {
      * @param titleFont font used for the control panel's title
      * @param controlFont font used for the controls 
      * @param parentFrame
+     * @param positionHistogramDialogOffset
      * @param clock
      * @param bead
      * @param laser
      * @param potentialEnergyNode
      */
-    public ChartsControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
+    public ChartsControlPanel( Font titleFont, Font controlFont, 
+            Frame parentFrame, Point positionHistogramDialogOffset,
             IClock clock, Bead bead, Laser laser, 
             PNode potentialEnergyNode, LaserNode laserNode ) {
         super();
@@ -73,6 +76,7 @@ public class ChartsControlPanel extends JPanel {
         _laserNode = laserNode;
         
         _positionHistogramDialog = null;
+        _positionHistogramDialogOffset = new Point( positionHistogramDialogOffset );
         _positionHistogramDialogLocation = null;
         _positionHistogramZoomIndex = -1; // force an update
         _positionHistogramRulerVisible = false;
@@ -229,7 +233,9 @@ public class ChartsControlPanel extends JPanel {
         
         if ( _positionHistogramDialogLocation == null ) {
             // initial placement is at the upper-left corner of the parent frame
-            _positionHistogramDialog.setLocation( (int) _parentFrame.getLocation().getX() + 15, (int) _parentFrame.getLocation().getY() + 80 );
+            int x = (int)( _parentFrame.getLocation().getX() + _positionHistogramDialogOffset.getX() );
+            int y = (int)( _parentFrame.getLocation().getY() + _positionHistogramDialogOffset.getY() );
+            _positionHistogramDialog.setLocation( x, y );
         }
         else {
             _positionHistogramDialog.setLocation( _positionHistogramDialogLocation );
