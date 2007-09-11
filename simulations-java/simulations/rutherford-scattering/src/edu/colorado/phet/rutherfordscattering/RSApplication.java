@@ -2,14 +2,15 @@
 
 package edu.colorado.phet.rutherfordscattering;
 
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
-
-import javax.swing.*;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * RSApplication is the main class for this simulation.
@@ -25,9 +26,8 @@ public class RSApplication extends PhetApplication {
     /**
      * Sole constructor.
      */
-    public RSApplication( PhetApplicationConfig config )
-    {
-        super( config  );
+    public RSApplication( PhetApplicationConfig config ) {
+        super( config );
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -48,7 +48,7 @@ public class RSApplication extends PhetApplication {
      * Initializes the menubar.
      */
     private void initMenubar( String[] args ) {
-        // do nothing for this sim
+    // do nothing for this sim
     }
 
     //----------------------------------------------------------------------------
