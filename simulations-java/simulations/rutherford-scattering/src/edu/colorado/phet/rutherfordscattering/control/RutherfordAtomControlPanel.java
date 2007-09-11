@@ -28,7 +28,7 @@ import edu.colorado.phet.rutherfordscattering.view.RutherfordAtomNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RutherfordAtomControlPanel extends AbstractControlPanel implements Observer {
+public class RutherfordAtomControlPanel extends RSAbstractControlPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data

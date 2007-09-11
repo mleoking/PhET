@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlumPuddingAtomModule extends AbstractModule {
+public class PlumPuddingAtomModule extends RSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data

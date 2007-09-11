@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RutherfordAtomModule extends AbstractModule {
+public class RutherfordAtomModule extends RSAbstractModule {
     
     //----------------------------------------------------------------------------
     // Class data

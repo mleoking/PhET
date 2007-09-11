@@ -26,7 +26,7 @@ import edu.colorado.phet.rutherfordscattering.view.LegendPanel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlumPuddingAtomControlPanel extends AbstractControlPanel implements Observer {
+public class PlumPuddingAtomControlPanel extends RSAbstractControlPanel implements Observer {
 
     //----------------------------------------------------------------------------
     // Class data
