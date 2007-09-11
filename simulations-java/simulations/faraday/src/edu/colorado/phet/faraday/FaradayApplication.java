@@ -11,14 +11,15 @@
 
 package edu.colorado.phet.faraday;
 
+import java.io.IOException;
+
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.faraday.control.menu.DeveloperMenu;
 import edu.colorado.phet.faraday.control.menu.OptionsMenu;
 import edu.colorado.phet.faraday.module.*;
-
-import javax.swing.*;
-import java.io.IOException;
 
 /**
  * FaradayApplication is the main application for the PhET "Faraday's Law" simulation.

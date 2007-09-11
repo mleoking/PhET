@@ -11,14 +11,16 @@
 
 package edu.colorado.phet.faraday.control.dialog;
 
+import java.awt.Color;
+import java.awt.Component;
+
+import javax.swing.JDialog;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.module.ICompassGridModule;
-
-import javax.swing.*;
-import java.awt.*;
 
 
 /**
