@@ -104,7 +104,8 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE,
                  MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                  _bead,
-                 _fluid );
+                 _fluid,
+                 _clock );
          _modelElements.add( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
          

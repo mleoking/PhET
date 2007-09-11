@@ -54,6 +54,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     private double _referenceClockStep;
     private Bead _bead;
     private Fluid _fluid;
+    private OTClock _clock;
     private final double _contourLength; // nm, length of the DNA strand
     private final double _persistenceLength; // nm, measure of the strand's bending stiffness
     private final int _numberOfSprings; // number of connected springs used to model the strand
@@ -116,7 +117,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
             DoubleRange fluidDragCoefficientRange,
             double referenceClockStep, 
             Bead bead, 
-            Fluid fluid ) {
+            Fluid fluid,
+            OTClock clock ) {
         
         super();
 
@@ -132,6 +134,8 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
 
         _fluid = fluid;
         _fluid.addObserver( this );
+        
+        _clock = clock;
 
         _springConstantRange = springConstantRange;
         _dragCoefficientRange = dragCoefficientRange;
@@ -556,6 +560,9 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
             if ( arg == Bead.PROPERTY_POSITION ) {
                 DNAPivot headPivot = getHeadPivot();
                 headPivot.setPosition( _bead.getX(), _bead.getY() );
+                if ( !_clock.isRunning() ) {
+                    evolveStrand( _clock.getDt() );
+                }
                 notifyObservers( PROPERTY_FORCE );
                 notifyObservers( PROPERTY_SHAPE );
             }
