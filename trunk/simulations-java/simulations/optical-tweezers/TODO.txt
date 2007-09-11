@@ -14,7 +14,6 @@ HIGH PRIORITY:
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
-- DNA spring closest to bead is the only one changed when dragging the bead, weird with paused clock or slow dt
 - OutOfMemoryError in Motors module
 - why is setActiveModule(_motorsModule) buggy?
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -49,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/11/07 - if the bead is moved while the clock is paused, force the DNA strand to evolve so it looks correct
 9/11/07 - bugfix: make DNA force vector update when fluid temperature is changed while clock is paused
 9/11/07 - per-module specification of default location for Position Histogram dialog
 9/11/07 - per-module specification of default location for Fluid Controls dialog
