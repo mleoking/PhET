@@ -11,6 +11,15 @@
 
 package edu.colorado.phet.fourier.view.game;
 
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -18,13 +27,6 @@ import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.enums.GameLevel;
 import edu.colorado.phet.fourier.enums.Preset;
 import edu.colorado.phet.fourier.model.FourierSeries;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Random;
 
 
 /**

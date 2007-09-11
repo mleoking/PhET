@@ -11,6 +11,19 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+import java.text.NumberFormat;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fourier.FourierResources;
@@ -18,12 +31,6 @@ import edu.colorado.phet.fourier.MathStrings;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.MathForm;
 import edu.colorado.phet.fourier.model.FourierSeries;
-
-import javax.swing.*;
-import java.awt.*;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.text.NumberFormat;
 
 
 /**
@@ -47,7 +54,6 @@ public class ExpandSumDialog extends JDialog implements SimpleObserver {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private NonPiccoloPhetApplication _app;
     private FourierSeries _fourierSeries;
     private JLabel _label;
     private JButton _closeButton;

@@ -11,6 +11,16 @@
 
 package edu.colorado.phet.fourier.module;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseEvent;
+
+import javax.swing.JOptionPane;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -29,13 +39,6 @@ import edu.colorado.phet.fourier.view.game.GameAmplitudesView;
 import edu.colorado.phet.fourier.view.game.GameHarmonicsView;
 import edu.colorado.phet.fourier.view.game.GameManager;
 import edu.colorado.phet.fourier.view.game.GameSumView;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseEvent;
 
 
 /**

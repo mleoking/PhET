@@ -11,6 +11,14 @@
 
 package edu.colorado.phet.fourier.control;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.fourier.FourierConstants;
@@ -35,13 +43,6 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteSumView;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodDisplay;
 import edu.colorado.phet.fourier.view.tools.HarmonicPeriodTool;
 import edu.colorado.phet.fourier.view.tools.HarmonicWavelengthTool;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
 
 /**

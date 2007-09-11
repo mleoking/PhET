@@ -11,6 +11,13 @@
 
 package edu.colorado.phet.fourier;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -19,11 +26,6 @@ import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.GameModule;
 import edu.colorado.phet.fourier.persistence.ConfigManager;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 
 /**
