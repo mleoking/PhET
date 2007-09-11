@@ -11,6 +11,13 @@
 
 package edu.colorado.phet.quantumtunneling;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
@@ -25,11 +32,6 @@ import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 
 /**

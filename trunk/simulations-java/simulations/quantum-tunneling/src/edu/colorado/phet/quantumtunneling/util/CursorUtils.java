@@ -11,10 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.util;
 
+import java.awt.Cursor;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-
-import java.awt.*;
 
 
 /**
