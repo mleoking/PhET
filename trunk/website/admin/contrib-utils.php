@@ -1287,6 +1287,8 @@ EOT;
     }
     
     function contribution_create_multiselect_association($contribution_id, $multiselect_control_name, $text) {
+		$text = html_entity_decode($text);
+		
         $matches = array();
         
         if (preg_match('/multiselect_([a-zA-Z0-9_]+)_id_([0-9]+)$/i', $multiselect_control_name, $matches) !== 1) {

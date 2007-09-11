@@ -826,7 +826,9 @@ EOT;
         
         $options = '<option value="" selected="selected">Select '.$select_user_name.':</option>';
         
-        foreach($options_array as $identifier => $text) {            
+        foreach($options_array as $identifier => $text) {   
+			$text = html_entity_decode($text);
+			
             $options .= "<option value=\"$identifier\">$text</option>";
             
             $text_to_identifier["$text"] = "$identifier";
@@ -849,6 +851,8 @@ EOT;
 		$should_invalidate_on_empty = $print_select ? 'true' : 'false';
 
         foreach($selections_array as $text) {
+			$text = html_entity_decode($text);
+			
             if (isset($text_to_identifier["$text"])) {
                 $identifier = $text_to_identifier["$text"];
             }
