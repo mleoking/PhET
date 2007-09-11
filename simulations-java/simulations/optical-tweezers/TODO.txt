@@ -48,6 +48,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/11/07 - encapsulate common model container functionality in OTAbstractModel
+9/11/07 - move model container classes into their respective module packages
 9/11/07 - if the bead is moved while the clock is paused, force the DNA strand to evolve so it looks correct
 9/11/07 - bugfix: make DNA force vector update when fluid temperature is changed while clock is paused
 9/11/07 - per-module specification of default location for Position Histogram dialog

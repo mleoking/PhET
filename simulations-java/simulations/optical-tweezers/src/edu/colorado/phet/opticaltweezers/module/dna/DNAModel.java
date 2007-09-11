@@ -1,30 +1,22 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.model;
+package edu.colorado.phet.opticaltweezers.module.dna;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
+import edu.colorado.phet.opticaltweezers.model.*;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModel;
 
 /**
  * DNAModel is the model for DNAModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAModel extends ClockAdapter {
+public class DNAModel extends OTAbstractModel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList _modelElements; // array of ModelElement
-    
-    private final OTClock _clock;
-
     private final Fluid _fluid;
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
@@ -38,25 +30,20 @@ public class DNAModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public DNAModel( OTClock clock ) {
-        super();
-        
-        _clock = clock;
-        _clock.addClockListener( this );
-        
-        _modelElements = new ArrayList();
+        super( clock );
         
         _fluid = new Fluid( DNADefaults.FLUID_SPEED_RANGE,
                 DNADefaults.FLUID_DIRECTION,
                 DNADefaults.FLUID_VISCOSITY_RANGE, 
                 DNADefaults.FLUID_TEMPERATURE_RANGE,
                 DNADefaults.FLUID_APT_CONCENTRATION_RANGE );
-        _modelElements.add( _fluid );
+        addModelElement( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( DNADefaults.MICROSCOPE_SLIDE_POSITION,
                 DNADefaults.MICROSCOPE_SLIDE_ORIENTATION,
                 DNADefaults.MICROSCOPE_SLIDE_CENTER_HEIGHT,
                 DNADefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT );
-        _modelElements.add( _microscopeSlide );
+        addModelElement( _microscopeSlide );
         
         _laser = new Laser( DNADefaults.LASER_POSITION, 
                 DNADefaults.LASER_ORIENTATION, 
@@ -70,7 +57,7 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.LASER_TRAP_FORCE_RATIO,
                 DNADefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
                 clock );
-        _modelElements.add( _laser );
+        addModelElement( _laser );
         
         _bead = new Bead( DNADefaults.BEAD_POSITION, 
                 DNADefaults.BEAD_ORIENTATION, 
@@ -88,7 +75,7 @@ public class DNAModel extends ClockAdapter {
                 DNADefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
                 DNADefaults.BEAD_VACUUM_FAST_DT_RANGE,
                 DNADefaults.BEAD_VACUUM_FAST_POWER_RANGE );
-         _modelElements.add( _bead );
+         addModelElement( _bead );
          
          _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 
                  DNADefaults.DNA_PERSISTENCE_LENGTH, 
@@ -103,8 +90,8 @@ public class DNAModel extends ClockAdapter {
                  DNADefaults.DNA_REFERENCE_CLOCK_STEP,
                  _bead,
                  _fluid,
-                 _clock );
-         _modelElements.add( _dnaStrand );
+                 clock );
+         addModelElement( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
 
          _modelViewTransform = new ModelViewTransform( DNADefaults.MODEL_TO_VIEW_SCALE );
@@ -113,10 +100,6 @@ public class DNAModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    public OTClock getClock() {
-        return _clock;
-    }
     
     public Fluid getFluid() {
         return _fluid;
@@ -140,23 +123,5 @@ public class DNAModel extends ClockAdapter {
     
     public ModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * When the clock ticks, call stepInTime for each model element.
-     * 
-     * @param event
-     */
-    public void clockTicked( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        Iterator i = _modelElements.iterator();
-        while ( i.hasNext() ) {
-            ModelElement modelElement = (ModelElement) i.next();
-            modelElement.stepInTime( dt );
-        }
     }
 }
