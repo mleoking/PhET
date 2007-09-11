@@ -31,6 +31,7 @@ public class MiscControlPanel extends JPanel implements Observer {
     private Fluid _fluid;
     private Frame _parentFrame;
     private FluidControlsDialog _fluidControlsDialog;
+    private Point _fluidControlsDialogOffset;  // default offset from upper-left corner of parent frame
     private Point _fluidControlsDialogLocation;
     
     private JCheckBox _rulerCheckBox;
@@ -48,9 +49,10 @@ public class MiscControlPanel extends JPanel implements Observer {
      * @param titleFont
      * @param controlFont
      * @param parentFrame
+     * @param fluidControlsDialogOffset
      * @param miscroscopeSlide
      */
-    public MiscControlPanel( Font titleFont, Font controlFont, Frame parentFrame, PNode rulerNode, Fluid fluid ) {
+    public MiscControlPanel( Font titleFont, Font controlFont, Frame parentFrame, Point fluidControlsDialogOffset, PNode rulerNode, Fluid fluid ) {
         super();
         
         _parentFrame = parentFrame;
@@ -61,6 +63,7 @@ public class MiscControlPanel extends JPanel implements Observer {
         _fluid.addObserver( this );
         
         _fluidControlsDialog = null;
+        _fluidControlsDialogOffset = new Point( fluidControlsDialogOffset );
         _fluidControlsDialogLocation = null;
         
         _rulerCheckBox = new JCheckBox( OTResources.getString( "label.showRuler" ) );
@@ -267,7 +270,9 @@ public class MiscControlPanel extends JPanel implements Observer {
         if ( _fluidControlsDialogLocation == null ) {
             // initial placement is at the lower-left of the main frame
             Point p = _parentFrame.getLocationOnScreen();
-            _fluidControlsDialog.setLocation( (int) p.getX() + 10, (int) p.getY() + ( _parentFrame.getHeight() - _fluidControlsDialog.getHeight() - 60 ) );
+            int x = (int)( p.getX() + _fluidControlsDialogOffset.getX() );
+            int y = (int)( p.getY() + _fluidControlsDialogOffset.getY() );
+            _fluidControlsDialog.setLocation( x, y );
         }
         else {
             _fluidControlsDialog.setLocation( _fluidControlsDialogLocation );

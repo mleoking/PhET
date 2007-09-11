@@ -3,6 +3,7 @@
 package edu.colorado.phet.opticaltweezers.defaults;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -90,6 +91,9 @@ public class PhysicsDefaults {
     // Force vectors
     public static final double FORCE_VECTOR_REFERENCE_LENGTH = GlobalDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
     public static final boolean FORCE_VECTOR_COMPONENTS_VISIBLE = GlobalDefaults.FORCE_VECTOR_COMPONENTS_VISIBLE;
+    
+    // Dialog locations
+    public static final Point FLUID_CONTROLS_DIALOG_OFFSET = new Point( 10, 400 ); // offset in pixels from upper-left corner of parent frame
     
     // Control panel settings
     public static final boolean LASER_BEAM_VISIBLE = true;
