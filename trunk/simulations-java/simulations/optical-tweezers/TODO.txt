@@ -3,8 +3,10 @@
 ================================================================================
 
 HIGH PRIORITY:
-- pull DNA in enzyme model
+- create DNA pivot points starting at pin point, working towards bead position
+- throw an exception if DNA pin point is too far from bead (extension > contour length)
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
+- pull DNA in enzyme model by changing length of springs on either side of pin
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
