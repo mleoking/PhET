@@ -11,6 +11,16 @@
 
 package edu.colorado.phet.opticalquantumcontrol.view;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.text.MessageFormat;
+import java.util.Random;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -22,14 +32,6 @@ import edu.colorado.phet.opticalquantumcontrol.OQCConstants;
 import edu.colorado.phet.opticalquantumcontrol.OQCResources;
 import edu.colorado.phet.opticalquantumcontrol.model.FourierSeries;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.text.MessageFormat;
-import java.util.Random;
 
 
 /**
