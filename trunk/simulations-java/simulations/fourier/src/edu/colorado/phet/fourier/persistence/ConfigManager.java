@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
 import edu.colorado.phet.fourier.FourierApplication;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
-import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.module.FourierAbstractModule;
 import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
@@ -69,8 +69,8 @@ public class ConfigManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof FourierModule ) {
-                    ( (FourierModule) modules[i] ).save( config );
+                if ( modules[i] instanceof FourierAbstractModule ) {
+                    ( (FourierAbstractModule) modules[i] ).save( config );
                 }
             }
 
@@ -147,8 +147,8 @@ public class ConfigManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof FourierModule ) {
-                    ( (FourierModule) modules[i] ).load( config );
+                if ( modules[i] instanceof FourierAbstractModule ) {
+                    ( (FourierAbstractModule) modules[i] ).load( config );
                 }
             }
 

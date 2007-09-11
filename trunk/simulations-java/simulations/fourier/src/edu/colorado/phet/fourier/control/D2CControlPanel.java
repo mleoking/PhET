@@ -35,7 +35,7 @@ import edu.colorado.phet.fourier.control.sliders.WavePacketXWidthSlider;
 import edu.colorado.phet.fourier.enums.Domain;
 import edu.colorado.phet.fourier.enums.WaveType;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
-import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.module.FourierAbstractModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
 import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
@@ -50,7 +50,7 @@ import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CControlPanel extends FourierControlPanel {
+public class D2CControlPanel extends FourierAbstractControlPanel {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -101,7 +101,7 @@ public class D2CControlPanel extends FourierControlPanel {
      * @param amplitudesGraph
      * @param harmonicsGraph
      */
-    public D2CControlPanel( FourierModule module, 
+    public D2CControlPanel( FourierAbstractModule module, 
             GaussianWavePacket wavePacket, 
             D2CAmplitudesView amplitudesGraph,
             D2CHarmonicsView harmonicsGraph,

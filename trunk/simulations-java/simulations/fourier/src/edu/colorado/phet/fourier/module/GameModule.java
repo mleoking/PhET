@@ -47,7 +47,7 @@ import edu.colorado.phet.fourier.view.game.GameSumView;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameModule extends FourierModule implements ApparatusPanel2.ChangeListener {
+public class GameModule extends FourierAbstractModule implements ApparatusPanel2.ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data

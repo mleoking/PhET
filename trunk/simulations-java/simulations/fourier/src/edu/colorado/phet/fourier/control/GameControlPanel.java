@@ -31,7 +31,7 @@ import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.enums.GameLevel;
 import edu.colorado.phet.fourier.enums.Preset;
 import edu.colorado.phet.fourier.model.FourierSeries;
-import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.module.FourierAbstractModule;
 import edu.colorado.phet.fourier.view.game.GameManager;
 
 
@@ -41,7 +41,7 @@ import edu.colorado.phet.fourier.view.game.GameManager;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class GameControlPanel extends FourierControlPanel implements SimpleObserver {
+public class GameControlPanel extends FourierAbstractControlPanel implements SimpleObserver {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -84,7 +84,7 @@ public class GameControlPanel extends FourierControlPanel implements SimpleObser
      * 
      * @param module
      */
-    public GameControlPanel( FourierModule module, GameManager gameManager ) {
+    public GameControlPanel( FourierAbstractModule module, GameManager gameManager ) {
         super( module );
         
         assert( gameManager != null );

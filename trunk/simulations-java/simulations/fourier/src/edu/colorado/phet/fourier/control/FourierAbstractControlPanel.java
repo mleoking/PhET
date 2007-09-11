@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
-import edu.colorado.phet.fourier.module.FourierModule;
+import edu.colorado.phet.fourier.module.FourierAbstractModule;
 
 
 /**
@@ -35,7 +35,7 @@ import edu.colorado.phet.fourier.module.FourierModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public abstract class FourierControlPanel extends ControlPanel {
+public abstract class FourierAbstractControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -54,7 +54,7 @@ public abstract class FourierControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private FourierModule _module; // module that this control panel is associated with
+    private FourierAbstractModule _module; // module that this control panel is associated with
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -65,7 +65,7 @@ public abstract class FourierControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public FourierControlPanel( FourierModule module ) {
+    public FourierAbstractControlPanel( FourierAbstractModule module ) {
         super( module );
         getContentPanel().setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
