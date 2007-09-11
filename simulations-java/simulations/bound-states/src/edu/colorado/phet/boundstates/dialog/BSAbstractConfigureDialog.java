@@ -11,14 +11,6 @@
 
 package edu.colorado.phet.boundstates.dialog;
 
-import edu.colorado.phet.boundstates.BSResources;
-import edu.colorado.phet.boundstates.model.BSAbstractPotential;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +18,18 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.border.EmptyBorder;
+
+import edu.colorado.phet.boundstates.BSResources;
+import edu.colorado.phet.boundstates.model.BSAbstractPotential;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
 
 /**
  * BSAbstractConfigureDialog is the base class for all dialogs that
