@@ -11,16 +11,19 @@
 
 package edu.colorado.phet.hydrogenatom.menu;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.hydrogenatom.dialog.DeveloperControlsDialog;
-import edu.colorado.phet.hydrogenatom.module.HAModule;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.hydrogenatom.dialog.DeveloperControlsDialog;
+import edu.colorado.phet.hydrogenatom.module.HAModule;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
