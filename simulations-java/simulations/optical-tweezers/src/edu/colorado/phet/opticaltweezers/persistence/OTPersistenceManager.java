@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 
 
 /**
@@ -71,8 +71,8 @@ public class OTPersistenceManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof AbstractModule ) {
-                    ( (AbstractModule) modules[i] ).save( config );
+                if ( modules[i] instanceof OTAbstractModule ) {
+                    ( (OTAbstractModule) modules[i] ).save( config );
                 }
             }
         }
@@ -218,8 +218,8 @@ public class OTPersistenceManager {
             // Modules
             Module[] modules = _app.getModules();
             for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof AbstractModule ) {
-                    ( (AbstractModule) modules[i] ).load( config );
+                if ( modules[i] instanceof OTAbstractModule ) {
+                    ( (OTAbstractModule) modules[i] ).load( config );
                 }
             }
         }

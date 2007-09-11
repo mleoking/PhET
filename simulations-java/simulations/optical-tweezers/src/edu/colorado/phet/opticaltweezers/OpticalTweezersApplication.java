@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.opticaltweezers.menu.DeveloperMenu;
 import edu.colorado.phet.opticaltweezers.menu.OptionsMenu;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
 import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
 import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
@@ -174,15 +174,15 @@ public class OpticalTweezersApplication extends PhetApplication {
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();
         for ( int i = 0; i < modules.length; i++ ) {
-            if ( modules[i] instanceof AbstractModule ) {
-                AbstractModule module = (AbstractModule) modules[i];
+            if ( modules[i] instanceof OTAbstractModule ) {
+                OTAbstractModule module = (OTAbstractModule) modules[i];
                 module.setControlPanelBackground( color );
             }
         }
     }
 
     public Color getControlPanelBackground() {
-        return ( (AbstractModule) getModule( 0 ) ).getControlPanelBackground();
+        return ( (OTAbstractModule) getModule( 0 ) ).getControlPanelBackground();
     }
 
     //----------------------------------------------------------------------------

@@ -14,14 +14,14 @@ import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.module.AbstractControlPanel;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
 
 /**
  * DNAControlPanel is the control panel for DNAModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAControlPanel extends AbstractControlPanel {
+public class DNAControlPanel extends OTAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data

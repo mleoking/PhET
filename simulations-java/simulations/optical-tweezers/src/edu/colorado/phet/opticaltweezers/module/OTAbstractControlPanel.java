@@ -22,7 +22,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractControlPanel extends ControlPanel {
+public abstract class OTAbstractControlPanel extends ControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -35,7 +35,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private AbstractModule _module; // module that this control panel is associated with
+    private OTAbstractModule _module; // module that this control panel is associated with
     private JButton _resetAllButton;
 
     //----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      *
      * @param module
      */
-    public AbstractControlPanel( AbstractModule module ) {
+    public OTAbstractControlPanel( OTAbstractModule module ) {
         super();
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
@@ -62,7 +62,7 @@ public abstract class AbstractControlPanel extends ControlPanel {
      *
      * @return the module
      */
-    public AbstractModule getModule() {
+    public OTAbstractModule getModule() {
         return _module;
     }
 

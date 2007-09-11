@@ -50,6 +50,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/11/07 - rename AbstractCanvas, AbstractControlPanel, AbstractModule (add OT prefix)
 ********* version 1.00.06 (17653)
 8/29/07 - restore dialogs when main frame is minimized/maximized
 8/29/07 - fluid control selected by default in Motors panel

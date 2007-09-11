@@ -10,7 +10,7 @@ import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.persistence.PhysicsConfig;
 
@@ -19,7 +19,7 @@ import edu.colorado.phet.opticaltweezers.persistence.PhysicsConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PhysicsModule extends AbstractModule {
+public class PhysicsModule extends OTAbstractModule {
 
     //----------------------------------------------------------------------------
     // Instance data

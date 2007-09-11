@@ -21,7 +21,7 @@ import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModule extends PiccoloModule {
+public abstract class OTAbstractModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,7 +34,7 @@ public abstract class AbstractModule extends PiccoloModule {
      * @param clock the simulation clock
      * @param startsPaused initial clock state
      */
-    public AbstractModule( String title, IClock clock, boolean startsPaused ) {
+    public OTAbstractModule( String title, IClock clock, boolean startsPaused ) {
         super( title, clock, startsPaused );
         setLogoPanel( null );
     }

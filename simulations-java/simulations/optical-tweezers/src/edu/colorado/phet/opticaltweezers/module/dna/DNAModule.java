@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.control.OTClockControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
-import edu.colorado.phet.opticaltweezers.module.AbstractModule;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
@@ -23,7 +23,7 @@ import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAModule extends AbstractModule {
+public class DNAModule extends OTAbstractModule {
 
     //----------------------------------------------------------------------------
     // Instance data
