@@ -11,16 +11,19 @@
 
 package edu.colorado.phet.opticalquantumcontrol;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.opticalquantumcontrol.help.ExplanationDialog;
 import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 
 /**
