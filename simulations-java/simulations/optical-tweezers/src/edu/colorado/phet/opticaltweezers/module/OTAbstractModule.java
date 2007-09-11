@@ -32,10 +32,9 @@ public abstract class OTAbstractModule extends PiccoloModule {
      *
      * @param title the module title
      * @param clock the simulation clock
-     * @param startsPaused initial clock state
      */
-    public OTAbstractModule( String title, IClock clock, boolean startsPaused ) {
-        super( title, clock, startsPaused );
+    public OTAbstractModule( String title, IClock clock ) {
+        super( title, clock );
         setLogoPanel( null );
     }
 

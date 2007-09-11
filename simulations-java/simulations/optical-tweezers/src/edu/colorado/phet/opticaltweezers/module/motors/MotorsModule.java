@@ -31,15 +31,15 @@ public class MotorsModule extends OTAbstractModule {
     private MotorsControlPanel _controlPanel;
     private OTClockControlPanel _clockControlPanel;
 
-    private boolean _fluidControlsWasSelected;
-    private boolean _positionHistogramWasSelected;
+    private boolean _fluidControlsWasSelected; // for supporting persistence of Fluid Control dialog state
+    private boolean _positionHistogramWasSelected; // for supporting persistence of Position Histogram dialog state
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
     public MotorsModule() {
-        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK, MotorsDefaults.CLOCK_PAUSED );
+        super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK );
 
         // Model
         OTClock clock = (OTClock) getClock();
@@ -136,9 +136,7 @@ public class MotorsModule extends OTAbstractModule {
             // Clock
             OTClock clock = _model.getClock();
             clock.setDt( MotorsDefaults.DEFAULT_DT );
-            if ( isActive() ) {
-                clock.setPaused( MotorsDefaults.CLOCK_PAUSED );
-            }
+            setClockRunningWhenActive( MotorsDefaults.CLOCK_RUNNING );
 
             // Bead
             Bead bead = _model.getBead();
@@ -230,8 +228,8 @@ public class MotorsModule extends OTAbstractModule {
 
         // Clock
         OTClock clock = model.getClock();
-        config.setClockRunning( clock.isRunning() );
         config.setClockDt( clock.getDt() );
+        config.setClockRunning( getClockRunningWhenActive() );
 
         // Laser
         Laser laser = model.getLaser();
@@ -264,12 +262,22 @@ public class MotorsModule extends OTAbstractModule {
             config.setConstantTrapForceSelected( forcesControlPanel.isConstantTrapForceSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
-            config.setPositionHistogramSelected( chartsControlPanel.isPositionHistogramSelected() );
+            if ( isActive() ) {
+                config.setPositionHistogramSelected( chartsControlPanel.isPositionHistogramSelected() );
+            }
+            else {
+                config.setPositionHistogramSelected( _positionHistogramWasSelected );
+            }
             config.setPotentialEnergySelected( chartsControlPanel.isPotentialChartSelected() );
 
             MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
             config.setRulerSelected( miscControlPanel.isRulerSelected() );
-            config.setFluidControlsSelected( miscControlPanel.isFluidControlsSelected() );
+            if ( isActive() ) {
+                config.setFluidControlsSelected( miscControlPanel.isFluidControlsSelected() );
+            }
+            else {
+                config.setFluidControlsSelected( _fluidControlsWasSelected );
+            }
         }
     }
 
@@ -286,14 +294,7 @@ public class MotorsModule extends OTAbstractModule {
         // Clock
         OTClock clock = model.getClock();
         clock.setDt( config.getClockDt() );
-        if ( isActive() ) {
-            if ( config.isClockRunning() ) {
-                getClock().start();
-            }
-            else {
-                getClock().pause();
-            }
-        }
+        setClockRunningWhenActive( config.isClockRunning() );
 
         // Laser
         Laser laser = model.getLaser();
@@ -325,12 +326,22 @@ public class MotorsModule extends OTAbstractModule {
             forcesControlPanel.setConstantTrapForceSelected( config.isConstantTrapForceSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
-            chartsControlPanel.setPositionHistogramSelected( config.isPositionHistogramSelected() );
+            if ( isActive() ) {
+                chartsControlPanel.setPositionHistogramSelected( config.isPositionHistogramSelected() );
+            }
+            else {
+                _positionHistogramWasSelected = config.isPositionHistogramSelected();
+            }
             chartsControlPanel.setPotentialEnergySelected( config.isPotentialEnergySelected() );
 
             MiscControlPanel miscControlPanel = _controlPanel.getMiscControlPanel();
             miscControlPanel.setRulerSelected( config.isRulerSelected() );
-            miscControlPanel.setFluidControlsSelected( config.isFluidControlsSelected() );
+            if ( isActive() ) {
+                miscControlPanel.setFluidControlsSelected( config.isFluidControlsSelected() );
+            }
+            else {
+                _fluidControlsWasSelected = config.isFluidControlsSelected();
+            }
         }
     }
 }

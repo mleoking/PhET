@@ -23,7 +23,7 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     private GlobalDefaults() {}
     
     // Clock
-    public static final boolean CLOCK_PAUSED = false;
+    public static final boolean CLOCK_RUNNING = true;
     public static final int FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final int CLOCK_TIME_COLUMNS = 10;
     
