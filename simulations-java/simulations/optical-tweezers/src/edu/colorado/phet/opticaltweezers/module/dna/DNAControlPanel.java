@@ -12,6 +12,7 @@ import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
 import edu.colorado.phet.opticaltweezers.control.MiscControlPanel;
 import edu.colorado.phet.opticaltweezers.control.SimulationSpeedControlPanel;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
+import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.DNAModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
@@ -62,7 +63,9 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
-        _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(), _canvas.getRulerNode(), model.getFluid() );
+        _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, 
+                module.getFrame(), DNADefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
+                _canvas.getRulerNode(), model.getFluid() );
         List forceVectorNodes = new ArrayList();
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
