@@ -11,7 +11,6 @@ import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.PhysicsDefaults;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
-import edu.colorado.phet.opticaltweezers.model.PhysicsModel;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
 
 /**

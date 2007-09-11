@@ -1,30 +1,22 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.opticaltweezers.model;
+package edu.colorado.phet.opticaltweezers.module.motors;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
+import edu.colorado.phet.opticaltweezers.model.*;
+import edu.colorado.phet.opticaltweezers.module.OTAbstractModel;
 
 /**
  * MotorsModel is the model for MotorsModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MotorsModel extends ClockAdapter {
+public class MotorsModel extends OTAbstractModel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final ArrayList _modelElements; // array of ModelElement
-    
-    private final OTClock _clock;
-
     private final Fluid _fluid;
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
@@ -40,25 +32,20 @@ public class MotorsModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public MotorsModel( OTClock clock ) {
-        super();
-        
-        _clock = clock;
-        _clock.addClockListener( this );
-        
-        _modelElements = new ArrayList();
+        super( clock );
         
         _fluid = new Fluid( MotorsDefaults.FLUID_SPEED_RANGE,
                 MotorsDefaults.FLUID_DIRECTION,
                 MotorsDefaults.FLUID_VISCOSITY_RANGE, 
                 MotorsDefaults.FLUID_TEMPERATURE_RANGE,
                 MotorsDefaults.FLUID_APT_CONCENTRATION_RANGE);
-        _modelElements.add( _fluid );
+        addModelElement( _fluid );
         
         _microscopeSlide = new MicroscopeSlide( MotorsDefaults.MICROSCOPE_SLIDE_POSITION,
                 MotorsDefaults.MICROSCOPE_SLIDE_ORIENTATION,
                 MotorsDefaults.MICROSCOPE_SLIDE_CENTER_HEIGHT,
                 MotorsDefaults.MICROSCOPE_SLIDE_EDGE_HEIGHT );
-        _modelElements.add( _microscopeSlide );
+        addModelElement( _microscopeSlide );
         
         _laser = new Laser( MotorsDefaults.LASER_POSITION, 
                 MotorsDefaults.LASER_ORIENTATION, 
@@ -72,7 +59,7 @@ public class MotorsModel extends ClockAdapter {
                 MotorsDefaults.LASER_TRAP_FORCE_RATIO,
                 MotorsDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE,
                 clock );
-        _modelElements.add( _laser );
+        addModelElement( _laser );
         
         _bead = new Bead( MotorsDefaults.BEAD_POSITION, 
                 MotorsDefaults.BEAD_ORIENTATION, 
@@ -90,7 +77,7 @@ public class MotorsModel extends ClockAdapter {
                 MotorsDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE,
                 MotorsDefaults.BEAD_VACUUM_FAST_DT_RANGE,
                 MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
-         _modelElements.add( _bead );
+         addModelElement( _bead );
          
          _dnaStrand = new DNAStrand( MotorsDefaults.DNA_CONTOUR_LENGTH, 
                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
@@ -105,8 +92,8 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                  _bead,
                  _fluid,
-                 _clock );
-         _modelElements.add( _dnaStrand );
+                 clock );
+         addModelElement( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
          
          _enzymeA = new EnzymeA( MotorsDefaults.ENZYME_POSITION, 
@@ -114,18 +101,18 @@ public class MotorsModel extends ClockAdapter {
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrand,
                  _fluid,
-                 _clock.getFastRange().getMax() );
+                 clock.getFastRange().getMax() );
          _enzymeA.setEnabled( true );
-         _modelElements.add( _enzymeA );
+         addModelElement( _enzymeA );
          
          _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrand,
                  _fluid,
-                 _clock.getFastRange().getMax() );
+                 clock.getFastRange().getMax() );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );
-         _modelElements.add( _enzymeB );
+         addModelElement( _enzymeB );
 
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
     }
@@ -133,10 +120,6 @@ public class MotorsModel extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
-    public OTClock getClock() {
-        return _clock;
-    }
     
     public Fluid getFluid() {
         return _fluid;
@@ -168,23 +151,5 @@ public class MotorsModel extends ClockAdapter {
     
     public ModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * When the clock ticks, call stepInTime for each model element.
-     * 
-     * @param event
-     */
-    public void clockTicked( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        Iterator i = _modelElements.iterator();
-        while ( i.hasNext() ) {
-            ModelElement modelElement = (ModelElement) i.next();
-            modelElement.stepInTime( dt );
-        }
     }
 }

@@ -10,7 +10,6 @@ import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
-import edu.colorado.phet.opticaltweezers.model.MotorsModel;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractControlPanel;
 
