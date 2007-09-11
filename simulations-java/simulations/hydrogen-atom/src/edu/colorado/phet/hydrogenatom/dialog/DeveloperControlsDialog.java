@@ -11,6 +11,16 @@
 
 package edu.colorado.phet.hydrogenatom.dialog;
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -29,15 +39,6 @@ import edu.colorado.phet.hydrogenatom.model.RutherfordScattering;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessMagnitudeNode;
 import edu.colorado.phet.hydrogenatom.view.atom.DeBroglieBrightnessNode;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.

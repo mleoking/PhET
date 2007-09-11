@@ -11,6 +11,16 @@
 
 package edu.colorado.phet.hydrogenatom;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JDialog;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -22,13 +32,6 @@ import edu.colorado.phet.hydrogenatom.menu.DeveloperMenu;
 import edu.colorado.phet.hydrogenatom.menu.OptionsMenu;
 import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * HAApplication
