@@ -11,6 +11,7 @@ import javax.swing.Icon;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
@@ -27,6 +28,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private Bead _bead;
+    private DNAStrand _dnaStrand;
     private ModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
@@ -34,11 +36,14 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAForceNode( Bead bead, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DNAForceNode( Bead bead, DNAStrand dnaStrand, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.DNA_FORCE_COLOR );
         
         _bead = bead;
         _bead.addObserver( this );
+
+        _dnaStrand = dnaStrand;
+        _dnaStrand.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
         _pModel = new Point2D.Double();
@@ -49,6 +54,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     
     public void cleanup() {
         _bead.deleteObserver( this );
+        _dnaStrand.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -73,6 +79,9 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
         if ( isVisible() ) {
             if ( o == _bead ) {
                 updatePosition();
+                updateVectors();
+            }
+            else if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_FORCE ) {
                 updateVectors();
             }
         }
