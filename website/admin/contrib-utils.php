@@ -888,7 +888,7 @@ EOT;
             $abbr = $contribution["${table_name}_desc_abbrev"];
         }
         
-        $abbr = preg_replace('/ *, */', '<br/>', $abbr);
+        $abbr = str_replace(',', '<br/>', $abbr);
         
         return "<abbr title=\"$desc\">$abbr</abbr>";
     }
@@ -1092,39 +1092,13 @@ EOT;
 		
 		$title_html .= $gold_star_html;
         
-        print <<<EOT
-            <tr>
-                <td>
-                    $title_html
-                </td>
-            
-                <td>
-                    $author_html
-                </td>
-            
-                <td>
-                    $level_list            
-                </td>
-            
-                <td>
-                    $type_list
-                </td>
-EOT;
+        print "<tr><td>$title_html</td><td>$author_html</td><td>$level_list</td><td>$type_list</td>";
 
         if ($print_sims) {
-            print <<<EOT
-                <td>
-                    $sim_list
-                </td>
-EOT;
+            print "<td>$sim_list</td>";
         }
     
-        print <<<EOT
-                <td>
-                    $contribution_date_updated
-                </td>
-            </tr>
-EOT;
+        print "<td>$contribution_date_updated</td></tr>";
     }
 
     function contribution_get_contribution_file_names($contribution_id) {
@@ -1786,13 +1760,13 @@ EOT;
 		
 		$contribution_rows = db_exec_query($query);
 		         
-         while ($contribution = mysql_fetch_assoc($contribution_rows)) {
-             $contribution_id = $contribution['contribution_id'];
-             
-             $contributions["$contribution_id"] = format_for_html($contribution);
-         }
+        while ($contribution = mysql_fetch_assoc($contribution_rows)) {
+            $contribution_id = $contribution['contribution_id'];
+            
+            $contributions["$contribution_id"] = format_for_html($contribution);
+        }
          
-         return $contributions;
+        return $contributions;
 	}
 
     function contribution_get_all_contributions() {

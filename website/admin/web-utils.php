@@ -64,7 +64,7 @@
 	}
     
     function format_string_for_html($string) {
-        return format_greek_symbols(htmlentities(html_entity_decode($string)));
+        return htmlentities(html_entity_decode($string));
     }
     
     function format_for_html($array) {
