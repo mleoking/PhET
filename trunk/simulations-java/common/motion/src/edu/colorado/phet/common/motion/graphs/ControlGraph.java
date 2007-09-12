@@ -205,8 +205,12 @@ public class ControlGraph extends PNode {
     }
 
     protected void handleValueChanged() {
-        getSimulationVariable().setValue( getSliderValue() );
-        notifyValueChanged(getSliderValue());
+        getSimulationVariable().setValue( getModelValue() );
+        notifyValueChanged( getModelValue() );
+    }
+
+    protected double getModelValue() {
+        return getSliderValue();
     }
 
     private void notifyValueChanged( double value ) {
