@@ -517,11 +517,12 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
         // Clear the old kaboom stuff off the apparatus panel and out of the model
         getModel().removeModelElement( kaboom );
-        kaboom.reset( getApparatusPanel() );
+        kaboom.reset( );
 
         // Make a new kaboom, ready for firing
         kaboom = new Kaboom( this );
         getModel().addModelElement( kaboom );
+        laserModel.setModelPaused( false );
     }
 
     public MatchState getMatch( Beam beam ) {

@@ -80,6 +80,15 @@ public class LaserModel extends QuantumModel {
 
     // Replacement for behavior that was previously built into BaseModel
     private SimpleObservable observable = new SimpleObservable();
+    private boolean modelPaused =false;
+
+    public boolean isModelPaused() {
+        return modelPaused;
+    }
+
+    public void setModelPaused( boolean modelPaused ) {
+        this.modelPaused = modelPaused;
+    }
 
     public LaserModel(double photonSpeedScale) {
         super(photonSpeedScale);
@@ -185,7 +194,9 @@ public class LaserModel extends QuantumModel {
         collisionMechanism.addCollisionExpert( collisionExpert );
     }
 
+
     public void update( ClockEvent event ) {
+        if (!modelPaused ){
         super.update( event );
 
         // Check to see if any photons need to be taken out of the system
@@ -205,6 +216,7 @@ public class LaserModel extends QuantumModel {
         }
 
         observable.notifyObservers();
+        }
     }
 
     /**
