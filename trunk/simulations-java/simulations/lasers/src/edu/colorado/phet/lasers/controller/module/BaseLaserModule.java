@@ -11,6 +11,15 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+import javax.swing.border.BevelBorder;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -32,14 +41,6 @@ import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
 import edu.colorado.phet.lasers.view.*;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
-
-import javax.swing.*;
-import javax.swing.border.BevelBorder;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -515,7 +516,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
 
         // Clear the old kaboom stuff off the apparatus panel and out of the model
         getModel().removeModelElement( kaboom );
-        kaboom.clearGraphics( getApparatusPanel() );
+        kaboom.reset( getApparatusPanel() );
 
         // Make a new kaboom, ready for firing
         kaboom = new Kaboom( this );

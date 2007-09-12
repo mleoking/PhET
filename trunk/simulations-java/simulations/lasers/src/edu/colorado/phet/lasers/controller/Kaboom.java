@@ -40,8 +40,6 @@ import edu.colorado.phet.lasers.model.LaserModel;
  * <p/>
  * An animated graphic that declared that the laser has blown up.
  * <p/>
- * Unued, commented code is still in here that makes an image of the apparatus panel, then
- * gractures it nad makes the pieces spin away, off the frame.
  *
  * @author Ron LeMaster
  * @version $Revision$
@@ -56,6 +54,7 @@ public class Kaboom implements ModelElement {
     private PhetShapeGraphic backgroundGraphic;
     private double blackBacgroundLayer = Double.MAX_VALUE - 2;
     private double tileLayer = Double.MAX_VALUE;
+    private SwingClock clock;
 
     public Kaboom( BaseLaserModule module ) {
         // Unless the module has an apparatus panel at this time things won't work right
@@ -64,6 +63,7 @@ public class Kaboom implements ModelElement {
         }
         this.module = module;
         model = module.getLaserModel();
+        clock = new SwingClock( 1000 / 40, 1 );
     }
 
     public void stepInTime( double dt ) {
@@ -87,7 +87,6 @@ public class Kaboom implements ModelElement {
         backgroundGraphic = new PhetShapeGraphic( panel, bounds, Color.white );
         panel.addGraphic( backgroundGraphic,
                           blackBacgroundLayer );
-        SwingClock clock = new SwingClock( 1000 / 40, 1 );
 
         // Add the flames
         clock.start();
@@ -104,10 +103,10 @@ public class Kaboom implements ModelElement {
         labelMessage.reshape( panel.getWidth() / 2 - 200, panel.getHeight() / 2 - 70,
                               labelMessage.getPreferredSize().width,
                               labelMessage.getPreferredSize().height );
-        panel.revalidate();       
+        panel.revalidate();
     }
 
-    public void clearGraphics( ApparatusPanel apparatusPanel ) {
+    public void reset( ApparatusPanel apparatusPanel ) {
         List kaboomGraphics = getKaboomGraphics();
         for ( int i = 0; i < kaboomGraphics.size(); i++ ) {
             PhetGraphic graphic = (PhetGraphic) kaboomGraphics.get( i );
@@ -121,6 +120,9 @@ public class Kaboom implements ModelElement {
         }
         apparatusPanel.revalidate();
         apparatusPanel.repaint();
+        if ( clock != null && clock.isRunning() ) {
+            clock.pause();
+        }
     }
 
     //----------------------------------------------------------------
