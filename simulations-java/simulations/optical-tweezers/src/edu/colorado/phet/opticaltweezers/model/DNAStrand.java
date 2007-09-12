@@ -170,24 +170,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the length of the DNA strand, more formally known as the contour length.
-     * 
-     * @return contour length (nm)
-     */
-    public double getContourLength() {
-        return _contourLength;
-    }
-
-    /**
-     * Gets the number of springs used to model the DNA strand.
-     * 
-     * @return
-     */
-    public int getNumberOfSprings() {
-        return _numberOfSprings;
-    }
-
-    /**
      * Gets the max "stretchiness" of the strand.
      * This is expressed as a percentage of the strand's contour length.
      * As this value gets closer to 1, the DNA force gets closer to infinity,
@@ -228,7 +210,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @return maximum extension (nm)
      */
     public double getMaxExtension() {
-        return getMaxStretchiness() * getContourLength();
+        return getMaxStretchiness() * _contourLength;
     }
     
     /**
