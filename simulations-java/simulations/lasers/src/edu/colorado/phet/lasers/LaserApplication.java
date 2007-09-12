@@ -10,6 +10,15 @@
  */
 package edu.colorado.phet.lasers;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -31,19 +40,6 @@ import edu.colorado.phet.lasers.controller.module.SingleAtomModule;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorUIResource;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class LaserApplication extends PhetApplication {
 
@@ -248,90 +244,6 @@ public class LaserApplication extends PhetApplication {
     // Definition of look and feel
     //----------------------------------------------------------------
 
-    private static class LaserAppLookAndFeel extends LandF {
-        static Color yellowishBackground = new Color( 255, 255, 214 );
-        static Color greenishBackground = new Color( 138, 156, 148 );
-        static Color greenishButtonBackground = new Color( 154, 160, 148 );
-        static Color purpleishBackground = new Color( 200, 197, 220 );
-        static Color backgroundColor = greenishBackground;
-        static Color buttonBackgroundColor = yellowishBackground;
-        static Color controlTextColor = new Color( 38, 56, 48 );
-        static Font font = new Font( "SansSerif", Font.BOLD, 12 );
-
-        public LaserAppLookAndFeel() {
-            super( backgroundColor, buttonBackgroundColor, controlTextColor, font );
-        }
-    }
-
-    static private class LandF extends MetalLookAndFeel {
-        Color backgroundColor = new Color( 60, 80, 60 );
-        Color buttonBackgroundColor = new Color( 60, 60, 100 );
-        Color controlTextColor = new Color( 230, 230, 230 );
-        Font controlFont = new Font( "SansSerif", Font.BOLD, 22 );
-        static String[] controlTypes = new String[]{
-                "Menu",
-                "MenuItem",
-                "RadioButton",
-                "Button",
-                "CheckBox",
-                "Label"
-        };
-
-        public LandF( Color backgroundColor, Color buttonBackgroundColor, Color controlTextColor, Font controlFont ) {
-            this.backgroundColor = backgroundColor;
-            this.buttonBackgroundColor = buttonBackgroundColor;
-            this.controlTextColor = controlTextColor;
-            this.controlFont = controlFont;
-        }
-
-        protected void initComponentDefaults( UIDefaults table ) {
-            super.initComponentDefaults( table );
-            ArrayList def = new ArrayList();
-            ColorUIResource textColor = new ColorUIResource( controlTextColor );
-            FontUIResource fuir = new FontUIResource( controlFont );
-            for( int i = 0; i < controlTypes.length; i++ ) {
-                String controlType = controlTypes[i];
-                def.add( controlType + ".foreground" );
-                def.add( textColor );
-                def.add( controlType + ".font" );
-                def.add( fuir );
-            }
-            ColorUIResource background = new ColorUIResource( backgroundColor );
-            ColorUIResource buttonBackground = new ColorUIResource( buttonBackgroundColor );
-
-            Object[] defaults = {
-                    "Panel.background", background
-                    , "Menu.background", background
-                    , "MenuBar.background", background
-                    , "Slider.background", background
-                    , "RadioButton.background", background
-                    , "CheckBox.background", background
-                    , "OptionPane.background", background
-                    , "TabbedPane.background", background
-            };
-            def.addAll( Arrays.asList( defaults ) );
-            table.putDefaults( def.toArray() );
-
-            Font font = (Font)table.get( "Label.font" );
-            Color color = (Color)table.get( "Label.foreground" );
-            Object[] moreDefaults = {
-                    "TextField.font", font
-                    , "Spinner.font", font
-                    , "FormattedTextField.font", font
-                    , "TitledBorder.font", font
-                    , "TitledBorder.titleColor", color
-            };
-            table.putDefaults( moreDefaults );
-
-            // Set the background color of the buttons is we are running Java version 1.4
-            if( System.getProperty( "java.version" ).startsWith( "1.4" ) ) {
-                table.putDefaults( new Object[]{
-                        "Button.background", buttonBackground
-                } );
-            }
-        }
-    }
-
     public static double ONE_ATOM_MODULE_SPEED = 0.5;
     public static double MULTI_ATOM_MODULE_SPEED = 1.0;
 
@@ -348,7 +260,7 @@ public class LaserApplication extends PhetApplication {
 
                 LaserApplication application = new LaserApplication( args );
                 application.startApplication();
-                application.setActiveModule( application.getMultipleAtomModule() );
+//                application.setActiveModule( application.getMultipleAtomModule() );
             }
         } );
     }
