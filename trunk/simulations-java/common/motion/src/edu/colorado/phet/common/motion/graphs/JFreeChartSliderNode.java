@@ -67,7 +67,9 @@ public class JFreeChartSliderNode extends PNode {
                 Point2D plot1 = nodeToPlot( new Point2D.Double( 0, 0 ) );
                 Point2D plot2 = nodeToPlot( new Point2D.Double( 0, nodeDY ) );
                 double plotDY = plot2.getY() - plot1.getY();
-                setValue( clamp( origY + plotDY ) );
+                double value = clamp( origY + plotDY );
+                setValue( value );
+                notifySliderDragged(value);
             }
         } );
 
@@ -85,6 +87,13 @@ public class JFreeChartSliderNode extends PNode {
 
         updateLayout();
 
+    }
+
+    private void notifySliderDragged( double value ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.sliderDragged(value);
+        }
     }
 
     private void notifySliderThumbGrabbed() {
@@ -166,6 +175,8 @@ public class JFreeChartSliderNode extends PNode {
         void valueChanged();
 
         void sliderThumbGrabbed();
+
+        void sliderDragged( double value );
     }
 
     /**
