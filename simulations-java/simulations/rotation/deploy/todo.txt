@@ -4,7 +4,6 @@
 
 Torque 9-6-2007:
 
-5. Drag brake force character to apply brakes
 6. Show arrow in play area corresponding to tangential brake force
 7. Optionally Show net & brake forces on force graph
 8. Optionally Show net & brake torques on torque graph

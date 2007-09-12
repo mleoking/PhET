@@ -1,6 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,11 +9,14 @@ import java.io.IOException;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -25,7 +29,7 @@ public class BrakeNode extends PNode {
     private PhetPPath block;
     private PImage im;
 
-    public BrakeNode( RotationPlatform rotationPlatform, TorqueModel torqueModel ) {
+    public BrakeNode( final RotationPlatform rotationPlatform, final TorqueModel torqueModel ) {
         this.rotationPlatform = rotationPlatform;
         this.torqueModel = torqueModel;
         rotationPlatform.addListener( new RotationPlatform.Adapter() {
@@ -57,6 +61,36 @@ public class BrakeNode extends PNode {
         im.translate( block.getFullBounds().getWidth() / imageScale * 0.9, -im.getFullBounds().getHeight() / imageScale / 2.0 * 0.7 );
 
         addChild( im );
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            Point2D pressPoint = null;
+
+            public void mousePressed( PInputEvent event ) {
+                pressPoint = getPoint( event );
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                if ( pressPoint != null ) {
+                    Point2D dragPoint = getPoint( event );
+                    Vector2D.Double dragVector = new Vector2D.Double( pressPoint, dragPoint );
+                    Vector2D.Double centerVector = new Vector2D.Double( getFullBounds().getCenter2D(), rotationPlatform.getCenter() );
+                    double appliedBrake = dragVector.dot( centerVector ) / 2;
+                    if ( appliedBrake < 0 ) {
+                        appliedBrake = 0;
+                    }
+                    torqueModel.setBrakeForce( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+                }
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                pressPoint = null;
+                torqueModel.setBrakeForce( 0.0 );
+            }
+
+            private Point2D getPoint( PInputEvent event ) {
+                return event.getPositionRelativeTo( BrakeNode.this.getParent() );
+            }
+        } );
 
         updateTransform();
         updateImage();

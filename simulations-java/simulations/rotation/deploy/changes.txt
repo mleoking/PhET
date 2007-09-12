@@ -1,5 +1,6 @@
 9-27-2007: Torque - Added type in text area for applied force
 9-27-2007: Torque - Fixed: Can apply force to empty part of the empty ring merry-go-round
+9-27-2007: Torque - Drag brake force character to apply brakes
 
 8-31-2007: Torque - bugfixes for graphs
 8-31-2007: Torque - converted to use new repaint manager
