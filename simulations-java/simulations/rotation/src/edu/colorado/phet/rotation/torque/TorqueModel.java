@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
  * Author: Sam Reid
@@ -24,25 +25,24 @@ public class TorqueModel extends RotationModel {
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
     private DefaultTemporalVariable brakeForce = new DefaultTemporalVariable();
     private DefaultTemporalVariable radius = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceMagnitude = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceSrcX = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceSrcY = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceDstX = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceDstY = new DefaultTemporalVariable();
 
     private UpdateStrategy forceDriven = new ForceDriven();
-//    private UpdateStrategy torqueDriven = new TorqueDriven();
-
-    //    private Line2D.Double appliedForce = new Line2D.Double();
     private ArrayList listeners = new ArrayList();
     private boolean allowNonTangentialForces = false;
     private boolean showComponents = true;
-    private boolean inited=false;
+    private boolean inited = false;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
         getRotationPlatform().setUpdateStrategy( forceDriven );
-        inited=true;
+        inited = true;
         clear();
+        radius.setValue( RotationPlatform.MAX_RADIUS );
     }
 
     public void stepInTime( double dt ) {
@@ -53,10 +53,12 @@ public class TorqueModel extends RotationModel {
         defaultUpdate( torque );
         defaultUpdate( force );
         defaultUpdate( radius );
+        defaultUpdate( appliedForceMagnitude );
         defaultUpdate( appliedForceSrcX );
         defaultUpdate( appliedForceSrcY );
         defaultUpdate( appliedForceDstX );
         defaultUpdate( appliedForceDstY );
+
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & elegance
     }
 
@@ -72,6 +74,7 @@ public class TorqueModel extends RotationModel {
         setPlaybackTime( time, angularMomentum );
         setPlaybackTime( time, momentOfInertia );
         setPlaybackTime( time, radius );
+        setPlaybackTime( time, appliedForceMagnitude );
         setPlaybackTime( time, appliedForceSrcX );
         setPlaybackTime( time, appliedForceSrcY );
         setPlaybackTime( time, appliedForceDstX );
@@ -89,6 +92,7 @@ public class TorqueModel extends RotationModel {
             angularMomentum.clear();
             momentOfInertia.clear();
             radius.clear();
+            appliedForceMagnitude.clear();
             appliedForceSrcX.clear();
             appliedForceSrcY.clear();
             appliedForceDstX.clear();
@@ -162,34 +166,47 @@ public class TorqueModel extends RotationModel {
         return radius;
     }
 
+    public void setAppliedForceMagnitude( double appliedForceMag ) {
+        appliedForceMagnitude.setValue( appliedForceMag );
+        updateAppliedForceFromRF();
+    }
+
+    private void updateAppliedForceFromRF() {
+        setAppliedForce( new Line2D.Double( getRotationPlatform().getCenter().getX(),
+                                            getRotationPlatform().getCenter().getY() - radius.getValue(),
+                                            getRotationPlatform().getCenter().getX() + appliedForceMagnitude.getValue(),
+                                            getRotationPlatform().getCenter().getY() - radius.getValue() ) );
+    }
+
+    public void setAppliedForceRadius( double r ) {
+        this.radius.setValue( r );
+        updateAppliedForceFromRF();
+    }
+
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
             torque.setValue( force.getValue() * getRotationPlatform().getRadius() );
-            finishUpdate( motionBody, dt, time );
+            double mu = 1.2;
+            double brakeForceVal = mu * brakeForce.getValue();
+            if ( Math.abs( motionBody.getVelocity() ) < 1E-6 ) {
+                brakeForceVal = 0.0;
+            }
+            double origAngVel = motionBody.getVelocity();
+            double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
+
+            double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
+            double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
+            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( torque.getValue() ) ) {
+                proposedVelocity = 0.0;
+            }
+
+            motionBody.addAccelerationData( acceleration, time );
+            motionBody.addVelocityData( proposedVelocity, time );
+
+            //if the friction causes the velocity to change sign, set the velocity to zero?
+            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
-    }
-
-    private void finishUpdate( MotionBody motionBody, double dt, double time ) {
-        double mu = 1.2;
-        double brakeForceVal = mu * brakeForce.getValue();
-        if ( Math.abs( motionBody.getVelocity() ) < 1E-6 ) {
-            brakeForceVal = 0.0;
-        }
-        double origAngVel = motionBody.getVelocity();
-        double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
-
-        double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
-        double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
-        if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( torque.getValue() ) ) {
-            proposedVelocity = 0.0;
-        }
-
-        motionBody.addAccelerationData( acceleration, time );
-        motionBody.addVelocityData( proposedVelocity, time );
-
-        //if the friction causes the velocity to change sign, set the velocity to zero?
-        motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
     }
 
     public Line2D.Double getAppliedForce() {
@@ -225,7 +242,7 @@ public class TorqueModel extends RotationModel {
             torque.setValue( tau );
             force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
 
-            notifyAppliedForceChanged();//todo: only notify if changed
+            notifyAppliedForceChanged();
         }
     }
 
@@ -242,7 +259,6 @@ public class TorqueModel extends RotationModel {
     }
 
     private Line2D.Double getTangentialAppliedForce( Line2D.Double appliedForce ) {
-//        double dist = appliedForce.getP1().distance( appliedForce.getP2() );
         Vector2D.Double v = new Vector2D.Double( appliedForce.getP1(), getRotationPlatform().getCenter() );
         v.rotate( Math.PI / 2 );
         if ( v.dot( new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
