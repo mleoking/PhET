@@ -1,19 +1,17 @@
-package edu.colorado.phet.testlocation;
+package edu.colorado.phet.common.phetgraphics.test.testlocation;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.RenderingHints;
-
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.control.TestControlPanel;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.view.*;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
-import edu.colorado.phet.testlocation.control.TestControlPanel;
-import edu.colorado.phet.testlocation.model.CarModelElement;
-import edu.colorado.phet.testlocation.model.WindmillModelElement;
-import edu.colorado.phet.testlocation.view.*;
+
+import java.awt.*;
 
 /**
  * TestModule is a module that demonstrates proposed changes

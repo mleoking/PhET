@@ -1,9 +1,9 @@
-package edu.colorado.phet.testlocation.view;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
-import java.awt.Component;
-
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.testlocation.model.CarModelElement;
+
+import java.awt.*;
 
 /**
  * CarOnRoadGraphic is the graphic representation of a car moving horizontally on a road.

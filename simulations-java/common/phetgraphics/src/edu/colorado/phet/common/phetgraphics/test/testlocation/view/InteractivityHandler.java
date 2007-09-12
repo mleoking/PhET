@@ -1,13 +1,12 @@
-package edu.colorado.phet.testlocation.view;
-
-import java.awt.event.MouseEvent;
-
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**

@@ -1,10 +1,10 @@
-package edu.colorado.phet.testlocation.view;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 import java.awt.*;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * DebuggerGraphic displays the bounds and locations of a set of PhetGraphics.

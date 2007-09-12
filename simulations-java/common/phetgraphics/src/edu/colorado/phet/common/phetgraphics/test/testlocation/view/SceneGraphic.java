@@ -1,12 +1,11 @@
-package edu.colorado.phet.testlocation.view;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
-import java.awt.Component;
-
-
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.testlocation.model.CarModelElement;
-import edu.colorado.phet.testlocation.model.WindmillModelElement;
+
+import java.awt.*;
 
 /**
  * SceneGraphic demostrates creation of a complex scene involving 

@@ -1,15 +1,13 @@
-package edu.colorado.phet.testlocation.view;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.RenderingHints;
-import java.awt.geom.GeneralPath;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.testlocation.model.WindmillModelElement;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
 
 /**
  * WindmillGraphic is the graphic representation of a windmill.

@@ -1,11 +1,9 @@
-package edu.colorado.phet.testlocation.view;
-
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.RenderingHints;
-import java.awt.geom.GeneralPath;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+
+import java.awt.*;
+import java.awt.geom.GeneralPath;
 
 /**
  * RoadGraphic is the graphical representation of a road.

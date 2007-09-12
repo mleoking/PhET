@@ -1,14 +1,12 @@
-package edu.colorado.phet.testlocation.control;
-
-import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.control;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.testlocation.view.DebuggerGraphic;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.view.DebuggerGraphic;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * TestControlPanel is the control panel for the "Test Location" module.

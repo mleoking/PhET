@@ -1,10 +1,10 @@
-package edu.colorado.phet.testlocation.view;
-
-import java.awt.Component;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.testlocation.model.CarModelElement;
+
+import java.awt.*;
 
 /**
  * CarGraphic is the graphical representation of a car that moves horizontally.
