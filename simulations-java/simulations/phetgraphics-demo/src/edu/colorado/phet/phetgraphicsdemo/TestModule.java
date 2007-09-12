@@ -1,15 +1,15 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation;
+package edu.colorado.phet.phetgraphicsdemo;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.control.TestControlPanel;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.view.*;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.phetgraphicsdemo.control.TestControlPanel;
+import edu.colorado.phet.phetgraphicsdemo.model.CarModelElement;
+import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
+import edu.colorado.phet.phetgraphicsdemo.view.*;
 
 import java.awt.*;
 

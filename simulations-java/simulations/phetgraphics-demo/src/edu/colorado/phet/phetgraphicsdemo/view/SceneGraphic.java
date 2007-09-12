@@ -1,9 +1,9 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
+package edu.colorado.phet.phetgraphicsdemo.view;
 
-import edu.colorado.phet.common.phetgraphics.test.testlocation.model.CarModelElement;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.phetgraphicsdemo.model.CarModelElement;
+import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
 
 import java.awt.*;
 
