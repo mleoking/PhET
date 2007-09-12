@@ -1,3 +1,4 @@
+9-12-2007: Simulation model is paused when laser blows up, model restarts when the user changes the intensity of a beam or resets the entire simulation
 9-12-2007: Fixed: "Laser blew up" message erroneously stays in front.  Simulation is reset when the user changes a beam rate.
 8-24-2007: Centered transition on middle of energy level graphic, not bottom.
 8-23-2007: added snap-to feature for setting photon wavelength
