@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.*;
-
-import javax.swing.*;
 
 /**
  * The Module is the fundamental unit of a phet simulation.
@@ -109,7 +109,7 @@ public abstract class Module {
     /**
      * Determines whether an inactive module's clock will be running when it's activated.
      * This is useful when saving/loading the state of a simulation.
-     * 
+     *
      * @param b
      */
     public void setClockRunningWhenActive( boolean b ) {
@@ -123,11 +123,11 @@ public abstract class Module {
             }
         }
     }
-    
+
     /**
      * Will this module's clock be running when it's activated?
      * This is useful when saving/loading the state of a simulation.
-     * 
+     *
      * @return
      */
     public boolean getClockRunningWhenActive() {
@@ -136,7 +136,7 @@ public abstract class Module {
         }
         return clockRunningWhenActive;
     }
-    
+
     //----------------------------------------------------------------------------
     // Model
     //----------------------------------------------------------------------------
@@ -228,7 +228,7 @@ public abstract class Module {
         ClockControlPanel clockControlPanel = null;
         JComponent panel = modulePanel.getClockControlPanel();
         if ( panel != null && panel instanceof ClockControlPanel ) {
-            clockControlPanel = (ClockControlPanel)panel;
+            clockControlPanel = (ClockControlPanel) panel;
         }
         return clockControlPanel;
     }
@@ -253,7 +253,7 @@ public abstract class Module {
         LogoPanel logoPanel = null;
         JComponent panel = modulePanel.getLogoPanel();
         if ( panel != null && panel instanceof LogoPanel ) {
-            logoPanel = (LogoPanel)panel;
+            logoPanel = (LogoPanel) panel;
         }
         return logoPanel;
     }
@@ -278,7 +278,7 @@ public abstract class Module {
         ControlPanel controlPanel = null;
         JComponent panel = modulePanel.getControlPanel();
         if ( panel != null && panel instanceof ControlPanel ) {
-            controlPanel = (ControlPanel)panel;
+            controlPanel = (ControlPanel) panel;
         }
         return controlPanel;
     }
@@ -303,7 +303,7 @@ public abstract class Module {
         HelpPanel helpPanel = null;
         JComponent panel = modulePanel.getHelpPanel();
         if ( panel != null && panel instanceof HelpPanel ) {
-            helpPanel = (HelpPanel)panel;
+            helpPanel = (HelpPanel) panel;
         }
         return helpPanel;
     }
@@ -312,59 +312,59 @@ public abstract class Module {
     // Help
     //----------------------------------------------------------------------------
 
-   /**
-    * Tells whether this module has on-screen help.
-    *
-    * @return whether this module has on-screen help
-    */
-   public boolean hasHelp() {
-       return false;
-   }
+    /**
+     * Tells whether this module has on-screen help.
+     *
+     * @return whether this module has on-screen help
+     */
+    public boolean hasHelp() {
+        return false;
+    }
 
-   /**
-    * This must be overriden by subclasses that have megahelp to return true.
-    *
-    * @return whether there is megahelp
-    */
-   public boolean hasMegaHelp() {
-       return false;
-   }
+    /**
+     * This must be overriden by subclasses that have megahelp to return true.
+     *
+     * @return whether there is megahelp
+     */
+    public boolean hasMegaHelp() {
+        return false;
+    }
 
-   /**
-    * Determines whether help is visible.
-    * If you replace HelpPanel with a different type of help panel,
-    * then you will need to override this method.
-    *
-    * @param enabled
-    */
-   public void setHelpEnabled( boolean enabled ) {
-       HelpPanel helpPanel = getHelpPanel();
-       if ( helpPanel != null ) {
-           helpPanel.setHelpEnabled( enabled );
-       }
-   }
+    /**
+     * Determines whether help is visible.
+     * If you replace HelpPanel with a different type of help panel,
+     * then you will need to override this method.
+     *
+     * @param enabled
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        HelpPanel helpPanel = getHelpPanel();
+        if ( helpPanel != null ) {
+            helpPanel.setHelpEnabled( enabled );
+        }
+    }
 
-   /**
-    * Gets whether help is currently visible for this Module.
-    * If you replace HelpPanel with a different type of help panel,
-    * then you will need to override this method.
-    *
-    * @return help
-    */
-   public boolean isHelpEnabled() {
-       boolean enabled = false;
-       HelpPanel helpPanel = getHelpPanel();
-       if ( helpPanel != null ) {
-           enabled = helpPanel.isHelpEnabled();
-       }
-       return enabled;
-   }
+    /**
+     * Gets whether help is currently visible for this Module.
+     * If you replace HelpPanel with a different type of help panel,
+     * then you will need to override this method.
+     *
+     * @return help
+     */
+    public boolean isHelpEnabled() {
+        boolean enabled = false;
+        HelpPanel helpPanel = getHelpPanel();
+        if ( helpPanel != null ) {
+            enabled = helpPanel.isHelpEnabled();
+        }
+        return enabled;
+    }
 
-   /**
-    * This must be overrideen by subclasses that have MegaHelp.
-    */
-   public void showMegaHelp() {
-   }
+    /**
+     * This must be overrideen by subclasses that have MegaHelp.
+     */
+    public void showMegaHelp() {
+    }
 
     //----------------------------------------------------------------------------
     // Logo
@@ -404,14 +404,14 @@ public abstract class Module {
      * Activates the Module, starting it, if necessary.
      */
     public void activate() {
-        if( !isWellFormed() ) {
+        if ( !isWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
-        if( clockRunningWhenActive ) {
+        if ( clockRunningWhenActive ) {
             clock.start();
         }
         JComponent helpPanel = getHelpPanel();
-        if( helpPanel != null ) {
+        if ( helpPanel != null ) {
             helpPanel.setVisible( hasHelp() );
         }
         active = true;

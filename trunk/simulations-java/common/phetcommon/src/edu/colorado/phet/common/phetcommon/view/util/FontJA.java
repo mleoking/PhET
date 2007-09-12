@@ -1,12 +1,13 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Provides support for finding and returning Japanese fonts.
@@ -14,7 +15,7 @@ import java.util.Locale;
 public class FontJA {
     public static void setupJAFonts() {
         Font font = getPreferredJAFont();
-        if( font == null ) {
+        if ( font == null ) {
             JOptionPane.showMessageDialog( null, "Couldn't find a font for Japanese." );
         }
         System.out.println( "font = " + font );
@@ -22,12 +23,12 @@ public class FontJA {
 
     public static Font getPreferredJAFont() {
         String[] preferredJAFonts = new String[]{"MS Mincho", "MS Gothic", "Osaka"};
-        for( int i = 0; i < preferredJAFonts.length; i++ ) {
+        for ( int i = 0; i < preferredJAFonts.length; i++ ) {
             String preferredJAFont = preferredJAFonts[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
-            for( int k = 0; k < fonts.size(); k++ ) {
-                Font o = (Font)fonts.get( k );
-                if( o.getName().equals( preferredJAFont ) ) {
+            for ( int k = 0; k < fonts.size(); k++ ) {
+                Font o = (Font) fonts.get( k );
+                if ( o.getName().equals( preferredJAFont ) ) {
                     System.out.println( "Chose Font: " + o );
                     return o;
                 }
@@ -41,7 +42,7 @@ public class FontJA {
     }
 
     public static String getFontName( String defaultValue ) {
-        if( isJapaneseLocale() ) {
+        if ( isJapaneseLocale() ) {
             return getPreferredJAFont().getName();
         }
         else {
@@ -49,7 +50,7 @@ public class FontJA {
         }
     }
 
-        public static Font getFont( String name, int style, int size ) {
+    public static Font getFont( String name, int style, int size ) {
         return new Font( FontJA.getFontName( name ), style, size );
     }
 
@@ -59,7 +60,7 @@ public class FontJA {
 
     public static void main( String[] args ) {
         Locale.setDefault( new Locale( "ja" ) );
-        String name = "\u9285\u7DDA\u3092\u53D6\u308A\u51FA\u3059\u3002" ;
+        String name = "\u9285\u7DDA\u3092\u53D6\u308A\u51FA\u3059\u3002";
         System.out.println( "name = " + name );
         JFrame frame = new JFrame();
 

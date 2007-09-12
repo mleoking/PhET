@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.piccolophet.event;
 
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * User: Sam Reid
@@ -49,8 +50,8 @@ public class PopupMenuHandler extends PBasicInputEventHandler {
 
     private void handlePopup( PInputEvent event ) {
 
-        if( event.isPopupTrigger() ) {
-            popupMenu.show( parent, (int)event.getCanvasPosition().getX(), (int)event.getCanvasPosition().getY() );
+        if ( event.isPopupTrigger() ) {
+            popupMenu.show( parent, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
         }
     }
 }

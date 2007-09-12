@@ -15,7 +15,7 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 /**
@@ -63,7 +63,7 @@ public class EasyGridBagLayout extends GridBagLayout {
     public EasyGridBagLayout( JPanel panel ) throws NullPointerException {
         super();
 
-        if( panel == null ) {
+        if ( panel == null ) {
             throw new NullPointerException();
         }
 
@@ -249,7 +249,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @return a copy of the insets
      */
     public Insets getInsets() {
-        return (Insets)_insets.clone();
+        return (Insets) _insets.clone();
     }
 
     //----------------------------------------------------------------------------
@@ -332,7 +332,7 @@ public class EasyGridBagLayout extends GridBagLayout {
      * @param insets    the insets
      */
     public void addComponent( Component component, int row, int column, int width, int height, int anchor, int fill, Insets insets ) {
-        
+
         // Load the GridBagConstraints
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = column;
@@ -349,10 +349,10 @@ public class EasyGridBagLayout extends GridBagLayout {
         {
             double weightx = 0.0;
             double weighty = 0.0;
-            if( width > 1 ) {
+            if ( width > 1 ) {
                 weightx = 1.0;
             }
-            if( height > 1 ) {
+            if ( height > 1 ) {
                 weighty = 1.0;
             }
 
@@ -461,10 +461,10 @@ public class EasyGridBagLayout extends GridBagLayout {
      */
     public void setMinimumWidth( int column, int width ) {
         int[] widths = this.columnWidths;
-        if( widths == null ) {
+        if ( widths == null ) {
             widths = new int[column + 1];
         }
-        else if( widths.length < column + 1 ) {
+        else if ( widths.length < column + 1 ) {
             widths = new int[column + 1];
             System.arraycopy( this.columnWidths, 0, widths, 0, this.columnWidths.length );
         }
@@ -480,10 +480,10 @@ public class EasyGridBagLayout extends GridBagLayout {
      */
     public void setMinimumHeight( int row, int height ) {
         int[] heights = this.rowHeights;
-        if( heights == null ) {
+        if ( heights == null ) {
             heights = new int[row + 1];
         }
-        else if( heights.length < row + 1 ) {
+        else if ( heights.length < row + 1 ) {
             heights = new int[row + 1];
             System.arraycopy( this.rowHeights, 0, heights, 0, this.rowHeights.length );
         }

@@ -26,23 +26,23 @@ public class ArrowNode extends PPath {
 
     /**
      * Constructor.
-     * 
+     *
      * @param tailLocation
      * @param tipLocation
      * @param headHeight
      * @param headWidth
      * @param tailWidth
      */
-    public ArrowNode( Point2D tailLocation, Point2D tipLocation, 
-            double headHeight, double headWidth, double tailWidth ) {
+    public ArrowNode( Point2D tailLocation, Point2D tipLocation,
+                      double headHeight, double headWidth, double tailWidth ) {
         super();
         Arrow arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
         setPathTo( arrow.getShape() );
     }
-        
+
     /**
      * Constructor.
-     * 
+     *
      * @param tailLocation
      * @param tipLocation
      * @param headHeight
@@ -52,8 +52,8 @@ public class ArrowNode extends PPath {
      * @param scaleTailToo
      */
     public ArrowNode( Point2D tailLocation, Point2D tipLocation,
-            double headHeight, double headWidth, double tailWidth,
-            double fractionalHeadHeight, boolean scaleTailToo ) {
+                      double headHeight, double headWidth, double tailWidth,
+                      double fractionalHeadHeight, boolean scaleTailToo ) {
         super();
         Arrow arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
         setPathTo( arrow.getShape() );

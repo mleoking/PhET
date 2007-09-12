@@ -1,16 +1,15 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
+import java.awt.geom.AffineTransform;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
  * Date: Aug 20, 2005
  * Time: 6:16:07 PM
- * 
  */
 
 public class StickyPNode extends PNode {
@@ -71,12 +70,12 @@ public class StickyPNode extends PNode {
 //    }
 
     protected void paint( PPaintContext paintContext ) {
-        if( !recursing ) {
+        if ( !recursing ) {
             recursing = true;
             setScale( getScale() / paintContext.getScale() );
             recursing = false;
         }
-        if( paintContext.getScale() == 1.0 ) {
+        if ( paintContext.getScale() == 1.0 ) {
             AffineTransform at = paintContext.getGraphics().getTransform();
             AffineTransform orig = paintContext.getGraphics().getTransform();
             at.setTransform( 1.0, 1.0, at.getShearX(), at.getShearY(), at.getTranslateX(), at.getTranslateY() );

@@ -21,15 +21,15 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PClip;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * DISCLAIMER: This class is under development and not ready for general use.
@@ -88,14 +88,14 @@ public class PPathSeriesView extends SeriesView {
 
     public void dataAdded() {
         int itemCount = getSeries().getItemCount();
-        float x = (float)getNodePoint( itemCount - 1 ).getX();
-        float y = (float)getNodePoint( itemCount - 1 ).getY();
+        float x = (float) getNodePoint( itemCount - 1 ).getX();
+        float y = (float) getNodePoint( itemCount - 1 ).getY();
 //        System.out.println( "getSeriesData().getSeries().getX( itemCount-1) = " + getSeriesData().getSeries().getX( itemCount - 1 ) );
 //        System.out.println( "x = " + x );
-        if( pathNode.getPathReference().getCurrentPoint() == null ) {
+        if ( pathNode.getPathReference().getCurrentPoint() == null ) {
             pathNode.moveTo( x, y );
         }
-        else if( getSeries().getItemCount() >= 2 ) {
+        else if ( getSeries().getItemCount() >= 2 ) {
             pathNode.lineTo( x, y );
         }
     }

@@ -21,9 +21,6 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.util.PBounds;
-
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -31,6 +28,9 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * DISCLAIMER: This class is under development and not ready for general use.
@@ -66,10 +66,10 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     public void dataAdded() {
-        if( getSeries().getItemCount() >= 2 ) {
+        if ( getSeries().getItemCount() >= 2 ) {
             //require that the chart is onscreen before expending effort
             //todo: iterating over the entire parent hierarchy every time step for every visible series may be too expensive
-            if( getDynamicJFreeChartNode().getBuffer() != null && getSeriesData().isVisible() && getDynamicJFreeChartNode().getVisible() && getDynamicJFreeChartNode().isDescendentOfRoot() ) {
+            if ( getDynamicJFreeChartNode().getBuffer() != null && getSeriesData().isVisible() && getDynamicJFreeChartNode().getVisible() && getDynamicJFreeChartNode().isDescendentOfRoot() ) {
                 drawPoint( 0 );
             }
         }
@@ -103,11 +103,11 @@ public class BufferedSeriesView extends SeriesView {
     private void updateStroke() {
 //        System.out.println( "DEFAULT_STROKE.getDashArray() = " + DEFAULT_STROKE.getDashArray().length );
         Stroke stroke = getSeriesData().getStroke();
-        if( stroke instanceof BasicStroke ) {
-            BasicStroke basicStroke = (BasicStroke)stroke;
-            if( basicStroke.getDashArray() != null ) {
+        if ( stroke instanceof BasicStroke ) {
+            BasicStroke basicStroke = (BasicStroke) stroke;
+            if ( basicStroke.getDashArray() != null ) {
                 getSeriesData().setStroke( new BasicStroke( basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(),
-                                                            basicStroke.getDashArray(), (float)( basicStroke.getDashPhase() + lastLineLength ) ) );
+                                                            basicStroke.getDashArray(), (float) ( basicStroke.getDashPhase() + lastLineLength ) ) );
             }
         }
     }
@@ -115,9 +115,9 @@ public class BufferedSeriesView extends SeriesView {
     private void resetStrokePhase() {
 //        System.out.println( "DEFAULT_STROKE.getDashArray() = " + DEFAULT_STROKE.getDashArray().length );
         Stroke stroke = getSeriesData().getStroke();
-        if( stroke instanceof BasicStroke ) {
-            BasicStroke basicStroke = (BasicStroke)stroke;
-            if( basicStroke.getDashArray() != null ) {
+        if ( stroke instanceof BasicStroke ) {
+            BasicStroke basicStroke = (BasicStroke) stroke;
+            if ( basicStroke.getDashArray() != null ) {
                 getSeriesData().setStroke( new BasicStroke( basicStroke.getLineWidth(), basicStroke.getEndCap(), basicStroke.getLineJoin(), basicStroke.getMiterLimit(),
                                                             basicStroke.getDashArray(), 0.0f ) );
             }
@@ -153,7 +153,7 @@ public class BufferedSeriesView extends SeriesView {
 
     protected void forceRepaintAll() {
         BufferedImage image = getDynamicJFreeChartNode().getBuffer();
-        if( image != null ) {
+        if ( image != null ) {
             lastLineLength = 0;
             updateStroke();
             resetStrokePhase();
@@ -163,7 +163,7 @@ public class BufferedSeriesView extends SeriesView {
             graphics2D.setStroke( getSeriesData().getStroke() );
             setupRenderingHints( graphics2D );
             graphics2D.clip( getDataArea() );
-            if( getSeriesData().isVisible() ) {
+            if ( getSeriesData().isVisible() ) {
                 graphics2D.draw( translateDown( toGeneralPath() ) );//toGeneralPath calls our overriden getNodePoint
             }
             //todo: the following line seems unnecessary in Rotation, and slows performance
@@ -185,7 +185,7 @@ public class BufferedSeriesView extends SeriesView {
     }
 
     private void paintAll() {
-        if( updateAllEnabled ) {
+        if ( updateAllEnabled ) {
             forceRepaintAll();
         }
     }

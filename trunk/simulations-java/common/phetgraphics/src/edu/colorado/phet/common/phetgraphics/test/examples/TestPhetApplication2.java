@@ -6,6 +6,12 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.examples;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -20,11 +26,6 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Random;
 
 public class TestPhetApplication2 {
     private static NonPiccoloPhetApplication app;
@@ -135,16 +136,16 @@ public class TestPhetApplication2 {
 
         public void stepInTime( double dt ) {
             x = x + speed * dt;
-            if( x > 600 ) {
+            if ( x > 600 ) {
                 x = 0;
             }
-            if( y > 100 ) {
+            if ( y > 100 ) {
                 y = 100;
             }
-            if( x < 0 ) {
+            if ( x < 0 ) {
                 x = 0;
             }
-            if( y < 0 ) {
+            if ( y < 0 ) {
                 y = 0;
             }
             notifyObservers();
@@ -162,11 +163,11 @@ public class TestPhetApplication2 {
 
         public void paint( Graphics2D g ) {
             g.setColor( Color.blue );
-            g.fillRect( (int)ph.x, (int)ph.y, 2, 2 );
+            g.fillRect( (int) ph.x, (int) ph.y, 2, 2 );
         }
 
         protected Rectangle determineBounds() {
-            return new Rectangle( (int)ph.x, (int)ph.y, 2, 2 );
+            return new Rectangle( (int) ph.x, (int) ph.y, 2, 2 );
         }
     }
 

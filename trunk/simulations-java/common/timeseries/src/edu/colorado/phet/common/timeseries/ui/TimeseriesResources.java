@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.timeseries.ui;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Author: Sam Reid

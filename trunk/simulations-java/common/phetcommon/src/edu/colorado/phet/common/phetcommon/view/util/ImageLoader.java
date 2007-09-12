@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 /**
  * Utility class for loading images.
@@ -60,7 +61,6 @@ public class ImageLoader {
     }
 
 
-
     /**
      * Loads an image using the current load strategy and converts it to a bufferedimage
      * using the current conversion strategy.
@@ -73,14 +73,14 @@ public class ImageLoader {
         // TODO  that are solved with Thread.currentThread().getContextClassLoader()
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource( name );
-        if( imageUrl == null ) {
+        if ( imageUrl == null ) {
             throw new IOException( "Null image URL for resource name=" + name );
         }
         return loadImage( imageUrl );
     }
 
     public BufferedImage loadImage( URL imageURL ) throws IOException {
-        if( imageURL == null ) {
+        if ( imageURL == null ) {
             throw new IOException( "Null image URL." );
         }
         Image image = loadStrategy.loadImage( imageURL );
@@ -151,7 +151,7 @@ public class ImageLoader {
             public Image fetchImage( URL imageLocation ) throws IOException {
                 Image image = null;
                 try {
-                    if( imageLocation == null ) {
+                    if ( imageLocation == null ) {
                         throw new IOException( "Image resource not found: Null imagelocation URL" );
                     }
                     else {
@@ -169,7 +169,7 @@ public class ImageLoader {
         }
 
         public Image loadImage( URL location ) throws IOException {
-            if( location == null ) {
+            if ( location == null ) {
                 throw new IOException( "Null URL Location" );
             }
             Image im = null;

@@ -18,7 +18,7 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
 
             fail();
         }
-        catch (IllegalStateException e) {
+        catch( IllegalStateException e ) {
         }
     }
 
@@ -27,9 +27,9 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
     }
 
     public void testCanCastDynamicControllerToListenerInterface() {
-        TestListener listener = (TestListener)DynamicListenerControllerFactory.newController( TestListener.class );
+        TestListener listener = (TestListener) DynamicListenerControllerFactory.newController( TestListener.class );
 
-        assertNotNull(listener);
+        assertNotNull( listener );
     }
 
     public void testThatControllerNotifiesListeners() {
@@ -39,11 +39,11 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
 
         c.addListener( mockListener );
 
-        TestListener listenerController = (TestListener)c;
+        TestListener listenerController = (TestListener) c;
 
         listenerController.notifySumChanged( 4.0 );
 
-        assertEquals(4.0, mockListener.getLastNotification(), 0.00001 );        
+        assertEquals( 4.0, mockListener.getLastNotification(), 0.00001 );
     }
 
     public void testThatAddingWrongListenerFails() {
@@ -75,7 +75,7 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
 
         c.addListener( mockListener );
 
-        assertTrue(c.getAllListeners().contains(mockListener));
+        assertTrue( c.getAllListeners().contains( mockListener ) );
     }
 
     public void testCannotAddDuplicateListener() {
@@ -86,22 +86,22 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
         c.addListener( mockListener );
         c.addListener( mockListener );
 
-        assertEquals(1, c.getAllListeners().size());
+        assertEquals( 1, c.getAllListeners().size() );
     }
 
     public interface TestListener {
-        void notifySumChanged(double newSum);
+        void notifySumChanged( double newSum );
     }
 
     public static class MockListener implements TestListener {
         Stack stack = new Stack();
 
-        public void notifySumChanged(double newSum) {
-            stack.push(new Double(newSum));
+        public void notifySumChanged( double newSum ) {
+            stack.push( new Double( newSum ) );
         }
 
         public double getLastNotification() {
-            return ((Double)stack.pop()).doubleValue();
+            return ( (Double) stack.pop() ).doubleValue();
         }
     }
 }

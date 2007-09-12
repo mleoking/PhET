@@ -1,19 +1,19 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 import edu.umd.cs.piccolo.PCanvas;
-
-import javax.swing.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
  * Date: Mar 23, 2006
  * Time: 11:39:03 PM
- *
  */
 
 public class TestMeasuringTape {

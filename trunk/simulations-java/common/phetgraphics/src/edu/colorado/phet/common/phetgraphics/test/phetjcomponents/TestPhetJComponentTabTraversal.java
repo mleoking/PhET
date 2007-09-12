@@ -1,5 +1,10 @@
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
+import java.awt.*;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -9,10 +14,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
 
 /**
  * Tests tab traversal of Swing components that are wrapped by PhetJComponent.
@@ -63,7 +64,7 @@ public class TestPhetJComponentTabTraversal {
             apparatusPanel.addGraphic( instructions );
 
             // JTextFields, wrapped by PhetJComponent.
-            for( int i = 0; i < 5; i++ ) {
+            for ( int i = 0; i < 5; i++ ) {
                 JTextField textField = new JTextField();
                 textField.setFont( font );
                 textField.setColumns( 3 );

@@ -9,9 +9,7 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 /**
  * ThreadCheckingRepaintManager provides an easy way to determine
@@ -20,38 +18,39 @@ import javax.swing.SwingUtilities;
  * <code>
  * RepaintManager.setCurrentManager( new ThreadCheckingRepaintManager() );
  * </code>
- * <p>
+ * <p/>
  * This code was taken from an article at:
  * http://www.clientjava.com/blog/2004/08/20/1093059428000.html
- * <p>
+ * <p/>
  * Sun's rule for Swing threading was:
- * Once a Swing component has been realized, all code that might 
+ * Once a Swing component has been realized, all code that might
  * affect or depend on the state of that component should be executed
  * in the event-dispatching thread.
- * <p>
+ * <p/>
  * Sun's has ammended this in The Java Tutorial as follows:
  * "We used to say that you could create the GUI on the main thread
- * as long as you didn't modify components that had already been realized. 
+ * as long as you didn't modify components that had already been realized.
  * Realized means that the component has been painted onscreen, or is ready
- * to be painted. The methods setVisible(true) and pack cause a window to 
+ * to be painted. The methods setVisible(true) and pack cause a window to
  * be realized, which in turn causes the components it contains to be realized.
- * While this worked for most applications, in certain situations it could 
+ * While this worked for most applications, in certain situations it could
  * cause problems. Out of all the demos in the Swing Tutorial, we encountered
- * a problem only in ComponentEventDemo. In that case, sometimes when you 
- * launched the demo, it would not come up because it would deadlock when 
- * updating the text area if the text area had not yet been realized, while 
- * other times it would come up without incident. To avoid the possibility 
- * of thread problems, we recommend that you use invokeLater to create the 
- * GUI on the event-dispatching thread for all new applications. If you 
- * have old programs that are working fine they are probably OK; however 
- * you might want to convert them when it's convenient to do so." 
+ * a problem only in ComponentEventDemo. In that case, sometimes when you
+ * launched the demo, it would not come up because it would deadlock when
+ * updating the text area if the text area had not yet been realized, while
+ * other times it would come up without incident. To avoid the possibility
+ * of thread problems, we recommend that you use invokeLater to create the
+ * GUI on the event-dispatching thread for all new applications. If you
+ * have old programs that are working fine they are probably OK; however
+ * you might want to convert them when it's convenient to do so."
  *
  * @author unknown
  * @version $Revision$
  */
 public class ThreadCheckingRepaintManager extends RepaintManager {
 
-    public ThreadCheckingRepaintManager() {}
+    public ThreadCheckingRepaintManager() {
+    }
 
     public synchronized void addInvalidComponent( JComponent jComponent ) {
         checkThread();

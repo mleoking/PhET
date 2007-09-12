@@ -10,22 +10,22 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
 /**
  * User: Sam Reid
  * Date: Mar 8, 2006
  * Time: 7:48:57 AM
- *
  */
 
 public class TestPhetTabbedPane {

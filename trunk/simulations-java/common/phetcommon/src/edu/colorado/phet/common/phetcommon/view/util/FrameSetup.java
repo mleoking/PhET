@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * FrameSetup
@@ -87,7 +88,7 @@ public interface FrameSetup {
         }
 
         public void initialize( JFrame frame ) {
-            if( pre != null ) {
+            if ( pre != null ) {
                 pre.initialize( frame );
             }
             int state = frame.getExtendedState();
@@ -99,12 +100,12 @@ public interface FrameSetup {
     }
 
     /**
-     * This FrameSetup centers the JFrame at the top of the screen, with the specified dimensions. 
+     * This FrameSetup centers the JFrame at the top of the screen, with the specified dimensions.
      */
     public static class TopCenter implements FrameSetup {
         private int width;
         private int height;
-        
+
         public TopCenter( int width, int height ) {
             this.width = width;
             this.height = height;
@@ -112,6 +113,7 @@ public interface FrameSetup {
 
         /**
          * centers the JFrame at the top of the screen, with the specified dimensions.
+         *
          * @param frame the frame to initialize.
          */
         // todo: add test to see that the requested dimensions aren't bigger than the screen
@@ -128,7 +130,7 @@ public interface FrameSetup {
     /**
      * This class does nothing to a JFrame, provided to support older applications until they are standardized.
      */
-    public static class NoOp implements FrameSetup{
+    public static class NoOp implements FrameSetup {
         public void initialize( JFrame frame ) {
         }
     }

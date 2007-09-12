@@ -22,15 +22,16 @@
 
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import org.jfree.chart.JFreeChart;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import org.jfree.chart.JFreeChart;
+
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class extends the functionality of JFreeChartNode by providing different strategies for rendering the data.
@@ -77,6 +78,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     /**
      * Sets whether updateAll should have the normal effect or be a no-op.  This should only be set to false in the case of performance issues due to redundant
      * work or calls to updateAll.
+     *
      * @param autoUpdateAll false if the client application will manually call forceUpdateAll
      */
     public void setAutoUpdateAll( boolean autoUpdateAll ) {
@@ -85,14 +87,14 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     public void forceUpdateAll() {
         super.updateAll();
-        for( int i = 0; i < seriesViewList.size(); i++ ) {
-            SeriesView seriesView = (SeriesView)seriesViewList.get( i );
+        for ( int i = 0; i < seriesViewList.size(); i++ ) {
+            SeriesView seriesView = (SeriesView) seriesViewList.get( i );
             seriesView.forceRepaintAll();
         }
     }
 
     public void updateAll() {
-        if( autoUpdateAll ) {
+        if ( autoUpdateAll ) {
             super.updateAll();
         }
     }
@@ -130,18 +132,18 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         getSeries( series ).addValue( x, y );
     }
 
-    public void addSeries( String title, Color color) {
-        addSeries( title, color,BufferedSeriesView.DEFAULT_STROKE );
+    public void addSeries( String title, Color color ) {
+        addSeries( title, color, BufferedSeriesView.DEFAULT_STROKE );
     }
 
     /**
      * Adds a new series to this chart for plotting, with the given name and color.
      *
-     * @param title the title for the series
-     * @param color the series' color
+     * @param title  the title for the series
+     * @param color  the series' color
      * @param stroke
      */
-    public SeriesData addSeries( String title, Color color,Stroke stroke ) {
+    public SeriesData addSeries( String title, Color color, Stroke stroke ) {
         SeriesData seriesData = new SeriesData( title, color, stroke );
         seriesDataList.add( seriesData );
         updateSeriesViews();
@@ -160,9 +162,9 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * @return the first found, or null if none found.
      */
     private SeriesData getSeriesData( String title ) {
-        for( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
-            if( seriesData.getTitle().equals( title ) ) {
+        for ( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
+            if ( seriesData.getTitle().equals( title ) ) {
                 return seriesData;
             }
         }
@@ -173,8 +175,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
      * Empties each series associated with this chart.
      */
     public void clear() {
-        for( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
+        for ( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
             seriesData.clear();
         }
         updateAll();
@@ -182,7 +184,7 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
 
     //todo: this is public merely for purposes of debugging
     public SeriesData getSeries( int series ) {
-        return (SeriesData)seriesDataList.get( series );
+        return (SeriesData) seriesDataList.get( series );
     }
 
     /**
@@ -236,8 +238,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     private void addAllSeriesViews() {
-        for( int i = 0; i < seriesDataList.size(); i++ ) {
-            SeriesData seriesData = (SeriesData)seriesDataList.get( i );
+        for ( int i = 0; i < seriesDataList.size(); i++ ) {
+            SeriesData seriesData = (SeriesData) seriesDataList.get( i );
             SeriesView seriesDataView = viewFactory.createSeriesView( this, seriesData );
             seriesDataView.install();
             seriesViewList.add( seriesDataView );
@@ -245,8 +247,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
     }
 
     private void removeAllSeriesViews() {
-        while( seriesViewList.size() > 0 ) {
-            SeriesView seriesView = (SeriesView)seriesViewList.get( 0 );
+        while ( seriesViewList.size() > 0 ) {
+            SeriesView seriesView = (SeriesView) seriesViewList.get( 0 );
             seriesView.uninstall();
             seriesViewList.remove( seriesView );
         }

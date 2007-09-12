@@ -8,20 +8,20 @@ import java.text.MessageFormat;
  * PhetVersionInfo encapsulates a simulation's version information.
  */
 public class PhetVersionInfo {
-    
+
     // title bar format for public releases, major.minor
     private static final String TITLEBAR_FORMAT_PUBLIC = "{0}.{1}";
     // title bar format for development releases, major.minor.dev
     private static final String TITLEBAR_FORMAT_DEV = "{0}.{1}.{2}";
     // About dialog format, major.minor.dev (revision)
     private static final String ABOUT_DIALOG_FORMAT = "{0}.{1}.{2} ({3})";
-    
+
     private final String major, minor, dev, revision;
 
     public PhetVersionInfo( String major, String minor, String dev, String revision ) {
-        this.major    = cleanup( major );
-        this.minor    = cleanup( minor );
-        this.dev      = cleanup( dev );
+        this.major = cleanup( major );
+        this.minor = cleanup( minor );
+        this.dev = cleanup( dev );
         this.revision = cleanup( revision );
     }
 
@@ -56,29 +56,29 @@ public class PhetVersionInfo {
     public int getRevisionAsInt() {
         return getAsInt( getRevision() );
     }
-    
+
     /**
      * Formats the version information for use in the application's title bar.
      * A public release will have a dev number that is all zeros; anything else is a development release.
      * For public releases, we should only the major and minor version numbers.
      * Development release show major, minor and dev version numbers.
-     * 
+     *
      * @return String
      */
     public String formatForTitleBar() {
-        Object[] args = { major, minor, dev };
+        Object[] args = {major, minor, dev};
         String pattern = ( getDevAsInt() == 0 ) ? TITLEBAR_FORMAT_PUBLIC : TITLEBAR_FORMAT_DEV;
         return MessageFormat.format( pattern, args );
     }
-    
+
     /**
      * Formats the version information for use in the Help>About dialog.
      * This format shows the complete version information in all circumstances.
-     * 
+     *
      * @return String
      */
     public String formatForAboutDialog() {
-        Object[] args = { major, minor, dev, revision };
+        Object[] args = {major, minor, dev, revision};
         return MessageFormat.format( ABOUT_DIALOG_FORMAT, args );
     }
 
@@ -87,16 +87,16 @@ public class PhetVersionInfo {
     }
 
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        PhetVersionInfo that = (PhetVersionInfo)o;
+        PhetVersionInfo that = (PhetVersionInfo) o;
 
-        return dev.equals( that.dev ) && major.equals( that.major ) && 
+        return dev.equals( that.dev ) && major.equals( that.major ) &&
                minor.equals( that.minor ) && revision.equals( that.revision );
     }
 

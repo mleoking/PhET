@@ -8,19 +8,16 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * PhotonImageFactory creates images that represent photons.
  * The look is loosely based on examples that Wendy Adams found on a
  * Disney website at http://disney.go.com/fairies/meetfairies.html.
- * <p>
+ * <p/>
  * UV photons are rendered as a gray orb with violet crosshairs.
  * IR photos are rendered as a gray orb with red crosshairs.
  *
@@ -31,14 +28,14 @@ public class PhotonImageFactory extends PhetPNode {
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
-    
+
     /* enable debug output for the image cache */
     private static final boolean DEBUG_CACHE_ENABLED = false;
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int PHOTON_COLOR_ALPHA = 130;
     private static final Color HILITE_COLOR = new Color( 255, 255, 255, 180 );
     private static final double CROSSHAIRS_ANGLE = 18; // degrees
@@ -47,28 +44,30 @@ public class PhotonImageFactory extends PhetPNode {
     private static final Color UV_IR_COLOR = new Color( 160, 160, 160 ); // gray
     private static final Color UV_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 400, UV_IR_COLOR, UV_IR_COLOR );
     private static final Color IR_CROSSHAIRS_COLOR = VisibleColor.wavelengthToColor( 715, UV_IR_COLOR, UV_IR_COLOR );
-    
+
     // Image cache
-    private static final Integer UV_IMAGE_KEY = new Integer( (int)( VisibleColor.MIN_WAVELENGTH - 1 ) );
-    private static final Integer IR_IMAGE_KEY = new Integer( (int)( VisibleColor.MAX_WAVELENGTH + 1 ) );
+    private static final Integer UV_IMAGE_KEY = new Integer( (int) ( VisibleColor.MIN_WAVELENGTH - 1 ) );
+    private static final Integer IR_IMAGE_KEY = new Integer( (int) ( VisibleColor.MAX_WAVELENGTH + 1 ) );
     private static final ImageCache IMAGE_CACHE = new ImageCache();
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /* not intended for instantiation */
-    private PhotonImageFactory() {}
-    
+
+    private PhotonImageFactory() {
+    }
+
     //----------------------------------------------------------------------------
     // Utilities
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets a photon image from the cache.
      * If we don't have an image for the specified wavelength and diameter,
      * create one and add it to the cache.
-     * 
+     *
      * @param wavelength
      * @param diameter
      * @return Image
@@ -78,10 +77,10 @@ public class PhotonImageFactory extends PhetPNode {
         if ( image == null ) {
             image = createPhotonImage( wavelength, diameter );
             IMAGE_CACHE.put( wavelength, diameter, image );
-        }     
+        }
         return image;
     }
-    
+
     /**
      * Creates the image used to represent a photon.
      * The image is NOT obtained from the cache.
@@ -139,7 +138,7 @@ public class PhotonImageFactory extends PhetPNode {
     private static PNode createCrosshair( double wavelength, double diameter ) {
 
         Color crosshairsColor = CROSSHAIRS_COLOR;
-        if( wavelength < VisibleColor.MIN_WAVELENGTH ) {
+        if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {
             crosshairsColor = UV_CROSSHAIRS_COLOR;
         }
         else if ( wavelength > VisibleColor.MAX_WAVELENGTH ) {
@@ -167,17 +166,18 @@ public class PhotonImageFactory extends PhetPNode {
 
         return crosshairs;
     }
-    
+
     //----------------------------------------------------------------------------
     // Image cache
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Cache that maps wavelengths and diameters to images.
-     * A double mapping is involved.
-     * Diameter maps to a HashMap, which then maps wavelength to an Image.
-     * Mapping of wavelength is done with integer precision.
-     */
+    * Cache that maps wavelengths and diameters to images.
+    * A double mapping is involved.
+    * Diameter maps to a HashMap, which then maps wavelength to an Image.
+    * Mapping of wavelength is done with integer precision.
+    */
+
     private static class ImageCache {
 
         private HashMap _diameterMap; // key=diameter (Double), value=HashMap
@@ -188,7 +188,7 @@ public class PhotonImageFactory extends PhetPNode {
 
         /**
          * Puts an image in the cache.
-         * 
+         *
          * @param wavelength
          * @param diameter
          * @param image
@@ -211,12 +211,12 @@ public class PhotonImageFactory extends PhetPNode {
 
         /**
          * Gets an image from the cache.
-         * 
+         *
          * @param wavelength
          * @param diameter
          * @return Image, possibly null
          */
-        public Image get(double wavelength, double diameter ) {
+        public Image get( double wavelength, double diameter ) {
             Image image = null;
             Object diameterKey = diameterToKey( diameter );
             HashMap wavelengthMap = (HashMap) _diameterMap.get( diameterKey );
@@ -226,19 +226,19 @@ public class PhotonImageFactory extends PhetPNode {
             }
             return image;
         }
-        
+
         /*
-         * Converts a diameter to a key.
-         */
+        * Converts a diameter to a key.
+        */
         private Object diameterToKey( double diameter ) {
             return new Double( diameter );
         }
-        
+
         /*
-         * Converts a wavelength to a key.
-         * Visible wavelengths are mapped with integer precision.
-         * All UV wavelengths map to the same key, ditto for IR.
-         */
+        * Converts a wavelength to a key.
+        * Visible wavelengths are mapped with integer precision.
+        * All UV wavelengths map to the same key, ditto for IR.
+        */
         private Object wavelengthToKey( double wavelength ) {
             Object key = null;
             if ( wavelength < VisibleColor.MIN_WAVELENGTH ) {

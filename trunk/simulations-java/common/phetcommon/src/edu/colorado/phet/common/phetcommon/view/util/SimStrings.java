@@ -15,26 +15,26 @@ import java.util.Vector;
  * @deprecated use PhetResources or PhetApplicationConfig
  */
 public class SimStrings {
-    
+
     private Vector localizedStrings;
     private Vector bundleNames;
     private Locale locale;
 
     private static SimStrings INSTANCE = new SimStrings();
-    private static boolean debugLocalization=false;
+    private static boolean debugLocalization = false;
 
     public static SimStrings getInstance() {
         return INSTANCE;
     }
 
     public SimStrings() {
-        
+
         // user.language indicates the default locale
         locale = Locale.getDefault();
-        
+
         // javaws.locale overrides user.language
         String javawsLocale = System.getProperty( "javaws.phet.locale" );
-        if( javawsLocale != null && !javawsLocale.equals( "" ) ) {
+        if ( javawsLocale != null && !javawsLocale.equals( "" ) ) {
             locale = new Locale( javawsLocale );
         }
     }
@@ -70,9 +70,9 @@ public class SimStrings {
         Vector priorPaths = this.bundleNames;
         this.bundleNames = null;
         this.localizedStrings = null;
-        if( priorPaths != null ) {
-            for( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
-                String path = (String)i.next();
+        if ( priorPaths != null ) {
+            for ( Iterator i = priorPaths.iterator(); i.hasNext(); ) {
+                String path = (String) i.next();
                 addStrings( path );
             }
         }
@@ -80,19 +80,19 @@ public class SimStrings {
 
     // TODO: make this private after all simulation use init
     public void addStrings( String bundleName ) {
-        if( this.localizedStrings == null ) {
+        if ( this.localizedStrings == null ) {
             this.localizedStrings = new Vector();
             this.bundleNames = new Vector();
         }
-        if( this.bundleNames.contains( bundleName ) ) {
+        if ( this.bundleNames.contains( bundleName ) ) {
             return;
         }
         try {
-            if( this.locale == null ) {
+            if ( this.locale == null ) {
                 this.locale = Locale.getDefault();
             }
             ResourceBundle rb = ResourceBundle.getBundle( bundleName, this.locale );
-            if( rb != null ) {
+            if ( rb != null ) {
                 this.localizedStrings.add( rb );
                 this.bundleNames.add( bundleName );
             }
@@ -105,23 +105,24 @@ public class SimStrings {
     /**
      * Gets a string value from the localization resource file.
      * If key's value is null, then key is returned.
+     *
      * @param key
      * @return String
      */
     public String getString( String key ) {
-        if( debugLocalization ) {
+        if ( debugLocalization ) {
             return getStringDebugLocalization( key );
         }
         else {
-            if( this.localizedStrings == null ) {
+            if ( this.localizedStrings == null ) {
                 throw new RuntimeException( "Strings not initialized" );
             }
 
             String value = null;
 
-            for( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
+            for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
                 try {
-                    ResourceBundle rb = (ResourceBundle)i.next();
+                    ResourceBundle rb = (ResourceBundle) i.next();
                     value = rb.getString( key );
                 }
                 catch( Exception x ) {
@@ -129,7 +130,7 @@ public class SimStrings {
                 }
             }
 
-            if( value == null ) {
+            if ( value == null ) {
                 System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
                 value = key;
             }
@@ -145,16 +146,16 @@ public class SimStrings {
      * TODO: integrate the changes with getString()
      */
     private String getStringDebugLocalization( String key ) {
-        if( this.localizedStrings == null ) {
+        if ( this.localizedStrings == null ) {
             throw new RuntimeException( "Strings not initialized" );
         }
 
         String value = null;
 
         int bundleIndex = 0;
-        for( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
+        for ( Iterator i = this.localizedStrings.iterator(); value == null && i.hasNext(); ) {
             try {
-                ResourceBundle rb = (ResourceBundle)i.next();
+                ResourceBundle rb = (ResourceBundle) i.next();
                 value = "[" + bundleIndex + "]" + rb.getString( key ) + "[/" + bundleIndex + "]";
             }
             catch( Exception x ) {
@@ -163,7 +164,7 @@ public class SimStrings {
             bundleIndex++;
         }
 
-        if( value == null ) {
+        if ( value == null ) {
             System.err.println( "SimStrings.get: key not found, key = \"" + key + "\"" );
             value = "[key]" + key + "[/key]";
         }
@@ -172,17 +173,16 @@ public class SimStrings {
     }
 
     /**
-     *
      * @param s
      * @return
      * @deprecated use getString()
      */
     public static String get( String s ) {
-        return INSTANCE.getString( s);
+        return INSTANCE.getString( s );
     }
 
     /**
-     * @deprecated use addStrings 
+     * @deprecated use addStrings
      */
     public static void setStrings( String s ) {
         INSTANCE.addStrings( s );

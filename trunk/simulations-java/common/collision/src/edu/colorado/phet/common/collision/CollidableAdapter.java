@@ -7,10 +7,10 @@
  */
 package edu.colorado.phet.common.collision;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
-
-import java.awt.geom.Point2D;
 
 /**
  * This adapter class is provided so that various subclasses of Particle can
@@ -71,14 +71,14 @@ public class CollidableAdapter implements Collidable {
     }
 
     public Vector2D getVelocityPrev() {
-        if( !init ) {
+        if ( !init ) {
             init();
         }
         return velocityPrev;
     }
 
     public Point2D getPositionPrev() {
-        if( !init ) {
+        if ( !init ) {
             init();
         }
         return positionPrev;

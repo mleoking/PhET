@@ -10,10 +10,7 @@
  */
 package edu.colorado.phet.common.phetcommon.view.clock;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -34,8 +31,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 /**
  * StopwatchPanel simulates a stopwatch on a specified IClock.
  * <p/>
- * Here is an example of adding it to a ModulePanel, to the 
- * left of the the simulation's play/pause/step controls 
+ * Here is an example of adding it to a ModulePanel, to the
+ * left of the the simulation's play/pause/step controls
  * (do this inside your module's constructor):
  * <code>
  * IClock clock = getClock();
@@ -69,7 +66,7 @@ public class StopwatchPanel extends JPanel {
     //----------------------------------------------------------------------------
 
     private IClock clock;
-    
+
     // User interface components...
     private String startString;
     private String stopString;
@@ -87,7 +84,7 @@ public class StopwatchPanel extends JPanel {
 
     // Event handling...
     ClockListener clockListener;
-    
+
     // Notification...
     private EventChannel stopwatchEventChannel;
     private StopwatchListener stopwatchListenerProxy;
@@ -98,7 +95,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param clock
      */
     public StopwatchPanel( IClock clock ) {
@@ -107,7 +104,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Constructor.
-     * 
+     *
      * @param clock
      * @param timeUnits   Gets printed on the panel
      * @param scaleFactor Time scale factor
@@ -175,7 +172,7 @@ public class StopwatchPanel extends JPanel {
     public void cleanup() {
         clock.removeClockListener( clockListener );
     }
-    
+
     //----------------------------------------------------------------------------
     // State changes
     //----------------------------------------------------------------------------
@@ -223,7 +220,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Sets the font used in the time display.
-     * 
+     *
      * @param font
      */
     public void setTimeDisplayFont( Font font ) {
@@ -232,7 +229,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Gets the font used in the time display.
-     * 
+     *
      * @return
      */
     public Font getTimeDisplayFont() {
@@ -241,15 +238,16 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Gets the JComponent that displays the time readout.
+     *
      * @return the JComponent that displays the time readout.
      */
-    public JTextField getTimeDisplay(){
+    public JTextField getTimeDisplay() {
         return timeDisplay;
     }
 
     /**
      * Sets the number of columns in the time display.
-     * 
+     *
      * @param columns
      */
     public void setTimeDisplayColumns( int columns ) {
@@ -258,7 +256,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Sets the time units that appear to the right of the time display.
-     * 
+     *
      * @param timeUnits
      */
     public void setTimeUnits( String timeUnits ) {
@@ -267,7 +265,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Sets the factor that determines how time is scaled when it is displayed.
-     * 
+     *
      * @param scaleFactor
      */
     public void setScaleFactor( double scaleFactor ) {
@@ -277,17 +275,17 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Sets the time display format.
-     * 
+     *
      * @param timeFormat
      */
     public void setTimeFormat( NumberFormat timeFormat ) {
         this.timeFormat = timeFormat;
         updateTimeDisplay();
     }
-    
+
     /**
      * Is the stopwatch running?
-     * 
+     *
      * @return true or false
      */
     public boolean isRunning() {
@@ -296,7 +294,7 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Is the time display reset (ie, does it show zero)?
-     * 
+     *
      * @return true or false
      */
     public boolean isReset() {
@@ -308,17 +306,17 @@ public class StopwatchPanel extends JPanel {
      * stopwatch is running. True means that the reset button
      * will always be enabled; false means that the reset button
      * will be disabled while the stopwatch is running.
-     * 
+     *
      * @param enabled true or false
      */
     public void setResetEnabledWhileRunning( boolean enabled ) {
         resetEnabledWhileRunning = enabled;
         updateButtons();
     }
-    
+
     /*
-     * Resizes buttons to their largest size, so they don't jump around.
-     */
+    * Resizes buttons to their largest size, so they don't jump around.
+    */
     private void resizeButtons() {
         // Size the Start/Stop button to its largest preferred dimensions...
         String saveString = startStopButton.getText();
@@ -338,6 +336,7 @@ public class StopwatchPanel extends JPanel {
     /*
      * Updates the time display.
      */
+
     private void updateTimeDisplay() {
         String s = timeFormat.format( runningTime * scaleFactor );
         timeDisplay.setText( s );
@@ -354,7 +353,7 @@ public class StopwatchPanel extends JPanel {
         else {
             startStopButton.setText( startString );
         }
-            
+
         // Reset button can optionally be disabled while stopwatch is running...
         resetButton.setEnabled( resetEnabledWhileRunning || !isRunning );
     }
@@ -366,9 +365,11 @@ public class StopwatchPanel extends JPanel {
     /*
      * Handles button clicks.
      */
+
     private class StopwatchButtonListener implements ActionListener {
 
-        public StopwatchButtonListener() {}
+        public StopwatchButtonListener() {
+        }
 
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == startStopButton ) {
@@ -409,10 +410,10 @@ public class StopwatchPanel extends JPanel {
     //-----------------------------------------------------------------
     // Notification
     //-----------------------------------------------------------------
-    
+
     /**
      * Adds a listener who will be notified when the stopwatch's state changes.
-     * 
+     *
      * @param listener
      */
     public void addListener( StopwatchListener listener ) {
@@ -421,26 +422,32 @@ public class StopwatchPanel extends JPanel {
 
     /**
      * Removes a listener.
-     * 
+     *
      * @param listener
      */
     public void removeListener( StopwatchListener listener ) {
         stopwatchEventChannel.removeListener( listener );
     }
-    
+
     /**
      * StopwatchListener is the interface implemented by anyone
      * who wants to be notified about stopwatch state changes.
      */
     public interface StopwatchListener extends EventListener {
 
-        /** Indicates that the stopwatch has been started. */
+        /**
+         * Indicates that the stopwatch has been started.
+         */
         void start( StopwatchEvent event );
 
-        /** Indicates that the stopwatch has been stopped. */
+        /**
+         * Indicates that the stopwatch has been stopped.
+         */
         void stop( StopwatchEvent event );
 
-        /** Indicates that the stopwatch has been reset. */
+        /**
+         * Indicates that the stopwatch has been reset.
+         */
         void reset( StopwatchEvent event );
     }
 
@@ -453,7 +460,9 @@ public class StopwatchPanel extends JPanel {
             super( source );
         }
 
-        /** Convenience function */
+        /**
+         * Convenience function
+         */
         public StopwatchPanel getStopwatch() {
             return (StopwatchPanel) getSource();
         }
@@ -462,12 +471,12 @@ public class StopwatchPanel extends JPanel {
     //-----------------------------------------------------------------
     // Deprecated
     //-----------------------------------------------------------------
-    
+
     /**
      * Sets visibility of the StopWatchPanel.
      * This method is deprecated because its name is misleading
      * and it adds no new functionality.
-     * 
+     *
      * @deprecated use setVisible
      */
     public void setClockPanelVisible( boolean isVisible ) {
@@ -478,7 +487,7 @@ public class StopwatchPanel extends JPanel {
      * Determines if the StopWatchPanel is visible.
      * This method is deprecated because its name is misleading
      * and it adds no new functionality.
-     * 
+     *
      * @deprecated use isVisible
      */
     public boolean isClockPanelVisible() {

@@ -4,9 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 import java.awt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -14,14 +12,14 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * ModelSliderLayoutStrategy provides a layout that is identical to
  * edu.colorado.phet.common.phetcommon.view.ModelSlider.
  * This demonstrates the flexibility of the layout facilities.
- * <p>
+ * <p/>
  * This layout looks like this:
  * <code>
- *          Label
+ * Label
  * -----------v----------
- *     TextField Units
+ * TextField Units
  * <code>
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ModelSliderLayoutStrategy implements ILayoutStrategy {
@@ -29,12 +27,13 @@ public class ModelSliderLayoutStrategy implements ILayoutStrategy {
     /**
      * Constructor.
      */
-    public ModelSliderLayoutStrategy() {}
-    
-    
+    public ModelSliderLayoutStrategy() {
+    }
+
+
     /**
      * Performs layout of a specified control.
-     * 
+     *
      * @param valueControl
      */
     public void doLayout( AbstractValueControl valueControl ) {

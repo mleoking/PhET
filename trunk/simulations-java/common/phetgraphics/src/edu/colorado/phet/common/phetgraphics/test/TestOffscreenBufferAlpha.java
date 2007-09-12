@@ -1,5 +1,9 @@
 package edu.colorado.phet.common.phetgraphics.test;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -9,10 +13,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 
 /**
  * TestOffscreenBufferAlpha tests support for alpha blending in the

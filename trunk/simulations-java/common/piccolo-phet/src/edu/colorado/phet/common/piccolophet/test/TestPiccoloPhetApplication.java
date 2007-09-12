@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 
-import javax.swing.*;
-
 /**
  * TestPiccoloPhetApplication
- * <p>
+ * <p/>
  * Creates two PiccoloPhetApplications. One has PhetTabbedPanes, the other has JTabbedPanes.
  * Note that they come up on top of each other, and you have to move one of them out of the
  * way to see the other.
@@ -35,30 +35,30 @@ public class TestPiccoloPhetApplication {
                                                                  "Test App",
                                                                  "Test App Description",
                                                                  "0.00.01" );
-        phetTabbedPaneApp.setModules( new Module[]{ new ModuleA(), new ModuleB() } );
+        phetTabbedPaneApp.setModules( new Module[]{new ModuleA(), new ModuleB()} );
         phetTabbedPaneApp.startApplication();
 
         // App with JTabbedPanes
         PhetApplication jtabbedPaneApp = new PhetApplication( args,
-                                                                 "Test App",
-                                                                 "Test App Description",
-                                                                 "0.00.01",
-                                                                 PhetApplication.JTABBED_PANE_TYPE );
-        jtabbedPaneApp.setModules( new Module[]{ new ModuleA(), new ModuleB() } );
+                                                              "Test App",
+                                                              "Test App Description",
+                                                              "0.00.01",
+                                                              PhetApplication.JTABBED_PANE_TYPE );
+        jtabbedPaneApp.setModules( new Module[]{new ModuleA(), new ModuleB()} );
         jtabbedPaneApp.startApplication();
     }
 
     static class ModuleA extends Module {
         public ModuleA() {
-            super( "Module A", new SwingClock( 25, 1 ));
-            setSimulationPanel( new JButton("A") );
+            super( "Module A", new SwingClock( 25, 1 ) );
+            setSimulationPanel( new JButton( "A" ) );
         }
     }
 
     static class ModuleB extends Module {
         public ModuleB() {
-            super( "Module B", new SwingClock( 25, 1 ));
-            setSimulationPanel( new JButton("B") );
+            super( "Module B", new SwingClock( 25, 1 ) );
+            setSimulationPanel( new JButton( "B" ) );
         }
     }
 }

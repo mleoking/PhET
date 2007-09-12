@@ -6,7 +6,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 2:15:01 PM
- *
  */
 public interface GridStrategy {
     double[] getVisibleGridLines( Chart chart );//todo should this determine what's in and out of bounds?
@@ -35,10 +34,10 @@ public interface GridStrategy {
         }
 
         public double[] getVisibleGridLines( Chart chart ) {
-            if( orientation.isVertical() ) {
+            if ( orientation.isVertical() ) {
                 return ( getGridLinesSlowButCorrectVersion( crossesOtherAxisAt, chart.getRange().getMinX(), chart.getRange().getMaxX(), spacing ) );
             }
-            else if( orientation.isHorizontal() ) {
+            else if ( orientation.isHorizontal() ) {
                 return ( getGridLinesSlowButCorrectVersion( crossesOtherAxisAt, chart.getRange().getMinY(), chart.getRange().getMaxY(), spacing ) );
             }
             else {
@@ -51,26 +50,26 @@ public interface GridStrategy {
         }
 
         private static double[] getGridLinesSlowButCorrectVersion( double origin, double min, double max, double spacing ) {
-            int n = (int)Math.ceil( ( max - min ) / spacing );
-            if( n > 100 ) {
+            int n = (int) Math.ceil( ( max - min ) / spacing );
+            if ( n > 100 ) {
                 System.out.println( "WARNING: GridStrategy.Relative.getGridLinesSlowButCorrectVersion - large number of gridlines: " + n );
 //                new RuntimeException( "Lots of gridlines coming up, n=" + n ).printStackTrace();
             }
             ArrayList results = new ArrayList();
-            for( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {
-                if( currentPoint >= min && currentPoint <= max ) {
+            for ( double currentPoint = origin; currentPoint <= max; currentPoint += spacing ) {
+                if ( currentPoint >= min && currentPoint <= max ) {
                     results.add( new Double( currentPoint ) );
                 }
             }
-            for( double currentPoint = origin - spacing; currentPoint >= min; currentPoint -= spacing ) {
-                if( currentPoint >= min && currentPoint <= max ) {
+            for ( double currentPoint = origin - spacing; currentPoint >= min; currentPoint -= spacing ) {
+                if ( currentPoint >= min && currentPoint <= max ) {
                     results.add( new Double( currentPoint ) );
                 }
             }
 //        Collections.sort( results );
             double[] output = new double[results.size()];
-            for( int i = 0; i < output.length; i++ ) {
-                output[i] = ( (Double)results.get( i ) ).doubleValue();
+            for ( int i = 0; i < output.length; i++ ) {
+                output[i] = ( (Double) results.get( i ) ).doubleValue();
             }
             return output;
         }

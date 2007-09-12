@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.common.controls;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
 
 /**
  * SpectrumSliderKnob is the knob on a SpectrumSlider.
@@ -174,6 +174,7 @@ public class SpectrumSliderKnob extends CompositePhetGraphic {
     /*
      * Updates the knob's shape, based on its size and angle.
      */
+
     protected void updateShape() {
 
         GeneralPath path = new GeneralPath();

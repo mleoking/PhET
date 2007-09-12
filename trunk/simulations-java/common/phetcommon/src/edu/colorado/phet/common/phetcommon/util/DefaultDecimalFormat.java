@@ -40,7 +40,7 @@ public class DefaultDecimalFormat extends DecimalFormat {
         catch( NumberFormatException numberFormatException ) {
             return decimalFormat.format( number, result, fieldPosition );
         }
-        if( parsed == 0 && formattedText.indexOf( "-" ) == 0 ) {
+        if ( parsed == 0 && formattedText.indexOf( "-" ) == 0 ) {
             result.append( formattedText.substring( 1 ) );
         }
         else {

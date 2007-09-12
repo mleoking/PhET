@@ -1,15 +1,14 @@
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:31 AM
- *
  */
 public class Grid extends AbstractGrid {
 
@@ -28,10 +27,10 @@ public class Grid extends AbstractGrid {
         Orientation orientation = super.getOrientation();
         Chart chart = super.getChart();
         double[] gridLines = getVisibleGridlines();
-        if( orientation.isVertical() ) {
-            for( int i = 0; i < gridLines.length; i++ ) {
+        if ( orientation.isVertical() ) {
+            for ( int i = 0; i < gridLines.length; i++ ) {
                 double gridLineX = gridLines[i];
-                if( chart.getRange().containsX( gridLineX ) ) {
+                if ( chart.getRange().containsX( gridLineX ) ) {
                     Point src = chart.transform( gridLineX, chart.getRange().getMinY() );
                     Point dst = chart.transform( gridLineX, chart.getRange().getMaxY() );
                     Line2D.Double line = new Line2D.Double( src.x, src.y, dst.x, dst.y );
@@ -40,10 +39,10 @@ public class Grid extends AbstractGrid {
                 }
             }
         }
-        else if( orientation.isHorizontal() ) {
-            for( int i = 0; i < gridLines.length; i++ ) {//TODO this is a big bug.
+        else if ( orientation.isHorizontal() ) {
+            for ( int i = 0; i < gridLines.length; i++ ) {//TODO this is a big bug.
                 double gridLineY = gridLines[i];
-                if( chart.getRange().containsY( gridLineY ) ) {
+                if ( chart.getRange().containsY( gridLineY ) ) {
                     Point src = chart.transform( chart.getRange().getMinX(), gridLineY );
                     Point dst = chart.transform( chart.getRange().getMaxX(), gridLineY );
                     Line2D.Double line = new Line2D.Double( src.x, src.y, dst.x, dst.y );

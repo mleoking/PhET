@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.piccolophet.util;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.Point2D;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * PiccoloUtil
@@ -32,6 +32,7 @@ public class PiccoloUtils {
     /**
      * Returns the location of a specified compass point on the bounds of a PNode.
      * This is useful for locating one PNode relative to another.
+     *
      * @param pnode
      * @param borderPointID
      * @return
@@ -69,7 +70,7 @@ public class PiccoloUtils {
             case NORTH_WEST:
                 break;
             default:
-                throw new RuntimeException( "invalid borderPointID");
+                throw new RuntimeException( "invalid borderPointID" );
         }
         return new Point2D.Double( x, y );
     }

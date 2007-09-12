@@ -1,16 +1,15 @@
 package edu.colorado.phet.common.piccolophet.test;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.DeferredInitializationModule;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
  * Date: Jun 5, 2006
  * Time: 11:56:17 AM
- *
  */
 
 public class TestDeferredInitialization extends PhetApplication {

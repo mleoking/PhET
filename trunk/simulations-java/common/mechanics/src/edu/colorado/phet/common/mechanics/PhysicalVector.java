@@ -14,7 +14,7 @@ package edu.colorado.phet.common.mechanics;
  * This class represents mathmatical vectors. It has package visibility,
  * and is intended to be subclassed to represent vectors of specific
  * dimensionalities.
- * 
+ *
  * @author Ron LeMaster
  * @version $Revision$
  */
@@ -36,13 +36,13 @@ public class PhysicalVector {
 
     public boolean equals( Object obj ) {
         boolean result = true;
-        if( this.getClass() != obj.getClass() ) {
+        if ( this.getClass() != obj.getClass() ) {
             result = false;
         }
         else {
-            PhysicalVector that = (PhysicalVector)obj;
-            for( int i = 0; result == true && i < scalars.length; i++ ) {
-                if( this.scalars[i] != that.scalars[i] ) {
+            PhysicalVector that = (PhysicalVector) obj;
+            for ( int i = 0; result == true && i < scalars.length; i++ ) {
+                if ( this.scalars[i] != that.scalars[i] ) {
                     result = false;
                 }
             }
@@ -52,7 +52,7 @@ public class PhysicalVector {
 
     public double getMagnitudeSq() {
         double sum = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             sum += scalars[i] * scalars[i];
         }
         return sum;
@@ -72,7 +72,7 @@ public class PhysicalVector {
     protected PhysicalVector add( PhysicalVector that, PhysicalVector result ) {
 
         // TODO check that vectors are the same length, or class
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = this.scalars[i] + that.scalars[i];
         }
         return result;
@@ -84,7 +84,7 @@ public class PhysicalVector {
     }
 
     protected PhysicalVector multiply( double scale, PhysicalVector result ) {
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = scalars[i] * scale;
         }
         return result;
@@ -95,7 +95,7 @@ public class PhysicalVector {
         // TODO check that vectors are the same length, or class
 
         double result = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result += this.scalars[i] * that.scalars[i];
         }
         return result;
@@ -108,11 +108,11 @@ public class PhysicalVector {
     public double distanceSquared( PhysicalVector that ) {
 
         // Check that operation can be done
-        if( this.scalars.length != that.scalars.length ) {
+        if ( this.scalars.length != that.scalars.length ) {
             throw new RuntimeException( "Vectors of different dimensionalities set to PhysicalVector.distanceSquared" );
         }
         double result = 0;
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             double diff = this.scalars[i] - that.scalars[i];
             result += diff * diff;
         }
@@ -123,7 +123,7 @@ public class PhysicalVector {
 
         // TODO check that vectors are the same length, or class
 
-        for( int i = 0; i < scalars.length; i++ ) {
+        for ( int i = 0; i < scalars.length; i++ ) {
             result.scalars[i] = this.scalars[i] - that.scalars[i];
         }
         return result;

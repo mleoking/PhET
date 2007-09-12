@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.jfreechartphet.test;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import java.awt.geom.Point2D;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -8,7 +9,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.geom.Point2D;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 
 /**
  * Author: Sam Reid
@@ -22,7 +23,7 @@ public class TestJFreeChartNodeBuffer {
         XYDataset dataset = new XYSeriesCollection( series );
         JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", dataset, PlotOrientation.VERTICAL, false, true, true );
         JFreeChartNode jFreeChartNode = new JFreeChartNode( chart );
-        jFreeChartNode.setBounds( 0,0,100,100);
+        jFreeChartNode.setBounds( 0, 0, 100, 100 );
         jFreeChartNode.setBuffered( false );
         System.out.println( "buffered=false" );
         System.out.println( "jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) )=" + jFreeChartNode.plotToNode( new Point2D.Double( 0, 0 ) ) );

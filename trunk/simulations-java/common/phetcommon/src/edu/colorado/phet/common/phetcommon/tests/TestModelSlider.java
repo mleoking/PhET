@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid
  * Date: Dec 12, 2004
  * Time: 8:32:49 PM
- *
  */
 
 public class TestModelSlider {

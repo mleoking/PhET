@@ -21,13 +21,14 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.umd.cs.piccolo.util.PDebug;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import javax.swing.*;
+
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * DISCLAIMER: This class is under development and not ready for general use.

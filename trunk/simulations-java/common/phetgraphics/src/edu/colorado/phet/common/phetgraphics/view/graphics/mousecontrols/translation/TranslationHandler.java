@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * TranslationHandler
@@ -30,7 +31,7 @@ public class TranslationHandler implements MouseInputListener {
     }
 
     public void mouseDragged( MouseEvent event ) {
-        if( last == null ) {
+        if ( last == null ) {
             mousePressed( event );
             return;
         }

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
  * An extension of Properties that provides some convenience methods.
  */
 public class PhetProperties extends Properties {
-    
+
     public PhetProperties() {
         super();
     }

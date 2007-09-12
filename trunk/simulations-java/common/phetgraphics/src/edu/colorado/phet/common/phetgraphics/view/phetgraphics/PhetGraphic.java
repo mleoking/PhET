@@ -10,17 +10,6 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationHandler;
-import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetgraphics.view.util.CompositeKeyListener;
-import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
-import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -29,6 +18,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Stack;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationHandler;
+import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
+import edu.colorado.phet.common.phetgraphics.view.util.CompositeKeyListener;
+import edu.colorado.phet.common.phetgraphics.view.util.CompositeMouseInputListener;
+import edu.colorado.phet.common.phetgraphics.view.util.CursorControl;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 
 /**
  * PhetGraphic is the base class for all PhET graphics.
@@ -204,8 +205,8 @@ public abstract class PhetGraphic {
      * empty, calling this method does nothing.
      */
     protected void restoreGraphicsState() {
-        if( !graphicsStates.empty() ) {
-            GraphicsState gs = (GraphicsState)graphicsStates.pop();
+        if ( !graphicsStates.empty() ) {
+            GraphicsState gs = (GraphicsState) graphicsStates.pop();
             gs.restoreGraphics();
         }
     }
@@ -230,7 +231,7 @@ public abstract class PhetGraphic {
      * @param g2 the graphics context
      */
     protected void popRenderingHints( Graphics2D g2 ) {
-        if( savedRenderingHints != null ) {
+        if ( savedRenderingHints != null ) {
             g2.setRenderingHints( savedRenderingHints );
         }
     }
@@ -271,12 +272,12 @@ public abstract class PhetGraphic {
      */
     protected void updateGraphicsState( Graphics2D g2 ) {
         // Clipping
-        if( clip != null ) {
+        if ( clip != null ) {
             g2.setClip( clip );
         }
         // Add rendering hints
         RenderingHints hints = getRenderingHints();
-        if( hints != null ) {
+        if ( hints != null ) {
             g2.addRenderingHints( hints );
         }
     }
@@ -291,13 +292,13 @@ public abstract class PhetGraphic {
      * @param visible true for visible, false for invisible
      */
     public void setVisible( boolean visible ) {
-        if( visible != this.visible ) {
+        if ( visible != this.visible ) {
             this.visible = visible;
             forceRepaint();//if we just turned invisible, we need to paint over ourselves, and vice versa.
             fireVisibilityChanged();
-            if( !visible ) {
+            if ( !visible ) {
                 //see if we have a parent, and tell them to lose mouse and key focus.
-                if( parent != null ) {
+                if ( parent != null ) {
                     parent.childBecameInvisible( this );
                 }
 
@@ -308,8 +309,8 @@ public abstract class PhetGraphic {
     }
 
     protected void fireVisibilityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            PhetGraphicListener phetGraphicListener = (PhetGraphicListener) listeners.get( i );
             phetGraphicListener.phetGraphicVisibilityChanged( this );
         }
     }
@@ -321,7 +322,7 @@ public abstract class PhetGraphic {
      */
     public boolean isVisible() {
         // If we have a parent, check to see if it is visible
-        if( parent != null ) {
+        if ( parent != null ) {
             return parent.isVisible() && this.visible;//shouldn't we add a call to getComponent().isShowing()? 
         }
         else {
@@ -397,7 +398,7 @@ public abstract class PhetGraphic {
      * @param transform the transform
      */
     public void setTransform( AffineTransform transform ) {
-        if( !transform.equals( this.transform ) ) {
+        if ( !transform.equals( this.transform ) ) {
             this.transform = new AffineTransform( transform );
             setBoundsDirty();
             autorepaint();
@@ -442,7 +443,7 @@ public abstract class PhetGraphic {
     public AffineTransform getIntermediateTransform( GraphicLayerSet ancestor ) {
         AffineTransform totalTransform = new AffineTransform();
         GraphicLayerSet up = getParent();
-        while( up != ancestor ) {
+        while ( up != ancestor ) {
             totalTransform.concatenate( up.getTransform() );//todo: doesn't handle registration point.
             up = up.getParent();
         }
@@ -455,7 +456,7 @@ public abstract class PhetGraphic {
      * @param transform the transform to concatenate.
      */
     protected void concatenateTransform( AffineTransform transform ) {
-        if( !transform.isIdentity() ) {
+        if ( !transform.isIdentity() ) {
             this.transform.concatenate( transform );
             setBoundsDirty();
             autorepaint();
@@ -468,7 +469,7 @@ public abstract class PhetGraphic {
      * @param transform the transform to pre-concatenate.
      */
     protected void preConcatenateTransform( AffineTransform transform ) {
-        if( !transform.isIdentity() ) {
+        if ( !transform.isIdentity() ) {
             this.transform.preConcatenate( transform );
             setBoundsDirty();
             autorepaint();
@@ -502,7 +503,7 @@ public abstract class PhetGraphic {
 
         // todo: Not needed, because GraphicLayerSets apply their transforms to the graphics before we get here
         // Apply parent's net transform - rjl
-        if( parent != null ) {
+        if ( parent != null ) {
             AffineTransform parentTransform = parent.getNetTransform();
             netUtilTx.preConcatenate( parentTransform );
         }
@@ -645,7 +646,7 @@ public abstract class PhetGraphic {
      * @return true if the point is contained by this graphic.
      */
     public boolean contains( int x, int y ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             syncBounds();
             return bounds != null && bounds.contains( x, y );
         }
@@ -658,10 +659,10 @@ public abstract class PhetGraphic {
      * If the bounds are dirty, they are recomputed.
      */
     protected void syncBounds() {
-        if( boundsDirty ) {
+        if ( boundsDirty ) {
             rebuildBounds();
             boundsDirty = false;
-            if( !RectangleUtils.areEqual( lastBounds, bounds ) ) {
+            if ( !RectangleUtils.areEqual( lastBounds, bounds ) ) {
                 notifyChanged();
             }
         }
@@ -685,14 +686,14 @@ public abstract class PhetGraphic {
         Rectangle newBounds = determineBounds();
 
         // Apply clipping
-        if( clip != null && newBounds != null ) {
+        if ( clip != null && newBounds != null ) {
             Rectangle clipBounds = clip.getBounds();
             /* WORKAROUND:
              * Rectangle.intersection doesn't work as advertised when the
              * rectangles don't intersect, so check for intersection using
              * Rectangle.intersects before calling Rectangle.intersection.
              */
-            if( newBounds.intersects( clipBounds ) ) {
+            if ( newBounds.intersects( clipBounds ) ) {
                 newBounds = newBounds.intersection( clipBounds );
             }
             else {
@@ -701,7 +702,7 @@ public abstract class PhetGraphic {
         }
 
         // Set the new bounds
-        if( newBounds != null ) {
+        if ( newBounds != null ) {
             bounds.setBounds( newBounds );
         }
         else {
@@ -715,7 +716,7 @@ public abstract class PhetGraphic {
             AffineTransform transform = getNetTransform();
             Point2D transformedLocation = new Point2D.Double();
             transform.transform( getLocation(), transformedLocation );
-            bounds.setBounds( (int)transformedLocation.getX(), (int)transformedLocation.getY(), 0, 0 );
+            bounds.setBounds( (int) transformedLocation.getX(), (int) transformedLocation.getY(), 0, 0 );
         }
     }
 
@@ -727,7 +728,7 @@ public abstract class PhetGraphic {
      */
 
     public Rectangle getLocalBounds() {
-        if( parent == null ) {
+        if ( parent == null ) {
             return getBounds();
         }
         else {
@@ -780,7 +781,7 @@ public abstract class PhetGraphic {
      * @see edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic#setLocation(java.awt.Point)
      */
     public void setLocation( int x, int y ) {
-        if( location.x != x || location.y != y ) {
+        if ( location.x != x || location.y != y ) {
             location.setLocation( x, y );
             setBoundsDirty();
             autorepaint();
@@ -870,8 +871,8 @@ public abstract class PhetGraphic {
      * Notifies registered Observers that this PhetGraphic has changed.
      */
     protected void notifyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            PhetGraphicListener phetGraphicListener = (PhetGraphicListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            PhetGraphicListener phetGraphicListener = (PhetGraphicListener) listeners.get( i );
             phetGraphicListener.phetGraphicChanged( this );
         }
     }
@@ -966,7 +967,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseClicked( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseClicked( e );
         }
     }
@@ -978,7 +979,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMousePressed( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mousePressed( e );
         }
     }
@@ -990,7 +991,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseReleased( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseReleased( e );
         }
     }
@@ -1002,7 +1003,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseEntered( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseEntered( e );
         }
     }
@@ -1014,7 +1015,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseExited( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseExited( e );
         }
     }
@@ -1034,7 +1035,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseDragged( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseDragged( e );
         }
     }
@@ -1046,7 +1047,7 @@ public abstract class PhetGraphic {
      * @param e the event
      */
     public void fireMouseMoved( MouseEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             mouseInputListener.mouseMoved( e );
         }
     }
@@ -1069,10 +1070,10 @@ public abstract class PhetGraphic {
      * @param cursor the cursor
      */
     public void setCursor( Cursor cursor ) {
-        if( cursorControl != null ) {
+        if ( cursorControl != null ) {
             removeCursor();
         }
-        if( cursorControl == null ) {
+        if ( cursorControl == null ) {
             cursorControl = new CursorControl( cursor );
             addMouseInputListener( cursorControl );
         }
@@ -1104,12 +1105,12 @@ public abstract class PhetGraphic {
      * @param menu the menu
      */
     public void setPopupMenu( final JPopupMenu menu ) {
-        if( popupHandler != null ) {
+        if ( popupHandler != null ) {
             removeMouseInputListener( popupHandler );
         }
         popupHandler = new MouseInputAdapter() {
             public void mouseReleased( MouseEvent e ) {
-                if( SwingUtilities.isRightMouseButton( e ) ) {
+                if ( SwingUtilities.isRightMouseButton( e ) ) {
                     menu.show( e.getComponent(), e.getX(), e.getY() );
                 }
             }
@@ -1152,7 +1153,7 @@ public abstract class PhetGraphic {
      * Repaints the graphic if autorepaint is set to true.
      */
     public void autorepaint() {
-        if( autorepaint ) {
+        if ( autorepaint ) {
             repaint();
         }
     }
@@ -1161,7 +1162,7 @@ public abstract class PhetGraphic {
      * Repaints the visible rectangle on this graphic's Component.
      */
     public void repaint() {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             forceRepaint();
         }
     }
@@ -1173,14 +1174,14 @@ public abstract class PhetGraphic {
         syncBounds();//possibly fires a phet graphic moved event.
         //TODO we should fire bounds change events right when setLocation(), or transform() is called, rather
         //than waiting for forceRepaint() to (hopefully) get called.
-        if( SKIP_RECTANGLE_COMPUTATION ) {
+        if ( SKIP_RECTANGLE_COMPUTATION ) {
             return;
         }
 
-        if( lastBounds != null ) {
+        if ( lastBounds != null ) {
             component.repaint( lastBounds.x, lastBounds.y, lastBounds.width, lastBounds.height );
         }
-        if( bounds != null ) {
+        if ( bounds != null ) {
             component.repaint( bounds.x, bounds.y, bounds.width, bounds.height );
         }
     }
@@ -1207,7 +1208,7 @@ public abstract class PhetGraphic {
      * @param e
      */
     public void fireKeyTyped( KeyEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             keyListener.keyTyped( e );
         }
     }
@@ -1218,7 +1219,7 @@ public abstract class PhetGraphic {
      * @param e
      */
     public void fireKeyPressed( KeyEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             keyListener.keyPressed( e );
         }
     }
@@ -1229,7 +1230,7 @@ public abstract class PhetGraphic {
      * @param e
      */
     public void fireKeyReleased( KeyEvent e ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             keyListener.keyReleased( e );
         }
     }

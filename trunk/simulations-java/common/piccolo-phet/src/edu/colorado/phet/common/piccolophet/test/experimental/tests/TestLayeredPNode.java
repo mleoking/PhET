@@ -1,22 +1,22 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental.tests;
 
-import edu.colorado.phet.common.piccolophet.test.experimental.LayeredPNode;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+
+import edu.colorado.phet.common.piccolophet.test.experimental.LayeredPNode;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
+
 /**
  * User: Sam Reid
  * Date: Nov 12, 2005
  * Time: 8:08:35 AM
- * 
  */
 
 public class TestLayeredPNode {
@@ -41,8 +41,8 @@ public class TestLayeredPNode {
         JPanel controls = new JPanel();
         controls.setLayout( new BoxLayout( controls, BoxLayout.Y_AXIS ) );
         textFields = new JTextField[colors.length];
-        for( int i = 0; i < 4; i++ ) {
-            textFields[i] = new JTextField( "0.0",10 );
+        for ( int i = 0; i < 4; i++ ) {
+            textFields[i] = new JTextField( "0.0", 10 );
             textFields[i].setBorder( new LineBorder( colors[i], 2 ) );
             controls.add( textFields[i] );
             textFields[i].addActionListener( new ActionListener() {

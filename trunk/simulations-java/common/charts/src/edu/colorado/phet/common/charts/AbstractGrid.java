@@ -1,14 +1,13 @@
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 
 /**
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:44 AM
- * 
  */
 public abstract class AbstractGrid extends CompositePhetGraphic {
     private Orientation orientation;
@@ -66,15 +65,15 @@ public abstract class AbstractGrid extends CompositePhetGraphic {
     protected double[] getVisibleGridlines() {
         double[] g = gridStrategy.getVisibleGridLines( chart );
 //        System.out.println( "num gridlines=" + g.length );
-        if( g.length > 1000 ) {
+        if ( g.length > 1000 ) {
             double[] again = gridStrategy.getVisibleGridLines( chart );
         }
         return g;
     }
 
     public void setSpacing( double spacing ) {
-        if( gridStrategy instanceof GridStrategy.Relative ) {
-            ( (GridStrategy.Relative)gridStrategy ).setSpacing( spacing );
+        if ( gridStrategy instanceof GridStrategy.Relative ) {
+            ( (GridStrategy.Relative) gridStrategy ).setSpacing( spacing );
         }
         update();
     }

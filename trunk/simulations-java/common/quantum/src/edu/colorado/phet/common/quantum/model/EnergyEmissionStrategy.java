@@ -11,8 +11,6 @@
 package edu.colorado.phet.common.quantum.model;
 
 
-
-
 /**
  * EnergyAbsorptionStrategy
  *

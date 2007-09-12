@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
@@ -17,8 +19,6 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
-import javax.swing.*;
 
 /**
  * Test to automatically display a PhetAboutDialog

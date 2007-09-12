@@ -7,11 +7,11 @@ package edu.colorado.phet.common.timeseries.ui;
  *
  */
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-
-import javax.swing.*;
 
 public class TestTimeSeriesControlPanel {
     private JFrame frame;

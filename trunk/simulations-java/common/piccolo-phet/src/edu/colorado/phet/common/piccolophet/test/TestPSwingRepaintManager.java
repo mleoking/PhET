@@ -5,15 +5,16 @@ package edu.colorado.phet.common.piccolophet.test;
  * Aug 21, 2007, 4:10:02 PM
  */
 
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 public class TestPSwingRepaintManager {
     private JFrame frame = new JFrame( getClass().getName().substring( getClass().getName().lastIndexOf( '.' ) + 1 ) );
@@ -42,9 +43,9 @@ public class TestPSwingRepaintManager {
 
     private void updateGraphics() {
         component.setText( System.currentTimeMillis() + "" );
-        path.setOffset( 500,500);
-        double frequency=0.5;
-        path.setRotation( Math.sin( System.currentTimeMillis()/1000.0*frequency));
+        path.setOffset( 500, 500 );
+        double frequency = 0.5;
+        path.setRotation( Math.sin( System.currentTimeMillis() / 1000.0 * frequency ) );
     }
 
     private void start() {

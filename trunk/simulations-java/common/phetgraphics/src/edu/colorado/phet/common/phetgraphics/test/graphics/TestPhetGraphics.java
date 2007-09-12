@@ -10,6 +10,16 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -18,15 +28,6 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
@@ -91,14 +92,14 @@ public class TestPhetGraphics extends JFrame {
                     }
                 }
         };
-        for( int i = 0; i < graphics.length; i++ ) {
+        for ( int i = 0; i < graphics.length; i++ ) {
             TestPhetGraphicSource graphic = graphics[i];
             final PhetGraphic pg = graphic.createGraphic( panel );
             pg.setCursorHand();
             pg.setBoundsDirty();
             pg.setLocation( 0, 0 );
             Rectangle bounds = pg.getBounds();
-            if( bounds == null ) {
+            if ( bounds == null ) {
                 System.out.println( "error" );
             }
             Point center = RectangleUtils.getCenter( pg.getBounds() );
@@ -108,7 +109,7 @@ public class TestPhetGraphics extends JFrame {
             pg.addMouseInputListener( new MouseInputAdapter() {
                 // implements java.awt.event.MouseMotionListener
                 public void mouseDragged( MouseEvent e ) {
-                    if( SwingUtilities.isRightMouseButton( e ) ) {
+                    if ( SwingUtilities.isRightMouseButton( e ) ) {
 //                        Point ctr = RectangleUtils.getCenter( pg.getBounds() );
 //                        pg.transform( AffineTransform.getRotateInstance( Math.PI / 36, ctr.x, ctr.y ) );
                         pg.rotate( Math.PI / 64 );
@@ -117,7 +118,7 @@ public class TestPhetGraphics extends JFrame {
             } );
             pg.addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
-                    if( SwingUtilities.isLeftMouseButton( translationEvent.getMouseEvent() ) ) {
+                    if ( SwingUtilities.isLeftMouseButton( translationEvent.getMouseEvent() ) ) {
 //                        pg.transform( AffineTransform.getTranslateInstance( translationEvent.getDx(), translationEvent.getDy() ) );
                         pg.setLocation( translationEvent.getX(), translationEvent.getY() );
                     }
@@ -144,7 +145,7 @@ public class TestPhetGraphics extends JFrame {
 
         panel.addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
                     rdg.setActive( !rdg.isActive() );
                     rdg.setVisible( rdg.isActive() );
                 }
@@ -229,7 +230,7 @@ public class TestPhetGraphics extends JFrame {
 //            if( g2 != null ) {
 //                FontRenderContext frc = g2.getFontRenderContext();
             FontRenderContext frc = fontRenderContext;
-            if( frc != null ) {
+            if ( frc != null ) {
                 TextLayout textLayout = new TextLayout( text, font, frc );
                 return textLayout.getOutline( new AffineTransform() );
             }

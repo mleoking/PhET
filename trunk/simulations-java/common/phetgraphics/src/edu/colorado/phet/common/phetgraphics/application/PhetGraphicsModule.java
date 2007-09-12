@@ -11,6 +11,8 @@
 
 package edu.colorado.phet.common.phetgraphics.application;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -22,8 +24,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-
-import javax.swing.*;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -72,7 +72,7 @@ public class PhetGraphicsModule extends Module {
 
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
-        if( helpManager != null ) {
+        if ( helpManager != null ) {
             helpManager.setComponent( apparatusPanel );
         }
         else {
@@ -208,8 +208,8 @@ public class PhetGraphicsModule extends Module {
 
     public void setReferenceSize() {
         JComponent panel = getSimulationPanel();
-        if( panel instanceof ApparatusPanel2 ) {
-            final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+        if ( panel instanceof ApparatusPanel2 ) {
+            final ApparatusPanel2 apparatusPanel = (ApparatusPanel2) panel;
 
             // Add the listener to the apparatus panel that will tell it to set its
             // reference size

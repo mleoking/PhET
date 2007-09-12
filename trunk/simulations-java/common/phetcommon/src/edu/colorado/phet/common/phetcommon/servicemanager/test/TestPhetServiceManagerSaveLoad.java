@@ -1,10 +1,5 @@
 package edu.colorado.phet.common.phetcommon.servicemanager.test;
 
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
-
-import javax.jnlp.FileContents;
-import javax.jnlp.UnavailableServiceException;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -12,6 +7,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import javax.jnlp.FileContents;
+import javax.jnlp.UnavailableServiceException;
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * @author Sam Reid
@@ -51,13 +52,13 @@ public class TestPhetServiceManagerSaveLoad {
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( fileContents.getInputStream() ) );
                     ArrayList text = new ArrayList();
                     String line = bufferedReader.readLine();
-                    while( line != null ) {
+                    while ( line != null ) {
                         text.add( line );
                         line = bufferedReader.readLine();
                     }
                     System.out.println( "Read Text:" );
-                    for( int i = 0; i < text.size(); i++ ) {
-                        java.lang.String s = (java.lang.String)text.get( i );
+                    for ( int i = 0; i < text.size(); i++ ) {
+                        java.lang.String s = (java.lang.String) text.get( i );
                         System.out.println( s );
                     }
                 }
@@ -69,7 +70,7 @@ public class TestPhetServiceManagerSaveLoad {
                 }
             }
         } );
-        panel.add(load);
+        panel.add( load );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }

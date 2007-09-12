@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Shows the connection between two nodes as an arrow.

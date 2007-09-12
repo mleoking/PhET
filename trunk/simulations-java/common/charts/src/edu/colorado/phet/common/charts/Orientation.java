@@ -5,7 +5,6 @@ package edu.colorado.phet.common.charts;
  * User: Sam Reid
  * Date: May 20, 2005
  * Time: 2:42:22 PM
- *
  */
 
 public class Orientation {
@@ -32,8 +31,8 @@ public class Orientation {
     }
 
     public boolean equals( Object obj ) {
-        if( obj instanceof Orientation ) {
-            Orientation orientation = (Orientation)obj;
+        if ( obj instanceof Orientation ) {
+            Orientation orientation = (Orientation) obj;
             return orientation.name.equals( name );
         }
         else {
@@ -42,7 +41,7 @@ public class Orientation {
     }
 
     public Orientation opposite() {
-        if( isVertical() ) {
+        if ( isVertical() ) {
             return HORIZONTAL;
         }
         else {

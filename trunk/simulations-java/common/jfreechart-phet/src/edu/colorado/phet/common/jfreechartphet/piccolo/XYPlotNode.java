@@ -21,15 +21,16 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo;
 
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PPaintContext;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import org.jfree.chart.event.PlotChangeEvent;
 import org.jfree.chart.event.PlotChangeListener;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.XYPlot;
 
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
@@ -150,7 +151,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener {
      * This cleans up any listener associations made with the plot.
      */
     public void cleanup() {
-        if( _plot != null ) {
+        if ( _plot != null ) {
             _plot.removeChangeListener( this );
             _plot = null;
         }
@@ -291,7 +292,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener {
 
         Graphics2D g2 = paintContext.getGraphics();
 
-        if( _renderingHints != null ) {
+        if ( _renderingHints != null ) {
             g2.setRenderingHints( _renderingHints );
         }
 
@@ -303,13 +304,13 @@ public class XYPlotNode extends PPath implements PlotChangeListener {
         // Render each of the plot's datasets, in the proper order...
         int numberOfDatasets = _plot.getDatasetCount();
         DatasetRenderingOrder renderingOrder = _plot.getDatasetRenderingOrder();
-        if( renderingOrder == DatasetRenderingOrder.FORWARD ) {
-            for( int i = 0; i < numberOfDatasets; i++ ) {
+        if ( renderingOrder == DatasetRenderingOrder.FORWARD ) {
+            for ( int i = 0; i < numberOfDatasets; i++ ) {
                 _plot.render( g2, _dataArea, i, null, null );
             }
         }
         else { /* DatasetRenderingOrder.REVERSE */
-            for( int i = numberOfDatasets - 1; i >= 0; i-- ) {
+            for ( int i = numberOfDatasets - 1; i >= 0; i-- ) {
                 _plot.render( g2, _dataArea, i, null, null );
             }
         }
@@ -318,7 +319,7 @@ public class XYPlotNode extends PPath implements PlotChangeListener {
         paintContext.popClip( null );
 
         // optionally stroke the data area -- do this after restoring the clip
-        if( _dataAreaStroked ) {
+        if ( _dataAreaStroked ) {
             g2.setStroke( _plot.getOutlineStroke() );
             g2.setPaint( _plot.getOutlinePaint() );
             g2.draw( _dataArea );

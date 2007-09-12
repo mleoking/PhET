@@ -6,11 +6,11 @@
  */
 package edu.colorado.phet.common.charts;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphicListener;
-
-import java.awt.*;
 
 public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.Observer, PhetGraphicListener {
     private DataSet dataSet;
@@ -20,7 +20,7 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
         super( component );
         this.chart = chart;
         setDataSet( dataSet );
-        
+
         // Clip to the chart boundary, and change the clip when the chart changes.
         setClip( chart.getChartBounds() );
         chart.addPhetGraphicListener( this );
@@ -39,10 +39,10 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
             dataSet = null;
         }
     }
-    
+
     public void setDataSet( DataSet dataSet ) {
-        if( dataSet != this.dataSet ) {
-            if( this.dataSet != null ) {
+        if ( dataSet != this.dataSet ) {
+            if ( this.dataSet != null ) {
                 this.dataSet.removeObserver( this );
             }
             this.dataSet = dataSet;
@@ -56,7 +56,7 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
 
     protected void addAllPoints() {
         DataSet dataSet = getDataSet();
-        if( dataSet != null ) {
+        if ( dataSet != null ) {
             pointsAdded( dataSet.getPoints() );
         }
     }
@@ -69,11 +69,11 @@ public abstract class DataSetGraphic extends GraphicLayerSet implements DataSet.
      * Called when the associated Chart's size or range changes.
      */
     public abstract void transformChanged();
-    
+
     //----------------------------------------------------------------------------
     // PhetGraphicListener implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Keeps the graphic clipped to the chart.
      */

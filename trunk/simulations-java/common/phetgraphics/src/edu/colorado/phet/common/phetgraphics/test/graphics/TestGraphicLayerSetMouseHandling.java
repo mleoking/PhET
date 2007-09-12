@@ -1,15 +1,16 @@
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * This example tests how GraphicLayerSet handles mouse events.

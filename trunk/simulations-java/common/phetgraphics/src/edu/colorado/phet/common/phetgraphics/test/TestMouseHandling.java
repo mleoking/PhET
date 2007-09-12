@@ -11,6 +11,12 @@
 
 package edu.colorado.phet.common.phetgraphics.test;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -20,11 +26,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 /**
  * TestMouseHandling is a simple simulation that is useful for testing of mouse event handling.

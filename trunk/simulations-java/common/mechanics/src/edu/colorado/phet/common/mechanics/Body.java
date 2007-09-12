@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.mechanics;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
-
-import java.awt.geom.Point2D;
 
 /**
  * Body
@@ -41,10 +41,10 @@ public abstract class Body extends Particle {
 
 
     public Object clone() {
-        Body clone = (Body)super.clone();
+        Body clone = (Body) super.clone();
 
-        clone.lastColidedBody = lastColidedBody == null ? null : (Particle)lastColidedBody.clone();
-        clone.momentum        = new Vector2D.Double( momentum );
+        clone.lastColidedBody = lastColidedBody == null ? null : (Particle) lastColidedBody.clone();
+        clone.momentum = new Vector2D.Double( momentum );
 
         return clone;
     }
@@ -56,7 +56,6 @@ public abstract class Body extends Particle {
     }
 
     /**
-     *
      * @param location
      * @param velocity
      * @param acceleration

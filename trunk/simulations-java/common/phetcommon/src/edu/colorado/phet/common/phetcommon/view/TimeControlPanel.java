@@ -1,14 +1,15 @@
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
-import javax.swing.*;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * TimeControlPanel implements a Swing component for play/pause and step in PhET simulations.
@@ -36,7 +37,7 @@ public class TimeControlPanel extends JPanel {
     private String playString;
     private String pauseString;
 
-    private boolean paused =false;
+    private boolean paused = false;
 
     private ArrayList listeners = new ArrayList();
 
@@ -73,11 +74,12 @@ public class TimeControlPanel extends JPanel {
         //Adapter methods for event dispatch
         playPause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                paused =!paused;
+                paused = !paused;
                 updateButtons();
-                if ( paused ){
+                if ( paused ) {
                     notifyPausePressed();
-                }else{
+                }
+                else {
                     notifyPlayPressed();
                 }
             }
@@ -88,14 +90,15 @@ public class TimeControlPanel extends JPanel {
             }
         } );
 
-        updateButtons( );
+        updateButtons();
     }
 
     /**
      * Sets whether the play/pause button is enabled
+     *
      * @param enabled true if the play/pause button is enabled
      */
-    protected void setPlayPauseButtonEnabled(boolean enabled){
+    protected void setPlayPauseButtonEnabled( boolean enabled ) {
         playPause.setEnabled( enabled );
     }
 
@@ -137,23 +140,25 @@ public class TimeControlPanel extends JPanel {
      * the control panel don't horizontally shift as the button state changes.
      */
     protected void updatePlayPauseButtonDimension() {
-        playPause.setPreferredSize( SwingUtils.getMaxDimension(playPause, playString, playIcon, pauseString, pauseIcon) );
+        playPause.setPreferredSize( SwingUtils.getMaxDimension( playPause, playString, playIcon, pauseString, pauseIcon ) );
     }
 
     /**
      * Adds a component to the sub-panel which contains the main content for this control panel.
+     *
      * @param control
      */
-    public void addControl(JComponent control){
-        buttonPanel.add(control);
+    public void addControl( JComponent control ) {
+        buttonPanel.add( control );
     }
 
     /**
      * Adds a component to the left of the sub-panel which contains the main content for this control panel.
+     *
      * @param control
      */
-    public void addControlToLeft(JComponent control){
-        buttonPanel.add(control,0);
+    public void addControlToLeft( JComponent control ) {
+        buttonPanel.add( control, 0 );
     }
 
     /**
@@ -181,7 +186,7 @@ public class TimeControlPanel extends JPanel {
     /**
      * Updates the state of the play/pause and step buttons to reflect whether the control is paused and/or enabled.
      */
-    public void updateButtons( ) {
+    public void updateButtons() {
         playPause.setText( paused ? playString : pauseString );
         playPause.setIcon( paused ? playIcon : pauseIcon );
         playPause.setEnabled( isEnabled() );
@@ -190,18 +195,20 @@ public class TimeControlPanel extends JPanel {
 
     /**
      * Listener interface for receiving events from TimeControlPanel
-     * This interface may be revised to pass a TimeControlEvent.   
+     * This interface may be revised to pass a TimeControlEvent.
      */
-    public static interface TimeControlListener{
+    public static interface TimeControlListener {
         void stepPressed();
+
         void playPressed();
+
         void pausePressed();
     }
 
     /**
      * Convenience adapter class for TimeControlListener
      */
-    public static class TimeControlAdapter implements TimeControlListener{
+    public static class TimeControlAdapter implements TimeControlListener {
         public void stepPressed() {
         }
 
@@ -221,18 +228,20 @@ public class TimeControlPanel extends JPanel {
     }
 
     private void notifyStepPressed() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener)listeners.get( i ) ).stepPressed();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener) listeners.get( i ) ).stepPressed();
         }
     }
-    private void notifyPlayPressed(){
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener)listeners.get( i ) ).playPressed();
+
+    private void notifyPlayPressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener) listeners.get( i ) ).playPressed();
         }
     }
+
     private void notifyPausePressed() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (TimeControlListener)listeners.get( i ) ).pausePressed();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (TimeControlListener) listeners.get( i ) ).pausePressed();
         }
     }
 

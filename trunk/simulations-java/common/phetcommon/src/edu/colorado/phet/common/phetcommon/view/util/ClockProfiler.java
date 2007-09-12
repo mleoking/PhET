@@ -1,18 +1,19 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.math.DoubleSeries;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.text.DecimalFormat;
 
 /**
  * This developer utility displays actual frame rate for a running ConstantDTClock, and includes a control for setting the dt.
@@ -51,8 +52,8 @@ public class ClockProfiler {
         updateDelayControl();
         linearValueControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if( ClockProfiler.this.clock != null ) {
-                    ClockProfiler.this.clock.setDelay( (int)linearValueControl.getValue() );
+                if ( ClockProfiler.this.clock != null ) {
+                    ClockProfiler.this.clock.setDelay( (int) linearValueControl.getValue() );
                 }
             }
         } );
@@ -71,13 +72,13 @@ public class ClockProfiler {
     }
 
     private void updateDelayControl() {
-        if( this.clock != null ) {
+        if ( this.clock != null ) {
             linearValueControl.setValue( this.clock.getDelay() );
         }
     }
 
     private void updateLabels() {
-        if( delaySeries.getSampleCount() >= NUM_SAMPLES ) {
+        if ( delaySeries.getSampleCount() >= NUM_SAMPLES ) {
             frameRate.setText( "Frame Rate=" + format( 1000.0 / delaySeries.average() ) + " Hz, delay=" + format( delaySeries.average() ) + " millis" );
             frameRate.paintImmediately( 0, 0, frameRate.getWidth(), frameRate.getHeight() );//paint immediately in case app is consuming too many resources to do it itself
         }
@@ -89,8 +90,8 @@ public class ClockProfiler {
 
     public void show() {
         frame.setVisible( true );
-        if( frame.getContentPane() instanceof JComponent ) {
-            JComponent jComponent = (JComponent)frame.getContentPane();
+        if ( frame.getContentPane() instanceof JComponent ) {
+            JComponent jComponent = (JComponent) frame.getContentPane();
             jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
         }
     }

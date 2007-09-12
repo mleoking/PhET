@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.piccolophet.event;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -96,20 +96,20 @@ public class CursorHandler extends PBasicInputEventHandler {
     public void mouseReleased( PInputEvent event ) {
         popCursor( event.getComponent() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Cursor push/pop
     //----------------------------------------------------------------------------
-    
+
     private void pushCursor( PComponent component ) {
-        if( !cursorIsOnStack ) {
+        if ( !cursorIsOnStack ) {
             component.pushCursor( cursor );
             cursorIsOnStack = true;
         }
     }
-    
+
     private void popCursor( PComponent component ) {
-        if( cursorIsOnStack ) {
+        if ( cursorIsOnStack ) {
             /* 
              * WORKAROUND:
              * 
@@ -124,7 +124,7 @@ public class CursorHandler extends PBasicInputEventHandler {
             try {
                 component.popCursor();
             }
-            catch ( ArrayIndexOutOfBoundsException e ) {
+            catch( ArrayIndexOutOfBoundsException e ) {
                 System.err.println( "CursorHandler.popCursor attempted to pop an empty cursor stack" );
                 // this is a well-known (but benign) problem, so don't print the stack trace
             }

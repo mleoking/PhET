@@ -10,17 +10,19 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-
-import javax.jnlp.BasicService;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.jnlp.BasicService;
+
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+
 /**
  * Provides local implementations of some of the JNLP services, see JNLP services for more information.
  * see also http://www.javaworld.com/javaworld/javatips/jw-javatip66.html
+ *
  * @author Sam Reid
  * @version $Revision:17484 $
  */
@@ -94,13 +96,13 @@ public class LocalBasicService implements BasicService {
         public static void displayURL( String url ) {
             String cmd = null;
             try {
-                if( PhetUtilities.getOperatingSystem()==PhetUtilities.OS_WINDOWS ) {
+                if ( PhetUtilities.getOperatingSystem() == PhetUtilities.OS_WINDOWS ) {
                     // cmd = 'rundll32 url.dll,FileProtocolHandler http://...'
                     cmd = WIN_PATH + " " + WIN_FLAG + " " + url;
                     Process p = Runtime.getRuntime().exec( cmd );
                 }
-                else if ( PhetUtilities.isMacintosh() ){
-                    cmd = "open "+url;
+                else if ( PhetUtilities.isMacintosh() ) {
+                    cmd = "open " + url;
                     Process p = Runtime.getRuntime().exec( cmd );
                 }
 
@@ -116,7 +118,7 @@ public class LocalBasicService implements BasicService {
                         // wait for exit code -- if it's 0, command worked,
                         // otherwise we need to start the browser up.
                         int exitCode = p.waitFor();
-                        if( exitCode != 0 ) {
+                        if ( exitCode != 0 ) {
                             // Command failed, start up the browser
                             // cmd = 'netscape http://www.javaworld.com'
                             cmd = UNIX_PATH + " " + url;

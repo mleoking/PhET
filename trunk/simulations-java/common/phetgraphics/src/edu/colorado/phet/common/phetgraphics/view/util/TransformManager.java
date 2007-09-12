@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -56,7 +57,7 @@ public class TransformManager {
 
     public Rectangle transform( Rectangle r ) {
 
-        if( graphicTx != null ) {
+        if ( graphicTx != null ) {
             Rectangle r2 = graphicTx.createTransformedShape( r ).getBounds();
             return r2;
         }
@@ -82,7 +83,7 @@ public class TransformManager {
         graphicTx = AffineTransform.getScaleInstance( scale, scale );
         graphicTx.translate( viewPointOrigin.getX(), viewPointOrigin.getY() );
         this.scale = scale;
-        if( DEBUG_OUTPUT_ENABLED ) {
+        if ( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setScale: scale=" + scale );
         }
         try {
@@ -104,10 +105,10 @@ public class TransformManager {
      */
     public boolean determineCanvasSize() {
         double refAspectRatio = referenceBounds.getHeight() / referenceBounds.getWidth();
-        double currAspectRatio = ( (double)component.getHeight() ) / component.getWidth();
+        double currAspectRatio = ( (double) component.getHeight() ) / component.getWidth();
         double widthFactor = 1;
         double heightFactor = 1;
-        if( currAspectRatio < refAspectRatio ) {
+        if ( currAspectRatio < refAspectRatio ) {
             widthFactor = refAspectRatio / currAspectRatio;
         }
         else {
@@ -115,7 +116,7 @@ public class TransformManager {
         }
         Dimension oldSize = new Dimension( canvasSize );
         canvasSize.setSize( referenceBounds.getWidth() * widthFactor, referenceBounds.getHeight() * heightFactor );
-        if( oldSize.width != canvasSize.width || oldSize.height != canvasSize.height ) {
+        if ( oldSize.width != canvasSize.width || oldSize.height != canvasSize.height ) {
             return true;
         }
         return false;
@@ -124,9 +125,9 @@ public class TransformManager {
     public void setReferenceSize( int width, int height ) {
         referenceSizeSet = true;
         referenceBounds = new Rectangle( width, height );
-        if( component.getWidth() > 0 && component.getHeight() > 0 ) {
-            double asX = ( (double)width ) / component.getWidth();
-            double asY = ( (double)height ) / component.getHeight();
+        if ( component.getWidth() > 0 && component.getHeight() > 0 ) {
+            double asX = ( (double) width ) / component.getWidth();
+            double asY = ( (double) height ) / component.getHeight();
             double aspectRatio = Math.min( 1.0 / asX, 1.0 / asY );
             setScale( aspectRatio );
             component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );

@@ -11,14 +11,16 @@
 
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import javax.jnlp.FileContents;
-import javax.jnlp.JNLPRandomAccessFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.jnlp.FileContents;
+import javax.jnlp.JNLPRandomAccessFile;
+
 /**
  * Adapter pattern from InputStream to FileContents.
+ *
  * @author Sam Reid
  * @version $Revision$
  */

@@ -4,13 +4,13 @@ package edu.colorado.phet.common.piccolophet.test.help;
  * User: Sam Reid
  * Date: Jun 2, 2006
  * Time: 2:12:25 PM
- * 
+ *
  */
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;
-
-import javax.swing.*;
 
 public class TestMotionHelpBalloon {
     private JFrame frame;
@@ -23,7 +23,7 @@ public class TestMotionHelpBalloon {
 
         PCanvas pCanvas = new PCanvas();
         frame.setContentPane( pCanvas );
-        
+
         helpBalloon = new MotionHelpBalloon( pCanvas, "<html>Help!<br>Wiggle Me!</html>" );
 
         pCanvas.getLayer().addChild( helpBalloon );

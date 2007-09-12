@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.util;
 public class StringUtil {
     private StringUtil() {
     }
-    
+
     public static int asInt( String s, int defaultValue ) {
         int value;
 
@@ -34,8 +34,8 @@ public class StringUtil {
     }
 
     public static char asChar( String s, char defaultValue ) {
-        if (s.length() != 1) {
-            System.err.println("StringUtil: " + s + " is not a character" );
+        if ( s.length() != 1 ) {
+            System.err.println( "StringUtil: " + s + " is not a character" );
 
             return defaultValue;
         }

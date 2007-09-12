@@ -11,9 +11,9 @@ import java.io.ObjectOutput;
  * This class fills the need for a serializable Point2D object which can be used for serialization-based copying
  * of model objects.
  * Sun recognized the need for Point2D to implement Serializable, but didn't make this change until 6.0
- *
+ * <p/>
  * We are using the workaround described at this bug report:
- * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4263142 
+ * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4263142
  */
 public class SerializablePoint2D extends Point2D.Double implements Externalizable {
     public SerializablePoint2D() {

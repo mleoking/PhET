@@ -124,7 +124,7 @@ public class FrameSequence {
     private static BufferedImage[] loadAnimation( String filePrefix, String fileType, int numFrames ) throws IOException {
         BufferedImage[] frames = new BufferedImage[numFrames];
         ImageLoader animationLoader = new ImageLoader();
-        for( int i = 1; i <= numFrames; i++ ) {
+        for ( int i = 1; i <= numFrames; i++ ) {
             String fileName = FrameSequence.genAnimationFileName( filePrefix, fileType, i );
             frames[i - 1] = animationLoader.loadImage( fileName );
             //            frames[i - 1] = animationLoader.loadImage(fileName);
@@ -138,10 +138,10 @@ public class FrameSequence {
     private static String genAnimationFileName( String fileNamePrefix, String fileType, int frameNum ) {
         String zeroStr = "";
         int i = 0;
-        for( int temp = frameNum; temp != 0; i++ ) {
+        for ( int temp = frameNum; temp != 0; i++ ) {
             temp /= 10;
         }
-        for( ; i < 4; i++ ) {
+        for ( ; i < 4; i++ ) {
             zeroStr = zeroStr.concat( "0" );
         }
         String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + "." + fileType;

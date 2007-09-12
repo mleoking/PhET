@@ -46,7 +46,7 @@ public class PersistenceUtil {
             objectOut.flush();
 
             ByteArrayInputStream byteIn = new ByteArrayInputStream( byteOut.toByteArray() );
-            return (Serializable)new ObjectInputStream( byteIn ).readObject();
+            return (Serializable) new ObjectInputStream( byteIn ).readObject();
         }
         catch( IOException e ) {
             throw new CopyFailedException( e );

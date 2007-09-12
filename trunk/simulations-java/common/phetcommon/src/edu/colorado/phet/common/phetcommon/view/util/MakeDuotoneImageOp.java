@@ -45,27 +45,27 @@ public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
     }
 
     public Point2D getPoint2D( Point2D srcPt, Point2D dstPt ) {
-        if( dstPt == null ) {
+        if ( dstPt == null ) {
             dstPt = new Point2D.Double();
         }
         dstPt.setLocation( srcPt.getX(), srcPt.getY() );
         return dstPt;
     }
 
-    public Color filter(Color rgb) {
+    public Color filter( Color rgb ) {
         double grayRefLevel = getGrayLevel( baseColor );
 
         return getDuoToneRGB( rgb, grayRefLevel, baseColor );
     }
 
     public BufferedImage filter( BufferedImage src, BufferedImage dest ) {
-        if( dest == null ) {
+        if ( dest == null ) {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
         ColorModel cm = src.getColorModel();
         double grayRefLevel = getGrayLevel( baseColor );
-        for( int x = 0; x < src.getWidth(); x++ ) {
-            for( int y = 0; y < src.getHeight(); y++ ) {
+        for ( int x = 0; x < src.getWidth(); x++ ) {
+            for ( int y = 0; y < src.getHeight(); y++ ) {
                 int rgb = src.getRGB( x, y );
                 int alpha = cm.getAlpha( rgb );
                 int red = cm.getRed( rgb );
@@ -84,11 +84,11 @@ public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
     public static Color getDuoToneRGB( Color input, double grayRefLevel, Color baseColor ) {
         double gray = ( input.getRed() + input.getGreen() + input.getBlue() ) / 3;
 
-        int newRed   = getComponent( gray, (double)baseColor.getRed(), grayRefLevel );
-        int newGreen = getComponent( gray, (double)baseColor.getGreen(), grayRefLevel );
-        int newBlue  = getComponent( gray, (double)baseColor.getBlue(), grayRefLevel );
+        int newRed = getComponent( gray, (double) baseColor.getRed(), grayRefLevel );
+        int newGreen = getComponent( gray, (double) baseColor.getGreen(), grayRefLevel );
+        int newBlue = getComponent( gray, (double) baseColor.getBlue(), grayRefLevel );
 
-        return new Color(newRed, newGreen, newBlue, input.getAlpha());
+        return new Color( newRed, newGreen, newBlue, input.getAlpha() );
     }
 
     /**
@@ -99,9 +99,9 @@ public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
      */
     public static int getDuoToneRGB( int red, int green, int blue, int alpha, double grayRefLevel, Color baseColor ) {
         double gray = ( red + green + blue ) / ( 3 );
-        int newRed = getComponent( gray, (double)baseColor.getRed(), grayRefLevel );
-        int newGreen = getComponent( gray, (double)baseColor.getGreen(), grayRefLevel );
-        int newBlue = getComponent( gray, (double)baseColor.getBlue(), grayRefLevel );
+        int newRed = getComponent( gray, (double) baseColor.getRed(), grayRefLevel );
+        int newGreen = getComponent( gray, (double) baseColor.getGreen(), grayRefLevel );
+        int newBlue = getComponent( gray, (double) baseColor.getBlue(), grayRefLevel );
         int newRGB = alpha * 0x01000000 + newRed * 0x00010000 + newGreen * 0x000000100 + newBlue * 0x00000001;
         return newRGB;
     }
@@ -140,25 +140,25 @@ public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
         int result = 0;
 
         // if the grayLevel is 255, we simply return 255
-        if( grayLevel == 255 ) {
+        if ( grayLevel == 255 ) {
             result = 255;
         }
 
         // if grayLevel is greater than grayRefLevel, do linear interpolation between (grayRefLevel,colorRefLevel)
         // and (255, 255 )
-        if( grayLevel >= grayRefLevel && grayLevel < 255 ) {
+        if ( grayLevel >= grayRefLevel && grayLevel < 255 ) {
             double m = ( 255 - componentRefLevel ) / ( 255 - grayRefLevel );
             double c = componentRefLevel + ( grayLevel - grayRefLevel ) * m;
-            result = (int)c;
+            result = (int) c;
         }
 
         // if grayLevel is less than grayRefLevel, do linear interpolation between (grayRefLevel,colorRefLevel)
         // and (0, 0 )
-        if( grayLevel <= grayRefLevel && grayLevel < 255 ) {
+        if ( grayLevel <= grayRefLevel && grayLevel < 255 ) {
             double m = ( componentRefLevel ) / ( grayRefLevel );
             double c = ( grayLevel - grayRefLevel ) * m;
-            result = (int)c;
-            result = (int)( ( grayLevel / grayRefLevel ) * componentRefLevel );
+            result = (int) c;
+            result = (int) ( ( grayLevel / grayRefLevel ) * componentRefLevel );
         }
 
         return result;

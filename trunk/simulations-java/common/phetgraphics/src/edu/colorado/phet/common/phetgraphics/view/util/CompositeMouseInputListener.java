@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * CompositeMouseInputListener
@@ -40,50 +41,50 @@ public class CompositeMouseInputListener implements MouseInputListener {
     }
 
     public void mouseClicked( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseClicked( e );
         }
     }
 
     public void mousePressed( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mousePressed( e );
         }
     }
 
     public void mouseReleased( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseReleased( e );
         }
     }
 
     public void mouseEntered( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseEntered( e );
         }
     }
 
     public void mouseExited( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseExited( e );
         }
     }
 
     public void mouseDragged( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseDragged( e );
         }
     }
 
     public void mouseMoved( MouseEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            MouseInputListener mouseInputListener = (MouseInputListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            MouseInputListener mouseInputListener = (MouseInputListener) listeners.get( i );
             mouseInputListener.mouseMoved( e );
         }
     }

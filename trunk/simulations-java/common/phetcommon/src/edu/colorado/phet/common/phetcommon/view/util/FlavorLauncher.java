@@ -1,18 +1,19 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * FlavorLauncher provides functionality for running PhET simulations from double-clickable JAR files.
@@ -21,10 +22,10 @@ import java.util.*;
  * 1. If there is a single flavor, that flavor is launched immediately.
  * 2. If there are multiple flavors, and a file called "main-flavor.properies" exists, the flavor identified in that properties file is run.
  * 3. If there are multiple flavors and no "main-flavor" is identified, a GUI is displayed for picking and launching a flavor.
- *
+ * <p/>
  * This code was adapted from the bound-states flavor launcher: BSLauncher
- *
- * todo: There is currently no support for specifying an ordering of flavors in the GUI  
+ * <p/>
+ * todo: There is currently no support for specifying an ordering of flavors in the GUI
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Sam Reid
@@ -88,8 +89,8 @@ public class FlavorLauncher extends JFrame {
         pack();
 
         //Workaround for the case of many simulations
-        if (getHeight()>Toolkit.getDefaultToolkit().getScreenSize().height*0.75){
-            setSize( getWidth(), (int)( Toolkit.getDefaultToolkit().getScreenSize().height*0.75 ) );
+        if ( getHeight() > Toolkit.getDefaultToolkit().getScreenSize().height * 0.75 ) {
+            setSize( getWidth(), (int) ( Toolkit.getDefaultToolkit().getScreenSize().height * 0.75 ) );
         }
     }
 
@@ -101,7 +102,7 @@ public class FlavorLauncher extends JFrame {
     private JComponent createInputPanel() {
 
         JLabel instructions = new JLabel( "<html>" +
-                                          "This program contains "+info.length+" simulations.<br>" +
+                                          "This program contains " + info.length + " simulations.<br>" +
                                           "Select the simulation that you wish to start:<br>" +
                                           "</html>" );
 
@@ -114,23 +115,23 @@ public class FlavorLauncher extends JFrame {
         layout.addComponent( instructions, row++, column );
 
         ButtonGroup buttonGroup = new ButtonGroup();
-        for( int i = 0; i < this.info.length; i++ ) {
+        for ( int i = 0; i < this.info.length; i++ ) {
             String title = info[i].getTitle();
-            if (title==null||title.trim().length()==0){
-                title=info[i].getMainClass().substring( info[i].getMainClass().lastIndexOf( '.')+1);
+            if ( title == null || title.trim().length() == 0 ) {
+                title = info[i].getMainClass().substring( info[i].getMainClass().lastIndexOf( '.' ) + 1 );
             }
             JRadioButton radioButton = new JRadioButton( title, i == 0 );
             final int flavorIndex = i;
             radioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    selectedSim=info[flavorIndex];
+                    selectedSim = info[flavorIndex];
                 }
             } );
             buttonGroup.add( radioButton );
             layout.addComponent( radioButton, row++, column );
         }
         selectedSim = info[0];
-        if( info.length > 10 ) {//workaround for case of many sims
+        if ( info.length > 10 ) {//workaround for case of many sims
             return new JScrollPane( inputPanel );
         }
         return inputPanel;
@@ -206,8 +207,8 @@ public class FlavorLauncher extends JFrame {
         private String mainClass;
         private String args;
 
-        public SimulationInfo( String flavor,String title, String mainClass, String args ) {
-            this.flavor=flavor;
+        public SimulationInfo( String flavor, String title, String mainClass, String args ) {
+            this.flavor = flavor;
             this.title = title;
             this.mainClass = mainClass;
             this.args = args;
@@ -228,16 +229,16 @@ public class FlavorLauncher extends JFrame {
         public String[] getArgArray() {
             StringTokenizer stringTokenizer = new StringTokenizer( args );
             ArrayList list = new ArrayList();
-            while( stringTokenizer.hasMoreTokens() ) {
+            while ( stringTokenizer.hasMoreTokens() ) {
                 list.add( stringTokenizer.nextToken() );
             }
-            return (String[])list.toArray(new String[0]);
+            return (String[]) list.toArray( new String[0] );
         }
 
         public void launch() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             Class mainClass = Class.forName( getMainClass() );
             final Method main = mainClass.getMethod( "main", new Class[]{String[].class} );
-            Thread thread=new Thread( new Runnable() {
+            Thread thread = new Thread( new Runnable() {
                 public void run() {
                     try {
                         main.invoke( null, new Object[]{getArgArray()} );
@@ -249,7 +250,7 @@ public class FlavorLauncher extends JFrame {
                         e.printStackTrace();
                     }
                 }
-            });
+            } );
             thread.start();
         }
 
@@ -263,7 +264,7 @@ public class FlavorLauncher extends JFrame {
         Properties prop = new Properties();
 
         URL resource = Thread.currentThread().getContextClassLoader().getResource( "flavors.properties" );
-        if( resource != null ) {//works running from a JAR file
+        if ( resource != null ) {//works running from a JAR file
             prop.load( resource.openStream() );
         }
         else {//fallback plan in case not running in a JAR file
@@ -271,20 +272,20 @@ public class FlavorLauncher extends JFrame {
         }
 
         SimulationInfo[] info = getSimInfo( prop );
-        if( info.length == 0 ) {
+        if ( info.length == 0 ) {
             throw new RuntimeException( "No flavors found." );
         }
 
-        URL mainURL=Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
-        if (mainURL!=null){
-            Properties flavorProperties=new Properties( );
+        URL mainURL = Thread.currentThread().getContextClassLoader().getResource( "main-flavor.properties" );
+        if ( mainURL != null ) {
+            Properties flavorProperties = new Properties();
             flavorProperties.load( mainURL.openStream() );
-            String mainFlavor=flavorProperties.getProperty( "main.flavor");
-            System.out.println( "Launching: "+mainFlavor);
-            launchFlavor(info, mainFlavor);
+            String mainFlavor = flavorProperties.getProperty( "main.flavor" );
+            System.out.println( "Launching: " + mainFlavor );
+            launchFlavor( info, mainFlavor );
         }
 
-        else if( info.length == 1 ) {
+        else if ( info.length == 1 ) {
             System.out.println( "Found one flavor: " + info[0].getTitle() );
             System.out.println( "Launching..." );
             info[0].launch();
@@ -297,9 +298,9 @@ public class FlavorLauncher extends JFrame {
     }
 
     private static void launchFlavor( SimulationInfo[] info, String mainFlavor ) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException, ClassNotFoundException {
-        for( int i = 0; i < info.length; i++ ) {
+        for ( int i = 0; i < info.length; i++ ) {
             SimulationInfo simulationInfo = info[i];
-            if (simulationInfo.getFlavor().equals(mainFlavor)){
+            if ( simulationInfo.getFlavor().equals( mainFlavor ) ) {
                 simulationInfo.launch();
             }
         }
@@ -309,36 +310,36 @@ public class FlavorLauncher extends JFrame {
         Enumeration names = prop.propertyNames();
         HashSet flavors = new HashSet();
 
-        while( names.hasMoreElements() ) {
-            String name = (String)names.nextElement();
-            if( name.toLowerCase().startsWith( "project.flavor" ) ) {
+        while ( names.hasMoreElements() ) {
+            String name = (String) names.nextElement();
+            if ( name.toLowerCase().startsWith( "project.flavor" ) ) {
                 String suffix = name.substring( "project.flavor.".length() );
                 int lastDot = suffix.indexOf( '.' );
-                if( lastDot >= 0 ) {
+                if ( lastDot >= 0 ) {
                     String flavor = suffix.substring( 0, lastDot );
 //                    System.out.println( "flavor = " + flavor );
                     flavors.add( flavor );
                 }
             }
         }
-        return (String[])flavors.toArray( new String[0] );
+        return (String[]) flavors.toArray( new String[0] );
     }
 
     private static SimulationInfo[] getSimInfo( Properties prop ) {
         String[] flavors = listFlavors( prop );
         ArrayList fx = new ArrayList();
-        for( int i = 0; i < flavors.length; i++ ) {
+        for ( int i = 0; i < flavors.length; i++ ) {
             String flavor = flavors[i];
             SimulationInfo f = getFlavor( prop, flavor );
             fx.add( f );
         }
-        return (SimulationInfo[])fx.toArray( new SimulationInfo[0] );
+        return (SimulationInfo[]) fx.toArray( new SimulationInfo[0] );
     }
 
     private static SimulationInfo getFlavor( Properties prop, String flavor ) {
         String mainClass = prop.getProperty( "project.flavor." + flavor + ".mainclass" );
         String title = prop.getProperty( "project.flavor." + flavor + ".title" );
         String args = prop.getProperty( "project.flavor." + flavor + ".args" );
-        return new SimulationInfo( flavor,title, mainClass, args );
+        return new SimulationInfo( flavor, title, mainClass, args );
     }
 }

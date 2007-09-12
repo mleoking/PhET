@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -23,18 +22,18 @@ public class TestVector2DNode extends JFrame {
     private Vector2DNode _vectorNode;
     private LinearValueControl _magnitudeControl;
     private LinearValueControl _angleControl;
-    
+
     public TestVector2DNode() {
         super();
-        
+
         final double x = 100;
         final double y = 0;
         final double magnitude = PolarCartesianConverter.getRadius( x, y );
         final double angle = PolarCartesianConverter.getAngle( x, y );
-        
+
         final double referenceMagnitude = 100;
         final double referenceLength = 100;
-        
+
         _vectorNode = new Vector2DNode( x, y, referenceMagnitude, referenceLength );
         _vectorNode.setValueSpacing( 5 );
         _vectorNode.setValueVisible( true );
@@ -43,7 +42,7 @@ public class TestVector2DNode extends JFrame {
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
         canvas.getLayer().addChild( _vectorNode );
         _vectorNode.setOffset( 200, 150 );
-        
+
         _magnitudeControl = new LinearValueControl( 0, 100, "magnitude:", "##0", "" );
         _magnitudeControl.setUpDownArrowDelta( 1 );
         _magnitudeControl.setValue( magnitude );
@@ -51,8 +50,8 @@ public class TestVector2DNode extends JFrame {
             public void stateChanged( ChangeEvent event ) {
                 updateVectorNode();
             }
-        });
-        
+        } );
+
         _angleControl = new LinearValueControl( -720, 720, "angle:", "##0", "degrees" );
         _angleControl.setUpDownArrowDelta( 1 );
         _angleControl.setValue( angle );
@@ -60,30 +59,30 @@ public class TestVector2DNode extends JFrame {
             public void stateChanged( ChangeEvent event ) {
                 updateVectorNode();
             }
-        });
-        
+        } );
+
         Box controlPanel = new Box( BoxLayout.Y_AXIS );
         controlPanel.add( new JSeparator() );
         controlPanel.add( _magnitudeControl );
         controlPanel.add( new JSeparator() );
         controlPanel.add( _angleControl );
-        
+
         JPanel panel = new JPanel();
         panel.setLayout( new BorderLayout() );
         panel.add( canvas, BorderLayout.CENTER );
         panel.add( controlPanel, BorderLayout.SOUTH );
-        
+
         setContentPane( panel );
         pack();
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
-    
+
     private void updateVectorNode() {
         double magnitude = _magnitudeControl.getValue();
         double angle = Math.toRadians( _angleControl.getValue() );
         _vectorNode.setMagnitudeAngle( magnitude, angle );
     }
-    
+
     public static void main( String[] args ) {
         TestVector2DNode test = new TestVector2DNode();
         test.show();

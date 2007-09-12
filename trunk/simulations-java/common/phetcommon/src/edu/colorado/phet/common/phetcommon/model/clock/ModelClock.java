@@ -58,7 +58,7 @@ public class ModelClock extends Clock {
      *
      */
     public void pause() {
-        if( isRunning() ) {
+        if ( isRunning() ) {
             isRunning = false;
             super.notifyClockPaused();
         }
@@ -88,7 +88,6 @@ public class ModelClock extends Clock {
         workQueue.add( workItem );
     }
 
-
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -98,10 +97,10 @@ public class ModelClock extends Clock {
      */
     private class Ticker extends TimerTask {
         public void run() {
-            if( isRunning() ) {
+            if ( isRunning() ) {
                 // Process the work queue
-                while( workQueue.size() > 0 ) {
-                    Runnable workItem = (Runnable)workQueue.remove( 0 );
+                while ( workQueue.size() > 0 ) {
+                    Runnable workItem = (Runnable) workQueue.remove( 0 );
                     workItem.run();
                 }
 

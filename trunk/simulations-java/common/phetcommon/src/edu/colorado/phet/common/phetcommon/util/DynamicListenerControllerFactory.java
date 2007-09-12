@@ -1,35 +1,40 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.util.*;
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * This factory can be used to produce controllers for listeners.
- * <p>
+ * <p/>
  * Usage:
- *
+ * <p/>
  * DynamicListenerController c = DynamicListenerControllerFactory.newController(Listener.class);
- *
+ * <p/>
  * c.addListener(myListener);
- *
+ * <p/>
  * Listener listenerController = (Listener)c;
- *
+ * <p/>
  * listenerController.notifyXXX(arg1, arg2, arg2); <-- Notifies myListener
- * 
  */
 public class DynamicListenerControllerFactory {
-    public static DynamicListenerController newController(Class theInterface) {
-        if (!theInterface.isInterface()) {
-            throw new IllegalStateException("The specified class must be an interface.");
+    public static DynamicListenerController newController( Class theInterface ) {
+        if ( !theInterface.isInterface() ) {
+            throw new IllegalStateException( "The specified class must be an interface." );
         }
-        
-        DynamicListenerControllerImpl controller = new DynamicListenerControllerImpl(theInterface);
 
-        return (DynamicListenerController)Proxy.newProxyInstance(
-            theInterface.getClassLoader(),
-            new Class[]{theInterface, DynamicListenerController.class},
-            controller
+        DynamicListenerControllerImpl controller = new DynamicListenerControllerImpl( theInterface );
+
+        return (DynamicListenerController) Proxy.newProxyInstance(
+                theInterface.getClassLoader(),
+                new Class[]{theInterface, DynamicListenerController.class},
+                controller
         );
     }
 
@@ -38,20 +43,20 @@ public class DynamicListenerControllerFactory {
 
         private final Class listenerInterface;
 
-        DynamicListenerControllerImpl(Class listenerInterface) {
+        DynamicListenerControllerImpl( Class listenerInterface ) {
             this.listenerInterface = listenerInterface;
         }
 
         public void addListener( Object listener ) throws IllegalStateException {
-            if (!listenerInterface.isAssignableFrom( listener.getClass() )) {
-                throw new IllegalStateException("The object " + listener + " fails to implement " + listenerInterface + ".");
+            if ( !listenerInterface.isAssignableFrom( listener.getClass() ) ) {
+                throw new IllegalStateException( "The object " + listener + " fails to implement " + listenerInterface + "." );
             }
 
-            listeners.add(listener);
+            listeners.add( listener );
         }
 
         public void removeListener( Object listener ) {
-            listeners.remove(listener);
+            listeners.remove( listener );
         }
 
         public Collection getAllListeners() {
@@ -59,21 +64,21 @@ public class DynamicListenerControllerFactory {
         }
 
         public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
-            if (method.getDeclaringClass() == Object.class) {
-                return method.invoke(this, args);
+            if ( method.getDeclaringClass() == Object.class ) {
+                return method.invoke( this, args );
             }
-            else if (method.getDeclaringClass() == DynamicListenerController.class) {
+            else if ( method.getDeclaringClass() == DynamicListenerController.class ) {
                 try {
-                    return method.invoke(this, args);
+                    return method.invoke( this, args );
                 }
                 catch( InvocationTargetException e ) {
                     throw e.getTargetException();
                 }
             }
-            else if (method.getReturnType() == void.class) {
+            else if ( method.getReturnType() == void.class ) {
                 Iterator iterator = getAllListeners().iterator();
 
-                while (iterator.hasNext()) {
+                while ( iterator.hasNext() ) {
                     Object listener = iterator.next();
 
                     method.invoke( listener, args );
@@ -82,7 +87,7 @@ public class DynamicListenerControllerFactory {
                 return null;
             }
             else {
-                throw new IllegalStateException("Cannot implement method " + method);
+                throw new IllegalStateException( "Cannot implement method " + method );
             }
         }
     }

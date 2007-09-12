@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
  * User: Sam Reid
  * Date: Jun 8, 2006
  * Time: 1:48:42 PM
- *
  */
 
 public class TestDefaultDecimalFormat {

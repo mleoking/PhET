@@ -23,10 +23,10 @@ public class SphereBoxCollision implements Collision {
         double r = sphere.getRadius();
 
         // Collision with left wall?
-        if( ( sx - r ) <= box.getMinX() ) {
+        if ( ( sx - r ) <= box.getMinX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMinX();
-            double dx = wx - (sx - r);
+            double dx = wx - ( sx - r );
             double newX = sx + ( dx + 2 );
             sphere.setPosition( newX, sphere.getPosition().getY() );
 
@@ -41,7 +41,7 @@ public class SphereBoxCollision implements Collision {
         }
 
         // Collision with right wall?
-        if( ( sx + r ) >= box.getMaxX() ) {
+        if ( ( sx + r ) >= box.getMaxX() ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             double wx = box.getMaxX();
             double dx = ( sx + r ) - wx;
@@ -50,7 +50,7 @@ public class SphereBoxCollision implements Collision {
         }
 
         // Collision with top wall?
-        if( ( sy - r ) <= box.getMinY() ) {
+        if ( ( sy - r ) <= box.getMinY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMinY();
             double dy = wy - ( sy - r );
@@ -59,7 +59,7 @@ public class SphereBoxCollision implements Collision {
         }
 
         // Collision with bottom wall?
-        if( ( sy + r ) >= box.getMaxY() ) {
+        if ( ( sy + r ) >= box.getMaxY() ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             double wy = box.getMaxY();
             double dy = ( sy + r ) - wy;

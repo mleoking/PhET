@@ -21,11 +21,12 @@
 */
 package edu.colorado.phet.common.phetcommon.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.*;
 
 /**
  * This class represents a button that can change state.  Each state can have its own
@@ -54,21 +55,21 @@ public class MultiStateButton extends JButton {
      * @param mode
      */
     public MultiStateButton( Mode[] mode ) {
-        for( int i = 0; i < mode.length; i++ ) {
+        for ( int i = 0; i < mode.length; i++ ) {
             addMode( mode[i].getKey(), mode[i].getLabel(), mode[i].getIcon() );
         }
         init();
     }
 
     public MultiStateButton( Object[] keys, String[] labels, Icon[] icons ) {
-        for( int i = 0; i < labels.length; i++ ) {
+        for ( int i = 0; i < labels.length; i++ ) {
             addMode( keys[i], labels[i], icons[i] );
         }
         init();
     }
 
     private void init() {
-        if( getNumModes() > 0 ) {
+        if ( getNumModes() > 0 ) {
             setMode( 0 );
         }
         addActionListener( new ActionListener() {
@@ -91,7 +92,7 @@ public class MultiStateButton extends JButton {
     }
 
     public Mode getMode( int i ) {
-        return (Mode)modes.get( i );
+        return (Mode) modes.get( i );
     }
 
     public void addMode( Object key, String label, Icon icon ) {
@@ -107,13 +108,13 @@ public class MultiStateButton extends JButton {
      */
     public void addMode( Mode mode ) {
         //use a separate key object instead of label as key so bogus translations will still work properly
-        if( getMode( mode.getKey() ) != null ) {
+        if ( getMode( mode.getKey() ) != null ) {
             throw new IllegalArgumentException( "Duplicate mode not allowed, key=" + mode.getKey() );
         }
         modes.add( mode );
 
         updateDimension();
-        if( this.mode == null ) {
+        if ( this.mode == null ) {
             setMode( mode );
         }
         updateButton();
@@ -129,13 +130,13 @@ public class MultiStateButton extends JButton {
      */
     private void updateDimension() {
         Dimension[] d = new Dimension[modes.size()];
-        for( int i = 0; i < modes.size(); i++ ) {
-            setIconAndText( ( (Mode)modes.get( i ) ) );
+        for ( int i = 0; i < modes.size(); i++ ) {
+            setIconAndText( ( (Mode) modes.get( i ) ) );
             d[i] = getUI().getPreferredSize( this );
         }
         int maxWidth = 0;
         int maxHeight = 0;
-        for( int i = 0; i < d.length; i++ ) {
+        for ( int i = 0; i < d.length; i++ ) {
             Dimension dimension = d[i];
             maxWidth = Math.max( dimension.width, maxWidth );
             maxHeight = Math.max( dimension.height, maxHeight );
@@ -154,9 +155,9 @@ public class MultiStateButton extends JButton {
     }
 
     private Mode getMode( Object key ) {
-        for( int i = 0; i < modes.size(); i++ ) {
-            Mode mode = (Mode)modes.get( i );
-            if( mode.getKey().equals( key ) ) {
+        for ( int i = 0; i < modes.size(); i++ ) {
+            Mode mode = (Mode) modes.get( i );
+            if ( mode.getKey().equals( key ) ) {
                 return mode;
             }
         }
@@ -211,8 +212,8 @@ public class MultiStateButton extends JButton {
         }
 
         public void dispatchEvent( ActionEvent e ) {
-            for( int i = 0; i < actionListeners.size(); i++ ) {
-                ActionListener listener = (ActionListener)actionListeners.get( i );
+            for ( int i = 0; i < actionListeners.size(); i++ ) {
+                ActionListener listener = (ActionListener) actionListeners.get( i );
                 listener.actionPerformed( e );
             }
         }

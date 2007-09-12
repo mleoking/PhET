@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
@@ -38,14 +38,14 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = getSelectedIndex();
-                if( selectedIdx >= 0 && application.numModules() > 0 ) {
+                if ( selectedIdx >= 0 && application.numModules() > 0 ) {
                     current = application.moduleAt( selectedIdx );
                     application.setActiveModule( selectedIdx );
                 }
             }
         } );
         application.addModuleObserver( this );
-        for( int i = 0; i < modules.length; i++ ) {
+        for ( int i = 0; i < modules.length; i++ ) {
             Module module = modules[i];
             addTab( module );
         }
@@ -60,8 +60,8 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
     }
 
     public void removeTab( Module module ) {
-        for( int i = 0; i < getTabCount(); i++ ) {
-            if( getTitleAt( i ).equals( module.getName() ) && getComponent( i ).equals( module.getModulePanel() ) ) {
+        for ( int i = 0; i < getTabCount(); i++ ) {
+            if ( getTitleAt( i ).equals( module.getName() ) && getComponent( i ).equals( module.getModulePanel() ) ) {
                 removeTabAt( i );
                 break;
             }
@@ -69,10 +69,10 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
-        if( current != event.getModule() ) {
+        if ( current != event.getModule() ) {
             int index = application.indexOf( event.getModule() );
             int numTabs = getTabCount();
-            if( index < numTabs ) {
+            if ( index < numTabs ) {
                 setSelectedIndex( index );
             }
             else {
@@ -85,7 +85,7 @@ public class JTabbedModulePane extends JTabbedPane implements ITabbedModulePane 
     }
 
     public ModulePanel getModulePanel( int i ) {
-        return (ModulePanel)getComponent( i );
+        return (ModulePanel) getComponent( i );
     }
 
     public JComponent getComponent() {

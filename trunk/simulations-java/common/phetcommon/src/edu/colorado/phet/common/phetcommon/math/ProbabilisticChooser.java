@@ -28,9 +28,9 @@ import java.util.Random;
  * <p/>
  * Example:
  * <pre>
- *
+ * <p/>
  *      public static void main( String[] args ) {
- *
+ * <p/>
  *           class TestClass {
  *               public String toString() {
  *                   return getClass().getName();
@@ -39,26 +39,26 @@ import java.util.Random;
  *           class Cat extends TestClass{};
  *           class Dog extends TestClass{};
  *           class Hamster extends TestClass{};
- *
+ * <p/>
  *           // A chooser based on floating point probabilities
  *           ProbabilisticChooser.Entry[] entriesA = new ProbabilisticChooser.Entry[]{
  *                   new ProbabilisticChooser.Entry( new Cat(), .3 ),
  *                   new ProbabilisticChooser.Entry( new Dog(), .5 ),
  *                   new ProbabilisticChooser.Entry( new Hamster(), .2 )
  *           };
- *
+ * <p/>
  *           ProbabilisticChooser pcA = new ProbabilisticChooser( entriesA );
  *           for( int i = 0; i < 100; i++ ) {
  *               System.out.println( "pcA.get() = " + pcA.get() );
  *           }
- *
+ * <p/>
  *           // A chooser based on numbers of elements in a population
  *           ProbabilisticChooser.Entry[] entriesB = new ProbabilisticChooser.Entry[]{
  *                   new ProbabilisticChooser.Entry( new Cat(), 6 ),
  *                   new ProbabilisticChooser.Entry( new Dog(), 4 ),
  *                   new ProbabilisticChooser.Entry( new Hamster(), 3 )
  *           };
- *
+ * <p/>
  *           ProbabilisticChooser pcB = new ProbabilisticChooser( entries );
  *           for( int i = 0; i < 100; i++ ) {
  *               System.out.println( "pcB.get() = " + pcB.get() );
@@ -83,11 +83,11 @@ public class ProbabilisticChooser {
      * @param entries An array of ProbabilisticChooser.Entry objects
      */
     public ProbabilisticChooser( Entry[] entries ) {
-        _entries = new Entry[ entries.length];
+        _entries = new Entry[entries.length];
 
         // Get the normalization factor for the probabilities
         double pTotal = 0;
-        for( int i = 0; i < entries.length; i++ ) {
+        for ( int i = 0; i < entries.length; i++ ) {
             pTotal += entries[i].getWeight();
         }
         double fNorm = 1 / pTotal;
@@ -97,7 +97,7 @@ public class ProbabilisticChooser {
         // its own probability plus the cummulative probability of all objects before
         // it in the list. This makes the choosing process work properly in get( double p );
         double p = 0;
-        for( int i = 0; i < entries.length; i++ ) {
+        for ( int i = 0; i < entries.length; i++ ) {
             p += entries[i].getWeight() * fNorm;
             _entries[i] = new Entry( entries[i].getObject(), p );
         }
@@ -121,9 +121,9 @@ public class ProbabilisticChooser {
      */
     public Object get( double p ) {
         Object result = null;
-        for( int i = 0; i < _entries.length && result == null; i++ ) {
+        for ( int i = 0; i < _entries.length && result == null; i++ ) {
             Entry entry = _entries[i];
-            if( p <= entry.getWeight() ) {
+            if ( p <= entry.getWeight() ) {
                 result = entry.getObject();
             }
         }
@@ -131,16 +131,16 @@ public class ProbabilisticChooser {
     }
 
     /**
-     * Gets the internal entries, which are normalized version of 
+     * Gets the internal entries, which are normalized version of
      * the entries that were provided in the constructor.
      * This method is useful primarily for testing and debugging.
-     * 
+     *
      * @return Entry[]
-     */ 
+     */
     public Entry[] getEntries() {
         return _entries;
     }
-    
+
     /**
      * An entry for a ProbabilisticChooser
      */
@@ -151,7 +151,7 @@ public class ProbabilisticChooser {
         /**
          * @param object An object to be put in the chooser
          * @param weight The likelihood that the object should be chosen, or count of the object
-         *            instances in the total population
+         *               instances in the total population
          */
         public Entry( Object object, double weight ) {
             this.object = object;

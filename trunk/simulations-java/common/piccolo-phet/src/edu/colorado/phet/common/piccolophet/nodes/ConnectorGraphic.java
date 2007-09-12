@@ -10,9 +10,6 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -20,6 +17,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Shows a Line connection between two PNodes.
@@ -50,9 +50,9 @@ public class ConnectorGraphic extends PPath {
     }
 
     public void connectRectsWithLine() {
-        if( source == null || source.getFullBounds() == null ||
-            destination == null || destination.getFullBounds() == null ||
-            source.getParent() == null || destination.getParent() == null ) {
+        if ( source == null || source.getFullBounds() == null ||
+             destination == null || destination.getFullBounds() == null ||
+             source.getParent() == null || destination.getParent() == null ) {
             return;
         }
 
@@ -61,7 +61,7 @@ public class ConnectorGraphic extends PPath {
         globalToLocal( r1c );
         globalToLocal( r2c );
         updateShape( r1c, r2c );
-        if( txtr != null ) {
+        if ( txtr != null ) {
             updateTxtr();
         }
         repaint();

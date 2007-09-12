@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.help;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 
 /**
  * HelpItem
@@ -42,11 +42,11 @@ public class HelpItem extends PhetGraphic {
     private static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );
         ArrayList list = new ArrayList();
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             String next = st.nextToken();
             list.add( next );
         }
-        return (String[])list.toArray( new String[0] );
+        return (String[]) list.toArray( new String[0] );
     }
 
     //----------------------------------------------------------------
@@ -132,14 +132,14 @@ public class HelpItem extends PhetGraphic {
         switch( horizontalAlignment ) {
             case HelpItem.LEFT:
                 maxStrLen = getMaxStrLen( sa, g, fontMetrics );
-                x = (int)( location.getX() - maxStrLen - fontMetrics.getStringBounds( " ", g ).getWidth() );
+                x = (int) ( location.getX() - maxStrLen - fontMetrics.getStringBounds( " ", g ).getWidth() );
                 break;
             case HelpItem.RIGHT:
-                x = (int)( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
+                x = (int) ( location.getX() + fontMetrics.getStringBounds( " ", g ).getWidth() );
                 break;
             case HelpItem.CENTER:
                 maxStrLen = getMaxStrLen( sa, g, fontMetrics );
-                x = (int)( location.getX() - maxStrLen / 2 );
+                x = (int) ( location.getX() - maxStrLen / 2 );
                 break;
         }
 
@@ -156,8 +156,8 @@ public class HelpItem extends PhetGraphic {
                 break;
         }
 
-        for( int i = 0; i < sa.length; i++ ) {
-            int y = (int)yBase + (int)location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
+        for ( int i = 0; i < sa.length; i++ ) {
+            int y = (int) yBase + (int) location.getY() + ( i + 1 ) * ( fontMetrics.getHeight() + fontMetrics.getLeading() );
             PhetShadowTextGraphic textGraphic = new PhetShadowTextGraphic( getComponent(), font, sa[i], foregroundColor, 1, 1, shadowColor );
             textGraphic.setLocation( x, y );
             shadowTextGraphics.add( textGraphic );
@@ -170,18 +170,18 @@ public class HelpItem extends PhetGraphic {
 
     public void paint( Graphics2D g ) {
         RenderingHints rhOrg = g.getRenderingHints();
-        if( antiAlias ) {
+        if ( antiAlias ) {
             GraphicsUtil.setAntiAliasingOn( g );
         }
-        if( !inited ) {
+        if ( !inited ) {
             init( g );
             inited = true;
         }
-        if( backgroundGraphic != null ) {
+        if ( backgroundGraphic != null ) {
             backgroundGraphic.paint( g );
         }
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+        for ( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic) shadowTextGraphics.get( i );
             textGraphic.paint( g );
         }
         g.setRenderingHints( rhOrg );
@@ -205,8 +205,8 @@ public class HelpItem extends PhetGraphic {
      */
     public void setShadowColor( Color shadowColor ) {
         this.shadowColor = shadowColor;
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+        for ( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic textGraphic = (PhetShadowTextGraphic) shadowTextGraphics.get( i );
             textGraphic.setShadowColor( shadowColor );
         }
     }
@@ -216,8 +216,8 @@ public class HelpItem extends PhetGraphic {
      */
     public void setForegroundColor( Color foregroundColor ) {
         this.foregroundColor = foregroundColor;
-        for( int i = 0; i < shadowTextGraphics.size(); i++ ) {
-            PhetShadowTextGraphic shadowTextGraphic = (PhetShadowTextGraphic)shadowTextGraphics.get( i );
+        for ( int i = 0; i < shadowTextGraphics.size(); i++ ) {
+            PhetShadowTextGraphic shadowTextGraphic = (PhetShadowTextGraphic) shadowTextGraphics.get( i );
             shadowTextGraphic.setColor( foregroundColor );
         }
     }
@@ -231,7 +231,7 @@ public class HelpItem extends PhetGraphic {
 
     private double getMaxStrLen( String[] sa, Graphics2D g, FontMetrics fontMetrics ) {
         double maxStrLen = 0;
-        for( int i = 0; i < sa.length; i++ ) {
+        for ( int i = 0; i < sa.length; i++ ) {
             String s = sa[i];
             double strLen = fontMetrics.getStringBounds( s, g ).getWidth();
             maxStrLen = strLen > maxStrLen ? strLen : maxStrLen;
@@ -261,7 +261,7 @@ public class HelpItem extends PhetGraphic {
      * @param displayDropShadow
      */
     public void setDisplayDropShadow( boolean displayDropShadow ) {
-        if( displayDropShadow ) {
+        if ( displayDropShadow ) {
             setShadowColor( shadowColor );
         }
         else {

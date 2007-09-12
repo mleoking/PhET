@@ -15,7 +15,7 @@ public class DataSet {
     private ArrayList observers = new ArrayList();
 
     public Point2D pointAt( int i ) {
-        return (Point2D)dataPoints.get( i );
+        return (Point2D) dataPoints.get( i );
     }
 
     protected ArrayList getDataPoints() {
@@ -24,7 +24,7 @@ public class DataSet {
 
     protected void setDataPoints( ArrayList dataPoints ) {
         clear();
-        Point2D[] points = (Point2D[]) dataPoints.toArray( new Point2D.Double[ dataPoints.size() ] );
+        Point2D[] points = (Point2D[]) dataPoints.toArray( new Point2D.Double[dataPoints.size()] );
         addPoints( points );
     }
 
@@ -33,27 +33,27 @@ public class DataSet {
     }
 
     public Range2D getRange() {
-        if( size() == 0 ) {
+        if ( size() == 0 ) {
             return null;
         }
         double minX = pointAt( 0 ).getX();
         double maxX = pointAt( 0 ).getX();
         double minY = pointAt( 0 ).getY();
         double maxY = pointAt( 0 ).getY();
-        for( int i = 1; i < dataPoints.size(); i++ ) {
-            Point2D point2D = (Point2D)dataPoints.get( i );
+        for ( int i = 1; i < dataPoints.size(); i++ ) {
+            Point2D point2D = (Point2D) dataPoints.get( i );
             double x = point2D.getX();
             double y = point2D.getY();
-            if( x < minX ) {
+            if ( x < minX ) {
                 minX = x;
             }
-            if( x > maxX ) {
+            if ( x > maxX ) {
                 maxX = x;
             }
-            if( y < minY ) {
+            if ( y < minY ) {
                 minY = y;
             }
-            if( y > maxY ) {
+            if ( y > maxY ) {
                 maxY = y;
             }
         }
@@ -65,7 +65,7 @@ public class DataSet {
     }
 
     public Point2D getLastPoint() {
-        if( size() == 0 ) {
+        if ( size() == 0 ) {
             throw new RuntimeException( "No such point 'last point', size=0" );
         }
         return pointAt( size() - 1 );
@@ -73,14 +73,14 @@ public class DataSet {
 
     public void clear() {
         dataPoints.clear();
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.cleared();
         }
     }
 
     public Point2D[] getPoints() {
-        return (Point2D[])dataPoints.toArray( new Point2D[0] );
+        return (Point2D[]) dataPoints.toArray( new Point2D[0] );
     }
 
     /**
@@ -89,17 +89,17 @@ public class DataSet {
     public void addAllPoints( Point2D[] pts ) {
         addPoints( pts );
     }
-    
+
     public void addPoints( Point2D[] pts ) {
         dataPoints.addAll( Arrays.asList( pts ) );
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.pointsAdded( pts );
         }
     }
 
     public boolean isValid( Point2D dataPoint ) {
-        if( dataPoint == null ) {
+        if ( dataPoint == null ) {
             return false;
         }
         boolean invalid = Double.isNaN( dataPoint.getX() ) || Double.isNaN( dataPoint.getY() ) || Double.isInfinite( dataPoint.getX() ) || Double.isInfinite( dataPoint.getY() );
@@ -107,10 +107,10 @@ public class DataSet {
     }
 
     public void addPoint( Point2D dataPoint ) {
-        if( !isValid( dataPoint ) ) {
+        if ( !isValid( dataPoint ) ) {
             throw new RuntimeException( "Illegal data point: " + dataPoint );
         }
-        if( dataPoint == null ) {
+        if ( dataPoint == null ) {
             throw new RuntimeException( "Null data Point" );
         }
 
@@ -124,13 +124,13 @@ public class DataSet {
     }
 
     public Point2D.Double[] toArray() {
-        Point2D.Double[] pts = (Point2D.Double[])dataPoints.toArray( new Point2D.Double[0] );
+        Point2D.Double[] pts = (Point2D.Double[]) dataPoints.toArray( new Point2D.Double[0] );
         return pts;
     }
 
     private void notifyObservers( Point2D dataPoint ) {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.pointAdded( dataPoint );
         }
     }
@@ -150,7 +150,6 @@ public class DataSet {
     public String toString() {
         return dataPoints.toString();
     }
-
 
 
     /**

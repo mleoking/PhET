@@ -19,8 +19,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * The vector is drawn as an arrow, with tail located at (0,0).
  * The magnitude of the vector determines the length of the arrow's tail.
  * An optional value can be displayed at the tip of the arrow.
- * <p>
- * Note that this node has a lot of properties.  Rather than provide a 
+ * <p/>
+ * Note that this node has a lot of properties.  Rather than provide a
  * constructor with lots of arguments, I've chosen to provide a simple
  * constructor that provides a default "look" for the vector.  Properties
  * can be changed using setters. Each time you call a setter, the node
@@ -36,33 +36,33 @@ public class Vector2DNode extends PhetPNode {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final double DEFAULT_ARROW_HEAD_HEIGHT = 20;
     private static final double DEFAULT_ARROW_HEAD_WIDTH = 20;
     private static final double DEFAULT_ARROW_TAIL_WIDTH = 5;
     private static final Stroke DEFAULT_ARROW_STROKE = new BasicStroke( 1f );
     private static final Paint DEFAULT_ARROW_STROKE_PAINT = Color.BLACK;
     private static final Paint DEFAULT_ARROW_FILL_PAINT = Color.WHITE;
-    
+
     private static final Font DEFAULT_VALUE_FONT = new PhetDefaultFont();
     private static final Paint DEFAULT_VALUE_PAINT = Color.BLACK;
     private static final double DEFAULT_VALUE_SPACING = 0;
     private static final DecimalFormat DEFAULT_VALUE_FORMAT = new DecimalFormat( "0.##E0" );
     private static final String DEFAULT_UNITS = "";
-    
+
     private static final Point2D TAIL_POSITION = new Point2D.Double( 0, 0 );
     private static final double DEFAULT_FRACTIONAL_HEAD_HEIGHT = 0.5;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private double _x, _y;
     private final double _referenceMagnitude;
     private final double _referenceLength;
     private PPath _arrowNode;
     private PText _valueNode;
-    
+
     private double _headWidth, _headHeight;
     private double _tailWidth;
     private double _fractionalHeadHeight;
@@ -71,19 +71,19 @@ public class Vector2DNode extends PhetPNode {
     private String _units;
     private boolean _updateEnabled;
     private boolean _valueVisible;
-    
+
     private Point2D _somePoint; // reusable point
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
-     * <p>
-     * Vector magnitude is scaled relative to referenceMagnitude and referenceLength. 
+     * <p/>
+     * Vector magnitude is scaled relative to referenceMagnitude and referenceLength.
      * A magnitude of referenceMagnitude will be drawn with a tail length of referenceLength.
-     * 
+     *
      * @param x
      * @param y
      * @param referenceMagnitude
@@ -91,59 +91,59 @@ public class Vector2DNode extends PhetPNode {
      */
     public Vector2DNode( double x, double y, double referenceMagnitude, double referenceLength ) {
         super();
-        
-        assert( referenceMagnitude > 0 );
-        assert( referenceLength > 0 );
-        
+
+        assert ( referenceMagnitude > 0 );
+        assert ( referenceLength > 0 );
+
         setPickable( false );
         setChildrenPickable( false );
-        
+
         _x = x;
         _y = y;
         _referenceMagnitude = referenceMagnitude;
         _referenceLength = referenceLength;
-        
+
         _arrowNode = new PPath();
         _arrowNode.setPaint( DEFAULT_ARROW_FILL_PAINT );
         _arrowNode.setStroke( DEFAULT_ARROW_STROKE );
         _arrowNode.setStrokePaint( DEFAULT_ARROW_STROKE_PAINT );
         addChild( _arrowNode );
-        
+
         _valueNode = new PText();
         _valueNode.setTextPaint( DEFAULT_VALUE_PAINT );
         _valueNode.setFont( DEFAULT_VALUE_FONT );
         addChild( _valueNode );
         _valueNode.setVisible( false ); // value is NOT visible by default
-        
+
         _headWidth = DEFAULT_ARROW_HEAD_WIDTH;
         _headHeight = DEFAULT_ARROW_HEAD_HEIGHT;
         _tailWidth = DEFAULT_ARROW_TAIL_WIDTH;
         _fractionalHeadHeight = DEFAULT_FRACTIONAL_HEAD_HEIGHT;
-        
+
         _valueSpacing = DEFAULT_VALUE_SPACING;
         _valueFormat = DEFAULT_VALUE_FORMAT;
         _units = DEFAULT_UNITS;
         _updateEnabled = true;
         _valueVisible = _valueNode.getVisible();
-        
+
         _somePoint = new Point2D.Double();
-        
+
         update();
     }
-    
+
     public Vector2DNode( Vector2D v, double referenceMagnitude, double referenceLength ) {
         this( v.getX(), v.getY(), referenceMagnitude, referenceLength );
     }
-    
+
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Use this if you're going to call a lot of setters.
-     * Call setUpdateEnabled(false) before calling the setters, 
+     * Call setUpdateEnabled(false) before calling the setters,
      * and setUpdateEnabled(true) when you're done.
-     * 
+     *
      * @param enabled true or false
      */
     public void setUpdateEnabled( boolean enabled ) {
@@ -152,29 +152,29 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the vector that this node displays.
-     * 
+     *
      * @param v
      */
     public void setVector( Vector2D v ) {
         setXY( v.getX(), v.getY() );
     }
-    
+
     /**
      * Gets the vector that this node displays.
      * Allocates a Vector2D.
-     * 
+     *
      * @return
      */
     public Vector2D getVector() {
         return new Vector2D.Double( _x, _y );
     }
-    
+
     /**
      * Sets the x & y components.
-     * 
+     *
      * @param x
      * @param y
      */
@@ -185,22 +185,22 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the magnitude and angle.
-     * 
+     *
      * @param magnitude
-     * @param angle angle in radians
+     * @param angle     angle in radians
      */
     public void setMagnitudeAngle( double magnitude, double angle ) {
         double x = PolarCartesianConverter.getX( magnitude, angle );
         double y = PolarCartesianConverter.getY( magnitude, angle );
         setXY( x, y );
     }
-    
+
     /**
      * Controls the visibility of the value that appear at the tip of the arrow.
-     * 
+     *
      * @param visible true or false
      */
     public void setValueVisible( boolean visible ) {
@@ -210,10 +210,10 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the size of the vector's arrow head.
-     * 
+     *
      * @param width
      * @param height
      */
@@ -224,10 +224,10 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the width of the vector's arrow tail.
-     * 
+     *
      * @param width
      */
     public void setTailWidth( double width ) {
@@ -236,64 +236,64 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the stroke used to outline the arrow.
-     * 
+     *
      * @param stroke
      */
     public void setArrowStroke( Stroke stroke ) {
         _arrowNode.setStroke( stroke );
     }
-    
+
     /**
      * Sets the paint used to outline the arrow.
-     * 
+     *
      * @param paint
      */
     public void setArrowStrokePaint( Paint paint ) {
         _arrowNode.setStrokePaint( paint );
     }
-    
+
     /**
      * Sets the paint used to fill the interior of the arrow.
-     * 
+     *
      * @param paint
      */
     public void setArrowFillPaint( Paint paint ) {
         _arrowNode.setPaint( paint );
     }
-    
+
     /**
      * Gets the paint used to fill the interior of the arrow.
-     * 
+     *
      * @return Paint
      */
     public Paint getArrowFillPaint() {
         return _arrowNode.getPaint();
     }
-    
+
     /**
      * Sets the paint used to draw the value that appears at the arrow tip.
-     * 
+     *
      * @param paint
      */
     public void setValuePaint( Paint paint ) {
         _valueNode.setTextPaint( paint );
     }
-    
+
     /**
      * Sets the font used to draw the value that appears at the arrow tip.
-     * 
+     *
      * @param font
      */
     public void setFont( Font font ) {
         _valueNode.setFont( font );
     }
-    
+
     /**
      * Sets the spacing between the value and the tip of the arrow.
-     * 
+     *
      * @param spacing
      */
     public void setValueSpacing( double spacing ) {
@@ -302,32 +302,32 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     /**
      * Sets the format used to display the value.
-     * 
+     *
      * @param format
      */
     public void setValueFormat( DecimalFormat format ) {
         _valueFormat = format;
         update();
     }
-    
+
     /**
      * Sets the units for the value.
-     * 
+     *
      * @param units
      */
     public void setUnits( String units ) {
         _units = units;
         update();
     }
-    
+
     /**
      * Sets the fractonal head height for the arrow.
      * When the (head height)/(arrow length) > fractionalHeadHeight,
      * the arrow head and tail will be scaled.
-     * 
+     *
      * @param fractionHeadHeight
      */
     public void setFractionalHeadHeight( double fractionHeadHeight ) {
@@ -339,26 +339,27 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     public double getReferenceMagnitude() {
         return _referenceMagnitude;
     }
-    
+
     public double getReferenceLength() {
         return _referenceLength;
     }
-    
+
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Updates the arrow and text to match the node's state.
-     */
+    * Updates the arrow and text to match the node's state.
+    */
+
     private void update() {
-        
+
         if ( _updateEnabled ) {
-            
+
             final double magnitude = PolarCartesianConverter.getRadius( _x, _y );
 
             if ( magnitude == 0 ) {
@@ -368,17 +369,17 @@ public class Vector2DNode extends PhetPNode {
             else {
                 _arrowNode.setVisible( true );
                 _valueNode.setVisible( _valueVisible );
-                
+
                 // update the arrow
                 final double xTip = _x * ( _referenceLength / _referenceMagnitude );
                 final double yTip = _y * ( _referenceLength / _referenceMagnitude );
                 _somePoint.setLocation( xTip, yTip );
-                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */);
+                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
 
                 // update the text
                 if ( _valueNode.getVisible() ) {
-                    
+
                     String text = _valueFormat.format( magnitude );
                     if ( _units != null && _units.length() > 0 ) {
                         text = text + " " + _units;

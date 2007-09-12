@@ -3,9 +3,10 @@
 package edu.colorado.phet.common.phetcommon.model.clock;
 
 
-import javax.swing.event.EventListenerList;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import javax.swing.event.EventListenerList;
 
 
 /**
@@ -16,7 +17,7 @@ import java.util.EventObject;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConstantDtClock extends SwingClock {
-    public static final ConstantDtClock TEST = new ConstantDtClock(30, 1);
+    public static final ConstantDtClock TEST = new ConstantDtClock( 30, 1 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -32,7 +33,7 @@ public class ConstantDtClock extends SwingClock {
      * Constructor.
      *
      * @param delay desired wall time change between ticks
-     * @param dt constant simulation time change between ticks
+     * @param dt    constant simulation time change between ticks
      */
     public ConstantDtClock( int delay, double dt ) {
         super( delay, dt );
@@ -111,7 +112,7 @@ public class ConstantDtClock extends SwingClock {
      * @throws IllegalArgumentException if timingStrategy is not of type TimingStrategy.Constant
      */
     public void setTimingStrategy( TimingStrategy timingStrategy ) {
-        if ( ! ( timingStrategy instanceof TimingStrategy.Constant ) ) {
+        if ( !( timingStrategy instanceof TimingStrategy.Constant ) ) {
             throw new IllegalArgumentException( "timingStrategy must be of type TimingStrategy.Constant" );
         }
         super.setTimingStrategy( timingStrategy );
@@ -155,9 +156,11 @@ public class ConstantDtClock extends SwingClock {
      */
     public static abstract class ConstantDtClockAdapter implements ConstantDtClockListener {
 
-        public void delayChanged( ConstantDtClockEvent event ) {}
+        public void delayChanged( ConstantDtClockEvent event ) {
+        }
 
-        public void dtChanged( ConstantDtClockEvent event ) {}
+        public void dtChanged( ConstantDtClockEvent event ) {
+        }
     }
 
     /**
@@ -180,9 +183,9 @@ public class ConstantDtClock extends SwingClock {
      */
     private void fireDelayChanged( ConstantDtClockEvent event ) {
         Object[] listeners = listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ConstantDtClockListener.class ) {
-                ( (ConstantDtClockListener)listeners[i + 1] ).delayChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ConstantDtClockListener.class ) {
+                ( (ConstantDtClockListener) listeners[i + 1] ).delayChanged( event );
             }
         }
     }
@@ -192,9 +195,9 @@ public class ConstantDtClock extends SwingClock {
      */
     private void fireDtChanged( ConstantDtClockEvent event ) {
         Object[] listeners = listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ConstantDtClockListener.class ) {
-                ( (ConstantDtClockListener)listeners[i + 1] ).dtChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ConstantDtClockListener.class ) {
+                ( (ConstantDtClockListener) listeners[i + 1] ).dtChanged( event );
             }
         }
     }

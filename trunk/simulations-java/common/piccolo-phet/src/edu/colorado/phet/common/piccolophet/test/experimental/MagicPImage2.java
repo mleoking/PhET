@@ -1,16 +1,15 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
+import java.awt.*;
+
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
  * Date: Aug 5, 2005
  * Time: 7:33:22 AM
- *
  */
 
 public class MagicPImage2 extends PImage {
@@ -40,11 +39,11 @@ public class MagicPImage2 extends PImage {
         this.nullImage = false;
         double scale = paintContext.getScale();
 //                System.out.println( "ORIG_RENDER_IMAGE_SCALE= " + scale );//should be about 1.0
-        if( scale != 1.0 ) {
+        if ( scale != 1.0 ) {
             paintContext.getGraphics().scale( 1.0 / scale, 1.0 / scale );
         }
 
-        if( !sameRenderScale( scale ) ) {
+        if ( !sameRenderScale( scale ) ) {
             lastRenderScale = scale;
 //            Image image = imageSource.newImage( (int)( width * scale ) );
 //            setImage( image );

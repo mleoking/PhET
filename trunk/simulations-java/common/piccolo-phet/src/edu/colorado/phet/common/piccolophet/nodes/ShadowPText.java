@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import java.awt.*;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import java.awt.*;
 
 /**
  * Draws piccolo text with a shadow.
@@ -45,7 +45,7 @@ public class ShadowPText extends PNode {
     }
 
     public void setText( String s ) {
-        if( !s.equals( foreground.getText() ) ) {
+        if ( !s.equals( foreground.getText() ) ) {
             foreground.setText( s );
             background.setText( s );
         }

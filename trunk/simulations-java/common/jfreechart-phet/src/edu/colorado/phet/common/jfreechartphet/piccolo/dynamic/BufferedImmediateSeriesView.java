@@ -43,6 +43,6 @@ public class BufferedImmediateSeriesView extends BufferedSeriesView {
         bounds = bounds.createIntersection( dataArea );
 //        bounds=b;
         /*Paint immediately requires a parent component to be opaque.  Perhaps this code should be replaced with a subclass of RepaintManager?*/
-        getDynamicJFreeChartNode().getPhetPCanvas().paintImmediately( new Rectangle( (int)bounds.getX(), (int)bounds.getY(), (int)( bounds.getWidth() + 1 ), (int)( bounds.getHeight() + 1 ) ) );
+        getDynamicJFreeChartNode().getPhetPCanvas().paintImmediately( new Rectangle( (int) bounds.getX(), (int) bounds.getY(), (int) ( bounds.getWidth() + 1 ), (int) ( bounds.getHeight() + 1 ) ) );
     }
 }

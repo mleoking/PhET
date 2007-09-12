@@ -11,11 +11,11 @@
 
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * LinePlot takes a set of points (a DataSet) and connects the
@@ -140,7 +140,7 @@ public class LinePlot extends DataSetGraphic {
      * @param points
      */
     public void pointsAdded( Point2D[] points ) {
-        for( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
             pointAddedNoRepaint( points[i] );
         }
         repaintAll();
@@ -153,16 +153,16 @@ public class LinePlot extends DataSetGraphic {
      * @param point
      */
     protected void pointAddedNoRepaint( Point2D point ) {
-        if( point == null ) {
+        if ( point == null ) {
             throw new RuntimeException( "Null point" );
         }
         Point2D viewLocation = getChart().transformDouble( point );
-        if( generalPathIsEmpty ) {
-            generalPath.moveTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
+        if ( generalPathIsEmpty ) {
+            generalPath.moveTo( (float) viewLocation.getX(), (float) viewLocation.getY() );
             generalPathIsEmpty = false;
         }
         else {
-            generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
+            generalPath.lineTo( (float) viewLocation.getX(), (float) viewLocation.getY() );
         }
     }
 

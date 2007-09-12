@@ -11,13 +11,11 @@
 
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.lasers.model.LaserModel;
-
 import java.awt.geom.Point2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * An object that manages the lifetime of an AtomicEnergyState.
@@ -48,13 +46,13 @@ class StateLifetimeManager implements ModelElement {
         model.addModelElement( this );
 
         double temp = 0;
-        while( temp == 0 ) {
+        while ( temp == 0 ) {
             temp = Math.random();
         }
         state = atom.getCurrState();
 
         // Get the lifetime for this state
-        if( atom.isStateLifetimeFixed() ) {
+        if ( atom.isStateLifetimeFixed() ) {
             // This line gives a fixed death time
             deathTime = state.getMeanLifeTime();
         }
@@ -75,16 +73,16 @@ class StateLifetimeManager implements ModelElement {
      */
     public void stepInTime( double dt ) {
         lifeTime += dt;
-        if( lifeTime >= deathTime ) {
+        if ( lifeTime >= deathTime ) {
 
             AtomicState nextState = atom.getEnergyStateAfterEmission();
-            if( emitOnStateChange ) {
-                double speed = Photon.DEFAULT_SPEED*model.getPhotonSpeedScale();
+            if ( emitOnStateChange ) {
+                double speed = Photon.DEFAULT_SPEED * model.getPhotonSpeedScale();
                 double theta = emissionDirectionStrategy.getEmissionDirection();
                 double x = speed * Math.cos( theta );
                 double y = speed * Math.sin( theta );
 
-                if( nextState != atom.getCurrState() ) {
+                if ( nextState != atom.getCurrState() ) {
                     Photon emittedPhoton = new Photon( state.determineEmittedPhotonWavelength( nextState ),
                                                        new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
                                                        new Vector2D.Double( x, y ) );
@@ -152,7 +150,7 @@ class StateLifetimeManager implements ModelElement {
         }
 
         public double getEmissionDirection() {
-            if( random.nextDouble() <= horizontalLikelihood ) {
+            if ( random.nextDouble() <= horizontalLikelihood ) {
                 return Math.PI * ( random.nextBoolean() ? 1 : 0 );
             }
             else {

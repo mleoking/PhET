@@ -1,7 +1,8 @@
 package edu.colorado.phet.common.piccolophet.test.testmacbug;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,7 +20,7 @@ public class TestGradientPaint {
         frame.setContentPane( new JPanel() {
             protected void paintComponent( Graphics graphics ) {
                 super.paintComponent( graphics );    //To change body of overridden methods use File | Settings | File Templates.
-                Graphics2D g2 = (Graphics2D)graphics;
+                Graphics2D g2 = (Graphics2D) graphics;
                 g2.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
                 g2.setPaint( gradientPaint );
                 g2.fill( rectangle );

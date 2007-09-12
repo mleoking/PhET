@@ -27,8 +27,8 @@ public class SimpleObservable implements Cloneable {
     }
 
     public void notifyObservers() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver) observers.get( i );
             simpleObserver.update();
         }
     }
@@ -50,7 +50,7 @@ public class SimpleObservable implements Cloneable {
     }
 
     public SimpleObserver[] getObservers() {
-        return (SimpleObserver[])observers.toArray( new SimpleObserver[0] );
+        return (SimpleObserver[]) observers.toArray( new SimpleObserver[0] );
     }
 
     //////////////////////////////////////////////////
@@ -66,9 +66,9 @@ public class SimpleObservable implements Cloneable {
 
     public Object clone() {
         try {
-            SimpleObservable clone = (SimpleObservable)super.clone();
+            SimpleObservable clone = (SimpleObservable) super.clone();
 
-            clone.observers          = new ArrayList( observers );
+            clone.observers = new ArrayList( observers );
             clone.observerController = new SimpleObserverController( clone );
 
             return clone;

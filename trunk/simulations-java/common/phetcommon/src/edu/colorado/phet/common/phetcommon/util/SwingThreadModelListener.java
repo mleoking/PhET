@@ -14,7 +14,7 @@ import java.util.EventListener;
 
 /**
  * SwingThreadEventListener
- * <p>
+ * <p/>
  * A marker interface used to distinguish EventListeners that run in the
  * Swing dispatch queue thread.
  *

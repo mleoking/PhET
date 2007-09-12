@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
+import java.util.Iterator;
+
 import edu.colorado.phet.common.phetcommon.util.MultiMap;
 import edu.umd.cs.piccolo.PNode;
-
-import java.util.Iterator;
 
 /**
  * It is up to clients of this class to never set the 0th child of this class to be anything different than what it is normally.
@@ -26,8 +26,8 @@ public class LayeredPNode extends PNode {
     private void updateLayers() {
         Iterator it = layerMap.iterator();
         layerChild.removeAllChildren();
-        while( it.hasNext() ) {
-            PNode node = (PNode)it.next();
+        while ( it.hasNext() ) {
+            PNode node = (PNode) it.next();
             layerChild.addChild( node );
         }
     }

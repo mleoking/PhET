@@ -29,7 +29,7 @@ public class GraphicsUtil {
      * @param alpha
      */
     public static void setAlpha( Graphics2D g2, double alpha ) {
-        g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, (float)alpha ) );
+        g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, (float) alpha ) );
     }
 
     /**

@@ -10,16 +10,16 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
-import javax.swing.*;
-
 /**
  * ITabbedModulePane
- * <p>
+ * <p/>
  * The interface for tabbed panes that contain and switch between module views
  *
  * @author Ron LeMaster
@@ -27,14 +27,24 @@ import javax.swing.*;
  */
 public interface ITabbedModulePane extends ModuleObserver {
     public void init( final NonPiccoloPhetApplication application, final Module[] modules );
+
     public void addTab( Module module );
+
     public void moduleAdded( ModuleEvent event );
+
     public void removeTab( Module module );
+
     public void activeModuleChanged( ModuleEvent event );
+
     public int getTabCount();
+
     public void moduleRemoved( ModuleEvent event );
+
     public ModulePanel getModulePanel( int i );
+
     public JComponent getComponent();
-    public void setLogoVisible(boolean logoVisible);
+
+    public void setLogoVisible( boolean logoVisible );
+
     public boolean getLogoVisible();
 }

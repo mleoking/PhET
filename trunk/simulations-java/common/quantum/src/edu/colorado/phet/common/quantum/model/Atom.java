@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.collision.SolidSphere;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.collision.SolidSphere;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  *
@@ -89,10 +89,10 @@ public class Atom extends SolidSphere {
         this.states = states;
         // Find the minimum and maximum energy states
         double maxEnergy = -Double.MAX_VALUE;
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
             double energy = state.getEnergyLevel();
-            if( energy > maxEnergy ) {
+            if ( energy > maxEnergy ) {
                 maxEnergy = energy;
                 highestEnergyState = state;
             }
@@ -126,9 +126,9 @@ public class Atom extends SolidSphere {
     public AtomicState getLowestEnergyState() {
         AtomicState lowestState = null;
         double lowestEnergy = Double.MAX_VALUE;
-        for( int i = 0; i < states.length; i++ ) {
+        for ( int i = 0; i < states.length; i++ ) {
             AtomicState state = states[i];
-            if( state.getEnergyLevel() < lowestEnergy ) {
+            if ( state.getEnergyLevel() < lowestEnergy ) {
                 lowestEnergy = state.getEnergyLevel();
                 lowestState = state;
             }
@@ -161,7 +161,7 @@ public class Atom extends SolidSphere {
      */
     public void setPosition( double x, double y ) {
         super.setPosition( x, y );
-        if( changeListenerProxy != null ) {
+        if ( changeListenerProxy != null ) {
             changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
         }
     }
@@ -173,7 +173,7 @@ public class Atom extends SolidSphere {
      */
     public void setPosition( Point2D position ) {
         super.setPosition( position );
-        if( changeListenerProxy != null ) {
+        if ( changeListenerProxy != null ) {
             changeListenerProxy.positionChanged( new ChangeEvent( this, null, null ) );
         }
     }
@@ -187,15 +187,15 @@ public class Atom extends SolidSphere {
     public void setCurrState( final AtomicState newState ) {
         final AtomicState oldState = this.currState;
 
-        if( this.stateLifetimeManager != null ) {
+        if ( this.stateLifetimeManager != null ) {
             stateLifetimeManager.kill();
         }
         this.currState = newState;
-        if( oldState != null ) {
+        if ( oldState != null ) {
             oldState.leaveState( this );
         }
-        if( newState != null ) {
-            newState.enterState(this );
+        if ( newState != null ) {
+            newState.enterState( this );
         }
 
         this.stateLifetimeManager = new StateLifetimeManager( this, true, model );
@@ -231,8 +231,8 @@ public class Atom extends SolidSphere {
      * @return
      */
     public int getCurrStateNumber() {
-        for( int i = 0; i < states.length; i++ ) {
-            if( getCurrState().equals( states[i] ) ) {
+        for ( int i = 0; i < states.length; i++ ) {
+            if ( getCurrState().equals( states[i] ) ) {
                 return i;
             }
         }
@@ -275,7 +275,7 @@ public class Atom extends SolidSphere {
         }
 
         public Atom getAtom() {
-            return (Atom)getSource();
+            return (Atom) getSource();
         }
 
         public AtomicState getCurrState() {
@@ -302,7 +302,7 @@ public class Atom extends SolidSphere {
     }
 
     private EventChannel stateChangeChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)stateChangeChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) stateChangeChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         stateChangeChannel.addListener( listener );
@@ -322,7 +322,7 @@ public class Atom extends SolidSphere {
         }
 
         public Atom getAtom() {
-            return (Atom)getSource();
+            return (Atom) getSource();
         }
 
         public AtomicState getState() {
@@ -335,7 +335,7 @@ public class Atom extends SolidSphere {
     }
 
     private EventChannel listenerChannel = new EventChannel( LeftSystemListener.class );
-    private LeftSystemListener leftSystemListenerProxy = (LeftSystemListener)listenerChannel.getListenerProxy();
+    private LeftSystemListener leftSystemListenerProxy = (LeftSystemListener) listenerChannel.getListenerProxy();
 
     public void addLeftSystemListener( LeftSystemListener leftSystemListener ) {
         listenerChannel.addListener( leftSystemListener );
@@ -346,7 +346,7 @@ public class Atom extends SolidSphere {
     }
 
     private EventChannel photonEventChannel = new EventChannel( PhotonEmissionListener.class );
-    PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener)photonEventChannel.getListenerProxy();
+    PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener) photonEventChannel.getListenerProxy();
 
     public void addPhotonEmittedListener( PhotonEmissionListener listener ) {
         photonEventChannel.addListener( listener );

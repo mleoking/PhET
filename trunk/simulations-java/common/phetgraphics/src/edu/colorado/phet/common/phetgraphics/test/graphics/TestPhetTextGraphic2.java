@@ -1,5 +1,11 @@
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -9,12 +15,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * TestPhetTextGraphic2 test the bounds, justifications, and registration point
@@ -34,7 +34,7 @@ public class TestPhetTextGraphic2 {
         // Clock
         double timeStep = 1;
         double frameRate = 25; // fps
-        int waitTime = (int)( 1000 / frameRate ); // milliseconds
+        int waitTime = (int) ( 1000 / frameRate ); // milliseconds
         boolean isFixed = true;
         IClock clock = new SwingClock( waitTime, timeStep );
 
@@ -45,7 +45,7 @@ public class TestPhetTextGraphic2 {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args,
-                                                   title, description, version, frameSetup );
+                                                                       title, description, version, frameSetup );
 
         PhetGraphicsModule module = new TestModule( clock );
 
@@ -214,9 +214,9 @@ public class TestPhetTextGraphic2 {
 
         protected Rectangle determineBounds() {
             Rectangle bounds = null;
-            for( int i = 0; i < _graphics.size(); i++ ) {
-                PhetGraphic graphic = (PhetGraphic)_graphics.get( i );
-                if( bounds == null ) {
+            for ( int i = 0; i < _graphics.size(); i++ ) {
+                PhetGraphic graphic = (PhetGraphic) _graphics.get( i );
+                if ( bounds == null ) {
                     bounds = new Rectangle( graphic.getBounds() );
                 }
                 else {
@@ -227,11 +227,11 @@ public class TestPhetTextGraphic2 {
         }
 
         public void paint( Graphics2D g2 ) {
-            if( isVisible() ) {
+            if ( isVisible() ) {
                 saveGraphicsState( g2 );
-                for( int i = 0; i < _graphics.size(); i++ ) {
+                for ( int i = 0; i < _graphics.size(); i++ ) {
                     // Get the rendering details for the next graphic.
-                    PhetGraphic graphic = (PhetGraphic)_graphics.get( i );
+                    PhetGraphic graphic = (PhetGraphic) _graphics.get( i );
                     Rectangle bounds = graphic.getBounds();
                     Point location = graphic.getLocation();
 
@@ -244,8 +244,8 @@ public class TestPhetTextGraphic2 {
                     AffineTransform transform = getNetTransform();
                     Point2D transformedLocation = new Point2D.Double();
                     transform.transform( location, transformedLocation );
-                    int x = (int)transformedLocation.getX();
-                    int y = (int)transformedLocation.getY();
+                    int x = (int) transformedLocation.getX();
+                    int y = (int) transformedLocation.getY();
 
                     // Draw a cross, centered at the graphic's location.
                     g2.setStroke( _locationStroke );

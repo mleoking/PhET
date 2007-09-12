@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.*;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Draws html text with a drop shadow.
@@ -23,7 +23,7 @@ public class ShadowHTMLNode extends PNode {
     private HTMLNode shadow;
 
     public ShadowHTMLNode() {
-        this(null);
+        this( null );
     }
 
     public ShadowHTMLNode( String html ) {
@@ -61,11 +61,11 @@ public class ShadowHTMLNode extends PNode {
      *
      * @param text
      */
-    public void setHtml( String[]text ) {
+    public void setHtml( String[] text ) {
         String str = "<html>";
-        for( int i = 0; i < text.length; i++ ) {
+        for ( int i = 0; i < text.length; i++ ) {
             str += text[i];
-            if( i < text.length - 1 ) {
+            if ( i < text.length - 1 ) {
                 str += "<br>";
             }
         }

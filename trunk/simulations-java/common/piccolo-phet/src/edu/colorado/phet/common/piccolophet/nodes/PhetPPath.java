@@ -30,9 +30,9 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
+
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * PhetPPath provides convenient constructors for setting up a PPath.

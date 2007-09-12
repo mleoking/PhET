@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * ModelViewTransform2D
@@ -89,7 +89,7 @@ public class ModelViewTransform2D {
     //----------------------------------------------------------------------------
 
     public void setModelBounds( Rectangle2D modelBounds ) {
-        if( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
+        if ( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "modelBounds dimensons must be > 0 : " + modelBounds );
         }
         this.modelBounds = new Rectangle2D.Double( modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth(), modelBounds.getHeight() );
@@ -103,7 +103,7 @@ public class ModelViewTransform2D {
     }
 
     public void setViewBounds( Rectangle2D viewBounds ) {
-        if( viewBounds.getWidth() <= 0 || viewBounds.getHeight() <= 0 ) {
+        if ( viewBounds.getWidth() <= 0 || viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "viewBounds dimensions must be > 0 : " + viewBounds );
         }
         forwardTransformDirty = true;
@@ -291,21 +291,21 @@ public class ModelViewTransform2D {
     }
 
     private void fixForwardTransform() {
-        if( forwardTransformDirty ) {
+        if ( forwardTransformDirty ) {
             forwardTransform = createForwardTransform();
             forwardTransformDirty = false;
         }
     }
 
     private void fixBackTransform() {
-        if( backTransformDirty ) {
+        if ( backTransformDirty ) {
             backTransform = createBackTransform();
             backTransformDirty = false;
         }
     }
 
     protected AffineTransform createForwardTransform() {
-        if( invertY ) {
+        if ( invertY ) {
             return createTXInvertY( viewBounds, modelBounds );
         }
         else {
@@ -356,20 +356,20 @@ public class ModelViewTransform2D {
     //----------------------------------------------------------------------------
 
     private static Point toPoint( Point2D p ) {
-        if( p instanceof Point ) {
-            return (Point)p;
+        if ( p instanceof Point ) {
+            return (Point) p;
         }
         else {
-            return new Point( (int)p.getX(), (int)p.getY() );
+            return new Point( (int) p.getX(), (int) p.getY() );
         }
     }
 
     private static Rectangle toRectangle( Rectangle2D r ) {
-        if( r instanceof Rectangle ) {
-            return (Rectangle)r;
+        if ( r instanceof Rectangle ) {
+            return (Rectangle) r;
         }
         else {
-            return new Rectangle( (int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight() );
+            return new Rectangle( (int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight() );
         }
     }
 }

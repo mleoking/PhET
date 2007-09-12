@@ -5,9 +5,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PolynomialTerm {
-    public static final PolynomialTerm ZERO = new PolynomialTerm(0, 0);
+    public static final PolynomialTerm ZERO = new PolynomialTerm( 0, 0 );
 
-    public static final Pattern EXPR_PATTERN = Pattern.compile("([+\\-])? *(\\d+)x\\^(\\d+)");
+    public static final Pattern EXPR_PATTERN = Pattern.compile( "([+\\-])? *(\\d+)x\\^(\\d+)" );
 
     private final int power;
     private final int coeff;
@@ -16,7 +16,9 @@ public class PolynomialTerm {
         this.power = power;
         this.coeff = coeff;
 
-        if (power < 0) throw new IllegalArgumentException();
+        if ( power < 0 ) {
+            throw new IllegalArgumentException();
+        }
     }
 
     public PolynomialTerm( int constant ) {
@@ -24,20 +26,20 @@ public class PolynomialTerm {
     }
 
     public static PolynomialTerm parsePolynomialTerm( String expression ) {
-        Matcher matcher = EXPR_PATTERN.matcher(expression);
+        Matcher matcher = EXPR_PATTERN.matcher( expression );
 
-        if (matcher.find()) {
+        if ( matcher.find() ) {
             int sign = 1;
 
-            String signString = matcher.group(1);
+            String signString = matcher.group( 1 );
 
-            if ( signString != null && signString.equals("-") ) {
+            if ( signString != null && signString.equals( "-" ) ) {
                 sign = -1;
             }
 
 
-            int coeff = Integer.parseInt( matcher.group(2) );
-            int power = Integer.parseInt( matcher.group(3) );
+            int coeff = Integer.parseInt( matcher.group( 2 ) );
+            int power = Integer.parseInt( matcher.group( 3 ) );
 
             return new PolynomialTerm( power, coeff * sign );
         }
@@ -78,7 +80,7 @@ public class PolynomialTerm {
         return Math.pow( x, power ) * coeff;
     }
 
-    public PolynomialTerm times(PolynomialTerm that) {
+    public PolynomialTerm times( PolynomialTerm that ) {
         return new PolynomialTerm( this.power + that.power, this.coeff * that.coeff );
     }
 
@@ -96,19 +98,19 @@ public class PolynomialTerm {
     }
 
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        PolynomialTerm that = (PolynomialTerm)o;
+        PolynomialTerm that = (PolynomialTerm) o;
 
-        if( coeff != that.coeff ) {
+        if ( coeff != that.coeff ) {
             return false;
         }
-        if( power != that.power ) {
+        if ( power != that.power ) {
             return false;
         }
 

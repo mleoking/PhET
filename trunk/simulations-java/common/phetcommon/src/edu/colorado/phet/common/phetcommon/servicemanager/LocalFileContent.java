@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
+import java.io.*;
+
 import javax.jnlp.FileContents;
 import javax.jnlp.JNLPRandomAccessFile;
-import java.io.*;
 
 /**
  * Adapter from File to FileContents.
@@ -52,7 +53,7 @@ public class LocalFileContent implements FileContents {
     }
 
     public OutputStream getOutputStream( boolean b ) throws IOException {
-        if( !b ) {
+        if ( !b ) {
             throw new IOException( "OutputStream cannot be protected from overwrite--exiting." );
         }
         return new FileOutputStream( f );

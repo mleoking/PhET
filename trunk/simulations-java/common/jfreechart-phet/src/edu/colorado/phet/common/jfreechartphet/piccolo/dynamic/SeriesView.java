@@ -21,11 +21,11 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import org.jfree.data.xy.XYSeries;
-
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import org.jfree.data.xy.XYSeries;
 
 /**
  * DISCLAIMER: This class and subclasses are under development and not ready for general use.
@@ -58,8 +58,9 @@ public abstract class SeriesView {
     }
 
     public abstract void dataAdded();
+
     public abstract void dataCleared();
-    
+
     public void uninstall() {
         seriesData.removeListener( listener );
     }
@@ -94,11 +95,11 @@ public abstract class SeriesView {
 
     protected GeneralPath toGeneralPath() {
         GeneralPath path = new GeneralPath();
-        if( getSeries().getItemCount() > 0 ) {
-            path.moveTo( (float)getNodePoint( 0 ).getX(), (float)getNodePoint( 0 ).getY() );
+        if ( getSeries().getItemCount() > 0 ) {
+            path.moveTo( (float) getNodePoint( 0 ).getX(), (float) getNodePoint( 0 ).getY() );
         }
-        for( int i = 1; i < getSeries().getItemCount(); i++ ) {
-            path.lineTo( (float)getNodePoint( i ).getX(), (float)getNodePoint( i ).getY() );
+        for ( int i = 1; i < getSeries().getItemCount(); i++ ) {
+            path.lineTo( (float) getNodePoint( i ).getX(), (float) getNodePoint( i ).getY() );
         }
         return path;
     }

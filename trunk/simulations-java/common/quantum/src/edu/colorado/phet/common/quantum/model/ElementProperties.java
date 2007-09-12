@@ -14,10 +14,10 @@ import java.util.Arrays;
 
 /**
  * ElementProperties
- * <p>
+ * <p/>
  * A specification class that contains the properties for an element that are
  * required by the model.
- * <p>
+ * <p/>
  * The ElementProperties has an array of AtomicStates, which must have at least one element, which is the
  * ground state.
  *
@@ -51,7 +51,7 @@ public class ElementProperties {
     }
 
     protected void setEnergyLevels( double[] energyLevels ) {
-        if( energyLevels.length != states.length ) {
+        if ( energyLevels.length != states.length ) {
             this.energyLevels = energyLevels;
             initStates();
         }
@@ -109,7 +109,7 @@ public class ElementProperties {
         states = new AtomicState[energyLevels.length];
         states[0] = new GroundState();
         states[0].setEnergyLevel( energyLevels[0] );
-        for( int i = 1; i < states.length; i++ ) {
+        for ( int i = 1; i < states.length; i++ ) {
             states[i] = new AtomicState();
             states[i].setEnergyLevel( 0 );
         }
@@ -120,13 +120,13 @@ public class ElementProperties {
     private void updateStates() {
         // Copy the energies into a new array, sort and normalize them
         double[] energies = new double[energyLevels.length];
-        for( int i = 0; i < energies.length; i++ ) {
+        for ( int i = 0; i < energies.length; i++ ) {
             energies[i] = energyLevels[i];
         }
         Arrays.sort( energies );
 
         states[0].setEnergyLevel( energies[0] );
-        for( int i = 1; i < states.length; i++ ) {
+        for ( int i = 1; i < states.length; i++ ) {
             double energy = ( energies[i] );
             states[i].setEnergyLevel( energy );
             meanStateLifetime = getMeanStateLifetime();

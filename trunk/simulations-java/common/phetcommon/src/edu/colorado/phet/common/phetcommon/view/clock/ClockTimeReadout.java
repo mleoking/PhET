@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.view.clock;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
-import javax.swing.*;
 import java.awt.*;
 import java.text.NumberFormat;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * ClockTimeReadout

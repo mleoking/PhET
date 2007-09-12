@@ -1,20 +1,20 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.handles.PBoundsHandle;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:15:07 AM
- *
  */
 
 public class TestActivities {
@@ -38,18 +38,18 @@ public class TestActivities {
         pCanvas.getCamera().translateView( 50, 50 );
 //        pText.animateToPositionScaleRotation( 0,0,1,Math.PI,5000);
 //        pText.animateToTransform( AffineTransform.getRotateInstance( Math.PI),1000 );
-        final Point center = new Point( (int)( pText.getWidth() / 2 ), (int)( pText.getHeight() / 2 ) );
+        final Point center = new Point( (int) ( pText.getWidth() / 2 ), (int) ( pText.getHeight() / 2 ) );
         final int aStepRate = 30;
         PActivity activity = new PActivity( Long.MAX_VALUE / 1000, aStepRate ) {
             protected void activityStep( long elapsedTime ) {
                 super.activityStep( elapsedTime );
-                if( lastElapsedTime != 0 ) {
+                if ( lastElapsedTime != 0 ) {
                     long dt = elapsedTime - lastElapsedTime;
 //                AffineTransform rot = AffineTransform.getRotateInstance( Math.PI / 128 );
                     System.out.println( "elapsedTime = " + elapsedTime + ", dt=" + dt + ", totalAngle=" + totalAngle );
                     double theta = Math.PI / 128 / aStepRate * dt;
 
-                    if( totalAngle > Math.PI * 2 ) {
+                    if ( totalAngle > Math.PI * 2 ) {
                         theta = Math.PI * 2 - totalAngle;
                         pText.rotateAboutPoint( theta, center );
                         super.terminate();

@@ -6,14 +6,15 @@
  */
 package edu.colorado.phet.common.charts.test;
 
-import edu.colorado.phet.common.charts.*;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 
 public class ChartTest {
 
@@ -55,7 +56,7 @@ public class ChartTest {
 
         apparatusPanel.addComponentListener( componentAdapter );
         double dx = .01;
-        for( double x = 0; x < 10; x += dx ) {
+        for ( double x = 0; x < 10; x += dx ) {
             double y = 10 * Math.sin( x );
             ds.addPoint( x, y );
         }
@@ -64,7 +65,7 @@ public class ChartTest {
         DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, sin2, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{4, 5}, 0 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
         double dx2 = .01;
-        for( double x = 0; x < 10; x += dx2 ) {
+        for ( double x = 0; x < 10; x += dx2 ) {
             double y = 10 * Math.sin( x / 2 );
             sin2.addPoint( x, y );
         }

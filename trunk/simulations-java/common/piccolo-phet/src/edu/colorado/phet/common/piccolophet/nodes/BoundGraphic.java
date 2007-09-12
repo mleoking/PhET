@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Draws a boundary around the specified PNode.

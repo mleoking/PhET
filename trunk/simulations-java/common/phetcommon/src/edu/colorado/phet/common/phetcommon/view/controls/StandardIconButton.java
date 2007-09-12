@@ -2,15 +2,11 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.Image;
-import java.awt.Insets;
+import java.awt.*;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * StandardIconButton is the abstract base class for all buttons that display PhET's standard icons.

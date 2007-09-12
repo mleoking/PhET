@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
  * ControlPanel is the panel that contains the controls for the simulation.
@@ -129,7 +130,7 @@ public class ControlPanel extends JPanel {
      * @param space the amount of space, in pixels
      */
     public void addVerticalSpace( int space ) {
-        if( space > 0 ) {
+        if ( space > 0 ) {
             JPanel spacePanel = new JPanel();
             spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
             spacePanel.add( Box.createVerticalStrut( space ) );

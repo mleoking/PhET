@@ -11,12 +11,9 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Color;
+import java.awt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 

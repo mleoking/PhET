@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.timeseries.ui;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import java.util.Hashtable;
 
 import javax.swing.*;
-import java.util.Hashtable;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 
 /**
  * Author: Sam Reid

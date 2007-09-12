@@ -1,5 +1,17 @@
 package edu.colorado.phet.common.charts.test;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.text.MessageFormat;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
 import edu.colorado.phet.common.charts.SinePlot;
@@ -16,17 +28,6 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.text.MessageFormat;
 
 /**
  * Tests the performance of charts by drawing lots of SinePlots (sine waves).
@@ -95,7 +96,7 @@ public class TestSinePlotPerformance {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args,
-                                                   title, "", "", frameSetup );
+                                                                       title, "", "", frameSetup );
 
         Module module = new TestModule( clock );
         app.setModules( new Module[]{module} );
@@ -226,8 +227,8 @@ public class TestSinePlotPerformance {
                 }
 
                 // Pre-populate the sine waves at harmonic intervals.
-                _sinePlots = new SinePlot[ MAX_WAVES ];
-                for( int i = 0; i < _sinePlots.length; i++ ) {
+                _sinePlots = new SinePlot[MAX_WAVES];
+                for ( int i = 0; i < _sinePlots.length; i++ ) {
                     SinePlot sinePlot = new SinePlot( apparatusPanel, _chart );
                     sinePlot.setAmplitude( 1 );
                     sinePlot.setPeriod( L / ( i + 1 ) );
@@ -317,29 +318,29 @@ public class TestSinePlotPerformance {
 
             public void actionPerformed( ActionEvent event ) {
                 Object source = event.getSource();
-                if( source == _zoomInButton ) {
+                if ( source == _zoomInButton ) {
                     handleZoomIn();
                 }
-                else if( source == _zoomOutButton ) {
+                else if ( source == _zoomOutButton ) {
                     handleZoomOut();
                 }
-                else if( source == _colorButton ) {
+                else if ( source == _colorButton ) {
                     handleColor();
                 }
-                else if( source == _grayscaleButton ) {
+                else if ( source == _grayscaleButton ) {
                     handleGrayscale();
                 }
             }
 
             public void stateChanged( ChangeEvent event ) {
-                if( event.getSource() == _slider ) {
+                if ( event.getSource() == _slider ) {
                     int numberOfHarmonics = _slider.getValue();
                     // Update the label as the slider is dragged.
                     Object[] args = {new Integer( numberOfHarmonics )};
                     String s = MessageFormat.format( "Number of sine waves: {0}", args );
                     _label.setText( s );
                     // Update the chart when the slider is released.
-                    if( !_slider.getValueIsAdjusting() ) {
+                    if ( !_slider.getValueIsAdjusting() ) {
                         updateChart();
                     }
                 }
@@ -354,15 +355,15 @@ public class TestSinePlotPerformance {
             _chart.removeAllDataSetGraphics();
 
             int numberOfHarmonics = _slider.getValue();
-            if( numberOfHarmonics > 0 ) {
+            if ( numberOfHarmonics > 0 ) {
                 // Populate the chart.
                 double deltaWavelength = ( VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH ) / numberOfHarmonics;
                 int deltaGrayscale = 225 / numberOfHarmonics;
                 // Work backwards, so that the fundamental is in the foreground.
-                for( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
+                for ( int i = numberOfHarmonics - 1; i >= 0; i-- ) {
                     // Set the wave's color
                     Color color = null;
-                    if( _colorEnabled ) {
+                    if ( _colorEnabled ) {
                         double wavelength = VisibleColor.MAX_WAVELENGTH - ( i * deltaWavelength );
                         color = VisibleColor.wavelengthToColor( wavelength );
                     }
@@ -443,7 +444,7 @@ public class TestSinePlotPerformance {
          * @param enabled
          */
         private void setWaitCursorEnabled( boolean enabled ) {
-            if( enabled ) {
+            if ( enabled ) {
                 _phetFrame.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
             }
             else {

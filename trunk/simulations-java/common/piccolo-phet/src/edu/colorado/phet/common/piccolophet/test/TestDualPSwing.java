@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.piccolophet.test;
 
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
 import javax.swing.*;
+
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Author: Sam Reid
@@ -13,18 +13,18 @@ public class TestDualPSwing {
     private JFrame frame;
 
     public TestDualPSwing() {
-        frame = new JFrame( );
+        frame = new JFrame();
         PSwingCanvas swingCanvas = new PSwingCanvas();
         frame.setContentPane( swingCanvas );
-        JButton button1=new JButton( "button");
-        PSwing child = new PSwing(button1 );
+        JButton button1 = new JButton( "button" );
+        PSwing child = new PSwing( button1 );
         System.out.println( "child.getBounds() = " + child.getBounds() );
         swingCanvas.getLayer().addChild( child );
-        PSwing child2=new PSwing(button1);
-        child2.setOffset( 100,100);
-        swingCanvas.getLayer().addChild( child2);
+        PSwing child2 = new PSwing( button1 );
+        child2.setOffset( 100, 100 );
+        swingCanvas.getLayer().addChild( child2 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setSize( 400,400);
+        frame.setSize( 400, 400 );
 
     }
 

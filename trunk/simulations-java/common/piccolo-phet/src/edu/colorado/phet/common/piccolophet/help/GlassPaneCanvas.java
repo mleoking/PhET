@@ -11,16 +11,12 @@
 
 package edu.colorado.phet.common.piccolophet.help;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.Timer;
+import javax.swing.*;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PInputEventListener;
@@ -30,46 +26,46 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
  * GlassPaneCanvas is a Piccolo-based glass pane that does not intercept any events.
  * The cursor on the glass pane is set by adding a MouseListener (referred to
  * herein as the "cursor listener" on all JComponents in the hierarchy.
- * A Timer is used to periodically ensure that all JComponents have the 
+ * A Timer is used to periodically ensure that all JComponents have the
  * cursor listener.
- * <p>
+ * <p/>
  * Sample usage:
  * <code>
- *    JFrame frame = PhetApplication.instance().getPhetFrame();
- *    GlassPaneCanvas glassPane = new GlassPaneCanvas( frame );
- *    frame.setGlassPane( glassPane );
- *    glassPane.setVisible( true );
+ * JFrame frame = PhetApplication.instance().getPhetFrame();
+ * GlassPaneCanvas glassPane = new GlassPaneCanvas( frame );
+ * frame.setGlassPane( glassPane );
+ * glassPane.setVisible( true );
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class GlassPaneCanvas extends PCanvas {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int CURSOR_LISTENER_UPDATE_FREQUENCY = 1000; // milliseconds
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private JFrame _parentFrame;  // we'll be serving as this frame's glass pane
     private Timer _timer; // periodically adds listeners to components in Swing hierarchy
     private MouseListener _componentCursorListener; // handles cursor changes for JComponents
     private MouseMotionListener _canvasCursorListener; // handles cursor changes for nodes on PCanvas
     private ArrayList _componentList; // list of JComponent that have _componentCursorListener attached
     private ArrayList _canvasList; // list of PCanvas that have _canvasCursorListener attached
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructs a GlassPaneCanvas.
-     * 
+     *
      * @param parentFrame this GlassPaneCanvas is intended to be the glass pane for parentFrame
      */
     public GlassPaneCanvas( JFrame parentFrame ) {
@@ -80,31 +76,33 @@ public class GlassPaneCanvas extends PCanvas {
 
         // The glass pane is transparent
         setBackground( new Color( 0, 0, 0, 0 ) );
-        
+
         // Disable pan & zoom
         setPanEventHandler( null );
         setZoomEventHandler( null );
-        
+
         // Disable interactivity
         getLayer().setPickable( false );
         getLayer().setChildrenPickable( false );
-        
+
         // JComponent cursor synchronization
         _componentCursorListener = new MouseAdapter() {
             public void mouseEntered( MouseEvent event ) {
                 setCursor( event.getComponent().getCursor() );
             }
+
             public void mouseExited( MouseEvent e ) {
                 //XXX using the default cursor may be incorrect!
                 setCursor( Cursor.getDefaultCursor() );
             }
         };
-        
+
         // PCanvas cursor synchronization
         _canvasCursorListener = new MouseMotionListener() {
             public void mouseMoved( MouseEvent event ) {
                 setCursor( event.getComponent().getCursor() );
             }
+
             public void mouseDragged( MouseEvent event ) {
                 setCursor( event.getComponent().getCursor() );
             }
@@ -165,19 +163,26 @@ public class GlassPaneCanvas extends PCanvas {
      * So we override the corresponding "addListener" methods with stubs.
      */
 
-    public synchronized void addFocusListener( FocusListener l ) {}
+    public synchronized void addFocusListener( FocusListener l ) {
+    }
 
-    public synchronized void addInputEventListener( PInputEventListener l ) {}
+    public synchronized void addInputEventListener( PInputEventListener l ) {
+    }
 
-    public synchronized void addInputMethodListener( InputMethodListener l ) {}
+    public synchronized void addInputMethodListener( InputMethodListener l ) {
+    }
 
-    public synchronized void addKeyListener( KeyListener l ) {}
+    public synchronized void addKeyListener( KeyListener l ) {
+    }
 
-    public synchronized void addMouseListener( MouseListener l ) {}
+    public synchronized void addMouseListener( MouseListener l ) {
+    }
 
-    public synchronized void addMouseMotionListener( MouseMotionListener l ) {}
+    public synchronized void addMouseMotionListener( MouseMotionListener l ) {
+    }
 
-    public synchronized void addMouseWheelListener( MouseWheelListener l ) {}
+    public synchronized void addMouseWheelListener( MouseWheelListener l ) {
+    }
 
     //----------------------------------------------------------------------------
     // MouseListener for cursor control
@@ -195,6 +200,7 @@ public class GlassPaneCanvas extends PCanvas {
      *
      * @param component
      */
+
     private void addCursorListeners( JComponent component ) {
         if ( component != null ) {
 

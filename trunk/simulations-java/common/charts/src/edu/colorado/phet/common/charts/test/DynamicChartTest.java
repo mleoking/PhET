@@ -6,20 +6,21 @@
  */
 package edu.colorado.phet.common.charts.test;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
-import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 
 public class DynamicChartTest {
 
@@ -87,19 +88,19 @@ public class DynamicChartTest {
         {
             double y = 10 * Math.sin( x / 2 );
             dataSet1.addPoint( x, y );
-            while( dataSet1.size() > 100 ) {
+            while ( dataSet1.size() > 100 ) {
                 dataSet1.removePoint( 0 );
             }
         }
         {
             double y = 10 * Math.cos( x / 3 );
             dataSet2.addPoint( x, Math.abs( y ) );
-            while( dataSet2.size() > 100 ) {
+            while ( dataSet2.size() > 100 ) {
                 dataSet2.removePoint( 0 );
             }
         }
         Range2D dataBounds = chart.getDataRange();//TODO should this be renamed to unconfuse chart.getRange()?
-        if( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
+        if ( dataBounds.getWidth() > 0 && dataBounds.getHeight() > 0 ) {
             chart.setRange( dataBounds.getScaledRange( 1.2, 1.2 ) );
         }
         x += .15;

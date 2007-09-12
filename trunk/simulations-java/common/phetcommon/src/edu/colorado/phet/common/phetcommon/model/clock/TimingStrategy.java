@@ -45,12 +45,12 @@ public interface TimingStrategy {
          * @param simulationTimeChange the specified constant change in simulation time per tick.
          */
         public Constant( double simulationTimeChange ) {
-            this(simulationTimeChange,simulationTimeChange);
+            this( simulationTimeChange, simulationTimeChange );
         }
 
         public Constant( double simulationTimeChange, double timeChangeWhileStepping ) {
-            this.simulationTimeChange=simulationTimeChange;
-            this.timeChangeWhileStepping=timeChangeWhileStepping;
+            this.simulationTimeChange = simulationTimeChange;
+            this.timeChangeWhileStepping = timeChangeWhileStepping;
         }
 
 
@@ -64,7 +64,7 @@ public interface TimingStrategy {
         public double getSimulationTimeChange( long lastWallTime, long currentWallTime ) {
             return getSimulationTimeChange();
         }
-        
+
         public double getSimulationTimeChange() {
             return simulationTimeChange;
         }

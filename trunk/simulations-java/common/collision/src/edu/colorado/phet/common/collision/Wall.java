@@ -7,15 +7,15 @@
  */
 package edu.colorado.phet.common.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.mechanics.Body;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 public class Wall extends Body implements Collidable {
-    private Vector2D velocity = new Vector2D.Double( );
-    private Rectangle2D rep = new Rectangle2D.Double( );
+    private Vector2D velocity = new Vector2D.Double();
+    private Rectangle2D rep = new Rectangle2D.Double();
 
     public Wall( Rectangle2D bounds ) {
         this.rep = bounds;

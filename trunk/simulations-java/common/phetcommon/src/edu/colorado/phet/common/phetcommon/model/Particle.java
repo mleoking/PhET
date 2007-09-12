@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.phetcommon.model;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-
-import java.awt.geom.Point2D;
 
 /**
  * Default newtonian particle implementation (with Euler update).
@@ -31,11 +31,11 @@ public class Particle extends SimpleObservable implements ModelElement {
     }
 
     public Object clone() {
-        Particle clone = (Particle)super.clone();
+        Particle clone = (Particle) super.clone();
 
-        clone.position         = new Point2D.Double(  position.getX(), position.getY() );
-        clone.velocity         = new Vector2D.Double( velocity );
-        clone.acceleration     = new Vector2D.Double( acceleration );
+        clone.position = new Point2D.Double( position.getX(), position.getY() );
+        clone.velocity = new Vector2D.Double( velocity );
+        clone.acceleration = new Vector2D.Double( acceleration );
         clone.prevAcceleration = new Vector2D.Double( prevAcceleration );
 
         return clone;
@@ -109,7 +109,7 @@ public class Particle extends SimpleObservable implements ModelElement {
         this.setPosition( xNew, yNew );
 
         // New velocity
-        if( prevAcceleration == null ) {
+        if ( prevAcceleration == null ) {
             prevAcceleration = acceleration;
         }
         double vxNew = velocity.getX() + dt * ( acceleration.getX() + prevAcceleration.getX() ) / 2;

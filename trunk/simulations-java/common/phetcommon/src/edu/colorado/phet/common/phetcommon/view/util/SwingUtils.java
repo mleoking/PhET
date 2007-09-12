@@ -11,12 +11,12 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import javax.swing.*;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+
+import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 
 /**
@@ -47,16 +47,16 @@ public class SwingUtils {
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 
         ArrayList menuList = new ArrayList();
-        for( int i = 0; i < menuBar.getMenuCount(); i++ ) {
-            if( i == index ) {
+        for ( int i = 0; i < menuBar.getMenuCount(); i++ ) {
+            if ( i == index ) {
                 menuList.add( newMenu );
             }
             menuList.add( menuBar.getMenu( i ) );
         }
         menuBar.removeAll();
         //        menuBar = new JMenuBar();
-        for( int i = 0; i < menuList.size(); i++ ) {
-            JMenu menu = (JMenu)menuList.get( i );
+        for ( int i = 0; i < menuList.size(); i++ ) {
+            JMenu menu = (JMenu) menuList.get( i );
             menuBar.add( menu );
         }
         return menuBar;
@@ -108,14 +108,14 @@ public class SwingUtils {
                                             int fill, int anchor, Insets insets )
             throws AWTException {
         LayoutManager lm = container.getLayout();
-        if( !( lm instanceof GridBagLayout ) ) {
+        if ( !( lm instanceof GridBagLayout ) ) {
             throw new AWTException( "Invalid layout: " + lm );
         }
         else {
             GridBagConstraints gbc = getGridBagConstraints( gridX, gridY,
                                                             gridWidth, gridHeight, fill, anchor );
             gbc.insets = insets;
-            ( (GridBagLayout)lm ).setConstraints( component, gbc );
+            ( (GridBagLayout) lm ).setConstraints( component, gbc );
             container.add( component );
         }
     }
@@ -123,8 +123,8 @@ public class SwingUtils {
     public static void centerWindowOnScreen( Window window ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
-        window.setLocation( (int)( screenSize.getWidth() / 2 - window.getWidth() / 2 ),
-                            (int)( screenSize.getHeight() / 2 - window.getHeight() / 2 ) );
+        window.setLocation( (int) ( screenSize.getWidth() / 2 - window.getWidth() / 2 ),
+                            (int) ( screenSize.getHeight() / 2 - window.getHeight() / 2 ) );
     }
 
     /**
@@ -134,8 +134,8 @@ public class SwingUtils {
      */
     public static void centerDialogInParent( JDialog dialog ) {
         Rectangle frameBounds = dialog.getParent().getBounds();
-        Rectangle dialogBounds = new Rectangle( (int)( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
-                                                (int)( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
+        Rectangle dialogBounds = new Rectangle( (int) ( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
+                                                (int) ( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
                                                 dialog.getWidth(), dialog.getHeight() );
         dialog.setBounds( dialogBounds );
     }
@@ -143,9 +143,9 @@ public class SwingUtils {
     // This method returns the selected radio button in a button group
     // Taken from The Java Developer's Almanac, 1.4
     public static JRadioButton getSelection( ButtonGroup group ) {
-        for( Enumeration e = group.getElements(); e.hasMoreElements(); ) {
-            JRadioButton b = (JRadioButton)e.nextElement();
-            if( b.getModel() == group.getSelection() ) {
+        for ( Enumeration e = group.getElements(); e.hasMoreElements(); ) {
+            JRadioButton b = (JRadioButton) e.nextElement();
+            if ( b.getModel() == group.getSelection() ) {
                 return b;
             }
         }
@@ -153,36 +153,36 @@ public class SwingUtils {
     }
 
     /**
-     * Fixes button opacity issues. 
+     * Fixes button opacity issues.
      * This is particularly a problem with JButton on Macintosh;
      * when the background color of its container is changed,
      * a button will appear to be sitting on a gray rectangle.
-     * 
+     *
      * @param button
      */
     public static void fixButtonOpacity( JButton button ) {
         // If the LAF isn't Metal or a derivative, setOpaque( false ) for the button
-        if( !( UIManager.getLookAndFeel() instanceof MetalLookAndFeel ) ) {
+        if ( !( UIManager.getLookAndFeel() instanceof MetalLookAndFeel ) ) {
             button.setOpaque( false );
         }
     }
-    
+
     /**
      * Forces an immediate repaint of a component and all of its children.
-     * 
+     *
      * @param component
      */
     public static void paintImmediately( Component component ) {
-        
+
         // Paint the component
         if ( component instanceof JComponent ) {
-            JComponent jcomponent = (JComponent)component;
+            JComponent jcomponent = (JComponent) component;
             jcomponent.paintImmediately( jcomponent.getBounds() );
         }
-        
+
         // Recursively paint children
         if ( component instanceof Container ) {
-            Container container = (Container)component;
+            Container container = (Container) component;
             int numberOfChildren = container.getComponentCount();
             for ( int i = 0; i < numberOfChildren; i++ ) {
                 Component child = container.getComponent( i );
@@ -215,40 +215,41 @@ public class SwingUtils {
         Dimension pauseSize = button.getUI().getPreferredSize( button );
 
         // Set max dimensions
-        int maxWidth = (int)Math.max( playSize.getWidth(), pauseSize.getWidth() );
-        int maxHeight = (int)Math.max( playSize.getHeight(), pauseSize.getHeight() );
+        int maxWidth = (int) Math.max( playSize.getWidth(), pauseSize.getWidth() );
+        int maxHeight = (int) Math.max( playSize.getHeight(), pauseSize.getHeight() );
         return new Dimension( maxWidth, maxHeight );
     }
-    
+
     /**
      * Sets the background of all components in a container hierachy.
      * The contants of contains are processed recursively.
-     * 
+     *
      * @param component
      * @param color
      */
     public static void setBackgroundDeep( Component component, Color color ) {
         setBackgroundDeep( component, color, null, true );
     }
-    
+
     /**
      * Sets the background of all components in a container hierachy.
      * The contents of containers are processed recursively.
      * Any component that is an instance of one of the classes in excludedClasses will not have its background color set.
      * The contents of excluded containers will be processed based on the value of processContentsOfExcludedContainers.
-     * <p>
+     * <p/>
      * Sample use:
      * <code>
-     *    JPanel controlPanel = new JPanel();
-     *    // then add a bunch of controls and subpanels ...
-     *    Class[] excludedClasses = { JTextComponent.class };
-     *    SwingUtils.setBackgroundDeep( controlPanel, Color.RED, excludedClasses, false );
+     * JPanel controlPanel = new JPanel();
+     * // then add a bunch of controls and subpanels ...
+     * Class[] excludedClasses = { JTextComponent.class };
+     * SwingUtils.setBackgroundDeep( controlPanel, Color.RED, excludedClasses, false );
      * </code>
-     * 
+     *
      * @param component
      * @param color
      * @param excludedClasses
      * @param processContentsOfExcludedContainers
+     *
      */
     public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
 
@@ -266,7 +267,7 @@ public class SwingUtils {
         if ( !excluded ) {
             component.setBackground( color );
         }
-        
+
         // Recursively process the contents of containers.
         if ( ( !excluded || processContentsOfExcludedContainers ) && ( component instanceof Container ) ) {
             Container container = (Container) component;

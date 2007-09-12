@@ -15,10 +15,11 @@ package edu.colorado.phet.common.phetcommon.servicemanager;
  */
 
 
-import javax.swing.filechooser.FileFilter;
 import java.io.File;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import javax.swing.filechooser.FileFilter;
 
 /**
  * A convenience implementation of FileFilter that filters out
@@ -56,7 +57,7 @@ public class LocalFileFilter extends FileFilter {
      * @see #addExtension
      */
     public LocalFileFilter() {
-        this( (String)null, (String)null );
+        this( (String) null, (String) null );
     }
 
     /**
@@ -82,7 +83,7 @@ public class LocalFileFilter extends FileFilter {
      */
     public LocalFileFilter( String[] filters, String description ) {
         this.filters = new Hashtable();
-        for( int i = 0; filters != null && i < filters.length; i++ ) {
+        for ( int i = 0; filters != null && i < filters.length; i++ ) {
             // add filters one by one
             addExtension( filters[i] );
         }
@@ -121,12 +122,12 @@ public class LocalFileFilter extends FileFilter {
      * @see #getExtension
      */
     public boolean accept( File f ) {
-        if( f != null ) {
-            if( f.isDirectory() ) {
+        if ( f != null ) {
+            if ( f.isDirectory() ) {
                 return true;
             }
             String extension = getExtension( f );
-            if( extension != null && filters.get( getExtension( f ) ) != null ) {
+            if ( extension != null && filters.get( getExtension( f ) ) != null ) {
                 return true;
             }
         }
@@ -146,7 +147,7 @@ public class LocalFileFilter extends FileFilter {
      * Note that the "." before the extension is not needed and will be ignored.
      */
     public void addExtension( String extension ) {
-        if( filters == null ) {
+        if ( filters == null ) {
             filters = new Hashtable( 5 );
         }
         filters.put( extension.toLowerCase(), this );
@@ -160,18 +161,18 @@ public class LocalFileFilter extends FileFilter {
      * @see javax.swing.filechooser.FileFilter#getDescription
      */
     public String getDescription() {
-        if( fullDescription == null ) {
-            if( description == null || isExtensionListInDescription() ) {
-                if( description != null ) {
+        if ( fullDescription == null ) {
+            if ( description == null || isExtensionListInDescription() ) {
+                if ( description != null ) {
                     fullDescription = description;
                 }
                 fullDescription += " (";
                 // build the description from the extension list
                 Enumeration extensions = filters.keys();
-                if( extensions != null &&extensions.hasMoreElements()) {
-                    fullDescription += "." + (String)extensions.nextElement();
-                    while( extensions.hasMoreElements() ) {
-                        fullDescription += ", " + (String)extensions.nextElement();
+                if ( extensions != null && extensions.hasMoreElements() ) {
+                    fullDescription += "." + (String) extensions.nextElement();
+                    while ( extensions.hasMoreElements() ) {
+                        fullDescription += ", " + (String) extensions.nextElement();
                     }
                 }
                 fullDescription += ")";
@@ -190,10 +191,10 @@ public class LocalFileFilter extends FileFilter {
      * @see javax.swing.filechooser.FileFilter#accept
      */
     public String getExtension( File f ) {
-        if( f != null ) {
+        if ( f != null ) {
             String filename = f.getName();
             int i = filename.lastIndexOf( '.' );
-            if( i > 0 & i < filename.length() - 1 ) {
+            if ( i > 0 & i < filename.length() - 1 ) {
                 return filename.substring( i + 1 ).toLowerCase();
             }
             ;
@@ -219,7 +220,7 @@ public class LocalFileFilter extends FileFilter {
     public void setDescription( String description ) {
         this.description = description;
         fullDescription = null;
-        if( description == null ) {
+        if ( description == null ) {
             this.description = "";
         }
     }

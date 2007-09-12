@@ -164,8 +164,8 @@ public abstract class Clock implements IClock {
      */
     protected void notifyClockTicked() {
         ClockEvent clockEvent = new ClockEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ClockListener clockListener = (ClockListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ClockListener clockListener = (ClockListener) listeners.get( i );
             clockListener.clockTicked( clockEvent );
         }
     }
@@ -175,8 +175,8 @@ public abstract class Clock implements IClock {
      */
     protected void notifyClockPaused() {
         ClockEvent clockEvent = new ClockEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ClockListener clockListener = (ClockListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ClockListener clockListener = (ClockListener) listeners.get( i );
             clockListener.clockPaused( clockEvent );
         }
     }
@@ -186,8 +186,8 @@ public abstract class Clock implements IClock {
      */
     protected void notifyClockStarted() {
         ClockEvent clockEvent = new ClockEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ClockListener clockListener = (ClockListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ClockListener clockListener = (ClockListener) listeners.get( i );
             clockListener.clockStarted( clockEvent );
         }
     }
@@ -197,15 +197,15 @@ public abstract class Clock implements IClock {
      */
     protected void notifySimulationTimeReset() {
         ClockEvent clockEvent = new ClockEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ClockListener clockListener = (ClockListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ClockListener clockListener = (ClockListener) listeners.get( i );
             clockListener.simulationTimeReset( clockEvent );
         }
     }
 
 
     private void testNotifySimulationTimeChange() {
-        if( getSimulationTimeChange() != 0.0 ) {
+        if ( getSimulationTimeChange() != 0.0 ) {
             notifySimulationTimeChanged();
         }
     }
@@ -215,8 +215,8 @@ public abstract class Clock implements IClock {
      */
     protected void notifySimulationTimeChanged() {
         ClockEvent clockEvent = new ClockEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ClockListener clockListener = (ClockListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ClockListener clockListener = (ClockListener) listeners.get( i );
             clockListener.simulationTimeChanged( clockEvent );
         }
     }

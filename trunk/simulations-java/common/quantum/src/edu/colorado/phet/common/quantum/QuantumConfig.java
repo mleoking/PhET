@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.quantum;
 
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * QuatumConfig
@@ -40,5 +40,5 @@ public class QuantumConfig {
 
     public static final int TOTAL_FLASH_TIME = 1500 / 2;
     public static final Color BLINK_LINE_COLOR = Color.lightGray;
-    public static final int  FLASH_DELAY_MILLIS = 50;
+    public static final int FLASH_DELAY_MILLIS = 50;
 }

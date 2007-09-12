@@ -38,7 +38,6 @@ public class PhysicsUtil {
     // Avogadro's number
     static public final double AVOGADRO = 6.022E23;
 
-
     //----------------------------------------------------------------
     // Relations and Conversions
     //----------------------------------------------------------------
@@ -91,15 +90,16 @@ public class PhysicsUtil {
      * @return energy in EV
      */
     static public double frequencyToEnergy( double frequency ) {
-        return wavelengthToEnergy( frequencyToWavelength( frequency ));
+        return wavelengthToEnergy( frequencyToWavelength( frequency ) );
     }
 
     /**
      * Returns the frequency, in Hz, of EM radiation of a specified energy
+     *
      * @param energy
      * @return frequency in Hz
      */
     static public double energyToFrequency( double energy ) {
-        return wavelengthToFrequency( energyToWavelength( energy ));
+        return wavelengthToFrequency( energyToWavelength( energy ) );
     }
 }

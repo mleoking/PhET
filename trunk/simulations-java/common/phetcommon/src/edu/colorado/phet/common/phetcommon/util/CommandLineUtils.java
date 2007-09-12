@@ -9,11 +9,12 @@ package edu.colorado.phet.common.phetcommon.util;
  */
 public class CommandLineUtils {
 
-    private CommandLineUtils() {}
-    
+    private CommandLineUtils() {
+    }
+
     /**
      * Does the set of command line args contain a specific arg?
-     * 
+     *
      * @param args
      * @param arg
      * @return true or false

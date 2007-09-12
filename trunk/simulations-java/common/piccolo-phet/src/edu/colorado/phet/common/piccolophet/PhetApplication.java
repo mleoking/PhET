@@ -36,7 +36,7 @@ public class PhetApplication extends NonPiccoloPhetApplication {
     //--------------------------------------------------------------------------------------------------
 
     // Graphical PhetTabbedPanes
-    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType(){
+    public static final TabbedPaneType PHET_TABBED_PANE = new TabbedPaneType() {
         public ITabbedModulePane createTabbedPane() {
             return new TabbedModulePanePiccolo();
         }
@@ -59,12 +59,11 @@ public class PhetApplication extends NonPiccoloPhetApplication {
      * @param title
      * @param description
      * @param version
-     *
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version ) {
         super( args, title, description, version );
-        super.setTabbedPaneType(PHET_TABBED_PANE);
+        super.setTabbedPaneType( PHET_TABBED_PANE );
     }
 
     /**
@@ -75,12 +74,11 @@ public class PhetApplication extends NonPiccoloPhetApplication {
      * @param description
      * @param version
      * @param tabbedPaneType The type of tabbed panes to be used
-     *
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, TabbedPaneType tabbedPaneType ) {
         super( args, title, description, version );
-        super.setTabbedPaneType(tabbedPaneType );
+        super.setTabbedPaneType( tabbedPaneType );
     }
 
     /**
@@ -89,12 +87,11 @@ public class PhetApplication extends NonPiccoloPhetApplication {
      * @param description
      * @param version
      * @param frameSetup
-     *
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
         super( args, title, description, version, frameSetup );
-        super.setTabbedPaneType(PHET_TABBED_PANE);
+        super.setTabbedPaneType( PHET_TABBED_PANE );
     }
 
     /**
@@ -106,7 +103,6 @@ public class PhetApplication extends NonPiccoloPhetApplication {
      * @param version
      * @param frameSetup
      * @param tabbedPaneType
-     *
      * @deprecated
      */
     public PhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {

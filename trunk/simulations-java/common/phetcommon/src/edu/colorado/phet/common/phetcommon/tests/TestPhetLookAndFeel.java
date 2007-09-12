@@ -1,19 +1,19 @@
 /*  */
 package edu.colorado.phet.common.phetcommon.tests;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * User: Sam Reid
  * Date: Jun 6, 2006
  * Time: 7:32:47 PM
- *
  */
 
 public class TestPhetLookAndFeel extends NonPiccoloPhetApplication {

@@ -1,6 +1,12 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -8,11 +14,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 
 /**
  * A simple demonstration to depict the three piccolo terminals & usage.

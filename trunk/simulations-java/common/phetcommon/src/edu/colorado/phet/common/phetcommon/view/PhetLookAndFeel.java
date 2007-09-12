@@ -21,10 +21,9 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
  * PhetLookAndFeel manages the Look and Feel for a PhetApplication.
@@ -200,56 +199,56 @@ public class PhetLookAndFeel {
         ColorUIResource buttonBackgroundResource = null;
 
         // Construct UI resources
-        if( font != null ) {
+        if ( font != null ) {
             fontResource = new FontUIResource( font );
         }
-        if( titledBorderFont != null ) {
+        if ( titledBorderFont != null ) {
             titledBorderFontResource = new FontUIResource( titledBorderFont );
         }
-        if( backgroundColor != null ) {
+        if ( backgroundColor != null ) {
             backgroundResource = new ColorUIResource( backgroundColor );
         }
-        if( foregroundColor != null ) {
+        if ( foregroundColor != null ) {
             foregroundResource = new ColorUIResource( foregroundColor );
         }
-        if( textFieldBackgroundColor != null ) {
+        if ( textFieldBackgroundColor != null ) {
             textFieldBackgroundResource = new ColorUIResource( textFieldBackgroundColor );
         }
-        if( insets != null ) {
+        if ( insets != null ) {
             insetsResource = new InsetsUIResource( insets.top, insets.left, insets.bottom, insets.right );
         }
 
         // Uniformly modify the resources for each of the types in the "types" list.
         ArrayList keyValuePairs = new ArrayList();
-        for( int i = 0; i < types.length; i++ ) {
+        for ( int i = 0; i < types.length; i++ ) {
             String type = types[i];
 
-            if( fontResource != null ) {
+            if ( fontResource != null ) {
                 add( keyValuePairs, type, "font", fontResource );
             }
-            if( foregroundResource != null ) {
+            if ( foregroundResource != null ) {
                 add( keyValuePairs, type, "foreground", foregroundResource );
             }
-            if( backgroundResource != null ) {
+            if ( backgroundResource != null ) {
                 add( keyValuePairs, type, "background", backgroundResource );
             }
-            if( insetsResource != null ) {
+            if ( insetsResource != null ) {
                 add( keyValuePairs, type, "margin", insetsResource );
             }
         }
 
         // These types require some special modifications.
-        if( titledBorderFontResource != null ) {
+        if ( titledBorderFontResource != null ) {
             add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
         }
-        if( textFieldBackgroundResource != null ) {
+        if ( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         }
 
-        if( buttonBackgroundResource != null ) {
+        if ( buttonBackgroundResource != null ) {
             add( keyValuePairs, "Button", "background", buttonBackgroundResource );
         }
-        if( tabFont != null ) {
+        if ( tabFont != null ) {
             add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
         }
 
@@ -298,12 +297,12 @@ public class PhetLookAndFeel {
         Frame frames[] = Frame.getFrames();
 
 // refresh all Frames in the app
-        for( int i = 0; i < frames.length; i++ ) {
+        for ( int i = 0; i < frames.length; i++ ) {
             SwingUtilities.updateComponentTreeUI( frames[i] );
             Window windows[] = frames[i].getOwnedWindows();
 
             // refresh all windows and dialogs of the frame
-            for( int j = 0; j < windows.length; j++ ) {
+            for ( int j = 0; j < windows.length; j++ ) {
                 SwingUtilities.updateComponentTreeUI( windows[j] );
             }
         }
@@ -358,8 +357,8 @@ public class PhetLookAndFeel {
         String javaVersion = System.getProperty( "java.version" );
         boolean oldJava = javaVersion.toLowerCase().startsWith( "1.4" ) || javaVersion.startsWith( "1.3" );
         String lafClassName = null;
-        if( PhetUtilities.getOperatingSystem() == PhetUtilities.OS_WINDOWS ) {
-            if( oldJava ) {
+        if ( PhetUtilities.getOperatingSystem() == PhetUtilities.OS_WINDOWS ) {
+            if ( oldJava ) {
                 lafClassName = WindowsLookAndFeel.class.getName();
             }
             else {
@@ -385,8 +384,8 @@ public class PhetLookAndFeel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         JPanel panel = new JPanel();
         int fontSize = panel.getFont().getSize();
-        if( screenSize.width <= 800 ) {
-            fontSize = (int)( fontSize * ( 800.0 / 1024 ) );
+        if ( screenSize.width <= 800 ) {
+            fontSize = (int) ( fontSize * ( 800.0 / 1024 ) );
         }
         return fontSize;
     }
@@ -402,14 +401,14 @@ public class PhetLookAndFeel {
 
         // Retrieve the keys. We can't use an iterator since the map
         // may be modified during the iteration. So retrieve all keys at once. 
-        String[] keySet = (String[])uidefs.keySet().toArray( new String[0] );
+        String[] keySet = (String[]) uidefs.keySet().toArray( new String[0] );
 
         // Sort the keys.
         List keys = Arrays.asList( keySet );
         Collections.sort( keys );
 
         // Print out each key/value pair.
-        for( int i = 0; i < keys.size(); i++ ) {
+        for ( int i = 0; i < keys.size(); i++ ) {
             Object key = keys.get( i );
             Object value = uidefs.get( key );
             System.out.println( key + ": " + value );

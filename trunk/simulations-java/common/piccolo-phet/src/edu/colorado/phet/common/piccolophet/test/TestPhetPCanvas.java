@@ -1,17 +1,17 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
  * Date: Aug 1, 2005
  * Time: 7:58:04 AM
- *
  */
 
 public class TestPhetPCanvas {

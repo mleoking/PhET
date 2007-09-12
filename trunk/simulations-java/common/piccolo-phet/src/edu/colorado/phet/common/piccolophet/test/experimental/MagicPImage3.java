@@ -1,18 +1,17 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * User: Sam Reid
  * Date: Aug 5, 2005
  * Time: 7:33:22 AM
- *
  */
 
 public class MagicPImage3 extends PImage {
@@ -33,11 +32,11 @@ public class MagicPImage3 extends PImage {
     }
 
     protected void paint( PPaintContext paintContext ) {
-        if( imageSource == null ) {
+        if ( imageSource == null ) {
             return;
         }
         AffineTransform transform = paintContext.getGraphics().getTransform();
-        if( renderTransform == null || !transformEquals( transform ) ) {
+        if ( renderTransform == null || !transformEquals( transform ) ) {
             rerender( transform );
             renderTransform = new AffineTransform( transform );
             System.out.println( System.currentTimeMillis() + ": Re-Rendering" );
@@ -46,7 +45,7 @@ public class MagicPImage3 extends PImage {
             repaint();
         }
         paintContext.getGraphics().setTransform( new AffineTransform() );
-        paintContext.getGraphics().drawImage( getImage(), (int)transform.getTranslateX(), (int)transform.getTranslateY(), null );
+        paintContext.getGraphics().drawImage( getImage(), (int) transform.getTranslateX(), (int) transform.getTranslateY(), null );
         paintContext.getGraphics().setTransform( transform );
     }
 
@@ -64,7 +63,7 @@ public class MagicPImage3 extends PImage {
     private void rerender( AffineTransform transform ) {
         super.setImage( imageSource.newImage( transform ) );
 //        setBounds( -transform.getTranslateX(), -transform.getTranslateY(), getImage().getWidth( null ), getImage().getHeight( null ) );
-        setBounds( 0, 0, getImage().getWidth( null )/transform.getScaleX(), getImage().getHeight( null )/transform.getScaleY() );
+        setBounds( 0, 0, getImage().getWidth( null ) / transform.getScaleX(), getImage().getHeight( null ) / transform.getScaleY() );
     }
 
 }

@@ -10,20 +10,20 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.ModulePanel;
 
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 /**
  * An on-screen container for the modules in an application.  It is only used for applications
  * that have more than one module.
- * <p>
+ * <p/>
  * This class depends on PhetTabbedPane and Piccolo.
  *
  * @author Sam and Ron
@@ -34,7 +34,7 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     private NonPiccoloPhetApplication application;
 
     public TabbedModulePanePiccolo() {
-        this(true);
+        this( true );
     }
 
     public TabbedModulePanePiccolo( boolean logoVisible ) {
@@ -42,19 +42,19 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
 
-    public void init( final NonPiccoloPhetApplication application, final Module[] modules  ) {
+    public void init( final NonPiccoloPhetApplication application, final Module[] modules ) {
         this.application = application;
         addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 int selectedIdx = getSelectedIndex();
-                if( selectedIdx >= 0 && application.numModules() > 0 ) {
+                if ( selectedIdx >= 0 && application.numModules() > 0 ) {
                     current = application.moduleAt( selectedIdx );
                     application.setActiveModule( selectedIdx );
                 }
             }
         } );
         application.addModuleObserver( this );
-        for( int i = 0; i < modules.length; i++ ) {
+        for ( int i = 0; i < modules.length; i++ ) {
             Module module = modules[i];
             addTab( module );
         }
@@ -69,8 +69,8 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
     public void removeTab( Module module ) {
-        for( int i = 0; i < getTabCount(); i++ ) {
-            if( getTitleAt( i ).equals( module.getName() ) && getComponent( i ).equals( module.getModulePanel() ) ) {
+        for ( int i = 0; i < getTabCount(); i++ ) {
+            if ( getTitleAt( i ).equals( module.getName() ) && getComponent( i ).equals( module.getModulePanel() ) ) {
                 removeTabAt( i );
                 break;
             }
@@ -78,10 +78,10 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
-        if( current != event.getModule() ) {
+        if ( current != event.getModule() ) {
             int index = application.indexOf( event.getModule() );
             int numTabs = getTabCount();
-            if( index < numTabs ) {
+            if ( index < numTabs ) {
                 setSelectedIndex( index );
             }
             else {
@@ -94,7 +94,7 @@ public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedMo
     }
 
     public ModulePanel getModulePanel( int i ) {
-        return (ModulePanel)getComponent( i );
+        return (ModulePanel) getComponent( i );
     }
 
     public JComponent getComponent() {

@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 
 /**
  * ClockControlPanel implements a Swing component for play/pause and step in PhET simulations
@@ -21,23 +21,24 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
  * @author Chris Malley, Sam Reid
  * @version $Revision$
  */
-public class ClockControlPanel extends TimeControlPanel  {
+public class ClockControlPanel extends TimeControlPanel {
 
     private IClock clock;
     private ClockAdapter clockListener;
 
     /**
      * Constructs a ClockControlPanel
+     *
      * @param clock must be non-null
      */
     public ClockControlPanel( final IClock clock ) {
-        if( clock == null ) {
+        if ( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
         this.clock = clock;
 
         //Attach listeners to send messages to the clock.
-        addTimeControlListener( new TimeControlAdapter(){
+        addTimeControlListener( new TimeControlAdapter() {
             public void stepPressed() {
                 clock.stepClockWhilePaused();
             }
@@ -49,10 +50,11 @@ public class ClockControlPanel extends TimeControlPanel  {
             public void pausePressed() {
                 clock.pause();
             }
-        });
+        } );
 
         //Add ability to update view based on clock state changes
-        clockListener = new ClockAdapter(){//use inner anonymous instead of outer so we can extend adapter
+        clockListener = new ClockAdapter() {//use inner anonymous instead of outer so we can extend adapter
+
             public void clockStarted( ClockEvent clockEvent ) {
                 updateStateFromClock();
             }
@@ -68,14 +70,14 @@ public class ClockControlPanel extends TimeControlPanel  {
     /**
      * Call this method before releasing all references to this object.
      */
-    public void cleanup(){
+    public void cleanup() {
         clock.removeClockListener( clockListener );
         //I don't think the TimeControlListener needs to be removed in order to properly clean up this object.
     }
-    
+
     /**
      * Gets the clock that's being controlled.
-     * 
+     *
      * @return IClock
      */
     protected IClock getClock() {

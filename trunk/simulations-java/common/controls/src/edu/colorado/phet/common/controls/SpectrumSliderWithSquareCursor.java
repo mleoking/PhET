@@ -11,18 +11,6 @@
 
 package edu.colorado.phet.common.controls;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -30,6 +18,19 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * This is a variant of the the original SpectrumSlider written by Chris Malley.
@@ -110,7 +111,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private SpectrumSliderKnob _knob;
     private PhetShapeGraphic spectrumCursor;
     //    public static final String IMAGES_DIRECTORY = "images/";
-        public static final String SPECTRUM_IMAGE = "images/spectrum.png";
+    public static final String SPECTRUM_IMAGE = "images/spectrum.png";
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -135,8 +136,8 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         // Initialize instance data.
         _component = component;
         _value = 0;
-        _minimum = (int)minimumWavelength;
-        _maximum = (int)maximumWavelength;
+        _minimum = (int) minimumWavelength;
+        _maximum = (int) maximumWavelength;
         _orientation = HORIZONTAL;
         _transmissionWidth = 0;
         _dragBounds = new Rectangle( 0, 0, 0, 0 ); // set correctly by setLocation
@@ -186,7 +187,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     public void setValue( int value ) {
 
         // Silently clamp the value to the allowed range.
-        _value = (int)MathUtil.clamp( _minimum, value, _maximum );
+        _value = (int) MathUtil.clamp( _minimum, value, _maximum );
 
         // Update the knob.
         updateKnob();
@@ -213,13 +214,13 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private int getValue( int x, int y ) {
 
         double percent;
-        if( _orientation == HORIZONTAL ) {
-            percent = ( x - _dragBounds.x ) / (double)( _dragBounds.width );
+        if ( _orientation == HORIZONTAL ) {
+            percent = ( x - _dragBounds.x ) / (double) ( _dragBounds.width );
         }
         else {
-            percent = 1 - ( ( y - _dragBounds.y ) / (double)( _dragBounds.height ) );
+            percent = 1 - ( ( y - _dragBounds.y ) / (double) ( _dragBounds.height ) );
         }
-        int value = (int)( percent * ( _maximum - _minimum ) ) + _minimum;
+        int value = (int) ( percent * ( _maximum - _minimum ) ) + _minimum;
         return value;
     }
 
@@ -279,10 +280,10 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
      */
     public void setOrientation( int orientation ) {
 
-        if( orientation != HORIZONTAL && orientation != VERTICAL ) {
+        if ( orientation != HORIZONTAL && orientation != VERTICAL ) {
             throw new IllegalArgumentException( "invalid orientation: " + orientation );
         }
-        else if( orientation != _orientation ) {
+        else if ( orientation != _orientation ) {
             _orientation = orientation;
             _knob.setAngle( getRotationAngle() );
             updateUI();
@@ -374,8 +375,8 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         }
 
         // Calculate the scaling.
-        double scaleX = (double)size.width / (double)image.getWidth();
-        double scaleY = (double)size.height / (double)image.getHeight();
+        double scaleX = (double) size.width / (double) image.getWidth();
+        double scaleY = (double) size.height / (double) image.getHeight();
 
         // Scale the image.
         AffineTransform tx = new AffineTransform();
@@ -423,7 +424,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
      */
     public void setVisible( boolean visible ) {
 
-        if( visible != super.isVisible() ) {
+        if ( visible != super.isVisible() ) {
             super.setVisible( visible );
             repaint();
         }
@@ -450,13 +451,13 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private int getCurveWidth() {
 
         int totalPixels;
-        if( _orientation == HORIZONTAL ) {
+        if ( _orientation == HORIZONTAL ) {
             totalPixels = _spectrum.getBounds().width;
         }
         else {
             totalPixels = _spectrum.getBounds().height;
         }
-        int width = (int)( _transmissionWidth * totalPixels / (double)( _maximum - _minimum ) );
+        int width = (int) ( _transmissionWidth * totalPixels / (double) ( _maximum - _minimum ) );
         return width;
     }
 
@@ -468,7 +469,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private double getRotationAngle() {
 
         double angle;
-        if( _orientation == HORIZONTAL ) {
+        if ( _orientation == HORIZONTAL ) {
             angle = HORIZONTAL_ROTATION_ANGLE;
         }
         else {
@@ -488,7 +489,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         int x = _location.x;
         int y = _location.y;
 
-        if( _orientation == HORIZONTAL ) {
+        if ( _orientation == HORIZONTAL ) {
             // Translate the spectrum graphic.
             _spectrum.setLocation( x, y );
 
@@ -521,19 +522,19 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
         // Set the knob's location.
         int x, y;
-        if( _orientation == HORIZONTAL ) {
-            double percent = ( _value - _minimum ) / (double)( _maximum - _minimum );
-            x = _dragBounds.x + (int)( percent * _dragBounds.width );
+        if ( _orientation == HORIZONTAL ) {
+            double percent = ( _value - _minimum ) / (double) ( _maximum - _minimum );
+            x = _dragBounds.x + (int) ( percent * _dragBounds.width );
             y = _dragBounds.y;
         }
         else {
-            double percent = 1 - ( _value - _minimum ) / (double)( _maximum - _minimum );
-            x = (int)_knob.getLocation().getX();
-            y = (int)( percent * _dragBounds.height );
+            double percent = 1 - ( _value - _minimum ) / (double) ( _maximum - _minimum );
+            x = (int) _knob.getLocation().getX();
+            y = (int) ( percent * _dragBounds.height );
             x = _dragBounds.x;
-            y = _dragBounds.y + (int)( percent * _dragBounds.height );
+            y = _dragBounds.y + (int) ( percent * _dragBounds.height );
         }
-        _knob.setLocation( x + (int)this.getLocation().getX(), y + (int)this.getLocation().getY() );
+        _knob.setLocation( x + (int) this.getLocation().getX(), y + (int) this.getLocation().getY() );
 
         // Set the knob's color.
         Color color = VisibleColor.wavelengthToColor( _value );
@@ -563,9 +564,9 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
      */
     public void paint( Graphics2D g2 ) {
 
-        if( super.isVisible() ) {
-            spectrumCursor.setLocation( (int)_knob.getLocation().getX(),
-                                        (int)getLocation().getY() );
+        if ( super.isVisible() ) {
+            spectrumCursor.setLocation( (int) _knob.getLocation().getX(),
+                                        (int) getLocation().getY() );
 
             // Draw the spectrum graphic.
             _spectrum.paint( g2 );
@@ -608,9 +609,9 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
     private void fireChangeEvent( ChangeEvent event ) {
 
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }
     }
@@ -638,24 +639,24 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
 
             // Get the proposed knob coordinates.
             int knobX, knobY;
-            if( _orientation == HORIZONTAL ) {
-                knobX = event.getX() - _mouseOffset - (int)getLocation().getX();
+            if ( _orientation == HORIZONTAL ) {
+                knobX = event.getX() - _mouseOffset - (int) getLocation().getX();
                 knobY = event.getY();
             }
             else {
                 knobX = event.getX();
-                knobY = event.getY() - _mouseOffset - (int)getLocation().getY();
+                knobY = event.getY() - _mouseOffset - (int) getLocation().getY();
             }
 
             // Constrain the drag boundaries of the knob.
-            int x = (int)Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
-            int y = (int)Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
+            int x = (int) Math.max( _dragBounds.x, Math.min( _dragBounds.x + _dragBounds.width, knobX ) );
+            int y = (int) Math.max( _dragBounds.y, Math.min( _dragBounds.y + _dragBounds.height, knobY ) );
 
             // Determine the value that corresponds to the constrained location.
             int value = getValue( x, y );
 
             // If the value will be changed, set the new value.
-            if( value != getValue() ) {
+            if ( value != getValue() ) {
                 setValue( value );
             }
         }
@@ -669,7 +670,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
          */
         public void mousePressed( MouseEvent event ) {
 
-            if( _orientation == HORIZONTAL ) {
+            if ( _orientation == HORIZONTAL ) {
                 _mouseOffset = event.getX() - _knob.getLocation().x;
             }
             else {

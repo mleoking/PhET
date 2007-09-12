@@ -16,6 +16,6 @@ public interface ColorFilter {
             return in;
         }
     };
-    
-    Color filter(Color in);
+
+    Color filter( Color in );
 }
