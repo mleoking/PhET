@@ -1,7 +1,6 @@
 package edu.colorado.phet.rotation.graphs;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
@@ -27,18 +26,9 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 pSwingCanvas, new ControlGraphSeries( "Force", Color.blue, "force", "units", new BasicStroke( 2 ), true, null, tm.getForceTimeSeries() ),
                 "F", "force", "units", -2.5, 2.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
-        forceGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Listener() {
-            public void valueChanged() {
-            }
-
-            public void sliderThumbGrabbed() {
-            }
-
+        forceGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
             public void sliderDragged( double value ) {
-                tm.setAppliedForce( new Line2D.Double( tm.getRotationPlatform().getCenter().getX(),
-                                                       tm.getRotationPlatform().getCenter().getY() - tm.getRotationPlatform().getRadius(),
-                                                       tm.getRotationPlatform().getCenter().getX() + forceGraph.getControlGraph().getModelValue(),
-                                                       tm.getRotationPlatform().getCenter().getY() - tm.getRotationPlatform().getRadius() ) );
+                tm.setAppliedForceMagnitude( value );
             }
         } );
 
@@ -46,6 +36,11 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 pSwingCanvas, new ControlGraphSeries( "Radius", Color.green, "r", "m", new BasicStroke( 2 ), true, null, tm.getRadiusSeries() ),
                 "r", "Radius", "m", 0, RotationPlatform.MAX_RADIUS,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+        radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
+            public void sliderDragged( double value ) {
+                tm.setAppliedForceRadius( value );
+            }
+        } );
 
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Torque", Color.blue, UnicodeUtil.TAU, "units", new BasicStroke( 2 ), null, tm.getTorqueTimeSeries() ),
