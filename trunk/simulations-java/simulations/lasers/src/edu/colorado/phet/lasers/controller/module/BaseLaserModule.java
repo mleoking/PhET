@@ -100,10 +100,6 @@ public class BaseLaserModule extends PhetGraphicsModule {
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
 
-        // Add a kaboom element
-        kaboom = new Kaboom( this );
-        getModel().addModelElement( kaboom );
-
         // Add the laser cavity and its graphic
         createCavity();
 
@@ -123,6 +119,11 @@ public class BaseLaserModule extends PhetGraphicsModule {
         powerMeter.setLocation( new Point( 175, 430 ) );
         getApparatusPanel().addGraphic( powerMeter, Double.MAX_VALUE );
         powerMeter.setVisible( true );
+
+
+        // Add a kaboom element
+        kaboom = new Kaboom( this );
+        getModel().addModelElement( kaboom );
 
         // Set up help
         createHelp();
@@ -627,4 +628,5 @@ public class BaseLaserModule extends PhetGraphicsModule {
     public Color getBackgroundColor() {
         return getApparatusPanel().getBackground();
     }
+
 }

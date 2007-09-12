@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.controller.module.BaseLaserModule;
 import edu.colorado.phet.lasers.model.LaserModel;
@@ -56,7 +57,7 @@ public class Kaboom implements ModelElement {
     private double tileLayer = Double.MAX_VALUE;
     private SwingClock clock;
 
-    public Kaboom( BaseLaserModule module ) {
+    public Kaboom( final BaseLaserModule module ) {
         // Unless the module has an apparatus panel at this time things won't work right
         if ( module.getApparatusPanel() == null ) {
             throw new RuntimeException( "Module doesn't have an apparatus panel" );
@@ -64,11 +65,27 @@ public class Kaboom implements ModelElement {
         this.module = module;
         model = module.getLaserModel();
         clock = new SwingClock( 1000 / 40, 1 );
+        module.getLaserModel().getPumpingBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+                if ( kaboomed ) {
+                    kaboomed=false;
+                    module.reset();
+                }
+            }
+        } );
+        module.getLaserModel().getSeedBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
+            public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
+                if ( kaboomed ) {
+                    kaboomed=false;
+                    module.reset();
+                }
+            }
+        } );
     }
 
     public void stepInTime( double dt ) {
-        int numPhotons = model.getNumLasingPhotons();
-        if ( numPhotons > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
+        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
+//        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD/8 && !kaboomed ) {//debugging
             model.reset();
             kaboom();
             kaboomed = true;
