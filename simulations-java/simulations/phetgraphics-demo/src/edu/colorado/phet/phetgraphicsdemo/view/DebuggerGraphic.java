@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -11,7 +13,6 @@ import java.util.Hashtable;
  * It is intended for use in debugging phetcommon and client applications.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DebuggerGraphic extends PhetGraphic {
     

@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -11,7 +13,6 @@ import java.awt.*;
  * The origin is at the bottom-center of the car, at its starting point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CarGraphic extends PhetImageGraphic implements SimpleObserver {
 

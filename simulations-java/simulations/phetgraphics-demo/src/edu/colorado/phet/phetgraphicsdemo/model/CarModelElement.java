@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -7,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * CarModelElement is the model of a car that moves horizontally.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CarModelElement extends SimpleObservable implements ModelElement {
 
