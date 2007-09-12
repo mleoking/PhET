@@ -1,5 +1,13 @@
 package edu.colorado.phet.rotation.graphs;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.axis.NumberTickUnit;
+import org.jfree.ui.RectangleEdge;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.graphs.ReadoutTitleNode;
@@ -11,13 +19,6 @@ import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.ui.RectangleEdge;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -78,7 +79,7 @@ public class RotationGraph extends MotionControlGraph {
         public void addReadoutNode( ReadoutTitleNode titleNode ) {
 
 
-            if( isSecondarySeries( titleNode.getSeries() ) ) {
+            if ( isSecondarySeries( titleNode.getSeries() ) ) {
                 ControlGraphSeries primarySeries = getPrimarySeries( titleNode.getSeries() );
                 ReadoutTitleNode primaryNode = super.getReadoutNode( primarySeries );
                 titleNode.setOffset( primaryNode.getOffset().getX(), primaryNode.getOffset().getY() + primaryNode.getFullBounds().getHeight() + 3 );
@@ -91,9 +92,9 @@ public class RotationGraph extends MotionControlGraph {
 
         private double getReadoutNodeX() {
             double maxX = 0.0;
-            for( int i = 0; i < getChildrenCount(); i++ ) {
-                if( getChild( i ) instanceof ReadoutTitleNode ) {
-                    ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode)getChild( i );
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                if ( getChild( i ) instanceof ReadoutTitleNode ) {
+                    ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode) getChild( i );
                     double x = readoutTitleNode.getX() + readoutTitleNode.getPreferredWidth();
                     maxX = Math.max( maxX, x );
                 }
@@ -104,9 +105,9 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     private ControlGraphSeries getPrimarySeries( ControlGraphSeries series ) {
-        for( int i = 0; i < seriesPairs.size(); i++ ) {
-            SeriesPair seriesPair = (SeriesPair)seriesPairs.get( i );
-            if( seriesPair.getB() == series ) {
+        for ( int i = 0; i < seriesPairs.size(); i++ ) {
+            SeriesPair seriesPair = (SeriesPair) seriesPairs.get( i );
+            if ( seriesPair.getB() == series ) {
                 return seriesPair.getA();
             }
         }
@@ -114,7 +115,7 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     private boolean isSecondarySeries( ControlGraphSeries series ) {
-        if( secondarySeries == null ) {
+        if ( secondarySeries == null ) {
             return false;//todo: this assumes (1) secondarySeries will be null for the first ControlGraphSeries, and that (2) that series should be a primary series
         }
         return secondarySeries.contains( series );
@@ -126,8 +127,8 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     public void setSecondarySeriesVisible( boolean visible ) {
-        for( int i = 0; i < secondarySeries.size(); i++ ) {
-            ( (ControlGraphSeries)secondarySeries.get( i ) ).setVisible( visible );
+        for ( int i = 0; i < secondarySeries.size(); i++ ) {
+            ( (ControlGraphSeries) secondarySeries.get( i ) ).setVisible( visible );
         }
     }
 
@@ -144,7 +145,7 @@ public class RotationGraph extends MotionControlGraph {
     }
 
     public SeriesPair getSeriesPair( int i ) {
-        return (SeriesPair)seriesPairs.get( i );
+        return (SeriesPair) seriesPairs.get( i );
     }
 
     public static class SeriesPair {
@@ -211,7 +212,7 @@ public class RotationGraph extends MotionControlGraph {
         }
 
         public void setVisible( boolean selected ) {
-            if( visible != selected ) {
+            if ( visible != selected ) {
                 this.visible = selected;
                 updateVisibility();
             }

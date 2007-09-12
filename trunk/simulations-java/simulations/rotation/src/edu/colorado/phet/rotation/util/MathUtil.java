@@ -6,13 +6,13 @@ package edu.colorado.phet.rotation.util;
  */
 public class MathUtil {
     public static double clampAngle( double angle, double min, double max ) {
-        if( max <= min ) {
+        if ( max <= min ) {
             throw new IllegalArgumentException( "max<=min" );
         }
-        while( angle < min ) {
+        while ( angle < min ) {
             angle += Math.PI * 2;
         }
-        while( angle > max ) {
+        while ( angle > max ) {
             angle -= Math.PI * 2;
         }
         return angle;

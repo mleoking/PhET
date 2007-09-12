@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.rotation.RotationFrameSetup;
@@ -8,8 +10,6 @@ import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
-
-import javax.swing.*;
 
 /**
  * Author: Sam Reid

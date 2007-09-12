@@ -1,13 +1,14 @@
 package edu.colorado.phet.rotation.controls;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.TestDynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.TestDynamicJFreeChartNodeTree;
 import edu.colorado.phet.common.motion.tests.TestControlGraph;
 import edu.colorado.phet.rotation.tests.*;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid

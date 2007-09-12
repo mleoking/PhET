@@ -1,10 +1,11 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 
 /**
  * Author: Sam Reid
@@ -18,7 +19,7 @@ public class AlignedSliderSetLayoutStrategy implements ILayoutStrategy {
     }
 
     public void doLayout() {
-        for( int i = 0; i < sliders.length; i++ ) {
+        for ( int i = 0; i < sliders.length; i++ ) {
             doLayout( sliders[i] );
         }
     }
@@ -60,10 +61,10 @@ public class AlignedSliderSetLayoutStrategy implements ILayoutStrategy {
 
     private int getMaxX( ValueGetter valueGetter ) {
         int max = 0;
-        for( int i = 0; i < sliders.length; i++ ) {
+        for ( int i = 0; i < sliders.length; i++ ) {
             AbstractValueControl slider = sliders[i];
             int value = valueGetter.getPreviousComponent( slider ).getX() + valueGetter.getPreviousComponent( slider ).getWidth();
-            if( value > max ) {
+            if ( value > max ) {
                 max = value;
             }
         }

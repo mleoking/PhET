@@ -1,10 +1,11 @@
 package edu.colorado.phet.rotation.tests.jfreechart;
 
-import javax.swing.*;
-import javax.swing.event.SwingPropertyChangeSupport;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.SwingPropertyChangeSupport;
 
 /**
  * User: Sam Reid
@@ -47,8 +48,8 @@ public class CompareListeners {
         }
 
         public void notifyListeners( String oldName, String newName ) {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.nameChanged( this, oldName, name );
             }
         }
@@ -61,8 +62,8 @@ public class CompareListeners {
                 ObservableType1 observableType1 = new ObservableType1();
                 observableType1.addListener( new PropertyChangeListener() {
                     public void propertyChange( PropertyChangeEvent evt ) {
-                        String newName = (String)evt.getNewValue();
-                        ObservableType1 source = (ObservableType1)evt.getSource();
+                        String newName = (String) evt.getNewValue();
+                        ObservableType1 source = (ObservableType1) evt.getSource();
                         System.out.println( "source = " + source + ", newName=" + newName + ", evt=" + evt );
                         new Throwable().printStackTrace();
                     }

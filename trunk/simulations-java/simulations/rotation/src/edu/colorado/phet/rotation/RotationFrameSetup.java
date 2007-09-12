@@ -1,9 +1,10 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * Author: Sam Reid
@@ -12,7 +13,7 @@ import java.awt.*;
 public class RotationFrameSetup implements FrameSetup {
     public void initialize( JFrame frame ) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        if( screenSize.height <= 768 ) {
+        if ( screenSize.height <= 768 ) {
             new FrameSetup.MaxExtent( new FrameSetup.TopCenter( screenSize.width, 700 ) ).initialize( frame );
         }
         else {

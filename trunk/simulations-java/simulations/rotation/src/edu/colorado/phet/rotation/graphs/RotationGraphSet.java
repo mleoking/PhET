@@ -1,12 +1,12 @@
 package edu.colorado.phet.rotation.graphs;
 
+import java.util.Arrays;
+
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
-
-import java.util.Arrays;
 
 /**
  * Author: Sam Reid

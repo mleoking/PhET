@@ -1,12 +1,13 @@
 package edu.colorado.phet.rotation;
 
+import java.awt.*;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -27,7 +28,7 @@ public class RotationClock extends ConstantDtClock {
     protected void doTick() {
         lastActualDelay = System.currentTimeMillis() - lastTickFinishTime;
         tickTimes.add( new Long( System.currentTimeMillis() ) );
-        if( tickTimes.size() > 100 ) {
+        if ( tickTimes.size() > 100 ) {
             tickTimes.remove( 0 );
         }
         QuickProfiler qp = new QuickProfiler();
@@ -35,10 +36,10 @@ public class RotationClock extends ConstantDtClock {
         lastEvalTime = qp.getTime();
         lastTickFinishTime = System.currentTimeMillis();
 
-        if( DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null ) {
+        if ( DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null ) {
             JComponent component = AbstractRotationModule.INSTANCE.getRotationSimulationPanel();
 
-            for( int nx = 1; nx <= 10; nx++ ) {
+            for ( int nx = 1; nx <= 10; nx++ ) {
                 paintScreen( nx, nx, component );
 
             }
@@ -55,8 +56,8 @@ public class RotationClock extends ConstantDtClock {
         QuickProfiler qp2 = new QuickProfiler( "nx=" + nx + ", ny=" + ny );
         int w = component.getWidth() / nx;
         int h = component.getHeight() / ny;
-        for( int i = 0; i < nx; i++ ) {
-            for( int j = 0; j < ny; j++ ) {
+        for ( int i = 0; i < nx; i++ ) {
+            for ( int j = 0; j < ny; j++ ) {
 
                 Rectangle repaintRegion = new Rectangle( i * w, j * h, w, h );
                 component.paintImmediately( repaintRegion );
@@ -74,7 +75,7 @@ public class RotationClock extends ConstantDtClock {
     }
 
     public double getLastFrameRate() {
-        if( tickTimes.size() < 2 ) {
+        if ( tickTimes.size() < 2 ) {
             return 0.0;
         }
         else {
@@ -86,7 +87,7 @@ public class RotationClock extends ConstantDtClock {
     }
 
     private long getTickTime( int i ) {
-        return ( (Long)tickTimes.get( i ) ).longValue();
+        return ( (Long) tickTimes.get( i ) ).longValue();
     }
 
 }

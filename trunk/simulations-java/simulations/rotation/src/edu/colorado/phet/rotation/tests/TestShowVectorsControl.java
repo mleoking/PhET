@@ -7,10 +7,10 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
+import javax.swing.*;
+
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
-
-import javax.swing.*;
 
 public class TestShowVectorsControl {
     private JFrame frame;

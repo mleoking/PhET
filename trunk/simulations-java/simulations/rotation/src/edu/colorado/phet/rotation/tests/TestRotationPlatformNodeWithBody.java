@@ -22,7 +22,7 @@ public class TestRotationPlatformNodeWithBody extends TestRotationPlatformNode i
     }
 
     public void dropBody( RotationBody rotationBody ) {
-        if( super.getRotationPlatform().containsPosition( rotationBody.getPosition() ) ) {
+        if ( super.getRotationPlatform().containsPosition( rotationBody.getPosition() ) ) {
             rotationBody.setOnPlatform( super.getRotationPlatform() );
         }
         else {

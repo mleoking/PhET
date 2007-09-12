@@ -21,7 +21,7 @@ public class AngleUnitModel {
     }
 
     public void setRadians( boolean radians ) {
-        if( this.radians != radians ) {
+        if ( this.radians != radians ) {
             this.radians = radians;
             notifyValueChanged();
         }
@@ -40,8 +40,8 @@ public class AngleUnitModel {
     }
 
     private void notifyValueChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).changed();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).changed();
         }
     }
 }

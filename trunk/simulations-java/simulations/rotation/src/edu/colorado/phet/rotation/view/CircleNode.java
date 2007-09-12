@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
 
 /**
  * Author: Sam Reid
@@ -29,8 +29,8 @@ public class CircleNode extends PNode {
             }
 
         } );
-        pointPath = new PhetPPath( new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.green );
-        circlePath = new PhetPPath( new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.blue );
+        pointPath = new PhetPPath( new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.green );
+        circlePath = new PhetPPath( new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.blue );
 //        circlePath = new PhetPPath( Color.blue );
         update();
         addChild( circlePath );
@@ -38,8 +38,8 @@ public class CircleNode extends PNode {
     }
 
     private void update() {
-        if( getVisible() ) {
-            if( rotationModel.getRotationBody( 1 ).getCircle() != null ) {
+        if ( getVisible() ) {
+            if ( rotationModel.getRotationBody( 1 ).getCircle() != null ) {
                 circlePath.setPathTo( rotationModel.getRotationBody( 1 ).getCircle().toEllipse() );
                 pointPath.setPathToPolyline( rotationModel.getRotationBody( 1 ).getPointHistory( 25 ) );
 //            circlePath.setPathTo( new Ellipse2D.Double( rotationModel.getRotationBody( 1 ).getX(), rotationModel.getRotationBody( 1).getY(),1,1));
@@ -51,7 +51,7 @@ public class CircleNode extends PNode {
 
     public void setVisible( boolean isVisible ) {
         super.setVisible( isVisible );
-        if( isVisible ) {
+        if ( isVisible ) {
             update();
         }
     }

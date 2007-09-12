@@ -1,10 +1,11 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.util.UnicodeUtil;
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 /**
  * User: Sam Reid

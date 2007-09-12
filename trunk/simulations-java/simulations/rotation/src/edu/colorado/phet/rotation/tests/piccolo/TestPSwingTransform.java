@@ -53,15 +53,16 @@ better luck with this.
 
  */
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.PFrame;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class TestPSwingTransform extends PFrame {
 
@@ -70,7 +71,7 @@ public class TestPSwingTransform extends PFrame {
     public TestPSwingTransform() {
 
         super( "Bug Test", false, new PSwingCanvas() );
-        pSwingCanvas = (PSwingCanvas)getCanvas();
+        pSwingCanvas = (PSwingCanvas) getCanvas();
     }
 
 
@@ -104,7 +105,7 @@ public class TestPSwingTransform extends PFrame {
         getCanvas().getCamera().addChild( node = new PSwing(
                 box = new PComboBox( new String[]{"Click me"} ) ) );
         node.setOffset( 100, 300 );
-        box.setEnvironment( (PSwing)node, pSwingCanvas );
+        box.setEnvironment( (PSwing) node, pSwingCanvas );
 
         getCanvas().getLayer().addChild( node2 = new PNode() );
         node2.setOffset( node.getOffset() );

@@ -1,18 +1,19 @@
 package edu.colorado.phet.rotation.torque;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Author: Sam Reid
@@ -40,7 +41,7 @@ public class TorqueControlPanel extends JPanel {
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );
-                if( outerRadiusSlider.getValue() < rp.getInnerRadius() ) {
+                if ( outerRadiusSlider.getValue() < rp.getInnerRadius() ) {
                     rp.setInnerRadius( outerRadiusSlider.getValue() );
                 }
             }
@@ -55,7 +56,7 @@ public class TorqueControlPanel extends JPanel {
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );
-                if( innerRadiusSlider.getValue() > rp.getRadius() ) {
+                if ( innerRadiusSlider.getValue() > rp.getRadius() ) {
                     rp.setRadius( innerRadiusSlider.getValue() );
                 }
             }
@@ -86,7 +87,7 @@ public class TorqueControlPanel extends JPanel {
         };
         AlignedSliderSetLayoutStrategy alignedSliderSetLayoutStrategy = new AlignedSliderSetLayoutStrategy( sliders );
         alignedSliderSetLayoutStrategy.doLayout();
-        for( int i = 0; i < sliders.length; i++ ) {
+        for ( int i = 0; i < sliders.length; i++ ) {
             sliderPanel.add( sliders[i], sliderSetConstraints );
         }
         add( sliderPanel, getConstraints( 0, 0, 2 ) );

@@ -1,5 +1,12 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -11,13 +18,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * Author: Sam Reid
@@ -58,7 +58,7 @@ public class RotationBodyNode extends PhetPNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this.getParent() );
                 rotationBody.translate( d.width, d.height );
-                if( rotationBody.isConstrained() && !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
+                if ( rotationBody.isConstrained() && !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
                     rotationBody.translate( -d.width, -d.height );
                 }
             }
@@ -87,7 +87,7 @@ public class RotationBodyNode extends PhetPNode {
         Point2D center = getFullBounds().getCenter2D();
         newTransform.rotate( -rotationBody.getOrientation(), center.getX(), center.getY() );
         newTransform.setOffset( rotationBody.getPosition().getX(), rotationBody.getPosition().getY() );
-        if( !newTransform.equals( getTransform() ) ) {
+        if ( !newTransform.equals( getTransform() ) ) {
             setTransform( newTransform );
         }
     }

@@ -1,11 +1,12 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 /**
  * User: Sam Reid

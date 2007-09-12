@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation.torque;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.model.RotationModel;
-
-import javax.swing.*;
 
 /**
  * Author: Sam Reid
@@ -25,6 +25,6 @@ public class TorqueModule extends AbstractRotationModule {
     }
 
     public TorqueModel getTorqueModel() {
-        return (TorqueModel)getRotationModel();
+        return (TorqueModel) getRotationModel();
     }
 }

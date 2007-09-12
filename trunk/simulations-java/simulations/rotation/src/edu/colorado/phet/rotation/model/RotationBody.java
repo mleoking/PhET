@@ -2,11 +2,6 @@ package edu.colorado.phet.rotation.model;
 
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
-import edu.colorado.phet.common.motion.MotionMath;
-import edu.colorado.phet.common.motion.model.*;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.rotation.tests.CircularRegression;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -14,6 +9,12 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import edu.colorado.phet.common.motion.MotionMath;
+import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.rotation.tests.CircularRegression;
 
 /**
  * Author: Sam Reid
@@ -85,13 +86,13 @@ public class RotationBody {
     }
 
     private void platformDimensionChanged( DoubleComparator comparator, DoubleNumber f ) {
-        if( rotationPlatform != null && comparator.compare( getPosition().distance( rotationPlatform.getCenter() ), f.getValue() ) ) {
-            if( f.getValue() == 0 ) {
+        if ( rotationPlatform != null && comparator.compare( getPosition().distance( rotationPlatform.getCenter() ), f.getValue() ) ) {
+            if ( f.getValue() == 0 ) {
                 setPosition( rotationPlatform.getCenter() );
             }
             else {
                 AbstractVector2D vec = new Vector2D.Double( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
-                if( vec.getMagnitudeSq() == 0 ) {
+                if ( vec.getMagnitudeSq() == 0 ) {
                     vec = Vector2D.Double.parseAngleAndMagnitude( 1.0, lastNonZeroRadiusAngle );
                 }
                 System.out.println( "f.getValue() = " + f.getValue() );
@@ -127,7 +128,7 @@ public class RotationBody {
     }
 
     public void setOffPlatform() {
-        if( !isOffPlatform() ) {
+        if ( !isOffPlatform() ) {
             setUpdateStrategy( new OffPlatform() );
             rotationPlatform = null;
             notifyPlatformStateChanged();
@@ -135,8 +136,8 @@ public class RotationBody {
     }
 
     private void notifyPlatformStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).platformStateChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).platformStateChanged();
         }
     }
 
@@ -146,10 +147,10 @@ public class RotationBody {
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
-        if( this.rotationPlatform != null ) {
+        if ( this.rotationPlatform != null ) {
             this.rotationPlatform.removeListener( listener );
         }
-        if( !isOnPlatform( rotationPlatform ) ) {
+        if ( !isOnPlatform( rotationPlatform ) ) {
             setUpdateStrategy( new OnPlatform( rotationPlatform ) );
             this.rotationPlatform = rotationPlatform;
             this.rotationPlatform.addListener( listener );
@@ -183,13 +184,13 @@ public class RotationBody {
 
     public void stepInTime( double time, double dt ) {
         Point2D origPosition = getPosition();
-        if( isOffPlatform() ) {
+        if ( isOffPlatform() ) {
             updateOffPlatform( time );
         }
         else {
             updateOnPlatform( time );
         }
-        if( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
+        if ( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
         speed.addValue( getVelocity().getMagnitude(), time );
@@ -226,29 +227,29 @@ public class RotationBody {
 
         Point2D[] pointHistory = getPointHistory( 25 );
         Rectangle2D.Double boundingBox = new Rectangle2D.Double( pointHistory[0].getX(), pointHistory[0].getY(), 0, 0 );
-        for( int i = 1; i < pointHistory.length; i++ ) {
+        for ( int i = 1; i < pointHistory.length; i++ ) {
             Point2D point2D = pointHistory[i];
             boundingBox.add( point2D );
         }
 //        System.out.println( "boundingBox = " + boundingBox );
         //avoid the expense of circular regression if possible
-        if( boundingBox.getWidth() <= 0.2 && boundingBox.getHeight() <= 0.2 ) {
+        if ( boundingBox.getWidth() <= 0.2 && boundingBox.getHeight() <= 0.2 ) {
             updateAccelByDerivative();
         }
         else {
             circle = circularRegression.getCircle( pointHistory, 50, circle );
-            if( circle.getRadius() > 5.0 ) {
+            if ( circle.getRadius() > 5.0 ) {
                 //assume something went wrong in nonlinear regression
                 circle = circularRegression.getCircle( pointHistory, 50, null );
             }
 //        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
-            if( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
+            if ( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
                 AbstractVector2D accelVector = new Vector2D.Double( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
                                                                     circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
-                if( accelVector.getMagnitude() < 0.1 ) {
+                if ( accelVector.getMagnitude() < 0.1 ) {
                     accelVector = new Vector2D.Double( 0.1, 0.1 );//todo: remove this dummy test value
                 }
                 accelVector = accelVector.getInstanceOfMagnitude( aMag );
@@ -311,10 +312,10 @@ public class RotationBody {
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
-        if( dt > Math.PI ) {
+        if ( dt > Math.PI ) {
             dt = dt - Math.PI * 2;
         }
-        else if( dt < -Math.PI ) {
+        else if ( dt < -Math.PI ) {
             dt = dt + Math.PI * 2;
         }
 
@@ -336,7 +337,7 @@ public class RotationBody {
 
     private static double getLinearRegressionMSE( Point2D[] pointHistory ) {
         double[][] pts = new double[2][pointHistory.length];
-        for( int i = 0; i < pts[0].length; i++ ) {
+        for ( int i = 0; i < pts[0].length; i++ ) {
 
             pts[0][i] = pointHistory[i].getX();
             pts[1][i] = pointHistory[i].getY();
@@ -347,7 +348,7 @@ public class RotationBody {
 //        System.out.println( "slope = " + slope + ", offset=" + offset );
 
         double sumSq = 0;
-        for( int i = 0; i < pointHistory.length; i++ ) {
+        for ( int i = 0; i < pointHistory.length; i++ ) {
             Point2D point2D = pointHistory[i];
             double proposedY = offset + slope * point2D.getX();
             double actualY = point2D.getY();
@@ -362,11 +363,11 @@ public class RotationBody {
 
     public Point2D[] getPointHistory( int maxPts ) {
         ArrayList list = new ArrayList( maxPts );
-        for( int i = 0; i < xBody.getPositionVariable().getSampleCount() && i < maxPts; i++ ) {
+        for ( int i = 0; i < xBody.getPositionVariable().getSampleCount() && i < maxPts; i++ ) {
             list.add( new Point2D.Double( xBody.getPositionVariable().getRecentData( i ).getValue(), yBody.getPositionVariable().getRecentData( i ).getValue() ) );
         }
         Collections.reverse( list );
-        return (Point2D[])list.toArray( new Point2D.Double[0] );
+        return (Point2D[]) list.toArray( new Point2D.Double[0] );
     }
 
     public boolean isOnPlatform() {
@@ -374,8 +375,8 @@ public class RotationBody {
     }
 
     private boolean isOnPlatform( RotationPlatform rotationPlatform ) {
-        if( updateStrategy instanceof OnPlatform ) {
-            OnPlatform onPlatform = (OnPlatform)updateStrategy;
+        if ( updateStrategy instanceof OnPlatform ) {
+            OnPlatform onPlatform = (OnPlatform) updateStrategy;
             return onPlatform.rotationPlatform == rotationPlatform;
         }
         else {
@@ -388,8 +389,8 @@ public class RotationBody {
     }
 
     private void notifyVectorsUpdated() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.speedAndAccelerationUpdated();
         }
     }
@@ -435,7 +436,7 @@ public class RotationBody {
         angularAccel.addValue( rotationPlatform.getAcceleration(), time );
 //        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
         checkCentripetalAccel();
-        if( r > 0 ) {
+        if ( r > 0 ) {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
         }
     }
@@ -445,7 +446,7 @@ public class RotationBody {
     }
 
     public void checkCentripetalAccel() {
-        if( rotationPlatform == null ) {
+        if ( rotationPlatform == null ) {
             return;
         }
         Vector2D.Double cv = new Vector2D.Double( getPosition(), rotationPlatform.getCenter() );
@@ -453,7 +454,7 @@ public class RotationBody {
         //these should be colinear
         double angle = cv.getAngle() - av.getAngle();
 
-        if( Math.abs( angle ) > 1E-2 & av.getMagnitude() > 1E-9 ) {
+        if ( Math.abs( angle ) > 1E-2 & av.getMagnitude() > 1E-9 ) {
 //            System.out.println( "RotationBody.updateBodyOnPlatform, angle="+angle );
         }
     }
@@ -491,7 +492,7 @@ public class RotationBody {
         accelMagnitude.setPlaybackTime( time );
         speed.setPlaybackTime( time );
         orientation.setPlaybackTime( time );
-        if( angle.getSampleCount() > 0 ) {
+        if ( angle.getSampleCount() > 0 ) {
             angle.setPlaybackTime( time );
         }
 
@@ -504,10 +505,10 @@ public class RotationBody {
     }
 
     public void setDisplayGraph( boolean selected ) {
-        if( this.displayGraph != selected ) {
+        if ( this.displayGraph != selected ) {
             this.displayGraph = selected;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener)listeners.get( i ) ).displayGraphChanged();
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener) listeners.get( i ) ).displayGraphChanged();
             }
         }
     }
@@ -620,14 +621,14 @@ public class RotationBody {
     }
 
     private void notifyOrientationChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).orientationChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).orientationChanged();
         }
     }
 
     private void notifyPositionChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).positionChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).positionChanged();
         }
     }
 
@@ -666,10 +667,10 @@ public class RotationBody {
     }
 
     public void setPosition( double x, double y ) {
-        if( Double.isNaN( x ) || Double.isNaN( y ) ) {
+        if ( Double.isNaN( x ) || Double.isNaN( y ) ) {
             throw new IllegalArgumentException( "x=" + x + ", y=" + y );
         }
-        if( this.getX() != x || this.getY() != y ) {
+        if ( this.getX() != x || this.getY() != y ) {
             xBody.setPosition( x );
             yBody.setPosition( y );
             updateAngleValue();

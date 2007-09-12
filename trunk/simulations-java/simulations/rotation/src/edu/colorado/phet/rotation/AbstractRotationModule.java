@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -11,8 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -36,7 +36,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
-        rotationModel = createModel( (ConstantDtClock)getClock() );
+        rotationModel = createModel( (ConstantDtClock) getClock() );
         vectorViewModel = new VectorViewModel();
 
         rotationSimulationPanel = createSimulationPanel( parentFrame );
@@ -58,13 +58,13 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 //        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
 //            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
 //        }
-        if( MyRepaintManager.getInstance() != null ) {
+        if ( MyRepaintManager.getInstance() != null ) {
             MyRepaintManager.getInstance().setCoalesceRectangles( getClock().isRunning() );
         }
     }
 
     public ConstantDtClock getConstantDTClock() {
-        return (ConstantDtClock)getClock();
+        return (ConstantDtClock) getClock();
     }
 
     protected abstract RotationModel createModel( ConstantDtClock clock );
@@ -95,8 +95,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         rotationModel.resetAll();
         rotationSimulationPanel.resetAll();
         vectorViewModel.resetAll();
-        if( getClock() instanceof ConstantDtClock ) {
-            ConstantDtClock constantDtClock = (ConstantDtClock)getClock();
+        if ( getClock() instanceof ConstantDtClock ) {
+            ConstantDtClock constantDtClock = (ConstantDtClock) getClock();
             constantDtClock.setDt( DEFAULT_CLOCK_DT );
         }
         DefaultTimeSeries.verifySeriesCleared();
