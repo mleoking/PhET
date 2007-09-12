@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -9,7 +11,6 @@ import java.awt.geom.Point2D;
  * WindmillModelElement is the model of a windmill.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class WindmillModelElement extends SimpleObservable implements ModelElement {
 

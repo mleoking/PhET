@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
@@ -11,7 +13,6 @@ import java.io.IOException;
  * can be combined in composite graphics.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PhetgraphicsDemoApplication extends NonPiccoloPhetApplication {
 
@@ -23,9 +24,9 @@ public class PhetgraphicsDemoApplication extends NonPiccoloPhetApplication {
     
     public static void main( String[] args ) throws IOException {
 
-        String title = "Test Location";
-        String description = "Demonstrates semantics of phetgraphics location";
-        String version = "0.1";
+        String title = "Phetgraphics Demo Application";
+        String description = "demonstrates semantics of location and registration point";
+        String version = "0.00.01";
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1024, 768 );
 
         NonPiccoloPhetApplication app = new PhetgraphicsDemoApplication( args, title, description, version, frameSetup );

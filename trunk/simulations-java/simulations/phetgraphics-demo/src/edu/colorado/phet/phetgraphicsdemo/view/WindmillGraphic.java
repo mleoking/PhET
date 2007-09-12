@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,7 +18,6 @@ import java.awt.geom.GeneralPath;
  * is at the point where the blades rotate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class WindmillGraphic extends CompositePhetGraphic {
 

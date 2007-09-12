@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -10,7 +12,6 @@ import java.awt.*;
  * The origin is at the lower-left corner of the road.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class CarOnRoadGraphic extends CompositePhetGraphic {
 

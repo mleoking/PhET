@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.control;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -12,7 +14,6 @@ import javax.swing.event.ChangeListener;
  * TestControlPanel is the control panel for the "Test Location" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TestControlPanel extends ControlPanel {
     

@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -18,7 +20,6 @@ import java.awt.*;
  * to the semantics of PhetGraphic's location.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TestModule extends PhetGraphicsModule {
  

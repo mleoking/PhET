@@ -1,3 +1,5 @@
+/* Copyright 2005-2007, University of Colorado */
+
 package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -13,7 +15,6 @@ import java.awt.event.MouseEvent;
  * InteractivityHandler provides unconstrained dragging and rotation of graphics.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class InteractivityHandler extends MouseInputAdapter implements TranslationListener {
 
