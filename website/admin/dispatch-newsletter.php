@@ -7,6 +7,7 @@
 	include_once(SITE_ROOT."admin/web-utils.php");
 	include_once(SITE_ROOT."admin/contrib-utils.php");
 	include_once(SITE_ROOT."admin/site-utils.php");
+	include_once(SITE_ROOT."admin/newsletter-utils.php");
 	
 	function print_success_message() {
 	    print <<<EOT
@@ -24,8 +25,8 @@ EOT;
 	    $name = $contributor['contributor_name'];
 	    $date = date("F j, Y, g:i a");
 	    
-	    $text = str_ireplace('$NAME$', "$name", $text);
-	    $text = str_ireplace('$DATE$', "$date", $text);
+	    $text = str_replace('$NAME$', "$name", $text);
+	    $text = str_replace('$DATE$', "$date", $text);
 	    
 	    return $text;
 	}
@@ -34,14 +35,24 @@ EOT;
 	$newsletter_from    = $_REQUEST['newsletter_from'];
 	$newsletter_body    = $_REQUEST['newsletter_body'];
 	
+	$no_contributor = array();
+	
+	$no_contributor['contributor_name'] = 'PhET User';
+	
+	newsletter_create(
+		replace_jokers($newsletter_subject, $no_contributor), 
+		replace_jokers($newsletter_body,    $no_contributor)
+	);
+	
 	foreach(contributor_get_all_contributors() as $contributor) {
-        $subs_newsletter_from = replace_jokers($newsletter_from, $contributor);
-        $subs_newsletter_body = replace_jokers($newsletter_body, $contributor);
+        $subs_newsletter_subject = replace_jokers($newsletter_subject, $contributor);
+        $subs_newsletter_body    = replace_jokers($newsletter_body,    $contributor);
 
-        if ($contributor['contributor_receive_email'] == 1) {
+        if ($contributor['contributor_receive_email'] == 1 && $contributor['contributor_email'] == 'degoes@colorado.edu') {
             mail($contributor['contributor_email'], 
-                 $subs_newsletter_from, 
-                 $subs_newsletter_body);
+                 $subs_newsletter_subject,
+                 $subs_newsletter_body,
+				 "From: $newsletter_from");
         }
 	}		
 	

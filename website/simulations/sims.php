@@ -218,13 +218,15 @@ EOT;
         print <<<EOT
         </div>
     
-        <h2>Contribute Your Ideas &amp; Activities</h2>
+        <h2>Submit Your Ideas &amp; Activities</h2>
         
         <div class="p-indentation">
         <form id="quicksubmit" enctype="multipart/form-data" action="submit-contribution.php" method="post">    
 			<div>
 				<input type="hidden" name="sim_id"   value="$sim_id" />
 			</div>
+			
+			<p>Required fields are marked with an asterisk (*).</p>
 			
 			<table class="form">
 	            <tr>
@@ -239,7 +241,7 @@ EOT;
             
 	            <tr>     
 		            <td>
-	                    files*
+	                    file(s)
 	                </td>
 	
 	                <td>
@@ -249,7 +251,7 @@ EOT;
             
 	            <tr>   
 		            <td>
-	                    level*
+	                    grade level(s)
 	                </td>
 	
 	                <td>
@@ -257,8 +259,9 @@ EOT;
 
 						print_multiple_selection(
 							'Level',
-							contribution_get_all_template_level_names(),
-							array()
+						    contribution_get_all_template_level_names(),
+						    array(),
+							false
 						);
 
                 print <<<EOT
@@ -267,7 +270,7 @@ EOT;
             
 	            <tr>
 					<td colspan="2">
-	                	<input type="submit" name="submit" value="Contribute"  />
+	                	<input type="submit" name="submit" value="Submit"  />
 					</td>
 	            </tr>
 			</table>

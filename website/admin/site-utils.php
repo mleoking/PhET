@@ -110,8 +110,8 @@ EOT;
         //     $teacher_ideas_subs['teacher_ideas/login.php'] = 'Login';
         // }
         
-        $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'Contribute';
-        $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Contributions';
+        $teacher_ideas_subs['teacher_ideas/contribute.php']             = 'Submit an Activity';
+        $teacher_ideas_subs['teacher_ideas/manage-contributions.php']   = 'My Activities';
         $teacher_ideas_subs['teacher_ideas/user-edit-profile.php']      = 'My Profile';
         
         if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == true) {
@@ -169,6 +169,7 @@ EOT;
             "About PhET",
             array(
 				'about/faq.php'         => 'FAQ',
+				'about/news.php'        => 'News',				
                 'about/contact.php'     => 'Contact',
                 'about/who-we-are.php'  => 'Who We Are',
                 'about/licensing.php'   => 'Licensing'// ,
@@ -308,6 +309,133 @@ EOT;
                 <script src="$prefix/js/http.js"                type="text/javascript"></script>   
                 <script src="$prefix/js/form-validation.js"     type="text/javascript"></script>                   
                 <script src="$prefix/js/phet-scripts.js"        type="text/javascript"></script>             
+				<script type="text/javascript">
+					//<![CDATA[
+					function select_current_navbar_category() {
+					    $("li.subnav a").each(function(i) {
+							var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
+
+							var result = re.exec(this.href);
+
+							var relative_url = this.href;
+
+							if (result) {								
+								relative_url = result[3];
+							}
+
+					        if (string_starts_with('$request_uri', relative_url)) {
+					            this.className            = 'subnav-selected';
+					            this.parentNode.className = 'subnav-selected';
+					        }
+					    });                        
+					}
+
+					$(document).ready(
+					    function() {
+					        $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
+					            {
+					                onItemSelect: function(li, v) {
+					                    on_name_change(v);
+					                }
+					            }
+					        );
+
+					        select_current_navbar_category();
+
+							// DEFAULT VALIDATIONS
+							$('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
+								function() {									
+									this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+								}
+							);
+
+							$('*[@name=contributor_name], *[@name=contribution_authors]').each(
+								function() {									
+									this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
+								}
+							);
+
+							$('*[@name=contribution_title]').each(
+								function() {									
+									this.pattern = /^\S+\s+\S+.*$/;
+								}
+							);
+
+							$('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
+								function() {									
+									this.pattern = /^\S{2,}.*$/;
+								}
+							);						
+
+							$('*[@name=contributor_password]').each(
+								function() {									
+									this.pattern = /\S+/;
+								}
+							);	
+
+							$('*[@name=contribution_keywords]').each(
+								function() {
+									this.pattern = /\S{3,}.*/;
+								}
+							);
+
+							$('input, button, textarea, select').each(
+								function() {
+									if (this.pattern) {										
+										// Perform immediate validation:
+										validate_form_element(this, this.pattern);
+
+										// Validate on key up:
+										this.onkeyup = function() {
+											validate_form_element(this, this.pattern);
+
+											return true;
+										}
+
+										// Validate on change (for autofill & such):
+										this.onchange = function() {
+											validate_form_element(this, this.pattern);
+
+											return true;
+										}
+
+										// Validate on blur (for Firefox autofill):
+										this.onblur = function() {
+											validate_form_element(this, this.pattern);
+
+											return true;
+										}
+
+										// Validate on click (for Firefox autofill):
+										this.onclick = function() {
+											validate_form_element(this, this.pattern);
+
+											return true;
+										}
+
+										// IE6 workaround (it doesn't fire onchange for autofill):
+										this.onpropertychange = function() {
+											validate_form_element(this, this.pattern);
+
+											return true;
+										}
+									}
+								}
+							);
+
+							$('input').each(
+								function() {
+									if (this.getAttribute('type') == 'submit') {
+										this.onclick = function() {
+											return validate_entire_form(this.form);
+										}
+									}
+								}
+							);
+					    }
+					);
+					//]]>
+				</script>
             </head>
             
 
