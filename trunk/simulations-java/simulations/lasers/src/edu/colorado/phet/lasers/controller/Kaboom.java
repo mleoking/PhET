@@ -68,16 +68,18 @@ public class Kaboom implements ModelElement {
         module.getLaserModel().getPumpingBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
                 if ( kaboomed ) {
-                    kaboomed=false;
-                    module.reset();
+                    kaboomed = false;
+                    model.setModelPaused( false );
+                    reset();
                 }
             }
         } );
         module.getLaserModel().getSeedBeam().addRateChangeListener( new PhotonSource.RateChangeListener() {
             public void rateChangeOccurred( PhotonSource.RateChangeEvent event ) {
                 if ( kaboomed ) {
-                    kaboomed=false;
-                    module.reset();
+                    kaboomed = false;
+                    model.setModelPaused( false );
+                    reset();
                 }
             }
         } );
@@ -85,9 +87,10 @@ public class Kaboom implements ModelElement {
 
     public void stepInTime( double dt ) {
         if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD && !kaboomed ) {
-//        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD/8 && !kaboomed ) {//debugging
+//        if ( model.getNumLasingPhotons() > LaserConfig.KABOOM_THRESHOLD / 8 && !kaboomed ) {//debugging
             model.reset();
             kaboom();
+            model.setModelPaused( true );
             kaboomed = true;
         }
     }
@@ -123,7 +126,8 @@ public class Kaboom implements ModelElement {
         panel.revalidate();
     }
 
-    public void reset( ApparatusPanel apparatusPanel ) {
+    public void reset( ) {
+        ApparatusPanel apparatusPanel=module.getApparatusPanel();
         List kaboomGraphics = getKaboomGraphics();
         for ( int i = 0; i < kaboomGraphics.size(); i++ ) {
             PhetGraphic graphic = (PhetGraphic) kaboomGraphics.get( i );
