@@ -57,7 +57,7 @@ function on_remind_me() {
     
     var password_element = document.getElementById('ajax_password_comment_uid');
 
-    HTTP.updateElementWithGet('$prefix/admin/remind-password.php?contributor_email=' + 
+    HTTP.updateElementWithGet('../admin/remind-password.php?contributor_email=' + 
         encodeURI(email), null, 'ajax_password_comment_uid');
 }
 
@@ -68,7 +68,7 @@ function on_email_entered() {
     var email    = email_element.value;
     var password = password_element.value;
         
-    HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_email=' + 
+    HTTP.updateElementWithGet('../admin/do-ajax-login.php?contributor_email=' + 
         encodeURI(email) + '&contributor_password=' + encodeURI(password), 
         null, 'required_login_info_uid', 'post_required_info_displayed();');
 }
@@ -78,7 +78,7 @@ function deduce_author_organization() {
 
     var email = email_element.value;
     
-    HTTP.updateElementValueWithGet('$prefix/admin/get-contributor-org.php?contributor_email=' +
+    HTTP.updateElementValueWithGet('../admin/get-contributor-org.php?contributor_email=' +
         encodeURI(email), null, 'contribution_authors_organization_uid'); 
 }
     
@@ -145,7 +145,7 @@ function on_email_change() {
         }
     }
 
-    HTTP.updateElementWithGet('$prefix/admin/check-email.php?contributor_email=' + 
+    HTTP.updateElementWithGet('../admin/check-email.php?contributor_email=' + 
         encodeURI(email), null, 'ajax_email_comment_uid', 'on_password_change();');
 }
 
@@ -325,7 +325,7 @@ function on_password_change() {
     var email    = email_element.value;
     var password = password_element.value;
 
-    HTTP.updateElementWithGet('$prefix/admin/check-password.php?contributor_email=' + 
+    HTTP.updateElementWithGet('../admin/check-password.php?contributor_email=' + 
         encodeURI(email) + '&contributor_password=' + 
         encodeURI(password), null, 'ajax_password_comment_uid', 'deduce_author_organization();');
 }
@@ -362,7 +362,7 @@ function on_name_change(n) {
             password_url = '&contributor_password=' + encodeURI(password);
         }
         
-        HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php?contributor_name=' + 
+        HTTP.updateElementWithGet('../admin/do-ajax-login.php?contributor_name=' + 
             encodeURI(name) + password_url, 
             null, 'required_login_info_uid', 'on_email_change();');
     }
@@ -374,7 +374,7 @@ function login_create_account() {
     var password = document.getElementById('contributor_password_uid').value;
     var org      = document.getElementById('contributor_organization_uid').value;
     
-    HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php' + 
+    HTTP.updateElementWithGet('../admin/do-ajax-login.php' + 
         '?contributor_name='            + encodeURI(name)       + 
         '&contributor_email='           + encodeURI(email)      +
         '&contributor_password='        + encodeURI(password)   +
@@ -387,7 +387,7 @@ function login_login() {
     var email    = document.getElementById('contributor_email_uid').value;
     var password = document.getElementById('contributor_password_uid').value;
     
-    HTTP.updateElementWithGet('$prefix/admin/do-ajax-login.php' + 
+    HTTP.updateElementWithGet('../admin/do-ajax-login.php' + 
         '?contributor_email='           + encodeURI(email)      +
         '&contributor_password='        + encodeURI(password)   +
         '&action=login', 
@@ -408,126 +408,4 @@ function open_limited_window(url, name) {
 	window.open(url, name, 'status=no,toolbar=no,location=no,menubar=no,directories=no,resizable=yes,scrollbars=no,width=640,height=480');
 }
 
-function select_current_navbar_category() {
-    $("li.subnav a").each(function(i) {
-		var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
-		
-		var result = re.exec(this.href);
-		
-		var relative_url = this.href;
-		
-		if (result) {								
-			relative_url = result[3];
-		}
-		
-        if (string_starts_with('$request_uri', relative_url)) {
-            this.className            = 'subnav-selected';
-            this.parentNode.className = 'subnav-selected';
-        }
-    });                        
-}
 
-$(document).ready(
-    function() {
-        $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
-            {
-                onItemSelect: function(li, v) {
-                    on_name_change(v);
-                }
-            }
-        );
-        
-        select_current_navbar_category();
-
-		// DEFAULT VALIDATIONS
-		$('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
-			function() {									
-				this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-			}
-		);
-		
-		$('*[@name=contributor_name], *[@name=contribution_authors]').each(
-			function() {									
-				this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
-			}
-		);
-		
-		$('*[@name=contribution_title]').each(
-			function() {									
-				this.pattern = /^\S+\s+\S+.*$/;
-			}
-		);
-		
-		$('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
-			function() {									
-				this.pattern = /^\S{2,}.*$/;
-			}
-		);						
-		
-		$('*[@name=contributor_password]').each(
-			function() {									
-				this.pattern = /\S+/;
-			}
-		);	
-		
-		$('*[@name=contribution_keywords]').each(
-			function() {
-				this.pattern = /\S{3,}.*/;
-			}
-		);
-
-		$('input, button, textarea, select').each(
-			function() {
-				if (this.pattern) {										
-					// Perform immediate validation:
-					validate_form_element(this, this.pattern);
-					
-					// Validate on key up:
-					this.onkeyup = function() {
-						validate_form_element(this, this.pattern);
-						
-						return true;
-					}
-					
-					// Validate on change (for autofill & such):
-					this.onchange = function() {
-						validate_form_element(this, this.pattern);
-						
-						return true;
-					}
-					
-					// Validate on blur (for Firefox autofill):
-					this.onblur = function() {
-						validate_form_element(this, this.pattern);
-						
-						return true;
-					}
-					
-					// Validate on click (for Firefox autofill):
-					this.onclick = function() {
-						validate_form_element(this, this.pattern);
-						
-						return true;
-					}
-					
-					// IE6 workaround (it doesn't fire onchange for autofill):
-					this.onpropertychange = function() {
-						validate_form_element(this, this.pattern);
-						
-						return true;
-					}
-				}
-			}
-		);
-		
-		$('input').each(
-			function() {
-				if (this.getAttribute('type') == 'submit') {
-					this.onclick = function() {
-						return validate_entire_form(this.form);
-					}
-				}
-			}
-		);
-    }
-);

@@ -309,7 +309,7 @@ EOT;
 						</tr>
 
 						<tr>
-							<td>email*</td>		<td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" onkeyup="javascript:on_email_change_guess_name();" class="always-enabled"/></td>
+							<td>email*</td>		<td><input id="contributor_email_uid" type="text" size="15" name="contributor_email" value="$contributor_email" class="always-enabled"/></td>
 						</tr>
 EOT;
 
@@ -363,6 +363,8 @@ EOT;
         print <<<EOT
             <div id="twofacelogin" class="table_container">
 			$other_html
+			
+			<p class="footnote">Required fields are marked with an asterisk (*).</p>
 			
             <table class="top">
                 <tr>
@@ -528,7 +530,9 @@ EOT;
         print <<<EOT
             <form id="contributioneditform" method="post" action="$script" enctype="multipart/form-data">
                 <fieldset>
-                    <legend>Required</legend>
+                    <legend>Required Information</legend>
+
+					<p>Required fields are marked with an asterisk (*).</p>
 
 					<table class="form">
 EOT;
@@ -576,7 +580,7 @@ EOT;
 
                     <tr>
 						<td>
-                            authors*
+                            author(s)*
                         </td>
 
                         <td>
@@ -587,7 +591,7 @@ EOT;
 
                     <tr>
                         <td>
-                            authors organization*
+                            1st author's organization*
                         </td>
 
                         <td>
@@ -625,48 +629,6 @@ EOT;
                         </td>
                     </tr>
 EOT;
-
-			if ($contributor_is_team_member) {
-				print <<<EOT
-					<tr>
-						<td>
-		                    from phet*
-		                </td>
-		
-						<td>
-EOT;
-
-				print_checkbox(
-		            "contribution_from_phet",
-		            "",
-		            $contribution_from_phet
-		        );
-	
-				print <<<EOT
-						</td>
-		            </tr>
-EOT;
-
-				print <<<EOT
-					<tr>
-						<td>
-		                    is gold star*
-		                </td>
-		
-						<td>
-EOT;
-
-				print_checkbox(
-		            "contribution_is_gold_star",
-		            "",
-		            $contribution_is_gold_star
-		        );
-	
-				print <<<EOT
-						</td>
-		            </tr>
-EOT;
-			}
 
 		print <<<EOT
 
@@ -716,7 +678,7 @@ EOT;
 					</tr>
                     
                     <tr>
-						<td>existing files*</td>
+						<td>existing file(s)</td>
 						
 						<td>
 EOT;
@@ -731,7 +693,7 @@ EOT;
 					</tr>
 					
 					<tr>
-						<td>new files*</td>
+						<td>new file(s)</td>
 						
 						<td>
                         	<input type="file" name="contribution_file_url" class="multi" />
@@ -748,7 +710,7 @@ EOT;
                 </fieldset>
 
                 <fieldset>
-                    <legend>Optional</legend>
+                    <legend>Optional Information</legend>
                                         
 					<table class="form">
                     <tr>
@@ -830,6 +792,48 @@ EOT;
 EOT;
 
    					contribution_print_standards_compliance($contribution_standards_compliance);
+
+			if ($contributor_is_team_member) {
+				print <<<EOT
+					<tr>
+						<td>
+		                    from phet*
+		                </td>
+
+						<td>
+EOT;
+
+				print_checkbox(
+		            "contribution_from_phet",
+		            "",
+		            $contribution_from_phet
+		        );
+
+				print <<<EOT
+						</td>
+		            </tr>
+EOT;
+
+				print <<<EOT
+					<tr>
+						<td>
+		                    is gold star*
+		                </td>
+
+						<td>
+EOT;
+
+				print_checkbox(
+		            "contribution_is_gold_star",
+		            "",
+		            $contribution_is_gold_star
+		        );
+
+				print <<<EOT
+						</td>
+		            </tr>
+EOT;
+			}
 
         print <<<EOT
 					<table class="form">
@@ -2106,7 +2110,7 @@ EOT;
 						</tr>
                     
                         <tr>
-                            <td>title</td>
+                            <td>job title</td>
 
                             <td>
                                 <input type="text" name="contributor_title" value="$contributor_title" size="25" />
@@ -2114,7 +2118,7 @@ EOT;
                         </tr>
                     
                         <tr>
-                        	<td>address</td>
+                        	<td>address line 1</td>
 
                             <td>
                                 <input type="text" name="contributor_address" value="$contributor_address" size="25" />
@@ -2122,10 +2126,10 @@ EOT;
                         </tr>
                     
                         <tr>
-                            <td>office</td>
+                            <td>address line 2</td>
 
                             <td>
-                                <input type="text" name="contributor_office" value="$contributor_office" size="15" />
+                                <input type="text" name="contributor_office" value="$contributor_office" size="25" />
                             </td>
                         </tr>
                     
@@ -2157,7 +2161,7 @@ EOT;
                         </tr>
                     
                         <tr>
-                            <td>postal code</td>
+                            <td>zip/postal code</td>
 
                             <td>
                                 <input type="text" name="contributor_postal_code"

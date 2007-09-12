@@ -8,7 +8,7 @@
     
     function print_content() {
         ?>
-            <h1>Contribute</h1>
+            <h1>Submit an Activity</h1>
 
         <?php
 
@@ -16,7 +16,7 @@
 			print "<p><strong>You must have a PhET account and be logged in to proceed.</strong></p>";
 		}
         
-        contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Contribute');
+        contribution_print_full_edit_form(-1, '../teacher_ideas/edit-contribution.php', '../teacher_ideas/edit-contribution.php', 'Submit');
     }
 
     print_site_page('print_content', 3);
