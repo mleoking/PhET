@@ -1,9 +1,9 @@
-package edu.colorado.phet.testlocation.model;
-
-import java.awt.geom.Point2D;
+package edu.colorado.phet.common.phetgraphics.test.testlocation.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
+
+import java.awt.geom.Point2D;
 
 /**
  * WindmillModelElement is the model of a windmill.
