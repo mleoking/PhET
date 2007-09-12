@@ -1,13 +1,15 @@
 package edu.colorado.phet.rotation.graphs;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+
+import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -24,11 +26,19 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 pSwingCanvas, new ControlGraphSeries( "Force", Color.blue, "force", "units", new BasicStroke( 2 ), null, tm.getForceTimeSeries() ),
                 "F", "force", "units", -2.5, 2.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+//        forceGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
+//            public void valueChanged( double value ) {
+//                tm.setAppliedForce( new Line2D.Double( tm.getRotationPlatform().getCenter().getX(),
+//                                                       tm.getRotationPlatform().getCenter().getY() - tm.getRotationPlatform().getRadius(),
+//                                                       tm.getRotationPlatform().getCenter().getX() + value,
+//                                                       tm.getRotationPlatform().getCenter().getY() ) );
+//            }
+//        } );
 
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Torque", Color.blue, UnicodeUtil.TAU, "units", new BasicStroke( 2 ), null, tm.getTorqueTimeSeries() ),
                 UnicodeUtil.TAU, "torque", "units", -10, 10,
-                tm, true, tm.getTimeSeriesModel(), tm.getTorqueDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                tm, true, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
 
         RotationMinimizableControlGraph momentOfInertiaGraph = new RotationMinimizableControlGraph( "I", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Moment of Inertia", Color.green, "I", "kg*m^2", new BasicStroke( 2 ), null, tm.getMomentOfInertiaTimeSeries() ),
