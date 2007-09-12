@@ -180,6 +180,18 @@ public class JFreeChartSliderNode extends PNode {
         void sliderDragged( double value );
     }
 
+    public static class Adapter implements Listener{
+
+        public void valueChanged() {
+        }
+
+        public void sliderThumbGrabbed() {
+        }
+
+        public void sliderDragged( double value ) {
+        }
+    }
+
     /**
      * Adds a listener for value change events.
      *

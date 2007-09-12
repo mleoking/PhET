@@ -127,11 +127,7 @@ public class ControlGraph extends PNode {
         addChild( zoomControl );
         addChild( titleLayer );
 
-        jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
-            public void valueChanged() {
-//                handleValueChanged();
-            }
-
+        jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Adapter() {
             public void sliderThumbGrabbed() {
                 notifyControlGrabbed();
             }
@@ -139,7 +135,6 @@ public class ControlGraph extends PNode {
             public void sliderDragged( double value ) {
                 handleValueChanged();
             }
-
         } );
 
         dynamicJFreeChartNode.updateChartRenderingInfo();
