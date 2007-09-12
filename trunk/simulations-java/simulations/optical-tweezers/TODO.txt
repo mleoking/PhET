@@ -3,8 +3,8 @@
 ================================================================================
 
 HIGH PRIORITY:
-- create DNA pivot points starting at pin point, working towards bead position
-- throw an exception if DNA pin point is too far from bead (extension > contour length)
+- finish NewDNAStrand
+- NewDNAStrandNode, view of NewDNAStrand
 - redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
 - pull DNA in enzyme model by changing length of springs on either side of pin
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
@@ -48,6 +48,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/12/07 - throw an exception if DNA pin point is too far from bead (extension > contour length)
+9/12/07 - create DNA pivot points starting at pin point, working towards bead position
 9/12/07 - first pass at NewDNAStrand, incomplete
 9/12/07 - remove unused methods from DNAStrand
 9/11/07 - encapsulate common model container functionality in OTAbstractModel
