@@ -71,18 +71,7 @@
     function get_contributions() {
         global $sort_by, $order, $next_order;
         
-        // $contributions = contribution_get_all_contributions();
-        //         
-        //         $contributions = contribution_explode_contributions($contributions);
-        //         
-        //         
-        //         
         global $Simulations, $Types, $Levels;
-
-        //         
-        //         $contributions = filter_contributions($contributions, 'sim_name',                $Simulations);
-        //         $contributions = filter_contributions($contributions, 'contribution_type_desc',  $Types);
-        //         $contributions = filter_contributions($contributions, 'contribution_level_desc', $Levels);
 
 		$contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
 		
@@ -275,7 +264,7 @@ EOT;
         
         $date = get_sorting_link('contribution_date_updated', 'Updated');
         
-        $contributions = consolidate_identical_adjacent_titles($contributions);
+        //$contributions = consolidate_identical_adjacent_titles($contributions);
 
 		if (count($contributions) == 0) {
 			if ($GLOBALS['g_content_only']) {
@@ -289,7 +278,6 @@ EOT;
 		}
         
         print <<<EOT
-
             <div id="browseresults" class="compact">
                 <table>
                     <thead>
