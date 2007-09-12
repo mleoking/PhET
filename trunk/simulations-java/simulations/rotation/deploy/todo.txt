@@ -3,8 +3,7 @@
 ################################
 
 Torque 9-6-2007:
-2. Display applied force when controlling with force graph (use a default choice for force application point)
-3. Add Type in text area for applied force
+
 4. Can apply force to empty part of the empty ring merry-go-round
 5. Drag brake force character to apply brakes
 6. Show arrow in play area corresponding to tangential brake force
@@ -13,6 +12,7 @@ Torque 9-6-2007:
 9. Add a graph and type-in box for applied force radius application point
 10. On radius graph, display (constant) brake radius
 11. Rotation: omega graphs are off by a few pixels.
+2. Display applied force when controlling with force graph (use a default choice for force application point)
 1. Start paused, use wiggle me for startup (low priority, don't implement yet)
 
 Torque:

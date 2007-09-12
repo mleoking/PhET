@@ -1,3 +1,5 @@
+9-27-2007: Torque - Added type in text area for applied force
+
 8-31-2007: Torque - bugfixes for graphs
 8-31-2007: Torque - converted to use new repaint manager
 
