@@ -10,6 +10,16 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -20,16 +30,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.piccolophet.util.PhotonImageFactory;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.Photon;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ColorModel;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Class: AtomGraphic
@@ -216,14 +216,12 @@ public class PhotonGraphic extends PhetImageGraphic implements SimpleObserver,
         setImage( BufferedImageUtils.getRotatedImage( bi, theta ) );
     }
 
-    //
     private static BufferedImage createCometImage( double wavelength ) {
         BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( wavelength ) );
         BufferedImage bi = new BufferedImage( s_particleImage.getWidth(), s_particleImage.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
         op.filter( s_particleImage, bi );
         return bi;
     }
-//
 
     private static BufferedImage createImage( double wavelength ) {
         return COMET_GRAPHIC ? createCometImage( wavelength ) : createTwinkleImage( wavelength );
