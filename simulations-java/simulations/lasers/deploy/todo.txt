@@ -8,8 +8,6 @@
 3. Photons are going behind lamp control, can they go in front?
     >>Very difficult given the current implementation
 
-
-
 1.  After the laser blows up, the sim is still using most of his processor.  If he hits pause, it goes down to 15% or so.
 Then if he hits play it's back up to 80-100%. So the sim is still running after the laser blows up.
 
