@@ -36,10 +36,13 @@ public class TorqueModel extends RotationModel {
     private ArrayList listeners = new ArrayList();
     private boolean allowNonTangentialForces = false;
     private boolean showComponents = true;
+    private boolean inited=false;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
         getRotationPlatform().setUpdateStrategy( forceDriven );
+        inited=true;
+        clear();
     }
 
     public void stepInTime( double dt ) {
@@ -74,6 +77,23 @@ public class TorqueModel extends RotationModel {
         setPlaybackTime( time, appliedForceDstX );
         setPlaybackTime( time, appliedForceDstY );
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & elegance
+    }
+
+
+    public void clear() {
+        super.clear();
+        if ( inited ) {
+            torque.clear();
+            force.clear();
+            brakeForce.clear();
+            angularMomentum.clear();
+            momentOfInertia.clear();
+            radius.clear();
+            appliedForceSrcX.clear();
+            appliedForceSrcY.clear();
+            appliedForceDstX.clear();
+            appliedForceDstY.clear();
+        }
     }
 
     private void setPlaybackTime( double time, ITemporalVariable variable ) {
@@ -196,7 +216,7 @@ public class TorqueModel extends RotationModel {
             this.appliedForceSrcY.setValue( appliedForce.getY1() );
             this.appliedForceDstX.setValue( appliedForce.getX2() );
             this.appliedForceDstY.setValue( appliedForce.getY2() );
-            
+
             //determine the new applied torque
             //torque=r x F
             Vector2D.Double r = new Vector2D.Double( getRotationPlatform().getCenter(), appliedForce.getP1() );
