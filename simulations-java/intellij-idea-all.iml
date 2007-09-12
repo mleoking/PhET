@@ -57,6 +57,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/ohm-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/optical-quantum-control/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/optical-tweezers/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/phetgraphics-demo/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/photoelectric/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/quantum-tunneling/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/qwi/src" isTestSource="false" />
@@ -748,6 +749,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations/sound/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations/phetgraphics-demo/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
