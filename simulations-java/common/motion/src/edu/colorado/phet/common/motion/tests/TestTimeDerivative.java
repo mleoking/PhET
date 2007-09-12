@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.MotionMath;
-import edu.colorado.phet.common.motion.model.TimeData;
 import junit.framework.TestCase;
 
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.motion.MotionMath;
+import edu.colorado.phet.common.motion.model.TimeData;
 
 /**
  * User: Sam Reid
@@ -40,7 +41,7 @@ public class TestTimeDerivative extends TestCase {
         double[] y = new double[]{1, 3, 5, 7, 9};
 
         TimeData[] timeData = new TimeData[x.length];
-        for( int i = 0; i < timeData.length; i++ ) {
+        for ( int i = 0; i < timeData.length; i++ ) {
             timeData[i] = new TimeData( y[i], x[i] );
         }
         return timeData;
@@ -48,13 +49,13 @@ public class TestTimeDerivative extends TestCase {
 
     public void testSecondDerivative() {
         ArrayList data = new ArrayList();
-        for( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
             double x = i / 100.0;
             TimeData timeData = new TimeData( x * x, x );
             data.add( timeData );
         }
-        for( int i = 10; i < data.size(); i++ ) {
-            TimeData derivative = MotionMath.getSecondDerivative( (TimeData[])data.subList( i - 10, i ).toArray( new TimeData[0] ) );
+        for ( int i = 10; i < data.size(); i++ ) {
+            TimeData derivative = MotionMath.getSecondDerivative( (TimeData[]) data.subList( i - 10, i ).toArray( new TimeData[0] ) );
             assertEquals( 2.0, derivative.getValue(), 1E-6 );
         }
     }

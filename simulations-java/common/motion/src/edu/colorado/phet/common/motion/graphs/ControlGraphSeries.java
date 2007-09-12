@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
-import edu.colorado.phet.common.motion.model.ITemporalVariable;
-
 import java.awt.*;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 
 /**
  * Author: Sam Reid
@@ -65,7 +65,7 @@ public class ControlGraphSeries {
     }
 
     public void setVisible( boolean visible ) {
-        if( this.visible != visible ) {
+        if ( this.visible != visible ) {
             this.visible = visible;
             notifyVisibilityChanged();
         }
@@ -80,15 +80,15 @@ public class ControlGraphSeries {
     }
 
     public void setUnits( String units ) {
-        if( ( this.units == null && units != null ) || !this.units.equals( units ) ) {
+        if ( ( this.units == null && units != null ) || !this.units.equals( units ) ) {
             this.units = units;
             notifyUnitsChanged();
         }
     }
 
     private void notifyUnitsChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.unitsChanged();
         }
     }
@@ -126,8 +126,8 @@ public class ControlGraphSeries {
     }
 
     private void notifyVisibilityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).visibilityChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).visibilityChanged();
         }
     }
 

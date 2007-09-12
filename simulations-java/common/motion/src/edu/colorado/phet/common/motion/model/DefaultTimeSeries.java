@@ -23,7 +23,7 @@ public class DefaultTimeSeries {
     }
 
     public TimeData getData( int index ) {
-        return (TimeData)data.get( index );
+        return (TimeData) data.get( index );
     }
 
     public TimeData getRecentData( int index ) {
@@ -35,10 +35,10 @@ public class DefaultTimeSeries {
     }
 
     public void clear() {
-        if( data.size() > 0 ) {
+        if ( data.size() > 0 ) {
             data.clear();
-            for( int i = 0; i < listeners.size(); i++ ) {
-                ( (ITemporalVariable.Listener)listeners.get( i ) ).dataCleared();
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (ITemporalVariable.Listener) listeners.get( i ) ).dataCleared();
             }
         }
     }
@@ -50,16 +50,16 @@ public class DefaultTimeSeries {
     }
 
     private void notifyObservers( TimeData o ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ITemporalVariable.Listener observableTimeSeriesListener = (ITemporalVariable.Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ITemporalVariable.Listener observableTimeSeriesListener = (ITemporalVariable.Listener) listeners.get( i );
             observableTimeSeriesListener.dataAdded( o );
         }
     }
 
     public TimeData getMax() {
         TimeData max = new TimeData( Double.NEGATIVE_INFINITY, 0.0 );
-        for( int i = 0; i < getSampleCount(); i++ ) {
-            if( getData( i ).getValue() > max.getValue() ) {
+        for ( int i = 0; i < getSampleCount(); i++ ) {
+            if ( getData( i ).getValue() > max.getValue() ) {
                 max = getData( i );
             }
         }
@@ -68,8 +68,8 @@ public class DefaultTimeSeries {
 
     public TimeData getMin() {
         TimeData min = new TimeData( Double.POSITIVE_INFINITY, 0.0 );
-        for( int i = 0; i < getSampleCount(); i++ ) {
-            if( getData( i ).getValue() < min.getValue() ) {
+        for ( int i = 0; i < getSampleCount(); i++ ) {
+            if ( getData( i ).getValue() < min.getValue() ) {
                 min = getData( i );
             }
         }
@@ -82,7 +82,7 @@ public class DefaultTimeSeries {
 
     public TimeData[] getRecentSeries( int numPts ) {
         List subList = data.subList( data.size() - numPts, data.size() );
-        return (TimeData[])subList.toArray( new TimeData[0] );
+        return (TimeData[]) subList.toArray( new TimeData[0] );
     }
 
     //todo: could interpolate
@@ -92,8 +92,8 @@ public class DefaultTimeSeries {
 
     private TimeData getDataForTime( double time ) {
         TimeData closest = getData();
-        for( int i = 0; i < getSampleCount(); i++ ) {
-            if( Math.abs( getData( i ).getTime() - time ) < Math.abs( closest.getTime() - time ) ) {
+        for ( int i = 0; i < getSampleCount(); i++ ) {
+            if ( Math.abs( getData( i ).getTime() - time ) < Math.abs( closest.getTime() - time ) ) {
                 closest = getData( i );
             }
         }

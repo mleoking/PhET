@@ -35,8 +35,8 @@ public class GraphSetModel {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            GraphSetModel.Listener listener = (GraphSetModel.Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            GraphSetModel.Listener listener = (GraphSetModel.Listener) listeners.get( i );
             listener.graphSuiteChanged();
         }
     }

@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.awt.*;
 
 /**
  * Author: Sam Reid

@@ -1,15 +1,16 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.model.IVariable;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
  * Author: Sam Reid

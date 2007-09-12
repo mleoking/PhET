@@ -1,13 +1,13 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -49,7 +49,7 @@ public class TimeSeriesGraphSetNode extends PNode {
     }
 
     private void relayout() {
-        if( constructed ) {
+        if ( constructed ) {
             Rectangle2D bounds = getBounds();
 //            System.out.println( "TSGSN::bounds = " + bounds );
             graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );

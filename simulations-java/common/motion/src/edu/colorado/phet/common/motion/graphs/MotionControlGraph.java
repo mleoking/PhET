@@ -1,13 +1,13 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-
-import java.util.ArrayList;
 
 /**
  * This subclass of ControlGraph is automatically connected to the supplied MotionModel
@@ -103,7 +103,7 @@ public class MotionControlGraph extends ControlGraph {
 
     protected void handleControlFocusGrabbed() {
         super.handleControlFocusGrabbed();
-        if( updateStrategy != null ) {
+        if ( updateStrategy != null ) {
             iPositionDriven.setUpdateStrategy( updateStrategy );
         }
     }
@@ -133,8 +133,8 @@ public class MotionControlGraph extends ControlGraph {
     }
 
     public void notifyZoomChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).horizontalZoomChanged( this );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).horizontalZoomChanged( this );
         }
     }
 

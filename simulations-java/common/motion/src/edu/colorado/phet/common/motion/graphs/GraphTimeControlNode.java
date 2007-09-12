@@ -1,14 +1,15 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -52,11 +53,11 @@ public class GraphTimeControlNode extends PNode {
     }
 
     private void relayout() {
-        if( constructed ) {
+        if ( constructed ) {
             double dy = 5;
             seriesLayer.setOffset( 0, 0 );
-            for( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
-                GraphControlSeriesNode child = (GraphControlSeriesNode)seriesLayer.getChild( i );
+            for ( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
+                GraphControlSeriesNode child = (GraphControlSeriesNode) seriesLayer.getChild( i );
                 child.relayout( dy );
             }
             goStopButton.setOffset( 0, seriesLayer.getFullBounds().getMaxY() + dy );
@@ -66,8 +67,8 @@ public class GraphTimeControlNode extends PNode {
 
     public void setEditable( boolean editable ) {
         this.editable = editable;
-        for( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
-            GraphControlSeriesNode child = (GraphControlSeriesNode)seriesLayer.getChild( i );
+        for ( int i = 0; i < seriesLayer.getChildrenCount(); i++ ) {
+            GraphControlSeriesNode child = (GraphControlSeriesNode) seriesLayer.getChild( i );
             child.setEditable( editable );
         }
         setHasChild( goStopButton, editable );
@@ -75,10 +76,10 @@ public class GraphTimeControlNode extends PNode {
     }
 
     private void setHasChild( PNode child, boolean addChild ) {
-        if( addChild && !getChildrenReference().contains( child ) ) {
+        if ( addChild && !getChildrenReference().contains( child ) ) {
             addChild( child );
         }
-        else if( !addChild && getChildrenReference().contains( child ) ) {
+        else if ( !addChild && getChildrenReference().contains( child ) ) {
             removeChild( child );
         }
     }
@@ -117,7 +118,7 @@ public class GraphTimeControlNode extends PNode {
             this.timeSeriesModel = timeSeriesModel;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( isGoButton() ) {
+                    if ( isGoButton() ) {
                         timeSeriesModel.startRecording();
                     }
                     else {

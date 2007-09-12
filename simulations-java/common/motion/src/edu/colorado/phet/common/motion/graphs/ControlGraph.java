@@ -1,18 +1,29 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.BufferedSeriesView;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.SeriesData;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.umd.cs.piccolo.PNode;
@@ -21,20 +32,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * The ControlGraph displays a graph of data for (multiple) time series data,
@@ -76,7 +73,7 @@ public class ControlGraph extends PNode {
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
         PNode thumb = null;
-        if( series != null ) {
+        if ( series != null ) {
             this.variable = series.getTemporalVariable();
             variable.addListener( new IVariable.Listener() {
                 public void valueChanged() {
@@ -89,7 +86,7 @@ public class ControlGraph extends PNode {
         titleLayer = createTitleLayer();
         XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
         jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
-        jFreeChart.setTitle( (String)null );
+        jFreeChart.setTitle( (String) null );
         setVerticalRange( minY, maxY );
         setHorizontalRange( maxDomainTime );
         jFreeChart.setBackgroundPaint( null );
@@ -152,16 +149,16 @@ public class ControlGraph extends PNode {
         //for debugging, attach listeners that allow change of rendering style.
         addInputEventListener( new PBasicInputEventHandler() {
             public void keyPressed( PInputEvent event ) {
-                if( event.getKeyCode() == KeyEvent.VK_1 ) {
+                if ( event.getKeyCode() == KeyEvent.VK_1 ) {
                     dynamicJFreeChartNode.setJFreeChartSeries();
                 }
-                else if( event.getKeyCode() == KeyEvent.VK_2 ) {
+                else if ( event.getKeyCode() == KeyEvent.VK_2 ) {
                     dynamicJFreeChartNode.setPiccoloSeries();
                 }
-                else if( event.getKeyCode() == KeyEvent.VK_3 ) {
+                else if ( event.getKeyCode() == KeyEvent.VK_3 ) {
                     dynamicJFreeChartNode.setBufferedSeries();
                 }
-                else if( event.getKeyCode() == KeyEvent.VK_4 ) {
+                else if ( event.getKeyCode() == KeyEvent.VK_4 ) {
                     dynamicJFreeChartNode.setBufferedImmediateSeries();
                 }
             }
@@ -175,7 +172,7 @@ public class ControlGraph extends PNode {
         this.defaultMaxY = maxY;
         this.defaultMaxX = maxDomainTime;
 
-        if( series != null ) {
+        if ( series != null ) {
             addSeries( series );
         }
     }
@@ -220,7 +217,7 @@ public class ControlGraph extends PNode {
     private void notifyValueChanged( double value ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
-            listener.valueChanged(value);
+            listener.valueChanged( value );
         }
     }
 
@@ -233,8 +230,8 @@ public class ControlGraph extends PNode {
     }
 
     private void notifyControlGrabbed() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.controlFocusGrabbed();
         }
     }
@@ -271,15 +268,15 @@ public class ControlGraph extends PNode {
     private void zoomHorizontal( double v ) {
         double currentValue = jFreeChart.getXYPlot().getDomainAxis().getUpperBound();
         double newValue = currentValue * v;
-        if( newValue > maxDomainValue ) {
+        if ( newValue > maxDomainValue ) {
             newValue = maxDomainValue;
         }
         setDomainUpperBound( newValue );
     }
 
     private void notifyZoomChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.zoomChanged();
         }
     }
@@ -298,7 +295,7 @@ public class ControlGraph extends PNode {
     }
 
     public ControlGraphSeries getControlGraphSeries( int i ) {
-        return (ControlGraphSeries)series.get( i );
+        return (ControlGraphSeries) series.get( i );
     }
 
     public int getSeriesCount() {
@@ -306,7 +303,7 @@ public class ControlGraph extends PNode {
     }
 
     public void addSliderListener( JFreeChartSliderNode.Listener listener ) {
-        jFreeChartSliderNode.addListener( listener);
+        jFreeChartSliderNode.addListener( listener );
     }
 
     public static class TitleLayer extends PhetPNode {
@@ -319,10 +316,10 @@ public class ControlGraph extends PNode {
         }
 
         public ReadoutTitleNode getReadoutNode( ControlGraphSeries series ) {
-            for( int i = 0; i < getChildrenCount(); i++ ) {
-                if( getChild( i ) instanceof ReadoutTitleNode ) {
-                    ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode)getChild( i );
-                    if( readoutTitleNode.getSeries() == series ) {
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                if ( getChild( i ) instanceof ReadoutTitleNode ) {
+                    ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode) getChild( i );
+                    if ( readoutTitleNode.getSeries() == series ) {
                         return readoutTitleNode;
                     }
                 }
@@ -339,7 +336,7 @@ public class ControlGraph extends PNode {
         titleLayer.addReadoutNode( titleNode );
 
         GraphControlSeriesNode seriesNode = null;
-        if( series.isEditable() ) {
+        if ( series.isEditable() ) {
             seriesNode = graphTimeControlNode.addVariable( series );
             seriesNode.getTextBox().getTextField().addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
@@ -362,7 +359,7 @@ public class ControlGraph extends PNode {
             public void visibilityChanged() {
                 dynamicJFreeChartNode.setSeriesVisible( data, series.isVisible() );
                 titleNode.setVisible( series.isVisible() );
-                if( seriesNodeTemp != null ) {
+                if ( seriesNodeTemp != null ) {
                     seriesNodeTemp.setVisible( series.isVisible() );
                 }
                 getDynamicJFreeChartNode().forceUpdateAll();
@@ -379,8 +376,8 @@ public class ControlGraph extends PNode {
     }
 
     protected int getSeriesIndex( ControlGraphSeries series ) {
-        for( int i = 0; i < getSeriesCount(); i++ ) {
-            if( getControlGraphSeries( i ) == series ) {
+        for ( int i = 0; i < getSeriesCount(); i++ ) {
+            if ( getControlGraphSeries( i ) == series ) {
                 return i;
             }
         }
@@ -392,7 +389,7 @@ public class ControlGraph extends PNode {
     }
 
     public void setDomainUpperBound( double maxDataX ) {
-        if( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
+        if ( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
             jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
             updateZoomEnabled();
             notifyZoomChanged();
@@ -452,14 +449,14 @@ public class ControlGraph extends PNode {
 
         public double[] getValues( LayoutFunction layoutFunction ) {
             ArrayList values = new ArrayList();
-            for( int i = 0; i < minimizableControlGraphs.length; i++ ) {
-                if( !minimizableControlGraphs[i].isMinimized() ) {
+            for ( int i = 0; i < minimizableControlGraphs.length; i++ ) {
+                if ( !minimizableControlGraphs[i].isMinimized() ) {
                     values.add( new Double( layoutFunction.getValue( minimizableControlGraphs[i] ) ) );
                 }
             }
             double[] val = new double[values.size()];
-            for( int i = 0; i < val.length; i++ ) {
-                val[i] = ( (Double)values.get( i ) ).doubleValue();
+            for ( int i = 0; i < val.length; i++ ) {
+                val[i] = ( (Double) values.get( i ) ).doubleValue();
             }
             return val;
         }
@@ -477,7 +474,7 @@ public class ControlGraph extends PNode {
 //                    return maxControlNodeWidth;
                 }
             };
-            if( getNumberMaximized() == 0 ) {
+            if ( getNumberMaximized() == 0 ) {
                 return;
             }
             jFreeChartSliderNode.setOffset( max( getValues( controlNodeMaxX ) ) + dx, 0 );
@@ -505,9 +502,9 @@ public class ControlGraph extends PNode {
 
         private int getNumberMaximized() {
             int count = 0;
-            for( int i = 0; i < minimizableControlGraphs.length; i++ ) {
+            for ( int i = 0; i < minimizableControlGraphs.length; i++ ) {
                 MinimizableControlGraph minimizableControlGraph = minimizableControlGraphs[i];
-                if( !minimizableControlGraph.isMinimized() ) {
+                if ( !minimizableControlGraph.isMinimized() ) {
                     count++;
                 }
             }
@@ -516,8 +513,8 @@ public class ControlGraph extends PNode {
 
         private double max( double[] values ) {
             double max = values[0];
-            for( int i = 1; i < values.length; i++ ) {
-                if( values[i] > max ) {
+            for ( int i = 1; i < values.length; i++ ) {
+                if ( values[i] > max ) {
                     max = values[i];
                 }
             }

@@ -1,13 +1,14 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.MotionResources;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.motion.MotionResources;
 
 /**
  * Author: Sam Reid
@@ -47,7 +48,7 @@ public class ColorArrows {
 //            int[] ints = new int[]{replacement[0] + diff[0], replacement[1] + diff[1], replacement[2] + diff[2], src[3]};
             int[] ints = new int[]{replacement[0] + diffSum, replacement[1] + diffSum, replacement[2] + diffSum, src[3]};
 //            System.out.println( "ints = " + ints + " = " + ints[0] + ", " + ints[1] + ", " + ints[2] );
-            for( int i = 0; i < ints.length; i++ ) {
+            for ( int i = 0; i < ints.length; i++ ) {
                 ints[i] = Math.min( ints[i], 255 );
                 ints[i] = Math.max( ints[i], 0 );
             }
@@ -56,7 +57,7 @@ public class ColorArrows {
 
         private int[] diffRGB( int[] src, int[] template ) {
             int[] diff = new int[3];
-            for( int i = 0; i < diff.length; i++ ) {
+            for ( int i = 0; i < diff.length; i++ ) {
                 diff[i] = src[i] - template[i];
             }
             return diff;
@@ -64,7 +65,7 @@ public class ColorArrows {
 
         private double distRGB( int[] a, int[] b ) {
             double sum = 0.0;
-            for( int i = 0; i < a.length; i++ ) {
+            for ( int i = 0; i < a.length; i++ ) {
                 int term = a[0] - b[0];
                 sum += term * term;
             }

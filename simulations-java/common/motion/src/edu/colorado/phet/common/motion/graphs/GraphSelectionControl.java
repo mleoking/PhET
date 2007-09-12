@@ -1,11 +1,12 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.util.GraphicsUtil;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.motion.util.GraphicsUtil;
 
 /**
  * User: Sam Reid
@@ -21,7 +22,7 @@ public class GraphSelectionControl extends JPanel {
         JLabel label = new JLabel( "Show graphs:" );
         label.setFont( new Font( "Lucida Sans", Font.PLAIN, 16 ) );
         add( label, gridBagConstraints );
-        for( int i = 0; i < graphSuiteSet.getNumGraphSuites(); i++ ) {
+        for ( int i = 0; i < graphSuiteSet.getNumGraphSuites(); i++ ) {
             add( new GraphSuiteRadioButton( graphSetModel, graphSuiteSet.getGraphSuite( i ) ), gridBagConstraints );
         }
     }

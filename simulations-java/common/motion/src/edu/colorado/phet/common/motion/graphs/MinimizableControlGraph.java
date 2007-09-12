@@ -1,17 +1,17 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.motion.MotionResources;
-import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.motion.MotionResources;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -91,9 +91,9 @@ public class MinimizableControlGraph extends PNode {
     }
 
     public void setMinimized( boolean b ) {
-        if( this.minimized != b ) {
+        if ( this.minimized != b ) {
             this.minimized = b;
-            if( minimized ) {
+            if ( minimized ) {
                 removeChild( graphChild );
                 addChild( stubChild );
             }
@@ -170,8 +170,8 @@ public class MinimizableControlGraph extends PNode {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.minimizeStateChanged();
         }
     }
