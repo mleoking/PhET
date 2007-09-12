@@ -206,6 +206,14 @@ public class ControlGraph extends PNode {
 
     protected void handleValueChanged() {
         getSimulationVariable().setValue( getSliderValue() );
+        notifyValueChanged(getSliderValue());
+    }
+
+    private void notifyValueChanged( double value ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.valueChanged(value);
+        }
     }
 
     protected double getSliderValue() {
@@ -558,6 +566,8 @@ public class ControlGraph extends PNode {
         void controlFocusGrabbed();
 
         void zoomChanged();
+
+        void valueChanged( double value );
     }
 
     public static class Adapter implements Listener {
@@ -565,6 +575,9 @@ public class ControlGraph extends PNode {
         }
 
         public void zoomChanged() {
+        }
+
+        public void valueChanged( double value ) {
         }
     }
 
