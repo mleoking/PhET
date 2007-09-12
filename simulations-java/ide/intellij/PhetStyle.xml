@@ -19,13 +19,24 @@
   <option name="SPACE_WITHIN_CATCH_PARENTHESES" value="true" />
   <option name="SPACE_WITHIN_SWITCH_PARENTHESES" value="true" />
   <option name="SPACE_WITHIN_SYNCHRONIZED_PARENTHESES" value="true" />
-  <option name="SPACE_AFTER_TYPE_CAST" value="false" />
-  <option name="SPACE_BEFORE_IF_PARENTHESES" value="false" />
-  <option name="SPACE_BEFORE_WHILE_PARENTHESES" value="false" />
-  <option name="SPACE_BEFORE_FOR_PARENTHESES" value="false" />
   <option name="SPACE_BEFORE_CATCH_PARENTHESES" value="false" />
   <option name="SPACE_BEFORE_SWITCH_PARENTHESES" value="false" />
   <option name="SPACE_BEFORE_SYNCHRONIZED_PARENTHESES" value="false" />
+  <option name="IMPORT_LAYOUT_TABLE">
+    <value>
+      <package name="" withSubpackages="true" />
+      <emptyLine />
+      <package name="java" withSubpackages="true" />
+      <emptyLine />
+      <package name="javax" withSubpackages="true" />
+      <emptyLine />
+      <package name="org" withSubpackages="true" />
+      <emptyLine />
+      <package name="edu" withSubpackages="true" />
+      <emptyLine />
+      <package name="com" withSubpackages="true" />
+    </value>
+  </option>
   <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
   <option name="IF_BRACE_FORCE" value="3" />
   <option name="DOWHILE_BRACE_FORCE" value="3" />
