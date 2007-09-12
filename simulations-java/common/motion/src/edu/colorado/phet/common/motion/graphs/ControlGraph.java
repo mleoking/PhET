@@ -132,11 +132,15 @@ public class ControlGraph extends PNode {
 
         jFreeChartSliderNode.addListener( new JFreeChartSliderNode.Listener() {
             public void valueChanged() {
-                handleValueChanged();
+//                handleValueChanged();
             }
 
             public void sliderThumbGrabbed() {
                 notifyControlGrabbed();
+            }
+
+            public void sliderDragged( double value ) {
+                handleValueChanged();
             }
 
         } );
@@ -209,7 +213,7 @@ public class ControlGraph extends PNode {
         notifyValueChanged( getModelValue() );
     }
 
-    protected double getModelValue() {
+    public double getModelValue() {
         return getSliderValue();
     }
 
@@ -299,6 +303,10 @@ public class ControlGraph extends PNode {
 
     public int getSeriesCount() {
         return this.series.size();
+    }
+
+    public void addSliderListener( JFreeChartSliderNode.Listener listener ) {
+        jFreeChartSliderNode.addListener( listener);
     }
 
     public static class TitleLayer extends PhetPNode {
