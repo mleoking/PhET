@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
+package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 

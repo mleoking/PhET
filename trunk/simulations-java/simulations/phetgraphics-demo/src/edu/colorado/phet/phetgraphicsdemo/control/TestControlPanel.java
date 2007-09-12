@@ -1,8 +1,8 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation.control;
+package edu.colorado.phet.phetgraphicsdemo.control;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.view.DebuggerGraphic;
+import edu.colorado.phet.phetgraphicsdemo.view.DebuggerGraphic;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

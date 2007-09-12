@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation.model;
+package edu.colorado.phet.phetgraphicsdemo.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;

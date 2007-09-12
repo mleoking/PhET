@@ -1,10 +1,10 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation.view;
+package edu.colorado.phet.phetgraphicsdemo.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetgraphics.test.testlocation.model.WindmillModelElement;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.phetgraphicsdemo.model.WindmillModelElement;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;

@@ -1,4 +1,4 @@
-package edu.colorado.phet.common.phetgraphics.test.testlocation;
+package edu.colorado.phet.phetgraphicsdemo;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
