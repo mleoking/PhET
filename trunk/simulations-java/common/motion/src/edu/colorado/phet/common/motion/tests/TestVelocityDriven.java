@@ -7,17 +7,18 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.motion.model.VelocityDriven;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
+import edu.colorado.phet.common.motion.model.VelocityDriven;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 public class TestVelocityDriven {
     private JFrame frame;

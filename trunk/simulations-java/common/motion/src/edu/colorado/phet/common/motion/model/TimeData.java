@@ -13,10 +13,10 @@ public class TimeData {
     private double time;
 
     public TimeData( double value, double time ) {
-        if( Double.isNaN( value ) ) {
+        if ( Double.isNaN( value ) ) {
             throw new IllegalArgumentException( "value was nan" );
         }
-        if( Double.isNaN( time ) ) {
+        if ( Double.isNaN( time ) ) {
             throw new IllegalArgumentException( "time was nan" );
         }
         this.value = value;

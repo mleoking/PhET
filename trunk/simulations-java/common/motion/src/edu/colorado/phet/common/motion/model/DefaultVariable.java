@@ -11,10 +11,10 @@ public class DefaultVariable implements IVariable {
     private ArrayList listeners = new ArrayList();
 
     public void setValue( double value ) {
-        if( this.value != value ) {
+        if ( this.value != value ) {
             this.value = value;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                ( (IVariable.Listener)listeners.get( i ) ).valueChanged();
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (IVariable.Listener) listeners.get( i ) ).valueChanged();
             }
         }
     }

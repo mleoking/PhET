@@ -6,7 +6,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.TimeState;
-import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 
 /**
  * Represents a base model which can be used for managing collections of MotionBody objects.
@@ -30,7 +29,7 @@ public class MotionModel {
             public void setState( Object o ) {
                 //the setState paradigm is used to allow attachment of listeners to model substructure
                 //states are copied without listeners
-                setPlaybackTime( ( (Double)o ).doubleValue() );
+                setPlaybackTime( ( (Double) o ).doubleValue() );
             }
 
             public void resetTime() {
@@ -50,11 +49,11 @@ public class MotionModel {
         };
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
-                if( timeSeriesModel.isRecordMode() ) {
+                if ( timeSeriesModel.isRecordMode() ) {
                     TimeState timeState = timeSeriesModel.getSeries().getLastPoint();
-                    if( timeState != null ) {
+                    if ( timeState != null ) {
                         Object o = timeState.getValue();
-                        setPlaybackTime( ( (Double)o ).doubleValue() );
+                        setPlaybackTime( ( (Double) o ).doubleValue() );
                     }
                 }
             }

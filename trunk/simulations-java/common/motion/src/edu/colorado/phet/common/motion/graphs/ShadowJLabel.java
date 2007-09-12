@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-import edu.umd.cs.piccolo.PCanvas;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * Author: Sam Reid
@@ -17,7 +18,7 @@ public class ShadowJLabel extends PCanvas {
         shadowPText.setTextPaint( foreground );
         shadowPText.setFont( font );
         getLayer().addChild( shadowPText );
-        setPreferredSize( new Dimension( (int)shadowPText.getFullBounds().getWidth() + 1, (int)shadowPText.getFullBounds().getHeight() + 1 ) );
+        setPreferredSize( new Dimension( (int) shadowPText.getFullBounds().getWidth() + 1, (int) shadowPText.getFullBounds().getHeight() + 1 ) );
         setOpaque( false );
         setBackground( null );
         setBorder( null );

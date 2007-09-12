@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.motion.tests;
 
+import junit.framework.TestCase;
+
 import edu.colorado.phet.common.motion.model.AccelerationDriven;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import junit.framework.TestCase;
 
 /**
  * User: Sam Reid
@@ -29,13 +30,13 @@ public class TestConstantAcceleration extends TestCase {
         model.getMotionBody().setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );
         System.out.println( "init state=" + model );
-        for( int i = 0; i <= 100; i++ ) {
+        for ( int i = 0; i <= 100; i++ ) {
             model.stepInTime( 1.0 );
             System.out.println( "i = " + i + ", state=" + model );
         }
 
         TimeData[] timeData = model.getRecentAccelerationTimeSeries( 5 );
-        for( int i = 0; i < timeData.length; i++ ) {
+        for ( int i = 0; i < timeData.length; i++ ) {
             TimeData data = timeData[i];
             System.out.println( "i = " + i + ", data=" + data );
         }

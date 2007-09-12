@@ -1,12 +1,13 @@
 package edu.colorado.phet.common.motion.tests;
 
+import junit.framework.TestCase;
+
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import junit.framework.TestCase;
-
-import java.text.DecimalFormat;
 
 /**
  * Author: Sam Reid
@@ -17,9 +18,9 @@ public class TestPositionDrivenOffsets extends TestCase {
     boolean verbose = false;
 
     private void step( SwingClock clock, SingleBodyMotionModel motionModel, int i ) {
-        for( int k = 0; k < i; k++ ) {
+        for ( int k = 0; k < i; k++ ) {
             clock.stepClockWhilePaused();
-            if( verbose ) {
+            if ( verbose ) {
                 showState( motionModel );
             }
         }
@@ -34,13 +35,13 @@ public class TestPositionDrivenOffsets extends TestCase {
 //        testVelocityOffset( 1.0, 0.0, 100, 1.0, 100, 10, 1E-6 );
 //        testVelocityOffset( 5.0, 0.0, 100, 2.0, 100, 6, 1E-6 );
 
-        for( double dt = 1.0; dt <= 10; dt *= 2.0 ) {
-            for( double x0 = -10; x0 < 10; x0 += 6 ) {
-                for( double xFinal = -10; xFinal < 10; xFinal += 7 ) {
-                    for( int maxWindowSize = 2; maxWindowSize <= 16; maxWindowSize += 2 ) {
-                        if( xFinal > x0 ) {
+        for ( double dt = 1.0; dt <= 10; dt *= 2.0 ) {
+            for ( double x0 = -10; x0 < 10; x0 += 6 ) {
+                for ( double xFinal = -10; xFinal < 10; xFinal += 7 ) {
+                    for ( int maxWindowSize = 2; maxWindowSize <= 16; maxWindowSize += 2 ) {
+                        if ( xFinal > x0 ) {
 
-                            if( verbose ) {
+                            if ( verbose ) {
 
                                 System.out.println( "############################################" );
                                 System.out.println( "######################New Test##############" );
@@ -63,7 +64,7 @@ public class TestPositionDrivenOffsets extends TestCase {
         motionModel.getPositionDriven().setVelocityWindow( maxWindowSize );
         motionModel.setPositionDriven();
 
-        if( verbose ) {
+        if ( verbose ) {
             showState( motionModel );
         }
         motionModel.getMotionBody().setPosition( x0 );
@@ -79,9 +80,9 @@ public class TestPositionDrivenOffsets extends TestCase {
         double zeroAccelTime = ( motionModel.getMaxAcceleration().getTime() + motionModel.getMinAcceleration().getTime() ) / 2.0;
 //        System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity + ", zeroAccelTime=" + zeroAccelTime );
 
-        if( verbose ) {
+        if ( verbose ) {
             DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
-            for( int i = 0; i < motionModel.getVelocitySampleCount(); i++ ) {
+            for ( int i = 0; i < motionModel.getVelocitySampleCount(); i++ ) {
                 System.out.println( "motionModel.getVelocity( i) = " + motionModel.getVelocity( i ).toString( decimalFormat ) );
             }
             System.out.println( "timeXChanged=" + timeXChanged + ", timeForMaxVelocity=" + timeForMaxVelocity );

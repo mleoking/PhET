@@ -7,10 +7,10 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.ZoomSuiteNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-
-import javax.swing.*;
 
 public class TestZoomSuite {
     private JFrame frame;

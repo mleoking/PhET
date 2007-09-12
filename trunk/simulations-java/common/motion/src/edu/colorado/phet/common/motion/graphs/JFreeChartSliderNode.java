@@ -1,20 +1,21 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import org.jfree.chart.event.ChartChangeEvent;
-import org.jfree.chart.event.ChartChangeListener;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeListener;
+
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * This component contains both a JFreeChartNode (supplied by the caller) and a vertical Slider node,
@@ -42,10 +43,10 @@ public class JFreeChartSliderNode extends PNode {
 
             public void mousePressed( PInputEvent event ) {
                 initDragPoint = event.getPositionRelativeTo( sliderThumb.getParent() );
-                if( value < getMinRangeValue() ) {
+                if ( value < getMinRangeValue() ) {
                     origY = getMinRangeValue();
                 }
-                else if( value > getMaxRangeValue() ) {
+                else if ( value > getMaxRangeValue() ) {
                     origY = getMaxRangeValue();
                 }
                 else {
@@ -59,7 +60,7 @@ public class JFreeChartSliderNode extends PNode {
             }
 
             public void mouseDragged( PInputEvent event ) {
-                if( initDragPoint == null ) {
+                if ( initDragPoint == null ) {
                     mousePressed( event );
                 }
                 double yCurrent = event.getPositionRelativeTo( sliderThumb.getParent() ).getY();
@@ -69,7 +70,7 @@ public class JFreeChartSliderNode extends PNode {
                 double plotDY = plot2.getY() - plot1.getY();
                 double value = clamp( origY + plotDY );
                 setValue( value );
-                notifySliderDragged(value);
+                notifySliderDragged( value );
             }
         } );
 
@@ -92,13 +93,13 @@ public class JFreeChartSliderNode extends PNode {
     private void notifySliderDragged( double value ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
-            listener.sliderDragged(value);
+            listener.sliderDragged( value );
         }
     }
 
     private void notifySliderThumbGrabbed() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.sliderThumbGrabbed();
         }
     }
@@ -125,10 +126,10 @@ public class JFreeChartSliderNode extends PNode {
     }
 
     private double clamp( double v ) {
-        if( v > getMaxRangeValue() ) {
+        if ( v > getMaxRangeValue() ) {
             v = getMaxRangeValue();
         }
-        if( v < getMinRangeValue() ) {
+        if ( v < getMinRangeValue() ) {
             v = getMinRangeValue();
         }
         return v;
@@ -140,7 +141,7 @@ public class JFreeChartSliderNode extends PNode {
      * @param value the value to set for this controller.
      */
     public void setValue( double value ) {
-        if( this.value != value ) {
+        if ( this.value != value ) {
             this.value = value;
             updateThumbLocation();
             notifyValueChanged();
@@ -189,8 +190,8 @@ public class JFreeChartSliderNode extends PNode {
     }
 
     private void notifyValueChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            JFreeChartSliderNode.Listener listener = (JFreeChartSliderNode.Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            JFreeChartSliderNode.Listener listener = (JFreeChartSliderNode.Listener) listeners.get( i );
             listener.valueChanged();
         }
     }

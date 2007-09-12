@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.model.*;
-
 /**
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM

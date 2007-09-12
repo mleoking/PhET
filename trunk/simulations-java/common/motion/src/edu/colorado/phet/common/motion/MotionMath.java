@@ -2,6 +2,7 @@ package edu.colorado.phet.common.motion;
 
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;
+
 import edu.colorado.phet.common.motion.model.TimeData;
 
 /**
@@ -14,7 +15,7 @@ public class MotionMath {
     public static double estimateDerivative( TimeData[] timeSeries ) {
         double[] x = new double[timeSeries.length];
         double[] y = new double[timeSeries.length];
-        for( int i = 0; i < y.length; i++ ) {
+        for ( int i = 0; i < y.length; i++ ) {
             x[i] = timeSeries[i].getTime();
             y[i] = timeSeries[i].getValue();
         }
@@ -22,7 +23,7 @@ public class MotionMath {
         data[0] = x;
         data[1] = y;
         AbstractDoubleVector out = LinearMath.linearRegression( data );
-        if( Double.isNaN( out.getComponent( 1 ) ) || Double.isInfinite( out.getComponent( 1 ) ) ) {
+        if ( Double.isNaN( out.getComponent( 1 ) ) || Double.isInfinite( out.getComponent( 1 ) ) ) {
             //todo handle this error elsewhere
             return 0.0;
         }
@@ -31,14 +32,14 @@ public class MotionMath {
 
     public static double averageTime( TimeData[] datas ) {
         double a = 0.0;
-        for( int i = 0; i < datas.length; i++ ) {
+        for ( int i = 0; i < datas.length; i++ ) {
             a += datas[i].getTime();
         }
         return a / datas.length;
     }
 
     public static TimeData getDerivative( TimeData[] recentPositionTimeSeries ) {
-        if( recentPositionTimeSeries.length == 0 ) {
+        if ( recentPositionTimeSeries.length == 0 ) {
 //            System.out.println( "MotionMath.getDerivative, returning zero" );
             return new TimeData( 0, 0 );
         }
@@ -53,17 +54,17 @@ public class MotionMath {
      * @return
      */
     public static TimeData getSecondDerivative( TimeData[] x ) {
-        if( x.length == 0 ) {
+        if ( x.length == 0 ) {
 //            System.out.println( "MotionMath.getDerivative, returning zero" );
             return new TimeData( 0, 0 );
         }
         double sum = 0.0;
         int count = 0;
-        for( int i = 1; i < x.length - 1; i++ ) {
+        for ( int i = 1; i < x.length - 1; i++ ) {
             sum += getSecondDerivative( x[i - 1], x[i], x[i + 1] );
             count++;
         }
-        if( count == 0 ) {
+        if ( count == 0 ) {
             return new TimeData( 0.0, averageTime( x ) );
         }
         return new TimeData( sum / count, averageTime( x ) );
@@ -79,7 +80,7 @@ public class MotionMath {
 
 
     public static TimeData[] smooth( TimeData[] series, int numSmooth ) {
-        for( int i = 0; i < numSmooth; i++ ) {
+        for ( int i = 0; i < numSmooth; i++ ) {
             series = smooth( series );
         }
         return series;
@@ -87,8 +88,8 @@ public class MotionMath {
 
     private static TimeData[] smooth( TimeData[] datas ) {
         TimeData[] smooth = new TimeData[datas.length];
-        for( int i = 0; i < smooth.length; i++ ) {
-            if( i > 0 && i < smooth.length - 1 ) {
+        for ( int i = 0; i < smooth.length; i++ ) {
+            if ( i > 0 && i < smooth.length - 1 ) {
                 smooth[i] = new TimeData( ( datas[i - 1].getValue() + datas[i].getValue() + datas[i + 1].getValue() ) / 3.0, datas[i].getTime() );
             }
             else {

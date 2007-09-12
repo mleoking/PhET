@@ -1,5 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.*;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -7,9 +10,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.text.DecimalFormat;
 
 /**
  * Author: Sam Reid
@@ -55,7 +55,7 @@ public class ReadoutTitleNode extends PNode {
             }
         } );
         updateText();
-        if( series.getCharacterName() != null ) {
+        if ( series.getCharacterName() != null ) {
             titleNode.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>= " );
         }
         else {
@@ -66,7 +66,7 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private Font getTitleFont() {
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
             return new Font( "Lucida Sans", Font.BOLD, 11 );
         }
         else {

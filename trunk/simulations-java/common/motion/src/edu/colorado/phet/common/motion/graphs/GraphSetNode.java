@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -45,9 +45,9 @@ public class GraphSetNode extends PNode {
     }
 
     public void forceRepaintGraphs() {
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
-            if( minimizableControlGraph.getVisible() && !minimizableControlGraph.isMinimized() ) {
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
+            if ( minimizableControlGraph.getVisible() && !minimizableControlGraph.isMinimized() ) {
                 minimizableControlGraph.forceUpdate();
             }
         }
@@ -65,11 +65,11 @@ public class GraphSetNode extends PNode {
     }
 
     private void updateGraphSuite() {
-        while( graphComponents.size() > 0 ) {
+        while ( graphComponents.size() > 0 ) {
             removeGraphComponent( 0 );
         }
         GraphSuite graphSuite = graphSetModel.getGraphSuite();
-        for( int i = 0; i < graphSuite.getGraphComponentCount(); i++ ) {
+        for ( int i = 0; i < graphSuite.getGraphComponentCount(); i++ ) {
             addGraphComponent( graphSuite.getGraphComponent( i ) );
         }
         updateLayout();
@@ -90,8 +90,8 @@ public class GraphSetNode extends PNode {
     private void relayout() {
         double yPad = 5;
         double availableY = height;
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
             availableY -= minimizableControlGraph.getFixedHeight();
             availableY -= yPad;
         }
@@ -99,10 +99,10 @@ public class GraphSetNode extends PNode {
         double yOffset = 0;
         double graphHeight = Math.min( availableY / numMaximized(), availableY / 2 );//put a minimum on the vertical height of the graph.  Tall graphs were overwhelming.
 
-        for( int i = 0; i < graphComponents.size(); i++ ) {
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
             MinimizableControlGraph minimizableControlGraph = getGraphComponent( i );
             minimizableControlGraph.setOffset( 0, yOffset );
-            if( numMaximized() > 0 ) {
+            if ( numMaximized() > 0 ) {
                 minimizableControlGraph.setAvailableBounds( width, graphHeight );
             }
             yOffset += minimizableControlGraph.getFullBounds().getHeight() + yPad;
@@ -114,15 +114,15 @@ public class GraphSetNode extends PNode {
 
     private int numMaximized() {
         int count = 0;
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
             count += minimizableControlGraph.isMinimized() ? 0 : 1;
         }
         return count;
     }
 
     private void removeGraphComponent( int i ) {
-        MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.remove( i );
+        MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.remove( i );
         minimizableControlGraph.removeListener( graphComponentListener );
         removeChild( minimizableControlGraph );
         updateLayout();
@@ -133,21 +133,21 @@ public class GraphSetNode extends PNode {
     }
 
     private MinimizableControlGraph getGraphComponent( int i ) {
-        return (MinimizableControlGraph)graphComponents.get( i );
+        return (MinimizableControlGraph) graphComponents.get( i );
     }
 
     public void setFlowLayout() {
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
             minimizableControlGraph.setFlowLayout();
         }
         this.layout = flow;
     }
 
     public void setAlignedLayout() {
-        MinimizableControlGraph[] gcs = (MinimizableControlGraph[])graphComponents.toArray( new MinimizableControlGraph[0] );
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+        MinimizableControlGraph[] gcs = (MinimizableControlGraph[]) graphComponents.toArray( new MinimizableControlGraph[0] );
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
             minimizableControlGraph.setAlignedLayout( gcs );
         }
         relayoutControlGraphs();
@@ -155,8 +155,8 @@ public class GraphSetNode extends PNode {
     }
 
     private void relayoutControlGraphs() {
-        for( int i = 0; i < graphComponents.size(); i++ ) {
-            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph)graphComponents.get( i );
+        for ( int i = 0; i < graphComponents.size(); i++ ) {
+            MinimizableControlGraph minimizableControlGraph = (MinimizableControlGraph) graphComponents.get( i );
             minimizableControlGraph.relayoutControlGraph();
         }
     }
