@@ -1,16 +1,17 @@
 package edu.colorado.phet.rotation.tests;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Using the linear Position, Velocity or Acceleration updates is unlikely insufficient to display the
@@ -37,7 +38,7 @@ public class CircularRegression {
         pane.addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
                 addPoint( e.getPoint() );
-                if( e.isControlDown() ) {
+                if ( e.isControlDown() ) {
                     pointLayer.removeAllChildren();
                     updateCircle();
                 }
@@ -47,7 +48,7 @@ public class CircularRegression {
         pane.addMouseMotionListener( new MouseMotionAdapter() {
             public void mouseDragged( MouseEvent e ) {
                 addPoint( e.getPoint() );
-                while( pointLayer.getChildrenCount() > 100 ) {
+                while ( pointLayer.getChildrenCount() > 100 ) {
                     pointLayer.removeChild( 0 );
                 }
                 updateCircle();
@@ -93,11 +94,11 @@ public class CircularRegression {
         }
 
         public double getMeanSquaredError( Point2D[] pointHistory ) {
-            if( pointHistory.length == 0 ) {
+            if ( pointHistory.length == 0 ) {
                 return 0;
             }
             double sumSq = 0;
-            for( int i = 0; i < pointHistory.length; i++ ) {
+            for ( int i = 0; i < pointHistory.length; i++ ) {
                 Point2D point2D = pointHistory[i];
                 sumSq += getSquaredError( point2D );
             }
@@ -106,7 +107,7 @@ public class CircularRegression {
 
         public double getSquaredError( Point2D pt ) {
             double distToCircle = pt.distance( x, y );
-            if( distToCircle > r ) {
+            if ( distToCircle > r ) {
                 return ( distToCircle - r ) * ( distToCircle - r );
             }
             else {
@@ -126,7 +127,7 @@ public class CircularRegression {
                 lastCircle == null ? avgX( points ) : lastCircle.x,
                 lastCircle == null ? avgY( points ) : lastCircle.y,
                 lastCircle == null ? 1 : lastCircle.r};// points[points.length - 1].getY(), 50};
-        for( int i = 0; i < numIt; i++ ) {
+        for ( int i = 0; i < numIt; i++ ) {
             state = update( state, points );
         }
         return new Circle( state[0], state[1], state[2] );
@@ -134,7 +135,7 @@ public class CircularRegression {
 
     private static double avgX( Point2D[] points ) {
         double sum = 0;
-        for( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
             Point2D point = points[i];
             sum += point.getX();
         }
@@ -143,7 +144,7 @@ public class CircularRegression {
 
     private static double avgY( Point2D[] points ) {
         double sum = 0;
-        for( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
             Point2D point = points[i];
             sum += point.getY();
         }
@@ -152,7 +153,7 @@ public class CircularRegression {
 
     private static double[] update( double[] state, Point2D[] points ) {
         double[] state2 = new double[state.length];
-        for( int i = 0; i < state2.length; i++ ) {
+        for ( int i = 0; i < state2.length; i++ ) {
             state2[i] = state[i] + alpha * numgrad( i, state, points );
 
         }
@@ -174,7 +175,7 @@ public class CircularRegression {
 
     private static double getError( double[] state, Point2D[] points ) {
         double sum = 0;
-        for( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
             sum += distance( state, points[i] );
         }
         return sum;
@@ -183,7 +184,7 @@ public class CircularRegression {
 
     private static double distance( double[] state, Point2D point ) {
         double distToCenter = point.distance( state[0], state[1] );
-        if( distToCenter > state[2] ) {
+        if ( distToCenter > state[2] ) {
             return distToCenter - state[2];
         }
         else {
@@ -193,18 +194,18 @@ public class CircularRegression {
 
     private static double grad( int index, double[] state, Point2D[] points ) {
         double sum = 0;
-        if( index == 0 ) {
-            for( int i = 0; i < points.length; i++ ) {
+        if ( index == 0 ) {
+            for ( int i = 0; i < points.length; i++ ) {
                 sum += -1 * ( points[i].getX() - state[0] ) * ( points[i].distance( state[0], state[1] ) );
             }
         }
-        else if( index == 1 ) {
-            for( int i = 0; i < points.length; i++ ) {
+        else if ( index == 1 ) {
+            for ( int i = 0; i < points.length; i++ ) {
                 sum += -1 * ( points[i].getY() - state[1] ) * ( points[i].distance( state[0], state[1] ) );
             }
         }
-        else if( index == 2 ) {
-            for( int i = 0; i < points.length; i++ ) {
+        else if ( index == 2 ) {
+            for ( int i = 0; i < points.length; i++ ) {
                 sum += -1;//*points.length;// * (points[i].getX() - state[0]) * (points[i].distance(state[0], state[1]));
             }
         }
@@ -213,7 +214,7 @@ public class CircularRegression {
 
     private Point2D[] getPoints() {
         Point2D[] pts = new Point2D[pointLayer.getChildrenCount()];
-        for( int i = 0; i < pts.length; i++ ) {
+        for ( int i = 0; i < pts.length; i++ ) {
             pts[i] = pointLayer.getChild( i ).getFullBounds().getCenter2D();
         }
         return pts;

@@ -48,14 +48,14 @@ public class AngularUnitGraph extends RotationGraph {
     private void updateUnits() {
         getVerticalAxis().setLabel( getTitle() + " (" + getUnitsString() + ")" );
         setVerticalRange( getDisplayValue( minRad ), getDisplayValue( maxRad ) );
-        for( int i = 0; i < getSeriesCount(); i++ ) {
+        for ( int i = 0; i < getSeriesCount(); i++ ) {
             getControlGraphSeries( i ).setUnits( getUnitsString() );
         }
         getDynamicJFreeChartNode().clear();
         //add back all existing data in the right units
-        for( int i = 0; i < getSeriesCount(); i++ ) {
+        for ( int i = 0; i < getSeriesCount(); i++ ) {
             ControlGraphSeries series = getControlGraphSeries( i );
-            for( int k = 0; k < series.getTemporalVariable().getSampleCount(); k++ ) {
+            for ( int k = 0; k < series.getTemporalVariable().getSampleCount(); k++ ) {
                 TimeData data = series.getTemporalVariable().getData( k );
                 getDynamicJFreeChartNode().addValue( getSeriesIndex( series ), data.getTime(), getDisplayValue( data ) );
             }

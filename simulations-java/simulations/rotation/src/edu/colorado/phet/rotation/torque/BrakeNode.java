@@ -1,5 +1,10 @@
 package edu.colorado.phet.rotation.torque;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -9,11 +14,6 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * Author: Sam Reid
@@ -42,11 +42,11 @@ public class BrakeNode extends PNode {
 //        Color blockColor = Color.blue;
 //        Color blockColor = new Color( 215,184,62);
         Color blockColor = new Color( 207, 187, 108 );
-        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         block.translate( 0, -block.getFullBounds().getHeight() / 2.0 );
         addChild( block );
 
-        PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
 //        addChild( registrationPoint );
 
         im = new PImage();
@@ -64,7 +64,7 @@ public class BrakeNode extends PNode {
 
     private void updateImage() {
         double numImages = 15;
-        int image = (int)( ( torqueModel.getBrakeForce() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+        int image = (int) ( ( torqueModel.getBrakeForce() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
 //        System.out.println( "torqueModel.getBRakeForce= " + torqueModel.getBrakeForce() + ", image=" + image );
         String imageString = "pusher-leaning_00" + ( ( "" + image ).length() == 1 ? "0" : "" ) + image + ".gif";
         try {

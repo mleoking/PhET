@@ -1,11 +1,11 @@
 package edu.colorado.phet.rotation.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -34,10 +34,10 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setDisplayGraph( boolean displayGraph ) {
-        if( this.displayGraph != displayGraph ) {
+        if ( this.displayGraph != displayGraph ) {
             this.displayGraph = displayGraph;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener)listeners.get( i ) ).displayGraphChanged();
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener) listeners.get( i ) ).displayGraphChanged();
             }
         }
     }
@@ -51,22 +51,22 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setRadius( double radius ) {
-        if( this.radius != radius ) {
+        if ( this.radius != radius ) {
             this.radius = radius;
             notifyRadiusChanged();
         }
     }
 
     public void setInnerRadius( double innerRadius ) {
-        if( this.innerRadius != innerRadius ) {
+        if ( this.innerRadius != innerRadius ) {
             this.innerRadius = innerRadius;
             notifyInnerRadiusChanged();
         }
     }
 
     private void notifyInnerRadiusChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.innerRadiusChanged();
         }
     }
@@ -108,8 +108,8 @@ public class RotationPlatform extends MotionBody {
     }
 
     private void notifyRadiusChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).radiusChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).radiusChanged();
         }
     }
 

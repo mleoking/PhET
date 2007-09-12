@@ -44,6 +44,8 @@ package edu.colorado.phet.rotation.tests.jfreechart;
  *
  */
 
+import java.awt.*;
+
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;
@@ -59,8 +61,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
-
-import java.awt.*;
 
 /**
  * A demonstration application showing how to create a vertical combined chart.

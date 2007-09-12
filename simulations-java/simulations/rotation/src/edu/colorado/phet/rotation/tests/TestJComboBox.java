@@ -1,10 +1,11 @@
 package edu.colorado.phet.rotation.tests;
 
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Demonstrates the failure of JComboBox when embedded in PSwing.

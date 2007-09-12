@@ -1,10 +1,10 @@
 package edu.colorado.phet.rotation;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationSimulationPanel;
-
-import javax.swing.*;
 
 /**
  * Author: Sam Reid
@@ -27,6 +27,6 @@ public class RotationModule extends AbstractRotationModule {
 
 
     public RotationClock getRotationClock() {
-        return (RotationClock)getConstantDTClock();
+        return (RotationClock) getConstantDTClock();
     }
 }

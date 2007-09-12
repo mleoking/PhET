@@ -7,9 +7,9 @@ package edu.colorado.phet.rotation.tests;
  *
  */
 
-import edu.colorado.phet.rotation.controls.SymbolKey;
-
 import javax.swing.*;
+
+import edu.colorado.phet.rotation.controls.SymbolKey;
 
 public class TestSymbolKey {
     private JFrame frame;

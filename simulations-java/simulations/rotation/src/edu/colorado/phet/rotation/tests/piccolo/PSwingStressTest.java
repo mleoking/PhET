@@ -5,15 +5,16 @@ package edu.colorado.phet.rotation.tests.piccolo;
  * Aug 13, 2007, 1:05:52 PM
  */
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class PSwingStressTest {
     private JFrame frame = new JFrame( getClass().getName().substring( getClass().getName().lastIndexOf( '.' ) + 1 ) );
@@ -31,8 +32,8 @@ public class PSwingStressTest {
             }
         };
         PSwing layout = new PSwing( new JButton( "<html>Button<sub>" + 99 + ", " + 99 + "</sub></html>" ) );
-        for( int i = 0; i < 10; i++ ) {
-            for( int k = 0; k < 20; k++ ) {
+        for ( int i = 0; i < 10; i++ ) {
+            for ( int k = 0; k < 20; k++ ) {
                 PSwing ps = new PSwing( new JButton( "<html>Button<sub>" + i + ", " + k + "</sub></html>" ) );
                 contentPane.getLayer().addChild( ps );
                 ps.setOffset( i * layout.getWidth(), k * layout.getHeight() );

@@ -1,14 +1,14 @@
 package edu.colorado.phet.rotation.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.PositionDriven;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -62,7 +62,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
         rotationPlatform.setTime( time );
-        for( int i = 0; i < rotationBodies.size(); i++ ) {
+        for ( int i = 0; i < rotationBodies.size(); i++ ) {
             getRotationBody( i ).setTime( time );
         }
     }
@@ -70,7 +70,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         rotationPlatform.stepInTime( getTime(), dt );
-        for( int i = 0; i < rotationBodies.size(); i++ ) {
+        for ( int i = 0; i < rotationBodies.size(); i++ ) {
             getRotationBody( i ).stepInTime( getTime(), dt );
         }
     }
@@ -78,13 +78,13 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public void clear() {
         super.clear();
         rotationPlatform.clear();
-        for( int i = 0; i < rotationBodies.size(); i++ ) {
+        for ( int i = 0; i < rotationBodies.size(); i++ ) {
             getRotationBody( i ).clear();
         }
     }
 
     public void dropBody( RotationBody rotationBody ) {
-        if( rotationPlatform.containsPosition( rotationBody.getPosition() ) ) {
+        if ( rotationPlatform.containsPosition( rotationBody.getPosition() ) ) {
             rotationBody.setOnPlatform( rotationPlatform );
         }
         else {
@@ -109,7 +109,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     public RotationBody getRotationBody( int i ) {
-        return (RotationBody)rotationBodies.get( i );
+        return (RotationBody) rotationBodies.get( i );
     }
 
     public void setPositionDriven() {

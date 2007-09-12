@@ -1,5 +1,10 @@
 package edu.colorado.phet.rotation.tests;
 
+import java.awt.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
@@ -12,10 +17,6 @@ import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
 
 public class TestGraphAlignment {
     private JFrame suiteSelectionFrame;
@@ -67,10 +68,10 @@ public class TestGraphAlignment {
         } );
         phetPCanvas.addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F1 ) {
+                if ( e.getKeyCode() == KeyEvent.VK_F1 ) {
                     graphSetNode.setFlowLayout();
                 }
-                if( e.getKeyCode() == KeyEvent.VK_F2 ) {
+                if ( e.getKeyCode() == KeyEvent.VK_F2 ) {
                     graphSetNode.setAlignedLayout();
                 }
             }

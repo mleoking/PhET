@@ -1,15 +1,16 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.RotationResources;
-import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.rotation.RotationResources;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Author: Sam Reid

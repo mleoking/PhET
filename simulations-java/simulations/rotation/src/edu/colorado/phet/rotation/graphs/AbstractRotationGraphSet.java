@@ -1,5 +1,9 @@
 package edu.colorado.phet.rotation.graphs;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -9,9 +13,6 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.colorado.phet.rotation.view.RotationColorScheme;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -182,11 +183,11 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected void addSeriesSelectionPanels() {
         MinimizableControlGraph[] graphs = getAllGraphs();
-        for( int i = 0; i < graphs.length; i++ ) {
+        for ( int i = 0; i < graphs.length; i++ ) {
             //todo: only show one checkbox for both characters, and have it apply to both characters
             //we'll need to pair up the series pairs to facilitate this.
-            RotationMinimizableControlGraph graph = (RotationMinimizableControlGraph)graphs[i];
-            if( graph.getRotationControlGraph().getSeriesPairCount() > 1 ) {
+            RotationMinimizableControlGraph graph = (RotationMinimizableControlGraph) graphs[i];
+            if ( graph.getRotationControlGraph().getSeriesPairCount() > 1 ) {
                 JPanel p = new VerticalLayoutPanel();
                 RotationSeriesSelectionPanel selectionPanel = new RotationSeriesSelectionPanel( graph.getRotationControlGraph() );
                 ShadowJLabel titleGraphic = new ShadowJLabel( graph.getRotationControlGraph().getTitle(),
@@ -201,9 +202,9 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     }
 
     protected void updateBody1Series() {
-        for( int i = 0; i < getAllGraphs().length; i++ ) {
-            RotationMinimizableControlGraph rotationMinimizableControlGraph = (RotationMinimizableControlGraph)getAllGraphs()[i];
-            ( (RotationGraph)rotationMinimizableControlGraph.getControlGraph() ).setSecondarySeriesVisible( model.getRotationBody( 1 ).isOnPlatform() );
+        for ( int i = 0; i < getAllGraphs().length; i++ ) {
+            RotationMinimizableControlGraph rotationMinimizableControlGraph = (RotationMinimizableControlGraph) getAllGraphs()[i];
+            ( (RotationGraph) rotationMinimizableControlGraph.getControlGraph() ).setSecondarySeriesVisible( model.getRotationBody( 1 ).isOnPlatform() );
         }
     }
 

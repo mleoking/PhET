@@ -1,15 +1,16 @@
 package edu.colorado.phet.rotation;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
-
-import javax.swing.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 
 /**
  * PhET's Rotation simulation.
@@ -28,13 +29,13 @@ public class RotationApplication extends NonPiccoloPhetApplication {
         addModule( rotationModule );
 
 //        getPhetFrame().addMenu( new RotationTestMenu() );
-        getPhetFrame().addMenu( new RotationDevMenu( this ,rotationModule ) );
+        getPhetFrame().addMenu( new RotationDevMenu( this, rotationModule ) );
 
         //trial workaround for getting the window to paint when gray, this is a problem due to performance constraints of this application.
         getPhetFrame().addWindowFocusListener( new WindowFocusListener() {
             public void windowGainedFocus( WindowEvent e ) {
-                if( getPhetFrame().getContentPane() instanceof JComponent ) {
-                    JComponent jComponent = (JComponent)getPhetFrame().getContentPane();
+                if ( getPhetFrame().getContentPane() instanceof JComponent ) {
+                    JComponent jComponent = (JComponent) getPhetFrame().getContentPane();
                     jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
                 }
             }

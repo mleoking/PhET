@@ -1,5 +1,9 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -7,10 +11,6 @@ import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 
 /**
  * Author: Sam Reid
@@ -24,7 +24,7 @@ public class RotationOriginNode extends PNode {
 
     public RotationOriginNode( RotationPlatform rotationPlatform, AngleUnitModel angleUnitModel ) {
         this.angleUnitModel = angleUnitModel;
-        PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, AXIS_LENGTH, 0 ), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        PhetPPath path = new PhetPPath( new Line2D.Double( 0, 0, AXIS_LENGTH, 0 ), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         double offsetX = 20 * RotationPlayAreaNode.SCALE;
         addChild( path );
 

@@ -1,11 +1,12 @@
 package edu.colorado.phet.rotation;
 
-import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Author: Sam Reid
@@ -54,7 +55,7 @@ public class RotationLayout {
         double sy = availHeight / ( platformNode.getFullBounds().getHeight() );
         double scale = Math.min( sx, sy );
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
-        if( scale > 0 ) {
+        if ( scale > 0 ) {
             rotationPlayAreaNode.scale( scale );
         }
         rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );

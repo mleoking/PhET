@@ -1,13 +1,13 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.geom.AffineTransform;
+
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.geom.AffineTransform;
 
 /**
  * User: Sam Reid
@@ -42,10 +42,10 @@ public class RotationPlayAreaNode extends PNode {
         addChild( originNode );
         addChild( rulerNode );
 
-        for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
+        for ( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addRotationBodyNode( rotationModel.getRotationBody( i ) );
         }
-        for( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
+        for ( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
         }
         circularMotionNode = new CircleNode( rotationModel );

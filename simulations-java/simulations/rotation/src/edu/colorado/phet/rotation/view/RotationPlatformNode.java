@@ -1,15 +1,15 @@
 package edu.colorado.phet.rotation.view;
 
-import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -40,16 +40,16 @@ public class RotationPlatformNode extends PNode {
         addRingNode( 0.25, Color.white, Color.lightGray, false );
 //        addRingNode( 0.005, Color.white );
 
-        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( verticalCrossHair );
 
-        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float)( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( horizontalCrossHair );
 
-        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( innerRadiusNode );
 
-        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( handleNode );
 
         addChild( contentNode );
@@ -103,10 +103,10 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void updateRadius() {
-        for( int i = 0; i < contentNode.getChildrenCount(); i++ ) {
+        for ( int i = 0; i < contentNode.getChildrenCount(); i++ ) {
             PNode child = contentNode.getChild( i );
-            if( child instanceof RingNode ) {
-                RingNode node = (RingNode)child;
+            if ( child instanceof RingNode ) {
+                RingNode node = (RingNode) child;
                 node.setRadius( Math.min( node.getMaxRadius(), getRadius() ) );
             }
         }
@@ -125,7 +125,7 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void setAngle( double angle ) {
-        if( this.angle != angle ) {
+        if ( this.angle != angle ) {
             this.angle = angle;
             updateAngle();
         }
@@ -167,7 +167,7 @@ public class RotationPlatformNode extends PNode {
         }
 
         private RingPath addPath( Color color, boolean showBorder, double minArcDegrees, double maxArcDegrees ) {
-            RingPath pPath = new RingPath( null, color, showBorder ? new BasicStroke( (float)( 1 * RotationPlayAreaNode.SCALE ) ) : null, Color.black, minArcDegrees, maxArcDegrees );
+            RingPath pPath = new RingPath( null, color, showBorder ? new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ) : null, Color.black, minArcDegrees, maxArcDegrees );
             addChild( pPath );
             return pPath;
         }

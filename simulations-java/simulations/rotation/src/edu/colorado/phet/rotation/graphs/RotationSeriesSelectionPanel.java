@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 public class RotationSeriesSelectionPanel extends JPanel {
     public RotationSeriesSelectionPanel( RotationGraph graph ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-        for( int i = 0; i < graph.getSeriesPairCount(); i++ ) {
+        for ( int i = 0; i < graph.getSeriesPairCount(); i++ ) {
             final RotationGraph.SeriesPair seriesPair = graph.getSeriesPair( i );
 
 //            final ControlGraphSeries series = graph.getControlGraphSeries( i );

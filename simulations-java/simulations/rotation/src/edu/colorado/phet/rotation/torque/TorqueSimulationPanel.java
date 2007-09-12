@@ -1,5 +1,9 @@
 package edu.colorado.phet.rotation.torque;
 
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
@@ -7,9 +11,6 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.TorqueGraphSet;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.geom.Point2D;
 
 /**
  * Author: Sam Reid
@@ -36,14 +37,14 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel(), (TorqueModule)getAbstractRotationModule() );//todo: better typing
+        return new TorqueControlPanel( getRotationGraphSet(), getGraphSetModel(), (TorqueModule) getAbstractRotationModule() );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
-        return new TorqueGraphSet( this, (TorqueModel)getRotationModel(), getAngleUnitModel() );
+        return new TorqueGraphSet( this, (TorqueModel) getRotationModel(), getAngleUnitModel() );
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
-        return new TorqueSimPlayAreaNode( (TorqueModel)getRotationModel(), new VectorViewModel(), getAngleUnitModel() );
+        return new TorqueSimPlayAreaNode( (TorqueModel) getRotationModel(), new VectorViewModel(), getAngleUnitModel() );
     }
 }

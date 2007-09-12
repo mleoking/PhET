@@ -1,5 +1,9 @@
 package edu.colorado.phet.rotation;
 
+import java.awt.event.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -11,9 +15,6 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.event.*;
 
 /**
  * User: Sam Reid
@@ -46,7 +47,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
         final TimeSeriesModel timeSeriesModel = rotationModule.getRotationModel().getTimeSeriesModel();
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                if( timeSeriesModel.numPlaybackStates() == 0 ) {
+                if ( timeSeriesModel.numPlaybackStates() == 0 ) {
                     rotationModule.getRotationModel().clear();
                     rotationGraphSet.clear();
                 }
@@ -80,21 +81,21 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
         addKeyListener( new PDebugKeyHandler() );
         addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F5 && e.isAltDown() ) {
+                if ( e.getKeyCode() == KeyEvent.VK_F5 && e.isAltDown() ) {
                     relayout();
                 }
             }
         } );
         addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F ) {
+                if ( e.getKeyCode() == KeyEvent.VK_F ) {
                     setFlowLayout();
                 }
             }
         } );
         addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_A ) {
+                if ( e.getKeyCode() == KeyEvent.VK_A ) {
                     setAlignedLayout();
                 }
             }
@@ -117,8 +118,8 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
         rotationGraphSet.resetAll();
         graphSetModel.setGraphSuite( rotationGraphSet.getGraphSuite( 0 ) );
         rotationPlayAreaNode.resetAll();
-        if( controlPanel instanceof Resettable ) {
-            ( (Resettable)controlPanel ).reset();
+        if ( controlPanel instanceof Resettable ) {
+            ( (Resettable) controlPanel ).reset();
         }
     }
 
@@ -175,21 +176,21 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     public void setGraphsBufferedImmediateSeries() {
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
-        for( int i = 0; i < graphs.length; i++ ) {
+        for ( int i = 0; i < graphs.length; i++ ) {
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setBufferedImmediateSeries();
         }
     }
 
     public void setGraphsBufferedSeries() {
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
-        for( int i = 0; i < graphs.length; i++ ) {
+        for ( int i = 0; i < graphs.length; i++ ) {
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setBufferedSeries();
         }
     }
 
     public void setGraphsPiccoloSeries() {
         MinimizableControlGraph[] graphs = rotationGraphSet.getAllGraphs();
-        for( int i = 0; i < graphs.length; i++ ) {
+        for ( int i = 0; i < graphs.length; i++ ) {
             graphs[i].getControlGraph().getDynamicJFreeChartNode().setPiccoloSeries();
         }
     }

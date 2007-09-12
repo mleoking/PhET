@@ -1,11 +1,12 @@
 package edu.colorado.phet.rotation.tests.jfreechart;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 
 /**
  * User: Sam Reid

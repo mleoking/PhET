@@ -1,9 +1,9 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

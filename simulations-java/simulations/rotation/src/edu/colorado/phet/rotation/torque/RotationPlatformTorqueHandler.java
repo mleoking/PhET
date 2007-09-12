@@ -1,12 +1,12 @@
 package edu.colorado.phet.rotation.torque;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * Author: Sam Reid

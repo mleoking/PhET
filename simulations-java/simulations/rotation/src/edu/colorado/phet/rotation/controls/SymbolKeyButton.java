@@ -1,14 +1,15 @@
 package edu.colorado.phet.rotation.controls;
 
-import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Author: Sam Reid
@@ -34,8 +35,8 @@ public class SymbolKeyButton extends JPanel {
 //                SwingUtils.centerDialogInParent( dialog );
                 dialog.setLocation( onScreen );
                 dialog.show();
-                if( dialog.getContentPane() instanceof JComponent ) {
-                    JComponent jComponent = (JComponent)dialog.getContentPane();
+                if ( dialog.getContentPane() instanceof JComponent ) {
+                    JComponent jComponent = (JComponent) dialog.getContentPane();
                     jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
                 }
             }

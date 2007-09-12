@@ -26,14 +26,14 @@ public class VectorViewModel {
     }
 
     public void setVelocityVisible( boolean visible ) {
-        if( this.velocityVisible != visible ) {
+        if ( this.velocityVisible != visible ) {
             this.velocityVisible = visible;
             notifyListeners();
         }
     }
 
     public void setAccelerationVisible( boolean visible ) {
-        if( this.accelerationVisible != visible ) {
+        if ( this.accelerationVisible != visible ) {
             this.accelerationVisible = visible;
             notifyListeners();
         }
@@ -53,8 +53,8 @@ public class VectorViewModel {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.visibilityChanged();
         }
     }
