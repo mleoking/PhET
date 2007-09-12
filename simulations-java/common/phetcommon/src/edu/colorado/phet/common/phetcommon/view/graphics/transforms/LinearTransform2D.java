@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * ModelViewTransform2D
@@ -69,11 +69,11 @@ public class LinearTransform2D {
     }
 
     private static Point toPoint( Point2D pt ) {
-        if( pt instanceof Point ) {
-            return (Point)pt;
+        if ( pt instanceof Point ) {
+            return (Point) pt;
         }
         else {
-            return new Point( (int)pt.getX(), (int)pt.getY() );
+            return new Point( (int) pt.getX(), (int) pt.getY() );
         }
     }
 
@@ -91,14 +91,14 @@ public class LinearTransform2D {
     }
 
     private void fixForwardTransform() {
-        if( forwardTransformDirty ) {
+        if ( forwardTransformDirty ) {
             forwardTransform = createForwardTransform();
             forwardTransformDirty = false;
         }
     }
 
     protected AffineTransform createForwardTransform() {
-        if( invertY ) {
+        if ( invertY ) {
             return createTXInvertY( destBounds, sourceBounds );
         }
         else {
@@ -148,7 +148,7 @@ public class LinearTransform2D {
     }
 
     private void fixBackTransform() {
-        if( backTransformDirty ) {
+        if ( backTransformDirty ) {
             backTransform = createBackTransform();
             backTransformDirty = false;
         }
@@ -177,10 +177,10 @@ public class LinearTransform2D {
     }
 
     public void setSourceBounds( Rectangle2D sourceBounds ) {
-        if( sourceBounds.getWidth() <= 0 ) {
+        if ( sourceBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "Model Width <= 0" );
         }
-        else if( sourceBounds.getHeight() <= 0 ) {
+        else if ( sourceBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "Model height<= 0" );
         }
         this.sourceBounds = sourceBounds;
@@ -189,10 +189,10 @@ public class LinearTransform2D {
     }
 
     public void setDestinationBounds( Rectangle2D destBounds ) {
-        if( destBounds.getWidth() <= 0 ) {
+        if ( destBounds.getWidth() <= 0 ) {
             throw new RuntimeException( "View Bounds width must be positive." );
         }
-        if( destBounds.getHeight() <= 0 ) {
+        if ( destBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "View Bounds height must be positive." );
         }
         forwardTransformDirty = true;

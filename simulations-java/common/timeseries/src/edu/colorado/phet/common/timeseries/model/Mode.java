@@ -57,21 +57,21 @@ public abstract class Mode {
             playbackTime += dt;
             playbackTime = Math.min( getTimeSeriesModel().getRecordTime(), playbackTime );
             getTimeSeriesModel().setPlaybackTime( playbackTime );
-            if( playbackTime >= getTimeSeriesModel().getRecordTime() ) {
+            if ( playbackTime >= getTimeSeriesModel().getRecordTime() ) {
                 getTimeSeriesModel().setPaused( true );
             }
             notifyPlaybackTimeChanged();
         }
 
         private void notifyPlaybackTimeChanged() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                TimeSeriesModel.PlaybackTimeListener playbackTimeListener = (TimeSeriesModel.PlaybackTimeListener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                TimeSeriesModel.PlaybackTimeListener playbackTimeListener = (TimeSeriesModel.PlaybackTimeListener) listeners.get( i );
                 playbackTimeListener.timeChanged();
             }
         }
 
         public void setTime( double requestedTime ) {
-            if( this.playbackTime != requestedTime ) {
+            if ( this.playbackTime != requestedTime ) {
                 this.playbackTime = requestedTime;
                 notifyPlaybackTimeChanged();
             }
@@ -96,14 +96,14 @@ public abstract class Mode {
         public void step( double dt ) {
             double maxTime = getTimeSeriesModel().getMaxRecordTime();
             double newTime = recordTime + dt;
-            if( newTime > maxTime ) {
+            if ( newTime > maxTime ) {
                 dt = ( maxTime - recordTime );
                 newTime = getTimeSeriesModel().getMaxRecordTime();
             }
             recordTime += dt;
             getTimeSeriesModel().updateModel( dt );
             getTimeSeriesModel().addSeriesPoint( getTimeSeriesModel().getModelState(), recordTime );
-            if( newTime == getTimeSeriesModel().getMaxRecordTime() ) {
+            if ( newTime == getTimeSeriesModel().getMaxRecordTime() ) {
                 getTimeSeriesModel().recordFinished();
             }
         }

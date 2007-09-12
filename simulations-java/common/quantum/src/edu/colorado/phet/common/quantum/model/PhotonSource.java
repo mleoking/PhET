@@ -38,7 +38,6 @@ public interface PhotonSource {
 
     void removeListener( EventListener listener );
 
-
     //----------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------
@@ -49,7 +48,7 @@ public interface PhotonSource {
         }
 
         public double getRate() {
-            return ( (PhotonSource)getSource() ).getPhotonsPerSecond();
+            return ( (PhotonSource) getSource() ).getPhotonsPerSecond();
         }
     }
 
@@ -63,7 +62,7 @@ public interface PhotonSource {
         }
 
         public double getWavelength() {
-            return ( (PhotonSource)getSource() ).getWavelength();
+            return ( (PhotonSource) getSource() ).getWavelength();
         }
     }
 

@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * HelpPanel
@@ -52,7 +53,7 @@ public class HelpPanel extends JPanel {
                 miniHelpShowing = !miniHelpShowing;
 
                 // If there is no megahelp, don't show the megahelp button
-                if( miniHelpShowing ) {
+                if ( miniHelpShowing ) {
                     setTwoButtonMode();
                 }
                 else {
@@ -76,10 +77,10 @@ public class HelpPanel extends JPanel {
     }
 
     private void layoutPanel() {
-        setPreferredSize( new Dimension( (int)Math.max( miniHelpBtn.getPreferredSize().getWidth(),
-                                                        megaHelpBtn.getPreferredSize().getWidth() ),
-                                         (int)( miniHelpBtn.getPreferredSize().getHeight()
-                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
+        setPreferredSize( new Dimension( (int) Math.max( miniHelpBtn.getPreferredSize().getWidth(),
+                                                         megaHelpBtn.getPreferredSize().getWidth() ),
+                                         (int) ( miniHelpBtn.getPreferredSize().getHeight()
+                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
@@ -88,7 +89,7 @@ public class HelpPanel extends JPanel {
         add( miniHelpBtn, gbc );
         gbc.gridy = 1;
         add( megaHelpBtn, gbc );
-        if( true ) {
+        if ( true ) {
             return;
         }
         this.invalidate();
@@ -167,7 +168,7 @@ public class HelpPanel extends JPanel {
 
     public void setHelpEnabled( boolean enabled ) {
         miniHelpShowing = enabled;
-        if( enabled ) {
+        if ( enabled ) {
             miniHelpBtn.setText( hideHelpStr );
         }
         else {

@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 
 public class GridLineSet extends CompositePhetGraphic {
     private Grid minorGrid;

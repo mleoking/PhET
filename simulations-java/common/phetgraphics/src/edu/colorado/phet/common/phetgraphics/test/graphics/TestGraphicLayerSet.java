@@ -6,6 +6,14 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
@@ -13,13 +21,6 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 
 public class TestGraphicLayerSet {
     public static final void main( String[] args ) {
@@ -79,7 +80,7 @@ public class TestGraphicLayerSet {
                     public void run() {
                         long time = System.currentTimeMillis();
                         long endTime = time + 1000;
-                        while( time < endTime ) {
+                        while ( time < endTime ) {
                             try {
                                 Thread.sleep( 30 );
                                 compositeGraphic.setLocation( compositeGraphic.getX() + 1, compositeGraphic.getY() + 1 );

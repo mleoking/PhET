@@ -21,18 +21,20 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Point2D;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Demonstration of usage and behavior of JFreeChartNode
@@ -86,7 +88,7 @@ public class TestDynamicJFreeChartNode {
         } );
         phetPCanvas.addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_F1 && e.isAltDown() ) {
+                if ( e.getKeyCode() == KeyEvent.VK_F1 && e.isAltDown() ) {
                     PDebug.debugRegionManagement = !PDebug.debugRegionManagement;
                 }
             }

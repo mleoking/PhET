@@ -6,6 +6,12 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -18,11 +24,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 public class TestArrows {
     static double theta = 0;

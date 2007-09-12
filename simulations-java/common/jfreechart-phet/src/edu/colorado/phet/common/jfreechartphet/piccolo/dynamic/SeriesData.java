@@ -21,10 +21,10 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import org.jfree.data.xy.XYSeries;
-
 import java.awt.*;
 import java.util.ArrayList;
+
+import org.jfree.data.xy.XYSeries;
 
 /**
  * Represents the series that can be painted on a DynamicJFreeChartNode
@@ -40,11 +40,11 @@ public class SeriesData {
     private static int index = 0;
     private boolean visible = true;
 
-    public SeriesData( String title, Color color,Stroke stroke ) {
-        this( title, color, new XYSeries( title + " " + ( index++ ), false, true ),stroke );
+    public SeriesData( String title, Color color, Stroke stroke ) {
+        this( title, color, new XYSeries( title + " " + ( index++ ), false, true ), stroke );
     }
 
-    public SeriesData( String title, Color color, XYSeries series,Stroke stroke ) {
+    public SeriesData( String title, Color color, XYSeries series, Stroke stroke ) {
         this.title = title;
         this.color = color;
         this.series = series;
@@ -77,28 +77,28 @@ public class SeriesData {
     }
 
     public void clear() {
-        if( series.getItemCount() > 0 ) {
+        if ( series.getItemCount() > 0 ) {
             series.clear();
             notifyDataCleared();
         }
     }
 
     private void notifyDataCleared() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).dataCleared();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).dataCleared();
         }
     }
 
     public void setVisible( boolean visible ) {
-        if( this.visible != visible ) {
+        if ( this.visible != visible ) {
             this.visible = visible;
             notifyVisibilityChanged();
         }
     }
 
     private void notifyVisibilityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).visibilityChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).visibilityChanged();
         }
     }
 
@@ -107,7 +107,7 @@ public class SeriesData {
     }
 
     public void setStroke( Stroke stroke ) {
-        this.stroke=stroke;
+        this.stroke = stroke;
     }
 
     public static interface Listener {
@@ -123,8 +123,8 @@ public class SeriesData {
     }
 
     public void notifyDataAdded() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).dataAdded();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).dataAdded();
         }
     }
 }

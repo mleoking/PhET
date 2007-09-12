@@ -8,5 +8,6 @@ package edu.colorado.phet.common.collision;
 
 public interface ContactDetector {
     boolean areInContact( Collidable bodyA, Collidable bodyB );
+
     boolean applies( Collidable bodyA, Collidable bodyB );
 }

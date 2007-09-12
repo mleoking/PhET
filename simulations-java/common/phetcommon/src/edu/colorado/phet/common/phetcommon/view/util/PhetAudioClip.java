@@ -1,20 +1,21 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import javax.sound.sampled.*;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.sound.sampled.*;
+
 /**
  * Reason why PhetAudioClip exists:
- * 
+ * <p/>
  * http://www.javaworld.com/javaworld/javatips/jw-javatip24.html
  */
 public class PhetAudioClip {
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
 
     private final URL url;
-    
+
     private volatile boolean playing;
 
     public PhetAudioClip( String resourceName ) {
@@ -62,7 +63,7 @@ public class PhetAudioClip {
 
                 DataLine.Info info = new DataLine.Info( SourceDataLine.class,
                                                         audioFormat );
-                line = (SourceDataLine)AudioSystem.getLine( info );
+                line = (SourceDataLine) AudioSystem.getLine( info );
 
                 /*
                   The line is there, but it is not yet ready to
@@ -97,14 +98,14 @@ public class PhetAudioClip {
             int nBytesRead = 0;
 
             byte[] abData = new byte[EXTERNAL_BUFFER_SIZE];
-            while( nBytesRead != -1 ) {
+            while ( nBytesRead != -1 ) {
                 try {
                     nBytesRead = audioInputStream.read( abData, 0, abData.length );
                 }
                 catch( IOException e ) {
                     break;
                 }
-                if( nBytesRead >= 0 ) {
+                if ( nBytesRead >= 0 ) {
                     line.write( abData, 0, nBytesRead );
                 }
             }

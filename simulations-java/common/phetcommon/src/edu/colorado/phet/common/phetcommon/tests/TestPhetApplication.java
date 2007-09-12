@@ -8,43 +8,43 @@
 
 package edu.colorado.phet.common.phetcommon.tests;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 
-import javax.swing.*;
-
 public class TestPhetApplication {
     private final NonPiccoloPhetApplication app;
 
     public TestPhetApplication() {
-        app = new NonPiccoloPhetApplication(new String[0], "Title", "Description", "1.0");
+        app = new NonPiccoloPhetApplication( new String[0], "Title", "Description", "1.0" );
 
         MyModule module = new MyModule();
 
-        module.setModel(new BaseModel());
+        module.setModel( new BaseModel() );
 
-        module.setSimulationPanel(new JLabel());
+        module.setSimulationPanel( new JLabel() );
 
-        app.addModule(module);
+        app.addModule( module );
     }
 
     public void start() {
         app.startApplication();
     }
 
-    public static void main(String[] args) {
-        (new TestPhetApplication()).start();
+    public static void main( String[] args ) {
+        ( new TestPhetApplication() ).start();
     }
 
     private static class MyModule extends Module {
         public MyModule() {
-            super("Name", new SwingClock(10, 0.01));
+            super( "Name", new SwingClock( 10, 0.01 ) );
         }
 
-        public void setSimulationPanel(JComponent panel) {
-            super.setSimulationPanel(panel);
+        public void setSimulationPanel( JComponent panel ) {
+            super.setSimulationPanel( panel );
         }
     }
 }

@@ -2,12 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Cursor;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -45,7 +44,7 @@ public class ZoomControlNode extends PNode {
 
     public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
     public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -64,7 +63,7 @@ public class ZoomControlNode extends PNode {
         _orientation = orientation;
 
         PImage background;
-        if( orientation == HORIZONTAL ) {
+        if ( orientation == HORIZONTAL ) {
             background = new PImage( loadBufferedImage( ZOOM_BACKGROUND_HORIZONTAL_IMAGE ) );
         }
         else {
@@ -98,7 +97,7 @@ public class ZoomControlNode extends PNode {
 
         PBasicInputEventHandler inListener = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                if( !_inButtonPressed.getVisible() ) {
+                if ( !_inButtonPressed.getVisible() ) {
                     _inButtonPressed.setVisible( true );
                     _inButtonPressed.setPickable( true );
                     _inButtonPressed.setChildrenPickable( true );
@@ -107,7 +106,7 @@ public class ZoomControlNode extends PNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                if( _inPressed ) {
+                if ( _inPressed ) {
                     _inButtonPressed.setVisible( false );
                     _inButtonPressed.setPickable( false );
                     _inButtonPressed.setChildrenPickable( false );
@@ -123,7 +122,7 @@ public class ZoomControlNode extends PNode {
         PBasicInputEventHandler outListener = new PBasicInputEventHandler() {
 
             public void mousePressed( PInputEvent event ) {
-                if( !_outButtonPressed.getVisible() ) {
+                if ( !_outButtonPressed.getVisible() ) {
                     _outButtonPressed.setVisible( true );
                     _outButtonPressed.setPickable( true );
                     _outButtonPressed.setChildrenPickable( true );
@@ -132,7 +131,7 @@ public class ZoomControlNode extends PNode {
             }
 
             public void mouseReleased( PInputEvent event ) {
-                if( _outPressed ) {
+                if ( _outPressed ) {
                     _outButtonPressed.setVisible( false );
                     _outButtonPressed.setPickable( false );
                     _outButtonPressed.setChildrenPickable( false );
@@ -198,27 +197,27 @@ public class ZoomControlNode extends PNode {
 
     public void removeAllZoomListeners() {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ZoomListener.class ) {
-                _listenerList.remove( ZoomListener.class, (ZoomListener)listeners[i + 1] );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                _listenerList.remove( ZoomListener.class, (ZoomListener) listeners[i + 1] );
             }
         }
     }
 
     private void fireZoomIn() {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ZoomListener.class ) {
-                ( (ZoomListener)listeners[i + 1] ).zoomedIn();
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                ( (ZoomListener) listeners[i + 1] ).zoomedIn();
             }
         }
     }
 
     private void fireZoomOut() {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ZoomListener.class ) {
-                ( (ZoomListener)listeners[i + 1] ).zoomedOut();
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ZoomListener.class ) {
+                ( (ZoomListener) listeners[i + 1] ).zoomedOut();
             }
         }
     }

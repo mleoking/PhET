@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Class for rendering HTML Text.
@@ -92,7 +93,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
      */
     private String makeHTML( String s ) {
         String htmlString = s;
-        if( !BasicHTML.isHTMLString( s ) ) {
+        if ( !BasicHTML.isHTMLString( s ) ) {
             htmlString = "<html>" + s + "</html>";
         }
         return htmlString;
@@ -114,7 +115,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
             View htmlView = BasicHTML.createHTMLView( label, html );
 
             Dimension dim = label.getPreferredSize();
-            if( dim.width == 0 || dim.height == 0 ) {
+            if ( dim.width == 0 || dim.height == 0 ) {
                 return null;
             }
 

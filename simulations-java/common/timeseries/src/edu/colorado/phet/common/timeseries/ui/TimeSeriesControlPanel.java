@@ -1,5 +1,13 @@
 package edu.colorado.phet.common.timeseries.ui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -7,13 +15,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * Author: Sam Reid
@@ -91,11 +92,11 @@ public class TimeSeriesControlPanel extends JPanel {
         playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{"Playback", "Pause"}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
         playbackButton.addActionListener( KEY_PLAYBACK, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( timeSeriesModel.isRecording() ) {
+                if ( timeSeriesModel.isRecording() ) {
                     timeSeriesModel.setPlaybackMode();
                     timeSeriesModel.setPlaybackTime( 0.0 );
                 }
-                if( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
+                if ( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() ) {
                     timeSeriesModel.setPlaybackTime( 0.0 );
                 }
                 timeSeriesModel.setPlaybackMode();
@@ -179,7 +180,7 @@ public class TimeSeriesControlPanel extends JPanel {
 
     protected void updateStepEnabled() {
         boolean endTime = ( timeSeriesModel.getPlaybackTime() == timeSeriesModel.getRecordTime() );
-        if( endTime || clock.isRunning() ) {
+        if ( endTime || clock.isRunning() ) {
             stepButton.setEnabled( false );
         }
         else {
@@ -189,7 +190,7 @@ public class TimeSeriesControlPanel extends JPanel {
 
     protected void updatePlaybackButtonMode() {
         //todo: add check that there is data available to playback before enabling playback button
-        if( clock.isPaused() || timeSeriesModel.isRecording() || timeSeriesModel.isLiveMode() ) {
+        if ( clock.isPaused() || timeSeriesModel.isRecording() || timeSeriesModel.isLiveMode() ) {
             playbackButton.setMode( "playback" );
         }
         else {
@@ -207,7 +208,7 @@ public class TimeSeriesControlPanel extends JPanel {
 
     protected void updateRecordButton() {
         //todo: add check that there is space to record before enabling record button
-        if( clock.isPaused() || timeSeriesModel.isPlaybackMode() || timeSeriesModel.isLiveMode() ) {
+        if ( clock.isPaused() || timeSeriesModel.isPlaybackMode() || timeSeriesModel.isLiveMode() ) {
             recordButton.setMode( KEY_REC );
         }
         else {

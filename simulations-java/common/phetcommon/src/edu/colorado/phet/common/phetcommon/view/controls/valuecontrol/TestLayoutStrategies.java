@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 public class TestLayoutStrategies extends JFrame {
 
     public TestLayoutStrategies() {
-        
+
         // Default layout
         final LinearValueControl protonsControl;
         {
@@ -39,7 +39,7 @@ public class TestLayoutStrategies extends JFrame {
                 }
             } );
         }
-        
+
         // Default layout, but centered
         final LinearValueControl speedControl;
         {
@@ -62,7 +62,7 @@ public class TestLayoutStrategies extends JFrame {
                 }
             } );
         }
-        
+
         // ModelSlider layout
         final LinearValueControl directionControl;
         {
@@ -84,7 +84,7 @@ public class TestLayoutStrategies extends JFrame {
                 }
             } );
         }
-        
+
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -94,12 +94,12 @@ public class TestLayoutStrategies extends JFrame {
         panel.add( speedControl );
         panel.add( new JSeparator() );
         panel.add( directionControl );
-        
+
         setContentPane( panel );
         pack();
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
-    
+
     public static void main( String[] args ) {
         TestLayoutStrategies test = new TestLayoutStrategies();
         test.show();

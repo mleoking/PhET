@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * The Swing panel for a Module in a PhetApplication. It holds
@@ -112,11 +113,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setMonitorPanel( JComponent panel ) {
-        if( monitorPanel != null ) {
+        if ( monitorPanel != null ) {
             leftPanel.remove( monitorPanel );
         }
         monitorPanel = panel;
-        if( monitorPanel != null ) {
+        if ( monitorPanel != null ) {
             leftPanel.add( monitorPanel, BorderLayout.NORTH );
         }
     }
@@ -136,11 +137,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setSimulationPanel( JComponent panel ) {
-        if( simulationPanel != null ) {
+        if ( simulationPanel != null ) {
             leftPanel.remove( simulationPanel );
         }
         simulationPanel = panel;
-        if( simulationPanel != null ) {
+        if ( simulationPanel != null ) {
             leftPanel.add( simulationPanel, BorderLayout.CENTER );
         }
     }
@@ -160,11 +161,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setClockControlPanel( JComponent panel ) {
-        if( clockControlPanel != null ) {
+        if ( clockControlPanel != null ) {
             leftPanel.remove( clockControlPanel );
         }
         clockControlPanel = panel;
-        if( panel != null ) {
+        if ( panel != null ) {
             leftPanel.add( panel, BorderLayout.SOUTH );
         }
     }
@@ -184,11 +185,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setLogoPanel( JComponent panel ) {
-        if( logoPanel != null ) {
+        if ( logoPanel != null ) {
             rightPanel.remove( logoPanel );
         }
         logoPanel = panel;
-        if( logoPanel != null ) {
+        if ( logoPanel != null ) {
             rightPanel.add( logoPanel, BorderLayout.NORTH );
         }
     }
@@ -208,11 +209,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setControlPanel( JComponent panel ) {
-        if( controlPanel != null ) {
+        if ( controlPanel != null ) {
             rightPanel.remove( controlPanel );
         }
         controlPanel = panel;
-        if( controlPanel != null ) {
+        if ( controlPanel != null ) {
             rightPanel.add( controlPanel, BorderLayout.CENTER );
         }
     }
@@ -232,11 +233,11 @@ public class ModulePanel extends JPanel {
      * @param panel, possibly null
      */
     public void setHelpPanel( JComponent panel ) {
-        if( helpPanel != null ) {
+        if ( helpPanel != null ) {
             rightPanel.remove( helpPanel );
         }
         helpPanel = panel;
-        if( helpPanel != null ) {
+        if ( helpPanel != null ) {
             rightPanel.add( helpPanel, BorderLayout.SOUTH );
         }
     }
@@ -269,10 +270,10 @@ public class ModulePanel extends JPanel {
      * @param fullScreen
      */
     public void setFullScreen( boolean fullScreen ) {
-        if( fullScreen && !isFullScreen() ) {
+        if ( fullScreen && !isFullScreen() ) {
             activateFullScreen();
         }
-        else if( !fullScreen && isFullScreen() ) {
+        else if ( !fullScreen && isFullScreen() ) {
             deactivateFullScreen();
         }
     }
@@ -284,7 +285,7 @@ public class ModulePanel extends JPanel {
     private void activateFullScreen() {
         setSimulationPanelOnlyIsVisible( true );
 
-        if( buttonDlg == null ) {
+        if ( buttonDlg == null ) {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( PhetCommonResources.getInstance().getLocalizedString( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
@@ -302,8 +303,8 @@ public class ModulePanel extends JPanel {
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
+            buttonDlg.setLocation( (int) ( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
+                                   (int) ( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
         }
         buttonDlg.setVisible( true );
         this.fullScreen = true;
@@ -326,7 +327,7 @@ public class ModulePanel extends JPanel {
     //----------------------------------------------------------------------------
 
     private void setVisible( JComponent component, boolean visible ) {
-        if( component != null ) {
+        if ( component != null ) {
             component.setVisible( visible );
         }
     }

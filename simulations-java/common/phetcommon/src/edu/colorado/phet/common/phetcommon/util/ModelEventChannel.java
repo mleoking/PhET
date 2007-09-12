@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.common.phetcommon.util;
 
-import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import javax.swing.*;
+
 /**
  * MvcEventChannel
- * <p>
+ * <p/>
  * A specialization of EventChannel that executes calls to specified event listeners in the Swing
  * thread. These listeners are indicated by their type: SwingThreadModelListener.
  *
@@ -35,7 +36,7 @@ public class ModelEventChannel extends EventChannel {
 
         // If the target listener is part of the view, then invoke the callback method in the
         // Swing dispatch thread. Otherwise, call the parent class behavior
-        if( target instanceof SwingThreadModelListener ) {
+        if ( target instanceof SwingThreadModelListener ) {
             SwingUtilities.invokeLater( new Runnable() {
                 public void run() {
                     try {

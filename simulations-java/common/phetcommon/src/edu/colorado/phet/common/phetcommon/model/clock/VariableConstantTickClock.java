@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * VariableConstantTickClock
- * <p>
+ * <p/>
  * A Clock that reports a constant amount of simulation time passed for
  * each wrappedClock tick, but that time can be changed explicitly
  * while the clock is running. This allows for the execution rate of the
  * simulation to be easily changed. This is useful, for example, to put
  * a simulation into slow motion.
- * <p>
+ * <p/>
  * This class is implemented as a decorator on an IClock, adding a method
  * that allows clients to change the time reported each time the wrappedClock
  * ticks.
@@ -31,11 +31,10 @@ import edu.colorado.phet.common.phetcommon.util.EventChannel;
 public class VariableConstantTickClock implements IClock, ClockListener {
     private IClock wrappedClock;
     private double dt;
-    private EventChannel clockEventChannel = new EventChannel( ClockListener.class);
-    private ClockListener clockListenerProxy = (ClockListener)clockEventChannel.getListenerProxy();
+    private EventChannel clockEventChannel = new EventChannel( ClockListener.class );
+    private ClockListener clockListenerProxy = (ClockListener) clockEventChannel.getListenerProxy();
 
     /**
-     *
      * @param clock The IClock that is to be decorated
      * @param dt    The dt that the clock is to start with
      */

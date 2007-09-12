@@ -13,20 +13,20 @@ public class Polynomial {
     private final PolynomialTerm[] terms;
 
     public Polynomial( int constant ) {
-        this( new PolynomialTerm[]{ new PolynomialTerm( constant ) } );
+        this( new PolynomialTerm[]{new PolynomialTerm( constant )} );
     }
 
     public Polynomial( Collection sparseTerms ) {
-        this( (PolynomialTerm[])sparseTerms.toArray( new PolynomialTerm[sparseTerms.size()] ) );
+        this( (PolynomialTerm[]) sparseTerms.toArray( new PolynomialTerm[sparseTerms.size()] ) );
     }
 
     public Polynomial( PolynomialTerm[] sparseTerms ) {
-        if (sparseTerms.length == 0) {
-            this.terms = new PolynomialTerm[]{ PolynomialTerm.ZERO };
+        if ( sparseTerms.length == 0 ) {
+            this.terms = new PolynomialTerm[]{PolynomialTerm.ZERO};
         }
         else {
             int min = Integer.MAX_VALUE,
-                max = Integer.MIN_VALUE;
+                    max = Integer.MIN_VALUE;
 
             for ( int i = 0; i < sparseTerms.length; i++ ) {
                 PolynomialTerm sparseTerm = sparseTerms[i];
@@ -66,11 +66,11 @@ public class Polynomial {
             polynomialTerms.add( PolynomialTerm.parsePolynomialTerm( matcher.group() ) );
         }
 
-        return new Polynomial( (PolynomialTerm[])polynomialTerms.toArray( new PolynomialTerm[polynomialTerms.size()] ) );
+        return new Polynomial( (PolynomialTerm[]) polynomialTerms.toArray( new PolynomialTerm[polynomialTerms.size()] ) );
     }
 
     public PolynomialTerm[] getTerms() {
-        return (PolynomialTerm[])terms.clone();
+        return (PolynomialTerm[]) terms.clone();
     }
 
     public double eval( double x ) {
@@ -108,7 +108,7 @@ public class Polynomial {
         terms.addAll( Arrays.asList( this.terms ) );
 
         for ( int i = 0; i < terms.size(); i++ ) {
-            terms.set( i, ((PolynomialTerm)terms.get( i )).derive() );
+            terms.set( i, ( (PolynomialTerm) terms.get( i ) ).derive() );
         }
 
         return new Polynomial( terms );
@@ -129,7 +129,7 @@ public class Polynomial {
 
         for ( int i = 0; i < this.terms.length; i++ ) {
             for ( int j = 0; j < that.terms.length; j++ ) {
-                allTerms.add( this.terms[i].times( that.terms[j] ) );   
+                allTerms.add( this.terms[i].times( that.terms[j] ) );
             }
         }
 
@@ -138,7 +138,9 @@ public class Polynomial {
     }
 
     public Polynomial pow( int n ) {
-        if ( n < 0 ) throw new IllegalArgumentException();
+        if ( n < 0 ) {
+            throw new IllegalArgumentException();
+        }
 
         Polynomial result = new Polynomial( 1 );
 
@@ -155,8 +157,8 @@ public class Polynomial {
         for ( int i = 0; i < terms.length; i++ ) {
             boolean isFirst = i == 0;
 
-            if (!isFirst) {
-                buffer.append(" + ");
+            if ( !isFirst ) {
+                buffer.append( " + " );
             }
 
             buffer.append( terms[i].toString() );
@@ -166,16 +168,16 @@ public class Polynomial {
     }
 
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        Polynomial that = (Polynomial)o;
+        Polynomial that = (Polynomial) o;
 
-        if( !Arrays.equals( terms, that.terms ) ) {
+        if ( !Arrays.equals( terms, that.terms ) ) {
             return false;
         }
 

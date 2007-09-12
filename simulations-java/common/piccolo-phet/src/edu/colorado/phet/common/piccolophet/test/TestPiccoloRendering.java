@@ -1,20 +1,20 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
-import javax.swing.*;
-import java.awt.*;
-
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:15:07 AM
- *
  */
 
 public class TestPiccoloRendering {

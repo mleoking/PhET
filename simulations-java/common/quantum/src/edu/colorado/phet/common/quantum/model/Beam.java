@@ -11,16 +11,16 @@
 package edu.colorado.phet.common.quantum.model;
 
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.Particle;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * Beam
@@ -71,8 +71,8 @@ public class Beam extends Particle implements PhotonSource {
      * @param fanout              spread of beam, in radians
      */
     public Beam( double wavelength, Point2D origin, double length, double beamWidth,
-                 Vector2D direction, double maxPhotonsPerSecond, double fanout ,double speed) {
-        this.speed=speed;
+                 Vector2D direction, double maxPhotonsPerSecond, double fanout, double speed ) {
+        this.speed = speed;
         this.fanout = fanout;
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
@@ -150,7 +150,7 @@ public class Beam extends Particle implements PhotonSource {
     public void setPhotonsPerSecond( double photonsPerSecond ) {
         // The following if statement prevents the system from sending out a big
         // wave of photons if it has been set at a rate of 0 for awhile.
-        if( this.photonsPerSecond == 0 ) {
+        if ( this.photonsPerSecond == 0 ) {
             timeSinceLastPhotonProduced = 0;
         }
         this.photonsPerSecond = photonsPerSecond;
@@ -201,12 +201,12 @@ public class Beam extends Particle implements PhotonSource {
         super.stepInTime( dt );
 
         // Produce photons
-        if( isEnabled() ) {
+        if ( isEnabled() ) {
             timeSinceLastPhotonProduced += dt;
-            if( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
+            if ( nextTimeToProducePhoton < timeSinceLastPhotonProduced ) {
 
-                int nPhotons = (int)( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
-                for( int i = 0; i < nPhotons; i++ ) {
+                int nPhotons = (int) ( timeSinceLastPhotonProduced * getPhotonsPerSecond() / 1E3 );
+                for ( int i = 0; i < nPhotons; i++ ) {
                     // Set the photon's velocity to a fanout angle proportional to its distance from the
                     // center of the beam
                     Point2D photonLoc = genPosition();
@@ -214,7 +214,7 @@ public class Beam extends Particle implements PhotonSource {
                     double alpha = getDirection()
                                    - Math.atan2( photonLoc.getY() - getPosition().getY(),
                                                  photonLoc.getX() - getPosition().getX() );
-                    if( alpha > 0 ) {
+                    if ( alpha > 0 ) {
                         angle *= -1;
                     }
                     Vector2D photonVelocity = new Vector2D.Double( velocity ).rotate( angle );
@@ -240,13 +240,13 @@ public class Beam extends Particle implements PhotonSource {
     //---------------------------------------------------------------------
 
     private EventChannel rateChangeEventChannel = new EventChannel( RateChangeListener.class );
-    private RateChangeListener rateChangeListenerProxy = (RateChangeListener)rateChangeEventChannel.getListenerProxy();
+    private RateChangeListener rateChangeListenerProxy = (RateChangeListener) rateChangeEventChannel.getListenerProxy();
 
     private EventChannel wavelengthChangeEventChannel = new EventChannel( WavelengthChangeListener.class );
-    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener)wavelengthChangeEventChannel.getListenerProxy();
+    private WavelengthChangeListener wavelengthChangeListenerProxy = (WavelengthChangeListener) wavelengthChangeEventChannel.getListenerProxy();
 
     private EventChannel photonEmittedEventChannel = new EventChannel( PhotonEmissionListener.class );
-    private PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener)photonEmittedEventChannel.getListenerProxy();
+    private PhotonEmissionListener photonEmittedListenerProxy = (PhotonEmissionListener) photonEmittedEventChannel.getListenerProxy();
 
     public void addRateChangeListener( RateChangeListener rateChangeListener ) {
         rateChangeEventChannel.addListener( rateChangeListener );
@@ -265,19 +265,18 @@ public class Beam extends Particle implements PhotonSource {
      * a single call. This is a screwy settup that I threw in when I had to refactor things
      * to work with several simulations.
      *
-     * @param listener
-     * todo refactor this whole listener mechanism to have a single ChangeListener interface
-     * that handles both rate and wavelength changes, and a separate interface for photon emission
-     * events.
+     * @param listener todo refactor this whole listener mechanism to have a single ChangeListener interface
+     *                 that handles both rate and wavelength changes, and a separate interface for photon emission
+     *                 events.
      */
     public void removeListener( EventListener listener ) {
-        if( listener instanceof RateChangeListener ) {
+        if ( listener instanceof RateChangeListener ) {
             rateChangeEventChannel.removeListener( listener );
         }
-        if( listener instanceof WavelengthChangeListener ) {
+        if ( listener instanceof WavelengthChangeListener ) {
             wavelengthChangeEventChannel.removeListener( listener );
         }
-        if( listener instanceof PhotonEmissionListener ) {
+        if ( listener instanceof PhotonEmissionListener ) {
             photonEmittedEventChannel.removeListener( listener );
         }
     }

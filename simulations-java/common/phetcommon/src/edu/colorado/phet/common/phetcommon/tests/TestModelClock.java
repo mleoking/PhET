@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ModelClock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ModelClock;
 
 /**
  * TestModelClock
@@ -28,7 +28,7 @@ public class TestModelClock {
             public void clockTicked( ClockEvent clockEvent ) {
                 System.out.println( "tick: " + clockEvent.getSimulationTime() );
             }
-        });
+        } );
         clock.start();
         System.out.println( "clock.isPaused() = " + clock.isPaused() );
 

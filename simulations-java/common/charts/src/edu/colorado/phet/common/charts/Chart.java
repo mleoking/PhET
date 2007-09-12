@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 
 public class Chart extends GraphicLayerSet {
     private Component component;
@@ -59,7 +59,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     private static double getDefaultMinor( double range ) {
-        if( range < 20 ) {
+        if ( range < 20 ) {
             return 1;
         }
         else {
@@ -114,13 +114,13 @@ public class Chart extends GraphicLayerSet {
     /**
      * Sets the title label that appears on the x axis.
      * The title will be place to the right of the chart,
-     * and the title's registration point will be aligned 
+     * and the title's registration point will be aligned
      * with the x axis.
-     * 
+     *
      * @param phetGraphic
      */
     public void setXAxisTitle( PhetGraphic phetGraphic ) {
-        if( xAxisTitleGraphic != null ) {
+        if ( xAxisTitleGraphic != null ) {
             removeGraphic( xAxisTitleGraphic );
         }
         xAxisTitleGraphic = phetGraphic;
@@ -131,13 +131,13 @@ public class Chart extends GraphicLayerSet {
     /**
      * Sets the title label that appears on the y axis.
      * The title will be place to the right of the chart,
-     * and the title's registration point will be aligned 
+     * and the title's registration point will be aligned
      * with the y axis.
-     * 
+     *
      * @param phetGraphic
      */
     public void setYAxisTitle( PhetGraphic phetGraphic ) {
-        if( yAxisTitleGraphic != null ) {
+        if ( yAxisTitleGraphic != null ) {
             removeGraphic( yAxisTitleGraphic );
         }
         yAxisTitleGraphic = phetGraphic;
@@ -151,8 +151,8 @@ public class Chart extends GraphicLayerSet {
     }
 
     public void removeAllDataSetGraphics() {
-        for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-            compositeDataSetGraphic.removeGraphic( (DataSetGraphic)dataSetGraphics.get( i ) );
+        for ( int i = 0; i < dataSetGraphics.size(); i++ ) {
+            compositeDataSetGraphic.removeGraphic( (DataSetGraphic) dataSetGraphics.get( i ) );
         }
         dataSetGraphics.clear();
     }
@@ -162,7 +162,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     public DataSetGraphic[] getDataSetGraphics() {
-        return (DataSetGraphic[])dataSetGraphics.toArray( new DataSetGraphic[0] );
+        return (DataSetGraphic[]) dataSetGraphics.toArray( new DataSetGraphic[0] );
     }
 
     public void setVerticalTitle( String title, Color color, Font verticalTitleFont ) {
@@ -181,30 +181,30 @@ public class Chart extends GraphicLayerSet {
     }
 
     public int getDecorationInsetX() {
-        return -(int)( verticalTicks.getBounds().getMinX() - backgroundGraphic.getBounds().getMinX() );
+        return -(int) ( verticalTicks.getBounds().getMinX() - backgroundGraphic.getBounds().getMinX() );
     }
 
     public double[] getLinesInBounds( Orientation orientation, double[] gridLines ) {
         ArrayList bounded = new ArrayList();
-        if( orientation.isHorizontal() ) {
-            for( int i = 0; i < gridLines.length; i++ ) {
+        if ( orientation.isHorizontal() ) {
+            for ( int i = 0; i < gridLines.length; i++ ) {
                 double gridLine = gridLines[i];
-                if( range.containsY( gridLine ) ) {
+                if ( range.containsY( gridLine ) ) {
                     bounded.add( new Double( gridLine ) );
                 }
             }
         }
         else {
-            for( int i = 0; i < gridLines.length; i++ ) {
+            for ( int i = 0; i < gridLines.length; i++ ) {
                 double gridLine = gridLines[i];
-                if( range.containsX( gridLine ) ) {
+                if ( range.containsX( gridLine ) ) {
                     bounded.add( new Double( gridLine ) );
                 }
             }
         }
         double[] out = new double[bounded.size()];
-        for( int i = 0; i < bounded.size(); i++ ) {
-            java.lang.Double aDouble = (java.lang.Double)bounded.get( i );
+        for ( int i = 0; i < bounded.size(); i++ ) {
+            java.lang.Double aDouble = (java.lang.Double) bounded.get( i );
             out[i] = aDouble.doubleValue();
         }
         return out;
@@ -410,17 +410,17 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Range2D getDataRange() {
-        if( numDataSetGraphics() == 0 ) {
+        if ( numDataSetGraphics() == 0 ) {
             return null;
         }
-        Range2D range = ( (DataSetGraphic)dataSetGraphics.get( 0 ) ).getDataSet().getRange();
-        for( int i = 1; i < dataSetGraphics.size(); i++ ) {
-            DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+        Range2D range = ( (DataSetGraphic) dataSetGraphics.get( 0 ) ).getDataSet().getRange();
+        for ( int i = 1; i < dataSetGraphics.size(); i++ ) {
+            DataSetGraphic dataSetGraphic = (DataSetGraphic) dataSetGraphics.get( i );
             Range2D nextRange = dataSetGraphic.getDataSet().getRange();
-            if( range == null ) {
+            if ( range == null ) {
                 range = nextRange;
             }
-            else if( nextRange != null ) {
+            else if ( nextRange != null ) {
                 range = range.union( nextRange );
             }
         }
@@ -434,9 +434,9 @@ public class Chart extends GraphicLayerSet {
     public void setBackground( Paint background ) {
         this.backgroundGraphic.setPaint( background );
     }
-    
+
     public void addDataSetGraphic( DataSetGraphic dataSetGraphic, double layer ) {
-        if( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
+        if ( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
             dataSetGraphics.add( dataSetGraphic );
             compositeDataSetGraphic.addGraphic( dataSetGraphic, layer );
         }
@@ -448,7 +448,7 @@ public class Chart extends GraphicLayerSet {
     public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
         addDataSetGraphic( dataSetGraphic, 0 );
     }
-    
+
     public Component getComponent() {
         return component;
     }
@@ -460,7 +460,7 @@ public class Chart extends GraphicLayerSet {
      * @return the Point in view coordinates.
      */
     public Point transform( Point2D point ) {
-        if( point == null ) {
+        if ( point == null ) {
             throw new RuntimeException( "Null point" );
         }
         return transform.modelToView( point );
@@ -471,7 +471,7 @@ public class Chart extends GraphicLayerSet {
     }
 
     public Point2D transformDouble( Point2D point ) {
-        if( point == null ) {
+        if ( point == null ) {
             throw new RuntimeException( "Null point" );
         }
         return transform.modelToViewDouble( point );
@@ -503,7 +503,7 @@ public class Chart extends GraphicLayerSet {
         backgroundGraphic.setShape( viewBounds );
         frameGraphic.setShape( viewBounds );
         transform.setViewBounds( viewBounds );
-        
+
         // Update the axis title after the transform has been adjusted.
         if ( xAxisTitleGraphic != null ) {
             xAxisTitleGraphic.setLocation( chartSize.width + 2, (int) transformYDouble( 0 ) ); // aligned with x axis
@@ -511,7 +511,7 @@ public class Chart extends GraphicLayerSet {
         if ( yAxisTitleGraphic != null ) {
             yAxisTitleGraphic.setLocation( (int) transformXDouble( 0 ), -2 ); // aligned with y axis
         }
-        
+
         fireTransformChanged();
         setBoundsDirty();
         autorepaint();
@@ -530,18 +530,18 @@ public class Chart extends GraphicLayerSet {
     }
 
     private void fireTransformChanged() {
-        for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-            DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+        for ( int i = 0; i < dataSetGraphics.size(); i++ ) {
+            DataSetGraphic dataSetGraphic = (DataSetGraphic) dataSetGraphics.get( i );
             dataSetGraphic.transformChanged();
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.transformChanged( this );
         }
     }
 
     public DataSetGraphic dataSetGraphicAt( int i ) {
-        return (DataSetGraphic)dataSetGraphics.get( i );
+        return (DataSetGraphic) dataSetGraphics.get( i );
     }
 
     public int transformY( double gridLineY ) {

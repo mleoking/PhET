@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common.phetcommon.model.clock;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * This extension of Clock uses a Swing Timer for tick notification.
@@ -43,7 +44,7 @@ public class SwingClock extends Clock {
         super( timingStrategy );
         ActionListener actionListener = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( !isPaused() ) {
+                if ( !isPaused() ) {
                     doTick();
                 }
             }
@@ -55,7 +56,7 @@ public class SwingClock extends Clock {
      * Starts the Clock.
      */
     public void start() {
-        if( isPaused() ) {
+        if ( isPaused() ) {
             timer.start();
             super.notifyClockStarted();
         }
@@ -65,7 +66,7 @@ public class SwingClock extends Clock {
      * Pauses the Clock.
      */
     public void pause() {
-        if( isRunning() ) {
+        if ( isRunning() ) {
             timer.stop();
             super.notifyClockPaused();
         }

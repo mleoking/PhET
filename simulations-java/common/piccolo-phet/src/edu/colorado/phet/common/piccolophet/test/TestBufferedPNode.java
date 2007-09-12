@@ -7,19 +7,20 @@ package edu.colorado.phet.common.piccolophet.test;
  *
  */
 
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BufferedPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.geom.Line2D;
-import java.util.Random;
 
 public class TestBufferedPNode {
     private JFrame frame;
@@ -55,7 +56,7 @@ public class TestBufferedPNode {
         public ExpensiveNode() {
             int w = 500;
             int h = 500;
-            for( int i = 0; i < 2000; i++ ) {
+            for ( int i = 0; i < 2000; i++ ) {
                 PhetPPath path = new PhetPPath( new Line2D.Double( random.nextDouble() * w, random.nextDouble() * h, random.nextDouble() * w, random.nextDouble() * h ), new BasicStroke( random.nextFloat() * 3 ), new Color( random.nextFloat(), random.nextFloat(), random.nextFloat() ) );
                 addChild( path );
             }

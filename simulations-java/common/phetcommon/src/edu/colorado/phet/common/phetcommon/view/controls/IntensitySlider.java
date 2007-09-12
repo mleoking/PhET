@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * IntensitySlider is a slider used to control intensity.
@@ -44,7 +45,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     // Default range
     private static int DEFAULT_MIN = 0;
     private static int DEFAULT_MAX = 100;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -133,19 +134,19 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     public void setMinimum( int minimum ) {
         _slider.setMinimum( minimum );
     }
-    
+
     public int getMinimum() {
         return _slider.getMinimum();
     }
-    
+
     public void setMaximum( int maximum ) {
         _slider.setMaximum( maximum );
     }
-    
+
     public int getMaximum() {
         return _slider.getMaximum();
     }
-    
+
     /**
      * Gets the slider's color
      *
@@ -203,9 +204,9 @@ public class IntensitySlider extends JPanel implements ChangeListener {
     private void fireChangeEvent( ChangeEvent event ) {
 
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }
     }
@@ -222,8 +223,8 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      */
     public void paintComponent( Graphics g ) {
 
-        if( super.isVisible() ) {
-            Graphics2D g2 = (Graphics2D)g;
+        if ( super.isVisible() ) {
+            Graphics2D g2 = (Graphics2D) g;
 
             // Required with newer look and feel code
             _slider.setOpaque( false );
@@ -252,7 +253,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
 
             Shape top, bottom, middle, shape;
             Point2D p1, p2;
-            if( _slider.getOrientation() == VERTICAL ) {
+            if ( _slider.getOrientation() == VERTICAL ) {
                 // The background shapes.
                 middle = new Rectangle2D.Double( x, y + trackOffset, w, h - ( 2 * trackOffset ) );
                 top = new Rectangle2D.Double( x, y, w, ( h - middle.getBounds2D().getHeight() ) / 2 );

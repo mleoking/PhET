@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common.phetgraphics.application;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-
-import javax.swing.*;
 
 /**
  * DeferredInitializationModule
@@ -54,7 +54,7 @@ public abstract class DeferredInitializationModule extends PhetGraphicsModule {
      * invoked.
      */
     public void activate() {
-        if( !initialized ) {
+        if ( !initialized ) {
             init();
             initialized = true;
         }

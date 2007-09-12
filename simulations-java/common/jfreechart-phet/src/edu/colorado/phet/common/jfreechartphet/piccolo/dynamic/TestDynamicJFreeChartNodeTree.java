@@ -21,13 +21,13 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Demonstration of usage and behavior of JFreeChartNode nested in a piccolo scene graph.
@@ -48,10 +48,10 @@ public class TestDynamicJFreeChartNodeTree extends TestDynamicJFreeChartNode {
         getPhetPCanvas().addScreenChild( root );
         getPhetPCanvas().addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_PAGE_UP ) {
+                if ( e.getKeyCode() == KeyEvent.VK_PAGE_UP ) {
                     root.scale( 1.1 );
                 }
-                else if( e.getKeyCode() == KeyEvent.VK_PAGE_DOWN ) {
+                else if ( e.getKeyCode() == KeyEvent.VK_PAGE_DOWN ) {
                     root.scale( 1.0 / 1.1 );
                 }
             }
@@ -64,7 +64,7 @@ public class TestDynamicJFreeChartNodeTree extends TestDynamicJFreeChartNode {
 
     protected void relayout() {
         super.relayout();
-        if( constructed ) {
+        if ( constructed ) {
             root.setOffset( 50, 50 );
             text.setOffset( 0, super.getPSwing().getFullBounds().getMaxY() );
             getDynamicJFreeChartNode().setOffset( 10, 10 );

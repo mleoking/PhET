@@ -11,6 +11,18 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.text.MessageFormat;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -27,17 +39,6 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.text.MessageFormat;
 
 
 /**
@@ -60,8 +61,8 @@ public class TestHelpBalloon extends NonPiccoloPhetApplication {
     private static final HelpBalloon.Attachment DEFAULT_ARROW_TAIL_POSITION = HelpBalloon.TOP_LEFT;
     private static final int DEFAULT_ARROW_LENGTH = 40;
     private static final int DEFAULT_ARROW_ROTATION = 0;
-    private static final int MIN_ARROW_ROTATION = (int)HelpBalloon.MIN_ARROW_ROTATION;
-    private static final int MAX_ARROW_ROTATION = (int)HelpBalloon.MAX_ARROW_ROTATION;
+    private static final int MIN_ARROW_ROTATION = (int) HelpBalloon.MIN_ARROW_ROTATION;
+    private static final int MAX_ARROW_ROTATION = (int) HelpBalloon.MAX_ARROW_ROTATION;
 
     /* Test harness */
     public static void main( final String[] args ) {
@@ -295,8 +296,8 @@ public class TestHelpBalloon extends NonPiccoloPhetApplication {
                 tailPositionComboBox.addItemListener( new ItemListener() {
 
                     public void itemStateChanged( ItemEvent e ) {
-                        if( e.getStateChange() == ItemEvent.SELECTED ) {
-                            _helpBalloon.setArrowTailPosition( (HelpBalloon.Attachment)tailPositionComboBox.getSelectedItem() );
+                        if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                            _helpBalloon.setArrowTailPosition( (HelpBalloon.Attachment) tailPositionComboBox.getSelectedItem() );
                         }
                     }
                 } );

@@ -76,10 +76,10 @@ public class EventChannel implements InvocationHandler {
     /**
      * Creates a proxy for a list of objects that implement a specified interface
      *
-     * @param interf    The interface for which the channel provides a proxy
+     * @param interf The interface for which the channel provides a proxy
      */
     public EventChannel( Class interf ) {
-        if( !EventListener.class.isAssignableFrom( interf ) ) {
+        if ( !EventListener.class.isAssignableFrom( interf ) ) {
             throw new InvalidParameterException( "Attempt to create proxy for an interface that is not an EventListener" );
         }
         targetInterface = interf;
@@ -95,8 +95,8 @@ public class EventChannel implements InvocationHandler {
      * @param listener
      */
     public synchronized void addListener( EventListener listener ) {
-        if( targetInterface.isInstance( listener ) ) {
-            if( invokingTargets ) {
+        if ( targetInterface.isInstance( listener ) ) {
+            if ( invokingTargets ) {
                 listenersToAdd.add( listener );
             }
             else {
@@ -114,8 +114,8 @@ public class EventChannel implements InvocationHandler {
      * @param listener
      */
     public synchronized void removeListener( EventListener listener ) {
-        if( targetInterface.isInstance( listener ) ) {
-            if( invokingTargets ) {
+        if ( targetInterface.isInstance( listener ) ) {
+            if ( invokingTargets ) {
                 listenersToRemove.add( listener );
             }
             else {
@@ -188,7 +188,7 @@ public class EventChannel implements InvocationHandler {
         Object target = null;
         try {
             invokingTargets = true;
-            for( int i = 0; i < targets.size(); i++ ) {
+            for ( int i = 0; i < targets.size(); i++ ) {
                 target = targets.get( i );
                 invokeMethod( method, target, args );
             }
@@ -196,11 +196,11 @@ public class EventChannel implements InvocationHandler {
 
             // If anyone tried to add or remove a listener while we were invoking
             // targets, add/remove them now
-            if( !listenersToAdd.isEmpty() ) {
+            if ( !listenersToAdd.isEmpty() ) {
                 targets.addAll( listenersToAdd );
                 listenersToAdd.clear();
             }
-            if( !listenersToRemove.isEmpty() ) {
+            if ( !listenersToRemove.isEmpty() ) {
                 targets.removeAll( listenersToRemove );
                 listenersToRemove.clear();
             }

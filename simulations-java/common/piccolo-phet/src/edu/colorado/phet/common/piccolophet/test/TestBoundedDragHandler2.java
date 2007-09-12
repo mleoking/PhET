@@ -5,7 +5,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
@@ -33,7 +33,7 @@ public class TestBoundedDragHandler2 {
 
         piccoloCanvas = new PCanvas();
         piccoloCanvas.setPanEventHandler( null );
-        
+
         frame.setContentPane( piccoloCanvas );
 
         // Node that defines the drag bounds
@@ -50,12 +50,12 @@ public class TestBoundedDragHandler2 {
         pText.addInputEventListener( new BoundedDragHandler( pText, dragBoundsNode ) );
         pText.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         pText.setPaint( Color.green );
-        
+
         // A more complicated draggable node
-        ComplicatedNode cn = new ComplicatedNode( new Dimension(25,50), dragBoundsNode );
+        ComplicatedNode cn = new ComplicatedNode( new Dimension( 25, 50 ), dragBoundsNode );
         piccoloCanvas.getLayer().addChild( cn );
         cn.setOffset( 100, 200 );
-        
+
         // Red rectangle, constrained to vertical dragging
         Rectangle2D rect = new Rectangle2D.Double( 0, 0, 200, 20 );
         PPath pathNode = new PPath( rect );
@@ -79,19 +79,19 @@ public class TestBoundedDragHandler2 {
     private void start() {
         frame.show();
     }
-    
+
     /**
      * ComplicatedNode tests a more complicated situation.
      * This node has 3 children: 2 rectangles and 1 ellipse.
      * The rectangles can be used to drag the node; the ellipse cannot.
      */
     public static class ComplicatedNode extends PNode {
-        
+
         public ComplicatedNode( Dimension size, PNode dragBoundsNode ) {
             super();
-            
+
             double x, y, w, h;
-            
+
             x = -size.getWidth() / 2;
             y = -size.getHeight() / 2;
             w = size.getWidth();
@@ -99,7 +99,7 @@ public class TestBoundedDragHandler2 {
             PPath rect1 = new PPath( new Rectangle2D.Double( x, y, w, h ) );
             rect1.setPaint( Color.RED );
             addChild( rect1 );
-            
+
             x = -size.getWidth() / 2;
             y = 0;
             w = size.getWidth();
@@ -107,19 +107,19 @@ public class TestBoundedDragHandler2 {
             PPath rect2 = new PPath( new Rectangle2D.Double( x, y, w, h ) );
             rect2.setPaint( Color.GREEN );
             addChild( rect2 );
-            
+
             w = size.getWidth() * 2;
             h = 0.15 * w;
-            x = -w/2;
-            y = -h/2;
+            x = -w / 2;
+            y = -h / 2;
             PPath ellipse1 = new PPath( new Ellipse2D.Double( x, y, w, h ) );
             ellipse1.setPaint( Color.BLUE );
             addChild( ellipse1 );
-            
+
             BoundedDragHandler dragHandler = new BoundedDragHandler( this, dragBoundsNode );
             rect1.addInputEventListener( dragHandler );
             rect2.addInputEventListener( dragHandler );
-            
+
             rect1.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
             rect2.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         }

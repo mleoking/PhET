@@ -5,14 +5,14 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
 /**
  * LinearMappingStrategy performs a linear mapping between slider and model coordinates.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LinearMappingStrategy extends AbstractMappingStrategy {
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param modelMin
      * @param modelMax
      * @param sliderMin
@@ -24,7 +24,7 @@ public class LinearMappingStrategy extends AbstractMappingStrategy {
 
     /**
      * Converts from slider to model coordinates.
-     * 
+     *
      * @param sliderValue slider value
      * @return model value
      */
@@ -46,7 +46,7 @@ public class LinearMappingStrategy extends AbstractMappingStrategy {
 
     /**
      * Converts from model to slider coordinates.
-     * 
+     *
      * @param modelValue model value
      * @return slider value
      */

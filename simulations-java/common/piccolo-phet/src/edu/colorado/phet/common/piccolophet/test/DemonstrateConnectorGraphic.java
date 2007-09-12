@@ -1,18 +1,18 @@
 package edu.colorado.phet.common.piccolophet.test;
 
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
  * Date: Sep 9, 2005
  * Time: 10:00:05 PM
- *
  */
 
 public class DemonstrateConnectorGraphic {

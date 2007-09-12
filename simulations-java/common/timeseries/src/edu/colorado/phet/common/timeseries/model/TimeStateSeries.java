@@ -17,7 +17,7 @@ public class TimeStateSeries {
     }
 
     public TimeState getLastPoint() {
-        if( pts.size() > 0 ) {
+        if ( pts.size() > 0 ) {
             return lastPointAt( 0 );
         }
         else {
@@ -38,7 +38,7 @@ public class TimeStateSeries {
     }
 
     public TimeState pointAt( int i ) {
-        return ( (TimeState)pts.get( i ) );
+        return ( (TimeState) pts.get( i ) );
     }
 
     public int numPoints() {
@@ -51,20 +51,20 @@ public class TimeStateSeries {
     }
 
     public TimeState getTimeState( double time ) {
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return new TimeState( null, 0 );
         }
         TimeState[] timeStates = getNeighborsForTime( time, 0, numPoints() - 1 );
         TimeState lowerBound = timeStates[0];
         TimeState upperSample = timeStates[1];
         boolean valid = lowerBound.getTime() <= time && upperSample.getTime() >= time;
-        if( !valid ) {
+        if ( !valid ) {
             System.out.println( "requested time=" + time + ", lower bound=" + lowerBound.getTime() + ", upper bound=" + upperSample.getTime() + ", valid=" + valid );
         }
 
         double lowerDist = Math.abs( lowerBound.getTime() - time );
         double upperDist = Math.abs( upperSample.getTime() - time );
-        if( lowerDist <= upperDist ) {
+        if ( lowerDist <= upperDist ) {
             return new TimeState( lowerBound.getValue(), time );
         }
         else {
@@ -77,16 +77,16 @@ public class TimeStateSeries {
     }
 
     private TimeState getLowerSample( double time, int min, int max, int depth ) {
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new TimeState( null, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( min );
         }
         int midIndex = ( max + min ) / 2;
         TimeState mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getLowerSample( time, min, midIndex, depth + 1 );
         }
         else {
@@ -95,16 +95,16 @@ public class TimeStateSeries {
     }
 
     private TimeState getUpperSample( double time, int min, int max, int depth ) {
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new TimeState( null, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( max );
         }
         int midIndex = ( max + min ) / 2;
         TimeState mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getUpperSample( time, min, midIndex, depth + 1 );
         }
         else {

@@ -1,34 +1,36 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.awt.*;
+
 import javax.swing.*;
-import java.awt.Font;
 
 /**
  * Simplified interface for instantiating the default font used in PhET simulations.
  */
 public class PhetDefaultFont extends Font {
-    
+
     private static final Font REFERENCE_FONT = new JLabel().getFont();
     private static final String FONT_NAME = REFERENCE_FONT.getFontName();
-    public static final String LUCIDA_SANS="Lucida Sans";
+    public static final String LUCIDA_SANS = "Lucida Sans";
 
     public PhetDefaultFont() {
         this( REFERENCE_FONT.getSize() );
     }
+
     /**
      * Constructs a PhetDefaultFont with a specified point size.
      *
      * @param size the size of the font.
      */
     public PhetDefaultFont( int size ) {
-        this( Font.PLAIN, size);
+        this( Font.PLAIN, size );
     }
-    
+
     /**
-     * This constructor is more similar to the Font constructor, 
+     * This constructor is more similar to the Font constructor,
      * but supplies the font name.
-     * 
+     *
      * @param style
      * @param size
      */
@@ -59,6 +61,7 @@ public class PhetDefaultFont extends Font {
 
     /**
      * Returns the font family name for the default font.
+     *
      * @return the font family name for the default font
      */
     public static String getDefaultFontName() {
@@ -67,9 +70,10 @@ public class PhetDefaultFont extends Font {
 
     /**
      * Returns the font size for the default font.
+     *
      * @return the font size for the default font
      */
-    public static int getDefaultFontSize(){
-       return REFERENCE_FONT.getSize();
+    public static int getDefaultFontSize() {
+        return REFERENCE_FONT.getSize();
     }
 }

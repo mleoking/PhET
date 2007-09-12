@@ -1,10 +1,10 @@
 package edu.colorado.phet.common.piccolophet;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
  * This class explicitly buffers the graphics to resolve some issues related to piccolo (pswing) scene graph rendering.
@@ -15,7 +15,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
     private BufferedImage bufferedImage;
 
     public void paintComponent( Graphics g ) {
-        if( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
+        if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
 //            bufferedImage = new BufferedImage( getWidth(), getHeight(),  );
             //todo: consider getting a hardware-accelerated offscreen buffer through createImage
             bufferedImage = new BufferedImage( getWidth(), getHeight(), getBufferedImageType() );
@@ -24,7 +24,7 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
         Graphics2D bufferedGraphics = bufferedImage.createGraphics();
         bufferedGraphics.setClip( g.getClipBounds() );//todo is this correct?
         super.paintComponent( bufferedGraphics );
-        ( (Graphics2D)g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+        ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
         bufferedGraphics.dispose();
     }
 

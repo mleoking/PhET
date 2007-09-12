@@ -11,9 +11,9 @@
 
 package edu.colorado.phet.common.phetcommon.math;
 
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Ellipse2D;
 import java.util.Random;
 
 /**
@@ -52,10 +52,10 @@ public class MathUtil {
      * @return +1 or -1
      */
     public static int getSign( double d ) {
-        if( d != 0
-            && !Double.isNaN( d )
-            && !Double.isInfinite( d ) ) {
-            return (int)( Math.abs( d ) / d );
+        if ( d != 0
+             && !Double.isNaN( d )
+             && !Double.isInfinite( d ) ) {
+            return (int) ( Math.abs( d ) / d );
         }
         else {
             return 1;
@@ -69,10 +69,10 @@ public class MathUtil {
      * @return +1 or -1
      */
     public static int getSign( float f ) {
-        if( f != 0
-            && !Float.isNaN( f )
-            && !Float.isInfinite( f ) ) {
-            return (int)( Math.abs( f ) / f );
+        if ( f != 0
+             && !Float.isNaN( f )
+             && !Float.isInfinite( f ) ) {
+            return (int) ( Math.abs( f ) / f );
         }
         else {
             return 1;
@@ -100,7 +100,7 @@ public class MathUtil {
      *         returns NaN
      */
     public static double[] quadraticRoots( double[] quadRoots, double a, double b, double c ) {
-        double sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
+        double sqrt = (float) Math.sqrt( ( b * b ) - 4 * a * c );
 
         quadRoots[0] = ( -b + sqrt ) / ( 2 * a );
         quadRoots[1] = ( -b - sqrt ) / ( 2 * a );
@@ -131,7 +131,7 @@ public class MathUtil {
      *         returns NaN
      */
     public static float[] quadraticRoots( float[] quadRoots, float a, float b, float c ) {
-        float sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
+        float sqrt = (float) Math.sqrt( ( b * b ) - 4 * a * c );
 
         quadRoots[0] = ( -b + sqrt ) / ( 2 * a );
         quadRoots[1] = ( -b - sqrt ) / ( 2 * a );
@@ -244,7 +244,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
         else {
@@ -253,7 +253,7 @@ public class MathUtil {
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if( !( ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1 ) ) {
+            if ( !( ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1 ) ) {
                 result.setLocation( Float.NaN, Float.NaN );
             }
             else {
@@ -292,7 +292,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
         else {
@@ -301,7 +301,7 @@ public class MathUtil {
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if( !( ub >= 0 && ub <= 1 ) ) {
+            if ( !( ub >= 0 && ub <= 1 ) ) {
                 result.setLocation( Double.NaN, Double.NaN );
             }
             else {
@@ -351,7 +351,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Double.NaN, Double.NaN );
         }
         else {
@@ -387,7 +387,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result = false;
         }
         else {
@@ -409,10 +409,10 @@ public class MathUtil {
     public static Point2D.Float getLinesIntersection( float m1, float b1, float m2, float b2 ) {
 
         Point2D.Float result = new Point2D.Float( 0, 0 );
-        if( m1 == m2 ) {
+        if ( m1 == m2 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
-        else if( m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY ) {
+        else if ( m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY ) {
             // Handle vertical lines!!
             throw new RuntimeException( "Method does not handle vertical lines yet" );
         }
@@ -433,13 +433,13 @@ public class MathUtil {
      * @return the clamped value
      */
     public static double clamp( double min, double value, double max ) {
-        if( Double.isNaN( min ) || Double.isNaN( value ) || Double.isNaN( max ) ) {
+        if ( Double.isNaN( min ) || Double.isNaN( value ) || Double.isNaN( max ) ) {
             return Double.NaN;
         }
-        else if( value < min ) {
+        else if ( value < min ) {
             return min;
         }
-        else if( value > max ) {
+        else if ( value > max ) {
             return max;
         }
         return value;
@@ -537,10 +537,10 @@ public class MathUtil {
         b = b < 0 ? -b : b;
 
         // Search for the least common multiple
-        while( !found ) {
+        while ( !found ) {
             aFactor++;
-            for( int bFactor = a / b; bFactor * b <= aFactor * a; bFactor++ ) {
-                if( bFactor * b == aFactor * a ) {
+            for ( int bFactor = a / b; bFactor * b <= aFactor * a; bFactor++ ) {
+                if ( bFactor * b == aFactor * a ) {
                     found = true;
                 }
             }
@@ -553,13 +553,13 @@ public class MathUtil {
      * Adapted from:
      * Weisstein, Eric W. "Circle-Line Intersection."
      * From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/Circle-LineIntersection.html
-     * <p>
+     * <p/>
      * Modified to handle circles that are not centered at (0,0).
      *
      * @param c An Ellipse2D. Assumes width == height
      * @param l A Line2D.
      * @return An array of two points. If the line is tangent to the circle, the array contains two points
-     * with the same coordinates. If the line does not intersect the circle, the array contains two nulls.
+     *         with the same coordinates. If the line does not intersect the circle, the array contains two nulls.
      */
     public static Point2D[] getLineCircleIntersection( Ellipse2D c, Line2D l ) {
 
@@ -575,16 +575,16 @@ public class MathUtil {
         double dr = Math.sqrt( dx * dx + dy * dy );
         double D = x1 * y2 - x2 * y1;
 
-        double discriminant = r*r*dr*dr - D*D;
+        double discriminant = r * r * dr * dr - D * D;
         double radical = Math.sqrt( discriminant );
-        double numeratorX_1 = D*dy - MathUtil.getSign( dy )* dx * radical;
-        double numeratorX_2 = D*dy + MathUtil.getSign( dy )* dx * radical;
+        double numeratorX_1 = D * dy - MathUtil.getSign( dy ) * dx * radical;
+        double numeratorX_2 = D * dy + MathUtil.getSign( dy ) * dx * radical;
 
-        double numeratorY_1 = -D*dx - Math.abs(dy)*radical;
-        double numeratorY_2 = -D*dx + Math.abs(dy)*radical;
+        double numeratorY_1 = -D * dx - Math.abs( dy ) * radical;
+        double numeratorY_2 = -D * dx + Math.abs( dy ) * radical;
 
         Point2D[] result = new Point2D[2];
-        if( discriminant >= 0 ) {
+        if ( discriminant >= 0 ) {
             double denom = dr * dr;
             result[0] = new Point2D.Double( cx + numeratorX_1 / denom, cy + numeratorY_1 / denom );
             result[1] = new Point2D.Double( cx + numeratorX_2 / denom, cy + numeratorY_2 / denom );
@@ -602,24 +602,24 @@ public class MathUtil {
      */
     public static Vector2D getProjection( Vector2D v1, Vector2D v2 ) {
         Vector2D proj = new Vector2D.Double( v2 ).normalize();
-        proj = proj.scale( v1.dot(proj));
+        proj = proj.scale( v1.dot( proj ) );
         return proj;
     }
-    
+
     /**
      * Factorial
-     * 
+     *
      * @param n
      * @return n!
      * @throws IllegalArgumentException if n < 0
      */
     public static int factorial( final int n ) {
-        if( n < 0 ) {
+        if ( n < 0 ) {
             throw new IllegalArgumentException( "factorial is undefined for negative integers: " + n );
         }
         int nFactorial = 1; // 0!=1, 1!=1
-        if( n > 1 ) {
-            for( int i = n; i > 1; i-- ) {
+        if ( n > 1 ) {
+            for ( int i = n; i > 1; i-- ) {
                 nFactorial *= i;
             }
         }
@@ -628,8 +628,8 @@ public class MathUtil {
 
     public static double getMachineEpsilonFloat() {
         int iterations = 0;
-        for( float epsilon = 1.0f; epsilon >= 0.0; epsilon /= 2 ) {
-            if( 1.0f + epsilon / 2 == 1.0f ) {
+        for ( float epsilon = 1.0f; epsilon >= 0.0; epsilon /= 2 ) {
+            if ( 1.0f + epsilon / 2 == 1.0f ) {
                 System.out.println( "solution found in iterations=" + iterations );
                 return epsilon;
             }
@@ -640,8 +640,8 @@ public class MathUtil {
 
     public static double getMachineEpsilonDouble() {
         int iterations = 0;
-        for( double epsilon = 1.0; epsilon >= 0.0; epsilon /= 2 ) {
-            if( 1.0 + epsilon / 2 == 1.0 ) {
+        for ( double epsilon = 1.0; epsilon >= 0.0; epsilon /= 2 ) {
+            if ( 1.0 + epsilon / 2 == 1.0 ) {
                 System.out.println( "solution found in iterations=" + iterations );
                 return epsilon;
             }

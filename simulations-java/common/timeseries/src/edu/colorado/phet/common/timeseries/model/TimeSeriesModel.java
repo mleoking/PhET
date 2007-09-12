@@ -1,9 +1,9 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.timeseries.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.*;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.model.clock.*;
 
 /**
  * User: Sam Reid
@@ -43,7 +43,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void updatePauseStateFromClock() {
-        if( this.paused != clock.isPaused() ) {
+        if ( this.paused != clock.isPaused() ) {
             this.paused = clock.isPaused();
             notifyPauseChanged();
         }
@@ -66,10 +66,10 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPlaybackTime( double requestedTime ) {
-        if( requestedTime > getRecordTime() ) {
+        if ( requestedTime > getRecordTime() ) {
             requestedTime = getRecordTime();
         }
-        if( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
+        if ( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
             playback.setTime( requestedTime );
             recordableModel.setState( series.getTimeStateValue( requestedTime ) );
         }
@@ -92,8 +92,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void setPaused( boolean paused ) {
-        if( this.paused != paused ) {
-            if( paused ) {
+        if ( this.paused != paused ) {
+            if ( paused ) {
                 clock.pause();
             }
             else {
@@ -104,8 +104,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyPauseChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.pauseChanged();
         }
     }
@@ -134,7 +134,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void confirmAndApplyReset() {
-        if( confirmReset() ) {
+        if ( confirmReset() ) {
             reset();
         }
     }
@@ -145,7 +145,7 @@ public class TimeSeriesModel extends ClockAdapter {
 
     protected void setMode( Mode mode ) {
         boolean same = mode == this.mode;
-        if( !same ) {
+        if ( !same ) {
             this.mode = mode;
             notifyModeChanged();
 //            System.out.println( "Changed mode to: " + mode.getClass().getName() );
@@ -153,8 +153,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyModeChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.modeChanged();
         }
     }
@@ -164,7 +164,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private double getRecordStartTime() {
-        if( series.numPoints() > 0 ) {
+        if ( series.numPoints() > 0 ) {
             return series.getStartTime();
         }
         else {
@@ -173,16 +173,16 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyDataSeriesChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.dataSeriesChanged();
         }
     }
 
     public void startPlaybackMode( double playbackSpeed ) {
         //todo: set playback speed on clock, or maybe this functionality should be elsewhere.
-        if( clock instanceof Clock ) {
-            Clock clock1 = (Clock)clock;
+        if ( clock instanceof Clock ) {
+            Clock clock1 = (Clock) clock;
             clock1.setTimingStrategy( new TimingStrategy.Constant( playbackSpeed ) );
         }
         setMode( playback );
@@ -199,7 +199,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public double getSpeed() {
-        return clock instanceof Clock ? ( (Clock)clock ).getTimingStrategy().getSimulationTimeChangeForPausedClock() : clock.getSimulationTimeChange();
+        return clock instanceof Clock ? ( (Clock) clock ).getTimingStrategy().getSimulationTimeChangeForPausedClock() : clock.getSimulationTimeChange();
     }
 
     public boolean isRecording() {
@@ -252,7 +252,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clear() {
-        if( series.size() > 0 ) {
+        if ( series.size() > 0 ) {
             series.clear();
             record.reset();
             recordableModel.clear();
@@ -262,8 +262,8 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     private void notifyDataSeriesCleared() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.dataSeriesCleared();
         }
     }
@@ -282,13 +282,13 @@ public class TimeSeriesModel extends ClockAdapter {
      * @return the current time in the current mode.
      */
     public double getTime() {
-        if( isPlaybackMode() ) {
+        if ( isPlaybackMode() ) {
             return getPlaybackTime();
         }
-        else if( isRecordMode() ) {
+        else if ( isRecordMode() ) {
             return getRecordTime();
         }
-        else if( isLiveMode() ) {
+        else if ( isLiveMode() ) {
             return getLiveTime();
         }
         else {

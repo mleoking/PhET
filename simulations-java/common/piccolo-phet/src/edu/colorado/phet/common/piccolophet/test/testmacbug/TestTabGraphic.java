@@ -1,10 +1,11 @@
 package edu.colorado.phet.common.piccolophet.test.testmacbug;
 
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.nodes.PPath;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Created by IntelliJ IDEA.

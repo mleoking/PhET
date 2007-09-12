@@ -33,7 +33,7 @@ public class ZPolynomialTermTester extends TestCase {
     }
 
     public void testToString() {
-        assertEquals("3x^2", PolynomialTerm.parsePolynomialTerm( "3x^2" ).toString());
+        assertEquals( "3x^2", PolynomialTerm.parsePolynomialTerm( "3x^2" ).toString() );
     }
 
     public void testEquality() {
@@ -41,41 +41,41 @@ public class ZPolynomialTermTester extends TestCase {
         PolynomialTerm identicalTerm = PolynomialTerm.parsePolynomialTerm( "3x^2" );
         PolynomialTerm differentTerm = PolynomialTerm.parsePolynomialTerm( "1x^2" );
 
-        assertEquals(term, identicalTerm);
-        assertEquals(identicalTerm, term);
-        assertFalse(term.equals(differentTerm));
-        assertFalse(identicalTerm.equals(differentTerm));
+        assertEquals( term, identicalTerm );
+        assertEquals( identicalTerm, term );
+        assertFalse( term.equals( differentTerm ) );
+        assertFalse( identicalTerm.equals( differentTerm ) );
     }
 
     public void testDerivation() {
         PolynomialTerm term = PolynomialTerm.parsePolynomialTerm( "3x^2" );
         PolynomialTerm derivation = PolynomialTerm.parsePolynomialTerm( "6x^1" );
 
-        assertEquals(derivation, term.derive());
+        assertEquals( derivation, term.derive() );
     }
 
     public void testDerivationOfConstant() {
         PolynomialTerm term = PolynomialTerm.parsePolynomialTerm( "3x^0" );
 
-        assertEquals(PolynomialTerm.ZERO, term.derive());
+        assertEquals( PolynomialTerm.ZERO, term.derive() );
     }
 
     public void testDerivationOfZeroIsZero() {
-        assertEquals(PolynomialTerm.ZERO, PolynomialTerm.ZERO.derive());
+        assertEquals( PolynomialTerm.ZERO, PolynomialTerm.ZERO.derive() );
     }
 
     public void testEval() {
         PolynomialTerm term = PolynomialTerm.parsePolynomialTerm( "3x^2" );
 
-        assertEquals(48.0, term.eval(4), 0.0);
+        assertEquals( 48.0, term.eval( 4 ), 0.0 );
     }
 
     public void testAdd() {
         PolynomialTerm term1 = PolynomialTerm.parsePolynomialTerm( "3x^2" );
         PolynomialTerm term2 = PolynomialTerm.parsePolynomialTerm( "4x^2" );
-        PolynomialTerm sum   = PolynomialTerm.parsePolynomialTerm( "7x^2" );
+        PolynomialTerm sum = PolynomialTerm.parsePolynomialTerm( "7x^2" );
 
-        assertEquals( sum, term1.plus(term2) );
+        assertEquals( sum, term1.plus( term2 ) );
     }
 
     public void testTimes() {
@@ -84,6 +84,6 @@ public class ZPolynomialTermTester extends TestCase {
 
         PolynomialTerm prod = PolynomialTerm.parsePolynomialTerm( "12x^6" );
 
-        assertEquals(prod, term1.times(term2));
+        assertEquals( prod, term1.times( term2 ) );
     }
 }

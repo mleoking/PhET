@@ -1,10 +1,9 @@
 package edu.colorado.phet.common.piccolophet.test;
 
+import javax.swing.*;
+
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Author: Sam Reid
@@ -25,7 +24,7 @@ public class TestPSwingJSlider {
         JComponent c2 = new JSlider();
 //        c2.setPreferredSize(new Dimension( c2.getPreferredSize().width,400));
         PSwing child = new PSwing( c2 );
-        child.setOffset( 100,100);
+        child.setOffset( 100, 100 );
         pCanvas.getLayer().addChild( child );
         pCanvas.setPanEventHandler( null );
     }

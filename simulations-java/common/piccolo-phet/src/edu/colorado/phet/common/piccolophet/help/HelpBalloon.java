@@ -11,6 +11,14 @@
 
 package edu.colorado.phet.common.piccolophet.help;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCamera;
@@ -20,13 +28,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * HelpBalloon is a help item that consists of text (with optional shadow)
@@ -47,9 +48,9 @@ public class HelpBalloon extends AbstractHelpItem {
     //----------------------------------------------------------------------------
     // Public class data
     //----------------------------------------------------------------------------
-    
+
     /**
-     * Enumeration class that is used to describe positions where 
+     * Enumeration class that is used to describe positions where
      * the arrow tail is attached to the balloon.
      */
     public static class Attachment {
@@ -60,8 +61,8 @@ public class HelpBalloon extends AbstractHelpItem {
         }
 
         public boolean equals( Object obj ) {
-            if( obj instanceof Attachment ) {
-                Attachment attachment = (Attachment)obj;
+            if ( obj instanceof Attachment ) {
+                Attachment attachment = (Attachment) obj;
                 return attachment.name.equals( name );
             }
             else {
@@ -182,10 +183,10 @@ public class HelpBalloon extends AbstractHelpItem {
         super( helpPanel );
 
         // Validate arguments
-        if( ! isValidArrowLength( arrowLength ) ) {
+        if ( !isValidArrowLength( arrowLength ) ) {
             throw new IllegalArgumentException( "invalid arrowLength: " + arrowLength );
         }
-        if( ! isValidArrowRotation( arrowRotation ) ) {
+        if ( !isValidArrowRotation( arrowRotation ) ) {
             throw new IllegalArgumentException( "invalid arrowRotation: " + arrowRotation );
         }
 
@@ -266,9 +267,9 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param enabled true or false
      */
     public void setUpdateEnabled( boolean enabled ) {
-        if( enabled != _updateEnabled ) {
+        if ( enabled != _updateEnabled ) {
             _updateEnabled = enabled;
-            if( enabled ) {
+            if ( enabled ) {
                 updateDisplay();
             }
         }
@@ -357,7 +358,7 @@ public class HelpBalloon extends AbstractHelpItem {
      * @param radius
      */
     public void setBalloonCornerRadius( double radius ) {
-        if( radius < 0 ) {
+        if ( radius < 0 ) {
             throw new IllegalArgumentException( "radius < 0: " + radius );
         }
         _balloonCornerRadius = radius;
@@ -370,7 +371,7 @@ public class HelpBalloon extends AbstractHelpItem {
         _arrowVisible = arrowVisible;
         updateDisplay();
     }
-    
+
     public void setArrowFillPaint( Paint paint ) {
         _arrowNode.setPaint( paint );
     }
@@ -384,10 +385,10 @@ public class HelpBalloon extends AbstractHelpItem {
     }
 
     public void setArrowHeadSize( int width, int height ) {
-        if( width <= 0 ) {
+        if ( width <= 0 ) {
             throw new IllegalArgumentException( "width <= 0: " + width );
         }
-        if( height <= 0 ) {
+        if ( height <= 0 ) {
             throw new IllegalArgumentException( "height <= 0: " + height );
         }
         _arrowHeadSize = new Dimension( width, height );
@@ -395,7 +396,7 @@ public class HelpBalloon extends AbstractHelpItem {
     }
 
     public void setArrowTailWidth( double width ) {
-        if( width <= 0 ) {
+        if ( width <= 0 ) {
             throw new IllegalArgumentException( "width <= 0: " + width );
         }
         _arrowTailWidth = width;
@@ -419,7 +420,7 @@ public class HelpBalloon extends AbstractHelpItem {
     }
 
     public void setArrowLength( double arrowLength ) {
-        if( ! isValidArrowLength( arrowLength ) ) {
+        if ( !isValidArrowLength( arrowLength ) ) {
             throw new IllegalArgumentException( "invlaid arrow length: " + arrowLength );
         }
         _arrowLength = arrowLength;
@@ -427,7 +428,7 @@ public class HelpBalloon extends AbstractHelpItem {
     }
 
     public void setArrowRotation( double arrowRotation ) {
-        if( ! isValidArrowRotation( arrowRotation ) ) {
+        if ( !isValidArrowRotation( arrowRotation ) ) {
             throw new IllegalArgumentException( "invalid arrowRotation: " + arrowRotation );
         }
         _arrowRotation = arrowRotation;
@@ -481,7 +482,7 @@ public class HelpBalloon extends AbstractHelpItem {
      */
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( getVisible() == true ) {
+        if ( getVisible() == true ) {
             updateDisplay();
         }
     }
@@ -498,14 +499,14 @@ public class HelpBalloon extends AbstractHelpItem {
      */
     public void updateDisplay() {
 
-        if( !_updateEnabled ) {
+        if ( !_updateEnabled ) {
             return;
         }
 
         // Resize the balloon to fit the text.
         {
             Rectangle2D bounds = _textNode.getBounds();
-            if( _shadowTextNode.getVisible() ) {
+            if ( _shadowTextNode.getVisible() ) {
                 bounds = _compositeTextNode.getFullBounds();
             }
             double width = bounds.getWidth() + ( 2 * _textMargin );
@@ -515,7 +516,7 @@ public class HelpBalloon extends AbstractHelpItem {
         }
 
         // Do we have an arrow?
-        if( _arrowLength <= _arrowHeadSize.getHeight() ) {
+        if ( _arrowLength <= _arrowHeadSize.getHeight() ) {
             _arrowNode.setVisible( false && _arrowVisible );
         }
         else {
@@ -524,16 +525,16 @@ public class HelpBalloon extends AbstractHelpItem {
             // Create the arrow with tip at (0,0)
             Point tipPoint = new Point( 0, 0 );
             Point tailPoint = new Point();
-            if( isArrowOnTop() ) {
+            if ( isArrowOnTop() ) {
                 tailPoint.setLocation( 0, _arrowLength );
             }
-            else if( isArrowOnBottom() ) {
+            else if ( isArrowOnBottom() ) {
                 tailPoint.setLocation( 0, -_arrowLength );
             }
-            else if( isArrowOnLeft() ) {
+            else if ( isArrowOnLeft() ) {
                 tailPoint.setLocation( _arrowLength, 0 );
             }
-            else if( isArrowOnRight() ) {
+            else if ( isArrowOnRight() ) {
                 tailPoint.setLocation( -_arrowLength, 0 );
             }
             else {
@@ -554,8 +555,8 @@ public class HelpBalloon extends AbstractHelpItem {
         double y = 0;
         final boolean hasArrow = _arrowNode.getVisible();
         final double offset = _arrowHeadSize.getWidth() / 2;
-        if( _arrowTailPosition == TOP_LEFT ) {
-            if( !hasArrow ) {
+        if ( _arrowTailPosition == TOP_LEFT ) {
+            if ( !hasArrow ) {
                 x = 0;
                 y = 0;
             }
@@ -564,8 +565,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if( _arrowTailPosition == TOP_CENTER ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == TOP_CENTER ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth() / 2;
                 y = 0;
             }
@@ -574,8 +575,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if( _arrowTailPosition == TOP_RIGHT ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == TOP_RIGHT ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = 0;
             }
@@ -584,8 +585,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = _arrowNode.getHeight() + _balloonArrowSpacing;
             }
         }
-        else if( _arrowTailPosition == BOTTOM_LEFT ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == BOTTOM_LEFT ) {
+            if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight();
             }
@@ -594,8 +595,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }
-        else if( _arrowTailPosition == BOTTOM_CENTER ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == BOTTOM_CENTER ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth() / 2;
                 y = -_balloonNode.getHeight();
             }
@@ -604,8 +605,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }
-        else if( _arrowTailPosition == BOTTOM_RIGHT ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == BOTTOM_RIGHT ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight();
             }
@@ -614,8 +615,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _balloonNode.getHeight() + _arrowNode.getHeight() + _balloonArrowSpacing );
             }
         }
-        else if( _arrowTailPosition == LEFT_TOP ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == LEFT_TOP ) {
+            if ( !hasArrow ) {
                 x = 0;
                 y = 0;
             }
@@ -624,8 +625,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - offset;
             }
         }
-        else if( _arrowTailPosition == LEFT_CENTER ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == LEFT_CENTER ) {
+            if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight() / 2;
             }
@@ -634,8 +635,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - ( _balloonNode.getHeight() / 2 );
             }
         }
-        else if( _arrowTailPosition == LEFT_BOTTOM ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == LEFT_BOTTOM ) {
+            if ( !hasArrow ) {
                 x = 0;
                 y = -_balloonNode.getHeight();
             }
@@ -644,8 +645,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = ( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - _balloonNode.getHeight() + offset;
             }
         }
-        else if( _arrowTailPosition == RIGHT_TOP ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == RIGHT_TOP ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = 0;
             }
@@ -654,8 +655,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - offset;
             }
         }
-        else if( _arrowTailPosition == RIGHT_CENTER ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == RIGHT_CENTER ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight() / 2;
             }
@@ -664,8 +665,8 @@ public class HelpBalloon extends AbstractHelpItem {
                 y = -( _arrowLength * Math.sin( Math.toRadians( _arrowRotation ) ) ) - ( _balloonNode.getHeight() / 2 );
             }
         }
-        else if( _arrowTailPosition == RIGHT_BOTTOM ) {
-            if( !hasArrow ) {
+        else if ( _arrowTailPosition == RIGHT_BOTTOM ) {
+            if ( !hasArrow ) {
                 x = -_balloonNode.getWidth();
                 y = -_balloonNode.getHeight();
             }
@@ -679,12 +680,12 @@ public class HelpBalloon extends AbstractHelpItem {
         }
 
         _balloonNode.setOffset( x, y );
-        if( _shadowTextNode.getVisible() ) {
+        if ( _shadowTextNode.getVisible() ) {
             double tx = 0;
             double ty = 0;
             double sx = 0;
             double sy = 0;
-            if( _shadowTextOffset.getWidth() > 0 ) {
+            if ( _shadowTextOffset.getWidth() > 0 ) {
                 tx = x + _textMargin;
                 sx = x + _textMargin + _shadowTextOffset.getWidth();
             }
@@ -692,7 +693,7 @@ public class HelpBalloon extends AbstractHelpItem {
                 tx = x + _textMargin + Math.abs( _shadowTextOffset.getWidth() );
                 sx = x + _textMargin;
             }
-            if( _shadowTextOffset.getHeight() > 0 ) {
+            if ( _shadowTextOffset.getHeight() > 0 ) {
                 ty = y + _textMargin;
                 sy = y + _textMargin + _shadowTextOffset.getHeight();
             }
@@ -737,13 +738,13 @@ public class HelpBalloon extends AbstractHelpItem {
         double height = bounds.getHeight();
 
         // Translate the help pane coordinates, using the node's dimensions and arrow position...
-        if( isArrowOnTop() ) {
+        if ( isArrowOnTop() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
-        else if( isArrowOnBottom() ) {
+        else if ( isArrowOnBottom() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() );
         }
-        else if( isArrowOnRight() ) {
+        else if ( isArrowOnRight() ) {
             p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
         }
         else {
@@ -770,13 +771,13 @@ public class HelpBalloon extends AbstractHelpItem {
         double height = component.getHeight();
 
         // Translate the help pane coordinates, using the component's dimensions and arrow position...
-        if( isArrowOnTop() ) {
+        if ( isArrowOnTop() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
-        else if( isArrowOnBottom() ) {
+        else if ( isArrowOnBottom() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() );
         }
-        else if( isArrowOnRight() ) {
+        else if ( isArrowOnRight() ) {
             p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
         }
         else {
@@ -801,13 +802,13 @@ public class HelpBalloon extends AbstractHelpItem {
         double height = bounds.getHeight();
 
         // Translate the help pane coordinates, using the component's dimensions and arrow position...
-        if( isArrowOnTop() ) {
+        if ( isArrowOnTop() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() + height );
         }
-        else if( isArrowOnBottom() ) {
+        else if ( isArrowOnBottom() ) {
             p.setLocation( p.getX() + ( width / 2 ), p.getY() );
         }
-        else if( isArrowOnRight() ) {
+        else if ( isArrowOnRight() ) {
             p.setLocation( p.getX(), p.getY() + ( height / 2 ) );
         }
         else {

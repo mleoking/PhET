@@ -1,24 +1,24 @@
 package edu.colorado.phet.common.phetcommon.servicemanager.test;
 
-import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.jnlp.BasicService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
-import java.net.MalformedURLException;
-import java.net.URL;
+
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
  * User: Sam Reid
  * Date: Jun 22, 2004
  * Time: 12:53:20 AM
- * 
  */
 public class TestPhetServiceManager {
     public static boolean showURL( URL url ) {
         try {
             // Lookup the javax.jnlp.BasicService object
-            BasicService bs = (BasicService)ServiceManager.lookup( "javax.jnlp.BasicService" );
+            BasicService bs = (BasicService) ServiceManager.lookup( "javax.jnlp.BasicService" );
             // Invoke the showDocument method
             return bs.showDocument( url );
         }

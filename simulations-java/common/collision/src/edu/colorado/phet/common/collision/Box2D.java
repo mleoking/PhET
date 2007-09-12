@@ -9,11 +9,11 @@
  */
 package edu.colorado.phet.common.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.mechanics.Body;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A 2 dimensional box

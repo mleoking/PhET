@@ -21,15 +21,6 @@
 */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,19 +32,30 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PPaintContext;
+
 /**
  * DISCLAIMER: This class is under development and not ready for general use.
  * The IncrementalPPath provides performance optimization in terms of bounds computation and rendering
- * when the client repeatedly calls lineTo().  Run the main() method for a usage and graphical demonstration. 
+ * when the client repeatedly calls lineTo().  Run the main() method for a usage and graphical demonstration.
+ *
  * @author Sam Reid
  */
 public class IncrementalPPath extends PPath {
     private PCanvas pCanvas;
     private boolean doingLineTo = false;
-//    private Point2D prevPt;
+    //    private Point2D prevPt;
     //    private Point2D currPt;
     ArrayList pts = new ArrayList();
-    private static boolean updatingAndPainting=false;//todo: should only coalesce siblings in same chart
+    private static boolean updatingAndPainting = false;//todo: should only coalesce siblings in same chart
 
     public IncrementalPPath( PCanvas pCanvas ) {
         this.pCanvas = pCanvas;
@@ -89,9 +91,9 @@ public class IncrementalPPath extends PPath {
 
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", localBounds=" + localBounds + ", globalBounds=" + bounds );
 //        System.out.println( "line=" + toString(line) + ", stroke=" + toString( getStroke() ) + ", globalBounds=" + bounds );
-        updatingAndPainting=true;
+        updatingAndPainting = true;
         globalBoundsChanged( bounds );
-        updatingAndPainting=false;
+        updatingAndPainting = false;
     }
 
     private void localLineTo( float x, float y, Point2D prevPoint ) {
@@ -106,25 +108,25 @@ public class IncrementalPPath extends PPath {
         Paint p = getPaint();
         Graphics2D g2 = paintContext.getGraphics();
 
-        if( p != null ) {
+        if ( p != null ) {
             g2.setPaint( p );
             g2.fill( getPathReference() );
         }
 
-        if( getStroke() != null && getStrokePaint() != null ) {
+        if ( getStroke() != null && getStrokePaint() != null ) {
             g2.setPaint( getStrokePaint() );
             g2.setStroke( getStroke() );
             int numPtsToUse = 30;
-            if( pts.size() < numPtsToUse||!updatingAndPainting) {
-                System.out.println( "rendering full path: updating&P="+updatingAndPainting );
+            if ( pts.size() < numPtsToUse || !updatingAndPainting ) {
+                System.out.println( "rendering full path: updating&P=" + updatingAndPainting );
                 g2.draw( getPathReference() );
             }
             else {
 //                System.out.println( "rendering subpath" );
                 GeneralPath path = new GeneralPath();
-                path.moveTo( (float)getPreviousPoint( 0 ).getX(), (float)getPreviousPoint( 0 ).getY() );
-                for( int i = 1; i < numPtsToUse; i++ ) {
-                    path.lineTo( (float)getPreviousPoint( i ).getX(), (float)getPreviousPoint( i ).getY() );
+                path.moveTo( (float) getPreviousPoint( 0 ).getX(), (float) getPreviousPoint( 0 ).getY() );
+                for ( int i = 1; i < numPtsToUse; i++ ) {
+                    path.lineTo( (float) getPreviousPoint( i ).getX(), (float) getPreviousPoint( i ).getY() );
                 }
                 g2.draw( path );
             }
@@ -132,13 +134,13 @@ public class IncrementalPPath extends PPath {
     }
 
     private Point2D getPreviousPoint( int i ) {
-        return (Point2D)pts.get( pts.size() - 1 - i );
+        return (Point2D) pts.get( pts.size() - 1 - i );
     }
 
     private boolean updatingBoundsFromPath = false;
 
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
-        if( updatingBoundsFromPath ) {
+        if ( updatingBoundsFromPath ) {
             return;
         }
         else {
@@ -148,7 +150,7 @@ public class IncrementalPPath extends PPath {
 
     private void localUpdateBoundsFromPath( Point2D prevPoint ) {
         updatingBoundsFromPath = true;
-        if( getPathReference() == null ) {
+        if ( getPathReference() == null ) {
             resetBounds();
         }
         else {
@@ -160,7 +162,7 @@ public class IncrementalPPath extends PPath {
     }
 
     private Rectangle2D getLastSegmentBoundsWithStroke( Point2D prevPoint ) {
-        if( getStroke() != null && prevPoint != null ) {
+        if ( getStroke() != null && prevPoint != null ) {
             Line2D.Double line = new Line2D.Double( getPathReference().getCurrentPoint(), prevPoint );
             return getStroke().createStrokedShape( line ).getBounds2D();
 
@@ -188,8 +190,8 @@ public class IncrementalPPath extends PPath {
     }
 
     private String toString( Stroke stroke ) {
-        if( stroke instanceof BasicStroke ) {
-            BasicStroke basicStroke = (BasicStroke)stroke;
+        if ( stroke instanceof BasicStroke ) {
+            BasicStroke basicStroke = (BasicStroke) stroke;
             return "width=" + basicStroke.getLineWidth();
         }
         else {
@@ -198,7 +200,7 @@ public class IncrementalPPath extends PPath {
     }
 
     public void invalidatePaint() {
-        if( !doingLineTo ) {
+        if ( !doingLineTo ) {
             super.invalidatePaint();
         }
     }
@@ -223,10 +225,10 @@ public class IncrementalPPath extends PPath {
 
             public void actionPerformed( ActionEvent e ) {
                 x_var += 1;
-                y_var = 100 * (float)Math.sin( x_var / 30.0 ) + 150;
+                y_var = 100 * (float) Math.sin( x_var / 30.0 ) + 150;
 //                y_var = 100;
 //                System.out.println( "x = " + x_var + ", y=" + y_var );
-                if( firstTime ) {
+                if ( firstTime ) {
                     path.moveTo( x_var, y_var );
                     firstTime = false;
                 }

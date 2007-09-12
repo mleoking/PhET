@@ -13,21 +13,21 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
  */
 /* package private */
 interface IResourceLoader {
-    
+
     /**
      * Determines if a named resource exists.
-     * 
+     *
      * @param resourceName
      * @return true or false
      */
     public boolean exists( String resourceName );
-    
+
     /**
-    * Gets an input stream for the specified resource.
-    *
-    * @param resourceName
-    * @return InputStream
-    */
+     * Gets an input stream for the specified resource.
+     *
+     * @param resourceName
+     * @return InputStream
+     */
     public InputStream getResourceAsStream( String resourceName ) throws IOException;
 
     /**
@@ -40,7 +40,7 @@ interface IResourceLoader {
 
     /**
      * Gets the image having the specified resource name.
-     * 
+     *
      * @param resourceName
      * @return BufferedImage
      */
@@ -48,15 +48,15 @@ interface IResourceLoader {
 
     /**
      * Gets the audio clip having the specified resource name.
-     * 
+     *
      * @param resourceName
      * @return PhetAudioClip
      */
     public PhetAudioClip getAudioClip( String resourceName );
-    
+
     /**
      * Gets the properties file having the specified resource name and locale.
-     * 
+     *
      * @param resourceName
      * @param locale
      * @return PhetProperties

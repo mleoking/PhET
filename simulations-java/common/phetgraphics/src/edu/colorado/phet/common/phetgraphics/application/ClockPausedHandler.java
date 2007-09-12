@@ -11,12 +11,13 @@
 
 package edu.colorado.phet.common.phetgraphics.application;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 
 /**
@@ -81,7 +82,7 @@ class ClockPausedHandler extends ClockAdapter {
      * The module will be refreshed only while it is active.
      */
     private void refresh( ActionEvent event ) {
-        if( event.getSource() == timer && this.module.isActive() ) {
+        if ( event.getSource() == timer && this.module.isActive() ) {
             this.module.refresh();
         }
     }

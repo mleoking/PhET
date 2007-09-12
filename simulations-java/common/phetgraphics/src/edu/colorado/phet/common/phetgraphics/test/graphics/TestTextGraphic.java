@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Draws a rectangle centered at (100,100) for purposes of aligning

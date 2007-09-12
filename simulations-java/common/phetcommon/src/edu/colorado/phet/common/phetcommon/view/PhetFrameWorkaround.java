@@ -11,17 +11,17 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 
 /**
  * PhetFrameWorkaround contains a workaround for Sun bug report 4473503
  * (see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4473503)
- * <p>
+ * <p/>
  * This class exists mainly for the purposes of documenting the problem
  * and the workaround.
- * <p>
+ * <p/>
  * First, the problem...
  * Under some conditions, parts of our simulation are not painted properly
  * while the simulations clock is running. The reason for this is described
@@ -32,12 +32,12 @@ import java.awt.*;
  * heavy weights need to repaint (swing can end painting its components
  * numerous times before the awt one is painted), as well as not being
  * responsive to the user."
- * <p>
+ * <p/>
  * The workaround, developed by Sam Reid, overrides repaint and forces
  * a paint of any lightweight components that are children of the PhetFrame.
- * <p>
+ * <p/>
  * Sample usage:
- * <p>
+ * <p/>
  * <code><blockquote><pre>
  * public class MyApplication extends PhetApplication {
  *     //....
@@ -46,7 +46,7 @@ import java.awt.*;
  *     }
  * }
  * </pre></blockquote></code>
- * <p>
+ * <p/>
  * Pros:
  * <ul>
  * <li>This solution produces the desired behavior on XP and Macintosh
@@ -57,7 +57,7 @@ import java.awt.*;
  * <li>This solution is only one line of code, and only needs to be done in a
  * few places (I recommend on a per-application basis).
  * </ul>
- * <p>
+ * <p/>
  * Cons:
  * <ul>
  * <li>This workaround ignores a great deal of AWT paint infrastructure,

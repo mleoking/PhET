@@ -59,8 +59,8 @@ public class ZBaseModelTester extends TestCase {
     public void testCanSelectForAnyOfTwo() {
         List selection = model.selectForAny( new Class[]{Serializable.class, TestModelElement1.class} );
 
-        assertTrue( selection.contains(element1) );
-        assertTrue( selection.contains(element2) );
+        assertTrue( selection.contains( element1 ) );
+        assertTrue( selection.contains( element2 ) );
     }
 
     public static class TestModelElement1 implements ModelElement {

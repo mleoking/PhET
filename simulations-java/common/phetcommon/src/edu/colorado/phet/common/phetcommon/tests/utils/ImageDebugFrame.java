@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common.phetcommon.tests.utils;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
  * Date: Apr 11, 2005
  * Time: 6:56:12 PM
- *
  */
 
 public class ImageDebugFrame extends JFrame {

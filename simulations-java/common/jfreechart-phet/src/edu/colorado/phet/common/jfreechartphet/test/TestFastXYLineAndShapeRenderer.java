@@ -1,6 +1,9 @@
 /*  */
 package edu.colorado.phet.common.jfreechartphet.test;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.plot.CrosshairState;
@@ -9,9 +12,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleEdge;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Avoids using AffineTransform.createTransformedShape().
@@ -29,7 +29,7 @@ public class TestFastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
         // get the data point...
         double x1 = dataset.getXValue( series, item );
         double y1 = dataset.getYValue( series, item );
-        if( Double.isNaN( y1 ) || Double.isNaN( x1 ) ) {
+        if ( Double.isNaN( y1 ) || Double.isNaN( x1 ) ) {
             return;
         }
 
@@ -38,11 +38,11 @@ public class TestFastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
         double transX1 = domainAxis.valueToJava2D( x1, dataArea, xAxisLocation );
         double transY1 = rangeAxis.valueToJava2D( y1, dataArea, yAxisLocation );
 
-        if( getItemShapeVisible( series, item ) ) {
-            Rectangle2D.Double shape = (Rectangle2D.Double)getItemShape( series, item );
+        if ( getItemShapeVisible( series, item ) ) {
+            Rectangle2D.Double shape = (Rectangle2D.Double) getItemShape( series, item );
             shape = new Rectangle2D.Double( shape.x, shape.y, shape.width, shape.height );
             PlotOrientation orientation = plot.getOrientation();
-            if( orientation == PlotOrientation.HORIZONTAL ) {
+            if ( orientation == PlotOrientation.HORIZONTAL ) {
                 shape.x += transY1;
                 shape.y += transX1;
             }
@@ -52,9 +52,9 @@ public class TestFastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
 //                    );
 //                }
             entityArea = shape;
-            if( shape.intersects( dataArea ) ) {
-                if( getItemShapeFilled( series, item ) ) {
-                    if( this.getUseFillPaint() ) {
+            if ( shape.intersects( dataArea ) ) {
+                if ( getItemShapeFilled( series, item ) ) {
+                    if ( this.getUseFillPaint() ) {
                         g2.setPaint( getItemFillPaint( series, item ) );
                     }
                     else {
@@ -80,7 +80,7 @@ public class TestFastXYLineAndShapeRenderer extends XYLineAndShapeRenderer {
         );
 
         // add an entity for the item...
-        if( entities != null ) {
+        if ( entities != null ) {
             addEntity(
                     entities, entityArea, dataset, series, item, transX1, transY1
             );

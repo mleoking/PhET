@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * PiccoloModule is a module specialized for use with Piccolo.
@@ -93,7 +94,8 @@ public class PiccoloModule extends Module {
     }
 
     /* vestige of phetgraphics, called by Module.handleClockTick */
-    protected void handleUserInput() {}
+    protected void handleUserInput() {
+    }
 
     //----------------------------------------------------------------------------
     // Help support

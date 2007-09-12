@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  * Adapted from http://www.javaworld.com/javaworld/javaqa/2003-08/01-qa-0808-property.html.
  */
 public abstract class PropertiesLoader {
-    
+
     // Standard properties are listed here
     public static final String PROPERTY_VERSION_MAJOR = "version.major";
     public static final String PROPERTY_VERSION_MINOR = "version.minor";
@@ -20,15 +20,16 @@ public abstract class PropertiesLoader {
     public static final String PROPERTY_ABOUT_CREDITS = "about.credits";
 
     private static final String SUFFIX = ".properties";
-    
+
     /* not intended for instantiation */
-    private PropertiesLoader() {}
-    
+    private PropertiesLoader() {
+    }
+
     /**
-     * Looks up a resource named 'resourceName' in the classpath. 
-     * The resource must map to a file with .properties extention. 
-     * The name may be an absolute or relative path and can use either 
-     * "/" or "." for package segment separation with an optional 
+     * Looks up a resource named 'resourceName' in the classpath.
+     * The resource must map to a file with .properties extention.
+     * The name may be an absolute or relative path and can use either
+     * "/" or "." for package segment separation with an optional
      * leading "/" and optional ".properties" suffix. Thus, the
      * following names refer to the same resource:
      * <pre>
@@ -39,14 +40,14 @@ public abstract class PropertiesLoader {
      * /some/pkg/Resource
      * /some/pkg/Resource.properties
      * </pre>
-     * 
+     *
      * @param resourceName classpath resource name [may not be null]
-     * @param loader classloader through which to load the resource [null
-     * is equivalent to the application loader]
+     * @param loader       classloader through which to load the resource [null
+     *                     is equivalent to the application loader]
      * @return resource converted to java.util.Properties
      */
     public static Properties loadProperties( String resourceName ) {
-        
+
         if ( resourceName == null ) {
             throw new IllegalArgumentException( "name is null" );
         }
@@ -59,13 +60,13 @@ public abstract class PropertiesLoader {
             resourceName = resourceName.substring( 0, resourceName.length() - SUFFIX.length() );
         }
         resourceName = resourceName.replace( '/', '.' );
-        
+
         // Get the resource bundle
         ResourceBundle rb = null;
         try {
-             rb = ResourceBundle.getBundle( resourceName );
+            rb = ResourceBundle.getBundle( resourceName );
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
             rb = null;
         }

@@ -10,14 +10,6 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import edu.colorado.phet.common.phetcommon.patterns.Updatable;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.activities.PActivity;
-import edu.umd.cs.piccolo.util.PDebug;
-import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -26,6 +18,15 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.patterns.Updatable;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.util.PDebug;
+import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Piccolo canvas extension that provides support for maintenance of aspect ratio,
@@ -88,18 +89,18 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     public void update() {
-        update(phetRootNode);
+        update( phetRootNode );
     }
 
-    private void update(PNode node) {
-        if (node instanceof Updatable) {
-            Updatable updatable = (Updatable)node;
+    private void update( PNode node ) {
+        if ( node instanceof Updatable ) {
+            Updatable updatable = (Updatable) node;
 
             updatable.update();
         }
 
-        for (int i = 0; i < node.getChildrenCount(); i++) {
-            update(node.getChild(i));
+        for ( int i = 0; i < node.getChildrenCount(); i++ ) {
+            update( node.getChild( i ) );
         }
     }
 
@@ -122,7 +123,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     public void setPhetRootNode( PhetRootPNode phetRootNode ) {
-        if( this.phetRootNode != null ) {
+        if ( this.phetRootNode != null ) {
             getLayer().removeChild( this.phetRootNode );
         }
         this.phetRootNode = phetRootNode;
@@ -164,7 +165,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         try {
             phetRootNode.removeWorldChild( graphic );
         }
-        catch (ArrayIndexOutOfBoundsException e) {
+        catch( ArrayIndexOutOfBoundsException e ) {
             // Hack because Piccolo can't be modified
             // It doesn't expose world children so we can't
             // safely check for their presence
@@ -258,7 +259,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             this.renderingSize = renderingSize;
             phetPCanvas.addComponentListener( new ComponentAdapter() {
                 public void componentShown( ComponentEvent e ) {
-                    if( RenderingSizeStrategy.this.renderingSize == null ) {
+                    if ( RenderingSizeStrategy.this.renderingSize == null ) {
                         setRenderingSize();
                     }
                 }
@@ -270,7 +271,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         }
 
         public AffineTransform getWorldTransform() {
-            if( renderingSize == null && phetPCanvas.isVisible() ) {
+            if ( renderingSize == null && phetPCanvas.isVisible() ) {
                 setRenderingSize();
             }
             double sx = getScaleX();
@@ -296,11 +297,11 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         }
 
         private double getScaleY() {
-            return ( (double)phetPCanvas.getHeight() ) / renderingSize.height;
+            return ( (double) phetPCanvas.getHeight() ) / renderingSize.height;
         }
 
         private double getScaleX() {
-            return ( (double)phetPCanvas.getWidth() ) / renderingSize.width;
+            return ( (double) phetPCanvas.getWidth() ) / renderingSize.width;
         }
     }
 
@@ -330,10 +331,10 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
 
             //use the smaller
             double scale = sx < sy ? sx : sy;
-            if( scale < 0 ) {
+            if ( scale < 0 ) {
                 System.err.println( this.getClass().getName() + ": Warning: Sometimes in 1.5, sometimes getWidth() and getHeight() return negative values, causing troubles for this layout code." );
             }
-            if( scale != 0.0 ) {
+            if ( scale != 0.0 ) {
                 AffineTransform worldTransform = new AffineTransform();
                 worldTransform.translate( 0, phetPCanvas.getHeight() );
                 worldTransform.scale( scale, -scale );

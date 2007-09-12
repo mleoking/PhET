@@ -1,17 +1,16 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
  * Date: Jul 7, 2005
  * Time: 8:15:07 AM
- *
  */
 
 public class TestPiccoloBounds {

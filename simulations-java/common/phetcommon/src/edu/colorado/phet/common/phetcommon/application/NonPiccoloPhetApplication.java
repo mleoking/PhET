@@ -31,15 +31,15 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
-import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
+import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
+import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 
 /**
  * The top-level class for PhET applications.
@@ -57,7 +57,6 @@ import java.util.ArrayList;
  *
  * @author ?
  * @version $Revision$
- *
  */
 public class NonPiccoloPhetApplication {
 
@@ -107,7 +106,7 @@ public class NonPiccoloPhetApplication {
      * @return all created PhetApplications.
      */
     public static NonPiccoloPhetApplication[] instances() {
-        return (NonPiccoloPhetApplication[])phetApplications.toArray( new NonPiccoloPhetApplication[0] );
+        return (NonPiccoloPhetApplication[]) phetApplications.toArray( new NonPiccoloPhetApplication[0] );
     }
 
     //----------------------------------------------------------------
@@ -130,7 +129,6 @@ public class NonPiccoloPhetApplication {
      * @param title       Title that appears in the frame and the About dialog
      * @param description Appears in the About dialog
      * @param version     Appears in the About dialog
-     *
      * @deprecated
      */
     public NonPiccoloPhetApplication( String[] args, String title, String description, String version
@@ -146,7 +144,6 @@ public class NonPiccoloPhetApplication {
      * @param description Appears in the About dialog
      * @param version     Appears in the About dialog
      * @param frameSetup  Defines the size and location of the frame
-     *
      * @deprecated
      */
     public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup ) {
@@ -154,9 +151,6 @@ public class NonPiccoloPhetApplication {
     }
 
     /**
-     *
-     *
-     *
      * @deprecated
      */
     public NonPiccoloPhetApplication( String[] args, String title, String description, String version, FrameSetup frameSetup, TabbedPaneType tabbedPaneType ) {
@@ -190,7 +184,7 @@ public class NonPiccoloPhetApplication {
     }
 
     private void showSplashWindow( String title ) {
-        if( splashWindow == null ) {
+        if ( splashWindow == null ) {
             // PhetFrame doesn't exist when this is called, so create and manage the window's owner.
             splashWindowOwner = new Frame();
             splashWindow = new AWTSplashWindow( splashWindowOwner, title );
@@ -203,7 +197,7 @@ public class NonPiccoloPhetApplication {
     }
 
     private void disposeSplashWindow() {
-        if( splashWindow != null ) {
+        if ( splashWindow != null ) {
             splashWindow.dispose();
             splashWindow = null;
             // Clean up the window's owner that we created in showSplashWindow.
@@ -222,9 +216,9 @@ public class NonPiccoloPhetApplication {
      * @param args
      */
     protected void parseArgs( String[] args ) {
-        for( int i = 0; args != null && i < args.length; i++ ) {
+        for ( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.equals( DEBUG_MENU_ARG ) ) {
+            if ( arg.equals( DEBUG_MENU_ARG ) ) {
 //                phetFrame.addDebugMenu();
                 //todo generalize debug menu
             }
@@ -237,7 +231,7 @@ public class NonPiccoloPhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if( moduleManager.numModules() == 0 ) {
+        if ( moduleManager.numModules() == 0 ) {
             throw new RuntimeException( "No modules in module manager" );
         }
 
@@ -270,15 +264,15 @@ public class NonPiccoloPhetApplication {
      * This method and functionality will be removed if is too awkward in practice (for example, too confusing to override this default).
      */
     protected void updateLogoVisibility() {
-        for( int i = 0; i < moduleManager.numModules(); i++ ) {
-            if( moduleAt( i ).isLogoPanelVisible() && phetFrame.getTabbedModulePane() != null && phetFrame.getTabbedModulePane().getLogoVisible() ) {
+        for ( int i = 0; i < moduleManager.numModules(); i++ ) {
+            if ( moduleAt( i ).isLogoPanelVisible() && phetFrame.getTabbedModulePane() != null && phetFrame.getTabbedModulePane().getLogoVisible() ) {
                 moduleAt( i ).setLogoPanelVisible( false );
             }
         }
     }
 
     private void initializeModuleReferenceSizes() {
-        for( int i = 0; i < moduleManager.numModules(); i++ ) {
+        for ( int i = 0; i < moduleManager.numModules(); i++ ) {
             Module module = moduleManager.moduleAt( i );
             module.setReferenceSize();
         }
@@ -413,11 +407,10 @@ public class NonPiccoloPhetApplication {
      * Get the title for this PhetApplication.
      *
      * @return the title.
-     *
-     * @deprecated  Use getProjectConfig()
+     * @deprecated Use getProjectConfig()
      */
     public String getTitle() {
-        if (getApplicationConfig() != null) {
+        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getName();
         }
         return title;
@@ -427,11 +420,10 @@ public class NonPiccoloPhetApplication {
      * Get the description for this PhetApplication.
      *
      * @return the description.
-     *
-     * @deprecated  Use getProjectConfig()
+     * @deprecated Use getProjectConfig()
      */
     public String getDescription() {
-        if (getApplicationConfig() != null) {
+        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getDescription();
         }
         return description;
@@ -441,11 +433,10 @@ public class NonPiccoloPhetApplication {
      * Get the version string for this PhetApplication.
      *
      * @return the version string.
-     *
-     * @deprecated  Use getProjectConfig()
+     * @deprecated Use getProjectConfig()
      */
     public String getVersion() {
-        if (getApplicationConfig() != null) {
+        if ( getApplicationConfig() != null ) {
             return getApplicationConfig().getVersion().formatForTitleBar();
         }
         return version;
@@ -471,7 +462,7 @@ public class NonPiccoloPhetApplication {
      * @param m the array of modules to add
      */
     public void addModules( Module[] m ) {
-        for( int i = 0; i < m.length; i++ ) {
+        for ( int i = 0; i < m.length; i++ ) {
             Module module = m[i];
             addModule( module );
         }
@@ -511,6 +502,7 @@ public class NonPiccoloPhetApplication {
                 public void windowClosing( WindowEvent e ) {
                     aboutDialog.dispose();
                 }
+
                 // called by JDialog.dispose
                 public void windowClosed( WindowEvent e ) {
                     aboutDialog = null;
@@ -530,7 +522,7 @@ public class NonPiccoloPhetApplication {
      * TODO: verify there are no memory leaks
      */
     public void closeApplication() {
-        for( int i = 0; i < numModules(); i++ ) {
+        for ( int i = 0; i < numModules(); i++ ) {
             moduleAt( i ).deactivate();
         }
         getPhetFrame().dispose();

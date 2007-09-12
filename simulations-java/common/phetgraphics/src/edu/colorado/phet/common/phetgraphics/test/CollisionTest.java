@@ -1,5 +1,11 @@
 package edu.colorado.phet.common.phetgraphics.test;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Particle;
@@ -12,11 +18,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -50,7 +51,7 @@ public class CollisionTest {
         }
 
         public void setTouching( boolean b ) {
-            if( b ) {
+            if ( b ) {
                 sg.setColor( Color.red );
             }
             else {
@@ -104,7 +105,7 @@ public class CollisionTest {
             super( name, clock );
             System.out.println( "useAP2 = " + useAP2 + ", offscreenBuffer=" + offscreen + ", numparticles=" + numParticles );
 
-            if( useAP2 ) {
+            if ( useAP2 ) {
                 ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
                 apparatusPanel.setUseOffscreenBuffer( offscreen );
                 setApparatusPanel( apparatusPanel );
@@ -117,7 +118,7 @@ public class CollisionTest {
             setModel( new BaseModel() );
 //            int numParticles = 600;
 //            int numParticles = 3;
-            for( int i = 0; i < numParticles; i++ ) {
+            for ( int i = 0; i < numParticles; i++ ) {
                 double x = Math.random() * 600;
                 double y = Math.random() * 600;
                 double r = 10;
@@ -129,22 +130,22 @@ public class CollisionTest {
             }
             ModelElement me = new ModelElement() {
                 public void stepInTime( double dt ) {
-                    for( int i = 0; i < spheres.size(); i++ ) {
+                    for ( int i = 0; i < spheres.size(); i++ ) {
                         double vx = Math.random() * 2 - 1;
                         double vy = Math.random() * 2 - 1;
-                        Sphere sphere = (Sphere)spheres.get( i );
+                        Sphere sphere = (Sphere) spheres.get( i );
                         sphere.setVelocity( vx, vy );
                         sphere.stepInTime( dt );
                     }
-                    for( int i = 0; i < spheres.size(); i++ ) {
-                        Sphere sph = (Sphere)spheres.get( i );
+                    for ( int i = 0; i < spheres.size(); i++ ) {
+                        Sphere sph = (Sphere) spheres.get( i );
                         sph.setTouching( false );
                     }
-                    for( int i = 0; i < spheres.size(); i++ ) {
-                        for( int k = i; k < spheres.size(); k++ ) {
-                            Sphere a = (Sphere)spheres.get( i );
-                            Sphere b = (Sphere)spheres.get( k );
-                            if( a != b && a.isTouching( b ) ) {
+                    for ( int i = 0; i < spheres.size(); i++ ) {
+                        for ( int k = i; k < spheres.size(); k++ ) {
+                            Sphere a = (Sphere) spheres.get( i );
+                            Sphere b = (Sphere) spheres.get( k );
+                            if ( a != b && a.isTouching( b ) ) {
                                 a.setTouching( true );
                                 b.setTouching( true );
                             }

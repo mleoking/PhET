@@ -18,7 +18,7 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -96,7 +96,7 @@ public class AWTSplashWindow extends Window {
              * @param g
              */
             public void update( Graphics g ) {
-                if( g != null ) {
+                if ( g != null ) {
                     paint( g );
                 }
             }
@@ -161,7 +161,7 @@ public class AWTSplashWindow extends Window {
     private void startPaintThread( final Component component ) {
         Thread t = new Thread( new Runnable() {
             public void run() {
-                while( !done ) {
+                while ( !done ) {
                     try {
                         Thread.sleep( 30 );
                         component.invalidate();
@@ -217,14 +217,14 @@ public class AWTSplashWindow extends Window {
         }
 
         public void paint( Graphics g ) {
-            if( g == null ) {
+            if ( g == null ) {
                 return;
             }
             g.setColor( TRACK_COLOR );
             g.fillRect( 0, 0, getWidth(), getHeight() );
             g.setColor( BLOCK_COLOR );
             double angularfrequency = FREQUENCY * 2 * Math.PI;
-            int x = (int)( Math.sin( System.currentTimeMillis() / 1000.0 * angularfrequency ) * getWidth() / 2.0 + getWidth() / 2.0 );
+            int x = (int) ( Math.sin( System.currentTimeMillis() / 1000.0 * angularfrequency ) * getWidth() / 2.0 + getWidth() / 2.0 );
             int a = x - BLOCK_WIDTH / 2;
 
             g.fillRect( a, 0, BLOCK_WIDTH, BLOCK_HEIGHT );

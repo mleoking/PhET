@@ -1,18 +1,17 @@
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+
 /**
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:21:43 AM
- *
  */
 public class Axis extends GraphicLayerSet {
     private Chart chart;
@@ -53,7 +52,7 @@ public class Axis extends GraphicLayerSet {
 
     public void update() {
         lineGraphic.clear();
-        if( orientation.isHorizontal() ) {
+        if ( orientation.isHorizontal() ) {
             Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
             Point left = chart.transform( leftEndOfAxis );
             Point2D.Double rightEndOfAxis = new Point2D.Double( chart.getRange().getMaxX(), crossesOtherAxisAt );
@@ -62,7 +61,7 @@ public class Axis extends GraphicLayerSet {
             PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( chart.getComponent(), line, stroke, color );
             lineGraphic.addGraphic( phetShapeGraphic );
         }
-        else if( orientation.isVertical() ) {
+        else if ( orientation.isVertical() ) {
             Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
             Point bottom = chart.transform( bottomEndOfAxis );
             Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
@@ -80,7 +79,7 @@ public class Axis extends GraphicLayerSet {
     }
 
     protected Rectangle determineBounds() {
-        if( !inBounds ) {
+        if ( !inBounds ) {
             return null;
         }
         else {
@@ -89,10 +88,10 @@ public class Axis extends GraphicLayerSet {
     }
 
     private boolean isInBounds() {
-        if( orientation.isHorizontal() ) {
+        if ( orientation.isHorizontal() ) {
             return chart.getRange().containsY( crossesOtherAxisAt );
         }
-        else if( orientation.isVertical() ) {
+        else if ( orientation.isVertical() ) {
             return chart.getRange().containsX( crossesOtherAxisAt );
         }
         else {
@@ -101,7 +100,7 @@ public class Axis extends GraphicLayerSet {
     }
 
     public void paint( Graphics2D g2 ) {
-        if( inBounds ) {
+        if ( inBounds ) {
             super.paint( g2 );
         }
     }
@@ -206,8 +205,8 @@ public class Axis extends GraphicLayerSet {
         }
 
         private double getCrossesOtherAxisAt() {
-            if( getGridStrategy() instanceof GridStrategy.Relative ) {
-                return ( (GridStrategy.Relative)getGridStrategy() ).getCrossesOtherAxisAt();
+            if ( getGridStrategy() instanceof GridStrategy.Relative ) {
+                return ( (GridStrategy.Relative) getGridStrategy() ).getCrossesOtherAxisAt();
             }
             else {
                 throw new RuntimeException( "Axes must use Relative grid strategy." );

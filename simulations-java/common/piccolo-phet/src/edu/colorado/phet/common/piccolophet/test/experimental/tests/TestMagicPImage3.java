@@ -1,31 +1,31 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.experimental.tests;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Random;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.activities.OscillateActivity;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.test.experimental.MagicPImage3;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.Random;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
  * Date: Aug 7, 2005
  * Time: 7:33:14 PM
- * 
  */
 
 public class TestMagicPImage3 extends PhetPCanvas {
     Random random = new Random();
 
     public TestMagicPImage3() {
-        for( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
             PNode node = toPImage();
             OscillateActivity oscillate = new OscillateActivity( node, random.nextDouble() * 600, random.nextDouble() * 600 );
             getLayer().addChild( node );
@@ -38,10 +38,10 @@ public class TestMagicPImage3 extends PhetPCanvas {
 //        PImage pImage = new PImage( getClass().getClassLoader().getResource( "csdept3.gif" ) );
         int width = 50;
 //        BufferedImage newImage = toImage( width );
-        BufferedImage newImage= null;
+        BufferedImage newImage = null;
         try {
 //            newImage = ImageLoader.loadBufferedImage( "csdept3.gif");
-            newImage = ImageLoader.loadBufferedImage( "images/cabinet.gif");
+            newImage = ImageLoader.loadBufferedImage( "images/cabinet.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

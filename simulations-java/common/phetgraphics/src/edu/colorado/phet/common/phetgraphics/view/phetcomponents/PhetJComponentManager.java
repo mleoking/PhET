@@ -30,8 +30,8 @@ public class PhetJComponentManager {
     }
 
     public void phetJComponentCreated( PhetJComponent phetJComponent ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.phetJComponentCreated( phetJComponent );
         }
     }

@@ -4,7 +4,6 @@ package edu.colorado.phet.common.jfreechartphet;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.jfree.data.general.DatasetChangeEvent;
@@ -16,13 +15,13 @@ import org.jfree.util.PublicCloneable;
 
 /**
  * PhetHistogramDataset is a JFreeChart dataset for creating histograms.
- * It is loosely based on org.jfree.data.statistics.HistogramDataset, 
+ * It is loosely based on org.jfree.data.statistics.HistogramDataset,
  * which was unfortunately not written to be extensible or dynamic.
- * <p>
+ * <p/>
  * This dataset can contain multiple histogram series.
  * When a histogram series is rendered, each bin is drawn as a vertical bar,
  * where the height of the bar corresponds to the number of observations in the bin.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PhetHistogramDataset extends AbstractIntervalXYDataset implements IntervalXYDataset, Cloneable, PublicCloneable, Serializable {
@@ -33,7 +32,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     private HistogramType histogramType;
     private List seriesList; // list of PhetHistogramSeries
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -47,7 +46,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Create an empty dataset with a specified HistogramType.
-     * 
+     *
      * @param histogramType the histogram type (null not permitted)
      */
     public PhetHistogramDataset( HistogramType histogramType ) {
@@ -63,8 +62,8 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the histogram type. 
-     * 
+     * Gets the histogram type.
+     *
      * @return the type (never null)
      */
     public HistogramType getHistogramType() {
@@ -74,7 +73,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     /**
      * Sets the histogram type.
      * Sends a DatasetChangeEvent to all registered listeners.
-     * 
+     *
      * @param histogramType the histogram type (null not permitted)
      */
     public void setHistogramType( HistogramType histogramType ) {
@@ -89,7 +88,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Gets a series by index.
-     * 
+     *
      * @param seriesIndex
      * @return the series
      */
@@ -99,7 +98,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Gets a series by key.
-     * 
+     *
      * @param seriesKey
      * @return PhetHistogramSeries, null if not found
      */
@@ -113,20 +112,20 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         }
         return series;
     }
-    
+
     /**
      * Gets the index of a series.
-     * 
+     *
      * @param series
      * @return index, -1 if the dataset does not contain this series
      */
     public int getSeriesIndex( PhetHistogramSeries series ) {
         return seriesList.indexOf( series );
     }
-    
+
     /**
      * Gets the index of a series using its key.
-     * 
+     *
      * @param seriesKey
      * @return series index, -1 if not found
      */
@@ -138,7 +137,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         }
         return seriesIndex;
     }
-    
+
     //----------------------------------------------------------------------------
     // Series
     //----------------------------------------------------------------------------
@@ -147,7 +146,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
      * Adds a series.
      * Makes this dataset a listener for changes to the series.
      * Notifies all DatasetChangedListeners.
-     * 
+     *
      * @param series
      * @return the index of the series
      */
@@ -157,15 +156,15 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         fireDatasetChanged();
         return seriesList.indexOf( series );
     }
-    
+
     /**
      * Removes a series.
      * Removes this dataset as a listener for changes to the series.
      * Notifies all DatasetChangedListeners.
-     * <p>
+     * <p/>
      * Calling this method changes the indicies of series that the dataset is managing.
      * Clients should refresh any indicies they are using by requesting new indicies.
-     * 
+     *
      * @param seriesIndex
      */
     public void removeSeries( PhetHistogramSeries series ) {
@@ -173,22 +172,22 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         series.removeChangeListener( this );
         fireDatasetChanged();
     }
-    
+
     /**
      * Removes a series by index.
      * Removes this dataset as a listener for changes to the series.
      * Notifies all DatasetChangedListeners.
-     * <p>
+     * <p/>
      * Calling this method changes the indicies of series that the dataset is managing.
      * Clients should refresh any indicies they are using by requesting new indicies.
-     * 
+     *
      * @param seriesIndex
      */
     public void removeSeries( int seriesIndex ) {
         PhetHistogramSeries series = (PhetHistogramSeries) seriesList.get( seriesIndex );
         removeSeries( series );
     }
-    
+
     /**
      * Removes all series.
      */
@@ -201,10 +200,10 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     //----------------------------------------------------------------------------
     // Implementation of AbstractIntervalXYDataset, et. al.
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the key for a series.
-     * 
+     *
      * @param seriesIndex the series index (zero based)
      * @return the series key
      */
@@ -215,7 +214,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Gets the number of series in the dataset.
-     * 
+     *
      * @return the series count
      */
     public int getSeriesCount() {
@@ -224,7 +223,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Gets the number of data items (bins) for a series.
-     * 
+     *
      * @param seriesIndex the series index (zero based)
      * @return the item (bin) count
      */
@@ -232,14 +231,14 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
         PhetHistogramSeries series = getSeries( seriesIndex );
         return series.getNumberOfBins();
     }
-    
+
     /**
-     * Returns the X value for a bin.  This value won't be used for plotting 
-     * histograms, since the renderer will ignore it.  But other renderers can 
+     * Returns the X value for a bin.  This value won't be used for plotting
+     * histograms, since the renderer will ignore it.  But other renderers can
      * use it. For example, you could use the dataset to create a line chart.
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the start value
      */
     public Number getX( int seriesIndex, int binIndex ) {
@@ -251,11 +250,11 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     }
 
     /**
-     * Returns the y-value for a bin 
+     * Returns the y-value for a bin
      * (calculated to take into account the histogram type).
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the y value
      */
     public Number getY( int seriesIndex, int binIndex ) {
@@ -283,9 +282,9 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Returns the start value for a bin.
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the start value
      */
     public Number getStartX( int seriesIndex, int binIndex ) {
@@ -296,9 +295,9 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Returns the end value for a bin.
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the end value
      */
     public Number getEndX( int seriesIndex, int binIndex ) {
@@ -308,12 +307,12 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     }
 
     /**
-     * Returns the start y-value for a bin (which is the same as the y-value, 
-     * this method exists only to support the general form of the 
+     * Returns the start y-value for a bin (which is the same as the y-value,
+     * this method exists only to support the general form of the
      * {@link IntervalXYDataset} interface).
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the y value
      */
     public Number getStartY( int seriesIndex, int binIndex ) {
@@ -321,12 +320,12 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
     }
 
     /**
-     * Returns the end y-value for a bin (which is the same as the y-value, 
-     * this method exists only to support the general form of the 
+     * Returns the end y-value for a bin (which is the same as the y-value,
+     * this method exists only to support the general form of the
      * {@link IntervalXYDataset} interface).
-     * 
+     *
      * @param seriesIndex the series index (zero based)
-     * @param binIndex the bin index (zero based)
+     * @param binIndex    the bin index (zero based)
      * @return the y value
      */
     public Number getEndY( int seriesIndex, int binIndex ) {
@@ -339,7 +338,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Tests this dataset for equality with an arbitrary object.
-     * 
+     *
      * @param obj the object to test against (null permitted)
      * @return true or false
      */
@@ -366,7 +365,7 @@ public class PhetHistogramDataset extends AbstractIntervalXYDataset implements I
 
     /**
      * Returns a clone of the dataset.
-     * 
+     *
      * @return a clone of the dataset.
      * @throws CloneNotSupportedException if the object cannot be cloned.
      */

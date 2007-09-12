@@ -29,15 +29,15 @@
  */
 package edu.colorado.phet.common.piccolophet.test.experimental;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Attempt to maintain image size.
@@ -48,7 +48,7 @@ public class PFixedImage extends PImage {
         super( newImage );
         addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
-                if( !fixingTx ) {
+                if ( !fixingTx ) {
                     fixingTx = true;
                     fixTx();
                     fixingTx = false;
@@ -68,13 +68,13 @@ public class PFixedImage extends PImage {
 
     protected void paint( PPaintContext paintContext ) {
         Image image = getImage();
-        if( getImage() != null ) {
+        if ( getImage() != null ) {
             double iw = image.getWidth( null );
             double ih = image.getHeight( null );
             PBounds b = getBoundsReference();
             Graphics2D g2 = paintContext.getGraphics();
 
-            if( b.x != 0 || b.y != 0 || b.width != iw || b.height != ih ) {
+            if ( b.x != 0 || b.y != 0 || b.width != iw || b.height != ih ) {
 //                System.out.println( "g2 = " + g2 );
                 g2.translate( b.x, b.y );
                 g2.drawImage( image, 0, 0, null );

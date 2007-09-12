@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.common.piccolophet.activities;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
  * Date: Jul 15, 2005
  * Time: 1:28:54 PM
- *
  */
 
 public class OscillateActivity extends PActivity {

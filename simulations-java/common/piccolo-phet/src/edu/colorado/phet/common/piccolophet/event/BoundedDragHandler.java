@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common.piccolophet.event;
 
+import java.awt.geom.Point2D;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.geom.Point2D;
 
 /**
  * Drag behavior that ensures the dragged object stays inside the specified bounds.
@@ -51,7 +51,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     public void mouseDragged( PInputEvent event ) {
-        if( relativeClickPoint == null ) {
+        if ( relativeClickPoint == null ) {
             setRelativeClickPoint( event );
         }
         else {
@@ -61,11 +61,11 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
             Point2D newPoint = new Point2D.Double( pt.getX() - relativeClickPoint.getX(), pt.getY() - relativeClickPoint.getY() );
             pickedNode.setGlobalTranslation( newPoint );
 
-            if( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
+            if ( !boundingNode.getGlobalFullBounds().contains( dragNode.getGlobalFullBounds() ) ) {
                 double newX = pickedNode.getGlobalTranslation().getX();
                 double newY = pickedNode.getGlobalTranslation().getY();
-                double inset=1; //todo: not sure what purpose this servers, but should probably be put in the proper coordinate frame
-                if( pickedNode.getGlobalFullBounds().getX() < boundingNode.getGlobalFullBounds().getX() ) {
+                double inset = 1; //todo: not sure what purpose this servers, but should probably be put in the proper coordinate frame
+                if ( pickedNode.getGlobalFullBounds().getX() < boundingNode.getGlobalFullBounds().getX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMinX();
@@ -76,7 +76,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 
                     newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinX() );
                 }
-                if( pickedNode.getGlobalFullBounds().getY() < boundingNode.getGlobalFullBounds().getY() ) {
+                if ( pickedNode.getGlobalFullBounds().getY() < boundingNode.getGlobalFullBounds().getY() ) {
 
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getY();
@@ -88,7 +88,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
 
                     newY = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMinY() );
                 }
-                if( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
+                if ( pickedNode.getGlobalFullBounds().getMaxX() > boundingNode.getGlobalFullBounds().getMaxX() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getX();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxX();
@@ -98,7 +98,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
                     double y1 = pickedNode.getGlobalFullBounds().getMaxX();
                     newX = fitLinear( x0, y0, x1, y1, boundingNode.getGlobalFullBounds().getMaxX() );
                 }
-                if( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
+                if ( pickedNode.getGlobalFullBounds().getMaxY() > boundingNode.getGlobalFullBounds().getMaxY() ) {
                     //let's take data and fit (to account for scale, rotation & shear)
                     double x0 = pickedNode.getGlobalTranslation().getY();
                     double y0 = pickedNode.getGlobalFullBounds().getMaxY();

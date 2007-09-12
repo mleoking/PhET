@@ -15,7 +15,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ListIterator;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.umd.cs.piccolo.PNode;
 
@@ -31,7 +31,7 @@ public class HelpPane extends GlassPaneCanvas {
 
     /**
      * Constructor.
-     * 
+     *
      * @param parentFrame we serve as the glass pane for this frame
      */
     public HelpPane( JFrame parentFrame ) {
@@ -42,25 +42,25 @@ public class HelpPane extends GlassPaneCanvas {
             }
         } );
     }
-    
+
     /**
      * Adds a help item.
-     * 
+     *
      * @param helpItem
      */
     public void add( AbstractHelpItem helpItem ) {
         getLayer().addChild( helpItem );
     }
-    
+
     /**
      * Removes a help item.
-     * 
+     *
      * @param helpItem
      */
     public void remove( AbstractHelpItem helpItem ) {
         getLayer().removeChild( helpItem );
     }
-    
+
     /**
      * Removes all help items.
      * Other nodes on the help pane are not affected.
@@ -74,7 +74,7 @@ public class HelpPane extends GlassPaneCanvas {
             }
         }
     }
-    
+
     /**
      * Updates all help items.
      * Other nodes on the help pane are not affected.
@@ -91,13 +91,13 @@ public class HelpPane extends GlassPaneCanvas {
             }
         }
     }
-    
+
     /**
      * Shows and hides the help pane.
      * When the help pane is invisible, its help items are disabled
      * so that they don't consume resources tracking the position
      * and visibility of their target objects.
-     * 
+     *
      * @param visible
      */
     public void setVisible( boolean visible ) {

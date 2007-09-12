@@ -30,17 +30,17 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.Font;
+import java.awt.*;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.umd.cs.piccolo.PCanvas;
 
-import javax.swing.*;
-
 public class TestRulerNode {
-    
+
     public static void main( String[] args ) {
-        
+
         PCanvas pCanvas = new PCanvas();
         JFrame frame = new JFrame();
         frame.setContentPane( pCanvas );
@@ -57,17 +57,17 @@ public class TestRulerNode {
         int numMinorTicksBetweenMajors = 4;
         int majorTickHeight = 10;
         int minorTickHeight = 6;
-        
+
         // Ruler that reads 0-10 nm.
         majorTickLabels = new String[11];
         for ( int i = 0; i < majorTickLabels.length; i++ ) {
             majorTickLabels[i] = String.valueOf( i );
         }
         RulerNode ruler1 = new RulerNode( distanceBetweenFirstAndLastTick, rulerInsetWidth, rulerHeight,
-                majorTickLabels, majorTickFont, units, unitsFont, 
-                numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
+                                          majorTickLabels, majorTickFont, units, unitsFont,
+                                          numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
         pCanvas.getLayer().addChild( ruler1 );
-        
+
         // Ruler that reads 0-20 nm.
         // Units are placed next to "10" label.
         // This ruler is twice as long, but the tick spacing should be identical to ruler1 above.
@@ -76,24 +76,24 @@ public class TestRulerNode {
             majorTickLabels[i] = String.valueOf( i );
         }
         RulerNode ruler2 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerInsetWidth, rulerHeight,
-                majorTickLabels, majorTickFont, units, unitsFont, 
-                numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
+                                          majorTickLabels, majorTickFont, units, unitsFont,
+                                          numMinorTicksBetweenMajors, majorTickHeight, minorTickHeight );
         ruler2.setUnitsAssociatedMajorTickLabel( "10" );
         pCanvas.getLayer().addChild( ruler2 );
-        
+
         // Test the simplified constructor
         units = "ft";
         numMinorTicksBetweenMajors = 2;
         int fontSize = 12;
         RulerNode ruler3 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerHeight, majorTickLabels, units, numMinorTicksBetweenMajors, fontSize );
         pCanvas.getLayer().addChild( ruler3 );
-        
+
         // Test boundary conditions (null units, no minor ticks)
         units = null;
         numMinorTicksBetweenMajors = 0;
         RulerNode ruler4 = new RulerNode( 2 * distanceBetweenFirstAndLastTick, rulerHeight, majorTickLabels, units, numMinorTicksBetweenMajors, fontSize );
         pCanvas.getLayer().addChild( ruler4 );
-        
+
         // Vertically align left edges of rulers
         int x = 20;
         int y = 50;
@@ -102,8 +102,8 @@ public class TestRulerNode {
         ruler2.setOffset( x, ruler1.getFullBounds().getY() + ruler1.getFullBounds().getHeight() + yspace );
         ruler3.setOffset( x, ruler2.getFullBounds().getY() + ruler2.getFullBounds().getHeight() + yspace );
         ruler4.setOffset( x, ruler3.getFullBounds().getY() + ruler3.getFullBounds().getHeight() + yspace );
-        
+
         frame.show();
     }
-    
+
 }

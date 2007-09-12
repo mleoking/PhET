@@ -11,6 +11,13 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -27,12 +34,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 
 /**
@@ -66,7 +67,7 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
             TestHelpPane app = new TestHelpPane( args );
             app.startApplication();
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -95,13 +96,13 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
         /**
          * Constructor.
          *
-         * @param title              title that appears in the module's tab
-         * @param canvasColor        color of the canvas background
-         * @param screenChildColor   color used for all "screen children"
-         * @param worldChildColor    color used for all "world children"
+         * @param title            title that appears in the module's tab
+         * @param canvasColor      color of the canvas background
+         * @param screenChildColor color used for all "screen children"
+         * @param worldChildColor  color used for all "world children"
          */
         public TestModule( String title, Color canvasColor, Color screenChildColor, Color worldChildColor ) {
-            super( title, new TestClock(), true /* startsPaused */);
+            super( title, new TestClock(), true /* startsPaused */ );
 
             // Play area --------------------------------------------
 
@@ -115,7 +116,7 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
             screenPath.setPathToEllipse( 0, 0, 100, 100 );
             screenPath.setPaint( screenChildColor );
             PText screenText = new PText( "screen" );
-            screenText.setOffset( screenPath.getWidth()/2 - screenText.getWidth()/2, screenPath.getHeight()/2 - screenText.getHeight()/2 );
+            screenText.setOffset( screenPath.getWidth() / 2 - screenText.getWidth() / 2, screenPath.getHeight() / 2 - screenText.getHeight() / 2 );
             final PComposite screenComposite = new PComposite();
             screenComposite.addChild( screenPath );
             screenComposite.addChild( screenText );
@@ -129,7 +130,7 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
             worldPath.setPathToRectangle( 0, 0, 200, 200 );
             worldPath.setPaint( worldChildColor );
             PText worldText = new PText( "world" );
-            worldText.setOffset( worldPath.getWidth()/2 - worldText.getWidth()/2, worldPath.getHeight()/2 - worldText.getHeight()/2 );
+            worldText.setOffset( worldPath.getWidth() / 2 - worldText.getWidth() / 2, worldPath.getHeight() / 2 - worldText.getHeight() / 2 );
             final PComposite worldComposite = new PComposite();
             worldComposite.addChild( worldPath );
             worldComposite.addChild( worldText );
@@ -149,7 +150,7 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
             screenPanel.setLayout( new BorderLayout() );
             screenPanel.add( screenButton1, BorderLayout.NORTH );
             screenPanel.add( screenButton2, BorderLayout.SOUTH );
-            final PSwing screenPSwing = new PSwing(screenPanel );
+            final PSwing screenPSwing = new PSwing( screenPanel );
             screenPSwing.setOffset( 50, 450 );
             canvas.addScreenChild( screenPSwing );
 
@@ -164,7 +165,7 @@ public class TestHelpPane extends NonPiccoloPhetApplication {
             worldPanel.setLayout( new BorderLayout() );
             worldPanel.add( worldButton1, BorderLayout.NORTH );
             worldPanel.add( worldButton2, BorderLayout.SOUTH );
-            final PSwing worldPSwing = new PSwing(worldPanel );
+            final PSwing worldPSwing = new PSwing( worldPanel );
             worldPSwing.setOffset( 850, 800 );
             canvas.addWorldChild( worldPSwing );
 

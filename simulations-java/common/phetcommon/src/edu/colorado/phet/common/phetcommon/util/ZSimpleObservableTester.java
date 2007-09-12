@@ -22,7 +22,7 @@ public class ZSimpleObservableTester extends TestCase {
 
         controllingObserver.update();
 
-        assertEquals(1, mockObserver.getUpdateCount());
+        assertEquals( 1, mockObserver.getUpdateCount() );
     }
 
     private static class MockObserver implements SimpleObserver {

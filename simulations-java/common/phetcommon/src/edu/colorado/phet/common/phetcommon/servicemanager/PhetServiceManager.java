@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import javax.jnlp.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import javax.jnlp.*;
 
 /**
  * Provides the functionality of ServiceManager for both JNLP and local runtimes.
@@ -34,8 +35,8 @@ public class PhetServiceManager {
     }
 
     public static BasicService getBasicService() throws UnavailableServiceException {
-        if( isJavaWebStart() ) {
-            return (BasicService)ServiceManager.lookup( BasicService.class.getName() );
+        if ( isJavaWebStart() ) {
+            return (BasicService) ServiceManager.lookup( BasicService.class.getName() );
         }
         else {
             return new LocalBasicService();
@@ -43,8 +44,8 @@ public class PhetServiceManager {
     }
 
     public static FileOpenService getFileOpenService( Component owner ) throws UnavailableServiceException {
-        if( isJavaWebStart() ) {
-            return (FileOpenService)ServiceManager.lookup( "javax.jnlp.FileOpenService" );
+        if ( isJavaWebStart() ) {
+            return (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );
         }
         else {
             return new LocalFileOpenService( owner );
@@ -52,8 +53,8 @@ public class PhetServiceManager {
     }
 
     public static FileSaveService getFileSaveService( Component owner ) throws UnavailableServiceException {
-        if( isJavaWebStart() ) {
-            return (FileSaveService)ServiceManager.lookup( "javax.jnlp.FileSaveService" );
+        if ( isJavaWebStart() ) {
+            return (FileSaveService) ServiceManager.lookup( "javax.jnlp.FileSaveService" );
         }
         return new LocalFileSaveService( owner );
     }

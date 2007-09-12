@@ -1,18 +1,19 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.piccolophet.services;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class adds a control to a specified node that enables the user to
@@ -26,7 +27,7 @@ public class PNodeShowHideControl {
     private static final int DEFAULT_PADDING = 2;
 
     private final PNode parent;
-    private final List  savedChildren = new ArrayList();
+    private final List savedChildren = new ArrayList();
 
     private final JButton showHideButton;
 
@@ -47,10 +48,10 @@ public class PNodeShowHideControl {
      * @param restoreButtonName The string to associate with showing the children.
      */
     public PNodeShowHideControl( PNode parent, String restoreButtonName ) {
-        this.parent             = parent;
-        this.showHideButton     = new JButton();
+        this.parent = parent;
+        this.showHideButton = new JButton();
         this.showHideButtonNode = new PSwing( showHideButton );
-        this.restoreLabelNode   = new PSwing( new JLabel( restoreButtonName ) );
+        this.restoreLabelNode = new PSwing( new JLabel( restoreButtonName ) );
 
         initButton();
 
@@ -84,7 +85,7 @@ public class PNodeShowHideControl {
      * invocation of this method, they will be made visible.
      */
     public void uninstall() {
-        if( isHidden() ) {
+        if ( isHidden() ) {
             show();
         }
 
@@ -96,7 +97,7 @@ public class PNodeShowHideControl {
      * Hides the node's children.
      */
     public void hide() {
-        if( isHidden() ) {
+        if ( isHidden() ) {
             return;
         }
 
@@ -114,7 +115,7 @@ public class PNodeShowHideControl {
      * Shows the node's children.
      */
     public void show() {
-        if( !isHidden() ) {
+        if ( !isHidden() ) {
             return;
         }
 
@@ -125,8 +126,8 @@ public class PNodeShowHideControl {
     }
 
     private void uninstallPSwing( PSwing node ) {
-        if( node != null ) {
-            if( parent.getChildrenReference().contains( node ) ) {
+        if ( node != null ) {
+            if ( parent.getChildrenReference().contains( node ) ) {
                 parent.removeChild( node );
             }
             node.removeFromSwingWrapper();
@@ -152,7 +153,7 @@ public class PNodeShowHideControl {
     }
 
     private void setStateData() {
-        if( isHidden() ) {
+        if ( isHidden() ) {
             setButtonIcon( SHOW_IMAGE_ICON );
 
             restoreLabelNode.setVisible( true );
@@ -165,7 +166,7 @@ public class PNodeShowHideControl {
     }
 
     private void setButtonIcon( ImageIcon icon ) {
-        if( icon != null ) {
+        if ( icon != null ) {
             showHideButton.setIcon( icon );
 
             // Force button size to the dimensions of the icon:
@@ -184,7 +185,7 @@ public class PNodeShowHideControl {
                 buttonNodeY
         );
 
-        if( showHideButtonNode.getParent() != null && showHideButtonNode.getParent().getChildrenReference().contains( showHideButtonNode ) ) {
+        if ( showHideButtonNode.getParent() != null && showHideButtonNode.getParent().getChildrenReference().contains( showHideButtonNode ) ) {
             showHideButtonNode.moveToFront();
         }
 
@@ -193,14 +194,14 @@ public class PNodeShowHideControl {
                 buttonNodeY
         );
 
-        if( restoreLabelNode.getParent() != null && restoreLabelNode.getParent().getChildrenReference().contains( restoreLabelNode ) ) {
+        if ( restoreLabelNode.getParent() != null && restoreLabelNode.getParent().getChildrenReference().contains( restoreLabelNode ) ) {
             restoreLabelNode.moveToFront();
         }
     }
 
     private class StateTogglingActionListener implements ActionListener {
         public void actionPerformed( ActionEvent e ) {
-            if( isHidden() ) {
+            if ( isHidden() ) {
                 show();
             }
             else {
@@ -213,7 +214,7 @@ public class PNodeShowHideControl {
         private volatile boolean propertyIsChanging = false;
 
         public void propertyChange( PropertyChangeEvent evt ) {
-            if( !propertyIsChanging ) {
+            if ( !propertyIsChanging ) {
                 propertyIsChanging = true;
 
                 try {

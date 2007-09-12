@@ -11,14 +11,14 @@
 
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.quantum.QuantumConfig;
 
 /**
  * A representation of the energy state of an atom
@@ -52,7 +52,6 @@ public class AtomicState {
     private double meanLifetime = Double.POSITIVE_INFINITY;
     private AtomicState nextHigherState;
     private AtomicState nextLowerState;
-
 
     //----------------------------------------------------------------
     // Constructors
@@ -153,10 +152,10 @@ public class AtomicState {
     protected boolean isStimulatedBy( Photon photon, Atom atom ) {
         boolean result = false;
         AtomicState[] states = atom.getStates();
-        if( QuantumConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
-            for( int i = 0; i < states.length && states[i] != this && result == false; i++ ) {
+        if ( QuantumConfig.ENABLE_ALL_STIMULATED_EMISSIONS ) {
+            for ( int i = 0; i < states.length && states[i] != this && result == false; i++ ) {
                 AtomicState state = states[i];
-                if( state.getEnergyLevel() < this.getEnergyLevel() ) {
+                if ( state.getEnergyLevel() < this.getEnergyLevel() ) {
                     double stimulatedPhotonEnergy = this.getEnergyLevel() - state.getEnergyLevel();
                     result = ( Math.abs( photon.getEnergy() - stimulatedPhotonEnergy ) <= QuantumConfig.ENERGY_TOLERANCE
                                && Math.random() < STIMULATION_LIKELIHOOD );
@@ -172,7 +171,6 @@ public class AtomicState {
     }
 
     /**
-     *
      * @param atom
      * @param photon
      */
@@ -180,7 +178,7 @@ public class AtomicState {
 
         // See if the photon knocks the atom to a higher state
         AtomicState newState = getElevatedState( atom, photon, this.getEnergyLevel() );
-        if( newState != null ) {
+        if ( newState != null ) {
             photon.removeFromSystem();
             atom.setCurrState( newState );
             return;
@@ -189,7 +187,7 @@ public class AtomicState {
         // If the photon has the same energy as the difference
         // between this level and a lower state, then emit
         // a photon of that energy
-        if( isStimulatedBy( photon, atom ) ) {
+        if ( isStimulatedBy( photon, atom ) ) {
 
             // Place the replacement photon beyond the atom, so it doesn't collide again
             // right away
@@ -220,11 +218,11 @@ public class AtomicState {
     public AtomicState getElevatedState( Atom atom, Photon photon, double energy ) {
         AtomicState result = null;
         AtomicState[] states = atom.getStates();
-        for( int stateIdx = states.length - 1;
-             stateIdx >= 0 && states[stateIdx] != this && result == null;
-             stateIdx-- ) {
+        for ( int stateIdx = states.length - 1;
+              stateIdx >= 0 && states[stateIdx] != this && result == null;
+              stateIdx-- ) {
             double de = photon.getEnergy() - ( states[stateIdx].getEnergyLevel() - energy );
-            if( Math.abs( de ) <= QuantumConfig.ENERGY_TOLERANCE ) {
+            if ( Math.abs( de ) <= QuantumConfig.ENERGY_TOLERANCE ) {
                 result = states[stateIdx];
             }
         }
@@ -248,7 +246,7 @@ public class AtomicState {
     }
 
     public int hashCode() {
-        return (int)( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( meanLifetime ) );
+        return (int) ( Double.doubleToLongBits( energyLevel ) + Double.doubleToLongBits( meanLifetime ) );
     }
 
     /**
@@ -260,8 +258,8 @@ public class AtomicState {
      */
     public boolean equals( Object obj ) {
         boolean result = false;
-        if( obj instanceof AtomicState && obj != null ) {
-            AtomicState that = (AtomicState)obj;
+        if ( obj instanceof AtomicState && obj != null ) {
+            AtomicState that = (AtomicState) obj;
             result = this.energyLevel == that.energyLevel;
         }
         return result;
@@ -273,7 +271,7 @@ public class AtomicState {
      * @param states
      */
     public static void linkStates( AtomicState[] states ) {
-        for( int i = 1; i < states.length; i++ ) {
+        for ( int i = 1; i < states.length; i++ ) {
             states[i].setNextLowerEnergyState( states[i - 1] );
             states[i - 1].setNextHigherEnergyState( states[i] );
         }
@@ -366,7 +364,7 @@ public class AtomicState {
     // Events and event handling
     //-------------------------------------------------------------------
     private EventChannel listenerChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
+    private Listener listenerProxy = (Listener) listenerChannel.getListenerProxy();
 
     public class Event extends EventObject {
         public Event( Object source ) {
@@ -374,11 +372,11 @@ public class AtomicState {
         }
 
         public double getEnergy() {
-            return ( (AtomicState)getSource() ).getEnergyLevel();
+            return ( (AtomicState) getSource() ).getEnergyLevel();
         }
 
         public AtomicState getAtomicState() {
-            return (AtomicState)getSource();
+            return (AtomicState) getSource();
         }
 
         public double getMeanLifetime() {

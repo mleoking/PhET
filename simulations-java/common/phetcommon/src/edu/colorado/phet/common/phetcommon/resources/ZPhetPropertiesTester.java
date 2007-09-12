@@ -14,8 +14,8 @@ public class ZPhetPropertiesTester extends TestCase {
 
         properties.put( "string", "yoda" );
         properties.put( "double", "3.1415" );
-        properties.put( "int",    "1");
-        properties.put( "char",   "a" );
+        properties.put( "int", "1" );
+        properties.put( "char", "a" );
     }
 
     public void testGetStringThatExists() {

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -17,52 +17,52 @@ import java.awt.image.*;
 public class ScaleAlphaImageOpARGB implements BufferedImageOp {
 
     private double _scale;
-    
+
     public ScaleAlphaImageOpARGB() {
         this( 1 );
     }
-    
+
     public ScaleAlphaImageOpARGB( double scale ) {
         super();
         _scale = scale;
     }
-    
+
     public void setScale( double scale ) {
         _scale = scale;
     }
-    
+
     public double getScale() {
         return _scale;
     }
-    
+
     public BufferedImage createCompatibleDestImage( BufferedImage src, ColorModel destCM ) {
         AffineTransformOp op = new AffineTransformOp( new AffineTransform(), AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
         return op.createCompatibleDestImage( src, destCM );
     }
 
     public BufferedImage filter( BufferedImage src, BufferedImage dest ) {
-        
+
         if ( src.getType() != BufferedImage.TYPE_INT_ARGB ) {
             throw new UnsupportedOperationException( "this operation is applicable only to BufferedImage of type TYPE_INT_ARGB" );
         }
-        
+
         WritableRaster srcRaster = src.getRaster();
         int[] srcBuffer = ( (DataBufferInt) srcRaster.getDataBuffer() ).getData();
-        
+
         if ( dest == null ) {
             dest = createCompatibleDestImage( src, src.getColorModel() );
         }
         WritableRaster destRaster = dest.getRaster();
         int[] destBuffer = ( (DataBufferInt) destRaster.getDataBuffer() ).getData();
-        
+
         for ( int i = 0; i < srcBuffer.length; i++ ) {
             int argb = srcBuffer[i];
             int alpha = ( argb >> 24 ) & 0x000000FF;
-            int scaledAlpha = (int)( _scale * alpha );
+            int scaledAlpha = (int) ( _scale * alpha );
             int scaledPixel = ( scaledAlpha << 24 ) | ( argb & 0x00FFFFFF );
             destBuffer[i] = scaledPixel;
         }
-        
+
         return dest;
     }
 

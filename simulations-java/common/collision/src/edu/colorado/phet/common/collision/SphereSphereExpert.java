@@ -11,10 +11,10 @@ public class SphereSphereExpert implements CollisionExpert {
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         boolean haveCollided = false;
-        if( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB )
-            && tweakCheck( bodyA, bodyB ) ) {
-            Collision collision = new SphereSphereCollision( (SphericalBody)bodyA,
-                                                             (SphericalBody)bodyB );
+        if ( detector.applies( bodyA, bodyB ) && detector.areInContact( bodyA, bodyB )
+             && tweakCheck( bodyA, bodyB ) ) {
+            Collision collision = new SphereSphereCollision( (SphericalBody) bodyA,
+                                                             (SphericalBody) bodyB );
             collision.collide();
             haveCollided = true;
         }
@@ -32,8 +32,8 @@ public class SphereSphereExpert implements CollisionExpert {
      */
     private boolean tweakCheck( Collidable cbA, Collidable cbB ) {
 
-        SphericalBody sA = (SphericalBody)cbA;
-        SphericalBody sB = (SphericalBody)cbB;
+        SphericalBody sA = (SphericalBody) cbA;
+        SphericalBody sB = (SphericalBody) cbB;
 
         double dPrev = sA.getPositionPrev().distance( sB.getPositionPrev() );
 //        double dCurr = sA.getPosition().distance( sB.getPosition() );

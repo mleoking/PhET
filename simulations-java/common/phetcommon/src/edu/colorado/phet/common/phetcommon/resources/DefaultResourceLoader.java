@@ -12,12 +12,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
  */
 /* package private */
 public class DefaultResourceLoader extends AbstractResourceLoader {
-    
+
     private static final BufferedImage NULL_IMAGE = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_RGB );
 
     /**
      * Gets the image having the specified resource name.
-     * 
+     *
      * @param resourceName
      * @return BufferedImage
      */
@@ -35,7 +35,7 @@ public class DefaultResourceLoader extends AbstractResourceLoader {
 
     /**
      * Gets the audio clip having the specified resource name.
-     * 
+     *
      * @param resourceName
      * @return PhetAudioClip
      */

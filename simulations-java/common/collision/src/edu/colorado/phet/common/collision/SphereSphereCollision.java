@@ -11,11 +11,11 @@
  */
 package edu.colorado.phet.common.collision;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
-
-import java.awt.geom.Point2D;
 
 /**
  * Note: This class is not thread-safe!!!!!
@@ -59,7 +59,7 @@ public class SphereSphereCollision implements Collision {
 
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D.Double( contactPt.getX() - sphereA.getPosition().getX(),
-                                          contactPt.getY() - sphereA.getPosition().getY() );
+                                           contactPt.getY() - sphereA.getPosition().getY() );
         Vector2D r2 = new Vector2D.Float( contactPt.getX() - sphereB.getPosition().getX(),
                                           contactPt.getY() - sphereB.getPosition().getY() );
 

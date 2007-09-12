@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.*;
 
 /**
  * Has an expand and collapse button.
@@ -80,15 +81,15 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     }
 
     protected void showAdvanced() {
-        if( !isExpanded() ) {
+        if ( !isExpanded() ) {
             expanded = true;
             remove( advanced );
             add( hideButton );
             add( controls );
             validateAll();
             setBorder( BorderFactory.createRaisedBevelBorder() );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.advancedPanelShown( this );
             }
 
@@ -98,9 +99,9 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     private void validateAll() {
         invalidate();
         controls.invalidate();
-        if( getParent() != null ) {
+        if ( getParent() != null ) {
             getParent().invalidate();
-            if( getParent().getParent() != null ) {
+            if ( getParent().getParent() != null ) {
                 getParent().getParent().invalidate();
                 getParent().getParent().validate();
             }
@@ -116,25 +117,27 @@ public class AdvancedPanel extends VerticalLayoutPanel {
 
     /**
      * Sets whether the advanced controls should be displayed.
+     *
      * @param visible true if the advanced controls should be displayed.
      */
-    public void setAdvancedControlsVisible(boolean visible){
-        if( visible ) {
+    public void setAdvancedControlsVisible( boolean visible ) {
+        if ( visible ) {
             showAdvanced();
-        } else {
+        }
+        else {
             hideAdvanced();
         }
     }
 
     protected void hideAdvanced() {
-        if( isExpanded() ) {
+        if ( isExpanded() ) {
             expanded = false;
             remove( hideButton );
             remove( controls );
             add( advanced );
             validateAll();
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.advancedPanelHidden( this );
             }
             setBorder( null );

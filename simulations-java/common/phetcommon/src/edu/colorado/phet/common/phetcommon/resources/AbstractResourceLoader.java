@@ -38,7 +38,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
 
     /**
      * Gets properties by resource name.
-     * <p>
+     * <p/>
      * Looks up a resource named 'resourceName' in the classpath.
      * The resource must map to a file with .properties extention.
      * The name may be an absolute or relative path and can use either
@@ -55,7 +55,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * </pre>
      *
      * @param resourceName classpath resource name [may not be null]
-     * @param locale the locale
+     * @param locale       the locale
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, Locale locale ) {
@@ -76,9 +76,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         // Get the resource bundle
         ResourceBundle rb = null;
         try {
-             rb = ResourceBundle.getBundle( resourceName, locale );
+            rb = ResourceBundle.getBundle( resourceName, locale );
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
             rb = null;
         }
@@ -105,7 +105,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      */
     public InputStream getResourceAsStream( String resource ) throws IOException {
         InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream( resource );
-        if (stream == null) {
+        if ( stream == null ) {
             throw new IOException( "invalid resource: " + resource );
         }
         return stream;
@@ -123,7 +123,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         try {
             byte[] buffer = new byte[1000];
             int bytesRead;
-            while( ( bytesRead = stream.read( buffer ) ) >= 0 ) {
+            while ( ( bytesRead = stream.read( buffer ) ) >= 0 ) {
                 out.write( buffer, 0, bytesRead );
             }
             out.flush();

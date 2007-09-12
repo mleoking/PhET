@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import edu.colorado.phet.common.phetcommon.util.MultiMap;
-
 import java.util.Iterator;
+
+import edu.colorado.phet.common.phetcommon.util.MultiMap;
 
 /**
  * User: Sam Reid
  * Date: Dec 12, 2004
  * Time: 9:17:45 PM
- *
  */
 
 public class TestMultiMap {
@@ -32,7 +31,7 @@ public class TestMultiMap {
         mm.put( "c", "6" );
 
         Iterator i = mm.iterator();
-        while( i.hasNext() ) {
+        while ( i.hasNext() ) {
             System.out.println( i.next() );
         }
         System.out.println( "contains(4): " + mm.containsValue( "4" ) );
@@ -47,7 +46,7 @@ public class TestMultiMap {
 
         System.out.println( "" );
         i = mm.iterator();
-        while( i.hasNext() ) {
+        while ( i.hasNext() ) {
             System.out.println( i.next() );
         }
 
@@ -55,14 +54,14 @@ public class TestMultiMap {
 
         ri = mm.reverseIterator();
         System.out.println( "" );
-        while( ri.hasNext() ) {
+        while ( ri.hasNext() ) {
             System.out.println( ri.next() );
         }
 
         mm.remove( "c" );
         System.out.println( "" );
         i = mm.iterator();
-        while( i.hasNext() ) {
+        while ( i.hasNext() ) {
             System.out.println( i.next() );
         }
 

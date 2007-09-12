@@ -2,6 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
+import java.awt.*;
+import java.awt.geom.*;
+import java.io.IOException;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -14,11 +19,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.io.IOException;
-import java.text.DecimalFormat;
-
 /**
  * User: Sam Reid
  * Date: May 20, 2005
@@ -26,9 +26,9 @@ import java.text.DecimalFormat;
  */
 
 public class MeasuringTape extends PhetPNode {
-    
+
     private static final String MEASURING_TAPE_IMAGE = "piccolo-phet/images/measuringTape.gif";
-    
+
     private ModelViewTransform2D modelViewTransform2D;
     private Point2D.Double modelSrc;
     private Point2D.Double modelDst;
@@ -140,7 +140,7 @@ public class MeasuringTape extends PhetPNode {
 
         double modelDistance = new Vector2D.Double( modelSrc, modelDst ).getMagnitude();
         readoutGraphic.setDistance( modelDistance );
-        readoutGraphic.setOffset( viewSrc.x, (int)( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
+        readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }
 
     class TapeGraphic extends PNode {

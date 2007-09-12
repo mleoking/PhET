@@ -45,15 +45,15 @@ public class ModelViewTransform1D {
     }
 
     public int getMinView() {
-        return (int)modelToView.getMinOutput();
+        return (int) modelToView.getMinOutput();
     }
 
     public int getMaxView() {
-        return (int)modelToView.getMaxOutput();
+        return (int) modelToView.getMaxOutput();
     }
 
     public int modelToView( double x ) {
-        return (int)modelToView.evaluate( x );
+        return (int) modelToView.evaluate( x );
     }
 
     public int modelToViewDifferential( double dModel ) {
@@ -73,21 +73,21 @@ public class ModelViewTransform1D {
     }
 
     public void update() {
-        for( int i = 0; i < transformListeners.size(); i++ ) {
-            Observer observer = (Observer)transformListeners.get( i );
+        for ( int i = 0; i < transformListeners.size(); i++ ) {
+            Observer observer = (Observer) transformListeners.get( i );
             observer.transformChanged( this );
         }
     }
 
     public void setModelRange( double minModel, double maxModel ) {
-        if( modelToView.getMinInput() != minModel || modelToView.getMinInput() != maxModel ) {
+        if ( modelToView.getMinInput() != minModel || modelToView.getMinInput() != maxModel ) {
             modelToView.setInput( minModel, maxModel );
             update();
         }
     }
 
     public void setViewRange( int minView, int maxView ) {
-        if( modelToView.getMinOutput() != minView && modelToView.getMaxOutput() != maxView ) {
+        if ( modelToView.getMinOutput() != minView && modelToView.getMaxOutput() != maxView ) {
             modelToView.setOutput( minView, maxView );
             update();
         }

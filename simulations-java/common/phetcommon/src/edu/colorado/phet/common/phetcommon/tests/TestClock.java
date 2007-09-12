@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
  * User: Sam Reid
  * Date: Dec 15, 2005
  * Time: 12:24:51 PM
- *
  */
 
 public class TestClock {

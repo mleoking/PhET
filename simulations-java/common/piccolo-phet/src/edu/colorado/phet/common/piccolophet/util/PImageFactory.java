@@ -10,19 +10,19 @@
  */
 package edu.colorado.phet.common.piccolophet.util;
 
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.AffineTransformOp;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * PImageFactory
- * <p>
+ * <p/>
  * Creates PImage instances given names for the images files specified as resources
  * in the classpath.
  *
@@ -33,11 +33,12 @@ public class PImageFactory {
 
     /**
      * Creates a PImage given a path to an image file in the classpath
+     *
      * @param imageName
      * @return
      */
     public static PImage create( String imageName ) {
-        return new PImage( loadImage( imageName ));
+        return new PImage( loadImage( imageName ) );
     }
 
     /**

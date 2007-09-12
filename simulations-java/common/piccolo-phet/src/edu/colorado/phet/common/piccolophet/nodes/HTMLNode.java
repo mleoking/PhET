@@ -11,13 +11,14 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PPaintContext;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * HTMLNode is a Piccolo node for rendering HTML text.
@@ -84,7 +85,7 @@ public class HTMLNode extends PNode {
      * @param html
      */
     public void setHTML( String html ) {
-        if( ( this.html != null && html == null ) || ( this.html == null && html != null ) || ( !this.html.equals( html ) ) ) {
+        if ( ( this.html != null && html == null ) || ( this.html == null && html != null ) || ( !this.html.equals( html ) ) ) {
             this.html = html;
             update();
         }
@@ -138,6 +139,7 @@ public class HTMLNode extends PNode {
     * Updates everything that is involved in rendering the HTML string.
     * This method is called when one the HTML-related properties is modified.
     */
+
     private void update() {
         htmlLabel.setText( html );
         htmlLabel.setFont( font );
@@ -159,9 +161,10 @@ public class HTMLNode extends PNode {
     * 
     * @param paintContext
     */
+
     protected void paint( PPaintContext paintContext ) {
         super.paint( paintContext );
-        if( htmlLabel.getWidth() == 0 || htmlLabel.getHeight() == 0 ) {
+        if ( htmlLabel.getWidth() == 0 || htmlLabel.getHeight() == 0 ) {
             return;
         }
         Graphics2D g = paintContext.getGraphics();

@@ -1,15 +1,16 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test.help;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PUtil;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TestMotionHelpBalloonAnimateToNode {
     private JFrame frame;

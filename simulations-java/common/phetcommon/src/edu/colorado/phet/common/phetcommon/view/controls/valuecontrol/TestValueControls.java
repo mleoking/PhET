@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 public class TestValueControls extends JFrame {
 
     public TestValueControls() {
-        
+
         final LinearValueControl protonsControl;
         {
             int value = 79;
@@ -40,7 +40,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // Linear control
         final LinearValueControl speedControl;
         {
@@ -66,7 +66,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // Logarithmic control, default alignment
         final LogarithmicValueControl viscosityControl;
         {
@@ -87,7 +87,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // Linear control, snaps to ticks
         final LinearValueControl potatoControl;
         {
@@ -111,7 +111,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // One control that changes the range of another control
         final LinearValueControl rangeControl;
         {
@@ -134,7 +134,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // Linear control with custom label table
         final LinearValueControl customLabelsControl;
         {
@@ -154,14 +154,14 @@ public class TestValueControls extends JFrame {
                     System.out.println( "customLabelsControl.stateChanged " + customLabelsControl.getValue() );
                 }
             } );
-            
+
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( 0 ),  new JLabel( "zero" ) );
-            labelTable.put( new Double( 5 ),  new JLabel( "five" ) );
-            labelTable.put( new Double( 10 ),  new JLabel( "ten" ) );
+            labelTable.put( new Double( 0 ), new JLabel( "zero" ) );
+            labelTable.put( new Double( 5 ), new JLabel( "five" ) );
+            labelTable.put( new Double( 10 ), new JLabel( "ten" ) );
             customLabelsControl.setTickLabels( labelTable );
         }
-        
+
         // Number of wells, integers
         final LinearValueControl numberOfWellsControl;
         {
@@ -182,7 +182,7 @@ public class TestValueControls extends JFrame {
                 }
             } );
         }
-        
+
         // No ticks or labels
         final LinearValueControl controlNoTicks;
         {
@@ -190,7 +190,7 @@ public class TestValueControls extends JFrame {
             controlNoTicks.setMinorTicksVisible( false );
             controlNoTicks.setMajorTicksVisible( false );
         }
-        
+
         JPanel panel = new JPanel();
         panel.setBorder( BorderFactory.createEmptyBorder( 20, 20, 20, 20 ) );
         BoxLayout layout = new BoxLayout( panel, BoxLayout.Y_AXIS );
@@ -209,12 +209,12 @@ public class TestValueControls extends JFrame {
         panel.add( numberOfWellsControl );
         panel.add( new JSeparator() );
         panel.add( controlNoTicks );
-        
+
         setContentPane( panel );
         pack();
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
     }
-    
+
     public static void main( String[] args ) {
         TestValueControls test = new TestValueControls();
         test.show();

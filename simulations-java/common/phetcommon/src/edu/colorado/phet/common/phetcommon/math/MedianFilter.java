@@ -31,7 +31,7 @@ public class MedianFilter {
 
     public static double getMedian( double[] data ) {
         double[] workingData = new double[data.length];
-        for( int i = 0; i < data.length; i++ ) {
+        for ( int i = 0; i < data.length; i++ ) {
             workingData[i] = data[i];
         }
         return getMedianInternal( workingData );
@@ -45,23 +45,23 @@ public class MedianFilter {
     public double[] filter( int width ) {
         double[] temp = new double[width];
 
-        for( int i = 0; i < source.length - width + 1; i++ ) {
+        for ( int i = 0; i < source.length - width + 1; i++ ) {
 
             // sort local group
-            for( int k = 0; k < width; k++ ) {
+            for ( int k = 0; k < width; k++ ) {
                 temp[k] = source[i + k];
             }
             target[i + width / 2] = getMedianInternal( temp );
         }
 
         // Fix up the ends of the target array
-        for( int i = 0; i < width / 2; i++ ) {
+        for ( int i = 0; i < width / 2; i++ ) {
             target[i] = target[width / 2];
         }
-        for( int i = target.length - width / 2; i < target.length; i++ ) {
+        for ( int i = target.length - width / 2; i < target.length; i++ ) {
             target[i] = target[target.length - width / 2 - 1];
         }
-        for( int i = 0; i < source.length; i++ ) {
+        for ( int i = 0; i < source.length; i++ ) {
             source[i] = target[i];
         }
 

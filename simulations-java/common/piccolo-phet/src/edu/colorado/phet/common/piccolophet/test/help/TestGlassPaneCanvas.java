@@ -11,6 +11,17 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
+import java.util.EventObject;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -26,24 +37,14 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
-import java.util.EventObject;
-
 
 /**
  * TestGlassPaneCanvas tests GlassPaneCanvas.
- * <p>
+ * <p/>
  * Pressing the Help button will display a GlassPaneCanvas that puts
  * colored circles at the upper-left corner of certain Swing controls.
  * See method markComponents for details.
- * <p>
+ * <p/>
  * JButtons and JSliders in the control panel have a hand cursor,
  * so that you can verify that the cursor is being set correctly.
  *
@@ -65,7 +66,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
             TestGlassPaneCanvas app = new TestGlassPaneCanvas( args );
             app.startApplication();
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -119,7 +120,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
             button0.setName( "button0" );
             button0.setOpaque( false );
             button0.addActionListener( listener );
-            PSwing pswing = new PSwing(button0 );
+            PSwing pswing = new PSwing( button0 );
             pswing.addInputEventListener( new CursorHandler() );
             pswing.setOffset( 100, 200 );
             canvas.getLayer().addChild( pswing );
@@ -161,7 +162,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
             JButton button1 = new JButton( "button1" );
             button1.setName( "button1" );
             button1.setCursor( HAND_CURSOR );
-            button1.addActionListener( listener  );
+            button1.addActionListener( listener );
 
             JCheckBox checkBox1 = new JCheckBox( "checkBox1" );
             checkBox1.setName( "checkBox1" );
@@ -171,7 +172,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
             slider1.setName( "slider1" );
             slider1.addChangeListener( listener );
 
-            Object[] choices = { "choice1", "choice2", "choice3", "choice4" };
+            Object[] choices = {"choice1", "choice2", "choice3", "choice4"};
             JComboBox comboBox = new JComboBox( choices );
             comboBox.setName( "comboBox" );
             comboBox.addItemListener( listener );
@@ -222,7 +223,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
         /**
          * Extension of GlassPaneCanvas that draws circles at the upper-left corner
          * of various JComponents.  See markComponents for details.
-         *
+         * <p/>
          * MyGlassPane
          *
          * @author Chris Malley (cmalley@pixelzoom.com)
@@ -296,7 +297,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
         }
 
         public void stateChanged( ChangeEvent e ) {
-            if ( e.getSource() instanceof JSlider && ((JSlider)e.getSource()).getValueIsAdjusting() ) {
+            if ( e.getSource() instanceof JSlider && ( (JSlider) e.getSource() ).getValueIsAdjusting() ) {
                 // don't do anything while a JSlider is being dragged
                 return;
             }

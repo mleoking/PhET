@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * HorizontalLayoutPanel

@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Arranges graphics into screen and world graphics,
@@ -39,15 +39,15 @@ public class PhetRootPNode extends PNode {
      */
     public int indexOfChild( PNode child ) {
         int index = super.indexOfChild( child );
-        if( index >= 0 ) {
+        if ( index >= 0 ) {
             return index;
         }
         index = super.indexOfChild( new WorldChild( child ) );
-        if( index >= 0 ) {
+        if ( index >= 0 ) {
             return index;
         }
         index = super.indexOfChild( new ScreenChild( child ) );
-        if( index >= 0 ) {
+        if ( index >= 0 ) {
             return index;
         }
         return -1;
@@ -56,8 +56,8 @@ public class PhetRootPNode extends PNode {
     /**
      * Todo: this appears to have a bug; see indexOfChild
      */
-    public boolean hasChild(PNode node){
-        return indexOfChild( node )>=0;
+    public boolean hasChild( PNode node ) {
+        return indexOfChild( node ) >= 0;
     }
 
     /**
@@ -78,7 +78,7 @@ public class PhetRootPNode extends PNode {
      */
     public void removeScreenChild( PNode screenChild ) {
         int index = super.indexOfChild( new ScreenChild( screenChild ) );
-        if( index >= 0 ) {
+        if ( index >= 0 ) {
             removeChild( index );
         }
     }
@@ -90,7 +90,7 @@ public class PhetRootPNode extends PNode {
      */
     public void removeWorldChild( PNode worldChild ) {
         int index = super.indexOfChild( new WorldChild( worldChild ) );
-        if( index >= 0 ) {
+        if ( index >= 0 ) {
             removeChild( index );
         }
     }
@@ -126,9 +126,9 @@ public class PhetRootPNode extends PNode {
 
     private ArrayList getChildren( Class type ) {
         ArrayList list = new ArrayList();
-        for( int i = 0; i < getChildrenCount(); i++ ) {
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
             PNode child = getChild( i );
-            if( type.isAssignableFrom( child.getClass() ) ) {
+            if ( type.isAssignableFrom( child.getClass() ) ) {
                 list.add( child );
             }
         }
@@ -173,8 +173,8 @@ public class PhetRootPNode extends PNode {
 
     protected void updateWorldNodes() {
         ArrayList worldChildren = getWorldChildren();
-        for( int i = 0; i < worldChildren.size(); i++ ) {
-            PNode node = (PNode)worldChildren.get( i );
+        for ( int i = 0; i < worldChildren.size(); i++ ) {
+            PNode node = (PNode) worldChildren.get( i );
             node.setTransform( worldNode.getTransformReference( true ) );
         }
     }
@@ -208,10 +208,12 @@ public class PhetRootPNode extends PNode {
     public void globalToWorld( PDimension d ) {
         worldNode.globalToLocal( d );
     }
-    public void worldToScreen(Rectangle2D rectangle2D){
+
+    public void worldToScreen( Rectangle2D rectangle2D ) {
         worldNode.localToGlobal( rectangle2D );
         screenNode.globalToLocal( rectangle2D );
     }
+
     public void worldToScreen( Point2D pt ) {
         worldNode.localToGlobal( pt );
         screenNode.globalToLocal( pt );
@@ -245,7 +247,7 @@ public class PhetRootPNode extends PNode {
         }
 
         public boolean equals( Object obj ) {
-            return obj instanceof WrapperNode && ( (WrapperNode)obj ).node == node;
+            return obj instanceof WrapperNode && ( (WrapperNode) obj ).node == node;
         }
     }
 

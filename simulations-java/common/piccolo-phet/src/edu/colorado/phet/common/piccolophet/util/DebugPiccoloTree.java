@@ -31,8 +31,8 @@ public class DebugPiccoloTree {
         String className = getClassName( root );
         String additionalInfo = getAdditionalInfo( root );
         printAll( className, additionalInfo );
-        for( int i = 0; i < root.getChildrenReference().size(); i++ ) {
-            PNode child = (PNode)root.getChildrenReference().get( i );
+        for ( int i = 0; i < root.getChildrenReference().size(); i++ ) {
+            PNode child = (PNode) root.getChildrenReference().get( i );
             printTree( child, pre + "\t" );
         }
     }
@@ -43,7 +43,7 @@ public class DebugPiccoloTree {
     }
 
     private String getClassName( PNode root ) {
-        if( root.getClass().getName().indexOf( '.' ) >= 0 ) {
+        if ( root.getClass().getName().indexOf( '.' ) >= 0 ) {
             return root.getClass().getName().substring( root.getClass().getName().lastIndexOf( '.' ) + 1 );
         }
         else {
@@ -52,8 +52,8 @@ public class DebugPiccoloTree {
     }
 
     private String getAdditionalInfo( PNode root ) {
-        if( root instanceof PText ) {
-            PText pText = (PText)root;
+        if ( root instanceof PText ) {
+            PText pText = (PText) root;
             return "\"" + pText.getText() + "\"";
         }
         else {

@@ -12,12 +12,12 @@ import java.awt.image.WritableRaster;
 
 /**
  * RoundGradientPaint creates a round, or radial, gradient.
- * This gradient defines a color at a point; the gradient blends into another 
- * color as a function of the distance from that point. 
+ * This gradient defines a color at a point; the gradient blends into another
+ * color as a function of the distance from that point.
  * The end result is a big, fuzzy spot.
- * <p>
+ * <p/>
  * Adapted from an example in Chapter 4 of "Java 2D Graphics" by Jonathan Knudsen.
- * <p>
+ * <p/>
  * NOTE! This paint is relatively expensive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -30,11 +30,11 @@ public class RoundGradientPaint implements Paint {
     private Color backgroundColor;
 
     /**
-     * Constructor accepts a point and a color that describe the center of 
+     * Constructor accepts a point and a color that describe the center of
      * the gradient, a radius, and a background color. The gradient blends
      * color from the center point to the background color over the length
      * of the radius.
-     * 
+     *
      * @param x
      * @param y
      * @param pointColor
@@ -42,8 +42,9 @@ public class RoundGradientPaint implements Paint {
      * @param backgroundColor
      */
     public RoundGradientPaint( double x, double y, Color pointColor, Point2D radius, Color backgroundColor ) {
-        if ( radius.distance( 0, 0 ) <= 0 )
+        if ( radius.distance( 0, 0 ) <= 0 ) {
             throw new IllegalArgumentException( "Radius must be greater than 0." );
+        }
         point = new Point2D.Double( x, y );
         this.pointColor = pointColor;
         this.radius = radius;
@@ -84,7 +85,8 @@ public class RoundGradientPaint implements Paint {
             _color2 = color2;
         }
 
-        public void dispose() {}
+        public void dispose() {
+        }
 
         public ColorModel getColorModel() {
             return ColorModel.getRGBdefault();
@@ -99,8 +101,9 @@ public class RoundGradientPaint implements Paint {
                     double distance = _point.distance( x + i, y + j );
                     double radius = _radius.distance( 0, 0 );
                     double ratio = distance / radius;
-                    if ( ratio > 1.0 )
+                    if ( ratio > 1.0 ) {
                         ratio = 1.0;
+                    }
 
                     int base = ( j * w + i ) * 4;
                     data[base + 0] = (int) ( _color1.getRed() + ratio * ( _color2.getRed() - _color1.getRed() ) );

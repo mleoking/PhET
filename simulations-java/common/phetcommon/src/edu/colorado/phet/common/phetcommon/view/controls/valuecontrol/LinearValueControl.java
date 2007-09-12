@@ -11,7 +11,7 @@ public class LinearValueControl extends AbstractValueControl {
 
     /**
      * Constructor that provides a default layout for the control.
-     * 
+     *
      * @param min
      * @param max
      * @param label
@@ -21,10 +21,10 @@ public class LinearValueControl extends AbstractValueControl {
     public LinearValueControl( double min, double max, String label, String textFieldPattern, String units ) {
         this( min, max, label, textFieldPattern, units, new DefaultLayoutStrategy() );
     }
-    
+
     /**
      * Constructor that allows you to specify a layout for the control.
-     * 
+     *
      * @param min
      * @param max
      * @param label

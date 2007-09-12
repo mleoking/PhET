@@ -10,15 +10,16 @@
  */
 package edu.colorado.phet.common.phetcommon.view.menu;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * HelpMenu
@@ -52,7 +53,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         megaHelpItem.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.HelpMenu.MegaHelpMnemonic" ).charAt( 0 ) );
         megaHelpItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( phetApplication.getActiveModule().hasMegaHelp() ) {
+                if ( phetApplication.getActiveModule().hasMegaHelp() ) {
                     phetApplication.getActiveModule().showMegaHelp();
                 }
                 else {
@@ -111,7 +112,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
 
     public void activeModuleChanged( ModuleEvent event ) {
         Module module = event.getModule();
-        if( module != null ) {
+        if ( module != null ) {
             onscreenHelp.setEnabled( module.hasHelp() );
             onscreenHelp.setSelected( module.isHelpEnabled() );
         }

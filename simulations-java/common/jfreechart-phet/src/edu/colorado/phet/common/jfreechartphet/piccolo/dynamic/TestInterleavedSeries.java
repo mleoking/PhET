@@ -21,12 +21,12 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Demonstration of usage and behavior of JFreeChartNode with multiple series.

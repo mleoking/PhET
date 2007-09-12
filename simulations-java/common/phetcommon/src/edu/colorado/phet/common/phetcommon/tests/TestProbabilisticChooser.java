@@ -23,16 +23,16 @@ public class TestProbabilisticChooser {
 
     private static final int NUMBER_OF_ENTRIES = 11;
     private static final int NUMBER_OF_TESTS = 1000000;
-    
+
     public static final void main( String[] args ) {
-        
+
         System.out.println( "ProbabilisticChooser test harness" );
-        
+
         // Make a set of entries that are Integers, each with a weight equal to 10x the Integer's value.
         System.out.println();
         System.out.println( "Entries provided to chooser:" );
         ProbabilisticChooser.Entry[] entries = new ProbabilisticChooser.Entry[NUMBER_OF_ENTRIES];
-        int[] counts = new int[ entries.length ];
+        int[] counts = new int[entries.length];
         double weightSum = 0;
         for ( int i = 0; i < entries.length; i++ ) {
             Integer object = new Integer( i );
@@ -41,10 +41,10 @@ public class TestProbabilisticChooser {
             weightSum += weight;
             System.out.println( "object=" + object.intValue() + " weight=" + weight );
         }
-        
+
         // Create the chooser
         ProbabilisticChooser chooser = new ProbabilisticChooser( entries );
-        
+
         // Examine its entries
         System.out.println();
         System.out.println( "Entries normalized by chooser:" );
@@ -54,7 +54,7 @@ public class TestProbabilisticChooser {
             double weight = normalizedEntries[i].getWeight();
             System.out.println( "object=" + object.intValue() + " weight=" + weight );
         }
-        
+
         // Get objects from the chooser and keep track of how many times each object is retrieved.
         System.out.println();
         System.out.println( "performing " + NUMBER_OF_TESTS + " test..." );
@@ -63,7 +63,7 @@ public class TestProbabilisticChooser {
             int countIndex = ( (Integer) object ).intValue();
             counts[countIndex]++;
         }
-        
+
         // Report the results.
         int countSum = 0;
         double probabilitySum = 0;

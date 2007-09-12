@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-
 import java.awt.*;
 import java.util.Arrays;
+
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 
 /**
  * PhetMultiLineTextGraphic
@@ -78,7 +78,7 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     private void init() {
         clear();
         int currentY = 0;
-        for( int i = 0; i < text.length; i++ ) {
+        for ( int i = 0; i < text.length; i++ ) {
             String s = text[i];
             PhetGraphic g = lineCreator.createLine( s, 0, currentY );
             addGraphic( g );
@@ -95,7 +95,7 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     }
 
     public void setText( String[] text ) {
-        if( Arrays.asList( this.text ).equals( Arrays.asList( text ) ) ) {
+        if ( Arrays.asList( this.text ).equals( Arrays.asList( text ) ) ) {
             return;
         }
         this.text = text;

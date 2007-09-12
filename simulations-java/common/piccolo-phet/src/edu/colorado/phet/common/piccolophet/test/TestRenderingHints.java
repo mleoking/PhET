@@ -1,18 +1,18 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.geom.Ellipse2D;
+
+import javax.swing.*;
+
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import java.awt.geom.Ellipse2D;
 
 /**
  * User: Sam Reid
  * Date: Jul 28, 2005
  * Time: 10:43:45 AM
- *
  */
 
 public class TestRenderingHints {

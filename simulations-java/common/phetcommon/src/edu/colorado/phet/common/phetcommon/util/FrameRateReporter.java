@@ -39,7 +39,7 @@ public class FrameRateReporter {
             public void clockTicked( ClockEvent event ) {
                 frameCnt++;
                 long currTime = System.currentTimeMillis();
-                if( currTime - lastTickTime > averagingTime ) {
+                if ( currTime - lastTickTime > averagingTime ) {
                     double rate = frameCnt * 1000 / ( currTime - lastTickTime );
                     lastTickTime = currTime;
                     frameCnt = 0;

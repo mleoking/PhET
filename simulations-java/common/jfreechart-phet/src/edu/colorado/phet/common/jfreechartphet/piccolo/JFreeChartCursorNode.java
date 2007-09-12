@@ -21,19 +21,19 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * This class shows a draggable cursor overlaid on a JFreeChartNode
@@ -61,7 +61,7 @@ public class JFreeChartCursorNode extends PNode {
     private PropertyChangeListener updateParent = new PropertyChangeListener() {
         public void propertyChange( PropertyChangeEvent evt ) {
             PNode parent = jFreeChartNode.getParent();
-            while( parent != null ) {
+            while ( parent != null ) {
                 parent.removePropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
                 parent.removePropertyChangeListener( PNode.PROPERTY_PARENT, updateParent );
                 parent.addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, updater );
@@ -129,7 +129,7 @@ public class JFreeChartCursorNode extends PNode {
 
     public void setMinDragTime( double minDragTime ) {
         this.minDragTime = minDragTime;
-        if( getTime() < minDragTime ) {
+        if ( getTime() < minDragTime ) {
             setTime( minDragTime );
         }
     }
@@ -140,7 +140,7 @@ public class JFreeChartCursorNode extends PNode {
 
     public void setMaxDragTime( double maxDragTime ) {
         this.maxDragTime = maxDragTime;
-        if( getTime() > maxDragTime ) {
+        if ( getTime() > maxDragTime ) {
             setTime( maxDragTime );
         }
     }
@@ -166,13 +166,13 @@ public class JFreeChartCursorNode extends PNode {
     }
 
     public void notifySliderDragged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener)listeners.get( i ) ).cursorTimeChanged();
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).cursorTimeChanged();
         }
     }
 
     public void setTime( double time ) {
-        if( this.time != time ) {
+        if ( this.time != time ) {
             this.time = time;
             update();
         }

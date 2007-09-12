@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.mechanics;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * DefaultBody
- * <p>
+ * <p/>
  * A concrete extension of Body that provides default implementations
  * of teh abstract methods in Body.
  *

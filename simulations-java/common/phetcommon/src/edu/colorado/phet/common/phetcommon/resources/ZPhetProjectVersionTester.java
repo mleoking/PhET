@@ -7,7 +7,7 @@ import junit.framework.TestCase;
  * The test suite for PhetVersionInfo.
  */
 public class ZPhetProjectVersionTester extends TestCase {
-    
+
     private static final PhetVersionInfo VERSION_PUBLIC = new PhetVersionInfo( "1", "02", "00", "1234" );
     private static final PhetVersionInfo VERSION_DEV = new PhetVersionInfo( "1", "02", "03", "1234" );
 
@@ -15,7 +15,7 @@ public class ZPhetProjectVersionTester extends TestCase {
         assertEquals( "1.02", VERSION_PUBLIC.formatForTitleBar() );
         assertEquals( "1.02.03", VERSION_DEV.formatForTitleBar() );
     }
-    
+
     public void testFormatForAboutDialog() {
         assertEquals( "1.02.00 (1234)", VERSION_PUBLIC.formatForAboutDialog() );
         assertEquals( "1.02.03 (1234)", VERSION_DEV.formatForAboutDialog() );
@@ -27,9 +27,9 @@ public class ZPhetProjectVersionTester extends TestCase {
     }
 
     public void testAsIntMethods() {
-        assertEquals( 1,    VERSION_DEV.getMajorAsInt() );
-        assertEquals( 2,    VERSION_DEV.getMinorAsInt() );
-        assertEquals( 3,    VERSION_DEV.getDevAsInt() );
+        assertEquals( 1, VERSION_DEV.getMajorAsInt() );
+        assertEquals( 2, VERSION_DEV.getMinorAsInt() );
+        assertEquals( 3, VERSION_DEV.getDevAsInt() );
         assertEquals( 1234, VERSION_DEV.getRevisionAsInt() );
     }
 

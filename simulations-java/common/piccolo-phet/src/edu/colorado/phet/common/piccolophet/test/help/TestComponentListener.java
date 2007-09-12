@@ -4,12 +4,13 @@ package edu.colorado.phet.common.piccolophet.test.help;
  * User: Sam Reid
  * Date: Jun 2, 2006
  * Time: 2:12:25 PM
- * 
+ *
  */
 
-import javax.swing.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+
+import javax.swing.*;
 
 public class TestComponentListener {
     private JFrame frame;

@@ -85,10 +85,10 @@ public class SinePlot extends LinePlot {
      * @param period
      */
     public void setPeriod( double period ) {
-        if( period < 0 ) {
+        if ( period < 0 ) {
             throw new IllegalArgumentException( "period must be >= 0 : " + period );
         }
-        if( period != _period ) {
+        if ( period != _period ) {
             _period = period;
             updateDataSet();
         }
@@ -109,7 +109,7 @@ public class SinePlot extends LinePlot {
      * @param amplitude
      */
     public void setAmplitude( double amplitude ) {
-        if( amplitude != _amplitude ) {
+        if ( amplitude != _amplitude ) {
             _amplitude = amplitude;
             updateDataSet();
         }
@@ -130,7 +130,7 @@ public class SinePlot extends LinePlot {
      * @param startX
      */
     public void setStartX( double startX ) {
-        if( startX != _startX ) {
+        if ( startX != _startX ) {
             _startX = startX;
             updateDataSet();
         }
@@ -152,7 +152,7 @@ public class SinePlot extends LinePlot {
      * @param enabled true or false
      */
     public void setCosineEnabled( boolean enabled ) {
-        if( enabled != _cosineEnabled ) {
+        if ( enabled != _cosineEnabled ) {
             _cosineEnabled = enabled;
             updateDataSet();
         }
@@ -173,7 +173,7 @@ public class SinePlot extends LinePlot {
      * @param enabled true or false
      */
     public void setShowZeroAmplitudeEnabled( boolean enabled ) {
-        if( enabled != _showZeroAmplitude ) {
+        if ( enabled != _showZeroAmplitude ) {
             _showZeroAmplitude = enabled;
             updateDataSet();
         }
@@ -195,10 +195,10 @@ public class SinePlot extends LinePlot {
      * @throws IllegalArgumentException if pixelsPerPoint is not > 0
      */
     public void setPixelsPerPoint( double pixelsPerPoint ) {
-        if ( ! ( pixelsPerPoint > 0 ) ) {
+        if ( !( pixelsPerPoint > 0 ) ) {
             throw new IllegalArgumentException( "pixelsPerPoint must be > 0 : " + pixelsPerPoint );
         }
-        if( pixelsPerPoint != _pixelsPerPoint ) {
+        if ( pixelsPerPoint != _pixelsPerPoint ) {
             _pixelsPerPoint = pixelsPerPoint;
             updateDataSet();
         }
@@ -228,14 +228,14 @@ public class SinePlot extends LinePlot {
     //----------------------------------------------------------------------------
     // PhetGraphic overrides
     //----------------------------------------------------------------------------
-    
+
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         if ( visible ) {
             updateDataSet();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Update
     //----------------------------------------------------------------------------
@@ -247,7 +247,7 @@ public class SinePlot extends LinePlot {
      */
     protected void updateDataSet() {
 
-        if( isVisible() ) {
+        if ( isVisible() ) {
 
             Chart chart = getChart();
             Range2D range = chart.getRange();
@@ -256,10 +256,10 @@ public class SinePlot extends LinePlot {
             // Clear the data set.
             dataSet.clear();
 
-            if( _amplitude == 0 ) {
-                if( _showZeroAmplitude ) {
+            if ( _amplitude == 0 ) {
+                if ( _showZeroAmplitude ) {
                     // Optimized data set for zero-amplitude wave.
-                    Point2D[] points = new Point2D[ 2 ];
+                    Point2D[] points = new Point2D[2];
                     points[0] = new Point2D.Double( range.getMinX(), 0 );
                     points[1] = new Point2D.Double( range.getMaxX(), 0 );
                     dataSet.addAllPoints( points );
@@ -274,7 +274,7 @@ public class SinePlot extends LinePlot {
                 final double minPixel = modelToViewX( range.getMinX() );
                 final double maxPixel = modelToViewX( range.getMaxX() );
                 final double numberOfPixels = maxPixel - minPixel + 1;
-                final int numberOfPoints = (int)( numberOfPixels / _pixelsPerPoint );
+                final int numberOfPoints = (int) ( numberOfPixels / _pixelsPerPoint );
 
                 // Change in X per pixel.
                 final double extent = Math.abs( range.getMaxX() - range.getMinX() );
@@ -289,27 +289,27 @@ public class SinePlot extends LinePlot {
 
                 // Starting angle at the range min.
                 double startAngle = Math.abs( ( startPixel - minPixel ) / _pixelsPerPoint ) * deltaAngle;
-                if( startPixel > minPixel ) {
+                if ( startPixel > minPixel ) {
                     startAngle = -startAngle;
                 }
 
                 // Reuse the points if the count hasn't changed.
-                if( _points == null || numberOfPoints + 1 != _points.length ) {
-                    _points = new Point2D.Double[ numberOfPoints + 1];
+                if ( _points == null || numberOfPoints + 1 != _points.length ) {
+                    _points = new Point2D.Double[numberOfPoints + 1];
                 }
 
                 // Create points.          
-                for( int i = 0; i < _points.length; i++ ) {
+                for ( int i = 0; i < _points.length; i++ ) {
                     final double x = range.getMinX() + ( i * deltaX );
                     final double angle = startAngle + ( i * deltaAngle );
                     double y = 0;
-                    if( _cosineEnabled ) {
+                    if ( _cosineEnabled ) {
                         y = _amplitude * Math.cos( angle );
                     }
                     else {
                         y = _amplitude * Math.sin( angle );
                     }
-                    if( _points[i] == null ) {
+                    if ( _points[i] == null ) {
                         _points[i] = new Point2D.Double( x, y );
                     }
                     else {

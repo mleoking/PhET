@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.collision.Box2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.collision.Box2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 public class Tube extends Box2D {
 
@@ -69,7 +69,7 @@ public class Tube extends Box2D {
     // LeftSystemEvent handling
     //--------------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -89,7 +89,7 @@ public class Tube extends Box2D {
         }
 
         public Rectangle2D getBounds() {
-            return ( (Tube)getSource() ).getBounds();
+            return ( (Tube) getSource() ).getBounds();
         }
     }
 }

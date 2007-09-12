@@ -1,6 +1,12 @@
 /*  */
 package edu.colorado.phet.common.jfreechartphet.test;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisSpace;
 import org.jfree.chart.axis.NumberAxis;
@@ -11,12 +17,6 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.ui.RectangleInsets;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * 'Split' refers to the ability to draw just the chart, just the data or both.
@@ -34,7 +34,7 @@ public class TestSplitXYPlot extends XYPlot {
     }
 
     public void updateBuffer( JFreeChart jFreeChart, int width, int height ) {
-        if( width > 0 && height > 0 ) {
+        if ( width > 0 && height > 0 ) {
             boolean origRenderData = renderData;
             boolean origBNB = backgroundIsBuffered;
             renderData = false;
@@ -48,17 +48,17 @@ public class TestSplitXYPlot extends XYPlot {
 
     //draw everything.
     public void draw( Graphics2D g2, Rectangle2D area, Point2D anchor, PlotState parentState, PlotRenderingInfo info ) {
-        if( !backgroundIsBuffered ) {
+        if ( !backgroundIsBuffered ) {
             super.draw( g2, area, anchor, parentState, info );
         }
-        else if( renderData ) {
+        else if ( renderData ) {
             drawDataOnly( g2, area, anchor, info );
         }
     }
 
     //draw the data
     public boolean render( Graphics2D g2, Rectangle2D dataArea, int index, PlotRenderingInfo info, CrosshairState crosshairState ) {
-        if( renderData ) {
+        if ( renderData ) {
             return super.render( g2, dataArea, index, info, crosshairState );
         }
         else {
@@ -67,8 +67,8 @@ public class TestSplitXYPlot extends XYPlot {
     }
 
     private void drawDataOnly( Graphics2D g2, Rectangle2D area, Point2D anchor, PlotRenderingInfo info ) {
-        if( backgroundIsBuffered ) {
-            if( buffer != null ) {
+        if ( backgroundIsBuffered ) {
+            if ( buffer != null ) {
 //                System.out.println( "rendering buffer: image.getWidth=" + buffer.getWidth() + ", image.getHeight=" + buffer.getHeight() );
                 g2.drawRenderedImage( buffer, new AffineTransform() );
             }
@@ -76,12 +76,12 @@ public class TestSplitXYPlot extends XYPlot {
         // if the plot area is too small, just return...
         boolean b1 = ( area.getWidth() <= MINIMUM_WIDTH_TO_DRAW );
         boolean b2 = ( area.getHeight() <= MINIMUM_HEIGHT_TO_DRAW );
-        if( b1 || b2 ) {
+        if ( b1 || b2 ) {
             return;
         }
 
         // record the plot area...
-        if( info != null ) {
+        if ( info != null ) {
             info.setPlotArea( area );
         }
 
@@ -93,11 +93,11 @@ public class TestSplitXYPlot extends XYPlot {
         Rectangle2D dataArea = space.shrink( area, null );
         super.getAxisOffset().trim( dataArea );
 
-        if( info != null ) {
+        if ( info != null ) {
             info.setDataArea( dataArea );
         }
 
-        if( anchor != null && !dataArea.contains( anchor ) ) {
+        if ( anchor != null && !dataArea.contains( anchor ) ) {
             anchor = null;
         }
         CrosshairState crosshairState = new CrosshairState();
@@ -118,7 +118,7 @@ public class TestSplitXYPlot extends XYPlot {
         // now draw annotations and render data items...
         boolean foundData = false;
 
-        for( int i = getDatasetCount() - 1; i >= 0; i-- ) {
+        for ( int i = getDatasetCount() - 1; i >= 0; i-- ) {
             foundData = render( g2, dataArea, i, info, crosshairState )
                         || foundData;
         }

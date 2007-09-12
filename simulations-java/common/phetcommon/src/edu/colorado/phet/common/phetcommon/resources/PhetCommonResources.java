@@ -6,7 +6,7 @@ package edu.colorado.phet.common.phetcommon.resources;
  * PhetCommonResources is a singleton that provides access to phetcommon's JAR resources.
  */
 public class PhetCommonResources {
-    
+
     // Symbolic names for image resources
     public static final String IMAGE_CLOSE_BUTTON = "buttons/closeButton.png";
     public static final String IMAGE_MINIMIZE_BUTTON = "buttons/minimizeButton.png";
@@ -18,12 +18,13 @@ public class PhetCommonResources {
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
     public static final String IMAGE_CLOCK = "clock/clock.png";
-    
+
     private static PhetResources INSTANCE = PhetResources.forProject( "phetcommon" );
 
     /* not intended for instantiation */
-    private PhetCommonResources() {}
-    
+    private PhetCommonResources() {
+    }
+
     public static PhetResources getInstance() {
         return INSTANCE;
     }

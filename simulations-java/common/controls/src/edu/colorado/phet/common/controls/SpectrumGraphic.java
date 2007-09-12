@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.controls;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-
 import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
 
 /**
  * SpectrumGraphic
@@ -23,7 +23,7 @@ import java.awt.*;
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
     public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
-//    private static Color invisibleColor = new Color( 0, 0, 0 );
+    //    private static Color invisibleColor = new Color( 0, 0, 0 );
     private static Color invisibleColor = new Color( 64, 64, 64 );
 
 
@@ -39,13 +39,13 @@ public class SpectrumGraphic extends CompositePhetGraphic {
         double visibleBandwidth = VisibleColor.MAX_WAVELENGTH - VisibleColor.MIN_WAVELENGTH;
         double uvBandwidth = VisibleColor.MIN_WAVELENGTH - minWavelength;
         double irBandwith = maxWavelength - VisibleColor.MAX_WAVELENGTH;
-        int uvGraphicWidth = (int)( ( uvBandwidth / visibleBandwidth ) * visibleGraphic.getWidth() );
-        int irGraphicWidth = (int)( ( irBandwith / visibleBandwidth ) * visibleGraphic.getWidth() );
+        int uvGraphicWidth = (int) ( ( uvBandwidth / visibleBandwidth ) * visibleGraphic.getWidth() );
+        int irGraphicWidth = (int) ( ( irBandwith / visibleBandwidth ) * visibleGraphic.getWidth() );
         Font font = new Font( DEFAULT_CONTROL_FONT.getName(),
                               DEFAULT_CONTROL_FONT.getStyle(),
                               DEFAULT_CONTROL_FONT.getSize() + 4 );
 
-        if( uvGraphicWidth > 0 ) {
+        if ( uvGraphicWidth > 0 ) {
             PhetShapeGraphic uvGraphicBackground = new PhetShapeGraphic( component,
                                                                          new Rectangle( uvGraphicWidth,
                                                                                         visibleGraphic.getHeight() ),
@@ -62,7 +62,7 @@ public class SpectrumGraphic extends CompositePhetGraphic {
         visibleGraphic.setLocation( uvGraphicWidth, 0 );
         addGraphic( visibleGraphic );
 
-        if( irGraphicWidth > 0 ) {
+        if ( irGraphicWidth > 0 ) {
             PhetShapeGraphic irGraphicBackground = new PhetShapeGraphic( component,
                                                                          new Rectangle( irGraphicWidth,
                                                                                         visibleGraphic.getHeight() ),

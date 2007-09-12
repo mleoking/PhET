@@ -1,6 +1,11 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.*;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -10,15 +15,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import javax.swing.*;
-import java.awt.*;
-import java.io.IOException;
-
 /**
  * User: Sam Reid
  * Date: Aug 26, 2005
  * Time: 9:16:40 PM
- *
  */
 
 public class TestBoundedDragHandler {

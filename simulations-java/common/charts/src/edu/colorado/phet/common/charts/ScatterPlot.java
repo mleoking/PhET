@@ -1,18 +1,17 @@
 package edu.colorado.phet.common.charts;
 
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * User: Sam Reid
  * Date: Sep 18, 2004
  * Time: 10:31:28 AM
- *
  */
 public class ScatterPlot extends DataSetGraphic {
     private GraphicLayerSet points;
@@ -20,6 +19,7 @@ public class ScatterPlot extends DataSetGraphic {
 
     /**
      * Creates a scatter plot with blue circles as markers, 3 pixels in diameter
+     *
      * @param component
      * @param chart
      * @param dataSet
@@ -30,6 +30,7 @@ public class ScatterPlot extends DataSetGraphic {
 
     /**
      * Creates a scatter plot with circles as markers of a specified color and radius
+     *
      * @param component
      * @param chart
      * @param dataSet
@@ -42,6 +43,7 @@ public class ScatterPlot extends DataSetGraphic {
 
     /**
      * Creates a scatter plot with markers defined by a specified ScatterPaintFactory
+     *
      * @param component
      * @param chart
      * @param dataSet
@@ -75,7 +77,7 @@ public class ScatterPlot extends DataSetGraphic {
 
     public void pointsAdded( Point2D[] points ) {
         //todo This implementation is non-optimal
-        for( int i = 0; i < points.length; i++ ) {
+        for ( int i = 0; i < points.length; i++ ) {
             Point2D point = points[i];
             pointAdded( point );
         }

@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -17,11 +23,6 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
 import edu.colorado.phet.common.phetcommon.view.menu.PhetFileMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  * The PhetFrame is the JFrame for the PhetApplication.
@@ -102,22 +103,23 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds the specified module to the content pane, returning the new content pane.
+     *
      * @param module the module to add.
      * @return the new content pane.
      */
     private JComponent addToContentPane( Module module ) {
-        if( contentPanel == null ) {
+        if ( contentPanel == null ) {
             return module.getModulePanel();
         }
-        else if( contentPanel instanceof ModulePanel ) {
+        else if ( contentPanel instanceof ModulePanel ) {
             ITabbedModulePane tabbedModulePane = application.createTabbedPane();
             tabbedModulePane.init( application, new Module[]{lastAdded, module} );
             return tabbedModulePane.getComponent();
         }
-        else if( contentPanel instanceof ITabbedModulePane ) {
-            ITabbedModulePane tabbedModulePane = (ITabbedModulePane)contentPanel;
+        else if ( contentPanel instanceof ITabbedModulePane ) {
+            ITabbedModulePane tabbedModulePane = (ITabbedModulePane) contentPanel;
             tabbedModulePane.addTab( module );
-            return (JComponent)tabbedModulePane;
+            return (JComponent) tabbedModulePane;
         }
         else {
             throw new RuntimeException( "Illegal type for content pane: " + contentPanel );
@@ -127,11 +129,12 @@ public class PhetFrame extends JFrame {
     /**
      * Returns the ITabbedModulePane for this PhetFrame, if it has one; otherwise null.
      * That means it must have been created, usually by adding more than one module.
+     *
      * @return
      */
     public ITabbedModulePane getTabbedModulePane() {
-        if( contentPanel instanceof ITabbedModulePane ) {
-            return (ITabbedModulePane)contentPanel;
+        if ( contentPanel instanceof ITabbedModulePane ) {
+            return (ITabbedModulePane) contentPanel;
         }
         else {
             return null;
@@ -143,19 +146,19 @@ public class PhetFrame extends JFrame {
     }
 
     private Container removeFromContentPane( Module module ) {
-        if( contentPanel == null ) {
+        if ( contentPanel == null ) {
             throw new RuntimeException( "Cannot remove module: " + module + ", from contentPane=" + contentPanel );
         }
-        else if( contentPanel == module.getModulePanel() ) {
+        else if ( contentPanel == module.getModulePanel() ) {
             return new JLabel( "No modules" );
         }
-        else if( contentPanel instanceof ITabbedModulePane ) {
-            ITabbedModulePane tabbedModulePane = (ITabbedModulePane)contentPanel;
+        else if ( contentPanel instanceof ITabbedModulePane ) {
+            ITabbedModulePane tabbedModulePane = (ITabbedModulePane) contentPanel;
             tabbedModulePane.removeTab( module );
-            if( tabbedModulePane.getTabCount() > 1 ) {
-                return (Container)tabbedModulePane;
+            if ( tabbedModulePane.getTabCount() > 1 ) {
+                return (Container) tabbedModulePane;
             }
-            else if( tabbedModulePane.getTabCount() == 1 ) {
+            else if ( tabbedModulePane.getTabCount() == 1 ) {
                 return tabbedModulePane.getModulePanel( 0 );
             }
         }
@@ -198,9 +201,9 @@ public class PhetFrame extends JFrame {
      */
     public void addFileMenuSeparatorAfter( JMenuItem menuItem ) {
         JMenu fileMenu = getFileMenu();
-        if( fileMenu != null ) {
-            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
-                if( fileMenu.getItem( i ) == menuItem ) {
+        if ( fileMenu != null ) {
+            for ( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if ( fileMenu.getItem( i ) == menuItem ) {
                     fileMenu.insertSeparator( i + 1 );
                     return;
                 }
@@ -215,9 +218,9 @@ public class PhetFrame extends JFrame {
      */
     public void addFileMenuSeparatorBefore( JMenuItem menuItem ) {
         JMenu fileMenu = getFileMenu();
-        if( fileMenu != null ) {
-            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
-                if( fileMenu.getItem( i ) == menuItem ) {
+        if ( fileMenu != null ) {
+            for ( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if ( fileMenu.getItem( i ) == menuItem ) {
                     fileMenu.insertSeparator( i );
                     return;
                 }
@@ -241,7 +244,7 @@ public class PhetFrame extends JFrame {
      */
     public void removeFileMenuItem( JMenuItem menuItem ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
@@ -254,7 +257,7 @@ public class PhetFrame extends JFrame {
      */
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
@@ -267,8 +270,8 @@ public class PhetFrame extends JFrame {
      */
     private PhetFileMenu getFileMenu() {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            return (PhetFileMenu)testMenu;
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
+            return (PhetFileMenu) testMenu;
         }
         return null;
     }

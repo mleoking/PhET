@@ -37,7 +37,7 @@ public class StimulatedPhoton extends Photon {
 
     static public Photon createStimulated( Photon stimulatingPhoton, Point2D location, Atom atom ) {
         Photon newPhoton = new Photon( stimulatingPhoton.getWavelength(), location,
-                                   stimulatingPhoton.getVelocity() );
+                                       stimulatingPhoton.getVelocity() );
         int idx = 1;
 //        double yOffset = (double)(( 1 + idx / 2 ) * 4);
         double yOffset = SEPARATION;
@@ -52,7 +52,7 @@ public class StimulatedPhoton extends Photon {
 
         double minY = stimulationBounds.getMinY() + Photon.RADIUS;
         double maxY = stimulationBounds.getMaxY();
-        if( newY < minY || newY > maxY ) {
+        if ( newY < minY || newY > maxY ) {
             newY = atom.getPosition().getY();
             newX = atom.getPosition().getX() - Photon.RADIUS;
         }

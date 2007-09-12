@@ -1,5 +1,8 @@
 package edu.colorado.phet.common.phetgraphics.test;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -13,9 +16,6 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
-
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * Class: TestApparatusPanel2
@@ -72,8 +72,8 @@ public class TestApparatusPanel2 {
             super( component, font, text, color, x, y );
             addTranslationListener( new TranslationListener() {
                 public void translationOccurred( TranslationEvent translationEvent ) {
-                    setLocation( (int)( getLocation().getX() + translationEvent.getDx() ),
-                                 (int)( getLocation().getY() + translationEvent.getDy() ) );
+                    setLocation( (int) ( getLocation().getX() + translationEvent.getDx() ),
+                                 (int) ( getLocation().getY() + translationEvent.getDy() ) );
                 }
             } );
         }

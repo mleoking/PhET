@@ -10,18 +10,17 @@
  */
 package edu.colorado.phet.common.piccolophet.event;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.activities.PActivity;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.umd.cs.piccolo.activities.PActivity;
 
 /**
  * User: Sam Reid
  * Date: Sep 13, 2005
  * Time: 1:20:04 AM
- *
  */
 
 public class PanZoomWorldKeyHandler implements KeyListener {
@@ -55,13 +54,13 @@ public class PanZoomWorldKeyHandler implements KeyListener {
         }
 
         public void start() {
-            if( !phetPCanvas.getRoot().getActivityScheduler().getActivitiesReference().contains( this ) ) {
+            if ( !phetPCanvas.getRoot().getActivityScheduler().getActivitiesReference().contains( this ) ) {
                 phetPCanvas.getRoot().addActivity( this );
             }
         }
 
         public void stop() {
-            while( phetPCanvas.getRoot().getActivityScheduler().getActivitiesReference().contains( this ) ) {
+            while ( phetPCanvas.getRoot().getActivityScheduler().getActivitiesReference().contains( this ) ) {
                 phetPCanvas.removeActivity( this );
             }
         }
@@ -97,7 +96,7 @@ public class PanZoomWorldKeyHandler implements KeyListener {
     }
 
     public void keyPressed( KeyEvent e ) {
-        if( e.isShiftDown() ) {
+        if ( e.isShiftDown() ) {
             switch( e.getKeyCode() ) {
                 case KeyEvent.VK_UP:
                     zoomIn.start();

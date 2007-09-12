@@ -10,6 +10,15 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.util.EventListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.*;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
@@ -18,14 +27,6 @@ import edu.colorado.phet.common.phetcommon.util.SwingThreadModelListener;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.util.EventListener;
 
 /**
  * TestThreadSeparation
@@ -45,7 +46,7 @@ public class TestThreadSeparation {
         double radius = 50;
         Point2D.Double orbiter = new Point2D.Double( center.getX() + radius, center.getY() );
         ModelEventChannel eventChannel = new ModelEventChannel( TestModel.ChangeListener.class );
-        TestModel.ChangeListener listenerProxy = (TestModel.ChangeListener)eventChannel.getListenerProxy();
+        TestModel.ChangeListener listenerProxy = (TestModel.ChangeListener) eventChannel.getListenerProxy();
 
         public TestModel( IClock clock ) {
             clock.addClockListener( new ClockAdapter() {
@@ -87,7 +88,7 @@ public class TestThreadSeparation {
             TestCanvas canvas = new TestCanvas( model );
             setSimulationPanel( canvas );
 
-            setControlPanel( new ControlPanel( model, (ModelClock)getClock() ));
+            setControlPanel( new ControlPanel( model, (ModelClock) getClock() ) );
         }
     }
 
@@ -116,7 +117,7 @@ public class TestThreadSeparation {
      * SwingThreadModelListener, we are guaranteed to get events in the Swing dispatch thread
      */
     static class TestCanvas extends PhetPCanvas implements SwingThreadModelListener, TestModel.ChangeListener {
-        private Ellipse2D orbiterRep = new Ellipse2D.Double( );
+        private Ellipse2D orbiterRep = new Ellipse2D.Double();
 
         public TestCanvas( TestModel model ) {
             model.addListener( this );
@@ -124,21 +125,23 @@ public class TestThreadSeparation {
 
         /**
          * Draws a graphic representation of the orbiter
+         *
          * @param g
          */
         public void paint( Graphics g ) {
             super.paint( g );
-            Graphics2D g2 = (Graphics2D)g;
+            Graphics2D g2 = (Graphics2D) g;
             g2.setColor( Color.red );
             g2.fill( orbiterRep );
         }
 
         /**
          * Update the position of the orbiter's representation in the view, then repaint
+         *
          * @param position
          */
         public void stateChanged( Point2D.Double position ) {
-            orbiterRep.setFrame( position, new Dimension( 10,10 ));
+            orbiterRep.setFrame( position, new Dimension( 10, 10 ) );
             TestCanvas.this.invalidate();
             TestCanvas.this.repaint();
         }
@@ -146,12 +149,13 @@ public class TestThreadSeparation {
 
     /**
      * Test driver
+     *
      * @param args
      */
     public static void main( String[] args ) {
 
         NonPiccoloPhetApplication app = new NonPiccoloPhetApplication( args, "Thread Separation Test", "", "",
-                                                   new FrameSetup.CenteredWithSize( 600, 500 ) );
+                                                                       new FrameSetup.CenteredWithSize( 600, 500 ) );
         app.addModule( new TestModule() );
         app.startApplication();
     }

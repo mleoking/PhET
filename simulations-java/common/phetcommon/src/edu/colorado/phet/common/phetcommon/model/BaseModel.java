@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * This class encompasses model elements in a physical system.
@@ -45,7 +45,7 @@ public class BaseModel {
      * @return the ModelElement at the specified index.
      */
     public ModelElement modelElementAt( int i ) {
-        return (ModelElement)modelElements.get( i );
+        return (ModelElement) modelElements.get( i );
     }
 
     /**
@@ -110,7 +110,7 @@ public class BaseModel {
      * @param dt
      */
     protected void stepInTime( double dt ) {
-        for( int i = 0; i < numModelElements(); i++ ) {
+        for ( int i = 0; i < numModelElements(); i++ ) {
             modelElementAt( i ).stepInTime( dt );
         }
     }
@@ -118,20 +118,19 @@ public class BaseModel {
     /**
      * Selects for elements assignable from ANY of the specified classes.
      *
-     * @param modelElementClasses   The classes or interfaces to select for.
-     *
+     * @param modelElementClasses The classes or interfaces to select for.
      * @return All elements assignable from any of the specified classes.
      */
     public List selectForAny( Class[] modelElementClasses ) {
         List elements = new ArrayList();
 
-        for( int i = 0; i < modelElements.size(); i++ ) {
-            for( int j = 0; j < modelElementClasses.length; j++ ) {
+        for ( int i = 0; i < modelElements.size(); i++ ) {
+            for ( int j = 0; j < modelElementClasses.length; j++ ) {
                 Class c = modelElementClasses[j];
 
                 Object element = modelElements.get( i );
 
-                if( c.isAssignableFrom( element.getClass() ) ) {
+                if ( c.isAssignableFrom( element.getClass() ) ) {
                     elements.add( element );
                 }
             }
@@ -143,8 +142,7 @@ public class BaseModel {
     /**
      * Selects for all elements assignable from the specified class.
      *
-     * @param modelElementClass     The class of the element to select for.
-     *
+     * @param modelElementClass The class of the element to select for.
      * @return All elements assignable from the specified class.
      */
     public List selectFor( Class modelElementClass ) {
@@ -160,7 +158,7 @@ public class BaseModel {
     public List selectFor( Class[] classes ) {
         List elements = new ArrayList( modelElements );
 
-        for( int i = 0; i < classes.length; i++ ) {
+        for ( int i = 0; i < classes.length; i++ ) {
             Class c = classes[i];
 
             elements = selectFor( elements, c );
@@ -172,10 +170,10 @@ public class BaseModel {
     private static List selectFor( List modelElements, Class modelElementClass ) {
         List elements = new ArrayList();
 
-        for( int i = 0; i < modelElements.size(); i++ ) {
+        for ( int i = 0; i < modelElements.size(); i++ ) {
             Object element = modelElements.get( i );
 
-            if( modelElementClass.isAssignableFrom( element.getClass() ) ) {
+            if ( modelElementClass.isAssignableFrom( element.getClass() ) ) {
                 elements.add( element );
             }
         }

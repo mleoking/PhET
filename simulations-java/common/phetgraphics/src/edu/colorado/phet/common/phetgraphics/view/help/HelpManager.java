@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.help;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-
-import java.awt.*;
 
 /**
  * HelpManager
@@ -53,7 +53,7 @@ public class HelpManager extends GraphicLayerSet {
     }
 
     public void setHelpEnabled( ApparatusPanel apparatusPanel, boolean h ) {
-        if( h ) {
+        if ( h ) {
             apparatusPanel.addGraphic( this, HELP_LAYER );
         }
         else {

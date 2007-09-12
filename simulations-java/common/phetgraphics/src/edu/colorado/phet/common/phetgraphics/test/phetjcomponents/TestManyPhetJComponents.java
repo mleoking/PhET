@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
+import java.util.Random;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -20,9 +24,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-
-import javax.swing.*;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -42,7 +43,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
         super( name, clock );
         setApparatusPanel( new ApparatusPanel2( clock ) );
         setModel( new BaseModel() );
-        for( int i = 0; i < numComponents; i++ ) {
+        for ( int i = 0; i < numComponents; i++ ) {
             JButton but = new JButton( "button_" + i );
             PhetGraphic pjc = PhetJComponent.newInstance( getApparatusPanel(), but );
             pjc.setLocation( random.nextInt( 400 ), random.nextInt( 400 ) );
@@ -63,7 +64,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
         JFrame f = new JFrame();
         JPanel conten = new JPanel();
         conten.setLayout( null );
-        for( int i = 0; i < numComponents; i++ ) {
+        for ( int i = 0; i < numComponents; i++ ) {
             JButton but = new JButton( "button_" + i );
 
             but.setLocation( random.nextInt( 400 ), random.nextInt( 400 ) );

@@ -10,13 +10,6 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetcomponents;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.AffineTransform;
@@ -27,6 +20,14 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;
 
 /**
  * User: Sam Reid
@@ -67,11 +68,11 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     private static PhetGraphic newInstance( Component apparatusPanel, JComponent jComponent, boolean topLevel ) {
-        if( !inited ) {
+        if ( !inited ) {
             init( NonPiccoloPhetApplication.instance().getPhetFrame() );
         }
 
-        if( topLevel ) {
+        if ( topLevel ) {
             offscreen.getContentPane().add( jComponent );
         }
 
@@ -79,7 +80,7 @@ public class PhetJComponent extends PhetGraphic {
         offscreen.getContentPane().doLayout();
 
         Dimension dim = jComponent.getPreferredSize();
-        if( topLevel ) {
+        if ( topLevel ) {
             jComponent.setBounds( jComponent.getX(), jComponent.getY(), dim.width, dim.height );
         }
         else {
@@ -88,7 +89,7 @@ public class PhetJComponent extends PhetGraphic {
 //            System.out.println( "container = " + container.getClass() + ", layout=" + container.getLayout().getClass() );
         }
         doNotifyAll( jComponent );//todo what is this for?
-        if( jComponent.getComponentCount() > 0 ) {
+        if ( jComponent.getComponentCount() > 0 ) {
 
             //This code attempted to create a Graphic Tree with the swing components we contain.
             GraphicLayerSet graphicLayerSet = new GraphicLayerSet();
@@ -97,12 +98,12 @@ public class PhetJComponent extends PhetGraphic {
             validateSuperTree( jComponent );
             graphicLayerSet.addGraphic( new PhetJComponent( apparatusPanel, jComponent, topLevel ) );//the container is the background.
 
-            for( int i = 0; i < children.length; i++ ) {
-                if( !( children[i] instanceof JComponent ) ) {
+            for ( int i = 0; i < children.length; i++ ) {
+                if ( !( children[i] instanceof JComponent ) ) {
                     System.out.println( "children[i] = " + children[i].getClass() );
                 }
                 else {
-                    JComponent child = (JComponent)children[i];
+                    JComponent child = (JComponent) children[i];
                     Point location = child.getLocation();
 //                System.out.println( "location@" + child.getClass() + " = " + location );
                     PhetGraphic pj = PhetJComponent.newInstance( apparatusPanel, child, false );
@@ -123,7 +124,7 @@ public class PhetJComponent extends PhetGraphic {
     public static void init( Window applicationWindow ) {
 
 
-        if( inited ) {
+        if ( inited ) {
             throw new RuntimeException( "Multiple inits." );
         }
 
@@ -152,17 +153,17 @@ public class PhetJComponent extends PhetGraphic {
         jComponent.validate();
         jComponent.doLayout();
         Component parent = jComponent.getParent();
-        if( parent != null ) {
+        if ( parent != null ) {
             validateSuperTree( parent );
         }
     }
 
     private static void doNotifyAll( Component jComponent ) {
         jComponent.addNotify();
-        if( jComponent instanceof Container ) {
-            Container container = (Container)jComponent;
+        if ( jComponent instanceof Container ) {
+            Container container = (Container) jComponent;
             Component[] c = container.getComponents();
-            for( int i = 0; i < c.length; i++ ) {
+            for ( int i = 0; i < c.length; i++ ) {
                 doNotifyAll( c[i] );
             }
         }
@@ -312,12 +313,12 @@ public class PhetJComponent extends PhetGraphic {
         ActionListener al = component.getActionForKeyStroke( stroke );
         ActionEvent ae = new ActionEvent( component, e.getID(), e.getKeyChar() + "", e.getWhen(), e.getModifiers() );
 
-        if( al != null ) {
+        if ( al != null ) {
             al.actionPerformed( ae );
         }
         KeyListener[] kl = component.getKeyListeners();
         KeyEvent event = new KeyEvent( component, e.getID(), e.getWhen(), e.getModifiers(), e.getKeyCode(), e.getKeyChar(), e.getKeyLocation() );
-        for( int i = 0; i < kl.length; i++ ) {
+        for ( int i = 0; i < kl.length; i++ ) {
             KeyListener listener = kl[i];
             km.invoke( listener, event );
         }
@@ -335,19 +336,19 @@ public class PhetJComponent extends PhetGraphic {
         MouseEvent newEvent = new MouseEvent( component, e.getID(), System.currentTimeMillis(), e.getModifiers(), pt.x, pt.y, e.getClickCount(), e.isPopupTrigger(), e.getButton() );
         //pass to all listeners, some will be no-ops.//could be rewritten for understandability.
         boolean changed = false;
-        if( mouseMethod instanceof PhetJComponent.MouseListenerMethod ) {
-            MouseListenerMethod mle = (MouseListenerMethod)mouseMethod;
-            for( int i = 0; i < ml.length; i++ ) {
+        if ( mouseMethod instanceof PhetJComponent.MouseListenerMethod ) {
+            MouseListenerMethod mle = (MouseListenerMethod) mouseMethod;
+            for ( int i = 0; i < ml.length; i++ ) {
                 MouseListener mouseListener = ml[i];
                 mle.invoke( mouseListener, newEvent );
                 changed = true;
             }
         }
-        else if( mouseMethod instanceof MouseMotionListenerMethod ) {
-            MouseMotionListenerMethod mmlm = (MouseMotionListenerMethod)mouseMethod;
+        else if ( mouseMethod instanceof MouseMotionListenerMethod ) {
+            MouseMotionListenerMethod mmlm = (MouseMotionListenerMethod) mouseMethod;
 
             MouseMotionListener[] mml = component.getMouseMotionListeners();
-            for( int i = 0; i < mml.length; i++ ) {
+            for ( int i = 0; i < mml.length; i++ ) {
                 MouseMotionListener mouseMotionListener = mml[i];
                 mmlm.invoke( mouseMotionListener, newEvent );
                 changed = true;
@@ -356,7 +357,7 @@ public class PhetJComponent extends PhetGraphic {
         else {
             throw new RuntimeException( "Illegal mouse handler class: " + mouseMethod );
         }
-        if( changed ) {
+        if ( changed ) {
             redraw();
         }
         return changed;
@@ -366,7 +367,7 @@ public class PhetJComponent extends PhetGraphic {
         AffineTransform affineTransform = getNetTransform();
         try {
             Point2D dst = affineTransform.inverseTransform( point, null );
-            return new Point( (int)dst.getX(), (int)dst.getY() );
+            return new Point( (int) dst.getX(), (int) dst.getY() );
         }
         catch( NoninvertibleTransformException e ) {
             e.printStackTrace();
@@ -382,24 +383,24 @@ public class PhetJComponent extends PhetGraphic {
         //the x and y are in the local frame (ie in the parent.)
 //        System.out.println( "component = " + component.getClass() + ", x=" + component.getX() + ", y=" + component.getY() );
         Dimension dim = component.getPreferredSize();
-        if( !topLevel ) {
+        if ( !topLevel ) {
             dim = component.getSize();
         }
-        if( dim.width == 0 || dim.height == 0 ) {
+        if ( dim.width == 0 || dim.height == 0 ) {
             return;
         }
         Rectangle bounds = component.getBounds();
 //        System.out.println( "component = " + component );
 //        System.out.println( "bounds = " + bounds );
-        if( !bounds.equals( new Rectangle( dim ) ) ) {
+        if ( !bounds.equals( new Rectangle( dim ) ) ) {
             component.setBounds( 0, 0, dim.width, dim.height );//dimension is set by parent's layout manager.
         }
 
-        if( image == null ) {
+        if ( image == null ) {
             image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
         }
         else {
-            if( image.getWidth() != dim.width || image.getHeight() != dim.height ) {
+            if ( image.getWidth() != dim.width || image.getHeight() != dim.height ) {
                 image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             }
             else {//reuse the old buffered image.
@@ -428,25 +429,25 @@ public class PhetJComponent extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( image == null ) {
+        if ( image == null ) {
             return null;
         }
         return getNetTransform().createTransformedShape( new Rectangle( 0, 0, image.getWidth(), image.getHeight() ) ).getBounds();
     }
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             RenderingHints hints = super.getRenderingHints();
-            if( hints != null ) {
+            if ( hints != null ) {
                 g2.setRenderingHints( hints );
             }
-            if( component != null && image != null ) {
+            if ( component != null && image != null ) {
                 g2.transform( getNetTransform() );
                 Object origHint = g2.getRenderingHint( RenderingHints.KEY_INTERPOLATION );
                 g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );
                 g2.drawRenderedImage( image, new AffineTransform() );
-                if( origHint == null ) {
+                if ( origHint == null ) {
                     origHint = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
                 }
                 g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, origHint );
@@ -483,13 +484,13 @@ public class PhetJComponent extends PhetGraphic {
 
         public synchronized void addDirtyRegion( JComponent c, int x, int y, int w, int h ) {
             super.addDirtyRegion( c, x, y, w, h );
-            if( table.containsKey( c ) ) {
-                PhetJComponent phetJComponent = (PhetJComponent)table.get( c );
+            if ( table.containsKey( c ) ) {
+                PhetJComponent phetJComponent = (PhetJComponent) table.get( c );
                 boolean inRecursiveLoopOfDeath = ( new Exception().getStackTrace().length > 75 ); // HACK: ask Sam Reid why
-                if( c.getComponentCount() == 0 && !inRecursiveLoopOfDeath ) {
-                    if( !dirty.contains( c ) ) {
+                if ( c.getComponentCount() == 0 && !inRecursiveLoopOfDeath ) {
+                    if ( !dirty.contains( c ) ) {
                         dirty.add( phetJComponent );
-                        if( dirty.size() > 1000 && !tooManyDirty ) {
+                        if ( dirty.size() > 1000 && !tooManyDirty ) {
                             // This stack trace will only be printed once, as a warning.
                             new RuntimeException( "Too many dirty components: " + dirty.size() ).printStackTrace();
                             tooManyDirty = true;
@@ -504,8 +505,8 @@ public class PhetJComponent extends PhetGraphic {
         }
 
         public void updateGraphics() {
-            for( Iterator iterator = dirty.iterator(); iterator.hasNext(); ) {
-                PhetJComponent component = (PhetJComponent)iterator.next();
+            for ( Iterator iterator = dirty.iterator(); iterator.hasNext(); ) {
+                PhetJComponent component = (PhetJComponent) iterator.next();
                 component.repaint();
             }
             dirty.clear();

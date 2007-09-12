@@ -34,8 +34,8 @@ public class CollisionUtil {
 
     public static Object getInstanceOfClass( Class testClass, Object[] testObjects ) {
         Object result = null;
-        for( int i = 0; i < testObjects.length && result == null; i++ ) {
-            if( testClass.isInstance( testObjects[i] ) ) {
+        for ( int i = 0; i < testObjects.length && result == null; i++ ) {
+            if ( testClass.isInstance( testObjects[i] ) ) {
                 result = testObjects[i];
             }
         }
@@ -43,17 +43,16 @@ public class CollisionUtil {
     }
 
     /**
-     * 
      * @param bodies
      * @param classifiedBodies
      */
     public static void classifyBodies( Object[] bodies, Map classifiedBodies ) {
-        if( areConformantToClasses( bodies[0], bodies[1],
-                                    (Class)classifiedBodies.keySet().toArray()[0],
-                                    (Class)classifiedBodies.keySet().toArray()[1] ) ) {
+        if ( areConformantToClasses( bodies[0], bodies[1],
+                                     (Class) classifiedBodies.keySet().toArray()[0],
+                                     (Class) classifiedBodies.keySet().toArray()[1] ) ) {
             Set classes = classifiedBodies.keySet();
-            for( Iterator iterator = classes.iterator(); iterator.hasNext(); ) {
-                Class aClass = (Class)iterator.next();
+            for ( Iterator iterator = classes.iterator(); iterator.hasNext(); ) {
+                Class aClass = (Class) iterator.next();
                 classifiedBodies.put( aClass, null );
                 Object obj = getInstanceOfClass( aClass, bodies );
                 classifiedBodies.put( aClass, obj );
@@ -63,15 +62,16 @@ public class CollisionUtil {
 
     /**
      * More efficient version
+     *
      * @param bodies
      * @param classes
      * @param classifiedBodies
      */
     public static void classifyBodies( Object[] bodies, Class[] classes, Map classifiedBodies ) {
-        if( areConformantToClasses( bodies[0], bodies[1],
-                                    classes[0],
-                                    classes[1] ) ) {
-            for( int i = 0; i < classes.length; i++ ) {
+        if ( areConformantToClasses( bodies[0], bodies[1],
+                                     classes[0],
+                                     classes[1] ) ) {
+            for ( int i = 0; i < classes.length; i++ ) {
                 classifiedBodies.put( classes[i], null );
                 Object obj = getInstanceOfClass( classes[i], bodies );
                 classifiedBodies.put( classes[i], obj );

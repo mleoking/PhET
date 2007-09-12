@@ -27,22 +27,22 @@ public class CompositeKeyListener implements KeyListener {
     }
 
     public void keyTyped( KeyEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            KeyListener keyListener = (KeyListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            KeyListener keyListener = (KeyListener) listeners.get( i );
             keyListener.keyTyped( e );
         }
     }
 
     public void keyPressed( KeyEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            KeyListener keyListener = (KeyListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            KeyListener keyListener = (KeyListener) listeners.get( i );
             keyListener.keyPressed( e );
         }
     }
 
     public void keyReleased( KeyEvent e ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            KeyListener keyListener = (KeyListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            KeyListener keyListener = (KeyListener) listeners.get( i );
             keyListener.keyReleased( e );
         }
     }

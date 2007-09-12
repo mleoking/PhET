@@ -10,6 +10,20 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.URL;
+
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.text.html.HTMLEditorKit;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -19,19 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.text.html.HTMLEditorKit;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.URL;
 
 /**
  * PhetAboutDialog shows information about PhET, the simulation, copyright, and license.
@@ -54,32 +55,35 @@ public class PhetAboutDialog extends JDialog {
      * @throws HeadlessException
      */
     public PhetAboutDialog( NonPiccoloPhetApplication phetApplication ) {
-        this(phetApplication.getPhetFrame(), getDialogConfig(phetApplication ));
+        this( phetApplication.getPhetFrame(), getDialogConfig( phetApplication ) );
     }
 
     private static DialogConfig getDialogConfig( NonPiccoloPhetApplication phetApplication ) {
-        if (phetApplication.getApplicationConfig()!=null){
+        if ( phetApplication.getApplicationConfig() != null ) {
             return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
-        }else{
-            return new SimpleDialogConfig(phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
+        }
+        else {
+            return new SimpleDialogConfig( phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
         }
     }
 
     /**
      * Constructs a PhetAboutDialog given the short-name of a simulation, e.g. "moving-man"
+     *
      * @param ownwer
      * @param simulationShortName
      */
-    public PhetAboutDialog(Frame ownwer,String simulationShortName){
-        this(ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simulationShortName) ) ));
+    public PhetAboutDialog( Frame ownwer, String simulationShortName ) {
+        this( ownwer, new PhetAboutDialog.PhetApplicationConfigDialogConfig( new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( simulationShortName ) ) ) );
     }
 
     /**
      * Constructs a dialog.
+     *
      * @param config
      * @param owner
      */
-    public PhetAboutDialog(Frame owner,DialogConfig config){
+    public PhetAboutDialog( Frame owner, DialogConfig config ) {
         super( owner );
         setResizable( false );
 
@@ -116,7 +120,7 @@ public class PhetAboutDialog extends JDialog {
         JLabel logoLabel = new JLabel( new ImageIcon( image ) );
 //        logoLabel.setBorder( BorderFactory.createLineBorder( Color.black ) );
         logoLabel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ));
+        logoLabel.setToolTipText( getLocalizedString( "Common.About.WebLink" ) );
         logoLabel.addMouseListener( new MouseInputAdapter() {
             // implements java.awt.event.MouseListener
             public void mouseReleased( MouseEvent e ) {
@@ -128,18 +132,18 @@ public class PhetAboutDialog extends JDialog {
         JEditorPane copyrightLabel = new JEditorPane();
         copyrightLabel.setEditorKit( new HTMLEditorKit() );
         String html = getLocalizedString( "Common.About.Copyright" );
-        html=html.replaceAll( "@FONT_SIZE@",new PhetDefaultFont().getSize()+"pt");
-        html=html.replaceAll( "@FONT_FAMILY@",new PhetDefaultFont( ).getFamily( ));
+        html = html.replaceAll( "@FONT_SIZE@", new PhetDefaultFont().getSize() + "pt" );
+        html = html.replaceAll( "@FONT_FAMILY@", new PhetDefaultFont().getFamily() );
         copyrightLabel.setText( html );
         copyrightLabel.setEditable( false );
         copyrightLabel.setBackground( new JLabel().getBackground() );
 
 
-        copyrightLabel.setFont( new PhetDefaultFont( Font.BOLD, 24) );
+        copyrightLabel.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
 
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
-                if( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                     PhetServiceManager.showPhetPage();
                 }
             }
@@ -217,7 +221,7 @@ public class PhetAboutDialog extends JDialog {
             }
         } );
 
-        JButton creditsButton = new JButton(getLocalizedString( "Common.About.CreditsButton" ) );
+        JButton creditsButton = new JButton( getLocalizedString( "Common.About.CreditsButton" ) );
         creditsButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 showCredits();
@@ -273,17 +277,17 @@ public class PhetAboutDialog extends JDialog {
     * Displays a message dialog.
     */
     protected void showMessageDialog( Component component, String title ) {
-       // This line fails due to this known bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4545951
+        // This line fails due to this known bug: http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4545951
 //      JOptionPane.showMessageDialog( getOwner(), jTextArea, "License Information", JOptionPane.INFORMATION_MESSAGE );
-      // ...so we use Sun's recommended workaround.
-      JOptionPane optionPane = new JOptionPane( component, JOptionPane.INFORMATION_MESSAGE );
-      JDialog dialog = optionPane.createDialog( null, title );
+        // ...so we use Sun's recommended workaround.
+        JOptionPane optionPane = new JOptionPane( component, JOptionPane.INFORMATION_MESSAGE );
+        JDialog dialog = optionPane.createDialog( null, title );
 
-      // This forces correct resizing.
-      component.invalidate();
-      dialog.pack();
+        // This forces correct resizing.
+        component.invalidate();
+        dialog.pack();
 
-      dialog.show();
+        dialog.show();
     }
 
     /*
@@ -295,17 +299,17 @@ public class PhetAboutDialog extends JDialog {
         String text = new String();
         try {
             URL url = Thread.currentThread().getContextClassLoader().getResource( fileResourceName );
-            if( url == null ) {//TODO improve error handling
+            if ( url == null ) {//TODO improve error handling
                 new FileNotFoundException( fileResourceName ).printStackTrace();
                 return "";
             }
             InputStream inputStream = url.openStream();
             BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inputStream ) );
             String line = bufferedReader.readLine();
-            while( line != null ) {
+            while ( line != null ) {
                 text += line;
                 line = bufferedReader.readLine();
-                if( line != null ) {
+                if ( line != null ) {
                     text += System.getProperty( "line.separator" );
                 }
             }
@@ -322,7 +326,7 @@ public class PhetAboutDialog extends JDialog {
     /**
      * A DialogConfig is the minimum amount of information necessary to construct a PhetAboutDialog.
      */
-    public static interface DialogConfig{
+    public static interface DialogConfig {
         String getName();
 
         String getDescription();
@@ -336,7 +340,7 @@ public class PhetAboutDialog extends JDialog {
      * A PhetApplicationConfigDialogConfig is an adapter class for using PhetApplicationConfig as DialogConfig.
      * We may prefer to make PhetApplicationConfig implement DialogConfig interface.
      */
-    public static class PhetApplicationConfigDialogConfig implements DialogConfig{
+    public static class PhetApplicationConfigDialogConfig implements DialogConfig {
         private PhetApplicationConfig applicationConfig;
 
         public PhetApplicationConfigDialogConfig( PhetApplicationConfig applicationConfig ) {
@@ -360,10 +364,11 @@ public class PhetAboutDialog extends JDialog {
         }
     }
 
-    /**This dialog config allows simulations to directly specify information for the about dialog; it is
+    /**
+     * This dialog config allows simulations to directly specify information for the about dialog; it is
      * provided mostly for backward compatibility with older simulations.
      */
-    public static class SimpleDialogConfig implements DialogConfig{
+    public static class SimpleDialogConfig implements DialogConfig {
         private String name;
         private String description;
         private String versionString;

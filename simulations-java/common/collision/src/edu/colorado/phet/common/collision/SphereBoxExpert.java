@@ -12,11 +12,11 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
     public boolean detectAndDoCollision( Collidable bodyA, Collidable bodyB ) {
         boolean haveCollided = false;
-        if( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
+        if ( applies( bodyA, bodyB ) && areInContact( bodyA, bodyB ) ) {
             SphericalBody sphere = bodyA instanceof SphericalBody ?
-                                   (SphericalBody)bodyA : (SphericalBody)bodyB;
+                                   (SphericalBody) bodyA : (SphericalBody) bodyB;
             Box2D box = bodyA instanceof Box2D ?
-                        (Box2D)bodyA : (Box2D)bodyB;
+                        (Box2D) bodyA : (Box2D) bodyB;
             collision = new SphereBoxCollision( sphere, box );
             collision.collide();
             haveCollided = true;
@@ -35,19 +35,19 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
         SphericalBody sphere;
 
         // Check that the arguments are valid
-        if( bodyA instanceof Box2D ) {
-            box = (Box2D)bodyA;
-            if( bodyB instanceof SphericalBody ) {
-                sphere = (SphericalBody)bodyB;
+        if ( bodyA instanceof Box2D ) {
+            box = (Box2D) bodyA;
+            if ( bodyB instanceof SphericalBody ) {
+                sphere = (SphericalBody) bodyB;
             }
             else {
                 throw new RuntimeException( "bad args" );
             }
         }
-        else if( bodyB instanceof Box2D ) {
-            box = (Box2D)bodyB;
-            if( bodyA instanceof SphericalBody ) {
-                sphere = (SphericalBody)bodyA;
+        else if ( bodyB instanceof Box2D ) {
+            box = (Box2D) bodyB;
+            if ( bodyA instanceof SphericalBody ) {
+                sphere = (SphericalBody) bodyA;
             }
             else {
                 throw new RuntimeException( "bad args" );
@@ -59,25 +59,25 @@ public class SphereBoxExpert implements CollisionExpert, ContactDetector {
 
         // Hitting left wall?
         double dx = sphere.getCenter().getX() - sphere.getRadius() - box.getMinX();
-        if( dx <= 0 ) {
+        if ( dx <= 0 ) {
             result = true;
         }
 
         // Hitting right wall?
         dx = sphere.getCenter().getX() + sphere.getRadius() - box.getMaxX();
-        if( dx >= 0 && sphere.getVelocity().getX() > 0 ) {
+        if ( dx >= 0 && sphere.getVelocity().getX() > 0 ) {
             result = true;
         }
 
         // Hitting bottom wall?
         double dy = sphere.getCenter().getY() - sphere.getRadius() - box.getMinY();
-        if( dy <= 0 && sphere.getVelocity().getY() < 0 ) {
+        if ( dy <= 0 && sphere.getVelocity().getY() < 0 ) {
             result = true;
         }
 
         // Hitting top wall?
         dy = sphere.getCenter().getY() + sphere.getRadius() - box.getMaxY();
-        if( dy >= 0 && sphere.getVelocity().getY() > 0 ) {
+        if ( dy >= 0 && sphere.getVelocity().getY() > 0 ) {
             result = true;
         }
         return result;

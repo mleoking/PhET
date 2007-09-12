@@ -1,9 +1,9 @@
 package edu.colorado.phet.common.timeseries.model;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
-
-import javax.swing.*;
 
 /**
  * Author: Sam Reid
@@ -48,7 +48,7 @@ public class TestTimeSeries {
         }
 
         public void setState( Object o ) {
-            this.time = ( (Double)o ).doubleValue();
+            this.time = ( (Double) o ).doubleValue();
             System.out.println( "TestTimeSeries.setState: time=" + time );
         }
 

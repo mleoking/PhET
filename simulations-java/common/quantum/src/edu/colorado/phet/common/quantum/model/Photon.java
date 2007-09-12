@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
+import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Class: Photon
@@ -34,7 +33,7 @@ public class Photon extends Particle implements Collidable {
     // Class data and methods
     //----------------------------------------------------------------
 
-//    static public double SPEED = 1;
+    //    static public double SPEED = 1;
     static public double DEFAULT_SPEED = 1;
     static public double RADIUS = 10;
     static public double RED = 680;
@@ -67,14 +66,14 @@ public class Photon extends Particle implements Collidable {
         setVelocity( DEFAULT_SPEED, 0 );
     }
 
-    public Photon(Point2D location, Vector2D velocity){
+    public Photon( Point2D location, Vector2D velocity ) {
         this();
         setPosition( location );
         setVelocity( velocity );
     }
 
-    public Photon(double wavelength,Point2D location, Vector2D velocity){
-        this(location, velocity );
+    public Photon( double wavelength, Point2D location, Vector2D velocity ) {
+        this( location, velocity );
         setWavelength( wavelength );
     }
 //    /**
@@ -132,7 +131,7 @@ public class Photon extends Particle implements Collidable {
     public void setVelocity( double vx, double vy ) {
         collidableAdapter.updateVelocity();
         super.setVelocity( vx, vy );
-        if( !getVelocity().equals( getVelocityPrev() ) ) {
+        if ( !getVelocity().equals( getVelocityPrev() ) ) {
             VelocityChangedEvent vce = new VelocityChangedEvent();
             velocityChangedListenerProxy.velocityChanged( vce );
         }
@@ -160,10 +159,10 @@ public class Photon extends Particle implements Collidable {
     // LeftSystemEvent handling
     //-------------------------------------------------------------------------------------
     private EventChannel leftSystemEventChannel = new EventChannel( LeftSystemEventListener.class );
-    private LeftSystemEventListener leftSystemListenerProxy = (LeftSystemEventListener)leftSystemEventChannel.getListenerProxy();
+    private LeftSystemEventListener leftSystemListenerProxy = (LeftSystemEventListener) leftSystemEventChannel.getListenerProxy();
 
     private EventChannel velocityChangedEventChannel = new EventChannel( VelocityChangedListener.class );
-    private VelocityChangedListener velocityChangedListenerProxy = (VelocityChangedListener)velocityChangedEventChannel.getListenerProxy();
+    private VelocityChangedListener velocityChangedListenerProxy = (VelocityChangedListener) velocityChangedEventChannel.getListenerProxy();
 
     public class LeftSystemEvent extends EventObject {
         public LeftSystemEvent() {

@@ -12,7 +12,7 @@ package edu.colorado.phet.common.quantum.model;
 
 /**
  * PropertiesBasedAtom
- * <p>
+ * <p/>
  * An Atom that gets its model-dependent specification from an ElementProperties object
  *
  * @author Ron LeMaster
@@ -29,7 +29,7 @@ public class PropertiesBasedAtom extends Atom {
         super( model, elementProperties.getStates().length, true );
 
         this.energyEmissionStrategy = elementProperties.getEnergyEmissionStrategy();
-        if( elementProperties.getStates().length < 2 ) {
+        if ( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
         setStates( elementProperties.getStates() );
@@ -44,7 +44,7 @@ public class PropertiesBasedAtom extends Atom {
     public PropertiesBasedAtom( QuantumModel model, AtomicState[] states ) {
         super( model, states.length, true );
 
-        if( states.length < 2 ) {
+        if ( states.length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
         setStates( states );

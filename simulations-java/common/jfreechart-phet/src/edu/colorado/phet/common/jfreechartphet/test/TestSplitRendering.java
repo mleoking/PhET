@@ -1,7 +1,12 @@
 package edu.colorado.phet.common.jfreechartphet.test;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+
+import javax.swing.*;
+
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -18,11 +23,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -41,7 +43,7 @@ public class TestSplitRendering {
         series = new XYSeries( "Name" );
         dataset.addSeries( series );
         jFreeChart = createScatterPlot( "Test Plot", "X-axis", "Y-axis", dataset, PlotOrientation.HORIZONTAL, true, false, false );
-        final TestSplitXYPlot p = (TestSplitXYPlot)jFreeChart.getXYPlot();
+        final TestSplitXYPlot p = (TestSplitXYPlot) jFreeChart.getXYPlot();
 
         p.getDomainAxis().setRange( -1, 1 );
         p.getRangeAxis().setRange( -1, 1 );
@@ -53,7 +55,7 @@ public class TestSplitRendering {
         p.updateBuffer( jFreeChart, chartFrame.getContentPane().getWidth(), chartFrame.getContentPane().getHeight() );
         p.addChangeListener( new PlotChangeListener() {
             public void plotChanged( PlotChangeEvent event ) {
-                if( event.getType() != ChartChangeEventType.DATASET_UPDATED ) {
+                if ( event.getType() != ChartChangeEventType.DATASET_UPDATED ) {
                     System.out.println( "event = " + event );
                     p.updateBuffer( jFreeChart, chartFrame.getContentPane().getWidth(), chartFrame.getContentPane().getHeight() );
                 }
@@ -126,7 +128,7 @@ public class TestSplitRendering {
                                                 boolean tooltips,
                                                 boolean urls ) {
 
-        if( orientation == null ) {
+        if ( orientation == null ) {
             throw new IllegalArgumentException( "Null 'orientation' argument." );
         }
         NumberAxis xAxis = new NumberAxis( xAxisLabel );
@@ -137,12 +139,12 @@ public class TestSplitRendering {
         TestSplitXYPlot plot = new TestSplitXYPlot( dataset, xAxis, yAxis, null );
 
         XYToolTipGenerator toolTipGenerator = null;
-        if( tooltips ) {
+        if ( tooltips ) {
             toolTipGenerator = new StandardXYToolTipGenerator();
         }
 
         XYURLGenerator urlGenerator = null;
-        if( urls ) {
+        if ( urls ) {
             urlGenerator = new StandardXYURLGenerator();
         }
         XYItemRenderer renderer = new TestFastXYLineAndShapeRenderer( false, true );

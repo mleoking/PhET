@@ -6,17 +6,17 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 /**
  * LogarithmicMappingStrategy performs a logarithmic (base 10)
  * mapping between slider and model coordinates.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
-    
+
     private final double _logMin, _logMax, _logRange;
     private final double _scalingFactor;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param modelMin
      * @param modelMax
      * @param sliderMin
@@ -25,26 +25,26 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
      */
     public LogarithmicMappingStrategy( double modelMin, double modelMax, int sliderMin, int sliderMax ) {
         super( modelMin, modelMax, sliderMin, sliderMax );
-        
+
         if ( modelMin < 0 && modelMax > 0 || modelMin > 0 && modelMax < 0 ) {
             throw new IllegalArgumentException( "modelMin and modelMax must have the same sign" );
         }
-       
+
         /* 
-         * This implementation is well-behaved for abs(modelMin) >= 1.
-         * To support cases where abs(modelMin) < 1, we'll use a 
-         * scaling factor to adjust the model range and results.
-         */
-        _scalingFactor = ( Math.abs( modelMin ) < 1 ) ?  ( 1 / Math.abs( modelMin ) ) : 1;
-        
+        * This implementation is well-behaved for abs(modelMin) >= 1.
+        * To support cases where abs(modelMin) < 1, we'll use a
+        * scaling factor to adjust the model range and results.
+        */
+        _scalingFactor = ( Math.abs( modelMin ) < 1 ) ? ( 1 / Math.abs( modelMin ) ) : 1;
+
         _logMin = adjustedLog10( modelMin * _scalingFactor );
-        _logMax = adjustedLog10( modelMax * _scalingFactor);
+        _logMax = adjustedLog10( modelMax * _scalingFactor );
         _logRange = _logMax - _logMin;
     }
 
     /**
      * Converts from slider to model coordinates.
-     * 
+     *
      * @param sliderValue slider value
      * @return model value
      */
@@ -82,7 +82,7 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
 
     /**
      * Converts from model to slider coordinates.
-     * 
+     *
      * @param modelValue model value
      * @return slider value
      */
@@ -110,7 +110,7 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
         }
         return sliderValue;
     }
-    
+
     /* Handles log10 of zero and negative values. */
     private static double adjustedLog10( double d ) {
         double value = 0;
@@ -122,9 +122,9 @@ public class LogarithmicMappingStrategy extends AbstractMappingStrategy {
         }
         return value;
     }
-    
+
     /* Log base 10 */
     private static double log10( double d ) {
-        return Math.log( d ) / Math.log(  10.0  );
+        return Math.log( d ) / Math.log( 10.0 );
     }
 }

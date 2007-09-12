@@ -209,7 +209,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     //----------------------------------------------------------------
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             g2.setFont( font );
@@ -221,7 +221,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( text == null || text.equals( "" ) ) {
+        if ( text == null || text.equals( "" ) ) {
             return null;
         }
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.

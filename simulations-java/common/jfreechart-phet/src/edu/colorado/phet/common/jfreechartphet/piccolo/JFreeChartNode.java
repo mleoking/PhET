@@ -21,16 +21,6 @@
 */
 package edu.colorado.phet.common.jfreechartphet.piccolo;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PPaintContext;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.event.ChartChangeEvent;
-import org.jfree.chart.event.ChartChangeListener;
-import org.jfree.chart.event.ChartChangeEventType;
-import org.jfree.chart.plot.*;
-
-import javax.swing.event.SwingPropertyChangeSupport;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -39,6 +29,18 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+
+import javax.swing.event.SwingPropertyChangeSupport;
+
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.event.ChartChangeEvent;
+import org.jfree.chart.event.ChartChangeEventType;
+import org.jfree.chart.event.ChartChangeListener;
+import org.jfree.chart.plot.*;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 
 /**
@@ -129,7 +131,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         updateAll();
     }
-    
+
     //----------------------------------------------------------------------------
     // Misc updaters
     //----------------------------------------------------------------------------
@@ -149,7 +151,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
         //so clients should not use the getPreviousValue() method on the property change event. 
         _changeSupport.firePropertyChange( PROPERTY_CHART_RENDERING_INFO, null, getChartRenderingInfo() );
     }
-    
+
     /**
      * This initialization method has been made protected so that clients can override it to perform no-op if necessary.
      * (Functionality is unchanged from previous version.)
@@ -169,7 +171,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Rebuilds the buffer and updates the chart rendering info.
      */
     protected void updateAll() {
-        rebuildBuffer( );
+        rebuildBuffer();
         updateChartRenderingInfo();
         repaint();
     }
@@ -215,7 +217,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @param bufferedImageType
      */
     public void setBufferedImageType( int bufferedImageType ) {
-        if( _bufferedImageType != bufferedImageType ) {
+        if ( _bufferedImageType != bufferedImageType ) {
             int oldType = _bufferedImageType;
             _bufferedImageType = bufferedImageType;
             updateAll();
@@ -243,13 +245,13 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * Only combined charts have subplots.
      *
      * @param subplotIndex
-     * @return 
+     * @return
      * @throws IndexOutOfBoundsException if subplotIndex is out of bounds
      */
     public Rectangle2D getDataArea( int subplotIndex ) {
         ChartRenderingInfo chartInfo = getChartRenderingInfo();
         PlotRenderingInfo plotInfo = chartInfo.getPlotInfo();
-        if( subplotIndex >= plotInfo.getSubplotCount() ) {
+        if ( subplotIndex >= plotInfo.getSubplotCount() ) {
             throw new IndexOutOfBoundsException( "subplotIndex is out of range: " + subplotIndex );
         }
         PlotRenderingInfo subplotInfo = plotInfo.getSubplotInfo( subplotIndex );
@@ -268,8 +270,8 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     */
     private XYPlot getXYPlot() {
         XYPlot plot = null;
-        if( _chart.getPlot() instanceof XYPlot ) {
-            plot = (XYPlot)_chart.getPlot();
+        if ( _chart.getPlot() instanceof XYPlot ) {
+            plot = (XYPlot) _chart.getPlot();
         }
         else {
             throw new UnsupportedOperationException(
@@ -291,22 +293,22 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
 
         List subplots = null;
         Plot plot = _chart.getPlot();
-        if( plot instanceof CombinedDomainXYPlot ) {
-            CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot)plot;
+        if ( plot instanceof CombinedDomainXYPlot ) {
+            CombinedDomainXYPlot combinedPlot = (CombinedDomainXYPlot) plot;
             subplots = combinedPlot.getSubplots();
         }
-        else if( plot instanceof CombinedRangeXYPlot ) {
-            CombinedRangeXYPlot combinedPlot = (CombinedRangeXYPlot)plot;
+        else if ( plot instanceof CombinedRangeXYPlot ) {
+            CombinedRangeXYPlot combinedPlot = (CombinedRangeXYPlot) plot;
             subplots = combinedPlot.getSubplots();
         }
         else {
             throw new UnsupportedOperationException(
                     "only works for for charts whose primary plot is a CombinedDomainXYPlot or CombinedRangeXYPlot" );
         }
-        if( subplotIndex >= subplots.size() ) {
+        if ( subplotIndex >= subplots.size() ) {
             throw new IndexOutOfBoundsException( "subplotIndex is out of range: " + subplotIndex );
         }
-        subplot = (XYPlot)subplots.get( subplotIndex );
+        subplot = (XYPlot) subplots.get( subplotIndex );
 
         return subplot;
     }
@@ -319,7 +321,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * @param buffered true or false
      */
     public void setBuffered( boolean buffered ) {
-        if( _buffered != buffered ) {
+        if ( _buffered != buffered ) {
             _buffered = buffered;
             updateAll();
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED, !_buffered, _buffered );
@@ -348,11 +350,11 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     protected BufferedImage getBuffer() {
         return _chartImage;
     }
-    
+
     //----------------------------------------------------------------------------
     // Property change notification
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a listener that is notified when the chart's isBuffered property changes.
      *
@@ -390,7 +392,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     protected void removeBufferedImagePropertyChangeListener( PropertyChangeListener listener ) {
         _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE, listener );
     }
-    
+
     /**
      * Adds a listener that is notified when the buffered image type is changed.
      *
@@ -408,7 +410,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     protected void removeBufferedImageTypePropertyChangeListener( PropertyChangeListener listener ) {
         _changeSupport.removePropertyChangeListener( PROPERTY_BUFFERED_IMAGE_TYPE, listener );
     }
-    
+
     /**
      * Adds a listener that is notified when the associated chart's rendering info changes.
      *
@@ -426,7 +428,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     public void removeChartRenderingInfoPropertyChangeListener( PropertyChangeListener propertyChangeListener ) {
         _changeSupport.removePropertyChangeListener( PROPERTY_CHART_RENDERING_INFO, propertyChangeListener );
     }
-    
+
     //----------------------------------------------------------------------------
     // Coordinate transforms
     //----------------------------------------------------------------------------
@@ -562,11 +564,12 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     /*
      * When the node's bounds are changed, this updates the chart rendering info
      */
+
     protected void internalUpdateBounds( double x, double y, double width, double height ) {
         super.internalUpdateBounds( x, y, width, height );
         updateAll();
     }
-    
+
     /*
     * Paints the node.
     * The node's bounds (in the node's local coordinate system)
@@ -574,7 +577,7 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     * Painting the node updates the chart's rendering info.
     */
     protected void paint( PPaintContext paintContext ) {
-        if( _buffered ) {
+        if ( _buffered ) {
             paintBuffered( paintContext );
         }
         else {
@@ -601,8 +604,8 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
     private void paintBuffered( PPaintContext paintContext ) {
         Rectangle2D bounds = getBoundsReference();
 
-        if( _chartImage == null ) {
-            rebuildBuffer( );
+        if ( _chartImage == null ) {
+            rebuildBuffer();
         }
 
         Graphics2D g2 = paintContext.getGraphics();
@@ -618,12 +621,12 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
      * If the bounds area is greater than zero, instantiates a new BufferedImage buffer for the chart, and fires a property change.
      */
     private void rebuildBuffer() {
-        Rectangle2D bounds=getBoundsReference();
+        Rectangle2D bounds = getBoundsReference();
         BufferedImage oldImage = _chartImage;
 
-        int w = (int)bounds.getWidth();
-        int h = (int)bounds.getHeight();
-        if( w > 0 && h > 0 ) {
+        int w = (int) bounds.getWidth();
+        int h = (int) bounds.getHeight();
+        if ( w > 0 && h > 0 ) {
             _chartImage = _chart.createBufferedImage( w, h,
                                                       _bufferedImageType, _info );
             _changeSupport.firePropertyChange( PROPERTY_BUFFERED_IMAGE, oldImage, _chartImage );
@@ -646,10 +649,10 @@ public class JFreeChartNode extends PNode implements ChartChangeListener {
          * Do not look at event.getSource(), since the source of the event is
          * likely to be one of the chart's components rather than the chart itself.
          */
-        if( event.getType() == ChartChangeEventType.DATASET_UPDATED ) {
+        if ( event.getType() == ChartChangeEventType.DATASET_UPDATED ) {
             repaint();
         }
-        else if( event.getType() == ChartChangeEventType.NEW_DATASET ) {
+        else if ( event.getType() == ChartChangeEventType.NEW_DATASET ) {
             repaint();
         }
         else {
