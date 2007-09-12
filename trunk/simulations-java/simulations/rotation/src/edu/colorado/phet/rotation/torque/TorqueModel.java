@@ -23,35 +23,61 @@ public class TorqueModel extends RotationModel {
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
     private DefaultTemporalVariable brakeForce = new DefaultTemporalVariable();
+    private DefaultTemporalVariable radius = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceSrcX = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceSrcY = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceDstX = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceDstY = new DefaultTemporalVariable();
 
     private UpdateStrategy forceDriven = new ForceDriven();
 //    private UpdateStrategy torqueDriven = new TorqueDriven();
 
-    private Line2D.Double appliedForce = new Line2D.Double();
+    //    private Line2D.Double appliedForce = new Line2D.Double();
     private ArrayList listeners = new ArrayList();
     private boolean allowNonTangentialForces = false;
     private boolean showComponents = true;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
+        getRotationPlatform().setUpdateStrategy( forceDriven );
     }
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
         angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
-        brakeForce.addValue( brakeForce.getValue(), getTime() );
-        torque.addValue( torque.getValue(), getTime() );
-        force.addValue( force.getValue(), getTime() );
+        defaultUpdate( brakeForce );
+        defaultUpdate( torque );
+        defaultUpdate( force );
+        defaultUpdate( radius );
+        defaultUpdate( appliedForceSrcX );
+        defaultUpdate( appliedForceSrcY );
+        defaultUpdate( appliedForceDstX );
+        defaultUpdate( appliedForceDstY );
+        notifyAppliedForceChanged();//todo: only notify during actual change for performance & elegance
+    }
+
+    private void defaultUpdate( ITemporalVariable variable ) {
+        variable.addValue( variable.getValue(), getTime() );
     }
 
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
-        torque.setPlaybackTime( time );
-        force.setPlaybackTime( time );
-        brakeForce.setPlaybackTime( time );
-        angularMomentum.setPlaybackTime( time );
-        momentOfInertia.setPlaybackTime( time );
+        setPlaybackTime( time, torque );
+        setPlaybackTime( time, force );
+        setPlaybackTime( time, brakeForce );
+        setPlaybackTime( time, angularMomentum );
+        setPlaybackTime( time, momentOfInertia );
+        setPlaybackTime( time, radius );
+        setPlaybackTime( time, appliedForceSrcX );
+        setPlaybackTime( time, appliedForceSrcY );
+        setPlaybackTime( time, appliedForceDstX );
+        setPlaybackTime( time, appliedForceDstY );
+        notifyAppliedForceChanged();//todo: only notify during actual change for performance & elegance
+    }
+
+    private void setPlaybackTime( double time, ITemporalVariable variable ) {
+        variable.setPlaybackTime( time );
     }
 
     public double getBrakeForce() {
@@ -70,10 +96,6 @@ public class TorqueModel extends RotationModel {
     public ITemporalVariable getTorqueTimeSeries() {
         return torque;
     }
-
-//    public UpdateStrategy getTorqueDriven() {
-//        return torqueDriven;
-//    }
 
     public ITemporalVariable getForceTimeSeries() {
         return force;
@@ -116,13 +138,9 @@ public class TorqueModel extends RotationModel {
         }
     }
 
-//    public class TorqueDriven implements UpdateStrategy {
-//        public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
-//            //assume a constant acceleration model with the given acceleration.
-//            force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
-//            finishUpdate( motionBody, dt, time );
-//        }
-//    }
+    public ITemporalVariable getRadiusSeries() {
+        return radius;
+    }
 
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
@@ -139,10 +157,7 @@ public class TorqueModel extends RotationModel {
             brakeForceVal = 0.0;
         }
         double origAngVel = motionBody.getVelocity();
-//        double origPosition
         double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
-
-//        System.out.println( "netTorque = " + netTorque + ", vel=" + origAngVel + ", torque=" + torque.getValue() + ", brakeForce=" + brakeForceVal );
 
         double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
         double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
@@ -154,35 +169,56 @@ public class TorqueModel extends RotationModel {
         motionBody.addVelocityData( proposedVelocity, time );
 
         //if the friction causes the velocity to change sign, set the velocity to zero?
-
         motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
     }
 
     public Line2D.Double getAppliedForce() {
-        return appliedForce;
+        return new Line2D.Double( appliedForceSrcX.getValue(), appliedForceSrcY.getValue(),
+                                  appliedForceDstX.getValue(), appliedForceDstY.getValue() );
     }
 
     public Line2D.Double getTangentialAppliedForce() {
-        return getTangentialAppliedForce( appliedForce );
+        return getTangentialAppliedForce( getAppliedForce() );
+    }
+
+    /**
+     * Computes the allowed portion of the desired applied force, result depends on whether allowNonTangentialForces is true
+     *
+     * @param appliedForce
+     */
+    public void setAllowedAppliedForce( Line2D.Double appliedForce ) {
+        setAppliedForce( getAllowedAppliedForce( appliedForce ) );
     }
 
     public void setAppliedForce( Line2D.Double appliedForce ) {
-        Line2D.Double orig = new Line2D.Double( this.appliedForce.getP1(), this.appliedForce.getP2() );
+        if ( !lineEquals( getAppliedForce(), appliedForce ) ) {
+            this.appliedForceSrcX.setValue( appliedForce.getX1() );
+            this.appliedForceSrcY.setValue( appliedForce.getY1() );
+            this.appliedForceDstX.setValue( appliedForce.getX2() );
+            this.appliedForceDstY.setValue( appliedForce.getY2() );
+            
+            //determine the new applied torque
+            //torque=r x F
+            Vector2D.Double r = new Vector2D.Double( getRotationPlatform().getCenter(), appliedForce.getP1() );
+            Vector2D.Double f = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() );
+            double tau = -r.getCrossProductScalar( f );
+            torque.setValue( tau );
+            force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
+
+            notifyAppliedForceChanged();//todo: only notify if changed
+        }
+    }
+
+    private boolean lineEquals( Line2D.Double a, Line2D.Double b ) {
+        return a.getP1().equals( b.getP1() ) && a.getP2().equals( b.getP2() );
+    }
+
+    private Line2D.Double getAllowedAppliedForce( Line2D.Double appliedForce ) {
+
         if ( !allowNonTangentialForces ) {
             appliedForce = getTangentialAppliedForce( appliedForce );
         }
-//        getRotationPlatform().setUpdateStrategy( torqueDriven );
-        getRotationPlatform().setUpdateStrategy( forceDriven );
-        this.appliedForce = appliedForce;
-        //determine the new applied torque
-        //torque=r x F
-        Vector2D.Double r = new Vector2D.Double( getRotationPlatform().getCenter(), appliedForce.getP1() );
-        Vector2D.Double f = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() );
-        double tau = -r.getCrossProductScalar( f );
-        torque.setValue( tau );
-        force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
-
-        notifyAppliedForceChanged();//todo: only notify if changed
+        return appliedForce;
     }
 
     private Line2D.Double getTangentialAppliedForce( Line2D.Double appliedForce ) {
@@ -224,7 +260,6 @@ public class TorqueModel extends RotationModel {
 
         public void brakeForceChanged() {
         }
-
     }
 
     public void addListener( Listener listener ) {

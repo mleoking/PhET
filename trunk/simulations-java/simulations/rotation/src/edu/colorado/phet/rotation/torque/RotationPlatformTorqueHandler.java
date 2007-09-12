@@ -29,21 +29,21 @@ public class RotationPlatformTorqueHandler extends PBasicInputEventHandler {
         if ( rotationPlatform.containsPosition( event.getPositionRelativeTo( platformNode ) ) ) {
             sourcePoint = event.getPositionRelativeTo( platformNode );
             dstPoint = event.getPositionRelativeTo( platformNode );
-            rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
+            rotationModel.setAllowedAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
         }
     }
 
     public void mouseDragged( PInputEvent event ) {
         if ( sourcePoint != null ) {
             dstPoint = event.getPositionRelativeTo( platformNode );
-            rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
+            rotationModel.setAllowedAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
         }
     }
 
     public void mouseReleased( PInputEvent event ) {
         if ( sourcePoint != null ) {
             dstPoint = new Point2D.Double( sourcePoint.getX(), sourcePoint.getY() );
-            rotationModel.setAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
+            rotationModel.setAllowedAppliedForce( new Line2D.Double( sourcePoint, dstPoint ) );
             sourcePoint = null;
         }
     }
