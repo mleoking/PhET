@@ -158,7 +158,7 @@ public class AngularUnitGraph extends RotationGraph {
         getSimulationVariable().setValue( getModelValue() );
     }
 
-    protected double getModelValue() {
+    public double getModelValue() {
         return viewToModel( getSliderValue() );
     }
 
