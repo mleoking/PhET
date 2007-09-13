@@ -1175,7 +1175,7 @@ EOT;
     }
 
     function contribution_get_contributions_for_contributor_id($contributor_id) {
-        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id), false, 'ORDER BY `contribution_title` ASC');
+        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id), false, true, 'ORDER BY `contribution_title` ASC');
     }
 
 	function contribution_get_coauthored_contributions_for_contributor_id($contributor_id) {
