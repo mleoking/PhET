@@ -105,7 +105,7 @@ public class TorqueModel extends RotationModel {
     public void setBrakeForce( double brakeForceValue ) {
         if ( brakeForceValue != getBrakeForce() ) {
             Point2D.Double src = new Point2D.Double( getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2, -getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2 );
-            AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( brakeForceValue, Math.PI / 4 +(brakeForceValue<0?Math.PI:0));
+            AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( brakeForceValue, Math.PI / 4 + ( brakeForceValue < 0 ? Math.PI : 0 ) );
             Point2D dst = vec.getDestination( src );
             brakeForce.setValue( new Line2D.Double( src, dst ) );
             for ( int i = 0; i < listeners.size(); i++ ) {
