@@ -4,7 +4,6 @@
 
 Torque 9-6-2007:
 
-10. On radius graph, display (constant) brake radius
 11. Rotation: omega graphs are off by a few pixels.
 7. Optionally Show net & brake forces on force graph
 8. Optionally Show net & brake torques on torque graph
