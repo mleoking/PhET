@@ -4,12 +4,12 @@
 
 Torque 9-6-2007:
 
-11. Rotation: omega graphs are off by a few pixels.
 7. Optionally Show net & brake forces on force graph
 8. Optionally Show net & brake torques on torque graph
 2. Display applied force when controlling with force graph (use a default choice for force application point)
 6. Show arrow in play area corresponding to tangential brake force
 1. Start paused, use wiggle me for startup (low priority, don't implement yet)
+11. Rotation: omega graphs are off by a few pixels.
 
 Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 
