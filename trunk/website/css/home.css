@@ -41,7 +41,7 @@ float: right;
 }
 #home-page-sponsors .sponsor a {
 color: rgb(185, 115, 81);
-text-decoration: bold;
+font-weight: bold;
 }
 #home-page-sponsors .sponsor p {
 margin: 0;
@@ -96,7 +96,7 @@ margin-top: 5px;
 	margin:  0;
 }
 #hotlinks td.other-languages {
-	vertical-align: center;
+	vertical-align: middle;
 	text-align:     left;
 }
 #hotlinks p.findOutMore a {
@@ -106,7 +106,7 @@ font-size: 14px;
 color: white;
 font-weight: bold;
 text-decoration: none;
-font-stretch: condensed;
+font-stretch: narrower;
 }
 .mainImage {
 float: left;
@@ -117,7 +117,6 @@ border: 1px solid rgb(200, 200, 200);
 div.practices {
 background: url(../images/practice_BG.gif) left bottom no-repeat;
 width: 766px;
-background-color: none;
 margin: 2ex 0 15px 0;
 padding: 0;
 }
@@ -137,7 +136,7 @@ background-position: 2px 5px;
 font-size: 14px;
 color: white;
 text-decoration: none;
-font-stretch: condensed;
+font-stretch: narrower;
 position: relative;
 top: 13px;
 padding-left: 9px;
