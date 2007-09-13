@@ -239,6 +239,27 @@
         return $matches[3];
     }
 
+	function sim_get_all_translated_language_names() {
+		$language_to_translations = array();
+		
+		// Loop through all sims:
+		foreach (sim_get_all_sims() as $sim) {
+			$sim_name     = $sim['sim_name'];
+			$translations = sim_get_translations($sim);
+			
+			// Get all translations of the current sim:
+			foreach ($translations as $language_name => $launch_url) {
+				if (!isset($language_to_translations[$sim_name])) {
+					$language_to_translations[$sim_name] = array();
+				}
+				
+				$language_to_translations[$sim_name][$language_name] = $launch_url;
+			}
+		}
+		
+		return $language_to_translations;
+	}
+
 	// Returns a map from translation name to JNLP file:
 	function sim_get_translations($simulation) {
 		global $LANGUAGE_CODE_TO_LANGUAGE_NAME;

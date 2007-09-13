@@ -37,6 +37,9 @@
     }
     
     $contribution_id = contribution_add_new_contribution($contribution_title, $contributor_id, $tmp_name, $name);
+
+	// Set it as unapproved initially, until user edits it:
+	contribution_set_approved($contribution_id, false);
     
     // Handle files:
     for ($i = 1; true; $i++) {		

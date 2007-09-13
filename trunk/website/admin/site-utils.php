@@ -77,6 +77,8 @@ EOT;
 
             $categories["$link"] = $cat_name;
         } 
+
+		$categories["simulations/translations.php"] = "Translated Sims";
         
         return $categories;
     }
