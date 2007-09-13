@@ -22,7 +22,8 @@ import edu.colorado.phet.rotation.util.RotationUtil;
  */
 public class TorqueModel extends RotationModel {
     private DefaultTemporalVariable torque = new DefaultTemporalVariable();
-    private DefaultTemporalVariable force = new DefaultTemporalVariable();
+    private DefaultTemporalVariable force = new DefaultTemporalVariable();//todo: sort out difference between force and appliedForceMagnitude
+    private DefaultTemporalVariable brakeForceMagnitude = new DefaultTemporalVariable();
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
 
@@ -36,6 +37,7 @@ public class TorqueModel extends RotationModel {
     private boolean showComponents = true;
     private boolean inited = false;
     private double brakePressure = 0;
+    private ITemporalVariable netForce = new DefaultTemporalVariable();
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -58,6 +60,8 @@ public class TorqueModel extends RotationModel {
         defaultUpdate( torque );
         defaultUpdate( force );
         defaultUpdate( appliedForceMagnitude );
+        defaultUpdate( netForce );
+        defaultUpdate( brakeForceMagnitude );
 
         brakeForce.stepInTime( dt, getTime() );
         appliedForce.stepInTime( dt, getTime() );
@@ -75,6 +79,8 @@ public class TorqueModel extends RotationModel {
         angularMomentum.setPlaybackTime( time );
         momentOfInertia.setPlaybackTime( time );
         appliedForceMagnitude.setPlaybackTime( time );
+        netForce.setPlaybackTime( time );
+        brakeForceMagnitude.setPlaybackTime( time );
 
         appliedForce.setPlaybackTime( time );
         brakeForce.setPlaybackTime( time );
@@ -93,8 +99,14 @@ public class TorqueModel extends RotationModel {
 
             appliedForce.clear();
             brakeForce.clear();
+            netForce.clear();
+            brakeForceMagnitude.clear();
             brakePressure = 0;
         }
+    }
+
+    public ITemporalVariable getBrakeForceMagnitudeVariable(){
+        return brakeForceMagnitude;
     }
 
     public double getBrakeForceMagnitude() {
@@ -120,9 +132,15 @@ public class TorqueModel extends RotationModel {
 
     private void updateBrakeForce() {
         brakeForce.setValue( computeBrakeForce() );
+        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).brakeForceChanged();
         }
+        updateNetForce();
+    }
+
+    private void updateNetForce() {
+        netForce.setValue( getBrakeForceMagnitude() + getAppliedForceMagnitude() );//todo: handle sign differences
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
@@ -207,6 +225,10 @@ public class TorqueModel extends RotationModel {
         return brakeForce.getRadiusSeries();
     }
 
+    public ITemporalVariable getNetForce() {
+        return netForce;
+    }
+
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
@@ -257,6 +279,7 @@ public class TorqueModel extends RotationModel {
             torque.setValue( tau );
             force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
 
+            updateNetForce();
             notifyAppliedForceChanged();
         }
     }
