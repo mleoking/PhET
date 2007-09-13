@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>about/news.php</string>
+	<string>simulations/cached-translations/translations.cache</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-08-23T18:07:52Z</date>
+			<date>2007-09-13T17:30:23Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -77,8 +77,6 @@
 			<string>images</string>
 		</dict>
 		<dict>
-			<key>expanded</key>
-			<true/>
 			<key>name</key>
 			<string>js</string>
 			<key>regexFolderFilter</key>
@@ -176,9 +174,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>27</integer>
 				<key>line</key>
-				<integer>21</integer>
+				<integer>56</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -371,6 +369,34 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>admin/sim-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>39</integer>
+				<key>line</key>
+				<integer>250</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>413</integer>
+		</dict>
+		<key>admin/site-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>9</integer>
+				<key>line</key>
+				<integer>61</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>53</integer>
+		</dict>
 		<key>admin/test.php</key>
 		<dict>
 			<key>caret</key>
@@ -413,6 +439,34 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>css/home.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>97</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>85</integer>
+		</dict>
+		<key>css/main.css</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>22</integer>
+				<key>line</key>
+				<integer>1468</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1454</integer>
+		</dict>
 		<key>get_phet/simlauncher.php</key>
 		<dict>
 			<key>caret</key>
@@ -426,6 +480,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>11</integer>
+		</dict>
+		<key>index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>108</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>104</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
@@ -454,6 +522,62 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>8</integer>
+		</dict>
+		<key>simulations/cached-translations/translations.cache</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>0</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>simulations/sims.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>436</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>280</integer>
+		</dict>
+		<key>simulations/translations.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>19</integer>
+				<key>line</key>
+				<integer>48</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>25</integer>
+		</dict>
+		<key>teacher_ideas/browse.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>41</integer>
+				<key>line</key>
+				<integer>6</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -514,16 +638,21 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>admin/newsletter-utils.php</string>
-		<string>admin/compose-newsletter.php</string>
-		<string>admin/dispatch-newsletter.php</string>
 		<string>about/news.php</string>
+		<string>teacher_ideas/browse.php</string>
+		<string>simulations/sims.php</string>
+		<string>admin/sim-utils.php</string>
+		<string>simulations/translations.php</string>
+		<string>css/main.css</string>
+		<string>css/home.css</string>
+		<string>admin/site-utils.php</string>
+		<string>index.php</string>
+		<string>simulations/cached-translations/translations.cache</string>
 		<string>admin/contrib-utils.php</string>
-		<string>admin/research-utils.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{65, 154}, {1027, 654}}</string>
+	<string>{{7, 89}, {1027, 654}}</string>
 </dict>
 </plist>

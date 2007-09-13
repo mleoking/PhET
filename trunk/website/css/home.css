@@ -89,7 +89,7 @@ p.openingParagraph a {
 	color:      rgb(50, 50, 255);
 text-decoration: underline;
 }
-p.findOutMore {
+#hotlinks p.findOutMore {
 margin: 0;
 cursor: pointer;
 padding-top: 9px;
@@ -100,7 +100,15 @@ height: 38px;
 float: left;
 margin-top: 5px;
 }
-p.findOutMore a {
+#hotlinks td {
+	padding: 0;
+	margin:  0;
+}
+#hotlinks td.other-languages {
+	vertical-align: center;
+	text-align:     left;
+}
+#hotlinks p.findOutMore a {
 margin: 0;
 padding: 0;
 font-size: 14px;
