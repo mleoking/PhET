@@ -113,10 +113,17 @@ public class TorqueModel extends RotationModel {
         return brakeForce.getForceMagnitude();
     }
 
+    public double getBrakePressure() {
+        return brakePressure;
+    }
+
     public void setBrakePressure( double brakePressure ) {
         if ( brakePressure != this.brakePressure ) {
             this.brakePressure = brakePressure;
             updateBrakeForce();
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ((Listener) listeners.get( i )).brakePressureChanged();
+            }
         }
     }
 
@@ -332,6 +339,8 @@ public class TorqueModel extends RotationModel {
         void showComponentsChanged();
 
         void brakeForceChanged();
+
+        void brakePressureChanged();
     }
 
     public static class Adapter implements Listener {
@@ -343,5 +352,9 @@ public class TorqueModel extends RotationModel {
 
         public void brakeForceChanged() {
         }
+
+        public void brakePressureChanged() {
+        }
     }
+
 }

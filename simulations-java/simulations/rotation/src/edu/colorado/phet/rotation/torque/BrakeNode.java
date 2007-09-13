@@ -39,7 +39,7 @@ public class BrakeNode extends PNode {
             }
         } );
         torqueModel.addListener( new TorqueModel.Adapter() {
-            public void brakeForceChanged() {
+            public void brakePressureChanged() {
                 updateImage();
                 updateTransform();
             }
@@ -100,7 +100,8 @@ public class BrakeNode extends PNode {
 
     private void updateImage() {
         double numImages = 15;
-        int image = (int) ( ( torqueModel.getBrakeForceMagnitude() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+//        int image = (int) ( ( torqueModel.getBrakeForceMagnitude() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+        int image = (int) ( ( torqueModel.getBrakePressure() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
         if ( image == 0 ) {//todo: resolve this workaround
             image = 1;
         }
