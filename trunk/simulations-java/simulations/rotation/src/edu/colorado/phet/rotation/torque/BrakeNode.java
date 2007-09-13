@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -50,7 +51,7 @@ public class BrakeNode extends PNode {
         block.translate( 0, -block.getFullBounds().getHeight() / 2.0 );
         addChild( block );
 
-        PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+//        PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
 //        addChild( registrationPoint );
 
         im = new PImage();
@@ -78,7 +79,8 @@ public class BrakeNode extends PNode {
                     if ( appliedBrake < 0 ) {
                         appliedBrake = 0;
                     }
-                    torqueModel.setBrakeForce( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+//                    torqueModel.setBrakeForce( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+                    torqueModel.setBrakeForce( MathUtil.clamp( TorqueControlPanel.MIN_BRAKE, appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
                 }
             }
 
@@ -99,6 +101,9 @@ public class BrakeNode extends PNode {
     private void updateImage() {
         double numImages = 15;
         int image = (int) ( ( torqueModel.getBrakeForce() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+        if ( image == 0 ) {//todo: resolve this workaround
+            image = 1;
+        }
 //        System.out.println( "torqueModel.getBRakeForce= " + torqueModel.getBrakeForce() + ", image=" + image );
         String imageString = "pusher-leaning_00" + ( ( "" + image ).length() == 1 ? "0" : "" ) + image + ".gif";
         try {
