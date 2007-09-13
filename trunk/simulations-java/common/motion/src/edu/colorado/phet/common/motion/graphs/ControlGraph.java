@@ -170,6 +170,7 @@ public class ControlGraph extends PNode {
         if ( series != null ) {
             addSeries( series );
         }
+        updateSliderValue();
     }
 
     public void setHorizontalRange( double maxDomainValue ) {
@@ -181,7 +182,7 @@ public class ControlGraph extends PNode {
     }
 
     protected void updateSliderValue() {
-        getJFreeChartSliderNode().setValue( getSimulationVariable().getValue() );
+        jFreeChartSliderNode.setValue( getSimulationVariable().getValue() );
     }
 
     protected JFreeChartSliderNode getJFreeChartSliderNode() {

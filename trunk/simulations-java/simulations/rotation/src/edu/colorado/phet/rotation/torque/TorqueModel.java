@@ -58,7 +58,6 @@ public class TorqueModel extends RotationModel {
         defaultUpdate( appliedForceSrcY );
         defaultUpdate( appliedForceDstX );
         defaultUpdate( appliedForceDstY );
-
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & elegance
     }
 
@@ -233,6 +232,8 @@ public class TorqueModel extends RotationModel {
             this.appliedForceSrcY.setValue( appliedForce.getY1() );
             this.appliedForceDstX.setValue( appliedForce.getX2() );
             this.appliedForceDstY.setValue( appliedForce.getY2() );
+
+            this.radius.setValue( new Vector2D.Double( appliedForce.getP1() ).getMagnitude() );
 
             //determine the new applied torque
             //torque=r x F
