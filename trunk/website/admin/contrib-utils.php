@@ -852,7 +852,10 @@ EOT;
     }
     
     function contribution_print_summary($contribution, $contributor_id, $contributor_is_team_member, $referrer = '') {
-        eval(get_code_to_create_variables_from_array($contribution));
+        // eval(get_code_to_create_variables_from_array($contribution));
+		$contribution_id       = $contribution['contribution_id'];
+		$contribution_title    = $contribution['contribution_title'];
+		$contribution_approved = $contribution['contribution_approved'];
         
         $path_prefix = SITE_ROOT."teacher_ideas/";
         
@@ -862,7 +865,7 @@ EOT;
         $delete  = '';
         $approve = '';
         
-        if ($contributor_id !== null && contribution_can_contributor_manage_contribution($contributor_id, $contribution_id)) {
+        if ($contributor_id !== null && ($contributor_id == $contribution['contributor_id'] || $contributor_is_team_member)) {
             $edit   .= "<a href=\"${path_prefix}edit-contribution.php$query_string\">edit</a>";
             $delete .= ", <a href=\"${path_prefix}delete-contribution.php$query_string\">delete</a>";
         
