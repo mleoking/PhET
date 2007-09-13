@@ -203,6 +203,10 @@ public class TorqueModel extends RotationModel {
         return appliedForce;
     }
 
+    public ITemporalVariable getBrakeRadiusSeries() {
+        return brakeForce.getRadiusSeries();
+    }
+
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
