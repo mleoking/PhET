@@ -1,3 +1,4 @@
+9-27-2007: Torque - Added a graph and type-in box for applied force radius application point
 9-27-2007: Torque - Added record/playback for 4-dimensional applied force value
 9-27-2007: Torque - Added type in text area for applied force
 9-27-2007: Torque - Fixed: Can apply force to empty part of the empty ring merry-go-round
