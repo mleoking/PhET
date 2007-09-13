@@ -248,7 +248,11 @@ public class RungeKuttaForceEngine implements ForceEngine {
 
         storeResultsInVectorArrays(particles);
 
-        return new ForceComputation(newPositions, newVelocities, potentialEnergy());
+        return new ForceComputation(newPositions, newVelocities);
+    }
+
+    public double getPotentialEnergy() {
+        return potentialEnergy();
     }
 
     private void initialize(EngineConfig config, StatesOfMatterParticle[] particles) {
