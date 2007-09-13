@@ -16,20 +16,11 @@ font-size: larger;
 div.introduction {
 clear: right;
 }
-#newsletter-announcement {
+#newsflashes {
 float: right;
-text-align: right;
+text-align: left;
 position: relative;
 top: -1em;
-}
-#newsletter-announcement p {
-margin: 0;
-padding: 0;
-}
-#newsletter-announcement input {
-background-color: rgb(235, 235, 240);
-margin-top: 4px;
-margin-bottom: 0px;
 }
 #container {
 padding: 15px 0 0 0;

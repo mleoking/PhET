@@ -82,16 +82,16 @@
 
     <div id="container">
         <div class="home-page">
-			<div id="newsletter-announcement">
+			<div id="newsflashes">
 EOT;
-
 			if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
-					print <<<EOT
-					<a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a>
+				print <<<EOT
+				<a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a> |
 EOT;
 			}
 			
 			print <<<EOT
+				<a href="about/news.php">What's New</a>
 			</div>
 			
 			<div class="introduction">		
