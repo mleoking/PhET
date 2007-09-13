@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
+import edu.colorado.phet.statesofmatter.model.energy.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
 import edu.colorado.phet.statesofmatter.model.engine.ForceEngine;
@@ -42,6 +43,10 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
         for (int i = 0; i < StatesOfMatterConfig.INITIAL_PARTICLE_COUNT; i++) {
             particles.add(strategy.createNewParticle(particles, particleRadius, particleMass));
         }
+
+        KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
+
+        adjuster.adjust(particles, StatesOfMatterConfig.INITIAL_KINETIC_ENERGY);
     }
 
     public List getParticles() {
