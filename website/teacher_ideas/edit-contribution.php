@@ -31,7 +31,7 @@
 			
 			<p><strong>Thank you! The contribution has been successfully updated.</strong></p>
 
-	        <p><a href="$referrer">go back</a></p>
+	        <p><a href="$referrer">continue</a></p>
 EOT;
 	}
 
