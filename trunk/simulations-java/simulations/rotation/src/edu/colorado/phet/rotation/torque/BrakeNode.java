@@ -79,14 +79,14 @@ public class BrakeNode extends PNode {
                     if ( appliedBrake < 0 ) {
                         appliedBrake = 0;
                     }
-//                    torqueModel.setBrakeForce( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
-                    torqueModel.setBrakeForce( MathUtil.clamp( TorqueControlPanel.MIN_BRAKE, appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+//                    torqueModel.setBrakePressure( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+                    torqueModel.setBrakePressure( MathUtil.clamp( TorqueControlPanel.MIN_BRAKE, appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
                 }
             }
 
             public void mouseReleased( PInputEvent event ) {
                 pressPoint = null;
-                torqueModel.setBrakeForce( 0.0 );
+                torqueModel.setBrakePressure( 0.0 );
             }
 
             private Point2D getPoint( PInputEvent event ) {
@@ -100,11 +100,11 @@ public class BrakeNode extends PNode {
 
     private void updateImage() {
         double numImages = 15;
-        int image = (int) ( ( torqueModel.getBrakeForce() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+        int image = (int) ( ( torqueModel.getBrakeForceMagnitude() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
         if ( image == 0 ) {//todo: resolve this workaround
             image = 1;
         }
-//        System.out.println( "torqueModel.getBRakeForce= " + torqueModel.getBrakeForce() + ", image=" + image );
+//        System.out.println( "torqueModel.getBRakeForce= " + torqueModel.getBrakeForceMagnitude() + ", image=" + image );
         String imageString = "pusher-leaning_00" + ( ( "" + image ).length() == 1 ? "0" : "" ) + image + ".gif";
         try {
             BufferedImage i = RotationResources.loadBufferedImage( "animations/" + imageString );
@@ -119,7 +119,7 @@ public class BrakeNode extends PNode {
 
     private void updateTransform() {
         double angle = -Math.PI / 4;
-        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( torqueModel.getBrakeForce() == 0 ? 0.08 : 0.00 ), angle );
+        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( torqueModel.getBrakeForceMagnitude() == 0 ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

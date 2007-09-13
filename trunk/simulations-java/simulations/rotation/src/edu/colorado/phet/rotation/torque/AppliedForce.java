@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.RotationUtil;
 
 /**
@@ -25,8 +24,11 @@ public class AppliedForce {
     private DefaultTemporalVariable appliedForceDstY = new DefaultTemporalVariable();
     private ArrayList listeners = new ArrayList();
 
-    public void setRadius( double maxRadius ) {
-        radius.setValue( RotationPlatform.MAX_RADIUS );
+    public void setRadius( double r ) {
+        if ( radius.getValue() != r ) {
+            this.radius.setValue( r );
+            notifyChanged();
+        }
     }
 
     public void stepInTime( double dt, double time ) {
@@ -64,13 +66,6 @@ public class AppliedForce {
         return radius;
     }
 
-    public void setRadiusValue( double r ) {
-        if ( radius.getValue() != r ) {
-            this.radius.setValue( r );
-            notifyChanged();
-        }
-    }
-
     public Point2D getP1() {
         return toLine2D().getP1();
     }
@@ -82,6 +77,14 @@ public class AppliedForce {
     public Line2D.Double toLine2D() {
         return new Line2D.Double( appliedForceSrcX.getValue(), appliedForceSrcY.getValue(),
                                   appliedForceDstX.getValue(), appliedForceDstY.getValue() );
+    }
+
+    private void setP2( Point2D destination ) {
+        if ( !getP2().equals( destination ) ) {
+            this.appliedForceDstX.setValue( destination.getX() );
+            this.appliedForceDstY.setValue( destination.getY() );
+            notifyChanged();
+        }
     }
 
     public void setValue( Line2D.Double appliedForce ) {
@@ -103,14 +106,6 @@ public class AppliedForce {
 
     public double getForceMagnitude() {
         return getP1().distance( getP2() );
-    }
-
-    private void setP2( Point2D destination ) {
-        if ( !getP2().equals( destination ) ) {
-            this.appliedForceDstX.setValue( destination.getX() );
-            this.appliedForceDstY.setValue( destination.getY() );
-            notifyChanged();
-        }
     }
 
     public void addListener( Listener listener ) {
