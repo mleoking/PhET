@@ -240,6 +240,22 @@
     }
 
 	function sim_get_all_translated_language_names() {
+		$dir   = "./cached-translations";
+		$cache = $dir."/translations.cache";
+		
+		if (file_exists($cache)) {
+			$time = filemtime($cache);
+			
+			$diff = time() - $time;
+			
+			// Refresh the cache every 24 hours:
+			if ($diff < 24 * 60 * 60) {			
+				return unserialize(file_get_contents($cache));
+			}
+		}
+		
+		mkdir($dir);		
+		
 		$language_to_translations = array();
 		
 		// Loop through all sims:
@@ -256,6 +272,8 @@
 				$language_to_translations[$sim_name][$language_name] = $launch_url;
 			}
 		}
+		
+		file_put_contents($cache, serialize($language_to_translations));
 		
 		return $language_to_translations;
 	}

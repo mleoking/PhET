@@ -351,7 +351,7 @@ color: red;
 }
 table.form tr.error-message td {
 padding-left: 1ex;
-font-weight: italic;
+font-style: italic;
 font-size: smaller;
 }
 
@@ -1464,4 +1464,31 @@ color: white;
 #utility-panel a:active {
 color: white;
 text-decoration: underline;
+}
+
+#translated-versions {
+	margin-bottom: 1em;
+}
+#translated-versions table td {
+	vertical-align: center;
+	text-align: 	center;
+}
+#translated-versions table thead td {
+	font-weight: bold;
+}
+#translated-versions table tbody td form {
+	margin-top: 	auto;
+	margin-bottom: 	auto;
+}
+#translated-versions table tr.odd  td.odd {
+	background-color: rgb(215, 215, 215);
+}
+#translated-versions table tr.odd td.even {
+	background-color: rgb(200, 200, 200);
+}
+#translated-versions table tr.even td.even {
+	background-color: rgb(245, 245, 245);
+}
+#translated-versions table tr.even td.odd {
+	background-color: rgb(230, 230, 230);
 }
