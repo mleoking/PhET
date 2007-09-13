@@ -16,7 +16,7 @@
         if ($action == 'update') {
             update_contribution($contribution);
 
-			print_site_page('print_success', 3);
+			print_site_page('print_success', 3, "../teacher_ideas/manage-contributions.php", 2);
         }
 		else {
 			print_site_page('print_unknown_action', 3);
