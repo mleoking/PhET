@@ -17,6 +17,7 @@ import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
     private TorqueModel torqueModel;
     private PhetPPath appliedForceVector;
+    private PhetPPath brakeForceVector;
     private PhetPPath tangentialComponentVector;
     private BrakeNode brakeNode;
 
@@ -27,15 +28,22 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
         getPlatformNode().addInputEventListener( new CursorHandler() );
 
         appliedForceVector = new PhetPPath( null, Color.blue, new BasicStroke( 0.01f ), Color.black );
+        brakeForceVector = new PhetPPath( null, Color.red, new BasicStroke( 0.01f ), Color.black );
         tangentialComponentVector = new PhetPPath( null, Color.green, new BasicStroke( 0.01f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{0.05f, 0.05f}, 0 ), Color.darkGray );
-        torqueModel.addListener( new TorqueModel.Adapter() {
-            public void appliedForceChanged() {
+        torqueModel.getAppliedForceObject().addListener( new AppliedForce.Listener() {
+            public void changed() {
+                updateArrows();
+            }
+        } );
+        torqueModel.getBrakeForceObject().addListener( new AppliedForce.Listener() {
+            public void changed() {
                 updateArrows();
             }
         } );
         brakeNode = new BrakeNode( torqueModel.getRotationPlatform(), torqueModel );
         addChild( tangentialComponentVector );
         addChild( appliedForceVector );
+        addChild( brakeForceVector );
         addChild( brakeNode );
 
         torqueModel.addListener( new TorqueModel.Adapter() {
@@ -48,6 +56,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
 
     private void updateArrows() {
         appliedForceVector.setPathTo( getForceShape( torqueModel.getAppliedForce() ) );
+        brakeForceVector.setPathTo( getForceShape( torqueModel.getBrakeForceValue() ) );
         tangentialComponentVector.setPathTo( getForceShape( this.torqueModel.getTangentialAppliedForce() ) );
     }
 
