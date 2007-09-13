@@ -71,6 +71,7 @@ build-related libraries from the simulations-java project.
                 <fileset dir="${dir.website}">
                     <exclude name=".svn" />
                     <exclude name="**/*cache*" />
+                    <exclude name="**/cache*/*" />                    
                 </fileset>
             </sftp>
             

@@ -49,15 +49,15 @@
         return db_get_rows_by_condition($table_name);
     }
     
-    function db_get_row_by_condition($table_name, $condition = array(), $fuzzy = false) {
-        $rows = db_get_rows_by_condition($table_name, $condition, $fuzzy);
+    function db_get_row_by_condition($table_name, $condition = array(), $fuzzy = false, $extra = '') {
+        $rows = db_get_rows_by_condition($table_name, $condition, $fuzzy, true, $extra);
         
         if (!$rows || count($rows) == 0) return false;
         
         return $rows[0];
     }
     
-    function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false, $reformat = true) {
+    function db_get_rows_by_condition($table_name, $condition = array(), $fuzzy = false, $reformat = true, $extra = '') {
         if (!is_array($condition)) return array();
         
         $query = "SELECT * FROM `$table_name` ";
@@ -84,7 +84,7 @@
             }
         }
         
-        $result = db_exec_query($query);
+        $result = db_exec_query($query." $extra");
         
         if (!$result) {
             return false;

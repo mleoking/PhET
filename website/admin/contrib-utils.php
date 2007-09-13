@@ -1175,43 +1175,55 @@ EOT;
     }
 
     function contribution_get_contributions_for_contributor_id($contributor_id) {
-        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id));
+        return db_get_rows_by_condition('contribution', array('contributor_id' => $contributor_id), false, 'ORDER BY `contribution_title` ASC');
     }
 
 	function contribution_get_coauthored_contributions_for_contributor_id($contributor_id) {
 		$contributor = contributor_get_contributor_by_id($contributor_id);
 		
 		if ($contributor['contributor_is_team_member'] == 0) return array();
+		       
+        $parsed_name = parse_name($contributor['contributor_name']);
+        
+        $last_name = $parsed_name['last_name'];
 		
-        $contributions = contribution_get_all_contributions();
+		$name = parse_name($contributor['contributor_name']);
+		$last_name = $name['last_name'];		
+		
+		// Select all coauthored contributions that are NOT owned by the contributor_id:
+		$result = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_authors` LIKE '%$last_name%' AND `contributor_id`<>'$contributor_id' ORDER BY `contribution_title` ASC");
+		
+		$contributions = array();
+		
+		while ($contribution = mysql_fetch_assoc($result)) {
+			$contributions[] = format_for_html($contribution);
+		}
         
-        $filtered = array();
-        
-        foreach($contributions as $contribution) {
-            if ($contribution['contributor_id'] != $contributor_id && strpos($contribution['contribution_authors'], $contributor['contributor_name'])) {
-                $filtered[] = $contribution;
-            }
-        }
-        
-        return $filtered;
+        return $contributions;
     }
     
     function contribution_get_other_manageable_contributions_for_contributor_id($contributor_id) {
 		$contributor = contributor_get_contributor_by_id($contributor_id);
 		
 		if ($contributor['contributor_is_team_member'] == 0) return array();
+		       
+        $parsed_name = parse_name($contributor['contributor_name']);
+        
+        $last_name = $parsed_name['last_name'];
 		
-        $contributions = contribution_get_all_contributions();
+		$name = parse_name($contributor['contributor_name']);
+		$last_name = $name['last_name'];		
+
+		// Select all contributions NOT owned by the contributor and where the contributor is NOT a coauthor:
+		$result = db_exec_query("SELECT * FROM `contribution` WHERE `contribution_authors` NOT LIKE '%$last_name%' AND `contributor_id`<>'$contributor_id' ORDER BY `contribution_title` ASC");
+		
+		$contributions = array();
+		
+		while ($contribution = mysql_fetch_assoc($result)) {
+			$contributions[] = format_for_html($contribution);
+		}
         
-        $filtered = array();
-        
-        foreach($contributions as $contribution) {
-            if ($contribution['contributor_id'] != $contributor_id && !strpos($contribution['contribution_authors'], $contributor['contributor_name'])) {
-                $filtered[] = $contribution;
-            }
-        }
-        
-        return $filtered;
+        return $contributions;
     }
     
     function contribution_delete_contribution($contribution_id) {
