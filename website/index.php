@@ -103,11 +103,30 @@ EOT;
 
 	            <p class="openingParagraph">Fun, interactive, <a href="research/index.php">research-based</a> simulations of physical phenomena from the Physics Education Technology project at the University of Colorado.</p>
 
-	            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
-	                <a href="simulations/index.php?cat=Top_Simulations">
-	                    Play with sims... >
-	                </a>   
-	            </p>
+				<table id="hotlinks">
+					<tr>
+						<td colspan="2">
+				            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
+				                <a href="simulations/index.php?cat=Top_Simulations">
+				                    Play with sims... >
+				                </a>   
+				            </p>
+						</td>
+					</tr>
+					<tr>
+						<td class="other-languages">
+							<a href="simulations/translations.php">
+								<img src="images/un-flag-43x43.png" alt="UN Flag" />
+							</a>
+						</td>
+						
+						<td>							
+							<a href="simulations/translations.php">
+								Other languages...
+							</a>
+						</td>
+					</tr>				
+				</table>
 			</div>
 
             <div class="clear"></div>
