@@ -15,8 +15,33 @@
        
         if ($action == 'update') {
             update_contribution($contribution);
+
+			print_site_page('print_success', 3);
         }
+		else {
+			print_site_page('print_unknown_action', 3);
+		}
     }
+
+	function print_success() {
+		global $referrer;
+		
+		print <<<EOT
+			<h1>Update Success</h1>
+			
+			<p><strong>Thank you! The contribution has been successfully updated.</strong></p>
+
+	        <p><a href="$referrer">go back</a></p>
+EOT;
+	}
+
+	function print_unknown_action() {
+		print <<<EOT
+			<h1>Unknown Action</h1>
+			
+			<p>The specified action is unknown to this script.</p>
+EOT;
+	}
     
     function update_contribution($contribution) {
 	    global $g_contribution_updated;
@@ -146,8 +171,9 @@ EOT;
             if (isset($_REQUEST['action'])) {
                 handle_action($_REQUEST['action']);
             }
-            
-            print_site_page('print_content', 3);
+			else {            
+            	print_site_page('print_content', 3);
+			}
         }
         else {
             print_site_page('print_content_no_permission', 3);
