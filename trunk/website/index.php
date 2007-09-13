@@ -135,7 +135,7 @@ EOT;
 		<div id="home-page-sponsors">
 			<div class="sponsor">
 				<a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
-					<img src="images/nsf-logo.gif" height="28" alt="National Science Foundation Logo"/>
+					<img src="images/nsf-logo-small.gif" height="28" alt="National Science Foundation Logo"/>
 				</a>
 				<p>
 					<a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
@@ -146,7 +146,7 @@ EOT;
 		
 			<div class="sponsor">
 				<a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
-					<img src="images/hewlett-logo.jpg" height="28" alt="William and Flora Hewlett Foundation Logo"/>
+					<img src="images/hewlett-logo-small.jpg" height="28" alt="William and Flora Hewlett Foundation Logo"/>
 				</a>
 				<p>
 					<a href="http://www.hewlett.org/Default.htm" title="Click here to visit the William and Flora Hewlett Foundation">
