@@ -52,7 +52,14 @@ EOT;
 		
 		$row_count = 0;
 				
-		foreach ($sim_to_translations as $sim_name => $map) {
+		foreach (sim_get_all_sim_names() as $sim_name) {
+			if (!isset($sim_to_translations[$sim_name])) {
+				$map = array();
+			}
+			else {
+				$map = $sim_to_translations[$sim_name];
+			}
+			
 			$row_is_even = ($row_count % 2) == 0;
 			
 			$row_class = $row_is_even ? "even" : "odd";
@@ -61,7 +68,7 @@ EOT;
 
 			$sim_page_link = sim_get_url_to_sim_page_by_sim_name($sim_name);
 			
-			print "<td class=\"even\"><a href=\"$sim_page_link\">$sim_name</a></td>";
+			print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$sim_name</a></td>";
 			
 			$col_count = 1;
 			
@@ -76,11 +83,9 @@ EOT;
 					$launch_url = $map[$language_name];
 					
 					print <<<EOT
-						<form action="$launch_url">
-							<span>
-								<input type="submit" name="submit" value="&nbsp;" />
-							</span>
-						</form>
+						<a href="$launch_url">
+							<img src="../images/electron-small.png" alt="Image of Electron" />
+						</a>
 EOT;
 				}
 				else {

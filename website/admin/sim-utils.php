@@ -254,7 +254,9 @@
 			}
 		}
 		
-		mkdir($dir);		
+		if (!file_exists($dir)) {
+			mkdir($dir);		
+		}
 		
 		$language_to_translations = array();
 		
