@@ -10,7 +10,6 @@
     include_once(SITE_ROOT."admin/nominate-utils.php");
     include_once(SITE_ROOT."admin/cache-utils.php");
 
-	define("BROWSE_CACHE", 	'browse-pages');    
     define("UP_ARROW",   	SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW", 	SITE_ROOT."images/sorting-darrow.gif");    
     

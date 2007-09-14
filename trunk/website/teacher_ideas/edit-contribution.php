@@ -7,6 +7,7 @@
     include_once(SITE_ROOT."admin/site-utils.php");   
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."teacher_ideas/referrer.php");  
+    include_once(SITE_ROOT."admin/cache-utils.php");
 
     $g_contribution_updated = false;
 
@@ -15,6 +16,8 @@
        
         if ($action == 'update') {
             update_contribution($contribution);
+
+			cache_clear(BROWSE_CACHE);
 
 			print_site_page('print_success', 3, "../teacher_ideas/manage-contributions.php", 2);
         }
