@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * DNAExtensionNode displays the DNA extension length, 
- * a straight line between the ends of the DNA strand.
+ * a straight line between the pin and end of the DNA strand.
  * The extension value is labeled at the midpoint of the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -74,20 +74,20 @@ public class DNAExtensionNode extends PhetPNode {
      * Updates the line and displayed value.
      * 
      * @param value extension value, in model coordinates
-     * @param tailX x coordiate of tail end, in view coordinates
-     * @param tailY y coordiate of tail end, in view coordinates
-     * @param headX x coordiate of head end, in view coordinates
-     * @param headY y coordiate of head end, in view coordinates
+     * @param pinX x coordiate of pin, in view coordinates
+     * @param pinY y coordiate of pin, in view coordinates
+     * @param endX x coordiate of end farthest from pin, in view coordinates
+     * @param endY y coordiate of end farthest from pin, in view coordinates
      */
-    public void update( double value, double tailX, double tailY, double headX, double headY ) {
+    public void update( double value, double pinX, double pinY, double endX, double endY ) {
 
         _extensionPath.reset();
-        _extensionPath.moveTo( (float) tailX, (float) tailY );
-        _extensionPath.lineTo( (float) headX, (float) headY );
+        _extensionPath.moveTo( (float) pinX, (float) pinY );
+        _extensionPath.lineTo( (float) endX, (float) endY );
         _extensionNode.setPathTo( _extensionPath );
         
         String valueString = VALUE_FORMAT.format( value ) + " nm";
         _valueNode.setText( valueString );
-        _valueNode.setOffset( tailX + ( ( headX - tailX ) / 2 ), tailY + ( ( headY - tailY ) / 2 ) ); // at midpoint of the extension line
+        _valueNode.setOffset( pinX + ( ( endX - pinX ) / 2 ), pinY + ( ( endY - pinY ) / 2 ) ); // at midpoint of the extension line
     }
 }
