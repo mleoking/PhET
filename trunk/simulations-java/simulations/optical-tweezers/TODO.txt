@@ -3,10 +3,9 @@
 ================================================================================
 
 HIGH PRIORITY:
-- finish NewDNAStrand
-- NewDNAStrandNode, view of NewDNAStrand
-- redo DNA model and view: one logical strand, one end attached to bead, other end free, pinned at some point along it's contour, slide the strand through the pin
-- pull DNA in enzyme model by changing length of springs on either side of pin
+- convert DNA module to use NewDNAStrand
+- convert Motors module to use NewDNAStrand
+- implement NewDNAStrand.pull
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
@@ -48,6 +47,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/14/07 - create NewDNAStrandNode, view of NewDNAStrand (untested)
+9/14/07 - add evolution model to NewDNAStrand (untested)
 9/14/07 - rename variables in DNAExtensionNode to support new terminology for Molecular Motors
 9/14/07 - calculate springMotionScale only once per call to DNAStrand.evolve
 ********* version 1.00.07 (17815)

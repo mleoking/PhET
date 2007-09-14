@@ -167,12 +167,12 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
         return _maxStretchiness;
     }
     
-    public DNAPivot[] getHeadPivots() {
-        return (DNAPivot[]) _headPivots.toArray( new DNAPivot[_headPivots.size()] );
+    public ArrayList getHeadPivots() {
+        return _headPivots;
     }
 
-    public DNAPivot[] getTailPivots() {
-        return (DNAPivot[]) _tailPivots.toArray( new DNAPivot[_tailPivots.size()] );
+    public ArrayList getTailPivots() {
+        return _tailPivots;
     }
     
     /**
@@ -381,7 +381,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the force acting on the DNA head.
+     * Gets the DNA force at the strand's head.
      * 
      * @return force (pN)
      */
@@ -390,7 +390,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
     }
     
     /**
-     * Gets the force at some arbitrary point.
+     * Gets the DNA force at some arbitrary point.
      * 
      * @param x
      * @param y
@@ -515,8 +515,89 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
      * The strand is a collection of springs connected at pivot points.
      * This model was provided by Mike Dubson.
      */
-    private void evolvePivots( double clockStep ) {
-        //XXX
+    private void evolve( double clockStep ) {
+        evolveSegment( clockStep, true /* head */ );
+        evolveSegment( clockStep, false /* tail */ );
+        notifyObservers( PROPERTY_SHAPE );
+    }
+    
+    /*
+     * Evolves one of the two segments of the strand. 
+     */
+    private void evolveSegment( double clockStep, boolean evolveHeadSegment ) {
+        
+        // Choose pivots for one of the 2 segments
+        ArrayList pivots = ( evolveHeadSegment ) ? _headPivots : _tailPivots;
+        if ( pivots.size() < 3 ) {
+            return;
+        }
+        
+        // scale down the spring's motion as the segment becomes stretched taut
+        final double extension = ( evolveHeadSegment ) ? getHeadExtension() : getTailExtension();
+        final double contourLength = ( evolveHeadSegment ) ? getHeadContourLength() : getTailContourLength();
+        final double stretchFactor = Math.min( 1, extension / contourLength );
+        final double springMotionScale = Math.sqrt( 1 - stretchFactor );
+        
+        // scale all time dependent parameters based on how the clockStep compares to reference clock step
+        final double timeScale = clockStep / _referenceClockStep;
+        
+        final double dt = _evolutionDt * timeScale;
+        
+        for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
+
+            final int numberOfPivots = pivots.size();
+            DNAPivot currentPivot, previousPivot, nextPivot; // previousPivot is closer to tail, nextPivot is closer to head
+            
+            // traverse all pivots starting at pin, skip first and last pivots
+            for ( int j = 1; j < numberOfPivots - 1; j++ ) {
+                
+                currentPivot = (DNAPivot) pivots.get( j );
+                previousPivot = (DNAPivot) pivots.get( j - 1 );
+                nextPivot = (DNAPivot) pivots.get( j + 1 );
+                
+                // position
+                final double x = currentPivot.getX() + ( currentPivot.getXVelocity() * dt ) + ( 0.5 * currentPivot.getXAcceleration() * dt * dt );
+                final double y = currentPivot.getY() + ( currentPivot.getYVelocity() * dt ) + ( 0.5 * currentPivot.getYAcceleration() * dt * dt );
+                currentPivot.setPosition( x, y );
+                
+                // distance to previous and next pivots
+                final double dxPrevious = currentPivot.getX() - previousPivot.getX();
+                final double dyPrevious = currentPivot.getY() - previousPivot.getY();
+                final double dxNext = nextPivot.getX() - currentPivot.getX();
+                final double dyNext = nextPivot.getY() - currentPivot.getY();
+                final double distanceToPrevious = PolarCartesianConverter.getRadius( dxPrevious, dyPrevious );
+                final double distanceToNext = PolarCartesianConverter.getRadius( dxNext, dyNext );
+                
+                // common terms
+                final double termPrevious = 1 - ( springMotionScale * _maxSpringLength / distanceToPrevious );
+                final double termNext = 1 - ( springMotionScale * _maxSpringLength / distanceToNext );
+                
+                // fluid drag force
+                _fluid.getVelocity( _someVector );
+                final double xFluidDrag = _fluidDragCoefficient * _someVector.getX();
+                final double yFluidDrag = _fluidDragCoefficient * _someVector.getY();
+                assert( yFluidDrag == 0 );
+                    
+                // acceleration
+                double springConstant = _springConstant;
+                if ( j == 1 ) {
+                    final double maxSpringLength = ( _contourLength / _numberOfSprings );
+                    final double partialSpringLength = ( evolveHeadSegment ) ? _headClosestSpringLength : ( maxSpringLength - _headClosestSpringLength );
+                    springConstant = _springConstant * ( _contourLength / _numberOfSprings ) / partialSpringLength;
+                }
+                final double xAcceleration = ( springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
+                    ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;
+                final double yAcceleration = ( springConstant * ( ( dyNext * termNext ) - ( dyPrevious * termPrevious ) ) ) - 
+                    ( _dragCoefficient * currentPivot.getYVelocity() ) + yFluidDrag;
+                currentPivot.setAcceleration( xAcceleration, yAcceleration );
+                
+                // velocity
+                final double kick = _kickConstant * Math.sqrt( timeScale );
+                final double xVelocity = currentPivot.getXVelocity() + ( currentPivot.getXAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
+                final double yVelocity = currentPivot.getYVelocity() + ( currentPivot.getYAcceleration() * dt ) + ( kick * ( _kickRandom.nextDouble() - 0.5 ) );
+                currentPivot.setVelocity( xVelocity, yVelocity );
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -535,7 +616,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
                 DNAPivot headPivot = getHeadPivot();
                 headPivot.setPosition( _bead.getX(), _bead.getY() );
                 if ( !_clock.isRunning() ) {
-                    evolvePivots( _clock.getDt() );
+                    evolve( _clock.getDt() );
                 }
                 notifyObservers( PROPERTY_FORCE );
                 notifyObservers( PROPERTY_SHAPE );
@@ -558,7 +639,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
      * @param clockStep clock step
      */
     public void stepInTime( double clockStep ) {
-        evolvePivots( clockStep );
+        evolve( clockStep );
     }
     
 }
