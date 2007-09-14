@@ -8,9 +8,11 @@
     include_once(SITE_ROOT."admin/sim-utils.php");    
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
     include_once(SITE_ROOT."admin/nominate-utils.php");
-    
-    define("UP_ARROW",   SITE_ROOT."images/sorting-uarrow.gif");
-    define("DOWN_ARROW", SITE_ROOT."images/sorting-darrow.gif");    
+    include_once(SITE_ROOT."admin/cache-utils.php");
+
+	define("BROWSE_CACHE", 	'browse-pages');    
+    define("UP_ARROW",   	SITE_ROOT."images/sorting-uarrow.gif");
+    define("DOWN_ARROW", 	SITE_ROOT."images/sorting-darrow.gif");    
     
     function sort_contributions($contributions, $sort_by, $order) {
         $keyed_contributions = array();
@@ -248,6 +250,23 @@ EOT;
     }
     
     function print_content_only($print_simulations = true) {
+	    global $sort_by, $order, $next_order;
+        
+        global $Simulations, $Types, $Levels;
+
+		// Create an id that uniquely identifies the browse parameters:
+		$browse_id = md5(implode('', $Simulations).implode('', $Types).implode('', $Levels).$sort_by.$order );
+		
+		$browse_resource = "${browse_id}.cache";
+		
+		$cached_browse = cache_get(BROWSE_CACHE, $browse_resource);
+		
+		if ($cached_browse) {
+			print $cached_browse;
+			
+			return;
+		}
+
         $contributions = get_contributions();
         
         $title  = get_sorting_link('contribution_title',        'Title');
@@ -276,8 +295,10 @@ EOT;
 
 			return;
 		}
+		
+		$html = '';
         
-        print <<<EOT
+        $html .= <<<EOT
             <div id="browseresults" class="compact">
                 <table>
                     <thead>
@@ -302,16 +323,20 @@ EOT;
 EOT;
 
         foreach($contributions as $contribution) {
-            contribution_print_summary3($contribution, $print_simulations);
+            $html .= contribution_get_contribution_summary_as_html($contribution, $print_simulations);
         }
 
-        print <<<EOT
+        $html .= <<<EOT
 
                     </tbody>
 
                 </table>
             </div>
 EOT;
+
+		cache_put(BROWSE_CACHE, $browse_resource, preg_replace('/\s\s+/', ' ', trim($html)));
+
+		print $html;
     }
     
     function print_content_with_header() {    

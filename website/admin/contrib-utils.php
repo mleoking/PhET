@@ -1028,8 +1028,10 @@ EOT;
 		return $list;
 	}
 
-    function contribution_print_summary3($contribution, $print_sims = true) {    
+    function contribution_get_contribution_summary_as_html($contribution, $print_sims = true) {    
         global $referrer;
+
+		$html = '';
 
         eval(get_code_to_create_variables_from_array($contribution));
 
@@ -1099,13 +1101,15 @@ EOT;
 		
 		$title_html .= $gold_star_html;
         
-        print "<tr><td>$title_html</td><td>$author_html</td><td>$level_list</td><td>$type_list</td>";
+        $html .= "<tr><td>$title_html</td><td>$author_html</td><td>$level_list</td><td>$type_list</td>";
 
         if ($print_sims) {
-            print "<td>$sim_list</td>";
+            $html .= "<td>$sim_list</td>";
         }
     
-        print "<td>$contribution_date_updated</td></tr>";
+        $html .= "<td>$contribution_date_updated</td></tr>";
+
+		return $html;
     }
 
     function contribution_get_contribution_file_names($contribution_id) {
