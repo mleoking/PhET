@@ -462,13 +462,17 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * The strand is a collection of springs connected at pivot points.
      * This model was provided by Mike Dubson.
      */
-    private void evolveStrand( double clockStep ) {
+    private void evolve( double clockStep ) {
         
         // scale all time dependent parameters based on how the clockStep compares to reference clock step
         final double timeScale = clockStep / _referenceClockStep;
         
         final double dt = _evolutionDt * timeScale;
         final double maxSpringLength = _contourLength / _numberOfSprings;
+
+        // scale down the spring's motion as the strand becomes stretched taut
+        final double stretchFactor = Math.min( 1, getExtension() / _contourLength );
+        final double springMotionScale = Math.sqrt( 1 - stretchFactor );
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
@@ -494,10 +498,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 final double dyNext = nextPivot.getY() - currentPivot.getY();
                 final double distanceToPrevious = PolarCartesianConverter.getRadius( dxPrevious, dyPrevious );
                 final double distanceToNext = PolarCartesianConverter.getRadius( dxNext, dyNext );
-                
-                // scale down the spring's motion as the strand becomes stretched taut
-                final double stretchFactor = Math.min( 1, getExtension() / _contourLength );
-                final double springMotionScale = Math.sqrt( 1 - stretchFactor );
                 
                 // common terms
                 final double termPrevious = 1 - ( springMotionScale * maxSpringLength / distanceToPrevious );
@@ -543,7 +543,7 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
                 DNAPivot headPivot = getHeadPivot();
                 headPivot.setPosition( _bead.getX(), _bead.getY() );
                 if ( !_clock.isRunning() ) {
-                    evolveStrand( _clock.getDt() );
+                    evolve( _clock.getDt() );
                 }
                 notifyObservers( PROPERTY_FORCE );
                 notifyObservers( PROPERTY_SHAPE );
@@ -566,6 +566,6 @@ public class DNAStrand extends OTObservable implements ModelElement, Observer {
      * @param clockStep clock step
      */
     public void stepInTime( double clockStep ) {
-        evolveStrand( clockStep );
+        evolve( clockStep );
     }
 }
