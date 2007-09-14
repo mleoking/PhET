@@ -48,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/14/07 - calculate springMotionScale only once per call to DNAStrand.evolve
 ********* version 1.00.07 (17815)
 9/12/07 - throw an exception if DNA pin point is too far from bead (extension > contour length)
 9/12/07 - create DNA pivot points starting at pin point, working towards bead position
