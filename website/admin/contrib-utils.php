@@ -11,7 +11,8 @@
     include_once(SITE_ROOT."admin/sim-utils.php");  
     include_once(SITE_ROOT."admin/nominate-utils.php");  
 
-	define('DEFAULT_CONTRIBUTOR_DESC', 'I am a teacher who uses PhET in my classes');
+	define("BROWSE_CACHE", 				'browse-pages');
+	define('DEFAULT_CONTRIBUTOR_DESC',  'I am a teacher who uses PhET in my classes');
     
     function contribution_search_for_contributions($search_for) {
     	return db_search_for(
