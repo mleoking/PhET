@@ -246,7 +246,8 @@ public class ToolboxNode extends PhetPNode {
 //            double L = 0.8;
             double height = 1.8;
 //            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.01, true );
-            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.001, true );
+//            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 0.001, true );
+            return new Battery( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( L, 0 ), L, height, 1E-4, true );
         }
     }
 
