@@ -31,7 +31,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 tm.setAppliedForceMagnitude( value );
             }
         } );
-        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Net Force", Color.black, "Fnet", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() ) );
+//        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Net Force", Color.black, "Fnet", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() ) );
         forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Brake Force", Color.red, "Fnet", "N", new BasicStroke( 3 ), false, "net", tm.getBrakeForceMagnitudeVariable() ) );
 
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
