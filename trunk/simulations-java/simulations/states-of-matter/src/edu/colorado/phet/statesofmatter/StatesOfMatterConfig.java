@@ -14,7 +14,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final int WINDOW_HEIGHT = 600;
     public static final int INITIAL_PARTICLE_COUNT = 100;
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(-3, -4, 6, 8);
-    public static final double INITIAL_KINETIC_ENERGY = 300;
+    public static final double INITIAL_KINETIC_ENERGY = 1500;
 
     public StatesOfMatterConfig(String[] commandLineArgs, FrameSetup frameSetup) {
         super(commandLineArgs, frameSetup, RESOURCES);

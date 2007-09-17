@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 public class EngineConfig {
     public static final EngineConfig TEST = new EngineConfig(
-        0.0,
+        0.0005,
         0.0,
         StatesOfMatterConfig.CONTAINER_BOUNDS,
         Math.pow(2.0, 1.0/6.0)
