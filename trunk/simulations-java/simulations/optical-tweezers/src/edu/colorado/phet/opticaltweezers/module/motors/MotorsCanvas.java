@@ -108,7 +108,6 @@ public class MotorsCanvas extends OTAbstractCanvas {
         // Pushpin
         PushpinNode pushpinNode = new PushpinNode();
         Point2D dnaPosition = modelViewTransform.modelToView( dnaStrand.getPosition() );
-//        double enzymeDiameter = modelViewTransform.modelToView( Math.min( enzymeA.getOuterDiameter(), enzymeB.getOuterDiameter() ) );
         pushpinNode.setOffset( dnaPosition );
         
         // Bead
