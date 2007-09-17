@@ -16,7 +16,7 @@ import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
+import edu.colorado.phet.opticaltweezers.view.NewDNAStrandNode;
 
 /**
  * DNAModule is the "Fun with DNA" module.
@@ -171,22 +171,22 @@ public class DNAModule extends OTAbstractModule {
             fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            DNAStrand dnaStrand = _model.getDNAStrand();
+            NewDNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( DNADefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
             dnaStrand.setEvolutionDt( DNADefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrand.setFluidDragCoefficient( DNADefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrand.initializeStrand();
+            dnaStrand.initialize();
         }
 
         // View
         {
             // DNA Strand node
-            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
+            NewDNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
             dnaStrandNode.setPivotsVisible( DNADefaults.DNA_PIVOTS_VISIBLE );
-            dnaStrandNode.setExtensionVisible( DNADefaults.DNA_EXTENSION_VISIBLE );
+            dnaStrandNode.setExtensionsVisible( DNADefaults.DNA_EXTENSIONS_VISIBLE );
         }
 
         // Control panel settings that are view-related

@@ -15,13 +15,21 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
- * NewDNAStrand
- * 
- * <p>
+ * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
+ * The strand is pinned at some point along its contour length.
+ * The head is attached to a bead, while the tail is free (unless
+ * the pin is at the tail).
+ *  * <p>
  * Terminology:
  * head - the end attached to the bead that is under the laser's influence
  * tail - the end that is moving freely
  * pin - the point where the strand is pinned, same as the strand's position
+ * <p>
+ * This model is unlikely to be useful in any other simulations.
+ * The force model is based on physics. But the model of strand motion
+ * is pure "Hollywood"; that is, it is intended to give the correct appearance 
+ * but has no basis in reality. The strand is modeled as a set of pivot points,
+ * connected by line segements.  Each line segment behaves like a spring.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -61,6 +69,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
     private ArrayList _headPivots; // array of DNAPivot, first element is closest to pin
     private ArrayList _tailPivots; // array of DNAPivot, first element is closest to pin
     private double _headClosestSpringLength; // length of spring closest to pin in segment between pin and head
+    private double _tailClosestSpringLength; // length of spring closest to pin in segment between pin and tail
     
     /*
      * Maximum that the DNA strand can be stretched, expressed as a percentage
@@ -147,7 +156,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
             _fluidDragCoefficient = _fluidDragCoefficientRange.getDefault();
         }
         
-        initializePivots();
+        initialize();
     }
     
     //----------------------------------------------------------------------------
@@ -182,6 +191,16 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
      */
     public double getHeadExtension() {
         return getExtension( getHeadX(), getHeadY() );
+    }
+    
+    /**
+     * Gets the maximum extension that the head segement of the strand can have.
+     * This is a function of the strand's "stretchiness" and the length of the head segment
+     * 
+     * @return maximum extension (nm)
+     */
+    public double getMaxHeadExtension() {
+        return getMaxStretchiness() * getHeadContourLength();
     }
     
     /**
@@ -432,6 +451,10 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
     // Strand springs-&-pivots models and evolution
     //----------------------------------------------------------------------------
     
+    public void initialize() {
+        initializePivots();
+    }
+    
     /*
      * Initializes the pivot points that connect the springs.
      * All the springs are complete springs to start with.
@@ -461,7 +484,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
             final double headSpringLength = headExtension / headNumberOfSprings;
             final double headAngle = PolarCartesianConverter.getAngle( beadPosition.getX() - pinPosition.getX(), beadPosition.getY() - pinPosition.getY() );
             final double xDelta = PolarCartesianConverter.getX( headSpringLength, headAngle );
-            final double yDelta = PolarCartesianConverter.getX( headSpringLength, headAngle );
+            final double yDelta = PolarCartesianConverter.getY( headSpringLength, headAngle );
             
             // first pivot is at the pin
             _headPivots.add( _pinPivot );
@@ -488,8 +511,8 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
             
             final double tailSpringLength = _maxSpringLength * _maxStretchiness;
             final double tailAngle = 0; // tail will start vertically aligned with pin
-            final double xDelta = PolarCartesianConverter.getX( tailSpringLength, tailAngle );
-            final double yDelta = PolarCartesianConverter.getX( tailSpringLength, tailAngle );
+            final double xDelta = -PolarCartesianConverter.getX( tailSpringLength, tailAngle );
+            final double yDelta = -PolarCartesianConverter.getY( tailSpringLength, tailAngle );
             
             // first pivot is at the pin
             _tailPivots.add( _pinPivot );
@@ -502,10 +525,15 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
                 _tailPivots.add( currentPivot );
                 previousPivot = currentPivot;
             }
+            
+            _tailClosestSpringLength = _maxSpringLength;
         }
         
         // attach invisible bead to tail
         //XXX
+        
+        // evolve so that it looks correct
+        evolve( _clock.getDt() );
         
         notifyObservers( PROPERTY_SHAPE );
     }
@@ -526,16 +554,27 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
      */
     private void evolveSegment( double clockStep, boolean evolveHeadSegment ) {
         
-        // Choose pivots for one of the 2 segments
-        ArrayList pivots = ( evolveHeadSegment ) ? _headPivots : _tailPivots;
+        // Things that depend on whether we're evolving head or tail...
+        ArrayList pivots = null;
+        double closestSpringLength = 0;
+        double stretchFactor = 0;
+        if ( evolveHeadSegment ) {
+            pivots = _headPivots;
+            closestSpringLength = _headClosestSpringLength;
+            stretchFactor = Math.min( 1, getHeadExtension() / getHeadContourLength() );
+        }
+        else {
+            pivots = _tailPivots;
+            closestSpringLength = _tailClosestSpringLength;
+            stretchFactor = Math.min( 1, getTailExtension() / getTailContourLength() );
+        }
+        
+        // return if we only have 1 spring
         if ( pivots.size() < 3 ) {
             return;
         }
         
         // scale down the spring's motion as the segment becomes stretched taut
-        final double extension = ( evolveHeadSegment ) ? getHeadExtension() : getTailExtension();
-        final double contourLength = ( evolveHeadSegment ) ? getHeadContourLength() : getTailContourLength();
-        final double stretchFactor = Math.min( 1, extension / contourLength );
         final double springMotionScale = Math.sqrt( 1 - stretchFactor );
         
         // scale all time dependent parameters based on how the clockStep compares to reference clock step
@@ -546,7 +585,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
             final int numberOfPivots = pivots.size();
-            DNAPivot currentPivot, previousPivot, nextPivot; // previousPivot is closer to tail, nextPivot is closer to head
+            DNAPivot currentPivot, previousPivot, nextPivot; // previousPivot is closer to pin, nextPivot is closer to end
             
             // traverse all pivots starting at pin, skip first and last pivots
             for ( int j = 1; j < numberOfPivots - 1; j++ ) {
@@ -581,9 +620,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
                 // acceleration
                 double springConstant = _springConstant;
                 if ( j == 1 ) {
-                    final double maxSpringLength = ( _contourLength / _numberOfSprings );
-                    final double partialSpringLength = ( evolveHeadSegment ) ? _headClosestSpringLength : ( maxSpringLength - _headClosestSpringLength );
-                    springConstant = _springConstant * ( _contourLength / _numberOfSprings ) / partialSpringLength;
+                    springConstant = _springConstant * ( _contourLength / _numberOfSprings ) / closestSpringLength;
                 }
                 final double xAcceleration = ( springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
                     ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;

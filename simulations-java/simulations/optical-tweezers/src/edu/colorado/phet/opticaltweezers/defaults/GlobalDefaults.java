@@ -68,7 +68,7 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = new IntegerRange( 1, 100, 30 );
     public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0, 0.00020, 0.000015 );
     public static final boolean DNA_PIVOTS_VISIBLE = false;
-    public static final boolean DNA_EXTENSION_VISIBLE = false;
+    public static final boolean DNA_EXTENSIONS_VISIBLE = false;
     
     // Potential Energy chart
     public static final double POTENTIAL_ENERGY_SAMPLE_WIDTH = 5; // nm

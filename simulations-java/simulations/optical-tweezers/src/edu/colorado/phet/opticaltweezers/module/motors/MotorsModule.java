@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.MotorsConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
+import edu.colorado.phet.opticaltweezers.view.NewDNAStrandNode;
 
 /**
  * MotorsModule is the "Molecular Motors" module.
@@ -168,14 +168,14 @@ public class MotorsModule extends OTAbstractModule {
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            DNAStrand dnaStrand = _model.getDNAStrand();
+            NewDNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
             dnaStrand.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
             dnaStrand.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrand.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrand.initializeStrand();
+            dnaStrand.initialize();
 
             // Enzyme
             _model.getEnzymeA().setEnabled( MotorsDefaults.ENZYME_A_SELECTED );
@@ -185,9 +185,9 @@ public class MotorsModule extends OTAbstractModule {
         // View
         {
             // DNA Strand node
-            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
+            NewDNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
             dnaStrandNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
-            dnaStrandNode.setExtensionVisible( MotorsDefaults.DNA_EXTENSION_VISIBLE );
+            dnaStrandNode.setExtensionsVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
         }
 
         // Control panel settings that are view-related

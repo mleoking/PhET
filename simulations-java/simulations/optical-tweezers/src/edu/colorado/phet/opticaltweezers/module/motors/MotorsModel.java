@@ -21,7 +21,7 @@ public class MotorsModel extends OTAbstractModel {
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
     private final Bead _bead;
-    private final DNAStrand _dnaStrand;
+    private final NewDNAStrand _dnaStrand;
     private final EnzymeA _enzymeA;
     private final EnzymeB _enzymeB;
     
@@ -79,20 +79,22 @@ public class MotorsModel extends OTAbstractModel {
                 MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
          
-         _dnaStrand = new DNAStrand( MotorsDefaults.DNA_CONTOUR_LENGTH, 
+         _dnaStrand = new NewDNAStrand( MotorsDefaults.DNA_POSITION,
+                 MotorsDefaults.DNA_CONTOUR_LENGTH, 
                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
                  MotorsDefaults.DNA_NUMBER_OF_SPRINGS, 
+                 MotorsDefaults.DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL,
                  MotorsDefaults.DNA_MAX_STRETCHINESS,
+                 _bead,
+                 _fluid,
+                 clock,
+                 MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                  MotorsDefaults.DNA_SPRING_CONSTANT_RANGE, 
                  MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE, 
                  MotorsDefaults.DNA_KICK_CONSTANT_RANGE, 
                  MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  MotorsDefaults.DNA_EVOLUTION_DT_RANGE,
-                 MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE,
-                 MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
-                 _bead,
-                 _fluid,
-                 clock );
+                 MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE );
          addModelElement( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
          
@@ -137,7 +139,7 @@ public class MotorsModel extends OTAbstractModel {
         return _bead;
     }
     
-    public DNAStrand getDNAStrand() {
+    public NewDNAStrand getDNAStrand() {
         return _dnaStrand;
     }
     

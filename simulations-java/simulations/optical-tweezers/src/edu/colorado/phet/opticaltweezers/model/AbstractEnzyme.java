@@ -36,7 +36,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNAStrand _dnaStrand;
+    private NewDNAStrand _dnaStrand;
     private Fluid _fluid;
     private final double _maxDt;
     
@@ -55,7 +55,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     
     public AbstractEnzyme( Point2D position, 
             double outerDiameter, double innerDiameter,
-            DNAStrand dnaStrand, Fluid fluid,
+            NewDNAStrand dnaStrand, Fluid fluid,
             double maxDt,
             double maxDNASpeed,
             double[] calibrationConstants ) {

@@ -3,8 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- convert DNA module to use NewDNAStrand
-- convert Motors module to use NewDNAStrand
 - implement NewDNAStrand.pull
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
@@ -13,6 +11,7 @@ HIGH PRIORITY:
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
+- DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - OutOfMemoryError in Motors module
 - why is setActiveModule(_motorsModule) buggy?
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -47,6 +46,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/17/07 - switch over to new DNA model and view
+9/17/07 - clean up pointy end of pushpin image
 9/14/07 - create NewDNAStrandNode, view of NewDNAStrand (untested)
 9/14/07 - add evolution model to NewDNAStrand (untested)
 9/14/07 - rename variables in DNAExtensionNode to support new terminology for Molecular Motors

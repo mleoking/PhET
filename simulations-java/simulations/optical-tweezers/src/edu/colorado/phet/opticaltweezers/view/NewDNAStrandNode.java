@@ -78,6 +78,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
         // strand
         {
             _strandParentNode = new PhetPNode();
+            addChild( _strandParentNode );
             
             _headStrandPath = new GeneralPath();
             _headStrandNode = new PPath();
@@ -95,6 +96,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
         // extension
         {
             _extensionsParentNode = new PhetPNode();
+            addChild( _extensionsParentNode );
             
             _headExtensionNode = new DNAExtensionNode();
             _extensionsParentNode.addChild( _headExtensionNode );
@@ -150,7 +152,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_SHAPE ) {
+        if ( o == _dnaStrand && arg == NewDNAStrand.PROPERTY_SHAPE ) {
            update();
         }
     }
@@ -178,13 +180,14 @@ public class NewDNAStrandNode extends PNode implements Observer {
             if ( tailExtension > 0 ) {
                 double viewTailX = _modelViewTransform.modelToView( _dnaStrand.getTailX() );
                 double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
-                _headExtensionNode.update( tailExtension, viewPinX, viewPinY, viewTailX, viewTailY );
+                _tailExtensionNode.update( tailExtension, viewPinX, viewPinY, viewTailX, viewTailY );
             }
         }
         
+        _pivotsParentNode.removeAllChildren();
+        
         // Draw the strand, from the pin to the head
         {
-            _pivotsParentNode.removeAllChildren();
             _headStrandPath.reset();
             
             ArrayList pivots = _dnaStrand.getHeadPivots();
@@ -220,7 +223,6 @@ public class NewDNAStrandNode extends PNode implements Observer {
         
         // Draw the strand, from the pin to the tail
         {
-            _pivotsParentNode.removeAllChildren();
             _tailStrandPath.reset();
             
             ArrayList pivots = _dnaStrand.getTailPivots();

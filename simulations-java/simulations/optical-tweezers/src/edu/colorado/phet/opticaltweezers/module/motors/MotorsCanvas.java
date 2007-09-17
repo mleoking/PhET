@@ -44,7 +44,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
     // View
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
-    private DNAStrandNode _dnaStrandNode;
+    private NewDNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
@@ -73,7 +73,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
-        DNAStrand dnaStrand = model.getDNAStrand();
+        NewDNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         EnzymeA enzymeA = model.getEnzymeA();
         EnzymeB enzymeB = model.getEnzymeB();
@@ -99,18 +99,17 @@ public class MotorsCanvas extends OTAbstractCanvas {
         _laserNode.setElectricFieldVisible( false );
         
         // DNA Strand
-        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
+        _dnaStrandNode = new NewDNAStrandNode( dnaStrand, modelViewTransform );
         
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
         _enzymeBNode = new EnzymeBNode( enzymeB, modelViewTransform );
         
         // Pushpin
-        assert( enzymeA.getPosition().equals( enzymeB.getPosition() ) ); // if false, will need to reposition pushpin when enzyme choice changes
         PushpinNode pushpinNode = new PushpinNode();
-        Point2D pushpinPosition = modelViewTransform.modelToView( enzymeA.getPosition() );
-        double enzymeDiameter = modelViewTransform.modelToView( Math.min( enzymeA.getOuterDiameter(), enzymeB.getOuterDiameter() ) );
-        pushpinNode.setOffset( pushpinPosition.getX() - ( enzymeDiameter / 6 ),  pushpinPosition.getY() - ( enzymeDiameter / 6 ) );
+        Point2D dnaPosition = modelViewTransform.modelToView( dnaStrand.getPosition() );
+//        double enzymeDiameter = modelViewTransform.modelToView( Math.min( enzymeA.getOuterDiameter(), enzymeB.getOuterDiameter() ) );
+        pushpinNode.setOffset( dnaPosition );
         
         // Bead
         _beadDragBoundsNode = new PPath();
@@ -235,7 +234,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         return _dnaForceNode;
     }
     
-    public DNAStrandNode getDNAStrandNode() {
+    public NewDNAStrandNode getDNAStrandNode() {
         return _dnaStrandNode;
     }
     

@@ -84,7 +84,9 @@ public class MotorsDefaults {
     public static final double DNA_CONTOUR_LENGTH = GlobalDefaults.DNA_CONTOUR_LENGTH;
     public static final double DNA_PERSISTENCE_LENGTH = GlobalDefaults.DNA_PERSISTENCE_LENGTH;
     public static final int DNA_NUMBER_OF_SPRINGS = GlobalDefaults.DNA_NUMBER_OF_SPRINGS;
+    public static final int DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL = 4;
     public static final double DNA_MAX_STRETCHINESS = GlobalDefaults.DNA_MAX_STRETCHINESS;
+    public static final Point2D DNA_POSITION = new Point2D.Double( BEAD_POSITION.getX() - ( 0.75 * DNA_MAX_STRETCHINESS * DNA_CONTOUR_LENGTH ), BEAD_POSITION.getY() );
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = GlobalDefaults.DNA_SPRING_CONSTANT_RANGE;
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_DRAG_COEFFICIENT_RANGE;
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = GlobalDefaults.DNA_EVOLUTION_DT_RANGE;
@@ -92,12 +94,12 @@ public class MotorsDefaults {
     public static final IntegerRange DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE = GlobalDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE;
     public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE;
     public static final boolean DNA_PIVOTS_VISIBLE = GlobalDefaults.DNA_PIVOTS_VISIBLE;
-    public static final boolean DNA_EXTENSION_VISIBLE = GlobalDefaults.DNA_EXTENSION_VISIBLE;
+    public static final boolean DNA_EXTENSIONS_VISIBLE = GlobalDefaults.DNA_EXTENSIONS_VISIBLE;
     
     // Enzyme 
     public static final double ENZYME_OUTER_DIAMETER = 150; // nm
     public static final double ENZYME_INNER_DIAMETER = ENZYME_OUTER_DIAMETER / 2; // nm
-    public static final Point2D ENZYME_POSITION = new Point2D.Double( 500, MICROSCOPE_SLIDE_POSITION.getY() ); // nm
+    public static final Point2D ENZYME_POSITION = DNA_POSITION; // at the DNA's pin point
     
     // Ruler
     public static final double RULER_Y_POSITION = MICROSCOPE_SLIDE_POSITION.getY() + ( MICROSCOPE_SLIDE_CENTER_HEIGHT / 2 ) - 300; // nm, just above bottom of slide
