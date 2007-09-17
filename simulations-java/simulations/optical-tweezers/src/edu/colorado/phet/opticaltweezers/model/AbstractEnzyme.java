@@ -114,7 +114,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      */
     public double getDNASpeed() {
         final double atp = _fluid.getATPConcentration();
-        final double fDNA = _dnaStrand.getForce().getMagnitude();
+        final double fDNA = _dnaStrand.getHeadForce().getMagnitude();
         return getDNASpeed( atp, fDNA );
     }
     
