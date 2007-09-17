@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- attach invisible bead to free end of DNA strand
 - implement NewDNAStrand.pull
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
@@ -11,6 +12,7 @@ HIGH PRIORITY:
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
+- get different calibration constants for EnzymeB
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - OutOfMemoryError in Motors module
 - why is setActiveModule(_motorsModule) buggy?
@@ -46,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/17/07 - remove old DNA model and view classes
 9/17/07 - switch over to new DNA model and view
 9/17/07 - clean up pointy end of pushpin image
 9/14/07 - create NewDNAStrandNode, view of NewDNAStrand (untested)

@@ -19,9 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
-import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 import edu.colorado.phet.opticaltweezers.view.NewDNAStrandNode;
 
 /**
