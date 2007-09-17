@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- split DNAStrand into 2 DNASegments, attached beads and vectors to DNASegments
 - attach invisible bead to free end of DNA strand
 - implement DNAStrand.pull
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
