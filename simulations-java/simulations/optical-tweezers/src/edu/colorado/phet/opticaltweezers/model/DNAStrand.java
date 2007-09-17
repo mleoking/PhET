@@ -404,7 +404,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * 
      * @return force (pN)
      */
-    public Vector2D getHeadForce() {
+    public Vector2D getForce() {
         return getForce( getHeadX(), getHeadY() );
     }
     
