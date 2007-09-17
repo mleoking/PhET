@@ -21,7 +21,7 @@ public class DNAModel extends OTAbstractModel {
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
     private final Bead _bead;
-    private final DNAStrand _dnaStrand;
+    private final NewDNAStrand _dnaStrand;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -77,20 +77,22 @@ public class DNAModel extends OTAbstractModel {
                 DNADefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
          
-         _dnaStrand = new DNAStrand( DNADefaults.DNA_CONTOUR_LENGTH, 
+         _dnaStrand = new NewDNAStrand( DNADefaults.DNA_POSITION,
+                 DNADefaults.DNA_CONTOUR_LENGTH, 
                  DNADefaults.DNA_PERSISTENCE_LENGTH, 
-                 DNADefaults.DNA_NUMBER_OF_SPRINGS, 
+                 DNADefaults.DNA_NUMBER_OF_SPRINGS,
+                 DNADefaults.DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL,
                  DNADefaults.DNA_MAX_STRETCHINESS,
+                 _bead,
+                 _fluid,
+                 clock,
+                 DNADefaults.DNA_REFERENCE_CLOCK_STEP,
                  DNADefaults.DNA_SPRING_CONSTANT_RANGE, 
                  DNADefaults.DNA_DRAG_COEFFICIENT_RANGE, 
                  DNADefaults.DNA_KICK_CONSTANT_RANGE, 
                  DNADefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  DNADefaults.DNA_EVOLUTION_DT_RANGE,
-                 DNADefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE,
-                 DNADefaults.DNA_REFERENCE_CLOCK_STEP,
-                 _bead,
-                 _fluid,
-                 clock );
+                 DNADefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE );
          addModelElement( _dnaStrand );
          _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
 
@@ -117,7 +119,7 @@ public class DNAModel extends OTAbstractModel {
         return _bead;
     }
     
-    public DNAStrand getDNAStrand() {
+    public NewDNAStrand getDNAStrand() {
         return _dnaStrand;
     }
     
