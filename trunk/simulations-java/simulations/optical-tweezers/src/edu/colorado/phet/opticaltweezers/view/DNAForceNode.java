@@ -98,7 +98,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     
     private void updateVectors() {
         // calcuate the trap force at the bead's position
-        Vector2D dnaForce = _bead.getDNAForce();
+        Vector2D dnaForce = _dnaStrand.getForce( _bead.getPositionReference() );
         // update the vector
         setForce( dnaForce );
     }

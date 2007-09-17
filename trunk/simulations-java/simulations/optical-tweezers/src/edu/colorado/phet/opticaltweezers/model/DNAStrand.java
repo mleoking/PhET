@@ -404,8 +404,18 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * 
      * @return force (pN)
      */
-    public Vector2D getForce() {
+    public Vector2D getHeadForce() {
         return getForce( getHeadX(), getHeadY() );
+    }
+    
+    /**
+     * Gets the DNA force at some arbitrary point.
+     * 
+     * @param p
+     * @return force (pN)
+     */
+    public Vector2D getForce( Point2D p ) {
+        return getForce( p.getX(), p.getY() );
     }
     
     /**
