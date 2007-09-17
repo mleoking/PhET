@@ -46,6 +46,8 @@ public class Bead extends MovableObject implements ModelElement {
     // units conversions
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
+    
+    private static final Vector2D ZERO_VECTOR = new Vector2D.Cartesian( 0, 0 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -253,7 +255,11 @@ public class Bead extends MovableObject implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getTrapForce() {
-        return _laser.getTrapForce( getX(), getY() );
+        Vector2D trapForce = ZERO_VECTOR;
+        if ( _laser != null ) {
+            trapForce = _laser.getTrapForce( getX(), getY() );
+        }
+        return trapForce;
     }
     
     /**
@@ -262,7 +268,11 @@ public class Bead extends MovableObject implements ModelElement {
      * @return potential energy (mJ)
      */
     public double getPotentialEnergy() {
-        return _laser.getPotentialEnergy( getX(), getY() );
+        double potentialEnergy = 0;
+        if ( _laser != null ) {
+            potentialEnergy = _laser.getPotentialEnergy( getX(), getY() );
+        }
+        return potentialEnergy;
     }
     
     /**
@@ -284,30 +294,18 @@ public class Bead extends MovableObject implements ModelElement {
     }
     
     /**
-     * Gets the DNA force, if the bead is attached to a DNA strand.
-     * 
-     * @return Vector2D, zero if the bead is not attached to a DNA strand
-     */
-    public Vector2D getDNAForce() {
-        Vector2D dnaForce = null;
-        if ( _dnaStrand != null ) {
-            dnaForce = _dnaStrand.getForce();
-        }
-        else {
-            dnaForce = new Vector2D.Cartesian( 0, 0 );
-        }
-        return dnaForce;
-    }
-    
-    /**
      * Gets the x-component of the electric field at the bead's position.
      * 
      * @return
      */
     public double getElectricFieldX() {
-        double xOffset = _position.getX() - _laser.getPositionReference().getX();
-        double yOffset = _position.getY() - _laser.getPositionReference().getY();
-        return _laser.getElectricFieldX( xOffset, yOffset );
+        double electricFieldX = 0;
+        if ( _laser != null ) {
+            double xOffset = _position.getX() - _laser.getPositionReference().getX();
+            double yOffset = _position.getY() - _laser.getPositionReference().getY();
+            electricFieldX = _laser.getElectricFieldX( xOffset, yOffset );
+        }
+        return electricFieldX;
     }
     
     //----------------------------------------------------------------------------
@@ -589,14 +587,17 @@ public class Bead extends MovableObject implements ModelElement {
          * for dt and power that we know will make the motion look "really fast".
          * Note that this is also done in the main loop below, when calculating trap force.
          */
-        Vector2D trapForce = null;
-        final boolean fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= _vacuumFastThreshold ) );
-        if ( fakeMotion ) {
-            clockDt = _vacuumFastDt;
-            trapForce = _laser.getTrapForce( xOld, yOld, _vacuumFastPower );
-        }
-        else {
-            trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+        boolean fakeMotion = false;
+        Vector2D trapForce = ZERO_VECTOR;
+        if ( _laser != null ) {
+            fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= _vacuumFastThreshold ) );
+            if ( fakeMotion ) {
+                clockDt = _vacuumFastDt;
+                trapForce = _laser.getTrapForce( xOld, yOld, _vacuumFastPower );
+            }
+            else {
+                trapForce = _laser.getTrapForce( xOld, yOld ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+            }
         }
         
         // current acceleration
@@ -634,12 +635,15 @@ public class Bead extends MovableObject implements ModelElement {
             }
             
             // trap force
-            if ( fakeMotion ) {
-                // See comment above about faking motion in a vacuum
-                trapForce = _laser.getTrapForce( xNew, yNew, _vacuumFastPower );
-            }
-            else {
-                trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+            trapForce = ZERO_VECTOR;
+            if ( _laser != null ) {
+                if ( fakeMotion ) {
+                    // See comment above about faking motion in a vacuum
+                    trapForce = _laser.getTrapForce( xNew, yNew, _vacuumFastPower );
+                }
+                else {
+                    trapForce = _laser.getTrapForce( xNew, yNew ); // pN = 1E-12 * N = 1E-12 * (kg*m)/sec^2
+                }
             }
             
             // new acceleration
@@ -730,7 +734,10 @@ public class Bead extends MovableObject implements ModelElement {
         for ( int i = 0; i < loops; i++ ) {
 
             // Trap force (pN)
-            Vector2D trapForce = _laser.getTrapForce( xOld, yOld );
+            Vector2D trapForce = ZERO_VECTOR;
+            if ( _laser != null ) {
+                trapForce = _laser.getTrapForce( xOld, yOld );
+            }
 
             // DNA force (pN)
             Vector2D dnaForce = null;
