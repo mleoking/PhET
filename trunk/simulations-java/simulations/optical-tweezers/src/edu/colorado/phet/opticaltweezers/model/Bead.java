@@ -237,14 +237,10 @@ public class Bead extends MovableObject implements ModelElement {
      * @return Vector2D
      */
     public Vector2D getDragForce() {
-        Vector2D dragForce = null;
+        Vector2D dragForce = ZERO_VECTOR;
         if ( _fluid.isEnabled() ) {
             // bead is in fluid
             dragForce = _fluid.getDragForce( _velocity );
-        }
-        else {
-            // bead is in a vacuum
-            dragForce = new Vector2D.Cartesian( 0, 0 );
         }
         return dragForce;
     }
@@ -730,31 +726,27 @@ public class Bead extends MovableObject implements ModelElement {
             loops = _numberOfDtSubdivisions;
         }
         
+        // assume these are all zero
+        Vector2D trapForce = ZERO_VECTOR;
+        Vector2D dnaForce = ZERO_VECTOR;
+        Vector2D brownianDisplacement = ZERO_VECTOR;
+        
         // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
 
             // Trap force (pN)
-            Vector2D trapForce = ZERO_VECTOR;
             if ( _laser != null ) {
                 trapForce = _laser.getTrapForce( xOld, yOld );
             }
 
             // DNA force (pN)
-            Vector2D dnaForce = null;
             if ( _dnaStrand != null ) {
                 dnaForce = _dnaStrand.getForce( xOld, yOld );
             }
-            else {
-                dnaForce = new Vector2D.Cartesian( 0, 0 );
-            }
                 
             // Brownian displacement (nm)
-            Vector2D brownianDisplacement = null;
             if ( _brownianMotionEnabled ) {
                 brownianDisplacement = computeBrownianDisplacement( dt );
-            }
-            else {
-                brownianDisplacement = new Vector2D.Cartesian( 0, 0 );
             }
 
             // New position (nm)
@@ -828,7 +820,7 @@ public class Bead extends MovableObject implements ModelElement {
         }
         else {
             // bead is in a vacuum
-            displacement = new Vector2D.Cartesian( 0, 0 );
+            displacement = ZERO_VECTOR;
         }
         return displacement;
     }
