@@ -12,7 +12,6 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
-import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
 import edu.umd.cs.piccolo.PNode;
