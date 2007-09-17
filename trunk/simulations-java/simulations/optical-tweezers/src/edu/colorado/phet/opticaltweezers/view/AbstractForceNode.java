@@ -24,8 +24,8 @@ public abstract class AbstractForceNode extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean SHOW_VALUES = true;
-    private static final boolean SHOW_COMPONENT_VECTORS = true;
+    private static final boolean SHOW_VALUES = false;
+    private static final boolean SHOW_COMPONENT_VECTORS = false;
 
     // properties of the vectors
     private static final double VECTOR_HEAD_HEIGHT = 20;
