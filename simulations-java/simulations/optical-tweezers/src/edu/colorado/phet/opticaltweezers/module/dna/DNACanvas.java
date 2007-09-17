@@ -44,7 +44,7 @@ public class DNACanvas extends OTAbstractCanvas {
     // View
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
-    private NewDNAStrandNode _dnaStrandNode;
+    private DNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
@@ -70,7 +70,7 @@ public class DNACanvas extends OTAbstractCanvas {
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
-        NewDNAStrand dnaStrand = model.getDNAStrand();
+        DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         ModelViewTransform modelViewTransform = model.getModelViewTransform();
         
@@ -94,7 +94,7 @@ public class DNACanvas extends OTAbstractCanvas {
         _laserNode.setElectricFieldVisible( false );
         
         // DNA Strand
-        _dnaStrandNode = new NewDNAStrandNode( dnaStrand, modelViewTransform );
+        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
         // Pushpin
         PushpinNode pushpinNode = new PushpinNode();
@@ -207,7 +207,7 @@ public class DNACanvas extends OTAbstractCanvas {
         return _dnaForceNode;
     }
     
-    public NewDNAStrandNode getDNAStrandNode() {
+    public DNAStrandNode getDNAStrandNode() {
         return _dnaStrandNode;
     }
 

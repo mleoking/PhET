@@ -5,7 +5,7 @@ package edu.colorado.phet.opticaltweezers.view;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -57,7 +57,7 @@ class BeadDragHandler extends BoundedDragHandler {
      * @param event
      */
     public void mouseDragged( PInputEvent event ) {
-        NewDNAStrand dnaStrand = _bead.getDNAStrand();
+        DNAStrand dnaStrand = _bead.getDNAStrand();
         if ( dnaStrand == null ) {
             super.mouseDragged( event );
         }

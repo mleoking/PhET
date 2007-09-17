@@ -33,7 +33,7 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NewDNAStrand extends FixedObject implements ModelElement, Observer {
+public class DNAStrand extends FixedObject implements ModelElement, Observer {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -100,7 +100,7 @@ public class NewDNAStrand extends FixedObject implements ModelElement, Observer 
     // Constructors & initializers
     //----------------------------------------------------------------------------
     
-    public NewDNAStrand( 
+    public DNAStrand( 
             Point2D position,
             double contourLength,
             double persistenceLength,

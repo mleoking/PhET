@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.MotorsConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.NewDNAStrandNode;
+import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
  * MotorsModule is the "Molecular Motors" module.
@@ -168,7 +168,7 @@ public class MotorsModule extends OTAbstractModule {
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            NewDNAStrand dnaStrand = _model.getDNAStrand();
+            DNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
@@ -185,7 +185,7 @@ public class MotorsModule extends OTAbstractModule {
         // View
         {
             // DNA Strand node
-            NewDNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
+            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
             dnaStrandNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
             dnaStrandNode.setExtensionsVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
         }

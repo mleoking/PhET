@@ -16,7 +16,7 @@ import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
 import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.view.NewDNAStrandNode;
+import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
  * DNAModule is the "Fun with DNA" module.
@@ -171,7 +171,7 @@ public class DNAModule extends OTAbstractModule {
             fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            NewDNAStrand dnaStrand = _model.getDNAStrand();
+            DNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( DNADefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
@@ -184,7 +184,7 @@ public class DNAModule extends OTAbstractModule {
         // View
         {
             // DNA Strand node
-            NewDNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
+            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
             dnaStrandNode.setPivotsVisible( DNADefaults.DNA_PIVOTS_VISIBLE );
             dnaStrandNode.setExtensionsVisible( DNADefaults.DNA_EXTENSIONS_VISIBLE );
         }

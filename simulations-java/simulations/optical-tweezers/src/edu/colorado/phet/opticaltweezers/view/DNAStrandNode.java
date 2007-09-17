@@ -13,7 +13,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NewDNAStrandNode extends PNode implements Observer {
+public class DNAStrandNode extends PNode implements Observer {
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -42,7 +42,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private NewDNAStrand _dnaStrand;
+    private DNAStrand _dnaStrand;
     private ModelViewTransform _modelViewTransform;
     
     private GeneralPath _headStrandPath, _tailStrandPath;
@@ -63,7 +63,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
      * @param dnaStrand
      * @param modelViewTransform
      */
-    public NewDNAStrandNode( NewDNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
+    public DNAStrandNode( DNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
         super();
         
         setPickable( false );
@@ -151,7 +151,7 @@ public class NewDNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _dnaStrand && arg == NewDNAStrand.PROPERTY_SHAPE ) {
+        if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_SHAPE ) {
            update();
         }
     }
