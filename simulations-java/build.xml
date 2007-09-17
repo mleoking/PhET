@@ -3,7 +3,7 @@
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
 PhET-team specific tasks are located in an auxiliary build file.  
 -->
-<project name="PhET Master Build Script" default="gui" basedir=".">
+<project name="PhET Master Build Script" default="launch-sim" basedir=".">
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
       The supported options are:
@@ -183,7 +183,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <target name="_init" depends="_declare-phet-build-tasks"/>
 
-    <target name="gui" depends="_init">
+    <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
         <phet-build-gui/>
     </target>
     
