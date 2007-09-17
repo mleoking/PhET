@@ -49,6 +49,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/17/07 - use one instance where zero vector is required
 9/17/07 - add DNAStrand.getForce(Point2D), rename getForce() -> getHeadForce()
 9/17/07 - make laser optional in Bead model, to support invisible bead attached to tail of DNA strand
 9/17/07 - rename NewDNAStrand -> DNAStrand, NewDNAStrandNode -> DNAStrandNode
