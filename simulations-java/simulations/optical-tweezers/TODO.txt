@@ -48,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/17/07 - make laser optional in Bead model, to support invisible bead attached to tail of DNA strand
 9/17/07 - rename NewDNAStrand -> DNAStrand, NewDNAStrandNode -> DNAStrandNode
 9/17/07 - remove old DNA model and view classes
 9/17/07 - switch over to new DNA model and view
