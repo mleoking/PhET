@@ -12,7 +12,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
@@ -28,7 +28,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     //----------------------------------------------------------------------------
     
     private Bead _bead;
-    private NewDNAStrand _dnaStrand;
+    private DNAStrand _dnaStrand;
     private ModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
@@ -36,7 +36,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAForceNode( Bead bead, NewDNAStrand dnaStrand, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DNAForceNode( Bead bead, DNAStrand dnaStrand, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.DNA_FORCE_COLOR );
         
         _bead = bead;
@@ -81,7 +81,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
                 updatePosition();
                 updateVectors();
             }
-            else if ( o == _dnaStrand && arg == NewDNAStrand.PROPERTY_FORCE ) {
+            else if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_FORCE ) {
                 updateVectors();
             }
         }

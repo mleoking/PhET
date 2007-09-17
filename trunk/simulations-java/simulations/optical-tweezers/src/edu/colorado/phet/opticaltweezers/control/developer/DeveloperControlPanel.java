@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
-import edu.colorado.phet.opticaltweezers.model.NewDNAStrand;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.OTClock;
 import edu.colorado.phet.opticaltweezers.view.*;
 
@@ -41,8 +41,8 @@ public class DeveloperControlPanel extends JPanel {
             OTClock clock,
             Bead bead, 
             Laser laser,
-            NewDNAStrand dnaStrand,
-            NewDNAStrandNode dnaStrandNode,
+            DNAStrand dnaStrand,
+            DNAStrandNode dnaStrandNode,
             TrapForceNode trapForceNode,
             FluidDragForceNode fluidDragForceNode,
             DNAForceNode dnaForceNode,

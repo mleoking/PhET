@@ -44,7 +44,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
     // View
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
-    private NewDNAStrandNode _dnaStrandNode;
+    private DNAStrandNode _dnaStrandNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
@@ -73,7 +73,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
-        NewDNAStrand dnaStrand = model.getDNAStrand();
+        DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         EnzymeA enzymeA = model.getEnzymeA();
         EnzymeB enzymeB = model.getEnzymeB();
@@ -99,7 +99,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         _laserNode.setElectricFieldVisible( false );
         
         // DNA Strand
-        _dnaStrandNode = new NewDNAStrandNode( dnaStrand, modelViewTransform );
+        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
         
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
@@ -233,7 +233,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         return _dnaForceNode;
     }
     
-    public NewDNAStrandNode getDNAStrandNode() {
+    public DNAStrandNode getDNAStrandNode() {
         return _dnaStrandNode;
     }
     
