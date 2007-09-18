@@ -12,8 +12,8 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
+import edu.colorado.phet.opticaltweezers.model.DNAStrandNew;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -29,7 +29,7 @@ public class DNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public static final String PROPERTY_PIVOTS_VISIBLE = "pivotsVisible";
-    public static final String PROPERTY_EXTENSIONS_VISIBLE = "extensionsVisible";
+    public static final String PROPERTY_EXTENSION_VISIBLE = "extensionVisible";
     
     //----------------------------------------------------------------------------
     // Class data
@@ -42,15 +42,12 @@ public class DNAStrandNode extends PNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNAStrand _dnaStrand;
+    private DNAStrandNew _dnaStrand;
     private ModelViewTransform _modelViewTransform;
     
-    private GeneralPath _headStrandPath, _tailStrandPath;
-    private PPath _headStrandNode, _tailStrandNode;
-    private DNAExtensionNode _headExtensionNode, _tailExtensionNode;
-    
-    private PNode _strandParentNode;
-    private PNode _extensionsParentNode;
+    private GeneralPath _strandPath;
+    private PPath _strandNode;
+    private DNAExtensionNode _extensionNode;
     private PNode _pivotsParentNode;
     
     //----------------------------------------------------------------------------
@@ -63,7 +60,7 @@ public class DNAStrandNode extends PNode implements Observer {
      * @param dnaStrand
      * @param modelViewTransform
      */
-    public DNAStrandNode( DNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
+    public DNAStrandNode( DNAStrandNew dnaStrand, ModelViewTransform modelViewTransform ) {
         super();
         
         setPickable( false );
@@ -75,36 +72,17 @@ public class DNAStrandNode extends PNode implements Observer {
         _modelViewTransform = modelViewTransform;
 
         // strand
-        {
-            _strandParentNode = new PhetPNode();
-            addChild( _strandParentNode );
-            
-            _headStrandPath = new GeneralPath();
-            _headStrandNode = new PPath();
-            _headStrandNode.setStroke( STRAND_STROKE );
-            _headStrandNode.setStrokePaint( STRAND_STROKE_COLOR );
-            _strandParentNode.addChild( _headStrandNode );
+        _strandPath = new GeneralPath();
+        _strandNode = new PPath();
+        _strandNode.setStroke( STRAND_STROKE );
+        _strandNode.setStrokePaint( STRAND_STROKE_COLOR );
+        addChild( _strandNode );
 
-            _tailStrandPath = new GeneralPath();
-            _tailStrandNode = new PPath();
-            _tailStrandNode.setStroke( STRAND_STROKE );
-            _tailStrandNode.setStrokePaint( STRAND_STROKE_COLOR );
-            _strandParentNode.addChild( _tailStrandNode );
-        }
-        
         // extension
-        {
-            _extensionsParentNode = new PhetPNode();
-            addChild( _extensionsParentNode );
-            
-            _headExtensionNode = new DNAExtensionNode();
-            _extensionsParentNode.addChild( _headExtensionNode );
-            
-            _tailExtensionNode = new DNAExtensionNode();
-            _extensionsParentNode.addChild( _tailExtensionNode );
-        }
+        _extensionNode = new DNAExtensionNode();
+        addChild( _extensionNode );
 
-        // pivots (debug)
+        // pivots
         _pivotsParentNode = new PhetPNode();
         addChild( _pivotsParentNode );
 
@@ -134,16 +112,16 @@ public class DNAStrandNode extends PNode implements Observer {
         return _pivotsParentNode.getVisible();
     }
     
-    public void setExtensionsVisible( boolean visible ) {
-        if ( visible != _extensionsParentNode.getVisible() ) {
-            _extensionsParentNode.setVisible( visible );
+    public void setExtensionVisible( boolean visible ) {
+        if ( visible != _extensionNode.getVisible() ) {
+            _extensionNode.setVisible( visible );
             update();
-            firePropertyChange( -1, PROPERTY_EXTENSIONS_VISIBLE, null, null );
+            firePropertyChange( -1, PROPERTY_EXTENSION_VISIBLE, null, null );
         }
     }
     
-    public boolean isExtensionsVisible() {
-        return _extensionsParentNode.getVisible();
+    public boolean isExtensionVisible() {
+        return _extensionNode.getVisible();
     }
     
     //----------------------------------------------------------------------------
@@ -151,7 +129,7 @@ public class DNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_SHAPE ) {
+        if ( o == _dnaStrand && arg == DNAStrandNew.PROPERTY_SHAPE ) {
            update();
         }
     }
@@ -161,98 +139,49 @@ public class DNAStrandNode extends PNode implements Observer {
      */
     private void update() {
         
-        // tail position, in view coordinates
+        // pin position, in view coordinates
         double viewPinX = _modelViewTransform.modelToView( _dnaStrand.getPinX() );
         double viewPinY = _modelViewTransform.modelToView( _dnaStrand.getPinY() );
         
-        // Draw the extensions
-        if ( isExtensionsVisible() ) {
-            
-            double headExtension = _dnaStrand.getHeadExtension();
-            if ( headExtension > 0 ) {
-                double viewHeadX = _modelViewTransform.modelToView( _dnaStrand.getHeadX() );
-                double viewHeadY = _modelViewTransform.modelToView( _dnaStrand.getHeadY() );
-                _headExtensionNode.update( headExtension, viewPinX, viewPinY, viewHeadX, viewHeadY );
-            }
-            
-            double tailExtension = _dnaStrand.getTailExtension();
-            if ( tailExtension > 0 ) {
-                double viewTailX = _modelViewTransform.modelToView( _dnaStrand.getTailX() );
-                double viewTailY = _modelViewTransform.modelToView( _dnaStrand.getTailY() );
-                _tailExtensionNode.update( tailExtension, viewPinX, viewPinY, viewTailX, viewTailY );
-            }
+        // Draw the extension, straight line from pin to bead
+        if ( isExtensionVisible() ) {
+            double headExtension = _dnaStrand.getExtension();
+            double viewBeadX = _modelViewTransform.modelToView( _dnaStrand.getBeadX() );
+            double viewBeadY = _modelViewTransform.modelToView( _dnaStrand.getBeadY() );
+            _extensionNode.update( headExtension, viewPinX, viewPinY, viewBeadX, viewBeadY );
         }
-        
+
+        // Draw the strand, from the pin to the bead
+        _strandPath.reset();
         _pivotsParentNode.removeAllChildren();
-        
-        // Draw the strand, from the pin to the head
-        {
-            _headStrandPath.reset();
-            
-            ArrayList pivots = _dnaStrand.getHeadPivots();
-            final int numberOfPivots = pivots.size();
-            if ( numberOfPivots > 1 ) {
-                
-                DNAPivot pivot;
-                double viewPivotX, viewPivotY;
-                for ( int i = 0; i < numberOfPivots; i++ ) {
+        ArrayList pivots = _dnaStrand.getPivots();
+        final int numberOfPivots = pivots.size();
+        if ( numberOfPivots > 1 ) {
 
-                    pivot = (DNAPivot) pivots.get( i );
+            DNAPivot pivot;
+            double viewPivotX, viewPivotY;
+            for ( int i = 0; i < numberOfPivots; i++ ) {
 
-                    // draw line segment from previous to current pivot point
-                    viewPivotX = _modelViewTransform.modelToView( pivot.getX() );
-                    viewPivotY = _modelViewTransform.modelToView( pivot.getY() );
-                    if ( i == 0 ) {
-                        // tail
-                        _headStrandPath.moveTo( (float) viewPivotX, (float) viewPivotY );
-                    }
-                    else {
-                        _headStrandPath.lineTo( (float) viewPivotX, (float) viewPivotY );
-                    }
+                pivot = (DNAPivot) pivots.get( i );
 
-                    // draw pivot point
-                    if ( isPivotsVisible() ) {
-                        DNAPivotNode pivotNode = new DNAPivotNode( viewPivotX, viewPivotY );
-                        _pivotsParentNode.addChild( pivotNode );
-                    }
+                // draw line segment from previous to current pivot point
+                viewPivotX = _modelViewTransform.modelToView( pivot.getX() );
+                viewPivotY = _modelViewTransform.modelToView( pivot.getY() );
+                if ( i == 0 ) {
+                    // tail
+                    _strandPath.moveTo( (float) viewPivotX, (float) viewPivotY );
+                }
+                else {
+                    _strandPath.lineTo( (float) viewPivotX, (float) viewPivotY );
+                }
+
+                // draw pivot point
+                if ( isPivotsVisible() ) {
+                    DNAPivotNode pivotNode = new DNAPivotNode( viewPivotX, viewPivotY );
+                    _pivotsParentNode.addChild( pivotNode );
                 }
             }
-            _headStrandNode.setPathTo( _headStrandPath );
         }
-        
-        // Draw the strand, from the pin to the tail
-        {
-            _tailStrandPath.reset();
-            
-            ArrayList pivots = _dnaStrand.getTailPivots();
-            final int numberOfPivots = pivots.size();
-            if ( numberOfPivots > 1 ) {
-                
-                DNAPivot pivot;
-                double viewPivotX, viewPivotY;
-                for ( int i = 0; i < numberOfPivots; i++ ) {
-
-                    pivot = (DNAPivot) pivots.get( i );
-
-                    // draw line segment from previous to current pivot point
-                    viewPivotX = _modelViewTransform.modelToView( pivot.getX() );
-                    viewPivotY = _modelViewTransform.modelToView( pivot.getY() );
-                    if ( i == 0 ) {
-                        // tail
-                        _tailStrandPath.moveTo( (float) viewPivotX, (float) viewPivotY );
-                    }
-                    else {
-                        _tailStrandPath.lineTo( (float) viewPivotX, (float) viewPivotY );
-                    }
-
-                    // draw pivot point
-                    if ( isPivotsVisible() ) {
-                        DNAPivotNode pivotNode = new DNAPivotNode( viewPivotX, viewPivotY );
-                        _pivotsParentNode.addChild( pivotNode );
-                    }
-                }
-            }
-            _tailStrandNode.setPathTo( _tailStrandPath );
-        }
+        _strandNode.setPathTo( _strandPath );
     }
 }

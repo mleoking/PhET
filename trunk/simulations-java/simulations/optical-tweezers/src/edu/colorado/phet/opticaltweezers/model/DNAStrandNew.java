@@ -16,14 +16,7 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
- * The strand is pinned at some point along its contour length.
- * The head is attached to a bead, while the tail is free (unless
- * the pin is at the tail).
- *  * <p>
- * Terminology:
- * head - the end attached to the bead that is under the laser's influence
- * tail - the end that is moving freely
- * pin - the point where the strand is pinned, same as the strand's position
+ * One end of the strand is pinned in place, the other end is attached to a bead.
  * <p>
  * This model is unlikely to be useful in any other simulations.
  * The force model is based on physics. But the model of strand motion
@@ -33,13 +26,13 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DNAStrand extends FixedObject implements ModelElement, Observer {
+public class DNAStrandNew extends FixedObject implements ModelElement, Observer {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final String PROPERTY_FORCE = "force"; // force at the strand's head
+    public static final String PROPERTY_FORCE = "force"; // force exerted by the DNA
     public static final String PROPERTY_SHAPE = "shape"; // shape of the strand
     
     // Developer controls
@@ -50,6 +43,12 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public static final String PROPERTY_EVOLUTION_DT = "evolutionDtScale";
     public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
     
+    /*
+     * If we let springs get too short, bizarre things happen.
+     * So a spring length smaller than this is effectively zero
+     */
+    private static final double MIN_SPRING_LENGTH = 1; // nm
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -59,25 +58,20 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     private OTClock _clock;
     private double _referenceClockStep;
     
-    private final double _contourLength; // nm, length of the DNA strand
+    private double _contourLength; // nm, length of the DNA strand
     private final double _persistenceLength; // nm, measure of the strand's bending stiffness
-    private final int _numberOfSprings; // number of springs used to model the full strand
-    private final int _initialNumberOfSpringsInTail;
-    private final double _maxSpringLength; // nm, length of a spring when it's fully stretched
+    private final double _springLength; // nm, length of a spring when it's fully stretched
     
-    private DNAPivot _pinPivot;
-    private ArrayList _headPivots; // array of DNAPivot, first element is closest to pin
-    private ArrayList _tailPivots; // array of DNAPivot, first element is closest to pin
-    private double _headClosestSpringLength; // length of spring closest to pin in segment between pin and head
-    private double _tailClosestSpringLength; // length of spring closest to pin in segment between pin and tail
+    private ArrayList _pivots; // array of DNAPivot, first element is closest to pin
+    private double _closestSpringLength; // length of spring closest to pin
     
     /*
-     * Maximum that the DNA strand can be stretched, expressed as a percentage
+     * Maximum that the strand can be stretched, expressed as a percentage
      * of the strand's contour length. As this value gets closer to 1, the 
      * DNA force gets closer to infinity, increasing the likelihood that the 
      * bead will rocket off the screen when it is released.
      */
-    private final double _maxStretchiness;
+    private final double _stretchiness;
     
     private Random _kickRandom; // random number generator for "kick"
     private Vector2D _someVector; // reusable vector
@@ -100,12 +94,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     // Constructors & initializers
     //----------------------------------------------------------------------------
     
-    public DNAStrand( 
+    public DNAStrandNew( 
             Point2D position,
             double contourLength,
             double persistenceLength,
-            int numberOfSprings,
-            int initialNumberOfSpringsInTail,
+            double springLength,
             double maxStretchiness,
             Bead bead,
             Fluid fluid,
@@ -123,10 +116,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
-        _numberOfSprings = numberOfSprings;
-        _initialNumberOfSpringsInTail = initialNumberOfSpringsInTail;
-        _maxStretchiness = maxStretchiness;
-        _maxSpringLength = _contourLength / numberOfSprings;
+        _springLength = springLength;
+        _stretchiness = maxStretchiness;
         
         _bead = bead;
         _bead.addObserver( this );
@@ -164,52 +155,44 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the max "stretchiness" of the strand.
-     * This is expressed as a percentage of the strand's contour length.
-     * As this value gets closer to 1, the DNA force gets closer to infinity,
-     * increasing the likelihood that the bead will rocket off the screen when 
-     * it is released.
+     * Gets the pivot points that define the strand.
+     * 
+     * @param ArrayList of DNAPivot
+     */
+    public ArrayList getPivots() {
+        return _pivots;
+    }
+    
+//    /**
+//     * Sets the strand's contour length.
+//     * 
+//     * @param length
+//     */
+//    public void setContourLength( double contourLength ) {
+//        if ( contourLength < _contourLength ) {
+//            makeShorter( _contourLength - contourLength );
+//        }
+//        else if ( contourLength > _contourLength ) {
+//            makeLonger( contourLength - _contourLength );
+//        }
+//    }
+    
+    /**
+     * Gets the strand's contour length.
      * 
      * @return
      */
-    public double getMaxStretchiness() {
-        return _maxStretchiness;
-    }
-    
-    public ArrayList getHeadPivots() {
-        return _headPivots;
-    }
-
-    public ArrayList getTailPivots() {
-        return _tailPivots;
+    public double getContourLength() {
+        return _contourLength;
     }
     
     /**
-     * Gets the straight-line distance between the pin and head.
+     * Gets the straight-line distance between the pin and bead.
      * 
      * @return extension (nm)
      */
-    public double getHeadExtension() {
-        return getExtension( getHeadX(), getHeadY() );
-    }
-    
-    /**
-     * Gets the maximum extension that the head segement of the strand can have.
-     * This is a function of the strand's "stretchiness" and the length of the head segment
-     * 
-     * @return maximum extension (nm)
-     */
-    public double getMaxHeadExtension() {
-        return getMaxStretchiness() * getHeadContourLength();
-    }
-    
-    /**
-     * Gets the straight-line distance between the pin and tail.
-     * 
-     * @return extension (nm)
-     */
-    public double getTailExtension() {
-        return getExtension( getTailX(), getTailY() );
+    public double getExtension() {
+        return getExtension( getBeadX(), getBeadY() );
     }
     
     /*
@@ -218,21 +201,62 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @returns extension (nm)
      */
     private double getExtension( double x, double y ) {
-        final double dx = x - getX();
-        final double dy = y - getY();
+        final double dx = x - getPinX();
+        final double dy = y - getPinY();
         return PolarCartesianConverter.getRadius( dx, dy );
     }
     
-    public double getHeadContourLength() {
-        double length = 0;
-        if ( _headPivots.size() > 1 ) {
-            length = _headClosestSpringLength + ( _maxSpringLength * ( _headPivots.size() - 1 ) );
-        }
-        return length;
+    /**
+     * Gets the maximum extension that the strand can have.
+     * This is a function of the strand's "stretchiness" and strand's contour length.
+     * 
+     * @return maximum extension (nm)
+     */
+    public double getMaxExtension() {
+        return _stretchiness * _contourLength;
     }
     
-    public double getTailContourLength() {
-        return _contourLength - getHeadContourLength();
+    /**
+     * Gets the length used for springs.
+     * This is the max length that each spring can be stretched.
+     * 
+     * @return
+     */
+    public double getSpringLength() {
+        return _springLength;
+    }
+    
+    /**
+     * Gets the "stretchiness" of the strand.
+     * This is expressed as a percentage of the strand's contour length.
+     * As this value gets closer to 1, the DNA force gets closer to infinity,
+     * increasing the likelihood that the bead will rocket off the screen when 
+     * it is released.
+     * 
+     * @return
+     */
+    public double getStretchiness() {
+        return _stretchiness;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Convenience methods
+    //----------------------------------------------------------------------------
+    
+    public double getPinX() {
+        return getX();
+    }
+
+    public double getPinY() {
+        return getY();
+    }
+    
+    public double getBeadX() {
+        return _bead.getX();
+    }
+    
+    public double getBeadY() {
+        return _bead.getY();
     }
     
     //----------------------------------------------------------------------------
@@ -348,68 +372,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     }
     
     //----------------------------------------------------------------------------
-    // Convenience method for accessing pivots
-    //----------------------------------------------------------------------------
-    
-    public double getPinX() {
-        return getPinPivot().getX();
-    }
-    
-    public double getPinY() {
-        return getPinPivot().getY();
-    }
-    
-    private DNAPivot getPinPivot() {
-        return _pinPivot;
-    }
-    
-    public double getHeadX() {
-        return getHeadPivot().getX();
-    }
-    
-    public double getHeadY() {
-        return getHeadPivot().getY();
-    }
-    
-    private DNAPivot getHeadPivot() {
-        DNAPivot headPivot = _pinPivot;
-        if ( _headPivots.size() > 0 ) {
-            headPivot = (DNAPivot) _headPivots.get( _headPivots.size() - 1 );
-        }
-        return headPivot;
-    }
-    
-    public double getTailX() {
-        return getTailPivot().getX();
-    }
-
-    public double getTailY() {
-        return getTailPivot().getY();
-    }
-    
-    private DNAPivot getTailPivot() {
-        DNAPivot tailPivot = _pinPivot;
-        if ( _tailPivots.size() > 0 ) {
-            tailPivot = (DNAPivot) _tailPivots.get( _tailPivots.size() - 1 );
-        }
-        return tailPivot;
-    }
-    
-    //----------------------------------------------------------------------------
     // Force model
     //----------------------------------------------------------------------------
 
     /**
-     * Gets the DNA force at the strand's head.
-     * 
-     * @return force (pN)
-     */
-    public Vector2D getForce() {
-        return getForce( getHeadX(), getHeadY() );
-    }
-    
-    /**
-     * Gets the DNA force at some arbitrary point.
+     * Gets the DNA force at some arbitrary point from the pin.
      * 
      * @param p
      * @return force (pN)
@@ -419,7 +386,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     }
     
     /**
-     * Gets the DNA force at some arbitrary point.
+     * Gets the DNA force at some arbitrary point from the pin.
      * 
      * @param x
      * @param y
@@ -436,113 +403,83 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         final double extension = getExtension( x, y );
         final double kbT = 4.1 * _fluid.getTemperature() / 293; // kbT is 4.1 pN-nm at temperature=293K
         final double Lp = _persistenceLength;
-        final double scale = extension / getHeadContourLength();
+        final double scale = extension / _contourLength;
         final double magnitude = ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - scale ) * ( 1 - scale ) ) ) - ( 0.24 ) + scale );
         
         return new Vector2D.Polar( magnitude, angle );
     }
     
-    //----------------------------------------------------------------------------
-    // Pull the strand through the pin
-    //----------------------------------------------------------------------------
-    
     /**
-     * Pulls the strand through the pin.
-     * Positive values shorten the pin-to-head segment, while lengthening the pin-to-tail segment.
-     * Negative values do the oppostive.
+     * Gets the DNA force at the bead's position.
      * 
-     * @param distance distance to pull the strand (nm)
+     * @return force (pN)
      */
-    public void pull( double distance ) {
-        //XXX
+    public Vector2D getForceAtBead() {
+        return getForce( getBeadX(), getBeadY() );
     }
     
     //----------------------------------------------------------------------------
-    // Strand springs-&-pivots models and evolution
+    // Springs-&-pivots model
     //----------------------------------------------------------------------------
-    
-    public void initialize() {
-        initializePivots();
-    }
     
     /*
      * Initializes the pivot points that connect the springs.
-     * All the springs are complete springs to start with.
+     * The springs are layed out in a straight line between the pin and the bead.
+     * If the contour length is not an integer multiple of the spring length,
+     * then the first spring (closest to the pin) will be shorter than the others.
      */
-    private void initializePivots() {
+    public void initialize() {
         
-        final int tailNumberOfSprings = _initialNumberOfSpringsInTail;
-        final int headNumberOfSprings = _numberOfSprings - tailNumberOfSprings;
-        assert( headNumberOfSprings > 0 );
+        assert( _contourLength >= ( 2 * _springLength ) ); // initialization requires at least 2 springs (3 pivots)
         
-        // validate the distance from the pin to the head
+        // validate the distance from the pin to the bead
         Point2D pinPosition = getPositionReference();
         Point2D beadPosition = _bead.getPositionReference();
-        final double headExtension = Math.abs( pinPosition.distance( beadPosition ) );
-        final double maxHeadExtension = headNumberOfSprings * _maxSpringLength * _maxStretchiness;
-        if ( headExtension > maxHeadExtension ) {
+        final double extension = Math.abs( pinPosition.distance( beadPosition ) );
+        final double maxExtension = _contourLength * _stretchiness;
+        if ( extension > maxExtension ) {
             throw new IllegalStateException( "cannot connect DNA strand to bead, bead is too far away from pin" );
         }
-        
-        // pin pivot
-        _pinPivot = new DNAPivot( pinPosition.getX(), pinPosition.getY() );
-        
-        // create pivot points for segment from pin to head
-        {
-            _headPivots = new ArrayList();
-            
-            final double headSpringLength = headExtension / headNumberOfSprings;
-            final double headAngle = PolarCartesianConverter.getAngle( beadPosition.getX() - pinPosition.getX(), beadPosition.getY() - pinPosition.getY() );
-            final double xDelta = PolarCartesianConverter.getX( headSpringLength, headAngle );
-            final double yDelta = PolarCartesianConverter.getY( headSpringLength, headAngle );
-            
-            // first pivot is at the pin
-            _headPivots.add( _pinPivot );
-            
-            // pivots between pin and head
-            DNAPivot previousPivot = _pinPivot;
-            DNAPivot currentPivot = null;
-            for ( int i = 1; i < headNumberOfSprings - 1; i++ ) {
-                currentPivot = new DNAPivot( previousPivot.getX() + xDelta, previousPivot.getY() + yDelta );
-                _headPivots.add( currentPivot );
-                previousPivot = currentPivot;
-            }
-            
-            // last pivot is at the bead
-            currentPivot = new DNAPivot( beadPosition.getX(), beadPosition.getY() );
-            _headPivots.add( currentPivot );
-            
-            _headClosestSpringLength = _maxSpringLength;
+
+        // determine how many pivot points, and the length of the spring closest to the pin
+        int numberOfPivots = (int) ( _contourLength / _springLength ) + 2;
+        _closestSpringLength = _contourLength % _springLength;
+        if ( _closestSpringLength < MIN_SPRING_LENGTH ) {
+            _closestSpringLength = _springLength;
+            numberOfPivots--;
         }
         
-        // create pivot points for segment from pin to tail
-        {
-            _tailPivots = new ArrayList();
-            
-            final double tailSpringLength = _maxSpringLength * _maxStretchiness;
-            final double tailAngle = 0; // tail will start vertically aligned with pin
-            final double xDelta = -PolarCartesianConverter.getX( tailSpringLength, tailAngle );
-            final double yDelta = -PolarCartesianConverter.getY( tailSpringLength, tailAngle );
-            
-            // first pivot is at the pin
-            _tailPivots.add( _pinPivot );
-            
-            // pivots between pin and tail
-            DNAPivot previousPivot = _pinPivot;
-            DNAPivot currentPivot = null;
-            for ( int i = 1; i < tailNumberOfSprings; i++ ) {
-                currentPivot = new DNAPivot( previousPivot.getX() + xDelta, previousPivot.getY() + yDelta );
-                _tailPivots.add( currentPivot );
-                previousPivot = currentPivot;
-            }
-            
-            _tailClosestSpringLength = _maxSpringLength;
+        final double springLengthScale = extension / _contourLength;
+        final double extensionAngle = PolarCartesianConverter.getAngle( beadPosition.getX() - pinPosition.getX(), beadPosition.getY() - pinPosition.getY() );
+        
+        _pivots = new ArrayList();
+        
+        // first pivot is at the pin, starts the partial spring
+        DNAPivot currentPivot = new DNAPivot( getPinX(), getPinY() );
+        _pivots.add( currentPivot );
+        DNAPivot previousPivot = currentPivot;
+
+        // second pivot, terminates the first spring
+        double xDelta = springLengthScale * PolarCartesianConverter.getX( _closestSpringLength, extensionAngle );
+        double yDelta = springLengthScale * PolarCartesianConverter.getY( _closestSpringLength, extensionAngle );
+        currentPivot = new DNAPivot( currentPivot.getX() + xDelta, currentPivot.getY() + yDelta );
+        _pivots.add( currentPivot );
+        previousPivot = currentPivot;
+        
+        // all pivots after the partial spring and before bead
+        xDelta = springLengthScale * PolarCartesianConverter.getX( _springLength, extensionAngle );
+        yDelta = springLengthScale * PolarCartesianConverter.getY( _springLength, extensionAngle );
+        for ( int i = 0; i < numberOfPivots - 3; i++ ) {
+            currentPivot = new DNAPivot( previousPivot.getX() + xDelta, previousPivot.getY() + yDelta );
+            _pivots.add( currentPivot );
+            previousPivot = currentPivot;
         }
-        
-        // attach invisible bead to tail
-        //XXX
-        
-        // evolve so that it looks correct
+
+        // last pivot is at the bead
+        currentPivot = new DNAPivot( getBeadX(), beadPosition.getY() );
+        _pivots.add( currentPivot );
+
+        // evolve so that it doesn't look like a straight line
         evolve( _clock.getDt() );
         
         notifyObservers( PROPERTY_SHAPE );
@@ -554,37 +491,14 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * This model was provided by Mike Dubson.
      */
     private void evolve( double clockStep ) {
-        evolveSegment( clockStep, true /* head */ );
-        evolveSegment( clockStep, false /* tail */ );
-        notifyObservers( PROPERTY_SHAPE );
-    }
-    
-    /*
-     * Evolves one of the two segments of the strand. 
-     */
-    private void evolveSegment( double clockStep, boolean evolveHeadSegment ) {
         
-        // Things that depend on whether we're evolving head or tail...
-        ArrayList pivots = null;
-        double closestSpringLength = 0;
-        double stretchFactor = 0;
-        if ( evolveHeadSegment ) {
-            pivots = _headPivots;
-            closestSpringLength = _headClosestSpringLength;
-            stretchFactor = Math.min( 1, getHeadExtension() / getHeadContourLength() );
-        }
-        else {
-            pivots = _tailPivots;
-            closestSpringLength = _tailClosestSpringLength;
-            stretchFactor = Math.min( 1, getTailExtension() / getTailContourLength() );
-        }
-        
-        // return if we only have 1 spring
-        if ( pivots.size() < 3 ) {
+        // return unless we have at least 2 springs
+        if ( _pivots.size() < 3 ) {
             return;
         }
         
-        // scale down the spring's motion as the segment becomes stretched taut
+        // scale down the spring's motion as the strand becomes stretched taut
+        double stretchFactor = Math.min( 1, getExtension() / _contourLength );
         final double springMotionScale = Math.sqrt( 1 - stretchFactor );
         
         // scale all time dependent parameters based on how the clockStep compares to reference clock step
@@ -594,15 +508,15 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         
         for ( int i = 0; i < _numberOfEvolutionsPerClockTick; i++ ) {
 
-            final int numberOfPivots = pivots.size();
+            final int numberOfPivots = _pivots.size();
             DNAPivot currentPivot, previousPivot, nextPivot; // previousPivot is closer to pin, nextPivot is closer to end
             
             // traverse all pivots starting at pin, skip first and last pivots
             for ( int j = 1; j < numberOfPivots - 1; j++ ) {
                 
-                currentPivot = (DNAPivot) pivots.get( j );
-                previousPivot = (DNAPivot) pivots.get( j - 1 );
-                nextPivot = (DNAPivot) pivots.get( j + 1 );
+                currentPivot = (DNAPivot) _pivots.get( j );
+                previousPivot = (DNAPivot) _pivots.get( j - 1 );
+                nextPivot = (DNAPivot) _pivots.get( j + 1 );
                 
                 // position
                 final double x = currentPivot.getX() + ( currentPivot.getXVelocity() * dt ) + ( 0.5 * currentPivot.getXAcceleration() * dt * dt );
@@ -618,8 +532,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 final double distanceToNext = PolarCartesianConverter.getRadius( dxNext, dyNext );
                 
                 // common terms
-                final double termPrevious = 1 - ( springMotionScale * _maxSpringLength / distanceToPrevious );
-                final double termNext = 1 - ( springMotionScale * _maxSpringLength / distanceToNext );
+                final double termPrevious = 1 - ( springMotionScale * _springLength / distanceToPrevious );
+                final double termNext = 1 - ( springMotionScale * _springLength / distanceToNext );
                 
                 // fluid drag force
                 _fluid.getVelocity( _someVector );
@@ -630,7 +544,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 // acceleration
                 double springConstant = _springConstant;
                 if ( j == 1 ) {
-                    springConstant = _springConstant * ( _contourLength / _numberOfSprings ) / closestSpringLength;
+                    // spring constant gets larger as spring gets shorter
+                    springConstant = _springConstant * ( _springLength / _closestSpringLength );
                 }
                 final double xAcceleration = ( springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
                     ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;
@@ -645,7 +560,90 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 currentPivot.setVelocity( xVelocity, yVelocity );
             }
         }
+        
+        notifyObservers( PROPERTY_SHAPE );
     }
+    
+//    /**
+//     * Makes the strand shorter.
+//     * This will remove zero or more pivots.
+//     * 
+//     * @param amount amount (nm)
+//     */ 
+//    private void makeShorter( double amount ) {
+//        
+//        if ( amount > _contourLength ) {
+//            throw new IllegalArgumentException( "amount is > than contour length" );
+//        }
+//        
+//        // remove partial-length spring closest to pin
+//        double adjustedAmount = amount;
+//        if ( amount < _closestSpringLength ) {
+//            _closestSpringLength -= amount;
+//            adjustedAmount = 0;
+//        }
+//        else {
+//            adjustedAmount -= _closestSpringLength;
+//            _pivots.remove( 1 );
+//            _closestSpringLength = _springLength;
+//        }
+//        
+//        if ( adjustedAmount > 0 ) {
+//            
+//            // remove full-length springs
+//            int numberOfPivotsToRemove = (int) ( adjustedAmount / _springLength ) - 1;
+//            for ( int i = 0; i < numberOfPivotsToRemove; i++ ) {
+//                _pivots.remove( 1 );
+//            }
+//
+//            // adjust length of spring closest to pin
+//            _closestSpringLength = _springLength - ( adjustedAmount % _springLength );
+//        }
+//        
+//        _contourLength -= amount;
+//        
+//        notifyObservers( PROPERTY_SHAPE );
+//    }
+//    
+//    /**
+//     * Makes the strand longer.
+//     * This will add zero or more pivots.
+//     * 
+//     * @param amount amount (nm)
+//     */ 
+//    private void makeLonger( double amount ) {
+//        
+//        // adjust length of spring closest to pin
+//        double adjustedAmount = amount;
+//        if ( _closestSpringLength != _springLength ) {
+//            adjustedAmount -= ( _springLength - _closestSpringLength );
+//        }
+//
+//        if ( adjustedAmount > 0 ) {
+//            
+//            // add full-length springs
+//            int numberOfPivotsToAdd = (int) ( adjustedAmount / _springLength ) - 1;
+//            DNAPivot pivot = null;
+//            for ( int i = 0; i < numberOfPivotsToAdd; i++ ) {
+//                pivot = new DNAPivot( getPinX(), getPinY() );
+//                _pivots.add( 1, pivot );
+//            }
+//
+//            // add partial-length spring closest to pin
+//            _closestSpringLength = adjustedAmount % _springLength;
+//            if ( _closestSpringLength != 0 ) {
+//                pivot = new DNAPivot( getPinX(), getPinY() );
+//                _pivots.add( 1, pivot );
+//            }
+//            else {
+//                _closestSpringLength = _springLength;
+//            }
+//        }
+//        
+//        _contourLength += amount;
+//        
+//        notifyObservers( PROPERTY_SHAPE );
+//    }
     
     //----------------------------------------------------------------------------
     // Observer implementation
@@ -660,12 +658,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_POSITION ) {
-                DNAPivot headPivot = getHeadPivot();
-                headPivot.setPosition( _bead.getX(), _bead.getY() );
+                DNAPivot pivot = (DNAPivot) _pivots.get( _pivots.size() - 1 );
+                pivot.setPosition( _bead.getX(), _bead.getY() );
                 if ( !_clock.isRunning() ) {
                     evolve( _clock.getDt() );
                 }
-                notifyObservers( PROPERTY_FORCE );
                 notifyObservers( PROPERTY_SHAPE );
             }
         }
@@ -688,5 +685,4 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public void stepInTime( double clockStep ) {
         evolve( clockStep );
     }
-    
 }

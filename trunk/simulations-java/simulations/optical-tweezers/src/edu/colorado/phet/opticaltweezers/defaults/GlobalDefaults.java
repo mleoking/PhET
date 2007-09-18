@@ -59,8 +59,9 @@ import edu.colorado.phet.opticaltweezers.model.Fluid;
     // DNA Strand model
     public static final double DNA_CONTOUR_LENGTH = 2413; // nm
     public static final double DNA_PERSISTENCE_LENGTH = 50; // nm, double strand
-    public static final int DNA_NUMBER_OF_SPRINGS = 39; // nm
-    public static final double DNA_MAX_STRETCHINESS = 0.95; // % of contour length
+    private static final int DNA_NUMBER_OF_SPRINGS = 38;
+    public static final double DNA_SPRING_LENGTH = DNA_CONTOUR_LENGTH / DNA_NUMBER_OF_SPRINGS; // nm
+    public static final double DNA_STRETCHINESS = 0.95; // % of contour length
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = new DoubleRange( 2, 20, 10 );
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = new DoubleRange( 0.1, 2, 0.5 );
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = new DoubleRange( 0.05, 0.2, 0.1 );

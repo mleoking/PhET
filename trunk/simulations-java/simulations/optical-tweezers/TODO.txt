@@ -49,6 +49,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/17/07 - convert back to DNA model where the parts on each side of the pin are treated as separate strands
 9/17/07 - first pass at another rewrite of DNA model
 9/17/07 - bugfix: display of vector values should be off by default
 9/17/07 - use one instance where zero vector is required

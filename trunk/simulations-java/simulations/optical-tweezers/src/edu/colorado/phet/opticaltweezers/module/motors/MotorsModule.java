@@ -168,7 +168,7 @@ public class MotorsModule extends OTAbstractModule {
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            DNAStrand dnaStrand = _model.getDNAStrand();
+            DNAStrandNew dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
@@ -187,7 +187,7 @@ public class MotorsModule extends OTAbstractModule {
             // DNA Strand node
             DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
             dnaStrandNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
-            dnaStrandNode.setExtensionsVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
+            dnaStrandNode.setExtensionVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
         }
 
         // Control panel settings that are view-related

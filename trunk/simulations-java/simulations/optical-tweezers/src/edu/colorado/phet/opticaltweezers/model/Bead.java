@@ -62,7 +62,7 @@ public class Bead extends MovableObject implements ModelElement {
     private boolean _motionEnabled;
     private boolean _brownianMotionEnabled;
     private final Vector2D _velocity; // nm/sec
-    private DNAStrand _dnaStrand;
+    private DNAStrandNew _dnaStrand;
     
     // Developer controls
     private double _brownianMotionScale;
@@ -276,7 +276,7 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @param dnaStrand
      */
-    public void attachTo( DNAStrand dnaStrand ) {
+    public void attachTo( DNAStrandNew dnaStrand ) {
         _dnaStrand = dnaStrand;
     }
     
@@ -285,7 +285,7 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @return DNAStrand, null if bead is not attached to a DNA strand
      */
-    public DNAStrand getDNAStrand() {
+    public DNAStrandNew getDNAStrand() {
         return _dnaStrand;
     }
     
