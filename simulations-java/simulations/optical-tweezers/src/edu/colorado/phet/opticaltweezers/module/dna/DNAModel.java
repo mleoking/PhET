@@ -21,7 +21,7 @@ public class DNAModel extends OTAbstractModel {
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
     private final Bead _bead;
-    private final DNAStrand _dnaStrand;
+    private final DNAStrandNew _dnaStrand;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -77,12 +77,11 @@ public class DNAModel extends OTAbstractModel {
                 DNADefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
          
-         _dnaStrand = new DNAStrand( DNADefaults.DNA_POSITION,
+         _dnaStrand = new DNAStrandNew( DNADefaults.DNA_POSITION,
                  DNADefaults.DNA_CONTOUR_LENGTH, 
                  DNADefaults.DNA_PERSISTENCE_LENGTH, 
-                 DNADefaults.DNA_NUMBER_OF_SPRINGS,
-                 DNADefaults.DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL,
-                 DNADefaults.DNA_MAX_STRETCHINESS,
+                 DNADefaults.DNA_SPRING_LENGTH,
+                 DNADefaults.DNA_STRETCHINESS,
                  _bead,
                  _fluid,
                  clock,
@@ -119,7 +118,7 @@ public class DNAModel extends OTAbstractModel {
         return _bead;
     }
     
-    public DNAStrand getDNAStrand() {
+    public DNAStrandNew getDNAStrand() {
         return _dnaStrand;
     }
     

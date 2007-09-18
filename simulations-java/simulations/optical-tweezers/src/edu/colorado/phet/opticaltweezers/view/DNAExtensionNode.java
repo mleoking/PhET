@@ -76,18 +76,23 @@ public class DNAExtensionNode extends PhetPNode {
      * @param value extension value, in model coordinates
      * @param pinX x coordiate of pin, in view coordinates
      * @param pinY y coordiate of pin, in view coordinates
-     * @param endX x coordiate of end farthest from pin, in view coordinates
-     * @param endY y coordiate of end farthest from pin, in view coordinates
+     * @param beadX x coordiate of bead, in view coordinates
+     * @param beadY y coordiate of bead, in view coordinates
      */
-    public void update( double value, double pinX, double pinY, double endX, double endY ) {
+    public void update( double value, double pinX, double pinY, double beadX, double beadY ) {
 
         _extensionPath.reset();
-        _extensionPath.moveTo( (float) pinX, (float) pinY );
-        _extensionPath.lineTo( (float) endX, (float) endY );
-        _extensionNode.setPathTo( _extensionPath );
+        _valueNode.setText( "" );
         
-        String valueString = VALUE_FORMAT.format( value ) + " nm";
-        _valueNode.setText( valueString );
-        _valueNode.setOffset( pinX + ( ( endX - pinX ) / 2 ), pinY + ( ( endY - pinY ) / 2 ) ); // at midpoint of the extension line
+        if ( Math.abs( value ) > 0 ) {
+            
+            _extensionPath.moveTo( (float) pinX, (float) pinY );
+            _extensionPath.lineTo( (float) beadX, (float) beadY );
+            
+            String valueString = VALUE_FORMAT.format( value ) + " nm";
+            _valueNode.setText( valueString );
+            _valueNode.setOffset( pinX + ( ( beadX - pinX ) / 2 ), pinY + ( ( beadY - pinY ) / 2 ) ); // at midpoint of the extension line
+        }
+        _extensionNode.setPathTo( _extensionPath );
     }
 }

@@ -21,7 +21,7 @@ public class MotorsModel extends OTAbstractModel {
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
     private final Bead _bead;
-    private final DNAStrand _dnaStrand;
+    private final DNAStrandNew _dnaStrand;
     private final EnzymeA _enzymeA;
     private final EnzymeB _enzymeB;
     
@@ -79,12 +79,11 @@ public class MotorsModel extends OTAbstractModel {
                 MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
          
-         _dnaStrand = new DNAStrand( MotorsDefaults.DNA_POSITION,
+         _dnaStrand = new DNAStrandNew( MotorsDefaults.DNA_POSITION,
                  MotorsDefaults.DNA_CONTOUR_LENGTH, 
                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
-                 MotorsDefaults.DNA_NUMBER_OF_SPRINGS, 
-                 MotorsDefaults.DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL,
-                 MotorsDefaults.DNA_MAX_STRETCHINESS,
+                 MotorsDefaults.DNA_SPRING_LENGTH, 
+                 MotorsDefaults.DNA_STRETCHINESS,
                  _bead,
                  _fluid,
                  clock,
@@ -139,7 +138,7 @@ public class MotorsModel extends OTAbstractModel {
         return _bead;
     }
     
-    public DNAStrand getDNAStrand() {
+    public DNAStrandNew getDNAStrand() {
         return _dnaStrand;
     }
     

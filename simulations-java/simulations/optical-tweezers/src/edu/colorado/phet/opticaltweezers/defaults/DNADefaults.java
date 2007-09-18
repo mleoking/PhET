@@ -83,10 +83,9 @@ public class DNADefaults {
     public static final double DNA_REFERENCE_CLOCK_STEP = FAST_DT_RANGE.getMax();
     public static final double DNA_CONTOUR_LENGTH = GlobalDefaults.DNA_CONTOUR_LENGTH;
     public static final double DNA_PERSISTENCE_LENGTH = GlobalDefaults.DNA_PERSISTENCE_LENGTH;
-    public static final int DNA_NUMBER_OF_SPRINGS = GlobalDefaults.DNA_NUMBER_OF_SPRINGS;
-    public static final int DNA_INITIAL_NUMBER_OF_SPRINGS_IN_TAIL = 0;
-    public static final double DNA_MAX_STRETCHINESS = GlobalDefaults.DNA_MAX_STRETCHINESS;
-    public static final Point2D DNA_POSITION = new Point2D.Double( BEAD_POSITION.getX() - ( 0.9 * DNA_MAX_STRETCHINESS * DNA_CONTOUR_LENGTH ), BEAD_POSITION.getY() );
+    public static final double DNA_SPRING_LENGTH = GlobalDefaults.DNA_SPRING_LENGTH;
+    public static final double DNA_STRETCHINESS = GlobalDefaults.DNA_STRETCHINESS;
+    public static final Point2D DNA_POSITION = new Point2D.Double( BEAD_POSITION.getX() - ( 0.9 * DNA_STRETCHINESS * DNA_CONTOUR_LENGTH ), BEAD_POSITION.getY() );
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = GlobalDefaults.DNA_SPRING_CONSTANT_RANGE;
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_DRAG_COEFFICIENT_RANGE;
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = GlobalDefaults.DNA_EVOLUTION_DT_RANGE;
