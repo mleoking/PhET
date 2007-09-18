@@ -737,6 +737,14 @@
     function sim_get_select_sims_by_category_statement_order_alphabetically($cat_id) {
         return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }
+
+	function sim_get_file_contents($resource) {
+		$new_resource = str_replace('http://phet.colorado.edu/sims/', '../../sims/', $resource);
+		
+		if (file_exists($new_resource)) return file_get_contents($new_resource);
+		
+		return file_get_contents($resource);
+	}
     
     function sim_get_image_previews($type, $is_static_screenshot = true) {
         global $connection;
