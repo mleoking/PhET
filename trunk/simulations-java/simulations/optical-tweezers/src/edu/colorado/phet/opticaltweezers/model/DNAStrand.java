@@ -44,10 +44,16 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
     
     /*
-     * If we let springs get too short, bizarre things happen.
+     * If we let springs get too short, bizarre things happen in evolve().
      * So a spring length smaller than this is effectively zero
      */
     private static final double MIN_SPRING_LENGTH = 1; // nm
+    
+    /* 
+     * If we let the spring constant get too big, bizarre things happen in evolve().
+     * So we'll limit it to a maximum really-stiff value.
+     */
+    private static final double MAX_SPRING_CONSTANT = 50;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -441,12 +447,12 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             throw new IllegalStateException( "cannot connect DNA strand to bead, bead is too far away from pin" );
         }
 
-        // determine how many pivot points, and the length of the spring closest to the pin
-        int numberOfPivots = (int) ( _contourLength / _springLength ) + 2;
+        // determine how many pivot points
+        int numberOfPivots = (int) ( _contourLength / _springLength ) + 2;  // +1 for conversion from #springs to #pivots, +1 for partial spring closest to pin
+        // determine length of the spring closest to the pin
         _closestSpringLength = _contourLength % _springLength;
         if ( _closestSpringLength < MIN_SPRING_LENGTH ) {
-            _closestSpringLength = _springLength;
-            numberOfPivots--;
+            _closestSpringLength = MIN_SPRING_LENGTH;
         }
         
         final double springLengthScale = extension / _contourLength;
@@ -543,9 +549,9 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                     
                 // acceleration
                 double springConstant = _springConstant;
-                if ( j == 1 ) {
+                if ( j == 1 && _closestSpringLength < _springConstant ) {
                     // spring constant gets larger as spring gets shorter
-                    springConstant = _springConstant * ( _springLength / _closestSpringLength );
+                    springConstant += ( ( MAX_SPRING_CONSTANT - _springConstant ) * ( ( _springLength - _closestSpringLength ) / _springLength ) );
                 }
                 final double xAcceleration = ( springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
                     ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;
