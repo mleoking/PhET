@@ -69,7 +69,7 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
         
         _chargeDistributionNode = chargeDistributionNode;
         
-        TitledBorder border = new TitledBorder( "Bead model" );
+        TitledBorder border = new TitledBorder( "Bead" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         

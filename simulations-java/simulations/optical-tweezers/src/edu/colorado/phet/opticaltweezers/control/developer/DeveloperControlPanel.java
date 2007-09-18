@@ -41,8 +41,10 @@ public class DeveloperControlPanel extends JPanel {
             OTClock clock,
             Bead bead, 
             Laser laser,
-            DNAStrand dnaStrand,
-            DNAStrandNode dnaStrandNode,
+            DNAStrand dnaStrand1,
+            DNAStrandNode dnaStrandNode1,
+            DNAStrand dnaStrand2,
+            DNAStrandNode dnaStrandNode2,
             TrapForceNode trapForceNode,
             FluidDragForceNode fluidDragForceNode,
             DNAForceNode dnaForceNode,
@@ -69,9 +71,14 @@ public class DeveloperControlPanel extends JPanel {
         _beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser, chargeDistributionNode );
         _panel.add( _beadPanel );
         
-        if ( dnaStrand != null ) {
-            JPanel dnaStrandPanel = new DNAStrandDeveloperPanel( titleFont, controlFont, dnaStrand, dnaStrandNode );
-            _panel.add( dnaStrandPanel );
+        if ( dnaStrand1 != null ) {
+            JPanel dnaStrandPanel1 = new DNAStrandDeveloperPanel( "DNA strand (bead end)", titleFont, controlFont, dnaStrand1, dnaStrandNode1 );
+            _panel.add( dnaStrandPanel1 );
+        }
+        
+        if ( dnaStrand2 != null ) {
+            JPanel dnaStrandPanel2 = new DNAStrandDeveloperPanel( "DNA strand (free end)", titleFont, controlFont, dnaStrand2, dnaStrandNode2 );
+            _panel.add( dnaStrandPanel2 );
         }
         
         // Layout
