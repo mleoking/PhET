@@ -262,7 +262,7 @@
 				if ($file_contents == null) $file_contents = file_get_contents($file_path);
 				
                 // Auto-detection of mime-type:
-               $mime_type = auto_detect_mime_type();
+               $mime_type = auto_detect_mime_type($file_contents, true);
             }
         }
         
