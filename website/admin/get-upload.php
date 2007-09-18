@@ -1,4 +1,6 @@
 <?php
+	error_reporting(0);
+
     include_once("web-utils.php");
     include_once("sys-utils.php");
     include_once("contrib-utils.php");

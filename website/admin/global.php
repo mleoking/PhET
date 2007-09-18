@@ -1,5 +1,7 @@
 <?php
 
+	error_reporting(E_ERROR);
+
     ini_set("session.gc_maxlifetime", "999999999"); 
     ini_set("session.cache_expire",   "999999999");
     ini_set('upload_max_filesize',    '20M');
