@@ -9,22 +9,20 @@
 	include_once(SITE_ROOT."admin/contrib-utils.php");
 	
 	function print_translations() {
-		print <<<EOT
-			<h1>Translated Sims</h1>
-EOT;
+		print "<h1>Translated Sims</h1>";
 
 		flush();
 
 		$sim_to_translations = sim_get_all_translated_language_names();
-		
-		$languages = array();
-		
-		foreach ($sim_to_translations as $sim_name => $map) {
-			foreach ($map as $language_name => $launch_url) {
-				$languages["$language_name"] = "$language_name";
-			}
-		}
-		
+		 		
+ 		$languages = array();
+ 		
+ 		foreach ($sim_to_translations as $sim_name => $map) {
+ 			foreach ($map as $language_name => $launch_url) {
+ 				$languages["$language_name"] = "$language_name";
+ 			}
+ 		}
+				
 		$columns = count($languages) + 1;
 		
 		print <<<EOT
@@ -34,6 +32,7 @@ EOT;
 					<tr>
 						<td class="even"></td>
 EOT;
+		
 
 		flush();
 
