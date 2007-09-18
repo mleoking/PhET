@@ -3,6 +3,8 @@
 ================================================================================
 
 HIGH PRIORITY:
+- associate 2 DNA strands (bead and free end) with enzyme
+- make enzyme change contour length of associated DNA strands
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
 - automatically "Reset DNA" when switching between enzymes
