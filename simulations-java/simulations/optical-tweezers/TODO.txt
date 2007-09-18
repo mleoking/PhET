@@ -3,7 +3,8 @@
 ================================================================================
 
 HIGH PRIORITY:
-- implement DNAStrand.pull
+- when bead is reeled in all the way by enzyme, does bead motion stop entirely?
+- implement DNAStrand.makeLonger/makeShorter, test with a slider
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
