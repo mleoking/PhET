@@ -738,7 +738,7 @@
         return "SELECT DISTINCT `simulation`.`sim_id` FROM `simulation`, `simulation_listing` WHERE `simulation_listing`.`cat_id`='$cat_id' AND `simulation`.`sim_id`=`simulation_listing`.`sim_id` ORDER BY `simulation`.`sim_sorting_name` ASC ";
     }
     
-    function sim_get_image_previews($type, $is_static = true) {
+    function sim_get_image_previews($type, $is_static_screenshot = true) {
         global $connection;
 
         $select_categories_st = "SELECT * FROM `category` WHERE `cat_is_visible`='0' ";
@@ -748,11 +748,11 @@
             $cat_id   = $category_row['cat_id'];
             $cat_name = $category_row['cat_name'];
             
-            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1 || !$is_static) {
+            if (preg_match("/.*$type.*preview.*/i", $cat_name) == 1 || !$is_static_screenshot) {
                 $images = array();
                 
                 foreach (sim_get_sims_by_cat_id($cat_id) as $simulation) {
-					if ($is_static) {
+					if ($is_static_screenshot) {
 						$static_screenshot = sim_get_screenshot($simulation);
 						
 						$images[] = $static_screenshot;
@@ -760,9 +760,12 @@
 					else {
                    		$animated_screenshot = sim_get_animated_screenshot($simulation);
                    
-						if (file_or_url_exists($animated_screenshot)) {
+						// if (file_or_url_exists($animated_screenshot)) {
                    			$images[] = $animated_screenshot;
-						}
+						// }
+						// else {
+						// 	
+						// }
 					}
                 }
                 
