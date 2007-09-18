@@ -64,9 +64,9 @@ public class MotorsDefaults {
     public static final DoubleRange LASER_ELECTRIC_FIELD_SCALE_RANGE = GlobalDefaults.LASER_ELECTRIC_FIELD_SCALE_RANGE;
     
     // Bead model
+    public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm
     public static final double BEAD_DIAMETER = GlobalDefaults.BEAD_DIAMETER;
     public static final double BEAD_DENSITY = GlobalDefaults.BEAD_DENSITY;
-    public static final Point2D BEAD_POSITION = new Point2D.Double( LASER_POSITION.getX(), LASER_POSITION.getY() ); // nm
     public static final double BEAD_ORIENTATION = GlobalDefaults.BEAD_ORIENTATION;
     public static final IntegerRange BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = new IntegerRange( 1, 2000, 1000 );
     public static final DoubleRange BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = new DoubleRange( FAST_DT_RANGE.getMin(), FAST_DT_RANGE.getMax(), 1E-6 );
@@ -81,11 +81,13 @@ public class MotorsDefaults {
     
     // DNA Strand model
     public static final double DNA_REFERENCE_CLOCK_STEP = FAST_DT_RANGE.getMax();
-    public static final double DNA_CONTOUR_LENGTH = GlobalDefaults.DNA_CONTOUR_LENGTH;
+    private static final double DNA_CONTOUR_LENGTH = GlobalDefaults.DNA_CONTOUR_LENGTH;
+    public static final double DNA_BEAD_CONTOUR_LENGTH = 0.75 * DNA_CONTOUR_LENGTH; // length of strand attached to bead
+    public static final double DNA_FREE_CONTOUR_LENGTH = DNA_CONTOUR_LENGTH - DNA_BEAD_CONTOUR_LENGTH; // length of strand with free end
     public static final double DNA_PERSISTENCE_LENGTH = GlobalDefaults.DNA_PERSISTENCE_LENGTH;
     public static final double DNA_SPRING_LENGTH = GlobalDefaults.DNA_SPRING_LENGTH;
     public static final double DNA_STRETCHINESS = GlobalDefaults.DNA_STRETCHINESS;
-    public static final Point2D DNA_POSITION = new Point2D.Double( BEAD_POSITION.getX() - ( 0.9 * DNA_STRETCHINESS * DNA_CONTOUR_LENGTH ), BEAD_POSITION.getY() );
+    public static final Point2D DNA_POSITION = new Point2D.Double( BEAD_POSITION.getX() - ( 0.9 * DNA_STRETCHINESS * DNA_BEAD_CONTOUR_LENGTH ), BEAD_POSITION.getY() );
     public static final DoubleRange DNA_SPRING_CONSTANT_RANGE = GlobalDefaults.DNA_SPRING_CONSTANT_RANGE;
     public static final DoubleRange DNA_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_DRAG_COEFFICIENT_RANGE;
     public static final DoubleRange DNA_EVOLUTION_DT_RANGE = GlobalDefaults.DNA_EVOLUTION_DT_RANGE;
@@ -94,6 +96,23 @@ public class MotorsDefaults {
     public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE;
     public static final boolean DNA_PIVOTS_VISIBLE = GlobalDefaults.DNA_PIVOTS_VISIBLE;
     public static final boolean DNA_EXTENSIONS_VISIBLE = GlobalDefaults.DNA_EXTENSIONS_VISIBLE;
+    
+    // Invisible bead, attached to free end of DNA
+    public static final Point2D INVISIBLE_BEAD_POSITION = 
+        new Point2D.Double( DNA_POSITION.getX() - ( 0.9 * DNA_STRETCHINESS * DNA_FREE_CONTOUR_LENGTH ), DNA_POSITION.getY() );
+    public static final double INVISIBLE_BEAD_DIAMETER = BEAD_DIAMETER;
+    public static final double INVISIBLE_BEAD_DENSITY = BEAD_DENSITY;
+    public static final double INVISIBLE_BEAD_ORIENTATION = BEAD_ORIENTATION;
+    public static final IntegerRange INVISIBLE_BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_DT_SUBDIVISION_THRESHOLD_RANGE = BEAD_DT_SUBDIVISION_THRESHOLD_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE = BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_VACUUM_FAST_DT_RANGE = BEAD_VACUUM_FAST_DT_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_BROWNIAN_MOTION_SCALE_RANGE = BEAD_BROWNIAN_MOTION_SCALE_RANGE;
+    public static final boolean INVISIBLE_BEAD_BROWNIAN_MOTION_ENABLED = BEAD_BROWNIAN_MOTION_ENABLED;
+    public static final DoubleRange INVISIBLE_BEAD_VERLET_ACCELERATION_SCALE_RANGE = BEAD_VERLET_ACCELERATION_SCALE_RANGE;
+    public static final IntegerRange INVISIBLE_BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE = BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_VACUUM_FAST_THRESHOLD_RANGE = BEAD_VACUUM_FAST_THRESHOLD_RANGE;
+    public static final DoubleRange INVISIBLE_BEAD_VACUUM_FAST_POWER_RANGE = BEAD_VACUUM_FAST_POWER_RANGE;
     
     // Enzyme 
     public static final double ENZYME_OUTER_DIAMETER = 150; // nm

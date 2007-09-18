@@ -3,8 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- split DNAStrand into 2 DNASegments, attached beads and vectors to DNASegments
-- attach invisible bead to free end of DNA strand
 - implement DNAStrand.pull
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
@@ -49,6 +47,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/18/07 - attach invisible bead to free end of DNA strand
 9/18/07 - add support for multiple DNA strands to developer controls
 9/18/07 - convert back to DNA model where the parts on each side of the pin are treated as separate strands
 9/17/07 - first pass at another rewrite of DNA model

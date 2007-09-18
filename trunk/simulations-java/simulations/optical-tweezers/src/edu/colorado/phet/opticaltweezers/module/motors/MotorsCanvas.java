@@ -44,7 +44,8 @@ public class MotorsCanvas extends OTAbstractCanvas {
     // View
     private MicroscopeSlideNode _microscopeSlideNode;
     private LaserNode _laserNode;
-    private DNAStrandNode _dnaStrandNode;
+    private DNAStrandNode _dnaStrandBeadNode;
+    private DNAStrandNode _dnaStrandFreeNode;
     private BeadNode _beadNode;
     private PPath _beadDragBoundsNode;
     private PPath _laserDragBoundsNode;
@@ -73,7 +74,8 @@ public class MotorsCanvas extends OTAbstractCanvas {
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
-        DNAStrand dnaStrand = model.getDNAStrand();
+        DNAStrand dnaStrandBead = model.getDNAStrandBead();
+        DNAStrand dnaStrandFree = model.getDNAStrandFree();
         Bead bead = model.getBead();
         EnzymeA enzymeA = model.getEnzymeA();
         EnzymeB enzymeB = model.getEnzymeB();
@@ -98,8 +100,9 @@ public class MotorsCanvas extends OTAbstractCanvas {
         _laserNode = new LaserNode( laser, modelViewTransform, _laserDragBoundsNode );
         _laserNode.setElectricFieldVisible( false );
         
-        // DNA Strand
-        _dnaStrandNode = new DNAStrandNode( dnaStrand, modelViewTransform );
+        // DNA Strands
+        _dnaStrandBeadNode = new DNAStrandNode( dnaStrandBead, modelViewTransform );
+        _dnaStrandFreeNode = new DNAStrandNode( dnaStrandFree, modelViewTransform );
         
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
@@ -107,7 +110,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         
         // Pushpin
         PushpinNode pushpinNode = new PushpinNode();
-        Point2D dnaPosition = modelViewTransform.modelToView( dnaStrand.getPosition() );
+        Point2D dnaPosition = modelViewTransform.modelToView( dnaStrandBead.getPosition() );
         pushpinNode.setOffset( dnaPosition );
         
         // Bead
@@ -128,7 +131,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
             final double viewReferenceLength = MotorsDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dnaForceNode = new DNAForceNode( bead, dnaStrand, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dnaForceNode = new DNAForceNode( bead, dnaStrandBead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler
@@ -173,7 +176,8 @@ public class MotorsCanvas extends OTAbstractCanvas {
         addNode( _microscopeSlideNode );
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
-        addNode( _dnaStrandNode );
+        addNode( _dnaStrandBeadNode );
+        addNode( _dnaStrandFreeNode );
         addNode( _enzymeANode );
         addNode( _enzymeBNode );
         addNode( pushpinNode );
@@ -233,8 +237,12 @@ public class MotorsCanvas extends OTAbstractCanvas {
         return _dnaForceNode;
     }
     
-    public DNAStrandNode getDNAStrandNode() {
-        return _dnaStrandNode;
+    public DNAStrandNode getDNAStrandBeadNode() {
+        return _dnaStrandBeadNode;
+    }
+    
+    public DNAStrandNode getDNAStrandFreeNode() {
+        return _dnaStrandFreeNode;
     }
     
     public EnzymeANode getEnzymeANode() {

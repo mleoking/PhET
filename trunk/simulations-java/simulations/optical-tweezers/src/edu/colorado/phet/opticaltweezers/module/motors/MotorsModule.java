@@ -152,7 +152,22 @@ public class MotorsModule extends OTAbstractModule {
             bead.setVacuumFastThreshold( MotorsDefaults.BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
             bead.setVacuumFastDt( MotorsDefaults.BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
             bead.setVacuumFastPower( MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
-
+            
+            // Invisible bead, attached to free end of DNA strand
+            Bead invisibleBead = _model.getInvisibleBead();
+            invisibleBead.setPosition( MotorsDefaults.INVISIBLE_BEAD_POSITION );
+            invisibleBead.setOrientation( MotorsDefaults.INVISIBLE_BEAD_ORIENTATION );
+            invisibleBead.setDtSubdivisionThreshold( MotorsDefaults.INVISIBLE_BEAD_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            invisibleBead.setNumberOfDtSubdivisions( MotorsDefaults.INVISIBLE_BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            invisibleBead.setBrownianMotionScale( MotorsDefaults.INVISIBLE_BEAD_BROWNIAN_MOTION_SCALE_RANGE.getDefault() );
+            invisibleBead.setBrownianMotionEnabled( MotorsDefaults.INVISIBLE_BEAD_BROWNIAN_MOTION_ENABLED );
+            invisibleBead.setVerletDtSubdivisionThreshold( MotorsDefaults.INVISIBLE_BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE.getDefault() );
+            invisibleBead.setVerletNumberOfDtSubdivisions( MotorsDefaults.INVISIBLE_BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE.getDefault() );
+            invisibleBead.setVerletAccelerationScale( MotorsDefaults.INVISIBLE_BEAD_VERLET_ACCELERATION_SCALE_RANGE.getDefault() );
+            invisibleBead.setVacuumFastThreshold( MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_THRESHOLD_RANGE.getDefault() );
+            invisibleBead.setVacuumFastDt( MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_DT_RANGE.getDefault() );
+            invisibleBead.setVacuumFastPower( MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_POWER_RANGE.getDefault() );
+            
             // Laser
             Laser laser = _model.getLaser();
             laser.setPosition( MotorsDefaults.LASER_POSITION );
@@ -167,15 +182,25 @@ public class MotorsModule extends OTAbstractModule {
             fluid.setViscosity( MotorsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
-            // DNA Strand
-            DNAStrand dnaStrand = _model.getDNAStrand();
-            dnaStrand.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
-            dnaStrand.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrand.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
-            dnaStrand.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
-            dnaStrand.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
-            dnaStrand.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrand.initialize();
+            // DNA Strand attached to bead
+            DNAStrand dnaStrandBead = _model.getDNAStrandBead();
+            dnaStrandBead.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
+            dnaStrandBead.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
+            dnaStrandBead.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
+            dnaStrandBead.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
+            dnaStrandBead.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
+            dnaStrandBead.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
+            dnaStrandBead.initialize();
+            
+            // DNA Strand with free end
+            DNAStrand dnaStrandFree = _model.getDNAStrandFree();
+            dnaStrandFree.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
+            dnaStrandFree.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
+            dnaStrandFree.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
+            dnaStrandFree.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
+            dnaStrandFree.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
+            dnaStrandFree.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
+            dnaStrandFree.initialize();
 
             // Enzyme
             _model.getEnzymeA().setEnabled( MotorsDefaults.ENZYME_A_SELECTED );
@@ -185,9 +210,13 @@ public class MotorsModule extends OTAbstractModule {
         // View
         {
             // DNA Strand node
-            DNAStrandNode dnaStrandNode = _canvas.getDNAStrandNode();
-            dnaStrandNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
-            dnaStrandNode.setExtensionVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
+            DNAStrandNode dnaStrandBeadNode = _canvas.getDNAStrandBeadNode();
+            dnaStrandBeadNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
+            dnaStrandBeadNode.setExtensionVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
+            
+            DNAStrandNode dnaStrandFreeNode = _canvas.getDNAStrandFreeNode();
+            dnaStrandFreeNode.setPivotsVisible( MotorsDefaults.DNA_PIVOTS_VISIBLE );
+            dnaStrandFreeNode.setExtensionVisible( MotorsDefaults.DNA_EXTENSIONS_VISIBLE );
         }
 
         // Control panel settings that are view-related
