@@ -71,11 +71,12 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                (OTClock)module.getClock(), model.getBead(), model.getLaser(), 
+                (OTClock)module.getClock(), model.getBead(), null /*invisibleBead */, model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
                 null /* dnaStrand2 */, null /* dnaStrandNode2 */,
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
-                null /* electricFieldNode */, null /* chargeDistributionNode */ );
+                null /* electricFieldNode */, null /* chargeDistributionNode */,
+                false /* showVacuumControls */ );
         
         // Turn off some features
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );

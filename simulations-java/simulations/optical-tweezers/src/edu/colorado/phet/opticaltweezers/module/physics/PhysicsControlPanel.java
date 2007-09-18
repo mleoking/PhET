@@ -72,11 +72,12 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         forceVectorNodes.add( _canvas.getTrapForceNode() );
         forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                (OTClock)module.getClock(), model.getBead(), model.getLaser(),
+                (OTClock)module.getClock(), model.getBead(), null /*invisibleBead */, model.getLaser(),
                 null /* dnaStrand1 */, null /* dnaStrandNode1 */, 
                 null /* dnaStrand2 */, null /* dnaStrandNode2 */,
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
-                _canvas.getLaserNode().getElectricFieldNode(), _canvas.getChargeDistributionNode() );
+                _canvas.getLaserNode().getElectricFieldNode(), _canvas.getChargeDistributionNode(),
+                true /* showVacuumControls */ );
         
         // Turn off some features
         _forcesControlPanel.setShowValuesCheckBoxVisible( false );
