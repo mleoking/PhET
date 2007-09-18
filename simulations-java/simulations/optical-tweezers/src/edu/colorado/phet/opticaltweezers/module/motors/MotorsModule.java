@@ -168,7 +168,7 @@ public class MotorsModule extends OTAbstractModule {
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            DNAStrandNew dnaStrand = _model.getDNAStrand();
+            DNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );

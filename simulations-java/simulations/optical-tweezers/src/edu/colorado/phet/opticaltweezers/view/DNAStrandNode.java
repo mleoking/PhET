@@ -12,7 +12,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.DNAPivot;
-import edu.colorado.phet.opticaltweezers.model.DNAStrandNew;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -42,7 +42,7 @@ public class DNAStrandNode extends PNode implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNAStrandNew _dnaStrand;
+    private DNAStrand _dnaStrand;
     private ModelViewTransform _modelViewTransform;
     
     private GeneralPath _strandPath;
@@ -60,7 +60,7 @@ public class DNAStrandNode extends PNode implements Observer {
      * @param dnaStrand
      * @param modelViewTransform
      */
-    public DNAStrandNode( DNAStrandNew dnaStrand, ModelViewTransform modelViewTransform ) {
+    public DNAStrandNode( DNAStrand dnaStrand, ModelViewTransform modelViewTransform ) {
         super();
         
         setPickable( false );
@@ -129,7 +129,7 @@ public class DNAStrandNode extends PNode implements Observer {
     //----------------------------------------------------------------------------
     
     public void update( Observable o, Object arg ) {
-        if ( o == _dnaStrand && arg == DNAStrandNew.PROPERTY_SHAPE ) {
+        if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_SHAPE ) {
            update();
         }
     }
