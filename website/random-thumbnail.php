@@ -15,7 +15,7 @@
 
     		$animated_screenshot = $thumbnails[$random_key];
 
-			if ($animated_screenshot_contents = file_get_contents($animated_screenshot)) {
+			if ($animated_screenshot_contents = sim_get_file_contents($animated_screenshot)) {
 				send_file_to_browser($animated_screenshot, $animated_screenshot_contents);
 				
 				break;
