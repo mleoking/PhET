@@ -13,6 +13,8 @@
 			<h1>Translated Sims</h1>
 EOT;
 
+		flush();
+
 		$sim_to_translations = sim_get_all_translated_language_names();
 		
 		$languages = array();
@@ -33,6 +35,8 @@ EOT;
 						<td class="even"></td>
 EOT;
 
+		flush();
+
 		$col_count = 1;
 
 		foreach ($languages as $language) {
@@ -50,6 +54,8 @@ EOT;
 		
 		print "<tbody>";
 		
+		flush();		
+		
 		$row_count = 0;
 				
 		foreach (sim_get_all_sim_names() as $sim_name) {
@@ -65,10 +71,14 @@ EOT;
 			$row_class = $row_is_even ? "even" : "odd";
 			
 			print "<tr class=\"$row_class\">";
+			
+			flush();
 
 			$sim_page_link = sim_get_url_to_sim_page_by_sim_name($sim_name);
 			
 			print "<td class=\"even\"><a href=\"$sim_page_link#versions\">$sim_name</a></td>";
+			
+			flush();
 			
 			$col_count = 1;
 			
@@ -87,6 +97,8 @@ EOT;
 							<img src="../images/electron-small.png" alt="Image of Electron" />
 						</a>
 EOT;
+
+					flush();
 				}
 				else {
 					print "";
@@ -95,9 +107,13 @@ EOT;
 				print "</td>";
 				
 				$col_count++;
+				
+				flush();
 			}
 			
 			print "</tr>";
+
+			flush();
 			
 			$row_count++;
 		}
@@ -105,6 +121,8 @@ EOT;
 		print "</tbody>";		
 		print "</table>";
 		print "</div>";
+		
+		flush();
 	}
 	
 	print_site_page('print_translations', 2);

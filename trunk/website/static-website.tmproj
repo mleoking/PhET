@@ -3,14 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>teacher_ideas/cached-browse-pages/ae388982d617347897af1257745ceff9.cache</string>
+	<string>build.xml</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-09-14T18:29:59Z</date>
+			<date>2007-09-14T21:17:15Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -148,11 +148,13 @@
 			<key>filename</key>
 			<string>build.xml</string>
 			<key>lastUsed</key>
-			<date>2007-09-13T19:31:30Z</date>
+			<date>2007-09-15T04:54:05Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
-	<integer>240</integer>
+	<integer>372</integer>
 	<key>metaData</key>
 	<dict>
 		<key>about/legend.php</key>
@@ -183,50 +185,6 @@
 			<key>firstVisibleLine</key>
 			<integer>33</integer>
 		</dict>
-		<key>about/who-we-are.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>22</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>38</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>22</integer>
-				<key>line</key>
-				<integer>14</integer>
-			</dict>
-		</dict>
-		<key>admin/cache-utils.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>31</integer>
-				<key>line</key>
-				<integer>24</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>7</integer>
-		</dict>
 		<key>admin/compose-newsletter.php</key>
 		<dict>
 			<key>caret</key>
@@ -240,50 +198,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>15</integer>
-		</dict>
-		<key>admin/contrib-utils.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>8</integer>
-				<key>line</key>
-				<integer>1040</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>1025</integer>
-		</dict>
-		<key>admin/db-utils.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>59</integer>
-			</dict>
-			<key>columnSelection</key>
-			<false/>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>43</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>121</integer>
-				<key>line</key>
-				<integer>59</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>59</integer>
-			</dict>
 		</dict>
 		<key>admin/db.inc</key>
 		<dict>
@@ -354,20 +268,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
-		</dict>
-		<key>admin/manage-contributors.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>5</integer>
-				<key>line</key>
-				<integer>13</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>5</integer>
 		</dict>
 		<key>admin/manage-db.php</key>
 		<dict>
@@ -446,14 +346,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>39</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>250</integer>
+				<integer>258</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>413</integer>
+			<integer>240</integer>
 		</dict>
 		<key>admin/test.php</key>
 		<dict>
@@ -502,28 +402,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>13</integer>
+				<integer>46</integer>
 				<key>line</key>
-				<integer>60</integer>
+				<integer>53</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>48</integer>
-		</dict>
-		<key>css/home.css</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>22</integer>
-				<key>line</key>
-				<integer>138</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>113</integer>
+			<integer>43</integer>
 		</dict>
 		<key>get_phet/simlauncher.php</key>
 		<dict>
@@ -538,20 +424,6 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>11</integer>
-		</dict>
-		<key>index.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>159</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>147</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
@@ -586,70 +458,58 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>41</integer>
 				<key>line</key>
-				<integer>436</integer>
+				<integer>154</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>280</integer>
+			<integer>138</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>49</integer>
+				<key>line</key>
+				<integer>154</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>41</integer>
+				<key>line</key>
+				<integer>154</integer>
+			</dict>
 		</dict>
 		<key>simulations/translations.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>19</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>48</integer>
+				<integer>60</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>25</integer>
+			<integer>50</integer>
 		</dict>
 		<key>teacher_ideas/browse.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>83</integer>
+				<integer>19</integer>
 				<key>line</key>
-				<integer>336</integer>
+				<integer>260</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>316</integer>
-		</dict>
-		<key>teacher_ideas/cached-browse-pages/ae388982d617347897af1257745ceff9.cache</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>0</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
-		</dict>
-		<key>teacher_ideas/edit-contribution.php</key>
-		<dict>
-			<key>caret</key>
-			<dict>
-				<key>column</key>
-				<integer>2</integer>
-				<key>line</key>
-				<integer>43</integer>
-			</dict>
-			<key>firstVisibleColumn</key>
-			<integer>0</integer>
-			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>244</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -726,18 +586,11 @@
 	</dict>
 	<key>openDocuments</key>
 	<array>
-		<string>teacher_ideas/manage-contributions.php</string>
-		<string>teacher_ideas/edit-contribution.php</string>
-		<string>index.php</string>
-		<string>admin/cache-utils.php</string>
+		<string>simulations/translations.php</string>
 		<string>teacher_ideas/browse.php</string>
-		<string>teacher_ideas/cached-browse-pages/ae388982d617347897af1257745ceff9.cache</string>
-		<string>css/home.css</string>
-		<string>admin/contrib-utils.php</string>
-		<string>admin/manage-contributors.php</string>
-		<string>admin/db-utils.php</string>
-		<string>about/who-we-are.php</string>
 		<string>build.xml</string>
+		<string>simulations/sims.php</string>
+		<string>admin/sim-utils.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
