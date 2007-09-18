@@ -43,12 +43,6 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public static final String PROPERTY_EVOLUTION_DT = "evolutionDtScale";
     public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
     
-    /*
-     * If we let springs get too short, the strand evolution model with start to fail.
-     * So a spring length smaller than this is effectively zero
-     */
-    private static final double MIN_SPRING_LENGTH = 1; // nm
-    
     /* 
      * If we let the spring constant get too big, the strand evolution model with start to fail.
      * So we'll limit it to a maximum "really-stiff" value.
@@ -451,8 +445,9 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         int numberOfPivots = (int) ( _contourLength / _springLength ) + 2;  // +1 for conversion from #springs to #pivots, +1 for partial spring closest to pin
         // determine length of the spring closest to the pin
         _closestSpringLength = _contourLength % _springLength;
-        if ( _closestSpringLength < MIN_SPRING_LENGTH ) {
-            _closestSpringLength = MIN_SPRING_LENGTH;
+        if ( _closestSpringLength == 0 ) {
+            _closestSpringLength = _springLength;
+            numberOfPivots--;
         }
         
         final double springLengthScale = extension / _contourLength;
