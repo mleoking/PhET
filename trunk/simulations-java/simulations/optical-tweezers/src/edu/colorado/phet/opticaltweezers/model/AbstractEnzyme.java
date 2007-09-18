@@ -36,7 +36,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNAStrand _dnaStrand;
+    private DNAStrand _dnaStrandBead; // DNA strand that is attached to bead
+    private DNAStrand _dnaStrandFree; // DNA strand that is free, not attached to bead
     private Fluid _fluid;
     private final double _maxDt;
     
@@ -55,7 +56,9 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     
     public AbstractEnzyme( Point2D position, 
             double outerDiameter, double innerDiameter,
-            DNAStrand dnaStrand, Fluid fluid,
+            DNAStrand dnaStrandBead, 
+            DNAStrand dnaStrandFree,
+            Fluid fluid,
             double maxDt,
             double maxDNASpeed,
             double[] calibrationConstants ) {
@@ -66,7 +69,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         _innerOrientation = 0;
         _enabled = false;
         
-        _dnaStrand = dnaStrand;
+        _dnaStrandBead = dnaStrandBead;
+        _dnaStrandFree = dnaStrandFree;
         _fluid = fluid;
         _maxDt = maxDt;
         
@@ -114,7 +118,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      */
     public double getDNASpeed() {
         final double atp = _fluid.getATPConcentration();
-        final double fDNA = _dnaStrand.getForceAtBead().getMagnitude();
+        final double fDNA = _dnaStrandBead.getForceAtBead().getMagnitude();
         return getDNASpeed( atp, fDNA );
     }
     
