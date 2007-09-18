@@ -2045,22 +2045,37 @@ EOT;
 	function contributor_print_desc_list($contributor_desc, $wide) {
 		if ($wide) {
 			$wide_style = ' auto-width';
-		}
-		else {
-			$wide_style = '';
-		}
-		
-		print_single_selection(
-			'contributor_desc', 
-			array(
+			
+			$options = array(
 				DEFAULT_CONTRIBUTOR_DESC,
 				'I am a teacher interested in using PhET in the future',
 				'I am a student who uses PhET',
 				'I am a student interested in using PhET in the future',
 				'I am just interested in physics',
 				'Other'
-			)
-			, 
+			);
+		}
+		else {
+			$wide_style = '';
+			
+			/*
+				give shorthand descriptions for twoface login/register form 
+				(mainly for IE6 which does not display wide SELECT elements 
+			    properly).			
+			 */
+			$options = array(
+				DEFAULT_CONTRIBUTOR_DESC => "Teacher using PhET",
+				'I am a teacher interested in using PhET in the future' => "Teacher new to PhET",
+				'I am a student who uses PhET' => "Student using PhET",
+				'I am a student interested in usingPhET in the future' => "Student new to PhET",
+				'I am just interested in physics' => "Interested in physics",
+				'Other' => 'Other'
+			);
+		}
+		
+		print_single_selection(
+			'contributor_desc', 
+			$options, 
 			$contributor_desc,
 			"class=\"always-enabled$wide_style\""
 		);
