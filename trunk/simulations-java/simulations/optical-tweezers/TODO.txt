@@ -3,12 +3,10 @@
 ================================================================================
 
 HIGH PRIORITY:
-- when bead is reeled in all the way by enzyme, does bead motion stop entirely?
-- implement DNAStrand.makeLonger/makeShorter, test with a slider
-- implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - implement MotorsCanvas.handleResetDNAButton
 - implement EnzymeControlPanel.handleEnzymeChoice
 - automatically "Reset DNA" when switching between enzymes
+- implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
@@ -48,6 +46,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/18/07 - require DNA strand to consist of at least one complete spring
+9/18/07 - test pulling the DNA strand through the enzyme (using a slider control)
+9/18/07 - implement dynamic contour length feature for DNA strand
 9/18/07 - limit spring constant for first DNA spring to prevent failure of strand evolution
 9/18/07 - swap position of drag force and DNA force controls in control panel
 9/18/07 - hide vaccum developer controls in modules where they are irrelevant

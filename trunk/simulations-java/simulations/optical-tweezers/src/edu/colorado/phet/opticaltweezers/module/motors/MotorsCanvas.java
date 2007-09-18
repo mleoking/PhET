@@ -14,7 +14,10 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.charts.PotentialEnergyChartNode;
@@ -191,6 +194,25 @@ public class MotorsCanvas extends OTAbstractCanvas {
         addNode( _rulerDragBoundsNode );
         addNode( _returnBeadButtonWrapper );
         addNode( _resetDNAButtonWrapper );
+        
+        //XXX test code for DNA dynamic contour length
+        {
+            final double minContour = MotorsDefaults.DNA_SPRING_LENGTH;
+            final double maxContour = 2500;
+            final LinearValueControl contourLengthControl = new LinearValueControl( minContour, maxContour, "contour length:", "###0", "" );
+            contourLengthControl.setValue( _model.getDNAStrandBead().getContourLength() );
+            contourLengthControl.setUpDownArrowDelta( 10 );
+            contourLengthControl.addChangeListener( new ChangeListener() {
+               public void stateChanged( ChangeEvent event ) {
+                   double beadContour = contourLengthControl.getValue();
+                   _model.getDNAStrandBead().setContourLength( beadContour );
+                   _model.getDNAStrandFree().setContourLength( minContour + ( maxContour - beadContour ) );
+               }
+            });
+            PSwing contourLengthControlWrapper = new PSwing( contourLengthControl );
+            contourLengthControlWrapper.setOffset( 100, 400 );
+            addNode( contourLengthControlWrapper );
+        }
     }
     
     //----------------------------------------------------------------------------
