@@ -30,7 +30,7 @@
 	    "as" => "Assamese",
 	    "ay" => "Aymara",
 	    "az" => "Azerbaijani",
-
+	    
 	    "ba" => "Bashkir",
 	    "be" => "Byelorussian",
 	    "bg" => "Bulgarian",
@@ -39,12 +39,12 @@
 	    "bn" => "Bengali, Bangla",
 	    "bo" => "Tibetan",
 	    "br" => "Breton",
-
+	    
 	    "ca" => "Catalan",
 	    "co" => "Corsican",
 	    "cs" => "Czech",
 	    "cy" => "Welsh",
-
+	    
 	    "da" => "Danish",
 	    "de" => "German",
 	    "dz" => "Bhutani",
@@ -55,27 +55,27 @@
 	    "es" => "Spanish",
 	    "et" => "Estonian",
 	    "eu" => "Basque",
-
+	    
 	    "fa" => "Persian",
 	    "fi" => "Finnish",
 	    "fj" => "Fiji",
 	    "fo" => "Faroese",
 	    "fr" => "French",
 	    "fy" => "Frisian",
-
+	    
 	    "ga" => "Irish",
 	    "gd" => "Scots, Gaelic",
 	    "gl" => "Galician",
 	    "gn" => "Guarani",
 	    "gu" => "Gujarati",
-
+	    
 	    "ha" => "Hausa",
 	    "he" => "Hebrew",
 	    "hi" => "Hindi",
 	    "hr" => "Croatian",
 	    "hu" => "Hungarian",
 	    "hy" => "Armenian",
-
+	    
 	    "ia" => "Interlingua",
 	    "id" => "Indonesian",
 	    "ie" => "Interlingue",
@@ -83,10 +83,10 @@
 	    "is" => "Icelandic",
 	    "it" => "Italian",
 	    "iu" => "Inuktitut",
-
+	    
 	    "ja" => "Japanese",
 	    "jw" => "Javanese",
-
+	    
 	    "ka" => "Georgian",
 	    "kk" => "Kazakh",
 	    "kl" => "Greenlandic",
@@ -96,13 +96,13 @@
 	    "ks" => "Kashmiri",
 	    "ku" => "Kurdish",
 	    "ky" => "Kirghiz",
-
+	    
 	    "la" => "Latin",
 	    "ln" => "Lingala",
 	    "lo" => "Laothian",
 	    "lt" => "Lithuanian",
 	    "lv" => "Latvian, Lettish",
-
+	    
 	    "mg" => "Malagasy",
 	    "mi" => "Maori",
 	    "mk" => "Macedonian",
@@ -113,29 +113,29 @@
 	    "ms" => "Malay",
 	    "mt" => "Maltese",
 	    "my" => "Burmese",
-
+	    
 	    "na" => "Nauru",
 	    "ne" => "Nepali",
 	    "nl" => "Dutch",
 	    "no" => "Norwegian",
-
+	    
 	    "oc" => "Occitan",
 	    "om" => "(Afan) Oromo",
 	    "or" => "Oriya",
-
+	    
 	    "pa" => "Punjabi",
 	    "pl" => "Polish",
 	    "ps" => "Pashto, Pushto",
 	    "pt" => "Portuguese",
-
+	    
 	    "qu" => "Quechua",
-
+	    
 	    "rm" => "Rhaeto-Romance",
 	    "rn" => "Kirundi",
 	    "ro" => "Romanian",
 	    "ru" => "Russian",
 	    "rw" => "Kinyarwanda",
-
+	    
 	    "sa" => "Sanskrit",
 	    "sd" => "Sindhi",
 	    "sg" => "Sangho",
@@ -153,7 +153,7 @@
 	    "su" => "Sundanese",
 	    "sv" => "Swedish",
 	    "sw" => "Swahili",
-
+	    
 	    "ta" => "Tamil",
 	    "te" => "Telugu",
 	    "tg" => "Tajik",
@@ -167,22 +167,22 @@
 	    "ts" => "Tsonga",
 	    "tt" => "Tatar",
 	    "tw" => "Twi",
-
+	    
 	    "ug" => "Uighur",
 	    "uk" => "Ukrainian",
 	    "ur" => "Urdu",
 	    "uz" => "Uzbek",
-
+	    
 	    "vi" => "Vietnamese",
 	    "vo" => "Volapuk",
-
+	    
 	    "wo" => "Wolof",
-
+	    
 	    "xh" => "Xhosa",
-
+	    
 	    "yi" => "Yiddish",
 	    "yo" => "Yoruba",
-
+	    
 	    "za" => "Zhuang",
 	    "zh" => "Chinese",
 	    "zu" => "Zulu"
@@ -269,7 +269,7 @@
 			}
 		}
 		
-		cache_put(SIM_TRANSLATIONS_CACHE, serialize($language_to_translations));
+		cache_put(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', serialize($language_to_translations));
 		
 		return $language_to_translations;
 	}
@@ -283,7 +283,7 @@
 		
 		$translations = array();
 		
-		$launch_file_base_dir = realpath(dirname(__FILE__)."../../sims");
+		$launch_file_base_dir = realpath(dirname(__FILE__)."/../../sims");
 				
 		foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $language_name) {
 			$translated_flavorname = "${flavorname}_${code}";
@@ -302,6 +302,8 @@
 			else if (url_exists($launch_url)) {
 				$translations[$language_name] = $launch_url;
 			}
+			
+			flush();
 		}
 		
 		return $translations;
