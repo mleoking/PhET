@@ -139,6 +139,7 @@ public class MotorsModel extends OTAbstractModel {
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrandBead,
+                 _dnaStrandFree,
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeA.setEnabled( true );
@@ -148,6 +149,7 @@ public class MotorsModel extends OTAbstractModel {
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
                  _dnaStrandBead,
+                 _dnaStrandFree,
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );

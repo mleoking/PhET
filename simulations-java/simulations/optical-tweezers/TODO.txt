@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- associate 2 DNA strands (bead and free end) with enzyme
 - make enzyme change contour length of associated DNA strands
 - remove test code from MotorsCanvas, used to test dynamic DNA contour length
 - implement MotorsCanvas.handleResetDNAButton
@@ -49,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/18/07 - associate 2 DNA strands (bead and free end) with enzyme
 9/18/07 - require DNA strand to consist of at least one complete spring
 9/18/07 - test pulling the DNA strand through the enzyme (using a slider control)
 9/18/07 - implement dynamic contour length feature for DNA strand
