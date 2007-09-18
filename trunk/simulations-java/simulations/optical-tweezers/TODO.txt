@@ -48,6 +48,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/18/07 - swap position of drag force and DNA force controls in control panel
 9/18/07 - hide vaccum developer controls in modules where they are irrelevant
 9/18/07 - add developer controls for invisible bead
 9/18/07 - attach invisible bead to free end of DNA strand

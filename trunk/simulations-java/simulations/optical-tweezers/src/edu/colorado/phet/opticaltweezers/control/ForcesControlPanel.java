@@ -192,10 +192,10 @@ public class ForcesControlPanel extends JPanel implements Observer {
         int column = 0;
         layout.addComponent( titleLabel, row++, column );
         layout.addComponent( trapForcePanel, row++, column );
-        layout.addComponent( dragForcePanel, row++, column );
         if ( dnaForcePanel != null ) {
             layout.addComponent( dnaForcePanel, row++, column );
         }
+        layout.addComponent( dragForcePanel, row++, column );
         layout.addComponent( _brownianMotionCheckBox, row++, column );
         layout.addComponent( _showValuesCheckBox, row++, column );
         layout.addComponent( _constantTrapForceCheckBox, row++, column );
