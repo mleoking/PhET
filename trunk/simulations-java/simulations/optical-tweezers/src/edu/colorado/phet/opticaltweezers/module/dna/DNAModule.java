@@ -171,7 +171,7 @@ public class DNAModule extends OTAbstractModule {
             fluid.setTemperature( DNADefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
 
             // DNA Strand
-            DNAStrandNew dnaStrand = _model.getDNAStrand();
+            DNAStrand dnaStrand = _model.getDNAStrand();
             dnaStrand.setSpringConstant( DNADefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrand.setDragCoefficient( DNADefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrand.setKickConstant( DNADefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );

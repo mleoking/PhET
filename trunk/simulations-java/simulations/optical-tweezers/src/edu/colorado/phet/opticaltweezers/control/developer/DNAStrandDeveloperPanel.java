@@ -19,7 +19,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.opticaltweezers.model.DNAStrandNew;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
@@ -34,7 +34,7 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DNAStrandNew _dnaStrand;
+    private DNAStrand _dnaStrand;
     private DNAStrandNode _dnaStrandNode;
     
     private JCheckBox _pivotsCheckBox;
@@ -50,7 +50,7 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAStrandDeveloperPanel( Font titleFont, Font controlFont, DNAStrandNew dnaStrand, DNAStrandNode dnaStrandNode ) {
+    public DNAStrandDeveloperPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
         super();
         
         _dnaStrand = dnaStrand;
@@ -236,22 +236,22 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
     
     public void update( Observable o, Object arg ) {
         if ( o == _dnaStrand ) {
-            if ( arg == DNAStrandNew.PROPERTY_SPRING_CONSTANT ) {
+            if ( arg == DNAStrand.PROPERTY_SPRING_CONSTANT ) {
                 _springConstantControl.setValue( _dnaStrand.getSpringConstant() );
             }
-            else if ( arg == DNAStrandNew.PROPERTY_DRAG_COEFFICIENT ) {
+            else if ( arg == DNAStrand.PROPERTY_DRAG_COEFFICIENT ) {
                 _dragCoefficientControl.setValue( _dnaStrand.getDragCoefficient() );
             }
-            else if ( arg == DNAStrandNew.PROPERTY_KICK_CONSTANT ) {
+            else if ( arg == DNAStrand.PROPERTY_KICK_CONSTANT ) {
                 _kickConstant.setValue( _dnaStrand.getKickConstant() );
             }
-            else if ( arg == DNAStrandNew.PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK ) {
+            else if ( arg == DNAStrand.PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK ) {
                 _numberOfEvolutionsPerClockTickControl.setValue( _dnaStrand.getNumberOfEvolutionsPerClockTick() ); 
             }
-            else if ( arg == DNAStrandNew.PROPERTY_EVOLUTION_DT ) {
+            else if ( arg == DNAStrand.PROPERTY_EVOLUTION_DT ) {
                 _evolutionDtControl.setValue( _dnaStrand.getEvolutionDt() );
             }
-            else if ( arg == DNAStrandNew.PROPERTY_FLUID_DRAG_COEFFICIENT ) {
+            else if ( arg == DNAStrand.PROPERTY_FLUID_DRAG_COEFFICIENT ) {
                 _fluidDragCoefficientControl.setValue( _dnaStrand.getFluidDragCoefficient() );
             }
         }

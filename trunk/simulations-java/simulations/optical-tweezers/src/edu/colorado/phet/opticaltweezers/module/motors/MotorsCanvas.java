@@ -73,7 +73,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         Fluid fluid = model.getFluid();
         MicroscopeSlide microscopeSlide = model.getMicroscopeSlide();
         Laser laser = model.getLaser();
-        DNAStrandNew dnaStrand = model.getDNAStrand();
+        DNAStrand dnaStrand = model.getDNAStrand();
         Bead bead = model.getBead();
         EnzymeA enzymeA = model.getEnzymeA();
         EnzymeB enzymeB = model.getEnzymeB();
