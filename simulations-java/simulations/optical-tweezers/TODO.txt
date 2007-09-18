@@ -3,12 +3,12 @@
 ================================================================================
 
 HIGH PRIORITY:
-- make enzyme change contour length of associated DNA strands
+- implement AbstractEnzyme.updateDNAStrand to pull DNA strand through enzyme
 - remove test code from MotorsCanvas, used to test dynamic DNA contour length
-- implement MotorsCanvas.handleResetDNAButton
-- implement EnzymeControlPanel.handleEnzymeChoice
+- implement MotorsCanvas.handleResetDNAButton to reset DNA strand
+- implement EnzymeControlPanel.handleEnzymeChoice to switch between enzyme models
 - automatically "Reset DNA" when switching between enzymes
-- implement ForcesControlPanel.handleConstantTrapForceCheckBox, move laser to keep trap force constant
+- implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:

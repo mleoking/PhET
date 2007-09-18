@@ -147,13 +147,21 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
 
     public void stepInTime( double dt ) {
         if ( _enabled ) {
-            final double dnaSpeed = getDNASpeed();
-//          System.out.println( "AbstractEnzyme.stepInTime dnaSpeed=" + dnaSpeed );//XXX
-            final double speedScale = dnaSpeed / _maxDNASpeed;
-            final double dtScale = dt / _maxDt;
-            final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
-            _innerOrientation += deltaAngle;
-            notifyObservers( PROPERTY_INNER_ORIENTATION );
+            updateEnzymeOrientation( dt );
+            updateDNAStrand( dt );
         }
+    }
+    
+    private void updateEnzymeOrientation( double dt ) {
+        final double dnaSpeed = getDNASpeed();
+        final double speedScale = dnaSpeed / _maxDNASpeed;
+        final double dtScale = dt / _maxDt;
+        final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
+        _innerOrientation += deltaAngle;
+        notifyObservers( PROPERTY_INNER_ORIENTATION );
+    }
+    
+    private void updateDNAStrand( double dt ) {
+        //XXX change contour lengths of _dnaStrandBead and _dnaStrandFree
     }
 }
