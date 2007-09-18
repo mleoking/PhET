@@ -73,6 +73,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 (OTClock)module.getClock(), model.getBead(), model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
+                null /* dnaStrand2 */, null /* dnaStrandNode2 */,
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
                 null /* electricFieldNode */, null /* chargeDistributionNode */ );
         

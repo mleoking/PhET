@@ -50,7 +50,7 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAStrandDeveloperPanel( Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
+    public DNAStrandDeveloperPanel( String title, Font titleFont, Font controlFont, DNAStrand dnaStrand, DNAStrandNode dnaStrandNode ) {
         super();
         
         _dnaStrand = dnaStrand;
@@ -59,7 +59,7 @@ public class DNAStrandDeveloperPanel extends JPanel implements Observer, Propert
         _dnaStrandNode = dnaStrandNode;
         _dnaStrandNode.addPropertyChangeListener( this );
         
-        TitledBorder border = new TitledBorder( "DNA strand model" );
+        TitledBorder border = new TitledBorder( title );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         

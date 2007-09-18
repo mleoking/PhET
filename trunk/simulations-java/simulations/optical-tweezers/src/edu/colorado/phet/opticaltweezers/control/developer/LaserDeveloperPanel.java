@@ -35,7 +35,7 @@ public class LaserDeveloperPanel extends JPanel implements Observer {
         _laser = laser;
         _laser.addObserver( this );
         
-        TitledBorder border = new TitledBorder( "Laser model" );
+        TitledBorder border = new TitledBorder( "Laser" );
         border.setTitleFont( titleFont );
         this.setBorder( border );
         
