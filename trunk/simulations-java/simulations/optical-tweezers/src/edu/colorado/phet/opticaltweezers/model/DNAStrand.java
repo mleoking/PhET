@@ -99,7 +99,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             double contourLength,
             double persistenceLength,
             double springLength,
-            double maxStretchiness,
+            double stretchiness,
             Bead bead,
             Fluid fluid,
             OTClock clock,
@@ -117,7 +117,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         _contourLength = contourLength;
         _persistenceLength = persistenceLength;
         _springLength = springLength;
-        _stretchiness = maxStretchiness;
+        _stretchiness = stretchiness;
         
         _bead = bead;
         _bead.addObserver( this );
