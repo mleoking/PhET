@@ -21,7 +21,9 @@ public class MotorsModel extends OTAbstractModel {
     private final MicroscopeSlide _microscopeSlide;
     private final Laser _laser;
     private final Bead _bead;
-    private final DNAStrand _dnaStrand;
+    private final Bead _invisibleBead;
+    private final DNAStrand _dnaStrandBead; // DNA strand attached to visible bead
+    private final DNAStrand _dnaStrandFree; // DNA strand with free end
     private final EnzymeA _enzymeA;
     private final EnzymeB _enzymeB;
     
@@ -79,8 +81,8 @@ public class MotorsModel extends OTAbstractModel {
                 MotorsDefaults.BEAD_VACUUM_FAST_POWER_RANGE );
          addModelElement( _bead );
          
-         _dnaStrand = new DNAStrand( MotorsDefaults.DNA_POSITION,
-                 MotorsDefaults.DNA_CONTOUR_LENGTH, 
+         _dnaStrandBead = new DNAStrand( MotorsDefaults.DNA_POSITION,
+                 MotorsDefaults.DNA_BEAD_CONTOUR_LENGTH, 
                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
                  MotorsDefaults.DNA_SPRING_LENGTH, 
                  MotorsDefaults.DNA_STRETCHINESS,
@@ -94,13 +96,49 @@ public class MotorsModel extends OTAbstractModel {
                  MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
                  MotorsDefaults.DNA_EVOLUTION_DT_RANGE,
                  MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE );
-         addModelElement( _dnaStrand );
-         _bead.attachTo( _dnaStrand ); // attach bead to DNA strand
+         addModelElement( _dnaStrandBead );
+         _bead.attachTo( _dnaStrandBead ); // attach bead to DNA strand
          
+         _invisibleBead = new Bead( MotorsDefaults.INVISIBLE_BEAD_POSITION, 
+                 MotorsDefaults.INVISIBLE_BEAD_ORIENTATION, 
+                 MotorsDefaults.INVISIBLE_BEAD_DIAMETER,
+                 MotorsDefaults.INVISIBLE_BEAD_DENSITY,
+                 _fluid,
+                 _microscopeSlide,
+                 null, /* no laser influence */
+                 MotorsDefaults.INVISIBLE_BEAD_BROWNIAN_MOTION_SCALE_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_DT_SUBDIVISION_THRESHOLD_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VERLET_DT_SUBDIVISION_THRESHOLD_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VERLET_NUMBER_OF_DT_SUBDIVISIONS_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VERLET_ACCELERATION_SCALE_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_THRESHOLD_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_DT_RANGE,
+                 MotorsDefaults.INVISIBLE_BEAD_VACUUM_FAST_POWER_RANGE );
+          addModelElement( _invisibleBead );
+         
+          _dnaStrandFree = new DNAStrand( MotorsDefaults.DNA_POSITION,
+                  MotorsDefaults.DNA_FREE_CONTOUR_LENGTH, 
+                  MotorsDefaults.DNA_PERSISTENCE_LENGTH, 
+                  MotorsDefaults.DNA_SPRING_LENGTH, 
+                  MotorsDefaults.DNA_STRETCHINESS,
+                  _invisibleBead,
+                  _fluid,
+                  clock,
+                  MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
+                  MotorsDefaults.DNA_SPRING_CONSTANT_RANGE, 
+                  MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE, 
+                  MotorsDefaults.DNA_KICK_CONSTANT_RANGE, 
+                  MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE,
+                  MotorsDefaults.DNA_EVOLUTION_DT_RANGE,
+                  MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE );
+          addModelElement( _dnaStrandFree );
+          _invisibleBead.attachTo( _dnaStrandFree ); // attach bead to DNA strand
+          
          _enzymeA = new EnzymeA( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
-                 _dnaStrand,
+                 _dnaStrandBead,
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeA.setEnabled( true );
@@ -109,7 +147,7 @@ public class MotorsModel extends OTAbstractModel {
          _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
                  MotorsDefaults.ENZYME_OUTER_DIAMETER, 
                  MotorsDefaults.ENZYME_INNER_DIAMETER,
-                 _dnaStrand,
+                 _dnaStrandBead,
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );
@@ -138,8 +176,16 @@ public class MotorsModel extends OTAbstractModel {
         return _bead;
     }
     
-    public DNAStrand getDNAStrand() {
-        return _dnaStrand;
+    public Bead getInvisibleBead() {
+        return _invisibleBead;
+    }
+    
+    public DNAStrand getDNAStrandBead() {
+        return _dnaStrandBead;
+    }
+    
+    public DNAStrand getDNAStrandFree() {
+        return _dnaStrandFree;
     }
     
     public EnzymeA getEnzymeA() {

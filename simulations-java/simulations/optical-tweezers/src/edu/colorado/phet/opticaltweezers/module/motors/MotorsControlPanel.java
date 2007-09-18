@@ -71,8 +71,8 @@ public class MotorsControlPanel extends OTAbstractControlPanel {
         forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 (OTClock)module.getClock(), model.getBead(), model.getLaser(), 
-                model.getDNAStrand(), _canvas.getDNAStrandNode(),
-                null /* dnaStrand2 */, null /* dnaStrandNode2 */,
+                model.getDNAStrandBead(), _canvas.getDNAStrandBeadNode(),
+                model.getDNAStrandFree(), _canvas.getDNAStrandFreeNode(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
                 null /* electricFieldNode */, null /* chargeDistributionNode */ );
         
