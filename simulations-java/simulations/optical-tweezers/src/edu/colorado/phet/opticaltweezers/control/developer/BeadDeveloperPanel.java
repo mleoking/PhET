@@ -315,11 +315,13 @@ public class BeadDeveloperPanel extends JPanel implements Observer, ConstantDtCl
      * Set the control's text field to green when the threshold is currently exceeded.
      */
     private void updateVaccumFastThresholdIndicator() {
-        if ( _clock.getDt() * _laser.getPower() > _vacuumFastThresholdControl.getValue() ) {
-            _vacuumFastThresholdControl.getTextField().setBackground( Color.GREEN );
-        }
-        else {
-            _vacuumFastThresholdControl.getTextField().setBackground( Color.WHITE );
+        if ( _vacuumFastThresholdControl != null ) {
+            if ( _clock.getDt() * _laser.getPower() > _vacuumFastThresholdControl.getValue() ) {
+                _vacuumFastThresholdControl.getTextField().setBackground( Color.GREEN );
+            }
+            else {
+                _vacuumFastThresholdControl.getTextField().setBackground( Color.WHITE );
+            }
         }
     }
 
