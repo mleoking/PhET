@@ -47,6 +47,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/18/07 - hide vaccum developer controls in modules where they are irrelevant
+9/18/07 - add developer controls for invisible bead
 9/18/07 - attach invisible bead to free end of DNA strand
 9/18/07 - add support for multiple DNA strands to developer controls
 9/18/07 - convert back to DNA model where the parts on each side of the pin are treated as separate strands

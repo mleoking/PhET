@@ -40,16 +40,18 @@ public class DeveloperControlPanel extends JPanel {
     public DeveloperControlPanel( Font titleFont, Font controlFont, Frame parentFrame,
             OTClock clock,
             Bead bead, 
+            Bead invisibleBead,
             Laser laser,
-            DNAStrand dnaStrand1,
-            DNAStrandNode dnaStrandNode1,
-            DNAStrand dnaStrand2,
-            DNAStrandNode dnaStrandNode2,
+            DNAStrand dnaStrandBead,
+            DNAStrandNode dnaStrandBeadNode,
+            DNAStrand dnaStrandFree,
+            DNAStrandNode dnaStrandFreeNode,
             TrapForceNode trapForceNode,
             FluidDragForceNode fluidDragForceNode,
             DNAForceNode dnaForceNode,
             ElectricFieldNode electricFieldNode,
-            ChargeDistributionNode chargeDistributionNode ) {
+            ChargeDistributionNode chargeDistributionNode,
+            boolean showVacuumControls ) {
         super();
         
         _showHideButton = new JButton();
@@ -68,16 +70,22 @@ public class DeveloperControlPanel extends JPanel {
         JPanel laserPanel = new LaserDeveloperPanel( titleFont, controlFont, laser );
         _panel.add( laserPanel );
         
-        _beadPanel = new BeadDeveloperPanel( titleFont, controlFont, clock, bead, laser, chargeDistributionNode );
+        _beadPanel = new BeadDeveloperPanel( "Bead", titleFont, controlFont, clock, bead, laser, chargeDistributionNode, showVacuumControls );
         _panel.add( _beadPanel );
         
-        if ( dnaStrand1 != null ) {
-            JPanel dnaStrandPanel1 = new DNAStrandDeveloperPanel( "DNA strand (bead end)", titleFont, controlFont, dnaStrand1, dnaStrandNode1 );
+        if ( invisibleBead != null ) {
+            JPanel invisibleBeadPanel = new BeadDeveloperPanel( "Bead (invisible, DNA free end)", titleFont, controlFont, clock, 
+                    invisibleBead, null /* laser */, null /* chargeDistributionNode */, showVacuumControls );
+            _panel.add( invisibleBeadPanel );
+        }
+        
+        if ( dnaStrandBead != null ) {
+            JPanel dnaStrandPanel1 = new DNAStrandDeveloperPanel( "DNA strand (bead attached)", titleFont, controlFont, dnaStrandBead, dnaStrandBeadNode );
             _panel.add( dnaStrandPanel1 );
         }
         
-        if ( dnaStrand2 != null ) {
-            JPanel dnaStrandPanel2 = new DNAStrandDeveloperPanel( "DNA strand (free end)", titleFont, controlFont, dnaStrand2, dnaStrandNode2 );
+        if ( dnaStrandFree != null ) {
+            JPanel dnaStrandPanel2 = new DNAStrandDeveloperPanel( "DNA strand (free end)", titleFont, controlFont, dnaStrandFree, dnaStrandFreeNode );
             _panel.add( dnaStrandPanel2 );
         }
         
