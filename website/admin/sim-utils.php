@@ -1,8 +1,13 @@
 <?php
-    include_once("db.inc");
-    include_once("web-utils.php");
-    include_once("db-utils.php");    
-    include_once("xml_parser.php");
+	if (!defined('SITE_ROOT')) {
+		include_once("../admin/global.php");
+	}
+	
+    include_once(SITE_ROOT."admin/db.inc");
+    include_once(SITE_ROOT."admin/web-utils.php");
+    include_once(SITE_ROOT."admin/db-utils.php");    
+    include_once(SITE_ROOT."admin/xml_parser.php");
+	include_once(SITE_ROOT."admin/cache-utils.php");
 
 	define("SIM_THUMBNAIL_WIDTH", 130);
 	define("SIM_THUMBNAIL_HEIGHT", 97);
@@ -224,7 +229,8 @@
     define("SIM_CRUTCH_IMAGE_HTML", 
         "<a href=\"../about/legend.php\"><img src=\"".SIM_CRUTCH_IMAGE."\" alt=\"Not standalone\" width=\"37\" title=\"Guidance Recommended: This simulation is very effective when used in conjunction with a lecture, homework or other teacher designed activity.\"/></a>");    
 
-	define("SIM_THUMBNAIL_CACHE_ROOT", "../admin/cached-thumbnails/");
+	define("SIM_THUMBNAILS_CACHE", 	 "thumbnails");
+	define("SIM_TRANSLATIONS_CACHE", "translations");
 
     define("SIMS_PER_PAGE", 9);
 
@@ -240,22 +246,10 @@
     }
 
 	function sim_get_all_translated_language_names() {
-		$dir   = "./cached-translations";
-		$cache = $dir."/translations.cache";
+		$all_translations = cache_get(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', 24);
 		
-		if (file_exists($cache)) {
-			$time = filemtime($cache);
-			
-			$diff = time() - $time;
-			
-			// Refresh the cache every 24 hours:
-			if ($diff < 24 * 60 * 60) {			
-				return unserialize(file_get_contents($cache));
-			}
-		}
-		
-		if (!file_exists($dir)) {
-			mkdir($dir);		
+		if ($all_translations) {
+			return unserialize($all_translations);
 		}
 		
 		$language_to_translations = array();
@@ -275,7 +269,7 @@
 			}
 		}
 		
-		file_put_contents($cache, serialize($language_to_translations));
+		cache_put(SIM_TRANSLATIONS_CACHE, serialize($language_to_translations));
 		
 		return $language_to_translations;
 	}
@@ -787,34 +781,20 @@
         return sim_get_image_previews("static", true);
     }
 
-	function sim_get_file_for_image($sim_image_url) {		
-		$file_name = md5($sim_image_url);
+	function sim_get_resource_name_for_image($sim_image_url) {		
+		$file_name_hash = md5($sim_image_url);
 		
-		return SIM_THUMBNAIL_CACHE_ROOT.$file_name.".jpg";
-	}
-
-	function sim_cached_image_out_of_date($sim_image_url) {
-		$file = sim_get_file_for_image($sim_image_url);
-		
-		if (!file_exists($file)) return true;
-		
-		$last_modified = filemtime($file);
-		$now = time();
-		
-		if ($now - $last_modified > 60 * 60 * 24) return true;
-		
-		return false;
+		return $file_name_hash.".jpg";
 	}
 	
 	function sim_get_thumbnail($sim) {	
 		$sim_image_url = sim_get_screenshot($sim);
+		
+		$sim_image_resource = sim_get_resource_name_for_image($sim_image_url);
 	
-		mkdirs(SIM_THUMBNAIL_CACHE_ROOT);
-		exec('chmod 775 '.SIM_THUMBNAIL_CACHE_ROOT);
-
-		$file = sim_get_file_for_image($sim_image_url);	
-
-		if (sim_cached_image_out_of_date($sim_image_url)) {
+		$file = cache_get(SIM_THUMBNAILS_CACHE, $sim_image_resource, 24);
+		
+		if (!$file) {
 			// Load image -- assume image is in png format (for now):
 			$img = imagecreatefrompng($sim_image_url);
 
@@ -829,13 +809,17 @@
 
 			imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
 
+			$temp_file = tempnam('/tmp', 'sim-thumbnail');
+
 			// Output image to cached image location:
-			imagejpeg($tmp_img, $file);
-		
-			exec('chmod 775 '.$file);
+			imagejpeg($tmp_img, $temp_file);
+			
+			cache_put(SIM_THUMBNAILS_CACHE, $sim_image_resource, file_get_contents($temp_file));
+			
+			unlink($temp_file);
 		}
-		
-		return $file;
+
+		return cache_get_file_location(SIM_THUMBNAILS_CACHE, $sim_image_resource);
 	}
 
 ?>

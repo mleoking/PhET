@@ -2,6 +2,7 @@
     if (!defined('SITE_ROOT')) {
         define("SITE_ROOT", "./");
     }
+
 	session_start();
     
     include_once("admin/sim-utils.php");

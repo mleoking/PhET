@@ -56,7 +56,11 @@
                 $head .= $authline;
                 $head .= "\r\n";
 
-                fputs($fp, $head);       
+                fputs($fp, $head);   
+
+				$eoheader = false;
+				$headers  = array();
+    
                 while(!feof($fp) or ($eoheader==true)) {
                     if($header=fgets($fp, 1024)) {
                         if ($header == "\r\n") {
@@ -311,5 +315,47 @@
             return substr($thefile, 0, strrpos($thefile, '.'));
         }
     }
+
+	function flock_get_contents($filename){
+	    $return = false;
+
+	    if (is_string($filename) && !empty($filename)) {
+	        if (is_readable($filename)) {
+	            if ($handle = @fopen($filename, 'rt')) {
+	                while (!$return){
+	                    if (flock($handle, LOCK_SH)) {
+	                        if ($return = file_get_contents($filename)) {
+								flock($handle, LOCK_UN);
+							}
+	                    }
+	                }
+	
+	                fclose($handle);
+	            }
+	        }
+	    }
+
+	    return $return;
+	}
+	
+	function flock_put_contents($filename, $contents) {
+	    $return = false;
+
+	    if (is_string($filename) && !empty($filename)) {
+            if ($handle = @fopen($filename, 'w+t')) {
+                while (!$return) {
+                    if (flock($handle, LOCK_EX)) {
+                        if ($return = file_put_contents($filename, $contents)) {
+							flock($handle, LOCK_UN);
+						}
+                    }
+                }
+
+                fclose($handle);
+            }
+	    }
+
+	    return $return;
+	}
 
 ?>

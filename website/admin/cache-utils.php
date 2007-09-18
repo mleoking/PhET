@@ -1,6 +1,8 @@
 <?php
 
-	include_once("../admin/global.php");
+	if (!defined('SITE_ROOT')) {
+		include_once("../admin/global.php");
+	}
 	
 	include_once(SITE_ROOT."admin/sys-utils.php");
 	
@@ -27,15 +29,30 @@
 		
 		$resource_location = cache_get_file_location($cache_name, $resource_name);
 		
-		return file_put_contents($resource_location, $resource_contents);
+		$return_value = flock_put_contents($resource_location, $resource_contents);
+		
+		exec('chmod 775 '.$resource_location);
+		
+		return $return_value;
 	}
 	
-	function cache_get($cache_name, $resource_name) {
+	function cache_get($cache_name, $resource_name, $expiration_hours = false) {
 		$resource_location = cache_get_file_location($cache_name, $resource_name);
 		
 		if (!file_exists($resource_location)) return false;
 		
-		return file_get_contents($resource_location);
+		if (is_numeric($expiration_hours)) {
+			$time = filemtime($resource_location);
+		
+			$diff = time() - $time;
+		
+			// Refresh the cache every 24 hours:
+			if ($diff > $expiration_hours * 60 * 60) {			
+				return false;
+			}
+		}
+		
+		return flock_get_contents($resource_location);
 	}
 
 ?>
