@@ -6,6 +6,17 @@
 	
 	include_once(SITE_ROOT."admin/sys-utils.php");
 	
+	function create_proper_ownership($file) {
+		exec('chmod 775 '.$file);
+		
+		if (is_dir($file)) {
+			exec('chgrp --recursive phet '.$file);
+		}
+		else {
+			exec('chgrp phet '.$file);
+		}
+	}
+	
 	function cache_get_location($cache_name) {
 		return "./cached-$cache_name";
 	}
@@ -23,15 +34,14 @@
 		
 		if (!file_exists($cache_dir)) {
 			mkdir($cache_dir);
-		
-			exec('chmod 775 '.$cache_dir);
+			create_proper_ownership($cache_dir);
 		}
 		
 		$resource_location = cache_get_file_location($cache_name, $resource_name);
 		
 		$return_value = flock_put_contents($resource_location, $resource_contents);
 		
-		exec('chmod 775 '.$resource_location);
+		create_proper_ownership($resource_location);
 		
 		return $return_value;
 	}
