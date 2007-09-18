@@ -44,14 +44,14 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
     
     /*
-     * If we let springs get too short, bizarre things happen in evolve().
+     * If we let springs get too short, the strand evolution model with start to fail.
      * So a spring length smaller than this is effectively zero
      */
     private static final double MIN_SPRING_LENGTH = 1; // nm
     
     /* 
-     * If we let the spring constant get too big, bizarre things happen in evolve().
-     * So we'll limit it to a maximum really-stiff value.
+     * If we let the spring constant get too big, the strand evolution model with start to fail.
+     * So we'll limit it to a maximum "really-stiff" value.
      */
     private static final double MAX_SPRING_CONSTANT = 50;
     
