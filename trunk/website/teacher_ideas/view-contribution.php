@@ -38,6 +38,13 @@
         if ($contribution_duration == '') {
             $contribution_duration = 0;
         }
+
+		if ($contribution_duration == 0) {
+			$contribution_duration_html = "NA";
+		}
+		else {
+			$contribution_duration_html = "$contribution_duration minutes";
+		}
         
         $comments = contribution_get_comments($contribution_id);
         
@@ -145,7 +152,7 @@
             </div>
             
             <div class="field">
-                <span class="label_content">$contribution_duration minutes</span>
+                <span class="label_content">$contribution_duration_html</span>
                 
                 <span class="label">duration</span>                
             </div>
