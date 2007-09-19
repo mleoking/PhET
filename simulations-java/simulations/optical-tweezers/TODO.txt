@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- implement AbstractEnzyme.updateDNAStrand to pull DNA strand through enzyme
 - remove test code from MotorsCanvas, used to test dynamic DNA contour length
 - implement MotorsCanvas.handleResetDNAButton to reset DNA strand
 - implement EnzymeControlPanel.handleEnzymeChoice to switch between enzyme models
@@ -48,6 +47,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - rewrite DNAStrand.makeShorter/Longer to manipulate springs instead of pivots
 9/19/07 - add a flag for enabling debug output in enzyme
 9/19/07 - change free DNA strand from green to gray
 9/19/07 - fix bugs in DNAStrand.makeShorter
