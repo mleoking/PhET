@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.opticaltweezers.defaults;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -96,6 +97,7 @@ public class MotorsDefaults {
     public static final DoubleRange DNA_FLUID_DRAG_COEFFICIENT_RANGE = GlobalDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE;
     public static final boolean DNA_PIVOTS_VISIBLE = GlobalDefaults.DNA_PIVOTS_VISIBLE;
     public static final boolean DNA_EXTENSIONS_VISIBLE = GlobalDefaults.DNA_EXTENSIONS_VISIBLE;
+    public static final Color DNA_FREE_STRAND_COLOR = Color.GREEN;
     
     // Invisible bead, attached to free end of DNA
     public static final Point2D INVISIBLE_BEAD_POSITION = 
