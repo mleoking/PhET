@@ -28,7 +28,7 @@ public class BrakeNode extends PNode {
     private RotationPlatform rotationPlatform;
     private TorqueModel torqueModel;
     private PhetPPath block;
-    private PImage im;
+    private PImage im = new PImage();
 
     public BrakeNode( final RotationPlatform rotationPlatform, final TorqueModel torqueModel ) {
         this.rotationPlatform = rotationPlatform;
@@ -44,17 +44,11 @@ public class BrakeNode extends PNode {
                 updateTransform();
             }
         } );
-//        Color blockColor = Color.blue;
-//        Color blockColor = new Color( 215,184,62);
         Color blockColor = new Color( 207, 187, 108 );
         block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         block.translate( 0, -block.getFullBounds().getHeight() / 2.0 );
         addChild( block );
 
-//        PhetPPath registrationPoint = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.1, 0.1 ), Color.white, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
-//        addChild( registrationPoint );
-
-        im = new PImage();
         updateImage();
 
         double imageScale = RotationPlayAreaNode.SCALE * 0.8;
@@ -120,7 +114,10 @@ public class BrakeNode extends PNode {
 
     private void updateTransform() {
         double angle = -Math.PI / 4;
-        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( torqueModel.getBrakeForceMagnitude() == 0 ? 0.08 : 0.00 ), angle );
+//        boolean awayFromPlatform = torqueModel.getBrakeForceMagnitude() == 0;
+        boolean awayFromPlatform = torqueModel.getBrakePressure() == 0;
+
+        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + ( awayFromPlatform ? 0.08 : 0.00 ), angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }
