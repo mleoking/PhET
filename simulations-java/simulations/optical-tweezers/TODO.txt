@@ -8,7 +8,6 @@ HIGH PRIORITY:
 - put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
-- pressing "Reset DNA" button doesn't do anything when clock is paused
 
 MEDIUM PRIORITY:
 - when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
@@ -48,6 +47,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - reset DNA strand when doing "Reset All" of Motors module
+9/19/07 - verified that switching enzymes causes DNA to be reset when clock is paused
+9/19/07 - verified that pressing "Reset DNA" button works when clock is paused
 9/19/07 - automatically "Reset DNA" when switching between enzymes
 9/19/07 - move method for resetting DNA into model
 9/19/07 - remove slider MotorsCanvas, used to test dynamic DNA contour length
