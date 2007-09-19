@@ -4,8 +4,6 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
-import com.sun.tools.javac.v8.tree.Tree.NewClass;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
