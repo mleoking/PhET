@@ -151,7 +151,7 @@ public class TorqueModel extends RotationModel {
     }
 
     private void updateNetForce() {
-        netForce.setValue( -getVelocitySign()*getBrakeForceMagnitude() + getAppliedForceMagnitude() );
+        netForce.setValue( -getVelocitySign() * getBrakeForceMagnitude() + getAppliedForceMagnitude() );
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
