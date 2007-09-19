@@ -181,10 +181,10 @@ public class MotorsCanvas extends OTAbstractCanvas {
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
         addNode( _beadNode );
-        addNode( _enzymeANode );
-        addNode( _enzymeBNode );
         addNode( _dnaStrandBeadNode );
         addNode( _dnaStrandFreeNode );
+        addNode( _enzymeANode );
+        addNode( _enzymeBNode );
         addNode( pushpinNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
