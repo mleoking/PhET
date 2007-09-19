@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.rotation.util.RotationUtil;
 
 /**
@@ -110,6 +111,16 @@ public class AppliedForce {
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    public double getSignedForce( Point2D center ) {
+        return getForceMagnitude() * MathUtil.getSign( getTorque( center ) );
+    }
+
+    public double getTorque( Point2D center ) {
+        Vector2D.Double r = new Vector2D.Double( center, getP1() );
+        Vector2D.Double f = new Vector2D.Double( getP1(), getP2() );
+        return -r.getCrossProductScalar( f );
     }
 
     public interface Listener {

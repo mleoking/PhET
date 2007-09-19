@@ -139,19 +139,26 @@ public class TorqueModel extends RotationModel {
 
     private void updateBrakeForce() {
         brakeForce.setValue( computeBrakeForce() );
-        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() * -getVelocitySign() );
+//        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() * -getVelocitySign() );
+//        brakeForceMagnitude.setValue( getSignedForce( getBrakeForceValue() ) );
+        brakeForceMagnitude.setValue( getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).brakeForceChanged();
         }
         updateNetForce();
     }
 
-    private int getVelocitySign() {
-        return MathUtil.getSign( getRotationPlatform().getVelocity() );
-    }
+//    private int getVelocitySign() {
+//        return MathUtil.getSign( getRotationPlatform().getVelocity() );
+//    }
+//
+//    public double getSignedForce( Line2D.Double force ) {
+//        double magnitude=force.get
+//    }
 
     private void updateNetForce() {
-        netForce.setValue( -getVelocitySign() * getBrakeForceMagnitude() + getAppliedForceMagnitude() );
+//        netForce.setValue( -getVelocitySign() * getBrakeForceMagnitude() + getAppliedForceMagnitude() );
+        netForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ) + getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
@@ -284,10 +291,7 @@ public class TorqueModel extends RotationModel {
 
             //determine the new applied torque
             //torque=r x F
-            Vector2D.Double r = new Vector2D.Double( getRotationPlatform().getCenter(), appliedForce.getP1() );
-            Vector2D.Double f = new Vector2D.Double( appliedForce.getP1(), appliedForce.getP2() );
-            double tau = -r.getCrossProductScalar( f );
-            torque.setValue( tau );
+            torque.setValue( this.appliedForce.getTorque( getRotationPlatform().getCenter() ) );
             force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
 
             updateNetForce();
