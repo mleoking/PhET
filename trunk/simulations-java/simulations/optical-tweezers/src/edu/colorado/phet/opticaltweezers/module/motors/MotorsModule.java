@@ -184,6 +184,7 @@ public class MotorsModule extends OTAbstractModule {
 
             // DNA Strand attached to bead
             DNAStrand dnaStrandBead = _model.getDNAStrandBead();
+            dnaStrandBead.setContourLength( MotorsDefaults.DNA_BEAD_CONTOUR_LENGTH );
             dnaStrandBead.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrandBead.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrandBead.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
@@ -194,6 +195,7 @@ public class MotorsModule extends OTAbstractModule {
             
             // DNA Strand with free end
             DNAStrand dnaStrandFree = _model.getDNAStrandFree();
+            dnaStrandFree.setContourLength( MotorsDefaults.DNA_FREE_CONTOUR_LENGTH );
             dnaStrandFree.setSpringConstant( MotorsDefaults.DNA_SPRING_CONSTANT_RANGE.getDefault() );
             dnaStrandFree.setDragCoefficient( MotorsDefaults.DNA_DRAG_COEFFICIENT_RANGE.getDefault() );
             dnaStrandFree.setKickConstant( MotorsDefaults.DNA_KICK_CONSTANT_RANGE.getDefault() );
