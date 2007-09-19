@@ -10,12 +10,12 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - does single spring between pin and bead visually interfere with tick mark that rotates in enzyme?
-- when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
 - get different calibration constants for EnzymeB
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - free end of DNA doesn't evolve when bead is dragged with clock paused
 - OutOfMemoryError in Motors module
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+- do we need "Return Bead" button in Motors panel?
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
