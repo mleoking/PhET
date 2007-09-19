@@ -3,10 +3,12 @@
 ================================================================================
 
 HIGH PRIORITY:
+- method of computing contour length change is incorrect (AbstractEnzyme.stepInTime), should be related to nm/s
 - laser can be used to over-stretch DNA when it's fully reeled in by enzyme
 - put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
+- pressing "Reset DNA" button doesn't do anything when clock is paused
 
 MEDIUM PRIORITY:
 - when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
