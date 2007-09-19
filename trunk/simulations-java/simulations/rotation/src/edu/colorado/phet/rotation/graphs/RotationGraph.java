@@ -98,7 +98,7 @@ public class RotationGraph extends MotionControlGraph {
                 if ( getChild( i ) instanceof ReadoutTitleNode ) {
                     ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode) getChild( i );
 //                    double x = readoutTitleNode.getX() + readoutTitleNode.getPreferredWidth();
-                    double x = readoutTitleNode.getOffset().getX()+ readoutTitleNode.getPreferredWidth();
+                    double x = readoutTitleNode.getOffset().getX() + readoutTitleNode.getPreferredWidth();
                     maxX = Math.max( maxX, x );
                 }
             }
