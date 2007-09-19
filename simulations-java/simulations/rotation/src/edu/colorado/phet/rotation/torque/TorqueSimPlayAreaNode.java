@@ -57,7 +57,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
     private void updateArrows() {
         appliedForceVector.setPathTo( getForceShape( torqueModel.getAppliedForce() ) );
         brakeForceVector.setPathTo( getForceShape( torqueModel.getBrakeForceValue() ) );
-        tangentialComponentVector.setPathTo( getForceShape( this.torqueModel.getTangentialAppliedForce() ) );
+        tangentialComponentVector.setPathTo( getForceShape( torqueModel.getTangentialAppliedForce() ) );
     }
 
     private Shape getForceShape( Line2D.Double vector ) {
