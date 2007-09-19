@@ -3,19 +3,18 @@
 ================================================================================
 
 HIGH PRIORITY:
-- method of computing contour length change is incorrect (AbstractEnzyme.stepInTime), should be related to nm/s
 - laser can be used to over-stretch DNA when it's fully reeled in by enzyme
 - put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
-- does single spring between pin and bead interfere visually with tick mark that rotates in enzyme?
 
 MEDIUM PRIORITY:
+- does single spring between pin and bead visually interfere with tick mark that rotates in enzyme?
 - when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
 - get different calibration constants for EnzymeB
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
+- free end of DNA doesn't evolve when bead is dragged with clock paused
 - OutOfMemoryError in Motors module
-- why is setActiveModule(_motorsModule) buggy?
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
@@ -32,7 +31,7 @@ LOW PRIORITY:
 - improve startup performance
 
 COMMON CODE:
-- factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
+- why is setActiveModule(_motorsModule) buggy?
 - dialogs don't paint immediately when shown (AWT priority issue?)
 - help items don't refresh fast enough (AWT priority issue?)
 
@@ -45,9 +44,10 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 MIGRATE TO COMMON:
-
+- factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+********* version 1.00.08 (?)
 9/19/07 - fix method of computing contour length delta (delta = speed * dt)
 9/19/07 - move enzyme node in front of DNA strands so that single spring between pin and bead isn't so obvious
 9/19/07 - reset DNA strand when doing "Reset All" of Motors module
