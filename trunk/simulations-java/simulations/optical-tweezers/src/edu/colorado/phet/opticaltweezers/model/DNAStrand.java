@@ -65,7 +65,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     private final double _springLength; // nm, length of a spring when it's fully stretched
     
     private ArrayList _pivots; // array of DNAPivot, first element is closest to pin
-    private double _closestSpringLength; // length of spring closest to pin
+    private double _springLengthClosestToPin; // length of spring closest to pin
     
     /*
      * Maximum that the strand can be stretched, expressed as a percentage
@@ -454,20 +454,20 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             // one spring, attached to pin and bead
             _pivots.add( new DNAPivot( getPinX(), getPinY() ) );
             _pivots.add( new DNAPivot( getBeadX(), beadPosition.getY() ) );
-            _closestSpringLength = _springLength;
+            _springLengthClosestToPin = _springLength;
         }
         else {
             // determine how many pivot points
             int numberOfPivots = (int) ( _contourLength / _springLength ) + 2; // +1 for conversion from #springs to #pivots, +1 for partial spring closest to pin
 
             // determine length of the spring closest to the pin
-            _closestSpringLength = _contourLength % _springLength;
-            if ( _closestSpringLength == 0 ) {
-                _closestSpringLength = _springLength;
+            _springLengthClosestToPin = _contourLength % _springLength;
+            if ( _springLengthClosestToPin == 0 ) {
+                _springLengthClosestToPin = _springLength;
                 numberOfPivots--;
             }
-            assert ( _closestSpringLength <= _springLength );
-            assert ( _closestSpringLength > 0 );
+            assert ( _springLengthClosestToPin <= _springLength );
+            assert ( _springLengthClosestToPin > 0 );
 
             final double springLengthScale = extension / _contourLength;
             final double extensionAngle = PolarCartesianConverter.getAngle( beadPosition.getX() - pinPosition.getX(), beadPosition.getY() - pinPosition.getY() );
@@ -478,8 +478,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             DNAPivot previousPivot = currentPivot;
 
             // second pivot, terminates the first spring
-            double xDelta = springLengthScale * PolarCartesianConverter.getX( _closestSpringLength, extensionAngle );
-            double yDelta = springLengthScale * PolarCartesianConverter.getY( _closestSpringLength, extensionAngle );
+            double xDelta = springLengthScale * PolarCartesianConverter.getX( _springLengthClosestToPin, extensionAngle );
+            double yDelta = springLengthScale * PolarCartesianConverter.getY( _springLengthClosestToPin, extensionAngle );
             currentPivot = new DNAPivot( currentPivot.getX() + xDelta, currentPivot.getY() + yDelta );
             _pivots.add( currentPivot );
             previousPivot = currentPivot;
@@ -562,9 +562,9 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                     
                 // acceleration
                 double springConstant = _springConstant;
-                if ( j == 1 && _closestSpringLength < _springConstant ) {
+                if ( j == 1 && _springLengthClosestToPin < _springLength ) {
                     // spring constant gets larger as spring gets shorter
-                    springConstant += ( ( MAX_SPRING_CONSTANT - _springConstant ) * ( ( _springLength - _closestSpringLength ) / _springLength ) );
+                    springConstant += ( ( MAX_SPRING_CONSTANT - _springConstant ) * ( ( _springLength - _springLengthClosestToPin ) / _springLength ) );
                 }
                 final double xAcceleration = ( springConstant * ( ( dxNext * termNext ) - ( dxPrevious * termPrevious ) ) ) - 
                     ( _dragCoefficient * currentPivot.getXVelocity() ) + xFluidDrag;
@@ -594,31 +594,27 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         double amountToDo = amount;
         
         // adjust length of spring closest to pin
-        if ( _closestSpringLength != _springLength ) {
-            final double missingAmount = ( _springLength - _closestSpringLength ); // amount missing from spring closest to pin
+        if ( _springLengthClosestToPin != _springLength ) {
+            final double missingAmount = ( _springLength - _springLengthClosestToPin ); // amount missing from spring closest to pin
             if ( amountToDo <= missingAmount ) {
-                _closestSpringLength += amountToDo;
+                _springLengthClosestToPin += amountToDo;
                 amountToDo = 0;
             }
             else {
-                _closestSpringLength = _springLength;
+                _springLengthClosestToPin = _springLength;
                 amountToDo -= missingAmount;
             }
         }
         
         // insert full-length springs at the pin
         while ( amountToDo >= _springLength ) {
-            DNAPivot pivot = new DNAPivot( getPinX(), getPinY() );
-            _pivots.add( 1, pivot );
-            _closestSpringLength = _springLength;
+            addSpringAtPin( _springLength );
             amountToDo -= _springLength;
         }
         
         // insert partial spring at pin
         if ( amountToDo > 0 ) {
-            DNAPivot pivot = new DNAPivot( getPinX(), getPinY() );
-            _pivots.add( 1, pivot );
-            _closestSpringLength = amountToDo;
+            addSpringAtPin( amountToDo );
             amountToDo = 0;
         }
         
@@ -626,8 +622,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         _contourLength += amount;
         
         assert( _contourLength >= _springLength );
-        assert( _closestSpringLength <= _springLength );
-        assert( _closestSpringLength > 0 );
+        assert( _springLengthClosestToPin <= _springLength );
+        assert( _springLengthClosestToPin > 0 );
         assert( amountToDo == 0 );
     }
     
@@ -646,29 +642,28 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         
         if ( getNumberOfSprings() > 1 ) {
 
-            if ( amountToDo < _closestSpringLength ) {
+            if ( amountToDo < _springLengthClosestToPin ) {
                 // shorten partial-length spring closest to pin
-                _closestSpringLength -= amountToDo;
+                _springLengthClosestToPin -= amountToDo;
                 amountDone += amountToDo;
                 amountToDo = 0;
             }
             else {
                 // remove partial-length spring closest to pin
-                amountDone += _closestSpringLength;
-                amountToDo -= _closestSpringLength;
-                _pivots.remove( 1 );
-                _closestSpringLength = _springLength;
+                amountDone += _springLengthClosestToPin;
+                amountToDo -= _springLengthClosestToPin;
+                removeSpringAtPin();
 
                 // remove full-length springs at the pin, leaving 1 complete spring
                 while ( amountToDo >= _springLength && getNumberOfSprings() > 1 ) {
-                    _pivots.remove( 1 );
+                    removeSpringAtPin();
                     amountDone += _springLength;
                     amountToDo -= _springLength;
                 }
 
                 // Use left-over to make a partial spring at pin, leaving at least 1 complete spring
                 if ( amountToDo > 0 && amountToDo < _springLength && getNumberOfSprings() > 1 ) {
-                    _closestSpringLength = _springLength - amountToDo;
+                    _springLengthClosestToPin = _springLength - amountToDo;
                     amountDone += amountToDo;
                     amountToDo = 0;
                 }
@@ -678,21 +673,49 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         // adjust contour length
         _contourLength -= amountDone;
         
-        // adjust for roundoff errors
+        // just in case...
         if ( _contourLength < _springLength ) {
             System.err.println( "DNAStrand.makeShorter: contour length is too short, adjusting: " + _contourLength );
             _contourLength = _springLength;
         }
         
         assert( _contourLength >= _springLength );
-        assert( _closestSpringLength > 0 );
-        assert( _closestSpringLength <= _springLength );
+        assert( _springLengthClosestToPin > 0 );
+        assert( _springLengthClosestToPin <= _springLength );
         assert( amountDone >= 0 );
         assert( amountDone <= amount );
     }
     
+    /**
+     * Gets the number of springs in the strand.
+     * It's sometimes easier to think in terms of springs rather than strands.
+     * 
+     * @return
+     */
     private int getNumberOfSprings() {
         return _pivots.size() - 1;
+    }
+    
+    /*
+     * Adds a spring at the pin.
+     * 
+     * @param springLength
+     */
+    private void addSpringAtPin( double springLength ) {
+        DNAPivot pivot = new DNAPivot( getPinX(), getPinY() );
+        _pivots.add( 1, pivot ); // pivot 0 is the pin
+        _springLengthClosestToPin = springLength;
+    }
+    
+    /*
+     * Removes a spring at the pin.
+     */
+    private void removeSpringAtPin() {
+        if ( getNumberOfSprings() < 2 ) {
+            throw new IllegalStateException( "cannot remove the last spring!" );
+        }
+        _pivots.remove( 1 ); // pivot 0 is the pin
+        _springLengthClosestToPin = _springLength;
     }
     
     //----------------------------------------------------------------------------
