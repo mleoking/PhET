@@ -182,7 +182,9 @@ public class ControlGraph extends PNode {
     }
 
     protected void updateSliderValue() {
-        jFreeChartSliderNode.setValue( getSimulationVariable().getValue() );
+        if ( jFreeChartSliderNode != null && getSimulationVariable() != null ) {
+            jFreeChartSliderNode.setValue( getSimulationVariable().getValue() );
+        }
     }
 
     protected JFreeChartSliderNode getJFreeChartSliderNode() {
