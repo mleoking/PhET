@@ -105,7 +105,7 @@ public class TorqueModel extends RotationModel {
         }
     }
 
-    public ITemporalVariable getBrakeForceMagnitudeVariable(){
+    public ITemporalVariable getBrakeForceMagnitudeVariable() {
         return brakeForceMagnitude;
     }
 
@@ -122,7 +122,7 @@ public class TorqueModel extends RotationModel {
             this.brakePressure = brakePressure;
             updateBrakeForce();
             for ( int i = 0; i < listeners.size(); i++ ) {
-                ((Listener) listeners.get( i )).brakePressureChanged();
+                ( (Listener) listeners.get( i ) ).brakePressureChanged();
             }
         }
     }
@@ -139,15 +139,19 @@ public class TorqueModel extends RotationModel {
 
     private void updateBrakeForce() {
         brakeForce.setValue( computeBrakeForce() );
-        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() );
+        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() * -getVelocitySign() );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).brakeForceChanged();
         }
         updateNetForce();
     }
 
+    private int getVelocitySign() {
+        return MathUtil.getSign( getRotationPlatform().getVelocity() );
+    }
+
     private void updateNetForce() {
-        netForce.setValue( getBrakeForceMagnitude() + getAppliedForceMagnitude() );//todo: handle sign differences
+        netForce.setValue( -getVelocitySign()*getBrakeForceMagnitude() + getAppliedForceMagnitude() );
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
