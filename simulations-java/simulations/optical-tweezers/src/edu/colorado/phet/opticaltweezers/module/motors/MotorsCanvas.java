@@ -380,12 +380,9 @@ public class MotorsCanvas extends OTAbstractCanvas {
     }
     
     /**
-     * Resets the DNA strand and its assocatiated beads.
+     * Resets the DNA.
      */
     private void handleResetDNAButton() {
-        _model.getDNAStrandBead().setContourLength( MotorsDefaults.DNA_BEAD_CONTOUR_LENGTH );
-        _model.getDNAStrandFree().setContourLength( MotorsDefaults.DNA_FREE_CONTOUR_LENGTH );
-        _model.getBead().setPosition( MotorsDefaults.BEAD_POSITION );
-        _model.getInvisibleBead().setPosition( MotorsDefaults.INVISIBLE_BEAD_POSITION );
+        _model.resetDNA();
     }
 }

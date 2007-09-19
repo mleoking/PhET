@@ -3,13 +3,13 @@
 ================================================================================
 
 HIGH PRIORITY:
-- implement MotorsCanvas.handleResetDNAButton to reset DNA strand
-- implement EnzymeControlPanel.handleEnzymeChoice to switch between enzyme models
-- automatically "Reset DNA" when switching between enzymes
+- laser can be used to over-stretch DNA when it's fully reeled in by enzyme
+- put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
+- when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
 - get different calibration constants for EnzymeB
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - OutOfMemoryError in Motors module
@@ -46,6 +46,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - automatically "Reset DNA" when switching between enzymes
+9/19/07 - move method for resetting DNA into model
 9/19/07 - remove slider MotorsCanvas, used to test dynamic DNA contour length
 9/19/07 - rewrite DNAStrand.makeShorter/Longer to manipulate springs instead of pivots
 9/19/07 - add a flag for enabling debug output in enzyme

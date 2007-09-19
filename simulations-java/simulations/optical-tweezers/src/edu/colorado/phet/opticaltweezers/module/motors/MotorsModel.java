@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.module.motors;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModel;
@@ -11,7 +14,7 @@ import edu.colorado.phet.opticaltweezers.module.OTAbstractModel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MotorsModel extends OTAbstractModel {
+public class MotorsModel extends OTAbstractModel implements Observer {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -143,6 +146,7 @@ public class MotorsModel extends OTAbstractModel {
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeA.setEnabled( true );
+         _enzymeA.addObserver( this );
          addModelElement( _enzymeA );
          
          _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
@@ -153,6 +157,7 @@ public class MotorsModel extends OTAbstractModel {
                  _fluid,
                  clock.getFastRange().getMax() );
          _enzymeB.setEnabled( !_enzymeA.isEnabled() );
+         _enzymeB.addObserver( this );
          addModelElement( _enzymeB );
 
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
@@ -200,5 +205,24 @@ public class MotorsModel extends OTAbstractModel {
     
     public ModelViewTransform getModelViewTransform() {
         return _modelViewTransform;
+    }
+    
+    //----------------------------------------------------------------------------
+    //
+    //----------------------------------------------------------------------------
+    
+    public void resetDNA() {
+        _dnaStrandBead.setContourLength( MotorsDefaults.DNA_BEAD_CONTOUR_LENGTH );
+        _dnaStrandFree.setContourLength( MotorsDefaults.DNA_FREE_CONTOUR_LENGTH );
+        _bead.setPosition( MotorsDefaults.BEAD_POSITION );
+        _invisibleBead.setPosition( MotorsDefaults.INVISIBLE_BEAD_POSITION );
+    }
+
+    public void update( Observable o, Object arg ) {
+        if ( o == _enzymeA || o == _enzymeB ) {
+            if ( arg == AbstractEnzyme.PROPERTY_ENABLED ) {
+                resetDNA();
+            }
+        }
     }
 }
