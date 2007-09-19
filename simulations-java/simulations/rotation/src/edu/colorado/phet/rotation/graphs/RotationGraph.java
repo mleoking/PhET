@@ -86,6 +86,8 @@ public class RotationGraph extends MotionControlGraph {
             }
             else {
                 titleNode.setOffset( getReadoutNodeX(), 0 );
+//                            titleNode.setOffset( getFullBounds().getWidth(), 0 );
+//            addChild( titleNode );
             }
             addChild( titleNode );
         }
@@ -95,7 +97,8 @@ public class RotationGraph extends MotionControlGraph {
             for ( int i = 0; i < getChildrenCount(); i++ ) {
                 if ( getChild( i ) instanceof ReadoutTitleNode ) {
                     ReadoutTitleNode readoutTitleNode = (ReadoutTitleNode) getChild( i );
-                    double x = readoutTitleNode.getX() + readoutTitleNode.getPreferredWidth();
+//                    double x = readoutTitleNode.getX() + readoutTitleNode.getPreferredWidth();
+                    double x = readoutTitleNode.getOffset().getX()+ readoutTitleNode.getPreferredWidth();
                     maxX = Math.max( maxX, x );
                 }
             }

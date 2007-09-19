@@ -23,7 +23,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
         super( pSwingCanvas, tm, angleUnitModel );
 
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( "F", new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "force", "N", new BasicStroke( 2 ), true, null, tm.getForceTimeSeries() ),
+                pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "F", "N", new BasicStroke( 2 ), true, "applied", tm.getForceTimeSeries() ),
                 "F", "force", "units", -2.5, 2.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         forceGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
@@ -31,8 +31,9 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 tm.setAppliedForceMagnitude( value );
             }
         } );
-//        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Net Force", Color.black, "Fnet", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() ) );
-        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Brake Force", Color.red, "Fnet", "N", new BasicStroke( 3 ), false, "net", tm.getBrakeForceMagnitudeVariable() ) );
+//        forceGraph.addSeriesPair("series pair" )
+        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Net Force", Color.black, "F", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() ) );
+        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Brake Force", Color.red, "F", "N", new BasicStroke( 3 ), false, "brake", tm.getBrakeForceMagnitudeVariable() ) );
 
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius", Color.green, "r", "m", new BasicStroke( 2 ), true, null, tm.getRadiusSeries() ),
