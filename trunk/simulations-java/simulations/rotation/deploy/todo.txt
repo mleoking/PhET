@@ -10,6 +10,7 @@ Torque 9-6-2007:
 6. Show arrow in play area corresponding to tangential brake force
 1. Start paused, use wiggle me for startup (low priority, don't implement yet)
 11. Rotation: omega graphs are off by a few pixels.
+Bug should fly off at high speed (if not too much work)
 
 Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 
