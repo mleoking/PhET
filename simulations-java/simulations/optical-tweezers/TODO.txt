@@ -47,7 +47,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
-********* version 1.00.08 (?)
+********* version 1.00.08 (17899)
 9/19/07 - fix method of computing contour length delta (delta = speed * dt)
 9/19/07 - move enzyme node in front of DNA strands so that single spring between pin and bead isn't so obvious
 9/19/07 - reset DNA strand when doing "Reset All" of Motors module
