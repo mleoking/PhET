@@ -22,6 +22,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.motion.tests.ColorArrows;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -53,7 +54,8 @@ public class ControlGraph extends PNode {
     private Layout layout = new FlowLayout();
     private ArrayList series = new ArrayList();
     private ArrayList listeners = new ArrayList();
-    private PNode additionalControls;
+    private PSwing additionalControls;
+    private VerticalLayoutPanel additionalControlPanel = new VerticalLayoutPanel();
     private IVariable variable;
 
     private double defaultMinY;
@@ -97,7 +99,8 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = createGraphTimeControlNode( timeSeriesModel );
-        additionalControls = new PNode();
+        additionalControls = new PSwing(additionalControlPanel);
+//        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
         zoomControl = new ZoomSuiteNode();
@@ -238,9 +241,9 @@ public class ControlGraph extends PNode {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
 
-    //Todo: current implementation only supports one additional control
     public void addControl( JComponent component ) {
-        additionalControls.addChild( new PSwing( component ) );
+        additionalControlPanel.add( component );
+        additionalControls.computeBounds();
     }
 
     protected void handleControlFocusGrabbed() {
