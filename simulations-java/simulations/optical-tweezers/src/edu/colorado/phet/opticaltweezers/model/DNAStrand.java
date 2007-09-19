@@ -172,9 +172,6 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @return actual contour length that was set (nm)
      */
     public double setContourLength( double contourLength ) {
-        if ( ! ( contourLength >= _springLength ) ) {
-            throw new IllegalArgumentException( "contourLength must be >= springLength: " + contourLength );
-        }
         if ( contourLength != _contourLength ) {
             if ( contourLength > _contourLength ) {
                 makeLonger( contourLength - _contourLength );
@@ -647,41 +644,40 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         double amountToDo = amount;
         double amountDone = 0;
         
-        if ( _pivots.size() > 2 ) {
-            if ( _closestSpringLength != _springLength ) {
-                if ( amountToDo < _closestSpringLength ) {
-                    // shorten partial-length spring closest to pin
-                    _closestSpringLength -= amountToDo;
+        if ( getNumberOfSprings() > 1 ) {
+
+            if ( amountToDo < _closestSpringLength ) {
+                // shorten partial-length spring closest to pin
+                _closestSpringLength -= amountToDo;
+                amountDone += amountToDo;
+                amountToDo = 0;
+            }
+            else {
+                // remove partial-length spring closest to pin
+                amountDone += _closestSpringLength;
+                amountToDo -= _closestSpringLength;
+                _pivots.remove( 1 );
+                _closestSpringLength = _springLength;
+
+                // remove full-length springs at the pin, leaving 1 complete spring
+                while ( amountToDo >= _springLength && getNumberOfSprings() > 1 ) {
+                    _pivots.remove( 1 );
+                    amountDone += _springLength;
+                    amountToDo -= _springLength;
+                }
+
+                // Use left-over to make a partial spring at pin, leaving at least 1 complete spring
+                if ( amountToDo > 0 && amountToDo < _springLength && getNumberOfSprings() > 1 ) {
+                    _closestSpringLength = _springLength - amountToDo;
                     amountDone += amountToDo;
                     amountToDo = 0;
-                }
-                else {
-                    // remove partial-length spring closest to pin
-                    amountDone += _closestSpringLength;
-                    amountToDo -= _closestSpringLength;
-                    _pivots.remove( 1 );
-                    _closestSpringLength = _springLength;
                 }
             }
         }
         
-        // remove full-length springs at the pin, leaving 1 complete spring
-        while ( amountToDo >= _springLength && _pivots.size() > 2 ) {
-            _pivots.remove( 1 );
-            amountDone += _springLength;
-            amountToDo -= _springLength;
-            _closestSpringLength = _springLength;
-        }
-        
-        // Make a partial spring with what's left over
-        if ( amountToDo < _springLength && _pivots.size() > 2 ) {
-            amountDone += amountToDo;
-            amountToDo = 0;
-            _closestSpringLength = _springLength;
-        }
-        
         // adjust contour length
         _contourLength -= amountDone;
+        
         // adjust for roundoff errors
         if ( _contourLength < _springLength ) {
             System.err.println( "DNAStrand.makeShorter: contour length is too short, adjusting: " + _contourLength );
@@ -693,6 +689,10 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         assert( _closestSpringLength <= _springLength );
         assert( amountDone >= 0 );
         assert( amountDone <= amount );
+    }
+    
+    private int getNumberOfSprings() {
+        return _pivots.size() - 1;
     }
     
     //----------------------------------------------------------------------------

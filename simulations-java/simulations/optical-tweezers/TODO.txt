@@ -48,6 +48,9 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - add a flag for enabling debug output in enzyme
+9/19/07 - change free DNA strand from green to gray
+9/19/07 - fix bugs in DNAStrand.makeShorter
 9/19/07 - use a different color for DNA free strand, so it's easier to distinguish the 2 strand
 9/19/07 - make enzyme stop rotating when DNA strand is fully reeled in
 9/19/07 - first attempt at making enzyme pull DNA strand
