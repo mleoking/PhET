@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- remove test code from MotorsCanvas, used to test dynamic DNA contour length
 - implement MotorsCanvas.handleResetDNAButton to reset DNA strand
 - implement EnzymeControlPanel.handleEnzymeChoice to switch between enzyme models
 - automatically "Reset DNA" when switching between enzymes
@@ -47,6 +46,7 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - remove slider MotorsCanvas, used to test dynamic DNA contour length
 9/19/07 - rewrite DNAStrand.makeShorter/Longer to manipulate springs instead of pivots
 9/19/07 - add a flag for enabling debug output in enzyme
 9/19/07 - change free DNA strand from green to gray
