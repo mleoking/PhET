@@ -96,6 +96,8 @@ EOT;
 			</div>
 			
 			<div class="introduction">		
+				<p><strong>Warning:</strong> Our web traffic has increased dramatically. We are working to accommodate this increase.</p>
+				
 	            <div class="mainImage">    
 	                <a href="simulations/index.php" title="Click here to view the simulations"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
 	            </div>
