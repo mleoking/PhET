@@ -124,6 +124,10 @@ public class DNAStrandNode extends PNode implements Observer {
         return _extensionNode.getVisible();
     }
     
+    public void setStrandColor( Color color ) {
+        _strandNode.setStrokePaint( color );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------

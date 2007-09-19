@@ -4,6 +4,8 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
+import com.sun.tools.javac.v8.tree.Tree.NewClass;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
@@ -30,7 +32,9 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     public static final String PROPERTY_ENABLED = "enabled";
     public static final String PROPERTY_INNER_ORIENTATION = "innerOrientation";
     
-    public static final double MAX_ROTATION_PER_CLOCK_STEP = Math.toRadians( 45 );
+    private static final double MAX_ROTATION_DELTA = Math.toRadians( 45 );
+    
+    private static final double MAX_CONTOUR_LENGTH_DELTA = 30;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -111,19 +115,19 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     // Model of DNA strand moving through enzyme
     //----------------------------------------------------------------------------
     
-    /**
-     * Gets the speed with which the DNA strand is moving through the enzyme.
+    /*
+     * Gets the speed at which the DNA strand is moving through the enzyme.
      * 
      * @return speed (nm/s)
      */
-    public double getDNASpeed() {
+    private double getDNASpeed() {
         final double atp = _fluid.getATPConcentration();
         final double fDNA = _dnaStrandBead.getForceAtBead().getMagnitude();
         return getDNASpeed( atp, fDNA );
     }
     
     /*
-     * Gets the speed with which the DNA strand is moving through the enzyme
+     * Gets the speed at which the DNA strand is moving through the enzyme
      * for specific ATP and DNA force values.
      * <p>
      * This is erroneously refered to as velocity in the design document.
@@ -134,7 +138,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
      * @param fDNA DNA force magnitude (pN)
      * @return speed (nm/s)
      */
-    public double getDNASpeed( final double atp, final double fDNA ) {
+    private double getDNASpeed( final double atp, final double fDNA ) {
         final double maxSpeed = _maxDNASpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) ) );
         final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( fDNA * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) );
         final double speed = maxSpeed * atp / ( atp + km );
@@ -145,23 +149,37 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     // ModelElement implementation
     //----------------------------------------------------------------------------
 
+    /**
+     * Updates the model each time the simulation clock ticks.
+     * 
+     * @param dt
+     */
     public void stepInTime( double dt ) {
         if ( _enabled ) {
-            updateEnzymeOrientation( dt );
-            updateDNAStrand( dt );
+
+            final double dnaSpeed = getDNASpeed();
+            final double speedScale = dnaSpeed / _maxDNASpeed;
+            final double dtScale = dt / _maxDt;
+            
+            // Shorten the DNA strand attached to the bead
+            final double deltaContourLength = MAX_CONTOUR_LENGTH_DELTA * speedScale * dtScale;
+            final double oldBeadContourLength = _dnaStrandBead.getContourLength();
+            final double newBeadContourLength = Math.max( _dnaStrandBead.getSpringLength(), oldBeadContourLength - deltaContourLength );
+            final double actualBeadContourLength = _dnaStrandBead.setContourLength( newBeadContourLength );
+            
+            // Lengthen the DNA strand attached to the free end
+            final double oldFreeContourLength = _dnaStrandFree.getContourLength();
+            final double newFreeContourLength = oldFreeContourLength + ( oldBeadContourLength - actualBeadContourLength );
+            _dnaStrandFree.setContourLength( newFreeContourLength );
+            
+            System.out.println( "speed=" + dnaSpeed + " deltaContour=" + deltaContourLength + " beadContour=" + _dnaStrandBead.getContourLength() + " freeContour=" + _dnaStrandFree.getContourLength() );//XXX
+            
+            // If the strand's contour length was changed, rotate the enzyme's inner sphere.
+            if ( _dnaStrandBead.getContourLength() != oldBeadContourLength ) {
+                final double deltaAngle = MAX_ROTATION_DELTA * speedScale * dtScale;
+                _innerOrientation += deltaAngle;
+                notifyObservers( PROPERTY_INNER_ORIENTATION );
+            }
         }
-    }
-    
-    private void updateEnzymeOrientation( double dt ) {
-        final double dnaSpeed = getDNASpeed();
-        final double speedScale = dnaSpeed / _maxDNASpeed;
-        final double dtScale = dt / _maxDt;
-        final double deltaAngle = MAX_ROTATION_PER_CLOCK_STEP * speedScale * dtScale;
-        _innerOrientation += deltaAngle;
-        notifyObservers( PROPERTY_INNER_ORIENTATION );
-    }
-    
-    private void updateDNAStrand( double dt ) {
-        //XXX change contour lengths of _dnaStrandBead and _dnaStrandFree
     }
 }

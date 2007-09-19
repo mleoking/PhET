@@ -150,9 +150,9 @@ public class DNACanvas extends OTAbstractCanvas {
         addNode( _microscopeSlideNode );
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
+        addNode( _beadNode );
         addNode( _dnaStrandNode );
         addNode( pushpinNode );
-        addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
         addNode( _dragForceNode );

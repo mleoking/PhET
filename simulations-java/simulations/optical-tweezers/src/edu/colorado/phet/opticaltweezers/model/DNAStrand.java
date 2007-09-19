@@ -175,7 +175,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         if ( ! ( contourLength >= _springLength ) ) {
             throw new IllegalArgumentException( "contourLength must be >= springLength: " + contourLength );
         }
-        if ( _contourLength != contourLength ) {
+        if ( contourLength != _contourLength ) {
             if ( contourLength > _contourLength ) {
                 makeLonger( contourLength - _contourLength );
             }
@@ -670,6 +670,13 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             _pivots.remove( 1 );
             amountDone += _springLength;
             amountToDo -= _springLength;
+            _closestSpringLength = _springLength;
+        }
+        
+        // Make a partial spring with what's left over
+        if ( amountToDo < _springLength && _pivots.size() > 2 ) {
+            amountDone += amountToDo;
+            amountToDo = 0;
             _closestSpringLength = _springLength;
         }
         

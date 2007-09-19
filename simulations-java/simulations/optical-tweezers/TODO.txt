@@ -48,6 +48,11 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - use a different color for DNA free strand, so it's easier to distinguish the 2 strand
+9/19/07 - make enzyme stop rotating when DNA strand is fully reeled in
+9/19/07 - first attempt at making enzyme pull DNA strand
+9/19/07 - move enzyme node behind DNA strand
+9/19/07 - move bead node behind DNA strand and enzyme
 9/18/07 - associate 2 DNA strands (bead and free end) with enzyme
 9/18/07 - require DNA strand to consist of at least one complete spring
 9/18/07 - test pulling the DNA strand through the enzyme (using a slider control)

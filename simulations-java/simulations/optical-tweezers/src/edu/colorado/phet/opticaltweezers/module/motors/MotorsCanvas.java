@@ -106,6 +106,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
         // DNA Strands
         _dnaStrandBeadNode = new DNAStrandNode( dnaStrandBead, modelViewTransform );
         _dnaStrandFreeNode = new DNAStrandNode( dnaStrandFree, modelViewTransform );
+        _dnaStrandFreeNode.setStrandColor( MotorsDefaults.DNA_FREE_STRAND_COLOR );
         
         // Enzymes
         _enzymeANode = new EnzymeANode( enzymeA, modelViewTransform );
@@ -173,18 +174,18 @@ public class MotorsCanvas extends OTAbstractCanvas {
         // center the button under the enzyme
         PBounds eBounds = _enzymeANode.getFullBoundsReference();
         _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ),
-                eBounds.getMaxY() + 25 );
+                eBounds.getMaxY() + 50 );
         
         // Layering order of nodes on the canvas
         addNode( _microscopeSlideNode );
         addNode( _laserNode );
         addNode( _laserDragBoundsNode );
-        addNode( _dnaStrandBeadNode );
-        addNode( _dnaStrandFreeNode );
+        addNode( _beadNode );
         addNode( _enzymeANode );
         addNode( _enzymeBNode );
+        addNode( _dnaStrandBeadNode );
+        addNode( _dnaStrandFreeNode );
         addNode( pushpinNode );
-        addNode( _beadNode );
         addNode( _beadDragBoundsNode );
         addNode( _trapForceNode );
         addNode( _dragForceNode );
@@ -196,23 +197,23 @@ public class MotorsCanvas extends OTAbstractCanvas {
         addNode( _resetDNAButtonWrapper );
         
         //XXX test code for DNA dynamic contour length
-        {
-            final double minContour = MotorsDefaults.DNA_SPRING_LENGTH;
-            final double maxContour = 2500;
-            final LinearValueControl contourLengthControl = new LinearValueControl( minContour, maxContour, "contour length:", "###0", "" );
-            contourLengthControl.setValue( _model.getDNAStrandBead().getContourLength() );
-            contourLengthControl.setUpDownArrowDelta( 10 );
-            contourLengthControl.addChangeListener( new ChangeListener() {
-               public void stateChanged( ChangeEvent event ) {
-                   double beadContour = contourLengthControl.getValue();
-                   _model.getDNAStrandBead().setContourLength( beadContour );
-                   _model.getDNAStrandFree().setContourLength( minContour + ( maxContour - beadContour ) );
-               }
-            });
-            PSwing contourLengthControlWrapper = new PSwing( contourLengthControl );
-            contourLengthControlWrapper.setOffset( 100, 400 );
-            addNode( contourLengthControlWrapper );
-        }
+//        {
+//            final double minContour = MotorsDefaults.DNA_SPRING_LENGTH;
+//            final double maxContour = 2500;
+//            final LinearValueControl contourLengthControl = new LinearValueControl( minContour, maxContour, "contour length:", "###0", "" );
+//            contourLengthControl.setValue( _model.getDNAStrandBead().getContourLength() );
+//            contourLengthControl.setUpDownArrowDelta( 10 );
+//            contourLengthControl.addChangeListener( new ChangeListener() {
+//               public void stateChanged( ChangeEvent event ) {
+//                   double beadContour = contourLengthControl.getValue();
+//                   _model.getDNAStrandBead().setContourLength( beadContour );
+//                   _model.getDNAStrandFree().setContourLength( minContour + ( maxContour - beadContour ) );
+//               }
+//            });
+//            PSwing contourLengthControlWrapper = new PSwing( contourLengthControl );
+//            contourLengthControlWrapper.setOffset( 100, 400 );
+//            addNode( contourLengthControlWrapper );
+//        }
     }
     
     //----------------------------------------------------------------------------
@@ -397,7 +398,13 @@ public class MotorsCanvas extends OTAbstractCanvas {
         _returnBeadButtonWrapper.setChildrenPickable( false );
     }
     
+    /**
+     * Resets the DNA strand and its assocatiated beads.
+     */
     private void handleResetDNAButton() {
-        //XXX reset the enzyme, DNA strand, and bead position
+        _model.getDNAStrandBead().setContourLength( MotorsDefaults.DNA_BEAD_CONTOUR_LENGTH );
+        _model.getDNAStrandFree().setContourLength( MotorsDefaults.DNA_FREE_CONTOUR_LENGTH );
+        _model.getBead().setPosition( MotorsDefaults.BEAD_POSITION );
+        _model.getInvisibleBead().setPosition( MotorsDefaults.INVISIBLE_BEAD_POSITION );
     }
 }
