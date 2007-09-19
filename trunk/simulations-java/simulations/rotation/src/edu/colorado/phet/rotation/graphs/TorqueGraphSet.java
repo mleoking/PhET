@@ -32,8 +32,12 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
             }
         } );
 //        forceGraph.addSeriesPair("series pair" )
-        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Net Force", Color.black, "F", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() ) );
-        forceGraph.getControlGraph().addSeries( new ControlGraphSeries( "Brake Force", Color.red, "F", "N", new BasicStroke( 3 ), false, "brake", tm.getBrakeForceMagnitudeVariable() ) );
+        ControlGraphSeries netForceSeries = new ControlGraphSeries( "Net Force", Color.black, "F", "N", new BasicStroke( 3 ), false, "net", tm.getNetForce() );
+        forceGraph.getControlGraph().addSeries( netForceSeries );
+        ControlGraphSeries brakeForceSeries = new ControlGraphSeries( "Brake Force", Color.red, "F", "N", new BasicStroke( 3 ), false, "brake", tm.getBrakeForceMagnitudeVariable() );
+        forceGraph.getControlGraph().addSeries( brakeForceSeries );
+        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( netForceSeries ) );
+        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );
 
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius", Color.green, "r", "m", new BasicStroke( 2 ), true, null, tm.getRadiusSeries() ),
