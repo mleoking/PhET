@@ -38,8 +38,6 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     
     private static final double MAX_ROTATION_DELTA = Math.toRadians( 45 );
     
-    private static final double MAX_CONTOUR_LENGTH_DELTA = 30;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -156,17 +154,15 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     /**
      * Updates the model each time the simulation clock ticks.
      * 
-     * @param dt
+     * @param dt clock step, seconds
      */
     public void stepInTime( double dt ) {
         if ( _enabled ) {
 
             final double dnaSpeed = getDNASpeed();
-            final double speedScale = dnaSpeed / _maxDNASpeed;
-            final double dtScale = dt / _maxDt;
             
             // Shorten the DNA strand attached to the bead
-            final double beadContourLengthDelta = MAX_CONTOUR_LENGTH_DELTA * speedScale * dtScale;
+            final double beadContourLengthDelta = dnaSpeed * dt; // ns/sec * sec = nm
             final double oldBeadContourLength = _dnaStrandBead.getContourLength();
             final double newBeadContourLength = oldBeadContourLength - beadContourLengthDelta;
             final double actualBeadContourLength = _dnaStrandBead.setContourLength( newBeadContourLength );
@@ -186,6 +182,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             
             // If the strand's contour length was changed, rotate the enzyme's inner sphere.
             if ( actualContourDelta > 0 ) {
+                final double speedScale = dnaSpeed / _maxDNASpeed;
+                final double dtScale = dt / _maxDt;
                 final double deltaAngle = MAX_ROTATION_DELTA * speedScale * dtScale;
                 _innerOrientation += deltaAngle;
                 notifyObservers( PROPERTY_INNER_ORIENTATION );

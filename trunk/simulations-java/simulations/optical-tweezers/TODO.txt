@@ -8,6 +8,7 @@ HIGH PRIORITY:
 - put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
+- does single spring between pin and bead interfere visually with tick mark that rotates in enzyme?
 
 MEDIUM PRIORITY:
 - when resetting DNA (MotorsModel.resetDNA) where should the bead be repositioned?
@@ -47,6 +48,8 @@ MIGRATE TO COMMON:
 
 
 DONE:
+9/19/07 - fix method of computing contour length delta (delta = speed * dt)
+9/19/07 - move enzyme node in front of DNA strands so that single spring between pin and bead isn't so obvious
 9/19/07 - reset DNA strand when doing "Reset All" of Motors module
 9/19/07 - verified that switching enzymes causes DNA to be reset when clock is paused
 9/19/07 - verified that pressing "Reset DNA" button works when clock is paused
