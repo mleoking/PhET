@@ -21,7 +21,7 @@ import edu.colorado.phet.rotation.util.RotationUtil;
  * May 29, 2007, 1:10:11 AM
  */
 public class TorqueModel extends RotationModel {
-    private DefaultTemporalVariable torque = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedTorque = new DefaultTemporalVariable();
     private DefaultTemporalVariable force = new DefaultTemporalVariable();//todo: sort out difference between force and appliedForceMagnitude
     private DefaultTemporalVariable brakeForceMagnitude = new DefaultTemporalVariable();
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
@@ -57,7 +57,7 @@ public class TorqueModel extends RotationModel {
         super.stepInTime( dt );
         momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
         angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
-        defaultUpdate( torque );
+        defaultUpdate( appliedTorque );
         defaultUpdate( force );
         defaultUpdate( appliedForceMagnitude );
         defaultUpdate( netForce );
@@ -74,7 +74,7 @@ public class TorqueModel extends RotationModel {
 
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
-        torque.setPlaybackTime( time );
+        appliedTorque.setPlaybackTime( time );
         force.setPlaybackTime( time );
         angularMomentum.setPlaybackTime( time );
         momentOfInertia.setPlaybackTime( time );
@@ -90,7 +90,7 @@ public class TorqueModel extends RotationModel {
     public void clear() {
         super.clear();
         if ( inited ) {
-            torque.clear();
+            appliedTorque.clear();
             force.clear();
             angularMomentum.clear();
             momentOfInertia.clear();
@@ -162,7 +162,7 @@ public class TorqueModel extends RotationModel {
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
-        return torque;
+        return appliedTorque;
     }
 
     public ITemporalVariable getForceTimeSeries() {
@@ -250,15 +250,15 @@ public class TorqueModel extends RotationModel {
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            torque.setValue( force.getValue() * getRotationPlatform().getRadius() );
+            appliedTorque.setValue( force.getValue() * getRotationPlatform().getRadius() );
             double mu = 1.2;
             double brakeForceVal = mu * getBrakeForceMagnitude();
             double origAngVel = motionBody.getVelocity();
-            double netTorque = torque.getValue() - MathUtil.getSign( origAngVel ) * brakeForceVal;
+            double netTorque = appliedTorque.getValue() + brakeForce.getTorque( getRotationPlatform().getCenter() );
 
             double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
-            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( torque.getValue() ) ) {
+            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( appliedTorque.getValue() ) ) {
                 proposedVelocity = 0.0;
             }
 
@@ -289,10 +289,10 @@ public class TorqueModel extends RotationModel {
         if ( !RotationUtil.lineEquals( getAppliedForce(), appliedForce ) ) {
             this.appliedForce.setValue( appliedForce );
 
-            //determine the new applied torque
-            //torque=r x F
-            torque.setValue( this.appliedForce.getTorque( getRotationPlatform().getCenter() ) );
-            force.setValue( torque.getValue() / getRotationPlatform().getRadius() );
+            //determine the new applied appliedTorque
+            //appliedTorque=r x F
+            appliedTorque.setValue( this.appliedForce.getTorque( getRotationPlatform().getCenter() ) );
+            force.setValue( appliedTorque.getValue() / getRotationPlatform().getRadius() );
 
             updateNetForce();
             notifyAppliedForceChanged();
