@@ -26,6 +26,12 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 public abstract class AbstractEnzyme extends FixedObject implements ModelElement {
     
     //----------------------------------------------------------------------------
+    // Debug
+    //----------------------------------------------------------------------------
+    
+    private static final boolean ENABLE_DEBUG_OUTPUT = false;
+    
+    //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
@@ -162,20 +168,26 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             final double dtScale = dt / _maxDt;
             
             // Shorten the DNA strand attached to the bead
-            final double deltaContourLength = MAX_CONTOUR_LENGTH_DELTA * speedScale * dtScale;
+            final double beadContourLengthDelta = MAX_CONTOUR_LENGTH_DELTA * speedScale * dtScale;
             final double oldBeadContourLength = _dnaStrandBead.getContourLength();
-            final double newBeadContourLength = Math.max( _dnaStrandBead.getSpringLength(), oldBeadContourLength - deltaContourLength );
+            final double newBeadContourLength = oldBeadContourLength - beadContourLengthDelta;
             final double actualBeadContourLength = _dnaStrandBead.setContourLength( newBeadContourLength );
             
             // Lengthen the DNA strand attached to the free end
-            final double oldFreeContourLength = _dnaStrandFree.getContourLength();
-            final double newFreeContourLength = oldFreeContourLength + ( oldBeadContourLength - actualBeadContourLength );
-            _dnaStrandFree.setContourLength( newFreeContourLength );
+            final double actualContourDelta = oldBeadContourLength - actualBeadContourLength;
+            if ( actualContourDelta > 0 ) {
+                _dnaStrandFree.setContourLength( _dnaStrandFree.getContourLength() + actualContourDelta );
+            }
             
-            System.out.println( "speed=" + dnaSpeed + " deltaContour=" + deltaContourLength + " beadContour=" + _dnaStrandBead.getContourLength() + " freeContour=" + _dnaStrandFree.getContourLength() );//XXX
+            if ( ENABLE_DEBUG_OUTPUT ) {
+                System.out.println( "speed=" + dnaSpeed + " deltaContour=" + beadContourLengthDelta + 
+                    " beadContour=" + _dnaStrandBead.getContourLength() + " beadPivots=" + _dnaStrandBead.getPivots().size() +
+                    " freeContour=" + _dnaStrandFree.getContourLength() + " freePivots=" + _dnaStrandFree.getPivots().size() +
+                    " totalContour=" + ( _dnaStrandBead.getContourLength() + _dnaStrandFree.getContourLength() ) );
+            }
             
             // If the strand's contour length was changed, rotate the enzyme's inner sphere.
-            if ( _dnaStrandBead.getContourLength() != oldBeadContourLength ) {
+            if ( actualContourDelta > 0 ) {
                 final double deltaAngle = MAX_ROTATION_DELTA * speedScale * dtScale;
                 _innerOrientation += deltaAngle;
                 notifyObservers( PROPERTY_INNER_ORIENTATION );
