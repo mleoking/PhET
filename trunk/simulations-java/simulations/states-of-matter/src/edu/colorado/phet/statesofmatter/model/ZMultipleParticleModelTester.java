@@ -2,7 +2,7 @@ package edu.colorado.phet.statesofmatter.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.energy.KineticEnergyMeasurer;
+import edu.colorado.phet.statesofmatter.model.engine.energy.KineticEnergyMeasurer;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
