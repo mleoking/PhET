@@ -6,6 +6,7 @@ import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyMeasur
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
+import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class ZMultipleParticleModelTester extends TestCase {
@@ -13,7 +14,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     private volatile ConstantDtClock clock;
 
     public void setUp() {
-        this.clock = new ConstantDtClock(30, 1);
+        this.clock = new ConstantDtClock(1, 1);
         this.model = new MultipleParticleModel(clock);
     }
 
@@ -42,13 +43,41 @@ public class ZMultipleParticleModelTester extends TestCase {
     }
 
     public void testThatParticlesMoveWhenClockRunning() {
+        clock.start();
+
+        waitForParticleToMove();
+    }
+
+    public void testThatParticleContainerIsInitiallySetToDefaultBounds() {
+        assertEquals(StatesOfMatterConfig.CONTAINER_BOUNDS.getBounds2D(), model.getParticleContainer().getShape().getBounds2D());
+    }
+
+    public void testThatParticlesDoNotLeaveContainerWhenClockRunning() {
+        clock.start();
+
+        for (int i = 0; i < 100; i++) {
+            waitForParticleToMove();
+
+            for (int j = 0; j < model.getNumParticles(); j++) {
+                StatesOfMatterParticle p = model.getParticle(j);
+
+                Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
+
+                assertTrue(particleContainer.contains(p.getX(), p.getY()));
+            }
+        }
+    }
+
+    public void testInitialKineticEnergyIsDefault() {
+        assertEquals(StatesOfMatterConfig.INITIAL_KINETIC_ENERGY, new KineticEnergyMeasurer(model.getParticles()).measure(), 0.00001);
+    }
+
+    private void waitForParticleToMove() {
+        long startTime = System.currentTimeMillis();
+
         StatesOfMatterParticle p = model.getParticle(0);
 
         StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
-
-        clock.start();
-
-        long startTime = System.currentTimeMillis();
 
         while (p.equals(originalP)) {
             Thread.yield();
@@ -57,9 +86,5 @@ public class ZMultipleParticleModelTester extends TestCase {
                 fail("The particle " + p + " has not moved within the timeout period.");
             }
         }
-    }
-
-    public void testInitialKineticEnergyIsDefault() {
-        assertEquals(StatesOfMatterConfig.INITIAL_KINETIC_ENERGY, new KineticEnergyMeasurer(model.getParticles()).measure(), 0.00001);
     }
 }
