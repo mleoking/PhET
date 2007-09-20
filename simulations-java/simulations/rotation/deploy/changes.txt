@@ -1,3 +1,4 @@
+9-20-2007: Torque - Show arrow in play area corresponding to tangential brake force
 9-20-2007: Torque - Display applied force when controlling with force graph (use a default choice for force application point)
 9-20-2007: Torque - Added net & brake forces on force graph
 9-20-2007: Torque - Added net & brake torques on torque graph
