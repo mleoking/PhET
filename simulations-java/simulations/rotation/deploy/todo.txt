@@ -2,48 +2,21 @@
 #     To Do
 ################################
 
-Torque 9-6-2007:
-
-7. Optionally Show net & brake forces on force graph
-8. Optionally Show net & brake torques on torque graph
-2. Display applied force when controlling with force graph (use a default choice for force application point)
-6. Show arrow in play area corresponding to tangential brake force
-1. Start paused, use wiggle me for startup (low priority, don't implement yet)
-11. Rotation: omega graphs are off by a few pixels.
-Bug should fly off at high speed (if not too much work)
-
-Cursor hand shouldn't appear for merry-go round when clicking within inner radius
-
-Torque:
-1. Add better titles/labels for the torque/force graphs?
-2. Angular acceleration for the platform is incorrect when brake force is applied
-3. Add a visualization for the mass?  Thickness of platform?
-4. Should the user be able to drag the brake & character graphic to apply brake?
-5. What colors should be used for forces/torques?
-
-Rotation & Torque:
-1. When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
-    >>Did performance improvements fix this problem?
-    >>I can relax the conditions that must be met to recognize circular motion.
-2. The delay in the vectors between when I let go and when the vectors stop moving.
-    >>Did performance improvements fix this problem?
-3. Improve performance
-4. There is still a performance leak. After about 10-15 minutes it is now crawling.
-    -this is due in part to time series filling up in "live mode", early enough data should be discarded
-
-The beetle graphs show up when you put him on the platform.
-He can have been off the entire time and then when I put him on, his data appears.
-When I take him off, his data disappears.  This is odd.  I can see why new data won’t graph when he’s off
-but not why all his data comes on and off depending on when he’s on the platform.
-This gives the graphs the feeling that they are a physical thing rather than an abstract representation of his motion.
->>Perhaps as soon as the user grabs the second character, his graphs should become visible (and his checkbox becomes selected).
->>Then to hide the graph, the user unchecks the checkbox.
->>The idea is that as soon as the user expresses an interest in the beetle, its graphs become visible
->>As opposed to our previous version, which assumed the user only wanted to see data if the bug was on the platform
-•	I want to discuss the beetle graph behavior with Kathy before we do anything new with this.
-        I can see there are some tradeoffs and lots of scenarios that need to be considered.
-
-•	I think the default axis for the velocity (linear) graph could be different but again here I think I should discuss with Kathy first.
+•	Optionally Show net & brake forces on force graph
+•	Optionally Show net & brake torques on torque graph
+•	Display applied force when controlling with force graph (use a default choice for force application point)
+•	Show arrow in play area corresponding to tangential brake force
+•	Start paused, use wiggle me for startup (low priority, don't implement yet)
+•	Rotation: omega graphs are off by a few pixels.
+•	Bug should fly off at high speed (if not too much work)
+•	Cursor hand shouldn't appear for merry-go round when clicking within inner radius
+•	Add better titles/labels for the torque/force graphs?
+•	What colors should be used for forces/torques?
+•	Angular acceleration for the platform is incorrect when brake force is applied
+•	Add a visualization for the mass?  Thickness of platform?
+•	Improve performance
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+    •	this is due in part to time series filling up in "live mode", early enough data should be discarded
 
 Lower Priority:
 •   Bug: Mouse gets disassociated from ladybug character after trying to drag out of bounds.
@@ -61,16 +34,7 @@ Lower Priority:
 •	Better graphics/characters?  Beetle will be undesirable for some?
 
 ################################################
-#           Implementation issues
-################################
-•	Factor MotionBodyState and MotionBodySeries into a single object
-•	Implementation for setting platform angle by setting character angle is fragile
-•	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
-•	Better inherent support for different units in charts
-    -ControlGraphSeries should have an optional transform object.
-
-################################################
-#           Questions:
+#           Questions/Discussion
 ################################
 •	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations (e.g. symbol for theta) for other series?
     -wait until interviews
@@ -87,6 +51,32 @@ Lower Priority:
         then set rads to 0, end up with ladybug at 0 rads and other bug at 10 rads??? NOT sure about this?
             >>No, I think the settable values should only apply to the ladybug.  It will be too confusing/overloaded to make it so you can type in values
             >>for both characters.
+•	When ever I move the bug around in what seems to me to be a circle the acceleration points outward.
+        >>Did performance improvements fix this problem?
+        >>I can relax the conditions that must be met to recognize circular motion.
+•	The delay in the vectors between when I let go and when the vectors stop moving.
+        >>Did performance improvements fix this problem?
+
+The beetle graphs show up when you put him on the platform.
+He can have been off the entire time and then when I put him on, his data appears.
+When I take him off, his data disappears.  This is odd.  I can see why new data won’t graph when he’s off
+but not why all his data comes on and off depending on when he’s on the platform.
+This gives the graphs the feeling that they are a physical thing rather than an abstract representation of his motion.
+>>Perhaps as soon as the user grabs the second character, his graphs should become visible (and his checkbox becomes selected).
+>>Then to hide the graph, the user unchecks the checkbox.
+>>The idea is that as soon as the user expresses an interest in the beetle, its graphs become visible
+>>As opposed to our previous version, which assumed the user only wanted to see data if the bug was on the platform
+•	I want to discuss the beetle graph behavior with Kathy before we do anything new with this.
+        I can see there are some tradeoffs and lots of scenarios that need to be considered.
+
+•	I think the default axis for the velocity (linear) graph could be different but again here I think I should discuss with Kathy first.
+
+################################################
+#           Implementation issues
+################################
+•	RotationBody should have internal representation for angular velocity and angular acceleration instead of relying on RotationPlatform's instance?
+•	Better inherent support for different units in charts
+    -ControlGraphSeries should have an optional transform object.
 
 ################################################
 #           Interview:
