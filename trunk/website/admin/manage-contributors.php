@@ -59,7 +59,7 @@
             <table>
                 <thead>
                     <tr>
-                        <td>Name</td>   <td>Email</td>  <td>Team</td>    <td>Action</td>
+                        <td>Name</td>   <td>Email</td>  <td>Team Member</td>    <td>Action</td>
                     </tr>
                 </thead>
                 
@@ -72,28 +72,30 @@ EOT;
             $contributor_name           = $contributor['contributor_name'];
             $contributor_email          = $contributor['contributor_email'];
             $contributor_is_team_member = $contributor['contributor_is_team_member'];
+
+			$contributor_is_team_member_html = $contributor_is_team_member == '1' ? 'Y' : 'N';
         
             $checked_status = $contributor_is_team_member == '1' ? "checked=\"checked\"" : "";
         
             print <<<EOT
-                    <form action="manage-contributors.php" method="post">
-                        <input type="hidden" name="action"          value="update" />
-                        <input type="hidden" name="contributor_id"  value="$contributor_id" />
-                        <input type="hidden" name="contributor_is_team_member" value="0" />
-
                         <tr>
-                            <td><input type="text"     name="contributor_name"           value="$contributor_name"  /></td>
-                            <td><input type="text"     name="contributor_email"          value="$contributor_email" /></td>
-                            <td><input type="checkbox" name="contributor_is_team_member" value="1" $checked_status  /></td>
+							<td>
+                            	<a href="edit-other-profile.php?edit_contributor_id=$contributor_id">$contributor_name</a>
+							</td>
+							
+							<td>
+                            	<a href="mailto:$contributor_email?Subject=Your%20Account%20With%20PhET">$contributor_email</a>
+							</td>
+							
+							<td>
+                            	$contributor_is_team_member_html 
+							</td>
 
-                            <td>
-                                <input type="submit" name="action" value="update" />
-                                <input type="submit" name="action" value="delete" />
-
+							<td>
+								<a href="edit-other-profile.php?contributor_id=$contributor_id&amp;action=delete">Delete</a>
 								<a href="edit-other-profile.php?edit_contributor_id=$contributor_id">Edit</a>
                             </td>
                         </tr>
-                    </form>
 EOT;
         }
     
