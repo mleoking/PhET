@@ -1,3 +1,4 @@
+9-20-2007: Torque - Display applied force when controlling with force graph (use a default choice for force application point)
 9-20-2007: Torque - Added net & brake forces on force graph
 9-20-2007: Torque - Added net & brake torques on torque graph
 9-19-2007: Torque - Fixed: When dragged, the brake graphic doesn't immediately move to touch the rotation platform (only does so when platform is moving)

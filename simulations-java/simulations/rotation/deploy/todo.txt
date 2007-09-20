@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	Display applied force when controlling with force graph (use a default choice for force application point)
 •	Show arrow in play area corresponding to tangential brake force
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
 •	Rotation: omega graphs are off by a few pixels.
