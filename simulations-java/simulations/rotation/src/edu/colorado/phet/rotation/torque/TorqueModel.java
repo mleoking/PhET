@@ -26,8 +26,11 @@ public class TorqueModel extends RotationModel {
     private DefaultTemporalVariable brakeForceMagnitude = new DefaultTemporalVariable();
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
-
+    private ITemporalVariable netForce = new DefaultTemporalVariable();
+    private ITemporalVariable netTorque=new DefaultTemporalVariable();
+    private ITemporalVariable brakeTorque=new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceMagnitude = new DefaultTemporalVariable();
+
     private AppliedForce appliedForce = new AppliedForce();
     private AppliedForce brakeForce = new AppliedForce();
 
@@ -37,7 +40,8 @@ public class TorqueModel extends RotationModel {
     private boolean showComponents = true;
     private boolean inited = false;
     private double brakePressure = 0;
-    private ITemporalVariable netForce = new DefaultTemporalVariable();
+
+
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -61,6 +65,8 @@ public class TorqueModel extends RotationModel {
         defaultUpdate( force );
         defaultUpdate( appliedForceMagnitude );
         defaultUpdate( netForce );
+        defaultUpdate( netTorque );
+        defaultUpdate( brakeTorque );
         defaultUpdate( brakeForceMagnitude );
 
         brakeForce.stepInTime( dt, getTime() );
@@ -80,6 +86,8 @@ public class TorqueModel extends RotationModel {
         momentOfInertia.setPlaybackTime( time );
         appliedForceMagnitude.setPlaybackTime( time );
         netForce.setPlaybackTime( time );
+        netTorque.setPlaybackTime( time );
+        brakeTorque.setPlaybackTime( time );
         brakeForceMagnitude.setPlaybackTime( time );
 
         appliedForce.setPlaybackTime( time );
@@ -100,6 +108,8 @@ public class TorqueModel extends RotationModel {
             appliedForce.clear();
             brakeForce.clear();
             netForce.clear();
+            netTorque.clear();
+            brakeTorque.clear();
             brakeForceMagnitude.clear();
             brakePressure = 0;
         }
@@ -139,8 +149,6 @@ public class TorqueModel extends RotationModel {
 
     private void updateBrakeForce() {
         brakeForce.setValue( computeBrakeForce() );
-//        brakeForceMagnitude.setValue( brakeForce.getForceMagnitude() * -getVelocitySign() );
-//        brakeForceMagnitude.setValue( getSignedForce( getBrakeForceValue() ) );
         brakeForceMagnitude.setValue( getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).brakeForceChanged();
@@ -148,16 +156,7 @@ public class TorqueModel extends RotationModel {
         updateNetForce();
     }
 
-//    private int getVelocitySign() {
-//        return MathUtil.getSign( getRotationPlatform().getVelocity() );
-//    }
-//
-//    public double getSignedForce( Line2D.Double force ) {
-//        double magnitude=force.get
-//    }
-
     private void updateNetForce() {
-//        netForce.setValue( -getVelocitySign() * getBrakeForceMagnitude() + getAppliedForceMagnitude() );
         netForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ) + getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
     }
 
@@ -247,6 +246,14 @@ public class TorqueModel extends RotationModel {
         return netForce;
     }
 
+    public ITemporalVariable getNetTorque() {
+        return netTorque;
+    }
+
+    public ITemporalVariable getBrakeTorque() {
+        return brakeTorque;
+    }
+
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
@@ -254,7 +261,10 @@ public class TorqueModel extends RotationModel {
             double mu = 1.2;
             double brakeForceVal = mu * getBrakeForceMagnitude();
             double origAngVel = motionBody.getVelocity();
-            double netTorque = appliedTorque.getValue() + brakeForce.getTorque( getRotationPlatform().getCenter() );
+            double brakeTorqueValue = brakeForce.getTorque( getRotationPlatform().getCenter() );
+            double netTorque = appliedTorque.getValue() + brakeTorqueValue;
+            TorqueModel.this.netTorque.setValue( netTorque );//todo: should probably update even while paused
+            TorqueModel.this.brakeTorque.setValue( brakeTorqueValue );
 
             double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;

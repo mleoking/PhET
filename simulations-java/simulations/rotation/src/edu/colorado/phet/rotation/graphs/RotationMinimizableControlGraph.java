@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.graphs;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.rotation.model.RotationBody;
@@ -29,4 +31,5 @@ public class RotationMinimizableControlGraph extends MinimizableControlGraph {
     public RotationGraph getRotationControlGraph() {
         return controlGraph;
     }
+
 }

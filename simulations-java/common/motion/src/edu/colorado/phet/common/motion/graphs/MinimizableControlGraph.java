@@ -176,4 +176,11 @@ public class MinimizableControlGraph extends PNode {
         }
     }
 
+    public void addSeries( ControlGraphSeries series ) {
+        getControlGraph().addSeries( series );
+    }
+
+    public void addControl( JComponent jComponent ) {
+        getControlGraph().addControl( jComponent );
+    }
 }
