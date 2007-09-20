@@ -14,7 +14,7 @@
       <sourceFolder url="file://$MODULE_DIR$/common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/quantum/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/common/sissi/src" isTestSource="false" />
+      
       <sourceFolder url="file://$MODULE_DIR$/common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/Jama-1.0.2" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/beanshell/asm/src" isTestSource="false" />
