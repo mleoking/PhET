@@ -23,7 +23,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
         super( pSwingCanvas, tm, angleUnitModel );
 
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( "F", new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "F", "N", new BasicStroke( 4 ), true, "applied", tm.getForceTimeSeries() ),
+                pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "F", "N", new BasicStroke( 4 ), true, "applied", tm.getAppliedForceVariable() ),
                 "F", "force", "units", -2.5, 2.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         forceGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
