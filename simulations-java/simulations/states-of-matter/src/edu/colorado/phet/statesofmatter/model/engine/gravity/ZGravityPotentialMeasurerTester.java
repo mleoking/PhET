@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ZGravityPotentialTester extends TestCase {
+public class ZGravityPotentialMeasurerTester extends TestCase {
     private static final double FLOOR = -2.0;
     private static final double G     = 10.0;
     
@@ -46,6 +46,6 @@ public class ZGravityPotentialTester extends TestCase {
             list.add(p2);
         }
 
-        return new GravityPotential(list, FLOOR, G).measure();
+        return new GravityPotentialMeasurer(list, FLOOR, G).measure();
     }
 }

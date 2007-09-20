@@ -5,12 +5,12 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import java.util.Iterator;
 import java.util.List;
 
-public class GravityPotential {
+public class GravityPotentialMeasurer {
     private final List particles;
     private final double floor;
     private final double g;
 
-    public GravityPotential(List particles, double floor, double g) {
+    public GravityPotentialMeasurer(List particles, double floor, double g) {
         this.particles = particles;
         this.floor     = floor;
         this.g         = g;
