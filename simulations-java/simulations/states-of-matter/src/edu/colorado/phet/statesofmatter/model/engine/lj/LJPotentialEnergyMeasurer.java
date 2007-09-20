@@ -1,10 +1,11 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import edu.colorado.phet.statesofmatter.model.engine.Measurable;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.util.List;
 
-public class LJPotentialEnergyMeasurer {
+public class LJPotentialEnergyMeasurer implements Measurable {
     private final List particles;
     private final LennardJonesPotential ljp;
 
