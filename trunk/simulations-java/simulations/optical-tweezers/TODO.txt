@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- DNA force should grow when holding bead with mouse in Molecular Motors (general problem with disabling bead model?)
 - laser can be used to over-stretch DNA when it's fully reeled in by enzyme
 - put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
