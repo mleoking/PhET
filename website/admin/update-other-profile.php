@@ -15,5 +15,5 @@
         print("<p>The user's profile has been successfully updated!</p><br/>");
     }
     
-    print_site_page('print_profile_updated_message', 9, "../admin/manage-contributors.php", 20);
+    print_site_page('print_profile_updated_message', 9, "../admin/manage-contributors.php", 2);
 ?>

@@ -334,13 +334,13 @@ EOT;
 
 					$(document).ready(
 					    function() {
-					        $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
-					            {
-					                onItemSelect: function(li, v) {
-					                    on_name_change(v);
-					                }
-					            }
-					        );
+					        // $('#contributor_name_uid').autocomplete('$prefix/admin/get-contributor-names.php',
+					        //     {
+					        //         onItemSelect: function(li, v) {
+					        //             on_name_change(v);
+					        //         }
+					        //     }
+					        // );
 
 					        select_current_navbar_category();
 

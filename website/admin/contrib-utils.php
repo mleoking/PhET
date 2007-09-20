@@ -2083,7 +2083,9 @@ EOT;
     
     function contributor_print_full_edit_form($contributor_id, $script, $optional_message = null, 
                                               $standard_message = "<p>You may edit your profile information below.</p>") {
-
+		
+	
+		$editor_is_team_member = $GLOBALS['contributor_is_team_member'];
                                                   
         $contributor = contributor_get_contributor_by_id($contributor_id);
         
@@ -2237,11 +2239,27 @@ EOT;
                             <td>
 								<input type="hidden"   name="contributor_receive_email" value="0" />
                                 <input type="checkbox" name="contributor_receive_email" value="1" $contributor_receive_email_checked />
+								<br/>
+								The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.
                             </td>
                         </tr>
-                    </table>
+EOT;
 
-					<p class="footnote">The PhET newsletter is sent 4 times per year to announce major changes to the simulations. You may unsubscribe at any time.</p>
+				if ($editor_is_team_member == 1) {
+					print <<<EOT
+						<tr>
+                            <td>is team member</td>                            
+
+                            <td>
+								<input type="hidden"   name="contributor_is_team_member" value="0" />
+                                <input type="checkbox" name="contributor_is_team_member" value="1" $contributor_is_team_member />
+                            </td>
+                        </tr>
+EOT;
+				}
+
+				print <<<EOT
+                    </table>
 
                    <input class="button" name="Submit" type="submit" id="submit" value="Done" />
 

@@ -353,8 +353,8 @@ table.form tr.error-message td {
 padding-left: 1ex;
 font-style: italic;
 font-size: smaller;
+position: relative;
 }
-
 #downloadspeeds {
 padding-left: 2em;
 padding-right: 2em;
