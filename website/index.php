@@ -84,19 +84,28 @@
     <div id="container">
         <div class="home-page">
 			<div id="newsflashes">
+				<table>
+					<tr>
+						<td class="warning-notice">
+							<strong>Warning:</strong> Our web traffic has increased dramatically. We are working to accommodate this increase.
+						</td>
+						
+						<td class="links">
 EOT;
 			if (!isset($contributor_receive_email) || $contributor_receive_email == 0) {
 				print <<<EOT
-				<a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a> |
+							<a href="teacher_ideas/subscribe-newsletter.php">Subscribe to PhET Newsletter</a> | 
 EOT;
 			}
 			
 			print <<<EOT
-				<a href="about/news.php">What's New</a>
+							<a href="about/news.php">What's New</a>
+						</td>
+					</tr>
+				</table>				
 			</div>
 			
 			<div class="introduction">		
-				<p><strong>Warning:</strong> Our web traffic has increased dramatically. We are working to accommodate this increase.</p>
 				
 	            <div class="mainImage">    
 	                <a href="simulations/index.php" title="Click here to view the simulations"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
