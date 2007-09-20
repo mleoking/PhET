@@ -48,7 +48,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
-********* version 1.00.08 (?)
+********* version 1.00.08 (17928)
 9/19/07 - notifyObservers(PROPERTY_FORCE) when DNA strand's contour length is changed
 9/19/07 - fix method of computing contour length delta (delta = speed * dt)
 9/19/07 - move enzyme node in front of DNA strands so that single spring between pin and bead isn't so obvious
