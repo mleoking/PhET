@@ -325,7 +325,7 @@ EOT;
 						print <<<EOT
 
 						<tr>
-							<td>name*</td>		<td><input id="contributor_name_uid" type="text" size="15" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
+							<td>name*</td>		<td><input title="First and last name required" id="contributor_name_uid" type="text" size="15" name="contributor_name"  value="$contributor_name" class="always-enabled"/></td>
 						</tr>
 
 						<tr>
