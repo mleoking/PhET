@@ -17,10 +17,20 @@ div.introduction {
 clear: right;
 }
 #newsflashes {
-float: right;
-text-align: left;
 position: relative;
 top: -1em;
+}
+#newsflashes td {
+vertical-align: top;
+}
+#newsflashes td.warning-notice {
+text-align: left;
+color: red;
+font-weight: bold;
+}
+#newsflashes td.links {
+width: 300px;
+text-align: right;
 }
 #container {
 padding: 15px 0 0 0;

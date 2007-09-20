@@ -3,14 +3,16 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/contrib-utils.php</string>
+	<string>index.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-09-18T17:48:53Z</date>
+			<date>2007-09-19T22:46:50Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -216,14 +218,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>29</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>2062</integer>
+				<integer>2073</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>2047</integer>
+			<integer>2063</integer>
 		</dict>
 		<key>admin/dispatch-newsletter.php</key>
 		<dict>
@@ -526,30 +528,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>1</integer>
+				<integer>96</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>32</integer>
-				<key>line</key>
-				<integer>1</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>4</integer>
-				<key>line</key>
-				<integer>1</integer>
-			</dict>
+			<integer>81</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
