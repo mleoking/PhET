@@ -511,7 +511,7 @@ EOT;
             if (isset($sim_id)) {            
                 $sim = sim_get_sim_by_id($sim_id);
             
-                $Simulations = array( $sim['sim_name'] );
+                $Simulations = array( html_entity_decode($sim['sim_name']) );
             }
         }
     }
