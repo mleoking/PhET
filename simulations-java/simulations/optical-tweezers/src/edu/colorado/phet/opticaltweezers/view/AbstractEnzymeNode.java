@@ -36,7 +36,7 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     // tick mark on inner sphere, used to show rotation about the z-axis
-    private static final Stroke TICK_STROKE = new BasicStroke( 1f );
+    private static final Stroke TICK_STROKE = new BasicStroke( 3f );
     
     //----------------------------------------------------------------------------
     // Instance data
