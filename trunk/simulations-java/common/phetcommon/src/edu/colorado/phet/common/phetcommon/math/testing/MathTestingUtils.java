@@ -29,7 +29,7 @@ public class MathTestingUtils {
             step[i] = (max[i] - min[i]) / steps;
             cur[i]  = min[i];
 
-            assert min[i] < max[i];
+            assert min[i] <= max[i];
         }
 
         double[] valueAtMinimum = function.evaluate(minimum);

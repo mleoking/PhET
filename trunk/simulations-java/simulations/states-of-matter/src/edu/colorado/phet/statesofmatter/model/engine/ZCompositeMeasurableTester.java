@@ -2,6 +2,8 @@ package edu.colorado.phet.statesofmatter.model.engine;
 
 import junit.framework.TestCase;
 
+import java.util.Arrays;
+
 public class ZCompositeMeasurableTester extends TestCase {
     public void testSumOfOne() {
         performTest(new double[]{1.0});
@@ -23,5 +25,6 @@ public class ZCompositeMeasurableTester extends TestCase {
         }
 
         assertEquals(sum, new CompositeMeasurable(measurables).measure(), 0.00001);
+        assertEquals(sum, new CompositeMeasurable(Arrays.asList(measurables)).measure(), 0.00001);
     }
 }
