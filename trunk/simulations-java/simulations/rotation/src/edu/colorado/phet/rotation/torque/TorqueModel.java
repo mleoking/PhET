@@ -21,18 +21,22 @@ import edu.colorado.phet.rotation.util.RotationUtil;
  * May 29, 2007, 1:10:11 AM
  */
 public class TorqueModel extends RotationModel {
+
+    private DefaultTemporalVariable appliedForce = new DefaultTemporalVariable();//todo: sort out difference between appliedForce and appliedForceMagnitude
+    private DefaultTemporalVariable appliedForceMagnitude = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedTorque = new DefaultTemporalVariable();
-    private DefaultTemporalVariable force = new DefaultTemporalVariable();//todo: sort out difference between force and appliedForceMagnitude
+
     private DefaultTemporalVariable brakeForceMagnitude = new DefaultTemporalVariable();
+    private DefaultTemporalVariable brakeTorque = new DefaultTemporalVariable();
+
+    private DefaultTemporalVariable netForce = new DefaultTemporalVariable();
+    private DefaultTemporalVariable netTorque = new DefaultTemporalVariable();
+
     private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
     private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
-    private ITemporalVariable netForce = new DefaultTemporalVariable();
-    private ITemporalVariable netTorque=new DefaultTemporalVariable();
-    private ITemporalVariable brakeTorque=new DefaultTemporalVariable();
-    private DefaultTemporalVariable appliedForceMagnitude = new DefaultTemporalVariable();
 
-    private AppliedForce appliedForce = new AppliedForce();
-    private AppliedForce brakeForce = new AppliedForce();
+    private AppliedForce appliedForceObject = new AppliedForce();
+    private AppliedForce brakeForceObject = new AppliedForce();
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private ArrayList listeners = new ArrayList();
@@ -42,14 +46,13 @@ public class TorqueModel extends RotationModel {
     private double brakePressure = 0;
 
 
-
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
         getRotationPlatform().setUpdateStrategy( forceDriven );
         inited = true;
         clear();
-        appliedForce.setRadius( RotationPlatform.MAX_RADIUS );
-        brakeForce.setRadius( RotationPlatform.MAX_RADIUS );
+        appliedForceObject.setRadius( RotationPlatform.MAX_RADIUS );
+        brakeForceObject.setRadius( RotationPlatform.MAX_RADIUS );
         getRotationPlatform().getVelocityVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
                 updateBrakeForce();
@@ -62,15 +65,15 @@ public class TorqueModel extends RotationModel {
         momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
         angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
         defaultUpdate( appliedTorque );
-        defaultUpdate( force );
+        defaultUpdate( appliedForce );
         defaultUpdate( appliedForceMagnitude );
         defaultUpdate( netForce );
         defaultUpdate( netTorque );
         defaultUpdate( brakeTorque );
         defaultUpdate( brakeForceMagnitude );
 
-        brakeForce.stepInTime( dt, getTime() );
-        appliedForce.stepInTime( dt, getTime() );
+        brakeForceObject.stepInTime( dt, getTime() );
+        appliedForceObject.stepInTime( dt, getTime() );
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & clarity
     }
 
@@ -81,7 +84,7 @@ public class TorqueModel extends RotationModel {
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
         appliedTorque.setPlaybackTime( time );
-        force.setPlaybackTime( time );
+        appliedForce.setPlaybackTime( time );
         angularMomentum.setPlaybackTime( time );
         momentOfInertia.setPlaybackTime( time );
         appliedForceMagnitude.setPlaybackTime( time );
@@ -90,8 +93,8 @@ public class TorqueModel extends RotationModel {
         brakeTorque.setPlaybackTime( time );
         brakeForceMagnitude.setPlaybackTime( time );
 
-        appliedForce.setPlaybackTime( time );
-        brakeForce.setPlaybackTime( time );
+        appliedForceObject.setPlaybackTime( time );
+        brakeForceObject.setPlaybackTime( time );
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & clarity
     }
 
@@ -99,14 +102,14 @@ public class TorqueModel extends RotationModel {
         super.clear();
         if ( inited ) {
             appliedTorque.clear();
-            force.clear();
+            appliedForce.clear();
             angularMomentum.clear();
             momentOfInertia.clear();
 
             appliedForceMagnitude.clear();
 
-            appliedForce.clear();
-            brakeForce.clear();
+            appliedForceObject.clear();
+            brakeForceObject.clear();
             netForce.clear();
             netTorque.clear();
             brakeTorque.clear();
@@ -120,7 +123,7 @@ public class TorqueModel extends RotationModel {
     }
 
     public double getBrakeForceMagnitude() {
-        return brakeForce.getForceMagnitude();
+        return brakeForceObject.getForceMagnitude();
     }
 
     public double getBrakePressure() {
@@ -148,7 +151,7 @@ public class TorqueModel extends RotationModel {
     }
 
     private void updateBrakeForce() {
-        brakeForce.setValue( computeBrakeForce() );
+        brakeForceObject.setValue( computeBrakeForce() );
         brakeForceMagnitude.setValue( getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).brakeForceChanged();
@@ -157,17 +160,34 @@ public class TorqueModel extends RotationModel {
     }
 
     private void updateNetForce() {
-        netForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ) + getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
+        netForce.setValue( getSignedNetForceValue() );
+    }
+
+    private double getSignedNetForceValue() {
+        return getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ) +
+               getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() );
     }
 
     public ITemporalVariable getTorqueTimeSeries() {
         return appliedTorque;
     }
 
-    public ITemporalVariable getForceTimeSeries() {
-        return force;
+    public ITemporalVariable getAppliedForceVariable() {
+        return appliedForce;
     }
 
+    public ITemporalVariable getNetForce() {
+        return netForce;
+    }
+
+    public ITemporalVariable getNetTorque() {
+        return netTorque;
+    }
+
+    public ITemporalVariable getBrakeTorque() {
+        return brakeTorque;
+    }
+    
     public UpdateStrategy getForceDriven() {
         return forceDriven;
     }
@@ -206,7 +226,7 @@ public class TorqueModel extends RotationModel {
     }
 
     public ITemporalVariable getRadiusSeries() {
-        return appliedForce.getRadiusSeries();
+        return appliedForceObject.getRadiusSeries();
     }
 
     public void setAppliedForceMagnitude( double appliedForceMag ) {
@@ -222,53 +242,37 @@ public class TorqueModel extends RotationModel {
     }
 
     public void setAppliedForceRadius( double r ) {
-        appliedForce.setRadius( r );
+        appliedForceObject.setRadius( r );
         updateAppliedForceFromRF();
     }
 
     public Line2D.Double getBrakeForceValue() {
-        return brakeForce.toLine2D();
+        return brakeForceObject.toLine2D();
     }
 
     public AppliedForce getBrakeForceObject() {
-        return brakeForce;
+        return brakeForceObject;
     }
 
     public AppliedForce getAppliedForceObject() {
-        return appliedForce;
+        return appliedForceObject;
     }
 
     public ITemporalVariable getBrakeRadiusSeries() {
-        return brakeForce.getRadiusSeries();
-    }
-
-    public ITemporalVariable getNetForce() {
-        return netForce;
-    }
-
-    public ITemporalVariable getNetTorque() {
-        return netTorque;
-    }
-
-    public ITemporalVariable getBrakeTorque() {
-        return brakeTorque;
+        return brakeForceObject.getRadiusSeries();
     }
 
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            appliedTorque.setValue( force.getValue() * getRotationPlatform().getRadius() );
-            double mu = 1.2;
-            double brakeForceVal = mu * getBrakeForceMagnitude();
+            appliedTorque.setValue( appliedForce.getValue() * getRotationPlatform().getRadius() );
             double origAngVel = motionBody.getVelocity();
-            double brakeTorqueValue = brakeForce.getTorque( getRotationPlatform().getCenter() );
-            double netTorque = appliedTorque.getValue() + brakeTorqueValue;
-            TorqueModel.this.netTorque.setValue( netTorque );//todo: should probably update even while paused
-            TorqueModel.this.brakeTorque.setValue( brakeTorqueValue );
-
-            double acceleration = netTorque / getRotationPlatform().getMomentOfInertia();
+            brakeTorque.setValue( brakeForceObject.getTorque( getRotationPlatform().getCenter() ) );
+            TorqueModel.this.netTorque.setValue( appliedTorque.getValue() + brakeTorque.getValue() );//todo: should probably update even while paused
+//            System.out.println( "TorqueModel$ForceDriven.update: Ta="+appliedForceObject.getValue()+", Tb="+brakeTorque.getValue()+", Tn="+netTorque.getValue() );
+            double acceleration = netTorque.getValue() / getRotationPlatform().getMomentOfInertia();
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
-            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && brakeForceVal > Math.abs( appliedTorque.getValue() ) ) {
+            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && Math.abs( brakeTorque.getValue() ) > Math.abs( appliedTorque.getValue() ) ) {
                 proposedVelocity = 0.0;
             }
 
@@ -281,7 +285,7 @@ public class TorqueModel extends RotationModel {
     }
 
     public Line2D.Double getAppliedForce() {
-        return appliedForce.toLine2D();
+        return appliedForceObject.toLine2D();
     }
 
     public Line2D.Double getTangentialAppliedForce() {
@@ -289,7 +293,7 @@ public class TorqueModel extends RotationModel {
     }
 
     /*
-     * Computes the allowed portion of the desired applied force, result depends on whether allowNonTangentialForces is true
+     * Computes the allowed portion of the desired applied appliedForce, result depends on whether allowNonTangentialForces is true
      */
     public void setAllowedAppliedForce( Line2D.Double appliedForce ) {
         setAppliedForce( getAllowedAppliedForce( appliedForce ) );
@@ -297,12 +301,9 @@ public class TorqueModel extends RotationModel {
 
     public void setAppliedForce( Line2D.Double appliedForce ) {
         if ( !RotationUtil.lineEquals( getAppliedForce(), appliedForce ) ) {
-            this.appliedForce.setValue( appliedForce );
-
-            //determine the new applied appliedTorque
-            //appliedTorque=r x F
-            appliedTorque.setValue( this.appliedForce.getTorque( getRotationPlatform().getCenter() ) );
-            force.setValue( appliedTorque.getValue() / getRotationPlatform().getRadius() );
+            appliedForceObject.setValue( appliedForce );
+            appliedTorque.setValue( appliedForceObject.getTorque( getRotationPlatform().getCenter() ) );
+            this.appliedForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ));
 
             updateNetForce();
             notifyAppliedForceChanged();
