@@ -6,9 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
-import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
-import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
 
@@ -27,7 +25,7 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
 
     public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
-        particleContainer = new ParticleContainerNode(new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS));
+        particleContainer = new ParticleContainerNode(model.getParticleContainer());
 
         clock.addClockListener(new ViewUpdatingClockListener());
 
