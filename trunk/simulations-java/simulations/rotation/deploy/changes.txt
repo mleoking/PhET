@@ -1,3 +1,5 @@
+9-20-2007: Torque - Added net & brake forces on force graph
+9-20-2007: Torque - Added net & brake torques on torque graph
 9-19-2007: Torque - Fixed: When dragged, the brake graphic doesn't immediately move to touch the rotation platform (only does so when platform is moving)
 9-12-2007: Torque - On radius graph, display (constant) brake radius
 9-12-2007: Torque - Added a graph and type-in box for applied force radius application point
