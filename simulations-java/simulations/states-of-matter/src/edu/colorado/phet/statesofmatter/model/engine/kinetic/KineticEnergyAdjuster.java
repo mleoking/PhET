@@ -1,4 +1,4 @@
-package edu.colorado.phet.statesofmatter.model.engine.energy;
+package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
