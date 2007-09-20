@@ -89,10 +89,10 @@ public class OTConstants {
     public static final Color ELECTRIC_FIELD_COLOR = new Color( 230, 57, 5 ); // dark red
     
     // Enzyme colors
-    public static final Color ENZYME_A_OUTER_COLOR = new Color( 12, 119, 133, 80 );
+    public static final Color ENZYME_A_OUTER_COLOR = new Color( 12, 119, 133, 80 ); // dark green
     public static final Color ENZYME_A_INNER_COLOR = new Color( 12, 119, 133, 200 );
     public static final Color ENZYME_A_TICK_COLOR = Color.WHITE;
-    public static final Color ENZYME_B_OUTER_COLOR = new Color( 140, 31, 255, 80 );
+    public static final Color ENZYME_B_OUTER_COLOR = new Color( 140, 31, 255, 80 ); // purple
     public static final Color ENZYME_B_INNER_COLOR = new Color( 140, 31, 255, 200 );
     public static final Color ENZYME_B_TICK_COLOR = Color.WHITE;
     
