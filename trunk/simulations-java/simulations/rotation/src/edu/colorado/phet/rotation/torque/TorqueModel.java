@@ -302,8 +302,8 @@ public class TorqueModel extends RotationModel {
     public void setAppliedForce( Line2D.Double appliedForce ) {
         if ( !RotationUtil.lineEquals( getAppliedForce(), appliedForce ) ) {
             appliedForceObject.setValue( appliedForce );
-            appliedTorque.setValue( appliedForceObject.getTorque( getRotationPlatform().getCenter() ) );
             this.appliedForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ));
+            appliedTorque.setValue( appliedForceObject.getTorque( getRotationPlatform().getCenter() ) );
 
             updateNetForce();
             notifyAppliedForceChanged();
