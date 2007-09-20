@@ -180,6 +180,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 makeShorter( _contourLength - contourLength );
             }
             notifyObservers( PROPERTY_SHAPE );
+            notifyObservers( PROPERTY_FORCE );
         }
         return _contourLength;
     }
