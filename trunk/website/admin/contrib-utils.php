@@ -2095,7 +2095,8 @@ EOT;
 			$contributor_desc = DEFAULT_CONTRIBUTOR_DESC;
 		}
         
-        $contributor_receive_email_checked = $contributor_receive_email == '1' ? 'checked="checked"' : '';     
+        $contributor_receive_email_checked  = $contributor_receive_email  == '1' ? 'checked="checked"' : '';     
+		$contributor_is_team_member_checked = $contributor_is_team_member == '1' ? 'checked="checked"' : '';
         
         print <<<EOT
             <form method="post" action="$script">
@@ -2252,7 +2253,7 @@ EOT;
 
                             <td>
 								<input type="hidden"   name="contributor_is_team_member" value="0" />
-                                <input type="checkbox" name="contributor_is_team_member" value="1" $contributor_is_team_member />
+                                <input type="checkbox" name="contributor_is_team_member" value="1" $contributor_is_team_member_checked />
                             </td>
                         </tr>
 EOT;
