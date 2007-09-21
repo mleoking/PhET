@@ -16,6 +16,8 @@ import javax.swing.event.EventListenerList;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConstantDtClock extends SwingClock {
+    
+    // Clock used for testing, delay=1 so that tests will run as fast as possible
     public static final ConstantDtClock TEST = new ConstantDtClock( 1, 1 );
 
     //----------------------------------------------------------------------------
