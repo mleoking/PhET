@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- make "Return Bead" move the bead to the laser's origin (center of trap)
 - reduce insets throughout Fluid controls dialog
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
@@ -791,6 +790,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+9/21/07 - make "Return Bead" move the bead to the laser's origin (laser's origin can be off screen)
 9/11/07 - save/load properties of position histogram: running, zoom index, ruler (feature not needed)
 9/11/07 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg (tried to create and failed)
 8/20/07 - stall force for enzyme (not needed)
