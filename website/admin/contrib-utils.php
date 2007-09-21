@@ -365,7 +365,7 @@ EOT;
             <div id="twofacelogin" class="table_container">
 			$other_html
 			
-			<p class="footnote">Required fields are marked with an asterisk (*).</p>
+			<p>Required fields are marked with an asterisk (*).</p>
 			
             <table class="top">
                 <tr>

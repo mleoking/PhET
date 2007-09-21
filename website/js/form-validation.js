@@ -96,9 +96,11 @@ function validate_form_element(element, vpattern) {
 				var error_message_element = validate_create_blank_error_message_element(element);
 				
 				if (error_message_element) {
-					var error_message_text = document.createTextNode(element.title);
+					//var error_message_text = document.createTextNode(element.title);
 				
-					error_message_element.appendChild(error_message_text);
+					//error_message_element.appendChild(error_message_text);
+					
+					error_message_element.innerHTML = '<p>' + element.title + '</p>';
 				}
 			}
 		}
