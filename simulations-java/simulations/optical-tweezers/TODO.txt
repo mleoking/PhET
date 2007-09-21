@@ -44,6 +44,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+********* version 1.00.09 (?)
 9/20/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
 9/20/07 - make enzyme tick mark thicker and white
 9/20/07 - change orange enzyme to purple
