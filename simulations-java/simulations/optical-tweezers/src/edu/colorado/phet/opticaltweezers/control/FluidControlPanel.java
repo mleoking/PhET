@@ -4,14 +4,17 @@ package edu.colorado.phet.opticaltweezers.control;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LogarithmicValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -39,6 +42,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     private static final String TEMPERATURE_DISPLAY_PATTERN = "##0";
     private static final String ATP_DISPLAY_PATTERN = "#0.0";
     
+    private static final Insets INSETS = new Insets( 1, 2, 0, 2 ); // top, left, bottom, right
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -49,6 +54,21 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     private LogarithmicValueControl _viscosityControl;
     private LinearValueControl _temperatureControl;
     private LinearValueControl _atpControl;
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Layout strategy for fluid controls, allows us to specify the insets.
+     * In this case, we want to reduce the insets significantly to reduce the
+     * total vertical height of the panel.
+     */
+    private static class FluidControlLayoutStrategy extends DefaultLayoutStrategy {
+        public FluidControlLayoutStrategy() {
+            super( SwingConstants.LEFT, INSETS );
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,6 +83,8 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     public FluidControlPanel( Fluid fluid, Font font ) {
         super();
         
+        setInsets( INSETS );
+        
         _fluid = fluid;
         _fluid.addObserver( this );
         
@@ -73,7 +95,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         String label = OTResources.getString( "label.fluidSpeed" );
         String valuePattern = SPEED_DISPLAY_PATTERN;
         String units = OTResources.getString( "units.fluidSpeed" );
-        _speedControl = new LinearValueControl( min, max, label, valuePattern, units );
+        _speedControl = new LinearValueControl( min, max, label, valuePattern, units, new FluidControlLayoutStrategy() );
         _speedControl.setValue( value );
         _speedControl.setUpDownArrowDelta( 1 );
         _speedControl.setTextFieldEditable( true );
@@ -94,7 +116,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         label = OTResources.getString( "label.fluidViscosity" );
         valuePattern = VISCOSITY_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidViscosity" );
-        _viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units );
+        _viscosityControl = new LogarithmicValueControl( min, max, label, valuePattern, units, new FluidControlLayoutStrategy() );
         _viscosityControl.setValue( value );
         _viscosityControl.setTextFieldEditable( true );
         _viscosityControl.setFont( font );
@@ -113,7 +135,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         label = OTResources.getString( "label.fluidTemperature" );
         valuePattern = TEMPERATURE_DISPLAY_PATTERN;
         units = OTResources.getString( "units.fluidTemperature" );
-        _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units );
+        _temperatureControl = new LinearValueControl( min, max, label, valuePattern, units, new FluidControlLayoutStrategy() );
         _temperatureControl.setValue( value );
         _temperatureControl.setTextFieldEditable( true );
         _temperatureControl.setFont( font );
@@ -135,7 +157,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
             label = OTResources.getString( "label.atpConcentration" );
             valuePattern = ATP_DISPLAY_PATTERN;
             units = "";
-            _atpControl = new LinearValueControl( min, max, label, valuePattern, units );
+            _atpControl = new LinearValueControl( min, max, label, valuePattern, units, new FluidControlLayoutStrategy() );
             _atpControl.setValue( value );
             _atpControl.setTextFieldEditable( true );
             _atpControl.setFont( font );
@@ -155,6 +177,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         this.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setFill( GridBagConstraints.HORIZONTAL );
+        layout.setInsets( INSETS );
         int row = 0;
         int column = 0;
         if ( _atpControl != null ) {

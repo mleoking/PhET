@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- reduce insets throughout Fluid controls dialog
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
@@ -45,6 +44,8 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/21/07 - reduce insets throughout Fluid controls dialog
+9/21/07 - add support for insets to value control's DefaultLayoutStrategy
 9/21/07 - remove "Return Bead" feature from Molecular Motors panel so we don't exceed DNA contour length
 ********* version 1.00.09 (17942)
 9/21/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
