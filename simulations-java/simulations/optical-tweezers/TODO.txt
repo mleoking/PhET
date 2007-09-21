@@ -3,18 +3,20 @@
 ================================================================================
 
 HIGH PRIORITY:
+- make "Return Bead" move the bead to the laser's origin (center of trap)
+- reduce insets throughout Fluid controls dialog
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
+- do we need "Return Bead" button in Motors panel?
 - get different calibration constants for EnzymeB
-- DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
-- free end of DNA doesn't evolve when bead is dragged with clock paused
 - OutOfMemoryError in Motors module
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
-- do we need "Return Bead" button in Motors panel?
 
 LOW PRIORITY:
+- DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
+- free end of DNA doesn't evolve when bead is dragged with clock paused
 - use phetcommon's Vector2D
 - should "Return bead" button move bead to center of trap?
 - what units for E-field?
@@ -44,9 +46,10 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/21/07 - remove "Return Bead" feature from Molecular Motors panel so we don't exceed DNA contour length
 ********* version 1.00.09 (17942)
-9/20/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
-9/20/07 - make enzyme tick mark thicker and white
+9/21/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
+9/21/07 - make enzyme tick mark thicker and white
 9/20/07 - change orange enzyme to purple
 ********* version 1.00.08 (17928)
 9/20/07 - notifyObservers(PROPERTY_FORCE) when DNA strand's contour length is changed
