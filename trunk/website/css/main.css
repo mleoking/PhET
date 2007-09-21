@@ -26,15 +26,29 @@ h2 {
 color: #15337f;
 font-size: 16px;
 }
-p {
+p, *.p-indentation {
 line-height: 19px;
 color: #000;
+padding-left: 0;
+padding-right: 0;
+margin-left: 2em;
+margin-right: 2em;
+}
+p.openingParagraph {
+color: #458407;
+font-size: 1.2em;
+font-weight: bold;
+line-height: 1.3em;
+margin: 0;
+padding: 0 0 16px 0;
 }
 p.footnote {
 line-height: 1em;
 margin: 0;
-padding: 0
-	font: italic 11px Verdana,Arial,Helvetica,sans-serif;
+padding: 0;
+padding-left:  1ex;
+padding-right: 1ex;
+font: italic 11px Verdana,Arial,Helvetica,sans-serif;
 }
 fieldset {
 width: auto;
@@ -244,46 +258,8 @@ color: #ffa025;
 background: url(../images/mainNavArrow.gif) center bottom no-repeat;
 color: #ffa025;
 }
-/******** Login form *********/
-#loginform {
-width: 400px;
-margin: auto;
-padding: 0px 0px 25px 0px;
-}
-#loginform fieldset {
-padding: 10px;
-}
-#loginform legend {
-color: black;
-font-weight: bold;
-font-size: 9pt;
-}
-#loginform label {
-display: block;
-height: 2em;
-padding: 10px 10px 0;
-}
-#loginform input {
-margin-right: 20px;
-border: 1px solid #999999;
-float: right;
-clear: right;
-background: #CCCCCC;
-}
-#loginform input:focus,#loginform input:hover {
-border: 1px solid #333333;
-}
-#loginform *.error {
-color: red;
-font-weight: bold;
-}
 
-div.form_content {
-padding: 0;
-margin: 1ex;
-margin-left: 1em;
-border-style: none;
-}
+
 div.form_content {
 padding: 0;
 margin: 1ex;
@@ -319,6 +295,10 @@ width: 100%;
 width: 100%;
 }
 */
+table.form p {
+padding: 0;
+margin: 0;
+}
 table.form tr td {
 width: 70%;
 vertical-align: top;
@@ -350,10 +330,17 @@ table.form td.invalid {
 color: red;
 }
 table.form tr.error-message td {
+padding: 0;
+}
+table.form tr.error-message td p {
+padding: 0;
+margin: 0;
 padding-left: 1ex;
 font-style: italic;
 font-size: smaller;
+color: red;
 position: relative;
+top: -0.5ex;
 }
 #downloadspeeds {
 padding-left: 2em;
@@ -436,6 +423,7 @@ padding: 0;
 margin-left: auto;
 margin-right: auto;
 }
+
 #twofacelogin {
 padding: 0;
 margin: 0;
@@ -533,23 +521,6 @@ font-weight: bold;
 color: #666;
 text-decoration: underline;
 font-weight: bold;
-}
-#content p,
-#content *.p-indentation {
-padding-left: 0;
-padding-right: 0;
-margin-left: 2em;
-margin-right: 2em;
-}
-/*-------- color of openingParagraph changes based on page --------*/
-/******** =openingParagraph ********/
-p.openingParagraph {
-color: #458407;
-font-size: 1.2em;
-font-weight: bold;
-line-height: 1.3em;
-margin: 0;
-padding: 0 0 16px 0;
 }
 #content div.main {
 width: 578px;

@@ -474,38 +474,6 @@ EO_DISPLAY_SLIDESHOW_1;
 EO_DISPLAY_SLIDESHOW_2;
     }
     
-    function print_login_form($optional_message = null, $standard_message = "<p>Please enter your email and password.</p>", $username = '') {
-        $script = get_self_url();
-        
-        print <<<EOT
-            <form id="loginform" method="post" action="$script">
-                <fieldset>
-                    <legend>Log in</legend>
-EOT;
-
-        if ($optional_message !== null) {
-            print "$optional_message";
-        }
-
-        print <<<EOT
-                    $standard_message
-                
-                    <label for="email">
-                        <input type="text"     name="username" tabindex="1" id="username" size="25" value="$username" />your email:
-                    </label>
-                
-                    <label for="password">
-                        <input type="password" name="password" tabindex="2" id="password" size="25"/>your password:
-                    </label>
-            
-                    <label for="submit">
-                        <input name="Submit" type="submit" id="submit" tabindex="4" value="Log in" />
-                    </label>
-                 </fieldset>
-            </form>
-EOT;
-    }
-    
     function cookie_var_clear($name) {
         setcookie("$name", '', time() - 60*60*24*365*10);
         unset($_SESSION[$name]);
