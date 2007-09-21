@@ -226,7 +226,7 @@ public class DNACanvas extends OTAbstractCanvas {
         double h = 0;
         
         Dimension2D worldSize = getWorldSize();
-//        System.out.println( "PhysicsModule.updateCanvasLayout worldSize=" + worldSize );//XXX
+//        System.out.println( "DNACanvas.updateLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
