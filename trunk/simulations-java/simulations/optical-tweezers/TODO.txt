@@ -7,7 +7,6 @@ HIGH PRIORITY:
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
-- do we need "Return Bead" button in Motors panel?
 - get different calibration constants for EnzymeB
 - OutOfMemoryError in Motors module
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -16,12 +15,11 @@ LOW PRIORITY:
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - free end of DNA doesn't evolve when bead is dragged with clock paused
 - use phetcommon's Vector2D
-- should "Return bead" button move bead to center of trap?
 - what units for E-field?
 - improve performance of e-field display (22% in Arrow.computeArrow)
-- bug: beep sometimes occurs when selecting vacuum with fluid controls dialog open
-- visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only?)
-- when subdividing dt in bead motion algorithm, motion will be different than displayed vectors
+- beep sometimes occurs when selecting vacuum with fluid controls dialog open
+- visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
+- when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors
 - javadoc
 - package level javadoc
 - Spanish translations
