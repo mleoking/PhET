@@ -94,6 +94,10 @@ EOT;
 		return preg_replace('/codebase *= *"'.$codebase_pattern.'/', 'codebase="file:///'.$macro_name, $jnlp_file);
 	}
 	
+	function jnlp_replace_absolute_links_with_local_file_macro($jnlp_file, $absolute_link_pattern, $macro_name) {	
+		return preg_replace('/href *= *"'.$absolute_link_pattern.'/', 'href="file:///'.$macro_name, $jnlp_file);
+	}
+	
 	function jnlp_get_all_resource_links($jnlp_file) {
 		$resources = array();
 		
