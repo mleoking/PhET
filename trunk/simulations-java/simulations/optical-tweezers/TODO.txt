@@ -3,13 +3,10 @@
 ================================================================================
 
 HIGH PRIORITY:
-- laser can be used to over-stretch DNA when it's fully reeled in by enzyme
-- put laser close to enzyme when DNA is fully reeled in, bead will make wild jumps
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
-- does single spring between pin and bead visually interfere with tick mark that rotates in enzyme?
 - get different calibration constants for EnzymeB
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - free end of DNA doesn't evolve when bead is dragged with clock paused
@@ -47,6 +44,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/20/07 - prevent DNA force from going to infinity when strand is composed of 1 spring
 9/20/07 - make enzyme tick mark thicker and white
 9/20/07 - change orange enzyme to purple
 ********* version 1.00.08 (17928)
