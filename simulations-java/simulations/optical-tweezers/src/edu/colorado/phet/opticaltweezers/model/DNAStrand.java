@@ -411,7 +411,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         final double extension = getExtension( x, y );
         final double kbT = 4.1 * _fluid.getTemperature() / 293; // kbT is 4.1 pN-nm at temperature=293K
         final double Lp = _persistenceLength;
-        final double scale = extension / _contourLength;
+        double scale = extension / _contourLength;
+        if ( getNumberOfSprings() == 1 ) {
+            // with 1 spring, we need to keep the force from going to infinity
+            scale = _stretchiness;
+        }
         final double magnitude = ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - scale ) * ( 1 - scale ) ) ) - ( 0.24 ) + scale );
         
         return new Vector2D.Polar( magnitude, angle );
@@ -623,8 +627,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         _contourLength += amount;
         
         assert( _contourLength >= _springLength );
-        assert( _springLengthClosestToPin <= _springLength );
-        assert( _springLengthClosestToPin > 0 );
+        assert( _springLengthClosestToPin > 0  && _springLengthClosestToPin <= _springLength );
         assert( amountToDo == 0 );
     }
     
@@ -680,11 +683,10 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             _contourLength = _springLength;
         }
         
+        assert( getNumberOfSprings() > 0 );
         assert( _contourLength >= _springLength );
-        assert( _springLengthClosestToPin > 0 );
-        assert( _springLengthClosestToPin <= _springLength );
-        assert( amountDone >= 0 );
-        assert( amountDone <= amount );
+        assert( _springLengthClosestToPin > 0 && _springLengthClosestToPin <= _springLength );
+        assert( amountDone >= 0 && amountDone <= amount );
     }
     
     /**
