@@ -76,6 +76,9 @@
 			
 			// Replace the codebase with a macro which can be replaced during the install process:
 			$jnlp = jnlp_replace_codebase_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
+			
+			// Replace any remaining 'http' href links with macro:
+			$jnlp = jnlp_replace_absolute_links_with_local_file_macro($jnlp, PHET_WEBSITE_ROOT_PARTIAL_PATTERN, BITROCK_INSTALLDIR_MACRO);
         
 			// Output the new JNLP file:
 	        file_put_contents($jnlp_filename, $jnlp);
