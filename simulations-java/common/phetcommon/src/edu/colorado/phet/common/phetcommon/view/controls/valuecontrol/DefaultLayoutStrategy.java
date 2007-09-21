@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 public class DefaultLayoutStrategy implements ILayoutStrategy {
 
     private int _justification;
+    private Insets _insets;
 
     /**
      * Creates a layout strategy that that is left justifies the components.
@@ -39,8 +40,18 @@ public class DefaultLayoutStrategy implements ILayoutStrategy {
      * @param justification SwingConstants.LEFT, CENTER or RIGHT
      */
     public DefaultLayoutStrategy( int justification ) {
+        this( justification, null /* insets */ );
+    }
+    
+    /**
+     * Creates a layout strategy with a specified justification of components.
+     *
+     * @param justification SwingConstants.LEFT, CENTER or RIGHT
+     */
+    public DefaultLayoutStrategy( int justification, Insets insets ) {
         super();
         _justification = justification;
+        _insets = insets;
     }
 
     /**
@@ -59,8 +70,11 @@ public class DefaultLayoutStrategy implements ILayoutStrategy {
         // Label+textfield+units in a panel.
         JPanel valuePanel = new JPanel();
         EasyGridBagLayout valueLayout = new EasyGridBagLayout( valuePanel );
-        valuePanel.setLayout( valueLayout );
         valueLayout.setAnchor( GridBagConstraints.WEST );
+        valuePanel.setLayout( valueLayout );
+        if ( _insets != null ) {
+            valueLayout.setInsets( _insets );
+        }
         valueLayout.addComponent( valueLabel, 0, 0 );
         valueLayout.addComponent( textField, 0, 1 );
         valueLayout.addComponent( unitsLabel, 0, 2 );
@@ -70,6 +84,9 @@ public class DefaultLayoutStrategy implements ILayoutStrategy {
         valueControl.setLayout( layout );
         int anchor = justificationToAnchor( _justification );
         layout.setAnchor( anchor );
+        if ( _insets != null ) {
+            layout.setInsets( _insets );
+        }
         layout.addComponent( valuePanel, 0, 0 );
         layout.addComponent( slider, 1, 0 );
     }
