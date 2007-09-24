@@ -32,6 +32,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     public void mousePressed( PInputEvent event ) {
+        super.mousePressed( event );
         if ( boundingNode.getRoot() == null ) {
             throw new IllegalStateException( "boundingNode has no root node. Did you forget to add boundingNode to the scenegraph?" );
         }
@@ -51,6 +52,7 @@ public class BoundedDragHandler extends PBasicInputEventHandler {
     }
 
     public void mouseDragged( PInputEvent event ) {
+        super.mouseDragged( event );
         if ( relativeClickPoint == null ) {
             setRelativeClickPoint( event );
         }
