@@ -43,8 +43,8 @@ MIGRATE TO COMMON:
 
 DONE:
 9/24/07 - reduce invisible bead diameter to 25% of visible bead diameter
-9/24/07 - fix bug in calculation of fluid mobility constant
-9/24/07 - change fluid mobility model to be a function of bead diameter
+9/24/07 - change fluid mobility model so that constant is a function of bead diameter
+9/24/07 - fix bug in calculation of fluid mobility constant (was 6E5, should have been 6E6)
 9/21/07 - reduce insets throughout Fluid controls dialog
 9/21/07 - add support for insets to value control's DefaultLayoutStrategy
 9/21/07 - remove "Return Bead" feature from Molecular Motors panel so we don't exceed DNA contour length
