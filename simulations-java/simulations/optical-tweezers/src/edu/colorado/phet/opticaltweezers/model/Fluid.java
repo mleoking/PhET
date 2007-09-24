@@ -287,7 +287,7 @@ public class Fluid extends OTObservable implements ModelElement {
     
     /* 
      * Mike Dubson's original notes show this value as 600 um/sec for a bead with radius R=100 nm.
-     * We need a constant that is in nm and works for any bead radius.
+     * We need a constant that is in nm/sec and works for any bead radius.
      * So we multiply 600 um/sec * 1000 nm/um to get 600,000 nm/sec,
      * then multiply by 100 nm to get 60,000,000 nm^2/sec.
      * Our calculation for the mobility constant is then:
