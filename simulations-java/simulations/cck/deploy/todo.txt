@@ -185,13 +185,6 @@ Fixed: When dragging a junction in a connected circuit, there becomes a gap in t
 Solution for "Fixed: When adjusting a voltage or resistance continuously with a slider, the circuit doesn't update until stopped dragging."
 includes a non-elegant hack; not sure of an elegant way to solve this problem.
 
-"Advanced" controls should be show/hide, not enable/disable
-    When Steve used CCK in class yesterday, some students interpreted the
-    "Disable" button in the advanced section as "disabling" or "turning off"
-    wire resistivity.  This is a reasonable, but wrong interpretation, and
-    it might be better to change the button from "enable/disable" to
-    "show/hide" to avoid this confusion in the future.
-
 Voltage chart reads wrong value after switching sizes
 
 Chart tips don't move, should move on resize
