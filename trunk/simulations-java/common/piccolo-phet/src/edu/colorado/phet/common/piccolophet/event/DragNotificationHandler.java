@@ -47,11 +47,11 @@ public class DragNotificationHandler extends PBasicInputEventHandler {
         fireDragEnd( new DragNotificationEvent( eventSource ) );
     }
     
-    public void addDragEventListener( DragNotificationListener listener ) {
+    public void addDragNotificationListener( DragNotificationListener listener ) {
         listenerList.add( DragNotificationListener.class, listener );
     }
     
-    public void removeDragEventListener( DragNotificationListener listener ) {
+    public void removeDragNotificationListener( DragNotificationListener listener ) {
         listenerList.remove( DragNotificationListener.class, listener );
     }
     
