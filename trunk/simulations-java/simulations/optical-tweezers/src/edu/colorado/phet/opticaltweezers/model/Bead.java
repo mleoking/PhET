@@ -240,7 +240,7 @@ public class Bead extends MovableObject implements ModelElement {
         Vector2D dragForce = ZERO_VECTOR;
         if ( _fluid.isEnabled() ) {
             // bead is in fluid
-            dragForce = _fluid.getDragForce( _velocity );
+            dragForce = _fluid.getDragForce( _velocity, _diameter );
         }
         return dragForce;
     }
@@ -700,7 +700,7 @@ public class Bead extends MovableObject implements ModelElement {
         
         // Mobility
         final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
-        final double mobility = _fluid.getMobility(); // (nm/sec)/pN
+        final double mobility = _fluid.getMobility( _diameter ); // (nm/sec)/pN
         final Vector2D fluidVelocity = _fluid.getVelocity(); // nm/sec
         if ( fluidVelocity.getY() != 0 ) {
             throw new IllegalStateException( "bead motion algorithm requires horizontal fluid flow" );
