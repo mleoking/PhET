@@ -262,10 +262,11 @@ public class Fluid extends OTObservable implements ModelElement {
      * Gets the drag force acting on a bead that is moving at a specified velocity.
      * 
      * @param beadVelocity
+     * @param beadDiameter
      * @return drag force (pN)
      */
-    public Vector2D getDragForce( Vector2D beadVelocity ) {
-        double mobility = getMobility();
+    public Vector2D getDragForce( Vector2D beadVelocity, double beadDiameter ) {
+        double mobility = getMobility( beadDiameter );
         Vector2D velocity = getVelocity();
         double fx = ( velocity.getX() - beadVelocity.getX() ) / mobility;
         double fy = ( velocity.getY() - beadVelocity.getY() ) / mobility;
@@ -275,11 +276,26 @@ public class Fluid extends OTObservable implements ModelElement {
     /**
      * Gets mobility.
      * 
+     * @param beadDiameter
      * @return double (nm/sec)/pN
      */
-    public double getMobility() {
+    public double getMobility( double beadDiameter ) {
+        double C = getMobilityConstant( beadDiameter );
         double normalizedViscosity = getDimensionlessNormalizedViscosity();
-        return ( 600000 / normalizedViscosity ); // (nm/sec)/pN
+        return ( C / normalizedViscosity ); // (nm/sec)/pN
+    }
+    
+    /* 
+     * Mike Dubson's original notes show this value as 600 um/sec for a 100 nm bead.
+     * We need a constant that is in nm and works for any bead radius.
+     * So we multiply 600 um/sec * 1000 nm/um to get 600,000 nm/sec,
+     * then multiply by 100 nm to get 60,000,000 nm^2/sec.
+     * Our calculation for the mobility constant is then:
+     * 
+     * C = 6E7 / beadRadius = nm/sec
+     */
+    private double getMobilityConstant( double beadDiameter ) {
+        return 6E7 / ( beadDiameter / 2 );
     }
     
     /**
