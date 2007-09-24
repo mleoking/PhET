@@ -57,8 +57,9 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         DNAModel model = module.getDNAModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
-                model.getBead(), model.getFluid(),
-                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode() );
+                model.getBead(), model.getFluid(), model.getLaser(),
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
+                _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
                 module.getFrame(), DNADefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
                 model.getClock(), model.getBead(), model.getLaser(),

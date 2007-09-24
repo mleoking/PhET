@@ -17,6 +17,8 @@ import java.util.Observer;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.BoundedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
@@ -69,6 +71,7 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     private PNode _centerCrosshair;
     private PPath _originMarkerNode;
     private HandleNode _leftHandleNode, _rightHandleNode;
+    private DragNotificationHandler _dragNotificationHandler;
     
     private boolean _beamVisible, _electricFieldVisible;
     
@@ -201,6 +204,15 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
         rightSupportNode.addInputEventListener( dragHandler );
         _controlPanel.initDragHandler( this, dragBoundsNode );
         
+        // Drag notification
+        _dragNotificationHandler = new DragNotificationHandler( this );
+        objectiveNode.addInputEventListener( _dragNotificationHandler );
+        _leftHandleNode.addInputEventListener( _dragNotificationHandler );
+        _rightHandleNode.addInputEventListener( _dragNotificationHandler );
+        leftSupportNode.addInputEventListener( _dragNotificationHandler );
+        rightSupportNode.addInputEventListener( _dragNotificationHandler );
+        _controlPanel.addInputEventListener( _dragNotificationHandler );
+        
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );
         
@@ -245,6 +257,10 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
     // For attaching help item.
     public PNode getLeftHandleNode() {
         return _leftHandleNode;
+    }
+    
+    public void addDragNotificationListener( DragNotificationListener listener ) {
+        _dragNotificationHandler.addDragNotificationListener( listener );
     }
     
     //----------------------------------------------------------------------------
