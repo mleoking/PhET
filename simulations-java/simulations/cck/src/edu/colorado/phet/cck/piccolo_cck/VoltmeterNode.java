@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -74,7 +75,8 @@ public class VoltmeterNode extends PhetPNode {
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
-        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+//        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
 
         public UnitNode( final VoltmeterModel voltmeterModel ) {
