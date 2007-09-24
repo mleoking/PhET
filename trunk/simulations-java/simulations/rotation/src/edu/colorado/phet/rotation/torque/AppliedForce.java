@@ -123,6 +123,10 @@ public class AppliedForce {
         return -r.getCrossProductScalar( f );
     }
 
+    public double getRadius() {
+        return getRadiusSeries().getValue();
+    }
+
     public interface Listener {
         void changed();
     }

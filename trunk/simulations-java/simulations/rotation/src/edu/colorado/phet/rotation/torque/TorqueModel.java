@@ -168,7 +168,7 @@ public class TorqueModel extends RotationModel {
                getBrakeForceObject().getSignedForce( getRotationPlatform().getCenter() );
     }
 
-    public ITemporalVariable getTorqueTimeSeries() {
+    public ITemporalVariable getAppliedTorqueTimeSeries() {
         return appliedTorque;
     }
 
@@ -187,7 +187,7 @@ public class TorqueModel extends RotationModel {
     public ITemporalVariable getBrakeTorque() {
         return brakeTorque;
     }
-    
+
     public UpdateStrategy getForceDriven() {
         return forceDriven;
     }
@@ -265,7 +265,7 @@ public class TorqueModel extends RotationModel {
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            appliedTorque.setValue( appliedForce.getValue() * getRotationPlatform().getRadius() );
+            appliedTorque.setValue( appliedForceObject.getTorque( getPlatformCenter()) );
             double origAngVel = motionBody.getVelocity();
             brakeTorque.setValue( brakeForceObject.getTorque( getRotationPlatform().getCenter() ) );
             TorqueModel.this.netTorque.setValue( appliedTorque.getValue() + brakeTorque.getValue() );//todo: should probably update even while paused
@@ -282,6 +282,10 @@ public class TorqueModel extends RotationModel {
             //if the friction causes the velocity to change sign, set the velocity to zero?
             motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
+    }
+
+    private Point2D getPlatformCenter() {
+        return getRotationPlatform().getCenter();
     }
 
     public Line2D.Double getAppliedForce() {
@@ -302,7 +306,7 @@ public class TorqueModel extends RotationModel {
     public void setAppliedForce( Line2D.Double appliedForce ) {
         if ( !RotationUtil.lineEquals( getAppliedForce(), appliedForce ) ) {
             appliedForceObject.setValue( appliedForce );
-            this.appliedForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ));
+            this.appliedForce.setValue( getAppliedForceObject().getSignedForce( getRotationPlatform().getCenter() ) );
             appliedTorque.setValue( appliedForceObject.getTorque( getRotationPlatform().getCenter() ) );
 
             updateNetForce();
