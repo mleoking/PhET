@@ -45,6 +45,7 @@ class BeadDragHandler extends BoundedDragHandler {
      * @param event
      */
     public void mousePressed( PInputEvent event ) {
+        super.mousePressed( event );
         _bead.setMotionEnabled( false );
     }
 
