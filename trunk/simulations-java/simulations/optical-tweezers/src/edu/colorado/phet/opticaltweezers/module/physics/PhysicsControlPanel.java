@@ -59,8 +59,9 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         _chargeControlPanel = new ChargeControlPanel( TITLE_FONT, CONTROL_FONT,
                 _canvas.getChargeDistributionNode(), _canvas.getChargeExcessNode() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
-                model.getBead(), model.getFluid(),
-                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */ );
+                model.getBead(), model.getFluid(), model.getLaser(),
+                _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
+                _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
                 module.getFrame(), PhysicsDefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
                 model.getClock(), model.getBead(), model.getLaser(),

@@ -3,8 +3,8 @@
 ================================================================================
 
 HIGH PRIORITY:
+- implement "keep trap force constant" model
 - implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
-- uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 
 MEDIUM PRIORITY:
 - get different calibration constants for EnzymeB
@@ -12,6 +12,7 @@ MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
+- reduce number of args required by constructors of control panels
 - DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - free end of DNA doesn't evolve when bead is dragged with clock paused
 - use phetcommon's Vector2D
@@ -42,6 +43,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/24/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 9/24/07 - BeadDragHandler.mousePressed should call super.mousePressed
 ********* version 1.00.10 (17956)
 9/24/07 - reduce invisible bead diameter to 25% of visible bead diameter

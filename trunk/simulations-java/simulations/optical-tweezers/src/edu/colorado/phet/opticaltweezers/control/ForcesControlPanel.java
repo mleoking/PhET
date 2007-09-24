@@ -18,12 +18,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.view.DNAForceNode;
-import edu.colorado.phet.opticaltweezers.view.FluidDragForceNode;
-import edu.colorado.phet.opticaltweezers.view.TrapForceNode;
+import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.view.*;
 
 /**
  * ForcesControlPanel controls things related to force vectors.
@@ -38,6 +40,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private Bead _bead;
     private Fluid _fluid;
+    private Laser _laser;
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
@@ -69,9 +72,12 @@ public class ForcesControlPanel extends JPanel implements Observer {
             Font controlFont, 
             Bead bead, 
             Fluid fluid,
+            Laser laser,
             TrapForceNode trapForceNode, 
             FluidDragForceNode dragForceNode, 
-            DNAForceNode dnaForceNode ) {
+            DNAForceNode dnaForceNode,
+            BeadNode beadNode,
+            LaserNode laserNode ) {
         super();
         
         _bead = bead;
@@ -79,6 +85,9 @@ public class ForcesControlPanel extends JPanel implements Observer {
         
         _fluid = fluid;
         _fluid.addObserver( this );
+        
+        _laser = laser;
+        _laser.addObserver( this );
         
         _trapForceNode = trapForceNode;
         _dragForceNode = dragForceNode;
@@ -213,11 +222,23 @@ public class ForcesControlPanel extends JPanel implements Observer {
         }
         _showValuesCheckBox.setSelected( false );
         _constantTrapForceCheckBox.setSelected( false );
+        
+        // Disable constant trap force when laser or bead is dragged
+        DragNotificationListener constantTrapForceDisabler = new DragNotificationAdapter() {
+            public void dragBegin( DragNotificationEvent event ) {
+                if ( isConstantTrapForceSelected() ) {
+                    setConstantTrapForceSelected( false );
+                }
+            }
+        };
+        beadNode.addDragNotificationListener( constantTrapForceDisabler );
+        laserNode.addDragNotificationListener( constantTrapForceDisabler );
     }
     
     public void cleanup() {
         _bead.deleteObserver( this );
         _fluid.deleteObserver( this );
+        _laser.deleteObserver( this );
     }
     
     //----------------------------------------------------------------------------
@@ -335,6 +356,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private void handleConstantTrapForceCheckBox() {
         //XXX
+        System.out.println( "handleConstantTrapForceCheckBox " + _constantTrapForceCheckBox.isSelected() );//XXX
     }
     
     //----------------------------------------------------------------------------
@@ -352,6 +374,13 @@ public class ForcesControlPanel extends JPanel implements Observer {
         else if ( o == _bead ) {
             if ( arg == Bead.PROPERTY_BROWNIAN_MOTION_ENABLED ) {
                 _brownianMotionCheckBox.setSelected( _bead.isBrownianMotionEnabled() );
+            }
+        }
+        else if ( o == _laser ) {
+            if ( arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
+                if ( isConstantTrapForceSelected() ) {
+                    setConstantTrapForceSelected( false );
+                }
             }
         }
     }

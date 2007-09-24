@@ -14,6 +14,8 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.common.piccolophet.nodes.FineCrosshairNode;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
@@ -47,6 +49,7 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     private Bead _bead;
     private ModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
+    private DragNotificationHandler _dragNotificationHandler;
     
     //----------------------------------------------------------------------------
     // Constructor
@@ -95,6 +98,8 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         
         BeadDragHandler dragHandler = new BeadDragHandler( this, dragBoundsNode, cursorHandler );
         addInputEventListener( dragHandler );
+        _dragNotificationHandler = new DragNotificationHandler( this );
+        addInputEventListener( _dragNotificationHandler );
 
         // Update the model when this node is dragged.
         addPropertyChangeListener( this );
@@ -119,6 +124,10 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     
     public Bead getBead() {
         return _bead;
+    }
+    
+    public void addDragNotificationListener( DragNotificationListener listener ) {
+        _dragNotificationHandler.addDragNotificationListener( listener );
     }
     
     //----------------------------------------------------------------------------
