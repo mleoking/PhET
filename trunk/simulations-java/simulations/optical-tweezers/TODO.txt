@@ -44,6 +44,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+********* version 1.00.11 (17970)
 9/24/07 - implement "keep trap force constant" model in DNAStrand
 9/24/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 9/24/07 - BeadDragHandler.mousePressed should call super.mousePressed
