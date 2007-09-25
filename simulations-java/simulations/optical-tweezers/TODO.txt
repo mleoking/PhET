@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- AbstractValueControl.getTextFieldValue throws NumberFormatException when locale is Spanish
 
 MEDIUM PRIORITY:
 - is "keep trap force constant" behavior correct when bead is outside the trap (when trap force is small)
@@ -24,7 +25,6 @@ LOW PRIORITY:
 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors
 - javadoc
 - package level javadoc
-- Spanish translations
 - improve startup performance
 
 COMMON CODE:
@@ -44,9 +44,10 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/25/07 - Spanish translations (Google translate)
 ********* version 1.00.11 (17970)
-9/24/07 - implement "keep trap force constant" model in DNAStrand
-9/24/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
+9/25/07 - implement "keep trap force constant" model in DNAStrand
+9/25/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 9/24/07 - BeadDragHandler.mousePressed should call super.mousePressed
 ********* version 1.00.10 (17956)
 9/24/07 - reduce invisible bead diameter to 25% of visible bead diameter
