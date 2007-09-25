@@ -234,7 +234,7 @@ public class MotorsModule extends OTAbstractModule {
             forcesControlPanel.setDragForceSelected( MotorsDefaults.FLUID_DRAG_FORCE_SELECTED );
             forcesControlPanel.setDNAForceSelected( MotorsDefaults.DNA_FORCE_SELECTED );
             forcesControlPanel.setShowValuesSelected( MotorsDefaults.SHOW_FORCE_VALUES );
-            forcesControlPanel.setConstantTrapForceSelected( MotorsDefaults.CONSTANT_TRAP_FORCE );
+            forcesControlPanel.setKeepTrapForceConstantSelected( MotorsDefaults.CONSTANT_TRAP_FORCE );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
             chartsControlPanel.setPositionHistogramSelected( MotorsDefaults.POSITION_HISTOGRAM_SELECTED );
@@ -290,7 +290,7 @@ public class MotorsModule extends OTAbstractModule {
             config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
             config.setDnaForceSelected( forcesControlPanel.isDNAForceSelected() );
             config.setShowForceValuesSelected( forcesControlPanel.isShowValuesSelected() );
-            config.setConstantTrapForceSelected( forcesControlPanel.isConstantTrapForceSelected() );
+            config.setKeepTrapForceConstantSelected( forcesControlPanel.isKeepTrapForceConstantSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
             if ( isActive() ) {
@@ -354,7 +354,7 @@ public class MotorsModule extends OTAbstractModule {
             forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );
             forcesControlPanel.setDNAForceSelected( config.isDnaForceSelected() );
             forcesControlPanel.setShowValuesSelected( config.isShowForceValuesSelected() );
-            forcesControlPanel.setConstantTrapForceSelected( config.isConstantTrapForceSelected() );
+            forcesControlPanel.setKeepTrapForceConstantSelected( config.isKeepTrapForceConstantSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
             if ( isActive() ) {

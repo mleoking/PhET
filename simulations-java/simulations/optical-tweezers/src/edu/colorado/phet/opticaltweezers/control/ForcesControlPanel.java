@@ -18,11 +18,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
+import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.view.*;
@@ -41,6 +42,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private Bead _bead;
     private Fluid _fluid;
     private Laser _laser;
+    private DNAStrand _dnaStrand;
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
@@ -50,7 +52,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private JCheckBox _brownianMotionCheckBox;
     private JCheckBox _dnaForceCheckBox;
     private JCheckBox _showValuesCheckBox;
-    private JCheckBox _constantTrapForceCheckBox;
+    private JCheckBox _keepTrapForceConstantCheckBox;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,6 +65,8 @@ public class ForcesControlPanel extends JPanel implements Observer {
      * @param controlFont
      * @param bead
      * @param fluid
+     * @param laser 
+     * @param dnaStrand
      * @param trapForceNode
      * @param dragForceNode
      * @param dnaForceNode optional
@@ -73,6 +77,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
             Bead bead, 
             Fluid fluid,
             Laser laser,
+            DNAStrand dnaStrand,
             TrapForceNode trapForceNode, 
             FluidDragForceNode dragForceNode, 
             DNAForceNode dnaForceNode,
@@ -88,6 +93,11 @@ public class ForcesControlPanel extends JPanel implements Observer {
         
         _laser = laser;
         _laser.addObserver( this );
+        
+        if ( dnaStrand != null ) {
+            _dnaStrand = dnaStrand;
+            _dnaStrand.addObserver( this );
+        }
         
         _trapForceNode = trapForceNode;
         _dragForceNode = dragForceNode;
@@ -182,11 +192,11 @@ public class ForcesControlPanel extends JPanel implements Observer {
             }
         } );
         
-        _constantTrapForceCheckBox = new JCheckBox( OTResources.getString( "label.constantTrapForce" ) );
-        _constantTrapForceCheckBox.setFont( controlFont );
-        _constantTrapForceCheckBox.addActionListener( new ActionListener() {
+        _keepTrapForceConstantCheckBox = new JCheckBox( OTResources.getString( "label.keepTrapForceConstant" ) );
+        _keepTrapForceConstantCheckBox.setFont( controlFont );
+        _keepTrapForceConstantCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleConstantTrapForceCheckBox();
+                handleKeepTrapForceConstantCheckBox();
             }
         } );
         
@@ -207,7 +217,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
         layout.addComponent( dragForcePanel, row++, column );
         layout.addComponent( _brownianMotionCheckBox, row++, column );
         layout.addComponent( _showValuesCheckBox, row++, column );
-        layout.addComponent( _constantTrapForceCheckBox, row++, column );
+        layout.addComponent( _keepTrapForceConstantCheckBox, row++, column );
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
         
@@ -221,13 +231,13 @@ public class ForcesControlPanel extends JPanel implements Observer {
             _dnaForceCheckBox.setSelected( false );
         }
         _showValuesCheckBox.setSelected( false );
-        _constantTrapForceCheckBox.setSelected( false );
+        _keepTrapForceConstantCheckBox.setSelected( false );
         
         // Disable constant trap force when laser or bead is dragged
         DragNotificationListener constantTrapForceDisabler = new DragNotificationAdapter() {
             public void dragBegin( DragNotificationEvent event ) {
-                if ( isConstantTrapForceSelected() ) {
-                    setConstantTrapForceSelected( false );
+                if ( isKeepTrapForceConstantSelected() ) {
+                    setKeepTrapForceConstantSelected( false );
                 }
             }
         };
@@ -239,6 +249,9 @@ public class ForcesControlPanel extends JPanel implements Observer {
         _bead.deleteObserver( this );
         _fluid.deleteObserver( this );
         _laser.deleteObserver( this );
+        if ( _dnaStrand != null ) {
+            _dnaStrand.deleteObserver( this );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -296,13 +309,13 @@ public class ForcesControlPanel extends JPanel implements Observer {
         return _showValuesCheckBox.isSelected();
     }
     
-    public void setConstantTrapForceSelected( boolean b ) {
-        _constantTrapForceCheckBox.setSelected( b );
-        handleConstantTrapForceCheckBox();
+    public void setKeepTrapForceConstantSelected( boolean b ) {
+        _keepTrapForceConstantCheckBox.setSelected( b );
+        handleKeepTrapForceConstantCheckBox();
     }
     
-    public boolean isConstantTrapForceSelected() {
-        return _constantTrapForceCheckBox.isSelected();
+    public boolean isKeepTrapForceConstantSelected() {
+        return _keepTrapForceConstantCheckBox.isSelected();
     }
     
     //----------------------------------------------------------------------------
@@ -317,8 +330,8 @@ public class ForcesControlPanel extends JPanel implements Observer {
         _showValuesCheckBox.setVisible( visible );
     }
     
-    public void setConstantTrapForceCheckBoxVisible( boolean visible ) {
-        _constantTrapForceCheckBox.setVisible( visible );
+    public void setKeepTrapForceConstantCheckBoxVisible( boolean visible ) {
+        _keepTrapForceConstantCheckBox.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
@@ -337,7 +350,9 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private void handleBrownianMotionCheckBox() {
         final boolean selected = _brownianMotionCheckBox.isSelected();
+        _bead.deleteObserver( this );
         _bead.setBrownianMotionEnabled( selected );
+        _bead.addObserver( this );
     }
     
     private void handleDNAForceCheckBox() {
@@ -354,9 +369,12 @@ public class ForcesControlPanel extends JPanel implements Observer {
         }
     }
     
-    private void handleConstantTrapForceCheckBox() {
-        //XXX
-        System.out.println( "handleConstantTrapForceCheckBox " + _constantTrapForceCheckBox.isSelected() );//XXX
+    private void handleKeepTrapForceConstantCheckBox() {
+        if ( _dnaStrand != null ) {
+            _dnaStrand.deleteObserver( this );
+            _dnaStrand.setKeepTrapForceConstant( _keepTrapForceConstantCheckBox.isSelected() );
+            _dnaStrand.addObserver( this );
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -378,9 +396,14 @@ public class ForcesControlPanel extends JPanel implements Observer {
         }
         else if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_POWER || arg == Laser.PROPERTY_RUNNING ) {
-                if ( isConstantTrapForceSelected() ) {
-                    setConstantTrapForceSelected( false );
+                if ( isKeepTrapForceConstantSelected() ) {
+                    setKeepTrapForceConstantSelected( false );
                 }
+            }
+        }
+        else if ( o == _dnaStrand ) {
+            if ( arg == DNAStrand.PROPERTY_CONSTANT_TRAP_FORCE ) {
+                _keepTrapForceConstantCheckBox.setSelected( _dnaStrand.isKeepTrapForceConstant() );
             }
         }
     }

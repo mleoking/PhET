@@ -44,7 +44,7 @@ public class MotorsConfig implements IProguardKeepClass {
     private boolean _dragForceSelected;
     private boolean _dnaForceSelected;
     private boolean _showForceValuesSelected;
-    private boolean _constantTrapForceSelected;
+    private boolean _keepTrapForceConstantSelected;
     private boolean _positionHistogramSelected;
     private boolean _potentialEnergySelected;
     private boolean _rulerSelected;
@@ -282,13 +282,13 @@ public class MotorsConfig implements IProguardKeepClass {
     }
 
     
-    public boolean isConstantTrapForceSelected() {
-        return _constantTrapForceSelected;
+    public boolean isKeepTrapForceConstantSelected() {
+        return _keepTrapForceConstantSelected;
     }
 
     
-    public void setConstantTrapForceSelected( boolean constantTrapForceSelected ) {
-        _constantTrapForceSelected = constantTrapForceSelected;
+    public void setKeepTrapForceConstantSelected( boolean constantTrapForceSelected ) {
+        _keepTrapForceConstantSelected = constantTrapForceSelected;
     }
 
     

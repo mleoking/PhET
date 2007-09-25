@@ -3,10 +3,11 @@
 ================================================================================
 
 HIGH PRIORITY:
-- implement "keep trap force constant" model
-- implement ForcesControlPanel.handleConstantTrapForceCheckBox to move laser by keeping trap force constant
 
 MEDIUM PRIORITY:
+- is "keep trap force constant" behavior correct when bead is outside the trap (trap force is small)
+- "keep trap force constant" feature slows things down (laser redraw)
+- what to do when "Reset DNA" with "keep trap force constant" on?
 - get different calibration constants for EnzymeB
 - OutOfMemoryError in Motors module
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -43,6 +44,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/24/07 - implement "keep trap force constant" model in DNAStrand
 9/24/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
 9/24/07 - BeadDragHandler.mousePressed should call super.mousePressed
 ********* version 1.00.10 (17956)

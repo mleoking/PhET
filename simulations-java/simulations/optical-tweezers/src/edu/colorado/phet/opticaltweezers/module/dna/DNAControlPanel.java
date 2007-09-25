@@ -57,7 +57,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         DNAModel model = module.getDNAModel();
         _simulationSpeedControlPanel = new SimulationSpeedControlPanel( TITLE_FONT, CONTROL_FONT, model.getClock() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
-                model.getBead(), model.getFluid(), model.getLaser(),
+                model.getBead(), model.getFluid(), model.getLaser(), model.getDNAStrand(),
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
                 _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
@@ -81,7 +81,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
         
         // Turn off some features
         _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
-        _forcesControlPanel.setConstantTrapForceCheckBoxVisible( false );
+        _forcesControlPanel.setKeepTrapForceConstantCheckBoxVisible( false );
         _miscControlPanel.setFluidVacuumPanelVisible( false );
         
         // Layout

@@ -44,6 +44,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public static final String PROPERTY_NUMBER_OF_EVOLUTIONS_PER_CLOCK_TICK = "numberOfEvolutionsPerClockTick";
     public static final String PROPERTY_EVOLUTION_DT = "evolutionDtScale";
     public static final String PROPERTY_FLUID_DRAG_COEFFICIENT = "fluidDragCoefficient";
+    public static final String PROPERTY_CONSTANT_TRAP_FORCE = "constantTrapForce";
     
     /* 
      * If we let the spring constant get too big, the strand evolution model with start to fail.
@@ -57,15 +58,19 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     
     private Bead _bead;
     private Fluid _fluid;
+    private Laser _laser;
     private OTClock _clock;
     private double _referenceClockStep;
     
     private double _contourLength; // nm, length of the DNA strand
     private final double _persistenceLength; // nm, measure of the strand's bending stiffness
     private final double _springLength; // nm, length of a spring when it's fully stretched
+    private double _previousExtension; // nm
     
     private ArrayList _pivots; // array of DNAPivot, first element is closest to pin
     private double _springLengthClosestToPin; // length of spring closest to pin
+    
+    private boolean _keepTrapForceConstant; // when true, keep the trap force constant by moving the laser
     
     /*
      * Maximum that the strand can be stretched, expressed as a percentage
@@ -104,6 +109,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             double stretchiness,
             Bead bead,
             Fluid fluid,
+            Laser laser,
             OTClock clock,
             double referenceClockStep,
             /* developer controls below here */
@@ -120,12 +126,15 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         _persistenceLength = persistenceLength;
         _springLength = springLength;
         _stretchiness = stretchiness;
+        _keepTrapForceConstant = false;
         
         _bead = bead;
         _bead.addObserver( this );
 
         _fluid = fluid;
         _fluid.addObserver( this );
+        
+        _laser = laser;
         
         _clock = clock;
         _referenceClockStep = referenceClockStep;
@@ -245,6 +254,29 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      */
     public double getStretchiness() {
         return _stretchiness;
+    }
+    
+    /**
+     * Sets whether the trap force at the bead will remain constant.
+     * If this is true, then the laser will be moved to keep the trap force constant.
+     * 
+     * @param keepTrapForceConstant
+     */
+    public void setKeepTrapForceConstant( boolean keepTrapForceConstant ) {
+        if ( keepTrapForceConstant != _keepTrapForceConstant ) {
+            _keepTrapForceConstant = keepTrapForceConstant;
+            _previousExtension = getExtension();
+            notifyObservers( PROPERTY_CONSTANT_TRAP_FORCE );
+        }
+    }
+    
+    /**
+     * Are we keeping the trap force constant?
+     * 
+     * @return
+     */
+    public boolean isKeepTrapForceConstant() {
+        return _keepTrapForceConstant;
     }
     
     //----------------------------------------------------------------------------
@@ -502,9 +534,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             currentPivot = new DNAPivot( getBeadX(), beadPosition.getY() );
             _pivots.add( currentPivot );
         }
-        
+
         // evolve so that it doesn't look like a straight line
         evolve( _clock.getDt() );
+        
+        _previousExtension = getExtension();
         
         notifyObservers( PROPERTY_SHAPE );
     }
@@ -722,6 +756,26 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     }
     
     //----------------------------------------------------------------------------
+    // Model for keeping laser trap force constant
+    //----------------------------------------------------------------------------
+    
+    /*
+     * If we're keeping the trap force constant, then move the laser
+     * proportionally to the change in the strand's extension length.
+     */
+    private void moveLaser() {
+        if ( _keepTrapForceConstant && _laser != null ) {
+            if ( _laser.isRunning() && _laser.getPower() > 0 ) {
+                final double extension = getExtension();
+                final double deltaX = extension - _previousExtension;
+                _previousExtension = extension;
+                Point2D laserPosition = _laser.getPositionReference();
+                _laser.setPosition( laserPosition.getX() + deltaX, laserPosition.getY() );
+            }
+        }
+    }
+    
+    //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
@@ -761,5 +815,6 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     public void stepInTime( double clockStep ) {
         evolve( clockStep );
         notifyObservers( PROPERTY_SHAPE );
+        moveLaser();
     }
 }
