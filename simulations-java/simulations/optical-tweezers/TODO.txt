@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- AbstractValueControl.getTextFieldValue throws NumberFormatException when locale is Spanish
 
 MEDIUM PRIORITY:
 - is "keep trap force constant" behavior correct when bead is outside the trap (when trap force is small)
@@ -44,6 +43,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/25/07 - fix AbstractValue.getTextFieldValue to work for all locales
 9/25/07 - Spanish translations (Google translate)
 ********* version 1.00.11 (17970)
 9/25/07 - implement "keep trap force constant" model in DNAStrand
