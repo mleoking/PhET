@@ -43,6 +43,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+********* version 1.00.12 (17974)
 9/25/07 - fix AbstractValue.getTextFieldValue to work for all locales
 9/25/07 - Spanish translations (Google translate)
 ********* version 1.00.11 (17970)
