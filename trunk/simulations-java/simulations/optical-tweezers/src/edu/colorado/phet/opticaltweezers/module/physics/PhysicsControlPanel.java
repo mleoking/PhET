@@ -59,7 +59,7 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         _chargeControlPanel = new ChargeControlPanel( TITLE_FONT, CONTROL_FONT,
                 _canvas.getChargeDistributionNode(), _canvas.getChargeExcessNode() );
         _forcesControlPanel = new ForcesControlPanel( TITLE_FONT, CONTROL_FONT, 
-                model.getBead(), model.getFluid(), model.getLaser(),
+                model.getBead(), model.getFluid(), model.getLaser(), null /* dnaStrand */,
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
                 _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
@@ -82,7 +82,7 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         
         // Turn off some features
         _forcesControlPanel.setShowValuesCheckBoxVisible( false );
-        _forcesControlPanel.setConstantTrapForceCheckBoxVisible( false );
+        _forcesControlPanel.setKeepTrapForceConstantCheckBoxVisible( false );
         
         // Layout
         {
