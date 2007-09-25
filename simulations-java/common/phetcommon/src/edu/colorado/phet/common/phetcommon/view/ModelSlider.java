@@ -423,6 +423,28 @@ public class ModelSlider extends JPanel {
 
     }
 
+//    Todo: Fix this number parsing:
+//    Todo: deprecate usage of ModelSlider, in favor of LinearValueControl
+//    Todo: consolidate usages of ModelSlider
+//    An English string like "12,345.6" will be incorrectly changed to "12.345.6", since the European decimal char happens to be the same as the English separator char.  (Localization typically handles separator and decimal chars separately.)
+//
+//    A more robust method for parsing a number from a localized string is to use NumberFormat.parse, which handles all locales.
+//
+//    For example:
+//
+//        String text = ... /* some text string, possibly European number format */
+//        DecimalFormat format = new DecimalFormat(...);
+//        Number number = null;
+//        try {
+//           number = format.parse( text );
+//        }
+//        catch ( ParseException pe ) {
+//           //...
+//        }
+//        double value = number.doubleValue();
+//
+//    I haven't made any changes to these classes because I don't use them and don't have the time to test adequately.  Up to you whether you think it's worth changing, or at least noting the pitfalls with a comment.
+
     public void commitEdit() throws IllegalValueException {
         String text = ModelSlider.this.textField.getText();
         try {
