@@ -368,7 +368,17 @@ public abstract class AbstractValueControl extends JPanel {
      */
     private double getTextFieldValue() {
         String text = _textField.getText();
-        return Double.parseDouble( text );
+        double value = 0;
+        try {
+            Number number = _textFieldFormat.parse( text );
+            value = number.doubleValue();
+        }
+        catch ( ParseException e ) {
+            e.printStackTrace();
+            //TODO Is this the best way to recover?...
+            value = _value;
+        }
+        return value;
     }
 
     //----------------------------------------------------------------------------
