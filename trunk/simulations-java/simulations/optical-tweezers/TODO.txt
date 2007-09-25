@@ -3,13 +3,13 @@
 ================================================================================
 
 HIGH PRIORITY:
+- OutOfMemoryError in Motors module
+- get different calibration constants for EnzymeB
 
 MEDIUM PRIORITY:
 - is "keep trap force constant" behavior correct when bead is outside the trap (when trap force is small)
 - "keep trap force constant" feature slows things down (laser redraw)
 - what to do when you press "Reset DNA" with "keep trap force constant" on?
-- get different calibration constants for EnzymeB
-- OutOfMemoryError in Motors module
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
@@ -32,7 +32,6 @@ COMMON CODE:
 - help items don't refresh fast enough (AWT priority issue?)
 
 CLEANUP:
-- remove unused strings from localization files
 - pull up duplicated stuff in packages "defaults" and "modules"
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
@@ -46,6 +45,7 @@ DONE:
 ********* version 1.00.12 (17974)
 9/25/07 - fix AbstractValue.getTextFieldValue to work for all locales
 9/25/07 - Spanish translations (Google translate)
+9/25/07 - removed unused strings from localization files
 ********* version 1.00.11 (17970)
 9/25/07 - implement "keep trap force constant" model in DNAStrand
 9/25/07 - uncheck "keep trap force constant" if bead or laser is dragged, or if laser power is changed
