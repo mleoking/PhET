@@ -1,3 +1,4 @@
+9-26-2007: Torque - Fixeds for platform graphics
 9-26-2007: Torque - Fixed: When brake and applied force are applied (with an overwhelming brake force), the system will skip forward.
 9-26-2007: Torque - Fixed: Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 9-26-2007: Rotation - Fixed: omega and alpha graphs are off by a few pixels when controlling the platform by hand.
