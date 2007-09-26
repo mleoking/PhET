@@ -2,24 +2,21 @@
 #     To Do
 ################################
 
-•	What colors should be used for forces/torques?
-•	Angular acceleration for the platform is incorrect when brake force is applied
 •	Glitches show up due to new rendering mechanism
-
-•	Add a visualization for the mass?  Thickness of platform?
-•	Start paused, use wiggle me for startup (low priority, don't implement yet)
-•	Bug should fly off at high speed (if not too much work)
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     •	this is due in part to time series filling up in "live mode", early enough data should be discarded
+•	Start paused, use wiggle me for startup (low priority, don't implement yet)
 
 ################################################
 #           Questions/Discussion
 ################################
 •	I like that the friction force looks sandwiched between the block and the platform; however if the force is too small, this is difficult to see.  Should we move this to the front?
+•	What colors should be used for forces/torques/radii in the torque simulation?
+•	Add a visualization for the platform mass?  Perhaps the platform should have a thickness displayed?
+•	Bug should fly off at high speed (if not too much work)
+    >>Probably 1.5-2.0 hours, should we go for it?
 
-•	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations (e.g. symbol for theta) for other series?
-    -wait until interviews
 •	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
     -7-19-2007: No missing values now
     -Current implementation linearly interpolates between previous and subsequent values
@@ -86,6 +83,9 @@ This gives the graphs the feeling that they are a physical thing rather than an 
     -For example, if the user wants theta=1, omega=2, alpha=3 and sets them in that order, it will work properly
     -however, if she enters theta last, then the update mode will be set to "constant position" and therefore omega and alpha will be set to zero
     -interview on this
+
+•	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations (e.g. symbol for theta) for other series?
+    -wait until interviews
 
 ################################################
 #           Postponed:
