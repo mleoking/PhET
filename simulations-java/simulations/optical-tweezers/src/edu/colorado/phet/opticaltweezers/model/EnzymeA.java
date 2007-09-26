@@ -13,10 +13,10 @@ import edu.colorado.phet.opticaltweezers.model.IDNASpeedStrategy.KathyAbstractDN
  */
 public class EnzymeA extends AbstractEnzyme {
     
+    private static final IDNASpeedStrategy DNA_SPEED_STRATEGY = new KathyDNASpeedStrategyA();
+    
     public EnzymeA( Point2D position, double outerDiameter, double innerDiameter, 
             DNAStrand dnaStrandBead, DNAStrand dnaStrandFree, Fluid fluid, double maxDt ) {
-        super( position, outerDiameter, innerDiameter, 
-               dnaStrandBead, dnaStrandFree, fluid, maxDt, 
-               new KathyDNASpeedStrategyA() );
+        super( position, outerDiameter, innerDiameter, dnaStrandBead, dnaStrandFree, fluid, maxDt, DNA_SPEED_STRATEGY );
     }
 }
