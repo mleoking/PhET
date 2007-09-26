@@ -66,8 +66,7 @@ public class RotationPlatform extends MotionBody {
 
     private void notifyInnerRadiusChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.innerRadiusChanged();
+            ((Listener) listeners.get( i )).innerRadiusChanged();
         }
     }
 

@@ -2,12 +2,12 @@
 #     To Do
 ################################
 
-•	Rotation: omega graphs are off by a few pixels when controlling the platform by hand.
 •	Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 •	Add better titles/labels for the torque/force graphs?
 •	What colors should be used for forces/torques?
 •	Angular acceleration for the platform is incorrect when brake force is applied
 •	Torque: When brake and applied force are applied (with an overwhelming brake force), the system will skip forward.
+•	Glitches show up due to new rendering mechanism
 
 •	Add a visualization for the mass?  Thickness of platform?
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
