@@ -1,3 +1,4 @@
+9-26-2007: Rotation - Changed thresholds so motion should be classified as circular more accurately
 9-26-2007: Torque - Added better titles/labels for the torque/force graphs.
 9-26-2007: Torque - Fixes for platform graphics
 9-26-2007: Torque - Fixed: When brake and applied force are applied (with an overwhelming brake force), the system will skip forward.

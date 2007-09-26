@@ -275,23 +275,21 @@ public class RotationBody {
     }
 
     public static class DefaultCircleDiscriminant implements CircleDiscriminant {
-        double circularMotionMSE = 0.01;
         double noncircularMotionMSE = 0.15;
-        double thresholdMSE = ( noncircularMotionMSE + circularMotionMSE ) / 2.0;
-
-        public DefaultCircleDiscriminant() {
-        }
-
-        public DefaultCircleDiscriminant( double circularMotionMSE, double noncircularMotionMSE, double thresholdMSE ) {
-            this.circularMotionMSE = circularMotionMSE;
-            this.noncircularMotionMSE = noncircularMotionMSE;
-            this.thresholdMSE = thresholdMSE;
-        }
+        double thresholdCircularMSE = 1.0;
 
         public boolean isCircularMotion( CircularRegression.Circle circle, Point2D[] pointHistory ) {
-            return circle.getRadius() >= 0.5 && circle.getRadius() <= 5.0 &&
-                   circle.getMeanSquaredError( pointHistory ) < thresholdMSE &&
-                   getLinearRegressionMSE( pointHistory ) > 0.01;
+            boolean radiusBigEnough = circle.getRadius() >= 0.5;
+            boolean radiusSmallEnough = circle.getRadius() <= 5.0;
+            double circleErr = circle.getMeanSquaredError( pointHistory );
+            boolean circleErrorSmallEnough = circleErr < thresholdCircularMSE;
+//            System.out.println( "RotationBody$DefaultCircleDiscriminant.isCircularMotion" );
+            boolean lineErrorHighEnough = getLinearRegressionMSE( pointHistory ) > 0.01;
+            System.out.println( "radiusBigEnough= " + radiusBigEnough + ", radiusSmall= " + radiusSmallEnough + ", cErr= " + circleErrorSmallEnough + ", lErr= " + lineErrorHighEnough +", cErr="+circleErr);
+            return radiusBigEnough &&
+                   radiusSmallEnough &&
+                   circleErrorSmallEnough &&
+                   lineErrorHighEnough;
         }
     }
 
@@ -428,7 +426,7 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         //ToDo: these next 3 lines entail the assumption that the rotation platform has stepped in time first, and has at least one recorded value for recent position time series
-        angle.addValue( getUserSetAngle(), rotationPlatform.getRecentPositionTimeSeries( 1 )[0].getTime());
+        angle.addValue( getUserSetAngle(), rotationPlatform.getRecentPositionTimeSeries( 1 )[0].getTime() );
         angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getRecentVelocityTimeSeries( 1 )[0].getTime() );
         angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getRecentAccelerationTimeSeries( 1 )[0].getTime() );
         checkCentripetalAccel();
