@@ -22,9 +22,10 @@
     -Current implementation linearly interpolates between previous and subsequent values
     -It would be fairly difficult to add a "missing value" feature
     -We could also consider just computing these values dynamically
-•	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine …
+•	There is still a very large delay on the v and a vectors when dragging the bugs around on my machine
         it makes it look like the arrows are pointing outwards for acceleration, not inwards when I move in a circle by hand.
-    -Current implementation uses a mix of circular regression and 1-d derivatives with time delay; let me know if this is sufficient.
+        -Current implementation uses a mix of circular regression and 1-d derivatives with time delay; let me know if this is sufficient.
+        >>Changed thresholds so motion should be classified as circular more accurately
 •	When you set angular position by hand … currently only lady-bug position affected… should we make similar change
         in theta to 2nd bug if he is on graph? So if ladybug is at 100 rads and other bug is at 110 rads,
         then set rads to 0, end up with ladybug at 0 rads and other bug at 10 rads??? NOT sure about this?
