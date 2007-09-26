@@ -265,7 +265,7 @@ public class RotationBody {
 
         angle.addValue( getUserSetAngle(), time );
         TimeData v = MotionMath.getDerivative( MotionMath.smooth( angle.getRecentSeries( Math.min( velocityWindow, angle.getSampleCount() ) ), 4 ) );
-        angularVelocity.addValue( v.getValue(), v.getTime() );//when on the platform, angul
+        angularVelocity.addValue( v.getValue(), v.getTime() );
         TimeData a = MotionMath.getDerivative( MotionMath.smooth( angularVelocity.getRecentSeries( Math.min( velocityWindow, angularVelocity.getSampleCount() ) ), 4 ) );
         angularAccel.addValue( a.getValue(), a.getTime() );
     }
@@ -415,26 +415,22 @@ public class RotationBody {
 
     private void updateOnPlatform( double time ) {
         double omega = rotationPlatform.getVelocity();
-//        System.out.println( "omega = " + omega );
         double r = getPosition().distance( rotationPlatform.getCenter() );
-//        System.out.println( "r = " + r );
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
-//        System.out.println( "centered = " + centered );
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                        : Vector2D.Double.parseAngleAndMagnitude( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
-//        System.out.println( "newX = " + newX );
         addPositionData( newX, time );
         addVelocityData( newV, time );
         addAccelerationData( newA, time );
 
-        angle.addValue( getUserSetAngle(), time );
-        angularVelocity.addValue( rotationPlatform.getVelocity(), time );//when on the platform, angul
-        angularAccel.addValue( rotationPlatform.getAcceleration(), time );
-//        System.out.println( "rotationPlatform.getLastTime() = " + rotationPlatform.getLastTime() );
+        //ToDo: these next 3 lines entail the assumption that the rotation platform has stepped in time first, and has at least one recorded value for recent position time series
+        angle.addValue( getUserSetAngle(), rotationPlatform.getRecentPositionTimeSeries( 1 )[0].getTime());
+        angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getRecentVelocityTimeSeries( 1 )[0].getTime() );
+        angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getRecentAccelerationTimeSeries( 1 )[0].getTime() );
         checkCentripetalAccel();
         if ( r > 0 ) {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
