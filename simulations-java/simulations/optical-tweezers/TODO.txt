@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- change "keep trap force constant" feature to use an average
 - OutOfMemoryError in Motors module
 - get different calibration constants for EnzymeB
 
@@ -43,6 +42,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/26/07 - use Tom's new model for speed with which enzyme pulls DNA
 9/26/07 - organize imports
 9/26/07 - implement Tom's new model for speed with which enzyme pulls DNA (untested)
 9/26/07 - separate constants for the diameters of the 2 enzyme types
@@ -808,6 +808,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+9/26/07 - reduce laser jitter but using an average for "keep trap force constant" (tried this, no improvement, some new problems)
 9/21/07 - make "Return Bead" move the bead to the laser's origin (laser's origin can be off screen)
 9/11/07 - save/load properties of position histogram: running, zoom index, ruler (feature not needed)
 9/11/07 - vertical laser toggle button, like http://www.bigstockphoto.com/thumbs/6/3/3/medium/336571.jpg (tried to create and failed)
