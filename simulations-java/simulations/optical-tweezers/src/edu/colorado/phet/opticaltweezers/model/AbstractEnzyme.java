@@ -47,10 +47,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     private Fluid _fluid;
     private final double _maxDt;
     
-    // speed when DNA force=0 and ATP concentration=infinite (d2 in design doc)
-    private final double _maxDNASpeed;
-    // calibration constants for DNA speed model (c1 thru c8 in design doc)
-    private final double[] _c;
+    private IDNASpeedStrategy _dnaSpeedStrategy;
     
     private final double _outerDiameter, _innerDiameter;
     private double _innerOrientation;
@@ -66,8 +63,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             DNAStrand dnaStrandFree,
             Fluid fluid,
             double maxDt,
-            double maxDNASpeed,
-            double[] calibrationConstants ) {
+            IDNASpeedStrategy dnaSpeedStrategy ) {
         super( position, 0 /* orientation */ );
         
         _outerDiameter = outerDiameter;
@@ -80,10 +76,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         _fluid = fluid;
         _maxDt = maxDt;
         
-        _maxDNASpeed = maxDNASpeed;
-        
-        _c = calibrationConstants;
-        assert( _c.length == 8 ); // we should have 8 calibration constants
+        _dnaSpeedStrategy = dnaSpeedStrategy;
     }
     
     //----------------------------------------------------------------------------
@@ -114,40 +107,6 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     }
     
     //----------------------------------------------------------------------------
-    // Model of DNA strand moving through enzyme
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Gets the speed at which the DNA strand is moving through the enzyme.
-     * 
-     * @return speed (nm/s)
-     */
-    private double getDNASpeed() {
-        final double atp = _fluid.getATPConcentration();
-        final double fDNA = _dnaStrandBead.getForceAtBead().getMagnitude();
-        return getDNASpeed( atp, fDNA );
-    }
-    
-    /*
-     * Gets the speed at which the DNA strand is moving through the enzyme
-     * for specific ATP and DNA force values.
-     * <p>
-     * This is erroneously refered to as velocity in the design document.
-     * It is a function of the DNA force magnitude, so it has no orientation
-     * and should be referred to as speed (the magnitude component of velocity).
-     * 
-     * @param atp ATP concentration
-     * @param fDNA DNA force magnitude (pN)
-     * @return speed (nm/s)
-     */
-    private double getDNASpeed( final double atp, final double fDNA ) {
-        final double maxSpeed = _maxDNASpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) ) );
-        final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( fDNA * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) );
-        final double speed = maxSpeed * atp / ( atp + km );
-        return speed;
-    }
-    
-    //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
 
@@ -159,7 +118,9 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     public void stepInTime( double dt ) {
         if ( _enabled ) {
 
-            final double dnaSpeed = getDNASpeed();
+            final double atp = _fluid.getATPConcentration();
+            final double fDNA = _dnaStrandBead.getForceAtBead().getMagnitude();
+            final double dnaSpeed = _dnaSpeedStrategy.getSpeed( atp, fDNA ); // nm/sec
             
             // Shorten the DNA strand attached to the bead
             final double beadContourLengthDelta = dnaSpeed * dt; // ns/sec * sec = nm
@@ -182,7 +143,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             
             // If the strand's contour length was changed, rotate the enzyme's inner sphere.
             if ( actualContourDelta > 0 ) {
-                final double speedScale = dnaSpeed / _maxDNASpeed;
+                final double speedScale = dnaSpeed / _dnaSpeedStrategy.getMaxSpeed();
                 final double dtScale = dt / _maxDt;
                 final double deltaAngle = MAX_ROTATION_DELTA * speedScale * dtScale;
                 _innerOrientation += deltaAngle;
