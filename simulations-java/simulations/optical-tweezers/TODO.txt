@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- change model of speed with which enzyme pulls DNA
 - change "keep trap force constant" feature to use an average
 - OutOfMemoryError in Motors module
 - get different calibration constants for EnzymeB
@@ -44,6 +43,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/26/07 - implement Tom's new model for speed with which enzyme pulls DNA (untested)
 9/26/07 - separate constants for the diameters of the 2 enzyme types
 9/26/07 - change implementation of DNA speed to use Strategy pattern, so we can switch between Kathy's and Tom's models
 9/26/07 - increase invisible bead diameter to 50% of visible bead diameter to reduce curling
