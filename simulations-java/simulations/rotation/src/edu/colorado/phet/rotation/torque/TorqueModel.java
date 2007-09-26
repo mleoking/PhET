@@ -265,12 +265,15 @@ public class TorqueModel extends RotationModel {
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            appliedTorque.setValue( appliedForceObject.getTorque( getPlatformCenter()) );
+            appliedTorque.setValue( appliedForceObject.getTorque( getPlatformCenter() ) );
             double origAngVel = motionBody.getVelocity();
             brakeTorque.setValue( brakeForceObject.getTorque( getRotationPlatform().getCenter() ) );
             TorqueModel.this.netTorque.setValue( appliedTorque.getValue() + brakeTorque.getValue() );//todo: should probably update even while paused
 //            System.out.println( "TorqueModel$ForceDriven.update: Ta="+appliedForceObject.getValue()+", Tb="+brakeTorque.getValue()+", Tn="+netTorque.getValue() );
-            double acceleration = netTorque.getValue() / getRotationPlatform().getMomentOfInertia();
+
+            //todo: better handling for zero moment?
+            double acceleration = getMomentOfInertia() > 0 ? netTorque.getValue() / getMomentOfInertia() : 0;
+
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
             if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && Math.abs( brakeTorque.getValue() ) > Math.abs( appliedTorque.getValue() ) ) {
                 proposedVelocity = 0.0;
@@ -281,6 +284,10 @@ public class TorqueModel extends RotationModel {
 
             //if the friction causes the velocity to change sign, set the velocity to zero?
             motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+        }
+
+        private double getMomentOfInertia() {
+            return getRotationPlatform().getMomentOfInertia();
         }
     }
 
