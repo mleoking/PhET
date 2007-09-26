@@ -102,7 +102,7 @@ public class MotorsDefaults {
     // Invisible bead, attached to free end of DNA
     public static final Point2D INVISIBLE_BEAD_POSITION = 
         new Point2D.Double( DNA_POSITION.getX() - ( 0.9 * DNA_STRETCHINESS * DNA_FREE_CONTOUR_LENGTH ), DNA_POSITION.getY() );
-    public static final double INVISIBLE_BEAD_DIAMETER = 0.20 * BEAD_DIAMETER; // nm, 5% of visible bead
+    public static final double INVISIBLE_BEAD_DIAMETER = 0.5 * BEAD_DIAMETER; // nm
     public static final double INVISIBLE_BEAD_DENSITY = BEAD_DENSITY;
     public static final double INVISIBLE_BEAD_ORIENTATION = BEAD_ORIENTATION;
     public static final IntegerRange INVISIBLE_BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE = BEAD_NUMBER_OF_DT_SUBDIVISIONS_RANGE;
