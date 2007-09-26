@@ -8,8 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
-import javax.swing.SpringLayout;
-
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
