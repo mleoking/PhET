@@ -28,17 +28,18 @@ public class RotationPlatformNode extends PNode {
     private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
     private PhetPPath handleNode;
+    private PNode ringNodeLayer;
 
     public RotationPlatformNode( final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
         contentNode = new PNode();
 
-//        addRingNode( 1.0, Color.green.brighter(), true );
-        addRingNode( 1.0, new Color( 255, 215, 215 ), new Color( 255, 240, 240 ), true );
-        addRingNode( 0.75, new Color( 140, 255, 140 ), new Color( 200, 255, 200 ), false );
-        addRingNode( 0.50, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false );
-        addRingNode( 0.25, Color.white, Color.lightGray, false );
-//        addRingNode( 0.005, Color.white );
+        ringNodeLayer = new PNode();
+        ringNodeLayer.addChild( createRingNode( 1.0, new Color( 255, 215, 215 ), new Color( 255, 240, 240 ), true ) );
+        ringNodeLayer.addChild( createRingNode( 0.75, new Color( 140, 255, 140 ), new Color( 200, 255, 200 ), false ) );
+        ringNodeLayer.addChild( createRingNode( 0.50, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false ) );
+        ringNodeLayer.addChild( createRingNode( 0.25, Color.white, Color.lightGray, false ) );
+        contentNode.addChild( ringNodeLayer );
 
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( verticalCrossHair );
@@ -103,12 +104,9 @@ public class RotationPlatformNode extends PNode {
     }
 
     private void updateRadius() {
-        for ( int i = 0; i < contentNode.getChildrenCount(); i++ ) {
-            PNode child = contentNode.getChild( i );
-            if ( child instanceof RingNode ) {
-                RingNode node = (RingNode) child;
-                node.setRadius( Math.min( node.getMaxRadius(), getRadius() ) );
-            }
+        for ( int i = 0; i < ringNodeLayer.getChildrenCount(); i++ ) {
+            RingNode node = (RingNode) ringNodeLayer.getChild( i );
+            node.setRadius( Math.min( node.getMaxRadius(), getRadius() ) );
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
         horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
@@ -120,8 +118,8 @@ public class RotationPlatformNode extends PNode {
         return rotationPlatform.getRadius();
     }
 
-    private void addRingNode( double fractionalRadius, Color color1, Color color2, boolean showBorder ) {
-        contentNode.addChild( new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color1, color2, showBorder ) );
+    private RingNode createRingNode( double fractionalRadius, Color color1, Color color2, boolean showBorder ) {
+        return new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color1, color2, showBorder );
     }
 
     private void setAngle( double angle ) {
