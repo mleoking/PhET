@@ -42,6 +42,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/26/07 - remove partial-implementation of dynamic bead diameter
 ********* version 1.00.12 (17974)
 9/25/07 - fix AbstractValue.getTextFieldValue to work for all locales
 9/25/07 - Spanish translations (Google translate)

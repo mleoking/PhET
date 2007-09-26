@@ -21,7 +21,6 @@ public class Bead extends MovableObject implements ModelElement {
     // Public class data
     //----------------------------------------------------------------------------
     
-    public static final String PROPERTY_DIAMETER = "diameter";
     public static final String PROPERTY_BROWNIAN_MOTION_ENABLED = "brownianMotionEnabled";
     
     // Developer controls
@@ -53,7 +52,7 @@ public class Bead extends MovableObject implements ModelElement {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _diameter; // nm
+    private final double _diameter; // nm
     private final double _density; // kg/nm^3
     private final Fluid _fluid;
     private final MicroscopeSlide _microscopeSlide;
@@ -171,21 +170,6 @@ public class Bead extends MovableObject implements ModelElement {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the diameter.
-     * 
-     * @param diameter diameter (nm)
-     */
-    public void setDiameter( double diameter ) {
-        if ( !( diameter > 0 ) ) {
-            throw new IllegalArgumentException( "diameter must be > 0" );
-        }
-        if ( diameter != _diameter ) {
-            _diameter = diameter;
-            notifyObservers( PROPERTY_DIAMETER );
-        }
-    }
     
     /**
      * Gets the diameter.
