@@ -42,7 +42,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
-********* version 1.00.13 (?)
+********* version 1.00.13 (17999)
 9/26/07 - use Tom's new model for speed with which enzyme pulls DNA
 9/26/07 - organize imports
 9/26/07 - implement Tom's new model for speed with which enzyme pulls DNA (untested)
