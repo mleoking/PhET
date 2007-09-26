@@ -1,10 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -23,7 +20,6 @@ public class RotationPlatformNode extends PNode {
     private RotationPlatform rotationPlatform;
     private PhetPPath verticalCrossHair;
     private PhetPPath horizontalCrossHair;
-    private PhetPPath innerRadiusNode;//cover up with background color for simplicity
 
     private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
@@ -35,10 +31,10 @@ public class RotationPlatformNode extends PNode {
         contentNode = new PNode();
 
         ringNodeLayer = new PNode();
-        ringNodeLayer.addChild( createRingNode( 1.0, new Color( 255, 215, 215 ), new Color( 255, 240, 240 ), true ) );
-        ringNodeLayer.addChild( createRingNode( 0.75, new Color( 140, 255, 140 ), new Color( 200, 255, 200 ), false ) );
-        ringNodeLayer.addChild( createRingNode( 0.50, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false ) );
-        ringNodeLayer.addChild( createRingNode( 0.25, Color.white, Color.lightGray, false ) );
+        ringNodeLayer.addChild( createRingNode( 1.0, 0.75, new Color( 255, 215, 215 ), new Color( 255, 240, 240 ), true ) );
+        ringNodeLayer.addChild( createRingNode( 0.75, 0.5, new Color( 140, 255, 140 ), new Color( 200, 255, 200 ), false ) );
+        ringNodeLayer.addChild( createRingNode( 0.50, 0.25, new Color( 215, 215, 255 ), new Color( 240, 240, 255 ), false ) );
+        ringNodeLayer.addChild( createRingNode( 0.25, 0.0, Color.white, Color.lightGray, false ) );
         contentNode.addChild( ringNodeLayer );
 
         verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
@@ -46,9 +42,6 @@ public class RotationPlatformNode extends PNode {
 
         horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( horizontalCrossHair );
-
-        innerRadiusNode = new PhetPPath( new RotationLookAndFeel().getBackgroundColor(), new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
-        contentNode.addChild( innerRadiusNode );
 
         handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( handleNode );
@@ -85,7 +78,14 @@ public class RotationPlatformNode extends PNode {
 
     private void updateInnerRadius() {
         double r = rotationPlatform.getInnerRadius();
-        innerRadiusNode.setPathTo( new Ellipse2D.Double( rotationPlatform.getCenter().getX() - r, rotationPlatform.getCenter().getY() - r, r * 2, r * 2 ) );
+        for ( int i = 0; i < ringNodeLayer.getChildrenCount(); i++ ) {
+            RingNode node = (RingNode) ringNodeLayer.getChild( i );
+            node.setVisible( node.getMaxOuterRadius() >= r );
+            node.setInnerRadius( Math.max( node.getMinInnerRadius(), r ) );
+        }
+        verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
+        horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
+        handleNode.setPathTo( createHandlePath() );
         updateAngle();
     }
 
@@ -106,7 +106,7 @@ public class RotationPlatformNode extends PNode {
     private void updateRadius() {
         for ( int i = 0; i < ringNodeLayer.getChildrenCount(); i++ ) {
             RingNode node = (RingNode) ringNodeLayer.getChild( i );
-            node.setRadius( Math.min( node.getMaxRadius(), getRadius() ) );
+            node.setRadius( Math.min( node.getMaxOuterRadius(), getRadius() ) );
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
         horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
@@ -118,8 +118,8 @@ public class RotationPlatformNode extends PNode {
         return rotationPlatform.getRadius();
     }
 
-    private RingNode createRingNode( double fractionalRadius, Color color1, Color color2, boolean showBorder ) {
-        return new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), fractionalRadius * getRadius(), color1, color2, showBorder );
+    private RingNode createRingNode( double outerRadius, double innerRadius, Color color1, Color color2, boolean showBorder ) {
+        return new RingNode( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY(), outerRadius * getRadius(), innerRadius * getRadius(), color1, color2, showBorder );
     }
 
     private void setAngle( double angle ) {
@@ -144,18 +144,22 @@ public class RotationPlatformNode extends PNode {
         private double x;
         private double y;
         private double radius;
-        private double maxRadius;
+        private double maxOuterRadius;
+        private double innerRadius;
 
         private RingPath path1;
         private RingPath path2;
         private RingPath path3;
         private RingPath path4;
+        private double minInnerRadius;
 
-        public RingNode( double x, double y, double radius, Color color1, Color color2, boolean showBorder ) {
+        public RingNode( double x, double y, double outerRadius, double innerRadius, Color color1, Color color2, boolean showBorder ) {
             this.x = x;
             this.y = y;
-            this.radius = radius;
-            this.maxRadius = radius;
+            this.radius = outerRadius;
+            this.maxOuterRadius = outerRadius;
+            this.innerRadius = innerRadius;
+            this.minInnerRadius = innerRadius;
             path1 = addPath( color1, showBorder, 90 * 0, 90 * 1 );
             path2 = addPath( color2, showBorder, 90 * 1, 90 * 2 );
             path3 = addPath( color1, showBorder, 90 * 2, 90 * 3 );
@@ -170,7 +174,19 @@ public class RotationPlatformNode extends PNode {
             return pPath;
         }
 
-        class RingPath extends PhetPPath {
+
+        public double getMinInnerRadius() {
+            return minInnerRadius;
+        }
+
+        public void setInnerRadius( double innerRadius ) {
+            if ( this.innerRadius != innerRadius ) {
+                this.innerRadius = innerRadius;
+                update();
+            }
+        }
+
+        private class RingPath extends PhetPPath {
             private double minArcDegrees;
             private double maxArcDegrees;
 
@@ -181,18 +197,22 @@ public class RotationPlatformNode extends PNode {
             }
 
             public void update() {
-                Arc2D.Double arc = new Arc2D.Double( getEllipseBounds(), minArcDegrees, maxArcDegrees - minArcDegrees, Arc2D.Double.PIE );
-                setPathTo( arc );
+                Arc2D.Double outerBounds = new Arc2D.Double( getEllipseBounds(), minArcDegrees, maxArcDegrees - minArcDegrees, Arc2D.Double.PIE );
+                Area area = new Area( outerBounds );
+                area.subtract( new Area( getInnerBounds() ) );
+                setPathTo( area );
             }
         }
 
-        public double getMaxRadius() {
-            return maxRadius;
+        public double getMaxOuterRadius() {
+            return maxOuterRadius;
         }
 
         public void setRadius( double radius ) {
-            this.radius = radius;
-            update();
+            if ( this.radius != radius ) {
+                this.radius = radius;
+                update();
+            }
         }
 
         private void update() {
@@ -205,6 +225,11 @@ public class RotationPlatformNode extends PNode {
         private Rectangle2D.Double getEllipseBounds() {
             double r = radius;
             return new Rectangle2D.Double( x - r, y - r, r * 2, r * 2 );
+        }
+
+        private Ellipse2D.Double getInnerBounds() {
+            double r = innerRadius;
+            return new Ellipse2D.Double( x - r, y - r, r * 2, r * 2 );
         }
     }
 

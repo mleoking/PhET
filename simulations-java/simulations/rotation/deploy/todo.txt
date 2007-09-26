@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 •	Add better titles/labels for the torque/force graphs?
 •	What colors should be used for forces/torques?
 •	Angular acceleration for the platform is incorrect when brake force is applied
