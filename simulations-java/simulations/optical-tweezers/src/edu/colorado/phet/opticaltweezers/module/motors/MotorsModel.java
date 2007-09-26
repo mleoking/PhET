@@ -141,8 +141,8 @@ public class MotorsModel extends OTAbstractModel implements Observer {
           _invisibleBead.attachTo( _dnaStrandFree ); // attach bead to DNA strand
           
          _enzymeA = new EnzymeA( MotorsDefaults.ENZYME_POSITION, 
-                 MotorsDefaults.ENZYME_OUTER_DIAMETER, 
-                 MotorsDefaults.ENZYME_INNER_DIAMETER,
+                 MotorsDefaults.ENZYME_A_OUTER_DIAMETER, 
+                 MotorsDefaults.ENZYME_A_INNER_DIAMETER,
                  _dnaStrandBead,
                  _dnaStrandFree,
                  _fluid,
@@ -152,8 +152,8 @@ public class MotorsModel extends OTAbstractModel implements Observer {
          addModelElement( _enzymeA );
          
          _enzymeB = new EnzymeB( MotorsDefaults.ENZYME_POSITION, 
-                 MotorsDefaults.ENZYME_OUTER_DIAMETER, 
-                 MotorsDefaults.ENZYME_INNER_DIAMETER,
+                 MotorsDefaults.ENZYME_B_OUTER_DIAMETER, 
+                 MotorsDefaults.ENZYME_B_INNER_DIAMETER,
                  _dnaStrandBead,
                  _dnaStrandFree,
                  _fluid,

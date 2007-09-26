@@ -117,9 +117,11 @@ public class MotorsDefaults {
     public static final DoubleRange INVISIBLE_BEAD_VACUUM_FAST_POWER_RANGE = BEAD_VACUUM_FAST_POWER_RANGE;
     
     // Enzyme 
-    public static final double ENZYME_OUTER_DIAMETER = 150; // nm
-    public static final double ENZYME_INNER_DIAMETER = ENZYME_OUTER_DIAMETER / 2; // nm
     public static final Point2D ENZYME_POSITION = DNA_POSITION; // at the DNA's pin point
+    public static final double ENZYME_A_OUTER_DIAMETER = 150; // nm
+    public static final double ENZYME_A_INNER_DIAMETER = ENZYME_A_OUTER_DIAMETER / 2; // nm
+    public static final double ENZYME_B_OUTER_DIAMETER = ENZYME_A_OUTER_DIAMETER;
+    public static final double ENZYME_B_INNER_DIAMETER = ENZYME_A_INNER_DIAMETER;
     
     // Ruler
     public static final double RULER_Y_POSITION = MICROSCOPE_SLIDE_POSITION.getY() + ( MICROSCOPE_SLIDE_CENTER_HEIGHT / 2 ) - 300; // nm, just above bottom of slide
