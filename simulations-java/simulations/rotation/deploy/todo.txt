@@ -2,14 +2,16 @@
 #     To Do
 ################################
 
-•	Start paused, use wiggle me for startup (low priority, don't implement yet)
-•	Rotation: omega graphs are off by a few pixels.
-•	Bug should fly off at high speed (if not too much work)
+•	Rotation: omega graphs are off by a few pixels when controlling the platform by hand.
 •	Cursor hand shouldn't appear for merry-go round when clicking within inner radius
 •	Add better titles/labels for the torque/force graphs?
 •	What colors should be used for forces/torques?
 •	Angular acceleration for the platform is incorrect when brake force is applied
+•	Torque: When brake and applied force are applied (with an overwhelming brake force), the system will skip forward.
+
 •	Add a visualization for the mass?  Thickness of platform?
+•	Start paused, use wiggle me for startup (low priority, don't implement yet)
+•	Bug should fly off at high speed (if not too much work)
 •	Improve performance
 •	There is still a performance leak. After about 10-15 minutes it is now crawling.
     •	this is due in part to time series filling up in "live mode", early enough data should be discarded
