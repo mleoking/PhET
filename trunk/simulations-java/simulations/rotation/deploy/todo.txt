@@ -5,7 +5,6 @@
 •	Add better titles/labels for the torque/force graphs?
 •	What colors should be used for forces/torques?
 •	Angular acceleration for the platform is incorrect when brake force is applied
-•	Torque: When brake and applied force are applied (with an overwhelming brake force), the system will skip forward.
 •	Glitches show up due to new rendering mechanism
 
 •	Add a visualization for the mass?  Thickness of platform?

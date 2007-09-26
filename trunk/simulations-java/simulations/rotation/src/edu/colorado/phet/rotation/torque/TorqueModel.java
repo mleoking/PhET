@@ -9,7 +9,6 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -44,7 +43,7 @@ public class TorqueModel extends RotationModel {
     private boolean showComponents = true;
     private boolean inited = false;
     private double brakePressure = 0;
-
+    private boolean overwhelmingBrake = false;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -142,12 +141,36 @@ public class TorqueModel extends RotationModel {
 
     private Line2D.Double computeBrakeForce() {
         Point2D.Double src = new Point2D.Double( getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2, -getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2 );
-        AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( brakePressure, Math.PI / 4 + ( getRotationPlatform().getVelocity() > 0 ? Math.PI : 0 ) );
-        Point2D dst = vec.getDestination( src );
-        if ( Math.abs( getRotationPlatform().getVelocity() ) < 1E-6 ) {
-            dst = new Point2D.Double( src.getX(), src.getY() );
+        AbstractVector2D vec = getBrakeForceVector();
+        if ( vec == null ) {
+            return new Line2D.Double( src, src );
         }
+        Point2D dst = vec.getDestination( src );
+
         return new Line2D.Double( src, dst );
+    }
+
+    private AbstractVector2D getBrakeForceVector() {
+        boolean clockwise = getRotationPlatform().getVelocity() > 0;
+        if ( getRotationPlatform().getVelocity() == 0 ) {
+            if ( Math.abs( getAppliedTorqueSignedValue() ) == 0 ) {
+                return null;
+            }
+            clockwise = getAppliedTorqueSignedValue() > 0;
+        }
+        double magnitude = brakePressure;
+        double requestedBrakeTorqueMagnitude = Math.abs( brakePressure * getRotationPlatform().getRadius() );
+        double appliedTorqueMagnitude = Math.abs( appliedForceObject.getTorque( getPlatformCenter() ) );
+        //todo: remove need for magic number
+        double VELOCITY_THRESHOLD = 1;
+        if ( requestedBrakeTorqueMagnitude > appliedTorqueMagnitude && Math.abs( getRotationPlatform().getVelocity() ) < VELOCITY_THRESHOLD ) {
+            magnitude = appliedTorqueMagnitude / getRotationPlatform().getRadius();
+            overwhelmingBrake = true;
+        }
+        else {
+            overwhelmingBrake = false;
+        }
+        return Vector2D.Double.parseAngleAndMagnitude( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
     }
 
     private void updateBrakeForce() {
@@ -262,29 +285,47 @@ public class TorqueModel extends RotationModel {
         return brakeForceObject.getRadiusSeries();
     }
 
+    private double getAppliedTorqueSignedValue() {
+        return appliedForceObject.getTorque( getPlatformCenter() );
+    }
+
     public class ForceDriven implements UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
-            appliedTorque.setValue( appliedForceObject.getTorque( getPlatformCenter() ) );
+            appliedTorque.setValue( getAppliedTorqueSignedValue() );
             double origAngVel = motionBody.getVelocity();
             brakeTorque.setValue( brakeForceObject.getTorque( getRotationPlatform().getCenter() ) );
+//            System.out.println( "net torque value=" + ( appliedTorque.getValue() + brakeTorque.getValue() ) + ", applied=" + appliedTorque.getValue() + ", brake=" + brakeTorque.getValue() );
             TorqueModel.this.netTorque.setValue( appliedTorque.getValue() + brakeTorque.getValue() );//todo: should probably update even while paused
-//            System.out.println( "TorqueModel$ForceDriven.update: Ta="+appliedForceObject.getValue()+", Tb="+brakeTorque.getValue()+", Tn="+netTorque.getValue() );
 
             //todo: better handling for zero moment?
             double acceleration = getMomentOfInertia() > 0 ? netTorque.getValue() / getMomentOfInertia() : 0;
 
+            //if brake overwhelms applied force, do not change direction
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
-            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && Math.abs( brakeTorque.getValue() ) > Math.abs( appliedTorque.getValue() ) ) {
+            if ( overwhelmingBrake ) {
+//                proposedVelocity=origAngVel*0.99;
                 proposedVelocity = 0.0;
+                acceleration = 0.0;
             }
+//            double proposedVelocity = 0.0;
+//            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && Math.abs( brakeTorque.getValue() ) >= Math.abs( appliedTorque.getValue() ) ) {
+//                acceleration = 0.0;
+////                System.out.println( "TorqueModel$ForceDriven.update" );
+//            }
+//            if ( overwhelmingBrake ) {
+//                acceleration = 0.0;
+//                proposedVelocity = 0.0;
+//            }
 
             motionBody.addAccelerationData( acceleration, time );
             motionBody.addVelocityData( proposedVelocity, time );
 
             //if the friction causes the velocity to change sign, set the velocity to zero?
-            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+//            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            motionBody.addPositionData( motionBody.getPosition() + proposedVelocity * dt, time );
         }
+
 
         private double getMomentOfInertia() {
             return getRotationPlatform().getMomentOfInertia();
