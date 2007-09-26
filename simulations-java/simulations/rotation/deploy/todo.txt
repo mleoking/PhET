@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-•	Add better titles/labels for the torque/force graphs?
 •	What colors should be used for forces/torques?
 •	Angular acceleration for the platform is incorrect when brake force is applied
 •	Glitches show up due to new rendering mechanism
@@ -17,6 +16,8 @@
 ################################################
 #           Questions/Discussion
 ################################
+•	I like that the friction force looks sandwiched between the block and the platform; however if the force is too small, this is difficult to see.  Should we move this to the front?
+
 •	Got rid of abbreviations like (vx) on charts, do we want to show abbreviations (e.g. symbol for theta) for other series?
     -wait until interviews
 •	Support for "missing values" in the series data (for when characters are being dragged by the user and don't have values for angular data series)
