@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- add stall force to balance DNA force (need model from Tom)
 
 MEDIUM PRIORITY:
 - get different values for KathyDNASpeedStrategyB.CALIBRATION_CONSTANTS_B
