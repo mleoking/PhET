@@ -137,7 +137,7 @@ public class MotorsDefaults {
     
     // Dialog locations
     public static final Point POSITION_HISTOGRAM_DIALOG_OFFSET = GlobalDefaults.POSITION_HISTOGRAM_DIALOG_OFFSET;
-    public static final Point FLUID_CONTROLS_DIALOG_OFFSET = new Point( 540, 310 ); // offset in pixels from upper-left corner of parent frame
+    public static final Point FLUID_CONTROLS_DIALOG_OFFSET = new Point( 10, 400 ); // offset in pixels from upper-left corner of parent frame
     
     // Control panel settings
     public static final boolean ENZYME_A_SELECTED = true;
