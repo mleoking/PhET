@@ -1,0 +1,24 @@
+-===============================================================================
+"To Do" list for "Glaciers" simulation
+================================================================================
+
+HIGH PRIORITY:
+
+MEDIUM PRIORITY:
+
+LOW PRIORITY:
+
+COMMON CODE:
+
+CLEANUP:
+- setPickable(false) on non-interactive nodes
+- rescale image files to minimize file size
+- disable all debug output
+- optimize memory management by reusing mutable objects
+
+DONE:
+
+REJECTED:
+
+===============================================================================
+end of file
