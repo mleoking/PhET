@@ -1,22 +1,26 @@
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ModelSliderLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common_force1d.view.components.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -29,10 +33,10 @@ public class Force1dControlPanel extends IForceControl {
     public static final double MAX_KINETIC_FRICTION = 2.0;
     private FreeBodyDiagramSuite freeBodyDiagramSuite;
     private JComboBox comboBox;
-    private ModelSlider mass;
-    private ModelSlider gravity;
-    private ModelSlider staticFriction;
-    private ModelSlider kineticFriction;
+    private LinearValueControl mass;
+    private LinearValueControl gravity;
+    private LinearValueControl staticFriction;
+    private LinearValueControl kineticFriction;
     private BarrierCheckBox barriers;
     private static final double MAX_GRAV = 30;
 
@@ -63,6 +67,7 @@ public class Force1dControlPanel extends IForceControl {
                 model.getBlock().setMass( value );
             }
         } );
+        mass.setMajorTickSpacing( ( mass.getMaximum() - mass.getMinimum() ) / 2.0 );
         gravity = createControl( 9.8, 0, MAX_GRAV, SimStrings.get( "Force1dControlPanel.gravity" ), SimStrings.get( "Force1dControlPanel.gravityUnits" ), new SpinnerHandler() {
             public void changed( double value ) {
                 model.setGravity( value );
@@ -83,6 +88,16 @@ public class Force1dControlPanel extends IForceControl {
         staticFriction = createControl( 0.10, 0, MAX_KINETIC_FRICTION, SimStrings.get( "Force1dControlPanel.staticFriction" ), "", new SpinnerHandler() {
             public void changed( double value ) {
                 model.getBlock().setStaticFriction( value );
+            }
+        } );
+        staticFriction.getSlider().addMouseListener( new MouseAdapter() {
+            public void mouseReleased( MouseEvent e ) {
+                //todo: this hack only works if the static and kinetic friction sliders have the same range
+                if ( staticFriction.getSlider().getValue() <= kineticFriction.getSlider().getValue() ) {
+                    //todo: this hack seems to be necessary to get the slider value to snap to (since the slider somehow has a value different than the location of its thumb icon)
+                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue()+1 );
+                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() );
+                }
             }
         } );
         kineticFriction = createControl( 0.05, 0, MAX_KINETIC_FRICTION, SimStrings.get( "Force1dControlPanel.kineticFriction" ), "", new SpinnerHandler() {
@@ -117,7 +132,7 @@ public class Force1dControlPanel extends IForceControl {
                 //make sure static>=kinetic.
                 double s = model.getBlock().getStaticFriction();
                 double k = model.getBlock().getKineticFriction();
-                if( s < k ) {
+                if ( s < k ) {
                     staticFriction.setValue( k );
                 }
             }
@@ -136,7 +151,7 @@ public class Force1dControlPanel extends IForceControl {
         } );
         module.setObject( module.imageElementAt( 0 ) );
         super.setHelpPanelEnabled( true );
-        if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
 
         }
         else {
@@ -180,8 +195,8 @@ public class Force1dControlPanel extends IForceControl {
         labelTable.put( new Double( 1.67 ), toJLabel( SimStrings.get( "Force1dControlPanel.moon" ) ) );
         labelTable.put( new Double( 9.8 ), toJLabel( SimStrings.get( "Force1dControlPanel.earth" ) ) );
         labelTable.put( new Double( 22.9 ), toJLabel( SimStrings.get( "Force1dControlPanel.jupiter" ) ) );
-        gravity.setModelLabels( labelTable );
-        gravity.setPaintTicks( false );
+        gravity.setTickLabels( labelTable );
+//        gravity.setPaintTicks( false );
     }
 
     static final Stroke stroke = new BasicStroke( 1 );
@@ -190,7 +205,7 @@ public class Force1dControlPanel extends IForceControl {
         JLabel horizLabel = new JLabel( name ) {
             protected void paintComponent( Graphics g ) {
 
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
                 GraphicsState gs = new GraphicsState( g2 );
                 g.setColor( Color.blue );
                 int x = getWidth() / 2;
@@ -224,22 +239,18 @@ public class Force1dControlPanel extends IForceControl {
         barriers.setEnabled( enabled );
     }
 
-    private ModelSlider createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
-        final ModelSlider modelSlider = new ModelSlider( name, units, min, max, value );
-        modelSlider.addChangeListener( new ChangeListener() {
+    private LinearValueControl createControl( double value, double min, double max, String name, String units, final SpinnerHandler handler ) {
+        final LinearValueControl linearValueControl = new LinearValueControl( min, max, name, "0.0", units, new ModelSliderLayoutStrategy() );
+        linearValueControl.setValue( value );
+        linearValueControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                double value = modelSlider.getValue();
-                handler.changed( value );
+                handler.changed( linearValueControl.getValue() );
             }
         } );
-        handler.changed( value );
-        modelSlider.setNumMajorTicks( 5 );
-        modelSlider.setNumMinorTicks( 0 );
-        if( modelSlider.getUnitsReadout() != null ) {
-            modelSlider.getUnitsReadout().setBackground( module.getPhetLookAndFeel().getBackgroundColor() );
-        }
-        modelSlider.setTitleFont( module.getPhetLookAndFeel().getFont() );
-        return modelSlider;
+        linearValueControl.setMinorTicksVisible( false );
+        linearValueControl.setMajorTickSpacing( ( max - min ) / 5 );
+        linearValueControl.setBorder( BorderFactory.createEtchedBorder() );
+        return linearValueControl;
     }
 
     public void reset() {
