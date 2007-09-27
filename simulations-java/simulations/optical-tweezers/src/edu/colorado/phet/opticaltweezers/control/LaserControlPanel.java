@@ -23,6 +23,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,18 +60,17 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     
     private Laser _laser;
     
-    private JButton _startStopButton;
     private LaserPowerControl _powerControl;
 
     private PPath _backgroundNode;
-    private PSwing _startStopButtonWrapper;
+    private PNode _startButton;
+    private PNode _stopButton;
     private PSwing _labelWrapper;
     private PSwing _sliderWrapper;
     private PSwing _textFieldWrapper;
     private PSwing _unitsWrapper;
     private PNode _signNode;
     
-    private Icon _startIcon, _stopIcon;
     private ChangeListener _powerControlListener;
     
     //----------------------------------------------------------------------------
@@ -91,22 +91,32 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _laser = laser;
         _laser.addObserver( this );
         
+        final Observer thisObserver = this;
+        
         // Warning sign
         _signNode = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_SIGN  ) );
         
-        // Start/Stop button
-        _startIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_OFF  ) );
-        _stopIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_ON  ) );
-        _startStopButton = new JButton( _laser.isRunning() ? _stopIcon : _startIcon );
-        _startStopButton.setOpaque( false );
-        _startStopButton.setMargin( new Insets( 0, 0, 0, 0 ) );
-        _startStopButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                _laser.setRunning( !_laser.isRunning() );
-                _startStopButton.setIcon( _laser.isRunning() ? _stopIcon : _startIcon );
+        // Start button
+        _startButton = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_OFF ) );
+        _startButton.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseReleased(PInputEvent event) {
+                _laser.deleteObserver( thisObserver );
+                _laser.setRunning( true );
+                _laser.addObserver( thisObserver );
+                updateStartStopButton();
             }
-        } );
-        _startStopButtonWrapper = new PSwing( _startStopButton );
+        });
+        
+        // Stop button
+        _stopButton = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_ON  ) );
+        _stopButton.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseReleased(PInputEvent event) {
+                _laser.deleteObserver( thisObserver );
+                _laser.setRunning( false );
+                _laser.addObserver( thisObserver );
+                updateStartStopButton();
+            }
+        });
         
         // Power control
         DoubleRange powerRange = _laser.getPowerRange();
@@ -119,7 +129,9 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _powerControlListener = new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 double power = _powerControl.getPower();
+                _laser.deleteObserver( thisObserver );
                 _laser.setPower( power );
+                _laser.addObserver( thisObserver );
             }
         };
         _powerControl.addChangeListener( _powerControlListener );
@@ -131,7 +143,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         // Panel background
         double xMargin = X_MARGIN;
         double panelWidth = X_MARGIN + 
-            _startStopButtonWrapper.getFullBounds().getWidth() + X_SPACING +
+            _stopButton.getFullBounds().getWidth() + X_SPACING +
             _labelWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
             _sliderWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
             _textFieldWrapper.getFullBounds().getWidth() + X_SPACING_INTENSITY_CONTROL + 
@@ -142,7 +154,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             xMargin = ( minPanelWidth - panelWidth ) / 2;
             panelWidth = minPanelWidth;
         }
-        double maxComponentHeight = Math.max( _startStopButtonWrapper.getFullBounds().getHeight(), _labelWrapper.getFullBounds().getHeight() );
+        double maxComponentHeight = Math.max( _stopButton.getFullBounds().getHeight(), _labelWrapper.getFullBounds().getHeight() );
         maxComponentHeight = Math.max( maxComponentHeight, _labelWrapper.getFullBounds().getHeight() );
         maxComponentHeight = Math.max( maxComponentHeight, _sliderWrapper.getFullBounds().getHeight() );
         maxComponentHeight = Math.max( maxComponentHeight, _textFieldWrapper.getFullBounds().getHeight() );
@@ -156,7 +168,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         // Layering
         addChild( _backgroundNode );
-        addChild( _startStopButtonWrapper );
+        addChild( _startButton );
+        addChild( _stopButton );
         addChild( _labelWrapper );
         addChild( _sliderWrapper );
         addChild( _textFieldWrapper );
@@ -164,7 +177,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         addChild( _signNode );
         
         // Hand cursor on Swing controls
-        _startStopButtonWrapper.addInputEventListener( new CursorHandler() );
+        _startButton.addInputEventListener( new CursorHandler() );
+        _stopButton.addInputEventListener( new CursorHandler() );
 
         // Positioning, all components vertically centered
         {
@@ -174,10 +188,11 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             _backgroundNode.setOffset( x, y );
 
             x += xMargin;
-            y = ( bgHeight - _startStopButtonWrapper.getHeight() ) / 2;
-            _startStopButtonWrapper.setOffset( x, y );
+            y = ( bgHeight - _startButton.getHeight() ) / 2;
+            _startButton.setOffset( x, y );
+            _stopButton.setOffset( x, y );
 
-            x += _startStopButtonWrapper.getWidth() + X_SPACING;
+            x += _startButton.getFullBounds().getWidth() + X_SPACING;
             y = ( bgHeight - _labelWrapper.getFullBounds().getHeight() ) / 2;
             _labelWrapper.setOffset( x, y );
 
@@ -197,6 +212,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
             y = ( bgHeight - _signNode.getFullBounds().getHeight() ) / 2;
             _signNode.setOffset( x, y );
         }
+        
+        updateStartStopButton();
     }
     
     public void cleanup() {
@@ -242,6 +259,15 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         return _powerControl.getMaxPower();
     }
     
+    private void updateStartStopButton() {
+        System.out.println( "updateStartStopButton" );//XXX
+        final boolean isRunning = _laser.isRunning();
+        _startButton.setVisible( !isRunning );
+        _startButton.setPickable( _startButton.getVisible() );
+        _stopButton.setVisible( isRunning );
+        _stopButton.setPickable( _stopButton.getVisible() );
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -249,7 +275,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     public void update( Observable o, Object arg ) {
         if ( o == _laser ) {
             if ( arg == Laser.PROPERTY_RUNNING ) {
-                _startStopButton.setIcon( _laser.isRunning() ? _stopIcon : _startIcon );
+                updateStartStopButton();
             }
             else if ( arg == Laser.PROPERTY_POWER ) {
                 double power = _laser.getPower();
@@ -278,7 +304,7 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         
         public void mouseDragged( PInputEvent event ) {
             PNode pickedNode = event.getPickedNode();
-            if ( pickedNode != _startStopButtonWrapper && pickedNode != _sliderWrapper && pickedNode != _textFieldWrapper ) {
+            if ( pickedNode != _startButton && pickedNode != _stopButton && pickedNode != _sliderWrapper && pickedNode != _textFieldWrapper ) {
                 super.mouseDragged( event );
             }
         }

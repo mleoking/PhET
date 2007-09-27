@@ -38,6 +38,8 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/27/07 - remove duplicate notifications that were occurring in LaserControlPanel
+9/27/07 - change laser on/off button from JButton to 2 PNodes so we don't see white halo
 9/27/07 - use hydrogen atom's gun on/off button for laser on/off control
 9/27/07 - reduce number of columns in fluid flow speed textfield, display is in microns/sec, model is in nm/sec
 9/27/07 - move initial position of Fluid Controls dialog to lower left in Motors panel
