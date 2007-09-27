@@ -6,7 +6,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
-
+/**
+ * MicroscopeSlide is the model of the microscope slide in which this "experiment" takes place.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MicroscopeSlide extends FixedObject implements ModelElement {
     
     private final double _centerHeight; // nm

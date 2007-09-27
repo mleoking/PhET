@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 
 /**
- * DeveloperControlsDialog is a dialog that contains "developer only" controls.
+ * DeveloperControlsDialog is a nonmodal dialog that contains "developer only" controls.
  * These controls will not be available to the user, and are not localized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -40,6 +40,7 @@ public class DeveloperControlsDialog extends JDialog {
     public DeveloperControlsDialog( Frame owner, OpticalTweezersApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
+        setModal( false );
 
         _app = app;
 

@@ -20,7 +20,6 @@ LOW PRIORITY:
 - beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors
-- javadoc
 - improve startup performance
 
 COMMON CODE:
@@ -39,7 +38,8 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
-9/27/07 - package level javadoc
+9/27/07 - add/modify class-level javadoc
+9/27/07 - package-level javadoc
 9/27/07 - always use fastest dt to evolve strand when user drags bead with clock paused
 ********* version 1.00.13 (17999)
 9/26/07 - use Tom's new model for speed with which enzyme pulls DNA

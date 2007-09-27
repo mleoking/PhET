@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * PushpinNode represents the pushpin used to "pin" the DNA strand or enzyme in place.
+ * PushpinNode represents the pushpin used to "pin" a DNA strand or enzyme in place.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
