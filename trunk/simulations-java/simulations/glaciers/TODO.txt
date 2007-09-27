@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
 
