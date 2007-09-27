@@ -281,7 +281,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param enabled true or false
      */
     public void setEnabled( boolean enabled ) {
-        this.setEnabled( enabled );
+        super.setEnabled( enabled );
         _valueLabel.setEnabled( enabled );
         _textField.setEnabled( enabled );
         _unitsLabel.setEnabled( enabled );
