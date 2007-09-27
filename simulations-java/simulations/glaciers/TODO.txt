@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- review specification
 
 MEDIUM PRIORITY:
 
