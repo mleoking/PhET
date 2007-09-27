@@ -41,6 +41,7 @@ public class DNAConfig implements IProguardKeepClass {
     private boolean _trapForceSelected;
     private boolean _dragForceSelected;
     private boolean _dnaForceSelected;
+    private boolean _brownianForceEnabled;
     private boolean _showForceValuesSelected;
     private boolean _positionHistogramSelected;
     private boolean _potentialEnergySelected;
@@ -99,12 +100,18 @@ public class DNAConfig implements IProguardKeepClass {
         _beadY = beadY;
     }
 
+    public boolean isBrownianForceEnabled() {
+        return _brownianForceEnabled;
+    }
+    
+    public void setBrownianForceEnabled( boolean brownianForceEnabled ) {
+        _brownianForceEnabled = brownianForceEnabled;
+    }
     
     public double getClockDt() {
         return _clockDt;
     }
 
-    
     public void setClockDt( double clockDt ) {
         if ( clockDt < DNADefaults.SLOW_DT_RANGE.getMin() || clockDt > DNADefaults.FAST_DT_RANGE.getMax() ) {
             System.err.println( "WARNING: clockDt (" + clockDt + ") is out of range, default will be used" );

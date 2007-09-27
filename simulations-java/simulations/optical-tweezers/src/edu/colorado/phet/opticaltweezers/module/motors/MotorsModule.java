@@ -289,6 +289,7 @@ public class MotorsModule extends OTAbstractModule {
             config.setTrapForceSelected( forcesControlPanel.isTrapForceSelected() );
             config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
             config.setDnaForceSelected( forcesControlPanel.isDNAForceSelected() );
+            config.setBrownianForceEnabled( forcesControlPanel.isBrownianMotionSelected() );
             config.setShowForceValuesSelected( forcesControlPanel.isShowValuesSelected() );
             config.setKeepTrapForceConstantSelected( forcesControlPanel.isKeepTrapForceConstantSelected() );
 
@@ -353,6 +354,7 @@ public class MotorsModule extends OTAbstractModule {
             forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
             forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );
             forcesControlPanel.setDNAForceSelected( config.isDnaForceSelected() );
+            forcesControlPanel.setBrownianMotionSelected( config.isBrownianForceEnabled() );
             forcesControlPanel.setShowValuesSelected( config.isShowForceValuesSelected() );
             forcesControlPanel.setKeepTrapForceConstantSelected( config.isKeepTrapForceConstantSelected() );
 

@@ -71,7 +71,6 @@ public class MotorsControlPanel extends OTAbstractControlPanel {
                 false /* showVacuumControls */ );
         
         // Turn off some features
-        _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
         _miscControlPanel.setFluidVacuumPanelVisible( false );
         
         // Layout

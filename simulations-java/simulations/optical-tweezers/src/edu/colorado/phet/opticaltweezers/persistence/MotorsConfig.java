@@ -43,6 +43,7 @@ public class MotorsConfig implements IProguardKeepClass {
     private boolean _trapForceSelected;
     private boolean _dragForceSelected;
     private boolean _dnaForceSelected;
+    private boolean _brownianForceEnabled;
     private boolean _showForceValuesSelected;
     private boolean _keepTrapForceConstantSelected;
     private boolean _positionHistogramSelected;
@@ -102,6 +103,16 @@ public class MotorsConfig implements IProguardKeepClass {
         _beadY = beadY;
     }
 
+    
+    public boolean isBrownianForceEnabled() {
+        return _brownianForceEnabled;
+    }
+
+    
+    public void setBrownianForceEnabled( boolean brownianForceEnabled ) {
+        _brownianForceEnabled = brownianForceEnabled;
+    }
+    
 
     public double getClockDt() {
         return _clockDt;
