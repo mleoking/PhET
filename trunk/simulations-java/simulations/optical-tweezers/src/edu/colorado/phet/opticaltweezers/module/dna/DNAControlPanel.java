@@ -72,7 +72,6 @@ public class DNAControlPanel extends OTAbstractControlPanel {
                 false /* showVacuumControls */ );
         
         // Turn off some features
-        _forcesControlPanel.setBrownianMotionCheckBoxVisible( false );
         _forcesControlPanel.setKeepTrapForceConstantCheckBoxVisible( false );
         _miscControlPanel.setFluidVacuumPanelVisible( false );
         

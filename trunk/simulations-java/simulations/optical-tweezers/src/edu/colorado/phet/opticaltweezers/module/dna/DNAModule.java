@@ -248,6 +248,7 @@ public class DNAModule extends OTAbstractModule {
             config.setTrapForceSelected( forcesControlPanel.isTrapForceSelected() );
             config.setDragForceSelected( forcesControlPanel.isDragForceSelected() );
             config.setDnaForceSelected( forcesControlPanel.isDNAForceSelected() );
+            config.setBrownianForceEnabled( forcesControlPanel.isBrownianMotionSelected() );
             config.setShowForceValuesSelected( forcesControlPanel.isShowValuesSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
@@ -307,6 +308,7 @@ public class DNAModule extends OTAbstractModule {
             forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
             forcesControlPanel.setDragForceSelected( config.isDragForceSelected() );
             forcesControlPanel.setDNAForceSelected( config.isDnaForceSelected() );
+            forcesControlPanel.setBrownianMotionSelected( config.isBrownianForceEnabled() );
             forcesControlPanel.setShowValuesSelected( config.isShowForceValuesSelected() );
 
             ChartsControlPanel chartsControlPanel = _controlPanel.getChartsControlPanel();
