@@ -34,7 +34,7 @@ public class ChartsControlPanel extends JPanel {
     private IClock _clock;
     private Bead _bead;
     private Laser _laser;
-    private PNode _potentialEnergyNode;
+    private PNode _potentialEnergyChartNode;
     private LaserNode _laserNode;
     
     private PositionHistogramDialog _positionHistogramDialog;
@@ -60,19 +60,19 @@ public class ChartsControlPanel extends JPanel {
      * @param clock
      * @param bead
      * @param laser
-     * @param potentialEnergyNode
+     * @param potentialEnergyChartNode
      */
     public ChartsControlPanel( Font titleFont, Font controlFont, 
             Frame parentFrame, Point positionHistogramDialogOffset,
             IClock clock, Bead bead, Laser laser, 
-            PNode potentialEnergyNode, LaserNode laserNode ) {
+            PNode potentialEnergyChartNode, LaserNode laserNode ) {
         super();
         
         _parentFrame = parentFrame;
         _clock = clock;
         _bead = bead;
         _laser = laser;
-        _potentialEnergyNode = potentialEnergyNode;
+        _potentialEnergyChartNode = potentialEnergyChartNode;
         _laserNode = laserNode;
         
         _positionHistogramDialog = null;
@@ -118,9 +118,9 @@ public class ChartsControlPanel extends JPanel {
                     handlePotentialEnergyCheckBox();
                 }
             } );
-            _potentialEnergyNode.addPropertyChangeListener( new PropertyChangeListener() {
+            _potentialEnergyChartNode.addPropertyChangeListener( new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
+                    _potentialEnergyChartCheckBox.setSelected( _potentialEnergyChartNode.getVisible() );
                 }
             } );
             
@@ -153,7 +153,7 @@ public class ChartsControlPanel extends JPanel {
 
         // Default state
         _positionHistogramCheckBox.setSelected( _positionHistogramDialog != null );
-        _potentialEnergyChartCheckBox.setSelected( _potentialEnergyNode.getVisible() );
+        _potentialEnergyChartCheckBox.setSelected( _potentialEnergyChartNode.getVisible() );
     }
     
     //----------------------------------------------------------------------------
@@ -194,7 +194,7 @@ public class ChartsControlPanel extends JPanel {
     }
     
     private void handlePotentialEnergyCheckBox() {
-        _potentialEnergyNode.setVisible( _potentialEnergyChartCheckBox.isSelected() );
+        _potentialEnergyChartNode.setVisible( _potentialEnergyChartCheckBox.isSelected() );
     }
     
     //----------------------------------------------------------------------------
