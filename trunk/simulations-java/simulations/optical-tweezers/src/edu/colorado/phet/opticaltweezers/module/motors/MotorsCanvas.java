@@ -145,10 +145,10 @@ public class MotorsCanvas extends OTAbstractCanvas {
             }
         });
         _resetDNAButtonWrapper = new PSwing( resetDNAButton );
-        // center the button under the enzyme
+        // center the button above the enzyme
         PBounds eBounds = _enzymeANode.getFullBoundsReference();
         _resetDNAButtonWrapper.setOffset( eBounds.getX() + ( eBounds.getWidth() / 2 ) - ( _resetDNAButtonWrapper.getFullBoundsReference().getWidth() / 2 ),
-                eBounds.getMaxY() + 50 );
+                eBounds.getMaxY() - 150 );
         
         // Layering order of nodes on the canvas
         addNode( _microscopeSlideNode );

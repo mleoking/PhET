@@ -4,7 +4,6 @@
 
 HIGH PRIORITY:
 - use hydrogen atom's gun on/off button for laser on/off control
-- move "Reset DNA" button above enzyme
 - move initial position of Fluid Controls dialog to lower left in Motors panel
 - reduce number of columns in fluid flow speed textfield
 - add stall force to balance DNA force (need model from Tom)
@@ -42,6 +41,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/27/07 - move "Reset DNA" button above enzyme
 9/27/07 - add "Enable Brownian force" checkbox to all control panels, with save/load support
 9/27/07 - remove dead code, move shared code to OTAbstractControlPanel
 9/27/07 - add/modify class-level javadoc
