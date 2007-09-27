@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
-- reduce number of args required by constructors of control panels and model elements
 - free end of DNA doesn't evolve when bead is dragged with clock paused
 - use phetcommon's Vector2D
 - what units for E-field?
