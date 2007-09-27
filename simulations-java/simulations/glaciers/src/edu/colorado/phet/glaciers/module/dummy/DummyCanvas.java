@@ -5,8 +5,10 @@ package edu.colorado.phet.glaciers.module.dummy;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.defaults.DummyDefaults;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractCanvas;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * DummyCanvas
@@ -22,6 +24,8 @@ public class DummyCanvas extends GlaciersAbstractCanvas {
     // Model
     private DummyModel _model;
     
+    private PImage _cartoon;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -32,6 +36,11 @@ public class DummyCanvas extends GlaciersAbstractCanvas {
         _model = model;
         
         setBackground( GlaciersConstants.CANVAS_BACKGROUND );
+        
+        _cartoon = new PImage( GlaciersResources.getImage( "cartoon.png" ) );
+        _cartoon.scale( 1.5 );
+        
+        addNode( _cartoon );
     }
     
     //----------------------------------------------------------------------------
@@ -56,5 +65,10 @@ public class DummyCanvas extends GlaciersAbstractCanvas {
         }
         
         //XXX lay out nodes
+        
+        // center the cartoon
+        double x = ( worldSize.getWidth() - _cartoon.getFullBoundsReference().getWidth() ) / 2;
+        double y = ( worldSize.getHeight() - _cartoon.getFullBoundsReference().getHeight() ) / 2;
+        _cartoon.setOffset( x, y );
     }
 }
