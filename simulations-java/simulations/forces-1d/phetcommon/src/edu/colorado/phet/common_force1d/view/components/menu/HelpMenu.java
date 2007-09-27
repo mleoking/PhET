@@ -15,10 +15,13 @@ import edu.colorado.phet.common_force1d.application.ModuleManager;
 import edu.colorado.phet.common_force1d.application.ModuleObserver;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 
 /**
  * HelpMenu
@@ -29,15 +32,17 @@ import java.awt.event.ActionListener;
 public class HelpMenu extends JMenu implements ModuleObserver {
     private ImageIcon icon;
     private JMenuItem onscreenHelp;
+    private Frame parent;
 
-    public HelpMenu( PhetApplication application ) {
-        this( application.getModuleManager(), application.getApplicationModel().getName(),
+    public HelpMenu( Frame parent,PhetApplication application ) {
+        this( parent,application.getModuleManager(), application.getApplicationModel().getName(),
               application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion() );
     }
 
-    public HelpMenu( final ModuleManager moduleManager, final String title,
+    public HelpMenu( final Frame parent,final ModuleManager moduleManager, final String title,
                      String description, String version ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
+        this.parent=parent;
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );
 
@@ -89,14 +94,11 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
-
-        String javaVersion = SimStrings.get( "Common.HelpMenu.JavaVersion" ) + ": " + System.getProperty( "java.version" );
-        about.setMnemonic( SimStrings.get( "Common.HelpMenu.AboutMnemonic" ).charAt( 0 ) );
-        String message = title + "\n" + description + "\n" + SimStrings.get( "Common.HelpMenu.VersionLabel" ) + ": " + version + "\n\n" + javaVersion + "\n";
-        final String msg = message;
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                JOptionPane.showMessageDialog( about, msg, SimStrings.get( "Common.HelpMenu.AboutTitle" ) + " " + title, JOptionPane.INFORMATION_MESSAGE, icon );
+                PhetAboutDialog phetAboutDialog=new PhetAboutDialog( parent, "forces-1d");
+                SwingUtils.centerWindowOnScreen( phetAboutDialog );//not sure why the default centering fails for this application
+                phetAboutDialog.show( );
             }
         } );
         add( about );
