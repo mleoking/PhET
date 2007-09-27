@@ -17,6 +17,10 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 /**
  * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
  * One end of the strand is pinned in place, the other end is attached to a bead.
+ * The strand is modeled as a set of connected springs, with springs attached 
+ * to each other at pivot points. The stand's contour length can be dynamically 
+ * varied, but the strand must always contain of at least one "spring"; zero-length
+ * strands are not supported.
  * <p>
  * This model is unlikely to be useful in any other simulations.
  * The force model is based on physics. But the model of strand motion

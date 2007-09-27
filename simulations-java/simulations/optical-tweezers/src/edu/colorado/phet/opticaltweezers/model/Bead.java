@@ -12,6 +12,9 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
 
 /**
  * Bead is the model of a glass bead, the dialectric particle in this experiement.
+ * The bead exhibits Brownian motion, and is under the influence of an optical trap force,
+ * a fluid drag force, and (if attached to a DNA strand) a DNA force. Motion models
+ * are provided for fluid and vacuum.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

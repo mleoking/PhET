@@ -18,7 +18,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 
 
 /**
- * AbstractControlPanel is the base class for all control panels.
+ * OTAbstractControlPanel is the base class for all control panels.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

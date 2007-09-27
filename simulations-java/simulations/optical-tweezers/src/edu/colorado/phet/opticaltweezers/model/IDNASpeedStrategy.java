@@ -42,7 +42,7 @@ public interface IDNASpeedStrategy {
     
     /**
      * KathyAbstractDNASpeedStrategy is the original model developed by Kathy Perkins,
-     * and described in the design document.
+     * and described in the design document (doc/optical-tweezers.pdf).
      */
     public abstract class KathyAbstractDNASpeedStrategy implements IDNASpeedStrategy {
 
@@ -111,7 +111,8 @@ public interface IDNASpeedStrategy {
     
     /**
      * TomAbstractDNASpeedStrategy is a later model developed by Tom Perkins.
-     * It is not documented, and the semantics of the parameters is unknown.
+     * The semantics of the parameters is unknown.
+     * See doc/dna-speed.pdf for the original Igor code for this model.
      */
     public abstract class TomAbstractDNASpeedStrategy implements IDNASpeedStrategy {
 

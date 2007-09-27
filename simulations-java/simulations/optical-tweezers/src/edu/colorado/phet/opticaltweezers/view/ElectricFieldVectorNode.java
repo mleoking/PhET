@@ -15,7 +15,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 
 /**
- * ElectricFieldVectorNode is represents the electric field at a point.
+ * ElectricFieldVectorNode displays the electric field at a point.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * AbstractCanvas is the base class for all canvases (aka "play areas") in this simulation.
+ * OTAbstractCanvas is the base class for all canvases (aka "play areas") in this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

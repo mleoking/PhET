@@ -17,7 +17,7 @@ import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 
 
 /**
- * AbstractModule is the base class for all modules.
+ * OTAbstractModule is the base class for all modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

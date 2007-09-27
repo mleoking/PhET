@@ -13,7 +13,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * ObjectiveSupportNode is a support apparatus for the objective.
- * It looks a bit like an adjustable wrench.
+ * It looks a bit like an adjustable wrench, and two of these are
+ * used to connect the objective to the control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

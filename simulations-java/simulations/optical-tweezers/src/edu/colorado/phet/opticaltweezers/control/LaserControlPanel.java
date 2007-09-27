@@ -29,7 +29,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * LaserControlPanel is the panel used to control laser properties. 
+ * LaserControlPanel is the panel used to control laser properties.
+ * It is physically attached to the laser in the play area. 
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

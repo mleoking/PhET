@@ -19,6 +19,7 @@ import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
  * This menu contains global developer-only features for tuning and debugging.
+ * This menu is not localized, since it will not be visible to the end user.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

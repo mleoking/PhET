@@ -8,7 +8,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-
+/**
+ * OTResources is a convenience wrapper around PhetResources that provides 
+ * access to localized strings, images and other resources that reside in 
+ * the classpath.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class OTResources {
     
     private static final PhetResources RESOURCES = PhetResources.forProject( "optical-tweezers" );
