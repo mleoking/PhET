@@ -22,6 +22,7 @@ LOW PRIORITY:
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors
 - improve startup performance
+- some controls assume (correctly) that they are the only control for something, and so don't observe that something
 
 COMMON CODE:
 - why is setActiveModule(_motorsModule) buggy?
@@ -39,6 +40,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/27/07 - remove dead code, move shared code to OTAbstractControlPanel
 9/27/07 - add/modify class-level javadoc
 9/27/07 - package-level javadoc
 9/27/07 - always use fastest dt to evolve strand when user drags bead with clock paused

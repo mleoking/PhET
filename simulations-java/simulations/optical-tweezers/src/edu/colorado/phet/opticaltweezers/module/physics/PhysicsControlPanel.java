@@ -47,10 +47,6 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         super( module );
         
         _canvas = module.getPhysicsCanvas();
-
-        // Set the control panel's minimum width.
-        int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
-        setMinumumWidth( minimumWidth );
         
         // Sub-panels
         PhysicsModel model = module.getPhysicsModel();
@@ -69,13 +65,10 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, 
                 module.getFrame(), PhysicsDefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
                 _canvas.getRulerNode(), model.getFluid() );
-        List forceVectorNodes = new ArrayList();
-        forceVectorNodes.add( _canvas.getTrapForceNode() );
-        forceVectorNodes.add( _canvas.getFluidDragForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
-                (OTClock)module.getClock(), model.getBead(), null /*invisibleBead */, model.getLaser(),
-                null /* dnaStrand1 */, null /* dnaStrandNode1 */, 
-                null /* dnaStrand2 */, null /* dnaStrandNode2 */,
+                (OTClock)module.getClock(), model.getBead(), null /* invisibleBead */, model.getLaser(),
+                null /* dnaStrandBead */, null /* dnaStrandNodeBeadNode */, 
+                null /* dnaStrandFree */, null /* dnaStrandFreeNode */,
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
                 _canvas.getLaserNode().getElectricFieldNode(), _canvas.getChargeDistributionNode(),
                 true /* showVacuumControls */ );

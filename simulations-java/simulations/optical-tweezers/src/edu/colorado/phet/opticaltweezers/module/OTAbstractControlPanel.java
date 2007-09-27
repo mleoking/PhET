@@ -51,6 +51,10 @@ public abstract class OTAbstractControlPanel extends ControlPanel {
         super();
         setInsets( new Insets( 0, 3, 0, 3 ) );
         _module = module;
+        
+        // Set the control panel's minimum width.
+        int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
+        setMinumumWidth( minimumWidth );
     }
 
     //----------------------------------------------------------------------------
