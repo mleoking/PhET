@@ -46,10 +46,6 @@ public class MotorsControlPanel extends OTAbstractControlPanel {
         super( module );
 
         _canvas = module.getMotorsCanvas();
-
-        // Set the control panel's minimum width.
-        int minimumWidth = OTResources.getInt( "int.minControlPanelWidth", 215 );
-        setMinumumWidth( minimumWidth );
         
         // Sub-panels
         MotorsModel model = module.getMotorsModel();
@@ -66,10 +62,6 @@ public class MotorsControlPanel extends OTAbstractControlPanel {
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, 
                 module.getFrame(), MotorsDefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
                 _canvas.getRulerNode(), model.getFluid() );
-        List forceVectorNodes = new ArrayList();
-        forceVectorNodes.add( _canvas.getTrapForceNode() );
-        forceVectorNodes.add( _canvas.getFluidDragForceNode() );
-        forceVectorNodes.add( _canvas.getDNAForceNode() );
         _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
                 (OTClock)module.getClock(), model.getBead(), model.getInvisibleBead(), model.getLaser(), 
                 model.getDNAStrandBead(), _canvas.getDNAStrandBeadNode(),
