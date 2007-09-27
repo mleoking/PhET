@@ -37,7 +37,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
     
     private static final double NANOMETERS_PER_MICRON = 1E3;
         
-    private static final String SPEED_DISPLAY_PATTERN = "######0";
+    private static final String SPEED_DISPLAY_PATTERN = "###0"; // displayed in microns/sec, requires fewer digits
     private static final String VISCOSITY_DISPLAY_PATTERN = "0.0E0";
     private static final String TEMPERATURE_DISPLAY_PATTERN = "##0";
     private static final String ATP_DISPLAY_PATTERN = "#0.0";
