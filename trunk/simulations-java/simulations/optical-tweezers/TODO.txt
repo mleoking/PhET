@@ -7,7 +7,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - should it be possible to drag bead and make DNA strand more straight? (increase stretchiness factor)
-- get different values 2nd enzyme for Kathy's model of DNA speed
+- get different values for 2nd enzyme for Kathy's model of DNA speed
 - is "keep trap force constant" behavior correct when bead is outside the trap? (when trap force is small)
 - "keep trap force constant" feature slows things down (laser redraw)
 - what to do when you press "Reset DNA" with "keep trap force constant" on?
