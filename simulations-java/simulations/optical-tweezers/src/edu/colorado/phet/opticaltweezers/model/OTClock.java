@@ -64,4 +64,8 @@ public class OTClock extends ConstantDtClock {
     public DoubleRange getFastRange() {
         return _fastRange;
     }
+    
+    public double getMaxDt() {
+        return _fastRange.getMax();
+    }
 }
