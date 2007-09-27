@@ -789,7 +789,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 DNAPivot pivot = (DNAPivot) _pivots.get( _pivots.size() - 1 );
                 pivot.setPosition( _bead.getX(), _bead.getY() );
                 if ( !_clock.isRunning() ) {
-                    evolve( _clock.getDt() );
+                    // user is dragging the bead with clock paused, evolve as quickly as possible
+                    evolve( _clock.getMaxDt() );
                 }
                 notifyObservers( PROPERTY_SHAPE );
             }

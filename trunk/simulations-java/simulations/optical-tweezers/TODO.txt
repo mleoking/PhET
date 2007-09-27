@@ -13,7 +13,6 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - reduce number of args required by constructors of control panels and model elements
-- DNA strand behavior looks a little strange when bead is dragged at slower clock speeds
 - free end of DNA doesn't evolve when bead is dragged with clock paused
 - use phetcommon's Vector2D
 - what units for E-field?
@@ -41,6 +40,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+9/27/07 - always use fastest dt to evolve strand when user drags bead with clock paused
 ********* version 1.00.13 (17999)
 9/26/07 - use Tom's new model for speed with which enzyme pulls DNA
 9/26/07 - organize imports
