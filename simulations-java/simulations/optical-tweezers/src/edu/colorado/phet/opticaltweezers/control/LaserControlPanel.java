@@ -95,8 +95,8 @@ public class LaserControlPanel extends PhetPNode implements Observer {
         _signNode = new PImage( OTResources.getImage( OTConstants.IMAGE_LASER_SIGN  ) );
         
         // Start/Stop button
-        _startIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_OFF_BUTTON  ) );
-        _stopIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_ON_BUTTON  ) );
+        _startIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_OFF  ) );
+        _stopIcon = new ImageIcon( OTResources.getImage( OTConstants.IMAGE_LASER_BUTTON_ON  ) );
         _startStopButton = new JButton( _laser.isRunning() ? _stopIcon : _startIcon );
         _startStopButton.setOpaque( false );
         _startStopButton.setMargin( new Insets( 0, 0, 0, 0 ) );
