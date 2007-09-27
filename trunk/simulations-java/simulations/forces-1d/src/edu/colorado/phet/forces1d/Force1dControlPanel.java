@@ -247,6 +247,7 @@ public class Force1dControlPanel extends IForceControl {
                 handler.changed( linearValueControl.getValue() );
             }
         } );
+        handler.changed( linearValueControl.getValue() );
         linearValueControl.setMinorTicksVisible( false );
         linearValueControl.setMajorTickSpacing( ( max - min ) / 5 );
         linearValueControl.setBorder( BorderFactory.createEtchedBorder() );
