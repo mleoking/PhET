@@ -193,7 +193,7 @@ public class PlotDevice extends GraphicLayerSet {
         timeLabel = new PhetTextGraphic( panel, PlotDeviceFontManager.getFontSet().getTimeLabelFont(), SimStrings.get( "PlotDevice.time" ), Color.red, 0, 0 );
         addGraphic( chartComponent.getChart() );
         addGraphic( timeLabel );
-        respectControllable();
+        updateControllable();
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
                 if( isVisible() ) {
@@ -269,7 +269,7 @@ public class PlotDevice extends GraphicLayerSet {
         chartComponent.setDataSeriesVisible( index, visible );
     }
 
-    private void respectControllable() {
+    private void updateControllable() {
         if( !controllable ) {
             setSliderVisible( false );
             textBox.setEditable( false );
@@ -357,16 +357,21 @@ public class PlotDevice extends GraphicLayerSet {
         listeners.add( listener );
     }
 
+    double lastTextValue = Double.NaN;
+
     public void setTextValue( double value ) {
-        String valueString = format.format( value );
-        if( valueString.equals( "-0.00" ) ) {
-            valueString = "0.00";
-        }
-        if( !textBox.getText().equals( valueString ) ) {
-            textBox.setText( valueString );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
-                listener.readoutChanged( value );
+        if ( lastTextValue != value ) {
+            lastTextValue=value;
+            String valueString = format.format( value );
+            if ( valueString.equals( "-0.00" ) ) {
+                valueString = "0.00";
+            }
+            if ( !textBox.getText().equals( valueString ) ) {
+                textBox.setText( valueString );
+                for ( int i = 0; i < listeners.size(); i++ ) {
+                    Listener listener = (Listener) listeners.get( i );
+                    listener.readoutChanged( value );
+                }
             }
         }
     }
@@ -474,7 +479,7 @@ public class PlotDevice extends GraphicLayerSet {
 
 //        floatingControl.setVisible( visible );
 //        titleLable.setVisible( visible && adorned );
-        respectControllable();
+        updateControllable();
     }
 
     public void update() {
@@ -995,41 +1000,41 @@ public class PlotDevice extends GraphicLayerSet {
                 }
             } );
 
-            module.addListener( new PlotDeviceModel.Listener() {
-                public void recordingStarted() {
-                    setEditable( false );
-                }
-
-                public void recordingPaused() {
-                    setEditable( true && plotDevice.controllable );
-                    selectAll();
-                }
-
-                public void recordingFinished() {
-                    setEditable( false );
-                }
-
-                public void playbackStarted() {
-                    setEditable( false );
-                }
-
-                public void playbackPaused() {
-                    setEditable( true && plotDevice.controllable );
-                    selectAll();
-                }
-
-                public void playbackFinished() {
-                    setEditable( false );
-                }
-
-                public void reset() {
-                    setEditable( true && plotDevice.controllable );
-                }
-
-                public void rewind() {
-                    setEditable( true && plotDevice.controllable );
-                }
-            } );
+//            module.addListener( new PlotDeviceModel.Listener() {
+//                public void recordingStarted() {
+//                    setEditable( false );
+//                }
+//
+//                public void recordingPaused() {
+//                    setEditable( true && plotDevice.controllable );
+//                    selectAll();
+//                }
+//
+//                public void recordingFinished() {
+//                    setEditable( false );
+//                }
+//
+//                public void playbackStarted() {
+//                    setEditable( false );
+//                }
+//
+//                public void playbackPaused() {
+//                    setEditable( true && plotDevice.controllable );
+//                    selectAll();
+//                }
+//
+//                public void playbackFinished() {
+//                    setEditable( false );
+//                }
+//
+//                public void reset() {
+//                    setEditable( true && plotDevice.controllable );
+//                }
+//
+//                public void rewind() {
+//                    setEditable( true && plotDevice.controllable );
+//                }
+//            } );
         }
 
         public void setEnabled( boolean enabled ) {
@@ -1088,7 +1093,9 @@ public class PlotDevice extends GraphicLayerSet {
             if( valueString.length() > textField.getColumns() ) {
                 valueString = valueString.subSequence( 0, textField.getColumns() ) + "";
             }
+            if (!textField.getText().equals( valueString )){
             textField.setText( valueString );
+            }
         }
 
         public void setLabelText( String labelText ) {
