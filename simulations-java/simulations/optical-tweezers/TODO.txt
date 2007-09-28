@@ -38,7 +38,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
-********* version 1.00.14 (18043)
+********* version 1.00.14 (?)
 9/27/07 - remove duplicate notifications that were occurring in LaserControlPanel
 9/27/07 - change laser on/off button from JButton to 2 PNodes so we don't see white halo
 9/27/07 - use hydrogen atom's gun on/off button for laser on/off control
