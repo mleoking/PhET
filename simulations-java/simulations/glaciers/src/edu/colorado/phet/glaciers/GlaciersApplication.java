@@ -25,7 +25,7 @@ import edu.colorado.phet.glaciers.persistence.GlaciersPersistenceManager;
 import edu.colorado.phet.glaciers.persistence.GlobalConfig;
 
 /**
- * OpticalTweezersApplication is the main application for this simulation.
+ * GlaciersApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
