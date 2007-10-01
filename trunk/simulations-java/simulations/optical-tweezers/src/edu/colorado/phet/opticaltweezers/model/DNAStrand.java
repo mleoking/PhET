@@ -538,7 +538,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         }
 
         // evolve so that it doesn't look like a straight line
-        evolve( _clock.getDt() );
+        evolve( _clock.getMaxDt() );
         
         _previousExtension = getExtension();
         

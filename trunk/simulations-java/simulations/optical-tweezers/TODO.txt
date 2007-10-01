@@ -38,6 +38,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/1/07 - DNAStrand.initialize should call evolve with max clock dt
 ********* version 1.00.14 (18049)
 9/27/07 - remove duplicate notifications that were occurring in LaserControlPanel
 9/27/07 - change laser on/off button from JButton to 2 PNodes so we don't see white halo
