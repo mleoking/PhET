@@ -29,6 +29,7 @@ public class MotorsModel extends OTAbstractModel implements Observer {
     private final DNAStrand _dnaStrandFree; // DNA strand with free end
     private final EnzymeA _enzymeA;
     private final EnzymeB _enzymeB;
+    private final LaserPositionController _laserPositionController;
     
     private ModelViewTransform _modelViewTransform;
 
@@ -91,7 +92,6 @@ public class MotorsModel extends OTAbstractModel implements Observer {
                  MotorsDefaults.DNA_STRETCHINESS,
                  _bead,
                  _fluid,
-                 _laser,
                  clock,
                  MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                  MotorsDefaults.DNA_SPRING_CONSTANT_RANGE, 
@@ -128,7 +128,6 @@ public class MotorsModel extends OTAbstractModel implements Observer {
                   MotorsDefaults.DNA_STRETCHINESS,
                   _invisibleBead,
                   _fluid,
-                  null, /* laser, no laser influence */
                   clock,
                   MotorsDefaults.DNA_REFERENCE_CLOCK_STEP,
                   MotorsDefaults.DNA_SPRING_CONSTANT_RANGE, 
@@ -162,6 +161,9 @@ public class MotorsModel extends OTAbstractModel implements Observer {
          _enzymeB.addObserver( this );
          addModelElement( _enzymeB );
 
+         _laserPositionController = new LaserPositionController( _laser, _dnaStrandBead );
+         addModelElement( _laserPositionController );
+         
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
     }
     
@@ -203,6 +205,10 @@ public class MotorsModel extends OTAbstractModel implements Observer {
     
     public EnzymeB getEnzymeB() {
         return _enzymeB;
+    }
+    
+    public LaserPositionController getLaserPositionController() {
+        return _laserPositionController;
     }
     
     public ModelViewTransform getModelViewTransform() {

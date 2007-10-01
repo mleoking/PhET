@@ -22,10 +22,7 @@ import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNo
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.model.Bead;
-import edu.colorado.phet.opticaltweezers.model.DNAStrand;
-import edu.colorado.phet.opticaltweezers.model.Fluid;
-import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.view.*;
 
 /**
@@ -42,7 +39,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
     private Bead _bead;
     private Fluid _fluid;
     private Laser _laser;
-    private DNAStrand _dnaStrand;
+    private LaserPositionController _laserPositionController;
     private TrapForceNode _trapForceNode;
     private FluidDragForceNode _dragForceNode;
     private DNAForceNode _dnaForceNode;
@@ -66,7 +63,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
      * @param bead
      * @param fluid
      * @param laser 
-     * @param dnaStrand
+     * @param laserPositionController
      * @param trapForceNode
      * @param dragForceNode
      * @param dnaForceNode optional
@@ -77,7 +74,7 @@ public class ForcesControlPanel extends JPanel implements Observer {
             Bead bead, 
             Fluid fluid,
             Laser laser,
-            DNAStrand dnaStrand,
+            LaserPositionController laserPositionController,
             TrapForceNode trapForceNode, 
             FluidDragForceNode dragForceNode, 
             DNAForceNode dnaForceNode,
@@ -94,9 +91,9 @@ public class ForcesControlPanel extends JPanel implements Observer {
         _laser = laser;
         _laser.addObserver( this );
         
-        if ( dnaStrand != null ) {
-            _dnaStrand = dnaStrand;
-            _dnaStrand.addObserver( this );
+        if ( laserPositionController != null ) {
+            _laserPositionController = laserPositionController;
+            laserPositionController.addObserver( this );
         }
         
         _trapForceNode = trapForceNode;
@@ -249,8 +246,8 @@ public class ForcesControlPanel extends JPanel implements Observer {
         _bead.deleteObserver( this );
         _fluid.deleteObserver( this );
         _laser.deleteObserver( this );
-        if ( _dnaStrand != null ) {
-            _dnaStrand.deleteObserver( this );
+        if ( _laserPositionController != null ) {
+            _laserPositionController.deleteObserver( this );
         }
     }
     
@@ -370,10 +367,10 @@ public class ForcesControlPanel extends JPanel implements Observer {
     }
     
     private void handleKeepTrapForceConstantCheckBox() {
-        if ( _dnaStrand != null ) {
-            _dnaStrand.deleteObserver( this );
-            _dnaStrand.setKeepTrapForceConstant( _keepTrapForceConstantCheckBox.isSelected() );
-            _dnaStrand.addObserver( this );
+        if ( _laserPositionController != null ) {
+            _laserPositionController.deleteObserver( this );
+            _laserPositionController.setEnabled( _keepTrapForceConstantCheckBox.isSelected() );
+            _laserPositionController.addObserver( this );
         }
     }
     
@@ -401,9 +398,9 @@ public class ForcesControlPanel extends JPanel implements Observer {
                 }
             }
         }
-        else if ( o == _dnaStrand ) {
-            if ( arg == DNAStrand.PROPERTY_CONSTANT_TRAP_FORCE ) {
-                _keepTrapForceConstantCheckBox.setSelected( _dnaStrand.isKeepTrapForceConstant() );
+        else if ( o == _laserPositionController ) {
+            if ( arg == LaserPositionController.PROPERTY_ENABLED ) {
+                _keepTrapForceConstantCheckBox.setSelected( _laserPositionController.isEnabled() );
             }
         }
     }
