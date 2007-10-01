@@ -3,9 +3,9 @@
 ================================================================================
 
 HIGH PRIORITY:
+- factor responsibility for moving laser out of DNAStrand and into LaserMotionController
 - add stall force to balance DNA force (need model from Tom)
 - is "keep trap force constant" behavior correct when bead is outside the trap? (when trap force is small)
-- should it be possible to drag bead and make DNA strand more straight? (increase stretchiness factor)
 - provide estimate for refactoring code that is too closely coupled
 
 MEDIUM PRIORITY:
@@ -818,6 +818,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+10/1/07 - should it be possible to drag bead and make DNA strand more straight? (fine as is, with stretchiness=0.95)
 9/27/07 - "keep trap force constant" feature slows things down (nothing we can do about this, graphics intensive)
 9/27/07 - free end of DNA doesn't evolve when bead is dragged with clock paused (this is OK)
 9/26/07 - OutOfMemoryError in Motors module (could not reproduce after 30 minutes)
