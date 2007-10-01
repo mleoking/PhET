@@ -84,7 +84,6 @@ public class DNAModel extends OTAbstractModel {
                  DNADefaults.DNA_STRETCHINESS,
                  _bead,
                  _fluid,
-                 _laser,
                  clock,
                  DNADefaults.DNA_REFERENCE_CLOCK_STEP,
                  DNADefaults.DNA_SPRING_CONSTANT_RANGE, 
