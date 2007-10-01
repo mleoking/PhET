@@ -3,6 +3,8 @@
 ================================================================================
 
 HIGH PRIORITY:
+- when user attempts to check "keep trap force constant" when bead is outside the laser outline, uncheck it and post a modal dialog telling the user why
+- when DNA strand consists of 1 spring, use stall force model for getForce(). Calculate stallSpeed with ATP value and dnaForce=0, then run force model in reverse with ATP and stallSpeed to get stallForce
 - factor responsibility for moving laser out of DNAStrand and into LaserMotionController
 - add stall force to balance DNA force (need model from Tom)
 - is "keep trap force constant" behavior correct when bead is outside the trap? (when trap force is small)
