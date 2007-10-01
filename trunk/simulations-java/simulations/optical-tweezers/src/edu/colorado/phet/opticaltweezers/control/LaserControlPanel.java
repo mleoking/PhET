@@ -260,7 +260,6 @@ public class LaserControlPanel extends PhetPNode implements Observer {
     }
     
     private void updateStartStopButton() {
-        System.out.println( "updateStartStopButton" );//XXX
         final boolean isRunning = _laser.isRunning();
         _startButton.setVisible( !isRunning );
         _startButton.setPickable( _startButton.getVisible() );
