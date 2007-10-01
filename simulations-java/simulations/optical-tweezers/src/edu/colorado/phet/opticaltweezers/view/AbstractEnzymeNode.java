@@ -54,6 +54,9 @@ public abstract class AbstractEnzymeNode extends PhetPNode implements Observer {
     public AbstractEnzymeNode( AbstractEnzyme enzyme, ModelViewTransform modelViewTransform, Paint outerPaint, Paint innerPaint, Color tickColor ) {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         _enzyme = enzyme;
         _enzyme.addObserver( this );
         

@@ -5,12 +5,8 @@
 HIGH PRIORITY:
 - when user attempts to check "keep trap force constant" when bead is outside the laser outline, uncheck it and post a modal dialog telling the user why
 - when DNA strand consists of 1 spring, use stall force model for getForce(). Calculate stallSpeed with ATP value and dnaForce=0, then run force model in reverse with ATP and stallSpeed to get stallForce
-- add stall force to balance DNA force (need model from Tom)
-- is "keep trap force constant" behavior correct when bead is outside the trap? (when trap force is small)
-- provide estimate for refactoring code that is too closely coupled
 
 MEDIUM PRIORITY:
-- get different values for 2nd enzyme for Kathy's model of DNA speed
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
@@ -28,17 +24,11 @@ COMMON CODE:
 - dialogs don't paint immediately when shown (AWT priority issue?)
 - help items don't refresh fast enough (AWT priority issue?)
 
-CLEANUP:
-- pull up duplicated stuff in packages "defaults" and "modules"
-- setPickable(false) on non-interactive nodes
-- rescale image files to minimize file size
-- disable all debug output
-- optimize memory management by reusing mutable objects
-
 MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/1/07 - setPickable(false) on non-interactive nodes
 10/1/07 - factor responsibility for moving laser out of DNAStrand and into LaserPositionController
 10/1/07 - DNAStrand.initialize should call evolve with max clock dt
 ********* version 1.00.14 (18049)
@@ -820,6 +810,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+10/1/07 - get different values for 2nd enzyme for Kathy's model of DNA speed (not needed, we're using Tom's model)
 10/1/07 - should it be possible to drag bead and make DNA strand more straight? (fine as is, with stretchiness=0.95)
 9/27/07 - "keep trap force constant" feature slows things down (nothing we can do about this, graphics intensive)
 9/27/07 - free end of DNA doesn't evolve when bead is dragged with clock paused (this is OK)
