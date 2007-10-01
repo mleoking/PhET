@@ -15,6 +15,13 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * The bead exhibits Brownian motion, and is under the influence of an optical trap force,
  * a fluid drag force, and (if attached to a DNA strand) a DNA force. Motion models
  * are provided for fluid and vacuum.
+ * <p>
+ * Relationships:
+ * <ul>
+ * <li>uses fluid enabled state to determine whether we're in a fluid or vacuum
+ * <li>uses fluid drag force, mobility, normalized viscosity and temperature in bead-in-fluid motion algorithm
+ * <li>uses laser to calculate trap force and electric field 
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
