@@ -18,6 +18,13 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  * Also see the simulation design document (optical-tweezers.pdf) and
  * Excel file (velocityVsForce_Calibration.xls) in the doc directory.
  * Note that these docs erroneously refer to DNA speed as velocity.
+ * <p>
+ * Relationships:
+ * <ul>
+ * <li>gets the ATP concentration from fluid to compute DNA speed
+ * <li>gets the DNA force from the stand attached to the visible bead
+ * <li>varies the contour length of the 2 DNA strands to pull in the bead
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

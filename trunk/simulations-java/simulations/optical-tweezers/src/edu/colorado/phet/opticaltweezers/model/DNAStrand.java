@@ -30,6 +30,15 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * <p>
  * If "keep trap force constant" is enabled, then the DNA strand is 
  * responsible for moving the laser.
+ * <p>
+ * Relationships:
+ * <ul>
+ * <li>uses bead position to determine postion of pivot at end of strand
+ * <li>uses bead position to determine DNA force on bead
+ * <li>uses fluid temperature to determine DNA force
+ * <li>uses fluid speed to evolve springs-&-pivots
+ * <li>uses clock state and maxDt to evolve springs-&-pivots when the clock is paused
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
