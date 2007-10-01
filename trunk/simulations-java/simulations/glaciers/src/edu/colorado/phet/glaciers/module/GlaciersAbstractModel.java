@@ -12,7 +12,6 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
  * GlaciersAbstractModel is the base class for all models.
- * Each module has one model.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

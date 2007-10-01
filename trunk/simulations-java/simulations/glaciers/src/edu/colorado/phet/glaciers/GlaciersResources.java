@@ -8,7 +8,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-
+/**
+ * GlaciersResources is a wrapper around the PhET resource loader.
+ * If we decide to use a different technique to load resources in the 
+ * future, all changes will be encapsulated here.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GlaciersResources {
     
     private static final PhetResources RESOURCES = PhetResources.forProject( "glaciers" );

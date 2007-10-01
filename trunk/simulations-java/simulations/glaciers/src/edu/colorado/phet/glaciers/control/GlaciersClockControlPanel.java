@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay
 import edu.colorado.phet.glaciers.GlaciersResources;
 
 /**
- * GlaciersClockControlPanel
+ * GlaciersClockControlPanel is the clock control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

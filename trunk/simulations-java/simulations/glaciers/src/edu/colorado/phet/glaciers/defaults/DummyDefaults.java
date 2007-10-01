@@ -8,7 +8,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 /**
- * DummyDefaults
+ * DummyDefaults contains default settings for DummyModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

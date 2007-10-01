@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * GlaciersAbstractCanvas is the base class for all canvases (aka "play areas") in this simulation.
+ * GlaciersAbstractCanvas is the base class for all canvases (aka "play areas").
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
