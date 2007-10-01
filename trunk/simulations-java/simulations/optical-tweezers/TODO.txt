@@ -15,7 +15,6 @@ LOW PRIORITY:
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
-- when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors
 - improve startup performance
 - some controls assume (correctly) that they are the only control for something, and so don't observe that something
 
@@ -810,6 +809,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+10/1/07 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors (consequence of using dt subdivision)
 10/1/07 - get different values for 2nd enzyme for Kathy's model of DNA speed (not needed, we're using Tom's model)
 10/1/07 - should it be possible to drag bead and make DNA strand more straight? (fine as is, with stretchiness=0.95)
 9/27/07 - "keep trap force constant" feature slows things down (nothing we can do about this, graphics intensive)
