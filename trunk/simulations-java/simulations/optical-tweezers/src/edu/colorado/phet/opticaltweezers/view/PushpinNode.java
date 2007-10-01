@@ -18,6 +18,9 @@ public class PushpinNode extends PComposite {
     public PushpinNode() {
         super();
         
+        setPickable( false );
+        setChildrenPickable( false );
+        
         PImage imageNode = new PImage( OTResources.getImage( OTConstants.IMAGE_PUSHPIN ) );
         // move origin to the point of the pin, at lower right
         PBounds b = imageNode.getFullBoundsReference();
