@@ -27,6 +27,9 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * is pure "Hollywood"; that is, it is intended to give the correct appearance 
  * but has no basis in reality. The strand is modeled as a set of pivot points,
  * connected by line segements.  Each line segment behaves like a spring.
+ * <p>
+ * If "keep trap force constant" is enabled, then the DNA strand is 
+ * responsible for moving the laser.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
