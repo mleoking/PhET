@@ -14,16 +14,32 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  */
 public class ExampleModelElement extends MovableObject implements ModelElement {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final Dimension _size;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public ExampleModelElement( Point2D position, double orientation, Dimension size ) {
         super( position, orientation, 0 /* speed */ );
         _size = size;
     }
 
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public Dimension getSize() {
         return _size;
     }
+    
+    //----------------------------------------------------------------------------
+    // ModelElement implementation
+    //----------------------------------------------------------------------------
     
     public void stepInTime( double dt ) {
         // do nothing

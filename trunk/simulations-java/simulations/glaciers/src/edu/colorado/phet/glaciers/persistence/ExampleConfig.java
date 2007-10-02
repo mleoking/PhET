@@ -100,12 +100,15 @@ public class ExampleConfig implements IProguardKeepClass {
         _exampleModelElementPositionY = examplePositionY;
     }
     
-    /* convenience method */
+    //----------------------------------------------------------------------------
+    // Convenience methods
+    //----------------------------------------------------------------------------
+    
     public Point2D getExampleModelElementPosition() {
         return new Point2D.Double( _exampleModelElementPositionX, _exampleModelElementPositionY );
     }
     
-    /* convenience method */
+    
     public void setExampleModelElementPosition( Point2D p ) {
         _exampleModelElementPositionX = p.getX();
         _exampleModelElementPositionY = p.getY();

@@ -18,8 +18,6 @@ public class ExampleControlPanel extends GlaciersAbstractControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ExampleCanvas _canvas;
-    
     private ExampleModelElementControlPanel _exampleModelElementControlPanel;
     
     //----------------------------------------------------------------------------
@@ -34,8 +32,6 @@ public class ExampleControlPanel extends GlaciersAbstractControlPanel {
     public ExampleControlPanel( ExampleModule module) {
         super( module );
         
-        _canvas = module.getExampleCanvas();
-
         // Set the control panel's minimum width.
         int minimumWidth = GlaciersResources.getInt( "int.minControlPanelWidth", 215 );
         setMinumumWidth( minimumWidth );
