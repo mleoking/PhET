@@ -1,29 +1,20 @@
-/* Copyright 2005, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2005-2007, University of Colorado */
 
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.awt.*;
+import java.awt.Component;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 /**
- * DialogUtils is a collection of dialog utilities,
- * all of which support localization.
+ * DialogUtils is a collection of dialog utilities, all of which support localization.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DialogUtils {
 
@@ -76,6 +67,7 @@ public class DialogUtils {
 
         // Put the pane in a dialog
         JDialog dialog = pane.createDialog( parentComponent, title );
+        SwingUtils.centerDialogInParent( dialog );
         dialog.show();
 
         // Process the user's selection
@@ -117,6 +109,7 @@ public class DialogUtils {
 
         // Put the pane in a dialog
         JDialog dialog = pane.createDialog( parentComponent, title );
+        SwingUtils.centerDialogInParent( dialog );
         dialog.show();
     }
 
