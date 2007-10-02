@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.persistence;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
@@ -96,5 +98,16 @@ public class ExampleConfig implements IProguardKeepClass {
     
     public void setExampleModelElementPositionY( double examplePositionY ) {
         _exampleModelElementPositionY = examplePositionY;
+    }
+    
+    /* convenience method */
+    public Point2D getExampleModelElementPosition() {
+        return new Point2D.Double( _exampleModelElementPositionX, _exampleModelElementPositionY );
+    }
+    
+    /* convenience method */
+    public void setExampleModelElementPosition( Point2D p ) {
+        _exampleModelElementPositionX = p.getX();
+        _exampleModelElementPositionY = p.getY();
     }
 }

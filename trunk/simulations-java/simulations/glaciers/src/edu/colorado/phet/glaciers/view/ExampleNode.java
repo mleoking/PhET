@@ -64,6 +64,9 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         _exampleModelElement.deleteObserver( this );
     }
 
+    /**
+     * Updates the node when the model changes.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _exampleModelElement ) {
             updateNode();
@@ -80,6 +83,9 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         addPropertyChangeListener( this );
     }
     
+    /**
+     * Updates the model when the node changes.
+     */
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
             updateModel();
