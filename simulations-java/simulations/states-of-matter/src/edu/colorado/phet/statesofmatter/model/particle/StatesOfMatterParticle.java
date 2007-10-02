@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 
 import java.awt.geom.Point2D;
@@ -7,21 +8,23 @@ import java.awt.geom.Point2D;
 public class StatesOfMatterParticle implements PubliclyCloneable {
     public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
 
-    private final Point2D.Double position = new Point2D.Double();
-    private volatile double radius, mass, vx, vy;
+    private Point2D.Double  position = new Point2D.Double();
+    private Vector2D.Double velocity = new Vector2D.Double();
+    private Vector2D.Double accel    = new Vector2D.Double();
+    private volatile double radius, mass;
     private double inverseMass;
 
     public StatesOfMatterParticle(double x, double y, double radius, double mass) {
-        this(x, y, radius, mass, 0.0, 0.0);
+        this(x, y, radius, mass, 0.0, 0.0, 0.0, 0.0);
     }
 
-    private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy) {
+    private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy, double ax, double ay) {
         position.setLocation(x, y);
+        velocity.setComponents(vx, vy);
+        accel.setComponents(ax, ay);
         
         this.mass   = mass;
         this.radius = radius;
-        this.vy     = vy;
-        this.vx     = vx;
     }
 
     public double getX() {
@@ -41,19 +44,35 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public double getVy() {
-        return vy;
+        return velocity.getY();
     }
 
     public void setVy(double vy) {
-        this.vy = vy;
+        velocity.setY(vy);
     }
 
     public double getVx() {
-        return vx;
+        return velocity.getX();
     }
 
     public void setVx(double vx) {
-        this.vx = vx;
+        velocity.setX(vx);
+    }
+
+    public double getAx() {
+        return accel.getX();
+    }
+
+    public double getAy() {
+        return accel.getY();
+    }
+
+    public void setAx(double ax) {
+        accel.setX(ax);
+    }
+
+    public void setAy(double ay) {
+        accel.setY(ay);
     }
 
     public double getMass() {
@@ -83,16 +102,22 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
         if (Double.compare(that.radius, radius) != 0) {
             return false;
         }
-        if (Double.compare(that.vx, vx) != 0) {
+        if (Double.compare(that.getVx(), getVx()) != 0) {
             return false;
         }
-        if (Double.compare(that.vy, vy) != 0) {
+        if (Double.compare(that.getVy(), getVy()) != 0) {
             return false;
         }
         if (Double.compare(that.getX(), getX()) != 0) {
             return false;
         }
         if (Double.compare(that.getY(), getY()) != 0) {
+            return false;
+        }
+        if (Double.compare(that.getAx(), getAx()) != 0) {
+            return false;
+        }
+        if (Double.compare(that.getAy(), getAy()) != 0) {
             return false;
         }
 
@@ -110,9 +135,13 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
         result = 31 * result + (int)(temp ^ (temp >>> 32));
         temp = mass != +0.0d ? Double.doubleToLongBits(mass) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = vx != +0.0d ? Double.doubleToLongBits(vx) : 0L;
+        temp = getVx() != +0.0d ? Double.doubleToLongBits(getVx()) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
-        temp = vy != +0.0d ? Double.doubleToLongBits(vy) : 0L;
+        temp = getAx() != +0.0d ? Double.doubleToLongBits(getAx()) : 0L;
+        result = 31 * result + (int)(temp ^ (temp >>> 32));
+        temp = getAy() != +0.0d ? Double.doubleToLongBits(getAy()) : 0L;
+        result = 31 * result + (int)(temp ^ (temp >>> 32));
+        temp = getVy() != +0.0d ? Double.doubleToLongBits(getVy()) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
         temp = inverseMass != +0.0d ? Double.doubleToLongBits(inverseMass) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
@@ -121,8 +150,13 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
 
     public Object clone() {
         try {
-            // Shallow clone is sufficient
-            return super.clone();
+            StatesOfMatterParticle p = (StatesOfMatterParticle)super.clone();
+
+            p.position = new Point2D.Double(getX(), getY());
+            p.velocity = new Vector2D.Double(getVx(), getVy());
+            p.accel    = new Vector2D.Double(getAx(), getAy());
+
+            return p;
         }
         catch (CloneNotSupportedException e) {
             throw new InternalError();
@@ -130,7 +164,7 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public String toString() {
-        return getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",radius=" + radius + ",mass" + mass + ",vx=" + vx + ",vy=" + vy + "]";
+        return getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",radius=" + radius + ",mass=" + mass + ",vx=" + getVx() + ",vy=" + getVy() + ",ax=" + getAx() + ",ay=" + getAy() + "]";
     }
 
     public double getInverseMass() {
@@ -142,10 +176,18 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public double getKineticEnergy() {
-        return 0.5 * mass * (vx * vx + vy * vy);
+        return 0.5 * mass * (getVx() * getVx() + getVy() * getVy());
     }
 
     public Point2D getPosition() {
         return position;
+    }
+    
+    public Vector2D getVelocity() {
+        return velocity;
+    }
+
+    public Vector2D getAccel() {
+        return accel;
     }
 }
