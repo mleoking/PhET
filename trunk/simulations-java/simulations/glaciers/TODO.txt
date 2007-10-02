@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/1/07 - add example model element, node, and control panel for demonstration
 10/1/07 - package and class javadoc for skeleton
 9/27/07 - set up simulation skeleton, check in to SVN
 
