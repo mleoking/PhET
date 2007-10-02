@@ -92,6 +92,11 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         
         _modelViewTransform = modelViewTransform;
         _pModel = new Point2D.Double();
+        
+        final double diameter = _modelViewTransform.modelToView( _bead.getDiameter() );
+        setDiameter( diameter );
+        Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
+        setPaint( paint );
 
         CursorHandler cursorHandler = new CursorHandler();
         addInputEventListener( cursorHandler );
@@ -105,7 +110,6 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
         addPropertyChangeListener( this );
 
         // Default state
-        updateDiameter();
         updatePosition();
     }
     
@@ -170,13 +174,8 @@ public class BeadNode extends SphericalNode implements Observer, PropertyChangeL
     
     private void updatePosition() {
         _modelViewTransform.modelToView( _bead.getPositionReference(), _pModel );
+        removePropertyChangeListener( this );
         setOffset( _pModel );
-    }
-    
-    private void updateDiameter() {
-        final double diameter = _modelViewTransform.modelToView( _bead.getDiameter() );
-        setDiameter( diameter );
-        Paint paint = new RoundGradientPaint( 0, diameter/6, HILITE_COLOR, new Point2D.Double( diameter/4, diameter/4 ), PRIMARY_COLOR );
-        setPaint( paint );
+        addPropertyChangeListener( this );
     }
 }
