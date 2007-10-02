@@ -16,8 +16,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class Arrow {
 
     private GeneralPath arrowPath = new GeneralPath();//This causes real problems because equals is not overriden.
-    private GeneralPath headShape = new GeneralPath();
-    private GeneralPath tailShape = new GeneralPath();
 
     private Point2D tailLocation;
     private Point2D tipLocation;
@@ -136,20 +134,7 @@ public class Arrow {
         lineTo( arrowPath, leftTail );
         lineTo( arrowPath, leftPin );
         lineTo( arrowPath, leftFlap );
-        lineTo( arrowPath, tipPt );
-
-        headShape.reset();
-        headShape.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
-        lineTo( headShape, rightFlap );
-        lineTo( headShape, leftFlap );
-        lineTo( headShape, tipPt );
-
-        tailShape.reset();
-        tailShape.moveTo( (float) rightPin.getX(), (float) rightPin.getY() );
-        lineTo( tailShape, rightTail );
-        lineTo( tailShape, leftTail );
-        lineTo( tailShape, leftPin );
-        lineTo( tailShape, rightPin );
+        arrowPath.closePath();
     }
 
     private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
@@ -158,10 +143,10 @@ public class Arrow {
 
     //parallel and normal are from the tip
     private AbstractVector2D.Double getPoint( double parallel, double normal ) {
-        AbstractVector2D dv = direction.getScaledInstance( parallel ).
-                getAddedInstance( norm.getScaledInstance( normal ) );
-        AbstractVector2D.Double abs = new ImmutableVector2D.Double( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
-        return abs;
+        // do scaling and addition of vector components inline to improve performance
+        double x = ( direction.getX() * parallel ) + ( norm.getX() * normal ) + tipLocation.getX();
+        double y = ( direction.getY() * parallel ) + ( norm.getY() * normal ) + tipLocation.getY();
+        return new ImmutableVector2D.Double( x, y );
     }
 
     public GeneralPath getShape() {
@@ -199,14 +184,6 @@ public class Arrow {
     public void setTailWidth( double tailWidth ) {
         this.tailWidth = tailWidth;
         computeArrow();
-    }
-
-    public GeneralPath getHeadShape() {
-        return headShape;
-    }
-
-    public GeneralPath getTailShape() {
-        return tailShape;
     }
 
     public void translate( double dx, double dy ) {
