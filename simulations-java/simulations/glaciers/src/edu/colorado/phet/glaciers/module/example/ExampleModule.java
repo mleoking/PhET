@@ -5,50 +5,51 @@ package edu.colorado.phet.glaciers.module.example;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
-import edu.colorado.phet.glaciers.defaults.DummyDefaults;
+import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
+import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
- * DummyModule
+ * ExampleModule is the "Example" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DummyModule extends GlaciersAbstractModule {
+public class ExampleModule extends GlaciersAbstractModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private DummyModel _model;
-    private DummyCanvas _canvas;
-    private DummyControlPanel _controlPanel;
+    private ExampleModel _model;
+    private ExampleCanvas _canvas;
+    private ExampleControlPanel _controlPanel;
     private GlaciersClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DummyModule() {
-        super( GlaciersResources.getString( "title.dummyModule" ), DummyDefaults.CLOCK );
+    public ExampleModule() {
+        super( GlaciersResources.getString( "title.exampleModule" ), ExampleDefaults.CLOCK );
 
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
-        _model = new DummyModel( clock );
+        _model = new ExampleModel( clock );
 
         // Canvas
-        _canvas = new DummyCanvas( _model );
+        _canvas = new ExampleCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new DummyControlPanel( this );
+        _controlPanel = new ExampleControlPanel( this );
         setControlPanel( _controlPanel );
 
         // Clock controls
         _clockControlPanel = new GlaciersClockControlPanel( (GlaciersClock) getClock() );
-        _clockControlPanel.setTimeColumns( DummyDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
         // Help
@@ -64,11 +65,11 @@ public class DummyModule extends GlaciersAbstractModule {
     // Mutators and accessors
     //----------------------------------------------------------------------------
 
-    public DummyModel getDummyModel() {
+    public ExampleModel getExampleModel() {
         return _model;
     }
 
-    public DummyCanvas getDummyCanvas() {
+    public ExampleCanvas getExampleCanvas() {
         return _canvas;
     }
 
@@ -110,8 +111,13 @@ public class DummyModule extends GlaciersAbstractModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( DummyDefaults.CLOCK_DT );
-            setClockRunningWhenActive( DummyDefaults.CLOCK_RUNNING );
+            clock.setDt( ExampleDefaults.CLOCK_DT );
+            setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
+            
+            // Example Model Element
+            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+            exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
+            exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
         }
 
         // Control panel settings that are view-related
@@ -122,18 +128,27 @@ public class DummyModule extends GlaciersAbstractModule {
 
     public void save( GlaciersConfig appConfig ) {
 
-        ExampleConfig config = appConfig.getDummyConfig();
-        DummyModel model = getDummyModel();
+        ExampleConfig config = appConfig.getExampleConfig();
+        ExampleModel model = getExampleModel();
 
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        GlaciersClock clock = model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
+        // Model
+        {
+            // Clock
+            GlaciersClock clock = model.getClock();
+            config.setClockDt( clock.getDt() );
+            config.setClockRunning( getClockRunningWhenActive() );
 
-        // Control panel settings
+            // Example Model Element
+            ExampleModelElement exampleModelElement = model.getExampleModelElement();
+            config.setExampleModelElementPositionX( exampleModelElement.getX() );
+            config.setExampleModelElementPositionY( exampleModelElement.getY() );
+            config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
+        }
+
+        // Control panel settings that are view-related
         {
             //XXX
         }
@@ -141,20 +156,28 @@ public class DummyModule extends GlaciersAbstractModule {
 
     public void load( GlaciersConfig appConfig ) {
 
-        ExampleConfig config = appConfig.getDummyConfig();
-        DummyModel model = getDummyModel();
+        ExampleConfig config = appConfig.getExampleConfig();
+        ExampleModel model = getExampleModel();
 
         // Module
         if ( config.isActive() ) {
             GlaciersApplication.instance().setActiveModule( this );
         }
 
-        // Clock
-        GlaciersClock clock = model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
+        // Model
+        {
+            // Clock
+            GlaciersClock clock = model.getClock();
+            clock.setDt( config.getClockDt() );
+            setClockRunningWhenActive( config.isClockRunning() );
 
-        // Control panel settings
+            // Example Model Element
+            ExampleModelElement exampleModelElement = model.getExampleModelElement();
+            exampleModelElement.setPosition( config.getExampleModelElementPositionX(), config.getExampleModelElementPositionY() );
+            exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
+        }
+
+        // Control panel settings that are view-related
         {
             //XXX
         }
