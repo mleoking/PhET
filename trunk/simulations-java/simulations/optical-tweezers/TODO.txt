@@ -11,7 +11,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - use phetcommon's Vector2D
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
-- improve performance of e-field display (22% in Arrow.computeArrow)
 - beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
 - improve startup performance
@@ -26,6 +25,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/2/07 - improve performance of e-field display via optimizations to phetcommon's Arrow
 10/2/07 - optimize updates to ElectricFieldVectorNode to reduce creation of Arrow objects
 10/2/07 - make BeadNode and LaserNode remove/addPropertyChangeListener before they adjust the view to match the model
 10/2/07 - center "keep trap force constant" info dialog in parent frame
