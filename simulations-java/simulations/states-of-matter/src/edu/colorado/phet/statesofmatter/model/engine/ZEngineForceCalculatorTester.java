@@ -18,7 +18,11 @@ public class ZEngineForceCalculatorTester extends TestCase {
     private Collection allWalls;
 
     public void setUp() {
-        allWalls = new RectangularParticleContainer(new Rectangle2D.Double(0, 0, 10, 10)).getAllWalls();
+        Rectangle2D.Double shape = new Rectangle2D.Double(0.0, 0.0, 10.0, 10.0);
+
+        RectangularParticleContainer container = new RectangularParticleContainer(shape);
+        
+        allWalls = container.getAllWalls();
         c = new EngineForceCalculator(1.0, LennardJonesForce.TEST, new ArrayList(), allWalls);
     }
 

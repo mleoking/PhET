@@ -9,10 +9,9 @@ import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesWallForceCal
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class EngineForceCalculator extends CompositeCalculator {
-    public EngineForceCalculator(double g, LennardJonesForce ljf, List particles, Collection walls) {
+    public EngineForceCalculator(double g, LennardJonesForce ljf, Collection particles, Collection walls) {
         super(new ArrayList());
 
         getCalculators().add(new GravityForceCalculator(g));
