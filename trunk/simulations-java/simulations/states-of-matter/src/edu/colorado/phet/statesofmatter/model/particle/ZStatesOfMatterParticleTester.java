@@ -25,6 +25,26 @@ public class ZStatesOfMatterParticleTester extends TestCase {
         TestingUtils.testToString(P, EQUAL_TO_P, NOT_EQUAL_TO_P);
     }
 
+    public void testEqualsHashCodeWithOnlyAccelXDifference() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterParticle p2 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterParticle p3 = new StatesOfMatterParticle(1, 2, 3, 4);
+
+        p3.setAx(1.0);
+        
+        TestingUtils.testEqualityAndHashCode(p1, p2, p3);
+    }
+    
+    public void testEqualsHashCodeWithOnlyAccelYDifference() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterParticle p2 = new StatesOfMatterParticle(1, 2, 3, 4);
+        StatesOfMatterParticle p3 = new StatesOfMatterParticle(1, 2, 3, 4);
+
+        p3.setAy(1.0);
+
+        TestingUtils.testEqualityAndHashCode(p1, p2, p3);
+    }
+
     public void testClone() {
         TestingUtils.testClone(P, NOT_EQUAL_TO_P);
     }
@@ -51,5 +71,59 @@ public class ZStatesOfMatterParticleTester extends TestCase {
         p.setY(9392);
 
         assertEquals(new Point2D.Double(9923, 9392), p.getPosition());
+    }
+
+    public void testCloneIsDeepForX() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setX(2.0);
+
+        assertEquals(1.0, p1.getX(), 0.0);
+    }
+
+    public void testCloneIsDeepForY() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setY(2.0);
+
+        assertEquals(1.0, p1.getY(), 0.0);
+    }
+
+    public void testCloneIsDeepForVx() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setVx(2.0);
+
+        assertEquals(0.0, p1.getVx(), 0.0);
+    }
+
+    public void testCloneIsDeepForVy() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setVy(2.0);
+
+        assertEquals(0.0, p1.getVy(), 0.0);
+    }
+
+    public void testCloneIsDeepForAx() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setAx(2.0);
+
+        assertEquals(0.0, p1.getAx(), 0.0);
+    }
+
+    public void testCloneIsDeepForAy() {
+        StatesOfMatterParticle p1 = new StatesOfMatterParticle(1.0, 1.0, 1.0, 2.0);
+        StatesOfMatterParticle p2 = (StatesOfMatterParticle)p1.clone();
+
+        p2.setAy(2.0);
+
+        assertEquals(0.0, p1.getAy(), 0.0);
     }
 }
