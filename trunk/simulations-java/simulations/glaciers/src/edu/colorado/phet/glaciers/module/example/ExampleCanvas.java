@@ -5,42 +5,51 @@ package edu.colorado.phet.glaciers.module.example;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.defaults.DummyDefaults;
+import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractCanvas;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.colorado.phet.glaciers.view.ExampleNode;
 
 /**
- * DummyCanvas
+ * ExampleCanvas is the canvas for ExampleModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DummyCanvas extends GlaciersAbstractCanvas {
+public class ExampleCanvas extends GlaciersAbstractCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private DummyModel _model;
+    private ExampleModel _model;
+    
+    // View 
+    private ExampleNode _exampleNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DummyCanvas( DummyModel model ) {
-        super( DummyDefaults.VIEW_SIZE );
+    public ExampleCanvas( ExampleModel model ) {
+        super( ExampleDefaults.VIEW_SIZE );
         
         _model = model;
         
         setBackground( GlaciersConstants.CANVAS_BACKGROUND );
+        
+        _exampleNode = new ExampleNode( _model.getExampleModelElement(), _model.getModelViewTransform() );
+        
+        addNode( _exampleNode );
     }
     
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
     
-
+    public ExampleNode getExampleNode() {
+        return _exampleNode;
+    }
+    
     //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------

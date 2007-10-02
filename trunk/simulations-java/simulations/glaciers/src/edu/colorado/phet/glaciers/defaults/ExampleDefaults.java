@@ -3,19 +3,20 @@
 package edu.colorado.phet.glaciers.defaults;
 
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 /**
- * DummyDefaults contains default settings for DummyModule.
+ * ExampleDefaults contains default settings for ExampleModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DummyDefaults {
+public class ExampleDefaults {
 
     /* Not intended for instantiation */
-    private DummyDefaults() {}
+    private ExampleDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
@@ -27,4 +28,9 @@ public class DummyDefaults {
     // Model-view transform
     public static final Dimension VIEW_SIZE = new Dimension( 750, 750 );
     public static final double MODEL_TO_VIEW_SCALE = 0.5;
+    
+    // Example model
+    public static final Point2D EXAMPLE_MODEL_ELEMENT_POSITION = new Point2D.Double( 400, 400 );
+    public static final double EXAMPLE_MODEL_ELEMENT_ORIENTATION = 0; // radians
+    public static final double EXAMPLE_MODEL_ELEMENT_RADIUS = 100; // meters
 }

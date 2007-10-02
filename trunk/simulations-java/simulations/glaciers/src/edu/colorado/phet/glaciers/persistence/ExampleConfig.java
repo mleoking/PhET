@@ -24,8 +24,8 @@ public class ExampleConfig implements IProguardKeepClass {
     private double _clockDt;
     
     // Model
-    private double _examplePositionX, _examplePositionY;
-    private double _exampleOrientation;
+    private double _exampleModelElementPositionX, _exampleModelElementPositionY;
+    private double _exampleModelElementOrientation;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,32 +69,32 @@ public class ExampleConfig implements IProguardKeepClass {
     }
 
     
-    public double getExampleOrientation() {
-        return _exampleOrientation;
+    public double getExampleModelElementOrientation() {
+        return _exampleModelElementOrientation;
     }
 
     
-    public void setExampleOrientation( double exampleOrientation ) {
-        _exampleOrientation = exampleOrientation;
+    public void setExampleModelElementOrientation( double exampleOrientation ) {
+        _exampleModelElementOrientation = exampleOrientation;
     }
 
     
-    public double getExamplePositionX() {
-        return _examplePositionX;
+    public double getExampleModelElementPositionX() {
+        return _exampleModelElementPositionX;
     }
 
     
-    public void setExamplePositionX( double examplePositionX ) {
-        _examplePositionX = examplePositionX;
+    public void setExampleModelElementPositionX( double examplePositionX ) {
+        _exampleModelElementPositionX = examplePositionX;
     }
 
     
-    public double getExamplePositionY() {
-        return _examplePositionY;
+    public double getExampleModelElementPositionY() {
+        return _exampleModelElementPositionY;
     }
 
     
-    public void setExamplePositionY( double examplePositionY ) {
-        _examplePositionY = examplePositionY;
+    public void setExampleModelElementPositionY( double examplePositionY ) {
+        _exampleModelElementPositionY = examplePositionY;
     }
 }

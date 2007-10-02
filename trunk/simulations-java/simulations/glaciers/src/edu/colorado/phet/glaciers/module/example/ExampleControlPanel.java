@@ -3,20 +3,24 @@
 package edu.colorado.phet.glaciers.module.example;
 
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.control.ExampleModelElementControlPanel;
+import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractControlPanel;
 
 /**
- * DummyControlPanel
+ * ExampleControlPanel is the control panel for ExampleModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DummyControlPanel extends GlaciersAbstractControlPanel {
+public class ExampleControlPanel extends GlaciersAbstractControlPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private DummyCanvas _canvas;
+    private ExampleCanvas _canvas;
+    
+    private ExampleModelElementControlPanel _exampleModelElementControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,21 +31,23 @@ public class DummyControlPanel extends GlaciersAbstractControlPanel {
      * 
      * @param module
      */
-    public DummyControlPanel( DummyModule module) {
+    public ExampleControlPanel( ExampleModule module) {
         super( module );
         
-        _canvas = module.getDummyCanvas();
+        _canvas = module.getExampleCanvas();
 
         // Set the control panel's minimum width.
         int minimumWidth = GlaciersResources.getInt( "int.minControlPanelWidth", 215 );
         setMinumumWidth( minimumWidth );
         
-        //XXX create sub-panels
+        // Create sub-panels
+        ExampleModelElement exampleModelElement = module.getExampleModel().getExampleModelElement();
+        _exampleModelElementControlPanel = new ExampleModelElementControlPanel( TITLE_FONT, CONTROL_FONT, exampleModelElement );
         
-        //XXX yayout
+        // Layout
         {
-//            addControlFullWidth( XXX );
-//            addSeparator();
+            addControlFullWidth( _exampleModelElementControlPanel );
+            addSeparator();
             addResetButton();
         }
     }
@@ -57,5 +63,9 @@ public class DummyControlPanel extends GlaciersAbstractControlPanel {
     //----------------------------------------------------------------------------
     // Access to subpanels
     //----------------------------------------------------------------------------
+    
+    public ExampleModelElementControlPanel getExampleModelElementControlPanel() {
+        return _exampleModelElementControlPanel;
+    }
 
 }

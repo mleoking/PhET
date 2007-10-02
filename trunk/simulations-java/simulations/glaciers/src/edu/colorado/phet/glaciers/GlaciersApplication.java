@@ -19,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
-import edu.colorado.phet.glaciers.module.example.DummyModule;
+import edu.colorado.phet.glaciers.module.example.ExampleModule;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersPersistenceManager;
 import edu.colorado.phet.glaciers.persistence.GlobalConfig;
@@ -41,7 +41,7 @@ public class GlaciersApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private DummyModule _dummyModule;
+    private ExampleModule _dummyModule;
 
     // PersistanceManager handles loading/saving application configurations.
     private GlaciersPersistenceManager _persistenceManager;
@@ -74,7 +74,7 @@ public class GlaciersApplication extends PhetApplication {
      */
     private void initModules() {
 
-        _dummyModule = new DummyModule();
+        _dummyModule = new ExampleModule();
         addModule( _dummyModule );
     }
 

@@ -17,7 +17,7 @@ public class GlaciersConfig implements IProguardKeepClass {
     //----------------------------------------------------------------------------
     
     private GlobalConfig _globalConfig;
-    private ExampleConfig _dummyConfig;
+    private ExampleConfig _exampleConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -28,7 +28,7 @@ public class GlaciersConfig implements IProguardKeepClass {
      */
     public GlaciersConfig() {
         _globalConfig = new GlobalConfig();
-        _dummyConfig = new ExampleConfig();
+        _exampleConfig = new ExampleConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -43,11 +43,11 @@ public class GlaciersConfig implements IProguardKeepClass {
         return _globalConfig;
     }    
     
-    public void setDummyConfig( ExampleConfig dummyConfig ) {
-        _dummyConfig = dummyConfig;
+    public void setExampleConfig( ExampleConfig exampleConfig ) {
+        _exampleConfig = exampleConfig;
     }
     
-    public ExampleConfig getDummyConfig() {
-        return _dummyConfig;
+    public ExampleConfig getExampleConfig() {
+        return _exampleConfig;
     }
 }
