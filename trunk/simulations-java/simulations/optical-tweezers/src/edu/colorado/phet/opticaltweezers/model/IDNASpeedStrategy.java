@@ -26,15 +26,26 @@ public interface IDNASpeedStrategy {
      * and should be referred to as speed (the magnitude component of velocity).
      * 
      * @param atp ATP concentration (arbitrary units)
-     * @param fDNA DNA force magnitude (pN)
+     * @param f DNA force magnitude (pN)
      * @return speed (nm/sec)
      */
-    public double getSpeed( final double atp, final double fDNA );
+    public double getSpeed( final double atp, final double f );
     
     /**
      * Gets the maximum speed, when DNA force=0 and ATP concentration=infinite.
      */
     public double getMaxSpeed();
+    
+    /**
+     * Gets the force required to make the DNA strand move at a specified speed
+     * in the given ATP concentration. This is the identical algorithm as getSpeed,
+     * but we're given ATP and speed, and solving for force.
+     * 
+     * @param atp
+     * @param speed
+     * @return force (pN)
+     */
+    public double getForce( final double atp, final double speed );
     
     //----------------------------------------------------------------------------
     // Kathy Perkins' model
@@ -90,9 +101,9 @@ public interface IDNASpeedStrategy {
         /**
          * @see IDNASpeedStrategy.getSpeed
          */
-        public double getSpeed( final double atp, final double fDNA ) {
-            final double maxSpeed = _maxSpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) ) );
-            final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( fDNA * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( fDNA * _c[3] ) ) );
+        public double getSpeed( final double atp, final double f ) {
+            final double maxSpeed = _maxSpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( f * _c[3] ) ) ) );
+            final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( f * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( f * _c[3] ) ) );
             final double speed = maxSpeed * atp / ( atp + km );
             return speed;
         }
@@ -102,6 +113,13 @@ public interface IDNASpeedStrategy {
          */
         public double getMaxSpeed() {
             return _maxSpeed;
+        }
+        
+        /**
+         * @see IDNASpeedStrategy.getForce
+         */
+        public double getForce( final double atp, final double speed ) {
+            throw new UnsupportedOperationException( "not implemented" ); // this needs to be implemented if we use Kathy's model
         }
     }
     
@@ -202,9 +220,9 @@ public interface IDNASpeedStrategy {
         /**
          * @see IDNASpeedStrategy.getSpeed
          */
-        public double getSpeed( final double atp, final double fDNA ) {
-            final double boltCat = Math.exp( fDNA * _deltaCat / _kt );
-            final double boltB = Math.exp( fDNA * _deltaB / _kt );
+        public double getSpeed( final double atp, final double f ) {
+            final double boltCat = Math.exp( f * _deltaCat / _kt );
+            final double boltB = Math.exp( f * _deltaB / _kt );
             final double kcat = _kcat0 / ( _pc + ( _qc * boltCat ) );
             final double kb = _kb0 / ( _pb + ( _qb * boltB ) );
             final double speed = _d * kcat * atp / ( atp + ( kcat / kb ) );
@@ -216,6 +234,13 @@ public interface IDNASpeedStrategy {
          */
         public double getMaxSpeed() {
             return _maxSpeed;
+        }
+        
+        /**
+         * @see IDNASpeedStrategy.getForce
+         */
+        public double getForce( final double atp, final double speed ) {
+            return 0;//XXX
         }
     }
 }

@@ -113,6 +113,29 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         return _enabled;
     }
     
+    /**
+     * Gets the speed with which the DNA is being pulled in by the enzyme.
+     * 
+     * @param atp
+     * @param dnaForceMagnitude
+     * @return speed (nm/sec)
+     */
+    public double getDNASpeed( double atp, double dnaForceMagnitude ) {
+        return _dnaSpeedStrategy.getSpeed( atp, dnaForceMagnitude );
+    }
+    
+    /**
+     * Gets the magnitude of the DNA force required to generate a specified
+     * DNA speed at a given ATP concentration.
+     * 
+     * @param atp
+     * @param dnaSpeed
+     * @return
+     */
+    public double getDNAForce( double atp, double dnaSpeed ) {
+        return _dnaSpeedStrategy.getForce( atp, dnaSpeed );
+    }
+    
     //----------------------------------------------------------------------------
     // ModelElement implementation
     //----------------------------------------------------------------------------
@@ -126,8 +149,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         if ( _enabled ) {
 
             final double atp = _fluid.getATPConcentration();
-            final double fDNA = _dnaStrandBead.getForceAtBead().getMagnitude();
-            final double dnaSpeed = _dnaSpeedStrategy.getSpeed( atp, fDNA ); // nm/sec
+            final double dnaForce = _dnaStrandBead.getForceAtBead().getMagnitude();
+            final double dnaSpeed = getDNASpeed( atp, dnaForce ); // nm/sec
             
             // Shorten the DNA strand attached to the bead
             final double beadContourLengthDelta = dnaSpeed * dt; // ns/sec * sec = nm
