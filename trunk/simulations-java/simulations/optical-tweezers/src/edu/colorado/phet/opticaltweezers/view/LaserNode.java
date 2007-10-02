@@ -311,7 +311,9 @@ public class LaserNode extends PhetPNode implements Observer, PropertyChangeList
      */
     private void updatePosition() {
         _modelViewTransform.modelToView( _laser.getPosition(), _pModel );
+        removePropertyChangeListener( this );
         setOffset( _pModel );
+        addPropertyChangeListener( this );
     }
     
     /*

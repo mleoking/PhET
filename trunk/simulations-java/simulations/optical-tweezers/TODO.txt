@@ -10,7 +10,7 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
-- what units for E-field?
+- document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 - improve performance of e-field display (22% in Arrow.computeArrow)
 - beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
@@ -26,6 +26,8 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/2/07 - make BeadNode and LaserNode remove/addPropertyChangeListener before they adjust the view to match the model
+10/2/07 - center "keep trap force constant" info dialog in parent frame
 10/2/07 - make KathAbstractDNASpeedStrategy.getForce throw UnsupportedOperationException since we don't have (and won't likely be getting) this piece of the model
 10/2/07 - when DNA strand consists of 1 spring, use stall force model instead of DNA force model in DNAStrand.getForce
 10/2/07 - when user attempts to check "keep trap force constant" when bead is outside the laser outline, uncheck it and post a modal dialog telling the user why
