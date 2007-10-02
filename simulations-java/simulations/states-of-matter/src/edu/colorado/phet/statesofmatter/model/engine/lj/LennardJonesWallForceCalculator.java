@@ -18,10 +18,10 @@ public class LennardJonesWallForceCalculator implements Calculator {
     }
 
     public void calculate(StatesOfMatterParticle p, double[] forces) {
-        Vector2D lineToPoint = MathUtil.getClockwiseVectorFromLineToPoint(wall, p.getPosition());
+        Vector2D lineToPoint = MathUtil.getVectorFromLineToPoint(wall, p.getPosition());
 
-        args[0] = -lineToPoint.getX();
-        args[1] = -lineToPoint.getY();
+        args[0] = lineToPoint.getX();
+        args[1] = lineToPoint.getY();
 
         ljf.evaluateInPlace(args, forces);
     }

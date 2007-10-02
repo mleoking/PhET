@@ -63,7 +63,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
                 Rectangle2D particleContainer = model.getParticleContainer().getShape().getBounds2D();
 
-                assertTrue(particleContainer.contains(p.getX(), p.getY()));
+                assertTrue("Particle " + p + " has left container " + particleContainer, particleContainer.contains(p.getPosition()));
             }
         }
     }

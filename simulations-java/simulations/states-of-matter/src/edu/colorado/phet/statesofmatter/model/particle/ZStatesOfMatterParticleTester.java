@@ -50,7 +50,7 @@ public class ZStatesOfMatterParticleTester extends TestCase {
     }
 
     public void testGetInverseMass() {
-        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 0, 2);
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 1, 2);
 
         assertEquals(1.0/2.0, p.getInverseMass(), 0.00000001);
     }
@@ -125,5 +125,25 @@ public class ZStatesOfMatterParticleTester extends TestCase {
         p2.setAy(2.0);
 
         assertEquals(0.0, p1.getAy(), 0.0);
+    }
+
+    public void testIllegalArgumentExceptionThrownForOutOfRangeRadius() {
+        try {
+            new StatesOfMatterParticle(0, 0, -1, 1);
+
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
+    }
+    
+    public void testIllegalArgumentExceptionThrownForOutOfRangeMass() {
+        try {
+            new StatesOfMatterParticle(0, 0, 1, -1);
+
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
     }
 }
