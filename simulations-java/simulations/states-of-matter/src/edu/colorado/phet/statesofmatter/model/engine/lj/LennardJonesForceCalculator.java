@@ -1,11 +1,12 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import edu.colorado.phet.statesofmatter.model.engine.Calculator;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class LennardJonesForceCalculator {
+public class LennardJonesForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
     private final List particles;
     private double[] deltaR    = new double[2];
@@ -21,8 +22,8 @@ public class LennardJonesForceCalculator {
             StatesOfMatterParticle cur = (StatesOfMatterParticle)iterator.next();
 
             if (cur != p) {
-                deltaR[0] = cur.getX() - p.getX();
-                deltaR[1] = cur.getX() - p.getY();
+                deltaR[0] = p.getX() - cur.getX();
+                deltaR[1] = p.getY() - cur.getY();
 
                 ljf.evaluateInPlace(deltaR, curForces);
 

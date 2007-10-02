@@ -24,6 +24,7 @@ import java.util.Random;
  */
 public class MathUtil {
     private static final Random random = new Random( System.currentTimeMillis() );
+    public static final double SQRT_2 = Math.sqrt(2);
 
     /**
      * Returns a pseudo-randomly distributed +1 or -1
@@ -472,6 +473,54 @@ public class MathUtil {
         return new Point2D.Double( origin.getX() + x, origin.getY() + y );
     }
 
+    /**
+     * Retrieves a vector that proceeds from the line to the specified point,
+     * along the shortest direction between the two. If the line is part of a
+     * shape drawn clockwise from the point of view of the viewer, then the
+     * vector will point toward the inside of the shape, assuming the standard
+     * computer graphics coordinate system, where X is positive rightward, and
+     * Y is positive downward.
+     *
+     * @param line  The line.
+     * 
+     * @param point The point.
+     *
+     * @return  A vector from the line to the point, along the shortest distance
+     *          between the two.
+     */
+    public static Vector2D getClockwiseVectorFromLineToPoint(Line2D line, Point2D point) {
+        double dist = line.ptLineDist(point);
+
+        double rx = (dist*Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()))*(-line.getY1() + line.getY2()))/((line.getX1() - line.getX2())*Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()) + (line.getY1() - line.getY2())*(line.getY1() - line.getY2())));
+        double ry = (dist*Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2())))/Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()) + (line.getY1() - line.getY2())*(line.getY1() - line.getY2()));
+
+        return new Vector2D.Double(rx, ry);
+    }
+
+    /**
+     * Retrieves a vector that proceeds from the line to the specified point,
+     * along the shortest direction between the two. If the line is part of a
+     * shape drawn counterclockwise from the point of view of the viewer, then
+     * the vector will point toward the inside of the shape, assuming the
+     * standard computer graphics coordinate system, where X is positive
+     * rightward, and Y is positive downward.
+     *
+     * @param line  The line.
+     *
+     * @param point The point.
+     *
+     * @return  A vector from the line to the point, along the shortest distance
+     *          between the two.
+     */
+    public static Vector2D getCounterClockwiseVectorFromLineToPoint(Line2D line, Point2D point) {
+        double dist = line.ptLineDist(point);
+
+        double rx = (dist*(line.getX1() - line.getX2())*(line.getY1() - line.getY2()))/(Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()))*Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()) + (line.getY1() - line.getY2())*(line.getY1() - line.getY2())));
+        double ry = -((dist*Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2())))/Math.sqrt((line.getX1() - line.getX2())*(line.getX1() - line.getX2()) + (line.getY1() - line.getY2())*(line.getY1() - line.getY2())));
+
+        return new Vector2D.Double(rx, ry);
+    }
+    
     /**
      * This class manages a running average.
      */
