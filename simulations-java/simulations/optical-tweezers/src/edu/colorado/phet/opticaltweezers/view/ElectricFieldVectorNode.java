@@ -41,11 +41,13 @@ public class ElectricFieldVectorNode extends Vector2DNode {
     public static Icon createIcon() {
         final double length = OTConstants.VECTOR_ICON_LENGTH;
         Vector2DNode vectorNode = new Vector2DNode( -length, 0, length, length );
+        vectorNode.setUpdateEnabled( false ); // disable updates before changing properties
         vectorNode.setArrowStroke( VECTOR_STROKE );
         vectorNode.setArrowStrokePaint( OTConstants.ELECTRIC_FIELD_COLOR );
         vectorNode.setArrowFillPaint( null );
         vectorNode.setTailWidth( OTConstants.VECTOR_ICON_TAIL_WIDTH );
         vectorNode.setHeadSize( OTConstants.VECTOR_ICON_HEAD_SIZE.width, OTConstants.VECTOR_ICON_HEAD_SIZE.height );
+        vectorNode.setUpdateEnabled( true ); // update
         Image image = vectorNode.toImage();
         return new ImageIcon( image );
     }
