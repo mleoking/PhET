@@ -4,7 +4,7 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Ellipse2D;
+import java.awt.Dimension;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
@@ -12,7 +12,6 @@ import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.ModelViewTransform;
@@ -27,26 +26,27 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ExampleNode extends PPath implements Observer, PropertyChangeListener {
     
-    private ExampleModelElement _modelElement;
+    private ExampleModelElement _exampleModelElement;
     private ModelViewTransform _modelViewTransform;
     
-    public ExampleNode( ExampleModelElement modelElement, ModelViewTransform modelViewTransform ) {
+    public ExampleNode( ExampleModelElement exampleModelElement, ModelViewTransform modelViewTransform ) {
         super();
         
-        _modelElement = modelElement;
-        _modelElement.addObserver( this );
+        _exampleModelElement = exampleModelElement;
+        _exampleModelElement.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
         
-        final float r = (float) _modelViewTransform.modelToView( _modelElement.getRadius() );
-        
         // pointer with origin at center
+        Dimension size = _exampleModelElement.getSize();
+        final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
+        final float h = (float) _modelViewTransform.modelToView( size.getHeight() );
         GeneralPath path = new GeneralPath();
-        path.moveTo( r, 0 );
-        path.lineTo( 0.5f * r, r );
-        path.lineTo( -r, r );
-        path.lineTo( -r, -r );
-        path.lineTo( 0.5f * r, -r );
+        path.moveTo( w/2, 0 );
+        path.lineTo( w/4, h/2 );
+        path.lineTo( -w/2, h/2 );
+        path.lineTo( -w/2, -h/2 );
+        path.lineTo( w/4, -h/2 );
         path.closePath();
         setPathTo( path );
         setStroke( new BasicStroke( 1f ) );
@@ -61,18 +61,18 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
     }
     
     public void cleanup() {
-        _modelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( this );
     }
 
     public void update( Observable o, Object arg ) {
-        if ( o == _modelElement ) {
+        if ( o == _exampleModelElement ) {
             updateNode();
         }
     }
     
     private void updateNode() {
-        Point2D modelPosition = _modelElement.getPositionReference();
-        double orientation = _modelElement.getOrientation();
+        Point2D modelPosition = _exampleModelElement.getPositionReference();
+        double orientation = _exampleModelElement.getOrientation();
         Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
         removePropertyChangeListener( this );
         setRotation( orientation );
@@ -89,8 +89,8 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
     private void updateModel() {
         Point2D viewPoint = getOffset();
         Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
-        _modelElement.deleteObserver( this );
-        _modelElement.setPosition( modelPoint );
-        _modelElement.addObserver( this );
+        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.setPosition( modelPoint );
+        _exampleModelElement.addObserver( this );
     }
 }

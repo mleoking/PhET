@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -13,15 +14,15 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
  */
 public class ExampleModelElement extends MovableObject implements ModelElement {
     
-    private final double _radius;
+    private final Dimension _size;
 
-    public ExampleModelElement( Point2D position, double orientation, double radius ) {
+    public ExampleModelElement( Point2D position, double orientation, Dimension size ) {
         super( position, orientation, 0 /* speed */ );
-        _radius = radius;
+        _size = size;
     }
 
-    public double getRadius() {
-        return _radius;
+    public Dimension getSize() {
+        return _size;
     }
     
     public void stepInTime( double dt ) {
