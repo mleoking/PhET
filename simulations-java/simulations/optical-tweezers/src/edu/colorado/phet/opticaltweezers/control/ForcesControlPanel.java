@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.opticaltweezers.control;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,12 +15,17 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationAdapter;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationEvent;
 import edu.colorado.phet.common.piccolophet.event.DragNotificationHandler.DragNotificationListener;
 import edu.colorado.phet.opticaltweezers.OTResources;
-import edu.colorado.phet.opticaltweezers.model.*;
+import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.opticaltweezers.model.Bead;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
+import edu.colorado.phet.opticaltweezers.model.Laser;
+import edu.colorado.phet.opticaltweezers.model.LaserPositionController;
 import edu.colorado.phet.opticaltweezers.view.*;
 
 /**
@@ -368,9 +371,35 @@ public class ForcesControlPanel extends JPanel implements Observer {
     
     private void handleKeepTrapForceConstantCheckBox() {
         if ( _laserPositionController != null ) {
-            _laserPositionController.deleteObserver( this );
-            _laserPositionController.setEnabled( _keepTrapForceConstantCheckBox.isSelected() );
-            _laserPositionController.addObserver( this );
+            
+            boolean selected = _keepTrapForceConstantCheckBox.isSelected();
+            
+            if ( !selected ) {
+                // turn off laser position control
+                _laserPositionController.deleteObserver( this );
+                _laserPositionController.setEnabled( false );
+                _laserPositionController.addObserver( this );
+            }
+            else {
+                Point2D beadPosition = _bead.getPositionReference();
+                double beadLeftEdgeX = beadPosition.getX() - ( _bead.getDiameter() / 2 );
+                double beadRightEdgeX = beadPosition.getX() + ( _bead.getDiameter() / 2 );
+                
+                if ( _laser.contains( beadLeftEdgeX, beadPosition.getY() ) || _laser.contains( beadRightEdgeX, beadPosition.getY() ) ) {
+                    // if either edge of the bead is inside the trap, go ahead and enable laser positon control
+                    _laserPositionController.deleteObserver( this );
+                    _laserPositionController.setEnabled( true );
+                    _laserPositionController.addObserver( this );
+                }
+                else {
+                    // if the bead is outside the trap, tell the user why this feature can't be turned on
+                    _keepTrapForceConstantCheckBox.setSelected( false );
+                    Component parent = OpticalTweezersApplication.instance().getPhetFrame();
+                    String message = OTResources.getString( "message.keepTrapForceConstantInfoDialog" );
+                    String title = OTResources.getString( "title.keepTrapForceConstantInfoDialog" );
+                    DialogUtils.showInformationDialog( parent, message, title );
+                }
+            }
         }
     }
     
