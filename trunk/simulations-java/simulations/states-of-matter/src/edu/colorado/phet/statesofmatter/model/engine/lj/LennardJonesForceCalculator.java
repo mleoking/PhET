@@ -3,16 +3,16 @@ package edu.colorado.phet.statesofmatter.model.engine.lj;
 import edu.colorado.phet.statesofmatter.model.engine.Calculator;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 public class LennardJonesForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
-    private final List particles;
+    private final Collection particles;
     private double[] deltaR    = new double[2];
     private double[] curForces = new double[2];
 
-    public LennardJonesForceCalculator(LennardJonesForce ljf, List particles) {
+    public LennardJonesForceCalculator(LennardJonesForce ljf, Collection particles) {
         this.ljf       = ljf;
         this.particles = particles;
     }

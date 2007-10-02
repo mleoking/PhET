@@ -12,12 +12,13 @@ import edu.colorado.phet.statesofmatter.model.container.RectangularParticleConta
 import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
 import edu.colorado.phet.statesofmatter.model.engine.ForceEngine;
-import edu.colorado.phet.statesofmatter.model.engine.RungeKuttaForceEngine;
+import edu.colorado.phet.statesofmatter.model.engine.VerletForceEngine;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +30,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     private double particleRadius = 0.1;
     private double particleMass   = 1024;
-    private ForceEngine forceEngine = new RungeKuttaForceEngine();
+    private ForceEngine forceEngine = new VerletForceEngine();
 
     public MultipleParticleModel(IClock clock) {
         clock.addClockListener(this);
@@ -64,10 +65,11 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void clockTicked(ClockEvent clockEvent) {
-        ForceComputation computation = forceEngine.compute((StatesOfMatterParticle[])particles.toArray(new StatesOfMatterParticle[0]), EngineConfig.TEST);
+        ForceComputation computation = forceEngine.compute((StatesOfMatterParticle[])particles.toArray(new StatesOfMatterParticle[particles.size()]), EngineConfig.TEST);
 
-        Vector2D.Double[] newPositions  = computation.getNewPositions();
-        Vector2D.Double[] newVelocities = computation.getNewVelocities();
+        Point2D.Double[]  newPositions      = computation.getNewPositions();
+        Vector2D.Double[] newVelocities    = computation.getNewVelocities();
+        Vector2D.Double[] newAccelerations = computation.getNewAccelerations();
 
         for (int i = 0; i < getNumParticles(); i++) {
             StatesOfMatterParticle p = getParticle(i);
@@ -77,13 +79,10 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
             p.setVx(newVelocities[i].getX());
             p.setVy(newVelocities[i].getY());
+
+            p.setAx(newAccelerations[i].getX());
+            p.setAy(newAccelerations[i].getY());
         }
-//        for (int i = 0; i < getNumParticles(); i++) {
-//            StatesOfMatterParticle p = getParticle(i);
-//
-//            p.setX(p.getX() + 0.01 * (Math.random() * 2.0 - 1.0));
-//            p.setY(p.getY() + 0.01 * (Math.random() * 2.0 - 1.0));
-//        }
     }
 
     public void clockStarted(ClockEvent clockEvent) {
