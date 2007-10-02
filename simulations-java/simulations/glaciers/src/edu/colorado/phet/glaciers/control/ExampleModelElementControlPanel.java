@@ -24,10 +24,18 @@ import edu.colorado.phet.glaciers.model.ExampleModelElement;
  */
 public class ExampleModelElementControlPanel extends JPanel implements Observer {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private ExampleModelElement _exampleModelElement;
     
     private JLabel _positionDisplay;
     private LinearValueControl _orientationControl;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ExampleModelElementControlPanel( Font titleFont, Font controlFont, ExampleModelElement exampleModelElement ) {
         super();
@@ -76,7 +84,18 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         layout.addComponent( _positionDisplay, row++, column );
         layout.addComponent( _orientationControl, row++, column );
     }
+    
+    /**
+     * Call this method before releasing all references to this object.
+     */
+    public void cleanup() {
+        _exampleModelElement.deleteObserver( this );
+    }
 
+    //----------------------------------------------------------------------------
+    // Control handlers
+    //----------------------------------------------------------------------------
+    
     /**
      * Updates the model when the orientation control changes.
      */
@@ -86,6 +105,10 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         _exampleModelElement.setOrientation( radians );
         _exampleModelElement.addObserver( this );
     }
+    
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
     
     /**
      * Updates the controls when the model changes.

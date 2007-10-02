@@ -26,8 +26,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class ExampleNode extends PPath implements Observer, PropertyChangeListener {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private ExampleModelElement _exampleModelElement;
     private ModelViewTransform _modelViewTransform;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ExampleNode( ExampleModelElement exampleModelElement, ModelViewTransform modelViewTransform ) {
         super();
@@ -60,10 +68,17 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         updateNode();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _exampleModelElement.deleteObserver( this );
     }
 
+    //----------------------------------------------------------------------------
+    // Observer implementation
+    //----------------------------------------------------------------------------
+    
     /**
      * Updates the node when the model changes.
      */
@@ -82,6 +97,10 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         setOffset( viewPosition );
         addPropertyChangeListener( this );
     }
+    
+    //----------------------------------------------------------------------------
+    // PropertyChangeListener implementation
+    //----------------------------------------------------------------------------
     
     /**
      * Updates the model when the node changes.
