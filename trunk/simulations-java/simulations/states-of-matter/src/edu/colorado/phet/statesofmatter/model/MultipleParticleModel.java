@@ -63,9 +63,11 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void clockTicked(ClockEvent clockEvent) {
-        ForceComputation computation = forceEngine.compute(particles, EngineConfig.TEST);
+        for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
+            ForceComputation computation = forceEngine.compute(particles, EngineConfig.TEST);
 
-        computation.apply(particles);
+            computation.apply(particles);
+        }
     }
 
     public void clockStarted(ClockEvent clockEvent) {
