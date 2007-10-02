@@ -3,8 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
-- when user attempts to check "keep trap force constant" when bead is outside the laser outline, uncheck it and post a modal dialog telling the user why
-- when DNA strand consists of 1 spring, use stall force model for getForce(). Calculate stallSpeed with ATP value and dnaForce=0, then run force model in reverse with ATP and stallSpeed to get stallForce
+- implement TomAbstractDNASpeedStrategy.getForce (solve for force, given ATP and speed)
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -27,6 +26,9 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/2/07 - make KathAbstractDNASpeedStrategy.getForce throw UnsupportedOperationException since we don't have (and won't likely be getting) this piece of the model
+10/2/07 - when DNA strand consists of 1 spring, use stall force model instead of DNA force model in DNAStrand.getForce
+10/2/07 - when user attempts to check "keep trap force constant" when bead is outside the laser outline, uncheck it and post a modal dialog telling the user why
 10/2/07 - add DNAStrand.attachEnzyme so that enzyme is available to calculate stall force
 10/2/07 - add DNAStrand.isShortAsPossible to hide encapsulate this constraint
 10/1/07 - setPickable(false) on non-interactive nodes
