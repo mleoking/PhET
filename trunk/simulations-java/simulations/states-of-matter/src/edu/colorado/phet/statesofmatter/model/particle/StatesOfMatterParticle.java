@@ -16,6 +16,9 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
 
     public StatesOfMatterParticle(double x, double y, double radius, double mass) {
         this(x, y, radius, mass, 0.0, 0.0, 0.0, 0.0);
+
+        if (mass   <= 0.0) throw new IllegalArgumentException("Mass is out of range");
+        if (radius <= 0.0) throw new IllegalArgumentException("Radius is out of range");
     }
 
     private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy, double ax, double ay) {

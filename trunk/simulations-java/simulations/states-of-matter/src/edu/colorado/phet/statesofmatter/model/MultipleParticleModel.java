@@ -1,6 +1,5 @@
 package edu.colorado.phet.statesofmatter.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -18,7 +17,6 @@ import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCre
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +27,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     public static final MultipleParticleModel TEST = new MultipleParticleModel(ConstantDtClock.TEST);
 
     private double particleRadius = 0.1;
-    private double particleMass   = 1024;
+    private double particleMass   = 1;
     private ForceEngine forceEngine = new VerletForceEngine();
 
     public MultipleParticleModel(IClock clock) {
@@ -65,24 +63,9 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void clockTicked(ClockEvent clockEvent) {
-        ForceComputation computation = forceEngine.compute((StatesOfMatterParticle[])particles.toArray(new StatesOfMatterParticle[particles.size()]), EngineConfig.TEST);
+        ForceComputation computation = forceEngine.compute(particles, EngineConfig.TEST);
 
-        Point2D.Double[]  newPositions      = computation.getNewPositions();
-        Vector2D.Double[] newVelocities    = computation.getNewVelocities();
-        Vector2D.Double[] newAccelerations = computation.getNewAccelerations();
-
-        for (int i = 0; i < getNumParticles(); i++) {
-            StatesOfMatterParticle p = getParticle(i);
-
-            p.setX(newPositions[i].getX());
-            p.setY(newPositions[i].getY());
-
-            p.setVx(newVelocities[i].getX());
-            p.setVy(newVelocities[i].getY());
-
-            p.setAx(newAccelerations[i].getX());
-            p.setAy(newAccelerations[i].getY());
-        }
+        computation.apply(particles);
     }
 
     public void clockStarted(ClockEvent clockEvent) {

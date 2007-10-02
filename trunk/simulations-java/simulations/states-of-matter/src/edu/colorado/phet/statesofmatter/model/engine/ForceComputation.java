@@ -1,8 +1,11 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.awt.geom.Point2D;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class ForceComputation {
     private final Point2D.Double[] newPositions;
@@ -25,5 +28,25 @@ public class ForceComputation {
 
     public Vector2D.Double[] getNewAccelerations() {
         return newAccelerations;
+    }
+
+    // TODO: Test
+    public void apply(Collection particles) {
+        int i = 0;
+
+        for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
+            StatesOfMatterParticle p = (StatesOfMatterParticle)iterator.next();
+
+            p.setX(newPositions[i].getX());
+            p.setY(newPositions[i].getY());
+
+            p.setVx(newVelocities[i].getX());
+            p.setVy(newVelocities[i].getY());
+
+            p.setAx(newAccelerations[i].getX());
+            p.setAy(newAccelerations[i].getY());
+
+            ++i;
+        }
     }
 }

@@ -6,7 +6,6 @@ import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.awt.geom.Point2D;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -51,10 +50,6 @@ public class VerletForceEngine implements ForceEngine {
         }
 
         return new ForceComputation(newPositions, newVelocities, newAccelerations);
-    }
-
-    public ForceComputation compute(StatesOfMatterParticle[] particles, EngineConfig descriptor) {
-        return compute(Arrays.asList(particles), descriptor);
     }
 
     private void allocateArrays(int length) {
