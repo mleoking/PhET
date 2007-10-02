@@ -17,6 +17,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final double INITIAL_KINETIC_ENERGY = 1500;
     public static final double PARTICLE_RADIUS = 0.1;
     public static final double PARTICLE_MASS = 1.0;
+    public static final int COMPUTATIONS_PER_RENDER = 5;
 
     public StatesOfMatterConfig(String[] commandLineArgs, FrameSetup frameSetup) {
         super(commandLineArgs, frameSetup, RESOURCES);
