@@ -37,4 +37,8 @@ public class CompositeCalculator implements Calculator {
             }
         }
     }
+
+    public Collection getCalculators() {
+        return calculators;
+    }
 }

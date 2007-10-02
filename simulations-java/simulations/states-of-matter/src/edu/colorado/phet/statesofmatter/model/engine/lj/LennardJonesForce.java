@@ -3,9 +3,11 @@ package edu.colorado.phet.statesofmatter.model.engine.lj;
 import edu.colorado.phet.common.phetcommon.math.VectorToVectorFunction;
 
 public class LennardJonesForce extends AbstractLennardJonesFunction implements VectorToVectorFunction {
+    public static final LennardJonesForce TEST = new LennardJonesForce(1.0, 1.0);
+
     private final double A;
     private final double B;
-
+    
     public LennardJonesForce(double epsilon, double rMin) {
         super(epsilon, rMin);
 

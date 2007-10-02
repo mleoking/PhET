@@ -1,0 +1,54 @@
+package edu.colorado.phet.statesofmatter.model.engine;
+
+import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
+import edu.colorado.phet.statesofmatter.model.engine.gravity.GravityForceCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
+import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForceCalculator;
+import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesWallForceCalculator;
+import junit.framework.TestCase;
+
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
+public class ZEngineForceCalculatorTester extends TestCase {
+
+    private volatile EngineForceCalculator c;
+    private Collection allWalls;
+
+    public void setUp() {
+        allWalls = new RectangularParticleContainer(new Rectangle2D.Double(0, 0, 10, 10)).getAllWalls();
+        c = new EngineForceCalculator(1.0, LennardJonesForce.TEST, new ArrayList(), allWalls);
+    }
+
+    public void testThatForceCalculatorIsComposite() {
+        assertTrue(c instanceof CompositeCalculator);
+    }
+
+    public void testThatEngineForceCalculatorHasCalculatorForEachWall() {
+        assertEquals(4, count(LennardJonesWallForceCalculator.class));
+    }
+
+    public void testThatEngineForceCalculatorHasGravityCalculator() {
+        assertEquals(1, count(GravityForceCalculator.class));
+    }
+
+    public void testThatEngineForceCalculatorHasLJFCalculator() {
+        assertEquals(1, count(LennardJonesForceCalculator.class));
+    }
+
+    private int count(Class theClass) {
+        int count = 0;
+
+        for (Iterator iterator = c.getCalculators().iterator(); iterator.hasNext();) {
+            Calculator calculator = (Calculator)iterator.next();
+
+            if (theClass.isAssignableFrom(calculator.getClass())) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
