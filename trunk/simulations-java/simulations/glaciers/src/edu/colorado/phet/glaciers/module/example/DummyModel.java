@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module.dummy;
+package edu.colorado.phet.glaciers.module.example;
 
 import edu.colorado.phet.glaciers.defaults.DummyDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;

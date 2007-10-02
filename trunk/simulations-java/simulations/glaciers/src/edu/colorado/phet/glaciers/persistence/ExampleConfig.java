@@ -6,11 +6,11 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
- * DummyConfig
+ * ExampleConfig is a Java Bean compliant configuration of ExampleModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DummyConfig implements IProguardKeepClass {
+public class ExampleConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -23,6 +23,10 @@ public class DummyConfig implements IProguardKeepClass {
     private boolean _clockRunning;
     private double _clockDt;
     
+    // Model
+    private double _examplePositionX, _examplePositionY;
+    private double _exampleOrientation;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -30,7 +34,7 @@ public class DummyConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance.
      */
-    public DummyConfig() {}
+    public ExampleConfig() {}
     
     //----------------------------------------------------------------------------
     // Accessors
@@ -62,5 +66,35 @@ public class DummyConfig implements IProguardKeepClass {
     
     public void setClockDt( double clockDt ) {
         _clockDt = clockDt;
+    }
+
+    
+    public double getExampleOrientation() {
+        return _exampleOrientation;
+    }
+
+    
+    public void setExampleOrientation( double exampleOrientation ) {
+        _exampleOrientation = exampleOrientation;
+    }
+
+    
+    public double getExamplePositionX() {
+        return _examplePositionX;
+    }
+
+    
+    public void setExamplePositionX( double examplePositionX ) {
+        _examplePositionX = examplePositionX;
+    }
+
+    
+    public double getExamplePositionY() {
+        return _examplePositionY;
+    }
+
+    
+    public void setExamplePositionY( double examplePositionY ) {
+        _examplePositionY = examplePositionY;
     }
 }

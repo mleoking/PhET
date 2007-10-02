@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module.dummy;
+package edu.colorado.phet.glaciers.module.example;
 
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
@@ -8,7 +8,7 @@ import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.defaults.DummyDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
-import edu.colorado.phet.glaciers.persistence.DummyConfig;
+import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
@@ -122,7 +122,7 @@ public class DummyModule extends GlaciersAbstractModule {
 
     public void save( GlaciersConfig appConfig ) {
 
-        DummyConfig config = appConfig.getDummyConfig();
+        ExampleConfig config = appConfig.getDummyConfig();
         DummyModel model = getDummyModel();
 
         // Module
@@ -141,7 +141,7 @@ public class DummyModule extends GlaciersAbstractModule {
 
     public void load( GlaciersConfig appConfig ) {
 
-        DummyConfig config = appConfig.getDummyConfig();
+        ExampleConfig config = appConfig.getDummyConfig();
         DummyModel model = getDummyModel();
 
         // Module
