@@ -61,7 +61,7 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         _orientationControl.setMinorTickSpacing( 45 );
         _orientationControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                handleOrientationChange();
+                handleOrientationControlChange();
             }
         } );
         
@@ -77,21 +77,26 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         layout.addComponent( _orientationControl, row++, column );
     }
 
-    private void handleOrientationChange() {
+    /**
+     * Updates the model when the orientation control changes.
+     */
+    private void handleOrientationControlChange() {
         final double radians = Math.toRadians( _orientationControl.getValue() );
         _exampleModelElement.deleteObserver( this );
         _exampleModelElement.setOrientation( radians );
         _exampleModelElement.addObserver( this );
     }
     
+    /**
+     * Updates the controls when the model changes.
+     */
     public void update( Observable o, Object arg ) {
         if ( o == _exampleModelElement ) {
             if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
                 updatePositionDisplay();
             }
             else if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
-                final double degrees = Math.toDegrees( _exampleModelElement.getOrientation() );
-                _orientationControl.setValue( degrees );
+                updateOrientationControl();
             }
         }
     }
@@ -100,5 +105,10 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         Point2D p = _exampleModelElement.getPositionReference();
         String s = "position: (" + (int)p.getX() + "," + (int)p.getY() + ")";
         _positionDisplay.setText( s );
+    }
+    
+    public void updateOrientationControl() {
+        final double degrees = Math.toDegrees( _exampleModelElement.getOrientation() );
+        _orientationControl.setValue( degrees );
     }
 }

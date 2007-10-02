@@ -114,7 +114,7 @@ public class ExampleModule extends GlaciersAbstractModule {
             clock.setDt( ExampleDefaults.CLOCK_DT );
             setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
             
-            // Example Model Element
+            // ExampleModelElement
             ExampleModelElement exampleModelElement = _model.getExampleModelElement();
             exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
             exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
@@ -141,10 +141,9 @@ public class ExampleModule extends GlaciersAbstractModule {
             config.setClockDt( clock.getDt() );
             config.setClockRunning( getClockRunningWhenActive() );
 
-            // Example Model Element
+            // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            config.setExampleModelElementPositionX( exampleModelElement.getX() );
-            config.setExampleModelElementPositionY( exampleModelElement.getY() );
+            config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
             config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
         }
 
@@ -171,9 +170,9 @@ public class ExampleModule extends GlaciersAbstractModule {
             clock.setDt( config.getClockDt() );
             setClockRunningWhenActive( config.isClockRunning() );
 
-            // Example Model Element
+            // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            exampleModelElement.setPosition( config.getExampleModelElementPositionX(), config.getExampleModelElementPositionY() );
+            exampleModelElement.setPosition( config.getExampleModelElementPosition() );
             exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
         }
 
