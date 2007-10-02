@@ -1,6 +1,7 @@
 package edu.colorado.phet.statesofmatter.model.container;
 
 import java.awt.*;
+import java.util.Collection;
 
 public interface ParticleContainer {
     Shape getShape();
@@ -12,4 +13,6 @@ public interface ParticleContainer {
     ParticleContainerWall getEastWall();
 
     ParticleContainerWall getSouthWall();
+
+    Collection getAllWalls();
 }

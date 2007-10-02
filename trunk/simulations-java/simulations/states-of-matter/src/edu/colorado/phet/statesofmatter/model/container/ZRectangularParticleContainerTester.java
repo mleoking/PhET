@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.Collection;
 
 public class ZRectangularParticleContainerTester extends TestCase {
     private volatile ParticleContainer container;
@@ -56,6 +57,33 @@ public class ZRectangularParticleContainerTester extends TestCase {
 
     public void testThatWestWallEnclosesShapeClockwise() {
         assertTrue(west().getY1() > west().getY2());
+    }
+
+    public void testThatGetWallsReturnsAllFourWalls() {
+        Collection allWalls = container.getAllWalls();
+
+        assertEquals(4, allWalls.size());
+        
+        assertTrue(allWalls.contains(north()));
+        assertTrue(allWalls.contains(south()));
+        assertTrue(allWalls.contains(east()));
+        assertTrue(allWalls.contains(west()));
+    }
+
+    public void testIdentityOfNorthWallDoesNotChange() {
+        assertSame(north(), north());
+    }
+
+    public void testIdentityOfSouthWallDoesNotChange() {
+        assertSame(south(), south());
+    }
+
+    public void testIdentityOfWestWallDoesNotChange() {
+        assertSame(west(), west());
+    }
+
+    public void testIdentityOfEastWallDoesNotChange() {
+        assertSame(east(), east());
     }
 
     private Rectangle2D bounds() {

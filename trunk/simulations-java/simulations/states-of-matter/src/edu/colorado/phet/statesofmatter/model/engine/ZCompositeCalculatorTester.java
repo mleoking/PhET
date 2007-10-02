@@ -3,6 +3,7 @@ package edu.colorado.phet.statesofmatter.model.engine;
 import junit.framework.TestCase;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class ZCompositeCalculatorTester extends TestCase {
     private volatile double[] forces = new double[2];
@@ -44,5 +45,14 @@ public class ZCompositeCalculatorTester extends TestCase {
 
         assertEquals(3.0, forces[0], 0.0);
         assertEquals(6.0, forces[1], 0.0);
+    }
+
+    public void testGetCalculators() {
+        ConstantCalculator c1 = new ConstantCalculator(new double[]{1.0, 2.0});
+        ConstantCalculator c2 = new ConstantCalculator(new double[]{2.0, 4.0});
+
+        List list = Arrays.asList(new Calculator[]{c1, c2});
+
+        assertSame(list, new CompositeCalculator(list).getCalculators());
     }
 }
