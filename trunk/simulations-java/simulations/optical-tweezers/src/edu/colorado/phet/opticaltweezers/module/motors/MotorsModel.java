@@ -165,6 +165,8 @@ public class MotorsModel extends OTAbstractModel implements Observer {
          addModelElement( _laserPositionController );
          
          _modelViewTransform = new ModelViewTransform( MotorsDefaults.MODEL_TO_VIEW_SCALE );
+         
+         resetDNA();
     }
     
     //----------------------------------------------------------------------------
@@ -224,6 +226,15 @@ public class MotorsModel extends OTAbstractModel implements Observer {
         _dnaStrandFree.setContourLength( MotorsDefaults.DNA_FREE_CONTOUR_LENGTH );
         _bead.setPosition( MotorsDefaults.BEAD_POSITION );
         _invisibleBead.setPosition( MotorsDefaults.INVISIBLE_BEAD_POSITION );
+        if ( _enzymeA.isEnabled() ) {
+            _dnaStrandBead.attachEnzyme( _enzymeA );
+        }
+        else if ( _enzymeB.isEnabled() ) {
+            _dnaStrandBead.attachEnzyme( _enzymeB );
+        }
+        else {
+            _dnaStrandBead.attachEnzyme( null );
+        }
     }
 
     public void update( Observable o, Object arg ) {

@@ -35,6 +35,7 @@ import edu.colorado.phet.opticaltweezers.util.Vector2D;
  * <li>uses fluid temperature to determine DNA force
  * <li>uses fluid speed to evolve springs-&-pivots
  * <li>uses clock state and maxDt to evolve springs-&-pivots when the clock is paused
+ * <li>uses the enzyme to determine the stall force
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -71,6 +72,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     private Fluid _fluid;
     private OTClock _clock;
     private double _referenceClockStep;
+    private AbstractEnzyme _enzyme;
     
     private double _contourLength; // nm, length of the DNA strand
     private final double _persistenceLength; // nm, measure of the strand's bending stiffness
@@ -161,7 +163,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             _fluidDragCoefficient = _fluidDragCoefficientRange.getDefault();
         }
         
-        initialize();
+        initializePivots();
     }
     
     //----------------------------------------------------------------------------
@@ -257,6 +259,17 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      */
     public double getStretchiness() {
         return _stretchiness;
+    }
+    
+    /**
+     * Attach an enzyme to the strand.
+     * The enzyme is used to determine the stall force,
+     * the DNA force when the strand has been fulled "pulled in" by the enzyme.
+     * 
+     * @param enzyme
+     */
+    public void attachEnzyme( AbstractEnzyme enzyme ) {
+        _enzyme = enzyme;
     }
     
     //----------------------------------------------------------------------------
@@ -446,13 +459,13 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     // Springs-&-pivots model
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Initializes the pivot points that connect the springs.
      * The springs are layed out in a straight line between the pin and the bead.
      * If the contour length is not an integer multiple of the spring length,
      * then the first spring (closest to the pin) will be shorter than the others.
      */
-    public void initialize() {
+    public void initializePivots() {
         
         assert( _contourLength >= _springLength ); // initialization requires at least 1 springs (2 pivots)
         
@@ -516,7 +529,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         }
 
         // evolve so that it doesn't look like a straight line
-        evolve( _clock.getMaxDt() );
+        evolvePivots( _clock.getMaxDt() );
         
         notifyObservers( PROPERTY_SHAPE );
     }
@@ -526,7 +539,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * The strand is a collection of springs connected at pivot points.
      * This model was provided by Mike Dubson.
      */
-    private void evolve( double clockStep ) {
+    private void evolvePivots( double clockStep ) {
         
         // return unless we have at least 2 springs
         if ( _pivots.size() < 3 ) {
@@ -598,7 +611,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         }
     }
     
-    /**
+    /*
      * Makes the strand longer.
      * This will add zero or more pivots.
      * 
@@ -643,7 +656,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         assert( amountToDo == 0 );
     }
     
-    /**
+    /*
      * Makes the strand shorter.
      * This will remove zero or more pivots.
      * 
@@ -653,11 +666,11 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         
         assert( amount > 0 );
         
-        double amountToDo = amount;
-        double amountDone = 0;
-        
-        if ( getNumberOfSprings() > 1 ) {
+        if ( ! isShortAsPossible() ) {
 
+            double amountToDo = amount;
+            double amountDone = 0;
+            
             if ( amountToDo < _springLengthClosestToPin ) {
                 // shorten partial-length spring closest to pin
                 _springLengthClosestToPin -= amountToDo;
@@ -670,51 +683,39 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 amountToDo -= _springLengthClosestToPin;
                 removeSpringAtPin();
 
-                // remove full-length springs at the pin, leaving 1 complete spring
-                while ( amountToDo >= _springLength && getNumberOfSprings() > 1 ) {
+                // remove full-length springs at the pin
+                while ( amountToDo >= _springLength && !isShortAsPossible() ) {
                     removeSpringAtPin();
                     amountDone += _springLength;
                     amountToDo -= _springLength;
                 }
 
-                // Use left-over to make a partial spring at pin, leaving at least 1 complete spring
-                if ( amountToDo > 0 && amountToDo < _springLength && getNumberOfSprings() > 1 ) {
+                // use left-over to make a partial spring at pin
+                if ( amountToDo > 0 && amountToDo < _springLength && !isShortAsPossible() ) {
                     _springLengthClosestToPin = _springLength - amountToDo;
                     amountDone += amountToDo;
                     amountToDo = 0;
                 }
             }
+            
+            // adjust contour length
+            _contourLength -= amountDone;
+            
+            // just in case...
+            if ( _contourLength < _springLength ) {
+                System.err.println( "DNAStrand.makeShorter: contour length is too short, adjusting: " + _contourLength );
+                _contourLength = _springLength;
+            }
+            
+            assert( getNumberOfSprings() > 0 );
+            assert( _contourLength >= _springLength );
+            assert( _springLengthClosestToPin > 0 && _springLengthClosestToPin <= _springLength );
+            assert( amountDone >= 0 && amountDone <= amount );
         }
-        
-        // adjust contour length
-        _contourLength -= amountDone;
-        
-        // just in case...
-        if ( _contourLength < _springLength ) {
-            System.err.println( "DNAStrand.makeShorter: contour length is too short, adjusting: " + _contourLength );
-            _contourLength = _springLength;
-        }
-        
-        assert( getNumberOfSprings() > 0 );
-        assert( _contourLength >= _springLength );
-        assert( _springLengthClosestToPin > 0 && _springLengthClosestToPin <= _springLength );
-        assert( amountDone >= 0 && amountDone <= amount );
-    }
-    
-    /**
-     * Gets the number of springs in the strand.
-     * It's sometimes easier to think in terms of springs rather than strands.
-     * 
-     * @return
-     */
-    private int getNumberOfSprings() {
-        return _pivots.size() - 1;
     }
     
     /*
      * Adds a spring at the pin.
-     * 
-     * @param springLength
      */
     private void addSpringAtPin( double springLength ) {
         DNAPivot pivot = new DNAPivot( getPinX(), getPinY() );
@@ -726,18 +727,34 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * Removes a spring at the pin.
      */
     private void removeSpringAtPin() {
-        if ( getNumberOfSprings() < 2 ) {
+        if ( isShortAsPossible() ) {
             throw new IllegalStateException( "cannot remove the last spring!" );
         }
         _pivots.remove( 1 ); // pivot 0 is the pin
         _springLengthClosestToPin = _springLength;
     }
     
+    /*
+     * Gets the number of springs in the strand.
+     * It's sometimes easier to think in terms of springs rather than strands.
+     */
+    private int getNumberOfSprings() {
+        return _pivots.size() - 1;
+    }
+    
+    /*
+     * Is the strand at its shortest possible length?
+     * The shortest possible strand consists of 1 spring.
+     */
+    private boolean isShortAsPossible() {
+        return getNumberOfSprings() == 1;
+    }
+    
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
-    /*
+    /**
      * Updates the model when something it's observing changes.
      * 
      * @param o
@@ -750,7 +767,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
                 pivot.setPosition( _bead.getX(), _bead.getY() );
                 if ( !_clock.isRunning() ) {
                     // user is dragging the bead with clock paused, evolve as quickly as possible
-                    evolve( _clock.getMaxDt() );
+                    evolvePivots( _clock.getMaxDt() );
                 }
                 notifyObservers( PROPERTY_SHAPE );
             }
@@ -772,7 +789,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @param clockStep clock step
      */
     public void stepInTime( double clockStep ) {
-        evolve( clockStep );
+        evolvePivots( clockStep );
         notifyObservers( PROPERTY_SHAPE );
     }
 }

@@ -27,6 +27,8 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/2/07 - add DNAStrand.attachEnzyme so that enzyme is available to calculate stall force
+10/2/07 - add DNAStrand.isShortAsPossible to hide encapsulate this constraint
 10/1/07 - setPickable(false) on non-interactive nodes
 10/1/07 - factor responsibility for moving laser out of DNAStrand and into LaserPositionController
 10/1/07 - DNAStrand.initialize should call evolve with max clock dt

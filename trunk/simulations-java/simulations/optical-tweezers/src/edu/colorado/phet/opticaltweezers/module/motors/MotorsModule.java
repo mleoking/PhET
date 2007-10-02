@@ -191,7 +191,7 @@ public class MotorsModule extends OTAbstractModule {
             dnaStrandBead.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
             dnaStrandBead.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrandBead.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrandBead.initialize();
+            dnaStrandBead.initializePivots();
             
             // DNA Strand with free end
             DNAStrand dnaStrandFree = _model.getDNAStrandFree();
@@ -202,11 +202,12 @@ public class MotorsModule extends OTAbstractModule {
             dnaStrandFree.setNumberOfEvolutionsPerClockTick( MotorsDefaults.DNA_NUMBER_OF_EVOLUTIONS_PER_CLOCK_STEP_RANGE.getDefault() );
             dnaStrandFree.setEvolutionDt( MotorsDefaults.DNA_EVOLUTION_DT_RANGE.getDefault() );
             dnaStrandFree.setFluidDragCoefficient( MotorsDefaults.DNA_FLUID_DRAG_COEFFICIENT_RANGE.getDefault() );
-            dnaStrandFree.initialize();
+            dnaStrandFree.initializePivots();
 
             // Enzyme
             _model.getEnzymeA().setEnabled( MotorsDefaults.ENZYME_A_SELECTED );
             _model.getEnzymeB().setEnabled( MotorsDefaults.ENZYME_B_SELECTED );
+            _model.resetDNA();
         }
 
         // View
@@ -349,6 +350,7 @@ public class MotorsModule extends OTAbstractModule {
             EnzymeControlPanel enzymeControlPanel = _controlPanel.getEnzymeControlPanel();
             enzymeControlPanel.setEnzymeASelected( config.isEnzymeASelected() );
             enzymeControlPanel.setEnzymeBSelected( config.isEnzymeBSelected() );
+            _model.resetDNA();
 
             ForcesControlPanel forcesControlPanel = _controlPanel.getForcesControlPanel();
             forcesControlPanel.setTrapForceSelected( config.isTrapForceSelected() );
