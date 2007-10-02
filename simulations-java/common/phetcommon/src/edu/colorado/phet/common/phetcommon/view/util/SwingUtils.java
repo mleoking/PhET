@@ -128,16 +128,19 @@ public class SwingUtils {
     }
 
     /**
-     * Sets the bounds for a dialog so it is centered over a frame
+     * Sets the bounds for a dialog so it is centered over its parent.
      *
      * @param dialog
      */
     public static void centerDialogInParent( JDialog dialog ) {
-        Rectangle frameBounds = dialog.getParent().getBounds();
-        Rectangle dialogBounds = new Rectangle( (int) ( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
-                                                (int) ( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
-                                                dialog.getWidth(), dialog.getHeight() );
-        dialog.setBounds( dialogBounds );
+        Container parent = dialog.getParent();
+        if ( parent != null ) {
+            Rectangle parentBounds = parent.getBounds();
+            Rectangle dialogBounds = new Rectangle( (int) ( parentBounds.getMinX() + parentBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
+                                                    (int) ( parentBounds.getMinY() + parentBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
+                                                    dialog.getWidth(), dialog.getHeight() );
+            dialog.setBounds( dialogBounds );
+        }
     }
 
     // This method returns the selected radio button in a button group
