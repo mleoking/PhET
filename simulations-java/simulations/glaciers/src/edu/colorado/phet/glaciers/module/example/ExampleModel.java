@@ -32,7 +32,7 @@ public class ExampleModel extends GlaciersAbstractModel {
         _exampleModelElement = new ExampleModelElement( 
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION, 
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION,
-                ExampleDefaults.EXAMPLE_MODEL_ELEMENT_RADIUS );
+                ExampleDefaults.EXAMPLE_MODEL_ELEMENT_SIZE );
         addModelElement( _exampleModelElement  );
         
          _modelViewTransform = new ModelViewTransform( ExampleDefaults.MODEL_TO_VIEW_SCALE );
