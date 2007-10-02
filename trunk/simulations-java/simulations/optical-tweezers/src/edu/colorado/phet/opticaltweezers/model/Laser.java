@@ -326,7 +326,7 @@ public class Laser extends MovableObject implements ModelElement {
         // Is y on the out-going side of the objective?
         if ( yOffset <= _distanceFromObjectiveToWaist ) {
             final double radius = getRadius( yOffset );
-            if ( radius <= Math.abs( xOffset ) ) {
+            if ( radius >= Math.abs( xOffset ) ) {
                 b = true;
             }
         }
