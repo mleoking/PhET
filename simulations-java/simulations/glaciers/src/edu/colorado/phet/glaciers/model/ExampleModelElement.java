@@ -26,6 +26,6 @@ public class ExampleModelElement extends MovableObject implements ModelElement {
     }
     
     public void stepInTime( double dt ) {
-        //XXX
+        // do nothing
     }
 }

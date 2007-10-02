@@ -37,7 +37,7 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         
         _modelViewTransform = modelViewTransform;
         
-        // pointer with origin at center
+        // pointer with origin at geometric center
         Dimension size = _exampleModelElement.getSize();
         final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
         final float h = (float) _modelViewTransform.modelToView( size.getHeight() );
@@ -55,7 +55,7 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
-        addPropertyChangeListener( this ); // update model when view changes
+        addPropertyChangeListener( this ); // update model when node is dragged
         
         updateNode();
     }
