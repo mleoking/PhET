@@ -26,6 +26,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/2/07 - optimize updates to ElectricFieldVectorNode to reduce creation of Arrow objects
 10/2/07 - make BeadNode and LaserNode remove/addPropertyChangeListener before they adjust the view to match the model
 10/2/07 - center "keep trap force constant" info dialog in parent frame
 10/2/07 - make KathAbstractDNASpeedStrategy.getForce throw UnsupportedOperationException since we don't have (and won't likely be getting) this piece of the model
