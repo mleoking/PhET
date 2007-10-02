@@ -2,10 +2,13 @@ package edu.colorado.phet.statesofmatter.model.particle;
 
 import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 
+import java.awt.geom.Point2D;
+
 public class StatesOfMatterParticle implements PubliclyCloneable {
     public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
 
-    private volatile double x, y, radius, mass, vx, vy;
+    private final Point2D.Double position = new Point2D.Double();
+    private volatile double radius, mass, vx, vy;
     private double inverseMass;
 
     public StatesOfMatterParticle(double x, double y, double radius, double mass) {
@@ -13,8 +16,8 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     private StatesOfMatterParticle(double x, double y, double radius, double mass, double vx, double vy) {
-        this.x      = x;
-        this.y      = y;
+        position.setLocation(x, y);
+        
         this.mass   = mass;
         this.radius = radius;
         this.vy     = vy;
@@ -22,19 +25,19 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public double getX() {
-        return x;
+        return position.getX();
     }
 
     public double getY() {
-        return y;
+        return position.getY();
     }
 
     public void setX(double x) {
-        this.x = x;
+        position.setLocation(x, getY());
     }
 
     public void setY(double y) {
-        this.y = y;
+        position.setLocation(getX(), y);
     }
 
     public double getVy() {
@@ -86,10 +89,10 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
         if (Double.compare(that.vy, vy) != 0) {
             return false;
         }
-        if (Double.compare(that.x, x) != 0) {
+        if (Double.compare(that.getX(), getX()) != 0) {
             return false;
         }
-        if (Double.compare(that.y, y) != 0) {
+        if (Double.compare(that.getY(), getY()) != 0) {
             return false;
         }
 
@@ -99,9 +102,9 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     public int hashCode() {
         int result;
         long temp;
-        temp = x != +0.0d ? Double.doubleToLongBits(x) : 0L;
+        temp = getX() != +0.0d ? Double.doubleToLongBits(getX()) : 0L;
         result = (int)(temp ^ (temp >>> 32));
-        temp = y != +0.0d ? Double.doubleToLongBits(y) : 0L;
+        temp = getY() != +0.0d ? Double.doubleToLongBits(getY()) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
         temp = radius != +0.0d ? Double.doubleToLongBits(radius) : 0L;
         result = 31 * result + (int)(temp ^ (temp >>> 32));
@@ -127,7 +130,7 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + ",radius=" + radius + ",mass" + mass + ",vx=" + vx + ",vy=" + vy + "]";
+        return getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",radius=" + radius + ",mass" + mass + ",vx=" + vx + ",vy=" + vy + "]";
     }
 
     public double getInverseMass() {
@@ -140,5 +143,9 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
 
     public double getKineticEnergy() {
         return 0.5 * mass * (vx * vx + vy * vy);
+    }
+
+    public Point2D getPosition() {
+        return position;
     }
 }

@@ -15,6 +15,15 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
     private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle( 2,  2, 1, 1);
     private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(-2, -2, 1, 1);
 
+    private static final StatesOfMatterParticle P3 = new StatesOfMatterParticle(0, 0, 1, 1);
+    private static final StatesOfMatterParticle P4 = new StatesOfMatterParticle(0, 0.5 * EPSILON, 1, 1);
+
+    private static final StatesOfMatterParticle P5 = new StatesOfMatterParticle(0, 0, 1, 1);
+    private static final StatesOfMatterParticle P6 = new StatesOfMatterParticle(0, 1.5 * EPSILON, 1, 1);
+
+    private static final StatesOfMatterParticle P7 = new StatesOfMatterParticle(0, 0, 1, 1);
+    private static final StatesOfMatterParticle P8 = new StatesOfMatterParticle(0, EPSILON, 1, 1);
+
     private final double[] f1 = new double[2];
     private final double[] f2 = new double[2];
 
@@ -26,24 +35,45 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
     }
 
     public void testForcesAreNonZeroOnTwoParticles() {
-        calculateP1AndP2();
+        calculate(P1, P2);
 
         assertTrue(f1[0] * f1[0] + f1[1] * f1[1] > 0);
         assertTrue(f2[0] * f2[0] + f2[1] * f2[1] > 0);
     }
 
     public void testForcesOnTwoParticlesEqualAndOpposite() {
-        calculateP1AndP2();
+        calculate(P1, P2);
 
         assertEquals(f1[0], -f2[0], 0.00001);
         assertEquals(f1[1], -f2[1], 0.00001);
     }
 
-    private void calculateP1AndP2() {
-        LennardJonesForceCalculator c = new LennardJonesForceCalculator(LJF, particles(P1, P2));
+    public void testForcesOnParticlesCloserThanEpsilonRepulsive() {
+        calculate(P3, P4);
 
-        c.calculate(P1, f1);
-        c.calculate(P2, f2);
+        assertTrue(f1[1] < 0);
+        assertTrue(f2[1] > 0);
+    }
+
+    public void testForcesOnParticlesFurtherThanEpsilonAttractive() {
+        calculate(P5, P6);
+
+        assertTrue(f1[1] > 0);
+        assertTrue(f2[1] < 0);
+    }
+
+    public void testForcesOnParticlesSeparatedByEpsilonZero() {
+        calculate(P7, P8);
+
+        assertEquals(f1[1], 0.0, 0.00001);
+        assertEquals(f2[1], 0.0, 0.00001);
+    }
+
+    private void calculate(StatesOfMatterParticle p1, StatesOfMatterParticle p2) {
+        LennardJonesForceCalculator c = new LennardJonesForceCalculator(LJF, particles(p1, p2));
+
+        c.calculate(p1, f1);
+        c.calculate(p2, f2);
     }
 
     private List particles(StatesOfMatterParticle p1, StatesOfMatterParticle p2) {

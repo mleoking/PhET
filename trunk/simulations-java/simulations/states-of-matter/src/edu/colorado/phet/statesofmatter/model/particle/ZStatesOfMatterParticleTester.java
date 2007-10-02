@@ -3,6 +3,8 @@ package edu.colorado.phet.statesofmatter.model.particle;
 import edu.colorado.phet.common.phetcommon.util.testing.TestingUtils;
 import junit.framework.TestCase;
 
+import java.awt.geom.Point2D;
+
 public class ZStatesOfMatterParticleTester extends TestCase {
     private static final StatesOfMatterParticle P              = new StatesOfMatterParticle(1, 2, 3, 4);
     private static final StatesOfMatterParticle EQUAL_TO_P     = new StatesOfMatterParticle(1, 2, 3, 4);
@@ -40,5 +42,14 @@ public class ZStatesOfMatterParticleTester extends TestCase {
         p.setVy(1.0);
 
         assertEquals(0.5 * 3.0 * Math.pow(Math.sqrt(2.0 * 2.0 + 1.0), 2), p.getKineticEnergy(), 0.00001);
+    }
+    
+    public void testGetPositionReflectsSetPosition() {
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+
+        p.setX(9923);
+        p.setY(9392);
+
+        assertEquals(new Point2D.Double(9923, 9392), p.getPosition());
     }
 }

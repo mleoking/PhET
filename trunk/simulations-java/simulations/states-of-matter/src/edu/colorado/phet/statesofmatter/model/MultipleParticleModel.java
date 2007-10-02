@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
-import edu.colorado.phet.statesofmatter.model.container.AbstractParticleContainer;
+import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
@@ -98,7 +98,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     public void simulationTimeReset(ClockEvent clockEvent) {
     }
 
-    public AbstractParticleContainer getParticleContainer() {
+    public ParticleContainer getParticleContainer() {
         return new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS);
     }
 }
