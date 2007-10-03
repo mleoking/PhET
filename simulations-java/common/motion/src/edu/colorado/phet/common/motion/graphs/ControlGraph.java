@@ -11,6 +11,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -99,7 +100,7 @@ public class ControlGraph extends PNode {
         dynamicJFreeChartNode.setBufferedImmediateSeries();
 
         graphTimeControlNode = createGraphTimeControlNode( timeSeriesModel );
-        additionalControls = new PSwing(additionalControlPanel);
+        additionalControls = new PSwing( additionalControlPanel );
 //        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
         jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
@@ -142,7 +143,7 @@ public class ControlGraph extends PNode {
 
         dynamicJFreeChartNode.updateChartRenderingInfo();
         relayout();
-        updateZoomEnabled();
+        updateHorizontalZoomEnabled();
 
         //for debugging, attach listeners that allow change of rendering style.
         addInputEventListener( new PBasicInputEventHandler() {
@@ -282,16 +283,20 @@ public class ControlGraph extends PNode {
         }
     }
 
-    private void zoomVertical( double v ) {
-        double currentRange = jFreeChart.getXYPlot().getRangeAxis().getUpperBound() - jFreeChart.getXYPlot().getRangeAxis().getLowerBound();
-        double newRange = currentRange * v;
-        double diff = newRange - currentRange;
-        setVerticalRange( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - diff / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + diff / 2 );
-        updateZoomEnabled();
+    private void zoomVertical( double zoomValue ) {
+        Range verticalRange = getVerticalRange( zoomValue );
+        setVerticalRange( verticalRange.getLowerBound(), verticalRange.getUpperBound() );
+        updateHorizontalZoomEnabled();//todo: this should probably update the vertical zoom
         notifyZoomChanged();
     }
 
-    private void updateZoomEnabled() {
+    protected Range getVerticalRange( double zoomValue ) {
+        double currentRange = jFreeChart.getXYPlot().getRangeAxis().getUpperBound() - jFreeChart.getXYPlot().getRangeAxis().getLowerBound();
+        double newRange = currentRange * zoomValue - currentRange;
+        return new Range( jFreeChart.getXYPlot().getRangeAxis().getLowerBound() - newRange / 2, jFreeChart.getXYPlot().getRangeAxis().getUpperBound() + newRange / 2 );
+    }
+
+    private void updateHorizontalZoomEnabled() {
         zoomControl.setHorizontalZoomOutEnabled( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDomainValue );
     }
 
@@ -392,7 +397,7 @@ public class ControlGraph extends PNode {
     public void setDomainUpperBound( double maxDataX ) {
         if ( jFreeChart.getXYPlot().getDomainAxis().getUpperBound() != maxDataX ) {
             jFreeChart.getXYPlot().getDomainAxis().setUpperBound( maxDataX );
-            updateZoomEnabled();
+            updateHorizontalZoomEnabled();
             notifyZoomChanged();
         }
     }
