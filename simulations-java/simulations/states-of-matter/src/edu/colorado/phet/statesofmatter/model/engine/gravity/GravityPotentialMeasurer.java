@@ -23,7 +23,7 @@ public class GravityPotentialMeasurer implements Measurable {
         for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
             StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
 
-            potential += (particle.getY() - floor) * g * particle.getMass();
+            potential += (floor - particle.getY()) * g * particle.getMass();
         }
 
         return potential;

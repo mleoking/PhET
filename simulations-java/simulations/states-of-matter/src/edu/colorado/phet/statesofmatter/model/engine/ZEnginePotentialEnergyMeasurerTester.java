@@ -37,13 +37,13 @@ public class ZEnginePotentialEnergyMeasurerTester extends TestCase {
     }
 
     public void testPositivePotentialWithGravityAndOneParticleAboveFloor() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR + 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR - 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() > 0.0);
     }
 
     public void testNegativePotentialWithGravityAndOneParticleBelowFloor() {
-        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR - 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
+        prepare(new StatesOfMatterParticle[]{new StatesOfMatterParticle(1, FLOOR + 1, 1, 1)}, -1.0, LennardJonesPotential.TEST);
 
         assertTrue(m.measure() < 0.0);
     }
