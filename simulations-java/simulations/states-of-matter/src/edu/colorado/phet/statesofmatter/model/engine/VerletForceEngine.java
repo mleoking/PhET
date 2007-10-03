@@ -1,6 +1,7 @@
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.statesofmatter.model.engine.integration.Integrator1D;
 import edu.colorado.phet.statesofmatter.model.engine.integration.VelocityVerletIntegrator1D;
 import edu.colorado.phet.statesofmatter.model.engine.lj.LennardJonesForce;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
@@ -22,7 +23,7 @@ public class VerletForceEngine implements ForceEngine {
 
         double[] forces = new double[2];
 
-        VelocityVerletIntegrator1D integrator = new VelocityVerletIntegrator1D(descriptor.deltaT);
+        Integrator1D integrator = new VelocityVerletIntegrator1D(descriptor.deltaT);
 
         int i = 0;
 

@@ -499,6 +499,14 @@ public class MathUtil {
 
         return new Vector2D.Double(point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY());
     }
+
+    public static double signum(double v) {
+        if (v < 0.0) return -1.0;
+        if (v > 0.0) return 1.0;
+
+        return 0.0;
+    }
+
     /**
      * This class manages a running average.
      */

@@ -6,7 +6,7 @@ public class ZVelocityVerletIntegrator1DTester extends TestCase {
     private static final double DELTA_T = 1.0;
     private static final double EPS     = 0.000001;
 
-    private volatile VelocityVerletIntegrator1D i;
+    private volatile Integrator1D i;
 
     public void setUp() {
         i = new VelocityVerletIntegrator1D(DELTA_T);

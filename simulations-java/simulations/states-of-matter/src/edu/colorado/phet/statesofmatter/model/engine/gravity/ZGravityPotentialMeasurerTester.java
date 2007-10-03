@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ZGravityPotentialMeasurerTester extends TestCase {
     private static final double FLOOR = -2.0;
-    private static final double G     = 10.0;
+    private static final double G     = -10.0;
     
     private static final StatesOfMatterParticle P1 = new StatesOfMatterParticle(0, FLOOR, 1, 1);
     private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(4, 3, 1, 1);
@@ -30,7 +30,7 @@ public class ZGravityPotentialMeasurerTester extends TestCase {
     }
     
     private void test(StatesOfMatterParticle p) {
-        assertEquals(p.getMass()*(p.getY()-FLOOR)*G, measure(p), 0.000001);
+        assertEquals(Math.abs(p.getMass()*(p.getY()-FLOOR)*G), measure(p), 0.000001);
     }
 
     private double measure(StatesOfMatterParticle p) {

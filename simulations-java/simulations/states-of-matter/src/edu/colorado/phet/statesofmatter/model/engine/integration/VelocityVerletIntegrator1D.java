@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.engine.integration;
 
-public class VelocityVerletIntegrator1D {
+public class VelocityVerletIntegrator1D implements Integrator1D {
     private final double deltaT;
     private final double deltaTSquared;
 
@@ -8,6 +8,7 @@ public class VelocityVerletIntegrator1D {
         this.deltaT = deltaT;
         this.deltaTSquared = deltaT * deltaT;
     }
+    
     public double nextPosition(double lastX, double lastV, double lastA) {
         return lastX + lastV * deltaT + 0.5 * lastA * deltaTSquared;
     }

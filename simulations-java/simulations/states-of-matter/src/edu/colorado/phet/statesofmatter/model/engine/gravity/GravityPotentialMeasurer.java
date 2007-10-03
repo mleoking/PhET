@@ -14,7 +14,7 @@ public class GravityPotentialMeasurer implements Measurable {
     public GravityPotentialMeasurer(List particles, double floor, double g) {
         this.particles = particles;
         this.floor     = floor;
-        this.g         = g;
+        this.g         = Math.abs(g);
     }
 
     public double measure() {

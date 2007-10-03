@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
@@ -44,6 +45,13 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
         assertTrue(forces[1] > 0);
     }
 
+    public void testForceIsRepulsiveBehindWall() {
+        calcForceAtDist(-1.0 * EPSILON);
+
+        assertTrue(forces[0] > 0);
+        assertTrue(forces[1] < 0);
+    }
+
     private void calcForceAtDist(double dist) {
         double delta = dist / Math.sqrt(2);
 
@@ -54,7 +62,7 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
 
         LennardJonesWallForceCalculator calculator = new LennardJonesWallForceCalculator(FORCE, WALL);
 
-        assertEquals(WALL.ptLineDist(p.getX(), p.getY()), dist, 0.000001);
+        assertEquals(WALL.ptLineDist(p.getX(), p.getY()) * MathUtil.signum(dist), dist, 0.000001);
 
         calculator.calculate(p, forces);
     }
