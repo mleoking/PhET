@@ -43,7 +43,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
 
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius", Color.green, "r", "m", new BasicStroke( 2 ), true, null, tm.getRadiusSeries() ),
-                "r", "Radius", "m", 0, RotationPlatform.MAX_RADIUS,
+                "r", "Radius", "m", 0, 3.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
             public void sliderDragged( double value ) {
