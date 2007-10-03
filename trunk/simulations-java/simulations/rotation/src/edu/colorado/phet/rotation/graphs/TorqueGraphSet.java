@@ -51,7 +51,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 return new Range( 0, range.getUpperBound() );
             }
         } );
-        radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
+        radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {//todo: is this necessary?
             public void sliderDragged( double value ) {
                 tm.setAppliedForceRadius( value );
             }

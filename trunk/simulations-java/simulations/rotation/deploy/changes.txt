@@ -1,3 +1,4 @@
+10-3-2007: Torque - Fixed: Applied force remains on the wheel when changing the wheel radius
 10-3-2007: Torque - Fixed: Relabeled Radius graph to read r_applied and Radius of Force
 10-3-2007: Torque - Fixed: When resizing Radius graph y-axis, minimum should always be 0
 10-3-2007: Torque - Fixed: Radius scale should go from 0 to 3.5 m
