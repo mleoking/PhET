@@ -9,9 +9,8 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.container.ParticleContainer;
 import edu.colorado.phet.statesofmatter.model.container.RectangularParticleContainer;
 import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
+import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
-import edu.colorado.phet.statesofmatter.model.engine.ForceEngine;
-import edu.colorado.phet.statesofmatter.model.engine.VerletForceEngine;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
@@ -28,7 +27,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     private double particleRadius = 0.1;
     private double particleMass   = 1;
-    private ForceEngine forceEngine = new VerletForceEngine();
+    private EngineFacade engineFacade;
 
     public MultipleParticleModel(IClock clock) {
         clock.addClockListener(this);
@@ -48,6 +47,8 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
         KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
 
         adjuster.adjust(particles, StatesOfMatterConfig.INITIAL_KINETIC_ENERGY);
+
+        engineFacade = new EngineFacade(particles, EngineConfig.TEST);
     }
 
     public List getParticles() {
@@ -64,7 +65,13 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     public void clockTicked(ClockEvent clockEvent) {
         for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
-            ForceComputation computation = forceEngine.compute(particles, EngineConfig.TEST);
+            double kineticEnergy = engineFacade.getKineticEnergy();
+            double potentialEnergy = engineFacade.getPotentialEnergy();
+            double totalEnergy = kineticEnergy + potentialEnergy;
+
+            System.out.println("KE = " + kineticEnergy + ", PE = " + potentialEnergy + ", Total = " + totalEnergy);
+
+            ForceComputation computation = engineFacade.step();
 
             computation.apply(particles);
         }
