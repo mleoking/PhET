@@ -4,6 +4,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -26,9 +27,9 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "F", "N", new BasicStroke( 4 ), true, "applied", tm.getAppliedForceVariable() ),
                 "F", "force", "units", -2.5, 2.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
-        forceGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
-            public void sliderDragged( double value ) {
-                tm.setAppliedForceMagnitude( value );
+        tm.getAppliedForceVariable().addListener( new IVariable.Listener() {
+            public void valueChanged() {
+                tm.setAppliedForceMagnitude( tm.getAppliedForceVariable().getValue() );
             }
         } );
 

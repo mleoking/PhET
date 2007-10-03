@@ -285,7 +285,7 @@ public class RotationBody {
             boolean circleErrorSmallEnough = circleErr < thresholdCircularMSE;
 //            System.out.println( "RotationBody$DefaultCircleDiscriminant.isCircularMotion" );
             boolean lineErrorHighEnough = getLinearRegressionMSE( pointHistory ) > 0.01;
-            System.out.println( "radiusBigEnough= " + radiusBigEnough + ", radiusSmall= " + radiusSmallEnough + ", cErr= " + circleErrorSmallEnough + ", lErr= " + lineErrorHighEnough +", cErr="+circleErr);
+//            System.out.println( "radiusBigEnough= " + radiusBigEnough + ", radiusSmall= " + radiusSmallEnough + ", cErr= " + circleErrorSmallEnough + ", lErr= " + lineErrorHighEnough +", cErr="+circleErr);
             return radiusBigEnough &&
                    radiusSmallEnough &&
                    circleErrorSmallEnough &&
