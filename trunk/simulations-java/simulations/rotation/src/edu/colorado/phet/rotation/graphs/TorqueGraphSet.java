@@ -2,13 +2,14 @@ package edu.colorado.phet.rotation.graphs;
 
 import java.awt.*;
 
+import org.jfree.data.Range;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 
@@ -44,7 +45,12 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius", Color.green, "r", "m", new BasicStroke( 2 ), true, null, tm.getRadiusSeries() ),
                 "r", "Radius", "m", 0, 3.5,
-                tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) {
+            protected Range getVerticalRange( double zoomValue ) {
+                Range range = super.getVerticalRange( zoomValue );
+                return new Range( 0, range.getUpperBound() );
+            }
+        } );
         radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {
             public void sliderDragged( double value ) {
                 tm.setAppliedForceRadius( value );
