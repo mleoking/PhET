@@ -1,3 +1,4 @@
+10-3-2007: Torque - Fixed: Type-in text box for Applied Force not causing model changes
 9-26-2007: Rotation - Changed thresholds so motion should be classified as circular more accurately
 9-26-2007: Torque - Added better titles/labels for the torque/force graphs.
 9-26-2007: Torque - Fixes for platform graphics

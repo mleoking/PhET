@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -59,7 +60,21 @@ public class GraphControlTextBox extends JPanel {
     }
 
     protected void setSimValueFromTextField() {
-        series.getTemporalVariable().setValue( getModelValue() );
+        double modelValue = getModelValue();
+        series.getTemporalVariable().setValue( modelValue );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).valueChanged( modelValue );
+        }
+    }
+
+    ArrayList listeners = new ArrayList();
+
+    public static interface Listener {
+        void valueChanged( double newValue );
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     protected double getModelValue() {

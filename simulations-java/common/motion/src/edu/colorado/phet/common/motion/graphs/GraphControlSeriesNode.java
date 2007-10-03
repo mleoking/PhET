@@ -28,6 +28,10 @@ public class GraphControlSeriesNode extends PNode {
         addChild( textBox );
     }
 
+    public void addListener(GraphControlTextBox.Listener listener){
+        boxGraphControl.addListener( listener );
+    }
+
     protected GraphControlTextBox createGraphControlTextBox( ControlGraphSeries series ) {
         return new GraphControlTextBox( series );
     }
