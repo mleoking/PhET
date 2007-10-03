@@ -26,4 +26,8 @@ public class CompositeMeasurable implements Measurable {
 
         return total;
     }
+
+    public Collection getMeasurables() {
+        return measurables;
+    }
 }

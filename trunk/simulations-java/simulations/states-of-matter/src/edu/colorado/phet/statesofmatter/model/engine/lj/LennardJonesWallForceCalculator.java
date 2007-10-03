@@ -6,6 +6,7 @@ import edu.colorado.phet.statesofmatter.model.engine.Calculator;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
 public class LennardJonesWallForceCalculator implements Calculator {
     private final LennardJonesForce ljf;
@@ -23,6 +24,21 @@ public class LennardJonesWallForceCalculator implements Calculator {
         args[0] = lineToPoint.getX();
         args[1] = lineToPoint.getY();
 
+        Point2D point1 = wall.getP1();
+        Point2D point2 = wall.getP2();
+
+        double lx = point2.getX() - point1.getX();
+        double ly = point2.getY() - point1.getY();
+
+        double crossProductZ = -ly * lineToPoint.getX() + lx * lineToPoint.getY();
+
+        if (crossProductZ < 0) {
+            double dist = lineToPoint.getMagnitude();
+
+            args[0] = -args[0] / dist * ljf.getEpsilon() * 0.01;
+            args[1] = -args[1] / dist * ljf.getEpsilon() * 0.01;
+        }
+        
         ljf.evaluateInPlace(args, forces);
     }
 }
