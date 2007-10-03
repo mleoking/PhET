@@ -25,12 +25,24 @@ public class ZGravityPotentialMeasurerTester extends TestCase {
         test(P2);
     }
 
+    public void testPotentialEnergyIsPositiveAboveFloor() {
+        assertTrue(measure(new StatesOfMatterParticle(0, FLOOR - 1, 1, 1)) > 0);
+    }
+
+    public void testPotentialEnergyIsNegativeBelowFloor() {
+        assertTrue(measure(new StatesOfMatterParticle(0, FLOOR + 1, 1, 1)) < 0);
+    }
+
+    public void testPotentialEnergyIsZeroAtFloor() {
+        assertEquals(0.0, measure(new StatesOfMatterParticle(0, FLOOR, 1, 1)), 0.0);
+    }
+
     public void testSumOfPotentialEnergies() {
         assertEquals(measure(P1, P2), measure(P1) + measure(P2), 0.000001);
     }
     
     private void test(StatesOfMatterParticle p) {
-        assertEquals(Math.abs(p.getMass()*(p.getY()-FLOOR)*G), measure(p), 0.000001);
+        assertEquals(p.getMass()*(FLOOR-p.getY())*Math.abs(G), measure(p), 0.000001);
     }
 
     private double measure(StatesOfMatterParticle p) {
