@@ -57,6 +57,22 @@ public class TorqueModel extends RotationModel {
                 updateBrakeForce();
             }
         } );
+        getRotationPlatform().addListener( new RotationPlatform.Adapter() {
+            public void radiusChanged() {
+                if ( appliedForceObject.getRadius() > getRotationPlatform().getRadius() ) {
+                    appliedForceObject.setRadius( getRotationPlatform().getRadius() );
+                    updateAppliedForceFromRF();
+                }
+
+            }
+
+            public void innerRadiusChanged() {
+                if (appliedForceObject.getRadius()<getRotationPlatform().getInnerRadius()){
+                    appliedForceObject.setRadius( getRotationPlatform().getInnerRadius() );
+                    updateAppliedForceFromRF();
+                }
+            }
+        } );
     }
 
     public void stepInTime( double dt ) {
