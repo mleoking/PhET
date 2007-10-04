@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- enable DNAStrand.attachEnzyme
 - implement TomAbstractDNASpeedStrategy.getForce (solve for force, given ATP and speed)
 
 MEDIUM PRIORITY:
