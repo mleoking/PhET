@@ -1,3 +1,4 @@
+10-3-2007: Thanks to CU's ITS team for supporting switch to new, faster server that accommodates our increase in traffic. 
 8-30-2007: Moving Man (1.19) - User interface improvements
 8-29-2007: Lasers (4.04) - User interface improvements
 8-29-2007: MRI (1.05) - User interface improvements
