@@ -86,6 +86,32 @@ public class ZMultipleParticleModelTester extends TestCase {
         assertEquals(StatesOfMatterConfig.INITIAL_KINETIC_ENERGY, new KineticEnergyMeasurer(model.getParticles()).measure(), 0.00001);
     }
 
+    public void testGetKineticEnergy() {
+        assertEquals(new KineticEnergyMeasurer(model.getParticles()).measure(), model.getKineticEnergy(), 0.00001);
+    }
+
+    public void testGetPotentialEnergy() {
+        assertTrue(model.getPotentialEnergy() > 0);
+    }
+
+    public void testGetTotalEnergy() {
+        assertEquals(model.getKineticEnergy() + model.getPotentialEnergy(), model.getTotalEnergy(), 0.00001);
+    }
+
+    public void testThatTotalEnergyConserved() {
+        double initialEnergy = model.getTotalEnergy();
+
+        clock.setPaused(true);
+
+        for (int i = 0; i < 100; i++) {
+            waitForParticleToMove();
+            
+            double curEnergy = model.getKineticEnergy() + model.getPotentialEnergy();
+
+            assertEquals("Energy not conserved at step " + i, initialEnergy, curEnergy, 0.00001);
+        }
+    }
+
     private void waitForParticleToMove() {
         long startTime = System.currentTimeMillis();
 
@@ -94,6 +120,10 @@ public class ZMultipleParticleModelTester extends TestCase {
         StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
 
         while (p.equals(originalP)) {
+            if (clock.isPaused()) {
+                clock.stepClockWhilePaused();
+            }
+
             Thread.yield();
 
             if (System.currentTimeMillis() - startTime > 1000) {

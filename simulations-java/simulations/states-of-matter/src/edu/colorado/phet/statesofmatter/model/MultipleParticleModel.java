@@ -28,6 +28,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     private double particleRadius = 0.1;
     private double particleMass   = 1;
+    private double totalEnergy;
     private EngineFacade engineFacade;
 
     public MultipleParticleModel(IClock clock) {
@@ -50,6 +51,8 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
         adjuster.adjust(particles, StatesOfMatterConfig.INITIAL_KINETIC_ENERGY);
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);
+
+        totalEnergy = engineFacade.getKineticEnergy() + engineFacade.getPotentialEnergy();
     }
 
     public List getParticles() {
@@ -64,7 +67,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
         return (StatesOfMatterParticle)particles.get(i);
     }
 
-    public void clockTicked(ClockEvent clockEvent) {
+    public synchronized void clockTicked(ClockEvent clockEvent) {
         for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
 //            double kineticEnergy = engineFacade.getKineticEnergy();
 //            double potentialEnergy = engineFacade.getPotentialEnergy();
@@ -76,7 +79,18 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
             computation.apply(particles);
 
+            // Cap the kinetic energy:
             new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
+
+            // Readjust to conserve total energy:
+            double curKE = engineFacade.getKineticEnergy();
+            double curTotalEnergy = curKE + engineFacade.getPotentialEnergy();
+
+            double energyDiff = curTotalEnergy - totalEnergy;
+
+            double targetKE = curKE - energyDiff;
+
+            new KineticEnergyAdjuster().adjust(particles, targetKE);
         }
     }
 
@@ -94,5 +108,17 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     public ParticleContainer getParticleContainer() {
         return new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS);
+    }
+
+    public synchronized double getKineticEnergy() {
+        return engineFacade.getKineticEnergy();
+    }
+
+    public synchronized double getPotentialEnergy() {
+        return engineFacade.getPotentialEnergy();
+    }
+
+    public synchronized double getTotalEnergy() {
+        return getKineticEnergy() + getPotentialEnergy();
     }
 }
