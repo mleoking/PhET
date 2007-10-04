@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- enable DNAStrand.attachEnzyme
 - implement TomAbstractDNASpeedStrategy.getForce (solve for force, given ATP and speed)
 
 MEDIUM PRIORITY:
@@ -25,6 +26,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+********* version 1.00.15 (18097)
 10/2/07 - improve performance of e-field display via optimizations to phetcommon's Arrow
 10/2/07 - optimize updates to ElectricFieldVectorNode to reduce creation of Arrow objects
 10/2/07 - make BeadNode and LaserNode remove/addPropertyChangeListener before they adjust the view to match the model
