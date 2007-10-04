@@ -2,22 +2,22 @@
 
 package edu.colorado.phet.glaciers.persistence;
 
+import java.awt.Frame;
 import java.beans.ExceptionListener;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 import java.text.MessageFormat;
 
-import javax.jnlp.*;
+import javax.jnlp.FileContents;
+import javax.jnlp.FileOpenService;
+import javax.jnlp.FileSaveService;
+import javax.jnlp.ServiceManager;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
-import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 
 
 /**
@@ -51,9 +51,7 @@ public class GlaciersPersistenceManager {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private GlaciersApplication _app; // the application whose configuration we are managing
-    private String _directoryName; // the most recent directory visited in a file chooser
-    private boolean _useJNLP; // whether to use JNLP services
+    private ISaveLoadStrategy _saveLoadStrategy;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -64,302 +62,22 @@ public class GlaciersPersistenceManager {
      * 
      * @param app
      */
-    public GlaciersPersistenceManager( GlaciersApplication app ) {
-        _app = app;
-        _useJNLP = wasWebStarted();
-    }
-    
-    //----------------------------------------------------------------------------
-    // Save
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Saves the application state to a file as an XML-encoded object.
-     */
-    public void save() {
-        
-        // Save the application's configuration
-        GlaciersConfig config = new GlaciersConfig();
-        {
-            // Globals 
-            _app.save( config );
-            
-            // Modules
-            Module[] modules = _app.getModules();
-            for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof GlaciersAbstractModule ) {
-                    ( (GlaciersAbstractModule) modules[i] ).save( config );
-                }
-            }
+    public GlaciersPersistenceManager( Frame parentFrame ) {
+        if ( wasWebStarted() ) {
+            _saveLoadStrategy = new WebStartSaveLoadStrategy( parentFrame );
         }
-        
-        // Save the configuration object to a file.
-        try {
-            if ( _useJNLP ) {
-                saveJNLP( config );
-            }
-            else {
-                saveLocal( config );
-            }
-        }
-        catch ( Exception e ) {
-            showError( SAVE_ERROR_MESSAGE, e );
-        }
-    }
-      
-    /*
-     * Implementation of "Save" for non-Web Start clients, uses JFileChooser and java.io.
-     */
-    private void saveLocal( Object object ) throws Exception {
-       
-        JFrame frame = _app.getPhetFrame();
-        
-        // Choose the file to save.
-        JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( SAVE_TITLE );
-        int rval = fileChooser.showSaveDialog( frame );
-        _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
-        File selectedFile = fileChooser.getSelectedFile();
-        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-            return;
-        }
-
-        _directoryName = selectedFile.getParentFile().getAbsolutePath();
-
-        // If the file exists, confirm overwrite.
-        if ( selectedFile.exists() ) {
-            int reply = DialogUtils.showConfirmDialog( frame, SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
-            if ( reply != JOptionPane.YES_OPTION ) {
-                return;
-            }
-        }
-
-        // XML encode directly to the file.
-        String filename = selectedFile.getAbsolutePath();
-        FileOutputStream fos = new FileOutputStream( filename );
-        BufferedOutputStream bos = new BufferedOutputStream( fos );
-        XMLEncoder encoder = new XMLEncoder( bos );
-        encoder.setExceptionListener( new ExceptionListener() {
-            private int errors = 0;
-            // Report the first recoverable exception.
-            public void exceptionThrown( Exception e ) {
-                if ( errors == 0 ) {
-                    showError( SAVE_ERROR_ENCODE, e );
-                    errors++;
-                }
-            }      
-        } );
-        encoder.writeObject( object );
-        encoder.close();
-    }
-    
-    /*
-     * Implementation of "Save" for Web Start clients, uses JNLP services.
-     */
-    private void saveJNLP( Object object ) throws Exception {
-        
-        // XML encode into a byte output stream.
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLEncoder encoder = new XMLEncoder( baos );
-        encoder.setExceptionListener( new ExceptionListener() {
-            private int errors = 0;
-            // Report the first recoverable exception.
-            public void exceptionThrown( Exception e ) {
-                if ( errors == 0 ) {
-                    showError( SAVE_ERROR_ENCODE, e );
-                    errors++;
-                }
-            }
-        } );
-        encoder.writeObject( object );
-        encoder.close();
-        if ( object == null ) {
-            throw new Exception( "XML encoding failed" );
-        }
-        
-        // Convert to a byte input stream.
-        ByteArrayInputStream inputStream = new ByteArrayInputStream( baos.toByteArray() );
-        
-        // Get the JNLP service for saving files.
-        FileSaveService fss = (FileSaveService) ServiceManager.lookup( "javax.jnlp.FileSaveService" );
-        if ( fss == null ) {
-            throw new UnavailableServiceException( "JNLP FileSaveService is unavailable" );
-        }
-        
-        // Save the configuration to a file.
-        FileContents fc = fss.saveFileDialog( null, null, inputStream, _directoryName );
-        if ( fc != null ) {
-            _directoryName = getDirectoryName( fc.getName() );
+        else {
+            _saveLoadStrategy = new LocalSaveLoadStrategy( parentFrame );
         }
     }
     
-    //----------------------------------------------------------------------------
-    // Load
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Loads the application state from a file as an XML-encoded object.
-     */
-    public void load() {
-        
-        // Load a configuration object.
-        Object object = null;
-        try {
-            if ( _useJNLP ) {
-                object = loadJNLP();
-            }
-            else {
-                object = loadLocal();
-            }
-        }
-        catch ( Exception e ) {
-            showError( LOAD_ERROR_MESSAGE, e );
-        }
-        if ( object == null ) {
-            return;
-        }
-        
-        // Verify the object's type
-        if ( !( object instanceof GlaciersConfig ) ) {
-            showError( LOAD_ERROR_MESSAGE, LOAD_ERROR_CONTENTS );
-            return;
-        }
-        
-        // Configure the application
-        GlaciersConfig config = (GlaciersConfig) object;
-        try {
-            // Global
-            _app.load( config );
-            
-            // Modules
-            Module[] modules = _app.getModules();
-            for ( int i = 0; i < modules.length; i++ ) {
-                if ( modules[i] instanceof GlaciersAbstractModule ) {
-                    ( (GlaciersAbstractModule) modules[i] ).load( config );
-                }
-            }
-        }
-        catch ( Exception e ) {
-            showError( LOAD_ERROR_MESSAGE, e );
-        }
-    }
- 
-    /*
-     * Implementation of "Load" for non-Web Start clients, uses JFileChooser and java.io.
-     */
-    private Object loadLocal() throws Exception {
-        JFrame frame = _app.getPhetFrame();
-        
-        // Choose the file to load.
-        JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( LOAD_TITLE );
-        int rval = fileChooser.showOpenDialog( frame );
-        _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
-        File selectedFile = fileChooser.getSelectedFile();
-        if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
-            return null;
-        }
-
-        // XML decode directly from the file.
-        Object object = null;
-        String filename = selectedFile.getAbsolutePath();
-        FileInputStream fis = new FileInputStream( filename );
-        BufferedInputStream bis = new BufferedInputStream( fis );
-        XMLDecoder decoder = new XMLDecoder( bis );
-        decoder.setExceptionListener( new ExceptionListener() {
-            private int errors = 0;
-            // Report the first recoverable exception.
-            public void exceptionThrown( Exception e ) {
-                if ( errors == 0 ) {
-                    showError( LOAD_ERROR_DECODE, e );
-                    errors++;
-                }
-            }      
-        } );
-        object = decoder.readObject();
-        decoder.close();
-        if ( object == null ) {
-            throw new Exception( LOAD_ERROR_CONTENTS );
-        }
-
-        return object;
-    }
-
-    /*
-     * Implementation of "Load" for Web Start clients, uses JNLP services.
-     */
-    private Object loadJNLP() throws Exception {
-        
-        // Get the JNLP service for opening files.
-        FileOpenService fos = (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );
-        if ( fos == null ) {
-            throw new UnavailableServiceException( "JNLP FileOpenService is unavailable" );
-        }
-        
-        // Read the configuration from a file.
-        FileContents fc = fos.openFileDialog( _directoryName, null );
-        if ( fc == null ) {
-            return null;
-        }
-        _directoryName = getDirectoryName( fc.getName() );
-
-        // Convert the FileContents to an input stream.
-        InputStream inputStream = fc.getInputStream();
-        
-        // XML-decode the input stream.
-        Object object = null;
-        XMLDecoder decoder = new XMLDecoder( inputStream );
-        decoder.setExceptionListener( new ExceptionListener() {
-            private int errors = 0;
-            // Report the first recoverable exception.
-            public void exceptionThrown( Exception e ) {
-                if ( errors == 0 ) {
-                    showError( LOAD_ERROR_DECODE, e );
-                    errors++;
-                }
-            }
-        } );
-        object = decoder.readObject();
-        decoder.close();
-        if ( object == null ) {
-            throw new Exception( LOAD_ERROR_CONTENTS );
-        }
-        
-        return object;
+    public void save( Object object ) {
+        _saveLoadStrategy.save( object );
     }
     
-    //----------------------------------------------------------------------------
-    // Error handling
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Shows the error message associated with an exception in an
-     * error dialog, and prints a stack trace to the console.
-     * 
-     * @param format
-     * @param e
-     */
-    private void showError( String format, Exception e ) {
-        showError( format, e.getMessage() );
-        e.printStackTrace();
+    public Object load() {
+        return _saveLoadStrategy.load();
     }
-    
-    /*
-     * Shows the error message in an error dialog.
-     * 
-     * @param format
-     * @param e
-     */
-    private void showError( String format, String errorMessage ) {
-        JFrame frame = _app.getPhetFrame();
-        Object[] args = { errorMessage };
-        String message = MessageFormat.format( format, args );
-        DialogUtils.showErrorDialog( frame, message, ERROR_TITLE );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Utilities
-    //----------------------------------------------------------------------------
     
     /*
      * Determines if the simulation was started using Java Web Start.
@@ -370,19 +88,287 @@ public class GlaciersPersistenceManager {
         return ( System.getProperty( "javawebstart.version" ) != null );
     }
     
+    //----------------------------------------------------------------------------
+    // Save/Load strategies
+    //----------------------------------------------------------------------------
+    
     /*
-     * Gets the directory name portion of a filename.
-     * 
-     * @param filename
-     * @return directory name
+     * Interface implemented by all Save/Load strategies.
      */
-    private static String getDirectoryName( String filename ) {
-        String directoryName = null;
-        int index = filename.lastIndexOf( File.pathSeparatorChar );
-        if ( index != -1 ) {
-            directoryName = filename.substring( index );
-        }
-        return directoryName;
+    private interface ISaveLoadStrategy {
+        public void save( Object object );
+        public Object load();
     }
+    
+    /*
+     * Base class for all Save/Load strategies.
+     */
+    private static abstract class AbstractObjectSaveLoadStrategy implements ISaveLoadStrategy {
+        
+        private Frame _parentFrame;
+        private String _mostRecentDirectoryName; // the most recent directory visited in a file chooser
+        
+        public AbstractObjectSaveLoadStrategy( Frame parentFrame ) {
+            super();
+            _parentFrame = parentFrame;
+            _mostRecentDirectoryName = null;
+        }
+        
+        protected Frame getParentFrame() {
+            return _parentFrame;
+        }
+        
+        protected String getMostRecentDirectoryName() {
+            return _mostRecentDirectoryName;
+        }
+        
+        protected void setMostRecentDirectoryName( String name ) {
+            _mostRecentDirectoryName = name;
+        }
+        
+        /*
+         * Gets the directory name portion of a filename.
+         * 
+         * @param filename
+         * @return directory name
+         */
+        protected static String getDirectoryName( String filename ) {
+            String directoryName = null;
+            int index = filename.lastIndexOf( File.pathSeparatorChar );
+            if ( index != -1 ) {
+                directoryName = filename.substring( index );
+            }
+            return directoryName;
+        }
+        
+        /*
+         * Shows the error message associated with an exception in an
+         * error dialog, and prints a stack trace to the console.
+         * 
+         * @param format
+         * @param e
+         */
+        protected void showError( String format, Exception e ) {
+            showError( format, e.getMessage() );
+            e.printStackTrace();
+        }
+        
+        /*
+         * Shows the error message in an error dialog.
+         * 
+         * @param format
+         * @param e
+         */
+        protected void showError( String format, String errorMessage ) {
+            Object[] args = { errorMessage };
+            String message = MessageFormat.format( format, args );
+            DialogUtils.showErrorDialog( _parentFrame, message, ERROR_TITLE );
+        }
+    }
+    
+    /*
+     * Save/Load strategy that saves using the local file I/O interface. 
+     */
+    private static class LocalSaveLoadStrategy extends AbstractObjectSaveLoadStrategy {
+        
+        public LocalSaveLoadStrategy( Frame parentFrame ) {
+            super( parentFrame );
+        }
+        
+        public void save( Object object ) {
 
+            try {
+                // Choose the file to save.
+                JFileChooser fileChooser = new JFileChooser( getMostRecentDirectoryName() );
+                fileChooser.setDialogTitle( SAVE_TITLE );
+                int rval = fileChooser.showSaveDialog( getParentFrame() );
+                setMostRecentDirectoryName( fileChooser.getCurrentDirectory().getAbsolutePath() );
+                File selectedFile = fileChooser.getSelectedFile();
+                if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
+                    return;
+                }
+
+                setMostRecentDirectoryName( selectedFile.getParentFile().getAbsolutePath() );
+
+                // If the file exists, confirm overwrite.
+                if ( selectedFile.exists() ) {
+                    int reply = DialogUtils.showConfirmDialog( getParentFrame(), SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
+                    if ( reply != JOptionPane.YES_OPTION ) {
+                        return;
+                    }
+                }
+
+                // XML encode directly to the file.
+                String filename = selectedFile.getAbsolutePath();
+                FileOutputStream fos = new FileOutputStream( filename );
+                BufferedOutputStream bos = new BufferedOutputStream( fos );
+                XMLEncoder encoder = new XMLEncoder( bos );
+                encoder.setExceptionListener( new ExceptionListener() {
+
+                    private int errors = 0;
+
+                    // Report the first recoverable exception.
+                    public void exceptionThrown( Exception e ) {
+                        if ( errors == 0 ) {
+                            showError( SAVE_ERROR_ENCODE, e );
+                            errors++;
+                        }
+                    }
+                } );
+                encoder.writeObject( object );
+                encoder.close();
+            }
+            catch ( Exception e ) {
+                showError( SAVE_ERROR_MESSAGE, e );
+            }
+        }
+        
+        public Object load() {
+            
+            Object object = null;
+
+            try {
+                // Choose the file to load.
+                JFileChooser fileChooser = new JFileChooser( getMostRecentDirectoryName() );
+                fileChooser.setDialogTitle( LOAD_TITLE );
+                int rval = fileChooser.showOpenDialog( getParentFrame() );
+                setMostRecentDirectoryName( fileChooser.getCurrentDirectory().getAbsolutePath() );
+                File selectedFile = fileChooser.getSelectedFile();
+                if ( rval == JFileChooser.CANCEL_OPTION || selectedFile == null ) {
+                    return null;
+                }
+
+                // XML decode directly from the file.
+                String filename = selectedFile.getAbsolutePath();
+                FileInputStream fis = new FileInputStream( filename );
+                BufferedInputStream bis = new BufferedInputStream( fis );
+                XMLDecoder decoder = new XMLDecoder( bis );
+                decoder.setExceptionListener( new ExceptionListener() {
+                    private int errors = 0;
+                    // Report the first recoverable exception.
+                    public void exceptionThrown( Exception e ) {
+                        if ( errors == 0 ) {
+                            showError( LOAD_ERROR_DECODE, e );
+                            errors++;
+                        }
+                    }
+                } );
+                object = decoder.readObject();
+                decoder.close();
+                if ( object == null ) {
+                    showError( LOAD_ERROR_MESSAGE, LOAD_ERROR_CONTENTS );
+                }
+            }
+            catch ( Exception e ) {
+                showError( LOAD_ERROR_MESSAGE, e );
+                object = null;
+            }
+
+            return object;
+        }
+    }
+    
+    /*
+     * Save/Load strategy that saves using Web Start (JNLP) file I/O services.
+     */
+    private static class WebStartSaveLoadStrategy extends AbstractObjectSaveLoadStrategy {
+        
+        public WebStartSaveLoadStrategy( Frame parentFrame ) {
+            super( parentFrame );
+        }
+        
+        public void save( Object object ) {
+
+            try {
+                // XML encode into a byte output stream.
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                XMLEncoder encoder = new XMLEncoder( baos );
+                encoder.setExceptionListener( new ExceptionListener() {
+
+                    private int errors = 0;
+
+                    // Report the first recoverable exception.
+                    public void exceptionThrown( Exception e ) {
+                        if ( errors == 0 ) {
+                            showError( SAVE_ERROR_ENCODE, e );
+                            errors++;
+                        }
+                    }
+                } );
+                encoder.writeObject( object );
+                encoder.close();
+                if ( object == null ) {
+                    showError( SAVE_ERROR_MESSAGE, "XML encoding failer" );
+                    return;
+                }
+
+                // Convert to a byte input stream.
+                ByteArrayInputStream inputStream = new ByteArrayInputStream( baos.toByteArray() );
+
+                // Get the JNLP service for saving files.
+                FileSaveService fss = (FileSaveService) ServiceManager.lookup( "javax.jnlp.FileSaveService" );
+                if ( fss == null ) {
+                    showError( SAVE_ERROR_MESSAGE, "JNLP FileSaveService is unavailable" );
+                    return;
+                }
+
+                // Save the configuration to a file.
+                FileContents fc = fss.saveFileDialog( null, null, inputStream, getMostRecentDirectoryName() );
+                if ( fc != null ) {
+                    setMostRecentDirectoryName( getDirectoryName( fc.getName() ) );
+                }
+            }
+            catch ( Exception e ) {
+                showError( SAVE_ERROR_MESSAGE, e );
+            }
+        }
+        
+        public Object load() {
+
+            Object object = null;
+
+            try {
+                // Get the JNLP service for opening files.
+                FileOpenService fos = (FileOpenService) ServiceManager.lookup( "javax.jnlp.FileOpenService" );
+                if ( fos == null ) {
+                    showError( LOAD_ERROR_MESSAGE, "JNLP FileOpenService is unavailable" );
+                    return null;
+                }
+
+                // Read the configuration from a file.
+                FileContents fc = fos.openFileDialog( getMostRecentDirectoryName(), null );
+                if ( fc == null ) {
+                    return null;
+                }
+                setMostRecentDirectoryName( getDirectoryName( fc.getName() ) );
+
+                // Convert the FileContents to an input stream.
+                InputStream inputStream = fc.getInputStream();
+
+                // XML-decode the input stream.
+                XMLDecoder decoder = new XMLDecoder( inputStream );
+                decoder.setExceptionListener( new ExceptionListener() {
+                    private int errors = 0;
+                    // Report the first recoverable exception.
+                    public void exceptionThrown( Exception e ) {
+                        if ( errors == 0 ) {
+                            showError( LOAD_ERROR_DECODE, e );
+                            errors++;
+                        }
+                    }
+                } );
+                object = decoder.readObject();
+                decoder.close();
+                if ( object == null ) {
+                    showError( LOAD_ERROR_MESSAGE, LOAD_ERROR_CONTENTS );
+                }
+            }
+            catch ( Exception e ) {
+                showError( LOAD_ERROR_MESSAGE, e );
+                object = null;
+            }
+
+            return object;
+        }
+    }
 }
