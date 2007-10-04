@@ -3,14 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>css/main.css</string>
+	<string>index.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
 			<key>filename</key>
+			<string>index_static.html</string>
+			<key>lastUsed</key>
+			<date>2007-10-04T01:35:33Z</date>
+		</dict>
+		<dict>
+			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-09-20T14:28:43Z</date>
+			<date>2007-10-04T01:35:42Z</date>
+			<key>selected</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -432,14 +440,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>284</integer>
+				<integer>704</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>273</integer>
+			<integer>688</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>10</integer>
+				<key>line</key>
+				<integer>704</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>28</integer>
+				<key>line</key>
+				<integer>704</integer>
+			</dict>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
@@ -572,14 +596,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>19</integer>
+				<integer>12</integer>
 				<key>line</key>
-				<integer>49</integer>
+				<integer>505</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>28</integer>
+			<integer>492</integer>
 		</dict>
 		<key>get_phet/simlauncher.php</key>
 		<dict>
@@ -600,9 +624,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>89</integer>
+				<integer>98</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -804,6 +828,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{24, 141}, {895, 656}}</string>
+	<string>{{115, 260}, {895, 656}}</string>
 </dict>
 </plist>
