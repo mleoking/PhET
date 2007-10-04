@@ -32,6 +32,22 @@ import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 public class GlaciersPersistenceManager {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final String SAVE_TITLE = GlaciersResources.getString( "Save.title" );
+    private static final String SAVE_CONFIRM_MESSAGE = GlaciersResources.getString( "Save.confirm.message" );
+    private static final String SAVE_ERROR_MESSAGE = GlaciersResources.getString( "Save.error.message" );
+    private static final String SAVE_ERROR_ENCODE = GlaciersResources.getString( "Save.error.encode" );
+    
+    private static final String LOAD_TITLE = GlaciersResources.getString( "Load.title" );
+    private static final String LOAD_ERROR_MESSAGE = GlaciersResources.getString( "Load.error.message" );
+    private static final String LOAD_ERROR_DECODE = GlaciersResources.getString( "Load.error.decode" );
+    private static final String LOAD_ERROR_CONTENTS = GlaciersResources.getString( "Load.error.contents" );
+    
+    private static final String ERROR_TITLE = GlaciersResources.getString( "title.error" );
+    
+    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -58,7 +74,7 @@ public class GlaciersPersistenceManager {
     //----------------------------------------------------------------------------
     
     /**
-     * Saves the application state to a file as an XML-encoded FourierConfig object.
+     * Saves the application state to a file as an XML-encoded object.
      */
     public void save() {
         
@@ -87,7 +103,7 @@ public class GlaciersPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( GlaciersResources.getString( "Save.error.message" ), e );
+            showError( SAVE_ERROR_MESSAGE, e );
         }
     }
       
@@ -100,7 +116,7 @@ public class GlaciersPersistenceManager {
         
         // Choose the file to save.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( GlaciersResources.getString( "Save.title" ) );
+        fileChooser.setDialogTitle( SAVE_TITLE );
         int rval = fileChooser.showSaveDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -112,7 +128,7 @@ public class GlaciersPersistenceManager {
 
         // If the file exists, confirm overwrite.
         if ( selectedFile.exists() ) {
-            int reply = DialogUtils.showConfirmDialog( frame, GlaciersResources.getString( "Save.confirm.message" ), JOptionPane.YES_NO_CANCEL_OPTION );
+            int reply = DialogUtils.showConfirmDialog( frame, SAVE_CONFIRM_MESSAGE, JOptionPane.YES_NO_CANCEL_OPTION );
             if ( reply != JOptionPane.YES_OPTION ) {
                 return;
             }
@@ -128,7 +144,7 @@ public class GlaciersPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( GlaciersResources.getString( "Save.error.encode" ), e );
+                    showError( SAVE_ERROR_ENCODE, e );
                     errors++;
                 }
             }      
@@ -150,7 +166,7 @@ public class GlaciersPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( GlaciersResources.getString( "Save.error.encode" ), e );
+                    showError( SAVE_ERROR_ENCODE, e );
                     errors++;
                 }
             }
@@ -182,7 +198,7 @@ public class GlaciersPersistenceManager {
     //----------------------------------------------------------------------------
     
     /**
-     * Loads the application state from a file as an XML-encoded FourierConfig object.
+     * Loads the application state from a file as an XML-encoded object.
      */
     public void load() {
         
@@ -197,7 +213,7 @@ public class GlaciersPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( GlaciersResources.getString( "Load.error.message" ), e );
+            showError( LOAD_ERROR_MESSAGE, e );
         }
         if ( object == null ) {
             return;
@@ -205,7 +221,7 @@ public class GlaciersPersistenceManager {
         
         // Verify the object's type
         if ( !( object instanceof GlaciersConfig ) ) {
-            showError( GlaciersResources.getString( "Load.error.message" ), GlaciersResources.getString( "Load.error.contents" ) );
+            showError( LOAD_ERROR_MESSAGE, LOAD_ERROR_CONTENTS );
             return;
         }
         
@@ -224,7 +240,7 @@ public class GlaciersPersistenceManager {
             }
         }
         catch ( Exception e ) {
-            showError( GlaciersResources.getString( "Load.error.message" ), e );
+            showError( LOAD_ERROR_MESSAGE, e );
         }
     }
  
@@ -236,7 +252,7 @@ public class GlaciersPersistenceManager {
         
         // Choose the file to load.
         JFileChooser fileChooser = new JFileChooser( _directoryName );
-        fileChooser.setDialogTitle( GlaciersResources.getString( "Load.title" ) );
+        fileChooser.setDialogTitle( LOAD_TITLE );
         int rval = fileChooser.showOpenDialog( frame );
         _directoryName = fileChooser.getCurrentDirectory().getAbsolutePath();
         File selectedFile = fileChooser.getSelectedFile();
@@ -255,7 +271,7 @@ public class GlaciersPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( GlaciersResources.getString( "Load.error.decode" ), e );
+                    showError( LOAD_ERROR_DECODE, e );
                     errors++;
                 }
             }      
@@ -263,7 +279,7 @@ public class GlaciersPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( GlaciersResources.getString( "Load.error.contents" ) );
+            throw new Exception( LOAD_ERROR_CONTENTS );
         }
 
         return object;
@@ -298,7 +314,7 @@ public class GlaciersPersistenceManager {
             // Report the first recoverable exception.
             public void exceptionThrown( Exception e ) {
                 if ( errors == 0 ) {
-                    showError( GlaciersResources.getString( "Load.error.decode" ), e );
+                    showError( LOAD_ERROR_DECODE, e );
                     errors++;
                 }
             }
@@ -306,7 +322,7 @@ public class GlaciersPersistenceManager {
         object = decoder.readObject();
         decoder.close();
         if ( object == null ) {
-            throw new Exception( GlaciersResources.getString( "Load.error.contents" ) );
+            throw new Exception( LOAD_ERROR_CONTENTS );
         }
         
         return object;
@@ -338,8 +354,7 @@ public class GlaciersPersistenceManager {
         JFrame frame = _app.getPhetFrame();
         Object[] args = { errorMessage };
         String message = MessageFormat.format( format, args );
-        String title = GlaciersResources.getString( "title.error" );
-        DialogUtils.showErrorDialog( frame, message, title );
+        DialogUtils.showErrorDialog( frame, message, ERROR_TITLE );
     }
     
     //----------------------------------------------------------------------------

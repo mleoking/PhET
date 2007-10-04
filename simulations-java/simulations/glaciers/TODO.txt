@@ -12,6 +12,7 @@ LOW PRIORITY:
 COMMON CODE:
 
 CLEANUP:
+- constants for localized strings in GlaciersPersistenceManager
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
 - disable all debug output
