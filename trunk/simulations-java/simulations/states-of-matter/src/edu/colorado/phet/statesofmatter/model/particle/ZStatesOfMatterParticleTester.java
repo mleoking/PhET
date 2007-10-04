@@ -63,6 +63,38 @@ public class ZStatesOfMatterParticleTester extends TestCase {
 
         assertEquals(0.5 * 3.0 * Math.pow(Math.sqrt(2.0 * 2.0 + 1.0), 2), p.getKineticEnergy(), 0.00001);
     }
+
+    public void testSetKineticEnergy() {
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+
+        p.setVx(2.0);
+        p.setVy(1.0);
+
+        p.setKineticEnergy(37);
+
+        assertEquals(37.0, p.getKineticEnergy(), 0.00001);
+        assertEquals(p.getVx(), p.getVy() * 2.0, 0.00001);
+    }
+
+    public void testSetKineticEnergyOnParticleHavingNoKineticEnergy() {
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+
+        p.setKineticEnergy(37);
+
+        assertEquals(37.0, p.getKineticEnergy(), 0.00001);
+        assertTrue(p.getVelocity().getMagnitude() > 0);
+    }
+
+    public void testSetKineticEnergyToZero() {
+        StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);
+
+        p.setVx(2.0);
+        p.setVy(1.0);
+
+        p.setKineticEnergy(0);
+
+        assertEquals(0.0, p.getVelocity().getMagnitude(), 0.0);
+    }
     
     public void testGetPositionReflectsSetPosition() {
         StatesOfMatterParticle p = new StatesOfMatterParticle(0, 0, 4, 3);

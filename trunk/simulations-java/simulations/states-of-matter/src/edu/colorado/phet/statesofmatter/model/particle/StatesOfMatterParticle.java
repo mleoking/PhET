@@ -182,6 +182,25 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
         return 0.5 * mass * (getVx() * getVx() + getVy() * getVy());
     }
 
+    public void setKineticEnergy(double energy) {
+        // KE = 0.5 * m * v^2 => v = sqrt(2 KE / m)
+        double mag = Math.sqrt(2.0 * energy / mass);
+
+        double curMag = velocity.getMagnitude();
+
+        if (curMag == 0.0) {
+            double rad = Math.random() * Math.PI * 2.0;
+
+            velocity.setComponents(Math.cos(rad), Math.sin(rad));
+
+            curMag = 1.0;
+        }
+        
+        double scale = mag / curMag;
+
+        velocity.scale(scale);
+    }
+
     public Point2D getPosition() {
         return position;
     }

@@ -68,6 +68,20 @@ public class ZMultipleParticleModelTester extends TestCase {
         }
     }
 
+    public void testThatNoParticleHasMoreKineticEnergyThanCap() {
+        clock.start();
+
+        for (int i = 0; i < 100; i++) {
+            waitForParticleToMove();
+
+            for (int j = 0; j < model.getNumParticles(); j++) {
+                StatesOfMatterParticle p = model.getParticle(j);
+
+                assertTrue("Particle " + p + " has kinetic energy " + p.getKineticEnergy(), p.getKineticEnergy() <= StatesOfMatterConfig.PARTICLE_MAX_KE + 0.00001);
+            }
+        }
+    }
+
     public void testInitialKineticEnergyIsDefault() {
         assertEquals(StatesOfMatterConfig.INITIAL_KINETIC_ENERGY, new KineticEnergyMeasurer(model.getParticles()).measure(), 0.00001);
     }
