@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.common.piccolophet.help.GlassPaneCanvas;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
@@ -25,7 +24,6 @@ import edu.colorado.phet.glaciers.module.example.ExampleModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersPersistenceManager;
-import edu.colorado.phet.glaciers.persistence.GlobalConfig;
 
 /**
  * GlaciersApplication is the main application for this simulation.
@@ -46,7 +44,7 @@ public class GlaciersApplication extends PhetApplication {
 
     private ExampleModule _exampleModule;
 
-    // PersistanceManager handles loading/saving application configurations.
+    // PersistanceManager is used to save/load simulation configurations.
     private GlaciersPersistenceManager _persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
@@ -162,22 +160,18 @@ public class GlaciersApplication extends PhetApplication {
     // Persistence
     //----------------------------------------------------------------------------
 
-    /**
-     * Saves global state.
-     *
-     * @param appConfig
+    /*
+     * Saves the simulation's configuration.
      */
-    public void save() {
+    private void save() {
         
         GlaciersConfig appConfig = new GlaciersConfig();
         
-        GlobalConfig globalConfig = new GlobalConfig();
-        globalConfig.setVersionString( getApplicationConfig().getVersion().toString() );
-        globalConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        globalConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        globalConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        globalConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
-        appConfig.setGlobalConfig( globalConfig );
+        appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
+        appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
+        appConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
+        appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
+        appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
         ExampleConfig exampleConfig = _exampleModule.save();
         appConfig.setExampleConfig( exampleConfig );
@@ -185,12 +179,10 @@ public class GlaciersApplication extends PhetApplication {
         _persistenceManager.save( appConfig );
     }
 
-    /**
-     * Loads global state.
-     *
-     * @param appConfig
+    /*
+     * Loads the simulation's configuration.
      */
-    public void load() {
+    private void load() {
         
         Object object = _persistenceManager.load();
         if ( object != null ) {
@@ -202,9 +194,6 @@ public class GlaciersApplication extends PhetApplication {
             }
             else {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
-                
-                GlobalConfig globalConfig = appConfig.getGlobalConfig();
-                // nothing global to be restored...
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
