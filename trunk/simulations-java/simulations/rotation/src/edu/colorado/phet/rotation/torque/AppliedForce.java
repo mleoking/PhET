@@ -6,8 +6,9 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.RotationUtil;
 
 /**
@@ -17,23 +18,34 @@ import edu.colorado.phet.rotation.util.RotationUtil;
  * Time: 8:18:11 PM
  */
 public class AppliedForce {
-    private DefaultTemporalVariable radius = new DefaultTemporalVariable();
-
+    //independent values
     private DefaultTemporalVariable appliedForceSrcX = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceSrcY = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceDstX = new DefaultTemporalVariable();
     private DefaultTemporalVariable appliedForceDstY = new DefaultTemporalVariable();
-    private ArrayList listeners = new ArrayList();
 
-    public void setRadius( double r ) {
-        if ( radius.getValue() != r ) {
-            this.radius.setValue( r );
-            notifyChanged();
-        }
+    //dependent values
+    private DefaultTemporalVariable radius = new DefaultTemporalVariable();
+    private DefaultTemporalVariable signedForce = new DefaultTemporalVariable();
+    private DefaultTemporalVariable torque = new DefaultTemporalVariable();
+
+    private ArrayList listeners = new ArrayList();
+    private RotationPlatform platform;
+
+    public AppliedForce( RotationPlatform platform ) {
+        this.platform = platform;
+        this.radius.setValue( platform.getRadius() );
+    }
+
+    public double getTorque() {
+        return getTorque( platform.getCenter() );
     }
 
     public void stepInTime( double dt, double time ) {
+        torque.setValue( getTorque() );
         defaultUpdate( radius, time );
+        defaultUpdate( torque, time );
+        defaultUpdate( signedForce, time );
         defaultUpdate( appliedForceSrcX, time );
         defaultUpdate( appliedForceSrcY, time );
         defaultUpdate( appliedForceDstX, time );
@@ -47,6 +59,8 @@ public class AppliedForce {
 
     public void setPlaybackTime( double time ) {
         radius.setPlaybackTime( time );
+        torque.setPlaybackTime( time );
+        signedForce.setPlaybackTime( time );
         appliedForceSrcX.setPlaybackTime( time );
         appliedForceSrcY.setPlaybackTime( time );
         appliedForceDstX.setPlaybackTime( time );
@@ -56,6 +70,8 @@ public class AppliedForce {
 
     public void clear() {
         radius.clear();
+        torque.clear();
+        signedForce.clear();
         appliedForceSrcX.clear();
         appliedForceSrcY.clear();
         appliedForceDstX.clear();
@@ -80,23 +96,22 @@ public class AppliedForce {
                                   appliedForceDstX.getValue(), appliedForceDstY.getValue() );
     }
 
-    private void setP2( Point2D destination ) {
-        if ( !getP2().equals( destination ) ) {
-            this.appliedForceDstX.setValue( destination.getX() );
-            this.appliedForceDstY.setValue( destination.getY() );
-            notifyChanged();
-        }
-    }
-
     public void setValue( Line2D.Double appliedForce ) {
         if ( !RotationUtil.lineEquals( toLine2D(), appliedForce ) ) {
             this.appliedForceSrcX.setValue( appliedForce.getX1() );
             this.appliedForceSrcY.setValue( appliedForce.getY1() );
-            setP2( appliedForce.getP2() );
+            this.appliedForceDstX.setValue( appliedForce.getX2() );
+            this.appliedForceDstY.setValue( appliedForce.getY2() );
 
-            this.radius.setValue( new Vector2D.Double( appliedForce.getP1() ).getMagnitude() );
+            updateDependentValues( appliedForce );
             notifyChanged();
         }
+    }
+
+    private void updateDependentValues( Line2D.Double appliedForce ) {
+        radius.setValue( new Vector2D.Double( appliedForce.getP1() ).getMagnitude() );
+        signedForce.setValue( getForceMagnitude()*MathUtil.getSign( getTorque( ) ) );//todo: assumes platform center is (0,0)
+        torque.setValue( getTorque() );
     }
 
     private void notifyChanged() {
@@ -127,7 +142,15 @@ public class AppliedForce {
         return getRadiusSeries().getValue();
     }
 
+    public ITemporalVariable getSignedForceSeries() {
+        return signedForce;
+    }
+
     public interface Listener {
         void changed();
+    }
+
+    public DefaultTemporalVariable getTorqueSeries() {
+        return torque;
     }
 }
