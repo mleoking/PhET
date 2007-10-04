@@ -12,6 +12,7 @@ import edu.colorado.phet.statesofmatter.model.engine.EngineConfig;
 import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
+import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
 import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
@@ -65,15 +66,17 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     public void clockTicked(ClockEvent clockEvent) {
         for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
-            double kineticEnergy = engineFacade.getKineticEnergy();
-            double potentialEnergy = engineFacade.getPotentialEnergy();
-            double totalEnergy = kineticEnergy + potentialEnergy;
-
-            System.out.println("KE = " + kineticEnergy + ", PE = " + potentialEnergy + ", Total = " + totalEnergy);
+//            double kineticEnergy = engineFacade.getKineticEnergy();
+//            double potentialEnergy = engineFacade.getPotentialEnergy();
+//            double totalEnergy = kineticEnergy + potentialEnergy;
+//
+//            System.out.println("KE = " + kineticEnergy + ", PE = " + potentialEnergy + ", Total = " + totalEnergy);
 
             ForceComputation computation = engineFacade.step();
 
             computation.apply(particles);
+
+            new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
         }
     }
 

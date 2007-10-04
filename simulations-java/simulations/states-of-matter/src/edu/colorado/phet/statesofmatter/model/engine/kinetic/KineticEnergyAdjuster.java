@@ -43,37 +43,15 @@ public class KineticEnergyAdjuster {
                 if (givingEnergy || particleHasEnergy(p)) {
                     double particleCurKe = p.getKineticEnergy();
 
-                    double particleCurV = Math.sqrt(p.getVx() * p.getVx() + p.getVy() * p.getVy());
-
-                    if (particleCurV < 0.000001) {
-                        // Particle has no velocity; assign random vector with
-                        // length = 1.
-                        double rad = Math.random() * 2.0 * Math.PI;
-
-                        p.setVx(Math.cos(rad));
-                        p.setVy(Math.sin(rad));
-
-                        particleCurV = 1.0;
-                    }
-
-                    // ke = 1/2 m v^2    =>     v = sqrt(2 ke/m)
-                    double particleTargetV;
-
                     double particleTargetKe = particleCurKe + particleDeltaKe;
 
                     if (particleTargetKe <= 0.0) {
-                        particleTargetV = 0.0;
-
                         leftOverEnergy = particleTargetKe;
-                    }
-                    else {
-                        particleTargetV = Math.sqrt(2 * (particleCurKe + particleDeltaKe) / p.getMass());
+
+                        particleTargetKe = 0.0;
                     }
 
-                    double scale = particleTargetV / particleCurV;
-
-                    p.setVx(p.getVx() * scale);
-                    p.setVy(p.getVy() * scale);
+                    p.setKineticEnergy(particleTargetKe);
 
                     changed = true;
                 }
