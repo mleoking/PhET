@@ -7,15 +7,8 @@ import java.util.List;
 public class KineticEnergyAdjuster {
     public void adjust(List particles, double totalTargetKe) {
         if (particles.size() == 0) return;
-
-        double leftOverEnergy;
-
-        boolean changed;
-
+        
         do {
-            changed        = false;
-            leftOverEnergy = 0.0;
-
             double totalCurKe = getKe(particles);
 
             double totalDeltaKe = totalTargetKe - totalCurKe;
@@ -46,20 +39,14 @@ public class KineticEnergyAdjuster {
                     double particleTargetKe = particleCurKe + particleDeltaKe;
 
                     if (particleTargetKe <= 0.0) {
-                        leftOverEnergy = particleTargetKe;
-
                         particleTargetKe = 0.0;
                     }
 
                     p.setKineticEnergy(particleTargetKe);
-
-                    changed = true;
                 }
             }
-
-            totalTargetKe = getKe(particles) + leftOverEnergy;
         }
-        while (changed && Math.abs(leftOverEnergy) > 0.000001);
+        while (Math.abs(getKe(particles) - totalTargetKe) > 0.00000001);
     }
 
     private int countParticlesHavingEnergy(List particles) {
