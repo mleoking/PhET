@@ -51,6 +51,8 @@ public class ZKineticEnergyAdjusterTester extends TestCase {
         performTest(1.9);
     }
 
+    // TODO: Add some stress tests here
+
     public void testManyRandomCases() {
         for (int i = 0; i < 100; i++) {
             double target = Math.random() * 100;
