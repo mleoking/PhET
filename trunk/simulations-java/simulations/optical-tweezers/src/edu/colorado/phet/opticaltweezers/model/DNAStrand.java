@@ -272,7 +272,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @param enzyme
      */
     public void attachEnzyme( AbstractEnzyme enzyme ) {
-//        _enzyme = enzyme;
+        _enzyme = enzyme;
     }
     
     //----------------------------------------------------------------------------
