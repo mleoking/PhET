@@ -7,6 +7,7 @@ import org.jfree.data.Range;
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -50,10 +51,16 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
                 Range range = super.getVerticalRange( zoomValue );
                 return new Range( 0, range.getUpperBound() );
             }
+
+            protected void handleValueChanged() {
+//                getSimulationVariable().setValue( getModelValue() );
+                notifyValueChanged( getModelValue() );
+            }
         } );
         radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {//todo: is this necessary?
+
             public void sliderDragged( double value ) {
-                tm.setAppliedForceRadius( value );
+                tm.setAppliedForceRadius( MathUtil.clamp( tm.getRotationPlatform().getInnerRadius(), value, tm.getRotationPlatform().getRadius() ) );
             }
         } );
         radiusGraph.addSeries( new ControlGraphSeries( "Brake Radius", Color.red, "r", "m", new BasicStroke( 3 ), false, "brake", tm.getBrakeRadiusSeries() ) );
