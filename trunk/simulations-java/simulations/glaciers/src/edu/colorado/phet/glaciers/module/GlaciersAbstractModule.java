@@ -47,20 +47,6 @@ public abstract class GlaciersAbstractModule extends PiccoloModule {
      */
     public abstract void resetAll();
 
-    /**
-     * Saves the module's configuration by writing it to a provided configuration object.
-     *
-     * @param appConfig
-     */
-    public abstract void save( GlaciersConfig appConfig );
-
-    /**
-     * Loads the module's configuration by reading it from a provided configuration object.
-     *
-     * @param appConfig
-     */
-    public abstract void load( GlaciersConfig appConfig );
-
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------

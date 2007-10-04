@@ -13,13 +13,16 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
+import edu.colorado.phet.common.piccolophet.help.GlassPaneCanvas;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.module.example.ExampleModule;
+import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersPersistenceManager;
 import edu.colorado.phet.glaciers.persistence.GlobalConfig;
@@ -41,7 +44,7 @@ public class GlaciersApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModule _dummyModule;
+    private ExampleModule _exampleModule;
 
     // PersistanceManager handles loading/saving application configurations.
     private GlaciersPersistenceManager _persistenceManager;
@@ -74,8 +77,8 @@ public class GlaciersApplication extends PhetApplication {
      */
     private void initModules() {
 
-        _dummyModule = new ExampleModule();
-        addModule( _dummyModule );
+        _exampleModule = new ExampleModule();
+        addModule( _exampleModule );
     }
 
     /*
@@ -86,7 +89,7 @@ public class GlaciersApplication extends PhetApplication {
         final PhetFrame frame = getPhetFrame();
 
         if ( _persistenceManager == null ) {
-            _persistenceManager = new GlaciersPersistenceManager( this );
+            _persistenceManager = new GlaciersPersistenceManager( frame );
         }
 
         // File menu
@@ -95,7 +98,7 @@ public class GlaciersApplication extends PhetApplication {
             saveItem.setMnemonic( GlaciersResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.save();
+                    save();
                 }
             } );
 
@@ -103,7 +106,7 @@ public class GlaciersApplication extends PhetApplication {
             loadItem.setMnemonic( GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.load();
+                    load();
                 }
             } );
 
@@ -164,15 +167,22 @@ public class GlaciersApplication extends PhetApplication {
      *
      * @param appConfig
      */
-    public void save( GlaciersConfig appConfig ) {
-
-        GlobalConfig config = appConfig.getGlobalConfig();
-
-        config.setVersionString( getApplicationConfig().getVersion().toString() );
-        config.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        config.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        config.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        config.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
+    public void save() {
+        
+        GlaciersConfig appConfig = new GlaciersConfig();
+        
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setVersionString( getApplicationConfig().getVersion().toString() );
+        globalConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
+        globalConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
+        globalConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
+        globalConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
+        appConfig.setGlobalConfig( globalConfig );
+        
+        ExampleConfig exampleConfig = _exampleModule.save();
+        appConfig.setExampleConfig( exampleConfig );
+        
+        _persistenceManager.save( appConfig );
     }
 
     /**
@@ -180,8 +190,26 @@ public class GlaciersApplication extends PhetApplication {
      *
      * @param appConfig
      */
-    public void load( GlaciersConfig appConfig ) {
-        // GlobalConfig currently contains nothing that needs to be loaded
+    public void load() {
+        
+        Object object = _persistenceManager.load();
+        if ( object != null ) {
+            
+            if ( ! ( object instanceof GlaciersConfig  ) ) {
+                String message = GlaciersResources.getString( "message.notAConfigFile" );
+                String title = GlaciersResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+            }
+            else {
+                GlaciersConfig appConfig = (GlaciersConfig) object;
+                
+                GlobalConfig globalConfig = appConfig.getGlobalConfig();
+                // nothing global to be restored...
+                
+                ExampleConfig exampleConfig = appConfig.getExampleConfig();
+                _exampleModule.load( exampleConfig );
+            }
+        }
     }
 
     //----------------------------------------------------------------------------

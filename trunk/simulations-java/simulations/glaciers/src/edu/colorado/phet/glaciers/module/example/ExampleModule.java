@@ -126,9 +126,9 @@ public class ExampleModule extends GlaciersAbstractModule {
         }
     }
 
-    public void save( GlaciersConfig appConfig ) {
+    public ExampleConfig save() {
 
-        ExampleConfig config = appConfig.getExampleConfig();
+        ExampleConfig config = new ExampleConfig();
         ExampleModel model = getExampleModel();
 
         // Module
@@ -151,11 +151,12 @@ public class ExampleModule extends GlaciersAbstractModule {
         {
             //XXX
         }
+        
+        return config;
     }
 
-    public void load( GlaciersConfig appConfig ) {
+    public void load( ExampleConfig config ) {
 
-        ExampleConfig config = appConfig.getExampleConfig();
         ExampleModel model = getExampleModel();
 
         // Module
