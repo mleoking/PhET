@@ -143,7 +143,7 @@ public class TorqueModel extends RotationModel {
     private AbstractVector2D getBrakeForceVector() {
         boolean clockwise = getRotationPlatform().getVelocity() > 0;
         if ( getRotationPlatform().getVelocity() == 0 ) {
-            if ( Math.abs( appliedForceObject.getTorque()) == 0 ) {
+            if ( Math.abs( appliedForceObject.getTorque() ) == 0 ) {
                 return null;
             }
             clockwise = appliedForceObject.getTorque() > 0;
@@ -282,33 +282,22 @@ public class TorqueModel extends RotationModel {
             //assume a constant acceleration model with the given acceleration.
             double origAngVel = motionBody.getVelocity();
 //            System.out.println( "net torque value=" + ( appliedTorque.getValue() + brakeTorque.getValue() ) + ", applied=" + appliedTorque.getValue() + ", brake=" + brakeTorque.getValue() );
-            TorqueModel.this.netTorque.setValue( appliedForceObject.getTorque() + brakeForceObject.getTorque());//todo: should probably update even while paused
+            TorqueModel.this.netTorque.setValue( appliedForceObject.getTorque() + brakeForceObject.getTorque() );//todo: should probably update even while paused
 
             //todo: better handling for zero moment?
             double acceleration = getMomentOfInertia() > 0 ? netTorque.getValue() / getMomentOfInertia() : 0;
 
             //if brake overwhelms applied force, do not change direction
             double proposedVelocity = motionBody.getVelocity() + acceleration * dt;
+            updateBrakeForce();//todo: this is a workaround to make sure overwhelming brake is correctly computed
             if ( overwhelmingBrake ) {
-//                proposedVelocity=origAngVel*0.99;
                 proposedVelocity = 0.0;
                 acceleration = 0.0;
             }
-//            double proposedVelocity = 0.0;
-//            if ( MathUtil.getSign( proposedVelocity ) != MathUtil.getSign( origAngVel ) && Math.abs( brakeTorque.getValue() ) >= Math.abs( appliedTorque.getValue() ) ) {
-//                acceleration = 0.0;
-////                System.out.println( "TorqueModel$ForceDriven.update" );
-//            }
-//            if ( overwhelmingBrake ) {
-//                acceleration = 0.0;
-//                proposedVelocity = 0.0;
-//            }
-
             motionBody.addAccelerationData( acceleration, time );
             motionBody.addVelocityData( proposedVelocity, time );
 
             //if the friction causes the velocity to change sign, set the velocity to zero?
-//            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
             motionBody.addPositionData( motionBody.getPosition() + proposedVelocity * dt, time );
         }
 
