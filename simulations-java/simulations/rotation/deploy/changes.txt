@@ -1,3 +1,4 @@
+10-4-2007: Torque - Fixed: Brake force cannot be overcome after coming to rest.
 10-4-2007: Torque - Refactored TorqueModel to consolidate dependent scalar values within AppliedForces
 10-3-2007: Torque - Fixed: Applied force remains on the wheel when changing the wheel radius
 10-3-2007: Torque - Fixed: Relabeled Radius graph to read r_applied and Radius of Force
