@@ -95,9 +95,7 @@ public class RotationBody {
                 if ( vec.getMagnitudeSq() == 0 ) {
                     vec = Vector2D.Double.parseAngleAndMagnitude( 1.0, lastNonZeroRadiusAngle );
                 }
-                System.out.println( "f.getValue() = " + f.getValue() );
                 AbstractVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
-                System.out.println( "m = " + m );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
             }
         }
