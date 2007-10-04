@@ -12,13 +12,13 @@ LOW PRIORITY:
 COMMON CODE:
 
 CLEANUP:
-- constants for localized strings in GlaciersPersistenceManager
 - setPickable(false) on non-interactive nodes
 - rescale image files to minimize file size
 - disable all debug output
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/3/07 - constants for localized strings in GlaciersPersistenceManager
 10/1/07 - add example model element, node, and control panel for demonstration
 10/1/07 - package and class javadoc for skeleton
 9/27/07 - set up simulation skeleton, check in to SVN
