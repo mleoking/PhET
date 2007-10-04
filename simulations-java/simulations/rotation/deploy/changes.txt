@@ -1,3 +1,5 @@
+10-4-2007: Torque - Fixed: Applied force radius should be constrained to lie on the platform
+10-4-2007: Torque - Fixed: Added text to the control panel
 10-4-2007: Torque - Fixed: Brake force cannot be overcome after coming to rest.
 10-4-2007: Torque - Refactored TorqueModel to consolidate dependent scalar values within AppliedForces
 10-3-2007: Torque - Fixed: Applied force remains on the wheel when changing the wheel radius

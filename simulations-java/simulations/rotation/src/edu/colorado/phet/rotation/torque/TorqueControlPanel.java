@@ -67,7 +67,7 @@ public class TorqueControlPanel extends JPanel {
             }
         } );
 
-        final TorqueSlider massSlider = new TorqueSlider( rp.getMass() / 10.0, rp.getMass() * 2, rp.getMass(), "Mass", "0.00", "kg" );
+        final TorqueSlider massSlider = new TorqueSlider( rp.getMass() / 10.0, rp.getMass() * 2, rp.getMass(), "Platform Mass", "0.00", "kg" );
         massSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setMass( massSlider.getValue() );
