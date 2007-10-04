@@ -216,7 +216,7 @@ public class ControlGraph extends PNode {
         return getSliderValue();
     }
 
-    private void notifyValueChanged( double value ) {
+    protected void notifyValueChanged( double value ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener listener = (Listener) listeners.get( i );
             listener.valueChanged( value );
