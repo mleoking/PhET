@@ -125,6 +125,10 @@ public class ExampleModule extends GlaciersAbstractModule {
             //XXX
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
 
     public ExampleConfig save() {
 

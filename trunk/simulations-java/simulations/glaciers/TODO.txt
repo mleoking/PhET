@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/3/07 - fold GlobalConfig into GlaciersConfig
 10/3/07 - rewrite persistence code in preparation for migration to phetcommon
 10/3/07 - constants for localized strings in GlaciersPersistenceManager
 10/1/07 - add example model element, node, and control panel for demonstration
