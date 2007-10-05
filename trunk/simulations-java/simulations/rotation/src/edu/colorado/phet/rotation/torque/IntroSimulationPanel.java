@@ -5,13 +5,11 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.rotation.RotationLayout;
-import edu.umd.cs.piccolo.PNode;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,24 +19,44 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroSimulationPanel extends PhetPCanvas {
     private IntroModule introModule;
+    private TorqueSimPlayAreaNode playAreaNode;
 
     public IntroSimulationPanel( IntroModule introModule, JFrame parentFrame ) {
         this.introModule = introModule;
-        TorqueSimPlayAreaNode playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
+        playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
         addScreenChild( playAreaNode );
 
-        final RotationLayout layout = new RotationLayout( this, playAreaNode, new PNode(), new PNode(), playAreaNode.getPlatformNode(), playAreaNode.getOriginNode(), introModule.getTorqueModel().getRotationPlatform(),0.5 );
-        layout.layout();
+        updateLayout();
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                layout.layout();
+                updateLayout();
             }
         } );
         introModule.getClock().addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                repaint( );
+                repaint();
             }
-        });
+        } );
+    }
+
+    private void updateLayout() {
+        int padX = 50;
+        int padY = 50;
+
+        playAreaNode.setScale( 1.0 );
+
+        double sx = ( getWidth() - padX * 2 ) / ( playAreaNode.getPlatformNode().getFullBounds().getWidth() );
+        double sy = ( getHeight() - padY * 2 ) / ( playAreaNode.getPlatformNode().getFullBounds().getHeight() );
+        double scale = Math.min( sx, sy );
+        if ( scale > 0 ) {
+            playAreaNode.scale( scale );
+        }
+        playAreaNode.setOffset( scale * getRotationPlatform().getRadius() + padX / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
+
+    }
+
+    private RotationPlatform getRotationPlatform() {
+        return introModule.getTorqueModel().getRotationPlatform();
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
