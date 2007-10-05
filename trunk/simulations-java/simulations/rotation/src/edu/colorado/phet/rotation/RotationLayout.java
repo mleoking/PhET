@@ -21,9 +21,14 @@ public class RotationLayout {
     private PNode platformNode;
     private PNode originNode;
     private RotationPlatform rotationPlatform;
-    private static final double MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
+    private double minFraction;
+    private static final double DEFAULT_MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
 
     public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform ) {
+        this( parent, rotationPlayAreaNode, rotationControlPanelNode, timeSeriesGraphSetNode, platformNode, originNode, rotationPlatform, DEFAULT_MIN_SCREEN_FRACTION_FOR_PLAY_AREA );
+    }
+
+    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform, double minFraction ) {
         this.parent = parent;
         this.rotationPlayAreaNode = rotationPlayAreaNode;
         this.rotationControlPanelNode = rotationControlPanelNode;
@@ -31,6 +36,7 @@ public class RotationLayout {
         this.platformNode = platformNode;
         this.originNode = originNode;
         this.rotationPlatform = rotationPlatform;
+        this.minFraction = minFraction;
     }
 
     public void layout() {
@@ -40,7 +46,7 @@ public class RotationLayout {
         double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
 
-        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * MIN_SCREEN_FRACTION_FOR_PLAY_AREA, availWidth );
+        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * minFraction, availWidth );
 
 //        rotationPlayAreaNode.setOffset( 200, 200 );
         rotationPlayAreaNode.setScale( 1.0 );

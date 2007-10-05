@@ -25,13 +25,12 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     private RotationModel rotationModel;
     private VectorViewModel vectorViewModel;
 
-    public static final int DEFAULT_DELAY = 30;
-    public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0;
+    
 
     public static AbstractRotationModule INSTANCE;
 
     public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
-        super( "Rotation", new RotationClock( DEFAULT_DELAY, DEFAULT_CLOCK_DT ) );
+        super( "Rotation", new RotationClock( ) );
         INSTANCE = this;
         setModel( new BaseModel() );
         setLogoPanel( null );
@@ -71,10 +70,6 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     protected abstract AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame );
 
-    public GraphSetModel getGraphSetModel() {
-        return rotationSimulationPanel.getGraphSetModel();
-    }
-
     public RotationModel getRotationModel() {
         return rotationModel;
     }
@@ -97,7 +92,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         vectorViewModel.resetAll();
         if ( getClock() instanceof ConstantDtClock ) {
             ConstantDtClock constantDtClock = (ConstantDtClock) getClock();
-            constantDtClock.setDt( DEFAULT_CLOCK_DT );
+            constantDtClock.setDt( RotationClock.DEFAULT_CLOCK_DT );
         }
         DefaultTimeSeries.verifySeriesCleared();
     }

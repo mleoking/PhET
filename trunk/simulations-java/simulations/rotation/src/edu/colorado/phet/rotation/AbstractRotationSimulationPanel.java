@@ -14,6 +14,7 @@ import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -53,7 +54,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
                 }
             }
         } );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, AbstractRotationModule.DEFAULT_CLOCK_DT / 4.0, AbstractRotationModule.DEFAULT_CLOCK_DT );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, RotationClock.DEFAULT_CLOCK_DT / 4.0, RotationClock.DEFAULT_CLOCK_DT );
 
         controlPanel = createControlPanel( getRulerNode(), phetFrame );
         rotationControlPanelNode = new PSwing( controlPanel );
@@ -205,5 +206,9 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
 
     public double getLastPaintTime() {
         return paintTime;
+    }
+
+    public VectorViewModel getVectorViewModel() {
+        return rotationModule.getVectorViewModel(); 
     }
 }
