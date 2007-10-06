@@ -152,6 +152,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
                                   getLatticeScreenCoordinates().getScreenRect().getCenterY() - pSwing.getFullBounds().getHeight() / 2 );
             }
         } );
+        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ));
     }
 
     private void updateRotationGlyphColor() {
@@ -194,10 +195,10 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         return soundModule.getWaveInterferenceModel();
     }
 
-    private void updateWaveSize() {
+    protected void updateWaveSize() {
         if( getHeight() > 0 ) {
             double insetTop = super.getWaveModelGraphicOffset().getY();
-            double insetBottom = waveChartGraphic.getChartHeight();
+            double insetBottom = super.isWaveMaximized()?5:waveChartGraphic.getChartHeight();
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
