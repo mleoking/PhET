@@ -164,6 +164,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
         addScreenChild( thisSideUpWrapper );
+
+        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ));
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {
@@ -174,10 +176,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableScreenChartGraphic.setVisible( screenNode.isEnabled() );
     }
 
-    private void updateWaveSize() {
+    protected void updateWaveSize() {
         if( getHeight() > 0 ) {
             double insetTop = super.getWaveModelGraphicOffset().getY();
-            double insetBottom = waveChartGraphic.getChartHeight();
+            double insetBottom = isWaveMaximized()?10:waveChartGraphic.getChartHeight();
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
             int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );

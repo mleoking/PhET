@@ -17,7 +17,10 @@ public class WaveInterferenceModule extends PiccoloModule {
 
     public WaveInterferenceModule( String title ) {
         super( title, new WaveInterferenceClock() );
-        PhetPCanvas phetPCanvas = new WaveInterferenceCanvas();
+        PhetPCanvas phetPCanvas = new WaveInterferenceCanvas(){
+            protected void updateWaveSize() {
+            }
+        };
         setSimulationPanel( phetPCanvas );
     }
 
