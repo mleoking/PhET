@@ -32,7 +32,7 @@ public class PhetFrame extends JFrame {
         this.app = app;
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( app );
+        this.helpMenu = new HelpMenu( this );
         JMenu controlMenu = new JMenu( SimStrings.get( "PhetFrame.ControlMenu" ) );
         JMenuItem showClockDialog = new JMenuItem( SimStrings.get( "PhetFrame.FixedClockMenuItem" ) );
         showClockDialog.addActionListener( new ActionListener() {
