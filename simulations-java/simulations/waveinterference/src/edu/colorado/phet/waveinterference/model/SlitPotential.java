@@ -15,7 +15,8 @@ public class SlitPotential implements Potential {
     private boolean enabled = false;
     private int slitWidth = 10;
     private int slitSeparation = 12;
-    private int thickness = 5;
+    private int thickness = 2;
+//    private int thickness = 1;
     private double potentialValue = 100;
     private int location;
     private boolean oneSlit = true;

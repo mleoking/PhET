@@ -10,12 +10,12 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
  */
 
 public class WaveInterferenceControlPanel extends ControlPanel {
-    public static final int PAD_FOR_RESET_BUTTON = 3;
+    public static final int PAD_FOR_RESET_BUTTON = 1;
 
     public WaveInterferenceControlPanel() {
     }
 
     public void addVerticalSpace() {
-        addControlFullWidth( new VerticalSeparator() );
+//        addControlFullWidth( new VerticalSeparator(PAD_FOR_RESET_BUTTON ) );
     }
 }

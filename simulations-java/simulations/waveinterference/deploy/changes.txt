@@ -1,0 +1,2 @@
+10-5-2007: reduced padding between components to remove scrollbars at 1024x768
+10-5-2007: reduced barrier thickness

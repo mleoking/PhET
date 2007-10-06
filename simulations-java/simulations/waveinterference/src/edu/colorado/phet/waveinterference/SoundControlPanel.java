@@ -40,7 +40,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "sound.speaker" ), soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
-        addVerticalSpace();
+//        addVerticalSpace();
 
         slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential(), soundModule.getScreenUnits() );
         addControl( slitControlPanel );
