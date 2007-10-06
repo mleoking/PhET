@@ -1,14 +1,17 @@
 package edu.colorado.phet.semiconductor_semi.macro.circuit.battery;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * User: Sam Reid
@@ -20,12 +23,11 @@ public class BatterySpinner {
     public static final double min = -10;
     public static final double max = 10;
     DecimalFormat df = new DecimalFormat( "##.00#" );
+    private Battery battery;
 
     public BatterySpinner( final Battery battery ) {
+        this.battery = battery;
         spinner = new MyJSpinner( new SpinnerNumberModel( battery.getVoltage(), min, max, .1 ) );
-//        SpinnerUI su=new MySpinnerUI3();
-//        spinner.setUI(su);
-//        spinner.revalidate();
 
         TitledBorder border = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
         border.setTitleFont( new Font( PhetDefaultFont.LUCIDA_SANS, 0, 18 ) );
@@ -33,18 +35,32 @@ public class BatterySpinner {
         spinner.setBorder( border );
         spinner.setPreferredSize( new Dimension( 125, 100 ) );
         spinner.getEditor().setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ) );
+        if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
+            final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
+            ed.getTextField().addKeyListener( new KeyAdapter() {
+                public void keyReleased( KeyEvent e ) {
+                    String text = ed.getTextField().getText();
+                    try {
+                        setVoltage( Double.parseDouble( text ) );
+                    }
+                    catch( NumberFormatException n ) {
+                    }
+                }
+            } );
+        }
         spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Object o = spinner.getValue();
-                Double d = (Double)o;
-                double volts = d.doubleValue();
-
-                String str = df.format( volts );
-                volts = Double.parseDouble( str );
-//                System.out.println("volts = " + volts);
-                battery.setVoltage( volts );
+                updateValue();
             }
         } );
+    }
+
+    private void updateValue() {
+        setVoltage( ( (Double) spinner.getValue() ).doubleValue() );
+    }
+
+    private void setVoltage( double volts ) {
+        battery.setVoltage( Double.parseDouble( df.format( volts ) ) );
     }
 
     public JSpinner getSpinner() {
