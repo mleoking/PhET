@@ -27,7 +27,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
         addVerticalSpace();
 
         addControl( new MultiDripControlPanel( waterModule.getMultiDrip(), waterModule.getScreenUnits() ) );
-        addControlFullWidth( new VerticalSeparator() );
+//        addControlFullWidth( new VerticalSeparator() );
 
         addControl( new SlitControlPanel( waterModule.getSlitPotential(), waterModule.getScreenUnits() ) );
     }
