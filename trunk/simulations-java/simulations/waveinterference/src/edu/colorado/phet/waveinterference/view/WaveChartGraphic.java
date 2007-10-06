@@ -44,7 +44,8 @@ public class WaveChartGraphic extends PNode {
         jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
-        jFreeChartNode.setBounds( 0, 0, 500, 200 );
+//        jFreeChartNode.setBounds( 0, 0, 500, 200 );
+        jFreeChartNode.setBounds( 0, 0, 500, 185);
 
 //        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
