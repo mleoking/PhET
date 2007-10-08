@@ -11,10 +11,9 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - use phetcommon's Vector2D
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
-- beep sometimes occurs when selecting vacuum with fluid controls dialog open
 - visible seams where symmetrical pieces of laser beam gradient are stitched together (Mac only)
 - improve startup performance
-- some controls assume (correctly) that they are the only control for something, and so don't observe that something
+
 
 COMMON CODE:
 - why is setActiveModule(_motorsModule) buggy?
@@ -25,6 +24,7 @@ MIGRATE TO COMMON:
 - factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/8/07 - fix conversion of fluid speed between nm and um, manifested as "beep" when switching to vaccum
 ********* version 1.00.15 (18097)
 10/2/07 - improve performance of e-field display via optimizations to phetcommon's Arrow
 10/2/07 - optimize updates to ElectricFieldVectorNode to reduce creation of Arrow objects
@@ -817,6 +817,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+10/8/07 - some Swing controls aren't PropertyChangeListeners for the nodes that they control (ok for now, since they are the only control)
 10/1/07 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors (consequence of using dt subdivision)
 10/1/07 - get different values for 2nd enzyme for Kathy's model of DNA speed (not needed, we're using Tom's model)
 10/1/07 - should it be possible to drag bead and make DNA strand more straight? (fine as is, with stretchiness=0.95)
