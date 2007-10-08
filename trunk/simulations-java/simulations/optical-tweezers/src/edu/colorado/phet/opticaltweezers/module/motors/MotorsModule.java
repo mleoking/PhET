@@ -250,35 +250,43 @@ public class MotorsModule extends OTAbstractModule {
         }
     }
 
-    public void save( OTConfig appConfig ) {
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
+    
+    public MotorsConfig save() {
 
-        MotorsConfig config = appConfig.getMotorsConfig();
-        MotorsModel model = getMotorsModel();
+        MotorsConfig config = new MotorsConfig();
 
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        OTClock clock = model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
+        // Model
+        {
+            MotorsModel model = getMotorsModel();
 
-        // Laser
-        Laser laser = model.getLaser();
-        config.setLaserX( laser.getX() );
-        config.setLaserRunning( laser.isRunning() );
-        config.setLaserPower( laser.getPower() );
+            // Clock
+            OTClock clock = model.getClock();
+            config.setClockDt( clock.getDt() );
+            config.setClockRunning( getClockRunningWhenActive() );
 
-        // Bead
-        Bead bead = model.getBead();
-        config.setBeadX( bead.getX() );
-        config.setBeadY( bead.getY() );
+            // Laser
+            Laser laser = model.getLaser();
+            config.setLaserX( laser.getX() );
+            config.setLaserRunning( laser.isRunning() );
+            config.setLaserPower( laser.getPower() );
 
-        // Fluid
-        Fluid fluid = model.getFluid();
-        config.setFluidSpeed( fluid.getSpeed() );
-        config.setFluidViscosity( fluid.getViscosity() );
-        config.setFluidTemperature( fluid.getTemperature() );
+            // Bead
+            Bead bead = model.getBead();
+            config.setBeadX( bead.getX() );
+            config.setBeadY( bead.getY() );
+
+            // Fluid
+            Fluid fluid = model.getFluid();
+            config.setFluidSpeed( fluid.getSpeed() );
+            config.setFluidViscosity( fluid.getViscosity() );
+            config.setFluidTemperature( fluid.getTemperature() );
+        }
 
         // Control panel settings
         {
@@ -312,38 +320,42 @@ public class MotorsModule extends OTAbstractModule {
                 config.setFluidControlsSelected( _fluidControlsWasSelected );
             }
         }
+        
+        return config;
     }
 
-    public void load( OTConfig appConfig ) {
-
-        MotorsConfig config = appConfig.getMotorsConfig();
-        MotorsModel model = getMotorsModel();
+    public void load( MotorsConfig config ) {
 
         // Module
         if ( config.isActive() ) {
             NonPiccoloPhetApplication.instance().setActiveModule( this );
         }
 
-        // Clock
-        OTClock clock = model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
+        // Model
+        {
+            MotorsModel model = getMotorsModel();
 
-        // Laser
-        Laser laser = model.getLaser();
-        laser.setPosition( config.getLaserX(), laser.getY() );
-        laser.setRunning( config.isLaserRunning() );
-        laser.setPower( config.getLaserPower() );
+            // Clock
+            OTClock clock = model.getClock();
+            clock.setDt( config.getClockDt() );
+            setClockRunningWhenActive( config.isClockRunning() );
 
-        // Bead
-        Bead bead = model.getBead();
-        bead.setPosition( config.getBeadX(), config.getBeadY() );
+            // Laser
+            Laser laser = model.getLaser();
+            laser.setPosition( config.getLaserX(), laser.getY() );
+            laser.setRunning( config.isLaserRunning() );
+            laser.setPower( config.getLaserPower() );
 
-        // Fluid
-        Fluid fluid = model.getFluid();
-        fluid.setSpeed( config.getFluidSpeed() );
-        fluid.setViscosity( config.getFluidViscosity() );
-        fluid.setTemperature( config.getFluidTemperature() );
+            // Bead
+            Bead bead = model.getBead();
+            bead.setPosition( config.getBeadX(), config.getBeadY() );
+
+            // Fluid
+            Fluid fluid = model.getFluid();
+            fluid.setSpeed( config.getFluidSpeed() );
+            fluid.setViscosity( config.getFluidViscosity() );
+            fluid.setTemperature( config.getFluidTemperature() );
+        }
 
         // Control panel settings
         {

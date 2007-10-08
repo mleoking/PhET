@@ -18,9 +18,9 @@ COMMON CODE:
 - help items don't refresh fast enough (AWT priority issue?)
 
 MIGRATE TO COMMON:
-- factor out pieces of OTPersistenceManager, merge into service-manager, tighten up service-manager
 
 DONE:
+10/8/07 - use persistence manager from phetcommon (XMLPersistenceManager)
 10/8/07 - change LaserBeamNode implementation to create entire gradient, to remove visible seams on Macintosh
 10/8/07 - fix conversion of fluid speed between nm and um, manifested as "beep" when switching to vaccum
 ********* version 1.00.15 (18097)
