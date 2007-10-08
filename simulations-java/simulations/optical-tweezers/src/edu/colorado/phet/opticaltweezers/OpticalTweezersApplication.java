@@ -13,6 +13,8 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
@@ -23,9 +25,7 @@ import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
 import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
 import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
-import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
-import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
-import edu.colorado.phet.opticaltweezers.persistence.OTPersistenceManager;
+import edu.colorado.phet.opticaltweezers.persistence.*;
 
 /**
  * OpticalTweezersApplication is the main application for this simulation.
@@ -49,7 +49,7 @@ public class OpticalTweezersApplication extends PhetApplication {
     private MotorsModule _motorsModule;
 
     // PersistanceManager handles loading/saving application configurations.
-    private OTPersistenceManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
 
@@ -116,7 +116,7 @@ public class OpticalTweezersApplication extends PhetApplication {
         final PhetFrame frame = getPhetFrame();
 
         if ( _persistenceManager == null ) {
-            _persistenceManager = new OTPersistenceManager( this );
+            _persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -125,7 +125,7 @@ public class OpticalTweezersApplication extends PhetApplication {
             saveItem.setMnemonic( OTResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.save();
+                    save();
                 }
             } );
 
@@ -133,7 +133,7 @@ public class OpticalTweezersApplication extends PhetApplication {
             loadItem.setMnemonic( OTResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.load();
+                    load();
                 }
             } );
 
@@ -194,15 +194,27 @@ public class OpticalTweezersApplication extends PhetApplication {
      *
      * @param appConfig
      */
-    public void save( OTConfig appConfig ) {
+    public void save() {
 
-        GlobalConfig config = appConfig.getGlobalConfig();
-
-        config.setVersionString( getApplicationConfig().getVersion().toString() );
-        config.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
-        config.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
-        config.setVersionDev( getApplicationConfig().getVersion().getDev() );
-        config.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
+        OTConfig appConfig = new OTConfig();
+        
+        GlobalConfig globalConfig = appConfig.getGlobalConfig();
+        globalConfig.setVersionString( getApplicationConfig().getVersion().toString() );
+        globalConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
+        globalConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
+        globalConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
+        globalConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
+        
+        PhysicsConfig physicsConfig = _physicsModule.save();
+        appConfig.setPhysicsConfig( physicsConfig );
+        
+        DNAConfig dnaConfig = _dnaModule.save();
+        appConfig.setDNAConfig( dnaConfig );
+        
+        MotorsConfig motorsConfig = _motorsModule.save();
+        appConfig.setMotorsConfig( motorsConfig );
+        
+        _persistenceManager.save( appConfig );
     }
 
     /**
@@ -210,8 +222,25 @@ public class OpticalTweezersApplication extends PhetApplication {
      *
      * @param appConfig
      */
-    public void load( OTConfig appConfig ) {
-        // GlobalConfig currently contains nothing that needs to be loaded
+    public void load() {
+
+        Object object = _persistenceManager.load();
+        if ( object != null ) {
+            if ( ! ( object instanceof OTConfig  ) ) {
+                String message = OTResources.getString( "message.notAConfigFile" );
+                String title = OTResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+            }
+            else {
+                OTConfig appConfig = (OTConfig) object;
+                
+                // GlobalConfig currently contains nothing that needs to be loaded
+                
+                _physicsModule.load( appConfig.getPhysicsConfig() );
+                _dnaModule.load( appConfig.getDNAConfig() );
+                _motorsModule.load( appConfig.getMotorsConfig() );
+            }
+        }
     }
 
     //----------------------------------------------------------------------------

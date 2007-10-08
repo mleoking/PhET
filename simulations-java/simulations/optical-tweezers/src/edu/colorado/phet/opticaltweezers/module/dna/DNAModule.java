@@ -15,7 +15,6 @@ import edu.colorado.phet.opticaltweezers.defaults.DNADefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
-import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
@@ -211,36 +210,44 @@ public class DNAModule extends OTAbstractModule {
             developerControlPanel.getVectorsPanel().setComponentsVisible( DNADefaults.SHOW_FORCE_VALUES );
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
 
-    public void save( OTConfig appConfig ) {
+    public DNAConfig save() {
 
-        DNAConfig config = appConfig.getDNAConfig();
-        DNAModel model = getDNAModel();
+        DNAConfig config = new DNAConfig();
 
         // Module
         config.setActive( isActive() );
 
-        // Clock
-        OTClock clock = model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
+        // Model
+        {
+            DNAModel model = getDNAModel();
 
-        // Laser
-        Laser laser = model.getLaser();
-        config.setLaserX( laser.getX() );
-        config.setLaserRunning( laser.isRunning() );
-        config.setLaserPower( laser.getPower() );
+            // Clock
+            OTClock clock = model.getClock();
+            config.setClockDt( clock.getDt() );
+            config.setClockRunning( getClockRunningWhenActive() );
 
-        // Bead
-        Bead bead = model.getBead();
-        config.setBeadX( bead.getX() );
-        config.setBeadY( bead.getY() );
+            // Laser
+            Laser laser = model.getLaser();
+            config.setLaserX( laser.getX() );
+            config.setLaserRunning( laser.isRunning() );
+            config.setLaserPower( laser.getPower() );
 
-        // Fluid
-        Fluid fluid = model.getFluid();
-        config.setFluidSpeed( fluid.getSpeed() );
-        config.setFluidViscosity( fluid.getViscosity() );
-        config.setFluidTemperature( fluid.getTemperature() );
+            // Bead
+            Bead bead = model.getBead();
+            config.setBeadX( bead.getX() );
+            config.setBeadY( bead.getY() );
+
+            // Fluid
+            Fluid fluid = model.getFluid();
+            config.setFluidSpeed( fluid.getSpeed() );
+            config.setFluidViscosity( fluid.getViscosity() );
+            config.setFluidTemperature( fluid.getTemperature() );
+        }
 
         // Control panel settings
         {
@@ -269,38 +276,42 @@ public class DNAModule extends OTAbstractModule {
                 config.setFluidControlsSelected( _fluidControlsWasSelected );
             }
         }
+        
+        return config;
     }
 
-    public void load( OTConfig appConfig ) {
-
-        DNAConfig config = appConfig.getDNAConfig();
-        DNAModel model = getDNAModel();
+    public void load( DNAConfig config ) {
 
         // Module
         if ( config.isActive() ) {
             NonPiccoloPhetApplication.instance().setActiveModule( this );
         }
 
-        // Clock
-        OTClock clock = model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
+        // Model
+        {
+            DNAModel model = getDNAModel();
 
-        // Laser
-        Laser laser = model.getLaser();
-        laser.setPosition( config.getLaserX(), laser.getY() );
-        laser.setRunning( config.isLaserRunning() );
-        laser.setPower( config.getLaserPower() );
+            // Clock
+            OTClock clock = model.getClock();
+            clock.setDt( config.getClockDt() );
+            setClockRunningWhenActive( config.isClockRunning() );
 
-        // Bead
-        Bead bead = model.getBead();
-        bead.setPosition( config.getBeadX(), config.getBeadY() );
+            // Laser
+            Laser laser = model.getLaser();
+            laser.setPosition( config.getLaserX(), laser.getY() );
+            laser.setRunning( config.isLaserRunning() );
+            laser.setPower( config.getLaserPower() );
 
-        // Fluid
-        Fluid fluid = model.getFluid();
-        fluid.setSpeed( config.getFluidSpeed() );
-        fluid.setViscosity( config.getFluidViscosity() );
-        fluid.setTemperature( config.getFluidTemperature() );
+            // Bead
+            Bead bead = model.getBead();
+            bead.setPosition( config.getBeadX(), config.getBeadY() );
+
+            // Fluid
+            Fluid fluid = model.getFluid();
+            fluid.setSpeed( config.getFluidSpeed() );
+            fluid.setViscosity( config.getFluidViscosity() );
+            fluid.setTemperature( config.getFluidTemperature() );
+        }
 
         // Control panel settings
         {
