@@ -3,8 +3,9 @@
 package edu.colorado.phet.opticaltweezers.view;
 
 import java.awt.Color;
-import java.awt.Image;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.WritableRaster;
@@ -18,8 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * LaserBeamNode is the visual representation of the laser beam.
@@ -42,7 +41,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     
     private Laser _laser;
     private ModelViewTransform _modelViewTransform;
-    private GradientNode _gradientNode;
+    private PImage _gradientNode;
     private ScaleAlphaImageOpARGB _imageOp;
     private BufferedImage _maxPowerGradientImage; // gradient for the max power, this image is not modified
     private BufferedImage _actualPowerGradientImage; // gradient for the actual power, created by scaling the alpha channel of _maxPowerGradientImage
@@ -72,7 +71,7 @@ public class LaserBeamNode extends PhetPNode implements Observer {
         _maxPowerGradientImage = createMaxPowerGradientImage();
         _actualPowerGradientImage = _imageOp.createCompatibleDestImage( _maxPowerGradientImage, _maxPowerGradientImage.getColorModel() );
         
-        _gradientNode = new GradientNode( _maxPowerGradientImage, 0 /* horizontalOverlap */, 0.1 /* verticalOverlap */ );
+        _gradientNode = new PImage( _actualPowerGradientImage  );
         _gradientNode.setOffset( 0, -_modelViewTransform.modelToView( _laser.getDistanceFromObjectiveToControlPanel() ) );
         addChild( _gradientNode );
         
@@ -115,7 +114,14 @@ public class LaserBeamNode extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     
     /*
-     * Creates a buffered image for the lower right quadrant of the maximum power gradient.
+     * Creates a buffered image for the beam's maximum power gradient.
+     * We create the data for 1 quadrant of the beam, then copy it to the
+     * other 3 quadrants.
+     * 
+     * NOTE! Since the image also contains the portion of the beam coming into
+     * the objective, we must be careful when displaying this node.  We must
+     * position the node so that the incoming-portion of the beam doesn't show
+     * up above the laser beam.
      */
     private BufferedImage createMaxPowerGradientImage() {
         
@@ -172,76 +178,48 @@ public class LaserBeamNode extends PhetPNode implements Observer {
             }
         }
         
+        // Scale the data
         double scale = _modelViewTransform.getScaleModelToView();
         BufferedImage scaledImage = BufferedImageUtils.rescaleFractional( gradientImage, scale, scale );
 
-        return scaledImage;
-    }
+        // Assemble the complete beam image by duplicating the data for each quadrant
+        BufferedImage beamImage = null;
+        {
+            // lower right is the image we've created so far
+            BufferedImage lowerRightImage = scaledImage;
 
+            // lower left, flip horizontally
+            AffineTransform tx = AffineTransform.getScaleInstance( -1, 1 );
+            tx.translate( -lowerRightImage.getWidth( null ), 0 );
+            AffineTransformOp op = new AffineTransformOp( tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+            BufferedImage lowerLeftImage = op.filter( lowerRightImage, null );
 
-    
-    //----------------------------------------------------------------------------
-    // Inner classes
-    //----------------------------------------------------------------------------
-    
-    /*
-     * GradientNode is the node that represents the power gradient.
-     * The power gradient is symmetric about the center of the trap.
-     * So we use the same image to draw each of the quadrants.
-     * The image is assumed to have been generated for the lower-right quadrant.
-     * <p>
-     * NOTE! Since the image also contains the portion of the beam coming into
-     * the objective, we must be careful when displaying this node.  We must
-     * position the node so that the incoming-portion of the beam doesn't show
-     * up above the laser beam.
-     */
-    private static class GradientNode extends PComposite {
-        
-        // one node for each quadrant
-        private PImage _upperLeftNode, _upperRightNode, _lowerLeftNode, _lowerRightNode;
-        
-        public GradientNode( Image image, double horizontalOverlap, double verticalOverlap ) {
-            
-            _upperLeftNode = new PImage( image );
-            _upperRightNode = new PImage( image );
-            _lowerLeftNode = new PImage( image );
-            _lowerRightNode = new PImage( image );
-            
-            addChild( _lowerLeftNode );
-            addChild( _lowerRightNode );
-            addChild( _upperLeftNode );
-            addChild( _upperRightNode );
-            
-            PBounds upperLeftBounds = _upperLeftNode.getFullBoundsReference();
-            AffineTransform upperLeftTransform = new AffineTransform();
-            upperLeftTransform.translate( upperLeftBounds.getWidth() + horizontalOverlap, upperLeftBounds.getHeight() + verticalOverlap );
-            upperLeftTransform.scale( -1, -1 ); // reflection about both axis
-            _upperLeftNode.setTransform( upperLeftTransform );
-            
-            PBounds upperRightBounds = _upperRightNode.getFullBoundsReference();
-            AffineTransform upperRightTransform = new AffineTransform();
-            upperRightTransform.translate( upperRightBounds.getWidth() - horizontalOverlap, upperRightBounds.getHeight() + verticalOverlap );
-            upperRightTransform.scale( 1, -1 ); // reflection about the x axis
-            _upperRightNode.setTransform( upperRightTransform );
+            // upper left, flip vertically and horizontally
+            tx = AffineTransform.getScaleInstance( -1, -1 );
+            tx.translate( -lowerRightImage.getWidth( null ), -lowerRightImage.getHeight( null ) );
+            op = new AffineTransformOp( tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+            BufferedImage upperLeftImage = op.filter( lowerRightImage, null );
 
-            PBounds lowerLeftBounds = _lowerLeftNode.getFullBoundsReference();
-            AffineTransform lowerLeftTransform = new AffineTransform();
-            lowerLeftTransform.translate( lowerLeftBounds.getWidth() + horizontalOverlap, lowerLeftBounds.getHeight() - verticalOverlap );
-            lowerLeftTransform.scale( -1, 1 ); // reflection about the y axis
-            _lowerLeftNode.setTransform( lowerLeftTransform );
-            
-            PBounds lowerRightBounds = _lowerRightNode.getFullBoundsReference();
-            AffineTransform lowerRightTransform = new AffineTransform();
-            lowerRightTransform.translate( lowerRightBounds.getWidth() - horizontalOverlap, lowerRightBounds.getHeight() - verticalOverlap );
-            lowerRightTransform.scale( 1, 1 ); // no reflection
-            _lowerRightNode.setTransform( lowerRightTransform );
+            // upper right, flip vertically
+            tx = AffineTransform.getScaleInstance( 1, -1 );
+            tx.translate( 0, -lowerRightImage.getHeight( null ) );
+            op = new AffineTransformOp( tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR );
+            BufferedImage upperRightImage = op.filter( lowerRightImage, null );
+
+            // create a buffer large enough to hold all quadrants
+            Graphics2D g2 = (Graphics2D) lowerRightImage.getGraphics();
+            final int w = 2 * lowerRightImage.getWidth();
+            final int h = 2 * lowerRightImage.getHeight();
+            beamImage = g2.getDeviceConfiguration().createCompatibleImage( w, h );
+
+            // draw the image
+            g2 = (Graphics2D) beamImage.getGraphics();
+            g2.drawImage( upperLeftImage, null, 0, 0 );
+            g2.drawImage( upperRightImage, null, w / 2, 0 );
+            g2.drawImage( lowerLeftImage, null, 0, h / 2 );
+            g2.drawImage( lowerRightImage, null, w / 2, h / 2 );
         }
-        
-        public void setImage( Image image ) {
-            _upperLeftNode.setImage( image );
-            _upperRightNode.setImage( image );
-            _lowerLeftNode.setImage( image );
-            _lowerRightNode.setImage( image );
-        }
+
+        return beamImage;
     }
 }
