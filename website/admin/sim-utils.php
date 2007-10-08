@@ -245,6 +245,45 @@
         return $matches[3];
     }
 
+	function sim_get_language_icon_url_from_language_name($language_name, $is_vertical = false) {
+		global $LANGUAGE_CODE_TO_LANGUAGE_NAME;
+		
+		$language_code = null;
+
+		foreach ($LANGUAGE_CODE_TO_LANGUAGE_NAME as $code => $name) {
+			if (strtolower($name) == strtolower($language_name)) {
+				$language_code = $code;
+				
+				break;
+			}
+		}
+		
+		if ($language_code == null) {
+			return false;
+		}
+		
+		$icon_name = strtolower($language_name).'-'.strtolower($language_code).'.png';
+		
+		$icon_location = "../images/languages/$icon_name";
+		
+		if ($is_vertical) {
+			$vertical_icon_location = "../images/languages/vertical-$icon_name";
+			
+			if (!file_exists($vertical_icon_location)) {
+				$source = imagecreatefrompng($icon_location);
+
+				// Rotate
+				$rotate = imagerotate($source, 90, 0);
+				
+				imagepng($rotate, $vertical_icon_location, 9);
+			}
+			
+			return $vertical_icon_location;
+		}
+		
+		return $icon_location;
+	}
+
 	function sim_get_all_translated_language_names() {
 		$all_translations = cache_get(SIM_TRANSLATIONS_CACHE, 'all-translations.cache', 24);
 		
@@ -820,7 +859,12 @@
 
 			$tmp_img = imagecreatetruecolor($new_width, $new_height);
 
-			imagecopyresized($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
+/*
+bool imagecopyresized   ( resource $dst_image, resource $src_image, int $dst_x, int $dst_y, int $src_x, int $src_y, int $dst_w, int $dst_h, int $src_w, int $src_h )
+bool imagecopyresampled ( resource $dst_image, resource $src_image, int $dst_x, int $dst_y, int $src_x, int $src_y, int $dst_w, int $dst_h, int $src_w, int $src_h )
+*/
+
+			imagecopyresampled($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $existing_width, $existing_height);
 
 			$temp_file = tempnam('/tmp', 'sim-thumbnail');
 

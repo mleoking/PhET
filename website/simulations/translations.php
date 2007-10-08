@@ -43,7 +43,9 @@ EOT;
 			
 			$col_class = $col_is_even ? "even" : "odd";
 			
-			print "<td class=\"$col_class\">$language</td>";
+			$url = sim_get_language_icon_url_from_language_name($language, true);
+			
+			print "<td class=\"$col_class\"><a href=\"#$language\"><img src=\"$url\" alt=\"\" title=\"$language\"/></a></td>";
 			
 			$col_count++;
 		}
@@ -120,6 +122,24 @@ EOT;
 		print "</tbody>";		
 		print "</table>";
 		print "</div>";
+		
+		foreach ($languages as $language) {
+			$url = sim_get_language_icon_url_from_language_name($language);
+			
+			print "<h1 id=\"$language\"><img src=\"$url\" alt=\"\" title=\"$language\"/></h1>";
+			
+			print "<ul>";
+			
+			foreach ($sim_to_translations as $sim_name => $translation) {
+				foreach ($translation as $cur_language => $launch_url) {
+					if ($cur_language == $language) {
+						print "<li><a href=\"$launch_url\">$sim_name</a></li>";
+					}
+				}
+			}
+			
+			print "</ul>";
+		}
 		
 		flush();
 	}
