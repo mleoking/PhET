@@ -17,8 +17,6 @@ COMMON CODE:
 - dialogs don't paint immediately when shown (AWT priority issue?)
 - help items don't refresh fast enough (AWT priority issue?)
 
-MIGRATE TO COMMON:
-
 DONE:
 10/8/07 - use persistence manager from phetcommon (XMLPersistenceManager)
 10/8/07 - change LaserBeamNode implementation to create entire gradient, to remove visible seams on Macintosh
