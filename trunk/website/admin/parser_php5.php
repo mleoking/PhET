@@ -93,8 +93,8 @@ class XMLParser
 
         //Free the parser
         xml_parser_free($this->parser);
-        
-        return $return;
+
+		return $return;
     }
     
     /**
