@@ -283,7 +283,7 @@ public class FluidControlPanel extends VerticalLayoutPanel implements Observer {
         }
         if ( o == _fluid ) {
             // resync everything if any property changes
-            _speedControl.setValue( _fluid.getSpeed() );
+            _speedControl.setValue( _fluid.getSpeed() / NANOMETERS_PER_MICRON );
             _viscosityControl.setValue( _fluid.getViscosity() );
             _temperatureControl.setValue( _fluid.getTemperature() );
             if ( _atpControl != null ) {
