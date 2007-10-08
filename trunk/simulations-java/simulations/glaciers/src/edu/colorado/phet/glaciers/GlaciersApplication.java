@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
@@ -23,7 +24,6 @@ import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.module.example.ExampleModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
-import edu.colorado.phet.glaciers.persistence.GlaciersPersistenceManager;
 
 /**
  * GlaciersApplication is the main application for this simulation.
@@ -45,7 +45,7 @@ public class GlaciersApplication extends PhetApplication {
     private ExampleModule _exampleModule;
 
     // PersistanceManager is used to save/load simulation configurations.
-    private GlaciersPersistenceManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager;
 
     private static TabbedModulePanePiccolo _tabbedModulePane;
 
@@ -87,7 +87,7 @@ public class GlaciersApplication extends PhetApplication {
         final PhetFrame frame = getPhetFrame();
 
         if ( _persistenceManager == null ) {
-            _persistenceManager = new GlaciersPersistenceManager( frame );
+            _persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
