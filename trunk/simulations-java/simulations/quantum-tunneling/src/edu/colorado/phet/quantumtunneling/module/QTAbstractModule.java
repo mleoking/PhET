@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 
 
 /**
@@ -51,20 +50,6 @@ public abstract class QTAbstractModule extends PiccoloModule {
      * Resets the module to its initial state.
      */
     public abstract void reset();
-
-    /**
-     * Saves the module's configuration by writing it to a provided configuration object.
-     *
-     * @param appConfig
-     */
-    public abstract void save( QTConfig appConfig );
-
-    /**
-     * Loads the module's configuration by reading it from a provided configuration object.
-     *
-     * @param appConfig
-     */
-    public abstract void load( QTConfig appConfig );
 
     //----------------------------------------------------------------------------
     // Accessors
