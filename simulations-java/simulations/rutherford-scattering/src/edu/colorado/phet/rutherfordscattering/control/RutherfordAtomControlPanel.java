@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -213,7 +214,8 @@ public class RutherfordAtomControlPanel extends RSAbstractControlPanel implement
         addVerticalSpace( panelSpacing );
         addControlFullWidth(atomPanel );
         addVerticalSpace( panelSpacing );
-        addResetButton( RSConstants.CONTROL_FONT );
+        JButton resetAllButton = addResetAllButton( module );
+        resetAllButton.setFont( RSConstants.CONTROL_FONT );
     }
     
     /**
