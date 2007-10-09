@@ -11,19 +11,10 @@
 
 package edu.colorado.phet.quantumtunneling.control;
 
-import java.awt.Frame;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.quantumtunneling.QTResources;
 import edu.colorado.phet.quantumtunneling.module.QTAbstractModule;
-import edu.colorado.phet.quantumtunneling.util.CursorUtils;
 
 
 /**
@@ -39,7 +30,6 @@ public abstract class QTAbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     private QTAbstractModule _module; // module that this control panel is associated with
-    private JButton _resetButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -67,51 +57,5 @@ public abstract class QTAbstractControlPanel extends ControlPanel {
      */
     public QTAbstractModule getModule() {
         return _module;
-    }
-
-    //----------------------------------------------------------------------------
-    // Add things to the control panel
-    //----------------------------------------------------------------------------
-
-    /**
-     * Gets the reset button, usually for attaching a help item to it.
-     *
-     * @return the reset button
-     */
-    public JButton getResetButton() {
-        return _resetButton;
-    }
-
-    /**
-     * Adds a Reset button to the control panel.
-     * The button handler calls the module's reset method.
-     */
-    public void addResetButton() {
-        _resetButton = new JButton( QTResources.getString( "button.reset" ) );
-        _resetButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
-                String message = QTResources.getString( "message.reset" );
-                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    CursorUtils.setWaitCursorEnabled( true );
-                    _module.reset();
-                    CursorUtils.setWaitCursorEnabled( false );
-                }
-            }
-        } );
-        addControl( _resetButton );
-    }
-
-    /**
-     * Sets the minumum width of the control panel.
-     *
-     * @param minimumWidth
-     */
-    public void setMinimumWidth( int minimumWidth ) {
-        JPanel fillerPanel = new JPanel();
-        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addControlFullWidth( fillerPanel );
     }
 }

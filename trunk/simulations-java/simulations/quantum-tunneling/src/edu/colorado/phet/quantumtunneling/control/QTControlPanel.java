@@ -347,7 +347,7 @@ public class QTControlPanel extends QTAbstractControlPanel {
             addControlFullWidth( _irPanel );
             addVerticalSpace( SUBPANEL_SPACING );
             addSeparator();
-            addResetButton();
+            addResetAllButton( module );
         }
         
         // Interactivity

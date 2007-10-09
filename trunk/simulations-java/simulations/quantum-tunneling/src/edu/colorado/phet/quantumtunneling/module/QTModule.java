@@ -394,19 +394,6 @@ public class QTModule extends QTAbstractModule implements Observer {
     }
     
     //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Indicates the this module has help.
-     * 
-     * @return true
-     */
-    public boolean hasHelp() {
-        return true;
-    }
-    
-    //----------------------------------------------------------------------------
     // Canvas layout
     //----------------------------------------------------------------------------
     
@@ -535,8 +522,17 @@ public class QTModule extends QTAbstractModule implements Observer {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractModule implementation
+    // Module overrides
     //----------------------------------------------------------------------------
+    
+    /**
+     * Indicates the this module has help.
+     * 
+     * @return true
+     */
+    public boolean hasHelp() {
+        return true;
+    }
     
     /**
      * Resets the module to its initial state.
