@@ -228,17 +228,19 @@ public class ControlPanel extends JPanel {
      * Adds a "Reset All" button that will reset one object when pressed.
      * 
      * @param resettable
+     * @return the button
      */
-    public void addResetAllButton( Resettable resettable ) {
-        addResetAllButton( new Resettable[] { resettable } );
+    public JButton addResetAllButton( Resettable resettable ) {
+        return addResetAllButton( new Resettable[] { resettable } );
     }
     
     /**
      * Adds a "Reset All" button that will reset a collection of objects when pressed.
      * 
      * @param resettables
+     * @param the button
      */
-    public void addResetAllButton( final Resettable[] resettables ) {
+    public JButton addResetAllButton( final Resettable[] resettables ) {
         JButton resetAllButton = new JButton( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) );
         resetAllButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -253,15 +255,16 @@ public class ControlPanel extends JPanel {
             }
         } );
         addControl( resetAllButton );
+        return resetAllButton;
     }
     
     /**
-     * Sets the minumum width of the control panel.
+     * Sets the minimum width of the control panel.
      * This is accomplished by inserting a horizontal strut into the control panel.
      *
      * @param minimumWidth
      */
-    public void setMinumumWidth( int minimumWidth ) {
+    public void setMinimumWidth( int minimumWidth ) {
         if ( minimumWidthStrut != null ) {
             removeControl( minimumWidthStrut );
         }
