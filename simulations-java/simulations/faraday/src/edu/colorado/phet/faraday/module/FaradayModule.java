@@ -14,8 +14,8 @@ package edu.colorado.phet.faraday.module;
 import java.awt.Color;
 import java.awt.Dimension;
 
-import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
@@ -82,11 +82,6 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     public CompassGridGraphic getCompassGridGraphic() {
         return _gridGraphic;
     }
-
-    /**
-     * Resets the module to its initial state.
-     */
-    public abstract void reset();
     
     //----------------------------------------------------------------------------
     // Debugging

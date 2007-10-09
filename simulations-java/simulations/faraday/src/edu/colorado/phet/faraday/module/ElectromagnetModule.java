@@ -208,14 +208,14 @@ public class ElectromagnetModule extends FaradayModule {
             
             // Scaling calibration
             if ( FaradayConstants.DEBUG_ENABLE_SCALE_PANEL ) {
-                controlPanel.addVerticalSpace();
+                controlPanel.addVerticalSpace( FaradayControlPanel.DEFAULT_VERTICAL_SPACE );
                 
                 ScalePanel scalePanel = new ScalePanel( null, null, null, _electromagnetGraphic );
                 controlPanel.addControlFullWidth( scalePanel );
             }
             
             // Reset button
-            controlPanel.addResetButton();
+            controlPanel.addResetAllButton( this );
         }
         
         reset();
@@ -232,7 +232,7 @@ public class ElectromagnetModule extends FaradayModule {
     }
     
     //----------------------------------------------------------------------------
-    // FaradayModule implementation
+    // Superclass overrides
     //----------------------------------------------------------------------------
     
     /**
