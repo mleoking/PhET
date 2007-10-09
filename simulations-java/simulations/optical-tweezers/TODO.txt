@@ -7,6 +7,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+- resizing the main frame is very slow
 
 LOW PRIORITY:
 - use phetcommon's Vector2D
@@ -18,6 +19,7 @@ COMMON CODE:
 - help items don't refresh fast enough (AWT priority issue?)
 
 DONE:
+10/9/07 - migrate updateLayout to PhetPCanvas
 10/9/07 - bugfix: reset ATP concentration in Motors module
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/8/07 - use persistence manager from phetcommon (XMLPersistenceManager)
