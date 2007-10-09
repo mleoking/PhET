@@ -217,6 +217,20 @@ EOT;
         eval(get_code_to_create_variables_from_array($research));
         
         $cat_array = research_get_categories_as_javascript_array();
+
+		$javascript_autocomplete = '';
+		
+		if (web_detect_browser() != 'internet-explorer') {
+			$javascript_autocomplete = <<<EOT
+					<script type="text/javascript">
+                        /*<![CDATA[*/
+                        
+                        $("#research_category_uid").autocompleteArray($cat_array);
+                        
+                        /*]]>*/
+                    </script>
+EOT;
+		}
         
         print <<<EOT
             <input type="hidden" name="research_id" value="$research_id" />
@@ -235,13 +249,7 @@ EOT;
                 <span class="label_content">
                     <input type="text" name="research_category" value="$research_category" id="research_category_uid" size="25"/>
                     
-                    <script type="text/javascript">
-                        /*<![CDATA[*/
-                        
-                        $("#research_category_uid").autocompleteArray($cat_array);
-                        
-                        /*]]>*/
-                    </script>
+					$javascript_autocomplete
                 </span>
                 
                 <span class="label">

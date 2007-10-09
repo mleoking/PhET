@@ -506,6 +506,23 @@ EO_DISPLAY_SLIDESHOW_2;
         
         return $value;
     }
+
+	function web_detect_browser() {
+		$agent = isset($_SERVER['HTTP_USER_AGENT']) ? strtolower($_SERVER['HTTP_USER_AGENT']) : '';
+		
+		if (strpos($agent, 'msie')) {
+			return "internet-explorer";
+		}
+		else if (strpos($agent, 'safari')) {
+			return "safari";
+		}
+		else if (strpos($agent, 'gecko')) {
+			return "mozilla";
+		}
+		else {
+			return "internet-explorer";
+		}
+	}
     
     function string_starts_with($string, $prefix) {
         return strstr($string, $prefix) == $string;

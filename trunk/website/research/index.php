@@ -73,7 +73,7 @@
                     research_print($research_id);
                     
                     if ($can_edit) {
-                        print '(<a href="index.php?action=edit&amp;research_id='.$research_id.'">edit</a>, <a href="index.php?action=delete&amp;research_id='.$research_id.'">delete</a>)';
+                        print '(<a href="index.php?action=edit&amp;research_id='.$research_id.'#update-edit-form">edit</a>, <a href="index.php?action=delete&amp;research_id='.$research_id.'">delete</a>)';
                     }
                     
                     print "</li>";
@@ -101,7 +101,7 @@
                 }
                 
                 print <<<EOT
-                    <form method="post" action="index.php">
+                    <form id="update-edit-form" method="post" action="index.php">
                         <fieldset>
                             <legend>$legend</legend>
                             

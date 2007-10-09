@@ -438,14 +438,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>0</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>266</integer>
+				<integer>844</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>249</integer>
+			<integer>833</integer>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
@@ -690,14 +690,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>3</integer>
 				<key>line</key>
-				<integer>97</integer>
+				<integer>127</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>3</integer>
+			<integer>115</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -780,6 +780,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{207, 56}, {895, 656}}</string>
+	<string>{{289, 121}, {895, 656}}</string>
 </dict>
 </plist>
