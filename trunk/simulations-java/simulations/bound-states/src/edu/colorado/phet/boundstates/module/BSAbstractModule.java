@@ -802,6 +802,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
     /**
      * Saves the module's configuration.
+     * 
+     * @return BSModuleConfig
      */
     public BSModuleConfig save() {
 
@@ -835,7 +837,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     }
 
     /**
-     * Loads the module's configuration by reading it from a provided configuration object.
+     * Loads the module's configuration.
      *
      * @param config
      */
