@@ -128,7 +128,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
         // Set the control panel's minimum width.
         String widthString = FourierResources.getString( "D2CControlPanel.width" );
         int width = Integer.parseInt( widthString );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
 
         // Spacing panel
         FourierTitledPanel spacingPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.spacing" ) );

@@ -141,7 +141,7 @@ public class DiscreteControlPanel extends FourierAbstractControlPanel implements
         // Set the control panel's minimum width.
         String widthString = FourierResources.getString( "DiscreteControlPanel.width" );
         int width = Integer.parseInt( widthString );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
 
         // Preset Controls panel
         FourierTitledPanel presetControlsPanel = new FourierTitledPanel( FourierResources.getString( "DiscreteControlPanel.presetControls" ) );
