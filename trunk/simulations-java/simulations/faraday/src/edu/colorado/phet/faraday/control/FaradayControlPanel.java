@@ -60,7 +60,7 @@ public class FaradayControlPanel extends ControlPanel {
         
         // Set the control panel's minimum width.
         int width = FaradayResources.getInt( "ControlPanel.width", 225 );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
     }
     
     //----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ public class FaradayControlPanel extends ControlPanel {
      * 
      * @param minimumWidth
      */
-    public void setMinumumWidth( int minimumWidth ) {
+    public void setMinimumWidth( int minimumWidth ) {
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
