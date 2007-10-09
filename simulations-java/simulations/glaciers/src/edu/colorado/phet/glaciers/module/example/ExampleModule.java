@@ -58,7 +58,7 @@ public class ExampleModule extends GlaciersAbstractModule {
         }
 
         // Set initial state
-        resetAll();
+        reset();
     }
 
     //----------------------------------------------------------------------------
@@ -101,11 +101,10 @@ public class ExampleModule extends GlaciersAbstractModule {
         super.deactivate();
     }
 
-    //----------------------------------------------------------------------------
-    // AbstractModule implementation
-    //----------------------------------------------------------------------------
-
-    public void resetAll() {
+    /**
+     * Resets the module.
+     */
+    public void reset() {
 
         // Model
         {

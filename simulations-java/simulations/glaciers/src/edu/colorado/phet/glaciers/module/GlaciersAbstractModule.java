@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 
 /**
@@ -37,15 +36,6 @@ public abstract class GlaciersAbstractModule extends PiccoloModule {
         super( title, clock );
         setLogoPanel( null );
     }
-
-    //----------------------------------------------------------------------------
-    // Abstract
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets the module to its initial state.
-     */
-    public abstract void resetAll();
 
     //----------------------------------------------------------------------------
     // Accessors
