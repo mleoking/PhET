@@ -80,9 +80,4 @@ public abstract class RSAbstractModule extends PiccoloModule {
      * Called whenever the canvas size changes.
      */
     protected abstract void updateCanvasLayout();
-
-    /**
-     * Resets the module to its initial state.
-     */
-    public abstract void reset();
 }

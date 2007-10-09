@@ -213,7 +213,7 @@ public class PlumPuddingAtomModule extends RSAbstractModule {
     }
     
     //----------------------------------------------------------------------------
-    // AbstractModule implementation
+    // Superclass overrides
     //----------------------------------------------------------------------------
 
     /*
@@ -241,6 +241,10 @@ public class PlumPuddingAtomModule extends RSAbstractModule {
             }
         }
     }
+    
+    //----------------------------------------------------------------------------
+    // AbstractModule implementation
+    //----------------------------------------------------------------------------
     
     /*
      * Updates the layout of stuff on the canvas.
