@@ -167,7 +167,7 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
         // Control Panel
         _controlPanel = new D2CControlPanel( this, _wavePacket, 
                 _amplitudesView, _harmonicsView, _sumView, _spacingTool, _periodTool );
-        _controlPanel.addResetButton();
+        _controlPanel.addResetAllButton( this );
         setControlPanel( _controlPanel );
 
         // Link horizontal zoom controls

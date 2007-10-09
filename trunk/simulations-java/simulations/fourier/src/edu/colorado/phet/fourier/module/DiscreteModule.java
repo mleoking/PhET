@@ -186,7 +186,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                 _wavelengthTool, _periodTool, _periodDisplay,
                 _animationCycleController );
         _controlPanel.addVerticalSpace( 5 );
-        _controlPanel.addResetButton();
+        _controlPanel.addResetAllButton( this );
         setControlPanel( _controlPanel );
         
         // Link horizontal zoom controls
