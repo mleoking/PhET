@@ -96,7 +96,7 @@ public class GameControlPanel extends FourierAbstractControlPanel implements Sim
         // Set the control panel's minimum width.
         String widthString = FourierResources.getString( "GameControlPanel.width" );
         int width = Integer.parseInt( widthString );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
         
         // Game controls panel
         FourierTitledPanel gameControlsPanel = new FourierTitledPanel( FourierResources.getString( "GameControlPanel.gameControls" ) );
