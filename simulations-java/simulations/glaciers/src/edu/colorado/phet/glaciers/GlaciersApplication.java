@@ -187,16 +187,16 @@ public class GlaciersApplication extends PhetApplication {
         Object object = _persistenceManager.load();
         if ( object != null ) {
             
-            if ( ! ( object instanceof GlaciersConfig  ) ) {
-                String message = GlaciersResources.getString( "message.notAConfigFile" );
-                String title = GlaciersResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
-            }
-            else {
+            if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
+            }
+            else {
+                String message = GlaciersResources.getString( "message.notAConfigFile" );
+                String title = GlaciersResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
             }
         }
     }
