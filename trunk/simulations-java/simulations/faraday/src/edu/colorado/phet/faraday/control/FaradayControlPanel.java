@@ -37,7 +37,7 @@ public class FaradayControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
     
     // Default amount of vertical space, see addVerticalSpace
-    private static final int DEFAULT_VERTICAL_SPACE = 8;
+    public static final int DEFAULT_VERTICAL_SPACE = 8;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -61,55 +61,5 @@ public class FaradayControlPanel extends ControlPanel {
         // Set the control panel's minimum width.
         int width = FaradayResources.getInt( "ControlPanel.width", 225 );
         setMinimumWidth( width );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Add things to the control panel
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Sets the minumum width of the control panel.
-     * 
-     * @param minimumWidth
-     */
-    public void setMinimumWidth( int minimumWidth ) {
-        JPanel fillerPanel = new JPanel();
-        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addControlFullWidth( fillerPanel );
-    }
-    
-    /**
-     * Adds a default amout of vertical space to the control panel,
-     * as specified by VERTICAL_SPACE.
-     */
-    public void addVerticalSpace() {
-        addVerticalSpace( DEFAULT_VERTICAL_SPACE );
-    }
-    
-    /**
-     * Adds vertical space to the control panel.
-     * 
-     * @param space the amount of space, in pixels
-     */
-    public void addVerticalSpace( int space ) {
-        JPanel spacePanel = new JPanel();
-        spacePanel.setLayout( new BoxLayout( spacePanel, BoxLayout.Y_AXIS ) );
-        spacePanel.add( Box.createVerticalStrut( space ) );
-        addControlFullWidth( spacePanel );
-    }
-    
-    /**
-     * Adds a Reset button to the control panel.
-     * The button handler calls the module's reset method.
-     */
-    public void addResetButton() {
-        JButton resetButton = new JButton( FaradayResources.getString( "Reset.button" ) );
-        resetButton.addActionListener( new ActionListener() { 
-            public void actionPerformed( ActionEvent e ) {
-                _module.reset();
-            }
-        } );
-        addControl( resetButton );
     }
 }

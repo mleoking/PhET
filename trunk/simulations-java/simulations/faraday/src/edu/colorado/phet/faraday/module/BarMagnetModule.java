@@ -169,7 +169,7 @@ public class BarMagnetModule extends FaradayModule {
             controlPanel.addControlFullWidth( _barMagnetPanel );
             
             // Reset button
-            controlPanel.addResetButton(); 
+            controlPanel.addResetAllButton( this ); 
         }
         
         reset();
@@ -185,7 +185,7 @@ public class BarMagnetModule extends FaradayModule {
     }
     
     //----------------------------------------------------------------------------
-    // FaradayModule implementation
+    // Superclass overrides
     //----------------------------------------------------------------------------
     
     /**
