@@ -98,7 +98,7 @@ public class QTControlPanel extends QTAbstractControlPanel {
         
         // Set the control panel's minimum width.
         int width = QTResources.getInt( "width.controlPanel", 235 );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
         
         // Potential
         JPanel energyPanel = new JPanel();
