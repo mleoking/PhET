@@ -319,12 +319,13 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
     //----------------------------------------------------------------------------
 
     /**
-     * Saves the module's configuration by writing it to a provided configuration object.
+     * Saves the module's configuration.
      *
-     * @param appConfig
+     * @return
      */
-    public void save( FourierConfig appConfig ) {
-        FourierConfig.GameConfig config = appConfig.getGameConfig();
+    public FourierConfig.GameConfig save() {
+        
+        FourierConfig.GameConfig config = new FourierConfig.GameConfig();
 
         // Save control panel config
         config.setGameLevelName( _controlPanel.getGameLevel().getName() );
@@ -333,15 +334,16 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
         // Save view config
         config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
         config.setSumViewMaximized( _sumView.isVisible() );
+        
+        return config;
     }
 
     /**
-     * Loads the module's configuration by reading it from a provided configuration object.
+     * Loads the module's configuration.
      *
-     * @param appConfig
+     * @param config
      */
-    public void load( FourierConfig appConfig ) {
-        FourierConfig.GameConfig config = appConfig.getGameConfig();
+    public void load( FourierConfig.GameConfig config ) {
 
         // Load control panel config
         _controlPanel.setGameLevel( GameLevel.getByName( config.getGameLevelName() ) );
