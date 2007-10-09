@@ -36,7 +36,6 @@ public abstract class OTAbstractControlPanel extends ControlPanel {
     //----------------------------------------------------------------------------
 
     private OTAbstractModule _module; // module that this control panel is associated with
-    private JButton _resetAllButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,49 +67,5 @@ public abstract class OTAbstractControlPanel extends ControlPanel {
      */
     public OTAbstractModule getModule() {
         return _module;
-    }
-
-    //----------------------------------------------------------------------------
-    // Add things to the control panel
-    //----------------------------------------------------------------------------
-
-    /**
-     * Sets the minumum width of the control panel.
-     *
-     * @param minimumWidth
-     */
-    public void setMinumumWidth( int minimumWidth ) {
-        JPanel fillerPanel = new JPanel();
-        fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
-        fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
-        addControlFullWidth( fillerPanel );
-    }
-
-    /**
-     * Gets the reset button, usually for attaching a help item to it.
-     *
-     * @return the reset button
-     */
-    public JButton getResetAllButton() {
-        return _resetAllButton;
-    }
-
-    /**
-     * Adds a Reset button to the control panel.
-     * The button handler calls the module's reset method.
-     */
-    public void addResetButton() {
-        _resetAllButton = new JButton( OTResources.getString( "button.resetAll" ) );
-        _resetAllButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
-                String message = OTResources.getString( "message.confirmResetAll" );
-                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
-                if ( option == JOptionPane.YES_OPTION ) {
-                    _module.resetAll();
-                }
-            }
-        } );
-        addControl( _resetAllButton );
     }
 }
