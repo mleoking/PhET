@@ -221,7 +221,7 @@ public abstract class BSAbstractApplication extends PhetApplication {
             globalConfig.setActiveModuleId( module.getId() );
         }
         
-        // Modules
+        // Modules config
         appConfig.setOneWellModuleConfig( _oneWellModule.save() );
         appConfig.setTwoWellsModuleConfig( _twoWellsModule.save() );
         appConfig.setManyWellsModuleConfig( _manyWellsModule.save() );
@@ -244,30 +244,29 @@ public abstract class BSAbstractApplication extends PhetApplication {
 
                 BSConfig appConfig = (BSConfig) object;
 
-                BSGlobalConfig globalConfig = appConfig.getGlobalConfig();
-                String applicationClassName = globalConfig.getApplicationClassName();
-                if ( !this.getClass().getName().equals( applicationClassName ) ) {
-                    throw new IllegalStateException( "configuration file does not match this application" );
-                }
+                // Global config
+                {
+                    BSGlobalConfig globalConfig = appConfig.getGlobalConfig();
 
-                // Color scheme
-                String colorSchemeName = globalConfig.getColorSchemeName();
-                BSColorScheme colorScheme = globalConfig.getColorScheme().toBSColorScheme();
-                _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
+                    // Color scheme
+                    String colorSchemeName = globalConfig.getColorSchemeName();
+                    BSColorScheme colorScheme = globalConfig.getColorScheme().toBSColorScheme();
+                    _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
 
-                // Active module
-                String id = globalConfig.getActiveModuleId();
-                Module[] modules = getModules();
-                for ( int i = 0; i < modules.length; i++ ) {
-                    assert ( modules[i] instanceof BSAbstractModule ); // all module are of this type
-                    BSAbstractModule module = (BSAbstractModule) modules[i];
-                    if ( id.equals( module.getId() ) ) {
-                        setActiveModule( module );
-                        break;
+                    // Active module
+                    String id = globalConfig.getActiveModuleId();
+                    Module[] modules = getModules();
+                    for ( int i = 0; i < modules.length; i++ ) {
+                        assert ( modules[i] instanceof BSAbstractModule ); // all module are of this type
+                        BSAbstractModule module = (BSAbstractModule) modules[i];
+                        if ( id.equals( module.getId() ) ) {
+                            setActiveModule( module );
+                            break;
+                        }
                     }
                 }
 
-                // Modules
+                // Modules config
                 _oneWellModule.load( appConfig.getOneWellModuleConfig() );
                 _twoWellsModule.load( appConfig.getTwoWellsModuleConfig() );
                 _manyWellsModule.load( appConfig.getManyWellsModuleConfig() );
