@@ -34,7 +34,7 @@ public class ExampleControlPanel extends GlaciersAbstractControlPanel {
         
         // Set the control panel's minimum width.
         int minimumWidth = GlaciersResources.getInt( "int.minControlPanelWidth", 215 );
-        setMinumumWidth( minimumWidth );
+        setMinimumWidth( minimumWidth );
         
         // Create sub-panels
         ExampleModelElement exampleModelElement = module.getExampleModel().getExampleModelElement();
