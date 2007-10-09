@@ -356,7 +356,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
                 addControlFullWidth( particleControlsPanel );
                 addVerticalSpace( SUBPANEL_SPACING );
             }
-            addResetButton();
+            addResetAllButton( module );
         }
 
         // Interactivity

@@ -16,6 +16,7 @@ LOW PRIORITY:
 
 
 DONE:
+10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/9/07 - switch persistence to phetcommon's XMLPersistenceManager
 8/29/07 - replace BSWiggleMe with piccolo-phet DefaultWiggleMe
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
