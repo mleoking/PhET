@@ -108,7 +108,7 @@ public abstract class QTAbstractControlPanel extends ControlPanel {
      *
      * @param minimumWidth
      */
-    public void setMinumumWidth( int minimumWidth ) {
+    public void setMinimumWidth( int minimumWidth ) {
         JPanel fillerPanel = new JPanel();
         fillerPanel.setLayout( new BoxLayout( fillerPanel, BoxLayout.X_AXIS ) );
         fillerPanel.add( Box.createHorizontalStrut( minimumWidth ) );
