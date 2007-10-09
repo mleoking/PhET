@@ -21,6 +21,8 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
@@ -31,7 +33,6 @@ import edu.colorado.phet.quantumtunneling.debug.QTDeveloperMenu;
 import edu.colorado.phet.quantumtunneling.module.QTModule;
 import edu.colorado.phet.quantumtunneling.persistence.QTConfig;
 import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
-import edu.colorado.phet.quantumtunneling.persistence.QTPersistenceManager;
 
 
 /**
@@ -56,7 +57,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
     private QTModule _module;
 
     // PersistanceManager handles loading/saving application configurations.
-    private QTPersistenceManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager;
 
     private QTColorSchemeMenu _colorSchemeMenu;
 
@@ -98,7 +99,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
         PhetFrame frame = getPhetFrame();
 
         if ( _persistenceManager == null ) {
-            _persistenceManager = new QTPersistenceManager( this );
+            _persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -107,7 +108,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
             saveItem.setMnemonic( QTResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.save();
+                    save();
                 }
             } );
 
@@ -115,7 +116,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
             loadItem.setMnemonic( QTResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.load();
+                    load();
                 }
             } );
 
@@ -167,34 +168,53 @@ public class QTApplication extends NonPiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     /**
-     * Saves global state.
-     *
-     * @param appConfig
+     * Saves the simulation's configuration.
      */
-    public void save( QTConfig appConfig ) {
+    public void save() {
 
-        QTGlobalConfig config = appConfig.getGlobalConfig();
+        QTConfig appConfig = new QTConfig();
 
-        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
+        // Global config
+        QTGlobalConfig globalConfig = new QTGlobalConfig();
+        appConfig.setGlobalConfig( globalConfig );
+        globalConfig.setVersionNumber( getApplicationConfig().getVersion().toString() );
+        globalConfig.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
+        globalConfig.setColorScheme( _colorSchemeMenu.getColorScheme() );
 
-        // Color scheme
-        config.setColorSchemeName( _colorSchemeMenu.getColorSchemeName() );
-        config.setColorScheme( _colorSchemeMenu.getColorScheme() );
+        // Modules config
+        appConfig.setModuleConfig( _module.save() );
+        
+        _persistenceManager.save( appConfig );
     }
 
     /**
-     * Loads global state.
-     *
-     * @param appConfig
+     * Loads a simulation configuration.
      */
-    public void load( QTConfig appConfig ) {
+    public void load() {
 
-        QTGlobalConfig config = appConfig.getGlobalConfig();
+        Object object = _persistenceManager.load();
 
-        // Color scheme
-        String colorSchemeName = config.getColorSchemeName();
-        QTColorScheme colorScheme = config.getColorScheme().toQTColorScheme();
-        _colorSchemeMenu.setColorScheme( colorSchemeName, colorScheme );
+        if ( object != null ) {
+
+            if ( object instanceof QTConfig ) {
+
+                QTConfig appConfig = (QTConfig) object;
+
+                // Global config
+                QTGlobalConfig globalConfig = appConfig.getGlobalConfig();
+                String colorSchemeName = globalConfig.getColorSchemeName();
+                QTColorScheme colorScheme = globalConfig.getColorScheme().toQTColorScheme();
+                _colorSchemeMenu.setColorScheme( colorSchemeName, colorScheme );
+                
+                // Modules config
+                _module.load( appConfig.getModuleConfig() );
+            }
+            else {
+                String message = QTResources.getString( "message.notAConfigFile" );
+                String title = QTResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+            }
+        }
     }
 
     //----------------------------------------------------------------------------

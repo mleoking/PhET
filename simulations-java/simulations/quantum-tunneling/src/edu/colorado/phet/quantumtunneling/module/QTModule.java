@@ -576,13 +576,18 @@ public class QTModule extends QTAbstractModule implements Observer {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
+    
     /**
-     * Saves the module's configuration by writing it to a provided configuration object.
+     * Saves the module's configuration.
      * 
-     * @param appConfig
+     * @return
      */
-    public void save( QTConfig appConfig ) {
-        QTModuleConfig config = appConfig.getModuleConfig();
+    public QTModuleConfig save() {
+        
+        QTModuleConfig config = new QTModuleConfig();
         
         // Clock
         config.setClockRunning( getClock().isRunning() );
@@ -613,15 +618,16 @@ public class QTModule extends QTAbstractModule implements Observer {
         // Zoom controls
         config.setWaveFunctionZoomIndex( ( (ZoomControl) _waveFunctionZoomControl.getComponent() ).getZoomIndex() );
         config.setProbabilityDensityZoomIndex( ( (ZoomControl) _probabilityDensityZoomControl.getComponent() ).getZoomIndex() );
+    
+        return config;
     }
     
     /**
-     * Loads the module's configuration by reading it from a provided configuration object.
+     * Loads the module's configuration.
      * 
-     * @param appConfig
+     * @param config
      */
-    public void load( QTConfig appConfig ) {
-        QTModuleConfig config = appConfig.getModuleConfig();
+    public void load( QTModuleConfig config ) {
         
         // Clock
         if ( isActive() ) {
