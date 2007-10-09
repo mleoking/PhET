@@ -415,7 +415,7 @@ public class HAModule extends PiccoloModule {
      * Resets the module to its default state.
      * All default values are defined in HADefaults.
      */
-    private void reset() {
+    public void reset() {
         
         if ( HADefaults.MODE_EXPERIMENT ) {
             _modeSwitch.setExperimentSelected();
