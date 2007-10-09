@@ -18,6 +18,8 @@ COMMON CODE:
 - help items don't refresh fast enough (AWT priority issue?)
 
 DONE:
+10/9/07 - bugfix: reset ATP concentration in Motors module
+10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/8/07 - use persistence manager from phetcommon (XMLPersistenceManager)
 10/8/07 - change LaserBeamNode implementation to create entire gradient, to remove visible seams on Macintosh
 10/8/07 - fix conversion of fluid speed between nm and um, manifested as "beep" when switching to vaccum

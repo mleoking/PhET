@@ -77,7 +77,7 @@ public class PhysicsModule extends OTAbstractModule {
         }
 
         // Set initial state
-        resetAll();
+        reset();
         _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
         _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
     }
@@ -126,11 +126,10 @@ public class PhysicsModule extends OTAbstractModule {
         super.deactivate();
     }
 
-    //----------------------------------------------------------------------------
-    // AbstractModule implementation
-    //----------------------------------------------------------------------------
-
-    public void resetAll() {
+    /**
+     * Resets the module.
+     */
+    public void reset() {
 
         // Model
         {

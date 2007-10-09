@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.module.dna;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
@@ -89,7 +85,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
                 addControlFullWidth( _developerControlPanel );
                 addSeparator();
             }
-            addResetButton();
+            addResetAllButton( module );
         }
     }
     

@@ -76,7 +76,7 @@ public class MotorsModule extends OTAbstractModule {
         }
 
         // Set initial state
-        resetAll();
+        reset();
         _fluidControlsWasSelected = _controlPanel.getMiscControlPanel().isFluidControlsSelected();
         _positionHistogramWasSelected = _controlPanel.getChartsControlPanel().isPositionHistogramSelected();
     }
@@ -125,11 +125,10 @@ public class MotorsModule extends OTAbstractModule {
         super.deactivate();
     }
 
-    //----------------------------------------------------------------------------
-    // AbstractModule implementation
-    //----------------------------------------------------------------------------
-
-    public void resetAll() {
+    /**
+     * Resets the module.
+     */
+    public void reset() {
 
         // Model
         {
@@ -178,6 +177,7 @@ public class MotorsModule extends OTAbstractModule {
 
             // Fluid
             Fluid fluid = _model.getFluid();
+            fluid.setATPConcentration( MotorsDefaults.FLUID_APT_CONCENTRATION_RANGE.getDefault() );
             fluid.setSpeed( MotorsDefaults.FLUID_SPEED_RANGE.getDefault() );
             fluid.setViscosity( MotorsDefaults.FLUID_VISCOSITY_RANGE.getDefault() );
             fluid.setTemperature( MotorsDefaults.FLUID_TEMPERATURE_RANGE.getDefault() );
