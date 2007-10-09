@@ -574,7 +574,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     }
 
     //----------------------------------------------------------------------------
-    //
+    // Superclass overrides
     //----------------------------------------------------------------------------
 
     /**
