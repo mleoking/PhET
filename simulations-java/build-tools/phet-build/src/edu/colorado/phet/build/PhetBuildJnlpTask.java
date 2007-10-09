@@ -22,7 +22,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         if( flavorName == null ) {
             flavorName = phetProject.getFlavorNames()[0];
         }
-        PhetProjectFlavor flavor = phetProject.getFlavor( flavorName);
+        PhetProjectFlavor flavor = phetProject.getFlavor( flavorName,locale);
         echo( "loaded flavor=" + flavor );
         if( deployUrl == null ) {
             deployUrl = phetProject.getDefaultDeployDir().toURL().toString();
