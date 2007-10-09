@@ -352,13 +352,17 @@ public class PhetProject {
         return (String[])mainClasses.toArray( new String[0] );
     }
 
+    public PhetProjectFlavor getFlavor( String flavorName ) {
+        return getFlavor( flavorName,"en");
+    }
+
     /**
      * Load the flavor for associated with this project for the specified name and locale.
      * todo: better error handling for missing attributes (for sims that don't support flavors yet)
      * @return
      * @param flavorName
      */
-    public PhetProjectFlavor getFlavor( String flavorName ) {
+    public PhetProjectFlavor getFlavor( String flavorName,String locale ) {
         String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
         if( mainclass == null ) {
             mainclass = properties.getProperty( "project.mainclass" );
@@ -374,11 +378,11 @@ public class PhetProject {
         //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
         Properties localizedProperties = new Properties();
         try {
-            File localizationFile = new File( dir, "data/" + name + "/localization/" + name + "-strings.properties" );
+            File localizationFile = getLocalizationFile(locale);
             String title = null;
             String description = null;
             if( localizationFile.exists() ) {
-                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missings locale
+                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missing strings in locale)
                 String titleKey = flavorName + ".name";
                 title = localizedProperties.getProperty( titleKey );
                 if( title == null ) {
