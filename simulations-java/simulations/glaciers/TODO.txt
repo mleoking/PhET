@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/9/07 - migrate updateLayout to PhetPCanvas
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/8/07 - migrate XML persistence manager to phetcommon
 10/3/07 - fold GlobalConfig into GlaciersConfig
