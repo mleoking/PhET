@@ -11,6 +11,7 @@
 
 package edu.colorado.phet.fourier;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -20,12 +21,15 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.fourier.control.OptionsMenu;
 import edu.colorado.phet.fourier.module.D2CModule;
 import edu.colorado.phet.fourier.module.DiscreteModule;
 import edu.colorado.phet.fourier.module.GameModule;
-import edu.colorado.phet.fourier.persistence.ConfigManager;
+import edu.colorado.phet.fourier.persistence.FourierConfig;
+import edu.colorado.phet.fourier.view.HarmonicColors;
 
 
 /**
@@ -37,18 +41,15 @@ import edu.colorado.phet.fourier.persistence.ConfigManager;
 public class FourierApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-
-    // Set this to true to test one module and disable all others.
-    private static final boolean TEST_ONE_MODULE = false;
-
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
+    private DiscreteModule _discreteModule;
+    private GameModule _gameModule;
+    private D2CModule _d2cModule;
+    
     // PersistanceManager handles loading/saving application configurations.
-    private ConfigManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -74,12 +75,15 @@ public class FourierApplication extends NonPiccoloPhetApplication {
      * @param clock
      */
     private void initModules() {
-        DiscreteModule discreteModule = new DiscreteModule();
-        addModule( discreteModule );
-        GameModule gameModule = new GameModule();
-        addModule( gameModule );
-        D2CModule d2cModule = new D2CModule();
-        addModule( d2cModule );
+        
+        _discreteModule = new DiscreteModule();
+        addModule( _discreteModule );
+        
+        _gameModule = new GameModule();
+        addModule( _gameModule );
+        
+        _d2cModule = new D2CModule();
+        addModule( _d2cModule );
     }
 
     //----------------------------------------------------------------------------
@@ -91,11 +95,11 @@ public class FourierApplication extends NonPiccoloPhetApplication {
      */
     private void initMenubar() {
 
-        if ( _persistenceManager == null ) {
-            _persistenceManager = new ConfigManager( this );
-        }
-
         PhetFrame frame = getPhetFrame();
+        
+        if ( _persistenceManager == null ) {
+            _persistenceManager = new XMLPersistenceManager( frame );
+        }
 
         // File menu
         {
@@ -103,7 +107,7 @@ public class FourierApplication extends NonPiccoloPhetApplication {
             saveItem.setMnemonic( FourierResources.getChar( "FileMenu.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.save();
+                    save();
                 }
             } );
 
@@ -111,7 +115,7 @@ public class FourierApplication extends NonPiccoloPhetApplication {
             loadItem.setMnemonic( FourierResources.getChar( "FileMenu.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.load();
+                    load();
                 }
             } );
 
@@ -125,6 +129,79 @@ public class FourierApplication extends NonPiccoloPhetApplication {
         getPhetFrame().addMenu( optionsMenu );
     }
 
+    //----------------------------------------------------------------------------
+    // Persistence
+    //----------------------------------------------------------------------------
+    
+    private void save() {
+
+        FourierConfig appConfig = new FourierConfig();
+
+        // Global config
+        {
+            FourierConfig.GlobalConfig globalConfig = appConfig.getGlobalConfig();
+            appConfig.setGlobalConfig( globalConfig );
+
+            // Version & build info
+            globalConfig.setVersionNumber( getVersion() );
+
+            // Harmonic colors
+            int[] r = new int[HarmonicColors.getInstance().getNumberOfColors()];
+            int[] g = new int[r.length];
+            int[] b = new int[r.length];
+            for ( int i = 0; i < r.length; i++ ) {
+                Color color = HarmonicColors.getInstance().getColor( i );
+                r[i] = color.getRed();
+                g[i] = color.getGreen();
+                b[i] = color.getBlue();
+            }
+            globalConfig.setHarmonicColorsRed( r );
+            globalConfig.setHarmonicColorsGreen( g );
+            globalConfig.setHarmonicColorsBlue( b );
+        }
+        
+        // Modules
+        appConfig.setDiscreteConfig( _discreteModule.save() );
+        appConfig.setGameConfig( _gameModule.save() );
+        appConfig.setD2CConfig( _d2cModule.save() );
+
+        _persistenceManager.save( appConfig );
+    }
+    
+    private void load() {
+        
+        Object object = _persistenceManager.load();
+        
+        if ( object != null ) {
+            
+            if ( object instanceof FourierConfig ) {
+                
+                FourierConfig appConfig = (FourierConfig) object;
+                
+                // Globals
+                {
+                    // Harmonic colors
+                    int[] r = appConfig.getGlobalConfig().getHarmonicColorsRed();
+                    int[] g = appConfig.getGlobalConfig().getHarmonicColorsGreen();
+                    int[] b = appConfig.getGlobalConfig().getHarmonicColorsBlue();
+                    for ( int i = 0; i < r.length; i++ ) {
+                        HarmonicColors.getInstance().setColor( i, new Color( r[i], g[i], b[i] ) );
+                    }
+                }
+                
+                // Modules
+                _discreteModule.load( appConfig.getDiscreteConfig() );
+                _gameModule.load( appConfig.getGameConfig() );
+                _d2cModule.load( appConfig.getD2CConfig() );
+            }
+            else {
+                String message = FourierResources.getString( "message.notAConfigFile" );
+                String title = FourierResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+            }
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------

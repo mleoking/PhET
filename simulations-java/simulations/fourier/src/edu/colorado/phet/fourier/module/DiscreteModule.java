@@ -413,12 +413,13 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
     //----------------------------------------------------------------------------
     
     /**
-     * Saves the module's configuration by writing it to a provided configuration object.
+     * Saves the module's configuration.
      * 
-     * @param appConfig
+     * @return
      */
-    public void save( FourierConfig appConfig ) {
-        FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
+    public FourierConfig.DiscreteConfig save() {
+        
+        FourierConfig.DiscreteConfig config = new FourierConfig.DiscreteConfig();
         
         // Save control panel config
         config.setPresetName( _controlPanel.getPreset().getName() );
@@ -444,15 +445,16 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
             amplitudes[i] = _fourierSeries.getHarmonic(i).getAmplitude();
         }
         config.setAmplitudes( amplitudes );
+        
+        return config;
     }
     
     /**
-     * Loads the module's configuration by reading it from a provided configuration object.
+     * Loads the module's configuration.
      * 
-     * @param appConfig
+     * @param config
      */
-    public void load( FourierConfig appConfig ) {
-        FourierConfig.DiscreteConfig config = appConfig.getDiscreteConfig();
+    public void load( FourierConfig.DiscreteConfig config ) {
         
         // Load control panel config
         _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );

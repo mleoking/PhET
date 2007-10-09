@@ -323,12 +323,13 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
     //----------------------------------------------------------------------------
     
     /**
-     * Saves the module's configuration by writing it to a provided configuration object.
+     * Saves the module's configuration.
      * 
-     * @param appConfig
+     * @return
      */
-    public void save( FourierConfig appConfig ) {
-        FourierConfig.D2CConfig config = appConfig.getD2CConfig();
+    public FourierConfig.D2CConfig save() {
+        
+        FourierConfig.D2CConfig config = new FourierConfig.D2CConfig();
         
         // Save control panel config
         config.setSpacing( _controlPanel.getSpacing() );
@@ -343,15 +344,16 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
         // Save view config
         config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
         config.setSumViewMaximized( _sumView.isVisible() );
+        
+        return config;
     }
     
     /**
-     * Loads the module's configuration by reading it from a provided configuration object.
+     * Loads the module's configuration.
      * 
-     * @param appConfig
+     * @param config
      */
-    public void load( FourierConfig appConfig ) {
-        FourierConfig.D2CConfig config = appConfig.getD2CConfig();
+    public void load( FourierConfig.D2CConfig config ) {
   
         // Load control panel config
         _controlPanel.setSpacing( config.getSpacing() );

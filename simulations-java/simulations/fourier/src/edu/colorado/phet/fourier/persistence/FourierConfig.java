@@ -69,7 +69,7 @@ public class FourierConfig implements IProguardKeepClass {
     // Global-level configuration, applies to all modules
     //----------------------------------------------------------------------------
 
-    public class GlobalConfig implements IProguardKeepClass {
+    public static class GlobalConfig implements IProguardKeepClass {
 
         private String versionNumber;
 
@@ -124,7 +124,7 @@ public class FourierConfig implements IProguardKeepClass {
     // "Discrete" module configuration
     //----------------------------------------------------------------------------
     
-    public class DiscreteConfig implements IProguardKeepClass {
+    public static class DiscreteConfig implements IProguardKeepClass {
         
         // Configuration parameters
         private String presetName;
@@ -273,7 +273,7 @@ public class FourierConfig implements IProguardKeepClass {
     // "Discrete to Continous" (D2C) module configuration
     //----------------------------------------------------------------------------
     
-    public class D2CConfig implements IProguardKeepClass { 
+    public static class D2CConfig implements IProguardKeepClass { 
         
         // Configuration parameters
         private double spacing;
@@ -377,7 +377,7 @@ public class FourierConfig implements IProguardKeepClass {
     // "Game" module configuration
     //----------------------------------------------------------------------------
     
-    public class GameConfig implements IProguardKeepClass {
+    public static class GameConfig implements IProguardKeepClass {
         
         // Configuration parameters
         private String gameLevelName;
