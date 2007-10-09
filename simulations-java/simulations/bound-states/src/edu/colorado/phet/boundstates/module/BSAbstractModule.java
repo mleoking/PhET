@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2007, University of Colorado */
 
 package edu.colorado.phet.boundstates.module;
 
@@ -64,7 +55,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * is used to describe how the module should be specialized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class BSAbstractModule extends PiccoloModule implements Observer {
 
@@ -811,12 +801,12 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
     //----------------------------------------------------------------------------
 
     /**
-     * Saves the module's configuration by writing it to a provided configuration object.
-     *
-     * @param config
+     * Saves the module's configuration.
      */
-    public void save( BSModuleConfig config ) {
+    public BSModuleConfig save() {
 
+        BSModuleConfig config = new BSModuleConfig();
+        
         // Clock
         config.setClockRunning( getClock().isRunning() );
         config.setClockIndex( _clockControls.getClockIndex() );
@@ -840,6 +830,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
         config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setFieldConstant( _controlPanel.getFieldConstant() );
+        
+        return config;
     }
 
     /**

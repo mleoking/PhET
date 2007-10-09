@@ -1,13 +1,4 @@
-/* Copyright 2006, University of Colorado */
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
+/* Copyright 2006-2007, University of Colorado */
 
 package edu.colorado.phet.boundstates;
 
@@ -23,10 +14,12 @@ import edu.colorado.phet.boundstates.module.BSAbstractModule;
 import edu.colorado.phet.boundstates.module.BSManyWellsModule;
 import edu.colorado.phet.boundstates.module.BSOneWellModule;
 import edu.colorado.phet.boundstates.module.BSTwoWellsModule;
+import edu.colorado.phet.boundstates.persistence.BSConfig;
 import edu.colorado.phet.boundstates.persistence.BSGlobalConfig;
-import edu.colorado.phet.boundstates.persistence.BSPersistenceManager;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.menu.HelpMenu;
@@ -37,7 +30,6 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
  * BSAbstractApplication is base class for all application in this "family".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class BSAbstractApplication extends PhetApplication {
 
@@ -57,7 +49,7 @@ public abstract class BSAbstractApplication extends PhetApplication {
     private BSManyWellsModule _manyWellsModule;
 
     // PersistanceManager handles loading/saving application configurations.
-    private BSPersistenceManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager;
 
     private BSColorsMenu _colorsMenu;
 
@@ -92,7 +84,7 @@ public abstract class BSAbstractApplication extends PhetApplication {
         PhetFrame frame = getPhetFrame();
 
         if ( _persistenceManager == null ) {
-            _persistenceManager = new BSPersistenceManager( this );
+            _persistenceManager = new XMLPersistenceManager( frame );
         }
 
         // File menu
@@ -101,7 +93,7 @@ public abstract class BSAbstractApplication extends PhetApplication {
             saveItem.setMnemonic( BSResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.save();
+                    save();
                 }
             } );
 
@@ -109,7 +101,7 @@ public abstract class BSAbstractApplication extends PhetApplication {
             loadItem.setMnemonic( BSResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    _persistenceManager.load();
+                    load();
                 }
             } );
 
@@ -207,55 +199,83 @@ public abstract class BSAbstractApplication extends PhetApplication {
     //----------------------------------------------------------------------------
 
     /**
-     * Saves global state.
-     *
-     * @param config
+     * Saves the simulation's configuration.
      */
-    public void save( BSGlobalConfig config ) {
+    public void save() {
+        
+        BSConfig appConfig = new BSConfig();
 
-        // Application class name
-        config.setApplicationClassName( this.getClass().getName() );
+        // Global config
+        {
+            BSGlobalConfig globalConfig = new BSGlobalConfig();
+            appConfig.setGlobalConfig( globalConfig );
+            globalConfig.setApplicationClassName( this.getClass().getName() );
+            globalConfig.setVersionNumber( getApplicationConfig().getVersion().toString() );
+            globalConfig.setColorSchemeName( _colorsMenu.getColorSchemeName() );
+            globalConfig.setColorScheme( _colorsMenu.getColorScheme() );
 
-        // Version and build information
-        config.setVersionNumber( getApplicationConfig().getVersion().toString() );
-
-        // Color scheme
-        config.setColorSchemeName( _colorsMenu.getColorSchemeName() );
-        config.setColorScheme( _colorsMenu.getColorScheme() );
-
-        // Active module
-        Module activeModule = getActiveModule();
-        assert( activeModule instanceof BSAbstractModule ); // all modules are of this type
-        BSAbstractModule module = (BSAbstractModule)activeModule;
-        config.setActiveModuleId( module.getId() );
+            // Active module
+            Module activeModule = getActiveModule();
+            assert ( activeModule instanceof BSAbstractModule ); // all modules are of this type
+            BSAbstractModule module = (BSAbstractModule) activeModule;
+            globalConfig.setActiveModuleId( module.getId() );
+        }
+        
+        // Modules
+        appConfig.setOneWellModuleConfig( _oneWellModule.save() );
+        appConfig.setTwoWellsModuleConfig( _twoWellsModule.save() );
+        appConfig.setManyWellsModuleConfig( _manyWellsModule.save() );
+        
+        _persistenceManager.save( appConfig );
     }
 
     /**
-     * Loads global state.
+     * Loads a configuration.
      *
      * @param config
      */
-    public void load( BSGlobalConfig config ) {
+    public void load() {
 
-        String applicationClassName = config.getApplicationClassName();
-        if ( ! this.getClass().getName().equals( applicationClassName ) ) {
-            throw new IllegalStateException( "configuration file does not match this application" );
-        }
+        Object object = _persistenceManager.load();
+        
+        if ( object != null ) {
+            
+            if ( object instanceof BSConfig ) {
 
-        // Color scheme
-        String colorSchemeName = config.getColorSchemeName();
-        BSColorScheme colorScheme = config.getColorScheme().toBSColorScheme();
-        _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
+                BSConfig appConfig = (BSConfig) object;
 
-        // Active module
-        String id = config.getActiveModuleId();
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            assert ( modules[i] instanceof BSAbstractModule ); // all module are of this type
-            BSAbstractModule module = (BSAbstractModule) modules[i];
-            if ( id.equals( module.getId() ) ) {
-                setActiveModule( module );
-                break;
+                BSGlobalConfig globalConfig = appConfig.getGlobalConfig();
+                String applicationClassName = globalConfig.getApplicationClassName();
+                if ( !this.getClass().getName().equals( applicationClassName ) ) {
+                    throw new IllegalStateException( "configuration file does not match this application" );
+                }
+
+                // Color scheme
+                String colorSchemeName = globalConfig.getColorSchemeName();
+                BSColorScheme colorScheme = globalConfig.getColorScheme().toBSColorScheme();
+                _colorsMenu.setColorScheme( colorSchemeName, colorScheme );
+
+                // Active module
+                String id = globalConfig.getActiveModuleId();
+                Module[] modules = getModules();
+                for ( int i = 0; i < modules.length; i++ ) {
+                    assert ( modules[i] instanceof BSAbstractModule ); // all module are of this type
+                    BSAbstractModule module = (BSAbstractModule) modules[i];
+                    if ( id.equals( module.getId() ) ) {
+                        setActiveModule( module );
+                        break;
+                    }
+                }
+
+                // Modules
+                _oneWellModule.load( appConfig.getOneWellModuleConfig() );
+                _twoWellsModule.load( appConfig.getTwoWellsModuleConfig() );
+                _manyWellsModule.load( appConfig.getManyWellsModuleConfig() );
+            }
+            else {
+                String message = BSResources.getString( "message.notAConfigFile" );
+                String title = BSResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
             }
         }
     }
