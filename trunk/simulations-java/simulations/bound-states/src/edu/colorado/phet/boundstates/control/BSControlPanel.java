@@ -102,7 +102,7 @@ public class BSControlPanel extends BSAbstractControlPanel {
 
         // Set the control panel's minimum width.
         int width = BSResources.getInt( "width.controlPanel", 235 );
-        setMinumumWidth( width );
+        setMinimumWidth( width );
 
         // Energy chart controls
         JPanel energyControlsPanel = new JPanel();
