@@ -190,9 +190,7 @@ public class OpticalTweezersApplication extends PhetApplication {
     //----------------------------------------------------------------------------
 
     /**
-     * Saves global state.
-     *
-     * @param appConfig
+     * Saves the simulation's configuration.
      */
     public void save() {
 
@@ -218,27 +216,22 @@ public class OpticalTweezersApplication extends PhetApplication {
     }
 
     /**
-     * Loads global state.
-     *
-     * @param appConfig
+     * Loads a simulation configuration.
      */
     public void load() {
 
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            if ( ! ( object instanceof OTConfig  ) ) {
-                String message = OTResources.getString( "message.notAConfigFile" );
-                String title = OTResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
-            }
-            else {
+            if ( object instanceof OTConfig ) {
                 OTConfig appConfig = (OTConfig) object;
-                
-                // GlobalConfig currently contains nothing that needs to be loaded
-                
                 _physicsModule.load( appConfig.getPhysicsConfig() );
                 _dnaModule.load( appConfig.getDNAConfig() );
                 _motorsModule.load( appConfig.getMotorsConfig() );
+            }
+            else {
+                String message = OTResources.getString( "message.notAConfigFile" );
+                String title = OTResources.getString( "title.error" );
+                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
             }
         }
     }
