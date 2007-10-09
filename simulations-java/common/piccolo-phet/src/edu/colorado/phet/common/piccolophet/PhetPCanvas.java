@@ -73,7 +73,20 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         setOpaque( true );
         setBorder( BorderFactory.createLineBorder( Color.black ) );
         requestFocus();
+        
+        // update layout when the canvas is resized
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateLayout();
+            }
+        } );
     }
+    
+    /**
+     * Updates the layout when the canvas size is changed.
+     * The default implementation does nothing.
+     */
+    public void updateLayout() {}
 
     public void setTransformStrategy( TransformStrategy transformStrategy ) {
         this.transformStrategy = transformStrategy;
