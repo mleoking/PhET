@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -24,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.*;
  * It entails graphics, controls and a model.
  */
 
-public abstract class Module {
+public abstract class Module implements Resettable {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -488,5 +489,13 @@ public abstract class Module {
      * @param event
      */
     public void updateGraphics( ClockEvent event ) {
+    }
+    
+    //----------------------------------------------------------------------------
+    // Resettable implementation
+    //----------------------------------------------------------------------------
+    
+    public void reset() {
+        // default implementation does nothing
     }
 }

@@ -1,32 +1,30 @@
-/* Copyright 2004, University of Colorado */
+/* Copyright 2004-2007, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 
 /**
  * ControlPanel is the panel that contains the controls for the simulation.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class ControlPanel extends JPanel {
 
     private ContentPanel contentPanel; // holds the controls
     private JScrollPane scrollPane;
     private Scrollable scrollPolicy;
+    private Component minimumWidthStrut;
 
     /**
      * Constructs a ControlPanel for the specified module.
@@ -224,5 +222,50 @@ public class ControlPanel extends JPanel {
         public int getScrollableUnitIncrement( Rectangle visibleRect, int orientation, int direction ) {
             return scrollPolicy.getScrollableUnitIncrement( visibleRect, orientation, direction );
         }
+    }
+    
+    /**
+     * Adds a "Reset All" button that will reset one object when pressed.
+     * 
+     * @param resettable
+     */
+    public void addResetAllButton( Resettable resettable ) {
+        addResetAllButton( new Resettable[] { resettable } );
+    }
+    
+    /**
+     * Adds a "Reset All" button that will reset a collection of objects when pressed.
+     * 
+     * @param resettables
+     */
+    public void addResetAllButton( final Resettable[] resettables ) {
+        JButton resetAllButton = new JButton( PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.button.resetAll" ) );
+        resetAllButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
+                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    for ( int i = 0; i < resettables.length; i++ ) {
+                        resettables[i].reset();
+                    }
+                }
+            }
+        } );
+        addControl( resetAllButton );
+    }
+    
+    /**
+     * Sets the minumum width of the control panel.
+     * This is accomplished by inserting a horizontal strut into the control panel.
+     *
+     * @param minimumWidth
+     */
+    public void setMinumumWidth( int minimumWidth ) {
+        if ( minimumWidthStrut != null ) {
+            removeControl( minimumWidthStrut );
+        }
+        minimumWidthStrut = Box.createHorizontalStrut( minimumWidth );
+        addControlFullWidth( minimumWidthStrut );
     }
 }
