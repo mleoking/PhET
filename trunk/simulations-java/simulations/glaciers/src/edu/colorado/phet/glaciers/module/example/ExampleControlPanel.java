@@ -44,7 +44,7 @@ public class ExampleControlPanel extends GlaciersAbstractControlPanel {
         {
             addControlFullWidth( _exampleModelElementControlPanel );
             addSeparator();
-            addResetButton();
+            addResetAllButton( module );
         }
     }
     
