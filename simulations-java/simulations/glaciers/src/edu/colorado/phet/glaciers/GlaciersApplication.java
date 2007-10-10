@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
+import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
@@ -62,6 +63,7 @@ public class GlaciersApplication extends PhetApplication {
     {
         super( config );
         DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), GlaciersConstants.DEVELOPER_ARG );
+        initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
     }
@@ -70,6 +72,22 @@ public class GlaciersApplication extends PhetApplication {
     // Initialization
     //----------------------------------------------------------------------------
 
+    /*
+     * Initializes the tabbed pane.
+     */
+    private void initTabbedPane() {
+
+        // Create our own tabbed pane type so we can set the tab color
+        TabbedPaneType tabbedPaneType = new TabbedPaneType(){
+            public ITabbedModulePane createTabbedPane() {
+                _tabbedModulePane = new TabbedModulePanePiccolo();
+                _tabbedModulePane.setSelectedTabColor( GlaciersConstants.SELECTED_TAB_COLOR );
+                return _tabbedModulePane;
+            }
+        };
+        setTabbedPaneType( tabbedPaneType );
+    }
+    
     /*
      * Initializes the modules.
      */
@@ -135,11 +153,17 @@ public class GlaciersApplication extends PhetApplication {
     }
 
     public void setSelectedTabColor( Color color ) {
-        _tabbedModulePane.setSelectedTabColor( color );
+        if ( _tabbedModulePane != null ) {
+            _tabbedModulePane.setSelectedTabColor( color );
+        }
     }
 
     public Color getSelectedTabColor() {
-        return _tabbedModulePane.getSelectedTabColor();
+        Color color = Color.WHITE; 
+        if ( _tabbedModulePane != null ) {
+            color = _tabbedModulePane.getSelectedTabColor();
+        }
+        return color;
     }
 
     public void setControlPanelBackground( Color color ) {
@@ -148,12 +172,14 @@ public class GlaciersApplication extends PhetApplication {
             if ( modules[i] instanceof GlaciersAbstractModule ) {
                 GlaciersAbstractModule module = (GlaciersAbstractModule) modules[i];
                 module.setControlPanelBackground( color );
+                module.setClockControlPanelBackground( color );
+                module.setHelpPanelBackground( color );
             }
         }
     }
 
     public Color getControlPanelBackground() {
-        return ( (GlaciersAbstractModule) getModule( 0 ) ).getControlPanelBackground();
+        return ( (GlaciersAbstractModule) getModule( 0 ) ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------
