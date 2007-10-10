@@ -10,7 +10,6 @@ MEDIUM PRIORITY:
 - resizing the main frame is very slow
 
 LOW PRIORITY:
-- use phetcommon's Vector2D
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
@@ -814,6 +813,7 @@ DONE:
 1/29/07 - set up project in CVS
 
 REJECTED:
+10/10/07 - use phetcommon's Vector2D (my implementation has performance advantages, renamed to OTVector2D)
 10/8/07 - improve startup performance (OK as is)
 10/8/07 - some Swing controls aren't PropertyChangeListeners for the nodes that they control (ok for now, since they are the only control)
 10/1/07 - when subdividing dt in bead motion algorithm, and stepping clock, bead motion will be different than displayed vectors (consequence of using dt subdivision)
