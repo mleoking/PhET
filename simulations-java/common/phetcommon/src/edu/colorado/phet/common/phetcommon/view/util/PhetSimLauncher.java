@@ -16,26 +16,31 @@ public class PhetSimLauncher {
      * @param args            The arguments passed to the main() method.
      * @param phetApplication The class that extends NonPiccoloPhetApplication.
      */
-    public static void launchSim( String[] args, Class phetApplication ) {
+    public static void launchSim( final String[] args, final Class phetApplication ) {
+        
         if ( !NonPiccoloPhetApplication.class.isAssignableFrom( phetApplication ) ) {
             throw new IllegalArgumentException( "The class " + phetApplication.getName() + " should extend NonPiccoloPhetApplication." );
         }
 
-        try {
-            Class stringClass = ( new String[0] ).getClass();
+        final Class stringClass = ( new String[0] ).getClass();
 
-            Constructor constructor = phetApplication.getConstructor( new Class[]{stringClass} );
-
-            final NonPiccoloPhetApplication simulation = (NonPiccoloPhetApplication) constructor.newInstance( new Object[]{args} );
-
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    // Construct and start the application in the event-dispatch thread.
+                    // Application construction involves realization of Swing components, and
+                    // Sun now recommends doing all Swing realization in the event dispatch thread.
+                    // And all code that might affect or depend on the state of that component should be 
+                    // executed in the event-dispatching thread.
+                    Constructor constructor = phetApplication.getConstructor( new Class[] { stringClass } );
+                    NonPiccoloPhetApplication simulation = (NonPiccoloPhetApplication) constructor.newInstance( new Object[] { args } );
                     simulation.startApplication();
                 }
-            } );
-        }
-        catch( Exception e ) {
-            e.printStackTrace();
-        }
+                catch ( Exception e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+
     }
 }
