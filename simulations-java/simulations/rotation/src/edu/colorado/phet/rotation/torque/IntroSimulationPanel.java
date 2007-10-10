@@ -27,11 +27,11 @@ public class IntroSimulationPanel extends PhetPCanvas {
         addScreenChild( playAreaNode );
 
         updateLayout();
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                updateLayout();
-            }
-        } );
+//        addComponentListener( new ComponentAdapter() {
+//            public void componentResized( ComponentEvent e ) {
+//                updateLayout();
+//            }
+//        } );
         introModule.getClock().addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 repaint();
@@ -39,7 +39,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
         } );
     }
 
-    private void updateLayout() {
+    public void updateLayout() {
         int padX = 50;
         int padY = 50;
 
