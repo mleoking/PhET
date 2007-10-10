@@ -96,13 +96,15 @@ public class OpticalTweezersApplication extends PhetApplication {
      */
     private void initModules() {
 
-        _physicsModule = new PhysicsModule();
+        final PhetFrame frame = getPhetFrame();
+        
+        _physicsModule = new PhysicsModule( frame );
         addModule( _physicsModule );
 
-        _dnaModule = new DNAModule();
+        _dnaModule = new DNAModule( frame );
         addModule( _dnaModule );
 
-        _motorsModule = new MotorsModule();
+        _motorsModule = new MotorsModule( frame );
         addModule( _motorsModule );
 
         setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
@@ -174,15 +176,14 @@ public class OpticalTweezersApplication extends PhetApplication {
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();
         for ( int i = 0; i < modules.length; i++ ) {
-            if ( modules[i] instanceof OTAbstractModule ) {
-                OTAbstractModule module = (OTAbstractModule) modules[i];
-                module.setControlPanelBackground( color );
-            }
+            modules[i].setControlPanelBackground( color );
+            modules[i].setClockControlPanelBackground( color );
+            modules[i].setHelpPanelBackground( color );
         }
     }
 
     public Color getControlPanelBackground() {
-        return ( (OTAbstractModule) getModule( 0 ) ).getControlPanelBackground();
+        return ( (OTAbstractModule) getModule( 0 ) ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------

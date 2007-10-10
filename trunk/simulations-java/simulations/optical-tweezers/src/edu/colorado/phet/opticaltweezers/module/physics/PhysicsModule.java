@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.physics;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -39,7 +41,7 @@ public class PhysicsModule extends OTAbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public PhysicsModule() {
+    public PhysicsModule( Frame parentFrame ) {
         super( OTResources.getString( "title.physicsOfTweezers" ), PhysicsDefaults.CLOCK );
 
         // Model
@@ -51,7 +53,7 @@ public class PhysicsModule extends OTAbstractModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new PhysicsControlPanel( this );
+        _controlPanel = new PhysicsControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
 
         // Clock controls
