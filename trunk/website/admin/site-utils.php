@@ -9,9 +9,10 @@
     include_once(SITE_ROOT."admin/db-utils.php");    
     include_once(SITE_ROOT."admin/sys-utils.php");
     include_once(SITE_ROOT."admin/authentication.php");
+	include_once(SITE_ROOT."admin/cache-utils.php");
     
     include_once(SITE_ROOT."teacher_ideas/referrer.php");
-    
+
     function print_header_navigation_element($prefix, $selected_page, $link, $desc, $access_key) {
         $this_element_is_selected = "$access_key" == "$selected_page";
 
@@ -255,6 +256,10 @@ EOT;
 	}
     
     function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
+		if (isset($GLOBALS['g_cache_current_page'])) {
+			cache_auto_start();
+		}
+		
 		do_authentication(false);
 		
         $request_uri = $_SERVER['REQUEST_URI'];
@@ -501,8 +506,9 @@ EOT;
             </body>        
             </html>
 EOT;
-
-		//ob_end_flush();
+		if (isset($GLOBALS['g_cache_current_page'])) {
+			cache_auto_end();
+		}
     }
     
  function print_blank_site_page($content_printer, $prefix = "..") {

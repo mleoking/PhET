@@ -1,4 +1,6 @@
 <?php
+	$g_cache_current_page = true;
+	
     ini_set('display_errors', '1');
 
     include_once("../admin/global.php");
@@ -12,11 +14,11 @@
     
     include_once(SITE_ROOT."teacher_ideas/referrer.php");    
 
-    // Don't require authentication, but do it if the cookies are available:
-    do_authentication(false);
-    
     function print_content() {
         global $SIM_RATING_TO_IMAGE_HTML, $SIM_TYPE_TO_IMAGE_HTML, $contributor_is_team_member;
+
+	    // Don't require authentication, but do it if the cookies are available:
+	    do_authentication(false);
 
 		if (!isset($_REQUEST['sim'])) {
 			print "<h1>No Simulation</h1><p>There is no simulation by the specified id.</p>";
