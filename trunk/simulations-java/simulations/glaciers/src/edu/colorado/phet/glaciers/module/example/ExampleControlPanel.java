@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.module.example;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.ExampleModelElementControlPanel;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
@@ -29,7 +31,7 @@ public class ExampleControlPanel extends GlaciersAbstractControlPanel {
      * 
      * @param module
      */
-    public ExampleControlPanel( ExampleModule module) {
+    public ExampleControlPanel( ExampleModule module, Frame parentFrame ) {
         super( module );
         
         // Set the control panel's minimum width.

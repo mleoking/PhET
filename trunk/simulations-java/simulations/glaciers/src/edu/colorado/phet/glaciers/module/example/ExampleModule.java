@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.module.example;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
@@ -10,7 +12,6 @@ import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
-import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
  * ExampleModule is the "Example" module.
@@ -32,7 +33,7 @@ public class ExampleModule extends GlaciersAbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ExampleModule() {
+    public ExampleModule( Frame parentFrame ) {
         super( GlaciersResources.getString( "title.exampleModule" ), ExampleDefaults.CLOCK );
 
         // Model
@@ -44,7 +45,7 @@ public class ExampleModule extends GlaciersAbstractModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new ExampleControlPanel( this );
+        _controlPanel = new ExampleControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
 
         // Clock controls
