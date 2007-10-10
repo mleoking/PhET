@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers;
 
 import java.awt.Color;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -92,8 +93,10 @@ public class GlaciersApplication extends PhetApplication {
      * Initializes the modules.
      */
     private void initModules() {
+        
+        Frame parentFrame = getPhetFrame();
 
-        _exampleModule = new ExampleModule();
+        _exampleModule = new ExampleModule( parentFrame );
         addModule( _exampleModule );
     }
 
@@ -169,12 +172,9 @@ public class GlaciersApplication extends PhetApplication {
     public void setControlPanelBackground( Color color ) {
         Module[] modules = getModules();
         for ( int i = 0; i < modules.length; i++ ) {
-            if ( modules[i] instanceof GlaciersAbstractModule ) {
-                GlaciersAbstractModule module = (GlaciersAbstractModule) modules[i];
-                module.setControlPanelBackground( color );
-                module.setClockControlPanelBackground( color );
-                module.setHelpPanelBackground( color );
-            }
+            modules[i].setControlPanelBackground( color );
+            modules[i].setClockControlPanelBackground( color );
+            modules[i].setHelpPanelBackground( color );
         }
     }
 
