@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -19,7 +22,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.umd.cs.piccolo.PNode;
@@ -38,6 +43,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     private ComponentAdapter resizeAdapter;
     private PhetRootPNode phetRootNode;
     private AffineTransform transform;
+    private boolean layoutDirty;
 
     public PhetPCanvas() {
         this( new ConstantTransformStrategy( new AffineTransform() ) );
@@ -75,18 +81,48 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         requestFocus();
         
         // update layout when the canvas is resized
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                updateLayout();
-            }
-        } );
+        {
+            layoutDirty = true;
+            
+            addComponentListener( new ComponentAdapter() {
+
+                // if the component is resized while visible, update the layout.
+                // otherwise, mark the layout as dirty.
+                public void componentResized( ComponentEvent e ) {
+                    if ( e.getComponent().isShowing() ) {
+                        updateLayout();
+                    }
+                    else {
+                        layoutDirty = true;
+                    }
+                }
+            } );
+            
+            addAncestorListener( new AncestorListener() {
+
+                // called when the source or one of its ancestors is make visible either
+                // by setVisible(true) being called or by its being added to the component hierarchy
+                public void ancestorAdded( AncestorEvent e ) {
+                    if ( layoutDirty && e.getComponent().isShowing() ) {
+                        updateLayout();
+                    }
+                }
+
+                public void ancestorMoved( AncestorEvent event ) {}
+
+                public void ancestorRemoved( AncestorEvent event ) {}
+            } );
+        }
     }
     
     /**
      * Updates the layout when the canvas size is changed.
-     * The default implementation does nothing.
+     * Subclasses that override this method must call super.updateLayout
+     * to have the layoutDirty flag cleared.
      */
-    public void updateLayout() {}
+    public void updateLayout() {
+        layoutDirty = false;
+    }
 
     public void setTransformStrategy( TransformStrategy transformStrategy ) {
         this.transformStrategy = transformStrategy;
