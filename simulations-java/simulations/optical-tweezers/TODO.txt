@@ -13,6 +13,7 @@ LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+10/10/07 - defer Cartesian-Polar conversions in OTVector2D until a relevant getter is called
 10/10/07 - make OTVector2D abstract, remove unused methods
 10/10/07 - rename Vector2D to OTVector2D because phetcommon has a Vector2D
 10/9/07 - migrate updateLayout to PhetPCanvas

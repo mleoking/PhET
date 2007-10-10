@@ -4,18 +4,19 @@ package edu.colorado.phet.opticaltweezers.util;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+
 
 /**
  * OTVector2D is a mutable 2D vector, with Cartesian and Polar subclasses.
  * <p>
  * This implementation stores vector components in both Carteisan and Polar coordinates
- * to improve the speed of "get" calls at the expense of "set" calls.
- * <p>
- * Once way to improve the performance of this implementation would be 
- * to mark Cartesian or Polar data as dirty when changed, and defer 
- * recomputing until a relevant getter is called.  For example, calling
- * setXY would mark the Polar coordinates as dirty, and the Polar coordinates
- * would be recomputed when getMagnitude or getAngle is called.
+ * to improve the speed of "get" calls.  The expense of converting between coordinate
+ * systems is incurred on deman.  When components are set in one of the 
+ * coordinate systems, the components for the other coordinate system are marked
+ * as dirty, and are not recomputed until a relevant getter is called.
+ * For example, calling setXY would mark the Polar coordinates as dirty,
+ * and the Polar coordinates would be recomputed when getMagnitude or getAngle is called.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -72,6 +73,10 @@ public abstract class OTVector2D {
     private double _y; // magnitude of the Y component
     private double _magnitude; // magnitude
     private double _angle; // angle, in radians
+    
+    // mark Cartesian or Polar coordinates as dirty for faster "set" performance
+    private boolean _cartesianDirty;
+    private boolean _polarDirty;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,10 +86,38 @@ public abstract class OTVector2D {
      * Creates a zero vector.
      */
     protected OTVector2D() {
+        
         _x = 0;
         _y = 0;
         _magnitude = 0;
         _angle = 0;
+        
+        _cartesianDirty = false;
+        _polarDirty = false;
+    }
+    
+    //----------------------------------------------------------------------------
+    // Component updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the stored Cartesian coordinates.
+     */
+    private void updateCartesian() {
+        assert( _cartesianDirty && !_polarDirty );
+        _x = _magnitude * Math.cos( _angle );
+        _y = _magnitude * Math.sin( _angle );
+        _cartesianDirty = false;
+    }
+    
+    /*
+     * Updates the stored Polar coordinates.
+     */
+    private void updatePolar() {
+        assert( _polarDirty && !_cartesianDirty );
+        _magnitude = Math.sqrt( ( _x * _x ) + ( _y * _y ) );
+        _angle = Math.atan2( _y, _x );
+        _polarDirty = false;
     }
     
     //----------------------------------------------------------------------------
@@ -100,8 +133,8 @@ public abstract class OTVector2D {
     public void setXY( double x, double y ) {
         _x = x;
         _y = y;
-        _magnitude = Math.sqrt( ( _x * _x ) + ( _y * _y ) );
-        _angle = Math.atan2( _y, _x );
+        _cartesianDirty = false;
+        _polarDirty = true;
     }
     
     /**
@@ -110,7 +143,7 @@ public abstract class OTVector2D {
      * @param x the magnitude of the X component
      */
     public void setX( double x ) {
-        setXY( x, _y );
+        setXY( x, getY() );
     }
   
     /**
@@ -119,6 +152,9 @@ public abstract class OTVector2D {
      * @return the magnitude of the X component
      */
     public double getX() {
+        if ( _cartesianDirty ) {
+            updateCartesian();
+        }
         return _x;
     }
     
@@ -128,7 +164,7 @@ public abstract class OTVector2D {
      * @param y the magnitude of the Y component
      */
     public void setY( double y ) {
-        setXY( _x, y );
+        setXY( getX(), y );
     }
 
     /**
@@ -137,6 +173,9 @@ public abstract class OTVector2D {
      * @return the magnitude of the Y component
      */
     public double getY() {
+        if ( _cartesianDirty ) {
+            updateCartesian();
+        }
         return _y;
     }
 
@@ -151,9 +190,10 @@ public abstract class OTVector2D {
      * @param angle the angle, in radians
      */
     public void setMagnitudeAngle( double magnitude, double angle ) {
-        double x = magnitude * Math.cos( angle );
-        double y = magnitude * Math.sin( angle );
-        setXY( x, y );
+        _magnitude = magnitude;
+        _angle = angle;
+        _polarDirty = false;
+        _cartesianDirty = true;
     }
     
     /**
@@ -162,7 +202,7 @@ public abstract class OTVector2D {
      * @param magnitude
      */
     public void setMagnitude( double magnitude ) {
-        setMagnitudeAngle( magnitude, _angle );
+        setMagnitudeAngle( magnitude, getAngle() );
     }
     
     /**
@@ -171,6 +211,9 @@ public abstract class OTVector2D {
      * @return the magnitude
      */
     public double getMagnitude() {
+        if ( _polarDirty ) {
+            updatePolar();
+        }
         return _magnitude;
     }
     
@@ -182,7 +225,7 @@ public abstract class OTVector2D {
      * @param angle the angle, in radians
      */
     public void setAngle( double angle ) {
-        setMagnitudeAngle( _magnitude, angle );
+        setMagnitudeAngle( getMagnitude(), angle );
     }
     
     /**
@@ -191,6 +234,9 @@ public abstract class OTVector2D {
      * @return the angle, in radians
      */
     public double getAngle() {
+        if ( _polarDirty ) {
+            updatePolar();
+        }
         return _angle;
     }
     
@@ -211,7 +257,7 @@ public abstract class OTVector2D {
      * @param v the vector to add
      */
     public void add( OTVector2D v ) {
-        setXY( _x + v.getX(), _y + v.getY() );
+        setXY( getX() + v.getX(), getY() + v.getY() );
     }
     
     /**
@@ -220,7 +266,7 @@ public abstract class OTVector2D {
      * @param v the vector to subtract
      */
     public void subtract( OTVector2D v ) {
-        setXY( _x - v.getX(), _y - v.getY() );
+        setXY( getX() - v.getX(), getY() - v.getY() );
     }
     
     /**
@@ -231,7 +277,7 @@ public abstract class OTVector2D {
      * @param scale the scale
      */
     public void scale( double scale ) {
-        setXY( _x * scale, _y * scale );
+        setXY( getX() * scale, getY() * scale );
     }
     
     /**
@@ -242,6 +288,6 @@ public abstract class OTVector2D {
      * @param angle the angle, in radians
      */
     public void rotate( double angle ) {
-        setAngle( _angle + angle );
-    }    
+        setAngle( getAngle() + angle );
+    }
 }
