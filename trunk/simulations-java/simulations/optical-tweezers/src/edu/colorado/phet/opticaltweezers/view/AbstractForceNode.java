@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.opticaltweezers.OTConstants;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * AbstractForceNode is the base class for all nodes that display a force vector.
@@ -109,7 +109,7 @@ public abstract class AbstractForceNode extends PhetPNode {
         _yComponentNode.setValueVisible( visible );
     }
     
-    protected void setForce( Vector2D force ) {
+    protected void setForce( OTVector2D force ) {
         _sumNode.setXY( force.getX(), force.getY() );
         _xComponentNode.setXY( force.getX(), 0 );
         _yComponentNode.setXY( 0, force.getY() );

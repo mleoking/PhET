@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * Laser is the model of the laser.
@@ -404,7 +404,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param y coordinate relative to global model origin (nm) 
      * @param trap force (pN)
      */
-    public Vector2D getTrapForce( final double x, final double y ) {
+    public OTVector2D getTrapForce( final double x, final double y ) {
         final double power = ( _running ) ? _power : 0;
         return getTrapForce( x, y, power );
     }
@@ -417,7 +417,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param power power (mW)
      * @param trap force (pN)
      */
-    public Vector2D getTrapForce( final double x, final double y, final double power ) {
+    public OTVector2D getTrapForce( final double x, final double y, final double power ) {
         final double xOffset = x - getX();
         final double yOffset = y - getY();
         return getTrapForceAtOffset( xOffset, yOffset, power );
@@ -428,7 +428,7 @@ public class Laser extends MovableObject implements ModelElement {
      * 
      * @return trap force (pN)
      */
-    public Vector2D getMaxTrapForce() {
+    public OTVector2D getMaxTrapForce() {
         double xOffset = _diameterAtWaist / 4; // halfway between center and edge of waist
         double yOffset = 0;
         double maxPower = _powerRange.getMax();
@@ -444,7 +444,7 @@ public class Laser extends MovableObject implements ModelElement {
      * @param power a power value (mW)
      * @return trap force (pN)
      */
-    private Vector2D getTrapForceAtOffset( final double xOffset, final double yOffset, final double power ) {
+    private OTVector2D getTrapForceAtOffset( final double xOffset, final double yOffset, final double power ) {
         if ( power < 0 ) {
             throw new IllegalArgumentException( "power must be >= 0 : " + power );
         }
@@ -468,7 +468,7 @@ public class Laser extends MovableObject implements ModelElement {
             fy *= scale;
         }
 
-        return new Vector2D.Cartesian( fx, fy );
+        return new OTVector2D.Cartesian( fx, fy );
     }
     
     //----------------------------------------------------------------------------

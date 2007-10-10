@@ -14,6 +14,8 @@ LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+10/10/07 - make OTVector2D abstract, remove unused methods
+10/10/07 - rename Vector2D to OTVector2D because phetcommon has a Vector2D
 10/9/07 - migrate updateLayout to PhetPCanvas
 10/9/07 - bugfix: reset ATP concentration in Motors module
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel

@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * FluidDragForceNode displays the fluid drag force acting on a bead.
@@ -97,7 +97,7 @@ public class FluidDragForceNode extends AbstractForceNode implements Observer {
     
     private void updateVectors() {
         // calcuate the drag force at the bead's position
-        Vector2D dragForce = _bead.getDragForce();
+        OTVector2D dragForce = _bead.getDragForce();
         // update the vectors
         setForce( dragForce );
     }

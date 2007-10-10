@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * DNAForceNode displays the force exerted on the bead by a DNA strand.
@@ -98,7 +98,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     
     private void updateVectors() {
         // calcuate the trap force at the bead's position
-        Vector2D dnaForce = _dnaStrand.getForce( _bead.getPositionReference() );
+        OTVector2D dnaForce = _dnaStrand.getForce( _bead.getPositionReference() );
         // update the vector
         setForce( dnaForce );
     }

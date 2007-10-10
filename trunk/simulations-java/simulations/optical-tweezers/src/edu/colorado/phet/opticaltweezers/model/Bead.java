@@ -8,7 +8,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * Bead is the model of a glass bead, the dialectric particle in this experiement.
@@ -56,7 +56,7 @@ public class Bead extends MovableObject implements ModelElement {
     private static final double PM_PER_NM = 1E3; // picometers per nanometer
     private static final double G_PER_KG = 1E3; // grams per kilogram
     
-    private static final Vector2D ZERO_VECTOR = new Vector2D.Cartesian( 0, 0 );
+    private static final OTVector2D ZERO_VECTOR = new OTVector2D.Cartesian( 0, 0 );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -70,7 +70,7 @@ public class Bead extends MovableObject implements ModelElement {
     private final Random _stepAngleRandom;
     private boolean _motionEnabled;
     private boolean _brownianMotionEnabled;
-    private final Vector2D _velocity; // nm/sec
+    private final OTVector2D _velocity; // nm/sec
     private DNAStrand _dnaStrand;
     
     // Developer controls
@@ -154,7 +154,7 @@ public class Bead extends MovableObject implements ModelElement {
         _stepAngleRandom = new Random();
         _motionEnabled = true;
         _brownianMotionEnabled = true;
-        _velocity = new Vector2D();
+        _velocity = new OTVector2D.Cartesian();
         
         _brownianMotionScaleRange = brownianMotionScaleRange;
         _dtSubdivisionThresholdRange = dtSubdivisionThresholdRange;
@@ -230,8 +230,8 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @return Vector2D
      */
-    public Vector2D getDragForce() {
-        Vector2D dragForce = ZERO_VECTOR;
+    public OTVector2D getDragForce() {
+        OTVector2D dragForce = ZERO_VECTOR;
         if ( _fluid.isEnabled() ) {
             // bead is in fluid
             dragForce = _fluid.getDragForce( _velocity, _diameter );
@@ -244,8 +244,8 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @return Vector2D
      */
-    public Vector2D getTrapForce() {
-        Vector2D trapForce = ZERO_VECTOR;
+    public OTVector2D getTrapForce() {
+        OTVector2D trapForce = ZERO_VECTOR;
         if ( _laser != null ) {
             trapForce = _laser.getTrapForce( getX(), getY() );
         }
@@ -578,7 +578,7 @@ public class Bead extends MovableObject implements ModelElement {
          * Note that this is also done in the main loop below, when calculating trap force.
          */
         boolean fakeMotion = false;
-        Vector2D trapForce = ZERO_VECTOR;
+        OTVector2D trapForce = ZERO_VECTOR;
         if ( _laser != null ) {
             fakeMotion = ( _laser.isRunning() && ( _laser.getPower() * clockDt >= _vacuumFastThreshold ) );
             if ( fakeMotion ) {
@@ -695,7 +695,7 @@ public class Bead extends MovableObject implements ModelElement {
         // Mobility
         final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
         final double mobility = _fluid.getMobility( _diameter ); // (nm/sec)/pN
-        final Vector2D fluidVelocity = _fluid.getVelocity(); // nm/sec
+        final OTVector2D fluidVelocity = _fluid.getVelocity(); // nm/sec
         if ( fluidVelocity.getY() != 0 ) {
             throw new IllegalStateException( "bead motion algorithm requires horizontal fluid flow" );
         }
@@ -721,9 +721,9 @@ public class Bead extends MovableObject implements ModelElement {
         }
         
         // assume these are all zero
-        Vector2D trapForce = ZERO_VECTOR;
-        Vector2D dnaForce = ZERO_VECTOR;
-        Vector2D brownianDisplacement = ZERO_VECTOR;
+        OTVector2D trapForce = ZERO_VECTOR;
+        OTVector2D dnaForce = ZERO_VECTOR;
+        OTVector2D brownianDisplacement = ZERO_VECTOR;
         
         // Run the motion algorithm for subdivided clock step
         for ( int i = 0; i < loops; i++ ) {
@@ -799,9 +799,9 @@ public class Bead extends MovableObject implements ModelElement {
      * 
      * @return displacement vector (nm)
      */
-    private Vector2D computeBrownianDisplacement( final double dt ) {
+    private OTVector2D computeBrownianDisplacement( final double dt ) {
         
-        Vector2D displacement = null;
+        OTVector2D displacement = null;
         if ( _fluid.isEnabled() ) {
             // bead is in fluid
             final double normalizedViscosity = _fluid.getDimensionlessNormalizedViscosity(); // unitless
@@ -810,7 +810,7 @@ public class Bead extends MovableObject implements ModelElement {
             final double stepLength = _brownianMotionScale * ( 2200 / Math.sqrt( normalizedViscosity ) ) * Math.sqrt( fluidTemperature / 300 ) * Math.sqrt( dt ); // nm
             double stepAngle = _stepAngleRandom.nextDouble() * ( 2 * Math.PI ); // radians
 
-            displacement = new Vector2D.Polar( stepLength, stepAngle );
+            displacement = new OTVector2D.Polar( stepLength, stepAngle );
         }
         else {
             // bead is in a vacuum

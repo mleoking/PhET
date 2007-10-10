@@ -4,7 +4,7 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * Fluid is the model of fluid that contains the glass bead.
@@ -88,7 +88,7 @@ public class Fluid extends OTObservable implements ModelElement {
      * 
      * @return Vector2D
      */
-    public Vector2D getVelocity() {
+    public OTVector2D getVelocity() {
         return getVelocity( null );
     }
     
@@ -100,10 +100,10 @@ public class Fluid extends OTObservable implements ModelElement {
      * @param velocityVector
      * @return Vector2D
      */
-    public Vector2D getVelocity( Vector2D velocityVector ) {
-        Vector2D v = velocityVector;
+    public OTVector2D getVelocity( OTVector2D velocityVector ) {
+        OTVector2D v = velocityVector;
         if ( v == null ) {
-            v = new Vector2D();
+            v = new OTVector2D.Cartesian();
         }
         v.setMagnitudeAngle( getSpeed(), _direction );
         return v;
@@ -265,12 +265,12 @@ public class Fluid extends OTObservable implements ModelElement {
      * @param beadDiameter
      * @return drag force (pN)
      */
-    public Vector2D getDragForce( Vector2D beadVelocity, double beadDiameter ) {
+    public OTVector2D getDragForce( OTVector2D beadVelocity, double beadDiameter ) {
         double mobility = getMobility( beadDiameter );
-        Vector2D velocity = getVelocity();
+        OTVector2D velocity = getVelocity();
         double fx = ( velocity.getX() - beadVelocity.getX() ) / mobility;
         double fy = ( velocity.getY() - beadVelocity.getY() ) / mobility;
-        return new Vector2D.Cartesian( fx, fy );
+        return new OTVector2D.Cartesian( fx, fy );
     }
     
     /**

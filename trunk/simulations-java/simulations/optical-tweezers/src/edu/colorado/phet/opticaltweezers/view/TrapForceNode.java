@@ -13,7 +13,7 @@ import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.Laser;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * TrapForceNode displays the optical trap force acting on a bead.
@@ -97,7 +97,7 @@ public class TrapForceNode extends AbstractForceNode implements Observer {
     
     private void updateVectors() {
         // calcuate the trap force at the bead's position
-        Vector2D trapForce = _bead.getTrapForce();
+        OTVector2D trapForce = _bead.getTrapForce();
         // update the vector
         setForce( trapForce );
     }
