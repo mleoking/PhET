@@ -219,6 +219,9 @@ public class DNACanvas extends OTAbstractCanvas {
      * Updates the layout of stuff on the canvas.
      */
     public void updateLayout() {
+        
+        System.out.println( "DNACanvas.updateLayout" );//XXX
+        super.updateLayout();
 
         double x = 0;
         double y = 0;
