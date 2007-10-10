@@ -10,7 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.JComponent;
+import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -19,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.*;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * The Module is the fundamental unit of a phet simulation.
@@ -489,6 +495,33 @@ public abstract class Module implements Resettable {
      * @param event
      */
     public void updateGraphics( ClockEvent event ) {
+    }
+    
+    public void setClockControlPanelBackground( Color color ) {
+        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+        setClockControlPanelBackground( color, excludedClasses );
+    }
+    
+    public void setControlPanelBackground( Color color ) {
+        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+        setControlPanelBackground( color, excludedClasses );
+    }
+    
+    public void setControlPanelBackground( Color color, Class[] excludedClasses ) {
+        SwingUtils.setBackgroundDeep( getControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
+    }
+    
+    public void setClockControlPanelBackground( Color color, Class[] excludedClasses ) {
+        SwingUtils.setBackgroundDeep( getClockControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
+    }
+    
+    public void setHelpPanelBackground( Color color ) {
+        Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
+        setHelpPanelBackground( color, excludedClasses );
+    }
+    
+    public void setHelpPanelBackground( Color color, Class[] excludedClasses ) {
+        SwingUtils.setBackgroundDeep( getHelpPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
     //----------------------------------------------------------------------------
