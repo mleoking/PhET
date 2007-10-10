@@ -235,6 +235,9 @@ public class MotorsCanvas extends OTAbstractCanvas {
      */
     public void updateLayout() {
 
+        System.out.println( "MotorsCanvas.updateLayout" );//XXX
+        super.updateLayout();
+        
         double x = 0;
         double y = 0;
         double w = 0;
