@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.dna;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -40,7 +42,7 @@ public class DNAModule extends OTAbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DNAModule() {
+    public DNAModule( Frame parentFrame ) {
         super( OTResources.getString( "title.funWithDNA" ), DNADefaults.CLOCK );
 
         // Model
@@ -52,7 +54,7 @@ public class DNAModule extends OTAbstractModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new DNAControlPanel( this );
+        _controlPanel = new DNAControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
 
         // Clock controls

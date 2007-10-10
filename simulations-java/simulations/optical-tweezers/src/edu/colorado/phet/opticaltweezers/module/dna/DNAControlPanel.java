@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.dna;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.ChartsControlPanel;
 import edu.colorado.phet.opticaltweezers.control.ForcesControlPanel;
@@ -40,7 +42,7 @@ public class DNAControlPanel extends OTAbstractControlPanel {
      * 
      * @param module
      */
-    public DNAControlPanel( DNAModule module) {
+    public DNAControlPanel( DNAModule module, Frame parentFrame ) {
         super( module );
 
         _canvas = module.getDNACanvas();
@@ -53,13 +55,13 @@ public class DNAControlPanel extends OTAbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), _canvas.getDNAForceNode(),
                 _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
-                module.getFrame(), DNADefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
+                parentFrame, DNADefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, 
-                module.getFrame(), DNADefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
+                parentFrame, DNADefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
                 _canvas.getRulerNode(), model.getFluid() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, parentFrame,
                 (OTClock)module.getClock(), model.getBead(), null /* invisibleBead */, model.getLaser(), 
                 model.getDNAStrand(), _canvas.getDNAStrandNode(),
                 null /* dnaStrandFree */, null /* dnaStrandFreeNode */,

@@ -13,6 +13,8 @@ LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+10/10/07 - remove calls to PhetApplication.instance().getPhetFrame, add parentFrame arg to constructors that need it
+10/10/07 - remove stuff from OTAbstractModule that was moved to phetcommon's Module
 10/10/07 - all overrides of PhetPCanvas.updateLayout must call super.updateLayout
 10/10/07 - defer Cartesian-Polar conversions in OTVector2D until a relevant getter is called
 10/10/07 - make OTVector2D abstract, remove unused methods

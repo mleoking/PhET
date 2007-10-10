@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.motors;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
@@ -12,7 +14,6 @@ import edu.colorado.phet.opticaltweezers.defaults.MotorsDefaults;
 import edu.colorado.phet.opticaltweezers.model.*;
 import edu.colorado.phet.opticaltweezers.module.OTAbstractModule;
 import edu.colorado.phet.opticaltweezers.persistence.MotorsConfig;
-import edu.colorado.phet.opticaltweezers.persistence.OTConfig;
 import edu.colorado.phet.opticaltweezers.view.DNAStrandNode;
 
 /**
@@ -38,7 +39,7 @@ public class MotorsModule extends OTAbstractModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public MotorsModule() {
+    public MotorsModule( Frame parentFrame ) {
         super( OTResources.getString( "title.molecularMotors" ), MotorsDefaults.CLOCK );
 
         // Model
@@ -50,7 +51,7 @@ public class MotorsModule extends OTAbstractModule {
         setSimulationPanel( _canvas );
 
         // Control Panel
-        _controlPanel = new MotorsControlPanel( this );
+        _controlPanel = new MotorsControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
 
         // Clock controls

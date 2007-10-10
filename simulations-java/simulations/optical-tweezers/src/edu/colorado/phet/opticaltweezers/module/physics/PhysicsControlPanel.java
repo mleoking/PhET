@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.opticaltweezers.module.physics;
 
+import java.awt.Frame;
+
 import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
 import edu.colorado.phet.opticaltweezers.control.*;
 import edu.colorado.phet.opticaltweezers.control.developer.DeveloperControlPanel;
@@ -39,7 +41,7 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
      * 
      * @param module
      */
-    public PhysicsControlPanel( PhysicsModule module) {
+    public PhysicsControlPanel( PhysicsModule module, Frame parentFrame ) {
         super( module );
         
         _canvas = module.getPhysicsCanvas();
@@ -55,13 +57,13 @@ public class PhysicsControlPanel extends OTAbstractControlPanel {
                 _canvas.getTrapForceNode(), _canvas.getFluidDragForceNode(), null /* dnaForceNode */,
                 _canvas.getBeadNode(), _canvas.getLaserNode() );
         _chartsControlPanel = new ChartsControlPanel( TITLE_FONT, CONTROL_FONT, 
-                module.getFrame(), PhysicsDefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
+                parentFrame, PhysicsDefaults.POSITION_HISTOGRAM_DIALOG_OFFSET,
                 model.getClock(), model.getBead(), model.getLaser(),
                 _canvas.getPotentialEnergyChartNode(), _canvas.getLaserNode() );
         _miscControlPanel = new MiscControlPanel( TITLE_FONT, CONTROL_FONT, 
-                module.getFrame(), PhysicsDefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
+                parentFrame, PhysicsDefaults.FLUID_CONTROLS_DIALOG_OFFSET, 
                 _canvas.getRulerNode(), model.getFluid() );
-        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, module.getFrame(),
+        _developerControlPanel = new DeveloperControlPanel( TITLE_FONT, CONTROL_FONT, parentFrame,
                 (OTClock)module.getClock(), model.getBead(), null /* invisibleBead */, model.getLaser(),
                 null /* dnaStrandBead */, null /* dnaStrandNodeBeadNode */, 
                 null /* dnaStrandFree */, null /* dnaStrandFreeNode */,
