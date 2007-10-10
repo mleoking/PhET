@@ -18,6 +18,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/9/07 - hook up developer controls for tab color and control panel color
+10/9/07 - push more stuff into phetcommon
 10/9/07 - migrate updateLayout to PhetPCanvas
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/8/07 - migrate XML persistence manager to phetcommon
