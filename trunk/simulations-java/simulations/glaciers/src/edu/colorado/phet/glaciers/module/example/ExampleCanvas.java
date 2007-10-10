@@ -59,11 +59,15 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
      */
     public void updateLayout() {
 
+        super.updateLayout();
+        
         Dimension2D worldSize = getWorldSize();
-//        System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
+        }
+        else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+            System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         
         //XXX lay out nodes
