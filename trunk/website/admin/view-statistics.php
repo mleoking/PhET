@@ -34,6 +34,12 @@
 		print <<<EOT
 			<h1>View Statistics</h1>
 			
+			<h2>Contributor Statistics</h2>
+			
+			<p>Click <a href="get-contributor-statistics.php">here</a> to download the contributor data as a CSV file.</p>
+			
+			<p>Note that if a contributor has downloaded more than one installer, they will be listed in multiple rows (one row for each installer they have downloaded).</p>
+			
 			<h2>File Download Count</h2>
 EOT;
 

@@ -72,7 +72,7 @@ EOT;
 		print <<<EOT
 			<h1>Manage Database</h1>
 			
-			<p>From this page, you can manage the PhET database.</p>
+			<p>In this section, you can manage the PhET database.</p>
 			
 			<p><strong>You should not use these options unless you know what you are doing.</strong></p>
 			
