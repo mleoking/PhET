@@ -13,11 +13,6 @@ LOW PRIORITY:
 - use phetcommon's Vector2D
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
-COMMON CODE:
-- why is setActiveModule(_motorsModule) buggy?
-- dialogs don't paint immediately when shown (AWT priority issue?)
-- help items don't refresh fast enough (AWT priority issue?)
-
 DONE:
 10/9/07 - migrate updateLayout to PhetPCanvas
 10/9/07 - bugfix: reset ATP concentration in Motors module
