@@ -91,6 +91,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
                 public void componentResized( ComponentEvent e ) {
                     if ( e.getComponent().isShowing() ) {
                         updateLayout();
+                        layoutDirty = false;
                     }
                     else {
                         layoutDirty = true;
@@ -105,6 +106,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
                 public void ancestorAdded( AncestorEvent e ) {
                     if ( layoutDirty && e.getComponent().isShowing() ) {
                         updateLayout();
+                        layoutDirty = false;
                     }
                 }
 
@@ -116,14 +118,11 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
     
     /**
-     * Updates the layout when the canvas size is changed.
-     * Subclasses that override this method must call super.updateLayout
-     * to have the layoutDirty flag cleared.
+     * Updates the layout when the canvas is resized.
+     * Default implementation does nothing.
      */
-    public void updateLayout() {
-        layoutDirty = false;
-    }
-
+    protected void updateLayout() {}
+    
     public void setTransformStrategy( TransformStrategy transformStrategy ) {
         this.transformStrategy = transformStrategy;
         updateScale();

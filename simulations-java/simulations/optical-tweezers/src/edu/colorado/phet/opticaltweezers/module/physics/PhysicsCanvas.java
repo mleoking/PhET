@@ -209,10 +209,8 @@ public class PhysicsCanvas extends OTAbstractCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
-    public void updateLayout() {
+    protected void updateLayout() {
 
-        super.updateLayout();
-        
         double x = 0;
         double y = 0;
         double w = 0;

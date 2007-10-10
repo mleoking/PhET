@@ -39,9 +39,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
         } );
     }
 
-    public void updateLayout() {
-        
-        super.updateLayout();
+    protected void updateLayout() {
         
         int padX = 50;
         int padY = 50;
