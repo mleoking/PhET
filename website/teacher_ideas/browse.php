@@ -528,7 +528,8 @@ EOT;
         print_content_only(!isset($sim_id));
     }
     else {
-		$GLOBALS['g_content_only'] = false;
+		$GLOBALS['g_content_only'] 		 = false;
+		$GLOBALS['g_cache_current_page'] = true;
 		
         print_site_page('print_content_with_header', 3);
     }
