@@ -1,5 +1,7 @@
 <?php
 
+	$g_cache_current_page = true;
+
 	include_once("../admin/global.php");
 
 	include_once(SITE_ROOT."admin/db.inc");
