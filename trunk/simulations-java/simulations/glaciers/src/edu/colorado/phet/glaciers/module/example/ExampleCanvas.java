@@ -57,10 +57,8 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
     /*
      * Updates the layout of stuff on the canvas.
      */
-    public void updateLayout() {
+    protected void updateLayout() {
 
-        super.updateLayout();
-        
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
