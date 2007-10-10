@@ -235,7 +235,6 @@ public class MotorsCanvas extends OTAbstractCanvas {
      */
     public void updateLayout() {
 
-        System.out.println( "MotorsCanvas.updateLayout" );//XXX
         super.updateLayout();
         
         double x = 0;
@@ -244,10 +243,12 @@ public class MotorsCanvas extends OTAbstractCanvas {
         double h = 0;
         
         Dimension2D worldSize = getWorldSize();
-//        System.out.println( "MotorsCanvas.updateLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
+        }
+        else if ( OTConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+            System.out.println( "MotorsCanvas.updateLayout worldSize=" + worldSize );
         }
         
         // Adjust width of things that must fill the canvas width

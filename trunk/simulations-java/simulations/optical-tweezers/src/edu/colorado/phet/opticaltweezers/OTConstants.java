@@ -28,6 +28,9 @@ public class OTConstants {
     // Command line argument to enable developer-only features.
     public static final String DEVELOPER_ARG = "-dev";
     
+    // enabled debug output for canvas layout updates
+    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
+    
     //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------

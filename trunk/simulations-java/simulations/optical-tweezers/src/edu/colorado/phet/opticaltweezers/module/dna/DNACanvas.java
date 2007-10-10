@@ -220,7 +220,6 @@ public class DNACanvas extends OTAbstractCanvas {
      */
     public void updateLayout() {
         
-        System.out.println( "DNACanvas.updateLayout" );//XXX
         super.updateLayout();
 
         double x = 0;
@@ -229,10 +228,12 @@ public class DNACanvas extends OTAbstractCanvas {
         double h = 0;
         
         Dimension2D worldSize = getWorldSize();
-//        System.out.println( "DNACanvas.updateLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
+        }
+        else if ( OTConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+            System.out.println( "DNACanvas.updateLayout worldSize=" + worldSize );
         }
         
         // Adjust width of things that must fill the canvas width
@@ -305,7 +306,7 @@ public class DNACanvas extends OTAbstractCanvas {
         Rectangle2D worldBounds = new Rectangle2D.Double( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
         Rectangle2D beadBounds = _beadNode.getFullBoundsReference();
         
-        //XXX using intersects is a little dodgy since the bead is a circle
+        // Note: using intersects is a bit imprecise, since the bead is a circle
         _returnBeadButtonWrapper.setVisible( !worldBounds.intersects( beadBounds ) );
         _returnBeadButtonWrapper.setPickable( _returnBeadButtonWrapper.getVisible() );
         _returnBeadButtonWrapper.setChildrenPickable( _returnBeadButtonWrapper.getVisible() );
