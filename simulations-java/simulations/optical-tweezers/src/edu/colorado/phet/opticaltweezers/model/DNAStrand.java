@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.opticaltweezers.util.Vector2D;
+import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
 /**
  * DNAStrand is the model of a double-stranded DNA immersed in a viscous fluid.
@@ -93,7 +93,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
     private final double _stretchiness;
     
     private Random _kickRandom; // random number generator for "kick"
-    private Vector2D _someVector; // reusable vector
+    private OTVector2D _someVector; // reusable vector
     
     // Developer controls
     private double _springConstant; // actually the spring constant divided by mass
@@ -148,7 +148,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         _referenceClockStep = referenceClockStep;
         
         _kickRandom = new Random();
-        _someVector = new Vector2D();
+        _someVector = new OTVector2D.Cartesian();
         
         // developer controls
         {
@@ -417,7 +417,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @param p
      * @return force (pN)
      */
-    public Vector2D getForce( Point2D p ) {
+    public OTVector2D getForce( Point2D p ) {
         return getForce( p.getX(), p.getY() );
     }
     
@@ -428,7 +428,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * @param y
      * @return force (pN)
      */
-    public Vector2D getForce( double x, double y ) {
+    public OTVector2D getForce( double x, double y ) {
 
         // angle (radians)
         final double xOffset = getPinX() - x;
@@ -452,7 +452,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
             magnitude = ( kbT / Lp ) * ( ( 1 / ( 4 * ( 1 - scale ) * ( 1 - scale ) ) ) - ( 0.24 ) + scale );
         }
 
-        return new Vector2D.Polar( magnitude, angle );
+        return new OTVector2D.Polar( magnitude, angle );
     }
     
     /**
@@ -460,7 +460,7 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      * 
      * @return force (pN)
      */
-    public Vector2D getForceAtBead() {
+    public OTVector2D getForceAtBead() {
         return getForce( getBeadX(), getBeadY() );
     }
     
