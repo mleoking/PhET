@@ -5,6 +5,9 @@
 	}
 	
 	include_once(SITE_ROOT."admin/sys-utils.php");
+
+	define("WEBPAGES_CACHE", 			"webpages");
+	define("HOURS_TO_CACHE_WEBPAGES", 	1);
 	
 	function create_proper_ownership($file) {
 		exec('chmod 775 '.$file);
@@ -63,6 +66,49 @@
 		}
 		
 		return flock_get_contents($resource_location);
+	}
+	
+	function cache_auto_get_page_name() {
+		$hash_contents = $_SERVER['REQUEST_URI'];
+		
+		foreach ($_SESSION as $key => $value) {
+			$hash_contents .= "$key=>$value";
+		}
+		
+		return md5($hash_contents).'.html';
+	}
+	
+	/**
+	 * Starts caching the current webpage. Must be called before any content printed.
+	 */
+	function cache_auto_start() {		
+		$page_name = cache_auto_get_page_name();
+		
+		$cached_page = cache_get(WEBPAGES_CACHE, $page_name, HOURS_TO_CACHE_WEBPAGES);
+		
+		if ($cached_page) {
+			print $cached_page;
+			
+			exit;
+		}
+		else {
+			ob_start();
+		}
+	}
+	
+	/**
+	 * Ends caching the current webpage. Must be called after all content printed.
+	 */
+	function cache_auto_end() {
+		$page_name = cache_auto_get_page_name();
+		
+		$page_contents = ob_get_contents();
+		
+		$page_contents = preg_replace('/\s+/', ' ', $page_contents);
+
+		cache_put(WEBPAGES_CACHE, $page_name, $page_contents);
+			
+		ob_end_flush();
 	}
 
 ?>

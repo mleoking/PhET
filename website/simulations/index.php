@@ -1,5 +1,6 @@
 <?php
-
+	$g_cache_current_page = true;
+	
     include_once("../admin/db.inc");
     include_once("../admin/sim-utils.php");
     include_once("../admin/site-utils.php");

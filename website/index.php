@@ -1,13 +1,17 @@
 <?php
-    if (!defined('SITE_ROOT')) {
+	if (!defined('SITE_ROOT')) {
         define("SITE_ROOT", "./");
     }
 
 	session_start();
     
+	include_once("admin/cache-utils.php");
+	
+	cache_auto_start();
+	
     include_once("admin/sim-utils.php");
     include_once("admin/web-utils.php");
-	include_once("admin/site-utils.php");
+	include_once("admin/site-utils.php");	
     
 	$referrer           = $_SERVER['PHP_SELF'];
 	$utility_panel_html = get_sitewide_utility_html('.');
@@ -227,4 +231,6 @@ EOT;
 </body>
 </html>
 EOT;
+
+	cache_auto_end();
 ?>

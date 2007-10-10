@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/sim-utils.php</string>
+	<string>simulations/translations.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -424,28 +424,28 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>4</integer>
+				<integer>52</integer>
 				<key>line</key>
-				<integer>23</integer>
+				<integer>222</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>0</integer>
+			<integer>238</integer>
 		</dict>
 		<key>admin/sim-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>38</integer>
+				<integer>0</integer>
 				<key>line</key>
-				<integer>844</integer>
+				<integer>865</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>833</integer>
+			<integer>848</integer>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
@@ -522,14 +522,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>5</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>474</integer>
+				<integer>522</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>472</integer>
+			<integer>502</integer>
 		</dict>
 		<key>admin/xml_parser.php</key>
 		<dict>
@@ -662,14 +662,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>55</integer>
+				<integer>35</integer>
 				<key>line</key>
-				<integer>28</integer>
+				<integer>116</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>8</integer>
+			<integer>99</integer>
 		</dict>
 		<key>simulations/sims.php</key>
 		<dict>
@@ -692,12 +692,26 @@
 				<key>column</key>
 				<integer>3</integer>
 				<key>line</key>
-				<integer>127</integer>
+				<integer>119</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>115</integer>
+			<integer>96</integer>
+		</dict>
+		<key>teacher_ideas/edit-contribution.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>21</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>10</integer>
 		</dict>
 		<key>teacher_ideas/index.php</key>
 		<dict>
@@ -775,11 +789,15 @@
 	<key>openDocuments</key>
 	<array>
 		<string>admin/sim-utils.php</string>
+		<string>teacher_ideas/edit-contribution.php</string>
+		<string>research/index.php</string>
+		<string>admin/research-utils.php</string>
+		<string>admin/web-utils.php</string>
 		<string>simulations/translations.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{289, 121}, {895, 656}}</string>
+	<string>{{12, 108}, {895, 656}}</string>
 </dict>
 </plist>
