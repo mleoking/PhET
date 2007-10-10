@@ -30,8 +30,8 @@ public class PhetSimLauncher {
                     // Construct and start the application in the event-dispatch thread.
                     // Application construction involves realization of Swing components, and
                     // Sun now recommends doing all Swing realization in the event dispatch thread.
-                    // And all code that might affect or depend on the state of that component should be 
-                    // executed in the event-dispatching thread.
+                    // And all code that might affect or depend on the state of Swing components  
+                    // should be executed in the event-dispatching thread.
                     Constructor constructor = phetApplication.getConstructor( new Class[] { stringClass } );
                     NonPiccoloPhetApplication simulation = (NonPiccoloPhetApplication) constructor.newInstance( new Object[] { args } );
                     simulation.startApplication();
