@@ -45,18 +45,6 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         
         _modelViewTransform = modelViewTransform;
         
-        // pointer with origin at geometric center
-        Dimension size = _exampleModelElement.getSize();
-        final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
-        final float h = (float) _modelViewTransform.modelToView( size.getHeight() );
-        GeneralPath path = new GeneralPath();
-        path.moveTo( w/2, 0 );
-        path.lineTo( w/4, h/2 );
-        path.lineTo( -w/2, h/2 );
-        path.lineTo( -w/2, -h/2 );
-        path.lineTo( w/4, -h/2 );
-        path.closePath();
-        setPathTo( path );
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
@@ -65,7 +53,8 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
         addPropertyChangeListener( this ); // update model when node is dragged
         
-        updateNode();
+        updateNodeSize();
+        updateNodePositionAndOrientation();
     }
     
     /**
@@ -84,11 +73,34 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
      */
     public void update( Observable o, Object arg ) {
         if ( o == _exampleModelElement ) {
-            updateNode();
+            if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
+                updateNodeSize();
+            }
+            if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
+                updateNodePositionAndOrientation();
+            }
+            if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
+                updateNodePositionAndOrientation();
+            }
         }
     }
     
-    private void updateNode() {
+    private void updateNodeSize() {
+        // pointer with origin at geometric center
+        Dimension size = _exampleModelElement.getSizeReference();
+        final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
+        final float h = (float) _modelViewTransform.modelToView( size.getHeight() );
+        GeneralPath path = new GeneralPath();
+        path.moveTo( w/2, 0 );
+        path.lineTo( w/4, h/2 );
+        path.lineTo( -w/2, h/2 );
+        path.lineTo( -w/2, -h/2 );
+        path.lineTo( w/4, -h/2 );
+        path.closePath();
+        setPathTo( path );
+    }
+    
+    private void updateNodePositionAndOrientation() {
         Point2D modelPosition = _exampleModelElement.getPositionReference();
         double orientation = _exampleModelElement.getOrientation();
         Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
@@ -107,11 +119,11 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
      */
     public void propertyChange( PropertyChangeEvent event ) {
         if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-            updateModel();
+            updateModelPosition();
         }
     }
     
-    private void updateModel() {
+    private void updateModelPosition() {
         Point2D viewPoint = getOffset();
         Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
         _exampleModelElement.deleteObserver( this );

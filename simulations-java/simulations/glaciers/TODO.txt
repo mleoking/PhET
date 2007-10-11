@@ -18,6 +18,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/9/07 - add width and height controls to control panel
+10/9/07 - flatten ExampleModelElement in preparation for replacing Observer pattern
 10/9/07 - hook up developer controls for tab color and control panel color
 10/9/07 - push more stuff into phetcommon
 10/9/07 - migrate updateLayout to PhetPCanvas

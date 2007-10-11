@@ -116,6 +116,7 @@ public class ExampleModule extends GlaciersAbstractModule {
             
             // ExampleModelElement
             ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+            exampleModelElement.setSize( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_SIZE );
             exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
             exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
         }
@@ -147,6 +148,8 @@ public class ExampleModule extends GlaciersAbstractModule {
 
             // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
+            config.setExampleModelElementWidth( exampleModelElement.getWidth() );
+            config.setExampleModelElementHeight( exampleModelElement.getHeight() );
             config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
             config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
         }
@@ -177,6 +180,7 @@ public class ExampleModule extends GlaciersAbstractModule {
 
             // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
+            exampleModelElement.setSize( config.getExampleModelElementWidth(), config.getExampleModelElementHeight() );
             exampleModelElement.setPosition( config.getExampleModelElementPosition() );
             exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
         }
