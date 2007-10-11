@@ -33,7 +33,7 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
  * @version $Revision$
  */
 public class SolubleSaltsApplication extends PhetApplication {
-    private boolean showOptions = false;
+    private boolean showOptions = true;
 
     public SolubleSaltsApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1000, 740 ), PhetResources.forProject( "soluble-salts" ) ) );
