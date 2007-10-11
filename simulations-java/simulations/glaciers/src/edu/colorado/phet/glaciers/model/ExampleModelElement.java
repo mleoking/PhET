@@ -138,7 +138,8 @@ public class ExampleModelElement implements ModelElement {
     	_controller.sizeChanged( size, size );
     	Point2D position = getPosition();
     	_controller.positionChanged( position, position );
-    	_controller.orientationChanged( _orientation, _orientation );
+    	double orientation = getOrientation();
+    	_controller.orientationChanged( orientation, orientation );
     }
     
     public void removeListener( ExampleModelElementListener listener ) {
