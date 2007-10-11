@@ -48,11 +48,6 @@ public class SolubleSaltsModule extends PiccoloModule {
     private SolubleSaltsConfig.Calibration calibration;
     private PNode fullScaleCanvas;
 
-    /**
-     * Only constructor
-     *
-     * @param clock
-     */
     public SolubleSaltsModule( String title, IClock clock, SolubleSaltsConfig.Calibration calibration ) {
         super( title, clock );
 

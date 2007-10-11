@@ -27,11 +27,6 @@ import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
  */
 public class SolubleSaltsConfig {
 
-    // Descriptive information
-    public static final String TITLE = SimStrings.getInstance().getString( "soluble-salts.name" );
-    public static final String DESCRIPTION = SimStrings.getInstance().getString( "soluble-salts.description" );
-    public static final String VERSION = PhetApplicationConfig.getVersion( "soluble-salts" ).formatForTitleBar();
-
     // Clock parameters
     public static final double DT = 1;
     public static final int FPS = 25;
@@ -70,9 +65,6 @@ public class SolubleSaltsConfig {
     public static final String ICE_IMAGE_FILE = IMAGE_PATH + "ice.gif";
     public static final String FAUCET_IMAGE = IMAGE_PATH + "faucet-gold-rt.gif";
     public static final Color WATER_COLOR = new Color( 150, 200, 255 );
-
-    // Misc
-    public static final String STRINGS_BUNDLE_NAME = "soluble-salts/localization/soluble-salts-strings";
 
     // The time (real time in ms) after an ion is released from a lattice before it can
     // be bound to that lattice again

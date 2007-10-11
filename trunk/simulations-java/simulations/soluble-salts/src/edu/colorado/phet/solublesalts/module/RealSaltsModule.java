@@ -22,12 +22,6 @@ import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
  * @version $Revision$
  */
 public class RealSaltsModule extends SolubleSaltsModule {
-
-    /**
-     * Only constructor
-     *
-     * @param clock
-     */
     public RealSaltsModule( IClock clock ) {
         super( SimStrings.getInstance().getString( "Module.title" ),
                clock,

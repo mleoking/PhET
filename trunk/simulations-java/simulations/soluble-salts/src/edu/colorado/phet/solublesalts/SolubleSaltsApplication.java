@@ -15,6 +15,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
@@ -36,18 +37,24 @@ public class SolubleSaltsApplication extends PhetApplication {
 
     public SolubleSaltsApplication( String[] args ) {
         super( args,
-               SolubleSaltsConfig.TITLE,
-               SolubleSaltsConfig.DESCRIPTION,
-               SolubleSaltsConfig.VERSION,
+               SimStrings.getInstance().getString( "soluble-salts.name" ),
+               SimStrings.getInstance().getString( "soluble-salts.description" ),
+               PhetApplicationConfig.getVersion( "soluble-salts" ).formatForTitleBar(),
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
-        Module moduleA = new RealSaltsModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
-        Module moduleB = new ConfigurableSaltModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
-        Module moduleC = new SodiumChlorideModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
+        Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
+        Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );
+        Module moduleC = new SodiumChlorideModule( new SolubleSaltsClock() );
 
         setModules( new Module[]{moduleC, moduleA, moduleB} );
         if ( showOptions ) {
             setUpOptionsMenu();
+        }
+    }
+
+    static class SolubleSaltsClock extends SwingClock {
+        public SolubleSaltsClock() {
+            super( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         }
     }
 
@@ -82,7 +89,7 @@ public class SolubleSaltsApplication extends PhetApplication {
             }
         }
 
-        SimStrings.getInstance().init( args, SolubleSaltsConfig.STRINGS_BUNDLE_NAME );
+        SimStrings.getInstance().init( args, "soluble-salts/localization/soluble-salts-strings" );
 
 
         Color blueBackground = new Color( 230, 250, 255 );
