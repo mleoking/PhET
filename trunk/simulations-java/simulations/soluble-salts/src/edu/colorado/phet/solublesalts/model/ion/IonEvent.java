@@ -21,13 +21,13 @@ import java.util.EventObject;
 public class IonEvent extends EventObject {
     public IonEvent( Object source ) {
         super( source );
-        if( !( source instanceof Ion ) ) {
+        if ( !( source instanceof Ion ) ) {
             throw new RuntimeException( "source of wrong type" );
         }
     }
 
     public Ion getIon() {
-        return (Ion)getSource();
+        return (Ion) getSource();
     }
 }
 

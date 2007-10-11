@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-
 import java.util.*;
+
+import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 
 /**
  * CrystalTracker
@@ -41,8 +41,8 @@ public class CrystalTracker implements Crystal.InstanceLifetimeListener {
     }
 
     private void crystalAdded( Crystal crystal ) {
-        List crystalSet = (List)crystalMap.get( crystal.getClass() );
-        if( crystalSet == null ) {
+        List crystalSet = (List) crystalMap.get( crystal.getClass() );
+        if ( crystalSet == null ) {
             crystalSet = new ArrayList();
             crystalMap.put( crystal.getClass(), crystalSet );
         }
@@ -52,7 +52,7 @@ public class CrystalTracker implements Crystal.InstanceLifetimeListener {
     }
 
     private void crystalRemoved( Crystal crystal ) {
-        List crystalSet = (List)crystalMap.get( crystal.getClass() );
+        List crystalSet = (List) crystalMap.get( crystal.getClass() );
         crystalSet.remove( crystal );
 
         model.removeModelElement( crystal );
@@ -61,8 +61,8 @@ public class CrystalTracker implements Crystal.InstanceLifetimeListener {
     public List getCrystals() {
         List result = new ArrayList();
         Collection lists = crystalMap.values();
-        for( Iterator it = lists.iterator(); it.hasNext(); ) {
-            List l = (List)it.next();
+        for ( Iterator it = lists.iterator(); it.hasNext(); ) {
+            List l = (List) it.next();
             result.addAll( l );
         }
         return result;

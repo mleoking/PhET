@@ -11,6 +11,15 @@
 
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
@@ -18,14 +27,6 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonFlowManager;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 public class OptionsMenu extends JMenu {
 
@@ -63,8 +64,8 @@ public class OptionsMenu extends JMenu {
             public void actionPerformed( ActionEvent e ) {
                 final JDialog dlg = new JDialog( frame, "Random Walk Adjusment", false );
                 dlg.getContentPane().setLayout( new BorderLayout() );
-                final SolubleSaltsModel model = (SolubleSaltsModel)NonPiccoloPhetApplication.instance().getActiveModule().getModel();
-                final JSlider sldr = new JSlider( 0, 360, (int)model.getRandomWalkAgent().getTheta() );
+                final SolubleSaltsModel model = (SolubleSaltsModel) NonPiccoloPhetApplication.instance().getActiveModule().getModel();
+                final JSlider sldr = new JSlider( 0, 360, (int) model.getRandomWalkAgent().getTheta() );
                 sldr.setMajorTickSpacing( 45 );
                 sldr.setMinorTickSpacing( 15 );
                 sldr.setPaintTicks( true );
@@ -166,7 +167,7 @@ public class OptionsMenu extends JMenu {
         final JCheckBoxMenuItem debugMI = new JCheckBoxMenuItem( "Show debug controls" );
         debugMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                SolubleSaltsControlPanel controlPanel = (SolubleSaltsControlPanel)PhetUtilities.getActiveModule().getControlPanel();
+                SolubleSaltsControlPanel controlPanel = (SolubleSaltsControlPanel) PhetUtilities.getActiveModule().getControlPanel();
                 controlPanel.setDebugControlsVisible( debugMI.isSelected() );
             }
         } );

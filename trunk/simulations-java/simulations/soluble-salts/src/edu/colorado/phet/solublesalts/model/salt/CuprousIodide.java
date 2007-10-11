@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Copper;
 import edu.colorado.phet.solublesalts.model.ion.Iodide;
 import edu.colorado.phet.solublesalts.model.ion.Silver;
-
-import java.util.ArrayList;
 
 /**
  * SilverIodide

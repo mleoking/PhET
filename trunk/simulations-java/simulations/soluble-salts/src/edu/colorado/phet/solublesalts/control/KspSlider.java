@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import java.text.DecimalFormat;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 
 /**
  * KspSlider

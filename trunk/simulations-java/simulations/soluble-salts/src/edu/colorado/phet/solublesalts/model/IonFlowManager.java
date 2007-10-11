@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.util.*;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-
-import java.util.*;
 
 /**
  * IonFlowManager
@@ -61,7 +61,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
         // If the rate of water flowing out of the vessel is increasing,
         // increase the velocity of all ions toward the drain
-        if( change < 0 && change != lastChange ) {
+        if ( change < 0 && change != lastChange ) {
 
             lastChange = change;
             List ions = model.getIons();
@@ -71,10 +71,10 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             // to get to the drain before the water runs out.
             Vessel vessel = event.getVessel();
             double maxDistSq = Double.MIN_VALUE;
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion ion = (Ion)ions.get( i );
+            for ( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion) ions.get( i );
                 double distSq = ion.getPosition().distanceSq( drain.getPosition() );
-                if( distSq > maxDistSq ) {
+                if ( distSq > maxDistSq ) {
                     maxDistSq = distSq;
                 }
             }
@@ -94,15 +94,15 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             // it out of the tank by the time the water is gone.
             double ds = farthestDistToDrain / timeToEmpty;
 
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion ion = (Ion)ions.get( i );
+            for ( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion) ions.get( i );
                 // If the ion isn't in the water or is bound, don't mess with it
-                if( ion.isBound() || !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
+                if ( ion.isBound() || !vessel.getWater().getBounds().contains( ion.getPosition() ) ) {
                     continue;
                 }
 
                 // Save the velocity of the ion before we change it
-                if( unadjustedVelocities.get( ion ) == null ) {
+                if ( unadjustedVelocities.get( ion ) == null ) {
                     unadjustedVelocities.put( ion, new Vector2D.Double( ion.getVelocity() ) );
                 }
 
@@ -130,11 +130,11 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
     public void stateChanged( Spigot.ChangeEvent event ) {
 
         // If there isn't any water flowing out of the drain, restore any ion's velcities that need it
-        if( event.getSpigot().getFlow() == 0 ) {
+        if ( event.getSpigot().getFlow() == 0 ) {
             Set ionsToRestore = unadjustedVelocities.keySet();
-            for( Iterator iterator = ionsToRestore.iterator(); iterator.hasNext(); ) {
-                Ion ion = (Ion)iterator.next();
-                Vector2D vPrev = (Vector2D)unadjustedVelocities.get( ion );
+            for ( Iterator iterator = ionsToRestore.iterator(); iterator.hasNext(); ) {
+                Ion ion = (Ion) iterator.next();
+                Vector2D vPrev = (Vector2D) unadjustedVelocities.get( ion );
                 Vector2D vCurr = ion.getVelocity();
                 vCurr.normalize().scale( vPrev.getMagnitude() );
             }

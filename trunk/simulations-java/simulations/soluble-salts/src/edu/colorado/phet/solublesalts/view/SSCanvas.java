@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.solublesalts.view.zoom.SSZoomHandler;
-
-import java.awt.*;
 
 /**
  * SSCanvas
@@ -31,10 +31,10 @@ public class SSCanvas extends PhetPCanvas {
     }
 
     public void setZoomEnabled( boolean zoomEnabled ) {
-        if( !this.zoomEnabled && zoomEnabled ) {
+        if ( !this.zoomEnabled && zoomEnabled ) {
             setZoomEventHandler( zoomHandler );
         }
-        else if( this.zoomEnabled && !zoomEnabled ) {
+        else if ( this.zoomEnabled && !zoomEnabled ) {
             setZoomEventHandler( null );
         }
         this.zoomEnabled = zoomEnabled;

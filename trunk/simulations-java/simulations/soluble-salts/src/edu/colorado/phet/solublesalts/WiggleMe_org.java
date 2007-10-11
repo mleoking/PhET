@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * WiggleMe
@@ -51,23 +52,23 @@ public class WiggleMe_org extends PNode implements ModelElement {
     }
 
     public void stepInTime( double dt ) {
-        if( numCycles < TOTAL_NUM_CYCLES ) {
+        if ( numCycles < TOTAL_NUM_CYCLES ) {
 
             double dy = 0;
-            if( direction == WiggleMe_org.DOWN ) {
+            if ( direction == WiggleMe_org.DOWN ) {
                 dy = 15;
             }
-            else if( direction == WiggleMe_org.UP ) {
+            else if ( direction == WiggleMe_org.UP ) {
                 dy = -5;
             }
 
             y += dy;
             setOffset( x, y );
 
-            if( y < startLocation.getY() ) {
+            if ( y < startLocation.getY() ) {
                 direction = WiggleMe_org.DOWN;
             }
-            else if( y > maxY ) {
+            else if ( y > maxY ) {
                 direction = WiggleMe_org.UP;
                 numCycles++;
             }

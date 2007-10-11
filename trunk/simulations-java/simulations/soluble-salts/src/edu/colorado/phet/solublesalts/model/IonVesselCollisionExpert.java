@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.ContactDetector;
@@ -17,10 +21,6 @@ import edu.colorado.phet.common.collision.SphereBoxExpert;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 /**
  * IonVesselCollisionExpert
@@ -65,18 +65,18 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         boolean collisionOccurred = false;
         Ion ion = null;
         Vessel vessel = null;
-        if( applies( bodyA, bodyB ) ) {
-            ion = (Ion)( bodyA instanceof Ion ? bodyA : bodyB );
-            vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
+        if ( applies( bodyA, bodyB ) ) {
+            ion = (Ion) ( bodyA instanceof Ion ? bodyA : bodyB );
+            vessel = (Vessel) ( bodyA instanceof Vessel ? bodyA : bodyB );
 
-            if( !vessel.isOutside( ion.getPosition() )
+            if ( !vessel.isOutside( ion.getPosition() )
 //            if( vessel.getShape().getBounds2D().contains( ion.getPosition() )
 && ( areInContact( ion, vessel.getWater() )
      || areInContact( ion, vessel ) ) ) {
 
                 // If the ion isn't bound to a crystal, then create a new crystal, if all other
                 // conditions are met
-                if( !ion.isBound() ) {
+                if ( !ion.isBound() ) {
                     collisionOccurred = handleIonVesselCollision( ion, vessel );
                 }
             }
@@ -114,15 +114,15 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
         // Make sure the ion isn't too close to another ion of the same polarity
         double minDist = minDistToLikeIon;
         List otherIons = model.getIons();
-        for( int i = 0; i < otherIons.size() && canBind; i++ ) {
-            Ion testIon = (Ion)otherIons.get( i );
-            if( testIon.isBound()
-                && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
+        for ( int i = 0; i < otherIons.size() && canBind; i++ ) {
+            Ion testIon = (Ion) otherIons.get( i );
+            if ( testIon.isBound()
+                 && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
                 canBind = false;
             }
         }
 
-        if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
+        if ( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
             vessel.bind( ion );
         }
 

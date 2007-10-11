@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
  * Drain
@@ -51,13 +51,13 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
         vessel.addChangeListener( this );
 
 
-        if( orientation == HORIZONTAL ) {
+        if ( orientation == HORIZONTAL ) {
             opening = new Line2D.Double( location.getX() + wallThickness,
                                          location.getY() - openingHeight / 2,
                                          location.getX() + wallThickness,
                                          location.getY() + openingHeight / 2 );
         }
-        else if( orientation == VERTICAL ) {
+        else if ( orientation == VERTICAL ) {
             opening = new Line2D.Double( location.getX() - openingHeight / 2,
                                          location.getY(),
                                          location.getX() + openingHeight / 2,
@@ -74,7 +74,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
      * @param dt
      */
     public void stepInTime( double dt ) {
-        if( getFlow() != 0 ) {
+        if ( getFlow() != 0 ) {
             Vessel vessel = getModel().getVessel();
             double area = vessel.getWidth();
             double volume = vessel.getWaterLevel() - getFlow() / area;
@@ -82,14 +82,14 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
 
             ArrayList capturedIons = new ArrayList();
             List ions = getModel().getIons();
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion ion = (Ion)ions.get( i );
-                if( !ion.isBound() && opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * ionCaptureDistance ) {
+            for ( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion) ions.get( i );
+                if ( !ion.isBound() && opening.ptSegDist( ion.getPosition() ) < ion.getRadius() * ionCaptureDistance ) {
                     capturedIons.add( ion );
                 }
             }
-            for( int i = 0; i < capturedIons.size(); i++ ) {
-                Ion ion = (Ion)capturedIons.get( i );
+            for ( int i = 0; i < capturedIons.size(); i++ ) {
+                Ion ion = (Ion) capturedIons.get( i );
                 ion.setPosition( new Point2D.Double( getPosition().getX() + inputToOutputOffset.getX(),
                                                      getPosition().getY() + inputToOutputOffset.getY() ) );
                 ion.setVelocity( new Vector2D.Double( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ) );
@@ -98,7 +98,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     }
 
     public void setFlow( double flow ) {
-        if( vessel.getWaterLevel() > 0 ) {
+        if ( vessel.getWaterLevel() > 0 ) {
             super.setFlow( flow );
         }
         else {
@@ -118,7 +118,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
 
     public void stateChanged( Vessel.ChangeEvent event ) {
         Vessel vessel = event.getVessel();
-        if( vessel.getWaterLevel() <= 0 ) {
+        if ( vessel.getWaterLevel() <= 0 ) {
             setFlow( 0 );
         }
     }

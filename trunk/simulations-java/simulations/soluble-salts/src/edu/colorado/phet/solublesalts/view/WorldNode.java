@@ -10,6 +10,8 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.common.piccolophet.util.PiccoloUtils;
@@ -19,8 +21,6 @@ import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.WaterSource;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.geom.Point2D;
 
 /**
  * WorldNode
@@ -32,7 +32,7 @@ public class WorldNode extends PNode {
 
     public WorldNode( final SolubleSaltsModule module, PhetPCanvas phetPCanvas ) {
 
-        final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
+        final SolubleSaltsModel model = (SolubleSaltsModel) module.getModel();
 
         double graphicsScale = 1;
 //        double graphicsScale = model.getBounds().getWidth() / phetPCanvas.getRenderingSize().getWidth();

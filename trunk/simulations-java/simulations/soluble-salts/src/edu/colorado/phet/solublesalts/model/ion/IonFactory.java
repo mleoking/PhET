@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * IonFactory
@@ -35,7 +35,7 @@ public class IonFactory {
     public Ion create( Class ionClass ) {
         Ion ion = null;
         try {
-            ion = (Ion)ionClass.newInstance();
+            ion = (Ion) ionClass.newInstance();
         }
         catch( InstantiationException e ) {
             e.printStackTrace();

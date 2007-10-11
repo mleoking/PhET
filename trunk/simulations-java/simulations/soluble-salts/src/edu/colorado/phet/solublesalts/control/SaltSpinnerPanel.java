@@ -10,6 +10,14 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Random;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
@@ -20,13 +28,6 @@ import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Random;
 
 /**
  * SaltSpinnerPanel
@@ -286,7 +287,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
      * @param salt
      */
     public void setSalt( Salt salt ) {
-        if( salt.getAnionClass() != this.anionClass ) {
+        if ( salt.getAnionClass() != this.anionClass ) {
             this.anionClass = salt.getAnionClass();
 
             // Update the counter label
@@ -295,7 +296,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
             anionLabel.setIcon( new ImageIcon( IonGraphicManager.getIonImage( anionClass ) ) );
         }
 
-        if( salt.getCationClass() != this.cationClass ) {
+        if ( salt.getCationClass() != this.cationClass ) {
             this.cationClass = salt.getCationClass();
 
             // Update the counter label
@@ -310,12 +311,12 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         anionClass = salt.getAnionClass();
         cationClass = salt.getCationClass();
         Salt.Component[] components = salt.getComponents();
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             Salt.Component component = components[i];
-            if( component.getIonClass() == anionClass ) {
+            if ( component.getIonClass() == anionClass ) {
                 anionRatio = component.getLatticeUnitFraction().intValue();
             }
-            if( component.getIonClass() == cationClass ) {
+            if ( component.getIonClass() == cationClass ) {
                 cationRatio = component.getLatticeUnitFraction().intValue();
             }
         }
@@ -351,10 +352,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     //----------------------------------------------------------------
 
     public void stateChanged( SolubleSaltsModel.ChangeEvent event ) {
-        if( event.isSaltChanged() ) {
+        if ( event.isSaltChanged() ) {
             setSalt( event.getModel().getCurrentSalt() );
         }
-        if( event.isModelReset() ) {
+        if ( event.isModelReset() ) {
             syncSpinnersWithModel();
         }
     }
@@ -364,7 +365,7 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     }
 
     private String getIonName( Class ionClass ) {
-        String ionName = (String)ionClassToName.get( ionClass );
+        String ionName = (String) ionClassToName.get( ionClass );
         return ionName;
     }
 
@@ -393,34 +394,34 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         }
 
         public void stateChanged( ChangeEvent e ) {
-            if( spinner.isSyncWithDependentIonspinner() ) {
-                int dIons = ( (Integer)spinner.getValue() ).intValue()
+            if ( spinner.isSyncWithDependentIonspinner() ) {
+                int dIons = ( (Integer) spinner.getValue() ).intValue()
                             - model.getNumIonsOfType( ionClass );
-                if( dIons > 0 ) {
+                if ( dIons > 0 ) {
                     IonFactory ionFactory = new IonFactory();
-                    for( int i = 0; i < dIons; i++ ) {
+                    for ( int i = 0; i < dIons; i++ ) {
                         Ion ion = ionFactory.create( ionClass );
                         IonInitializer.initialize( ion, model );
                         model.addModelElement( ion );
                     }
                 }
 
-                if( dIons < 0 ) {
-                    for( int i = dIons; i < 0; i++ ) {
+                if ( dIons < 0 ) {
+                    for ( int i = dIons; i < 0; i++ ) {
                         // Remove a free ion if one is avaliable
                         java.util.List ions = model.getIonsOfType( ionClass );
                         boolean found = false;
-                        for( int j = 0; j < ions.size() && !found; j++ ) {
-                            Ion ion = (Ion)ions.get( j );
-                            if( !ion.isBound() ) {
+                        for ( int j = 0; j < ions.size() && !found; j++ ) {
+                            Ion ion = (Ion) ions.get( j );
+                            if ( !ion.isBound() ) {
                                 model.removeModelElement( ion );
                                 found = true;
                             }
                         }
                         // If a free ion wasn't available, remove one from a crystal
-                        if( !found ) {
+                        if ( !found ) {
                             java.util.List crystals = model.getCrystals();
-                            Crystal crystal = (Crystal)crystals.get( random.nextInt( crystals.size() ) );
+                            Crystal crystal = (Crystal) crystals.get( random.nextInt( crystals.size() ) );
                             crystal.releaseIon( SolubleSaltsConfig.DT );
                         }
                     }

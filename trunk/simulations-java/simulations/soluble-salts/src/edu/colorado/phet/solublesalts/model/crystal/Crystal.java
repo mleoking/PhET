@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.*;
+
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
@@ -22,10 +26,6 @@ import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.*;
 
 /**
  * Crystal
@@ -62,7 +62,7 @@ public class Crystal extends Body implements Collidable {
 
     private static EventChannel instanceLifetimeEventChannel = new EventChannel( InstanceLifetimeListener.class );
     protected static InstanceLifetimeListener instanceLifetimeListenerProxy =
-            (InstanceLifetimeListener)instanceLifetimeEventChannel.getListenerProxy();
+            (InstanceLifetimeListener) instanceLifetimeEventChannel.getListenerProxy();
     private static Random random = new Random( System.currentTimeMillis() );
     private static double dissociationLikelihood;
     private SolubleSaltsModel model;
@@ -78,7 +78,7 @@ public class Crystal extends Body implements Collidable {
         }
 
         public Crystal getInstance() {
-            return (Crystal)getSource();
+            return (Crystal) getSource();
         }
     }
 
@@ -147,19 +147,19 @@ public class Crystal extends Body implements Collidable {
      * @param ions
      */
     public Crystal( SolubleSaltsModel model, Lattice lattice, List ions ) {
-        init( lattice, model, ions, (Ion)ions.get( 0 ) );
+        init( lattice, model, ions, (Ion) ions.get( 0 ) );
         Ion seed = null;
         double maxY = Double.MIN_VALUE;
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion testIon = (Ion)ions.get( i );
-            if( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion testIon = (Ion) ions.get( i );
+            if ( testIon.getPosition().getY() + testIon.getRadius() > maxY ) {
                 maxY = testIon.getPosition().getY() + testIon.getRadius();
                 seed = testIon;
             }
         }
 
         // Sanity check
-        if( seed == null ) {
+        if ( seed == null ) {
             throw new RuntimeException( "seed == null" );
         }
         trackExtremities();
@@ -175,7 +175,7 @@ public class Crystal extends Body implements Collidable {
      * @param seed
      */
     private void init( Lattice lattice, SolubleSaltsModel model, List ions, Ion seed ) {
-        this.lattice = (Lattice)lattice.clone();
+        this.lattice = (Lattice) lattice.clone();
         this.model = model;
         this.salt = model.getCurrentSalt();
 
@@ -190,7 +190,7 @@ public class Crystal extends Body implements Collidable {
         Salt.Component[] components = salt.getComponents();
         Class majorComponentClass = null;
         Class minorComponentClass = null;
-        if( components[0].getLatticeUnitFraction().intValue() > components[1].getLatticeUnitFraction().intValue() ) {
+        if ( components[0].getLatticeUnitFraction().intValue() > components[1].getLatticeUnitFraction().intValue() ) {
             majorComponentClass = components[0].getIonClass();
             minorComponentClass = components[1].getIonClass();
         }
@@ -201,12 +201,12 @@ public class Crystal extends Body implements Collidable {
 
         ArrayList majorityIons = new ArrayList();
         ArrayList minorityIons = new ArrayList();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
-            if( ion.getClass() == minorComponentClass ) {
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
+            if ( ion.getClass() == minorComponentClass ) {
                 minorityIons.add( ion );
             }
-            else if( ion.getClass() == majorComponentClass ) {
+            else if ( ion.getClass() == majorComponentClass ) {
                 majorityIons.add( ion );
             }
             else {
@@ -220,14 +220,14 @@ public class Crystal extends Body implements Collidable {
 
         Iterator itA = listA.iterator();
         Iterator itB = listB.iterator();
-        while( itA.hasNext() && itB.hasNext() ) {
+        while ( itA.hasNext() && itB.hasNext() ) {
             ions2.add( itA.next() );
             ions2.add( itB.next() );
         }
-        while( itA.hasNext() ) {
+        while ( itA.hasNext() ) {
             ions2.add( itA.next() );
         }
-        while( itB.hasNext() ) {
+        while ( itB.hasNext() ) {
             ions2.add( itB.next() );
         }
 
@@ -235,9 +235,9 @@ public class Crystal extends Body implements Collidable {
         // in which we try to add them, some ions might not find a spot to bond the first time we try to
         // add them. Those that don't get successfully added the first time are put on a retry list.
         List retryList = new ArrayList();
-        for( int i = 0; i < ions2.size(); i++ ) {
-            Ion ion = (Ion)ions2.get( i );
-            if( !addIon( ion ) ) {
+        for ( int i = 0; i < ions2.size(); i++ ) {
+            Ion ion = (Ion) ions2.get( i );
+            if ( !addIon( ion ) ) {
                 retryList.add( ion );
             }
         }
@@ -245,17 +245,17 @@ public class Crystal extends Body implements Collidable {
         // Retry adding ions that couldn't find a bond the first time through the list.
         int maxRetries = 10;
         int numRetries = 0;
-        for( int i = 0; i <= maxRetries && !retryList.isEmpty(); i++ ) {
+        for ( int i = 0; i <= maxRetries && !retryList.isEmpty(); i++ ) {
             numRetries = i;
-            for( int j = 0; j < retryList.size(); j++ ) {
-                Ion ion = (Ion)retryList.get( j );
-                if( addIon( ion ) ) {
+            for ( int j = 0; j < retryList.size(); j++ ) {
+                Ion ion = (Ion) retryList.get( j );
+                if ( addIon( ion ) ) {
                     retryList.remove( ion );
                     break;
                 }
             }
         }
-        if( numRetries >= maxRetries ) {
+        if ( numRetries >= maxRetries ) {
             throw new RuntimeException( "maxRetries exceeded" );
         }
 
@@ -265,7 +265,7 @@ public class Crystal extends Body implements Collidable {
         instanceLifetimeListenerProxy.instanceCreated( new InstanceLifetimeEvent( this ) );
 
         setSeed( seed );
-        if( collidableAdapter == null ) {
+        if ( collidableAdapter == null ) {
             collidableAdapter = new CollidableAdapter( this );
         }
     }
@@ -278,13 +278,13 @@ public class Crystal extends Body implements Collidable {
         ArrayList newIons = new ArrayList();
         IonFactory ionFactory = new IonFactory();
         Ion newSeed = null;
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             Ion newIon = ionFactory.create( ion.getClass(),
                                             new Point2D.Double( ion.getPosition().getX(), ion.getPosition().getY() ),
                                             new Vector2D.Double( ion.getVelocity() ),
                                             new Vector2D.Double( ion.getAcceleration() ) );
-            if( this.getSeed() == ion ) {
+            if ( this.getSeed() == ion ) {
                 newSeed = newIon;
             }
             newIons.add( newIon );
@@ -313,21 +313,21 @@ public class Crystal extends Body implements Collidable {
         Ion maxSouthIon = null;
         Ion maxWestIon = null;
 
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
-            if( ion.getPosition().getY() < maxNorth ) {
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
+            if ( ion.getPosition().getY() < maxNorth ) {
                 maxNorth = ion.getPosition().getY();
                 maxNorthIon = ion;
             }
-            if( ion.getPosition().getX() < maxWest ) {
+            if ( ion.getPosition().getX() < maxWest ) {
                 maxWest = ion.getPosition().getX();
                 maxWestIon = ion;
             }
-            if( ion.getPosition().getY() > maxSouth ) {
+            if ( ion.getPosition().getY() > maxSouth ) {
                 maxSouth = ion.getPosition().getY();
                 maxSouthIon = ion;
             }
-            if( ion.getPosition().getX() > maxEast ) {
+            if ( ion.getPosition().getX() > maxEast ) {
                 maxEast = ion.getPosition().getX();
                 maxEastIon = ion;
             }
@@ -376,8 +376,8 @@ public class Crystal extends Body implements Collidable {
 
     private void updateCm() {
         cm.setLocation( 0, 0 );
-        for( int i = 0; i < ions.size(); i++ ) {
-            Atom atom = (Atom)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Atom atom = (Atom) ions.get( i );
             cm.setLocation( cm.getX() + atom.getPosition().getX(),
                             cm.getY() + atom.getPosition().getY() );
         }
@@ -399,8 +399,8 @@ public class Crystal extends Body implements Collidable {
 
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             String s2 = new String( "ion: type = " + ion.getClass() + "  position = " + ion.getPosition() + "\n" );
             sb.append( s2 );
         }
@@ -422,32 +422,32 @@ public class Crystal extends Body implements Collidable {
         boolean added = false;
 
         // If the ion is prevented from binding, don't do anything
-        if( noBindList.contains( ionA ) ) {
+        if ( noBindList.contains( ionA ) ) {
             return false;
         }
 
         // Check that the ions are of opposite charges
-        if( ionA.getCharge() * ionB.getCharge() < 0 ) {
+        if ( ionA.getCharge() * ionB.getCharge() < 0 ) {
 
             // Sanity check
             Node nodeB = lattice.getNode( ionB );
-            if( nodeB == null ) {
+            if ( nodeB == null ) {
                 throw new RuntimeException( "nodeB = null" );
             }
 
             boolean b = lattice.addAtIonNode( ionA, ionB );
-            if( b ) {
+            if ( b ) {
                 ions.add( ionA );
                 ionA.bindTo( this );
                 updateCm();
                 added = true;
 
                 // debug
-                for( int i = 0; i < ions.size(); i++ ) {
-                    Ion ion1 = (Ion)ions.get( i );
-                    if( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
-                        && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
-                        && ion1 != ionA ) {
+                for ( int i = 0; i < ions.size(); i++ ) {
+                    Ion ion1 = (Ion) ions.get( i );
+                    if ( Math.abs( ion1.getPosition().getX() - ionA.getPosition().getX() ) < 2
+                         && Math.abs( ion1.getPosition().getY() - ionA.getPosition().getY() ) < 2
+                         && ion1 != ionA ) {
                         removeIon( ionA );
                         ionA.unbindFrom( this );
                         added = false;
@@ -460,7 +460,7 @@ public class Crystal extends Body implements Collidable {
             trackExtremities();
 
             // Sanity check
-            if( added && !waterBounds.contains( ionA.getPosition() ) ) {
+            if ( added && !waterBounds.contains( ionA.getPosition() ) ) {
                 throw new RuntimeException( "!waterBounds.contains( ionA.getPosition() )" );
             }
 
@@ -475,13 +475,13 @@ public class Crystal extends Body implements Collidable {
     public boolean addIon( Ion ion ) {
         boolean added = false;
 
-        if( noBindList.contains( ion ) ) {
+        if ( noBindList.contains( ion ) ) {
             System.out.println( "Crystal.addIon: on nobind list" );
             return false;
         }
         else {
             added = lattice.add( ion );
-            if( added ) {
+            if ( added ) {
                 ions.add( ion );
                 ion.bindTo( this );
                 updateCm();
@@ -489,11 +489,11 @@ public class Crystal extends Body implements Collidable {
         }
 
         // Debug: Sanity check to see ifwe are putting an ion where one already is
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion1 = (Ion)ions.get( i );
-            if( Math.abs( ion1.getPosition().getX() - ion.getPosition().getX() ) < 2
-                && Math.abs( ion1.getPosition().getY() - ion.getPosition().getY() ) < 2
-                && ion1 != ion ) {
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion1 = (Ion) ions.get( i );
+            if ( Math.abs( ion1.getPosition().getX() - ion.getPosition().getX() ) < 2
+                 && Math.abs( ion1.getPosition().getY() - ion.getPosition().getY() ) < 2
+                 && ion1 != ion ) {
                 System.out.println( "Crystal.addIon" );
             }
         }
@@ -515,7 +515,7 @@ public class Crystal extends Body implements Collidable {
         lattice.removeIon( ion );
         // If there aren't any ions left in the crystal, the crystal should be removed
         // from the model
-        if( getIons().size() == 0 ) {
+        if ( getIons().size() == 0 ) {
             instanceLifetimeListenerProxy.instanceDestroyed( new InstanceLifetimeEvent( this ) );
         }
 
@@ -536,12 +536,12 @@ public class Crystal extends Body implements Collidable {
         Ion ionToRelease = lattice.getBestIonToRelease( getIons(), preferredIonType );
 
         // Sanity check
-        if( ionToRelease == getSeed() && ions.size() > 1 ) {
+        if ( ionToRelease == getSeed() && ions.size() > 1 ) {
             throw new RuntimeException( "ionToRelease == getSeed() && ions.size() > 1" );
         }
 
         // Sanity check
-        if( ionToRelease == null ) {
+        if ( ionToRelease == null ) {
             throw new RuntimeException( "no ion found to release" );
         }
 
@@ -554,7 +554,7 @@ public class Crystal extends Body implements Collidable {
         removeIon( ionToRelease );
 
         // If there aren't any ions left in the crystal, remove it from the model
-        if( getIons().size() == 0 ) {
+        if ( getIons().size() == 0 ) {
             leaveModel();
         }
     }
@@ -570,14 +570,14 @@ public class Crystal extends Body implements Collidable {
 
         // If this is the seed ion, then just send it off with the velocity it had before it seeded the
         // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
-        if( ionToRelease == this.getSeed() ) {
+        if ( ionToRelease == this.getSeed() ) {
             return ionToRelease.getVelocity();
         }
 
         // Get the unoccupied sites around the ion being release
         List openSites = lattice.getOpenNeighboringSites( ionToRelease );
 
-        if( openSites.size() == 0 ) {
+        if ( openSites.size() == 0 ) {
             double angle = random.nextDouble() * Math.PI * 2;
             releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
@@ -585,20 +585,20 @@ public class Crystal extends Body implements Collidable {
 
         double maxAngle = Double.MIN_VALUE;
         double minAngle = Double.MAX_VALUE;
-        if( openSites.size() > 1 ) {
-            for( int i = 0; i < openSites.size() - 1; i++ ) {
-                Point2D p1 = (Point2D)openSites.get( i );
+        if ( openSites.size() > 1 ) {
+            for ( int i = 0; i < openSites.size() - 1; i++ ) {
+                Point2D p1 = (Point2D) openSites.get( i );
                 Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
                                                           p1.getY() - ionToRelease.getPosition().getY() );
                 double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-                for( int j = i + 1; j < openSites.size(); j++ ) {
+                for ( int j = i + 1; j < openSites.size(); j++ ) {
 
                     // If the two open sites we're now looking at are adjacent, set the velocity to point between them
-                    Point2D p2 = (Point2D)openSites.get( j );
+                    Point2D p2 = (Point2D) openSites.get( j );
                     Vector2D.Double v2 = new Vector2D.Double( p2.getX() - ionToRelease.getPosition().getX(),
                                                               p2.getY() - ionToRelease.getPosition().getY() );
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-                    if( Math.abs( angle2 - angle1 ) < Math.PI ) {
+                    if ( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
                         releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
                         return releaseVelocity;
@@ -606,11 +606,11 @@ public class Crystal extends Body implements Collidable {
                 }
             }
 
-            Point2D p1 = (Point2D)openSites.get( 0 );
+            Point2D p1 = (Point2D) openSites.get( 0 );
             Vector2D.Double v1 = new Vector2D.Double( p1.getX() - ionToRelease.getPosition().getX(),
                                                       p1.getY() - ionToRelease.getPosition().getY() );
             double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
-            Point2D p2 = (Point2D)openSites.get( 1 );
+            Point2D p2 = (Point2D) openSites.get( 1 );
             Vector2D.Double v2 = new Vector2D.Double( p2.getX() - ionToRelease.getPosition().getX(),
                                                       p2.getY() - ionToRelease.getPosition().getY() );
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
@@ -620,7 +620,7 @@ public class Crystal extends Body implements Collidable {
         }
 
         // If we get here, there is only one open site adjacent to the ion being released
-        Point2D point2D = (Point2D)openSites.get( 0 );
+        Point2D point2D = (Point2D) openSites.get( 0 );
         Vector2D.Double v = new Vector2D.Double( point2D.getX() - ionToRelease.getPosition().getX(),
                                                  point2D.getY() - ionToRelease.getPosition().getY() );
         double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
@@ -631,7 +631,7 @@ public class Crystal extends Body implements Collidable {
         releaseVelocity = new Vector2D.Double( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
 
         // Sanity check
-        if( releaseVelocity.getMagnitude() < 0.0001 ) {
+        if ( releaseVelocity.getMagnitude() < 0.0001 ) {
             System.out.println( "Crystal.determineReleaseVelocity < 0.0001" );
 //            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
         }
@@ -646,12 +646,12 @@ public class Crystal extends Body implements Collidable {
      */
     public void translate( double dx, double dy ) {
 
-        if( dx == 0 && dy == 0 ) {
+        if ( dx == 0 && dy == 0 ) {
             System.out.println( "Crystal.translate" );
         }
 
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             ion.translate( dx, dy );
         }
         super.translate( dx, dy );
@@ -692,8 +692,8 @@ public class Crystal extends Body implements Collidable {
 
     public List getOccupiedSites() {
         List l = new ArrayList();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Atom atom = (Atom)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Atom atom = (Atom) ions.get( i );
             l.add( atom.getPosition() );
         }
         return l;
@@ -759,11 +759,11 @@ public class Crystal extends Body implements Collidable {
      */
     public void stepInTime( double dt ) {
         // Only dissociate if the lattice is in the water
-        if( isInWater( waterBounds ) && random.nextDouble() < dissociationLikelihood ) {
+        if ( isInWater( waterBounds ) && random.nextDouble() < dissociationLikelihood ) {
             releaseIon( dt );
         }
 
-        if( collidableAdapter == null ) {
+        if ( collidableAdapter == null ) {
             System.out.println( "Crystal.stepInTime" );
         }
         collidableAdapter.stepInTime( dt );

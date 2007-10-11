@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * Bond
@@ -37,7 +37,7 @@ public class Bond {
     // Class-level events and listeners that can be used for notification when instances
     // are created
     static EventChannel constructionChannel = new EventChannel( ConstructionListener.class );
-    static ConstructionListener constructionListenerProxy = (ConstructionListener)constructionChannel.getListenerProxy();
+    static ConstructionListener constructionListenerProxy = (ConstructionListener) constructionChannel.getListenerProxy();
 
     static public class ConstructionEvent extends EventObject {
         private Bond bond;
@@ -75,7 +75,7 @@ public class Bond {
     private double orientation;
     private double length;
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     /**
      * Only constructor
@@ -104,7 +104,7 @@ public class Bond {
     }
 
     public void setDestination( Node node ) {
-        if( nodes[1] != null ) {
+        if ( nodes[1] != null ) {
             throw new RuntimeException( "destination already set" );
         }
         nodes[1] = node;
@@ -141,10 +141,10 @@ public class Bond {
      * @return
      */
     public Node traverse( Node originNode ) {
-        if( nodes[0] == originNode ) {
+        if ( nodes[0] == originNode ) {
             return nodes[1];
         }
-        else if( nodes[1] == originNode ) {
+        else if ( nodes[1] == originNode ) {
             return nodes[0];
         }
         else {
@@ -161,12 +161,12 @@ public class Bond {
     public void removeNode( Node node ) {
         // If the origin node is being removed, replace it with the destination node, and update the
         // orientation so it is relative to the new origin node.
-        if( nodes[0] == node ) {
+        if ( nodes[0] == node ) {
             nodes[0] = nodes[1];
             nodes[1] = null;
             setOrientation( ( getOrientation() + Math.PI ) % ( Math.PI * 2 ) );
         }
-        else if( nodes[1] == node ) {
+        else if ( nodes[1] == node ) {
             nodes[1] = null;
         }
         else {
@@ -181,7 +181,7 @@ public class Bond {
      * @return
      */
     public Point2D getOpenPosition() {
-        if( !isOpen() ) {
+        if ( !isOpen() ) {
             throw new RuntimeException( "bond not open" );
         }
         return MathUtil.radialToCartesian( length, orientation, nodes[0].getPosition() );
@@ -215,7 +215,7 @@ public class Bond {
         }
 
         public Bond getBond() {
-            return (Bond)getSource();
+            return (Bond) getSource();
         }
     }
 

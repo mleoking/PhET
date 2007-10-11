@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Chloride

@@ -10,6 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -18,9 +21,6 @@ import edu.colorado.phet.solublesalts.control.SodiumChlorideControlPanel;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.IonEvent;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * SolubleSaltsModule
@@ -47,10 +47,10 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
         setControlPanel( new SodiumChlorideControlPanel( this ) );
 
         // Set the default salt
-        ( (SolubleSaltsModel)getModel() ).setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );
+        ( (SolubleSaltsModel) getModel() ).setCurrentSalt( SolubleSaltsConfig.DEFAULT_SALT );
 
         // Add the wiggle-me
-        final SolubleSaltsModel model = (SolubleSaltsModel)getModel();
+        final SolubleSaltsModel model = (SolubleSaltsModel) getModel();
         double x = model.getShaker().getPosition().getX() - 200;
         double y = model.getShaker().getPosition().getY() - 100;
         final WiggleMe_org wiggleMe = new WiggleMe_org( SimStrings.getInstance().getString( "WiggleMe.message" ),

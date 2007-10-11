@@ -10,6 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.module;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.util.EventListener;
+import java.util.HashMap;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -27,11 +32,6 @@ import edu.colorado.phet.solublesalts.view.SSCanvas;
 import edu.colorado.phet.solublesalts.view.WorldNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.util.EventListener;
-import java.util.HashMap;
 
 /**
  * SolubleSaltsModule
@@ -62,7 +62,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         final SolubleSaltsModel model = new SolubleSaltsModel( clock, this );
         setModel( model );
-        simPanel = new SSCanvas( new Dimension( (int)( model.getBounds().getWidth() * viewScale ), (int)( model.getBounds().getHeight() * viewScale ) ) );
+        simPanel = new SSCanvas( new Dimension( (int) ( model.getBounds().getWidth() * viewScale ), (int) ( model.getBounds().getHeight() * viewScale ) ) );
         setPhetPCanvas( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
@@ -79,7 +79,7 @@ public class SolubleSaltsModule extends PiccoloModule {
             HashMap bondToGraphic = new HashMap();
 
             public void instanceConstructed( Bond.ConstructionEvent event ) {
-                if( SolubleSaltsConfig.SHOW_BONDS ) {
+                if ( SolubleSaltsConfig.SHOW_BONDS ) {
                     BondGraphic bondGraphic = new BondGraphic( event.getInstance() );
                     fullScaleCanvas.addChild( bondGraphic );
                     bondToGraphic.put( event.getInstance(), bondGraphic );
@@ -87,8 +87,8 @@ public class SolubleSaltsModule extends PiccoloModule {
             }
 
             public void instanceRemoved( Bond.ConstructionEvent event ) {
-                if( SolubleSaltsConfig.SHOW_BONDS ) {
-                    BondGraphic bondGraphic = (BondGraphic)bondToGraphic.get( event.getInstance() );
+                if ( SolubleSaltsConfig.SHOW_BONDS ) {
+                    BondGraphic bondGraphic = (BondGraphic) bondToGraphic.get( event.getInstance() );
                     fullScaleCanvas.removeChild( bondGraphic );
                 }
             }
@@ -157,7 +157,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel resetEventChannel = new EventChannel( ResetListener.class );
-    private ResetListener resetListenerProxy = (ResetListener)resetEventChannel.getListenerProxy();
+    private ResetListener resetListenerProxy = (ResetListener) resetEventChannel.getListenerProxy();
 
     public interface ResetListener extends EventListener {
         void reset( SolubleSaltsConfig.Calibration calibration );

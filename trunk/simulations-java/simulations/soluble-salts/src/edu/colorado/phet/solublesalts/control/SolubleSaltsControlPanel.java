@@ -10,6 +10,17 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.List;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -22,16 +33,6 @@ import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
-import java.util.List;
 
 /**
  * SolubleSaltsControlPanel
@@ -67,9 +68,9 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
      */
     public SolubleSaltsControlPanel( final Module module ) {
         super( module );
-        this.module = (SolubleSaltsModule)module;
+        this.module = (SolubleSaltsModule) module;
 
-        final SolubleSaltsModel model = (SolubleSaltsModel)module.getModel();
+        final SolubleSaltsModel model = (SolubleSaltsModel) module.getModel();
 
         JPanel saltPanel = new JPanel( new GridBagLayout() );
         saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.getInstance().getString( "ControlLabels.Salt" ) ) );
@@ -102,8 +103,8 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         releaseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 List crystals = model.crystalTracker.getCrystals();
-                for( int i = 0; i < crystals.size(); i++ ) {
-                    Crystal crystal = (Crystal)crystals.get( i );
+                for ( int i = 0; i < crystals.size(); i++ ) {
+                    Crystal crystal = (Crystal) crystals.get( i );
                     crystal.releaseIon( module.getClock().getSimulationTimeChange() );
                 }
             }

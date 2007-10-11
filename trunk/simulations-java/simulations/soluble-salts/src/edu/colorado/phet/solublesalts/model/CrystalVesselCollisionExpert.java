@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.List;
+
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.ContactDetector;
@@ -18,10 +22,6 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 /**
  * IonVesselCollisionExpert
@@ -66,37 +66,37 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
         boolean collisionOccurred = false;
         Crystal crystal = null;
         Vessel vessel = null;
-        if( applies( bodyA, bodyB ) ) {
+        if ( applies( bodyA, bodyB ) ) {
 
-            crystal = (Crystal)( bodyA instanceof Crystal ? bodyA : bodyB );
-            vessel = (Vessel)( bodyA instanceof Vessel ? bodyA : bodyB );
+            crystal = (Crystal) ( bodyA instanceof Crystal ? bodyA : bodyB );
+            vessel = (Vessel) ( bodyA instanceof Vessel ? bodyA : bodyB );
 
             // Only do something if the crystal is moving
-            if( crystal.getVelocity().getMagnitudeSq() != 0 ) {
+            if ( crystal.getVelocity().getMagnitudeSq() != 0 ) {
                 double dx = 0;
                 double dy = 0;
                 Rectangle2D vesselBounds = vessel.getShape();
                 // Check the east, west, and south boundaries of the vessel. Note that there is no north wall
                 // to the vessel
                 Ion eastmostIon = crystal.getExtremeIon( Crystal.EAST );
-                if( eastmostIon.getPosition().getX() + eastmostIon.getRadius() >= vesselBounds.getMaxX() ) {
+                if ( eastmostIon.getPosition().getX() + eastmostIon.getRadius() >= vesselBounds.getMaxX() ) {
                     dx = vessel.getWater().getMaxX() - eastmostIon.getPosition().getX() - eastmostIon.getRadius();
                     handleCrystalVesselCollision( eastmostIon );
                     collisionOccurred = true;
                 }
                 Ion southmostIon = crystal.getExtremeIon( Crystal.SOUTH );
-                if( southmostIon.getPosition().getY() + southmostIon.getRadius() >= vesselBounds.getMaxY() ) {
+                if ( southmostIon.getPosition().getY() + southmostIon.getRadius() >= vesselBounds.getMaxY() ) {
                     dy = vessel.getWater().getMaxY() - southmostIon.getPosition().getY() - southmostIon.getRadius();
                     handleCrystalVesselCollision( southmostIon );
                     collisionOccurred = true;
                 }
                 Ion westmostIon = crystal.getExtremeIon( Crystal.WEST );
-                if( westmostIon.getPosition().getX() - westmostIon.getRadius() <= vesselBounds.getMinX() ) {
+                if ( westmostIon.getPosition().getX() - westmostIon.getRadius() <= vesselBounds.getMinX() ) {
                     dx = vessel.getWater().getMinX() - westmostIon.getPosition().getX() + westmostIon.getRadius();
                     handleCrystalVesselCollision( westmostIon );
                     collisionOccurred = true;
                 }
-                if( collisionOccurred ) {
+                if ( collisionOccurred ) {
                     // Set twice so that the previous acceleration and velocity will be zeroed, too
                     crystal.setVelocity( 0, 0 );
                     crystal.setVelocity( 0, 0 );
@@ -140,15 +140,15 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
         // Make sure the ion isn't too close to another ion of the same polarity
         double minDist = minDistToLikeIon;
         List otherIons = model.getIons();
-        for( int i = 0; i < otherIons.size() && canBind; i++ ) {
-            Ion testIon = (Ion)otherIons.get( i );
-            if( testIon.isBound()
-                && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
+        for ( int i = 0; i < otherIons.size() && canBind; i++ ) {
+            Ion testIon = (Ion) otherIons.get( i );
+            if ( testIon.isBound()
+                 && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
                 canBind = false;
             }
         }
 
-        if( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
+        if ( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
             vessel.bind( ion );
         }
 

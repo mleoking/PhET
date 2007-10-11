@@ -10,13 +10,14 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * WiggleMe
@@ -46,7 +47,7 @@ public class WiggleMe extends PNode implements ModelElement {
         double dx = finalLocation.getX() - getOffset().getX();
         double dy = finalLocation.getY() - getOffset().getY();
 
-        if( dx > 1 && dy > 1 ) {
+        if ( dx > 1 && dy > 1 ) {
             setOffset( getOffset().getX() + ( dx / f ), getOffset().getY() + ( dy / f ) );
         }
     }
