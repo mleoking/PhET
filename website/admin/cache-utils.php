@@ -104,7 +104,8 @@
 		
 		$page_contents = ob_get_contents();
 		
-		$page_contents = preg_replace('/\s+/', ' ', $page_contents);
+		$page_contents = preg_replace('/^ +/',       '',   $page_contents);		
+		$page_contents = preg_replace('/[ \t]{2,}/', ' ',  $page_contents);
 
 		cache_put(WEBPAGES_CACHE, $page_name, $page_contents);
 			
