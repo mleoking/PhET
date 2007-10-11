@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleNode extends PPath implements Observer, PropertyChangeListener {
+public class ExampleNode extends PPath {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,6 +33,9 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
     private ExampleModelElement _exampleModelElement;
     private ModelViewTransform _modelViewTransform;
     
+    private ModelObserver _modelObserver;
+    private ViewObserver _viewObserver;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -40,8 +43,11 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
     public ExampleNode( ExampleModelElement exampleModelElement, ModelViewTransform modelViewTransform ) {
         super();
         
+        _modelObserver = new ModelObserver();
+        _viewObserver = new ViewObserver();
+        
         _exampleModelElement = exampleModelElement;
-        _exampleModelElement.addObserver( this );
+        _exampleModelElement.addObserver( _modelObserver );
         
         _modelViewTransform = modelViewTransform;
         
@@ -51,41 +57,43 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
-        addPropertyChangeListener( this ); // update model when node is dragged
+        addPropertyChangeListener( _viewObserver ); // update model when node is dragged
         
-        updateNodeSize();
-        updateNodePositionAndOrientation();
+        updateViewSize();
+        updateViewPosition();
+        updateViewOrientation();
     }
     
     /**
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( _modelObserver );
+        removePropertyChangeListener( _viewObserver );
     }
 
     //----------------------------------------------------------------------------
-    // Observer implementation
+    // Model changes
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the node when the model changes.
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _exampleModelElement ) {
-            if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
-                updateNodeSize();
-            }
-            if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
-                updateNodePositionAndOrientation();
-            }
-            if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
-                updateNodePositionAndOrientation();
+    private class ModelObserver implements Observer {
+
+        public void update( Observable o, Object arg ) {
+            if ( o == _exampleModelElement ) {
+                if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
+                    updateViewSize();
+                }
+                if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
+                    updateViewPosition();
+                }
+                if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
+                    updateViewOrientation();
+                }
             }
         }
     }
     
-    private void updateNodeSize() {
+    private void updateViewSize() {
         // pointer with origin at geometric center
         Dimension size = _exampleModelElement.getSizeReference();
         final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
@@ -100,34 +108,38 @@ public class ExampleNode extends PPath implements Observer, PropertyChangeListen
         setPathTo( path );
     }
     
-    private void updateNodePositionAndOrientation() {
+    private void updateViewPosition() {
         Point2D modelPosition = _exampleModelElement.getPositionReference();
-        double orientation = _exampleModelElement.getOrientation();
         Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
-        removePropertyChangeListener( this );
-        setRotation( orientation );
+        removePropertyChangeListener( _viewObserver );
         setOffset( viewPosition );
-        addPropertyChangeListener( this );
+        addPropertyChangeListener( _viewObserver );
+    }
+    
+    private void updateViewOrientation() {
+        double orientation = _exampleModelElement.getOrientation();
+        removePropertyChangeListener( _viewObserver );
+        setRotation( orientation );
+        addPropertyChangeListener( _viewObserver );
     }
     
     //----------------------------------------------------------------------------
-    // PropertyChangeListener implementation
+    // View changes
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the model when the node changes.
-     */
-    public void propertyChange( PropertyChangeEvent event ) {
-        if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-            updateModelPosition();
+    private class ViewObserver implements PropertyChangeListener {
+        public void propertyChange( PropertyChangeEvent event ) {
+            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
+                updateModelPosition();
+            }
         }
     }
     
     private void updateModelPosition() {
         Point2D viewPoint = getOffset();
         Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
-        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( _modelObserver );
         _exampleModelElement.setPosition( modelPoint );
-        _exampleModelElement.addObserver( this );
+        _exampleModelElement.addObserver( _modelObserver );
     }
 }
