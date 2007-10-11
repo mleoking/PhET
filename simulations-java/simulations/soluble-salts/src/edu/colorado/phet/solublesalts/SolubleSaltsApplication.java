@@ -10,22 +10,20 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.module.RealSaltsModule;
 import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * SolubleSaltsApplication
@@ -34,10 +32,8 @@ import java.awt.*;
  * @version $Revision$
  */
 public class SolubleSaltsApplication extends PhetApplication {
+    private boolean showOptions = false;
 
-    /**
-     * @param args
-     */
     public SolubleSaltsApplication( String[] args ) {
         super( args,
                SolubleSaltsConfig.TITLE,
@@ -45,57 +41,43 @@ public class SolubleSaltsApplication extends PhetApplication {
                SolubleSaltsConfig.VERSION,
                new FrameSetup.CenteredWithSize( 1000, 740 ) );
 
-        IClock moduleAClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
-        Module moduleA = new RealSaltsModule( moduleAClock );
-
-        IClock moduleBClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
-        Module moduleB = new ConfigurableSaltModule( moduleBClock );
-
-        IClock moduleCClock = new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
-        Module moduleC = new SodiumChlorideModule( moduleCClock );
+        Module moduleA = new RealSaltsModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
+        Module moduleB = new ConfigurableSaltModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
+        Module moduleC = new SodiumChlorideModule( new SwingClock( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT ) );
 
         setModules( new Module[]{moduleC, moduleA, moduleB} );
-
-//        setUpOptionsMenu();
+        if ( showOptions ) {
+            setUpOptionsMenu();
+        }
     }
 
     private void setUpOptionsMenu() {
         this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
     }
 
-
-    /**
-     * Main
-     *
-     * @param args
-     */
     public static void main( String[] args ) {
 
-        for( int i = 0; i < args.length; i++ ) {
+        for ( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.equals( "-b" ) ) {
+            if ( arg.equals( "-b" ) ) {
                 IonGraphic.showBondIndicators( true );
             }
-            if( arg.startsWith( "-w" ) ) {
-                int d = Integer.parseInt( arg.substring( 3 ) );
-                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = d;
+            if ( arg.startsWith( "-w" ) ) {
+                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = Integer.parseInt( arg.substring( 3 ) );
             }
-            if( arg.equals( "-o" ) ) {
+            if ( arg.equals( "-o" ) ) {
                 SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
             }
-            if( arg.startsWith( "-s=" ) ) {
-                double d = Double.parseDouble( arg.substring( 3 ) );
-                SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = d;
+            if ( arg.startsWith( "-s=" ) ) {
+                SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
             }
-            if( arg.startsWith( "-d=" ) ) {
-                double d = Double.parseDouble( arg.substring( 3 ) );
-                SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = d;
+            if ( arg.startsWith( "-d=" ) ) {
+                SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
             }
-            if( arg.startsWith( "-c=" ) ) {
-                double c = Double.parseDouble( arg.substring( 3 ) );
-                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = c;
+            if ( arg.startsWith( "-c=" ) ) {
+                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = Double.parseDouble( arg.substring( 3 ) );
             }
-            if( arg.startsWith( "debug=" ) ) {
+            if ( arg.startsWith( "debug=" ) ) {
                 SolubleSaltsConfig.DEBUG = true;
             }
         }
@@ -111,20 +93,8 @@ public class SolubleSaltsApplication extends PhetApplication {
         UIManager.put( "TabbedPane.background", blueBackground );
         UIManager.put( "TabbedPane.selected", blueBackground );
 
-        NonPiccoloPhetApplication app = new SolubleSaltsApplication( args );
+        PhetApplication app = new SolubleSaltsApplication( args );
 
         app.startApplication();
-
-
-        for( int i = 0; i < args.length; i++ ) {
-            String arg = args[i];
-            if( arg.equals( "-m" ) ) {
-                PhetPCanvas simPanel = (PhetPCanvas)app.getActiveModule().getSimulationPanel();
-                if( simPanel != null ) {
-//                    PMouseTracker mouseTracker = new PMouseTracker( simPanel );
-//                    simPanel.addWorldChild( mouseTracker );
-                }
-            }
-        }
     }
 }
