@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.WiggleMe_org;
 import edu.colorado.phet.solublesalts.control.SodiumChlorideControlPanel;
@@ -36,7 +36,7 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
      * @param clock
      */
     public SodiumChlorideModule( IClock clock ) {
-        super( SimStrings.getInstance().getString( "Module.sodiumChloride" ),
+        super( SolubleSaltResources.getString( "Module.sodiumChloride" ),
                clock,
                new SolubleSaltsConfig.Calibration( 1.7342E-25,
                                                    5E-23,
@@ -53,7 +53,7 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
         final SolubleSaltsModel model = (SolubleSaltsModel) getModel();
         double x = model.getShaker().getPosition().getX() - 200;
         double y = model.getShaker().getPosition().getY() - 100;
-        final WiggleMe_org wiggleMe = new WiggleMe_org( SimStrings.getInstance().getString( "WiggleMe.message" ),
+        final WiggleMe_org wiggleMe = new WiggleMe_org( SolubleSaltResources.getString( "WiggleMe.message" ),
                                                         new Point2D.Double( x, y ),
                                                         50,
                                                         new Color( 30, 100, 60 ) );

@@ -17,8 +17,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.solublesalts.control.OptionsMenu;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
@@ -36,11 +36,7 @@ public class SolubleSaltsApplication extends PhetApplication {
     private boolean showOptions = false;
 
     public SolubleSaltsApplication( String[] args ) {
-        super( args,
-               SimStrings.getInstance().getString( "soluble-salts.name" ),
-               SimStrings.getInstance().getString( "soluble-salts.description" ),
-               PhetApplicationConfig.getVersion( "soluble-salts" ).formatForTitleBar(),
-               new FrameSetup.CenteredWithSize( 1000, 740 ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.CenteredWithSize( 1000, 740 ), PhetResources.forProject( "soluble-salts" ) ) );
 
         Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
         Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );
@@ -88,9 +84,6 @@ public class SolubleSaltsApplication extends PhetApplication {
                 SolubleSaltsConfig.DEBUG = true;
             }
         }
-
-        SimStrings.getInstance().init( args, "soluble-salts/localization/soluble-salts-strings" );
-
 
         Color blueBackground = new Color( 230, 250, 255 );
         Color grayBackground = new Color( 220, 220, 220 );
