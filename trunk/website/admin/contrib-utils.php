@@ -798,7 +798,7 @@ EOT;
 				print <<<EOT
 					<tr>
 						<td>
-		                    from phet*
+		                    from phet
 		                </td>
 
 						<td>
@@ -818,7 +818,7 @@ EOT;
 				print <<<EOT
 					<tr>
 						<td>
-		                    is gold star*
+		                    is gold star
 		                </td>
 
 						<td>
