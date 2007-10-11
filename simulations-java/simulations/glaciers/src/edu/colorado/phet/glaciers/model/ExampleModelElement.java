@@ -18,14 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.DynamicListenerControllerFactory
 public class ExampleModelElement implements ModelElement {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    public static final String PROPERTY_SIZE = "size";
-    public static final String PROPERTY_POSITION = "position";
-    public static final String PROPERTY_ORIENTATION = "orientation";
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
@@ -98,6 +90,14 @@ public class ExampleModelElement implements ModelElement {
     
     public Point2D getPositionReference() {
         return _position;
+    }
+    
+    public double getX() {
+    	return _position.getX();
+    }
+    
+    public double getY() {
+    	return _position.getY();
     }
     
     public void setOrientation( double orientation ) {
