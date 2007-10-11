@@ -22,7 +22,7 @@ import edu.colorado.phet.glaciers.model.ExampleModelElement;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleModelElementControlPanel extends JPanel implements Observer {
+public class ExampleModelElementControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +34,8 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
     private JLabel _positionDisplay;
     private LinearValueControl _orientationControl;
     
-    private ControlListener _controlListener;
+    private ModelObserver _modelObserver;
+    private ControlObserver _controlObserver;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -43,14 +44,15 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
     public ExampleModelElementControlPanel( Font titleFont, Font controlFont, ExampleModelElement exampleModelElement ) {
         super();
         
+        _modelObserver = new ModelObserver();
+        _controlObserver = new ControlObserver();
+        
         _exampleModelElement = exampleModelElement;
-        _exampleModelElement.addObserver( this );
+        _exampleModelElement.addObserver( _modelObserver );
         
         // Title
         JLabel titleLabel = new JLabel( "Example Model Element" );
         titleLabel.setFont( titleFont );
-        
-        _controlListener = new ControlListener();
         
         // Width
         double value = _exampleModelElement.getWidth();
@@ -67,7 +69,7 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         _widthControl.setTickPattern( "0" );
         _widthControl.setMajorTickSpacing( 90 );
         _widthControl.setMinorTickSpacing( 45 );
-        _widthControl.addChangeListener( _controlListener );
+        _widthControl.addChangeListener( _controlObserver );
         
         // Height
         value = _exampleModelElement.getHeight();
@@ -84,7 +86,7 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         _heightControl.setTickPattern( "0" );
         _heightControl.setMajorTickSpacing( 90 );
         _heightControl.setMinorTickSpacing( 45 );
-        _heightControl.addChangeListener( _controlListener );
+        _heightControl.addChangeListener( _controlObserver );
         
         // Position display
         _positionDisplay = new JLabel();
@@ -106,7 +108,7 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
         _orientationControl.setTickPattern( "0" );
         _orientationControl.setMajorTickSpacing( 90 );
         _orientationControl.setMinorTickSpacing( 45 );
-        _orientationControl.addChangeListener( _controlListener );
+        _orientationControl.addChangeListener( _controlObserver );
         
         // Layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
@@ -126,14 +128,14 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
      * Call this method before releasing all references to this object.
      */
     public void cleanup() {
-        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( _modelObserver );
     }
 
     //----------------------------------------------------------------------------
     // Model updaters
     //----------------------------------------------------------------------------
     
-    private class ControlListener implements ChangeListener {
+    private class ControlObserver implements ChangeListener {
         public void stateChanged( ChangeEvent e ) {
             Object o = e.getSource();
             if ( o == _widthControl || o == _heightControl ) {
@@ -148,9 +150,9 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
     private void updateModelSize() {
         final double width = _widthControl.getValue();
         final double height = _heightControl.getValue();
-        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( _modelObserver );
         _exampleModelElement.setSize( width, height );
-        _exampleModelElement.addObserver( this );
+        _exampleModelElement.addObserver( _modelObserver );
     }
     
     /**
@@ -158,41 +160,41 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
      */
     private void updateModelOrientation() {
         final double radians = Math.toRadians( _orientationControl.getValue() );
-        _exampleModelElement.deleteObserver( this );
+        _exampleModelElement.deleteObserver( _modelObserver );
         _exampleModelElement.setOrientation( radians );
-        _exampleModelElement.addObserver( this );
+        _exampleModelElement.addObserver( _modelObserver );
     }
     
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the controls when the model changes.
-     */
-    public void update( Observable o, Object arg ) {
-        if ( o == _exampleModelElement ) {
-            if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
-                updateSizeControl();
-            }
-            else if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
-                updatePositionDisplay();
-            }
-            else if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
-                updateOrientationControl();
+    private class ModelObserver implements Observer {
+
+        public void update( Observable o, Object arg ) {
+            if ( o == _exampleModelElement ) {
+                if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
+                    updateSizeControl();
+                }
+                else if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
+                    updatePositionDisplay();
+                }
+                else if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
+                    updateOrientationControl();
+                }
             }
         }
     }
     
     public void updateSizeControl() {
         
-        _widthControl.removeChangeListener( _controlListener );
+        _widthControl.removeChangeListener( _controlObserver );
         _widthControl.setValue( _exampleModelElement.getWidth() );
-        _widthControl.addChangeListener( _controlListener );
+        _widthControl.addChangeListener( _controlObserver );
         
-        _heightControl.removeChangeListener( _controlListener );
+        _heightControl.removeChangeListener( _controlObserver );
         _heightControl.setValue( _exampleModelElement.getHeight() );
-        _heightControl.addChangeListener( _controlListener );
+        _heightControl.addChangeListener( _controlObserver );
     }
     
     public void updatePositionDisplay() {
@@ -203,8 +205,8 @@ public class ExampleModelElementControlPanel extends JPanel implements Observer 
     
     public void updateOrientationControl() {
         final double degrees = Math.toDegrees( _exampleModelElement.getOrientation() );
-        _orientationControl.removeChangeListener( _controlListener );
+        _orientationControl.removeChangeListener( _controlObserver );
         _orientationControl.setValue( degrees );
-        _orientationControl.addChangeListener( _controlListener );
+        _orientationControl.addChangeListener( _controlObserver );
     }
 }
