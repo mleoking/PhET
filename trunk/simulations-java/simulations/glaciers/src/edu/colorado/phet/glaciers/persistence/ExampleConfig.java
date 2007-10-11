@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.persistence;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
@@ -26,6 +27,7 @@ public class ExampleConfig implements IProguardKeepClass {
     private double _clockDt;
     
     // Model
+    private double _exampleModelElementWidth, _exampleModelElementHeight;
     private double _exampleModelElementPositionX, _exampleModelElementPositionY;
     private double _exampleModelElementOrientation;
     
@@ -70,15 +72,27 @@ public class ExampleConfig implements IProguardKeepClass {
         _clockDt = clockDt;
     }
 
+
     
-    public double getExampleModelElementOrientation() {
-        return _exampleModelElementOrientation;
+    public double getExampleModelElementHeight() {
+        return _exampleModelElementHeight;
     }
 
     
-    public void setExampleModelElementOrientation( double exampleOrientation ) {
-        _exampleModelElementOrientation = exampleOrientation;
+    public void setExampleModelElementHeight( double exampleModelElementHeight ) {
+        _exampleModelElementHeight = exampleModelElementHeight;
     }
+
+    
+    public double getExampleModelElementWidth() {
+        return _exampleModelElementWidth;
+    }
+
+    
+    public void setExampleModelElementWidth( double exampleModelElementWidth ) {
+        _exampleModelElementWidth = exampleModelElementWidth;
+    }
+
 
     
     public double getExampleModelElementPositionX() {
@@ -98,6 +112,16 @@ public class ExampleConfig implements IProguardKeepClass {
     
     public void setExampleModelElementPositionY( double examplePositionY ) {
         _exampleModelElementPositionY = examplePositionY;
+    }
+    
+    
+    public double getExampleModelElementOrientation() {
+        return _exampleModelElementOrientation;
+    }
+
+    
+    public void setExampleModelElementOrientation( double exampleOrientation ) {
+        _exampleModelElementOrientation = exampleOrientation;
     }
     
     //----------------------------------------------------------------------------

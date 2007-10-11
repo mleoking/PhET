@@ -30,7 +30,8 @@ public class ExampleDefaults {
     public static final double MODEL_TO_VIEW_SCALE = 0.5;
     
     // ExampleModelElement
+    public static final Dimension EXAMPLE_MODEL_ELEMENT_SIZE = new Dimension( 200, 100 ); // meters
     public static final Point2D EXAMPLE_MODEL_ELEMENT_POSITION = new Point2D.Double( 400, 400 );
     public static final double EXAMPLE_MODEL_ELEMENT_ORIENTATION = 0; // radians
-    public static final Dimension EXAMPLE_MODEL_ELEMENT_SIZE = new Dimension( 200, 100 ); // meters
+
 }
