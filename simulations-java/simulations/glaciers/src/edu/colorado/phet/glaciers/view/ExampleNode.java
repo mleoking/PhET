@@ -15,6 +15,7 @@ import java.util.Observer;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.ModelViewTransform;
+import edu.colorado.phet.glaciers.model.ExampleModelElement.ExampleModelElementListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -24,30 +25,20 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleNode extends PPath {
+public class ExampleNode extends PPath implements ExampleModelElementListener {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
-    private ExampleModelElement _exampleModelElement;
+
     private ModelViewTransform _modelViewTransform;
-    
-    private ModelObserver _modelObserver;
-    private ViewObserver _viewObserver;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleNode( ExampleModelElement exampleModelElement, ModelViewTransform modelViewTransform ) {
+    public ExampleNode( ModelViewTransform modelViewTransform ) {
         super();
-        
-        _modelObserver = new ModelObserver();
-        _viewObserver = new ViewObserver();
-        
-        _exampleModelElement = exampleModelElement;
-        _exampleModelElement.addObserver( _modelObserver );
         
         _modelViewTransform = modelViewTransform;
         
@@ -57,47 +48,16 @@ public class ExampleNode extends PPath {
         
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
-        addPropertyChangeListener( _viewObserver ); // update model when node is dragged
-        
-        updateViewSize();
-        updateViewPosition();
-        updateViewOrientation();
     }
     
-    /**
-     * Call this method before releasing all references to this object.
-     */
-    public void cleanup() {
-        _exampleModelElement.deleteObserver( _modelObserver );
-        removePropertyChangeListener( _viewObserver );
-    }
-
     //----------------------------------------------------------------------------
     // Model changes
     //----------------------------------------------------------------------------
-    
-    private class ModelObserver implements Observer {
 
-        public void update( Observable o, Object arg ) {
-            if ( o == _exampleModelElement ) {
-                if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
-                    updateViewSize();
-                }
-                if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
-                    updateViewPosition();
-                }
-                if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
-                    updateViewOrientation();
-                }
-            }
-        }
-    }
-    
-    private void updateViewSize() {
+    public void sizeChanged(Dimension oldSize, Dimension newSize) {
         // pointer with origin at geometric center
-        Dimension size = _exampleModelElement.getSizeReference();
-        final float w = (float) _modelViewTransform.modelToView( size.getWidth() );
-        final float h = (float) _modelViewTransform.modelToView( size.getHeight() );
+        final float w = (float) _modelViewTransform.modelToView( newSize.getWidth() );
+        final float h = (float) _modelViewTransform.modelToView( newSize.getHeight() );
         GeneralPath path = new GeneralPath();
         path.moveTo( w/2, 0 );
         path.lineTo( w/4, h/2 );
@@ -108,38 +68,13 @@ public class ExampleNode extends PPath {
         setPathTo( path );
     }
     
-    private void updateViewPosition() {
-        Point2D modelPosition = _exampleModelElement.getPositionReference();
-        Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
-        removePropertyChangeListener( _viewObserver );
+    public void positionChanged(Point2D oldPosition, Point2D newPosition) {
+        Point2D viewPosition = _modelViewTransform.modelToView( newPosition );
         setOffset( viewPosition );
-        addPropertyChangeListener( _viewObserver );
     }
     
-    private void updateViewOrientation() {
-        double orientation = _exampleModelElement.getOrientation();
-        removePropertyChangeListener( _viewObserver );
-        setRotation( orientation );
-        addPropertyChangeListener( _viewObserver );
+    public void orientationChanged(double oldOrientation, double newOrientation) {
+        setRotation( newOrientation );
     }
-    
-    //----------------------------------------------------------------------------
-    // View changes
-    //----------------------------------------------------------------------------
-    
-    private class ViewObserver implements PropertyChangeListener {
-        public void propertyChange( PropertyChangeEvent event ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updateModelPosition();
-            }
-        }
-    }
-    
-    private void updateModelPosition() {
-        Point2D viewPoint = getOffset();
-        Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
-        _exampleModelElement.deleteObserver( _modelObserver );
-        _exampleModelElement.setPosition( modelPoint );
-        _exampleModelElement.addObserver( _modelObserver );
-    }
+
 }

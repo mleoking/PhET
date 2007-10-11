@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.control;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.geom.Point2D;
@@ -16,25 +17,25 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
+import edu.colorado.phet.glaciers.model.ExampleModelElement.ExampleModelElementListener;
 
 /**
  * ExampleControlPanel is the control panel for an ExampleModelElement.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleModelElementControlPanel extends JPanel {
+public class ExampleModelElementControlPanel extends JPanel implements ExampleModelElementListener {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ExampleModelElement _exampleModelElement;
-    
+	private ExampleModelElement _exampleModelElement;
+	
     private LinearValueControl _widthControl, _heightControl;
     private JLabel _positionDisplay;
     private LinearValueControl _orientationControl;
     
-    private ModelObserver _modelObserver;
     private ControlObserver _controlObserver;
     
     //----------------------------------------------------------------------------
@@ -44,11 +45,9 @@ public class ExampleModelElementControlPanel extends JPanel {
     public ExampleModelElementControlPanel( Font titleFont, Font controlFont, ExampleModelElement exampleModelElement ) {
         super();
         
-        _modelObserver = new ModelObserver();
         _controlObserver = new ControlObserver();
         
         _exampleModelElement = exampleModelElement;
-        _exampleModelElement.addObserver( _modelObserver );
         
         // Title
         JLabel titleLabel = new JLabel( "Example Model Element" );
@@ -91,7 +90,6 @@ public class ExampleModelElementControlPanel extends JPanel {
         // Position display
         _positionDisplay = new JLabel();
         _positionDisplay.setFont( controlFont );
-        updatePositionDisplay();
         
         // Orientation control
         value = _exampleModelElement.getOrientation();
@@ -124,57 +122,24 @@ public class ExampleModelElementControlPanel extends JPanel {
         layout.addComponent( _orientationControl, row++, column );
     }
     
-    /**
-     * Call this method before releasing all references to this object.
-     */
-    public void cleanup() {
-        _exampleModelElement.deleteObserver( _modelObserver );
-    }
-    
     //----------------------------------------------------------------------------
-    // Model changes
+    // ExampleModelElementListener
     //----------------------------------------------------------------------------
     
-    private class ModelObserver implements Observer {
-
-        public void update( Observable o, Object arg ) {
-            if ( o == _exampleModelElement ) {
-                if ( arg == ExampleModelElement.PROPERTY_SIZE ) {
-                    updateSizeControl();
-                }
-                else if ( arg == ExampleModelElement.PROPERTY_POSITION ) {
-                    updatePositionDisplay();
-                }
-                else if ( arg == ExampleModelElement.PROPERTY_ORIENTATION ) {
-                    updateOrientationControl();
-                }
-            }
-        }
-    }
-    
-    public void updateSizeControl() {
-        
-        _widthControl.removeChangeListener( _controlObserver );
-        _widthControl.setValue( _exampleModelElement.getWidth() );
-        _widthControl.addChangeListener( _controlObserver );
-        
-        _heightControl.removeChangeListener( _controlObserver );
-        _heightControl.setValue( _exampleModelElement.getHeight() );
-        _heightControl.addChangeListener( _controlObserver );
-    }
-    
-    public void updatePositionDisplay() {
-        Point2D p = _exampleModelElement.getPositionReference();
-        String s = "position: (" + (int)p.getX() + "," + (int)p.getY() + ")";
-        _positionDisplay.setText( s );
-    }
-    
-    public void updateOrientationControl() {
-        final double degrees = Math.toDegrees( _exampleModelElement.getOrientation() );
-        _orientationControl.removeChangeListener( _controlObserver );
+	public void orientationChanged(double oldOrientation, double newOrientation) {
+        final double degrees = Math.toDegrees( newOrientation );
         _orientationControl.setValue( degrees );
-        _orientationControl.addChangeListener( _controlObserver );
-    }
+	}
+
+	public void positionChanged(Point2D oldPosition, Point2D newPosition) {
+        String s = "position: (" + (int)newPosition.getX() + "," + (int)newPosition.getY() + ")";
+        _positionDisplay.setText( s );
+	}
+
+	public void sizeChanged(Dimension oldSize, Dimension newSize) {
+        _widthControl.setValue( newSize.getWidth() );
+        _heightControl.setValue( newSize.getHeight() );
+	}
 
     //----------------------------------------------------------------------------
     // Control changes
@@ -195,9 +160,7 @@ public class ExampleModelElementControlPanel extends JPanel {
     private void updateModelSize() {
         final double width = _widthControl.getValue();
         final double height = _heightControl.getValue();
-        _exampleModelElement.deleteObserver( _modelObserver );
         _exampleModelElement.setSize( width, height );
-        _exampleModelElement.addObserver( _modelObserver );
     }
     
     /**
@@ -205,8 +168,8 @@ public class ExampleModelElementControlPanel extends JPanel {
      */
     private void updateModelOrientation() {
         final double radians = Math.toRadians( _orientationControl.getValue() );
-        _exampleModelElement.deleteObserver( _modelObserver );
         _exampleModelElement.setOrientation( radians );
-        _exampleModelElement.addObserver( _modelObserver );
     }
+
+
 }
