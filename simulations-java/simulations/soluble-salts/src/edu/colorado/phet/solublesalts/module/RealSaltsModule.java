@@ -11,7 +11,7 @@
 package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
 
@@ -23,7 +23,7 @@ import edu.colorado.phet.solublesalts.control.RealSaltsControlPanel;
  */
 public class RealSaltsModule extends SolubleSaltsModule {
     public RealSaltsModule( IClock clock ) {
-        super( SimStrings.getInstance().getString( "Module.title" ),
+        super( SolubleSaltResources.getString( "Module.title" ),
                clock,
                new SolubleSaltsConfig.Calibration( 1.5E-16 / 500,
                                                    1E-16,

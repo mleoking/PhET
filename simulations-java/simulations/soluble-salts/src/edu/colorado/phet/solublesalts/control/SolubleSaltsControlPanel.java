@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
@@ -67,13 +67,12 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
      * @param module
      */
     public SolubleSaltsControlPanel( final Module module ) {
-        super( module );
         this.module = (SolubleSaltsModule) module;
 
         final SolubleSaltsModel model = (SolubleSaltsModel) module.getModel();
 
         JPanel saltPanel = new JPanel( new GridBagLayout() );
-        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.getInstance().getString( "ControlLabels.Salt" ) ) );
+        saltPanel.setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SolubleSaltResources.getString( "ControlLabels.Salt" ) ) );
         GridBagConstraints gbc = new GridBagConstraints( 0, GridBagConstraints.RELATIVE,
                                                          1, 1, 1, 1,
                                                          GridBagConstraints.CENTER,
@@ -86,7 +85,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         makeDebugControls( model );
 
         // Reset button
-        JButton resetBtn = new JButton( SimStrings.getInstance().getString( "ControlLabels.reset" ) );
+        JButton resetBtn = new JButton( SolubleSaltResources.getString( "ControlLabels.reset" ) );
         resetBtn.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 getModule().reset();
@@ -274,12 +273,12 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         public WaterLevelReadout( Vessel vessel ) {
             super( new GridBagLayout() );
 
-            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SimStrings.getInstance().getString( "ControlLabels.Water" ) ) );
+            setBorder( BorderFactory.createTitledBorder( new EtchedBorder(), SolubleSaltResources.getString( "ControlLabels.Water" ) ) );
             vessel.addChangeListener( this );
 
             GridBagConstraints gbc = new DefaultGridBagConstraints();
             gbc.insets = new Insets( 0, 5, 0, 5 );
-            JLabel waterVolumeLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Volume" ) + ":", JLabel.RIGHT );
+            JLabel waterVolumeLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Volume" ) + ":", JLabel.RIGHT );
             add( waterVolumeLabel, gbc );
 
             readout = new JTextField( 6 );
@@ -289,7 +288,7 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
             gbc.gridx++;
             add( readout, gbc );
 
-            JLabel units = new JLabel( SimStrings.getInstance().getString( "ControlLabels.liters" ) + " (L)" );
+            JLabel units = new JLabel( SolubleSaltResources.getString( "ControlLabels.liters" ) + " (L)" );
             gbc.gridx++;
             add( units, gbc );
         }

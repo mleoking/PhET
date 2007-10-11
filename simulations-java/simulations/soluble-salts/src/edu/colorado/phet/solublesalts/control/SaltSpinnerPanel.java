@@ -18,7 +18,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -45,24 +45,24 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
     static private HashMap ionClassToName = new HashMap();
 
     static {
-        ionClassToName.put( ConfigurableCation.class, SimStrings.getInstance().getString( "Ion.cation" ) );
-        ionClassToName.put( Sodium.class, SimStrings.getInstance().getString( "Ion.sodium" ) );
-        ionClassToName.put( Lead.class, SimStrings.getInstance().getString( "Ion.lead" ) );
-        ionClassToName.put( Chromium.class, SimStrings.getInstance().getString( "Ion.chromium" ) );
-        ionClassToName.put( Copper.class, SimStrings.getInstance().getString( "Ion.copper" ) );
-        ionClassToName.put( Silver.class, SimStrings.getInstance().getString( "Ion.silver" ) );
-        ionClassToName.put( Thallium.class, SimStrings.getInstance().getString( "Ion.thallium" ) );
-        ionClassToName.put( Strontium.class, SimStrings.getInstance().getString( "Ion.strontium" ) );
-        ionClassToName.put( Mercury.class, SimStrings.getInstance().getString( "Ion.mercury" ) );
+        ionClassToName.put( ConfigurableCation.class, SolubleSaltResources.getString( "Ion.cation" ) );
+        ionClassToName.put( Sodium.class, SolubleSaltResources.getString( "Ion.sodium" ) );
+        ionClassToName.put( Lead.class, SolubleSaltResources.getString( "Ion.lead" ) );
+        ionClassToName.put( Chromium.class, SolubleSaltResources.getString( "Ion.chromium" ) );
+        ionClassToName.put( Copper.class, SolubleSaltResources.getString( "Ion.copper" ) );
+        ionClassToName.put( Silver.class, SolubleSaltResources.getString( "Ion.silver" ) );
+        ionClassToName.put( Thallium.class, SolubleSaltResources.getString( "Ion.thallium" ) );
+        ionClassToName.put( Strontium.class, SolubleSaltResources.getString( "Ion.strontium" ) );
+        ionClassToName.put( Mercury.class, SolubleSaltResources.getString( "Ion.mercury" ) );
 
-        ionClassToName.put( ConfigurableAnion.class, SimStrings.getInstance().getString( "Ion.anion" ) );
-        ionClassToName.put( Phosphate.class, SimStrings.getInstance().getString( "Ion.phosphate" ) );
-        ionClassToName.put( Bromine.class, SimStrings.getInstance().getString( "Ion.bromide" ) );
-        ionClassToName.put( Arsenate.class, SimStrings.getInstance().getString( "Ion.aresenate" ) );
-        ionClassToName.put( Sulfur.class, SimStrings.getInstance().getString( "Ion.sulfide" ) );
-        ionClassToName.put( Chlorine.class, SimStrings.getInstance().getString( "Ion.chloride" ) );
-        ionClassToName.put( Iodide.class, SimStrings.getInstance().getString( "Ion.iodide" ) );
-        ionClassToName.put( Hydroxide.class, SimStrings.getInstance().getString( "Ion.hydroxide" ) );
+        ionClassToName.put( ConfigurableAnion.class, SolubleSaltResources.getString( "Ion.anion" ) );
+        ionClassToName.put( Phosphate.class, SolubleSaltResources.getString( "Ion.phosphate" ) );
+        ionClassToName.put( Bromine.class, SolubleSaltResources.getString( "Ion.bromide" ) );
+        ionClassToName.put( Arsenate.class, SolubleSaltResources.getString( "Ion.aresenate" ) );
+        ionClassToName.put( Sulfur.class, SolubleSaltResources.getString( "Ion.sulfide" ) );
+        ionClassToName.put( Chlorine.class, SolubleSaltResources.getString( "Ion.chloride" ) );
+        ionClassToName.put( Iodide.class, SolubleSaltResources.getString( "Ion.iodide" ) );
+        ionClassToName.put( Hydroxide.class, SolubleSaltResources.getString( "Ion.hydroxide" ) );
     }
 
     //----------------------------------------------------------------
@@ -160,10 +160,10 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         } );
 
         // Make labels for the columns
-        ionsLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Ions" ) );
-        totalNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Total" ) );
-        freeNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Free" ) );
-        boundNumLabel = new JLabel( SimStrings.getInstance().getString( "ControlLabels.Bound" ) );
+        ionsLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Ions" ) );
+        totalNumLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Total" ) );
+        freeNumLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Free" ) );
+        boundNumLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Bound" ) );
 
         layoutPanel();
 //        layoutPanel2();

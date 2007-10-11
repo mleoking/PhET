@@ -58,7 +58,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         final SolubleSaltsModel model = new SolubleSaltsModel( clock, this );
         setModel( model );
         simPanel = new SSCanvas( new Dimension( (int) ( model.getBounds().getWidth() * viewScale ), (int) ( model.getBounds().getHeight() * viewScale ) ) );
-        setPhetPCanvas( simPanel );
+        setSimulationPanel( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
         fullScaleCanvas = new WorldNode( this, simPanel );
