@@ -53,7 +53,7 @@
 									
 									<tr>
 										<td>
-											primary phone:
+											secondary phone:
 										</td>
 										
 										<td>

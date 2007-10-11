@@ -368,6 +368,10 @@ margin-bottom: 1em;
 .comments {
 margin-top: 10px;
 }
+img.image-text {
+position: relative;
+top: 4px;
+}
 
 #browsefilter {
 margin: auto;

@@ -199,6 +199,16 @@ EOT;
                 )
             );
         }
+
+		if (isset($GLOBALS['contributor_authenticated']) && $GLOBALS['contributor_authenticated'] == 1) {
+			print_navigation_element(
+                $prefix, 
+                $selected_page, 
+                "teacher_ideas/user-edit-profile.php",           
+                "My Profile",
+				array()
+            );
+		}
                     
         print <<<EOT
                 </ul>

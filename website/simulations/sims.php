@@ -367,7 +367,9 @@ EOT;
 EOT;
 			
 			foreach ($translations as $language => $launch_url) {
-				print "<li><a href=\"$launch_url\" title=\"Click here to launch the $language version of $sim_name\">$language</a></li>";
+				$language_icon_url = sim_get_language_icon_url_from_language_name($language);
+				
+				print "<li><a href=\"$launch_url\" title=\"Click here to launch the $language version of $sim_name\"><img class=\"image-text\" src=\"$language_icon_url\" alt=\"$language\"/></a> - <a href=\"$launch_url\" title=\"Click here to launch the $language version of $sim_name\">$language</a></li>";
 			}
 			
 			print '</ul>';

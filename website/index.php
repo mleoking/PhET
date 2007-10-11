@@ -90,8 +90,7 @@
 			<div id="newsflashes">
 				<table>
 					<tr>
-						<td class="warning-notice">
-							<strong>Update:<strong> Thanks to CU's ITS team for supporting switch to new, faster server that accommodates our increase in traffic. Email phethelp@colorado.edu with any further web issues.
+						<td class="warning-notice">							
 						</td>
 						
 						<td class="links">

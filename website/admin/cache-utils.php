@@ -9,6 +9,8 @@
 	define("WEBPAGES_CACHE", 			"webpages");
 	define("HOURS_TO_CACHE_WEBPAGES", 	1);
 	
+	$g_disable_all_caching = true;
+	
 	function create_proper_ownership($file) {
 		exec('chmod 775 '.$file);
 		
@@ -50,6 +52,10 @@
 	}
 	
 	function cache_get($cache_name, $resource_name, $expiration_hours = false) {
+		global $g_disable_all_caching;
+		
+		if ($g_disable_all_caching) return false;
+		
 		$resource_location = cache_get_file_location($cache_name, $resource_name);
 		
 		if (!file_exists($resource_location)) return false;
