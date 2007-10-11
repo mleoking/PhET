@@ -67,8 +67,8 @@ public class ExampleModelElementControlPanel extends JPanel {
         _widthControl.setFont( controlFont );
         _widthControl.setUpDownArrowDelta( 1 );
         _widthControl.setTickPattern( "0" );
-        _widthControl.setMajorTickSpacing( 90 );
-        _widthControl.setMinorTickSpacing( 45 );
+        _widthControl.setMajorTickSpacing( max - min );
+        _widthControl.setMinorTickSpacing( 10 );
         _widthControl.addChangeListener( _controlObserver );
         
         // Height
@@ -84,8 +84,8 @@ public class ExampleModelElementControlPanel extends JPanel {
         _heightControl.setFont( controlFont );
         _heightControl.setUpDownArrowDelta( 1 );
         _heightControl.setTickPattern( "0" );
-        _heightControl.setMajorTickSpacing( 90 );
-        _heightControl.setMinorTickSpacing( 45 );
+        _heightControl.setMajorTickSpacing( max - min );
+        _heightControl.setMinorTickSpacing( 10 );
         _heightControl.addChangeListener( _controlObserver );
         
         // Position display
@@ -130,43 +130,9 @@ public class ExampleModelElementControlPanel extends JPanel {
     public void cleanup() {
         _exampleModelElement.deleteObserver( _modelObserver );
     }
-
-    //----------------------------------------------------------------------------
-    // Model updaters
-    //----------------------------------------------------------------------------
-    
-    private class ControlObserver implements ChangeListener {
-        public void stateChanged( ChangeEvent e ) {
-            Object o = e.getSource();
-            if ( o == _widthControl || o == _heightControl ) {
-                updateModelSize();
-            }
-            else if ( o == _orientationControl ) {
-                updateModelOrientation();
-            }
-        }
-    }
-    
-    private void updateModelSize() {
-        final double width = _widthControl.getValue();
-        final double height = _heightControl.getValue();
-        _exampleModelElement.deleteObserver( _modelObserver );
-        _exampleModelElement.setSize( width, height );
-        _exampleModelElement.addObserver( _modelObserver );
-    }
-    
-    /**
-     * Updates the model when the orientation control changes.
-     */
-    private void updateModelOrientation() {
-        final double radians = Math.toRadians( _orientationControl.getValue() );
-        _exampleModelElement.deleteObserver( _modelObserver );
-        _exampleModelElement.setOrientation( radians );
-        _exampleModelElement.addObserver( _modelObserver );
-    }
     
     //----------------------------------------------------------------------------
-    // Observer implementation
+    // Model changes
     //----------------------------------------------------------------------------
     
     private class ModelObserver implements Observer {
@@ -208,5 +174,39 @@ public class ExampleModelElementControlPanel extends JPanel {
         _orientationControl.removeChangeListener( _controlObserver );
         _orientationControl.setValue( degrees );
         _orientationControl.addChangeListener( _controlObserver );
+    }
+
+    //----------------------------------------------------------------------------
+    // Control changes
+    //----------------------------------------------------------------------------
+    
+    private class ControlObserver implements ChangeListener {
+        public void stateChanged( ChangeEvent e ) {
+            Object o = e.getSource();
+            if ( o == _widthControl || o == _heightControl ) {
+                updateModelSize();
+            }
+            else if ( o == _orientationControl ) {
+                updateModelOrientation();
+            }
+        }
+    }
+    
+    private void updateModelSize() {
+        final double width = _widthControl.getValue();
+        final double height = _heightControl.getValue();
+        _exampleModelElement.deleteObserver( _modelObserver );
+        _exampleModelElement.setSize( width, height );
+        _exampleModelElement.addObserver( _modelObserver );
+    }
+    
+    /**
+     * Updates the model when the orientation control changes.
+     */
+    private void updateModelOrientation() {
+        final double radians = Math.toRadians( _orientationControl.getValue() );
+        _exampleModelElement.deleteObserver( _modelObserver );
+        _exampleModelElement.setOrientation( radians );
+        _exampleModelElement.addObserver( _modelObserver );
     }
 }
