@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.ThreeToTwoLattice;
 import edu.colorado.phet.solublesalts.model.ion.Phosphate;
 import edu.colorado.phet.solublesalts.model.ion.Strontium;
-
-import java.util.ArrayList;
 
 /**
  * StrontiumPhosphate

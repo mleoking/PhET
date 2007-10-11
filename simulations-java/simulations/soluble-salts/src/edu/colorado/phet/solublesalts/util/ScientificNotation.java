@@ -31,7 +31,7 @@ public class ScientificNotation {
         String s = null;
 
         StringBuffer formatString = new StringBuffer( "0." );
-        for( int i = 0; i < numSignificantDigits; i++ ) {
+        for ( int i = 0; i < numSignificantDigits; i++ ) {
             formatString.append( '0' );
         }
         formatString.append( "E0" );

@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.ion.Copper;
-import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.ion.Copper;
+import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
  * Lattice
@@ -56,10 +56,10 @@ public abstract class Lattice {
         boolean added = false;
 
         // If this is the first ion to be added, we only have a bit to do
-        if( nodes.size() == 0 ) {
+        if ( nodes.size() == 0 ) {
             Node newNode = new Node( ion );
             int cnt = getNumNeighboringSites( ion );
-            for( int k = 0; k < cnt; k++ ) {
+            for ( int k = 0; k < cnt; k++ ) {
                 double orientation = k * Math.PI * 2 / cnt;
                 Bond newBond = new Bond( newNode, orientation, spacing );
                 newBond.setOrigin( newNode );
@@ -71,32 +71,32 @@ public abstract class Lattice {
         }
 
         // If this is the second ion, the we need to establish orientation for the seed node's bonds
-        else if( nodes.size() == 1 && ( (Node)nodes.get( 0 ) ).getPolarity() * ion.getCharge() < 0 ) {
+        else if ( nodes.size() == 1 && ( (Node) nodes.get( 0 ) ).getPolarity() * ion.getCharge() < 0 ) {
 
-            Node originNode = (Node)nodes.get( 0 );
+            Node originNode = (Node) nodes.get( 0 );
             double orientation = MathUtil.getAngle( originNode.getPosition(), ion.getPosition() );
             ion.setPosition( MathUtil.radialToCartesian( spacing, orientation, originNode.getPosition() ) );
             originNode.setBaseOrientation( orientation );
             // Pick
-            Bond bond = (Bond)originNode.getBonds().get( random.nextInt( originNode.getBonds().size() ) );
+            Bond bond = (Bond) originNode.getBonds().get( random.nextInt( originNode.getBonds().size() ) );
             addNewNode( ion, bond );
             added = true;
         }
 
         // Fimd an open bond that will accept an ion of the right polarity
         else {
-            for( int i = 0; i < nodes.size() && !added; i++ ) {
-                Node node = (Node)nodes.get( i );
+            for ( int i = 0; i < nodes.size() && !added; i++ ) {
+                Node node = (Node) nodes.get( i );
 
                 // If the node is of the opposite polarity of the ion, see if it has a free
                 // bond. If we find one, set the position of the ion to be at the free end
                 // of the bond
-                if( node.getPolarity() * ion.getCharge() < 0 ) {
+                if ( node.getPolarity() * ion.getCharge() < 0 ) {
                     List bonds = node.getBonds();
-                    for( int j = 0; j < bonds.size() && !added; j++ ) {
-                        Bond bond = (Bond)bonds.get( j );
+                    for ( int j = 0; j < bonds.size() && !added; j++ ) {
+                        Bond bond = (Bond) bonds.get( j );
                         // If the bond is open, add a new node for the ion to it
-                        if( bond.isOpen() ) {
+                        if ( bond.isOpen() ) {
                             addNewNode( ion, bond );
                             added = true;
                         }
@@ -121,13 +121,13 @@ public abstract class Lattice {
         Node originNode = getNode( ionB );
 
         // Sanity check
-        if( originNode == null ) {
+        if ( originNode == null ) {
             throw new RuntimeException( "originNode == null" );
         }
 
         // If we are adding the second ion to the lattice, then the position of the new ion establishes
         // the orienation of the bonds on the seed node.
-        if( nodes.size() == 1 ) {
+        if ( nodes.size() == 1 ) {
             double orientation = MathUtil.getAngle( originNode.getPosition(), ionA.getPosition() );
             originNode.setBaseOrientation( orientation );
         }
@@ -135,26 +135,26 @@ public abstract class Lattice {
         // Pick the open bond whose open node is closest to the ion being added
         List bonds = originNode.getBonds();
         ArrayList openBonds = new ArrayList();
-        for( int i = 0; i < bonds.size() && !added; i++ ) {
-            Bond bond = (Bond)bonds.get( i );
-            if( bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ) {
+        for ( int i = 0; i < bonds.size() && !added; i++ ) {
+            Bond bond = (Bond) bonds.get( i );
+            if ( bond.isOpen() && bounds.contains( bond.getOpenPosition() ) ) {
                 openBonds.add( bond );
             }
         }
         Bond bondToUse = null;
-        if( openBonds.size() > 0 ) {
+        if ( openBonds.size() > 0 ) {
             double minDSq = Double.MAX_VALUE;
-            for( int i = 0; i < openBonds.size(); i++ ) {
-                Bond bond = (Bond)openBonds.get( i );
+            for ( int i = 0; i < openBonds.size(); i++ ) {
+                Bond bond = (Bond) openBonds.get( i );
                 double dSq = ionA.getPosition().distanceSq( bond.getOpenPosition() );
-                if( dSq < minDSq ) {
+                if ( dSq < minDSq ) {
                     minDSq = dSq;
                     bondToUse = bond;
                 }
             }
 
             // Sanity check
-            if( bondToUse == null ) {
+            if ( bondToUse == null ) {
                 throw new RuntimeException( "bondToUse == null" );
             }
             addNewNode( ionA, bondToUse );
@@ -174,7 +174,7 @@ public abstract class Lattice {
     private void addNewNode( Ion ion, Bond bond ) {
 
         // Sanity check
-        if( !bond.isOpen() ) {
+        if ( !bond.isOpen() ) {
             bond.isOpen();
             throw new RuntimeException( "Bond is not open" );
         }
@@ -189,23 +189,23 @@ public abstract class Lattice {
         // Because of this, we have to add pi to the orientation for the new bonds, since they are emmanating from
         // this new node.
         int cnt = getNumNeighboringSites( ion );
-        for( int k = 1; k < cnt; k++ ) {
+        for ( int k = 1; k < cnt; k++ ) {
             double orientation = ( k * Math.PI * 2 / cnt + ( bond.getOrientation() + Math.PI ) ) % ( Math.PI * 2 );
 
             // Determine if there is already a bond where this one would go. This can happen easily, if a new node
             // is being created at a place that is at the open end of more than one existing bond.
             boolean addNewBond = true;
             Point2D testPoint = MathUtil.radialToCartesian( spacing, orientation, newNode.getPosition() );
-            for( int i = 0; i < nodes.size() && addNewBond; i++ ) {
-                Node node = (Node)nodes.get( i );
+            for ( int i = 0; i < nodes.size() && addNewBond; i++ ) {
+                Node node = (Node) nodes.get( i );
                 List bonds = node.getBonds();
-                for( int j = 0; j < bonds.size(); j++ ) {
-                    Bond existingBond = (Bond)bonds.get( j );
-                    if( existingBond.isOpen()
-                        && MathUtil.isApproxEqual( existingBond.getOrigin().getPosition(),
-                                                   testPoint,
-                                                   SAME_POSITION_TOLERANCE )
-                        && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) ) {
+                for ( int j = 0; j < bonds.size(); j++ ) {
+                    Bond existingBond = (Bond) bonds.get( j );
+                    if ( existingBond.isOpen()
+                         && MathUtil.isApproxEqual( existingBond.getOrigin().getPosition(),
+                                                    testPoint,
+                                                    SAME_POSITION_TOLERANCE )
+                         && MathUtil.isApproxEqual( existingBond.getOpenPosition(), ion.getPosition(), SAME_POSITION_TOLERANCE ) ) {
                         existingBond.setDestination( newNode );
                         newNode.addBond( existingBond );
                         addNewBond = false;
@@ -213,7 +213,7 @@ public abstract class Lattice {
                 }
             }
             // If there isn't already a bond where this one should go, add one
-            if( addNewBond ) {
+            if ( addNewBond ) {
                 Bond newBond = new Bond( newNode, orientation, spacing );
                 newBond.setOrigin( newNode );
                 newNode.addBond( newBond );
@@ -238,11 +238,11 @@ public abstract class Lattice {
 
         int numLists = 6;
         ArrayList[] preferredIons = new ArrayList[numLists];
-        for( int i = 0; i < preferredIons.length; i++ ) {
+        for ( int i = 0; i < preferredIons.length; i++ ) {
             preferredIons[i] = new ArrayList();
         }
         ArrayList[] otherIons = new ArrayList[numLists];
-        for( int i = 0; i < otherIons.length; i++ ) {
+        for ( int i = 0; i < otherIons.length; i++ ) {
             otherIons[i] = new ArrayList();
         }
 
@@ -250,16 +250,16 @@ public abstract class Lattice {
         Ion leastBoundIon = null;
         List preferredCandidates = new ArrayList();
         List otherCandidates = new ArrayList();
-        for( int i = 0; i < nodes.size(); i++ ) {
-            Node node = (Node)nodes.get( i );
+        for ( int i = 0; i < nodes.size(); i++ ) {
+            Node node = (Node) nodes.get( i );
 
             // Don't consider the seed unless it's the only ion in the lattice
-            if( node.getIon() == seed && nodes.size() > 1 ) {
+            if ( node.getIon() == seed && nodes.size() > 1 ) {
                 continue;
             }
 
-            if( node.hasNoChildren() ) {
-                if( preferredIonType.isAssignableFrom( node.getIon().getClass() ) ) {
+            if ( node.hasNoChildren() ) {
+                if ( preferredIonType.isAssignableFrom( node.getIon().getClass() ) ) {
                     preferredIons[node.getNumFilledBonds()].add( node );
 //                    preferredCandidates.add( node );
                 }
@@ -271,11 +271,11 @@ public abstract class Lattice {
         }
 
         List candidates = null;
-        for( int i = 0; i < numLists && candidates == null; i++ ) {
-            if( preferredIons[i].size() > 0 ) {
+        for ( int i = 0; i < numLists && candidates == null; i++ ) {
+            if ( preferredIons[i].size() > 0 ) {
                 candidates = preferredIons[i];
             }
-            else if( otherIons[i].size() > 0 ) {
+            else if ( otherIons[i].size() > 0 ) {
                 candidates = otherIons[i];
             }
         }
@@ -285,12 +285,12 @@ public abstract class Lattice {
 //        List candidates = preferredCandidates.size() > 0 ? preferredCandidates : otherCandidates;
 
         // Sanity check
-        if( candidates.size() == 0 ) {
+        if ( candidates.size() == 0 ) {
             throw new RuntimeException( "candidates.size() == 0" );
         }
 
         // Pick a random ion from the list of candidates
-        Node leastBoundNode = (Node)candidates.get( random.nextInt( candidates.size() ) );
+        Node leastBoundNode = (Node) candidates.get( random.nextInt( candidates.size() ) );
         leastBoundIon = leastBoundNode.getIon();
         return leastBoundIon;
     }
@@ -306,11 +306,11 @@ public abstract class Lattice {
 
         List bonds = getNode( ion ).getBonds();
         List sites = new ArrayList();
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
-            if( bond.isOpen() ) {
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
+            if ( bond.isOpen() ) {
                 Point2D p = MathUtil.radialToCartesian( spacing, bond.getOrientation(), ion.getPosition() );
-                if( bounds.contains( p ) ) {
+                if ( bounds.contains( p ) ) {
                     sites.add( p );
                 }
             }
@@ -325,25 +325,25 @@ public abstract class Lattice {
      */
     public void removeIon( Ion ion ) {
         Node node = getNode( ion );
-        if( node == null ) {
+        if ( node == null ) {
             throw new RuntimeException();
         }
         // Remove the node from all the bonds it is part of
         List bonds = node.getBonds();
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
             bond.removeNode( node );
         }
         nodes.remove( node );
 
         // Sanity check
-        if( SolubleSaltsConfig.DEBUG ) {
-            for( int i = 0; i < nodes.size(); i++ ) {
-                Node testNode = (Node)nodes.get( i );
+        if ( SolubleSaltsConfig.DEBUG ) {
+            for ( int i = 0; i < nodes.size(); i++ ) {
+                Node testNode = (Node) nodes.get( i );
                 List testBonds = testNode.getBonds();
-                for( int j = 0; j < testBonds.size(); j++ ) {
-                    Bond existingBond = (Bond)testBonds.get( j );
-                    if( existingBond.getOrigin() == node || existingBond.getDestination() == node ) {
+                for ( int j = 0; j < testBonds.size(); j++ ) {
+                    Bond existingBond = (Bond) testBonds.get( j );
+                    if ( existingBond.getOrigin() == node || existingBond.getDestination() == node ) {
                         throw new RuntimeException( "existingBond.getOrigin() == node || existingBond.getDestination() == node" );
                     }
                 }
@@ -364,9 +364,9 @@ public abstract class Lattice {
      */
     public Node getNode( Ion ion ) {
         Node result = null;
-        for( int i = 0; i < nodes.size() && result == null; i++ ) {
-            Node node = (Node)nodes.get( i );
-            if( node.getIon() == ion ) {
+        for ( int i = 0; i < nodes.size() && result == null; i++ ) {
+            Node node = (Node) nodes.get( i );
+            if ( node.getIon() == ion ) {
                 result = node;
             }
         }
@@ -379,7 +379,7 @@ public abstract class Lattice {
     void setSeed( Ion seedIon ) {
         // Sanity check
         Ion oldSeed = null;
-        if( seed != null && seed != seedIon ) {
+        if ( seed != null && seed != seedIon ) {
             oldSeed = seed;
         }
         seed = seedIon;
@@ -388,7 +388,7 @@ public abstract class Lattice {
         new SeedSetter().setSeed( seed );
 
         seed.notifyObservers();
-        if( oldSeed != null ) {
+        if ( oldSeed != null ) {
             oldSeed.notifyObservers();
         }
     }
@@ -423,14 +423,14 @@ public abstract class Lattice {
         sb.append( node.toString() + " | " + node.getPosition().toString() );
         sb.append( "\n" );
         List bonds = node.getBonds();
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
             sb.append( "\t" + bond.getOrientation() + bond.getOrigin() + " : " + bond.getDestination() + "  " + "\n" );
         }
 
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
-            if( bond.getDestination() != node && bond.getDestination() != null ) {
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
+            if ( bond.getDestination() != node && bond.getDestination() != null ) {
                 sb.append( visitNode( bond.getDestination() ) );
             }
         }
@@ -474,11 +474,11 @@ public abstract class Lattice {
         private void visitNode( Node node, List nodesVisited, Bond incomingBond ) {
             List bonds = node.getBonds();
             nodesVisited.add( node );
-            for( int i = 0; i < bonds.size(); i++ ) {
-                Bond bond = (Bond)bonds.get( i );
+            for ( int i = 0; i < bonds.size(); i++ ) {
+                Bond bond = (Bond) bonds.get( i );
 
                 // Do we need to reverse this bond?
-                if( bond != incomingBond && bond.getOrigin() != node ) {
+                if ( bond != incomingBond && bond.getOrigin() != node ) {
                     Node otherNode = bond.getOrigin();
                     bond.removeNode( otherNode );
                     bond.removeNode( node );
@@ -487,7 +487,7 @@ public abstract class Lattice {
                     bond.setOrientation( bond.getOrientation() + Math.PI );
                 }
                 Node destinationNode = bond.getDestination();
-                if( destinationNode != null && !nodesVisited.contains( destinationNode ) ) {
+                if ( destinationNode != null && !nodesVisited.contains( destinationNode ) ) {
                     visitNode( destinationNode, nodesVisited, bond );
                 }
             }

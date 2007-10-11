@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * ConfigurableAnion
@@ -27,7 +27,7 @@ public class ConfigurableAnion extends Ion {
     private static int CHARGE = -1;
 
     public static void setClassCharge( int charge ) {
-        if( charge >= 0 ) {
+        if ( charge >= 0 ) {
             throw new IllegalArgumentException( "charge must be < 0" );
         }
         CHARGE = charge;

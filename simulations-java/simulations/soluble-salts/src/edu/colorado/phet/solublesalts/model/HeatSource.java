@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * HeatSource
@@ -43,7 +43,7 @@ public class HeatSource implements ModelElement {
     // Events and Listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public class ChangeEvent extends EventObject {
         public ChangeEvent( HeatSource source ) {
@@ -51,7 +51,7 @@ public class HeatSource implements ModelElement {
         }
 
         public HeatSource getHeatSource() {
-            return (HeatSource)getSource();
+            return (HeatSource) getSource();
         }
     }
 

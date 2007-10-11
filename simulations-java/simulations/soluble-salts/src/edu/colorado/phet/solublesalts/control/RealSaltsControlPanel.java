@@ -10,17 +10,18 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 /**
  * RealSaltsControlPanel
@@ -55,7 +56,7 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
         final JComboBox comboBox = new JComboBox( saltMap.keySet().toArray() );
         comboBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
+                Salt saltClass = (Salt) saltMap.get( comboBox.getSelectedItem() );
                 model.setCurrentSalt( saltClass );
                 getModule().reset();
                 revalidate();
@@ -73,7 +74,7 @@ public class RealSaltsControlPanel extends SolubleSaltsControlPanel {
         SaltSpinnerPanel saltSPinnerPanel = new SaltSpinnerPanel( model );
         panel.add( saltSPinnerPanel, gbc );
 
-        Salt saltClass = (Salt)saltMap.get( comboBox.getSelectedItem() );
+        Salt saltClass = (Salt) saltMap.get( comboBox.getSelectedItem() );
         model.setCurrentSalt( saltClass );
         revalidate();
 

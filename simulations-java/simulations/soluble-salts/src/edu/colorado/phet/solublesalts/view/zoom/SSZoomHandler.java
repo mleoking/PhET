@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.view.zoom;
 
+import java.awt.event.InputEvent;
+
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
-
-import java.awt.event.InputEvent;
 
 /**
  * ZoomHandler

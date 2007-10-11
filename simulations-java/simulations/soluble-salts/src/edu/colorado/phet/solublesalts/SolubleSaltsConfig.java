@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 
 /**
@@ -54,7 +54,7 @@ public class SolubleSaltsConfig {
     //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
-    public static final Dimension VESSEL_SIZE = new Dimension( (int)( 700 / SCALE ), (int)( 500 / SCALE ) );
+    public static final Dimension VESSEL_SIZE = new Dimension( (int) ( 700 / SCALE ), (int) ( 500 / SCALE ) );
     public static final double VESSEL_WALL_THICKNESS = 20 / SCALE;
     public static final double DEFAULT_LATTICE_SPEED = 3;
     // Acceleration of lattices when they come out of the shaker

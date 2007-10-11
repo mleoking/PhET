@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Spigot
@@ -29,7 +29,7 @@ public class Spigot extends Particle {
     private double flow;
     private double maxFlow = SolubleSaltsConfig.MAX_SPIGOT_FLOW;
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public Spigot( SolubleSaltsModel model ) {
         this.model = model;
@@ -76,7 +76,7 @@ public class Spigot extends Particle {
         }
 
         public Spigot getSpigot() {
-            return (Spigot)getSource();
+            return (Spigot) getSource();
         }
     }
 

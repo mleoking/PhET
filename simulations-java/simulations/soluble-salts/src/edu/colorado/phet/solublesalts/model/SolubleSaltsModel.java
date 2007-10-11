@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.*;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -24,10 +28,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.*;
 
 /**
  * SolubleSaltsModel
@@ -164,14 +164,14 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         // If a crystal is Above the water and not bound to the vessel, it accelerates downward.
         // If it's in the water, it moves at a constant speed
         List crystals = crystalTracker.getCrystals();
-        for( int i = 0; i < crystals.size(); i++ ) {
-            Crystal crystal = (Crystal)crystals.get( i );
-            if( !crystal.isBound()
-                && !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
+        for ( int i = 0; i < crystals.size(); i++ ) {
+            Crystal crystal = (Crystal) crystals.get( i );
+            if ( !crystal.isBound()
+                 && !crystal.getAcceleration().equals( accelerationOutOfWater ) ) {
                 crystal.setAcceleration( accelerationOutOfWater );
             }
-            else if( vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
-                     !crystal.getAcceleration().equals( accelerationInWater ) ) {
+            else if ( vessel.getWater().getBounds().contains( crystal.getPosition() ) &&
+                      !crystal.getAcceleration().equals( accelerationInWater ) ) {
                 crystal.setAcceleration( accelerationInWater );
                 crystal.setVelocity( 0, SolubleSaltsConfig.DEFAULT_LATTICE_SPEED );
             }
@@ -184,8 +184,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
 
-        if( modelElement instanceof Ion ) {
-            Ion ion = (Ion)modelElement;
+        if ( modelElement instanceof Ion ) {
+            Ion ion = (Ion) modelElement;
             ionTracker.ionAdded( ion );
         }
     }
@@ -196,10 +196,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
 
-        if( modelElement instanceof Ion ) {
-            Ion ion = (Ion)modelElement;
+        if ( modelElement instanceof Ion ) {
+            Ion ion = (Ion) modelElement;
             ionTracker.ionRemoved( ion );
-            if( ion.isBound() ) {
+            if ( ion.isBound() ) {
                 ion.getBindingCrystal().removeIon( ion );
             }
         }
@@ -213,8 +213,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         this.calibration = calibration;
 
         List ions = ionTracker.getIons();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             removeModelElement( ion );
         }
         vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel / SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
@@ -239,8 +239,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         int numFreeAnions = getNumFreeIonsOfType( getCurrentSalt().getAnionClass() );
         int numFreeCations = getNumFreeIonsOfType( getCurrentSalt().getCationClass() );
         Class preferredIonType = null;
-        if( (double)numFreeAnions / numFreeCations <
-            (double)getCurrentSalt().getNumAnionsInUnit() / getCurrentSalt().getNumCationsInUnit() ) {
+        if ( (double) numFreeAnions / numFreeCations <
+             (double) getCurrentSalt().getNumAnionsInUnit() / getCurrentSalt().getNumCationsInUnit() ) {
             preferredIonType = getCurrentSalt().getAnionClass();
         }
         else {
@@ -353,11 +353,11 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
      */
     public void addHeat( double heat ) {
         List ions = getIons();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             double speed0 = ion.getVelocity().getMagnitude();
             double speed1 = Math.sqrt( Math.max( MIN_SPEED, speed0 * speed0 + ( 2 * heat / ion.getMass() ) ) );
-            if( ion.getVelocity().getMagnitude() > 0 ) {
+            if ( ion.getVelocity().getMagnitude() > 0 ) {
                 ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
             }
         }
@@ -376,7 +376,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     // Change events and listeners
     //-----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -395,7 +395,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
 
         public SolubleSaltsModel getModel() {
-            return (SolubleSaltsModel)getSource();
+            return (SolubleSaltsModel) getSource();
         }
 
         public boolean isSaltChanged() {
@@ -468,16 +468,16 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         public void clockTicked( ClockEvent clockEvent ) {
 
             List ions = ionTracker.getIons();
-            for( int i = 0; i < ions.size(); i++ ) {
-                Ion ion = (Ion)ions.get( i );
+            for ( int i = 0; i < ions.size(); i++ ) {
+                Ion ion = (Ion) ions.get( i );
 
                 // Apply random walk to all the ions, but only if the drain is closed                
-                if( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0 ) {
+                if ( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0 ) {
                     randomWalkAgent.appy( ion );
                 }
 
                 // Remove ions that have gotten outside the bounds of the model
-                if( !getBounds().contains( ion.getPosition() ) ) {
+                if ( !getBounds().contains( ion.getPosition() ) ) {
                     removeModelElement( ion );
                 }
             }
@@ -497,21 +497,21 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
             // Look for crystals running into the vesset
             List crystals = crystalTracker.getCrystals();
-            for( int i = 0; i < crystals.size(); i++ ) {
-                Crystal crystal = (Crystal)crystals.get( i );
+            for ( int i = 0; i < crystals.size(); i++ ) {
+                Crystal crystal = (Crystal) crystals.get( i );
                 crystalVesselCollisionExpert.detectAndDoCollision( crystal, SolubleSaltsModel.this.getVessel() );
             }
 
             // Look for collisions between ions and the vessel, and each other
-            for( int i = 0; i < numModelElements(); i++ ) {
-                if( modelElementAt( i ) instanceof Ion ) {
-                    Ion ion = (Ion)modelElementAt( i );
+            for ( int i = 0; i < numModelElements(); i++ ) {
+                if ( modelElementAt( i ) instanceof Ion ) {
+                    Ion ion = (Ion) modelElementAt( i );
                     ionVesselCollisionExpert.detectAndDoCollision( ion, vessel );
-                    for( int j = 0; j < numModelElements(); j++ ) {
-                        if( modelElementAt( i ) != modelElementAt( j )
-                            && modelElementAt( j ) instanceof Ion ) {
-                            ionIonCollisionExpert.detectAndDoCollision( (Ion)modelElementAt( i ),
-                                                                        (Ion)modelElementAt( j ) );
+                    for ( int j = 0; j < numModelElements(); j++ ) {
+                        if ( modelElementAt( i ) != modelElementAt( j )
+                             && modelElementAt( j ) instanceof Ion ) {
+                            ionIonCollisionExpert.detectAndDoCollision( (Ion) modelElementAt( i ),
+                                                                        (Ion) modelElementAt( j ) );
                         }
                     }
                 }
@@ -538,12 +538,12 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
             // Release ions until we're back above Ksp
             boolean ionReleased = true;
-            while( crystals.size() > 0 && !nucleationEnabled && ionReleased && drain.getFlow() == 0 ) {
+            while ( crystals.size() > 0 && !nucleationEnabled && ionReleased && drain.getFlow() == 0 ) {
                 ionReleased = false;
                 // pick a crystal at random
                 int i = random.nextInt( crystals.size() );
-                Crystal crystal = (Crystal)crystals.get( i );
-                if( crystal.isInWater( vessel.getWater().getBounds() ) ) {
+                Crystal crystal = (Crystal) crystals.get( i );
+                if ( crystal.isInWater( vessel.getWater().getBounds() ) ) {
                     crystal.releaseIon( dt );
                     ionReleased = true;
                 }

@@ -52,6 +52,6 @@ public class ConfigurableSaltModule extends SolubleSaltsModule {
         ConfigurableCation.setClassCharge( 1 );
         ConfigurableAnion.setClassCharge( -1 );
         ConfigurableSalt.configure();
-        ( (SolubleSaltsModel)getModel() ).setCurrentSalt( new ConfigurableSalt() );
+        ( (SolubleSaltsModel) getModel() ).setCurrentSalt( new ConfigurableSalt() );
     }
 }

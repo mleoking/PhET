@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.ThreeToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Chromium;
 import edu.colorado.phet.solublesalts.model.ion.Hydroxide;
-
-import java.util.ArrayList;
 
 /**
  * CopperHydroxide

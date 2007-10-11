@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * RealSaltsControlPanel

@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.control;
 
+import java.awt.*;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableAnion;
@@ -17,11 +23,6 @@ import edu.colorado.phet.solublesalts.model.ion.ConfigurableCation;
 import edu.colorado.phet.solublesalts.model.salt.ConfigurableSalt;
 import edu.colorado.phet.solublesalts.module.ConfigurableSaltModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * ConfigurableSaltControlPanel
@@ -56,7 +57,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         cationChargeSpinner.setEditor( cationNumberEditor );
         cationChargeSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                ConfigurableCation.setClassCharge( ( (Integer)cationChargeSpinner.getValue() ).intValue() );
+                ConfigurableCation.setClassCharge( ( (Integer) cationChargeSpinner.getValue() ).intValue() );
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();
@@ -70,7 +71,7 @@ public class ConfigurableSaltControlPanel extends SolubleSaltsControlPanel {
         final JSpinner anionChargeSpinner = new JSpinner( anionSpinnerModel );
         anionSpinnerModel.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                ConfigurableAnion.setClassCharge( ( (Integer)anionChargeSpinner.getValue() ).intValue() );
+                ConfigurableAnion.setClassCharge( ( (Integer) anionChargeSpinner.getValue() ).intValue() );
                 ConfigurableSalt.configure();
                 model.setCurrentSalt( new ConfigurableSalt() );
                 getModule().reset();

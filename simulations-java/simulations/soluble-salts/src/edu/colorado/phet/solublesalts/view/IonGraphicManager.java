@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.model.ion.*;
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
+
+import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.ion.*;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * IonGraphicManager
@@ -42,11 +42,11 @@ public class IonGraphicManager implements IonListener {
      * @return a BufferedImage
      */
     static public BufferedImage getIonImage( Class ionClass ) {
-        BufferedImage bi = (BufferedImage)imageMap.get( ionClass );
-        if( bi == null ) {
+        BufferedImage bi = (BufferedImage) imageMap.get( ionClass );
+        if ( bi == null ) {
             throw new RuntimeException( "Ion class not recognized" );
         }
-        return (BufferedImage)imageMap.get( ionClass );
+        return (BufferedImage) imageMap.get( ionClass );
     }
 
     static {
@@ -73,7 +73,7 @@ public class IonGraphicManager implements IonListener {
 
     static private void putImage( Ion ion, Color color ) {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
-        if( color != null ) {
+        if ( color != null ) {
             ig.setColor( color );
         }
         else {
@@ -83,7 +83,7 @@ public class IonGraphicManager implements IonListener {
     }
 
     static private IonGraphic createPImage( Ion ion ) {
-        BufferedImage bi = (BufferedImage)imageMap.get( ion.getClass() );
+        BufferedImage bi = (BufferedImage) imageMap.get( ion.getClass() );
         IonGraphic ig = new IonGraphic( ion, bi );
         return ig;
     }
@@ -106,8 +106,8 @@ public class IonGraphicManager implements IonListener {
     }
 
     public void ionRemoved( IonEvent event ) {
-        IonGraphic ig = (IonGraphic)ionToGraphicMap.get( event.getIon() );
-        if( ig != null ) {
+        IonGraphic ig = (IonGraphic) ionToGraphicMap.get( event.getIon() );
+        if ( ig != null ) {
             graphicContainer.removeChild( ig );
             ionToGraphicMap.remove( event.getIon() );
         }

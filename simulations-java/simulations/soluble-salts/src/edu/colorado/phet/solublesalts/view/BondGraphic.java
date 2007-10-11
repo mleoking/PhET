@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
-import edu.colorado.phet.solublesalts.model.crystal.Bond;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.solublesalts.model.crystal.Bond;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * BondGraphic
@@ -40,18 +40,18 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
     }
 
     private void createGraphic( Bond bond ) {
-        if( bond == null || !( bond instanceof Bond ) ) {
+        if ( bond == null || !( bond instanceof Bond ) ) {
             throw new IllegalArgumentException();
         }
-        if( bondLine != null ) {
+        if ( bondLine != null ) {
             removeChild( bondLine );
             bondLine = null;
         }
-        if( bond.getOrigin() != null ) {
+        if ( bond.getOrigin() != null ) {
             Stroke stroke = new BasicStroke( 2 );
             Line2D line = null;
             Color color = null;
-            if( bond.isOpen() ) {
+            if ( bond.isOpen() ) {
                 line = new Line2D.Double( bond.getOrigin().getPosition(), bond.getOpenPosition() );
                 color = openColor;
             }
@@ -60,7 +60,7 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
                 color = closedColor;
             }
 
-            if( bond.isDebugEnabled() ) {
+            if ( bond.isDebugEnabled() ) {
                 color = Color.red;
             }
 
@@ -69,7 +69,7 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
             bondLine.setStrokePaint( color );
             addChild( bondLine );
 
-            if( bond.isOpen() ) {
+            if ( bond.isOpen() ) {
                 Point2D p = new Point2D.Double( bond.getOpenPosition().getX() - ( bond.getOpenPosition().getX() - bond.getOrigin().getPosition().getX() ) / 2,
                                                 bond.getOpenPosition().getY() - ( bond.getOpenPosition().getY() - bond.getOrigin().getPosition().getY() ) / 2 );
                 Line2D line2 = new Line2D.Double( p, bond.getOpenPosition() );
@@ -82,7 +82,7 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
     }
 
     public void stateChanged( Bond.ChangeEvent event ) {
-        if( event.getBond() == null || !( event.getBond() instanceof Bond ) ) {
+        if ( event.getBond() == null || !( event.getBond() instanceof Bond ) ) {
             throw new IllegalArgumentException();
         }
         createGraphic( event.getBond() );

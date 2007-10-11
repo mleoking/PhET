@@ -11,6 +11,19 @@
 
 package edu.colorado.phet.solublesalts.view;
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
@@ -23,18 +36,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 
 /**
@@ -106,7 +107,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
 
         // If the faucet is facing right, flip the image and adjust the location of the water and the
         // registration pt.
-        if( orientation == RIGHT_FACING ) {
+        if ( orientation == RIGHT_FACING ) {
             AffineTransform atx = AffineTransform.getScaleInstance( -1, 1 );
             atx.translate( -bImg.getWidth( null ), 0 );
             AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
@@ -129,7 +130,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
         addChild( waterGraphic );
 
         // Water Flow slider
-        flowSlider = new JSlider( 0, (int)spigot.getMaxFlow(), 0 );
+        flowSlider = new JSlider( 0, (int) spigot.getMaxFlow(), 0 );
         flowSlider.setBackground( Color.black );
         flowSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -143,17 +144,17 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
             }
         } );
 
-        flowSlider.setPreferredSize( new Dimension( (int)faucetImage.getWidth() / 2, 15 ) );
+        flowSlider.setPreferredSize( new Dimension( (int) faucetImage.getWidth() / 2, 15 ) );
         PSwing pSwing = new PSwing( flowSlider );
         pSwing.setOffset( 22, 35 );
         pSwing.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseEntered( PInputEvent event ) {
-                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
                 ppc.setCursor( new Cursor( Cursor.W_RESIZE_CURSOR ) );
             }
 
             public void mouseExited( PInputEvent event ) {
-                PhetPCanvas ppc = (PhetPCanvas)event.getComponent();
+                PhetPCanvas ppc = (PhetPCanvas) event.getComponent();
                 ppc.setCursor( Cursor.getDefaultCursor() );
             }
 
@@ -176,8 +177,8 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
      */
     public void update() {
         double waterWidth = Math.abs( spigot.getFlow() * ( MAX_WATER_WIDTH ) / spigot.getMaxFlow() );
-        waterShape.setBounds( -( (int)waterWidth / 2 ), 0, (int)waterWidth,
-                              (int)( ( streamMaxY - getYOffset() ) / getScale() ) );
+        waterShape.setBounds( -( (int) waterWidth / 2 ), 0, (int) waterWidth,
+                              (int) ( ( streamMaxY - getYOffset() ) / getScale() ) );
         waterGraphic.setPathTo( waterShape );
         repaint();
     }

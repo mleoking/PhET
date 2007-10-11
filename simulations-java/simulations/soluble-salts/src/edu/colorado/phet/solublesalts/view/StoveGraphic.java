@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * StoveGraphic

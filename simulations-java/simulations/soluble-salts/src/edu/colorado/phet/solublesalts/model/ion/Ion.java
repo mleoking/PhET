@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.solublesalts.model.ion;
 
+import java.awt.geom.Point2D;
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
-
-import java.awt.geom.Point2D;
-import java.util.EventListener;
-import java.util.EventObject;
 
 
 /**
@@ -53,7 +53,7 @@ public class Ion extends Atom {
     }
 
     public void stepInTime( double dt ) {
-        if( !isBound() ) {
+        if ( !isBound() ) {
             super.stepInTime( dt );
         }
         else {
@@ -94,7 +94,7 @@ public class Ion extends Atom {
     // Events and Listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -110,7 +110,7 @@ public class Ion extends Atom {
         }
 
         public Ion getIon() {
-            return (Ion)getSource();
+            return (Ion) getSource();
         }
     }
 

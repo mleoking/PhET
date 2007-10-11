@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Random;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
@@ -19,10 +23,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.StrontiumPhosphate;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Shaker
@@ -112,7 +112,7 @@ public class Shaker extends Particle {
     public void shake( double dy ) {
 
         // If not enabled, do nothing
-        if( !enabled ) {
+        if ( !enabled ) {
             return;
         }
 
@@ -138,12 +138,12 @@ public class Shaker extends Particle {
 //            numLaticeUnits = (int)dy;
 
         // Strontium Phosphate crystals should be smaller because we double them up
-        if( getCurrentSalt() instanceof StrontiumPhosphate ) {
+        if ( getCurrentSalt() instanceof StrontiumPhosphate ) {
             numLaticeUnits /= 2;
         }
 
         // If the shaker moved downward, shake out a crystal
-        while( !done && dy > 0 ) {
+        while ( !done && dy > 0 ) {
             done = true;
 
             double y = getPosition().getY() + l * Math.sin( orientation );
@@ -151,7 +151,7 @@ public class Shaker extends Particle {
 
             int numCrystals = ( getCurrentSalt() instanceof StrontiumPhosphate ) ? 2 : 1;
 
-            for( int n = 0; n < numCrystals; n++ ) {
+            for ( int n = 0; n < numCrystals; n++ ) {
                 ArrayList ions = new ArrayList();
 
                 // Attempt to get Sr3(PO)2 to look more dense
@@ -168,11 +168,11 @@ public class Shaker extends Particle {
 ////            numLaticeUnits = 8;
 ////            numLaticeUnits = (int)dy;
 //
-                for( int j = 0; j < numLaticeUnits; j++ ) {
+                for ( int j = 0; j < numLaticeUnits; j++ ) {
                     Salt.Component[] components = currentSalt.getComponents();
-                    for( int k = 0; k < components.length; k++ ) {
+                    for ( int k = 0; k < components.length; k++ ) {
                         Salt.Component component = components[k];
-                        for( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
+                        for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
                             ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D.Double() );
                             ions.add( ion );
                         }
@@ -189,8 +189,8 @@ public class Shaker extends Particle {
 //            ions.add( ion );
 
                 // Position the ions
-                for( int i = 0; i < ions.size(); i++ ) {
-                    Ion ion1 = (Ion)ions.get( i );
+                for ( int i = 0; i < ions.size(); i++ ) {
+                    Ion ion1 = (Ion) ions.get( i );
                     ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
                                       this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.1 ) );
                     model.addModelElement( ion1 );

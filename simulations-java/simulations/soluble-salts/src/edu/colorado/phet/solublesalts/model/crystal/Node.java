@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
  * Node
@@ -42,7 +42,7 @@ public class Node {
     }
 
     public int getPolarity() {
-        return (int)( ion.getCharge() / Math.abs( ion.getCharge() ) );
+        return (int) ( ion.getCharge() / Math.abs( ion.getCharge() ) );
     }
 
     public List getBonds() {
@@ -64,12 +64,12 @@ public class Node {
      */
     public void setBaseOrientation( double theta ) {
         // Get the current base theta of the bonds
-        double baseOrientation = ( (Bond)bonds.get( 0 ) ).getOrientation();
+        double baseOrientation = ( (Bond) bonds.get( 0 ) ).getOrientation();
 
         // Rotate all the bonds' theta to be based off the new one specified
         // in the parameter
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
             bond.setOrientation( bond.getOrientation() - baseOrientation + theta );
         }
     }
@@ -81,9 +81,9 @@ public class Node {
      */
     public boolean hasNoChildren() {
         boolean result = true;
-        for( int i = 0; i < bonds.size() && result == true; i++ ) {
-            Bond bond = (Bond)bonds.get( i );
-            if( bond.getOrigin() == this && bond.getDestination() != null ) {
+        for ( int i = 0; i < bonds.size() && result == true; i++ ) {
+            Bond bond = (Bond) bonds.get( i );
+            if ( bond.getOrigin() == this && bond.getDestination() != null ) {
                 result = false;
             }
         }
@@ -96,8 +96,8 @@ public class Node {
 
     public int getNumOpenBonds() {
         int result = 0;
-        for( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond)bonds.get( i );
+        for ( int i = 0; i < bonds.size(); i++ ) {
+            Bond bond = (Bond) bonds.get( i );
             result += bond.isOpen() ? 1 : 0;
         }
         return result;

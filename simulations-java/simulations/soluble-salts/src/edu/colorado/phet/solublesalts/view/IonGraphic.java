@@ -10,6 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.view;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -18,10 +22,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 
 /**
  * IonGraphic
@@ -55,8 +55,8 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
      * @param imageName
      */
     public IonGraphic( Ion ion, String imageName ) {
-        pImage = PImageFactory.create( imageName, new Dimension( (int)ion.getRadius() * 2,
-                                                                 (int)ion.getRadius() * 2 ) );
+        pImage = PImageFactory.create( imageName, new Dimension( (int) ion.getRadius() * 2,
+                                                                 (int) ion.getRadius() * 2 ) );
         init( ion );
     }
 
@@ -92,8 +92,8 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
                         ion.getPosition().getY() - pImage.getHeight() / 2 );
 
         // Draws a mark on the ion if it's bound
-        if( showBondIndicators && ion.isBound() /* && pDebugPath == null */ ) {
-            if( pDebugPath == null ) {
+        if ( showBondIndicators && ion.isBound() /* && pDebugPath == null */ ) {
+            if ( pDebugPath == null ) {
                 pDebugPath = new PPath( new Ellipse2D.Double( ( pImage.getWidth() / 2 ) - 2,
                                                               ( pImage.getHeight() / 2 ) - 2,
                                                               4,
@@ -101,7 +101,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
                 addChild( pDebugPath );
             }
             Color color = Color.red;
-            if( ion.getBindingCrystal().getSeed() == ion ) {
+            if ( ion.getBindingCrystal().getSeed() == ion ) {
                 color = Color.green;
             }
 //            if( ion.getBindingCrystal().getExtremeIon( Crystal.NORTH ) == ion ) {
@@ -120,7 +120,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
             pDebugPath.setPaint( color );
             pDebugPath.setStrokePaint( color );
         }
-        else if( !ion.isBound() && pDebugPath != null ) {
+        else if ( !ion.isBound() && pDebugPath != null ) {
             removeChild( pDebugPath );
             pDebugPath = null;
         }
@@ -128,7 +128,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
 
     public void setColor( Color color ) {
         MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
-        pImage.setImage( op.filter( (BufferedImage)pImage.getImage(), null ) );
+        pImage.setImage( op.filter( (BufferedImage) pImage.getImage(), null ) );
     }
 
     public void setPolarityMarkerColor( Color color ) {

@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
-import edu.colorado.phet.solublesalts.model.crystal.Lattice;
-
 import java.security.InvalidParameterException;
 import java.util.List;
+
+import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 
 /**
  * Salt
@@ -31,18 +31,18 @@ public class Salt {
     protected Salt( List components, Lattice lattice, Class cationClass, Class anionClass, double ksp ) {
         this.ksp = ksp;
         this.components = new Component[components.size()];
-        for( int i = 0; i < components.size(); i++ ) {
-            Component component = (Component)components.get( i );
+        for ( int i = 0; i < components.size(); i++ ) {
+            Component component = (Component) components.get( i );
             this.components[i] = component;
         }
         // sort the array of components
         boolean done = false;
-        while( !done ) {
+        while ( !done ) {
             done = true;
-            for( int i = 0; i < this.components.length - 1; i++ ) {
-                for( int j = i + 1; j < this.components.length; j++ ) {
-                    if( this.components[i].getLatticeUnitFraction().intValue()
-                        > this.components[j].getLatticeUnitFraction().intValue() ) {
+            for ( int i = 0; i < this.components.length - 1; i++ ) {
+                for ( int j = i + 1; j < this.components.length; j++ ) {
+                    if ( this.components[i].getLatticeUnitFraction().intValue()
+                         > this.components[j].getLatticeUnitFraction().intValue() ) {
                         Component temp = this.components[i];
                         this.components[i] = this.components[j];
                         this.components[j] = temp;
@@ -91,7 +91,7 @@ public class Salt {
      */
     public int getNumAnionsInUnit() {
         Integer result = getNumIonsInUnit( anionClass );
-        if( result == null ) {
+        if ( result == null ) {
             throw new InvalidParameterException();
         }
         return result.intValue();
@@ -104,7 +104,7 @@ public class Salt {
      */
     public int getNumCationsInUnit() {
         Integer result = getNumIonsInUnit( cationClass );
-        if( result == null ) {
+        if ( result == null ) {
             throw new InvalidParameterException();
         }
         return result.intValue();
@@ -118,9 +118,9 @@ public class Salt {
      */
     private Integer getNumIonsInUnit( Class ionClass ) {
         Integer result = null;
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             Component component = components[i];
-            if( component.getIonClass() == ionClass ) {
+            if ( component.getIonClass() == ionClass ) {
                 result = component.getLatticeUnitFraction();
             }
         }

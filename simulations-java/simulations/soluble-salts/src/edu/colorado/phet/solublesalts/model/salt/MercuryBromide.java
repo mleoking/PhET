@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.TwoToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.Bromine;
 import edu.colorado.phet.solublesalts.model.ion.Mercury;
-
-import java.util.ArrayList;
 
 /**
  * MercuryBromine

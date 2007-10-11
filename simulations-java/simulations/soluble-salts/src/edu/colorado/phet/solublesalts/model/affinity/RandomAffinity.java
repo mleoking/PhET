@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.solublesalts.model.affinity;
 
+import java.util.Random;
+
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.util.InvalidParameterTypeException;
-
-import java.util.Random;
 
 /**
  * RandomAffinity
@@ -31,11 +31,11 @@ public class RandomAffinity implements Affinity {
     }
 
     public boolean stick( Object obj1, Object obj2 ) {
-        if( !( obj1 instanceof Ion && obj2 instanceof Vessel ) ) {
+        if ( !( obj1 instanceof Ion && obj2 instanceof Vessel ) ) {
             throw new InvalidParameterTypeException();
         }
-        Ion ion = (Ion)obj1;
-        Vessel vessel = (Vessel)obj2;
+        Ion ion = (Ion) obj1;
+        Vessel vessel = (Vessel) obj2;
         return random.nextDouble() <= affinityLikelihood
                && !( ion.getPosition().getY() - ion.getRadius() <= vessel.getWater().getMinY() );
     }

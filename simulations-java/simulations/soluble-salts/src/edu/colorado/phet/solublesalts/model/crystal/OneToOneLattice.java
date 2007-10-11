@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model.crystal;
 
+import java.util.List;
+import java.util.Random;
+
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
-
-import java.util.List;
-import java.util.Random;
 
 /**
  * PlainCubicLattice
@@ -89,8 +89,8 @@ public class OneToOneLattice extends Lattice {
 
     private static void printLattice( Crystal l ) {
         List ions = l.getIons();
-        for( int i = 0; i < ions.size(); i++ ) {
-            Ion ion = (Ion)ions.get( i );
+        for ( int i = 0; i < ions.size(); i++ ) {
+            Ion ion = (Ion) ions.get( i );
             System.out.println( "ion.getPosition() = " + ion.getPosition() );
         }
     }

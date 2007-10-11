@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.util.*;
+
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonEvent;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
-
-import java.util.*;
 
 /**
  * IonTracker
@@ -35,22 +35,22 @@ public class IonTracker {
     //----------------------------------------------------------------
 
     public void ionAdded( Ion ion ) {
-        List ionSet = (List)ionMap.get( ion.getClass() );
-        if( ionSet == null ) {
+        List ionSet = (List) ionMap.get( ion.getClass() );
+        if ( ionSet == null ) {
             ionSet = new ArrayList();
             ionMap.put( ion.getClass(), ionSet );
             freeIonCntMap.put( ion.getClass(), new Integer( 0 ) );
         }
         ionSet.add( ion );
-        int cnt = ( (Integer)freeIonCntMap.get( ion.getClass() ) ).intValue();
+        int cnt = ( (Integer) freeIonCntMap.get( ion.getClass() ) ).intValue();
         freeIonCntMap.put( ion.getClass(), new Integer( ++cnt ) );
         ionListenerProxy.ionAdded( new IonEvent( ion ) );
     }
 
     public void ionRemoved( Ion ion ) {
-        int cnt = ( (Integer)freeIonCntMap.get( ion.getClass() ) ).intValue();
+        int cnt = ( (Integer) freeIonCntMap.get( ion.getClass() ) ).intValue();
         freeIonCntMap.put( ion.getClass(), new Integer( --cnt ) );
-        List ionSet = (List)ionMap.get( ion.getClass() );
+        List ionSet = (List) ionMap.get( ion.getClass() );
         ionSet.remove( ion );
 
         ionListenerProxy.ionRemoved( new IonEvent( ion ) );
@@ -58,19 +58,19 @@ public class IonTracker {
 
     public int getNumIonsOfType( Class ionClass ) {
         int result = 0;
-        List ionSet = (List)ionMap.get( ionClass );
-        if( ionSet != null ) {
+        List ionSet = (List) ionMap.get( ionClass );
+        if ( ionSet != null ) {
             result = ionSet.size();
         }
         return result;
     }
 
     public int getNumFreeIonsOfType( Class ionClass ) {
-        Collection ionSet = (Collection)ionMap.get( ionClass );
+        Collection ionSet = (Collection) ionMap.get( ionClass );
         int cnt = 0;
-        if( ionSet != null ) {
-            for( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
-                Ion ion = (Ion)iterator.next();
+        if ( ionSet != null ) {
+            for ( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
+                Ion ion = (Ion) iterator.next();
                 cnt += ion.isBound() ? 0 : 1;
             }
         }
@@ -78,14 +78,14 @@ public class IonTracker {
     }
 
     public List getIonsOfType( Class ionClass ) {
-        return (List)ionMap.get( ionClass );
+        return (List) ionMap.get( ionClass );
     }
 
     public List getIons() {
         List result = new ArrayList();
         Collection lists = ionMap.values();
-        for( Iterator it = lists.iterator(); it.hasNext(); ) {
-            List l = (List)it.next();
+        for ( Iterator it = lists.iterator(); it.hasNext(); ) {
+            List l = (List) it.next();
             result.addAll( l );
         }
         return result;
@@ -96,7 +96,7 @@ public class IonTracker {
     //----------------------------------------------------------------
 
     private EventChannel ionEventChannel = new EventChannel( IonListener.class );
-    private IonListener ionListenerProxy = (IonListener)ionEventChannel.getListenerProxy();
+    private IonListener ionListenerProxy = (IonListener) ionEventChannel.getListenerProxy();
 
     public void addIonListener( IonListener listener ) {
         ionEventChannel.addListener( listener );

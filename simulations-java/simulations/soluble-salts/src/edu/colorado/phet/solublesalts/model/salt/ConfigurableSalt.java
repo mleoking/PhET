@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.solublesalts.model.salt;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.*;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableAnion;
 import edu.colorado.phet.solublesalts.model.ion.ConfigurableCation;
-
-import java.util.ArrayList;
 
 /**
  * SodiumChloride

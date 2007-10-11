@@ -10,6 +10,12 @@
  */
 package edu.colorado.phet.solublesalts.model;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -20,12 +26,6 @@ import edu.colorado.phet.solublesalts.model.affinity.Affinity;
 import edu.colorado.phet.solublesalts.model.affinity.RandomAffinity;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Vessel
@@ -102,7 +102,7 @@ public class Vessel implements ModelElement, Collidable {
      */
     public void bind( Ion ion ) {
 
-        if( !SolubleSaltsConfig.ONE_CRYSTAL_ONLY || model.crystalTracker.getCrystals().size() == 0 ) {
+        if ( !SolubleSaltsConfig.ONE_CRYSTAL_ONLY || model.crystalTracker.getCrystals().size() == 0 ) {
             // todo: combine these lines into a single constructor
             Crystal crystal = new Crystal( model, model.getCurrentSalt().getLattice(), ion );
             crystal.addIon( ion );
@@ -197,9 +197,9 @@ public class Vessel implements ModelElement, Collidable {
     // ModelElement implementation
     //----------------------------------------------------------------
     public void stepInTime( double dt ) {
-        for( int i = 0; i < boundIons.size(); i++ ) {
-            Ion ion = (Ion)boundIons.get( i );
-            if( ionReleaseAffinity.stick( ion, this ) ) {
+        for ( int i = 0; i < boundIons.size(); i++ ) {
+            Ion ion = (Ion) boundIons.get( i );
+            if ( ionReleaseAffinity.stick( ion, this ) ) {
                 boundIons.remove( ion );
             }
         }
@@ -220,7 +220,7 @@ public class Vessel implements ModelElement, Collidable {
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -240,7 +240,7 @@ public class Vessel implements ModelElement, Collidable {
         }
 
         public Vessel getVessel() {
-            return (Vessel)getSource();
+            return (Vessel) getSource();
         }
     }
 
