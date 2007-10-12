@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <SimStrings>
   <string key="myLabel" value="Hello Crazy World!" />
-  <string key="myButton" value="Push Me Really Hard" /> 
+  <string key="myButton" value="Start" /> 
+  <string key="stopButton" value="Stop" /> 
 </SimStrings>
