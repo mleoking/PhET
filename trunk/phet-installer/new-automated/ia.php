@@ -8,6 +8,10 @@
 	function installer_get_full_dist_name($dist) {
 	    return "PhET-dist-$dist";
 	}
+	
+	function installer_get_zipped_mac_bundle_name($distfile) {
+		return file_remove_extension($distfile).".zip";
+	}
 
 	function installer_build_installers($dist, $macro_map = array()) {
 	    global $g_bitrock_dists;
@@ -53,7 +57,7 @@
 	
 			if ($platform == BITROCK_PLATFORM_OSX) {
 				// OSX requires special treatment; the .app directory must be bundled into a zip file.
-				$zipped_bundle_name = file_remove_extension($distfile).".zip";
+				$zipped_bundle_name = installer_get_zipped_mac_bundle_name($distfile);
 				
 				$zip = new zipfile();
 				
@@ -86,7 +90,7 @@
 		
 		// Installers for each platform:
 		$cd_rom->add(BITROCK_DIST_WINNT);
-		$cd_rom->add(BITROCK_DIST_Darwin);
+		$cd_rom->add(installer_get_zipped_mac_bundle_name(BITROCK_DIST_Darwin));
 		$cd_rom->add(BITROCK_DIST_Linux);
 		
 		// Autorun stuff for Windows:
