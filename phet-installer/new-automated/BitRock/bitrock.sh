@@ -5,5 +5,5 @@ if [ `uname` = "Darwin" ]; then
     
 else
     # Linux
-	echo "Linux not yet supported"
+	./bin/builder $1 $2 $3
 fi
