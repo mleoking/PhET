@@ -57,7 +57,7 @@
 	// The ripper executable itself:
 
 	// The ripper executables per OS:
-	define("RIPPER_EXE_LINUX",   "httrack");
+	define("RIPPER_EXE_Linux",   "httrack");
 	define("RIPPER_EXE_WINNT",   "httrack.exe");
 	define("RIPPER_EXE_Darwin",  "httrack");
 
