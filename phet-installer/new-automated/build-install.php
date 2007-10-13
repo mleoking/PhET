@@ -146,7 +146,8 @@
 	    installer_build_installers("all");
 	
 		// Build CD-ROM distribution:
-		installer_build_cd_rom_distribution();
+		// Temporarily disable until PHP memory limit increased.
+		// installer_build_cd_rom_distribution();
 		
 		// Clean up autorun files:
 		autorun_cleanup_files();
