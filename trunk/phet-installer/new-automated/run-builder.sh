@@ -19,7 +19,7 @@ fi
 
 echo "Removing temporary files" | tee installer-builder-log.txt
 
-rm -rf ./website/* | tee installer-builder-log.txt
+rm -rf ./temp/website/* | tee installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
   echo "Error removing temporary files" | tee installer-builder-log.txt
@@ -28,7 +28,7 @@ fi
 
 echo "Copying new installers to distribution directory" | tee installer-builder-log.txt
 
-cp ./installer-output/*.* ../phet-dist/ | tee installer-builder-log.txt
+cp ./temp/installer-output/*.* ../phet-dist/ | tee installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
   echo "Error copying new installers to distribution directory" | tee installer-builder-log.txt
