@@ -4,6 +4,7 @@ import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.model.components.*;
+import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -150,7 +151,7 @@ public class ReadoutNode extends PhetPNode {
     }
 
     private String[] getBatteryText() {
-        boolean internal = module.isInternalResistanceOn();
+        boolean internal = CCKModel.INTERNAL_RESISTANCE_ON;
         double volts = Math.abs( branch.getVoltageDrop() );
         String vol = formatter.format( volts );
         String str = "" + vol + " " + CCKResources.getString( "ReadoutGraphic.Volts" );

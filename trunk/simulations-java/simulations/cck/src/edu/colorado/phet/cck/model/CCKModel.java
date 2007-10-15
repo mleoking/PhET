@@ -30,7 +30,6 @@ public class CCKModel {
     private Circuit circuit;
     private CircuitSolver circuitSolver;
     private ResistivityManager resistivityManager;
-    private boolean internalResistanceOn = false;
 
     private ParticleSet particleSet;
     private ConstantDensityLayout layout;
@@ -68,6 +67,8 @@ public class CCKModel {
 
     public static final double MIN_RESISTANCE = 1E-8;
     public static final double SCH_BULB_DIST = 1;
+    //deprecated: flag to indicate a model-wide value for internal resistance being enabled
+    public static final boolean INTERNAL_RESISTANCE_ON = true;
 
     public CCKModel() {
         // Create the circuitSolver and the listener that will invoke it
@@ -170,25 +171,6 @@ public class CCKModel {
 
     public ResistivityManager getResistivityManager() {
         return resistivityManager;
-    }
-
-    public boolean isInternalResistanceOn() {
-        return internalResistanceOn;
-    }
-
-    public void setInternalResistanceOn( boolean selected ) {
-        if( this.internalResistanceOn != selected ) {
-            this.internalResistanceOn = selected;
-        }
-
-        Branch[] b = getCircuit().getBranches();
-        for( int i = 0; i < b.length; i++ ) {
-            Branch branch = b[i];
-            if( branch instanceof Battery ) {
-                Battery batt = (Battery)branch;
-                batt.setInternalResistanceOn( selected );
-            }
-        }
     }
 
     public void resetDynamics() {

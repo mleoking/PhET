@@ -1,3 +1,5 @@
+10-15-2007: Fixed: "Internal Resistance" controls for battery are unavailable
+10-15-2007: Removed model-wide flag for internal-resistance; internal-resistance is now always available for each model component
 9-24-2007: Fixed: "Advanced" controls should be show/hide, not enable/disable
 9-24-2007: Fixed: Voltmeter sometimes shows "-0.00 V"
 7-25-2007: added initial support for loading saved cck files from previous web version

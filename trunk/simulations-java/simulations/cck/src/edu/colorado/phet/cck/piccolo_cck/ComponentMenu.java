@@ -7,6 +7,7 @@ import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.cck.grabbag.GrabBagResistor;
 import edu.colorado.phet.cck.model.Junction;
+import edu.colorado.phet.cck.model.CCKModel;
 import edu.colorado.phet.cck.model.components.*;
 
 import javax.swing.*;
@@ -342,7 +343,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         public void show( Component invoker, int x, int y ) {
-            editInternal.setEnabled( getModule().isInternalResistanceOn() );
+            editInternal.setEnabled( CCKModel.INTERNAL_RESISTANCE_ON );
             super.show( invoker, x, y );
         }
 
