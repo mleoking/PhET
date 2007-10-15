@@ -122,10 +122,6 @@ public class CCKPiccoloModule extends Module implements ICCKModule {
         model.setCircuit( circuit );
     }
 
-    public boolean isInternalResistanceOn() {
-        return model.isInternalResistanceOn();
-    }
-
     public void setZoom( double zoom ) {
         cckSimulationPanel.setZoom( zoom );
     }

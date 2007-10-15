@@ -49,8 +49,6 @@ public interface ICCKModule {
 
     void setCircuit( Circuit circuit );
 
-    boolean isInternalResistanceOn();
-
     void setZoom( double scale );
 
     void clear();
