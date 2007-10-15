@@ -140,14 +140,14 @@
 		file_mkdirs(OUTPUT_DIR);
     
 	    // Make the autorun file for Windows CD-ROM (this copies installer stuff):
-	    autorun_create_autorun_file(basename(BITROCK_DIST_WINNT));
+	    autorun_create_autorun_file(basename(BITROCK_DIST_SRC_WINNT));
     
 		// Build Windows, Linux, Mac installers:
 	    installer_build_installers("all");
 	
 		// Build CD-ROM distribution:
 		// Temporarily disable until PHP memory limit increased.
-		// installer_build_cd_rom_distribution();
+		installer_build_cd_rom_distribution();
 		
 		// Clean up autorun files:
 		autorun_cleanup_files();

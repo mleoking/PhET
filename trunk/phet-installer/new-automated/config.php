@@ -99,18 +99,22 @@
 	define("BITROCK_DISTNAME_Linux",  	BITROCK_DIST_PREFIX.BITROCK_PLATFORM_LINUX  .BITROCK_DIST_POSTFIX.BITROCK_PLATFORM_EXEC_SUFFIX_LINUX);
 	define("BITROCK_DISTNAME_Darwin", 	BITROCK_DIST_PREFIX.BITROCK_PLATFORM_OSX    .BITROCK_DIST_POSTFIX.BITROCK_PLATFORM_EXEC_SUFFIX_OSX);
                                         
-	define("BITROCK_DIST_WINNT",  		file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_WINNT));
-	define("BITROCK_DIST_Linux",  		file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Linux));
-	define("BITROCK_DIST_Darwin", 		file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Darwin));
+	define("BITROCK_DIST_SRC_WINNT",  	file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_WINNT));
+	define("BITROCK_DIST_SRC_Linux",  	file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Linux));
+	define("BITROCK_DIST_SRC_Darwin", 	file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Darwin));
+
+	define("BITROCK_DIST_DEST_WINNT",  	file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_WINNT));
+	define("BITROCK_DIST_DEST_Linux",  	file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Linux));
+	define("BITROCK_DIST_DEST_Darwin",  file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Darwin));
 
 	define("BITROCK_PRE_ARGS",			" build ");
 	
 	define("BITROCK_OUTPUT_DIR", 		file_cleanup_local_filename(BITROCK_DIR."output/"));
 	
 	$g_bitrock_dists = array(
-		BITROCK_PLATFORM_WINDOWS => BITROCK_DIST_WINNT, 
-		BITROCK_PLATFORM_LINUX 	 => BITROCK_DIST_Linux, 
-		BITROCK_PLATFORM_OSX 	 => BITROCK_DIST_Darwin
+		BITROCK_PLATFORM_WINDOWS => BITROCK_DIST_SRC_WINNT, 
+		BITROCK_PLATFORM_LINUX 	 => BITROCK_DIST_SRC_Linux, 
+		BITROCK_PLATFORM_OSX 	 => BITROCK_DIST_SRC_Darwin
 	);
 
 ?>

@@ -9,6 +9,10 @@
 	    return "PhET-dist-$dist";
 	}
 	
+	function installer_get_tarred_mac_bundle_name($distfile) {
+		return file_remove_extension($distfile).".tar";
+	}	
+	
 	function installer_get_zipped_mac_bundle_name($distfile) {
 		return file_remove_extension($distfile).".zip";
 	}
@@ -57,18 +61,21 @@
 	
 			if ($platform == BITROCK_PLATFORM_OSX) {
 				// OSX requires special treatment; the .app directory must be bundled into a zip file.
+				$tarfile = installer_get_tarred_mac_bundle_name($distfile);
+								
+				flushing_echo("Tarring Mac OS X bundle $distfile to $tarfile");
+				
+				file_native_tar($distfile, $tarfile);
+
 				$zipped_bundle_name = installer_get_zipped_mac_bundle_name($distfile);
 				
-				$zip = new zipfile();
+				flushing_echo("Zipping Mac OS X tar $tarfile to $zipped_bundle_name");
 				
-				flushing_echo("Zipping Mac OS X bundle $distfile to $zipped_bundle_name");
-				
-				$zip->add_dir($distfile);
-				
-				$zip->write_to_file($zipped_bundle_name);
+				file_native_zip($tarfile,  $zipped_bundle_name);
 				
 				// Remove application bundle:
 				file_remove_all($distfile);
+				file_remove_all($tarfile);
 			}
 	    }
     
@@ -86,18 +93,15 @@
 		flushing_echo("Creating CD-ROM distribution ".CDROM_FILE_DEST);
 		
 		// Now make CD-ROM bundle:
-		$cd_rom = new zipfile();
-		
-		// Installers for each platform:
-		$cd_rom->add(BITROCK_DIST_WINNT);
-		$cd_rom->add(installer_get_zipped_mac_bundle_name(BITROCK_DIST_Darwin));
-		$cd_rom->add(BITROCK_DIST_Linux);
-		
-		// Autorun stuff for Windows:
-		$cd_rom->add(AUTORUN_ICON_DEST);
-		$cd_rom->add(AUTORUN_FILE_DEST);
-		
-		$cd_rom->write_to_file(CDROM_FILE_DEST);
+		file_native_zip(
+			array(
+				BITROCK_DIST_DEST_WINNT,
+				installer_get_zipped_mac_bundle_name(BITROCK_DIST_DEST_Darwin),
+				BITROCK_DIST_DEST_Linux,
+				AUTORUN_ICON_DEST,
+				AUTORUN_FILE_DEST
+			),
+			CDROM_FILE_DEST
+		);
 	}
-
 ?>

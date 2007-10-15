@@ -40,6 +40,50 @@
 	    return file_with_separator($filename, FILE_SEPARATOR);
 	}
 
+	/**
+	 * Executes a 'file processing' command, with a specified source/destination
+	 * file, a specified file input (or inputs), the program that will perform
+	 * the file processing, and arguments to be passed to the program. All of the
+	 * file inputs must be located in the same directory, or the method will fail.
+	 *
+	 */
+	function file_exec_file_processor($file_input, $dest_file, $program, $args) {
+		$files_list      = '';
+		$new_working_dir = null;
+		
+		if (is_array($file_input)) {
+			foreach ($file_input as $file) {
+				if ($new_working_dir == null) {
+					$new_working_dir = ''.dirname($file).'';
+				}
+				
+				$file = substr($file, strlen($new_working_dir) + 1);
+				
+				$files_list .= "\"$file\" ";
+			}
+		}
+		else {
+			$new_working_dir = dirname($file_input);
+			$file_input      = basename($file_input);
+			
+			$files_list .= "\"$file_input\"";
+		}
+		
+		$full_exec = "$program $args \"$dest_file\" $files_list";
+		
+		chdir($new_working_dir);
+		
+		return exec($full_exec);
+	}
+	
+	function file_native_zip($file_input, $dest_file) {
+		return file_exec_file_processor($file_input, $dest_file, "zip", "-vr9");
+	}
+	
+	function file_native_tar($file_input, $dest_file) {
+		return file_exec_file_processor($file_input, $dest_file, "tar", "--create --file");
+	}	
+
 	function file_mkdirs($dir, $mode = 0777) {
 	    if (is_null($dir) || $dir === "" ){
 	        return false;
