@@ -83,9 +83,6 @@ public class CCKModel {
         layout = new ConstantDensityLayout( getCircuit(), particleSet );
         getCircuit().addCircuitListener( layout );
 
-//        CurrentDirectionManager directionManager = new CurrentDirectionManager( circuit );
-//        getCircuit().addCircuitListener( directionManager );
-
         this.resistivityManager = new ResistivityManager( getCircuit() );
         getCircuit().addCircuitListener( resistivityManager );
     }
@@ -109,10 +106,6 @@ public class CCKModel {
     public Circuit getCircuit() {
         return circuit;
     }
-//
-//    private boolean isRunning() {
-//        return true;
-//    }
 
     public double getScale() {
         return SCALE;
@@ -155,8 +148,6 @@ public class CCKModel {
     }
 
     public void setResistivityEnabled( boolean selected ) {
-
-//        System.out.println( "Set resistivity enabled= " + selected );
         if( selected == resistivityManager.isEnabled() ) {
             return;
         }
@@ -217,8 +208,6 @@ public class CCKModel {
             Junction j = newJunctions[i];
             branches.addAll( Arrays.asList( circuit.getAdjacentBranches( j ) ) );
         }
-//        Branch[] bo = (Branch[])branches.toArray( new Branch[0] );
-//        layoutElectrons( bo );
         layoutElectrons( getCircuit().getBranches() );//todo should we relayout all electrons, or just adjacent
         return newJunctions;
     }
