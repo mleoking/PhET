@@ -48,7 +48,7 @@ public class CircuitXML {
     public static Branch toBranch( ICCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
         if( type.equals( Wire.class.getName() ) ) {
-            return (Branch)new Wire( kl, startJunction, endJunction );
+            return new Wire( kl, startJunction, endJunction );
         }
         double length = Double.parseDouble( xml.getAttribute( "length", "-1" ) );
         double height = Double.parseDouble( xml.getAttribute( "height", "-1" ) );
@@ -105,7 +105,7 @@ public class CircuitXML {
             return bulb;
         }
         else if( type.equals( SeriesAmmeter.class.getName() ) ) {
-            return (Branch)new SeriesAmmeter( kl, startJunction, endJunction, length, height );
+            return new SeriesAmmeter( kl, startJunction, endJunction, length, height );
         }
         else if( type.equals( GrabBagResistor.class.getName() ) ) {
             Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
