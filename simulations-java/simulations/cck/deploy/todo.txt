@@ -1,3 +1,5 @@
+Internal resistance display for AC voltage is incorrect (always zero)
+
 From Sam F: see docs/bug.txt
 
 8-6-2007
