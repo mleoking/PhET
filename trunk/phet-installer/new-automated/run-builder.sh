@@ -1,4 +1,13 @@
 #!/bin/sh
+
+#
+# This script is intended to be run from the PhET website server (currently tigercat).
+# Paths are currently hard coded to this system.
+# 
+
+# Make sure we're in the proper directory
+cd /web/htdocs/phet/installer-builder/
+
 echo "Performing SVN update" |& tee --append installer-builder-log.txt
 
 svn update
