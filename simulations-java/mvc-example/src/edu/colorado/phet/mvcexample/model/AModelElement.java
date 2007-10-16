@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
@@ -21,63 +22,42 @@ public class AModelElement extends Observable implements ModelElement {
     public static final String PROPERTY_POSITION = "position";
     public static final String PROPERTY_ORIENTATION = "orientation";
     
-    private static final double WIDTH = 200;
-    private static final double HEIGHT= 100;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Point2D _position;
     private double _orientation;
-
+    private Dimension _size;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AModelElement( Point2D position, double orientation ) {
+    public AModelElement( Point2D position, double orientation, Dimension size ) {
         super();
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
+        _size = new Dimension( size );
     }
 
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public double getWidth() {
-        return WIDTH;
-    }
-    
-    public double getHeight() {
-        return HEIGHT;
+    public Dimension getSize() {
+        return new Dimension( _size );
     }
     
     public void setPosition( Point2D position ) {
-        setPosition( position.getX(), position.getY() );
-    }
-    
-    public void setPosition( double x, double y ) {
-        if ( x != _position.getX() || y != _position.getY() ) {
-            _position.setLocation( x, y );
+        if ( ! position.equals( _position ) ) {
+            _position.setLocation( position.getX(), position.getY() );
             notifyObservers( PROPERTY_POSITION );   
         }
     }
     
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
-    }
-    
-    public Point2D getPositionReference() {
-        return _position;
-    }
-    
-    public double getX() {
-        return _position.getX();
-    }
-    
-    public double getY() {
-        return _position.getY();
     }
     
     public void setOrientation( double orientation ) {

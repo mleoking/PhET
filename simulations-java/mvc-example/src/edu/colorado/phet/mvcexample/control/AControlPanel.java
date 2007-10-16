@@ -2,17 +2,12 @@
 
 package edu.colorado.phet.mvcexample.control;
 
-import java.awt.GridBagConstraints;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.mvcexample.MVCApplication;
 import edu.colorado.phet.mvcexample.model.AModelElement;
 
@@ -21,7 +16,7 @@ import edu.colorado.phet.mvcexample.model.AModelElement;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AControlPanel extends JPanel {
+public class AControlPanel extends PointerControlPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -34,10 +29,6 @@ public class AControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private AModelElement _modelElement;
-    
-    private PositionControl _positionDisplay;
-    private OrientationControl _orientationControl;
-    
     private ModelObserver _modelObserver;
     private ControlObserver _controlObserver;
     
@@ -46,7 +37,7 @@ public class AControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public AControlPanel( AModelElement modelElement ) {
-        super();
+        super( TITLE );
         
         _modelObserver = new ModelObserver();
         _controlObserver = new ControlObserver();
@@ -54,29 +45,9 @@ public class AControlPanel extends JPanel {
         _modelElement = modelElement;
         _modelElement.addObserver( _modelObserver );
         
-        // Title
-        JLabel titleLabel = new JLabel( TITLE );
-        titleLabel.setFont( new PhetDefaultFont( 14, true /* bold */ ) );
-        
-        // Position control (display only)
-        _positionDisplay = new PositionControl();
-        _positionDisplay.setValue( _modelElement.getPositionReference() );
-        
-        // Orientation control
-        _orientationControl = new OrientationControl();
-        _orientationControl.setValue( _modelElement.getOrientation() );
-        _orientationControl.addChangeListener( _controlObserver );
-        
-        // Layout
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
-        layout.setAnchor( GridBagConstraints.WEST );
-        layout.setFill( GridBagConstraints.HORIZONTAL );
-        int row = 0;
-        int column = 0;
-        layout.addComponent( titleLabel, row++, column );
-        layout.addComponent( _positionDisplay, row++, column );
-        layout.addComponent( _orientationControl, row++, column );
+        getPositionControl().setValue( _modelElement.getPosition() );
+        getOrientationControl().setValue( _modelElement.getOrientation() );
+        getOrientationControl().addChangeListener( _controlObserver );
     }
     
     /**
@@ -105,14 +76,14 @@ public class AControlPanel extends JPanel {
     }
     
     public void modelPositionChanged() {
-        _positionDisplay.setValue( _modelElement.getPositionReference() );
+        getPositionControl().setValue( _modelElement.getPosition() );
     }
     
     public void modelOrientationChanged() {
         final double degrees = Math.toDegrees( _modelElement.getOrientation() );
-        _orientationControl.removeChangeListener( _controlObserver );
-        _orientationControl.setValue( degrees );
-        _orientationControl.addChangeListener( _controlObserver );
+        getOrientationControl().removeChangeListener( _controlObserver );
+        getOrientationControl().setValue( degrees );
+        getOrientationControl().addChangeListener( _controlObserver );
     }
 
     //----------------------------------------------------------------------------
@@ -122,14 +93,14 @@ public class AControlPanel extends JPanel {
     private class ControlObserver implements ChangeListener {
         public void stateChanged( ChangeEvent e ) {
             Object o = e.getSource();
-            if ( o == _orientationControl ) {
+            if ( o == getOrientationControl() ) {
                 controlOrientationChanged();
             }
         }
     }
     
     private void controlOrientationChanged() {
-        final double radians = Math.toRadians( _orientationControl.getValue() );
+        final double radians = Math.toRadians( getOrientationControl().getValue() );
         _modelElement.deleteObserver( _modelObserver );
         _modelElement.setOrientation( radians );
         _modelElement.addObserver( _modelObserver );

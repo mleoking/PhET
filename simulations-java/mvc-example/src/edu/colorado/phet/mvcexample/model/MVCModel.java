@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,12 +25,15 @@ public class MVCModel {
     
     public static final Point2D A_POSITION = new Point2D.Double( 400, 400 );
     public static final double A_ORIENTATION = 0; // radians
+    public static final Dimension A_SIZE = new Dimension( 200, 100 );
     
     public static final Point2D B_POSITION = new Point2D.Double( 400, 600 );
     public static final double B_ORIENTATION = 0; // radians
+    public static final Dimension B_SIZE = new Dimension( 200, 100 );
     
     public static final Point2D C_POSITION = new Point2D.Double( 400, 800 );
     public static final double C_ORIENTATION = 0; // radians
+    public static final Dimension C_SIZE = new Dimension( 200, 100 );
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -58,13 +62,13 @@ public class MVCModel {
         
         _modelElements = new ArrayList();
         
-        _aModelElement = new AModelElement( A_POSITION, A_ORIENTATION );
+        _aModelElement = new AModelElement( A_POSITION, A_ORIENTATION, A_SIZE );
         addModelElement( _aModelElement );
         
-        _bModelElement = new BModelElement( B_POSITION, B_ORIENTATION );
+        _bModelElement = new BModelElement( B_POSITION, B_ORIENTATION, B_SIZE );
         addModelElement( _bModelElement  );
         
-        _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION );
+        _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION, C_SIZE );
         addModelElement( _cModelElement );
     }
     

@@ -2,32 +2,21 @@
 
 package edu.colorado.phet.mvcexample.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.GeneralPath;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.mvcexample.model.AModelElement;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * ANode is the visual representation of an AModelElement.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ANode extends PPath {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final Color FILL_COLOR = Color.ORANGE;
+public class ANode extends PointerNode {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -43,7 +32,7 @@ public class ANode extends PPath {
     //----------------------------------------------------------------------------
     
     public ANode( AModelElement modelElement ) {
-        super();
+        super( modelElement.getSize(), Color.ORANGE );
         
         _modelObserver = new ModelObserver();
         _viewObserver = new ViewObserver();
@@ -51,24 +40,6 @@ public class ANode extends PPath {
         _modelElement = modelElement;
         _modelElement.addObserver( _modelObserver );
         
-        // pointer with origin at geometric center
-        final float w = (float) _modelElement.getWidth();
-        final float h = (float) _modelElement.getHeight();
-        GeneralPath path = new GeneralPath();
-        path.moveTo( w / 2, 0 );
-        path.lineTo( w / 4, h / 2 );
-        path.lineTo( -w / 2, h / 2 );
-        path.lineTo( -w / 2, -h / 2 );
-        path.lineTo( w / 4, -h / 2 );
-        path.closePath();
-        setPathTo( path );
-        
-        setStroke( new BasicStroke( 1f ) );
-        setStrokePaint( Color.BLACK );
-        setPaint( FILL_COLOR );
-        
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
         addPropertyChangeListener( _viewObserver ); // update model when node is dragged
         
         updateViewPosition();
@@ -103,7 +74,7 @@ public class ANode extends PPath {
     
     private void updateViewPosition() {
         removePropertyChangeListener( _viewObserver );
-        setOffset( _modelElement.getPositionReference() );
+        setOffset( _modelElement.getPosition() );
         addPropertyChangeListener( _viewObserver );
     }
     
