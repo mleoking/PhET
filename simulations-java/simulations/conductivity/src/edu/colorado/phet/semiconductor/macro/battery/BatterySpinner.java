@@ -34,6 +34,25 @@ public class BatterySpinner {
         max = 2D;
         spinner = new JSpinner( new SpinnerNumberModel( battery.getVoltage(), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.10000000000000001D ) );
 
+        if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
+            final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
+            ed.getTextField().addKeyListener( new KeyAdapter() {
+                public void keyReleased( KeyEvent e ) {
+                    String text = ed.getTextField().getText();
+                    try {
+                        double volts = Double.parseDouble( text );
+                        if ( volts >= min && volts <= max ) {
+                            battery.setVoltage( volts );
+                        }else{
+                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between "+min+" and "+max+" volts.");
+                        }
+                    }
+                    catch( NumberFormatException n ) {
+                    }
+                }
+            } );
+        }
+
         final JTextField tf = ( (JSpinner.DefaultEditor)spinner.getEditor() ).getTextField();
         tf.addKeyListener( new KeyAdapter() {
             public void keyPressed( KeyEvent ke ) {

@@ -1,0 +1,1 @@
+10-16-2007: Model updates while typing in text-box (instead of waiting for user to press Enter)
