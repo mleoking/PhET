@@ -6,14 +6,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.mvcexample.model.CModelElement;
-import edu.colorado.phet.mvcexample.model.ModelViewTransform;
 import edu.colorado.phet.mvcexample.model.CModelElement.CModelElementListener;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -37,23 +33,20 @@ public class CNode extends PPath implements CModelElementListener {
     //----------------------------------------------------------------------------
     
     private CModelElement _modelElement;
-    private ModelViewTransform _modelViewTransform;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public CNode( CModelElement modelElement, ModelViewTransform modelViewTransform ) {
+    public CNode( CModelElement modelElement ) {
         super();
         
         _modelElement = modelElement;
         _modelElement.addListener( this );
         
-        _modelViewTransform = modelViewTransform;
-        
         // pointer with origin at geometric center
-        final float w = (float) _modelViewTransform.modelToView( _modelElement.getWidth() );
-        final float h = (float) _modelViewTransform.modelToView( _modelElement.getHeight() );
+        final float w = (float) _modelElement.getWidth();
+        final float h = (float) _modelElement.getHeight();
         GeneralPath path = new GeneralPath();
         path.moveTo( w / 2, 0 );
         path.lineTo( w / 4, h / 2 );
@@ -70,22 +63,7 @@ public class CNode extends PPath implements CModelElementListener {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
         addInputEventListener( new PBasicInputEventHandler() {
-
-            private double _xOffset, _yOffset; // distance from mouse press to modelElement's position
-
-            public void mousePressed( PInputEvent event ) {
-                Point2D modelPosition = _modelElement.getPositionReference();
-                Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
-                _xOffset = event.getPosition().getX() - viewPosition.getX();
-                _yOffset = event.getPosition().getY() - viewPosition.getY();
-            }
-
-            public void mouseDragged( PInputEvent event ) {
-                Point2D viewPosition = event.getPosition();
-                viewPosition.setLocation( viewPosition.getX() - _xOffset, viewPosition.getY() - _yOffset );
-                Point2D modelPosition = _modelViewTransform.viewToModel( viewPosition );
-                _modelElement.setPosition( modelPosition );
-            }
+            //XXX this was wrong, try again
         } );
         
         positionChanged();
@@ -108,8 +86,6 @@ public class CNode extends PPath implements CModelElementListener {
     }
 
     public void positionChanged() {
-        Point2D modelPosition = _modelElement.getPositionReference();
-        Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
-        setOffset( viewPosition );
+        setOffset( _modelElement.getPositionReference() );
     }
 }

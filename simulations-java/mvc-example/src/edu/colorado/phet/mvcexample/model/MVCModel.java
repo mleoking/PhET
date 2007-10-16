@@ -22,8 +22,6 @@ public class MVCModel {
     // Class data
     //----------------------------------------------------------------------------
     
-    public static final double MODEL_TO_VIEW_SCALE = 0.5;
-    
     public static final Point2D A_POSITION = new Point2D.Double( 400, 400 );
     public static final double A_ORIENTATION = 0; // radians
     
@@ -40,7 +38,6 @@ public class MVCModel {
     private final MVCClock _clock;
     private final ArrayList _modelElements; // array of ModelElement
     
-    private final ModelViewTransform _modelViewTransform;
     private final AModelElement _aModelElement;
     private final BModelElement _bModelElement;
     private final CModelElement _cModelElement;
@@ -69,8 +66,6 @@ public class MVCModel {
         
         _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION );
         addModelElement( _cModelElement );
-
-        _modelViewTransform = new ModelViewTransform( MODEL_TO_VIEW_SCALE );
     }
     
     //----------------------------------------------------------------------------
@@ -83,10 +78,6 @@ public class MVCModel {
     
     protected void addModelElement( ModelElement element ) {
         _modelElements.add( element );
-    }
-    
-    public ModelViewTransform getModelViewTransform() {
-        return _modelViewTransform;
     }
     
     public AModelElement getAModelElement() {

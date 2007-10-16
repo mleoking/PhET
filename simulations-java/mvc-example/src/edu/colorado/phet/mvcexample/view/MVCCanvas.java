@@ -6,7 +6,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.mvcexample.model.*;
+import edu.colorado.phet.mvcexample.model.AModelElement;
+import edu.colorado.phet.mvcexample.model.BModelElement;
+import edu.colorado.phet.mvcexample.model.CModelElement;
+import edu.colorado.phet.mvcexample.model.MVCModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -44,21 +47,19 @@ public class MVCCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        ModelViewTransform modelViewTransform = _model.getModelViewTransform();
-        
         // A
         AModelElement aModelElement = model.getAModelElement();
-        _aNode = new ANode( aModelElement, modelViewTransform );
+        _aNode = new ANode( aModelElement );
         _rootNode.addChild( _aNode );
         
         // B
         BModelElement bModelElement = model.getBModelElement();
-        _bNode = new BNode( bModelElement.getWidth(), bModelElement.getHeight(), modelViewTransform );
+        _bNode = new BNode( bModelElement.getWidth(), bModelElement.getHeight() );
         _rootNode.addChild( _bNode );
         
         // C
         CModelElement cModelElement = model.getCModelElement();
-        _cNode = new CNode( cModelElement, modelViewTransform );
+        _cNode = new CNode( cModelElement );
         _rootNode.addChild( _cNode );
     }
     

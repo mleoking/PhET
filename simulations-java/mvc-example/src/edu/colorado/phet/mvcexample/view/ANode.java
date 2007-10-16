@@ -5,7 +5,6 @@ package edu.colorado.phet.mvcexample.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Observable;
@@ -13,7 +12,6 @@ import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.mvcexample.model.AModelElement;
-import edu.colorado.phet.mvcexample.model.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -36,7 +34,6 @@ public class ANode extends PPath {
     //----------------------------------------------------------------------------
     
     private AModelElement _modelElement;
-    private ModelViewTransform _modelViewTransform;
     
     private ModelObserver _modelObserver;
     private ViewObserver _viewObserver;
@@ -45,7 +42,7 @@ public class ANode extends PPath {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ANode( AModelElement modelElement, ModelViewTransform modelViewTransform ) {
+    public ANode( AModelElement modelElement ) {
         super();
         
         _modelObserver = new ModelObserver();
@@ -54,11 +51,9 @@ public class ANode extends PPath {
         _modelElement = modelElement;
         _modelElement.addObserver( _modelObserver );
         
-        _modelViewTransform = modelViewTransform;
-        
         // pointer with origin at geometric center
-        final float w = (float) _modelViewTransform.modelToView( _modelElement.getWidth() );
-        final float h = (float) _modelViewTransform.modelToView( _modelElement.getHeight() );
+        final float w = (float) _modelElement.getWidth();
+        final float h = (float) _modelElement.getHeight();
         GeneralPath path = new GeneralPath();
         path.moveTo( w / 2, 0 );
         path.lineTo( w / 4, h / 2 );
@@ -107,17 +102,14 @@ public class ANode extends PPath {
     }
     
     private void updateViewPosition() {
-        Point2D modelPosition = _modelElement.getPositionReference();
-        Point2D viewPosition = _modelViewTransform.modelToView( modelPosition );
         removePropertyChangeListener( _viewObserver );
-        setOffset( viewPosition );
+        setOffset( _modelElement.getPositionReference() );
         addPropertyChangeListener( _viewObserver );
     }
     
     private void updateViewOrientation() {
-        double orientation = _modelElement.getOrientation();
         removePropertyChangeListener( _viewObserver );
-        setRotation( orientation );
+        setRotation( _modelElement.getOrientation() );
         addPropertyChangeListener( _viewObserver );
     }
     
@@ -134,10 +126,8 @@ public class ANode extends PPath {
     }
     
     private void updateModelPosition() {
-        Point2D viewPoint = getOffset();
-        Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
         _modelElement.deleteObserver( _modelObserver );
-        _modelElement.setPosition( modelPoint );
+        _modelElement.setPosition( getOffset() );
         _modelElement.addObserver( _modelObserver );
     }
 }
