@@ -54,7 +54,7 @@ public class MVCCanvas extends PhetPCanvas {
         
         // B
         BModelElement bModelElement = model.getBModelElement();
-        _bNode = new BNode( bModelElement.getSize() );
+        _bNode = new BNode( bModelElement.getSize(), bModelElement.getColor() );
         _rootNode.addChild( _bNode );
         
         // C

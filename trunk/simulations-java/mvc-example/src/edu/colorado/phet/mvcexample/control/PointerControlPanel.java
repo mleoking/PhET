@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.control;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JLabel;
@@ -20,12 +21,13 @@ public class PointerControlPanel extends JPanel {
     private PositionControl _positionControl;
     private OrientationControl _orientationControl;
     
-    public PointerControlPanel( String title ) {
+    public PointerControlPanel( String title, Color titleColor ) {
         super();
         
         // Title
         JLabel titleLabel = new JLabel( title );
         titleLabel.setFont( new PhetDefaultFont( 14, true /* bold */ ) );
+        titleLabel.setForeground( titleColor );
         
         // Position control (display only)
         _positionControl = new PositionControl();

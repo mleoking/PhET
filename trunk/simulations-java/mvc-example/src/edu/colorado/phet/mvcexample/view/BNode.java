@@ -19,8 +19,8 @@ public class BNode extends PointerNode implements BModelElementListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BNode( Dimension size ) {
-        super( size, Color.BLUE );
+    public BNode( Dimension size, Color fillColor ) {
+        super( size, fillColor );
     }
     
     //----------------------------------------------------------------------------

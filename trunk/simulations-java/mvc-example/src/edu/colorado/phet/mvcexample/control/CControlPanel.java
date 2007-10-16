@@ -33,7 +33,7 @@ public class CControlPanel extends PointerControlPanel implements CModelElementL
     //----------------------------------------------------------------------------
     
     public CControlPanel( CModelElement modelElement ) {
-        super( TITLE );
+        super( TITLE, modelElement.getColor() );
         
         _modelElement = modelElement;
         _modelElement.addListener( this );
@@ -43,11 +43,8 @@ public class CControlPanel extends PointerControlPanel implements CModelElementL
         getOrientationControl().setValue( _modelElement.getOrientation() );
         getOrientationControl().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Object o = e.getSource();
-                if ( o == getOrientationControl() ) {
-                    final double radians = Math.toRadians( getOrientationControl().getValue() );
-                    _modelElement.setOrientation( radians );
-                }
+                final double radians = Math.toRadians( getOrientationControl().getValue() );
+                _modelElement.setOrientation( radians );
             }
         } );
     }

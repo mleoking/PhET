@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.model;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.Collection;
@@ -15,26 +16,20 @@ import edu.colorado.phet.common.phetcommon.util.DynamicListenerControllerFactory
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BModelElement implements ModelElement {
+public class BModelElement extends Pointer implements ModelElement {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Point2D _position;
-    private double _orientation;
-    private Dimension _size;
     private BModelElementListener _controller;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BModelElement( Point2D position, double orientation, Dimension size ) {
-        super();
-        _position = new Point2D.Double( position.getX(), position.getY() );
-        _orientation = orientation;
-        _size = new Dimension( size );
+    public BModelElement( Point2D position, double orientation, Dimension size, Color color ) {
+        super( position, orientation, size, color );
         _controller = (BModelElementListener) DynamicListenerControllerFactory.newController( BModelElementListener.class );
     }
 
@@ -42,32 +37,20 @@ public class BModelElement implements ModelElement {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public Dimension getSize() {
-        return new Dimension( _size );
-    }
-    
     public void setPosition( Point2D position ) {
-        if ( !position.equals( _position ) ) {
+        if ( !position.equals( getPosition() ) ) {
             Point2D oldPosition = getPosition();
-            _position.setLocation( position.getX(), position.getY() );
+            super.setPosition( position );
             _controller.positionChanged( oldPosition, getPosition() );
         }
     }
     
-    public Point2D getPosition() {
-        return new Point2D.Double( _position.getX(), _position.getY() );
-    }
-    
     public void setOrientation( double orientation ) {
-        if ( orientation != _orientation ) {
+        if ( orientation != getOrientation() ) {
             double oldOrientation = getOrientation();
-            _orientation = orientation;
+            super.setOrientation( orientation );
             _controller.orientationChanged( oldOrientation, getOrientation() );
         }
-    }
-
-    public double getOrientation() {
-        return _orientation;
     }
     
     //----------------------------------------------------------------------------
@@ -98,18 +81,5 @@ public class BModelElement implements ModelElement {
 
     public Collection getAllListeners() {
         return ( (DynamicListenerController) _controller ).getAllListeners();
-    }
-    
-    //----------------------------------------------------------------------------
-    // ModelElement implementation
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Updates the model each time the clock ticks.
-     * 
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        // do nothing
     }
 }

@@ -26,7 +26,7 @@ public class CNode extends PointerNode implements CModelElementListener {
     //----------------------------------------------------------------------------
     
     public CNode( CModelElement modelElement ) {
-        super( modelElement.getSize(), Color.GREEN );
+        super( modelElement.getSize(), modelElement.getColor() );
         
         _modelElement = modelElement;
         _modelElement.addListener( this );
