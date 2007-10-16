@@ -1,3 +1,4 @@
+10-16-2007: Semiconductor (1.02) - Minor user interface fixes
 10-5-2007: CCK (3.12) - Minor fixes
 10-3-2007: Thanks to CU's ITS team for supporting switch to new, faster server that accommodates our increase in traffic.
 8-30-2007: Moving Man (1.19) - User interface improvements
