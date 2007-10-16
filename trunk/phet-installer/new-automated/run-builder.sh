@@ -8,38 +8,38 @@
 # Make sure we're in the proper directory
 cd /web/htdocs/phet/installer-builder/
 
-echo "Performing SVN update" |& tee --append installer-builder-log.txt
+echo "Performing SVN update" | tee --append installer-builder-log.txt
 
 svn update
 
 if [ "$?" -ne "0" ]; then
-  echo "Error performing SVN update" |& tee --append installer-builder-log.txt
+  echo "Error performing SVN update" | tee --append installer-builder-log.txt
   exit 1
 fi
 
-echo "Building all installers" |& tee --append installer-builder-log.txt
+echo "Building all installers" | tee --append installer-builder-log.txt
 
-/usr/local/php/bin/php build-install.php --full |& tee --append installer-builder-log.txt
+/usr/local/php/bin/php build-install.php --full | tee --append installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
-  echo "Error building installer" |& tee --append installer-builder-log.txt
+  echo "Error building installer" | tee --append installer-builder-log.txt
   exit 1
 fi
 
-echo "Removing temporary files" |& tee --append installer-builder-log.txt
+echo "Removing temporary files" | tee --append installer-builder-log.txt
 
-rm -rf ./temp/website/* |& tee --append installer-builder-log.txt
+rm -rf ./temp/website/* | tee --append installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
-  echo "Error removing temporary files" |& tee --append installer-builder-log.txt
+  echo "Error removing temporary files" | tee --append installer-builder-log.txt
   exit 1
 fi
 
-echo "Copying new installers to distribution directory" |& tee --append installer-builder-log.txt
+echo "Copying new installers to distribution directory" | tee --append installer-builder-log.txt
 
-cp ./temp/installer-output/*.* ../phet-dist/ |& tee --append installer-builder-log.txt
+cp ./temp/installer-output/*.* ../phet-dist/ | tee --append installer-builder-log.txt
 
 if [ "$?" -ne "0" ]; then
-  echo "Error copying new installers to distribution directory" |& tee --append installer-builder-log.txt
+  echo "Error copying new installers to distribution directory" | tee --append installer-builder-log.txt
   exit 1
 fi
