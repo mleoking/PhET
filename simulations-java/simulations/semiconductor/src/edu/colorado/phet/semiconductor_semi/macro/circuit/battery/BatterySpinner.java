@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 public class BatterySpinner {
     JSpinner spinner;
-    public static final double min = -10;
-    public static final double max = 10;
+    public static final double min = -4;
+    public static final double max = 4;
     DecimalFormat df = new DecimalFormat( "##.00#" );
     private Battery battery;
 
@@ -41,7 +41,12 @@ public class BatterySpinner {
                 public void keyReleased( KeyEvent e ) {
                     String text = ed.getTextField().getText();
                     try {
-                        setVoltage( Double.parseDouble( text ) );
+                        double volts = Double.parseDouble( text );
+                        if ( volts >= min && volts <= max ) {
+                            setVoltage( volts );
+                        }else{
+                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between "+min+" and "+max+" volts.");
+                        }
                     }
                     catch( NumberFormatException n ) {
                     }

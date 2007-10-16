@@ -1,3 +1,4 @@
+10-16-2007: fixed: Semiconductor should have -4 to +4 range of battery voltage-, and put up a dialog for out-of-range entries
 10-5-2007: set battery spinner to update model as values are typed
 10-5-2007: Updated about dialog to standard version
 
