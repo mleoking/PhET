@@ -45,7 +45,8 @@
             }
         } 
         else { 
-            $sim_start_number = 0; 
+            $sim_start_number = 0;
+            $sim_limit        = 999;
         }
         
         if (isset($_REQUEST['view_type'])) {

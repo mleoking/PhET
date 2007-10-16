@@ -127,27 +127,14 @@ EOT;
 				                </a>   
 				            </p>
 						</td>
-					</tr>
-					<tr>
-						<td class="other-languages">
-							<a href="simulations/translations.php">
-								<img src="images/un-flag-43x43.png" alt="UN Flag" />
-							</a>
-						</td>
-						
-						<td>							
-							<a href="simulations/translations.php">
-								Other languages...
-							</a>
-						</td>
-					</tr>				
+					</tr>			
 				</table>
 			</div>
 
             <div class="clear"></div>
         </div>
 
-		<div id="home-page-sponsors">
+		<div id="home-page-sponsors">		
 			<div class="sponsor">
 				<a href="http://www.nsf.gov/" title="Click here to visit the National Science Foundation" >
 					<img src="images/nsf-logo-small.gif" height="28" alt="National Science Foundation Logo"/>
@@ -168,6 +155,24 @@ EOT;
 						The William and Flora Hewlett Foundation
 					</a>
 				</p>
+			</div>
+			
+			<div class="sponsor wide">
+				<table>
+					<tr>
+						<td class="other-languages">
+							<a href="simulations/translations.php">
+								<img src="images/un-flag-43x43.png" alt="UN Flag" />
+							</a>
+						</td>
+						
+						<td>							
+							<a href="simulations/translations.php">
+								Other languages...
+							</a>
+						</td>
+					</tr>
+				</table>
 			</div>
 			
 			<div class="clear"></div>
