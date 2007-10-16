@@ -13,7 +13,6 @@ import edu.colorado.phet.mvcexample.control.MVCControlPanel;
 import edu.colorado.phet.mvcexample.model.BModelElement;
 import edu.colorado.phet.mvcexample.model.MVCClock;
 import edu.colorado.phet.mvcexample.model.MVCModel;
-import edu.colorado.phet.mvcexample.model.ModelViewTransform;
 import edu.colorado.phet.mvcexample.view.BNode;
 import edu.colorado.phet.mvcexample.view.MVCCanvas;
 
@@ -32,7 +31,7 @@ public class MVCModule extends Module {
     private static final double CLOCK_DT = 1;
     private static final boolean CLOCK_RUNNING = true;
 
-    private static final Dimension VIEW_SIZE = new Dimension( 750, 750 );
+    private static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
     
     private static final String TITLE = MVCApplication.RESOURCE_LOADER.getLocalizedString( "MVCModule.title" );
     
@@ -71,10 +70,9 @@ public class MVCModule extends Module {
         
         // Connect MVC components for BModelElement
         BModelElement bModelElement = _model.getBModelElement();
-        ModelViewTransform modelViewTransform = _model.getModelViewTransform();
         BNode bNode = _canvas.getBNode();
         BControlPanel bControlPanel = _controlPanel.getBControlPanel();
-        BConnectionsManager bControlManager = new BConnectionsManager( bModelElement, modelViewTransform, bNode, bControlPanel );
+        BConnectionsManager bControlManager = new BConnectionsManager( bModelElement, bNode, bControlPanel );
         bControlManager.connect();
 
         // Set initial state

@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.mvcexample.control;
 
-import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.mvcexample.model.BModelElement;
-import edu.colorado.phet.mvcexample.model.MVCModel;
-import edu.colorado.phet.mvcexample.model.ModelViewTransform;
 import edu.colorado.phet.mvcexample.view.BNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -27,14 +24,13 @@ public class BConnectionsManager {
     private BControlPanel _controlPanel;
     private BNodePropertyChangeListener _propertyChangeListener;
     
-    public BConnectionsManager( BModelElement modelElement, ModelViewTransform modelViewTransform,
-            BNode node, BControlPanel controlPanel ) {
+    public BConnectionsManager( BModelElement modelElement, BNode node, BControlPanel controlPanel ) {
         super();
         _connected = false;
         _modelElement = modelElement;
         _node = node;
         _controlPanel = controlPanel;
-        _propertyChangeListener = new BNodePropertyChangeListener( modelElement, modelViewTransform, node );
+        _propertyChangeListener = new BNodePropertyChangeListener( modelElement, node );
     }
     
     /**
@@ -68,25 +64,17 @@ public class BConnectionsManager {
     private class BNodePropertyChangeListener implements PropertyChangeListener {
         
         private BModelElement _modelElement;
-        private ModelViewTransform _modelViewTransform;
         private PNode _node;
         
-        public BNodePropertyChangeListener( BModelElement modelElement, ModelViewTransform modelViewTransform, BNode node ) {
+        public BNodePropertyChangeListener( BModelElement modelElement, BNode node ) {
             _modelElement = modelElement;
-            _modelViewTransform = modelViewTransform;
             _node = node;
         }
         
         public void propertyChange( PropertyChangeEvent event ) {
             if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updateModelPosition();
+                _modelElement.setPosition( _node.getOffset() );
             }
-        }
-        
-        private void updateModelPosition() {
-            Point2D viewPoint = _node.getOffset();
-            Point2D modelPoint = _modelViewTransform.viewToModel( viewPoint );
-            _modelElement.setPosition( modelPoint );
         }
     }
 }
