@@ -9,7 +9,8 @@
 	define("WEBPAGES_CACHE", 			"webpages");
 	define("HOURS_TO_CACHE_WEBPAGES", 	1);
 	
-	$g_disable_all_caching = false;//true;
+	// Disable all caching when run on developer's machine:
+	$g_disable_all_caching = ($_SERVER['SERVER_NAME'] == 'localhost') ? true : false;
 	
 	function create_proper_ownership($file) {
 		exec('chmod 775 '.$file);
