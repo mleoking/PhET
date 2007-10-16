@@ -32,7 +32,7 @@ public class ANode extends PointerNode {
     //----------------------------------------------------------------------------
     
     public ANode( AModelElement modelElement ) {
-        super( modelElement.getSize(), Color.ORANGE );
+        super( modelElement.getSize(), modelElement.getColor() );
         
         _modelObserver = new ModelObserver();
         _viewObserver = new ViewObserver();
@@ -61,13 +61,11 @@ public class ANode extends PointerNode {
     private class ModelObserver implements Observer {
 
         public void update( Observable o, Object arg ) {
-            if ( o == _modelElement ) {
-                if ( arg == AModelElement.PROPERTY_POSITION ) {
-                    updateViewPosition();
-                }
-                else if ( arg == AModelElement.PROPERTY_ORIENTATION ) {
-                    updateViewOrientation();
-                }
+            if ( arg == AModelElement.PROPERTY_POSITION ) {
+                updateViewPosition();
+            }
+            else if ( arg == AModelElement.PROPERTY_ORIENTATION ) {
+                updateViewOrientation();
             }
         }
     }

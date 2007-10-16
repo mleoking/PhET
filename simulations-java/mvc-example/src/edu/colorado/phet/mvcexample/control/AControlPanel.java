@@ -37,7 +37,7 @@ public class AControlPanel extends PointerControlPanel {
     //----------------------------------------------------------------------------
     
     public AControlPanel( AModelElement modelElement ) {
-        super( TITLE );
+        super( TITLE, modelElement.getColor() );
         
         _modelObserver = new ModelObserver();
         _controlObserver = new ControlObserver();
@@ -46,6 +46,7 @@ public class AControlPanel extends PointerControlPanel {
         _modelElement.addObserver( _modelObserver );
         
         getPositionControl().setValue( _modelElement.getPosition() );
+        
         getOrientationControl().setValue( _modelElement.getOrientation() );
         getOrientationControl().addChangeListener( _controlObserver );
     }
@@ -64,13 +65,11 @@ public class AControlPanel extends PointerControlPanel {
     private class ModelObserver implements Observer {
 
         public void update( Observable o, Object arg ) {
-            if ( o == _modelElement ) {
-                if ( arg == AModelElement.PROPERTY_POSITION ) {
-                    modelPositionChanged();
-                }
-                else if ( arg == AModelElement.PROPERTY_ORIENTATION ) {
-                    modelOrientationChanged();
-                }
+            if ( arg == AModelElement.PROPERTY_POSITION ) {
+                modelPositionChanged();
+            }
+            else if ( arg == AModelElement.PROPERTY_ORIENTATION ) {
+                modelOrientationChanged();
             }
         }
     }

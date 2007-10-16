@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.model;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -23,14 +24,17 @@ public class MVCModel {
     // Class data
     //----------------------------------------------------------------------------
     
+    public static final Color A_COLOR = Color.RED;
     public static final Point2D A_POSITION = new Point2D.Double( 400, 400 );
     public static final double A_ORIENTATION = 0; // radians
     public static final Dimension A_SIZE = new Dimension( 200, 100 );
     
+    public static final Color B_COLOR = Color.BLUE;
     public static final Point2D B_POSITION = new Point2D.Double( 400, 600 );
     public static final double B_ORIENTATION = 0; // radians
     public static final Dimension B_SIZE = new Dimension( 200, 100 );
     
+    public static final Color C_COLOR = Color.GREEN;
     public static final Point2D C_POSITION = new Point2D.Double( 400, 800 );
     public static final double C_ORIENTATION = 0; // radians
     public static final Dimension C_SIZE = new Dimension( 200, 100 );
@@ -62,13 +66,13 @@ public class MVCModel {
         
         _modelElements = new ArrayList();
         
-        _aModelElement = new AModelElement( A_POSITION, A_ORIENTATION, A_SIZE );
+        _aModelElement = new AModelElement( A_POSITION, A_ORIENTATION, A_SIZE, A_COLOR );
         addModelElement( _aModelElement );
         
-        _bModelElement = new BModelElement( B_POSITION, B_ORIENTATION, B_SIZE );
+        _bModelElement = new BModelElement( B_POSITION, B_ORIENTATION, B_SIZE, B_COLOR );
         addModelElement( _bModelElement  );
         
-        _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION, C_SIZE );
+        _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION, C_SIZE, C_COLOR );
         addModelElement( _cModelElement );
     }
     

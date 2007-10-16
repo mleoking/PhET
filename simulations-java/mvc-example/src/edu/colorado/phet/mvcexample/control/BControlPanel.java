@@ -35,7 +35,7 @@ public class BControlPanel extends PointerControlPanel implements BModelElementL
     //----------------------------------------------------------------------------
 
     public BControlPanel( BModelElement modelElement ) {
-        super( TITLE );
+        super( TITLE, modelElement.getColor() );
         
         _modelElement = modelElement;
         
