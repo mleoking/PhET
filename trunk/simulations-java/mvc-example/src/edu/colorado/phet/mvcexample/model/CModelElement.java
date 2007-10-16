@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.mvcexample.model;
 
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -16,29 +17,23 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 public class CModelElement implements ModelElement {
     
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double WIDTH = 200;
-    private static final double HEIGHT= 100;
-    
-    //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private Point2D _position;
     private double _orientation;
-    
+    private Dimension _size;
     private ArrayList _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public CModelElement( Point2D position, double orientation ) {
+    public CModelElement( Point2D position, double orientation, Dimension size ) {
         super();
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
+        _size = new Dimension( size );
         _listeners = new ArrayList();
     }
 
@@ -46,39 +41,19 @@ public class CModelElement implements ModelElement {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public double getWidth() {
-        return WIDTH;
-    }
-    
-    public double getHeight() {
-        return HEIGHT;
+    public Dimension getSize() {
+        return new Dimension( _size );
     }
     
     public void setPosition( Point2D position ) {
-        setPosition( position.getX(), position.getY() );
-    }
-    
-    public void setPosition( double x, double y ) {
-        if ( x != _position.getX() || y != _position.getY() ) {
-            _position.setLocation( x, y );
+        if ( !position.equals( _position ) ) {
+            _position.setLocation( position.getX(), position.getY() );
             notifyPositionChanged();
         }
     }
     
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
-    }
-    
-    public Point2D getPositionReference() {
-        return _position;
-    }
-    
-    public double getX() {
-    	return _position.getX();
-    }
-    
-    public double getY() {
-    	return _position.getY();
     }
     
     public void setOrientation( double orientation ) {

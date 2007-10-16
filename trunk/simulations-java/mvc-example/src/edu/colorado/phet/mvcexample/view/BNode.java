@@ -2,54 +2,25 @@
 
 package edu.colorado.phet.mvcexample.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.GeneralPath;
+import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.mvcexample.model.BModelElement.BModelElementListener;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * BNode is the visual representation of a BModelElement.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BNode extends PPath implements BModelElementListener {
-    
-    //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final Color FILL_COLOR = Color.BLUE;
+public class BNode extends PointerNode implements BModelElementListener {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BNode( double modelWidth, double modelHeight ) {
-        super();
-        
-        // pointer with origin at geometric center
-        final float w = (float) modelWidth;
-        final float h = (float) modelHeight;
-        GeneralPath path = new GeneralPath();
-        path.moveTo( w/2, 0 );
-        path.lineTo( w/4, h/2 );
-        path.lineTo( -w/2, h/2 );
-        path.lineTo( -w/2, -h/2 );
-        path.lineTo( w/4, -h/2 );
-        path.closePath();
-        setPathTo( path );
-        
-        setStroke( new BasicStroke( 1f ) );
-        setStrokePaint( Color.BLACK );
-        setPaint( FILL_COLOR );
-        
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
+    public BNode( Dimension size ) {
+        super( size, Color.BLUE );
     }
     
     //----------------------------------------------------------------------------

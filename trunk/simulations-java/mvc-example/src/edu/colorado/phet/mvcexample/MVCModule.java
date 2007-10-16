@@ -10,9 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.mvcexample.control.BConnectionsManager;
 import edu.colorado.phet.mvcexample.control.BControlPanel;
 import edu.colorado.phet.mvcexample.control.MVCControlPanel;
-import edu.colorado.phet.mvcexample.model.BModelElement;
-import edu.colorado.phet.mvcexample.model.MVCClock;
-import edu.colorado.phet.mvcexample.model.MVCModel;
+import edu.colorado.phet.mvcexample.model.*;
 import edu.colorado.phet.mvcexample.view.BNode;
 import edu.colorado.phet.mvcexample.view.MVCCanvas;
 
@@ -93,9 +91,19 @@ public class MVCModule extends Module {
         clock.setDt( CLOCK_DT );
         setClockRunningWhenActive( CLOCK_RUNNING );
 
-        // ExampleModelElement
-        BModelElement exampleModelElement = _model.getBModelElement();
-        exampleModelElement.setPosition( MVCModel.B_POSITION );
-        exampleModelElement.setOrientation( MVCModel.B_ORIENTATION );
+        // A
+        AModelElement aModelElement = _model.getAModelElement();
+        aModelElement.setPosition( MVCModel.A_POSITION );
+        aModelElement.setOrientation( MVCModel.A_ORIENTATION );
+        
+        // B
+        BModelElement bModelElement = _model.getBModelElement();
+        bModelElement.setPosition( MVCModel.B_POSITION );
+        bModelElement.setOrientation( MVCModel.B_ORIENTATION );
+        
+        // C
+        CModelElement cModelElement = _model.getCModelElement();
+        cModelElement.setPosition( MVCModel.C_POSITION );
+        cModelElement.setOrientation( MVCModel.C_ORIENTATION );
     }
 }

@@ -12,7 +12,7 @@ import edu.colorado.phet.mvcexample.model.CModelElement;
 import edu.colorado.phet.mvcexample.model.MVCModel;
 
 /**
- * MVCControlPanel
+ * MVCControlPanel is the main control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
