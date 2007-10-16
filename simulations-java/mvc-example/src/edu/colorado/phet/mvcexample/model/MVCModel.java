@@ -30,6 +30,9 @@ public class MVCModel {
     public static final Point2D B_POSITION = new Point2D.Double( 400, 600 );
     public static final double B_ORIENTATION = 0; // radians
     
+    public static final Point2D C_POSITION = new Point2D.Double( 400, 800 );
+    public static final double C_ORIENTATION = 0; // radians
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -40,6 +43,7 @@ public class MVCModel {
     private final ModelViewTransform _modelViewTransform;
     private final AModelElement _aModelElement;
     private final BModelElement _bModelElement;
+    private final CModelElement _cModelElement;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -63,7 +67,10 @@ public class MVCModel {
         _bModelElement = new BModelElement( B_POSITION, B_ORIENTATION );
         addModelElement( _bModelElement  );
         
-         _modelViewTransform = new ModelViewTransform( MODEL_TO_VIEW_SCALE );
+        _cModelElement = new CModelElement( C_POSITION, C_ORIENTATION );
+        addModelElement( _cModelElement );
+
+        _modelViewTransform = new ModelViewTransform( MODEL_TO_VIEW_SCALE );
     }
     
     //----------------------------------------------------------------------------
@@ -88,6 +95,10 @@ public class MVCModel {
     
     public BModelElement getBModelElement() {
         return _bModelElement;
+    }
+    
+    public CModelElement getCModelElement() {
+        return _cModelElement;
     }
     
     private void stepModelElements( double dt ) {

@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.mvcexample.control;
 
-import java.awt.Font;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.mvcexample.MVCModule;
 import edu.colorado.phet.mvcexample.model.AModelElement;
 import edu.colorado.phet.mvcexample.model.BModelElement;
+import edu.colorado.phet.mvcexample.model.CModelElement;
 import edu.colorado.phet.mvcexample.model.MVCModel;
 
 /**
@@ -25,6 +24,7 @@ public class MVCControlPanel extends ControlPanel {
     
     private AControlPanel _aControlPanel;
     private BControlPanel _bControlPanel;
+    private CControlPanel _cControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,10 +46,16 @@ public class MVCControlPanel extends ControlPanel {
         BModelElement bModelElement = model.getBModelElement();
         _bControlPanel = new BControlPanel( bModelElement );
         
+        // C
+        CModelElement cModelElement = model.getCModelElement();
+        _cControlPanel = new CControlPanel( cModelElement );
+        
         // Layout
         addControlFullWidth( _aControlPanel );
         addSeparator();
         addControlFullWidth( _bControlPanel );
+        addSeparator();
+        addControlFullWidth( _cControlPanel );
         addSeparator();
         addResetAllButton( module );
     }
