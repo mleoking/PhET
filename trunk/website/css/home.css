@@ -50,6 +50,9 @@ width: 120px;
 text-align: center;
 float: right;
 }
+#home-page-sponsors .wide {
+width: 210px;
+}
 #home-page-sponsors .sponsor a {
 color: rgb(185, 115, 81);
 font-weight: bold;

@@ -9,7 +9,7 @@
 	define("WEBPAGES_CACHE", 			"webpages");
 	define("HOURS_TO_CACHE_WEBPAGES", 	1);
 	
-	$g_disable_all_caching = true;
+	$g_disable_all_caching = false;//true;
 	
 	function create_proper_ownership($file) {
 		exec('chmod 775 '.$file);
