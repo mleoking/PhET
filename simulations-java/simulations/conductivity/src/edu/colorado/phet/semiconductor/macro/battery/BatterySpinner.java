@@ -4,26 +4,26 @@
 
 package edu.colorado.phet.semiconductor.macro.battery;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.semiconductor.macro.ConductivityApplication;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.semiconductor.macro.ConductivityApplication;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.battery:
 //            Battery
 
 public class BatterySpinner {
-    private double lastValue;
-    JSpinner spinner;
-    double min;
-    double max;
+    private JSpinner spinner;
+    private double min;
+    private double max;
     private Battery battery;
     private ConductivityApplication conductivityApplication;
 
@@ -43,8 +43,9 @@ public class BatterySpinner {
                         double volts = Double.parseDouble( text );
                         if ( volts >= min && volts <= max ) {
                             battery.setVoltage( volts );
-                        }else{
-                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between "+min+" and "+max+" volts.");
+                        }
+                        else {
+                            handleErrorInput();
                         }
                     }
                     catch( NumberFormatException n ) {
@@ -52,24 +53,6 @@ public class BatterySpinner {
                 }
             } );
         }
-
-        final JTextField tf = ( (JSpinner.DefaultEditor)spinner.getEditor() ).getTextField();
-        tf.addKeyListener( new KeyAdapter() {
-            public void keyPressed( KeyEvent ke ) {
-                if( ke.getKeyCode() == KeyEvent.VK_ENTER ) {
-                    try {
-                        double value = Double.parseDouble( tf.getText() );
-                        if( value < min || value > max ) {
-                            showErrorMessage();
-                        }
-                    }
-                    catch( RuntimeException e ) {
-                        e.printStackTrace();
-                        showErrorMessage();
-                    }
-                }
-            }
-        } );
 
         TitledBorder titledborder = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
         titledborder.setTitleFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
@@ -79,12 +62,11 @@ public class BatterySpinner {
 
             public void stateChanged( ChangeEvent changeevent ) {
                 double d = getSpinnerValue();
-                if( d >= min && d <= max ) {
+                if ( d >= min && d <= max ) {
                     battery.setVoltage( d );
-                    lastValue = d;
                 }
                 else {
-                    spinner.setValue( new Double( lastValue ) );
+                    spinner.setValue( new Double( battery.getVoltage() ) );
                 }
             }
 
@@ -92,20 +74,20 @@ public class BatterySpinner {
 
     }
 
-    private void showErrorMessage() {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                conductivityApplication.getClock().stop();
-                JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
-                conductivityApplication.getClock().start();
-            }
-        } );
-
+    private void handleErrorInput() {
+        conductivityApplication.getClock().stop();
+        JOptionPane.showMessageDialog( spinner, "Value out of range: Voltage should be betwen 0 and 2 Volts.", "Invalid Voltage", JOptionPane.ERROR_MESSAGE );
+        conductivityApplication.getClock().start();
+        spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
+        if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
+            final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
+            ed.getTextField().setText( battery.getVoltage()+"");
+        }
     }
 
     private double getSpinnerValue() {
         Object obj = spinner.getValue();
-        Double double1 = (Double)obj;
+        Double double1 = (Double) obj;
         return double1.doubleValue();
     }
 
