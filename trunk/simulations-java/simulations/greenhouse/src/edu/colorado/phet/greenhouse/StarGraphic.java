@@ -6,8 +6,6 @@
  */
 package edu.colorado.phet.greenhouse;
 
-import edu.colorado.phet.coreadditions_greenhouse.Disk;
-
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +13,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
+
+import edu.colorado.phet.coreadditions_greenhouse.Disk;
 
 public class StarGraphic extends DiskGraphic {
     private Star star;
@@ -41,33 +41,43 @@ public class StarGraphic extends DiskGraphic {
         sunbeamAnimator.setRunning( false );
     }
 
+    public void removeDistantSunbeams() {
+//        System.out.println( "Sunbeam count="+sunbeams.size() );
+        for ( int i = 0; i < sunbeams.size(); i++ ) {
+            Sunbeam sunbeam = (Sunbeam) sunbeams.get( i );
+            if ( !modelBounds.contains( sunbeam.getX0(), sunbeam.getY0() ) ) {
+                sunbeams.remove( sunbeam );
+                i--;
+            }
+        }
+    }
+
     public void paint( Graphics2D g2 ) {
         super.paint( g2 );
 
-        for( int i = 0; i < sunbeams.size(); i++ ) {
-            Sunbeam sunbeam = (Sunbeam)sunbeams.get( i );
-            if( modelBounds.contains( sunbeam.getX0(), sunbeam.getY0() ) ) {
+        removeDistantSunbeams();
+        for ( int i = 0; i < sunbeams.size(); i++ ) {
+            Sunbeam sunbeam = (Sunbeam) sunbeams.get( i );
+            if ( modelBounds.contains( sunbeam.getX0(), sunbeam.getY0() ) ) {
                 sunbeam.paint( g2 );
             }
-            else {
-                sunbeams.remove( sunbeam );
-            }
         }
+
 
         // draw flares
         double angleSubtended = Math.PI * 2 / numFlares;
 //        int flareIdx = 0;
         double alpha = 0;
-        for( int flareIdx = 0; flareIdx < numFlares; flareIdx++ ) {
+        for ( int flareIdx = 0; flareIdx < numFlares; flareIdx++ ) {
             alpha += angleSubtended;
 //        for( double alpha = 0; alpha <= Math.PI * 2; alpha += angleSubtended ) {
             Polygon flare = new Polygon();
-            flare.addPoint( (int)( star.getLocation().getX() + star.getRadius() * Math.cos( alpha + dAlpha ) ),
-                            (int)( star.getLocation().getY() + star.getRadius() * Math.sin( alpha + dAlpha ) ) );
-            flare.addPoint( (int)( star.getLocation().getX() + ( star.getRadius() * dR[flareIdx] ) * Math.cos( alpha + dAlpha + angleSubtended / 2 ) ),
-                            (int)( star.getLocation().getY() + ( star.getRadius() * dR[flareIdx] ) * Math.sin( alpha + dAlpha + angleSubtended / 2 ) ) );
-            flare.addPoint( (int)( star.getLocation().getX() + star.getRadius() * Math.cos( alpha + dAlpha + angleSubtended ) ),
-                            (int)( star.getLocation().getY() + star.getRadius() * Math.sin( alpha + dAlpha + angleSubtended ) ) );
+            flare.addPoint( (int) ( star.getLocation().getX() + star.getRadius() * Math.cos( alpha + dAlpha ) ),
+                            (int) ( star.getLocation().getY() + star.getRadius() * Math.sin( alpha + dAlpha ) ) );
+            flare.addPoint( (int) ( star.getLocation().getX() + ( star.getRadius() * dR[flareIdx] ) * Math.cos( alpha + dAlpha + angleSubtended / 2 ) ),
+                            (int) ( star.getLocation().getY() + ( star.getRadius() * dR[flareIdx] ) * Math.sin( alpha + dAlpha + angleSubtended / 2 ) ) );
+            flare.addPoint( (int) ( star.getLocation().getX() + star.getRadius() * Math.cos( alpha + dAlpha + angleSubtended ) ),
+                            (int) ( star.getLocation().getY() + star.getRadius() * Math.sin( alpha + dAlpha + angleSubtended ) ) );
 //            dAlpha += Math.PI / 150;
             g2.setColor( Color.YELLOW );
             g2.draw( flare );
@@ -93,7 +103,7 @@ public class StarGraphic extends DiskGraphic {
 
         synchronized private void computeLine( double t ) {
             double advance = ( ( t - timeCreated ) / 100 ) * star.getRadius();
-            if( t - timeCreated > 0 ) {
+            if ( t - timeCreated > 0 ) {
                 x0 = star.getLocation().getX() + ( advance ) * Math.cos( theta );
                 y0 = star.getLocation().getY() + ( advance ) * Math.sin( theta );
                 x1 = star.getLocation().getX() + ( star.getRadius() + advance ) * Math.cos( theta );
@@ -103,8 +113,8 @@ public class StarGraphic extends DiskGraphic {
 
         synchronized void paint( Graphics2D g2 ) {
             GeneralPath sunbeam = new GeneralPath();
-            sunbeam.moveTo( (float)x0, (float)y0 );
-            sunbeam.lineTo( (float)x1, (float)y1 );
+            sunbeam.moveTo( (float) x0, (float) y0 );
+            sunbeam.lineTo( (float) x1, (float) y1 );
             g2.draw( sunbeam );
         }
 
@@ -131,11 +141,12 @@ public class StarGraphic extends DiskGraphic {
 
         public void run() {
             isRunning = true;
-            while( isRunning ) {
+            while ( isRunning ) {
                 synchronized( this ) {
                     try {
                         Thread.sleep( timeBetweenSunbeams );
-                        for( int i = 0; i < 2; i++ ) {
+                        removeDistantSunbeams();
+                        for ( int i = 0; i < 2; i++ ) {
                             double theta = Math.random() * Math.PI * 2;
                             sunbeams.add( new Sunbeam( theta ) );
                         }
@@ -168,16 +179,17 @@ public class StarGraphic extends DiskGraphic {
 
         public void run() {
             isRunning = true;
-            while( isRunning ) {
+            while ( isRunning ) {
                 try {
-                    Thread.sleep( (long)dt );
+                    Thread.sleep( (long) dt );
                     t += dt;
-                    for( int i = 0; i < sunbeams.size(); i++ ) {
-                        Sunbeam sunbeam = (Sunbeam)sunbeams.get( i );
+                    removeDistantSunbeams();
+                    for ( int i = 0; i < sunbeams.size(); i++ ) {
+                        Sunbeam sunbeam = (Sunbeam) sunbeams.get( i );
                         sunbeam.computeLine( t );
                     }
                     cnt++;
-                    for( int j = 0; cnt % 5 == 0 && j < numFlares; j++ ) {
+                    for ( int j = 0; cnt % 5 == 0 && j < numFlares; j++ ) {
 //                        dR[j] = 1.3 * ( randomGenerator.nextGaussian() * 0.1 + 1.0 );
                         dR[j] = 1.3 * ( Math.random() * 0.2 + 1.0 );
                     }
