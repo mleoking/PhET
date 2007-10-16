@@ -804,9 +804,17 @@ text-align: center;
 #simsummary table tr td + td + td img {
 text-align: right;
 }
-
+p.sim-abstract {
+min-height: 165px;
+}
+#simratings {
+height: 40px;
+min-height: 40px;
+}
 #simtoolbar {
 width: 100%;
+min-height: 20px;
+height: 20px;
 }
 #simtoolbar span.size {
 float: left;

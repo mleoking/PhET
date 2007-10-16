@@ -84,9 +84,9 @@
             
 
             <div id="simsummary">
-                <p>$sim_desc</p>
+                <p class="sim-abstract">$sim_desc</p>
 
-                <table>
+                <table id="simratings">
                     <tr>
                         <td>$sim_crutch_html</td>   <td>&nbsp;</td>     <td>$sim_rating_html</td> 
                     </tr>
@@ -124,7 +124,7 @@ EOT;
                 
             <div id="simpreview">    
                 <a href="$sim_launch_url" $on_click_html>
-                    <img src="$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300"/>
+                    <img src="$sim_image_url" alt="Sim preview image" title="Click here to launch the simulation from your browser" width="300" height="225"/>
                 </a>
 
                 <div id="simrunoptions">
