@@ -44,8 +44,14 @@ public class BatterySpinner {
                         double volts = Double.parseDouble( text );
                         if ( volts >= min && volts <= max ) {
                             setVoltage( volts );
-                        }else{
-                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between "+min+" and "+max+" volts.");
+                        }
+                        else {
+                            JOptionPane.showMessageDialog( getSpinner(), "Please enter a voltage between " + min + " and " + max + " volts." );
+                            spinner.setValue( new Double( battery.getVoltage() ) );//doesn't fix the text field
+                            if ( spinner.getEditor() instanceof JSpinner.DefaultEditor ) {
+                                final JSpinner.DefaultEditor ed = (JSpinner.DefaultEditor) spinner.getEditor();
+                                ed.getTextField().setText( battery.getVoltage() + "" );
+                            }
                         }
                     }
                     catch( NumberFormatException n ) {
