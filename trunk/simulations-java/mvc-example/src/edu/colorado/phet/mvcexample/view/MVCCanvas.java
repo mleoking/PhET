@@ -4,15 +4,9 @@ package edu.colorado.phet.mvcexample.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.mvcexample.model.AModelElement;
-import edu.colorado.phet.mvcexample.model.BModelElement;
-import edu.colorado.phet.mvcexample.model.MVCModel;
-import edu.colorado.phet.mvcexample.model.ModelViewTransform;
+import edu.colorado.phet.mvcexample.model.*;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -33,6 +27,7 @@ public class MVCCanvas extends PhetPCanvas {
     private PNode _rootNode;
     private ANode _aNode;
     private BNode _bNode;
+    private CNode _cNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,6 +55,11 @@ public class MVCCanvas extends PhetPCanvas {
         BModelElement bModelElement = model.getBModelElement();
         _bNode = new BNode( bModelElement.getWidth(), bModelElement.getHeight(), modelViewTransform );
         _rootNode.addChild( _bNode );
+        
+        // C
+        CModelElement cModelElement = model.getCModelElement();
+        _cNode = new CNode( cModelElement, modelViewTransform );
+        _rootNode.addChild( _cNode );
     }
     
     //----------------------------------------------------------------------------
