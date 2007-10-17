@@ -16,14 +16,14 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * May 29, 2007, 12:56:31 AM
  */
 public class TorqueApplication extends PhetApplication {
-    private TorqueModule rotationModule;
+    private TorqueModule torqueModule;
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
-        rotationModule = new TorqueModule( getPhetFrame() );
-        addModule( new IntroModule( getPhetFrame() ) );
-//        addModule( rotationModule );
-        getPhetFrame().addMenu( new RotationDevMenu( this, rotationModule ) );
+        torqueModule = new TorqueModule( getPhetFrame() );
+//        addModule( new IntroModule( getPhetFrame() ) );
+        addModule( torqueModule );
+        getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );
     }
 
