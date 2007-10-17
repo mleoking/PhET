@@ -21,6 +21,7 @@
       <sourceFolder url="file://$MODULE_DIR$/contrib/jade/jade_0.6.1_a" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/extras" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/mvc-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/battery-voltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/bernoulli/phetcommon/src" isTestSource="false" />
@@ -777,6 +778,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations/glaciers/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/mvc-example/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
