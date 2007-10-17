@@ -44,9 +44,4 @@ public abstract class PointerNode extends PPath {
         
         addInputEventListener( new CursorHandler() );
     }
-
-    protected void addDragHandler() {
-        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
-    }
-
 }

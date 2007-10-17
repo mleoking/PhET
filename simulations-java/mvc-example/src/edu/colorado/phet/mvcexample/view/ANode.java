@@ -10,6 +10,7 @@ import java.util.Observer;
 
 import edu.colorado.phet.mvcexample.model.AModelElement;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * ANode is the visual representation of an AModelElement.
@@ -40,9 +41,9 @@ public class ANode extends PointerNode {
         _modelElement = modelElement;
         _modelElement.addObserver( _modelObserver );
         
+        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
         addPropertyChangeListener( _viewObserver ); // update model when node is dragged
 
-        addDragHandler();
         updateViewPosition();
         updateViewOrientation();
     }

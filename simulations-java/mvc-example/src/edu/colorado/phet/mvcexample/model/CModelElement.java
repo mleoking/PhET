@@ -50,10 +50,6 @@ public class CModelElement extends Pointer implements ModelElement {
         }
     }
 
-    public void translate( double dx, double dy ) {
-        setPosition( new Point2D.Double( getPosition().getX() + dx, getPosition().getY() + dy ) );
-    }
-
     //----------------------------------------------------------------------------
     // Listener interface & management
     //----------------------------------------------------------------------------

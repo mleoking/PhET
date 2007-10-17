@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.mvcexample.model.BModelElement.BModelElementListener;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * BNode is the visual representation of a BModelElement.
@@ -21,7 +22,7 @@ public class BNode extends PointerNode implements BModelElementListener {
     
     public BNode( Dimension size, Color fillColor ) {
         super( size, fillColor );
-        addDragHandler();
+        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
     }
     
     //----------------------------------------------------------------------------
