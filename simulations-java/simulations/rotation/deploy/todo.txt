@@ -3,8 +3,7 @@
 ################################
 
 Notes from Oct 4, 2007:
-Type-in for force not working
-	arrow is still showing
+Type-in for force not working: arrow is still showing
 min then maximize charts broken on rotation on mac
 need more inviting introductory panel
 put time slider from slow to fast, default time should be in the middle

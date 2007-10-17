@@ -344,6 +344,11 @@ public class ControlGraph extends PNode {
         GraphControlSeriesNode seriesNode = null;
         if ( series.isEditable() ) {
             seriesNode = graphTimeControlNode.addVariable( series );
+            seriesNode.addListener( new GraphControlTextBox.Listener() {
+                public void valueChanged( double newValue ) {
+                    notifyValueChanged( newValue );
+                }
+            } );
             seriesNode.getTextBox().getTextField().addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
                     handleControlFocusGrabbed();

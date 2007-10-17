@@ -1,3 +1,4 @@
+10-17-2007: Toreque - Fixed: Type-in for force not working
 10-4-2007: Torque - Fixed: Applied force radius should be constrained to lie on the platform
 10-4-2007: Torque - Fixed: Added text to the control panel
 10-4-2007: Torque - Fixed: Brake force cannot be overcome after coming to rest.
