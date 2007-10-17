@@ -3,10 +3,13 @@
 package edu.colorado.phet.mvcexample.view;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.mvcexample.model.CModelElement;
 import edu.colorado.phet.mvcexample.model.CModelElement.CModelElementListener;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * CNode is the visual representation of a CModelElement.
@@ -25,14 +28,17 @@ public class CNode extends PointerNode implements CModelElementListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public CNode( CModelElement modelElement ) {
+    public CNode( final CModelElement modelElement ) {
         super( modelElement.getSize(), modelElement.getColor() );
         
         _modelElement = modelElement;
         _modelElement.addListener( this );
-        
+
         addInputEventListener( new PBasicInputEventHandler() {
-            //XXX this was wrong, try again
+            public void mouseDragged( PInputEvent event ) {
+                PDimension pt = event.getDeltaRelativeTo( CNode.this );
+                modelElement.translate( pt.getWidth(), pt.getHeight() );
+            }
         } );
         
         positionChanged();

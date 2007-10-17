@@ -21,6 +21,7 @@ public class BNode extends PointerNode implements BModelElementListener {
     
     public BNode( Dimension size, Color fillColor ) {
         super( size, fillColor );
+        addDragHandler();
     }
     
     //----------------------------------------------------------------------------
