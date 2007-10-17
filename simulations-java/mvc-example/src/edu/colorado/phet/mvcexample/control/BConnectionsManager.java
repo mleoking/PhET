@@ -2,12 +2,15 @@
 
 package edu.colorado.phet.mvcexample.control;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.mvcexample.model.BModelElement;
 import edu.colorado.phet.mvcexample.view.BNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * BConnectionsManager manages the connections between MVC components that are related to BModelElement.
@@ -22,7 +25,7 @@ public class BConnectionsManager {
     private BModelElement _modelElement;
     private BNode _node;
     private BControlPanel _controlPanel;
-    private BNodePropertyChangeListener _propertyChangeListener;
+    private PInputEventListener _dragHandler;
     
     public BConnectionsManager( BModelElement modelElement, BNode node, BControlPanel controlPanel ) {
         super();
@@ -30,7 +33,7 @@ public class BConnectionsManager {
         _modelElement = modelElement;
         _node = node;
         _controlPanel = controlPanel;
-        _propertyChangeListener = new BNodePropertyChangeListener( modelElement, node );
+        _dragHandler = new BNodeDragHandler( node, modelElement );
     }
     
     /**
@@ -40,7 +43,7 @@ public class BConnectionsManager {
         if ( !_connected ) {
             _modelElement.addListener( _node );
             _modelElement.addListener( _controlPanel );
-            _node.addPropertyChangeListener( _propertyChangeListener );
+            _node.addInputEventListener( _dragHandler );
             _connected = true;
         }
     }
@@ -52,29 +55,30 @@ public class BConnectionsManager {
         if ( _connected ) {
             _modelElement.removeListener( _node );
             _modelElement.removeListener( _controlPanel );
-            _node.removePropertyChangeListener( _propertyChangeListener );
+            _node.removeInputEventListener( _dragHandler );
             _connected = false;
         }
     }
     
     /*
-     * When a BNode is dragged by the user, Piccolo will fire a PropertyChangeEvent.
-     * Note the new location of the node, and use it to set the model element's new position.
+     * When a BNode is dragged, use the event to set the model element's new position.
      */
-    private class BNodePropertyChangeListener implements PropertyChangeListener {
-        
-        private BModelElement _modelElement;
+    private static class BNodeDragHandler extends PBasicInputEventHandler {
+
         private PNode _node;
+        private BModelElement _modelElement;
         
-        public BNodePropertyChangeListener( BModelElement modelElement, BNode node ) {
-            _modelElement = modelElement;
+        public BNodeDragHandler( PNode node, BModelElement modelElement ) {
+            super();
             _node = node;
+            _modelElement = modelElement;
         }
         
-        public void propertyChange( PropertyChangeEvent event ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                _modelElement.setPosition( _node.getOffset() );
-            }
+        public void mouseDragged( PInputEvent event ) {
+            PDimension delta = event.getDeltaRelativeTo( _node.getParent() );
+            Point2D p = _modelElement.getPosition();
+            Point2D pNew = new Point2D.Double( p.getX() + delta.getWidth(), p.getY() + delta.getHeight() );
+            _modelElement.setPosition( pNew );
         }
     }
 }
