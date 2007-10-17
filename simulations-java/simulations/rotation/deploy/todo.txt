@@ -3,8 +3,7 @@
 ################################
 
 Notes from Oct 4, 2007:
-Type-in for force not working: arrow is still showing
-min then maximize charts broken on rotation on mac
+
 need more inviting introductory panel
 put time slider from slow to fast, default time should be in the middle
 wheel should be r=4m for easy comparison
@@ -21,6 +20,8 @@ Add ruler (as in rotation)
 	adds R, r, mass controls
 4th panel (Angular Momentum)
 	L=I omega
+
+min then maximize charts broken on rotation on mac
 
 •	Glitches show up due to new rendering mechanism
 •	Improve performance

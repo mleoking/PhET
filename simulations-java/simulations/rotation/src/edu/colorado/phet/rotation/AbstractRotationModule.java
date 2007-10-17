@@ -95,6 +95,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
             constantDtClock.setDt( RotationClock.DEFAULT_CLOCK_DT );
         }
         DefaultTimeSeries.verifySeriesCleared();
+        rotationModel.getTimeSeriesModel().setPaused( false );
     }
 
     public VectorViewModel getVectorViewModel() {
