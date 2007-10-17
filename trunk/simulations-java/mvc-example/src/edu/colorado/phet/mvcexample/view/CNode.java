@@ -36,7 +36,7 @@ public class CNode extends PointerNode implements CModelElementListener {
 
         addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                PDimension pt = event.getDeltaRelativeTo( CNode.this );
+                PDimension pt = event.getDeltaRelativeTo( CNode.this.getParent() );
                 modelElement.translate( pt.getWidth(), pt.getHeight() );
             }
         } );
