@@ -26,10 +26,12 @@ public class RotationClock extends ConstantDtClock {
 
     public RotationClock( ) {
         super( DEFAULT_DELAY, DEFAULT_CLOCK_DT );
+        setRunning( false );
     }
 
-    public RotationClock( int delay, double clockDt ) {
-        super( delay, clockDt );
+
+    public void start() {
+        super.start();    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     protected void doTick() {

@@ -56,7 +56,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         resetBody1( getRotationBody( 0 ) );
         resetBody2( getRotationBody( 1 ) );
         getTimeSeriesModel().setRecordMode();
-        getTimeSeriesModel().setPaused( false );
+//        getTimeSeriesModel().setPaused( false );
     }
 
     protected void setPlaybackTime( double time ) {
