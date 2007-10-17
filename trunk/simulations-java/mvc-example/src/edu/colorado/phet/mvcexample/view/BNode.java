@@ -23,6 +23,7 @@ public class BNode extends PointerNode implements BModelElementListener {
     public BNode( Dimension size, Color fillColor ) {
         super( size, fillColor );
         addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
+        // NOTE: model updates as the result of dragging this node are handled in BConnectionsManager
     }
     
     //----------------------------------------------------------------------------
