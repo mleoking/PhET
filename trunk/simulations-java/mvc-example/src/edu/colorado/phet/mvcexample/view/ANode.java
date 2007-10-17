@@ -41,7 +41,8 @@ public class ANode extends PointerNode {
         _modelElement.addObserver( _modelObserver );
         
         addPropertyChangeListener( _viewObserver ); // update model when node is dragged
-        
+
+        addDragHandler();
         updateViewPosition();
         updateViewOrientation();
     }
