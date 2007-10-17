@@ -27,7 +27,7 @@ public class BNode extends PointerNode implements BModelElementListener {
     }
     
     //----------------------------------------------------------------------------
-    // BModelElementListener implementation (model changes)
+    // BModelElementListener implementation
     //----------------------------------------------------------------------------
 
     public void positionChanged(Point2D oldPosition, Point2D newPosition) {

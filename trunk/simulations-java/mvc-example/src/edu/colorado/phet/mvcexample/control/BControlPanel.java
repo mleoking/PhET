@@ -51,7 +51,7 @@ public class BControlPanel extends PointerControlPanel implements BModelElementL
     }
     
     //----------------------------------------------------------------------------
-    // BModelElementListener implementation (model changes)
+    // BModelElementListener implementation
     //----------------------------------------------------------------------------
 
     public void orientationChanged( double oldOrientation, double newOrientation ) {
