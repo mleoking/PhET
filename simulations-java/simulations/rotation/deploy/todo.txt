@@ -6,7 +6,6 @@ Notes from Oct 4, 2007:
 
 need more inviting introductory panel
 layout issues on a mac?
-Add reset button
 Add ability to turn off "a" and "v" vectors
 Add ruler (as in rotation)
 1st panel (Introduction)
