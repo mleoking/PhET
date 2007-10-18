@@ -7,7 +7,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
-import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.TorqueGraphSet;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -18,11 +17,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
 
-    public TorqueSimulationPanel( final TorqueModule torqueModule, JFrame parentFrame ) {
+    public TorqueSimulationPanel( final AbstractTorqueModule torqueModule, JFrame parentFrame ) {
         super( torqueModule, parentFrame );
     }
 
-    private void addClearTorqueButton( final TorqueModule torqueModule ) {
+    private void addClearTorqueButton( final AbstractTorqueModule torqueModule ) {
         final PSwing clearTorqueButton = new PSwing( new JButton( "Clear Torque" ) );
         torqueModule.getTorqueModel().addListener( new TorqueModel.Adapter() {
             public void appliedForceChanged() {
@@ -37,7 +36,7 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (TorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing
+        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
