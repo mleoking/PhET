@@ -4,7 +4,8 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.opticaltweezers.model.IDNASpeedStrategy.TomAbstractDNASpeedStrategy.TomDNASpeedStrategyA;
+import edu.colorado.phet.opticaltweezers.model.TomDNASpeedStrategy.TomDNASpeedStrategyA;
+
 
 /**
  * EnzymeA is one type of fictitious enzyme.
