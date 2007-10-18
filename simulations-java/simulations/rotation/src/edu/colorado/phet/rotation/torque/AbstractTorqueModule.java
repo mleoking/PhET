@@ -12,8 +12,8 @@ import edu.colorado.phet.rotation.model.RotationModel;
  * May 29, 2007, 12:57:07 AM
  */
 public class AbstractTorqueModule extends AbstractRotationModule {
-    public AbstractTorqueModule( String name,JFrame parentFrame ) {
-        super( name,parentFrame );
+    public AbstractTorqueModule( String name, JFrame parentFrame ) {
+        super( name, parentFrame );
     }
 
     protected RotationModel createModel( ConstantDtClock clock ) {

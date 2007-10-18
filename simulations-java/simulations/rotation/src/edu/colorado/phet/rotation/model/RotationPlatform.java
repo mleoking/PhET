@@ -99,15 +99,15 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setMass( double mass ) {
-        if (this.mass!=mass){
-        this.mass = mass;
+        if ( this.mass != mass ) {
+            this.mass = mass;
             notifyMassChanged();
         }
     }
 
     private void notifyMassChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).massChanged();
+            ( (Listener) listeners.get( i ) ).massChanged();
         }
     }
 

@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.pswing.MyRepaintManager;
  */
 public class RotationClock extends ConstantDtClock {
     public static final int DEFAULT_DELAY = 30;
-    public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0/2;
+    public static final double DEFAULT_CLOCK_DT = DEFAULT_DELAY / 1000.0 / 2;
 
     private ArrayList tickTimes = new ArrayList();
     private long lastEvalTime;
@@ -24,7 +24,7 @@ public class RotationClock extends ConstantDtClock {
 
     private static final boolean DEBUG_PAINT_OVERHEAD = false;
 
-    public RotationClock( ) {
+    public RotationClock() {
         super( DEFAULT_DELAY, DEFAULT_CLOCK_DT );
         setRunning( false );
     }

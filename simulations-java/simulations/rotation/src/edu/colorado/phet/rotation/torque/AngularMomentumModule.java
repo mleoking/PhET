@@ -10,6 +10,6 @@ import javax.swing.*;
  */
 public class AngularMomentumModule extends AbstractTorqueModule {
     public AngularMomentumModule( JFrame parentFrame ) {
-        super( "Angular Momentum",parentFrame );
+        super( "Angular Momentum", parentFrame );
     }
 }

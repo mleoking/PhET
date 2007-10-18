@@ -1,8 +1,5 @@
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -40,7 +37,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
     }
 
     protected void updateLayout() {
-        
+
         int padX = 50;
         int padY = 50;
 
