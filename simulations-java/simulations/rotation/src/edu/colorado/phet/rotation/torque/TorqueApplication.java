@@ -17,11 +17,14 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  */
 public class TorqueApplication extends PhetApplication {
     private TorqueModule torqueModule;
+    private IntroModule introModule;
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
+        introModule = new IntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
-        addModule( new IntroModule( getPhetFrame() ) );
+
+        addModule( introModule );
         addModule( torqueModule );
         getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );

@@ -24,7 +24,6 @@ public class RotationModule extends AbstractRotationModule {
         return new RotationSimulationPanel( this, parentFrame );
     }
 
-
     public RotationClock getRotationClock() {
         return (RotationClock) getConstantDTClock();
     }
