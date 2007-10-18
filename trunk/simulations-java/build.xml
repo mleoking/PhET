@@ -23,7 +23,7 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!-- Deployment properties -->
     <property name="dev.server.name"    value="spot.colorado.edu"/>
-    <property name="prod.server.name"   value="tigercat2.colorado.edu"/>
+    <property name="prod.server.name"   value="tigercat.colorado.edu"/>
 
     <!--Properties for deploy output-->
     <property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/"/>
