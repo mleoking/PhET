@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: October 11-17, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+  
+  Optical Tweezers:
+  - no progress
+  
+  Glaciers:
+  - no progress
+  
+  Common:
+  - pair program with John, replace Observer with DynamicListenerController
+  - sample application (mvc-example) to compare approaches to MVC
+
+  Misc:
+  - Flash i18n meeting with Sam and Mike
+    
+WHAT'S NEXT:
+
+  - continue work on Optical Tweezers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/optical-tweezers/TODO.txt?view=markup
+  
+  - continue work on Glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+  
+  - work on translation program
+  
+ISSUES:
+
+  - need information to complete optical tweezers
+  - need specification for glaciers
+  
+DATES UNAVAILABLE:
+
+  November 20-27
+  
+--
