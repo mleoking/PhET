@@ -87,8 +87,7 @@ public class TorqueModel extends RotationModel {
     public void resetAll() {
         super.resetAll();
         if ( inited ) {
-            appliedForceObject.setValue( new Line2D.Double() );
-            brakeForceObject.setValue( new Line2D.Double() );
+            setAppliedForceRadius( getRotationPlatform().getRadius() );
             updateBrakeForce();
             updateNetForce();
             setAllowNonTangentialForces( DEFAULT_ALLOW_NONTANGENTIAL_FORCES );
