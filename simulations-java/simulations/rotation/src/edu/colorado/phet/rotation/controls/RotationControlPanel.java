@@ -32,7 +32,6 @@ public class RotationControlPanel extends JPanel implements Resettable {
         super( new GridBagLayout() );
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
         symbolKeyButton = new SymbolKeyButton( parentFrame );
-        ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
         VerticalLayoutPanel box = new VerticalLayoutPanel();
         box.add( symbolKeyButton );
@@ -68,7 +67,7 @@ public class RotationControlPanel extends JPanel implements Resettable {
         add( graphSelectionControl, getConstraints( 0, 0 ) );
         add( box, getConstraints( 2, 0 ) );
         add( new RulerButton( rulerNode ), getConstraints( 2, 1 ) );
-        add( showVectorsControl, getConstraints( 0, 1 ) );
+        add( new ShowVectorsControl( vectorViewModel ), getConstraints( 0, 1 ) );
     }
 
     private GridBagConstraints getConstraints( int gridX, int gridY ) {

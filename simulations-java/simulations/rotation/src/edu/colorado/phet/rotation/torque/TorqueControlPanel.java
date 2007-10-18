@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.ResetButton;
 import edu.colorado.phet.rotation.controls.RulerButton;
+import edu.colorado.phet.rotation.controls.ShowVectorsControl;
+import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
@@ -27,7 +29,7 @@ public class TorqueControlPanel extends JPanel {
     public static final int MIN_BRAKE = 0;
     public static final int MAX_BRAKE = 3;
 
-    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule ) {
+    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule, VectorViewModel vectorViewModel ) {
         super( new GridBagLayout() );
         this.torqueModule = torqueModule;
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
@@ -125,6 +127,7 @@ public class TorqueControlPanel extends JPanel {
         checkBoxPanel.add( showComponents );
         checkBoxPanel.add( new ResetButton( torqueModule ) );
         checkBoxPanel.add( new RulerButton( rulerNode ) );
+        checkBoxPanel.add( new ShowVectorsControl( vectorViewModel ) );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
     }
 
