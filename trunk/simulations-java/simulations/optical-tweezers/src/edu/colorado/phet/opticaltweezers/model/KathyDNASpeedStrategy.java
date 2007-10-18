@@ -30,9 +30,9 @@ public abstract class KathyDNASpeedStrategy implements IDNASpeedStrategy {
     /**
      * @see IDNASpeedStrategy.getSpeed
      */
-    public double getSpeed( final double atp, final double f ) {
-        final double maxSpeed = _maxSpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( f * _c[3] ) ) ) );
-        final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( f * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( f * _c[3] ) ) );
+    public double getSpeed( final double atp, final double force ) {
+        final double maxSpeed = _maxSpeed * ( _c[0]  / ( _c[1] + ( _c[2] * Math.exp( force * _c[3] ) ) ) );
+        final double km = ( _c[0] / _c[4] ) * ( _c[5] + ( _c[6] * Math.exp( force * _c[7] ) ) ) / ( _c[1] + ( _c[2] * Math.exp( force * _c[3] ) ) );
         final double speed = maxSpeed * atp / ( atp + km );
         return speed;
     }

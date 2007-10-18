@@ -53,9 +53,9 @@ public abstract class TomDNASpeedStrategy implements IDNASpeedStrategy {
     /**
      * @see IDNASpeedStrategy.getSpeed
      */
-    public double getSpeed( final double atp, final double f ) {
-        final double boltCat = Math.exp( f * _deltaCat / _kt );
-        final double boltB = Math.exp( f * _deltaB / _kt );
+    public double getSpeed( final double atp, final double force ) {
+        final double boltCat = Math.exp( force * _deltaCat / _kt );
+        final double boltB = Math.exp( force * _deltaB / _kt );
         final double kcat = _kcat0 / ( _pc + ( _qc * boltCat ) );
         final double kb = _kb0 / ( _pb + ( _qb * boltB ) );
         final double speed = _d * kcat * atp / ( atp + ( kcat / kb ) );
