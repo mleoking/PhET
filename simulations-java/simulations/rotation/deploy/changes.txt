@@ -1,3 +1,4 @@
+10-17-2007: Torque - Fixed: wheel should be r=4m for easy comparison
 10-17-2007: Torque - Fixed: Changed time slider to vary from slow to fast, default time should be in the middle
 10-17-2007: Torque - Fixed: Model was starting clock for reset all; multiple clocks were running simultaneously (one per module)
 10-17-2007: Torque - Fixed: Type-in for force not working
