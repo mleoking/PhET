@@ -13,7 +13,7 @@ import edu.colorado.phet.rotation.model.RotationModel;
  */
 public class TorqueModule extends AbstractRotationModule {
     public TorqueModule( JFrame parentFrame ) {
-        super( parentFrame );
+        super( "Torque",parentFrame );
     }
 
     protected RotationModel createModel( ConstantDtClock clock ) {
