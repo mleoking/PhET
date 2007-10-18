@@ -59,7 +59,6 @@ public class TorqueModel extends RotationModel {
                 if ( appliedForceObject.getRadius() > getRotationPlatform().getRadius() ) {
                     setAppliedForceFromRadius( getRotationPlatform().getRadius() );
                 }
-
             }
 
             public void innerRadiusChanged() {
