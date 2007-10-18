@@ -20,9 +20,8 @@ public class TimeSpeedSlider extends LinearValueControl {
         setTextFieldVisible( false );
         Hashtable table = new Hashtable();
         table.put( new Double( min ), new JLabel( TimeseriesResources.getString( "time.slow" ) ) );
-        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "time.normal" ) ) );
+        table.put( new Double( max ), new JLabel( TimeseriesResources.getString( "time.fast" ) ) );
         setTickLabels( table );
-        setValue( max );
         defaultClock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
             public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
                 update( defaultClock );

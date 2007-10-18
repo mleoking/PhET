@@ -54,7 +54,7 @@ public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
                 }
             }
         } );
-        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, RotationClock.DEFAULT_CLOCK_DT / 4.0, RotationClock.DEFAULT_CLOCK_DT );
+        timeSeriesGraphSetNode = new TimeSeriesGraphSetNode( graphSetModel, timeSeriesModel, RotationClock.DEFAULT_CLOCK_DT / 2.0, RotationClock.DEFAULT_CLOCK_DT*2 );
 
         controlPanel = createControlPanel( getRulerNode(), phetFrame );
         rotationControlPanelNode = new PSwing( controlPanel );
