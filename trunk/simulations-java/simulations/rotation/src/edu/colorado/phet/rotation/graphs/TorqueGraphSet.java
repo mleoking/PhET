@@ -53,16 +53,14 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
             }
 
             protected void handleValueChanged() {
-//                getSimulationVariable().setValue( getModelValue() );
                 notifyValueChanged( getModelValue() );
             }
         } );
-        radiusGraph.getControlGraph().addSliderListener( new JFreeChartSliderNode.Adapter() {//todo: is this necessary?
-
-            public void sliderDragged( double value ) {
+        radiusGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
+            public void valueChanged( double value ) {
                 tm.setAppliedForceRadius( MathUtil.clamp( tm.getRotationPlatform().getInnerRadius(), value, tm.getRotationPlatform().getRadius() ) );
             }
-        } );
+        });
         radiusGraph.addSeries( new ControlGraphSeries( "Brake Radius", Color.red, "r", "m", new BasicStroke( 3 ), false, "brake", tm.getBrakeRadiusSeries() ) );
 
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
