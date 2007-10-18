@@ -2,7 +2,6 @@ package edu.colorado.phet.rotation;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -27,8 +26,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     public static AbstractRotationModule INSTANCE;
 
-    public AbstractRotationModule( String name,JFrame parentFrame ) {//30millis = 0.03 sec
-        super( name, new RotationClock( ) );
+    public AbstractRotationModule( String name, JFrame parentFrame ) {//30millis = 0.03 sec
+        super( name, new RotationClock() );
         INSTANCE = this;
         setModel( new BaseModel() );
         setLogoPanel( null );
