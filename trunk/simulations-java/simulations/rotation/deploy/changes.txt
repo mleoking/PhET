@@ -1,3 +1,4 @@
+10-17-2007: Torque - Added ability to turn off "a" and "v" vectors
 10-17-2007: Torque - Added Ruler check box
 10-17-2007: Torque - Added Reset All button (some view-based features don't yet reset)
 10-17-2007: Torque - Fixed: wheel should be r=4m for easy comparison

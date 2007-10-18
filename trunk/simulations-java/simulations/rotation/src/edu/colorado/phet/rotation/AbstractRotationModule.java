@@ -25,8 +25,6 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     private RotationModel rotationModel;
     private VectorViewModel vectorViewModel;
 
-    
-
     public static AbstractRotationModule INSTANCE;
 
     public AbstractRotationModule( String name,JFrame parentFrame ) {//30millis = 0.03 sec

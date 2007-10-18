@@ -37,7 +37,7 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (TorqueModule) getAbstractRotationModule() );//todo: better typing
+        return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (TorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing
     }
 
     protected GraphSuiteSet createRotationGraphSet() {
@@ -45,6 +45,6 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
     }
 
     protected RotationPlayAreaNode createPlayAreaNode() {
-        return new TorqueSimPlayAreaNode( (TorqueModel) getRotationModel(), new VectorViewModel(), getAngleUnitModel() );
+        return new TorqueSimPlayAreaNode( (TorqueModel) getRotationModel(), getVectorViewModel(), getAngleUnitModel() );
     }
 }
