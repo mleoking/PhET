@@ -12,6 +12,7 @@ LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+10/17/07 - add test case for consistency of getSpeed and getForce in Tom's DNASpeedStrategy
 10/17/07 - convert Tom & Kathy's DNASpeedStrategy implementation to top-level types
 10/10/07 - improved performance of frame resize, fixed problem in PhetPCanvas.updateLayout strategy
 10/10/07 - remove calls to PhetApplication.instance().getPhetFrame, add parentFrame arg to constructors that need it
