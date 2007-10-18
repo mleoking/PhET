@@ -35,7 +35,6 @@ public class RotationControlPanel extends JPanel implements Resettable {
         ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
 
         VerticalLayoutPanel box = new VerticalLayoutPanel();
-        RulerButton rulerButton = new RulerButton( rulerNode );
         box.add( symbolKeyButton );
 
         final JCheckBox beetleGraph = new JCheckBox( "Show Beetle Graph", beetle.getDisplayGraph() );
@@ -63,14 +62,12 @@ public class RotationControlPanel extends JPanel implements Resettable {
         box.add( ladybugGraph );
         box.add( beetleGraph );
 
-        final AngleUnitsSelectionControl angleUnitsSelectionControl = new AngleUnitsSelectionControl( angleUnitModel );
-        box.add( angleUnitsSelectionControl );
-
+        box.add( new AngleUnitsSelectionControl( angleUnitModel ) );
         box.add( new ResetButton( module ) );
 
         add( graphSelectionControl, getConstraints( 0, 0 ) );
         add( box, getConstraints( 2, 0 ) );
-        add( rulerButton, getConstraints( 2, 1 ) );
+        add( new RulerButton( rulerNode ), getConstraints( 2, 1 ) );
         add( showVectorsControl, getConstraints( 0, 1 ) );
     }
 

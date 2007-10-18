@@ -21,10 +21,10 @@ public class TorqueApplication extends PhetApplication {
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
-        introModule = new IntroModule( getPhetFrame() );
+//        introModule = new IntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
 
-        addModule( introModule );
+//        addModule( introModule );
         addModule( torqueModule );
         getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );

@@ -32,7 +32,7 @@ public class RotationPlayAreaNode extends PNode {
         rotationPlatformNode = new RotationPlatformNode( rotationModel.getRotationPlatform() );
 //        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
-        rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6"}, "m", 4, 14 );
+        rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6","7","8"}, "m", 4, 14 );
         rulerNode.setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
         rulerNode.setVisible( false );
 
