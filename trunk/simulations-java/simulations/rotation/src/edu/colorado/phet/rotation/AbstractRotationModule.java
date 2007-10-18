@@ -29,8 +29,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     public static AbstractRotationModule INSTANCE;
 
-    public AbstractRotationModule( JFrame parentFrame ) {//30millis = 0.03 sec
-        super( "Rotation", new RotationClock( ) );
+    public AbstractRotationModule( String name,JFrame parentFrame ) {//30millis = 0.03 sec
+        super( name, new RotationClock( ) );
         INSTANCE = this;
         setModel( new BaseModel() );
         setLogoPanel( null );
