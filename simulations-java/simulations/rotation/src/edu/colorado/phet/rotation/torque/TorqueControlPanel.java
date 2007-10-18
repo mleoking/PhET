@@ -25,11 +25,11 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
  * May 29, 2007, 1:48:07 AM
  */
 public class TorqueControlPanel extends JPanel {
-    private TorqueModule torqueModule;
+    private AbstractTorqueModule torqueModule;
     public static final int MIN_BRAKE = 0;
     public static final int MAX_BRAKE = 3;
 
-    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final TorqueModule torqueModule, VectorViewModel vectorViewModel ) {
+    public TorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
         super( new GridBagLayout() );
         this.torqueModule = torqueModule;
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
