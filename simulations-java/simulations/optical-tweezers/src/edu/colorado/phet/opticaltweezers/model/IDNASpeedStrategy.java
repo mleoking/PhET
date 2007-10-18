@@ -19,10 +19,10 @@ public interface IDNASpeedStrategy {
      * and should be referred to as speed (the magnitude component of velocity).
      * 
      * @param atp ATP concentration (arbitrary units)
-     * @param f DNA force magnitude (pN)
+     * @param force DNA force magnitude (pN)
      * @return speed (nm/sec)
      */
-    public double getSpeed( final double atp, final double f );
+    public double getSpeed( final double atp, final double force );
     
     /**
      * Gets the maximum speed, when DNA force=0 and ATP concentration=infinite.
