@@ -19,7 +19,7 @@ public class RotationPlatform extends MotionBody {
     private transient ArrayList listeners = new ArrayList();
     private boolean displayGraph = true;
 
-    public static final double MAX_RADIUS = 3.0;
+    public static final double MAX_RADIUS = 4.0;
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;

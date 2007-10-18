@@ -5,7 +5,6 @@
 Notes from Oct 4, 2007:
 
 need more inviting introductory panel
-wheel should be r=4m for easy comparison
 layout issues on a mac?
 Add reset button
 Add ability to turn off "a" and "v" vectors

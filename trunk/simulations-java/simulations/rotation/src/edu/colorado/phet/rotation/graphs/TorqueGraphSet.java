@@ -45,7 +45,7 @@ public class TorqueGraphSet extends AbstractRotationGraphSet {
 
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius of Force", Color.green, "r", "m", new BasicStroke( 2 ), true, "applied", tm.getRadiusSeries() ),
-                "r", "Radius of Force", "m", 0, 3.5,
+                "r", "Radius of Force", "m", 0, 4.5,
                 tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) {
             protected Range getVerticalRange( double zoomValue ) {
                 Range range = super.getVerticalRange( zoomValue );
