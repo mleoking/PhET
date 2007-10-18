@@ -4,7 +4,8 @@ package edu.colorado.phet.opticaltweezers.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.opticaltweezers.model.IDNASpeedStrategy.TomAbstractDNASpeedStrategy.TomDNASpeedStrategyB;
+import edu.colorado.phet.opticaltweezers.model.TomDNASpeedStrategy.TomDNASpeedStrategyB;
+
 
 /**
  * EnzymeB is one type of fictitious enzyme.
