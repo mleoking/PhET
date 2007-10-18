@@ -10,6 +10,6 @@ import javax.swing.*;
  */
 public class MomentOfInertiaModule extends AbstractTorqueModule {
     public MomentOfInertiaModule( JFrame parentFrame ) {
-        super( parentFrame );
+        super( "Moment of Inertia",parentFrame );
     }
 }
