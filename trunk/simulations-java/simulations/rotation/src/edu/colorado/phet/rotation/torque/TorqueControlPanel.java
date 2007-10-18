@@ -13,6 +13,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.rotation.controls.ResetButton;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
@@ -73,12 +74,24 @@ public class TorqueControlPanel extends JPanel {
                 rp.setMass( massSlider.getValue() );
             }
         } );
+        rp.addListener( new RotationPlatform.Adapter() {
+            public void massChanged() {
+                massSlider.setValue( rp.getMass() );
+            }
+        } );
+
         final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForceMagnitude(), "Force of Brake", "0.00", "N" );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 torqueModule.getTorqueModel().setBrakePressure( frictionSlider.getValue() );
             }
         } );
+        torqueModule.getTorqueModel().addListener( new TorqueModel.Adapter() {
+            public void brakePressureChanged() {
+                frictionSlider.setValue( torqueModule.getTorqueModel().getBrakePressure() );
+            }
+        } );
+
         TorqueSlider[] sliders = new TorqueSlider[]{
                 outerRadiusSlider,
                 innerRadiusSlider,
@@ -108,6 +121,7 @@ public class TorqueControlPanel extends JPanel {
             }
         } );
         checkBoxPanel.add( showComponents );
+        checkBoxPanel.add( new ResetButton( torqueModule ) );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
     }
 

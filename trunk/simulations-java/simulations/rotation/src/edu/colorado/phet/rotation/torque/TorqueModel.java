@@ -32,11 +32,15 @@ public class TorqueModel extends RotationModel {
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private ArrayList listeners = new ArrayList();
-    private boolean allowNonTangentialForces = false;
-    private boolean showComponents = true;
+
+    private boolean allowNonTangentialForces = DEFAULT_ALLOW_NONTANGENTIAL_FORCES;
+    private boolean showComponents = DEFAULT_SHOW_COMPONENTS;
     private boolean inited = false;
     private double brakePressure = 0;
     private boolean overwhelmingBrake = false;
+
+    private static boolean DEFAULT_ALLOW_NONTANGENTIAL_FORCES = false;
+    private static boolean DEFAULT_SHOW_COMPONENTS = true;
 
     public TorqueModel( ConstantDtClock clock ) {
         super( clock );
@@ -64,7 +68,9 @@ public class TorqueModel extends RotationModel {
                 }
             }
         } );
+        resetAll();//since this subclass couldn't init from parent call
     }
+
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
@@ -76,6 +82,19 @@ public class TorqueModel extends RotationModel {
         brakeForceObject.stepInTime( dt, getTime() );
         appliedForceObject.stepInTime( dt, getTime() );
         notifyAppliedForceChanged();//todo: only notify during actual change for performance & clarity
+    }
+
+    public void resetAll() {
+        super.resetAll();
+        if ( inited ) {
+            appliedForceObject.setValue( new Line2D.Double() );
+            brakeForceObject.setValue( new Line2D.Double() );
+            updateBrakeForce();
+            updateNetForce();
+            setAllowNonTangentialForces( DEFAULT_ALLOW_NONTANGENTIAL_FORCES );
+            setShowComponents( DEFAULT_SHOW_COMPONENTS );
+            setBrakePressure( 0.0 );
+        }
     }
 
     private void defaultUpdate( ITemporalVariable variable ) {
@@ -103,7 +122,6 @@ public class TorqueModel extends RotationModel {
             brakeForceObject.clear();
             netForce.clear();
             netTorque.clear();
-            brakePressure = 0;
         }
     }
 

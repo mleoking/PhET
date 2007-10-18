@@ -13,13 +13,21 @@ import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
  */
 public class RotationPlatform extends MotionBody {
     private SerializablePoint2D center = new SerializablePoint2D( 0, 0 );
-    private double radius = MAX_RADIUS;
-    private double innerRadius = 0.0;
-    private double mass = 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );//by default torque equals angular acceleration
+    private double radius = DEFAULT_OUTER_RADIUS;
+    private double innerRadius = DEFAULT_INNER_RADIUS;
+    private double mass = getDefaultMass();//by default torque equals angular acceleration
+
+    private double getDefaultMass() {
+        return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
+    }
+
     private transient ArrayList listeners = new ArrayList();
-    private boolean displayGraph = true;
+    private boolean displayGraph = DEFAULT_DISPLAY_GRAPH;
 
     public static final double MAX_RADIUS = 4.0;
+    public static final double DEFAULT_OUTER_RADIUS = MAX_RADIUS;
+    public static final double DEFAULT_INNER_RADIUS = 0.0;
+    public static final boolean DEFAULT_DISPLAY_GRAPH = true;
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;
@@ -31,6 +39,14 @@ public class RotationPlatform extends MotionBody {
 
     public boolean getDisplayGraph() {
         return displayGraph;
+    }
+
+    public void reset() {
+        super.reset();
+        setRadius( DEFAULT_OUTER_RADIUS );
+        setInnerRadius( DEFAULT_INNER_RADIUS );
+        setDisplayGraph( DEFAULT_DISPLAY_GRAPH );
+        setMass( getDefaultMass() );
     }
 
     public void setDisplayGraph( boolean displayGraph ) {
@@ -66,7 +82,7 @@ public class RotationPlatform extends MotionBody {
 
     private void notifyInnerRadiusChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener) listeners.get( i )).innerRadiusChanged();
+            ( (Listener) listeners.get( i ) ).innerRadiusChanged();
         }
     }
 
@@ -83,7 +99,16 @@ public class RotationPlatform extends MotionBody {
     }
 
     public void setMass( double mass ) {
+        if (this.mass!=mass){
         this.mass = mass;
+            notifyMassChanged();
+        }
+    }
+
+    private void notifyMassChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener) listeners.get( i )).massChanged();
+        }
     }
 
     public ITemporalVariable getAngularAcceleration() {
@@ -118,6 +143,8 @@ public class RotationPlatform extends MotionBody {
         void innerRadiusChanged();
 
         void displayGraphChanged();
+
+        void massChanged();
     }
 
     public static class Adapter implements Listener {
@@ -128,6 +155,9 @@ public class RotationPlatform extends MotionBody {
         }
 
         public void displayGraphChanged() {
+        }
+
+        public void massChanged() {
         }
     }
 }

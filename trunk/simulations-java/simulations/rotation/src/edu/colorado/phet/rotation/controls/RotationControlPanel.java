@@ -66,8 +66,7 @@ public class RotationControlPanel extends JPanel implements Resettable {
         final AngleUnitsSelectionControl angleUnitsSelectionControl = new AngleUnitsSelectionControl( angleUnitModel );
         box.add( angleUnitsSelectionControl );
 
-        ResetButton resetButton = new ResetButton( module );
-        box.add( resetButton );
+        box.add( new ResetButton( module ) );
 
         add( graphSelectionControl, getConstraints( 0, 0 ) );
         add( box, getConstraints( 2, 0 ) );
