@@ -53,11 +53,11 @@ public class RadioWavesApplication {
         final EmfModule antennaModule = new EmfModule( clock );
         FrameSetup fs = new FrameSetup.CenteredWithSize( 1024, 768 );
         ApplicationModel appDescriptor = new ApplicationModel(
-                new String( SimStrings.get( "EmfApplication.title" )
+                new String( SimStrings.get( "radio-waves.name" )
                             + " ("
                             + EmfConfig.VERSION
                             + ")" ),
-                SimStrings.get( "EmfApplication.description" ),
+                SimStrings.get( "radio-waves.description" ),
                 EmfConfig.VERSION, fs );
         appDescriptor.setModule( antennaModule );
         appDescriptor.setInitialModule( antennaModule );
