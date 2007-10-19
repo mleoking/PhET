@@ -7,6 +7,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+- package as 3 different sims
 
 LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
