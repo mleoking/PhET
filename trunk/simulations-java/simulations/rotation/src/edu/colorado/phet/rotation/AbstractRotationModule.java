@@ -24,11 +24,11 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     private RotationModel rotationModel;
     private VectorViewModel vectorViewModel;
 
-    public static AbstractRotationModule INSTANCE;
+//    public static AbstractRotationModule INSTANCE;
 
     public AbstractRotationModule( String name, JFrame parentFrame ) {//30millis = 0.03 sec
         super( name, new RotationClock() );
-        INSTANCE = this;
+//        INSTANCE = this;
         setModel( new BaseModel() );
         setLogoPanel( null );
         setClockControlPanel( null );
@@ -54,8 +54,10 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 //        if( SynchronizedPSwingRepaintManager.getInstance() != null ) {
 //            SynchronizedPSwingRepaintManager.getInstance().setSynchronousPaint( getClock().isRunning() );
 //        }
+
+        //todo: this is disabled until the concurrentmodification exception is resolved when using multiple tabs
         if ( MyRepaintManager.getInstance() != null ) {
-            MyRepaintManager.getInstance().setCoalesceRectangles( getClock().isRunning() );
+//            MyRepaintManager.getInstance().setCoalesceRectangles( getClock().isRunning() );
         }
     }
 
@@ -69,6 +71,23 @@ public abstract class AbstractRotationModule extends PiccoloModule {
 
     public RotationModel getRotationModel() {
         return rotationModel;
+    }
+
+    public void activate() {
+        super.activate();
+        if ( clockPaused ) {
+            getClock().pause();
+        }
+        else {
+            getClock().start();
+        }
+    }
+
+    private boolean clockPaused = false;
+
+    public void deactivate() {
+        this.clockPaused = getClock().isPaused();
+        super.deactivate();
     }
 
     public AbstractRotationSimulationPanel getRotationSimulationPanel() {

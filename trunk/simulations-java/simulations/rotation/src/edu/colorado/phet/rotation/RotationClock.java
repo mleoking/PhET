@@ -45,20 +45,20 @@ public class RotationClock extends ConstantDtClock {
         lastEvalTime = qp.getTime();
         lastTickFinishTime = System.currentTimeMillis();
 
-        if ( DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null ) {
-            JComponent component = AbstractRotationModule.INSTANCE.getRotationSimulationPanel();
-
-            for ( int nx = 1; nx <= 10; nx++ ) {
-                paintScreen( nx, nx, component );
-
-            }
-        }
-        else {
+//        if ( DEBUG_PAINT_OVERHEAD && AbstractRotationModule.INSTANCE != null ) {
+//            JComponent component = AbstractRotationModule.INSTANCE.getRotationSimulationPanel();
+//
+//            for ( int nx = 1; nx <= 10; nx++ ) {
+//                paintScreen( nx, nx, component );
+//
+//            }
+//        }
+//        else {
             //if the repaint is scheduled for later, sometimes regions are dropped in the render process
             //therefore, we paint immediately here
 //            SynchronizedPSwingRepaintManager.getInstance().update();
             MyRepaintManager.getInstance().doUpdateNow();
-        }
+//        }
     }
 
     private void paintScreen( int nx, int ny, JComponent component ) {
