@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="data"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jfreechart-phet"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/phetcommon"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/piccolo"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/piccolo-phet"/>
+	<classpathentry kind="lib" path="/javaws-1_2-dev/jnlp.jar"/>
+	<classpathentry kind="lib" path="/jfreechart/lib/jcommon-1.0.9.jar"/>
+	<classpathentry kind="lib" path="/jfreechart/jfreechart-1.0.5-demo.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
