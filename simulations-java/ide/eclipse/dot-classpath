@@ -24,7 +24,6 @@
 	<classpathentry kind="src" path="contrib/beanshell/asm/src"/>
 	<classpathentry kind="src" path="contrib/jade/jade_0.6.1_a"/>
 	<classpathentry kind="src" path="contrib/Jama-1.0.2"/>
-	<classpathentry kind="src" path="contrib/jfreechart-1.0.5/source"/>
 	<classpathentry kind="src" path="contrib/piccolo/src"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo/extras"/>
 	<classpathentry kind="src" path="simulations/all-sims/src"/>
@@ -150,5 +149,6 @@
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.4.jar"/>
+	<classpathentry kind="lib" path="/jfreechart/lib/jfreechart-1.0.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
