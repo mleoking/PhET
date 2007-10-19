@@ -149,6 +149,6 @@
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.4.jar"/>
-	<classpathentry kind="lib" path="/jfreechart/lib/jfreechart-1.0.5.jar"/>
+	<classpathentry kind="lib" path="/jfreechart/lib/jfreechart-1.0.5.jar" sourcepath="/jfreechart/source.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
