@@ -10,7 +10,6 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=bound-states"/>
-        <javaElement handleIdentifier="=jfreechart"/>
         <javaElement handleIdentifier="=jfreechart-phet"/>
         <javaElement handleIdentifier="=phetcommon"/>
         <javaElement handleIdentifier="=piccolo"/>
