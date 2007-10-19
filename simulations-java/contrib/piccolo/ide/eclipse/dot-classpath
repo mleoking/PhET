@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="extras"/>
+	<classpathentry excluding="edu/umd/cs/piccolo/swtexamples/" kind="src" path="examples"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
