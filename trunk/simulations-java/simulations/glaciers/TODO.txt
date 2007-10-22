@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+10/22/07 - review design draft #1
 10/9/07 - inner classes for MVC observers
 10/9/07 - add width and height controls to control panel
 10/9/07 - flatten ExampleModelElement in preparation for replacing Observer pattern

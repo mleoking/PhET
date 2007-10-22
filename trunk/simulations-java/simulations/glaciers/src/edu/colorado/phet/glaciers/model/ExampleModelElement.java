@@ -4,11 +4,9 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
-import java.util.Collection;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.DynamicListenerController;
-import edu.colorado.phet.common.phetcommon.util.DynamicListenerControllerFactory;
 
 /**
  * ExampleModelElement is an example model element.
@@ -25,7 +23,7 @@ public class ExampleModelElement implements ModelElement {
     private Point2D _position;
     private double _orientation;
     
-    private ExampleModelElementListener _controller;
+    private ArrayList _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -36,8 +34,7 @@ public class ExampleModelElement implements ModelElement {
         _size = new Dimension( size );
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
-        
-        _controller = (ExampleModelElementListener) DynamicListenerControllerFactory.newController( ExampleModelElementListener.class );
+        _listeners = new ArrayList();
     }
 
     //----------------------------------------------------------------------------
@@ -45,15 +42,10 @@ public class ExampleModelElement implements ModelElement {
     //----------------------------------------------------------------------------
     
     public void setSize( Dimension size ) {
-        setSize( size.getWidth(), size.getHeight() );
-    }
-    
-    public void setSize( double width, double height ) {
-        if ( width != _size.getWidth() || height != _size.getHeight() ) {
-        	Dimension oldSize = getSize();
-            _size.setSize( width, height );
-            _controller.sizeChanged( oldSize, getSize() );
-        }  
+        if ( !size.equals( _size ) ) {
+            _size.setSize( size );
+            notifySizeChanged();
+        }
     }
     
     public Dimension getSize() {
@@ -64,23 +56,10 @@ public class ExampleModelElement implements ModelElement {
         return _size;
     }
     
-    public double getWidth() {
-        return _size.getWidth();
-    }
-    
-    public double getHeight() {
-        return _size.getHeight();
-    }
-    
     public void setPosition( Point2D position ) {
-        setPosition( position.getX(), position.getY() );
-    }
-    
-    public void setPosition( double x, double y ) {
-        if ( x != _position.getX() || y != _position.getY() ) {
-        	Point2D oldPosition = getPosition();
-            _position.setLocation( x, y );
-            _controller.positionChanged(oldPosition, getPosition() ); 
+        if ( !position.equals( _position ) ) {
+            _position.setLocation( position );
+            notifyPositionChanged();
         }
     }
     
@@ -92,19 +71,10 @@ public class ExampleModelElement implements ModelElement {
         return _position;
     }
     
-    public double getX() {
-    	return _position.getX();
-    }
-    
-    public double getY() {
-    	return _position.getY();
-    }
-    
     public void setOrientation( double orientation ) {
         if ( orientation != _orientation) {
-        	double oldOrientation = getOrientation();
             _orientation = orientation;
-            _controller.orientationChanged(oldOrientation, getOrientation() );
+            notifyOrientationChanged();
         }
     }
     
@@ -117,37 +87,42 @@ public class ExampleModelElement implements ModelElement {
     //----------------------------------------------------------------------------
     
     public interface ExampleModelElementListener {
-    	public void sizeChanged( Dimension oldSize, Dimension newSize );
-    	public void positionChanged( Point2D oldPosition, Point2D newPosition );
-    	public void orientationChanged( double oldOrientation, double newOrientation );
+        public void sizeChanged();
+        public void positionChanged();
+        public void orientationChanged();
     }
-    
+
     public static class ExampleModelElementAdapter implements ExampleModelElementListener {
+        public void orientationChanged() {}
+        public void positionChanged() {}
+        public void sizeChanged() {}
 
-		public void orientationChanged(double oldOrientation, double newOrientation) {}
-
-		public void positionChanged(Point2D oldPosition, Point2D newPosition) {}
-
-		public void sizeChanged(Dimension oldSize, Dimension newSize) {}
-    	
     }
-    
+
     public void addListener( ExampleModelElementListener listener ) {
-    	((DynamicListenerController)_controller).addListener( listener );
-    	Dimension size = getSize();
-    	_controller.sizeChanged( size, size );
-    	Point2D position = getPosition();
-    	_controller.positionChanged( position, position );
-    	double orientation = getOrientation();
-    	_controller.orientationChanged( orientation, orientation );
+        _listeners.add( listener );
     }
-    
+
     public void removeListener( ExampleModelElementListener listener ) {
-    	((DynamicListenerController)_controller).removeListener( listener );
+        _listeners.remove( listener );
+    }
+
+    private void notifySizeChanged() {
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ( (ExampleModelElementListener) _listeners.get( i ) ).sizeChanged();
+        }
     }
     
-    public Collection getAllListeners() {
-    	return ((DynamicListenerController)_controller).getAllListeners();
+    private void notifyPositionChanged() {
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ( (ExampleModelElementListener) _listeners.get( i ) ).positionChanged();
+        }
+    }
+    
+    private void notifyOrientationChanged() {
+        for ( int i = 0; i < _listeners.size(); i++ ) {
+            ( (ExampleModelElementListener) _listeners.get( i ) ).orientationChanged();
+        }
     }
     
     //----------------------------------------------------------------------------

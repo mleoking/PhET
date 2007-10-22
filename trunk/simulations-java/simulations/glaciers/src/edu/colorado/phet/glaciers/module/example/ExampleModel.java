@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers.module.example;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.model.ModelViewTransform;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractModel;
 
 /**
@@ -20,7 +19,6 @@ public class ExampleModel extends GlaciersAbstractModel {
     //----------------------------------------------------------------------------
     
     private final ExampleModelElement _exampleModelElement;
-    private final ModelViewTransform _modelViewTransform;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,8 +32,6 @@ public class ExampleModel extends GlaciersAbstractModel {
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION, 
                 ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
         addModelElement( _exampleModelElement  );
-        
-         _modelViewTransform = new ModelViewTransform( ExampleDefaults.MODEL_TO_VIEW_SCALE );
     }
     
     //----------------------------------------------------------------------------
@@ -44,9 +40,5 @@ public class ExampleModel extends GlaciersAbstractModel {
     
     public ExampleModelElement getExampleModelElement() {
         return _exampleModelElement;
-    }
-    
-    public ModelViewTransform getModelViewTransform() {
-        return _modelViewTransform;
     }
 }

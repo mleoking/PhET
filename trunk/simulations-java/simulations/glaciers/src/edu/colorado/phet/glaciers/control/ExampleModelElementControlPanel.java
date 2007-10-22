@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.geom.Point2D;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,7 +28,7 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
     // Instance data
     //----------------------------------------------------------------------------
     
-	private ExampleModelElement _exampleModelElement;
+	private ExampleModelElement _modelElement;
 	
     private LinearValueControl _widthControl, _heightControl;
     private JLabel _positionDisplay;
@@ -42,26 +40,25 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleModelElementControlPanel( Font titleFont, Font controlFont, ExampleModelElement exampleModelElement ) {
+    public ExampleModelElementControlPanel( Font titleFont, Font controlFont, ExampleModelElement modelElement ) {
         super();
         
         _controlObserver = new ControlObserver();
         
-        _exampleModelElement = exampleModelElement;
+        _modelElement = modelElement;
+        _modelElement.addListener( this );
         
         // Title
         JLabel titleLabel = new JLabel( "Example Model Element" );
         titleLabel.setFont( titleFont );
         
         // Width
-        double value = _exampleModelElement.getWidth();
         double min = 10;
         double max = 400;
         String label = "width:";
         String valuePattern = "##0";
         String units = "";
         _widthControl = new LinearValueControl( min, max, label, valuePattern, units );
-        _widthControl.setValue( value );
         _widthControl.setTextFieldEditable( true );
         _widthControl.setFont( controlFont );
         _widthControl.setUpDownArrowDelta( 1 );
@@ -71,14 +68,12 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
         _widthControl.addChangeListener( _controlObserver );
         
         // Height
-        value = _exampleModelElement.getHeight();
         min = 10;
         max = 400;
         label = "height:";
         valuePattern = "##0";
         units = "";
         _heightControl = new LinearValueControl( min, max, label, valuePattern, units );
-        _heightControl.setValue( value );
         _heightControl.setTextFieldEditable( true );
         _heightControl.setFont( controlFont );
         _heightControl.setUpDownArrowDelta( 1 );
@@ -92,14 +87,12 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
         _positionDisplay.setFont( controlFont );
         
         // Orientation control
-        value = _exampleModelElement.getOrientation();
         min = 0;
         max = 360;
         label = "orientation:";
         valuePattern = "##0";
         units = "degrees";
         _orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
-        _orientationControl.setValue( value );
         _orientationControl.setTextFieldEditable( true );
         _orientationControl.setFont( controlFont );
         _orientationControl.setUpDownArrowDelta( 1 );
@@ -120,25 +113,35 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
         layout.addComponent( _heightControl, row++, column );
         layout.addComponent( _positionDisplay, row++, column );
         layout.addComponent( _orientationControl, row++, column );
+        
+        sizeChanged();
+        positionChanged();
+        orientationChanged();
+    }
+    
+    public void cleanup() {
+        _modelElement.removeListener( this );
     }
     
     //----------------------------------------------------------------------------
     // ExampleModelElementListener
     //----------------------------------------------------------------------------
     
-	public void orientationChanged(double oldOrientation, double newOrientation) {
-        final double degrees = Math.toDegrees( newOrientation );
+	public void orientationChanged() {
+        final double degrees = Math.toDegrees( _modelElement.getOrientation() );
         _orientationControl.setValue( degrees );
 	}
 
-	public void positionChanged(Point2D oldPosition, Point2D newPosition) {
-        String s = "position: (" + (int)newPosition.getX() + "," + (int)newPosition.getY() + ")";
+	public void positionChanged() {
+        Point2D p = _modelElement.getPositionReference();
+        String s = "position: (" + (int) p.getX() + "," + (int) p.getY() + ")";
         _positionDisplay.setText( s );
 	}
 
-	public void sizeChanged(Dimension oldSize, Dimension newSize) {
-        _widthControl.setValue( newSize.getWidth() );
-        _heightControl.setValue( newSize.getHeight() );
+	public void sizeChanged() {
+        Dimension size = _modelElement.getSizeReference();
+        _widthControl.setValue( size.getWidth() );
+        _heightControl.setValue( size.getHeight() );
 	}
 
     //----------------------------------------------------------------------------
@@ -160,7 +163,7 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
     private void updateModelSize() {
         final double width = _widthControl.getValue();
         final double height = _heightControl.getValue();
-        _exampleModelElement.setSize( width, height );
+        _modelElement.setSize( new Dimension( (int) width, (int) height ) );
     }
     
     /**
@@ -168,7 +171,7 @@ public class ExampleModelElementControlPanel extends JPanel implements ExampleMo
      */
     private void updateModelOrientation() {
         final double radians = Math.toRadians( _orientationControl.getValue() );
-        _exampleModelElement.setOrientation( radians );
+        _modelElement.setOrientation( radians );
     }
 
 

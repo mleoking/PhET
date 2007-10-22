@@ -7,18 +7,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
-import edu.colorado.phet.glaciers.model.ModelViewTransform;
 import edu.colorado.phet.glaciers.model.ExampleModelElement.ExampleModelElementListener;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * ExampleNode is the visual representation of an ExampleModelElement.
@@ -30,51 +26,68 @@ public class ExampleNode extends PPath implements ExampleModelElementListener {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-
-    private ModelViewTransform _modelViewTransform;
+    
+    private ExampleModelElement _modelElement;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleNode( ModelViewTransform modelViewTransform ) {
+    public ExampleNode( ExampleModelElement modelElement ) {
         super();
         
-        _modelViewTransform = modelViewTransform;
+        _modelElement = modelElement;
+        _modelElement.addListener( this );
         
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
         
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PDragEventHandler() ); // unconstrained dragging
+
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                PDimension delta = event.getDeltaRelativeTo( ExampleNode.this.getParent() );
+                Point2D p = _modelElement.getPosition();
+                Point2D pNew = new Point2D.Double( p.getX() + delta.getWidth(), p.getY() + delta.getHeight() );
+                _modelElement.setPosition( pNew );
+            }
+        } );
+        
+        sizeChanged();
+        positionChanged();
+        orientationChanged();
+    }
+    
+    public void cleanup() {
+        _modelElement.removeListener( this );
     }
     
     //----------------------------------------------------------------------------
     // Model changes
     //----------------------------------------------------------------------------
 
-    public void sizeChanged(Dimension oldSize, Dimension newSize) {
+    public void sizeChanged() {
         // pointer with origin at geometric center
-        final float w = (float) _modelViewTransform.modelToView( newSize.getWidth() );
-        final float h = (float) _modelViewTransform.modelToView( newSize.getHeight() );
+        Dimension size = _modelElement.getSize();
+        final float w = (float) size.getWidth();
+        final float h = (float) size.getHeight();
         GeneralPath path = new GeneralPath();
-        path.moveTo( w/2, 0 );
-        path.lineTo( w/4, h/2 );
-        path.lineTo( -w/2, h/2 );
-        path.lineTo( -w/2, -h/2 );
-        path.lineTo( w/4, -h/2 );
+        path.moveTo( w / 2, 0 );
+        path.lineTo( w / 4, h / 2 );
+        path.lineTo( -w / 2, h / 2 );
+        path.lineTo( -w / 2, -h / 2 );
+        path.lineTo( w / 4, -h / 2 );
         path.closePath();
         setPathTo( path );
     }
-    
-    public void positionChanged(Point2D oldPosition, Point2D newPosition) {
-        Point2D viewPosition = _modelViewTransform.modelToView( newPosition );
-        setOffset( viewPosition );
+
+    public void positionChanged() {
+        setOffset( _modelElement.getPositionReference() );
     }
-    
-    public void orientationChanged(double oldOrientation, double newOrientation) {
-        setRotation( newOrientation );
+
+    public void orientationChanged() {
+        setRotation( _modelElement.getOrientation() );
     }
 
 }
