@@ -3,16 +3,11 @@
 package edu.colorado.phet.glaciers.module.example;
 
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
-import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractCanvas;
 import edu.colorado.phet.glaciers.view.ExampleNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * ExampleCanvas is the canvas for ExampleModule.
@@ -42,35 +37,8 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
         
         setBackground( GlaciersConstants.CANVAS_BACKGROUND );
         
-        ExampleModelElement exampleModelElement = model.getExampleModelElement();
-        _exampleNode = new ExampleNode( _model.getModelViewTransform() );
-        _exampleNode.addPropertyChangeListener( new ViewObserver( _exampleNode, model ) );
-        exampleModelElement.addListener( _exampleNode );
-        
+        _exampleNode = new ExampleNode( _model.getExampleModelElement() );
         addNode( _exampleNode );
-    }
-    
-    private class ViewObserver implements PropertyChangeListener {
-    	
-    	private PNode _node;
-    	private ExampleModel _model;
-    	
-    	public ViewObserver( ExampleNode node, ExampleModel model ) {
-    		_node = node;
-    		_model = model;
-    	}
-    	
-        public void propertyChange( PropertyChangeEvent event ) {
-            if ( event.getPropertyName().equals( PNode.PROPERTY_TRANSFORM ) ) {
-                updateModelPosition();
-            }
-        }
-        
-        private void updateModelPosition() {
-            Point2D viewPoint = _node.getOffset();
-            Point2D modelPoint = _model.getModelViewTransform().viewToModel( viewPoint );
-            _model.getExampleModelElement().setPosition( modelPoint );
-        }
     }
     
 

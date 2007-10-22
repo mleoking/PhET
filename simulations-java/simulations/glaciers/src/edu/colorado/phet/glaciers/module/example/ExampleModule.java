@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.glaciers.module.example;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -27,7 +28,7 @@ public class ExampleModule extends GlaciersAbstractModule {
     private ExampleModel _model;
     private ExampleCanvas _canvas;
     private ExampleControlPanel _controlPanel;
-    private GlaciersClockControlPanel _clockControlPanel;
+    private ClockControlPanelWithTimeDisplay _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,7 +50,8 @@ public class ExampleModule extends GlaciersAbstractModule {
         setControlPanel( _controlPanel );
 
         // Clock controls
-        _clockControlPanel = new GlaciersClockControlPanel( (GlaciersClock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (GlaciersClock) getClock() );
+        _clockControlPanel.setUnits( GlaciersResources.getString( "units.time" ) );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
@@ -148,8 +150,8 @@ public class ExampleModule extends GlaciersAbstractModule {
 
             // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            config.setExampleModelElementWidth( exampleModelElement.getWidth() );
-            config.setExampleModelElementHeight( exampleModelElement.getHeight() );
+            config.setExampleModelElementWidth( exampleModelElement.getSizeReference().getWidth() );
+            config.setExampleModelElementHeight( exampleModelElement.getSizeReference().getHeight() );
             config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
             config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
         }
@@ -180,7 +182,7 @@ public class ExampleModule extends GlaciersAbstractModule {
 
             // ExampleModelElement
             ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            exampleModelElement.setSize( config.getExampleModelElementWidth(), config.getExampleModelElementHeight() );
+            exampleModelElement.setSize( new Dimension( (int) config.getExampleModelElementWidth(), (int) config.getExampleModelElementHeight() ) );
             exampleModelElement.setPosition( config.getExampleModelElementPosition() );
             exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
         }
