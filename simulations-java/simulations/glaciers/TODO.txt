@@ -3,7 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
-- review specification
+- iterate on specification
 
 MEDIUM PRIORITY:
 
