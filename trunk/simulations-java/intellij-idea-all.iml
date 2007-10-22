@@ -140,7 +140,9 @@
           <root url="jar://$MODULE_DIR$/contrib/jfreechart-1.0.5/lib/jfreechart-1.0.5.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/contrib/jfreechart-1.0.5/source.zip!/" />
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
