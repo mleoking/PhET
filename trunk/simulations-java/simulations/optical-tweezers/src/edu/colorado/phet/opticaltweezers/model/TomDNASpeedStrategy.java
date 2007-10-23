@@ -2,8 +2,9 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
+
 /**
- * TomDNASpeedStrategy uses an algorithm developed by developed by Tom Perkins.
+ * TomDNASpeedStrategy uses an algorithm developed by Tom Perkins.
  * The semantics of the parameters is unknown.
  * See doc/dna-speed.pdf for the original Igor code for this model.
  * 
