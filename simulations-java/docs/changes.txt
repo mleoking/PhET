@@ -1,3 +1,4 @@
+10-24-2007: Wave Interference (1.03) - Minor user interface improvements
 10-16-2007: Semiconductor (1.02) - Minor user interface fixes
 10-5-2007: CCK (3.12) - Minor fixes
 10-3-2007: Thanks to CU's ITS team for supporting switch to new, faster server that accommodates our increase in traffic.
