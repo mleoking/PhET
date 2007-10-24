@@ -32,7 +32,7 @@ public class FullTorqueControlPanel extends JPanel {
     public FullTorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
         super( new GridBagLayout() );
         this.torqueModule = torqueModule;
-        GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
+
         setBorder( BorderFactory.createTitledBorder( "Controls" ) );
         GridBagConstraints sliderSetConstraints = new GridBagConstraints();
         sliderSetConstraints.gridx = 0;
@@ -48,7 +48,7 @@ public class FullTorqueControlPanel extends JPanel {
             sliderPanel.add( sliders[i], sliderSetConstraints );
         }
         add( sliderPanel, getConstraints( 0, 0, 2 ) );
-        add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
+
         JPanel checkBoxPanel = new VerticalLayoutPanel();
         final JCheckBox showNonTangentialForces = new JCheckBox( "Allow non-tangential forces", torqueModule.getTorqueModel().isAllowNonTangentialForces() );
         showNonTangentialForces.addActionListener( new ActionListener() {
@@ -69,6 +69,12 @@ public class FullTorqueControlPanel extends JPanel {
         checkBoxPanel.add( new RulerButton( rulerNode ) );
         checkBoxPanel.add( new ShowVectorsControl( vectorViewModel ) );
         add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
+//        addGraphSelectionControl( rotationGraphSet, graphSetModel );
+    }
+
+    protected void addGraphSelectionControl( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel ) {
+        GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
+        add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
     }
 
     protected TorqueSlider[] getSliders( AbstractTorqueModule torqueModule, RotationPlatform rp ) {

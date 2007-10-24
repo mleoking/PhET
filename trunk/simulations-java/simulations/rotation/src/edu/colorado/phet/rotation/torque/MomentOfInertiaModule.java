@@ -3,6 +3,8 @@ package edu.colorado.phet.rotation.torque;
 import javax.swing.*;
 
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * Created by IntelliJ IDEA.

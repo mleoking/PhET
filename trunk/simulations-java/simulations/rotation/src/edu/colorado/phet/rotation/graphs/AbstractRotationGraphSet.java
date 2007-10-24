@@ -8,6 +8,7 @@ import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -208,4 +209,11 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
         }
     }
 
+    public PhetPCanvas getCanvas() {
+        return pSwingCanvas;
+    }
+
+    public RotationModel getTorqueModel() {
+        return model;
+    }
 }
