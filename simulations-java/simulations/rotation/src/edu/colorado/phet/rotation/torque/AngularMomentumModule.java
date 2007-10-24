@@ -16,6 +16,7 @@ public class AngularMomentumModule extends AbstractTorqueModule {
     }
 
     protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {
-        return new TorqueSimulationPanel( this, parentFrame );
+        return new AngMomSimulationPanel( this, parentFrame );
     }
+
 }
