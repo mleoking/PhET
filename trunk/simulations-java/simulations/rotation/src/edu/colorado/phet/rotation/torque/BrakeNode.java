@@ -73,8 +73,8 @@ public class BrakeNode extends PNode {
                     if ( appliedBrake < 0 ) {
                         appliedBrake = 0;
                     }
-//                    torqueModel.setBrakePressure( Math.min( appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
-                    torqueModel.setBrakePressure( MathUtil.clamp( TorqueControlPanel.MIN_BRAKE, appliedBrake, TorqueControlPanel.MAX_BRAKE ) );
+//                    torqueModel.setBrakePressure( Math.min( appliedBrake, FullTorqueControlPanel.MAX_BRAKE ) );
+                    torqueModel.setBrakePressure( MathUtil.clamp( FullTorqueControlPanel.MIN_BRAKE, appliedBrake, FullTorqueControlPanel.MAX_BRAKE ) );
                 }
             }
 
@@ -94,8 +94,8 @@ public class BrakeNode extends PNode {
 
     private void updateImage() {
         double numImages = 15;
-//        int image = (int) ( ( torqueModel.getBrakeForceMagnitude() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
-        int image = (int) ( ( torqueModel.getBrakePressure() / ( TorqueControlPanel.MAX_BRAKE - TorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+//        int image = (int) ( ( torqueModel.getBrakeForceMagnitude() / ( FullTorqueControlPanel.MAX_BRAKE - FullTorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
+        int image = (int) ( ( torqueModel.getBrakePressure() / ( FullTorqueControlPanel.MAX_BRAKE - FullTorqueControlPanel.MIN_BRAKE ) ) * ( numImages - 1.0 ) + 1.0 );
         if ( image == 0 ) {//todo: resolve this workaround
             image = 1;
         }
