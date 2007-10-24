@@ -20,7 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/contrib/jade/jade_0.6.1_a" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/extras" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/mvc-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/balloons/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/battery-voltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/bernoulli/phetcommon/src" isTestSource="false" />
@@ -70,6 +69,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/self-driven-particle-model/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/semiconductor/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/signal-circuit/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/sim-template/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/soluble-salts/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/src" isTestSource="false" />
@@ -769,15 +769,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/common/siss/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations/glaciers/data" />
         </CLASSES>
         <JAVADOC />
@@ -787,7 +778,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/mvc-example/data" />
+          <root url="file://$MODULE_DIR$/simulations/sim-template/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
