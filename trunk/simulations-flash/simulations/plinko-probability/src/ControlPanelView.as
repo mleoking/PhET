@@ -29,7 +29,7 @@
 			var dropState = controlPanelViewRef.dropState;
 			if(dropState == 1){
 				modelRef.dropOneBall();
-			}else if(dropState == 3){
+			}else if(dropState == 3){ //this state no longer used
 				modelRef.dropNBalls(500);
 			}else if(dropState == 2){
 				modelRef.startBallDrops();
@@ -157,6 +157,10 @@
 		this.model.bigView.histDisplayState = histState;
 		this.model.bigView.scaleHistogramHeight();
 		this.model.axesView.labelYAxis();
+	}
+	
+	function getControlPanelClip():MovieClip{
+		return this.controlPanel_mc;
 	}
 	
 	function update():Void{

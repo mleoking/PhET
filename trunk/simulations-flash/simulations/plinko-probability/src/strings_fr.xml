@@ -1,13 +1,14 @@
 <?xml version="1.0" ?>
 <SimStrings>
   <string key="myLabel" value="Oui! Oui!" />
-  <string key="myButton" value="Commencer" /> 
+  <string key="startButton" value="Commencer" /> 
   <string key="stopButton" value="Arreter" /> 
-
-  <string key="ballOption" value="balle" /> 
-  <string key="pathOption" value="chemin" /> 
-  <string key="noneOption" value="sans" /> 
-
-  <string key="oneBallOption" value="1 balle" /> 
-  <string key="continuousOption" value="beaucoup" /> 
+  <string key="startOption_1_ball" value="1 balle" /> 
+  <string key="startOption_continuous" value="beaucoup" /> 
+  <string key="radioGroup_Show" value="Voila" /> 
+  <string key="show_ball" value="balle" /> 
+  <string key="show_path" value="chemin" /> 
+  <string key="show_none" value="rien" /> 
+  <string key="resetButton" value="Encore" /> 
+ 
 </SimStrings>
