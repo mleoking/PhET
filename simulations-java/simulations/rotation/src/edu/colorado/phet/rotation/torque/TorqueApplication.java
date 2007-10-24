@@ -6,9 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.rotation.RotationFrameSetup;
 import edu.colorado.phet.rotation.RotationResources;
@@ -30,23 +28,27 @@ public class TorqueApplication extends PhetApplication {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
 //        introModule = new IntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
-//        momentModule = new MomentOfInertiaModule( getPhetFrame() );
+        momentModule = new MomentOfInertiaModule( getPhetFrame() );
 //        angMomModule = new AngularMomentumModule( getPhetFrame() );
 
 //        addModule( introModule );
         addModule( torqueModule );
+        addModule( momentModule );
+//        addModule( angMomModule );
+
+
+
         ModuleConstructor mc = new ModuleConstructor() {
             public Module newModule() {
                 return new TorqueModule( getPhetFrame() );
             }
         };
-        addDelayedModule( "delay 1", mc );
-        addDelayedModule( "delay 2", mc );
-        addDelayedModule( "delay 3", mc );
-        addDelayedModule( "delay 4", mc );
-        addDelayedModule( "delay 5", mc );
-//        addModule( momentModule );
-//        addModule( angMomModule );
+//        addDelayedModule( "delay 1", mc );
+//        addDelayedModule( "delay 2", mc );
+//        addDelayedModule( "delay 3", mc );
+//        addDelayedModule( "delay 4", mc );
+//        addDelayedModule( "delay 5", mc );
+
         getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );
     }
@@ -70,6 +72,7 @@ public class TorqueApplication extends PhetApplication {
             super.activate();
             if ( module == null ) {
                 module = moduleConstructor.newModule();
+                setClockRunningWhenActive( module.getClockRunningWhenActive() );
                 setSimulationPanel( module.getSimulationPanel() );
                 setClockControlPanel( module.getClockControlPanel() );
                 setHelpPanel( module.getHelpPanel() );
