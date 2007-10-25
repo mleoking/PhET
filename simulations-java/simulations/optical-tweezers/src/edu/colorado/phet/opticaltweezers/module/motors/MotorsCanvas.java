@@ -120,7 +120,7 @@ public class MotorsCanvas extends OTAbstractCanvas {
             final double viewReferenceLength = MotorsDefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dnaForceNode = new DNAForceNode( bead, dnaStrandBead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dnaForceNode = new DNAForceNode( bead, dnaStrandBead, fluid, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler

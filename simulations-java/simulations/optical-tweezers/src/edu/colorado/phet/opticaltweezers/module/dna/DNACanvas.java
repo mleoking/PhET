@@ -120,7 +120,7 @@ public class DNACanvas extends OTAbstractCanvas {
             final double viewReferenceLength = DNADefaults.FORCE_VECTOR_REFERENCE_LENGTH;
             _trapForceNode = new TrapForceNode( laser, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
             _dragForceNode = new FluidDragForceNode( fluid, bead, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
-            _dnaForceNode = new DNAForceNode( bead, dnaStrand, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
+            _dnaForceNode = new DNAForceNode( bead, dnaStrand, fluid, modelViewTransform, modelReferenceMagnitude, viewReferenceLength );
         }
         
         // Ruler

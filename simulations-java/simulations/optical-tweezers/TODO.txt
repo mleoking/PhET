@@ -3,7 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
-- implement TomAbstractDNASpeedStrategy.getForce (solve for force, given ATP and speed)
+- decide on a strategy for stall force
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -11,8 +11,11 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
+- remove ModelViewTransform to improve performance, handle scaling by setting canvas size
 
 DONE:
+10/25/07 - add IStallForceStrategy, implement "constant" and "lookup table" strategies for mapping ATP to stall force
+10/25/07 - delete IDNASpeedStrategy.getForce, we won't use this approach for stall force
 10/17/07 - add test case for consistency of getSpeed and getForce in Tom's DNASpeedStrategy
 10/17/07 - convert Tom & Kathy's DNASpeedStrategy implementation to top-level types
 10/10/07 - improved performance of frame resize, fixed problem in PhetPCanvas.updateLayout strategy

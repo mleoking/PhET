@@ -55,6 +55,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     private final double _maxDt;
     
     private IDNASpeedStrategy _dnaSpeedStrategy;
+    private IStallForceStrategy _stallForceStrategy;
     
     private final double _outerDiameter, _innerDiameter;
     private double _innerOrientation;
@@ -70,7 +71,8 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
             DNAStrand dnaStrandFree,
             Fluid fluid,
             double maxDt,
-            IDNASpeedStrategy dnaSpeedStrategy ) {
+            IDNASpeedStrategy dnaSpeedStrategy,
+            IStallForceStrategy stallForceStrategy ) {
         super( position, 0 /* orientation */ );
         
         _outerDiameter = outerDiameter;
@@ -84,6 +86,7 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
         _maxDt = maxDt;
         
         _dnaSpeedStrategy = dnaSpeedStrategy;
+        _stallForceStrategy = stallForceStrategy;
     }
     
     //----------------------------------------------------------------------------
@@ -125,15 +128,14 @@ public abstract class AbstractEnzyme extends FixedObject implements ModelElement
     }
     
     /**
-     * Gets the magnitude of the DNA force required to generate a specified
-     * DNA speed at a given ATP concentration.
+     * Gets the stall force magnitude.
+     * This is the force when the DNA strand has been fully "pulled in" by the enzyme.
      * 
-     * @param atp
-     * @param dnaSpeed
+     * @param atpConcentration
      * @return
      */
-    public double getDNAForce( double atp, double dnaSpeed ) {
-        return _dnaSpeedStrategy.getForce( atp, dnaSpeed );
+    public double getStallForceMagnitude( double atpConcentration ) {
+        return _stallForceStrategy.getStallForceMagnitude( atpConcentration );
     }
     
     //----------------------------------------------------------------------------
