@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
@@ -27,10 +28,11 @@ public class RotationPlatformNode extends PNode {
 
     private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
-    private PhetPPath handleNode;
+//    private PhetPPath handleNode;
     private PNode ringNodeLayer;
     private PhetPPath outerBorder;
     private PhetPPath innerBorder;
+    private HandleNode handleNode2;
 
     public RotationPlatformNode( final RotationPlatform rotationPlatform ) {
         this.rotationPlatform = rotationPlatform;
@@ -49,8 +51,8 @@ public class RotationPlatformNode extends PNode {
         horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
         contentNode.addChild( horizontalCrossHair );
 
-        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
-        contentNode.addChild( handleNode );
+//        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+//        contentNode.addChild( handleNode );
 
         outerBorder = new PhetPPath( getBorderStroke(), Color.black );
         innerBorder = new PhetPPath( getBorderStroke(), Color.black );
@@ -58,6 +60,12 @@ public class RotationPlatformNode extends PNode {
         contentNode.addChild( innerBorder );
 
         addChild( contentNode );
+
+        handleNode2 = new HandleNode( handleHeight / 2 * 7, handleHeight * 7, Color.gray );
+        handleNode2.setStroke( new BasicStroke( 1.0f / 50.0f ) );
+        handleNode2.setOffset( rotationPlatform.getRadius() + handleNode2.getFullBounds().getWidth() * 0.9, handleNode2.getFullBounds().getHeight() / 2 );
+        handleNode2.rotate( Math.PI );
+        contentNode.addChild( handleNode2 );
 
         rotationPlatform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -100,7 +108,9 @@ public class RotationPlatformNode extends PNode {
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
         horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
-        handleNode.setPathTo( createHandlePath() );
+
+
+//        handleNode.setPathTo( createHandlePath() );
         innerBorder.setPathTo( new Ellipse2D.Double( getRotationPlatform().getCenter().getX() - getInnerRadius(), getRotationPlatform().getCenter().getY() - getInnerRadius(), getInnerRadius() * 2, getInnerRadius() * 2 ) );
         innerBorder.setVisible( getInnerRadius() > 0 );
         updateAngle();
@@ -139,7 +149,7 @@ public class RotationPlatformNode extends PNode {
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
         horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
-        handleNode.setPathTo( createHandlePath() );
+//        handleNode.setPathTo( createHandlePath() );
 
         outerBorder.setPathTo( new Ellipse2D.Double( getRotationPlatform().getCenter().getX() - getRadius(), getRotationPlatform().getCenter().getY() - getRadius(), getRadius() * 2, getRadius() * 2 ) );
         updateAngle();
