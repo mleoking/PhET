@@ -6,6 +6,8 @@ Notes from Oct 4, 2007:
 
 layout issues on a mac?
 check layout at different resolutions
+1. Rotation: spurious checkboxes appear at topleft (due to new paint renderer?)
+2. Torque: tearing in the play area (due to not using new paint renderer)
 
 min then maximize charts broken on rotation on mac
 
@@ -15,7 +17,6 @@ min then maximize charts broken on rotation on mac
     •	this is due in part to time series filling up in "live mode", early enough data should be discarded
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
 •	Applied force radius should snap-to when releasing out of range
-•	When the user manipulates the brake object in the play area, the brake force slider should update to reflect its value 
 
 Issues I’ve noticed that perhaps we should discuss:
 •	The “speed of time” going by changes significantly if the disk is spinning or not.
