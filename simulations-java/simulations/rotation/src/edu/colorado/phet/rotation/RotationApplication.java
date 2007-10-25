@@ -5,6 +5,7 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.motion.model.DefaultTimeSeries;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
@@ -23,6 +24,7 @@ public class RotationApplication extends NonPiccoloPhetApplication {
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
+        DefaultTimeSeries.setMaxDataValues( 100 );
         rotationModule = new RotationModule( getPhetFrame() );
 
 
