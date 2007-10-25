@@ -13,8 +13,6 @@ min then maximize charts broken on rotation on mac
 
 •	Glitches show up due to new rendering mechanism
 •	Improve performance
-•	There is still a performance leak. After about 10-15 minutes it is now crawling.
-    •	this is due in part to time series filling up in "live mode", early enough data should be discarded
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
 •	Applied force radius should snap-to when releasing out of range
 
@@ -35,6 +33,10 @@ Possible additions/changes that we should discuss
         Should this torque sim get into relationship between angular momentum and angular velocity,
         or should this be another companion sim?
 •	Should we make controls over moment of inertia as an “advanced feature”? or put it in as a second panel?
+
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+    •	this is due in part to time series filling up in "live mode", early enough data should be discarded
+    •	Is this fixed now?
 
 ################################################
 #           Questions/Discussion

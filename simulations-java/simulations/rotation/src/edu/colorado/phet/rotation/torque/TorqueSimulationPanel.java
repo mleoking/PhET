@@ -7,7 +7,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
-import edu.colorado.phet.rotation.graphs.FullTorqueGraphSet;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
