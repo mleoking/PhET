@@ -27,12 +27,13 @@ public class RotationClock extends ConstantDtClock {
     public RotationClock() {
         super( DEFAULT_DELAY, DEFAULT_CLOCK_DT );
         setRunning( false );
+//        addClockListener( new MemoryProfiler() );
     }
 
-
-    public void start() {
-        super.start();    //To change body of overridden methods use File | Settings | File Templates.
-    }
+//
+//    public void start() {
+//        super.start();    //To change body of overridden methods use File | Settings | File Templates.
+//    }
 
     protected void doTick() {
         lastActualDelay = System.currentTimeMillis() - lastTickFinishTime;
@@ -54,10 +55,10 @@ public class RotationClock extends ConstantDtClock {
 //            }
 //        }
 //        else {
-            //if the repaint is scheduled for later, sometimes regions are dropped in the render process
-            //therefore, we paint immediately here
+        //if the repaint is scheduled for later, sometimes regions are dropped in the render process
+        //therefore, we paint immediately here
 //            SynchronizedPSwingRepaintManager.getInstance().update();
-            MyRepaintManager.getInstance().doUpdateNow();
+        MyRepaintManager.getInstance().doUpdateNow();
 //        }
     }
 
@@ -99,4 +100,9 @@ public class RotationClock extends ConstantDtClock {
         return ( (Long) tickTimes.get( i ) ).longValue();
     }
 
+    public static long freeMemoryBytes() {
+        Runtime.getRuntime().gc();
+//        return ( Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory() );
+        return ( Runtime.getRuntime().maxMemory()- Runtime.getRuntime().freeMemory() );
+    }
 }
