@@ -12,6 +12,7 @@ import edu.colorado.phet.opticaltweezers.OTConstants;
 import edu.colorado.phet.opticaltweezers.OTResources;
 import edu.colorado.phet.opticaltweezers.model.Bead;
 import edu.colorado.phet.opticaltweezers.model.DNAStrand;
+import edu.colorado.phet.opticaltweezers.model.Fluid;
 import edu.colorado.phet.opticaltweezers.model.ModelViewTransform;
 import edu.colorado.phet.opticaltweezers.util.OTVector2D;
 
@@ -29,6 +30,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     
     private Bead _bead;
     private DNAStrand _dnaStrand;
+    private Fluid _fluid;
     private ModelViewTransform _modelViewTransform;
     private Point2D _pModel; // reusable point
     
@@ -36,7 +38,7 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public DNAForceNode( Bead bead, DNAStrand dnaStrand, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
+    public DNAForceNode( Bead bead, DNAStrand dnaStrand, Fluid fluid, ModelViewTransform modelViewTransform, double modelReferenceMagnitude, double viewReferenceLength ) {
         super( modelReferenceMagnitude, viewReferenceLength, OTResources.getString( "units.force" ), OTConstants.DNA_FORCE_COLOR );
         
         _bead = bead;
@@ -44,6 +46,9 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
 
         _dnaStrand = dnaStrand;
         _dnaStrand.addObserver( this );
+        
+        _fluid = fluid;
+        _fluid.addObserver( this );
         
         _modelViewTransform = modelViewTransform;
         _pModel = new Point2D.Double();
@@ -82,6 +87,10 @@ public class DNAForceNode extends AbstractForceNode implements Observer {
                 updateVectors();
             }
             else if ( o == _dnaStrand && arg == DNAStrand.PROPERTY_FORCE ) {
+                updateVectors();
+            }
+            else if ( o == _fluid && arg == Fluid.PROPERTY_APT_CONCENTRATION ) {
+                // ATP concentration affects stall force vector
                 updateVectors();
             }
         }

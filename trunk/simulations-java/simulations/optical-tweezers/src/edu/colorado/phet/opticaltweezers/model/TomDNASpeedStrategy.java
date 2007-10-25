@@ -70,13 +70,6 @@ public abstract class TomDNASpeedStrategy implements IDNASpeedStrategy {
         return _maxSpeed;
     }
     
-    /**
-     * @see IDNASpeedStrategy.getForce
-     */
-    public double getForce( final double atp, final double speed ) {
-        return 0;//XXX
-    }
-    
     //----------------------------------------------------------------------------
     // Concrete subclasses
     //----------------------------------------------------------------------------

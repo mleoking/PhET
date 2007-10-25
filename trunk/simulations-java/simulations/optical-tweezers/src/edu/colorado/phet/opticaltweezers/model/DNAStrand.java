@@ -64,9 +64,6 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      */
     private static final double MAX_SPRING_CONSTANT = 50;
     
-    // Scaling factor used to scale the DNA speed when computing the stall force.
-    private static final double STALL_SPEED_SCALE = 0.05;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -438,7 +435,8 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
         // magnitude (pN)
         double magnitude = 0;
         if ( isShortAsPossible() && _enzyme != null ) {
-            magnitude = getStallForceMagnitude( x, y );
+            // When the DNA is fully "pulled in" by the enzyme, use stall force
+            magnitude = _enzyme.getStallForceMagnitude( _fluid.getATPConcentration() );
         }
         else {
             final double extension = getExtension( x, y );
@@ -462,20 +460,6 @@ public class DNAStrand extends FixedObject implements ModelElement, Observer {
      */
     public OTVector2D getForceAtBead() {
         return getForce( getBeadX(), getBeadY() );
-    }
-    
-    /*
-     * Gets the magnitude of the stall force (pN).
-     * This is the force when the DNA strand has been fully "pulled in" by the enzyme.
-     */
-    private double getStallForceMagnitude( double x, double y ) {
-        assert( _enzyme != null & isShortAsPossible() );
-        final double atp = _fluid.getATPConcentration();
-        // first solve for stall speed as if the DNA force was zero (max force for this ATP concentration)
-        final double stallSpeed = STALL_SPEED_SCALE * _enzyme.getDNASpeed( atp, 0 );
-        // ...then solve for force given the atp and stall speed
-        final double stallForce = _enzyme.getDNAForce( atp, stallSpeed );
-        return stallForce;
     }
     
     //----------------------------------------------------------------------------

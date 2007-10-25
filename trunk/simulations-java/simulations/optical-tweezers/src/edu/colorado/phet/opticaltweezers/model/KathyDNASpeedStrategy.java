@@ -44,13 +44,6 @@ public abstract class KathyDNASpeedStrategy implements IDNASpeedStrategy {
         return _maxSpeed;
     }
     
-    /**
-     * @see IDNASpeedStrategy.getForce
-     */
-    public double getForce( final double atp, final double speed ) {
-        throw new UnsupportedOperationException( "not implemented" ); // this needs to be implemented if we use Kathy's model
-    }
-    
     //----------------------------------------------------------------------------
     // Concrete subclasses
     //----------------------------------------------------------------------------
