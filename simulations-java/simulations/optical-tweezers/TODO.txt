@@ -14,6 +14,7 @@ LOW PRIORITY:
 - remove ModelViewTransform to improve performance, handle scaling by setting canvas size
 
 DONE:
+10/25/07 - make DNAForceVector an observer of Fluid, so that stall force vector is updated when ATP changes
 10/25/07 - add IStallForceStrategy, implement "constant" and "lookup table" strategies for mapping ATP to stall force
 10/25/07 - delete IDNASpeedStrategy.getForce, we won't use this approach for stall force
 10/17/07 - add test case for consistency of getSpeed and getForce in Tom's DNASpeedStrategy
