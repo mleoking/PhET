@@ -1,12 +1,15 @@
 package edu.colorado.phet.rotation.view;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -27,9 +30,25 @@ public class RotationPlayAreaNode extends PNode {
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
 
+    class RotationPlatformNodeWithHandle extends RotationPlatformNode {
+
+        
+        private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
+
+        //    private PhetPPath handleNode;
+        public RotationPlatformNodeWithHandle( final RotationPlatform rotationPlatform ) {
+            super( rotationPlatform );
+            HandleNode handleNode2 = new HandleNode( handleHeight / 2 * 7, handleHeight * 7, Color.gray );
+            handleNode2.setStroke( new BasicStroke( 1.0f / 50.0f ) );
+            handleNode2.setOffset( rotationPlatform.getRadius() + handleNode2.getFullBounds().getWidth() * 0.9, handleNode2.getFullBounds().getHeight() / 2 );
+            handleNode2.rotate( Math.PI );
+            super.addContentNode( handleNode2 );
+        }
+    }
+
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
-        rotationPlatformNode = new RotationPlatformNode( rotationModel.getRotationPlatform() );
+        rotationPlatformNode = createRotationPlatformNode(rotationModel.getRotationPlatform());
 //        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
         rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, "m", 4, 14 );
@@ -54,6 +73,10 @@ public class RotationPlayAreaNode extends PNode {
 
         setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
 
+    }
+
+    protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {
+        return new RotationPlatformNodeWithHandle( rotationPlatform );
     }
 
     public CircleNode getCircularMotionNode() {

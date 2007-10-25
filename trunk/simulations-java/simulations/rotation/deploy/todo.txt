@@ -4,17 +4,6 @@
 
 Notes from Oct 4, 2007:
 
-need more inviting introductory panel
-1st panel (Introduction)
-	Just the wheel full screen
-2nd panel (Torque)
-	T=r x F
-3rd panel (Moment of inertia)
-	T=I alpha
-	adds R, r, mass controls
-4th panel (Angular Momentum)
-	L=I omega
-
 layout issues on a mac?
 check layout at different resolutions
 
