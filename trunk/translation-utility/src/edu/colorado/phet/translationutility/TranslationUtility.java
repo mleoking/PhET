@@ -17,7 +17,7 @@ public class TranslationUtility extends JFrame {
     
     private static final String NAME = "PhET Simulation Translator";
     private static final String VERSION = "0.00.01";
-    private static final String SVN_REVISION = "?";
+    private static final String SVN_REVISION = "18366";
 
     private static final String TITLE = NAME + " : " + VERSION + " (" + SVN_REVISION + ")";
 
