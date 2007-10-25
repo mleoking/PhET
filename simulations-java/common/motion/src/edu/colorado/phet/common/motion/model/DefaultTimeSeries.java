@@ -11,6 +11,10 @@ public class DefaultTimeSeries {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
 
+    //Attempted fix for memory leak
+//    private static final int MAX_DATA_VALUES = Integer.MAX_VALUE;
+    private static final int MAX_DATA_VALUES = 100;
+
     //todo: debugging only; should be removed, possible GC prevention 
 //    public static final ArrayList instances = new ArrayList();
 
@@ -46,6 +50,11 @@ public class DefaultTimeSeries {
     public void addValue( double v, double time ) {
         TimeData o = new TimeData( v, time );
         data.add( o );
+
+        while(data.size()>MAX_DATA_VALUES){
+            data.remove( 0);
+        }
+
         notifyObservers( o );
     }
 
