@@ -19,10 +19,10 @@ import edu.colorado.phet.rotation.util.UnicodeUtil;
  * Time: 8:23:39 AM
  */
 
-public class FullTorqueGraphSet extends AbstractRotationGraphSet {
+public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     private TorqueModel tm;
 
-    public FullTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {
+    public AbstractTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {
         super( pSwingCanvas, tm, angleUnitModel );
         this.tm=tm;
 
