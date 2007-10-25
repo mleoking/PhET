@@ -1,3 +1,4 @@
+10-25-2007: Torque - Fixed: Applied force radius should snap-to when releasing out of range
 10-25-2007: Torque - Fixes for handle graphics
 10-17-2007: Torque - Added ability to turn off "a" and "v" vectors
 10-17-2007: Torque - Added Ruler check box

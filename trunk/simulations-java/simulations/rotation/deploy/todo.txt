@@ -14,7 +14,6 @@ min then maximize charts broken on rotation on mac
 •	Glitches show up due to new rendering mechanism
 •	Improve performance
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
-•	Applied force radius should snap-to when releasing out of range
 
 Issues I’ve noticed that perhaps we should discuss:
 •	The “speed of time” going by changes significantly if the disk is spinning or not.
