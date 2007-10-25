@@ -47,6 +47,8 @@ public class PhetResources {
     private static final String PROPERTY_JAVAWS_PHET_LOCALE = "javaws.phet.locale";
 
     private static final char PATH_SEPARATOR = '/';
+    
+    private static final String PROPERTIES_SUFFIX = ".properties";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -96,7 +98,7 @@ public class PhetResources {
         this.resourceLoader = resourceLoader;
 
         // Load the project's properties file, if it exists
-        String projectPropertiesBundleName = projectName + ".properties";
+        String projectPropertiesBundleName = projectName + PROPERTIES_SUFFIX;
         if ( resourceLoader.exists( rootDirectoryName + PATH_SEPARATOR + projectPropertiesBundleName ) ) {
             this.projectProperties = getProperties( projectPropertiesBundleName );
         }
