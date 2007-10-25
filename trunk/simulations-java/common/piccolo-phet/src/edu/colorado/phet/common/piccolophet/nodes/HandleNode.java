@@ -63,6 +63,7 @@ public class HandleNode extends PhetPNode {
     private static final double DEFAULT_CORNER_WIDTH_RATIO = 0.4;
     private static final Paint DEFAULT_STROKE_PAINT = Color.BLACK;
     private static final Stroke DEFAULT_STROKE = new BasicStroke();
+    private PPath handleNode;
 
     /**
      * Simplified constructor, uses default values for many properties.
@@ -118,7 +119,7 @@ public class HandleNode extends PhetPNode {
         handleArea.exclusiveOr( new Area( innerRect ) );
         handleArea.intersect( new Area( boundsRect ) );
 
-        PPath handleNode = new PPath( handleArea );
+        handleNode = new PPath( handleArea );
         handleNode.setPaint( fillPaint );
         handleNode.setStrokePaint( strokePaint );
         handleNode.setStroke( stroke );
@@ -126,4 +127,7 @@ public class HandleNode extends PhetPNode {
         addChild( handleNode );
     }
 
+    public void setStroke(Stroke stroke){
+        handleNode.setStroke( stroke );
+    }
 }
