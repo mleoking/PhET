@@ -20,9 +20,6 @@ Issues I’ve noticed that perhaps we should discuss:
 •	The speed of the sim shows surges pretty regularly … not smooth motion even on my fast processor.
 
 Possible additions/changes that we should discuss
-•	Do we want a “Reset” button?
-•	Be able to turn off “v” and “a” vectors (right now they are on all the time)
-•	Be able to bring up a ruler? (as in rotation)
 •	Be able to switch between radians and degrees
 •	I think we need to think about the graph options we have (and what we let them control). …
         Should we actually revisit relation between angle, angular vel, and angular acc. …
