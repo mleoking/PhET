@@ -103,7 +103,7 @@ public class ControlGraph extends PNode {
         additionalControls = new PSwing( additionalControlPanel );
 //        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
-        jFreeChartSliderNode = new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
+        jFreeChartSliderNode = createSliderNode( thumb );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -175,6 +175,10 @@ public class ControlGraph extends PNode {
             addSeries( series );
         }
         updateSliderValue();
+    }
+
+    protected JFreeChartSliderNode createSliderNode( PNode thumb ) {
+        return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
     }
 
     public void setHorizontalRange( double maxDomainValue ) {

@@ -4,14 +4,18 @@ import java.awt.*;
 
 import org.jfree.data.Range;
 
+import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
 import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
+import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -24,7 +28,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
 
     public AbstractTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {
         super( pSwingCanvas, tm, angleUnitModel );
-        this.tm=tm;
+        this.tm = tm;
 
 //        RotationMinimizableControlGraph forceGraph = createForceGraph( pSwingCanvas, tm );
 //        RotationMinimizableControlGraph radiusGraph = createRadiusGraph( pSwingCanvas, tm );
@@ -47,24 +51,24 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         updateBody1Series();
     }
 
-    protected RotationMinimizableControlGraph createAngMomGraph(  ) {
-        PhetPCanvas pSwingCanvas=super.getCanvas();
+    protected RotationMinimizableControlGraph createAngMomGraph() {
+        PhetPCanvas pSwingCanvas = super.getCanvas();
         return new RotationMinimizableControlGraph( "L", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Angular Momentum", Color.red, "L", "units", new BasicStroke( 2 ), null, tm.getAngularMomentumTimeSeries() ),
                 "L", "Angular Momentum", "units", -0.1, 0.1,
                 tm, false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
-    protected RotationMinimizableControlGraph createMomentGraph( ) {
-        PhetPCanvas pSwingCanvas=super.getCanvas();
+    protected RotationMinimizableControlGraph createMomentGraph() {
+        PhetPCanvas pSwingCanvas = super.getCanvas();
         return new RotationMinimizableControlGraph( "I", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Moment of Inertia", Color.green, "I", "kg*m^2", new BasicStroke( 2 ), null, tm.getMomentOfInertiaTimeSeries() ),
                 "I", "Moment of Inertia", "units", -5, 5,
                 tm, false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
-    protected RotationMinimizableControlGraph createTorqueGraph(  ) {
-        PhetPCanvas pSwingCanvas=super.getCanvas();
+    protected RotationMinimizableControlGraph createTorqueGraph() {
+        PhetPCanvas pSwingCanvas = super.getCanvas();
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Applied Torque", Color.blue, UnicodeUtil.TAU, "units", new BasicStroke( 4 ), "applied", tm.getAppliedTorqueTimeSeries() ),
                 UnicodeUtil.TAU, "torque", "units", -10, 10,
@@ -79,8 +83,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         return torqueGraph;
     }
 
-    protected RotationMinimizableControlGraph createRadiusGraph(  ) {
-        PhetPCanvas pSwingCanvas=super.getCanvas();
+    protected RotationMinimizableControlGraph createRadiusGraph() {
+        PhetPCanvas pSwingCanvas = super.getCanvas();
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( "r", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Radius of Force", Color.green, "r", "m", new BasicStroke( 2 ), true, "applied", tm.getRadiusSeries() ),
                 "r", "Radius of Force", "m", 0, 4.5,
@@ -88,6 +92,10 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
             protected Range getVerticalRange( double zoomValue ) {
                 Range range = super.getVerticalRange( zoomValue );
                 return new Range( 0, range.getUpperBound() );
+            }
+
+            protected JFreeChartSliderNode createSliderNode( PNode thumb ) {
+                return new JFreeChartSliderNodeForRadius( getDynamicJFreeChartNode(), thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
             }
 
             protected void handleValueChanged() {
@@ -103,8 +111,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         return radiusGraph;
     }
 
-    protected RotationMinimizableControlGraph createForceGraph(  ) {
-        PhetPCanvas pSwingCanvas=super.getCanvas();
+    protected RotationMinimizableControlGraph createForceGraph() {
+        PhetPCanvas pSwingCanvas = super.getCanvas();
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( "F", new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( "Applied Force", Color.blue, "F", "N", new BasicStroke( 4 ), true, "applied", tm.getAppliedForceVariable() ),
                 "F", "force", "units", -2.5, 2.5,
@@ -123,5 +131,15 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );
         forceGraph.getControlGraph().addControl( new SeriesJCheckBox( netForceSeries ) );
         return forceGraph;
+    }
+
+    private class JFreeChartSliderNodeForRadius extends JFreeChartSliderNode {
+        public JFreeChartSliderNodeForRadius( DynamicJFreeChartNode dynamicJFreeChartNode, PNode pNode ) {
+            super( dynamicJFreeChartNode, pNode );
+        }
+
+        protected double getMaxRangeValue() {
+            return Math.min( 4,super.getMaxRangeValue( ));
+        }
     }
 }
