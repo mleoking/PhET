@@ -1,22 +1,47 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by: Sam
  * Oct 26, 2007 at 11:38:55 AM
  */
 public class OrderedProperties {
-    ArrayList properties = new ArrayList();
+    public static class OrderedPropertiesAdapter extends Properties {
+        private OrderedProperties orderedProperties;
+
+        public OrderedPropertiesAdapter( OrderedProperties orderedProperties ) {
+            this.orderedProperties = orderedProperties;
+        }
+
+        public Enumeration propertyNames() {
+            return orderedProperties.propertyNames();
+        }
+    }
+
+    private Enumeration propertyNames() {
+        ArrayList propertyNames = new ArrayList();
+        for ( int i = 0; i < properties.size(); i++ ) {
+            propertyNames.add( getEntry( i ).getKey() );
+        }
+        return new ListEnumeration( propertyNames );
+    }
+
+    private Entry getEntry( int i ) {
+        return (Entry) properties.get( i );
+    }
+
+    private ArrayList properties = new ArrayList();
 
     public OrderedProperties( File propertyFile ) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new FileReader( propertyFile ) );
+        this( new FileInputStream( propertyFile ), new FileInputStream( propertyFile ) );
+    }
+
+    public OrderedProperties( InputStream is, InputStream copy ) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( is ) );
         Properties p = new Properties();
-        p.load( new FileInputStream( propertyFile ) );
+        p.load( copy );
         for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
             line = line.trim();
             if ( line.startsWith( "#" ) ) {//ignore comments
@@ -28,7 +53,7 @@ public class OrderedProperties {
                     if ( p.containsKey( key ) ) {
 
                         if ( containsKey( key ) ) {
-                            System.out.println( "Found duplicate key " + key + " in file: " + propertyFile.getAbsolutePath() );
+                            System.out.println( "Found duplicate key " + key + " in file: " + is );
                         }
                         else {
                             //String value = line.substring( equalsSignIndex + 1 ).trim();//fails for multiline properties, escaped characters, etc
@@ -56,13 +81,13 @@ public class OrderedProperties {
                 for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
                     String key = (String) iterator.next();
                     if ( !containsKey( key ) ) {
-                        System.out.println( "We are missing key=" + key +" java property value="+p.get(key));
+                        System.out.println( "We are missing key=" + key + " java property value=" + p.get( key ) );
                     }
 
                 }
             }
 
-            new RuntimeException( "Wrong key size for file: " + propertyFile.getAbsolutePath() + ", propertyKeys=" + javaPropertyKeyCount + ", readKeys=" + ourKeyCount ).printStackTrace();
+            new RuntimeException( "Wrong key size for file: " + is + ", propertyKeys=" + javaPropertyKeyCount + ", readKeys=" + ourKeyCount ).printStackTrace();
         }
     }
 
@@ -118,7 +143,20 @@ public class OrderedProperties {
 //        PhetProperties phetProperties = new PhetProperties( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations\\bound-states\\data\\bound-states\\localization\\bound-states-strings_es.properties" ) );
 //        System.out.println( "phetProperties = " + phetProperties );
 //        System.out.println( "phetProperties = \n" + phetProperties.toStringMultiLine() );
+//        testListEnumeration();
         searchAndTest( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java" ) );
+    }
+
+    private static void testListEnumeration() {
+        ArrayList list = new ArrayList();
+        list.add( "a" );
+        list.add( "b" );
+        list.add( "c" );
+        Enumeration e = new ListEnumeration( list );
+        while ( e.hasMoreElements() ) {
+            Object o = e.nextElement();
+            System.out.println( "o = " + o );
+        }
     }
 
     private static void searchAndTest( File dir ) throws IOException {
@@ -135,6 +173,23 @@ public class OrderedProperties {
                     System.out.println( "Safely Loaded properties file: " + file.getAbsolutePath() );
                 }
             }
+        }
+    }
+
+    private static class ListEnumeration implements Enumeration {
+        private AbstractList list;
+        private int index = 0;
+
+        public ListEnumeration( AbstractList list ) {
+            this.list = list;
+        }
+
+        public boolean hasMoreElements() {
+            return list.size() > index;
+        }
+
+        public Object nextElement() {
+            return list.get( index++ );
         }
     }
 }
