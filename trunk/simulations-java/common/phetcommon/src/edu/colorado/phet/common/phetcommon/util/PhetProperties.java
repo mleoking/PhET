@@ -56,7 +56,7 @@ public class PhetProperties {
                 for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
                     String key = (String) iterator.next();
                     if ( !containsKey( key ) ) {
-                        System.out.println( "We are missing key=" + key );
+                        System.out.println( "We are missing key=" + key +" java property value="+p.get(key));
                     }
 
                 }
