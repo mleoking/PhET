@@ -2,16 +2,17 @@
 #     To Do
 ################################
 
-Notes from Oct 4, 2007:
+at 1024x768 fonts should be larger
+center the wheel for the intro panel
 
 layout issues on a mac?
 check layout at different resolutions
-1. Rotation: spurious checkboxes appear at topleft (due to new paint renderer?)
+•	Glitches show up due to new rendering mechanism
+1. Rotation: spurious checkboxes appear at topleft (due to new paint renderer)
 2. Torque: tearing in the play area (due to not using new paint renderer)
 
 min then maximize charts broken on rotation on mac
 
-•	Glitches show up due to new rendering mechanism
 •	Improve performance
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
 
