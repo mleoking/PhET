@@ -3,7 +3,6 @@
 ################################
 
 at 1024x768 fonts should be larger
-center the wheel for the intro panel
 
 layout issues on a mac?
 check layout at different resolutions

@@ -49,8 +49,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
         if ( scale > 0 ) {
             playAreaNode.scale( scale );
         }
-        playAreaNode.setOffset( scale * getRotationPlatform().getRadius() + padX / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
-
+        playAreaNode.setOffset( getWidth()/2, scale * getRotationPlatform().getRadius() + padY / 2 );
     }
 
     private RotationPlatform getRotationPlatform() {
