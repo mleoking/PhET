@@ -10,10 +10,10 @@ import java.util.Set;
  * Created by: Sam
  * Oct 26, 2007 at 11:38:55 AM
  */
-public class PhetProperties {
+public class OrderedProperties {
     ArrayList properties = new ArrayList();
 
-    public PhetProperties( File propertyFile ) throws IOException {
+    public OrderedProperties( File propertyFile ) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( propertyFile ) );
         Properties p = new Properties();
         p.load( new FileInputStream( propertyFile ) );
@@ -130,7 +130,7 @@ public class PhetProperties {
             }
             else {
                 if ( file.getName().endsWith( ".properties" ) ) {
-                    PhetProperties phetProperties = new PhetProperties( file );
+                    OrderedProperties phetProperties = new OrderedProperties( file );
                     //assertion shouldn't fail
                     System.out.println( "Safely Loaded properties file: " + file.getAbsolutePath() );
                 }
