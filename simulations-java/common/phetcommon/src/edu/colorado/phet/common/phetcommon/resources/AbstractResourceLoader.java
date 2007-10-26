@@ -10,6 +10,8 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+import edu.colorado.phet.common.phetcommon.util.OrderedProperties;
+
 /**
  * AbstractResourceLoader provides a default implementation for
  * portions of IResourceLoader that are not PhET specific.
@@ -58,7 +60,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @param locale       the locale
      * @return resource converted to java.util.Properties
      */
-    public PhetProperties getProperties( String resourceName, Locale locale ) {
+    public PhetProperties getProperties( String resourceName, final Locale locale ) {
 
         if ( resourceName == null ) {
             throw new IllegalArgumentException( "name is null" );
@@ -71,6 +73,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
             resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
         }
+        final String rn=""+resourceName;
         resourceName = resourceName.replace( '/', '.' );
 
         // Get the resource bundle
@@ -94,7 +97,35 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             }
         }
 
-        return new PhetProperties( properties );
+        //The following code demonstrates one way obtain an Enumeration on Properties that has the same ordering as the original file
+        //This code is not thoroughly tested, and has obvious performance impacts that could be avoided.
+        boolean useOrderedProperties = false;
+        if ( useOrderedProperties ) {
+            return new PhetProperties( properties ) {
+                public Enumeration propertyNames() {
+                    String lang = "_" + locale.getLanguage();
+                    if ( lang.equals( "_en" ) ) {
+                        lang = "";
+                    }
+                    InputStream is1 = Thread.currentThread().getContextClassLoader().getResourceAsStream( rn + lang + ".properties" );
+                    InputStream is2 = Thread.currentThread().getContextClassLoader().getResourceAsStream( rn + lang + ".properties" );
+                    if ( is1 == null || is2 == null ) {
+                        return super.propertyNames();
+                    }
+                    OrderedProperties orderedProperties = null;
+                    try {
+                        orderedProperties = new OrderedProperties( is1, is2 );
+                    }
+                    catch( IOException e ) {
+                        e.printStackTrace();
+                    }
+                    return new OrderedProperties.OrderedPropertiesAdapter( orderedProperties ).propertyNames();
+                }
+            };
+        }
+        else {
+            return new PhetProperties( properties );
+        }
     }
 
     /**
