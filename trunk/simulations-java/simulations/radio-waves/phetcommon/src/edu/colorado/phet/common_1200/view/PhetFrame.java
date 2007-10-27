@@ -22,7 +22,7 @@ public class PhetFrame extends JFrame {
         super( appDescriptor.getWindowTitle() );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         JMenuBar menuBar = new JMenuBar();
-        this.helpMenu = new HelpMenu( appDescriptor );
+        this.helpMenu = new HelpMenu( this );
         defaultFileMenu = new PhetFileMenu();
         menuBar.add( defaultFileMenu );
         menuBar.add( helpMenu );
