@@ -103,6 +103,6 @@ public class RotationClock extends ConstantDtClock {
     public static long freeMemoryBytes() {
         Runtime.getRuntime().gc();
 //        return ( Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory() );
-        return ( Runtime.getRuntime().maxMemory()- Runtime.getRuntime().freeMemory() );
+        return ( Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory() );
     }
 }

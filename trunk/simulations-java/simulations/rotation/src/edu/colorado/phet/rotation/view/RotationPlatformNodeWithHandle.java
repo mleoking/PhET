@@ -2,13 +2,13 @@ package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 
 /**
  * Created by: Sam
-* Oct 28, 2007 at 4:34:09 PM
-*/
+ * Oct 28, 2007 at 4:34:09 PM
+ */
 public class RotationPlatformNodeWithHandle extends RotationPlatformNode {
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
 

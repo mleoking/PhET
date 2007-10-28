@@ -2,8 +2,6 @@ package edu.colorado.phet.rotation.torque;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -39,7 +37,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
         if ( scale > 0 ) {
             playAreaNode.scale( scale );
         }
-        playAreaNode.setOffset( getWidth()/2, scale * getRotationPlatform().getRadius() + padY / 2 );
+        playAreaNode.setOffset( getWidth() / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
     }
 
     private RotationPlatform getRotationPlatform() {

@@ -60,7 +60,6 @@ public class RotationPlatformNode extends PNode {
         addChild( contentNode );
 
 
-
         rotationPlatform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
                 doUpdateAngle();
@@ -116,12 +115,12 @@ public class RotationPlatformNode extends PNode {
 
     private Shape createHandlePath() {
 //        return new Rectangle2D.Double( rotationPlatform.getCenter().getX() + getRadius(), rotationPlatform.getCenter().getY() - handleHeight / 2, handleWidth, handleHeight );
-        DoubleGeneralPath path=new DoubleGeneralPath( );
-        Point2D root=new Point2D.Double(  rotationPlatform.getCenter().getX() + getRadius(),rotationPlatform.getCenter().getY() - handleHeight / 2);
-        path.moveTo(root);
-        path.lineToRelative( 0,handleHeight);
-        path.lineToRelative( handleWidth,-handleHeight/2);
-        path.lineToRelative( -handleWidth,-handleHeight/2);
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        Point2D root = new Point2D.Double( rotationPlatform.getCenter().getX() + getRadius(), rotationPlatform.getCenter().getY() - handleHeight / 2 );
+        path.moveTo( root );
+        path.lineToRelative( 0, handleHeight );
+        path.lineToRelative( handleWidth, -handleHeight / 2 );
+        path.lineToRelative( -handleWidth, -handleHeight / 2 );
         path.lineTo( root );
 //        return new Rectangle2D.Double( rotationPlatform.getCenter().getX() + getRadius(), rotationPlatform.getCenter().getY() - handleHeight / 2, handleWidth, handleHeight );
         return path.getGeneralPath();
