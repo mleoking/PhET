@@ -15,6 +15,7 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
 
     public RotationLookAndFeel() {
         super.setBackgroundColor( new Color( 200, 240, 200 ) );
+        setFont(new PhetDefaultFont( 12,true) );
     }
 
     public static Font getControlPanelTitleFont() {
@@ -38,8 +39,7 @@ public class RotationLookAndFeel extends PhetLookAndFeel {
     }
 
     public static Font getGraphVerticalAxisLabelFont() {
-        return new PhetDefaultFont( isLowResolutionY() ? 9 : 14,
-                                    true );
+        return new PhetDefaultFont( isLowResolutionY() ? 11 : 14, true );
     }
 
 }

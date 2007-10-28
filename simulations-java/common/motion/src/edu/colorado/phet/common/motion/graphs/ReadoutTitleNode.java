@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -37,6 +38,10 @@ public class ReadoutTitleNode extends PNode {
         valueNode = new ShadowPText();
         valueNode.setFont( getTitleFont() );
         valueNode.setTextPaint( series.getColor() );
+        if ( isLowRes() ) {
+            titleNode.setShadowColor( new Color( 255, 255, 255, 255 ) );
+            valueNode.setShadowColor( new Color( 255, 255, 255, 255 ) );
+        }
 
         background = new PhetPPath( Color.white );
         addChild( background );
@@ -66,12 +71,12 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private Font getTitleFont() {
-        if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
-            return new Font( "Lucida Sans", Font.BOLD, 11 );
-        }
-        else {
-            return new Font( "Lucida Sans", Font.BOLD, 14 );
-        }
+//        return new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, isLowRes() ? 12 : 14 );
+        return new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, isLowRes() ? 12 : 14 );
+    }
+
+    private boolean isLowRes() {
+        return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024;
     }
 
     public ControlGraphSeries getSeries() {
