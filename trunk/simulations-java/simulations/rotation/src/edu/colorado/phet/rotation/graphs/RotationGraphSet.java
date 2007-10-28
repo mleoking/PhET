@@ -18,7 +18,7 @@ public class RotationGraphSet extends AbstractRotationGraphSet {
 
         RotationMinimizableControlGraph angleGraph = createAngleGraph();
         RotationMinimizableControlGraph angVelGraph = createAngVelGraph();
-        RotationMinimizableControlGraph angAccelGraph = createAngAccelGraph();
+        RotationMinimizableControlGraph angAccelGraph = createAngAccelGraph( true );
         RotationMinimizableControlGraph xGraph = createXGraph();
         RotationMinimizableControlGraph vGraph = createVGraph();
         RotationMinimizableControlGraph aGraph = createAGraph();

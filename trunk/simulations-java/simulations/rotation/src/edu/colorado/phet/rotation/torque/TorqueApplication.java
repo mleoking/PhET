@@ -38,11 +38,11 @@ public class TorqueApplication extends PhetApplication {
         addModule( momentModule );
         addModule( angMomModule );
 
-        ModuleConstructor mc = new ModuleConstructor() {
-            public Module newModule() {
-                return new TorqueModule( getPhetFrame() );
-            }
-        };
+//        ModuleConstructor mc = new ModuleConstructor() {
+//            public Module newModule() {
+//                return new TorqueModule( getPhetFrame() );
+//            }
+//        };
 //        addDelayedModule( "delay 1", mc );
 //        addDelayedModule( "delay 2", mc );
 //        addDelayedModule( "delay 3", mc );
