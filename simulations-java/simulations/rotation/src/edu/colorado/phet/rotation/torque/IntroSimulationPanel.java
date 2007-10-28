@@ -18,22 +18,12 @@ public class IntroSimulationPanel extends PhetPCanvas {
     private IntroModule introModule;
     private TorqueSimPlayAreaNode playAreaNode;
 
-    public IntroSimulationPanel( IntroModule introModule, JFrame parentFrame ) {
+    public IntroSimulationPanel( IntroModule introModule ) {
         this.introModule = introModule;
         playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
         addScreenChild( playAreaNode );
 
         updateLayout();
-//        addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                updateLayout();
-//            }
-//        } );
-        introModule.getClock().addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                repaint();
-            }
-        } );
     }
 
     protected void updateLayout() {

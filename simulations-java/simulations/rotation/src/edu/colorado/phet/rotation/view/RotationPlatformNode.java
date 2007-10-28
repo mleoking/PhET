@@ -188,7 +188,6 @@ public class RotationPlatformNode extends PNode {
     }
 
     private static class RingNode extends PNode {
-
         private double x;
         private double y;
         private double radius;

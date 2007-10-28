@@ -6,7 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
@@ -23,8 +23,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Time: 11:34:12 AM
  */
 
-//public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanvas {
-public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
+public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanvas {//using the buffer removes some glitches without causing significant performance impact
+//public abstract class AbstractRotationSimulationPanel extends PhetPCanvas {
     private AbstractRotationModule rotationModule;
 
     /* PNodes*/

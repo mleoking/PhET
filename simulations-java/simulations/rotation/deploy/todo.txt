@@ -2,13 +2,10 @@
 #     To Do
 ################################
 
-layout issues on a mac?
-check layout at different resolutions
-•	Glitches show up due to new rendering mechanism
+In-Chart readouts go offscreen at 1024x768
+
 1. Rotation: spurious checkboxes appear at topleft (due to new paint renderer)
 2. Torque: tearing in the play area (due to not using new paint renderer)
-
-min then maximize charts broken on rotation on mac
 
 •	Improve performance
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
@@ -35,7 +32,8 @@ Possible additions/changes that we should discuss
 ################################################
 #           Questions/Discussion
 ################################
-•	I like that the friction force looks sandwiched between the block and the platform; however if the force is too small, this is difficult to see.  Should we move this to the front?
+•	I like that the friction force looks sandwiched between the block and the platform;
+        however if the force is too small, this is difficult to see.  Should we move this to the front?
 •	What colors should be used for forces/torques/radii in the torque simulation?
 •	Add a visualization for the platform mass?  Perhaps the platform should have a thickness displayed?
 •	Bug should fly off at high speed (if not too much work)
