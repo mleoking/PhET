@@ -1,9 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -29,22 +27,6 @@ public class RotationPlayAreaNode extends PNode {
 
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
-
-    class RotationPlatformNodeWithHandle extends RotationPlatformNode {
-
-        
-        private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
-
-        //    private PhetPPath handleNode;
-        public RotationPlatformNodeWithHandle( final RotationPlatform rotationPlatform ) {
-            super( rotationPlatform );
-            HandleNode handleNode2 = new HandleNode( handleHeight / 2 * 7, handleHeight * 7, Color.gray );
-            handleNode2.setStroke( new BasicStroke( 1.0f / 50.0f ) );
-            handleNode2.setOffset( rotationPlatform.getRadius() + handleNode2.getFullBounds().getWidth() * 0.9, handleNode2.getFullBounds().getHeight() / 2 );
-            handleNode2.rotate( Math.PI );
-            super.addContentNode( handleNode2 );
-        }
-    }
 
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;

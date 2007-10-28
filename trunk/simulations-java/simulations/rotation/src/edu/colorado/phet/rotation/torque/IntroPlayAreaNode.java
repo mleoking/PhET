@@ -18,7 +18,8 @@ public class IntroPlayAreaNode extends RotationPlayAreaNode {
     public IntroPlayAreaNode( RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         super( rotationModel, vectiorViewModel, angleUnitModel );
     }
-        protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {
+
+    protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {
         return new RotationPlatformNode( rotationPlatform );
     }
 }
