@@ -29,20 +29,6 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     public AbstractTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {
         super( pSwingCanvas, tm, angleUnitModel );
         this.tm = tm;
-
-//        RotationMinimizableControlGraph forceGraph = createForceGraph( pSwingCanvas, tm );
-//        RotationMinimizableControlGraph radiusGraph = createRadiusGraph( pSwingCanvas, tm );
-//        RotationMinimizableControlGraph torqueGraph = createTorqueGraph( pSwingCanvas, tm );
-//        RotationMinimizableControlGraph momentOfInertiaGraph = createMomentGraph( pSwingCanvas, tm );
-//        RotationMinimizableControlGraph angularMomentumGraph = createAngMomGraph( pSwingCanvas, tm );
-//        RotationMinimizableControlGraph angleGraph = createAngleGraph();
-//        RotationMinimizableControlGraph angVelGraph = createAngVelGraph();
-//        RotationMinimizableControlGraph angAccelGraph = createAngAccelGraph();
-
-//        addGraphSuite( new RotationMinimizableControlGraph[]{forceGraph, radiusGraph, torqueGraph} );
-//        addGraphSuite( new RotationMinimizableControlGraph[]{torqueGraph, angAccelGraph, angVelGraph, angleGraph} );
-//        addGraphSuite( new RotationMinimizableControlGraph[]{angVelGraph, momentOfInertiaGraph, angularMomentumGraph} );
-
         initFinished();
     }
 
@@ -139,7 +125,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         }
 
         protected double getMaxRangeValue() {
-            return Math.min( 4,super.getMaxRangeValue( ));
+            return Math.min( 4, super.getMaxRangeValue() );
         }
     }
 }

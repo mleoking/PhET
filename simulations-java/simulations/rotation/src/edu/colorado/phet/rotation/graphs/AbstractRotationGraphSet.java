@@ -8,7 +8,6 @@ import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.AngleUnitModel;
-import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -113,12 +112,12 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
         return xGraph;
     }
 
-    protected RotationMinimizableControlGraph createAngAccelGraph() {
-        final ControlGraphSeries platformAccelSeries = new ControlGraphSeries( "Platform Ang Accel", RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularAcceleration() );
+    protected RotationMinimizableControlGraph createAngAccelGraph( boolean editable ) {
+        final ControlGraphSeries platformAccelSeries = new ControlGraphSeries( "Platform Ang Accel", RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, platformStroke, editable, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularAcceleration() );
         RotationMinimizableControlGraph angAccelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, platformAccelSeries,
                 UnicodeUtil.ALPHA, "Angular Acceleration", angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1,
-                model, true, model.getTimeSeriesModel(), model.getAccelDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
+                model, editable, model.getTimeSeriesModel(), model.getAccelDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
 
         //angAccelGraph.addSeries( platformAccelSeries );
         angAccelGraph.addSeriesPair( "Angular Acceleration",

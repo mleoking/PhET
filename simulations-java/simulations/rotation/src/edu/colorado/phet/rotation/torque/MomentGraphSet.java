@@ -11,6 +11,7 @@ import edu.colorado.phet.rotation.graphs.RotationMinimizableControlGraph;
 public class MomentGraphSet extends AbstractTorqueGraphSet {
     public MomentGraphSet( MomentOfInertiaSimulationPanel momentOfInertiaSimulationPanel, TorqueModel torqueModel, AngleUnitModel angleUnitModel ) {
         super( momentOfInertiaSimulationPanel, torqueModel, angleUnitModel );
-        addGraphSuite( new RotationMinimizableControlGraph[]{createTorqueGraph(),createMomentGraph(),createAngAccelGraph() } );
+        addGraphSuite( new RotationMinimizableControlGraph[]{createTorqueGraph(),createMomentGraph(),createAngAccelGraph( false ) } );
     }
+
 }
