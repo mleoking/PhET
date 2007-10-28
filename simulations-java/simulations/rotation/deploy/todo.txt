@@ -2,8 +2,6 @@
 #     To Do
 ################################
 
-at 1024x768 fonts should be larger
-
 layout issues on a mac?
 check layout at different resolutions
 •	Glitches show up due to new rendering mechanism
