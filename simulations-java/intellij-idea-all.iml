@@ -78,6 +78,9 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/waveinterference/src" isTestSource="false" />
     </content>
+    <content url="file://$MODULE_DIR$/../translation-utility">
+      <sourceFolder url="file://$MODULE_DIR$/../translation-utility/src" isTestSource="false" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
