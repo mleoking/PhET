@@ -61,11 +61,13 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
-
-        final String fullResourceName = getFullResourceName( resourceName, locale );
-        Properties properties=new Properties( );
         try {
-            properties.load( Thread.currentThread().getContextClassLoader().getResourceAsStream( fullResourceName ));
+            InputStream inStream = getFullResourceAsStream( resourceName, locale );
+            if (inStream==null){
+                inStream=getFullResourceAsStream( resourceName, new Locale( "en") );
+            }
+            Properties properties=new Properties( );
+            properties.load( inStream );
             return new PhetProperties( properties );
         }
         catch( IOException e ) {
@@ -119,6 +121,11 @@ abstract class AbstractResourceLoader implements IResourceLoader {
 //        else {
 //            return new PhetProperties( properties );
 //        }
+    }
+
+    private InputStream getFullResourceAsStream( String resourceName, Locale locale ) {
+        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getFullResourceName( resourceName, locale ));
+        return inStream;
     }
 
     private String getFullResourceName( String resourceName, Locale locale ) {
