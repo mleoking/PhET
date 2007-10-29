@@ -62,20 +62,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
 
-        if ( resourceName == null ) {
-            throw new IllegalArgumentException( "name is null" );
-        }
-
-        // Process the resource name
-        if ( resourceName.startsWith( "/" ) ) {
-            resourceName = resourceName.substring( 1 );
-        }
-        if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
-            resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
-        }
-        final String rn=""+resourceName;
-        resourceName = resourceName.replace( '/', '.' );
-
+        final String fullResourceName = getFullResourceName( resourceName, locale );
         // Get the resource bundle
         ResourceBundle rb = null;
         try {
@@ -101,14 +88,11 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         //This code is not thoroughly tested, and has obvious performance impacts that could be avoided.
         boolean useOrderedProperties = false;
         if ( useOrderedProperties ) {
-            return new PhetProperties( properties ) {
+            return new PhetProperties( properties )
+            {
                 public Enumeration propertyNames() {
-                    String lang = "_" + locale.getLanguage();
-                    if ( lang.equals( "_en" ) ) {
-                        lang = "";
-                    }
-                    InputStream is1 = Thread.currentThread().getContextClassLoader().getResourceAsStream( rn + lang + ".properties" );
-                    InputStream is2 = Thread.currentThread().getContextClassLoader().getResourceAsStream( rn + lang + ".properties" );
+                    InputStream is1 = Thread.currentThread().getContextClassLoader().getResourceAsStream( fullResourceName );
+                    InputStream is2 = Thread.currentThread().getContextClassLoader().getResourceAsStream( fullResourceName );
                     if ( is1 == null || is2 == null ) {
                         return super.propertyNames();
                     }
@@ -126,6 +110,29 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         else {
             return new PhetProperties( properties );
         }
+    }
+
+    private String getFullResourceName( String resourceName, Locale locale ) {
+        if ( resourceName == null ) {
+            throw new IllegalArgumentException( "name is null" );
+        }
+
+        // Process the resource name
+        if ( resourceName.startsWith( "/" ) ) {
+            resourceName = resourceName.substring( 1 );
+        }
+        if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
+            resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
+        }
+        final String rn=""+resourceName;
+        resourceName = resourceName.replace( '/', '.' );
+
+        String lang = "_" + locale.getLanguage();
+        if ( lang.equals( "_en" ) ) {
+            lang = "";
+        }
+        String fullResourceName = rn + lang + ".properties";
+        return resourceName;
     }
 
     /**
