@@ -10,8 +10,6 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import edu.colorado.phet.common.phetcommon.util.OrderedProperties;
-
 /**
  * AbstractResourceLoader provides a default implementation for
  * portions of IResourceLoader that are not PhET specific.
@@ -61,92 +59,53 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * @return resource converted to java.util.Properties
      */
     public PhetProperties getProperties( String resourceName, final Locale locale ) {
+
+        String baseName = getResourceBundleBaseName( resourceName );
+
+        // Get the resource bundle.
+        ResourceBundle rb = null;
         try {
-            InputStream inStream = getFullResourceAsStream( resourceName, locale );
-            if (inStream==null){
-                inStream=getFullResourceAsStream( resourceName, new Locale( "en") );
-            }
-            Properties properties=new Properties( );
-            properties.load( inStream );
-            return new PhetProperties( properties );
+            rb = ResourceBundle.getBundle( baseName, locale );
         }
-        catch( IOException e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
-            throw new RuntimeException( e);
+            rb = null;
         }
-//        // Get the resource bundle
-//        ResourceBundle rb = null;
-//        try {
-//            rb = ResourceBundle.getBundle( resourceName, locale );
-//        }
-//        catch( Exception e ) {
-//            e.printStackTrace();
-//            rb = null;
-//        }
-//
-//        // Load the resource bundle into Properties
-//        Properties properties = new Properties();
-//        if ( rb != null ) {
-//            for ( Enumeration keys = rb.getKeys(); keys.hasMoreElements(); ) {
-//                final String key = (String) keys.nextElement();
-//                final String value = rb.getString( key );
-//
-//                properties.put( key, value );
-//            }
-//        }
-//
-//        //The following code demonstrates one way obtain an Enumeration on Properties that has the same ordering as the original file
-//        //This code is not thoroughly tested, and has obvious performance impacts that could be avoided.
-//        boolean useOrderedProperties = false;
-//        if ( useOrderedProperties ) {
-//            return new PhetProperties( properties )
-//            {
-//                public Enumeration propertyNames() {
-//                    InputStream is1 = Thread.currentThread().getContextClassLoader().getResourceAsStream( fullResourceName );
-//                    InputStream is2 = Thread.currentThread().getContextClassLoader().getResourceAsStream( fullResourceName );
-//                    if ( is1 == null || is2 == null ) {
-//                        return super.propertyNames();
-//                    }
-//                    OrderedProperties orderedProperties = null;
-//                    try {
-//                        orderedProperties = new OrderedProperties( is1, is2 );
-//                    }
-//                    catch( IOException e ) {
-//                        e.printStackTrace();
-//                    }
-//                    return new OrderedProperties.OrderedPropertiesAdapter( orderedProperties ).propertyNames();
-//                }
-//            };
-//        }
-//        else {
-//            return new PhetProperties( properties );
-//        }
-    }
 
-    private InputStream getFullResourceAsStream( String resourceName, Locale locale ) {
-        InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( getFullResourceName( resourceName, locale ));
-        return inStream;
-    }
+        // Load the resource bundle into Properties
+        Properties properties = new Properties();
+        if ( rb != null ) {
+            for ( Enumeration keys = rb.getKeys(); keys.hasMoreElements(); ) {
+                final String key = (String) keys.nextElement();
+                final String value = rb.getString( key );
+                properties.put( key, value );
+            }
+        }
 
-    private String getFullResourceName( String resourceName, Locale locale ) {
+        return new PhetProperties( properties );
+    }
+    
+    /*
+     * Gets the base name for a resource bundle.
+     */
+    private static String getResourceBundleBaseName( String resourceName ) {
+
         if ( resourceName == null ) {
-            throw new IllegalArgumentException( "name is null" );
+            throw new IllegalArgumentException( "resourceName is null" );
         }
 
-        // Process the resource name
-        if ( resourceName.startsWith( "/" ) ) {
-            resourceName = resourceName.substring( 1 );
-        }
-        if ( resourceName.endsWith( PROPERTIES_SUFFIX ) ) {
-            resourceName = resourceName.substring( 0, resourceName.length() - PROPERTIES_SUFFIX.length() );
-        }
-        final String rn=""+resourceName;
+        String baseName = new String( resourceName ); // operate on a copy, not the original resourceName !
 
-        String lang = "_" + locale.getLanguage();
-        if ( lang.equals( "_en" ) ) {
-            lang = "";
+        if ( baseName.startsWith( "/" ) ) {
+            // strip off leading '/'
+            baseName = baseName.substring( 1 );
         }
-        return rn + lang + ".properties";
+        if ( baseName.endsWith( PROPERTIES_SUFFIX ) ) {
+            // strip off suffix
+            baseName = baseName.substring( 0, baseName.length() - PROPERTIES_SUFFIX.length() );
+        }
+        baseName = baseName.replace( '/', '.' );
+        return baseName;
     }
 
     /**
