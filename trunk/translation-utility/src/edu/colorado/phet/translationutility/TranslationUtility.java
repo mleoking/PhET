@@ -5,11 +5,10 @@ package edu.colorado.phet.translationutility;
 import java.awt.BorderLayout;
 import java.util.Properties;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * TranslationUtility is the main class for the translation utility.
@@ -24,22 +23,30 @@ public class TranslationUtility extends JFrame {
     
     private static final String TITLE = NAME + " : " + VERSION + " (" + SVN_REVISION + ")";
     
-    //XXX these values should eventually be passed in via command line args
-    private static final String JAR_FILE_NAME = "optical-tweezers.jar"; // this JAR must be in your preset working directory
-    private static final String TARGET_COUNTRY_CODE = "fr";
-    
+    private static final String SOURCE_COUNTRY_CODE = "en"; // English
     private static final boolean DEBUG_COMMAND_OUTPUT = false;
 
     private TranslationUtility() {}
     
     public static void main( String[] args ) {
-        Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
-        JarFileManager jarFileManager = new JarFileManager( JAR_FILE_NAME );
-        TranslationPanel translationPanel = new TranslationPanel( jarFileManager, TARGET_COUNTRY_CODE );
-        JFrame frame = new JFrame( TITLE );
-        frame.getContentPane().add( translationPanel );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.pack();
-        frame.show();
+        InitializationDialog initDialog = new InitializationDialog( TITLE );
+        SwingUtils.centerWindowOnScreen( initDialog );
+        initDialog.show();
+        if ( initDialog.isContinue() ) {
+            Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
+            String jarFileName = initDialog.getJarFileName();
+            String targetCountryCode = initDialog.getTargetCountryCode();
+            JarFileManager jarFileManager = new JarFileManager( jarFileName );
+            TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode );
+            JFrame frame = new JFrame( TITLE );
+            SwingUtils.centerWindowOnScreen( frame );
+            frame.getContentPane().add( translationPanel );
+            frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+            frame.pack();
+            frame.show();
+        }
+        else {
+            System.exit( 0 );
+        }
     }
 }

@@ -32,24 +32,30 @@ public class JarFileManager {
      */
     public String getProjectName() {
         int suffixIndex = _jarFileName.indexOf( ".jar" );
-        return _jarFileName.substring( 0, suffixIndex );
+        int pathSeparatorIndex = _jarFileName.lastIndexOf( '/' );
+        return _jarFileName.substring( pathSeparatorIndex + 1, suffixIndex );
     }
     
     /**
-     * Reads the properties file that contains the localized strings for the source language.
-     * Extract the properties file from the JAR and creates a Properties object.
+     * Reads the properties file that contains the localized strings for a specified country code.
+     * Extracts the properties file from the JAR and creates a Properties object.
      * 
+     * @param countryCode
      * @return
      */
-    public Properties readSourceProperties() {
+    public Properties readProperties( String countryCode ) {
         String projectName = getProjectName();
-        String propertiesFileName = getDefaultPropertiesFileName( projectName );
+        String propertiesFileName = getPropertiesFileName( projectName, countryCode );
         extractFileFromJar( _jarFileName, propertiesFileName );
-        Properties properties = new Properties();
+        Properties properties = null;
         try {
-            InputStream inStream = new FileInputStream( propertiesFileName );
-            properties.load( inStream );
-            inStream.close();
+            File inFile = new File( propertiesFileName );
+            if ( inFile.exists() ) {
+                InputStream inStream = new FileInputStream( inFile );
+                properties = new Properties();
+                properties.load( inStream );
+                inStream.close();
+            }
         }
         catch ( FileNotFoundException fnfe ) {
             fnfe.printStackTrace();
@@ -57,17 +63,18 @@ public class JarFileManager {
         catch ( IOException ioe ) {
             ioe.printStackTrace();
         }
+        //XXX remove extracted properties file and any directories we created from file system
         return properties;
     }
     
     /**
-     * Writes the properties containing the localized strings for the target language.
+     * Writes the properties containing the localized strings for a specified country code.
      * Creates a file from the Properties object and inserts the file into the JAR.
      * 
      * @param properties
      * @param countryCode
      */
-    public void writeTargetProperties( Properties properties, String countryCode ) {
+    public void writeProperties( Properties properties, String countryCode ) {
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
         try {
@@ -85,6 +92,7 @@ public class JarFileManager {
             e.printStackTrace();
         }
         addFileToJar( _jarFileName, propertiesFileName );
+        //XXX remove properties file from file system
     }
     
     /**
@@ -113,19 +121,12 @@ public class JarFileManager {
     }
     
     /*
-     * Gets the name of the properties file that contains the default (English) localized strings.
-     */
-    private static String getDefaultPropertiesFileName( String projectName ) {
-        return getPropertiesFileName( projectName, null );
-    }
-    
-    /*
      * Gets the name of the properties file that contains localized strings for a specified country code.
      * If the country code is null, the default localization file (English) is returned.
      */
     private static String getPropertiesFileName( String projectName, String countryCode ) {
         String name = projectName + "/localization/" + projectName + "-strings";
-        if ( countryCode != null ) {
+        if ( countryCode != null && countryCode != "en" ) {
             name = name + "_" + countryCode;
         }
         name = name + ".properties";

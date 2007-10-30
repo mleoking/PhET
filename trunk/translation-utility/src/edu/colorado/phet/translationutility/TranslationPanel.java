@@ -56,13 +56,15 @@ public class TranslationPanel extends JPanel {
     }
     
     private JarFileManager _jarFileManager;
+    private final String _sourceCountryCode;
     private final String _targetCountryCode;
     private ArrayList _targetTextAreas; // array of TargetTextArea
 
-    public TranslationPanel( JarFileManager jarFileManager, String targetCountryCode ) {
+    public TranslationPanel( JarFileManager jarFileManager, String sourceCountryCode, String targetCountryCode ) {
         super();
         
         _jarFileManager = jarFileManager;
+        _sourceCountryCode = sourceCountryCode;
         _targetCountryCode = targetCountryCode;
         _targetTextAreas = new ArrayList();
         
@@ -85,7 +87,11 @@ public class TranslationPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         
         String projectName = _jarFileManager.getProjectName();
-        Properties sourceProperties = _jarFileManager.readSourceProperties();
+        Properties sourceProperties = _jarFileManager.readProperties( _sourceCountryCode );
+        Properties targetProperties = _jarFileManager.readProperties( _targetCountryCode );
+        if ( targetProperties == null ) {
+            targetProperties = sourceProperties;
+        }
         
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
         inputPanel.setLayout( layout );
@@ -96,7 +102,7 @@ public class TranslationPanel extends JPanel {
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        JLabel sourceLocaleLable = new JLabel( "en" );
+        JLabel sourceLocaleLable = new JLabel( _sourceCountryCode );
         sourceLocaleLable.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLocaleLable, row, SOURCE_COLUMN, GridBagConstraints.WEST );
         JLabel targetLocaleLable = new JLabel( _targetCountryCode );
@@ -119,6 +125,7 @@ public class TranslationPanel extends JPanel {
 
             String key = (String) i.next();
             String sourceValue = sourceProperties.getProperty( key );
+            String targetValue = targetProperties.getProperty( key );
 
             JLabel keyLabel = new JLabel( key );
             keyLabel.setFont( KEY_FONT );
@@ -132,7 +139,7 @@ public class TranslationPanel extends JPanel {
             sourceTextArea.setBorder( TEXT_AREA_BORDER );
             sourceTextArea.setBackground( this.getBackground() );
 
-            TargetTextArea targetTextArea = new TargetTextArea( key, sourceValue );
+            TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
             targetTextArea.setFont( TARGET_VALUE_FONT );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
@@ -157,7 +164,7 @@ public class TranslationPanel extends JPanel {
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 Properties targetProperties = getTargetProperties();
-                _jarFileManager.writeTargetProperties( targetProperties, _targetCountryCode );
+                _jarFileManager.writeProperties( targetProperties, _targetCountryCode );
                 _jarFileManager.runJarFile( _targetCountryCode );
             }
         } );
