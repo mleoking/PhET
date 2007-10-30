@@ -15,6 +15,7 @@ import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
+import edu.umd.cs.piccolox.nodes.PClip;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -37,6 +38,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
     private JComponent controlPanel;
     private long paintTime = 0;
+    private PClip playAreaClip;
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -61,7 +63,10 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
         addScreenChild( rotationControlPanelNode );
         addScreenChild( timeSeriesGraphSetNode );
-        addScreenChild( rotationPlayAreaNode );
+//        addScreenChild( rotationPlayAreaNode );
+        playAreaClip = new PClip();
+        playAreaClip.addChild( rotationPlayAreaNode );
+        addScreenChild( playAreaClip );
 
         relayout();
         addComponentListener( new ComponentListener() {
@@ -146,7 +151,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     private void relayout() {
         new RotationLayout( this, rotationPlayAreaNode, rotationControlPanelNode,
-                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode(), getRotationModel().getRotationPlatform() ).layout();
+                            timeSeriesGraphSetNode, rotationPlayAreaNode.getPlatformNode(), rotationPlayAreaNode.getOriginNode(), getRotationModel().getRotationPlatform() ,1.0 / 3.0,playAreaClip ).layout();
     }
 
     public GraphSuite getGraphSuite( int i ) {

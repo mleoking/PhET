@@ -2,20 +2,26 @@
 #     To Do
 ################################
 
-In-Chart readouts go offscreen at 1024x768
+Evaluate strategy for clipping the play area:
+•	theta=0 indicator needs to be moved into the play area
+•	Some vectors go out of the play area, should we shrink the vectors or zoom out more?
 
-1. Rotation: spurious checkboxes appear at topleft (due to new paint renderer)
-2. Torque: tearing in the play area (due to not using new paint renderer)
-
-•	Improve performance
+Misc
+•	In-Chart readouts go offscreen at 1024x768
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
+•	Should the Rotation sim have a playful start tab as in Torque?
 
-Issues I’ve noticed that perhaps we should discuss:
+Performance Issues
+•	Improve performance?
 •	The “speed of time” going by changes significantly if the disk is spinning or not.
 •	The speed of the sim shows surges pretty regularly … not smooth motion even on my fast processor.
+>>These issues should be resolved due to clipping the play area and using the improved renderer for graphics. 
+•	There is still a performance leak. After about 10-15 minutes it is now crawling.
+>>Is this fixed now?
 
-Possible additions/changes that we should discuss
-•	Be able to switch between radians and degrees
+•	Be able to switch between radians and degrees?
+>>Eventually we'll want to redesign the charting library so that this feature is built-in, but this will take some time.
+
 •	I think we need to think about the graph options we have (and what we let them control). …
         Should we actually revisit relation between angle, angular vel, and angular acc. …
         or just relationship between angular acc, torque, and moment of inertia.
@@ -24,10 +30,6 @@ Possible additions/changes that we should discuss
         Should this torque sim get into relationship between angular momentum and angular velocity,
         or should this be another companion sim?
 •	Should we make controls over moment of inertia as an “advanced feature”? or put it in as a second panel?
-
-•	There is still a performance leak. After about 10-15 minutes it is now crawling.
-    •	this is due in part to time series filling up in "live mode", early enough data should be discarded
-    •	Is this fixed now?
 
 ################################################
 #           Questions/Discussion

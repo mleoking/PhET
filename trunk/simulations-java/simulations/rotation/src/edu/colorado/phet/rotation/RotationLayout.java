@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * Author: Sam Reid
@@ -22,13 +23,10 @@ public class RotationLayout {
     private PNode originNode;
     private RotationPlatform rotationPlatform;
     private double minFraction;
-    private static final double DEFAULT_MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
+    private PClip playAreaClip;
+//    private static final double DEFAULT_MIN_SCREEN_FRACTION_FOR_PLAY_AREA = 1.0 / 3.0;
 
-    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform ) {
-        this( parent, rotationPlayAreaNode, rotationControlPanelNode, timeSeriesGraphSetNode, platformNode, originNode, rotationPlatform, DEFAULT_MIN_SCREEN_FRACTION_FOR_PLAY_AREA );
-    }
-
-    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform, double minFraction ) {
+    public RotationLayout( JComponent parent, PNode rotationPlayAreaNode, PNode rotationControlPanelNode, PNode timeSeriesGraphSetNode, PNode platformNode, PNode originNode, RotationPlatform rotationPlatform, double minFraction, PClip playAreaClip ) {
         this.parent = parent;
         this.rotationPlayAreaNode = rotationPlayAreaNode;
         this.rotationControlPanelNode = rotationControlPanelNode;
@@ -37,6 +35,7 @@ public class RotationLayout {
         this.originNode = originNode;
         this.rotationPlatform = rotationPlatform;
         this.minFraction = minFraction;
+        this.playAreaClip = playAreaClip;
     }
 
     public void layout() {
@@ -67,9 +66,8 @@ public class RotationLayout {
         rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );
 
         double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
-        Rectangle2D bounds = new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX - originNodeWidth, getHeight() );
-//        System.out.println( "RSP::bounds = " + bounds );
-        timeSeriesGraphSetNode.setBounds( bounds );
+        playAreaClip.setPathToRectangle( 0,0,(float) availWidth, (float) availHeight );
+        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX - originNodeWidth, getHeight() ) );
     }
 
     private RotationPlatform getRotationPlatform() {
