@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.opticaltweezers.OTAbstractApplication;
 
 /**
  * DeveloperControlsDialog is a nonmodal dialog that contains "developer only" controls.
@@ -31,13 +31,13 @@ public class DeveloperControlsDialog extends JDialog {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private OpticalTweezersApplication _app;
+    private OTAbstractApplication _app;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public DeveloperControlsDialog( Frame owner, OpticalTweezersApplication app ) {
+    public DeveloperControlsDialog( Frame owner, OTAbstractApplication app ) {
         super( owner, "Developer Controls" );
         setResizable( false );
         setModal( false );

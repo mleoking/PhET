@@ -5,12 +5,12 @@ package edu.colorado.phet.opticaltweezers.persistence;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
- * OTConfig describes a configuration of this simulation.
+ * OpticalTweezersConfig describes a configuration of the "Optical Tweezers" flavor.
  * It encapsulates all of the settings that the user can change.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OTConfig implements IProguardKeepClass {
+public class OpticalTweezersConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -28,7 +28,7 @@ public class OTConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public OTConfig() {
+    public OpticalTweezersConfig() {
         _globalConfig = new GlobalConfig();
         _physicsConfig = new PhysicsConfig();
         _dnaConfig = new DNAConfig();

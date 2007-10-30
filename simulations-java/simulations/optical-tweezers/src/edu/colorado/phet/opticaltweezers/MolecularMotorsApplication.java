@@ -18,18 +18,16 @@ import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
 import edu.colorado.phet.opticaltweezers.persistence.*;
 
 /**
- * OpticalTweezersApplication is the main application for the "Optical Tweezers" flavor.
+ * MolecularMotorsApplication is the main application for the "Molecular Motors" flavor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OpticalTweezersApplication extends OTAbstractApplication {
+public class MolecularMotorsApplication extends OTAbstractApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private PhysicsModule _physicsModule;
-    private DNAModule _dnaModule;
     private MotorsModule _motorsModule;
 
     // PersistanceManager handles loading/saving application configurations.
@@ -44,7 +42,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
      *
      * @param args command line arguments
      */
-    public OpticalTweezersApplication( PhetApplicationConfig config ) {
+    public MolecularMotorsApplication( PhetApplicationConfig config ) {
         super( config );
     }
 
@@ -59,12 +57,6 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
 
         final PhetFrame frame = getPhetFrame();
         
-        _physicsModule = new PhysicsModule( frame );
-        addModule( _physicsModule );
-
-        _dnaModule = new DNAModule( frame );
-        addModule( _dnaModule );
-
         _motorsModule = new MotorsModule( frame );
         addModule( _motorsModule );
 
@@ -80,7 +72,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
      */
     public void save() {
 
-        OpticalTweezersConfig appConfig = new OpticalTweezersConfig();
+        MolecularMotorsConfig appConfig = new MolecularMotorsConfig();
         
         GlobalConfig globalConfig = appConfig.getGlobalConfig();
         globalConfig.setVersionString( getApplicationConfig().getVersion().toString() );
@@ -88,12 +80,6 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         globalConfig.setVersionMinor( getApplicationConfig().getVersion().getMinor() );
         globalConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         globalConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
-        
-        PhysicsConfig physicsConfig = _physicsModule.save();
-        appConfig.setPhysicsConfig( physicsConfig );
-        
-        DNAConfig dnaConfig = _dnaModule.save();
-        appConfig.setDNAConfig( dnaConfig );
         
         MotorsConfig motorsConfig = _motorsModule.save();
         appConfig.setMotorsConfig( motorsConfig );
@@ -115,10 +101,8 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            if ( object instanceof OpticalTweezersConfig ) {
-                OpticalTweezersConfig appConfig = (OpticalTweezersConfig) object;
-                _physicsModule.load( appConfig.getPhysicsConfig() );
-                _dnaModule.load( appConfig.getDNAConfig() );
+            if ( object instanceof MolecularMotorsConfig ) {
+                MolecularMotorsConfig appConfig = (MolecularMotorsConfig) object;
                 _motorsModule.load( appConfig.getMotorsConfig() );
             }
             else {
@@ -154,10 +138,10 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader(), OTConstants.FLAVOR_OPTICAL_TWEEZERS );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader(), OTConstants.FLAVOR_MOLECULAR_MOTORS );
 
                 // Create the application.
-                OpticalTweezersApplication app = new OpticalTweezersApplication( config );
+                MolecularMotorsApplication app = new MolecularMotorsApplication( config );
 
                 // Start the application.
                 app.startApplication();

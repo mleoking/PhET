@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.opticaltweezers.OpticalTweezersApplication;
+import edu.colorado.phet.opticaltweezers.OTAbstractApplication;
 import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
 
 /**
@@ -25,11 +25,11 @@ import edu.colorado.phet.opticaltweezers.dialog.DeveloperControlsDialog;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private OpticalTweezersApplication _app;
+    private OTAbstractApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( OpticalTweezersApplication app ) {
+    public DeveloperMenu( OTAbstractApplication app ) {
         super( "Developer" );
 
         _app = app;

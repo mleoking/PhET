@@ -7,12 +7,12 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
-- package as 3 different sims
 
 LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+10/30/07 - flavorize:"Optical Tweezers and Applications", "Stretching DNA", "Molecular Motors"
 10/25/07 - make DNAForceVector an observer of Fluid, so that stall force vector is updated when ATP changes
 10/25/07 - add IStallForceStrategy, implement "constant" and "lookup table" strategies for mapping ATP to stall force
 10/25/07 - delete IDNASpeedStrategy.getForce, we won't use this approach for stall force
