@@ -2,5 +2,7 @@
 "To Do" list for "Translation Utility"
 ================================================================================
 
+10/29/07 - quick-&-dirty solution to allow testing of translation using Runtime.exec
+
 ===============================================================================
 end of file
