@@ -6,31 +6,27 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-import com.sun.tools.example.debug.expr.ExpressionParser.GetFrame;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
-import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
-import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
-import edu.colorado.phet.opticaltweezers.persistence.*;
+import edu.colorado.phet.opticaltweezers.persistence.DNAConfig;
+import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
+import edu.colorado.phet.opticaltweezers.persistence.StretchingDNAConfig;
 
 /**
- * OpticalTweezersApplication is the main application for the "Optical Tweezers" flavor.
+ * StretchingDNAApplication is the main application for the "Stretching DNA" flavor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OpticalTweezersApplication extends OTAbstractApplication {
+public class StretchingDNAApplication extends OTAbstractApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private PhysicsModule _physicsModule;
     private DNAModule _dnaModule;
-    private MotorsModule _motorsModule;
 
     // PersistanceManager handles loading/saving application configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -44,7 +40,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
      *
      * @param args command line arguments
      */
-    public OpticalTweezersApplication( PhetApplicationConfig config ) {
+    public StretchingDNAApplication( PhetApplicationConfig config ) {
         super( config );
     }
 
@@ -59,14 +55,8 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
 
         final PhetFrame frame = getPhetFrame();
         
-        _physicsModule = new PhysicsModule( frame );
-        addModule( _physicsModule );
-
         _dnaModule = new DNAModule( frame );
         addModule( _dnaModule );
-
-        _motorsModule = new MotorsModule( frame );
-        addModule( _motorsModule );
 
         setControlPanelBackground( OTConstants.CONTROL_PANEL_COLOR );
     }
@@ -80,7 +70,7 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
      */
     public void save() {
 
-        OpticalTweezersConfig appConfig = new OpticalTweezersConfig();
+        StretchingDNAConfig appConfig = new StretchingDNAConfig();
         
         GlobalConfig globalConfig = appConfig.getGlobalConfig();
         globalConfig.setVersionString( getApplicationConfig().getVersion().toString() );
@@ -89,14 +79,8 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         globalConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         globalConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        PhysicsConfig physicsConfig = _physicsModule.save();
-        appConfig.setPhysicsConfig( physicsConfig );
-        
         DNAConfig dnaConfig = _dnaModule.save();
         appConfig.setDNAConfig( dnaConfig );
-        
-        MotorsConfig motorsConfig = _motorsModule.save();
-        appConfig.setMotorsConfig( motorsConfig );
         
         if ( _persistenceManager == null ) {
             _persistenceManager = new XMLPersistenceManager( getPhetFrame() );
@@ -115,11 +99,9 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
         
         Object object = _persistenceManager.load();
         if ( object != null ) {
-            if ( object instanceof OpticalTweezersConfig ) {
-                OpticalTweezersConfig appConfig = (OpticalTweezersConfig) object;
-                _physicsModule.load( appConfig.getPhysicsConfig() );
+            if ( object instanceof StretchingDNAConfig ) {
+                StretchingDNAConfig appConfig = (StretchingDNAConfig) object;
                 _dnaModule.load( appConfig.getDNAConfig() );
-                _motorsModule.load( appConfig.getMotorsConfig() );
             }
             else {
                 String message = OTResources.getString( "message.notAConfigFile" );
@@ -154,10 +136,10 @@ public class OpticalTweezersApplication extends OTAbstractApplication {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader(), OTConstants.FLAVOR_OPTICAL_TWEEZERS );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, OTConstants.FRAME_SETUP, OTResources.getResourceLoader(), OTConstants.FLAVOR_STRETCHING_DNA );
 
                 // Create the application.
-                OpticalTweezersApplication app = new OpticalTweezersApplication( config );
+                StretchingDNAApplication app = new StretchingDNAApplication( config );
 
                 // Start the application.
                 app.startApplication();
