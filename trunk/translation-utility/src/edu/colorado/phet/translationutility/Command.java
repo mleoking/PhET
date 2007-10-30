@@ -12,15 +12,23 @@ import java.io.InputStream;
  */
 public class Command {
     
+    private static boolean _debugOutputEnabled = false;
+    
+    /* not intended for instantiation */
     private Command() {}
+    
+    public static void setDebugOutputEnabled( boolean enabled ) {
+        _debugOutputEnabled = enabled;
+    }
 
     public static void run( String command, boolean waitForCompletion ) {
-        System.out.println( "runCommand command=\"" + command + "\"" );
+        if ( _debugOutputEnabled ) {
+            System.out.println( "Command.run command=\"" + command + "\"" );
+        }
         try {
             Process process = Runtime.getRuntime().exec( command );
             
-            if ( waitForCompletion ) {
-                
+            if ( _debugOutputEnabled ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {
@@ -30,10 +38,12 @@ public class Command {
 
                 InputStream err = process.getErrorStream();
                 while ( ( c = err.read() ) != -1 ) {
-                    System.out.print( (char) c );
+                    System.err.print( (char) c );
                 }
                 err.close();
-
+            }
+            
+            if ( waitForCompletion ) {
                 int exitValue = process.waitFor();
                 if ( exitValue != 0 ) {
                     throw new RuntimeException( "\"" + command + "\"terminated abnormally, exit value = " + exitValue );

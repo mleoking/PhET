@@ -26,14 +26,6 @@ public class JarFileManager {
     }
     
     /**
-     * Gets the name of the JAR file.
-     * @return
-     */
-    public String getJarFileName() {
-        return _jarFileName;
-    }
-    
-    /**
      * Gets the project name.
      * By PhET convention, this is the JAR file name without the ".jar" suffix.
      * @return

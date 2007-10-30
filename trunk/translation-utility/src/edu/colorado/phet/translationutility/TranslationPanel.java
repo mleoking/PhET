@@ -2,21 +2,22 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
  * From left-to-right, the columns are: key, source language value, target language value.
- * The target language value  is editable.
+ * The target language value is editable.
+ * Buttons at the bottom of the panel support various actions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,37 +38,57 @@ public class TranslationPanel extends JPanel {
             /* outside */ BorderFactory.createLineBorder( Color.BLACK, 1 ), 
             /* inside */ BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
     
-    private static class TranslationControlInfo {
+    /*
+     * Associates a key with a JTextArea.
+     */
+    private static class TargetTextArea extends JTextArea {
 
         private final String _key;
-        private final JTextArea _textArea;
 
-        public TranslationControlInfo( String key, JTextArea textArea ) {
+        public TargetTextArea( String key, String value ) {
+            super( value );
             _key = key;
-            _textArea = textArea;
         }
 
         public String getKey() {
             return _key;
         }
-
-        public JTextArea getTextArea() {
-            return _textArea;
-        }
     }
     
-    private ArrayList _translationControlInfo; // array of TranslationControlInfo
+    private JarFileManager _jarFileManager;
+    private final String _targetCountryCode;
+    private ArrayList _targetTextAreas; // array of TargetTextArea
 
     public TranslationPanel( JarFileManager jarFileManager, String targetCountryCode ) {
         super();
         
-        String projectName = jarFileManager.getProjectName();
-        Properties sourceProperties = jarFileManager.readSourceProperties();
+        _jarFileManager = jarFileManager;
+        _targetCountryCode = targetCountryCode;
+        _targetTextAreas = new ArrayList();
         
-        _translationControlInfo = new ArrayList();
+        JPanel inputPanel = createInputPanel();
+        JPanel buttonPanel = createButtonPanel();
+        JScrollPane scrollPane = new JScrollPane( inputPanel );
         
-        EasyGridBagLayout layout = new EasyGridBagLayout( this );
-        this.setLayout( layout );
+        JPanel bottomPanel = new JPanel( new BorderLayout() );
+        bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
+        bottomPanel.add( buttonPanel, BorderLayout.CENTER );
+
+        setLayout( new BorderLayout() );
+        setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
+        add( scrollPane, BorderLayout.CENTER );
+        add( bottomPanel, BorderLayout.SOUTH );
+    }
+    
+    private JPanel createInputPanel() {
+        
+        JPanel inputPanel = new JPanel();
+        
+        String projectName = _jarFileManager.getProjectName();
+        Properties sourceProperties = _jarFileManager.readSourceProperties();
+        
+        EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
+        inputPanel.setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
@@ -78,7 +99,7 @@ public class TranslationPanel extends JPanel {
         JLabel sourceLocaleLable = new JLabel( "en" );
         sourceLocaleLable.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLocaleLable, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        JLabel targetLocaleLable = new JLabel( targetCountryCode );
+        JLabel targetLocaleLable = new JLabel( _targetCountryCode );
         targetLocaleLable.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLocaleLable, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
@@ -102,40 +123,68 @@ public class TranslationPanel extends JPanel {
             JLabel keyLabel = new JLabel( key );
             keyLabel.setFont( KEY_FONT );
 
-            JTextArea sourceValueTextArea = new JTextArea( sourceValue );
-            sourceValueTextArea.setFont( SOURCE_VALUE_FONT );
-            sourceValueTextArea.setColumns( TEXT_AREA_COLUMNS );
-            sourceValueTextArea.setLineWrap( true );
-            sourceValueTextArea.setWrapStyleWord( true );
-            sourceValueTextArea.setEditable( false );
-            sourceValueTextArea.setBorder( TEXT_AREA_BORDER );
-            sourceValueTextArea.setBackground( this.getBackground() );
+            JTextArea sourceTextArea = new JTextArea( sourceValue );
+            sourceTextArea.setFont( SOURCE_VALUE_FONT );
+            sourceTextArea.setColumns( TEXT_AREA_COLUMNS );
+            sourceTextArea.setLineWrap( true );
+            sourceTextArea.setWrapStyleWord( true );
+            sourceTextArea.setEditable( false );
+            sourceTextArea.setBorder( TEXT_AREA_BORDER );
+            sourceTextArea.setBackground( this.getBackground() );
 
-            JTextArea targetValueTextArea = new JTextArea( sourceValue );
-            targetValueTextArea.setFont( TARGET_VALUE_FONT );
-            targetValueTextArea.setColumns( sourceValueTextArea.getColumns() );
-            targetValueTextArea.setRows( sourceValueTextArea.getLineCount() );
-            targetValueTextArea.setLineWrap( true );
-            targetValueTextArea.setWrapStyleWord( true );
-            targetValueTextArea.setEditable( true );
-            targetValueTextArea.setBorder( TEXT_AREA_BORDER );
+            TargetTextArea targetTextArea = new TargetTextArea( key, sourceValue );
+            targetTextArea.setFont( TARGET_VALUE_FONT );
+            targetTextArea.setColumns( sourceTextArea.getColumns() );
+            targetTextArea.setRows( sourceTextArea.getLineCount() );
+            targetTextArea.setLineWrap( true );
+            targetTextArea.setWrapStyleWord( true );
+            targetTextArea.setEditable( true );
+            targetTextArea.setBorder( TEXT_AREA_BORDER );
+            _targetTextAreas.add( targetTextArea );
 
             layout.addAnchoredComponent( keyLabel, row, KEY_COLUMN, GridBagConstraints.EAST );
-            layout.addComponent( sourceValueTextArea, row, SOURCE_COLUMN );
-            layout.addComponent( targetValueTextArea, row, TARGET_COLUMN );
+            layout.addComponent( sourceTextArea, row, SOURCE_COLUMN );
+            layout.addComponent( targetTextArea, row, TARGET_COLUMN );
             row++;
-            
-            _translationControlInfo.add( new TranslationControlInfo( key, targetValueTextArea ) );
         }
+        
+        return inputPanel;
+    }
+    
+    private JPanel createButtonPanel() {
+        
+        JButton testButton = new JButton( "Test simulation" );
+        testButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                Properties targetProperties = getTargetProperties();
+                _jarFileManager.writeTargetProperties( targetProperties, _targetCountryCode );
+                _jarFileManager.runJarFile( _targetCountryCode );
+            }
+        } );
+        
+        JButton submitButton = new JButton( "Submit translation...");
+        submitButton.setEnabled( false );//XXX
+        
+        JButton helpButton = new JButton( "Help..." );
+        helpButton.setEnabled( false );//XXX
+        
+        JPanel buttonPanel = new JPanel( new GridLayout( 1, 5 ) );
+        buttonPanel.add( testButton );
+        buttonPanel.add( submitButton );
+        buttonPanel.add( helpButton );
+
+        JPanel panel = new JPanel();
+        panel.add( buttonPanel );
+        return panel;
     }
     
     public Properties getTargetProperties() {
         Properties properties = new Properties();
-        Iterator i = _translationControlInfo.iterator();
+        Iterator i = _targetTextAreas.iterator();
         while ( i.hasNext() ) {
-            TranslationControlInfo tci = (TranslationControlInfo) i.next();
-            String key = tci.getKey();
-            String targetValue = tci.getTextArea().getText();
+            TargetTextArea targetTextArea = (TargetTextArea) i.next();
+            String key = targetTextArea.getKey();
+            String targetValue = targetTextArea.getText();
             properties.put( key, targetValue );
         }
         return properties;
