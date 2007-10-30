@@ -27,12 +27,19 @@ public class TranslationUtility extends JFrame {
     //XXX these values should eventually be passed in via command line args
     private static final String JAR_FILE_NAME = "optical-tweezers.jar"; // this JAR must be in your preset working directory
     private static final String TARGET_COUNTRY_CODE = "fr";
+    
+    private static final boolean DEBUG_COMMAND_OUTPUT = false;
 
     private TranslationUtility() {}
     
     public static void main( String[] args ) {
-        JFrame frame = new MainFrame( TITLE, JAR_FILE_NAME, TARGET_COUNTRY_CODE );
+        Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
+        JarFileManager jarFileManager = new JarFileManager( JAR_FILE_NAME );
+        TranslationPanel translationPanel = new TranslationPanel( jarFileManager, TARGET_COUNTRY_CODE );
+        JFrame frame = new JFrame( TITLE );
+        frame.getContentPane().add( translationPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        frame.pack();
         frame.show();
     }
 }
