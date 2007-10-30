@@ -2,6 +2,32 @@
 #     To Do
 ################################
 
+
+Different background color for the control panel and graphs.
+the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
+
+I’d like to suggest making the block that the man pushes on black so that it looks like rubber.
+ For some reason I’m thinking this is more likely to look like a brake?
+
+On the Intro panel I don’t see the need for the theta = 0 indicator.
+I also think, there should be a few controls in the lower left hand corner.
+I think show velocity vectors and show acceleration vectors should be available.
+Also a Rest All button and Help if the sim ever has help.
+
+There is a little grey arrow on the platform that is at the zero line.
+It is ungrabbable and difficult to identify.  To mark the zero point I’d vote for something else.
+Either have that line be solid and the other three thinner or a lighter grey.
+Possibly a black dot at that same point but on the actual wheel since something on the outside edge seems to be ungrabbable.
+If we can come up with something that looks like a handle, that might be better since there are no other cues that the platform
+will rotate.
+
+I left the sim running for the past hour or so and it’s now totally frozen.
+I don’t know if such vague information is helpful but I thought I’d pass it along.
+The Java console says Exception in thread “AWT-EventQueue-0” java.lang.OutOfMemeoryError:
+Java heap space about as far back as I can see. Actually I was able to switch tabs.
+When I went to Intro that still didn’t’ work but when I went to Torque it works again.
+I think I was on Angular Momentum when it froze.
+
 Evaluate strategy for clipping the play area:
 •	theta=0 indicator needs to be moved into the play area
 •	Some vectors go out of the play area, should we shrink the vectors or zoom out more?
