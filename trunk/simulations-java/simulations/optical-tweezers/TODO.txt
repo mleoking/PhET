@@ -3,7 +3,6 @@
 ================================================================================
 
 HIGH PRIORITY:
-- decide on a strategy for stall force
 
 MEDIUM PRIORITY:
 - adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
@@ -12,6 +11,8 @@ LOW PRIORITY:
 - document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+********* version 1.00.16 (?)
+10/31/07 - use constant stall force strategy, 6pN for EnzymeA, 7pN for EnzymeB
 10/30/07 - flavorize:"Optical Tweezers and Applications", "Stretching DNA", "Molecular Motors"
 10/25/07 - make DNAForceVector an observer of Fluid, so that stall force vector is updated when ATP changes
 10/25/07 - add IStallForceStrategy, implement "constant" and "lookup table" strategies for mapping ATP to stall force
