@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: edu.colorado.phet.opticaltweezers.OpticalTweezersApplication
+Main-Class: edu.colorado.phet.opticaltweezers.OTLauncher

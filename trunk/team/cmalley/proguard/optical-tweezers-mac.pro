@@ -17,7 +17,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.opticaltweezers.OpticalTweezersApplication {
+-keepclasseswithmembers public class edu.colorado.phet.opticaltweezers.OTLauncher,edu.colorado.phet.opticaltweezers.OpticalTweezersApplication,edu.colorado.phet.opticaltweezers.StretchingDNAApplication,edu.colorado.phet.opticaltweezers.MolecularMotorsApplication {
     public static void main(java.lang.String[]);
 }
 
