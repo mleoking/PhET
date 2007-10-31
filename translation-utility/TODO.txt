@@ -2,23 +2,33 @@
 "To Do" list for "Translation Utility"
 ================================================================================
 
+OPEN ISSUES:
+- how to deliver the Translation Utility
+- how to update the Translation Utility if it's bundled inside every sim
+- how to Submit to PhET
+- how to access Flash localization files
+- how to run Flash player from Java
+- how to get default translations from Google Translate
+- Java app versus web app
+
+
 HIGH PRIORITY:
+- replace exec("jar...") with java.util.jar API
 
 MEDIUM PRIORITY:
-- how to Submit to PhET?
-- File>Exit or Quit button
-- check for unsaved changes before exiting
 - save/load work in progress
 - Flash sim support
 
 LOW PRIORITY:
+- File>Exit or Quit button
+- check for unsaved changes before exiting
 - clean up files and directories created
 
 
 DONE:
 10/30/07 - if a translation exists for the target country code, use it
 10/30/07 - add dialog to request JAR file and target country code
-10/29/07 - quick-&-dirty solution to allow testing of translation using Runtime.exec
+10/29/07 - quick-&-dirty (non-portable) solution to allow testing of translation using Runtime.exec
 
 ===============================================================================
 end of file
