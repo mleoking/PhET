@@ -39,20 +39,21 @@ public class RotationLayout {
     }
 
     public void layout() {
-        int padX = 10;
-        int padY = 10;
+//        int padX = 20;
+//        int padY = 50;
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
         double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
 
         availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * minFraction, availWidth );
+//        availWidth=Math.min( availWidth, )
 
 //        rotationPlayAreaNode.setOffset( 200, 200 );
         rotationPlayAreaNode.setScale( 1.0 );
 
         //determine the radius in pixels of the rotation play area node
-        availHeight -= padY * 2;
-        availWidth -= padX * 2;
+//        availHeight -= padY * 2;
+//        availWidth -= padX * 2;
 
 //        availWidth-=50;//for the origin node
 
@@ -61,13 +62,14 @@ public class RotationLayout {
         double scale = Math.min( sx, sy );
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if ( scale > 0 ) {
-            rotationPlayAreaNode.scale( scale );
+            rotationPlayAreaNode.scale( scale*0.825 );
         }
         rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );
 
-        double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
+//        double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
         playAreaClip.setPathToRectangle( 0,0,(float) availWidth, (float) availHeight );
-        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( getMaxXPlayAreaAndControlPanel() + padX + originNodeWidth, 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padX - originNodeWidth, getHeight() ) );
+        int padx=3;
+        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx+getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel()-padx , getHeight() ) );
     }
 
     private RotationPlatform getRotationPlatform() {
@@ -75,7 +77,7 @@ public class RotationLayout {
     }
 
     private double getMaxXPlayAreaAndControlPanel() {
-        return Math.max( platformNode.getGlobalFullBounds().getMaxX(), platformNode.getGlobalFullBounds().getMaxX() );
+        return Math.max( playAreaClip.getGlobalFullBounds().getMaxX(), rotationControlPanelNode.getGlobalFullBounds().getMaxX() );
     }
 
     private double getWidth() {
