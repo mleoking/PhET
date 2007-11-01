@@ -93,7 +93,7 @@ public class TorqueApplication extends PhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
-//                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
+                synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
                 new RotationLookAndFeel().initLookAndFeel();
                 new TorqueApplication( args ).startApplication();
