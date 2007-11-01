@@ -10,7 +10,6 @@
     </manifest>
     <selectedElements exportClassFiles="false" exportOutputFolder="true" exportJavaFiles="false">
         <javaElement handleIdentifier="=translation-utility"/>
-        <javaElement handleIdentifier="=optical-tweezers"/>
         <javaElement handleIdentifier="=phetcommon"/>
     </selectedElements>
 </jardesc>
