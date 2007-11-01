@@ -21,12 +21,12 @@ public class RotationPlatformNode extends PNode {
     private double angle = 0.0;
     private RotationPlatform rotationPlatform;
     private PhetPPath verticalCrossHair;
-    private PhetPPath horizontalCrossHair;
+    private PhetPPath horizontalCrossHairLeft;
+    private PhetPPath horizontalCrossHairRight;
 
     private PNode ringNodeLayer;
     private PhetPPath outerBorder;
     private PhetPPath innerBorder;
-    private PhetPPath handleNode;
 
     private double handleHeight = 10 * RotationPlayAreaNode.SCALE;
     private double handleWidth = 10 * RotationPlayAreaNode.SCALE;
@@ -42,15 +42,15 @@ public class RotationPlatformNode extends PNode {
         ringNodeLayer.addChild( createRingNode( 0.25, 0.0, Color.white, Color.lightGray, false, false ) );
         contentNode.addChild( ringNodeLayer );
 
-        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        verticalCrossHair = new PhetPPath( getVerticalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.gray );
         contentNode.addChild( verticalCrossHair );
 
-        horizontalCrossHair = new PhetPPath( getHorizontalCrossHairPath(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.black );
-        contentNode.addChild( horizontalCrossHair );
+//        horizontalCrossHairLeft = new PhetPPath( getHorizontalCrossHairPathLeft(), new BasicStroke( (float) ( 3 * RotationPlayAreaNode.SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{(float) ( 10 * RotationPlayAreaNode.SCALE ), (float) ( 6 * RotationPlayAreaNode.SCALE )}, 0 ), Color.black );
+        horizontalCrossHairLeft = new PhetPPath( getHorizontalCrossHairPathLeft(), new BasicStroke( (float) ( 3 * RotationPlayAreaNode.SCALE ) ), Color.black );
+        contentNode.addChild( horizontalCrossHairLeft );
 
-//        handleNode = new PhetPPath( createHandlePath(), Color.blue, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.gray );
-        handleNode = new PhetPPath( createHandlePath(), null, new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.gray );
-        contentNode.addChild( handleNode );
+        horizontalCrossHairRight = new PhetPPath( getHorizontalCrossHairPathRight(), new BasicStroke( (float) ( 2 * RotationPlayAreaNode.SCALE ) ), Color.gray );
+        contentNode.addChild( horizontalCrossHairRight );
 
         outerBorder = new PhetPPath( getBorderStroke(), Color.black );
         innerBorder = new PhetPPath( getBorderStroke(), Color.black );
@@ -100,10 +100,10 @@ public class RotationPlatformNode extends PNode {
             node.setInnerRadius( Math.max( node.getMinInnerRadius(), r ) );
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
-        horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
+        horizontalCrossHairLeft.setPathTo( getHorizontalCrossHairPathLeft() );
+        horizontalCrossHairRight.setPathTo( getHorizontalCrossHairPathRight() );
 
-
-        handleNode.setPathTo( createHandlePath() );
+//        handleNode.setPathTo( createHandlePath() );
         innerBorder.setPathTo( new Ellipse2D.Double( getRotationPlatform().getCenter().getX() - getInnerRadius(), getRotationPlatform().getCenter().getY() - getInnerRadius(), getInnerRadius() * 2, getInnerRadius() * 2 ) );
         innerBorder.setVisible( getInnerRadius() > 0 );
         updateAngle();
@@ -126,13 +126,19 @@ public class RotationPlatformNode extends PNode {
         return path.getGeneralPath();
     }
 
-    private Shape getHorizontalCrossHairPath() {
+    private Shape getHorizontalCrossHairPathLeft() {
+        return getHorizontalCrossHairPath( +1 );
+    }
+
+    private Shape getHorizontalCrossHairPath( double sign ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( rotationPlatform.getCenter().getX() - getRadius(), rotationPlatform.getCenter().getY() );
-        path.lineTo( rotationPlatform.getCenter().getX() - rotationPlatform.getInnerRadius(), rotationPlatform.getCenter().getY() );
-        path.moveTo( rotationPlatform.getCenter().getX() + getRadius(), rotationPlatform.getCenter().getY() );
-        path.lineTo( rotationPlatform.getCenter().getX() + rotationPlatform.getInnerRadius(), rotationPlatform.getCenter().getY() );
+        path.moveTo( rotationPlatform.getCenter().getX() + sign * getRadius(), rotationPlatform.getCenter().getY() );
+        path.lineTo( rotationPlatform.getCenter().getX() + sign * rotationPlatform.getInnerRadius(), rotationPlatform.getCenter().getY() );
         return path.getGeneralPath();
+    }
+
+    private Shape getHorizontalCrossHairPathRight() {
+        return getHorizontalCrossHairPath( -1 );
     }
 
     private Shape getVerticalCrossHairPath() {
@@ -150,7 +156,8 @@ public class RotationPlatformNode extends PNode {
             node.setRadius( Math.min( node.getMaxOuterRadius(), getRadius() ) );
         }
         verticalCrossHair.setPathTo( getVerticalCrossHairPath() );
-        horizontalCrossHair.setPathTo( getHorizontalCrossHairPath() );
+        horizontalCrossHairLeft.setPathTo( getHorizontalCrossHairPathLeft() );
+        horizontalCrossHairRight.setPathTo( getHorizontalCrossHairPathRight() );
 //        handleNode.setPathTo( createHandlePath() );
 
         outerBorder.setPathTo( new Ellipse2D.Double( getRotationPlatform().getCenter().getX() - getRadius(), getRotationPlatform().getCenter().getY() - getRadius(), getRadius() * 2, getRadius() * 2 ) );
