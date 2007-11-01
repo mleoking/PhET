@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -29,6 +30,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
         introSimControlPanelPSwing=new PSwing(introSimControlPanel);
         addScreenChild( introSimControlPanelPSwing);
         updateLayout();
+        setBackground( AbstractRotationSimulationPanel.PLAY_AREA_BACKGROUND_COLOR );
     }
 
     protected void updateLayout() {

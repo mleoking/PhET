@@ -1,11 +1,13 @@
 package edu.colorado.phet.rotation;
 
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -39,6 +41,7 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private JComponent controlPanel;
     private long paintTime = 0;
     private PClip playAreaClip;
+    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 250, 239, 197);
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;
@@ -65,7 +68,22 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
         addScreenChild( timeSeriesGraphSetNode );
 //        addScreenChild( rotationPlayAreaNode );
         playAreaClip = new PClip();
+//        playAreaClip.setPaint( new Color( 207, 187, 108 ));
+        playAreaClip.setPaint( PLAY_AREA_BACKGROUND_COLOR );
         playAreaClip.addChild( rotationPlayAreaNode );
+//        JDialog x=ColorChooserFactory.createDialog( "color",phetFrame, (Color) playAreaClip.getPaint(),new ColorChooserFactory.Listener() {
+//            public void colorChanged( Color color ) {
+//                playAreaClip.setPaint(color );
+//            }
+//
+//            public void ok( Color color ) {
+//                playAreaClip.setPaint(color );
+//            }
+//
+//            public void cancelled( Color originalColor ) {
+//            }
+//        } );
+//        x.show( );
         addScreenChild( playAreaClip );
 
         relayout();
