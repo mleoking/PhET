@@ -14,6 +14,8 @@ import java.util.Properties;
  */
 public class JarFileManager {
 
+    private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
+    
     private final String _jarFileName;
     
     /**
@@ -22,7 +24,8 @@ public class JarFileManager {
      * @param jarFileName
      */
     public JarFileManager( String jarFileName ) {
-        _jarFileName = jarFileName.replace( '\\', '/' ); //XXX convert to UNIX pathnames
+        _jarFileName = new String( jarFileName );
+        System.out.println( "FILE_SEPARATOR=" + FILE_SEPARATOR );//XXX
         System.out.println( "_jarFileName=" + _jarFileName );//XXX
     }
     
@@ -33,7 +36,7 @@ public class JarFileManager {
      */
     public String getProjectName() {
         int suffixIndex = _jarFileName.indexOf( ".jar" );
-        int pathSeparatorIndex = _jarFileName.lastIndexOf( '/' );
+        int pathSeparatorIndex = _jarFileName.lastIndexOf( FILE_SEPARATOR );
         return _jarFileName.substring( pathSeparatorIndex + 1, suffixIndex );
     }
     
@@ -126,7 +129,7 @@ public class JarFileManager {
      * If the country code is null, the default localization file (English) is returned.
      */
     private static String getPropertiesFileName( String projectName, String countryCode ) {
-        String name = projectName + "/localization/" + projectName + "-strings";
+        String name = projectName + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + projectName + "-strings";
         if ( countryCode != null && countryCode != "en" ) {
             name = name + "_" + countryCode;
         }

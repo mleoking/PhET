@@ -26,7 +26,9 @@ LOW PRIORITY:
 
 
 DONE:
-11/1/07 - version that works under Cygwin on Win98
+11/1/07 - version that works as double-clickable JAR on Win98 with JDK installed
+11/1/07 - use System.getProperty("file.separator") for forming path names
+11/1/07 - version that works under Cygwin on Win98 with JDK installed
 11/1/07 - convert all pathnames to use UNIX file separators (for testing with Cygwin on Windows)
 11/1/07 - enable debug output for exec'ed commands
 11/1/07 - don't use full pathnames for jar and java, assume they're in the user's path
