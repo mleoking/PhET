@@ -26,6 +26,8 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 0.00.02 (?)
+11/1/07 - first version that works on Win and Mac
 11/1/07 - version that works as double-clickable JAR on Win98 with JDK installed
 11/1/07 - use System.getProperty("file.separator") for forming path names
 11/1/07 - version that works under Cygwin on Win98 with JDK installed
@@ -34,7 +36,8 @@ DONE:
 11/1/07 - don't use full pathnames for jar and java, assume they're in the user's path
 10/30/07 - if a translation exists for the target country code, use it
 10/30/07 - add dialog to request JAR file and target country code
-10/29/07 - quick-&-dirty (non-portable) solution to allow testing of translation using Runtime.exec
+********* version 0.00.01 (18366)
+10/29/07 - quick-&-dirty (non-portable, UNIX/Mac only) solution to allow testing of translation using Runtime.exec
 
 ===============================================================================
 end of file
