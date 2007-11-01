@@ -85,6 +85,10 @@ public class RotationPlayAreaNode extends PNode {
         return originNode;
     }
 
+    public void setOriginNodeVisible( boolean visible ) {
+        originNode.setVisible( visible );
+    }
+
     public void resetAll() {
         rulerNode.setVisible( false );
     }

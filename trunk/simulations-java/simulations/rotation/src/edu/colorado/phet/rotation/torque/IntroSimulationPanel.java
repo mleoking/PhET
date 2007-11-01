@@ -19,6 +19,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
     public IntroSimulationPanel( IntroModule introModule ) {
         this.introModule = introModule;
         playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
+        playAreaNode.setOriginNodeVisible( false );
         addScreenChild( playAreaNode );
 
         updateLayout();

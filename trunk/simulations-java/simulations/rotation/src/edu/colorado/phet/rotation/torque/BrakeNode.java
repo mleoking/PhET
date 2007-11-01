@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.torque;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -44,8 +44,10 @@ public class BrakeNode extends PNode {
                 updateTransform();
             }
         } );
-        Color blockColor = new Color( 207, 187, 108 );
-        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.black );
+//        Color blockColor = new Color( 207, 187, 108 );
+        Color blockColor = new Color( 20, 18, 10 );
+//        block = new PhetPPath( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ), blockColor, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.darkGray );
+        block = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 0.5, 0.5, 0.1,0.1), blockColor, new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) ), Color.darkGray );
         block.translate( 0, -block.getFullBounds().getHeight() / 2.0 );
         addChild( block );
 
