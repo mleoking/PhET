@@ -22,7 +22,8 @@ public class JarFileManager {
      * @param jarFileName
      */
     public JarFileManager( String jarFileName ) {
-        _jarFileName = jarFileName;
+        _jarFileName = jarFileName.replace( '\\', '/' ); //XXX convert to UNIX pathnames
+        System.out.println( "_jarFileName=" + _jarFileName );//XXX
     }
     
     /**
@@ -46,7 +47,7 @@ public class JarFileManager {
     public Properties readProperties( String countryCode ) {
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
-        extractFileFromJar( _jarFileName, propertiesFileName );
+        extractFileFromJar( propertiesFileName );
         Properties properties = null;
         try {
             File inFile = new File( propertiesFileName );
@@ -91,7 +92,7 @@ public class JarFileManager {
         catch ( IOException e ) {
             e.printStackTrace();
         }
-        addFileToJar( _jarFileName, propertiesFileName );
+        addFileToJar( propertiesFileName );
         //XXX remove properties file from file system
     }
     
@@ -101,22 +102,22 @@ public class JarFileManager {
      * @param countryCode
      */
     public void runJarFile( String countryCode ) {
-        Command.run( "/usr/bin/java -jar -Duser.language=" + countryCode + " " + _jarFileName, false /* waitForCompletion */ );
+        Command.run( "java -jar -Duser.language=" + countryCode + " " + _jarFileName, false /* waitForCompletion */ );
     }
     
     /*
      * Extracts a file from the JAR.
      */
-    private static void extractFileFromJar( String jarFileName, String propertiesFileName ) {
-        String command = "/usr/bin/jar xf " + jarFileName + " " + propertiesFileName;
+    private void extractFileFromJar( String propertiesFileName ) {
+        String command = "jar xf " + _jarFileName + " " + propertiesFileName;
         Command.run( command, true /* waitForCompletion */ );
     }
     
     /*
      * Inserts a file into the JAR.
      */
-    private static void addFileToJar( String jarFileName, String propertiesFileName ) {
-        String command = "/usr/bin/jar uf " + jarFileName + " " + propertiesFileName;
+    private void addFileToJar( String propertiesFileName ) {
+        String command = "jar uf " + _jarFileName + " " + propertiesFileName;
         Command.run( command, true /* waitForCompletion */ );
     }
     

@@ -26,6 +26,10 @@ LOW PRIORITY:
 
 
 DONE:
+11/1/07 - version that works under Cygwin on Win98
+11/1/07 - convert all pathnames to use UNIX file separators (for testing with Cygwin on Windows)
+11/1/07 - enable debug output for exec'ed commands
+11/1/07 - don't use full pathnames for jar and java, assume they're in the user's path
 10/30/07 - if a translation exists for the target country code, use it
 10/30/07 - add dialog to request JAR file and target country code
 10/29/07 - quick-&-dirty (non-portable) solution to allow testing of translation using Runtime.exec
