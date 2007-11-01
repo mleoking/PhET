@@ -2,7 +2,6 @@
 #     To Do
 ################################
 
-Different background color for the control panel and graphs.
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
 Evaluate strategy for clipping the play area:
