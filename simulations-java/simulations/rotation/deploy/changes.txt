@@ -1,3 +1,5 @@
+10-28-2007: Torque - Added a control panel to the introductory torque panel
+10-28-2007: Torque - Removed theta = 0 indicator on the intro panel
 10-28-2007: Torque - Replaced arrow graphic with bolder axis graphic (black vs gray)
 10-28-2007: Torque - Made the brake block black to make it look more like a brake
 10-28-2007: Torque - Increased font size for 1024x768

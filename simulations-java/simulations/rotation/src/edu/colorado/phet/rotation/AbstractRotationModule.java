@@ -102,7 +102,8 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         rotationSimulationPanel.startApplication();
     }
 
-    public void resetAll() {
+    public void reset() {
+        super.reset();
         rotationModel.resetAll();
         rotationSimulationPanel.resetAll();
         vectorViewModel.resetAll();

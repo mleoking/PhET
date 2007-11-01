@@ -5,6 +5,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,6 +16,8 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 public class IntroSimulationPanel extends PhetPCanvas {
     private IntroModule introModule;
     private TorqueSimPlayAreaNode playAreaNode;
+    private IntroSimulationControlPanel introSimControlPanel;
+    private PSwing introSimControlPanelPSwing;
 
     public IntroSimulationPanel( IntroModule introModule ) {
         this.introModule = introModule;
@@ -22,6 +25,9 @@ public class IntroSimulationPanel extends PhetPCanvas {
         playAreaNode.setOriginNodeVisible( false );
         addScreenChild( playAreaNode );
 
+        introSimControlPanel=new IntroSimulationControlPanel(introModule);
+        introSimControlPanelPSwing=new PSwing(introSimControlPanel);
+        addScreenChild( introSimControlPanelPSwing);
         updateLayout();
     }
 
@@ -39,6 +45,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
             playAreaNode.scale( scale );
         }
         playAreaNode.setOffset( getWidth() / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
+        introSimControlPanelPSwing.setOffset( 0,getHeight()-introSimControlPanelPSwing.getFullBounds().getHeight());
     }
 
     private RotationPlatform getRotationPlatform() {

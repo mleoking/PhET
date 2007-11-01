@@ -35,4 +35,9 @@ public class IntroModule extends Module {
     public AngleUnitModel getAngleUnitModel() {
         return angleUnitModel;
     }
+
+    public void reset() {
+        super.reset();
+        torqueModel.resetAll();
+    }
 }

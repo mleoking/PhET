@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * Author: Sam Reid
@@ -13,11 +13,11 @@ import edu.colorado.phet.rotation.AbstractRotationModule;
  */
 public class ResetButton extends JPanel {
 
-    public ResetButton( final AbstractRotationModule module ) {
+    public ResetButton( final Resettable module ) {
         JButton resetButton = new JButton( "Reset All" );
         resetButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.resetAll();
+                module.reset();
             }
         } );
         add( resetButton );
