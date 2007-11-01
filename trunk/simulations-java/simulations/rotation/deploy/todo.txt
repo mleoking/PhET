@@ -5,10 +5,7 @@
 Different background color for the control panel and graphs.
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
-On the Intro panel I don’t see the need for the theta = 0 indicator.
-I also think, there should be a few controls in the lower left hand corner.
-I think show velocity vectors and show acceleration vectors should be available.
-Also a Rest All button and Help if the sim ever has help.
+add help button if the sim ever has help.
 
 I left the sim running for the past hour or so and it’s now totally frozen.
 I don’t know if such vague information is helpful but I thought I’d pass it along.
