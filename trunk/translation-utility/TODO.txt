@@ -17,7 +17,6 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- disable Google Translate feature
 - replace exec("jar...") with java.util.jar API
 - make exception handling more robust
 
@@ -34,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/2/07 - disable Google Translate feature, defer
 11/2/07 - integrate with Google Translate
 11/2/07 - Sam Reid added contrib/google-translate-api and related test programs
 ********* version 0.00.02 (18434)

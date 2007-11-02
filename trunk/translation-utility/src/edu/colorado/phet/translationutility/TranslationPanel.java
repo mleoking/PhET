@@ -134,11 +134,11 @@ public class TranslationPanel extends JPanel {
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
             boolean autoTranslated = false;
-            if ( targetValue == null ) {
-                System.out.println( "auto translating " + key );//XXX
-                targetValue = AutoTranslator.translate( sourceValue, _sourceCountryCode, _targetCountryCode );
-                autoTranslated = true;
-            }
+//            if ( targetValue == null ) {
+//                System.out.println( "auto translating " + key );//XXX
+//                targetValue = AutoTranslator.translate( sourceValue, _sourceCountryCode, _targetCountryCode );
+//                autoTranslated = true;
+//            }
 
             JLabel keyLabel = new JLabel( key );
             keyLabel.setFont( KEY_FONT );
