@@ -65,9 +65,9 @@ public class BabelFishUtil {
     }
 
     public static void main( String[] args ) throws IOException {
-        String orig = "C:\\PhET\\projects-ii\\waveinterference\\data\\localization\\wi.properties";
-        String pathname = "C:\\PhET\\projects-ii\\waveinterference\\data\\localization\\wi.properies_post_babelfish_es";
-        String dst = "C:\\PhET\\projects-ii\\waveinterference\\data\\localization\\wi_es.properties";
+        String orig = "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations\\waveinterference\\data\\waveinterference\\localization\\waveinterference-strings.properties";
+        String pathname = "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations\\waveinterference\\data\\waveinterference\\localization\\waveinterference-strings-postbab_es2.properties";
+        String dst = "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations\\waveinterference\\data\\waveinterference\\localization\\waveinterference-strings_es2.properties";
 //        writePreBabel( orig );
         parsePostBabel( orig, pathname, dst );
     }

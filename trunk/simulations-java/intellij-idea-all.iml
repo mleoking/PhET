@@ -79,6 +79,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/waveinterference/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../translation-utility">
+      <sourceFolder url="file://$MODULE_DIR$/../translation-utility/contrib/google-translate-api/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../translation-utility/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
