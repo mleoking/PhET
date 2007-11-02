@@ -13,7 +13,7 @@ import com.google.api.translate.Translate;
 public class TestTranslate {
     public static void main( String[] args ) {
         try {
-            String translatedText = Translate.translate( "Salut le monde", Language.FRENCH, Language.ENGLISH );
+            String translatedText = Translate.translate( "<html>fluid</html>", Language.ENGLISH, Language.FRENCH );
             System.out.println( translatedText );
         }
         catch( Exception ex ) {

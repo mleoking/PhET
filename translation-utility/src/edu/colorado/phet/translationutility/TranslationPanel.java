@@ -5,11 +5,16 @@ package edu.colorado.phet.translationutility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import com.google.api.translate.Language;
+import com.google.api.translate.Translate;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -37,6 +42,8 @@ public class TranslationPanel extends JPanel {
     private static final Border TEXT_AREA_BORDER = BorderFactory.createCompoundBorder( 
             /* outside */ BorderFactory.createLineBorder( Color.BLACK, 1 ), 
             /* inside */ BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
+    
+    private static final Color AUTO_TRANSLATED_BACKGROUND = Color.YELLOW;
     
     /*
      * Associates a key with a JTextArea.
@@ -90,7 +97,7 @@ public class TranslationPanel extends JPanel {
         Properties sourceProperties = _jarFileManager.readProperties( _sourceCountryCode );
         Properties targetProperties = _jarFileManager.readProperties( _targetCountryCode );
         if ( targetProperties == null ) {
-            targetProperties = sourceProperties;
+            targetProperties = new Properties();
         }
         
         EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
@@ -126,6 +133,12 @@ public class TranslationPanel extends JPanel {
             String key = (String) i.next();
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
+            boolean autoTranslated = false;
+            if ( targetValue == null ) {
+                System.out.println( "auto translating " + key );//XXX
+                targetValue = AutoTranslator.translate( sourceValue, _sourceCountryCode, _targetCountryCode );
+                autoTranslated = true;
+            }
 
             JLabel keyLabel = new JLabel( key );
             keyLabel.setFont( KEY_FONT );
@@ -140,6 +153,9 @@ public class TranslationPanel extends JPanel {
             sourceTextArea.setBackground( this.getBackground() );
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
+            if ( autoTranslated ) {
+                targetTextArea.setBackground( AUTO_TRANSLATED_BACKGROUND );
+            }
             targetTextArea.setFont( TARGET_VALUE_FONT );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
