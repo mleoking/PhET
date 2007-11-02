@@ -3,6 +3,10 @@
 ================================================================================
 
 OPEN ISSUES:
+- support for flavors of sims (where jar filename is not same as project name)
+- handle whitespace in file pathnames
+- how to discover common localization files
+- how to present common localization
 - how to deliver the Translation Utility
 - how to update the Translation Utility if it's bundled inside every sim
 - how to Submit to PhET
@@ -14,10 +18,12 @@ OPEN ISSUES:
 
 HIGH PRIORITY:
 - replace exec("jar...") with java.util.jar API
+- make exception handling more robust
 
 MEDIUM PRIORITY:
 - save/load work in progress
 - Flash sim support
+- select simulation from Translation Utility
 
 LOW PRIORITY:
 - File>Exit or Quit button
