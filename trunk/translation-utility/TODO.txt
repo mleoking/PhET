@@ -17,6 +17,7 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
+- replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - replace exec("jar...") with java.util.jar API
 - make exception handling more robust
 
