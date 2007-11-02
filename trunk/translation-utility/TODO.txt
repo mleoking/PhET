@@ -32,6 +32,8 @@ LOW PRIORITY:
 
 
 DONE:
+11/2/07 - integrate with Google Translate
+11/2/07 - Sam Reid added contrib/google-translate-api and related test programs
 ********* version 0.00.02 (18434)
 11/1/07 - first version that works on Win and Mac
 11/1/07 - version that works as double-clickable JAR on Win98 with JDK installed
