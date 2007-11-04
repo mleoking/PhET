@@ -209,7 +209,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         if( module.getParameters().getAllowDynamics() ) {
             try {
                 ImageIcon timerIcon = new ImageIcon( ImageLoader.loadBufferedImage( "cck/images/stopwatch-thumb.png" ) );
-                final JCheckBox timerButton = new JCheckBox( "Stopwatch", module.isStopwatchVisible() );
+                final JCheckBox timerButton = new JCheckBox( CCKStrings.getString( "stopwatch" ), module.isStopwatchVisible() );
                 timerButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         module.setStopwatchVisible( timerButton.isSelected() );
