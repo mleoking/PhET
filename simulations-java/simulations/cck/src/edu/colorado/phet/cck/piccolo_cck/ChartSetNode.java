@@ -4,6 +4,7 @@ import edu.colorado.phet.cck.chart.AbstractFloatingChart;
 import edu.colorado.phet.cck.chart.CurrentStripChart;
 import edu.colorado.phet.cck.chart.VoltageStripChart;
 import edu.colorado.phet.cck.model.Circuit;
+import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
@@ -27,7 +28,7 @@ public class ChartSetNode extends PhetPNode {
     }
 
     public void addCurrentChart() {
-        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, "Current (Amps)", clock, getCircuit(), cckSimulationPanel );
+        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, CCKStrings.getString( "current-y-axis"), clock, getCircuit(), cckSimulationPanel );
         chart.translate( 3 * 70, 3 * 70 );
 
         addChild( chart );

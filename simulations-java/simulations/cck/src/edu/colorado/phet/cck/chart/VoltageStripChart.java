@@ -1,11 +1,12 @@
 package edu.colorado.phet.cck.chart;
 
+import java.awt.*;
+
+import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.cck.model.Circuit;
 import edu.colorado.phet.cck.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.cck.piccolo_cck.PiccoloVoltageCalculation;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -23,7 +24,7 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
         }, clock );
         super.setValueReader( new VoltageStripChart.VoltageReader( circuit ) );
         getStripChartJFCNode().setVerticalRange( -20, 20 );
-        getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( "Voltage (V)" );
+        getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( CCKStrings.getString( "voltage-y-axis"));
         getLeftCrosshairGraphic().setColor( Color.red );
         getRightCrosshairGraphic().setColor( Color.black );
     }
