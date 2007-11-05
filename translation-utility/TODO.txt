@@ -17,11 +17,11 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- replace exec("jar...") with java.util.jar API
 - make exception handling more robust
 
 MEDIUM PRIORITY:
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
+- rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - save/load work in progress
 - Flash sim support
 - select simulation from Translation Utility
@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/5/07 - remove dependency on "jar" command, replace with java.util.jar API
 11/2/07 - disable Google Translate feature, defer
 11/2/07 - integrate with Google Translate
 11/2/07 - Sam Reid added contrib/google-translate-api and related test programs
