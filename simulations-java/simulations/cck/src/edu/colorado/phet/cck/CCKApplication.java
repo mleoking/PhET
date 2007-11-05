@@ -1,5 +1,14 @@
 package edu.colorado.phet.cck;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+
+import javax.swing.*;
+
 import edu.colorado.phet.cck.controls.OptionsMenu;
 import edu.colorado.phet.cck.piccolo_cck.CCKPiccoloModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -8,14 +17,6 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -91,7 +92,7 @@ public class CCKApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
-//        Locale.setDefault( new Locale( "ja" ) );
+//        java.util.Locale.setDefault( new java.util.Locale( "it" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 new CCKPhetLookAndFeel().initLookAndFeel();
