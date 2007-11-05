@@ -1,3 +1,10 @@
+Reports from Marani:
+1. We have problems saving file with cck extension (we can save only as any
+file)
+2. We can?t open right clicking any menu to remove voltmeter
+3. We can?t add voltmeter on ToolBox
+
+
 Internal resistance display for AC voltage is incorrect (always zero)
 
 From Sam F: see docs/bug.txt
