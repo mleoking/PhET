@@ -4,6 +4,10 @@ package edu.colorado.phet.translationutility;
 
 import java.io.*;
 import java.util.Properties;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 
 /**
  * JarFileManager handles operations on the simulation's JAR file.
@@ -25,8 +29,6 @@ public class JarFileManager {
      */
     public JarFileManager( String jarFileName ) {
         _jarFileName = new String( jarFileName );
-        System.out.println( "FILE_SEPARATOR=" + FILE_SEPARATOR );//XXX
-        System.out.println( "_jarFileName=" + _jarFileName );//XXX
     }
     
     /**
@@ -48,18 +50,30 @@ public class JarFileManager {
      * @return
      */
     public Properties readProperties( String countryCode ) {
+        Properties properties = new Properties();
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
-        extractFileFromJar( propertiesFileName );
-        Properties properties = null;
         try {
-            File inFile = new File( propertiesFileName );
-            if ( inFile.exists() ) {
-                InputStream inStream = new FileInputStream( inFile );
-                properties = new Properties();
-                properties.load( inStream );
-                inStream.close();
+            // input comes from the JAR file
+            InputStream inputStream = new FileInputStream( _jarFileName ); // throws FileNotFoundException
+            JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
+            
+            // look for the properties file
+            JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            boolean found = false;
+            while ( jarEntry != null ) {
+                if ( jarEntry.getName().equals( propertiesFileName ) ) {
+                    found = true;
+                    break;
+                }
+                else {
+                    jarEntry = jarInputStream.getNextJarEntry();
+                }
             }
+            if ( !found ) {
+                throw new FileNotFoundException( "properties file not contained in JAR: " + propertiesFileName );
+            }
+            properties.load( jarInputStream ); // throws IOException
         }
         catch ( FileNotFoundException fnfe ) {
             fnfe.printStackTrace();
@@ -67,13 +81,12 @@ public class JarFileManager {
         catch ( IOException ioe ) {
             ioe.printStackTrace();
         }
-        //XXX remove extracted properties file and any directories we created from file system
         return properties;
     }
     
     /**
      * Writes the properties containing the localized strings for a specified country code.
-     * Creates a file from the Properties object and inserts the file into the JAR.
+     * This reads the entire JAR file and adds (or replaces) a properties file for the localized strings provided.
      * 
      * @param properties
      * @param countryCode
@@ -81,13 +94,43 @@ public class JarFileManager {
     public void writeProperties( Properties properties, String countryCode ) {
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
+        String tempFileName = _jarFileName + "." + System.currentTimeMillis() + ".tmp";
+        File jarFile = new File( _jarFileName );
+        File tempFile = new File( tempFileName );
         try {
-            File outFile = new File( propertiesFileName );
-            outFile.createNewFile();
-            OutputStream outStream = new FileOutputStream( outFile );
+            // input comes from the original JAR file
+            InputStream inputStream = new FileInputStream( jarFile ); // throws FileNotFoundException
+            JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
+            Manifest manifest = jarInputStream.getManifest();
+            
+            // output goes to a temp JAR file
+            OutputStream outputStream = new FileOutputStream( tempFile );
+            JarOutputStream jarOutputStream = new JarOutputStream( outputStream, manifest );
+            
+            // copy all entries from input to output, skipping the properties file
+            JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            while ( jarEntry != null ) {
+                if ( !jarEntry.getName().equals( propertiesFileName ) ) {
+                    jarOutputStream.putNextEntry( jarEntry );
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ( ( len = jarInputStream.read( buf ) ) > 0 ) {
+                        jarOutputStream.write( buf, 0, len );
+                    }
+                    jarOutputStream.closeEntry();
+                }
+                jarEntry = jarInputStream.getNextJarEntry();
+            }
+            
+            // add properties file to output
+            jarEntry = new JarEntry( propertiesFileName );
+            jarOutputStream.putNextEntry( jarEntry );
             String header = propertiesFileName;
-            properties.store( outStream, header );
-            outStream.close();
+            properties.store( jarOutputStream, header );
+            jarOutputStream.closeEntry();
+            
+            // close the output
+            jarOutputStream.close();
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
@@ -95,8 +138,8 @@ public class JarFileManager {
         catch ( IOException e ) {
             e.printStackTrace();
         }
-        addFileToJar( propertiesFileName );
-        //XXX remove properties file from file system
+        // if everything went OK, move temp file to JAR file
+        tempFile.renameTo( jarFile );
     }
     
     /**
@@ -106,22 +149,6 @@ public class JarFileManager {
      */
     public void runJarFile( String countryCode ) {
         Command.run( "java -jar -Duser.language=" + countryCode + " " + _jarFileName, false /* waitForCompletion */ );
-    }
-    
-    /*
-     * Extracts a file from the JAR.
-     */
-    private void extractFileFromJar( String propertiesFileName ) {
-        String command = "jar xf " + _jarFileName + " " + propertiesFileName;
-        Command.run( command, true /* waitForCompletion */ );
-    }
-    
-    /*
-     * Inserts a file into the JAR.
-     */
-    private void addFileToJar( String propertiesFileName ) {
-        String command = "jar uf " + _jarFileName + " " + propertiesFileName;
-        Command.run( command, true /* waitForCompletion */ );
     }
     
     /*

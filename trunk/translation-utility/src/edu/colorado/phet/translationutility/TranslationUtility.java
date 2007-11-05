@@ -24,7 +24,7 @@ public class TranslationUtility extends JFrame {
     private static final String TITLE = NAME + " : " + VERSION + " (" + SVN_REVISION + ")";
     
     private static final String SOURCE_COUNTRY_CODE = "en"; // English
-    private static final boolean DEBUG_COMMAND_OUTPUT = true;
+    private static final boolean DEBUG_COMMAND_OUTPUT = false;
 
     private TranslationUtility() {}
     
