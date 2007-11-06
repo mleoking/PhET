@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.view;
 
+import java.io.IOException;
+
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.rotation.AngleUnitModel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
