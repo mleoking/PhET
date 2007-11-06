@@ -62,14 +62,14 @@ public class RotationLayout {
         double scale = Math.min( sx, sy );
 //        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
         if ( scale > 0 ) {
-            rotationPlayAreaNode.scale( scale*0.825 );
+            rotationPlayAreaNode.scale( scale * 0.825 );
         }
         rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );
 
 //        double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
-        playAreaClip.setPathToRectangle( 0,0,(float) availWidth, (float) availHeight );
-        int padx=3;
-        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx+getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel()-padx , getHeight() ) );
+        playAreaClip.setPathToRectangle( 0, 0, (float) availWidth, (float) availHeight );
+        int padx = 3;
+        timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx + getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padx, getHeight() ) );
     }
 
     private RotationPlatform getRotationPlatform() {

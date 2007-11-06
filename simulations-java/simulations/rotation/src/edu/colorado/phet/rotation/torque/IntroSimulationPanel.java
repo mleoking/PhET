@@ -4,8 +4,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -26,9 +26,9 @@ public class IntroSimulationPanel extends PhetPCanvas {
         playAreaNode.setOriginNodeVisible( false );
         addScreenChild( playAreaNode );
 
-        introSimControlPanel=new IntroSimulationControlPanel(introModule);
-        introSimControlPanelPSwing=new PSwing(introSimControlPanel);
-        addScreenChild( introSimControlPanelPSwing);
+        introSimControlPanel = new IntroSimulationControlPanel( introModule );
+        introSimControlPanelPSwing = new PSwing( introSimControlPanel );
+        addScreenChild( introSimControlPanelPSwing );
         updateLayout();
         setBackground( AbstractRotationSimulationPanel.PLAY_AREA_BACKGROUND_COLOR );
     }
@@ -47,7 +47,7 @@ public class IntroSimulationPanel extends PhetPCanvas {
             playAreaNode.scale( scale );
         }
         playAreaNode.setOffset( getWidth() / 2, scale * getRotationPlatform().getRadius() + padY / 2 );
-        introSimControlPanelPSwing.setOffset( 0,getHeight()-introSimControlPanelPSwing.getFullBounds().getHeight());
+        introSimControlPanelPSwing.setOffset( 0, getHeight() - introSimControlPanelPSwing.getFullBounds().getHeight() );
     }
 
     private RotationPlatform getRotationPlatform() {
