@@ -3,7 +3,6 @@
 ################################
 
 fake 3d thing for showing platform mass
-background to make it obviously top-down instead of side view with gravity
 add a 3-d brake graphic
 okay to cleanup force1d + ramps using rotation graphs + model
 
