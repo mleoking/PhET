@@ -1,12 +1,10 @@
 // Copyright 2007 University of Colorado
 package edu.umd.cs.piccolox.pswing;
 
-import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
+
+import javax.swing.*;
 
 public class MyRepaintManager extends RepaintManager {
     private final HashMap componentToDirtyRects = new HashMap();
@@ -27,9 +25,16 @@ public class MyRepaintManager extends RepaintManager {
     }
 
     public void doUpdateNow() {
+        ArrayList components=new ArrayList( );
         Set keys = componentToDirtyRects.keySet();
+        //workaround to avoid concurrentmodification problem exhibited with multiple frames
         for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             JComponent jComponent = (JComponent)iterator.next();
+            components.add(jComponent);
+        }
+
+        for (int k=0;k<components.size();k++){
+            JComponent jComponent = (JComponent)components.get(k);
             ArrayList origRect = (ArrayList)componentToDirtyRects.get( jComponent );
             ArrayList rect = consolidateList( origRect );
             for( int i = 0; i < rect.size(); i++ ) {
