@@ -1,14 +1,17 @@
 package edu.colorado.phet.rotation.view;
 
 import java.awt.geom.AffineTransform;
+import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * User: Sam Reid
@@ -38,10 +41,7 @@ public class RotationPlayAreaNode extends PNode {
         rulerNode.setVisible( false );
 
         addChild( rotationPlatformNode );
-        addChild( rotationBodyLayer );
-        addChild( vectorLayer );
-        addChild( originNode );
-        addChild( rulerNode );
+
 
         for ( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
             addRotationBodyNode( rotationModel.getRotationBody( i ) );
@@ -51,10 +51,39 @@ public class RotationPlayAreaNode extends PNode {
         }
         circularMotionNode = new CircleNode( rotationModel );
         circularMotionNode.setVisible( false );
-        addChild( circularMotionNode );
+
 
         setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
 
+        addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+        addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius()*0.6, -rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
+
+        addChild( rotationBodyLayer );
+        addChild( vectorLayer );
+        addChild( originNode );
+        addChild( rulerNode );
+
+        addChild( circularMotionNode );
+    }
+
+    static class FlowerNode extends PNode {
+
+        public FlowerNode( String image, double scale, double x, double y ) {
+            PImage flower1 = null;
+            try {
+                flower1 = new PImage( RotationResources.loadBufferedImage( image ) );
+                final double flowerscale1 = SCALE * scale;
+                flower1.scale( flowerscale1 );
+                flower1.translate( -flower1.getFullBounds().getWidth() / flowerscale1 / 2, -flower1.getFullBounds().getHeight() / flowerscale1 / 2 );
+                flower1.translate( x / flowerscale1, y / flowerscale1 );
+                addChild( flower1 );
+            }
+            catch( IOException e ) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {

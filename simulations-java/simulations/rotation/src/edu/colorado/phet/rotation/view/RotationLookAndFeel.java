@@ -13,8 +13,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 public class RotationLookAndFeel extends PhetLookAndFeel {
 
+//    public static final Color backgroundColor = new Color( 200, 240, 200 );
+//    public static final Color backgroundColor = new Color( 190, 220, 200);
+    public static final Color backgroundColor = new Color(230, 239, 220 );
     public RotationLookAndFeel() {
-        super.setBackgroundColor( new Color( 200, 240, 200 ) );
+
+        super.setBackgroundColor( backgroundColor );
         setFont( new PhetDefaultFont( 12, true ) );
     }
 
