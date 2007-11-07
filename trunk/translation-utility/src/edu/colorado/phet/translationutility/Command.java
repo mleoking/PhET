@@ -14,6 +14,12 @@ public class Command {
     
     private static boolean _debugOutputEnabled = false;
     
+    public static class CommandException extends Exception {
+        public CommandException( String message ) {
+            super( message );
+        }
+    }
+    
     /* not intended for instantiation */
     private Command() {}
     
@@ -21,7 +27,7 @@ public class Command {
         _debugOutputEnabled = enabled;
     }
 
-    public static void run( String command, boolean waitForCompletion ) {
+    public static void run( String command, boolean waitForCompletion ) throws CommandException {
         if ( _debugOutputEnabled ) {
             System.out.println( "Command.run command=\"" + command + "\"" );
         }
@@ -46,15 +52,19 @@ public class Command {
             if ( waitForCompletion ) {
                 int exitValue = process.waitFor();
                 if ( exitValue != 0 ) {
-                    throw new RuntimeException( "\"" + command + "\"terminated abnormally, exit value = " + exitValue );
+                    CommandException e = new CommandException( "Command terminated abnormally: " + command );
+                    e.printStackTrace();
+                    throw e;
                 }
             }
         }
-        catch ( IOException ioe ) {
-            ioe.printStackTrace();
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new CommandException( "Failed to run command: " + command );
         }
-        catch ( InterruptedException ie ) {
-            ie.printStackTrace(); 
+        catch ( InterruptedException e ) {
+            e.printStackTrace();
+            throw new CommandException( "Command was interrupted: " + command );
         } 
     }
 }

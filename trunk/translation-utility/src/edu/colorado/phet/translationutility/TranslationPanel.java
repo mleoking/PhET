@@ -5,18 +5,16 @@ package edu.colorado.phet.translationutility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
-
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.translationutility.Command.CommandException;
+import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
@@ -94,8 +92,16 @@ public class TranslationPanel extends JPanel {
         JPanel inputPanel = new JPanel();
         
         String projectName = _jarFileManager.getProjectName();
-        Properties sourceProperties = _jarFileManager.readProperties( _sourceCountryCode );
-        Properties targetProperties = _jarFileManager.readProperties( _targetCountryCode );
+        Properties sourceProperties = null;
+        Properties targetProperties = null;
+        try {
+            sourceProperties = _jarFileManager.readProperties( _sourceCountryCode );
+            targetProperties = _jarFileManager.readProperties( _targetCountryCode );
+        }
+        catch ( JarIOException e ) {
+            handleFatalException( e );
+        }
+        
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
@@ -176,16 +182,19 @@ public class TranslationPanel extends JPanel {
     
     private JPanel createButtonPanel() {
         
-        JButton testButton = new JButton( "Test simulation" );
+        JButton testButton = new JButton( "Test translation..." );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                Properties targetProperties = getTargetProperties();
-                _jarFileManager.writeProperties( targetProperties, _targetCountryCode );
-                _jarFileManager.runJarFile( _targetCountryCode );
+                testTranslation();
             }
         } );
         
         JButton submitButton = new JButton( "Submit translation...");
+        testButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                submitTranslation();
+            }
+        } );
         submitButton.setEnabled( false );//XXX
         
         JButton helpButton = new JButton( "Help..." );
@@ -208,8 +217,34 @@ public class TranslationPanel extends JPanel {
             TargetTextArea targetTextArea = (TargetTextArea) i.next();
             String key = targetTextArea.getKey();
             String targetValue = targetTextArea.getText();
-            properties.put( key, targetValue );
+            // only add properties that have values
+            if ( targetValue != null && targetValue.length() != 0 ) {
+                properties.put( key, targetValue );
+            }
         }
         return properties;
+    }
+    
+    private void testTranslation() {
+        Properties targetProperties = getTargetProperties();
+        try {
+            _jarFileManager.writeProperties( targetProperties, _targetCountryCode );
+            _jarFileManager.runJarFile( _targetCountryCode );
+        }
+        catch ( JarIOException e ) {
+            handleFatalException( e );
+        }
+        catch ( CommandException e ) {
+            handleFatalException( e );
+        }
+    }
+    
+    private void submitTranslation() {
+        //XXX
+    }
+    
+    private void handleFatalException( Exception e ) {
+        DialogUtils.showErrorDialog( null, e.getMessage(), "Error" );
+        System.exit( 1 ); // non-zero status to indicate abnormal termination
     }
 }
