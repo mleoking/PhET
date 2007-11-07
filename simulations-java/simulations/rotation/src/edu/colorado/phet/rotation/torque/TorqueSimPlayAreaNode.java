@@ -47,7 +47,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
         addChild( tangentialComponentVector );
         addChild( appliedForceVector );
         addChild( brakeForceVector );
-        addChild( brakeNode );
+        addChild( 0,brakeNode );
 
         torqueModel.addListener( new TorqueModel.Adapter() {
             public void showComponentsChanged() {

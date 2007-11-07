@@ -57,7 +57,7 @@ public class RotationPlayAreaNode extends PNode {
 
         addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
         addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
-        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.6, -rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
+        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.7, rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
 
         addChild( rotationBodyLayer );
         addChild( vectorLayer );
@@ -68,9 +68,7 @@ public class RotationPlayAreaNode extends PNode {
     }
 
     static class FlowerNode extends PNode {
-
         public FlowerNode( String image, double scale, double x, double y ) {
-
             try {
                 PImage flower1 = new PImage( RotationResources.loadBufferedImage( image ) );
                 final double flowerscale1 = SCALE * scale;
@@ -82,7 +80,6 @@ public class RotationPlayAreaNode extends PNode {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-
         }
     }
 
