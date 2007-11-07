@@ -109,7 +109,12 @@ public class DialogUtils {
 
         // Put the pane in a dialog
         JDialog dialog = pane.createDialog( parentComponent, title );
-        SwingUtils.centerDialogInParent( dialog );
+        if ( parentComponent != null ) {
+            SwingUtils.centerDialogInParent( dialog );
+        }
+        else {
+            SwingUtils.centerWindowOnScreen( dialog );
+        }
         dialog.show();
     }
 
