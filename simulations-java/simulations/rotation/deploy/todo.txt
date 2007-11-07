@@ -3,7 +3,6 @@
 ################################
 
 fake 3d thing for showing platform mass
-add a 3-d brake graphic
 okay to cleanup force1d + ramps using rotation graphs + model
 
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
