@@ -15,9 +15,9 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
+- support for flavors of sims (where jar filename is not same as project name)
 - implement "Submit" that creates a Zip archive with instructions to email it to phethelp@colorado.edu
 - handle whitespace in file pathnames
-- support for flavors of sims (where jar filename is not same as project name)
 
 MEDIUM PRIORITY:
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
@@ -27,13 +27,13 @@ MEDIUM PRIORITY:
 - select simulation from Translation Utility
 
 LOW PRIORITY:
-- localize the translation utility
 - File>Exit or Quit button
 - check for unsaved changes before exiting
 - clean up files and directories created
 
 
 DONE:
+11/6/07 - move all string literals to localization file
 11/6/07 - make exception handling more robust, post dialogs when unrecoverable errors occur
 11/5/07 - project properties file for translation-utility
 11/5/07 - remove dependency on "jar" command, replace with java.util.jar API
