@@ -26,6 +26,11 @@ import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
  */
 public class TranslationPanel extends JPanel {
    
+    private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.testTranslation" );
+    private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
+    private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
+    private static final String FATAL_ERROR_DIALOG_TITLE = TUResources.getString( "title.fatalErrorDialog" );
+
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
     private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
@@ -182,14 +187,14 @@ public class TranslationPanel extends JPanel {
     
     private JPanel createButtonPanel() {
         
-        JButton testButton = new JButton( "Test translation..." );
+        JButton testButton = new JButton( TEST_BUTTON_LABEL );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 testTranslation();
             }
         } );
         
-        JButton submitButton = new JButton( "Submit translation...");
+        JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 submitTranslation();
@@ -197,7 +202,7 @@ public class TranslationPanel extends JPanel {
         } );
         submitButton.setEnabled( false );//XXX
         
-        JButton helpButton = new JButton( "Help..." );
+        JButton helpButton = new JButton( HELP_BUTTON_LABEL );
         helpButton.setEnabled( false );//XXX
         
         JPanel buttonPanel = new JPanel( new GridLayout( 1, 5 ) );
@@ -244,7 +249,7 @@ public class TranslationPanel extends JPanel {
     }
     
     private void handleFatalException( Exception e ) {
-        DialogUtils.showErrorDialog( null, e.getMessage(), "Error" );
+        DialogUtils.showErrorDialog( null, e.getMessage(), FATAL_ERROR_DIALOG_TITLE );
         System.exit( 1 ); // non-zero status to indicate abnormal termination
     }
 }

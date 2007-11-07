@@ -19,6 +19,11 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class JarFileManager {
+    
+    private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
+    private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
+    private static final String ERROR_CANNOT_LOAD_PROPERTIES_FILE = TUResources.getString( "error.cannotLoadPropertiesFile" );
+    private static final String ERROR_CANNOT_ADD_PROPERTIES_FILE = TUResources.getString( "error.cannotAddPropertiesFile" );
 
     private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
     
@@ -69,7 +74,7 @@ public class JarFileManager {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( "Cannot open JAR file: " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
         }
         
         JarInputStream jarInputStream = null;
@@ -91,7 +96,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( "Cannot read JAR file: " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + _jarFileName );
         }
         
         Properties properties = null;
@@ -103,7 +108,7 @@ public class JarFileManager {
             }
             catch ( IOException e ) {
                 e.printStackTrace();
-                throw new JarIOException( "Cannot load properties file: " + propertiesFileName );
+                throw new JarIOException( ERROR_CANNOT_LOAD_PROPERTIES_FILE + " : " + propertiesFileName );
             }
         }
     
@@ -132,7 +137,7 @@ public class JarFileManager {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( "Cannot open JAR file: " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
         }
         
         try {
@@ -171,7 +176,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( "Cannot add properties to JAR file: " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_ADD_PROPERTIES_FILE + " : " + _jarFileName );
         }
         
         // if everything went OK, move temp file to JAR file
