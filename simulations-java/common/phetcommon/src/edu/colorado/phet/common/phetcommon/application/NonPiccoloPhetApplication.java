@@ -443,6 +443,18 @@ public class NonPiccoloPhetApplication {
     }
 
     /**
+     * @see PhetApplicationConfig#getLocaleCredits() 
+     * @return the locale credits text
+     */
+    public String getLocaleCredits() {
+                String credits = null;
+        if ( getApplicationConfig() != null ) {
+            credits = getApplicationConfig().getLocaleCredits();
+        }
+        return credits;
+    }
+
+    /**
      * Gets the credits for the simulations.
      *
      * @return

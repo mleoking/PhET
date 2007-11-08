@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 
 /**
@@ -31,9 +32,7 @@ public class CCKApplication extends PhetApplication {
     public static final String AC_OPTION = "-dynamics";
 
     public CCKApplication( String[] args ) throws IOException {
-        super( args, CCKResources.getString( isDynamic( args ) ? "cck-ac.name" : "cck-dc.name" ),
-               CCKResources.getString( isDynamic( args ) ? "cck-ac.description" : "cck-dc.description" ),
-               readVersion(), createFrameSetup() );
+        super( new PhetApplicationConfig(args, createFrameSetup(), PhetResources.forProject( "cck" ),isDynamic( args )?"cck-ac":"cck-dc"));
 
         boolean debugMode = false;
         if( Arrays.asList( args ).contains( "debug" ) ) {
