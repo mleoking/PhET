@@ -268,10 +268,11 @@ public class PhetAboutDialog extends JDialog {
     protected void showCredits() {
         JComponent creditsLabel = new JLabel( creditsString );
         JComponent allCredits=creditsLabel;
-        if (localeCreditsString!=null){
+        if (localeCreditsString!=null&&!localeCreditsString.trim().equals( "")){
             JLabel c2=new JLabel( localeCreditsString);
             JPanel jPanel=new VerticalLayoutPanel();
             jPanel.add(creditsLabel);
+            jPanel.add( Box.createVerticalStrut( 15));
             jPanel.add(c2);
             allCredits=jPanel;
         }
