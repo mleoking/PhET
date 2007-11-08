@@ -3,6 +3,7 @@
 package edu.colorado.phet.common.phetcommon.application;
 
 import java.util.Properties;
+import java.util.Locale;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersionInfo;
@@ -178,6 +179,20 @@ public class PhetApplicationConfig {
             version = new PhetVersionInfo( major, minor, dev, rev );
         }
         return version;
+    }
+
+    /**
+     * Returns the locale credits for a simulation; this is an optional string specified in the simulation properties file
+     * that is to be displayed only when using a particular locale.
+     * @return the locale credits text
+     */
+    public String getLocaleCredits(){
+        final String localeCreditsKey = PROPERTY_CREDITS + "." + PhetResources.readLocale();
+//        System.out.println( "localeCreditsKey = " + localeCreditsKey );
+        String localizedCredits = getProjectProperty( localeCreditsKey );
+//        System.out.println( "localizedCredits = " + localizedCredits );
+
+        return ( localizedCredits != null ? localizedCredits : ""  );
     }
 
     /**

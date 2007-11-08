@@ -46,7 +46,7 @@ public class PhetAboutDialog extends JDialog {
     private static final String LICENSE_RESOURCE = "phet-license.txt";
 
     private JPanel logoPanel;
-    private String titleString, descriptionString, versionString, creditsString;
+    private String titleString, descriptionString, versionString, creditsString,localeCreditsString;
 
     /**
      * Constructs the dialog.
@@ -63,7 +63,7 @@ public class PhetAboutDialog extends JDialog {
             return new PhetApplicationConfigDialogConfig( phetApplication.getApplicationConfig() );
         }
         else {
-            return new SimpleDialogConfig( phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits() );
+            return new SimpleDialogConfig( phetApplication.getTitle(), phetApplication.getDescription(), phetApplication.getVersion(), phetApplication.getCredits(),phetApplication.getLocaleCredits() );
         }
     }
 
@@ -91,6 +91,7 @@ public class PhetAboutDialog extends JDialog {
         descriptionString = config.getDescription();
         versionString = config.getVersionForAboutDialog();
         creditsString = config.getCredits();
+        localeCreditsString=config.getLocaleCredits();
 
         setTitle( getLocalizedString( "Common.HelpMenu.AboutTitle" ) + " " + titleString );
 
@@ -265,8 +266,16 @@ public class PhetAboutDialog extends JDialog {
      * Displays credits in a message dialog.
      */
     protected void showCredits() {
-        JLabel creditsLabel = new JLabel( creditsString );
-        showMessageDialog( creditsLabel, getLocalizedString( "Common.About.CreditsDialog.Title" ) );
+        JComponent creditsLabel = new JLabel( creditsString );
+        JComponent allCredits=creditsLabel;
+        if (localeCreditsString!=null){
+            JLabel c2=new JLabel( localeCreditsString);
+            JPanel jPanel=new VerticalLayoutPanel();
+            jPanel.add(creditsLabel);
+            jPanel.add(c2);
+            allCredits=jPanel;
+        }
+        showMessageDialog( allCredits, getLocalizedString( "Common.About.CreditsDialog.Title" ) );
     }
 
     private String getLocalizedString( String propertyName ) {
@@ -334,6 +343,8 @@ public class PhetAboutDialog extends JDialog {
         String getVersionForAboutDialog();
 
         String getCredits();
+
+        String getLocaleCredits();
     }
 
     /**
@@ -362,6 +373,10 @@ public class PhetAboutDialog extends JDialog {
         public String getCredits() {
             return applicationConfig.getCredits();
         }
+
+        public String getLocaleCredits() {
+            return applicationConfig.getLocaleCredits();
+        }
     }
 
     /**
@@ -373,12 +388,14 @@ public class PhetAboutDialog extends JDialog {
         private String description;
         private String versionString;
         private String credits;
+        private String localeCredits;
 
-        public SimpleDialogConfig( String name, String description, String versionString, String credits ) {
+        public SimpleDialogConfig( String name, String description, String versionString, String credits,String localeCredits ) {
             this.name = name;
             this.description = description;
             this.versionString = versionString;
             this.credits = credits;
+            this.localeCredits = localeCredits;
         }
 
         public String getName() {
@@ -395,6 +412,10 @@ public class PhetAboutDialog extends JDialog {
 
         public String getCredits() {
             return credits;
+        }
+
+        public String getLocaleCredits() {
+            return localeCredits;
         }
 
     }
