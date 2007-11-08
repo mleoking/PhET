@@ -1,0 +1,30 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 1-8, 2007 (Thu-Thu)
+
+ACCOMPLISHMENTS:
+
+  Translation Utility:
+  - investigate interfacing with Google Translate, noted a few problems
+  - implemented JAR file interface using java.util.jar API, eliminates the need to have a JDK installed
+    
+WHAT'S NEXT:
+
+  - publish Optical Tweezers 2.0, pending review and approval
+  
+  - continue work on Glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+  
+  - continue work on Translation Utility, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO.txt?view=markup
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  November 20-27
+  
+--
