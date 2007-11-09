@@ -120,7 +120,6 @@ public class JarFileManager {
             throw e;
         }
         
-        System.out.println( "JarFileManager.discoverProjectName projectName=" + projectName );//XXX
         return projectName;
     }
     
