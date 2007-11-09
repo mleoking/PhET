@@ -13,6 +13,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 9/11/07 - rename AbstractControlPanel and AbstractModule to prevent name collisions with other sims
 8/29/07 - replace RSWiggleMe with piccolo-phet DefaultWiggleMe
