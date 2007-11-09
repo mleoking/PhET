@@ -28,6 +28,7 @@ public class JarFileManager {
 
     private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
     
+    // general form: project-name/localization/project-name.properties
     private static final String ENGLISH_PROPERTIES_FILE_PATTERN = ".*" + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + ".*-strings.properties";
     
     private final String _jarFileName;
@@ -56,6 +57,17 @@ public class JarFileManager {
         }
     }
     
+    /*
+     * Discovers the name of the simulation project used to create the JAR file.
+     * We search for localization files in the JAR file.
+     * The first localization file that does not belong to a common project is assumed
+     * to belong to the simulation, and we extract the project name from the localization file name.
+     * 
+     * @param jarFileName
+     * @param commonProjectNames
+     * @return
+     * @throws JarIOException
+     */
     private static String discoverProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
         
         String projectName = null;
@@ -80,6 +92,7 @@ public class JarFileManager {
                 if ( jarEntryName.matches( ENGLISH_PROPERTIES_FILE_PATTERN ) ) {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
+                        // for example, phetcommon/localization/phetcommon-strings.properties
                         String commonProjectFileName = commonProjectNames[i] + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + commonProjectNames[i] + "-strings.properties";
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
@@ -92,9 +105,7 @@ public class JarFileManager {
                         break;
                     }
                 }
-                else {
-                    jarEntry = jarInputStream.getNextJarEntry();
-                }
+                jarEntry = jarInputStream.getNextJarEntry();
             }
         }
         catch ( IOException e ) {

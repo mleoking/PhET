@@ -3,7 +3,6 @@
 ================================================================================
 
 OPEN ISSUES:
-- how to discover common localization files
 - how to present common localization
 - how to deliver the Translation Utility
 - how to update the Translation Utility if it's bundled inside every sim
@@ -32,6 +31,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - increase frame width so we don't get a horizontal scrollbar
 11/9/07 - support for flavors of sims (where jar filename is not same as project name)
 11/6/07 - move all string literals to localization file
 11/6/07 - make exception handling more robust, post dialogs when unrecoverable errors occur
