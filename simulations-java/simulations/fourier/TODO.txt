@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/9/07 - switch persistence to phetcommon's XMLPersistenceManager
 9/11/07 - rename FourierModule and FourierControlPanel to have "Abstract" in their names, consistent with other sims
