@@ -27,6 +27,7 @@ public class InitializationDialog extends JDialog {
     
     private JTextField _jarFileTextField;
     private JTextField _countryCodeTextField;
+    private JCheckBox _autoTranslateCheckBox;
     private JButton _continueButton;
     private boolean _continue;
     
@@ -98,6 +99,14 @@ public class InitializationDialog extends JDialog {
             countryCodePanel.add( _countryCodeTextField );
         }
         
+        JPanel autoTranslatePanel = new JPanel();
+        autoTranslatePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+        {
+            _autoTranslateCheckBox = new JCheckBox( TUResources.getString( "checkbox.autoTranslate" ) );
+            _autoTranslateCheckBox.setSelected( true );
+            autoTranslatePanel.add( _autoTranslateCheckBox );
+        }
+        
         _continueButton = new JButton( "Continue..." );
         _continueButton.setEnabled( false );
         _continueButton.addActionListener( new ActionListener() {
@@ -132,6 +141,7 @@ public class InitializationDialog extends JDialog {
         topPanel.add( instructionsPanel );
         topPanel.add( jarFilePanel );
         topPanel.add( countryCodePanel );
+        topPanel.add( autoTranslatePanel );
         
         JPanel innerPanel = new JPanel( new GridLayout( 1, 5 ) );
         innerPanel.add( _continueButton );
@@ -169,6 +179,10 @@ public class InitializationDialog extends JDialog {
     
     public String getTargetCountryCode() {
         return _countryCodeTextField.getText();
+    }
+    
+    public boolean isAutoTranslateEnabled() { 
+        return _autoTranslateCheckBox.isSelected();
     }
     
     // must have the form of an ISO 3166-1 alpha-2 country code
