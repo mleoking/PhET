@@ -14,12 +14,12 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- implement "Submit" that creates a Zip archive with instructions to email it to phethelp@colorado.edu
 - handle whitespace in file pathnames
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 
 MEDIUM PRIORITY:
+- choose specific fonts for specific languages (generalize FontJA)
 - save/load work in progress
 - Flash sim support
 - select simulation from Translation Utility
@@ -31,6 +31,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - implement "Submit" that creates properties file with instructions to email it to phethelp@colorado.edu
 11/9/07 - increase frame width so we don't get a horizontal scrollbar
 11/9/07 - support for flavors of sims (where jar filename is not same as project name)
 11/6/07 - move all string literals to localization file

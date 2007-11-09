@@ -25,6 +25,7 @@ public class JarFileManager {
     private static final String ERROR_CANNOT_LOAD_PROPERTIES_FILE = TUResources.getString( "error.cannotLoadPropertiesFile" );
     private static final String ERROR_CANNOT_ADD_PROPERTIES_FILE = TUResources.getString( "error.cannotAddPropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
+    private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
 
     private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
     
@@ -124,6 +125,31 @@ public class JarFileManager {
     }
     
     /**
+     * Gets the JAR file name.
+     * 
+     * @return
+     */
+    public String getJarFileName() {
+        return _jarFileName;
+    }
+    
+    /**
+     * Gets the directory portion of the JAR file name.
+     * For example, if JAR filename is /usr/home/cmalley/foo.jar,
+     * then this method returns /usr/home/cmalley.
+     * 
+     * @return
+     */
+    public String getJarDirName() {
+        String dirName = "";
+        int index = _jarFileName.lastIndexOf( FILE_SEPARATOR );
+        if ( index != -1 ) {
+            dirName = _jarFileName.substring( 0, index );
+        }
+        return dirName;
+    }
+    
+    /**
      * Gets the project name.
      * @return
      */
@@ -137,6 +163,10 @@ public class JarFileManager {
      */
     public String[] getCommonProjectNames() {
         return _commonProjectNames;
+    }
+    
+    public static char getFileSeparator() {
+        return FILE_SEPARATOR;
     }
     
     /**
@@ -265,6 +295,44 @@ public class JarFileManager {
         
         // if everything went OK, move temp file to JAR file
         tempFile.renameTo( jarFile );
+    }
+
+    /**
+     * Save properties to a localized string file.
+     * The file is put in the same directory as the JAR file.
+     * 
+     * @param properties
+     * @param countryCode
+     * @throws JarIOException
+     * @return name of the saved file
+     */
+    public String savePropertiesToFile( Properties properties, String countryCode ) throws JarIOException {
+        
+        // create the filename, using same directory as JAR file
+        String dirName = getJarDirName();
+        String baseName = _projectName + "-strings_" + countryCode + ".properties";
+        String propertiesFileName = null;
+        if ( dirName != null && dirName.length() > 0 ) {
+            propertiesFileName = dirName + JarFileManager.getFileSeparator() + baseName;
+        }
+        else {
+            propertiesFileName = baseName;
+        }
+        
+        // write the properties to the file
+        try {
+            File outFile = new File( propertiesFileName );
+            OutputStream outputStream = new FileOutputStream( outFile );
+            String header = propertiesFileName + " (" + _jarFileName + ")";
+            properties.store( outputStream, header );
+            outputStream.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + propertiesFileName );
+        }
+        
+        return propertiesFileName;
     }
     
     /**
