@@ -32,7 +32,7 @@ public class TestUnicodeEscapes {
         String text = "\u0637\u0642\u0645 \u0627\u062F\u0648\u0627\u062A";
         System.out.println( "text = " + text );
 //        JOptionPane.showInputDialog( text );
-        JTextArea te = new JTextArea( text );
+        final JTextArea te = new JTextArea( text );
         JFrame f = new JFrame();
         f.setContentPane( te );
         f.pack();
@@ -40,13 +40,13 @@ public class TestUnicodeEscapes {
 
         final Properties properties = new Properties();
         properties.put( "key", text );
-        properties.put( "from.textfield", te.getText() );
+
         te.addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
                     System.out.println( "TestUnicodeEscapes.keyPressed" );
                     try {
-
+                        properties.put( "from.textfield", te.getText() );
                         properties.store( new FileOutputStream( fileLocation, false ), null );
                     }
                     catch( IOException e1 ) {
