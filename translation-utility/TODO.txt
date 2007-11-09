@@ -15,13 +15,12 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- support for flavors of sims (where jar filename is not same as project name)
 - implement "Submit" that creates a Zip archive with instructions to email it to phethelp@colorado.edu
 - handle whitespace in file pathnames
-
-MEDIUM PRIORITY:
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
+
+MEDIUM PRIORITY:
 - save/load work in progress
 - Flash sim support
 - select simulation from Translation Utility
@@ -33,6 +32,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - support for flavors of sims (where jar filename is not same as project name)
 11/6/07 - move all string literals to localization file
 11/6/07 - make exception handling more robust, post dialogs when unrecoverable errors occur
 11/5/07 - project properties file for translation-utility

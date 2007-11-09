@@ -24,10 +24,15 @@ public class JarFileManager {
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
     private static final String ERROR_CANNOT_LOAD_PROPERTIES_FILE = TUResources.getString( "error.cannotLoadPropertiesFile" );
     private static final String ERROR_CANNOT_ADD_PROPERTIES_FILE = TUResources.getString( "error.cannotAddPropertiesFile" );
+    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
 
     private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
     
+    private static final String ENGLISH_PROPERTIES_FILE_PATTERN = ".*" + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + ".*-strings.properties";
+    
     private final String _jarFileName;
+    private final String[] _commonProjectNames;
+    private String _projectName;
     
     public static class JarIOException extends Exception {
         public JarIOException( String message ) {
@@ -40,19 +45,87 @@ public class JarFileManager {
      * 
      * @param jarFileName
      */
-    public JarFileManager( String jarFileName ) {
+    public JarFileManager( String jarFileName, String[] commonProjectNames ) {
         _jarFileName = new String( jarFileName );
+        _commonProjectNames = commonProjectNames;
+        try {
+            _projectName = discoverProjectName( _jarFileName, _commonProjectNames );
+        }
+        catch ( JarIOException e ) {
+            ExceptionHandler.handleFatalException( e );
+        }
+    }
+    
+    private static String discoverProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
+        
+        String projectName = null;
+        
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream( jarFileName );
+        }
+        catch ( FileNotFoundException e ) {
+            e.printStackTrace();
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName );
+        }
+        
+        JarInputStream jarInputStream = null;
+        try {
+            jarInputStream = new JarInputStream( inputStream );
+            
+            // look for the properties files
+            JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            while ( jarEntry != null ) {
+                String jarEntryName = jarEntry.getName();
+                if ( jarEntryName.matches( ENGLISH_PROPERTIES_FILE_PATTERN ) ) {
+                    boolean commonMatch = false;
+                    for ( int i = 0; i < commonProjectNames.length; i++ ) {
+                        String commonProjectFileName = commonProjectNames[i] + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + commonProjectNames[i] + "-strings.properties";
+                        if ( jarEntryName.matches( commonProjectFileName ) ) {
+                            commonMatch = true;
+                            break;
+                        }
+                    }
+                    if ( !commonMatch ) {
+                        int index = jarEntryName.indexOf( FILE_SEPARATOR );
+                        projectName = jarEntryName.substring( 0, index );
+                        break;
+                    }
+                }
+                else {
+                    jarEntry = jarInputStream.getNextJarEntry();
+                }
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName );
+        }
+        
+        if ( projectName == null ) {
+            JarIOException e = new JarIOException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
+            e.printStackTrace();
+            throw e;
+        }
+        
+        System.out.println( "JarFileManager.discoverProjectName projectName=" + projectName );//XXX
+        return projectName;
     }
     
     /**
      * Gets the project name.
-     * By PhET convention, this is the JAR file name without the ".jar" suffix.
      * @return
      */
     public String getProjectName() {
-        int suffixIndex = _jarFileName.indexOf( ".jar" );
-        int pathSeparatorIndex = _jarFileName.lastIndexOf( FILE_SEPARATOR );
-        return _jarFileName.substring( pathSeparatorIndex + 1, suffixIndex );
+        return _projectName;
+    }
+    
+    /**
+     * Gets the names of the common projects that the JAR file contains.
+     * @return
+     */
+    public String[] getCommonProjectNames() {
+        return _commonProjectNames;
     }
     
     /**

@@ -29,7 +29,6 @@ public class TranslationPanel extends JPanel {
     private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.testTranslation" );
     private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
     private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
-    private static final String FATAL_ERROR_DIALOG_TITLE = TUResources.getString( "title.fatalErrorDialog" );
 
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
@@ -104,7 +103,7 @@ public class TranslationPanel extends JPanel {
             targetProperties = _jarFileManager.readProperties( _targetCountryCode );
         }
         catch ( JarIOException e ) {
-            handleFatalException( e );
+            ExceptionHandler.handleFatalException( e );
         }
         
         if ( targetProperties == null ) {
@@ -237,19 +236,14 @@ public class TranslationPanel extends JPanel {
             _jarFileManager.runJarFile( _targetCountryCode );
         }
         catch ( JarIOException e ) {
-            handleFatalException( e );
+            ExceptionHandler.handleFatalException( e );
         }
         catch ( CommandException e ) {
-            handleFatalException( e );
+            ExceptionHandler.handleFatalException( e );
         }
     }
     
     private void submitTranslation() {
         //XXX
-    }
-    
-    private void handleFatalException( Exception e ) {
-        DialogUtils.showErrorDialog( null, e.getMessage(), FATAL_ERROR_DIALOG_TITLE );
-        System.exit( 1 ); // non-zero status to indicate abnormal termination
     }
 }
