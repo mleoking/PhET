@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.text.MessageFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -46,7 +47,20 @@ public class TranslationUtility extends JFrame {
             
             TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode );
             
+            JMenuBar menuBar = new JMenuBar();
+            JMenu fileMenu = new JMenu( TUResources.getString( "menu.file" ) );
+            fileMenu.setMnemonic( TUResources.getChar( "menu.file.mnemonic", 'F' ) );
+            menuBar.add( fileMenu );
+            JMenuItem exitMenuItem = new JMenuItem( TUResources.getString( "menu.item.exit" ), TUResources.getChar( "menu.item.exit.mnemonic", 'x' ) );
+            fileMenu.add( exitMenuItem );
+            exitMenuItem.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    System.exit( 0 );
+                }
+            });
+            
             JFrame frame = new JFrame( title );
+            frame.setJMenuBar( menuBar );
             frame.getContentPane().add( translationPanel );
             frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             frame.pack();
