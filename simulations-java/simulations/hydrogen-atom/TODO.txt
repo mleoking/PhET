@@ -15,6 +15,7 @@ DEFER UNTIL AFTER INTERVIEWS:
  
  
 DONE:
+11/9/07 - move about.credits property to localization file
 8/29/07 - replace HAWiggleMe with piccolo-phet DefaultWiggleMe
 8/29/07 - replace JLabel().getFont() with PhetDefaultFont
 8/27/07 - migrated photon image creation and caching to piccolo-phet (PhotonImageFactory)
