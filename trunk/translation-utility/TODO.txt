@@ -14,7 +14,6 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- handle whitespace in file pathnames
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 
@@ -30,6 +29,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - handle whitespace in file pathnames, use Process.exec(String[]) to prevent Java from tokenizing at whitespace
 11/9/07 - add "use Google Translate" checkbox to init dialog
 11/9/07 - add menu bar with File>Exit menu item
 11/9/07 - implement "Submit" that creates properties file with instructions to email it to phethelp@colorado.edu

@@ -340,7 +340,9 @@ public class JarFileManager {
      * @param countryCode
      */
     public void runJarFile( String countryCode ) throws CommandException {
-        Command.run( "java -jar -Duser.language=" + countryCode + " " + _jarFileName, false /* waitForCompletion */ );
+        String languageArg = "-Duser.language=" + countryCode;
+        String[] cmdArray = { "java", "-jar", languageArg, _jarFileName };
+        Command.run( cmdArray, false /* waitForCompletion */ );
     }
     
     /*
