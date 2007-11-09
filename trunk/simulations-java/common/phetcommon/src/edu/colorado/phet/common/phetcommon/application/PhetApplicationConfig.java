@@ -204,7 +204,7 @@ public class PhetApplicationConfig {
      * @return credits, possibly null
      */
     public String getCredits() {
-        return getProjectProperty( PROPERTY_CREDITS );
+        return getLocalizedProperty( PROPERTY_CREDITS );
     }
 
     //----------------------------------------------------------------------------
