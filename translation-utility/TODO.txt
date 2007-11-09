@@ -18,6 +18,7 @@ HIGH PRIORITY:
 - JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
+- what happens when a request is made to Google Translate that involves an unsupported language?
 
 MEDIUM PRIORITY:
 - choose specific fonts for specific languages (generalize FontJA)
