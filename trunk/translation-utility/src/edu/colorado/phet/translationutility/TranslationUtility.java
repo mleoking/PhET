@@ -19,8 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class TranslationUtility extends JFrame {
     
-    private static final boolean DEBUG_COMMAND_OUTPUT = false;
-    
     private static final String SOURCE_COUNTRY_CODE = "en"; // English
 
     /* not intended for instantiation */
@@ -38,14 +36,13 @@ public class TranslationUtility extends JFrame {
         // open the primary user interface
         if ( initDialog.isContinue() ) {
             
-            Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
-            
             String jarFileName = initDialog.getJarFileName();
             String targetCountryCode = initDialog.getTargetCountryCode();
             String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
             JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
             
-            TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode );
+            boolean autoTranslate = initDialog.isAutoTranslateEnabled();
+            TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode, autoTranslate );
             
             JMenuBar menuBar = new JMenuBar();
             JMenu fileMenu = new JMenu( TUResources.getString( "menu.file" ) );
