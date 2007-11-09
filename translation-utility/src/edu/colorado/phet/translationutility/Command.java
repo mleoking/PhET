@@ -17,7 +17,7 @@ public class Command {
     private static final String ERROR_COMMAND_FAILED = TUResources.getString( "error.commandFailed" );
     private static final String ERROR_COMMAND_INTERRUPTED = TUResources.getString( "error.commandInterrupted" );
     
-    private static final boolean DEBUG_COMMAND_OUTPUT = false;
+    private static final boolean DEBUG_COMMAND_OUTPUT = true;
     
     public static class CommandException extends Exception {
         public CommandException( String message ) {
@@ -28,10 +28,29 @@ public class Command {
     /* not intended for instantiation */
     private Command() {}
     
-    public static void run( String command, boolean waitForCompletion ) throws CommandException {
-        System.out.println( "Command.run command=\"" + command + "\"" );
+    /**
+     * Runs a command using Process.exec.
+     * We use the String[] form of Process.exec so that Java won't parse the command args.
+     * This allows us to properly handle pathnames that contain whitespace.
+     * Java would normally break a String command into separate args at each occurence of whitespace.
+     * 
+     * @param cmdArray
+     * @param waitForCompletion
+     * @throws CommandException
+     */
+    public static void run( String[] cmdArray, boolean waitForCompletion ) throws CommandException {
+        
+        String command = "";
+        for ( int i = 0; i < cmdArray.length; i++ ) {
+            command += cmdArray[i];
+            if ( i < cmdArray.length - 1 ) {
+                command += " ";
+            }
+        }
+//        System.out.println( "Command.run " + command );
+        
         try {
-            Process process = Runtime.getRuntime().exec( command );
+            Process process = Runtime.getRuntime().exec( cmdArray );
             
             if ( DEBUG_COMMAND_OUTPUT ) {
                 InputStream in = process.getInputStream();
