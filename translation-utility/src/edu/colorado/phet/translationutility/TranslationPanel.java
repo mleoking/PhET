@@ -74,7 +74,7 @@ public class TranslationPanel extends JPanel {
     private final String _targetCountryCode;
     private ArrayList _targetTextAreas; // array of TargetTextArea
 
-    public TranslationPanel( JarFileManager jarFileManager, String sourceCountryCode, String targetCountryCode ) {
+    public TranslationPanel( JarFileManager jarFileManager, String sourceCountryCode, String targetCountryCode, boolean autoTranslate ) {
         super();
         
         _jarFileManager = jarFileManager;

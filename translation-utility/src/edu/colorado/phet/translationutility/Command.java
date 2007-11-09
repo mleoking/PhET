@@ -17,7 +17,7 @@ public class Command {
     private static final String ERROR_COMMAND_FAILED = TUResources.getString( "error.commandFailed" );
     private static final String ERROR_COMMAND_INTERRUPTED = TUResources.getString( "error.commandInterrupted" );
     
-    private static boolean _debugOutputEnabled = false;
+    private static final boolean DEBUG_COMMAND_OUTPUT = false;
     
     public static class CommandException extends Exception {
         public CommandException( String message ) {
@@ -28,18 +28,12 @@ public class Command {
     /* not intended for instantiation */
     private Command() {}
     
-    public static void setDebugOutputEnabled( boolean enabled ) {
-        _debugOutputEnabled = enabled;
-    }
-
     public static void run( String command, boolean waitForCompletion ) throws CommandException {
-        if ( _debugOutputEnabled ) {
-            System.out.println( "Command.run command=\"" + command + "\"" );
-        }
+        System.out.println( "Command.run command=\"" + command + "\"" );
         try {
             Process process = Runtime.getRuntime().exec( command );
             
-            if ( _debugOutputEnabled ) {
+            if ( DEBUG_COMMAND_OUTPUT ) {
                 InputStream in = process.getInputStream();
                 int c;
                 while ( ( c = in.read() ) != -1 ) {
