@@ -30,6 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/9/07 - add "use Google Translate" checkbox to init dialog
 11/9/07 - add menu bar with File>Exit menu item
 11/9/07 - implement "Submit" that creates properties file with instructions to email it to phethelp@colorado.edu
 11/9/07 - increase frame width so we don't get a horizontal scrollbar
