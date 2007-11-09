@@ -47,6 +47,8 @@ public class TranslationUtility extends JFrame {
             frame.getContentPane().add( translationPanel );
             frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             frame.pack();
+            //WORKAROUND: increase the width so we don't get a horizontal scrollbar
+            frame.setBounds( (int)frame.getBounds().getX(), (int)frame.getBounds().getY(), (int)frame.getBounds().getWidth() + 30, (int)frame.getBounds().getHeight() );
             frame.show();
         }
         else {
