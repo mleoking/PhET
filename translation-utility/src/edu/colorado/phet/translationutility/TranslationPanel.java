@@ -5,6 +5,7 @@ package edu.colorado.phet.translationutility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 import java.util.*;
 
 import javax.swing.*;
@@ -29,6 +30,10 @@ public class TranslationPanel extends JPanel {
     private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.testTranslation" );
     private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
     private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
+    
+    private static final String PHET_EMAIL_ADDRESS = ProjectProperties.getPhetEmailAddress();
+    private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
+    private static final String SUBMIT_TITLE = TUResources.getString( "title.submitDialog" );
 
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
@@ -194,12 +199,11 @@ public class TranslationPanel extends JPanel {
         } );
         
         JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL );
-        testButton.addActionListener( new ActionListener() {
+        submitButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 submitTranslation();
             }
         } );
-        submitButton.setEnabled( false );//XXX
         
         JButton helpButton = new JButton( HELP_BUTTON_LABEL );
         helpButton.setEnabled( false );//XXX
@@ -244,6 +248,18 @@ public class TranslationPanel extends JPanel {
     }
     
     private void submitTranslation() {
-        //XXX
+
+        Properties properties = getTargetProperties();
+        String fileName = null;
+        try {
+            fileName = _jarFileManager.savePropertiesToFile( properties, _targetCountryCode );
+        }
+        catch ( JarIOException e ) {
+            ExceptionHandler.handleFatalException( e );
+        }
+        
+        String[] args = { fileName, PHET_EMAIL_ADDRESS };
+        String message = MessageFormat.format( SUBMIT_MESSAGE, args );
+        DialogUtils.showInformationDialog( this, message, SUBMIT_TITLE );
     }
 }

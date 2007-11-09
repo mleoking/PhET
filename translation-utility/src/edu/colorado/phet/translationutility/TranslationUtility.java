@@ -36,14 +36,17 @@ public class TranslationUtility extends JFrame {
         
         // open the primary user interface
         if ( initDialog.isContinue() ) {
+            
             Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
+            
             String jarFileName = initDialog.getJarFileName();
             String targetCountryCode = initDialog.getTargetCountryCode();
             String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
             JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
+            
             TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode );
+            
             JFrame frame = new JFrame( title );
-            SwingUtils.centerWindowOnScreen( frame );
             frame.getContentPane().add( translationPanel );
             frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
             frame.pack();
