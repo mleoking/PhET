@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -17,23 +18,16 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class TranslationUtility extends JFrame {
     
-    private static final String TITLE_FORMAT = "{0} : {1} {2}";
-    private static final String SOURCE_COUNTRY_CODE = "en"; // English
     private static final boolean DEBUG_COMMAND_OUTPUT = false;
+    
+    private static final String SOURCE_COUNTRY_CODE = "en"; // English
 
     /* not intended for instantiation */
     private TranslationUtility() {}
     
     public static void main( String[] args ) {
         
-        // form that title string, including version info
-        PhetApplicationConfig config = new PhetApplicationConfig( args, new FrameSetup.NoOp(), TUResources.getResourceLoader() );
-        String[] titleFormatArgs = { 
-                TUResources.getString( "translation-utility.name" ),
-                TUResources.getString( "translation-utility.name" ),
-                config.getVersion().formatForAboutDialog()
-        };
-        String title =  MessageFormat.format( TITLE_FORMAT, titleFormatArgs );
+        String title =  ProjectProperties.getTitle();
         
         // prompt the user for initialization info
         InitializationDialog initDialog = new InitializationDialog( title );
@@ -45,7 +39,8 @@ public class TranslationUtility extends JFrame {
             Command.setDebugOutputEnabled( DEBUG_COMMAND_OUTPUT );
             String jarFileName = initDialog.getJarFileName();
             String targetCountryCode = initDialog.getTargetCountryCode();
-            JarFileManager jarFileManager = new JarFileManager( jarFileName );
+            String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
+            JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
             TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode );
             JFrame frame = new JFrame( title );
             SwingUtils.centerWindowOnScreen( frame );
