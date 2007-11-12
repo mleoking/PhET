@@ -30,6 +30,7 @@ public class InitializationDialog extends JDialog {
     private JCheckBox _autoTranslateCheckBox;
     private JButton _continueButton;
     private boolean _continue;
+    private File _currentDirectory;
     
     public InitializationDialog( String title ) {
         this( null, title );
@@ -41,6 +42,7 @@ public class InitializationDialog extends JDialog {
         setResizable( false );
         
         _continue = false;
+        _currentDirectory = null;
         
         JPanel instructionsPanel = new JPanel();
         instructionsPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
@@ -66,8 +68,9 @@ public class InitializationDialog extends JDialog {
             JButton _browseButton = new JButton( "Browse..." );
             _browseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    JFileChooser chooser = new JFileChooser();
+                    JFileChooser chooser = new JFileChooser( _currentDirectory );
                     int option = chooser.showOpenDialog( InitializationDialog.this );
+                    _currentDirectory = chooser.getCurrentDirectory();
                     if ( option == JFileChooser.APPROVE_OPTION ) {
                         String fileName = chooser.getSelectedFile().getAbsolutePath();
                         _jarFileTextField.setText( fileName );
