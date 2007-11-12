@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.view.util.ColorChooserFactory;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -43,8 +42,8 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private PClip playAreaClip;
 //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 250, 239, 197 );
 //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 180, 250, 180 );
-//    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 140, 255, 140);
-    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 144 ,240 ,168);
+    //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 140, 255, 140);
+    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 144, 240, 168 );
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
         this.rotationModule = rotationModule;

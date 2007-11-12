@@ -17,7 +17,7 @@ public class TestHandleNode {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         frame.setContentPane( phetPCanvas );
         HandleNode handleNode = new HandleNode( 100, 200, Color.gray );
-        handleNode.setStroke( new BasicStroke( 2) );
+        handleNode.setStroke( new BasicStroke( 2 ) );
         handleNode.setOffset( 100, 100 );
         phetPCanvas.addScreenChild( handleNode );
         frame.setSize( 800, 600 );

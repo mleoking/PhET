@@ -10,6 +10,7 @@ public class AccelerationDriven implements UpdateStrategy {
 
     public void update( MotionBody motionBody, double dt, double time ) {
         //assume a constant acceleration model with the given acceleration.
+//        System.out.println( "AccelerationDriven.update" );
         double origAngVel = motionBody.getVelocity();
         motionBody.addAccelerationData( motionBody.getAcceleration(), time );
         motionBody.addVelocityData( motionBody.getVelocity() + motionBody.getAcceleration() * dt, time );
