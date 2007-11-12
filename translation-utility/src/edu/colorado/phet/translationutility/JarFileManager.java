@@ -18,6 +18,7 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  * <p>
  * Notes:
  * <ul>
+ * <li>file I/O uses the platform-specific file separator character in all file names
  * <li>JAR entries ignore the platform-specific file separator and always use '/'
  * </ul>
  *
@@ -35,11 +36,6 @@ public class JarFileManager {
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_CANNOT_RENAME_TMP_FILE = TUResources.getString( "error.cannotRenameTmpFile" );
 
-    private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
-    
-    // general form: project-name/localization/project-name.properties
-    private static final String ENGLISH_PROPERTIES_FILE_PATTERN = ".*/localization/.*-strings.properties";
-    
     private final String _jarFileName;
     private final String[] _commonProjectNames;
     private String _projectName;
@@ -54,6 +50,7 @@ public class JarFileManager {
      * Constructor.
      * 
      * @param jarFileName
+     * @param commonProjectNames
      */
     public JarFileManager( String jarFileName, String[] commonProjectNames ) {
         _jarFileName = new String( jarFileName );
@@ -91,6 +88,7 @@ public class JarFileManager {
         }
         
         JarInputStream jarInputStream = null;
+        String localizationWildcard = getJarEntryNameForLocalization( ".*" /* match for any project name */ );
         try {
             jarInputStream = new JarInputStream( inputStream );
             
@@ -98,11 +96,11 @@ public class JarFileManager {
             JarEntry jarEntry = jarInputStream.getNextJarEntry();
             while ( jarEntry != null ) {
                 String jarEntryName = jarEntry.getName();
-                if ( jarEntryName.matches( ENGLISH_PROPERTIES_FILE_PATTERN ) ) {
+                if ( jarEntryName.matches( localizationWildcard ) ) {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
                         // for example, phetcommon/localization/phetcommon-strings.properties
-                        String commonProjectFileName = commonProjectNames[i] + "/localization/" + commonProjectNames[i] + "-strings.properties";
+                        String commonProjectFileName = getJarEntryNameForLocalization( commonProjectNames[i] );
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
                             break;
@@ -133,6 +131,15 @@ public class JarFileManager {
         return projectName;
     }
     
+    /*
+     * Creates the JAR entry name for a project's English localization file.
+     * By PhET convention the form is: projectName/localization/projectName-strings.properties
+     * Note that JAR entries use '/' as the file separator, rather than the platform-specific separator.
+     */
+    private static String getJarEntryNameForLocalization( String projectName ) {
+        return projectName + "/localization/" + projectName + "-strings.properties";
+    }
+    
     /**
      * Gets the JAR file name.
      * 
@@ -146,12 +153,14 @@ public class JarFileManager {
      * Gets the directory portion of the JAR file name.
      * For example, if JAR filename is /usr/home/cmalley/foo.jar,
      * then this method returns /usr/home/cmalley.
+     * This method assumes that the platform-specific file separator character
+     * is used to specify the JAR file name.
      * 
      * @return
      */
     public String getJarDirName() {
         String dirName = "";
-        int index = _jarFileName.lastIndexOf( FILE_SEPARATOR );
+        int index = _jarFileName.lastIndexOf( File.separatorChar );
         if ( index != -1 ) {
             dirName = _jarFileName.substring( 0, index );
         }
@@ -332,7 +341,7 @@ public class JarFileManager {
         String baseName = _projectName + "-strings_" + countryCode + ".properties";
         String propertiesFileName = null;
         if ( dirName != null && dirName.length() > 0 ) {
-            propertiesFileName = dirName + FILE_SEPARATOR + baseName;
+            propertiesFileName = dirName + File.separatorChar + baseName;
         }
         else {
             propertiesFileName = baseName;

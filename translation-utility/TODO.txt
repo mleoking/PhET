@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/12/07 - extract common method for forming localization file names
 11/12/07 - bugfix: JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
 11/12/07 - test whitespace in file pathnames on Windows
 11/9/07 - handle whitespace in file pathnames, use Process.exec(String[]) to prevent Java from tokenizing at whitespace
