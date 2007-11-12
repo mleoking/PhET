@@ -20,7 +20,6 @@ HIGH PRIORITY:
 - what happens when a request is made to Google Translate that involves an unsupported language?
 
 MEDIUM PRIORITY:
-- browsing for JAR file should remember which directory we're in
 - exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
 - choose specific fonts for specific languages (generalize FontJA)
 - save/load work in progress
@@ -33,6 +32,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/12/07 - remember current directory while browsing for JAR file
 11/12/07 - extract common method for forming localization file names
 11/12/07 - bugfix: JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
 11/12/07 - test whitespace in file pathnames on Windows
