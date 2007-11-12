@@ -15,6 +15,11 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  * JarFileManager handles operations on the simulation's JAR file.
  * This includes reading/writing properties files from/to the JAR,
  * and running the JAR file.
+ * <p>
+ * Notes:
+ * <ul>
+ * <li>JAR entries ignore the platform-specific file separator and always use '/'
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
