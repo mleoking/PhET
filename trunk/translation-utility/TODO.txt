@@ -14,13 +14,14 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- test whitespace in file pathnames on Windows
-- JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
+- renaming tmpFile to jarFile fails on Windows in JarFileManager.writeProperties
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - what happens when a request is made to Google Translate that involves an unsupported language?
 
 MEDIUM PRIORITY:
+- browsing for JAR file should remember which directory we're in
+- exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
 - choose specific fonts for specific languages (generalize FontJA)
 - save/load work in progress
 - Flash sim support
@@ -32,6 +33,8 @@ LOW PRIORITY:
 
 
 DONE:
+11/12/07 - bugfix: JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
+11/12/07 - test whitespace in file pathnames on Windows
 11/9/07 - handle whitespace in file pathnames, use Process.exec(String[]) to prevent Java from tokenizing at whitespace
 11/9/07 - add "use Google Translate" checkbox to init dialog
 11/9/07 - add menu bar with File>Exit menu item

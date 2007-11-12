@@ -21,16 +21,19 @@ import edu.colorado.phet.translationutility.Command.CommandException;
 public class JarFileManager {
     
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
+    private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
-    private static final String ERROR_CANNOT_LOAD_PROPERTIES_FILE = TUResources.getString( "error.cannotLoadPropertiesFile" );
-    private static final String ERROR_CANNOT_ADD_PROPERTIES_FILE = TUResources.getString( "error.cannotAddPropertiesFile" );
-    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
+    private static final String ERROR_CANNOT_DELETE_JAR = TUResources.getString( "error.cannotDeleteJar" );
+    private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
+    private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
     private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
+    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
+    private static final String ERROR_CANNOT_RENAME_TMP_FILE = TUResources.getString( "error.cannotRenameTmpFile" );
 
     private static final char FILE_SEPARATOR = System.getProperty( "file.separator" ).charAt( 0 );
     
     // general form: project-name/localization/project-name.properties
-    private static final String ENGLISH_PROPERTIES_FILE_PATTERN = ".*" + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + ".*-strings.properties";
+    private static final String ENGLISH_PROPERTIES_FILE_PATTERN = ".*/localization/.*-strings.properties";
     
     private final String _jarFileName;
     private final String[] _commonProjectNames;
@@ -94,20 +97,22 @@ public class JarFileManager {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
                         // for example, phetcommon/localization/phetcommon-strings.properties
-                        String commonProjectFileName = commonProjectNames[i] + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + commonProjectNames[i] + "-strings.properties";
+                        String commonProjectFileName = commonProjectNames[i] + "/localization/" + commonProjectNames[i] + "-strings.properties";
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
                             break;
                         }
                     }
                     if ( !commonMatch ) {
-                        int index = jarEntryName.indexOf( FILE_SEPARATOR );
+                        int index = jarEntryName.indexOf( '/' );
                         projectName = jarEntryName.substring( 0, index );
                         break;
                     }
                 }
                 jarEntry = jarInputStream.getNextJarEntry();
             }
+            
+            jarInputStream.close();
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -164,10 +169,6 @@ public class JarFileManager {
         return _commonProjectNames;
     }
     
-    public static char getFileSeparator() {
-        return FILE_SEPARATOR;
-    }
-    
     /**
      * Reads the properties file that contains the localized strings for a specified country code.
      * Extracts the properties file from the JAR and creates a Properties object.
@@ -217,12 +218,19 @@ public class JarFileManager {
             properties = new Properties();
             try {
                 properties.load( jarInputStream );
-                jarInputStream.close();
             }
             catch ( IOException e ) {
                 e.printStackTrace();
-                throw new JarIOException( ERROR_CANNOT_LOAD_PROPERTIES_FILE + " : " + propertiesFileName );
+                throw new JarIOException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName );
             }
+        }
+        
+        try {
+            jarInputStream.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + _jarFileName );
         }
     
         return properties;
@@ -240,9 +248,7 @@ public class JarFileManager {
         
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
-        String tempFileName = _jarFileName + "." + System.currentTimeMillis() + ".tmp";
         File jarFile = new File( _jarFileName );
-        File tempFile = new File( tempFileName );
         
         InputStream inputStream = null;
         try {
@@ -253,13 +259,15 @@ public class JarFileManager {
             throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
         }
         
+        String tmpFileName = _jarFileName + ".tmp";
+        File tmpFile = new File( tmpFileName );
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
             Manifest manifest = jarInputStream.getManifest();
             
             // output goes to a temp JAR file
-            OutputStream outputStream = new FileOutputStream( tempFile );
+            OutputStream outputStream = new FileOutputStream( tmpFile );
             JarOutputStream jarOutputStream = new JarOutputStream( outputStream, manifest );
             
             // copy all entries from input to output, skipping the properties file
@@ -284,16 +292,23 @@ public class JarFileManager {
             properties.store( jarOutputStream, header );
             jarOutputStream.closeEntry();
             
-            // close the output
+            // close the streams
+            jarInputStream.close();
             jarOutputStream.close();
         }
         catch ( IOException e ) {
+            tmpFile.delete();
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_ADD_PROPERTIES_FILE + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + _jarFileName );
         }
         
-        // if everything went OK, move temp file to JAR file
-        tempFile.renameTo( jarFile );
+        // if everything went OK, move tmp file to JAR file
+        boolean renameSuccess = tmpFile.renameTo( jarFile );
+        if ( !renameSuccess ) {
+            JarIOException e = new JarIOException( ERROR_CANNOT_RENAME_TMP_FILE + " : " + tmpFileName + " -> " + _jarFileName );
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     /**
@@ -312,7 +327,7 @@ public class JarFileManager {
         String baseName = _projectName + "-strings_" + countryCode + ".properties";
         String propertiesFileName = null;
         if ( dirName != null && dirName.length() > 0 ) {
-            propertiesFileName = dirName + JarFileManager.getFileSeparator() + baseName;
+            propertiesFileName = dirName + FILE_SEPARATOR + baseName;
         }
         else {
             propertiesFileName = baseName;
@@ -350,7 +365,7 @@ public class JarFileManager {
      * If the country code is null, the default localization file (English) is returned.
      */
     private static String getPropertiesFileName( String projectName, String countryCode ) {
-        String name = projectName + FILE_SEPARATOR + "localization" + FILE_SEPARATOR + projectName + "-strings";
+        String name = projectName + "/localization/" + projectName + "-strings";
         if ( countryCode != null && countryCode != "en" ) {
             name = name + "_" + countryCode;
         }
