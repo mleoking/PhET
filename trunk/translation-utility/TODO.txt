@@ -14,7 +14,7 @@ OPEN ISSUES:
 
 
 HIGH PRIORITY:
-- renaming tmpFile to jarFile fails on Windows in JarFileManager.writeProperties
+- test translation is broken, renaming tmpFile to jarFile fails on Windows in JarFileManager.writeProperties
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - what happens when a request is made to Google Translate that involves an unsupported language?
