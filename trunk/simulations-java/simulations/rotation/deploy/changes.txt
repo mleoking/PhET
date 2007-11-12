@@ -1,3 +1,4 @@
+11-12-2007: Torque - Fix the linear acceleration vector to be non-central for constant angular acceleration
 11-7-2007: Torque - Changed brake graphic from pusher to brake pad
 11-6-2007: Torque - Changed background to make it seem more top-down instead of possibly side view
 10-28-2007: Torque - Changed the background color of the play area

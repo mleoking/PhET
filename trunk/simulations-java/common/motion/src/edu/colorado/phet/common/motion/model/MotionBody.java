@@ -83,6 +83,10 @@ public class MotionBody implements IUpdateStrategy {
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
     }
+    
+    public boolean isAccelDriven(){
+        return updateStrategy==accelDriven;
+    }
 
     public void setVelocityDriven() {
         setUpdateStrategy( velocityDriven );
