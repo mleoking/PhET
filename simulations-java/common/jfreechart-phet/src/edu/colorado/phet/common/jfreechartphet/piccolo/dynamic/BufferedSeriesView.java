@@ -42,7 +42,7 @@ public class BufferedSeriesView extends SeriesView {
     public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
 //    private BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
 
-    private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
+//    private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
     private boolean updateAllEnabled = false;
     private double lastLineLength = 0;
 
@@ -57,7 +57,7 @@ public class BufferedSeriesView extends SeriesView {
                 paintAll();
             }
         } );
-        dynamicJFreeChartNode.getPhetPCanvas().addScreenChild( debugRegion );
+//        dynamicJFreeChartNode.getPhetPCanvas().addScreenChild( debugRegion );
         dynamicJFreeChartNode.getPhetPCanvas().addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 paintAll();
