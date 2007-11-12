@@ -54,7 +54,6 @@ public class RotationBody {
         }
     };
 
-
     public RotationBody() {
         this( "ladybug.gif" );
     }

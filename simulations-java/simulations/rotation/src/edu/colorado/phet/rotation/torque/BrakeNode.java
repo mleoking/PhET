@@ -1,6 +1,5 @@
 package edu.colorado.phet.rotation.torque;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HandleNode;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
@@ -53,7 +51,7 @@ public class BrakeNode extends PNode {
 
         im.rotate( Math.PI / 2 );
 //        im.translate( -im.getFullBounds().getWidth() / imageScale * 2.0, 0 );
-        im.translate( -im.getFullBounds().getWidth() / imageScale , 0 );
+        im.translate( -im.getFullBounds().getWidth() / imageScale, 0 );
 
         addChild( im );
         addInputEventListener( new CursorHandler() );
@@ -105,8 +103,8 @@ public class BrakeNode extends PNode {
         double x = linearFunction.evaluate( torqueModel.getBrakePressure() );
         x = MathUtil.clamp( close, x, farAway );
 
-        if (torqueModel.getBrakePressure()==0){
-            x=0.05;
+        if ( torqueModel.getBrakePressure() == 0 ) {
+            x = 0.05;
         }
 
         AbstractVector2D vec = Vector2D.Double.parseAngleAndMagnitude( rotationPlatform.getRadius() + x, angle );
