@@ -3,35 +3,31 @@
 ================================================================================
 
 OPEN ISSUES:
-- how to present common localization
-- how to deliver the Translation Utility
-- how to update the Translation Utility if it's bundled inside every sim
 - how to Submit to PhET
 - how to access Flash localization files
 - how to run Flash player from Java
-- how to get default translations from Google Translate
-- Java app versus web app
-
 
 HIGH PRIORITY:
 - test translation is broken, renaming tmpFile to jarFile fails on Windows in JarFileManager.writeProperties
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
-- what happens when a request is made to Google Translate that involves an unsupported language?
+- Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
 
 MEDIUM PRIORITY:
+- add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
 - choose specific fonts for specific languages (generalize FontJA)
 - save/load work in progress
 - Flash sim support
-- select simulation from Translation Utility
 
 LOW PRIORITY:
 - check for unsaved changes before exiting
-- clean up files and directories created
+- select simulation from Translation Utility
 
 
 DONE:
+11/12/07 - test what happens when calling Google Translate with an unsupported language (HTTP response code 400, bad request) 
+11/12/07 - clean up tmp JAR file if something goes wrong
 11/12/07 - remember current directory while browsing for JAR file
 11/12/07 - extract common method for forming localization file names
 11/12/07 - bugfix: JarFileManager.discoverProjectName exception due to '\' being both the regex escape char and Windows file.separator
