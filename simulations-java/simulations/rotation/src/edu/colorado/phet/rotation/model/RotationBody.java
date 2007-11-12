@@ -44,15 +44,7 @@ public class RotationBody {
 
     private ArrayList listeners = new ArrayList();
 
-    private RotationPlatform.Listener listener = new RotationPlatform.Adapter() {
-        public void innerRadiusChanged() {
-            platformInnerRadiusChanged();
-        }
-
-        public void radiusChanged() {
-            platformOuterRadiusChanged();
-        }
-    };
+    private RotationPlatform.Listener listener;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -65,6 +57,15 @@ public class RotationBody {
     public RotationBody( String imageName, boolean constrained ) {
         this.imageName = imageName;
         this.constrained = constrained;
+        listener = new RotationPlatform.Adapter() {
+            public void innerRadiusChanged() {
+                platformInnerRadiusChanged();
+            }
+
+            public void radiusChanged() {
+                platformOuterRadiusChanged();
+            }
+        };
         xBody = new MotionBody();
         yBody = new MotionBody();
 
@@ -417,6 +418,11 @@ public class RotationBody {
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        if ( rotationPlatform.isAccelDriven() && !centered ) {
+            //add on the tangential part under constant angular acceleration
+            AbstractVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
+            newA = newA.getAddedInstance( tanVector );
+        }
 
         addPositionData( newX, time );
         addVelocityData( newV, time );

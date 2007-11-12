@@ -2,8 +2,6 @@
 #     To Do
 ################################
 
-•	fix the linear acceleration vector to be non-central for constant angular acceleration
-
 fake 3d thing for showing platform mass
 okay to cleanup force1d + ramps using rotation graphs + model
 
