@@ -106,8 +106,9 @@ public class InitializationDialog extends JDialog {
         autoTranslatePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
             _autoTranslateCheckBox = new JCheckBox( TUResources.getString( "checkbox.autoTranslate" ) );
-            _autoTranslateCheckBox.setSelected( true );
+            _autoTranslateCheckBox.setSelected( false );
             autoTranslatePanel.add( _autoTranslateCheckBox );
+            _autoTranslateCheckBox.setEnabled( false );//XXX
         }
         
         _continueButton = new JButton( "Continue..." );
