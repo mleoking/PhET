@@ -2,24 +2,45 @@ package edu.colorado.phet.rotation;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
+import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 /**
  * Author: Sam Reid
  * Aug 20, 2007, 1:32:16 AM
  */
 public class RotationClock extends ConstantDtClock {
-    public static final int DELAY = (int) ( 1000.0 / 30.0 );
+    //    public static final int DELAY = (int) ( 1000.0 / 30.0 );
+    public static final int DELAY = (int) ( 1000.0 / 20.0 );
     public static final double DEFAULT_CLOCK_DT = DELAY / 1000.0 / 2;
 
     private ArrayList tickTimes = new ArrayList();
     private long lastTickFinishTime = System.currentTimeMillis();
     private long lastTickStartTime;
 
+    private static ArrayList clocks = new ArrayList();
+
     public RotationClock() {
         super( 2, DEFAULT_CLOCK_DT );
         setRunning( false );
+        clocks.add( this );
+        addClockListener( new ClockAdapter() {
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateRepaintManager();
+            }
+
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateRepaintManager();
+            }
+        } );
+    }
+
+    private void updateRepaintManager() {
+//        System.out.println( "RotationClock.updateRepaintManager, clocksrunning=" + getRunningClocks() );
+        PSwingRepaintManager.getInstance().setDoMyCoalesce( getRunningClocks() > 0 );
     }
 
     protected void doTick() {
@@ -61,4 +82,14 @@ public class RotationClock extends ConstantDtClock {
 //        System.out.println( "tickDelay=\t" + tickDelay );
     }
 
+    public int getRunningClocks() {
+        int count = 0;
+        for ( int i = 0; i < clocks.size(); i++ ) {
+            RotationClock rotationClock = (RotationClock) clocks.get( i );
+            if ( rotationClock.isRunning() ) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
