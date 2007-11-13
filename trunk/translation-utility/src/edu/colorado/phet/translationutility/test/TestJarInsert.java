@@ -10,7 +10,7 @@ import java.util.jar.Manifest;
 
 /**
  * TestJarInsert tests insertion of a file into a JAR.
- * This fails on Windows at the point where we try to rename tmpFile.
+ * This fails on Windows at the point where we try to rename the tmp file (tmpFile.renameTo).
  * No idea why...
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
