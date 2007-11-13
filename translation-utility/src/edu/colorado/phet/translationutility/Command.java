@@ -17,7 +17,7 @@ public class Command {
     private static final String ERROR_COMMAND_FAILED = TUResources.getString( "error.commandFailed" );
     private static final String ERROR_COMMAND_INTERRUPTED = TUResources.getString( "error.commandInterrupted" );
     
-    private static final boolean DEBUG_COMMAND_OUTPUT = true;
+    private static final boolean DEBUG_COMMAND_OUTPUT = false;
     
     public static class CommandException extends Exception {
         public CommandException( String message ) {
