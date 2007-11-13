@@ -82,7 +82,6 @@ public class TorqueApplication extends PhetApplication {
                 setControlPanel( module.getControlPanel() );
             }
         }
-
     }
 
     private void addDelayedModule( String name, ModuleConstructor torqueModule ) {
@@ -96,7 +95,8 @@ public class TorqueApplication extends PhetApplication {
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
                 new RotationLookAndFeel().initLookAndFeel();
-                new TorqueApplication( args ).startApplication();
+                final TorqueApplication torqueApplication = new TorqueApplication( args );
+                torqueApplication.startApplication();
             }
         } );
     }
