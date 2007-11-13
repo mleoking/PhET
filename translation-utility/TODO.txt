@@ -26,6 +26,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/12/07 - TUMenuBar
 11/12/07 - test what happens when calling Google Translate with an unsupported language (HTTP response code 400, bad request) 
 11/12/07 - clean up tmp JAR file if something goes wrong
 11/12/07 - remember current directory while browsing for JAR file
