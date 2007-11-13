@@ -11,6 +11,21 @@ import java.util.jar.Manifest;
 /**
  * Example from
  * http://www.developer.com/repository/common/content/article/19990118/gm_trose_jarzip2/JarUpdate.java
+ * 
+ * NOTES:
+ * 
+ * (1) Copying the JAR this way appears to do something strange to the manifest.
+ * If another application opens the JAR as a JarInputStream and calls getManifest, 
+ * the manifest will be null even though the JAR file actually contains META-INF/MANIFEST.MF.
+ * Only if the constructor JarInputStream(FileInputStream,Manifest) is used will the
+ * getManifest method work correctly.
+ * 
+ * (2) If the constructor JarInputStream(FileInputStream,Manifest) is used, then
+ * copying the JAR entries using an enumeration will cause a "duplicate entry" error
+ * when it copies the manifest.
+ * 
+ * (3) The enumeration returned by JarFile.entries appears to contain the manifest,
+ * while using JarInputStream.nextJarEntry appears to skip the manifest.
  */
 public class JarUpdate {
 
