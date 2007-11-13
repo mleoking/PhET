@@ -10,6 +10,8 @@ import java.util.jar.Manifest;
 
 /**
  * TestJarInsert tests insertion of a file into a JAR.
+ * This fails on Windows at the point where we try to rename tmpFile.
+ * No idea why...
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -32,6 +34,10 @@ public class TestJarInsert {
         File jarFile = new File( jarFileName );
         JarInputStream jarStream = new JarInputStream( new FileInputStream( jarFile ) );
         Manifest manifest = jarStream.getManifest();
+        if ( manifest == null ) {
+            System.out.println( "JAR file is missing manifest" );
+            System.exit( 1 );
+        }
 
         // output goes to a temp JAR file
         String tmpFileName = jarFileName + ".tmp";
@@ -49,7 +55,6 @@ public class TestJarInsert {
                 while ( ( bytesRead = jarStream.read( buffer ) ) > 0 ) {
                     tmpStream.write( buffer, 0, bytesRead );
                 }
-                tmpStream.closeEntry();
             }
             jarEntry = jarStream.getNextJarEntry();
         }
@@ -60,7 +65,6 @@ public class TestJarInsert {
         while ( ( bytesRead = insertStream.read( buffer ) ) != -1 ) {
             tmpStream.write( buffer, 0, bytesRead );
         }
-        tmpStream.closeEntry();
 
         // close the streams
         insertStream.close();
