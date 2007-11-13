@@ -8,7 +8,6 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- test translation is broken, renaming tmpFile to jarFile fails on Windows in JarFileManager.writeProperties
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
