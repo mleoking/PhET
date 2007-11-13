@@ -10,7 +10,7 @@ import edu.umd.cs.piccolox.pswing.MyRepaintManager;
  * Aug 20, 2007, 1:32:16 AM
  */
 public class RotationClock extends ConstantDtClock {
-    public static final int DELAY = 33;
+    public static final int DELAY = (int) ( 1000.0 / 30.0 );
     public static final double DEFAULT_CLOCK_DT = DELAY / 1000.0 / 2;
 
     private ArrayList tickTimes = new ArrayList();
@@ -19,13 +19,12 @@ public class RotationClock extends ConstantDtClock {
 
     public RotationClock() {
         super( 2, DEFAULT_CLOCK_DT );
-//        super( 30, DEFAULT_CLOCK_DT );
-//        super( 40, DEFAULT_CLOCK_DT );
         setRunning( false );
     }
 
     protected void doTick() {
         long tickStartTime = System.currentTimeMillis();
+//        System.out.println( "off-time=" + ( lastTickFinishTime - tickStartTime ) );
         long tickDelay = tickStartTime - lastTickStartTime;
         lastTickStartTime = System.currentTimeMillis();
 
@@ -57,8 +56,9 @@ public class RotationClock extends ConstantDtClock {
 
         long tickFinishTime = System.currentTimeMillis();
         lastTickFinishTime = tickFinishTime;
+
 //        System.out.println( "tickDelay=" + tickDelay + ", dt(offclock)=" + dt + ", DELAY=" + DELAY +" elapsed="+(System.currentTimeMillis()-tickStartTime));
-        System.out.println( "tickDelay=\t" + tickDelay );
+//        System.out.println( "tickDelay=\t" + tickDelay );
     }
 
 }
