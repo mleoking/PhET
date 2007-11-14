@@ -25,6 +25,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/13/07 - localize all strings in InitializationDialog
 11/13/07 - reduce vertical height of frame on Windows to account for Windows task bar
 11/13/07 - center frame on screen
 11/13/07 - revert to better implementation of JarFileManager.writeProperties
