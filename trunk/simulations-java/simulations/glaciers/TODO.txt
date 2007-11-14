@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+11/14/07 - redo layout of clock control panel to have control over insets and justification (need to minimize space)
 11/14/07 - first pass at clock control panel
 11/14/07 - add a bunch of image files, extracted from SVG mockup
 11/9/07 - move about.credits property to localization file
