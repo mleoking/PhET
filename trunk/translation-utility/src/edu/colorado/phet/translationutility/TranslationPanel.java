@@ -27,6 +27,8 @@ import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
  */
 public class TranslationPanel extends JPanel {
    
+    private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
+    private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
     private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.testTranslation" );
     private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
     private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
@@ -191,6 +193,12 @@ public class TranslationPanel extends JPanel {
     
     private JPanel createButtonPanel() {
         
+        JButton saveButton = new JButton( SAVE_BUTTON_LABEL );
+        saveButton.setEnabled( false );
+       
+        JButton loadButton = new JButton( LOAD_BUTTON_LABEL );
+        loadButton.setEnabled( false );
+        
         JButton testButton = new JButton( TEST_BUTTON_LABEL );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -208,7 +216,9 @@ public class TranslationPanel extends JPanel {
         JButton helpButton = new JButton( HELP_BUTTON_LABEL );
         helpButton.setEnabled( false );//XXX
         
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 5 ) );
+        JPanel buttonPanel = new JPanel( new GridLayout( 1, 9 ) );
+        buttonPanel.add( saveButton );
+        buttonPanel.add( loadButton );
         buttonPanel.add( testButton );
         buttonPanel.add( submitButton );
         buttonPanel.add( helpButton );
