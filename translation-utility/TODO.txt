@@ -8,13 +8,12 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- don't modify original JAR file, test using test.jar
+- reduce vertical height of frame on Windows to account for Windows task bar
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
 
 MEDIUM PRIORITY:
-- reduce vertical height of frame on Windows to account for Windows task bar
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
 - choose specific fonts for specific languages (generalize FontJA)
