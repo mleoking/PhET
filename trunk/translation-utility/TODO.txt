@@ -3,27 +3,27 @@
 ================================================================================
 
 OPEN ISSUES:
-- how to Submit to PhET
 - how to access Flash localization files
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- replace individual property translation requests with 1 big request to workaround Google Translate denial of service
-- rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
-- Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
+- save/load work in progress
+- add buttons to access translations for common projects, inform user about the gravity of editing common translations
+- make runnable via Web Start
+- choose specific fonts for specific languages (generalize FontJA)
+- make it possible to copy/paste filename and email address in Submit dialog
 
 MEDIUM PRIORITY:
-- make it possible to copy/paste filename and email address in Submit dialog
-- add buttons to access translations for common projects, inform user about the gravity of editing common translations
-- exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
-- choose specific fonts for specific languages (generalize FontJA)
-- save/load work in progress
 - Flash sim support
+- replace individual translation requests with 1 big request to workaround Google Translate denial of service
+- rewrite Goggle's Translate class so that it handles problems (accessing URL, service denial, unsupported language, etc)
+- Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
 
 LOW PRIORITY:
+- try to recover from some types of errors
 - check for unsaved changes before exiting
-- File>New to start a new translation
-- select simulation from Translation Utility
+- File>New to start a new translation (instead of restarting)
+- select the simulation from a list and download the associated JAR from within Translation Utility
 
 
 DONE:
