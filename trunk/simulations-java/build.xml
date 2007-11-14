@@ -686,7 +686,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name" inheritall="true"/>
     </target>
 
-        <target name="add-translation"
+    <target name="add-translation"
             depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">
         <antform title="Deployment Host Login" width="550" height="300">
             <label>Please enter the language code to be added.</label>
@@ -707,14 +707,18 @@ PhET-team specific tasks are located in an auxiliary build file.
         </maverick-ssh>
         <echo message="finished maverick"/>
 
-        <foreach list="${sim.flavors}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true" inheritrefs="true"/>
+        <foreach list="${sim.flavors}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"
+                 inheritrefs="true"/>
     </target>
 
     <target name="_add_translation_to_jar">
         <echo message="iterating, sim.flavor=${sim.flavor}"/>
-          <tstamp>     <format property="time_millis" pattern="MM_dd_yyyy_hh_mm_ss_SSSS" unit="millisecond"/>  </tstamp>
+        <tstamp>
+            <format property="time_millis" pattern="MM_dd_yyyy_hh_mm_ss_SSSS" unit="millisecond"/>
+        </tstamp>
         <copyfile src="${sim.flavor}.jar" dest="${sim.flavor}_${time_millis}.jar"/>
-        <jar update="true" destfile="${sim.flavor}.jar" basedir="simulations/${sim.name}/data" includes="${sim.name}/localization/${sim.name}-strings_${language.code.to.add}.properties" />
+        <jar update="true" destfile="${sim.flavor}.jar" basedir="simulations/${sim.name}/data"
+             includes="${sim.name}/localization/${sim.name}-strings_${language.code.to.add}.properties"/>
     </target>
 
     <target name="_test_add_translation_to_jar">
