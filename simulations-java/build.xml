@@ -711,6 +711,8 @@ PhET-team specific tasks are located in an auxiliary build file.
         <var name="codebase.url" value="${prod.server.path}${sim.name}"/>
         <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
                  inheritrefs="true"/>
+
+        <!--To Do: Still need to deploy modified JAR files, and new JNLP files.  Should do a clean on sim deploy directory first, then send all JNLP files (which will be new)-->
     </target>
 
     <target name="_add_translation_to_jar">
