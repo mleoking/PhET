@@ -8,6 +8,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -28,7 +29,7 @@ public class ExampleModule extends GlaciersAbstractModule {
     private ExampleModel _model;
     private ExampleCanvas _canvas;
     private ExampleControlPanel _controlPanel;
-    private ClockControlPanelWithTimeDisplay _clockControlPanel;
+    private GlaciersClockControlPanel _clockControlPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,9 +51,7 @@ public class ExampleModule extends GlaciersAbstractModule {
         setControlPanel( _controlPanel );
 
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (GlaciersClock) getClock() );
-        _clockControlPanel.setUnits( GlaciersResources.getString( "units.time" ) );
-        _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
+        _clockControlPanel = new GlaciersClockControlPanel( clock );
         setClockControlPanel( _clockControlPanel );
 
         // Help
@@ -113,7 +112,7 @@ public class ExampleModule extends GlaciersAbstractModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( ExampleDefaults.CLOCK_DT );
+            clock.setDt( ExampleDefaults.CLOCK_DT_RANGE.getDefault() );
             setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
             
             // ExampleModelElement
