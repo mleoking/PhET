@@ -6,6 +6,7 @@ import java.awt.Point;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.glaciers.GlaciersResources;
 
 
 /**
@@ -25,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     // Clock
     public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
-    public static final double CLOCK_DT = 1;
     public static final int CLOCK_TIME_COLUMNS = 10;
+    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 50, 1 ); // years
+    public static final String CLOCK_UNITS = GlaciersResources.getString( "units.time" );
 }
