@@ -8,7 +8,6 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- reduce vertical height of frame on Windows to account for Windows task bar
 - replace individual property translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (acessing URL, service denial, unsupported language, etc)
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
@@ -26,13 +25,15 @@ LOW PRIORITY:
 
 
 DONE:
-11/12/07 - revert to better implementation of JarFileManager.writeProperties
-11/12/07 - don't modify original JAR file, test using phet-test-translation.jar
-11/12/07 - check in eclipse .classpath file
-11/12/07 - disable "use Google Translate" checkbox
-11/12/07 - rewrite JarFileManager.writeProperties similar to developer.com example, otherwise tmpFile rename fails
-11/12/07 - test apps for inserting file into a JAR
-11/12/07 - TUMenuBar
+11/13/07 - reduce vertical height of frame on Windows to account for Windows task bar
+11/13/07 - center frame on screen
+11/13/07 - revert to better implementation of JarFileManager.writeProperties
+11/13/07 - don't modify original JAR file, test using phet-test-translation.jar
+11/13/07 - check in eclipse .classpath file
+11/13/07 - disable "use Google Translate" checkbox
+11/13/07 - rewrite JarFileManager.writeProperties similar to developer.com example, otherwise tmpFile rename fails
+11/13/07 - test apps for inserting file into a JAR
+11/13/07 - TUMenuBar
 11/12/07 - test what happens when calling Google Translate with an unsupported language (HTTP response code 400, bad request) 
 11/12/07 - clean up tmp JAR file if something goes wrong
 11/12/07 - remember current directory while browsing for JAR file
