@@ -25,6 +25,21 @@ import edu.colorado.phet.common.phetcommon.util.DialogUtils;
  */
 public class InitializationDialog extends JDialog {
     
+    private static final String LABEL_JAR_PATH = TUResources.getString( "label.jarPath" );
+    private static final String BUTTON_BROWSE = TUResources.getString( "button.browse" );
+    private static final String BUTTON_CANCEL = TUResources.getString( "button.cancel" );
+    private static final String BUTTON_CONTINUE = TUResources.getString( "button.continue" );
+    private static final String LABEL_COUNTRY_CODE = TUResources.getString( "label.countryCode" );
+    private static final String CHECKBOX_AUTO_TRANSLATE = TUResources.getString( "checkbox.autoTranslate" );
+    private static final String TITLE_ERROR = TUResources.getString( "title.errorDialog" );
+    private static final String INSTRUCTIONS_INITIALIZATION = TUResources.getString( "instructions.initialization" );
+    private static final String TOOLTIP_JAR_PATH = TUResources.getString( "tooltip.jarPath" );
+    private static final String TOOLTIP_COUNTRY_CODE = TUResources.getString( "tooltip.countryCode" );
+    private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
+    private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
+    
+    private static final String COUNTRY_CODE_PATTERN = "[a-z][a-z]"; // regular expression
+    
     private JTextField _jarFileTextField;
     private JTextField _countryCodeTextField;
     private JCheckBox _autoTranslateCheckBox;
@@ -47,14 +62,14 @@ public class InitializationDialog extends JDialog {
         JPanel instructionsPanel = new JPanel();
         instructionsPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel instructionsLabel = new JLabel( "Please enter the following information to get started." );
+            JLabel instructionsLabel = new JLabel( INSTRUCTIONS_INITIALIZATION );
             instructionsPanel.add( instructionsLabel );
         }
         
         JPanel jarFilePanel = new JPanel();
         jarFilePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel jarFileLabel = new JLabel( "JAR file path:" );
+            JLabel jarFileLabel = new JLabel( LABEL_JAR_PATH );
             
             _jarFileTextField = new JTextField();
             _jarFileTextField.setColumns( 30 );
@@ -63,9 +78,9 @@ public class InitializationDialog extends JDialog {
                     updateContinueButton();
                 }
             } );
-            _jarFileTextField.setToolTipText( "<html>enter the full path name of the JAR file<br>for the simulation that you want to translate</html>" );
+            _jarFileTextField.setToolTipText( TOOLTIP_JAR_PATH );
 
-            JButton _browseButton = new JButton( "Browse..." );
+            JButton _browseButton = new JButton( BUTTON_BROWSE );
             _browseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     JFileChooser chooser = new JFileChooser( _currentDirectory );
@@ -87,7 +102,7 @@ public class InitializationDialog extends JDialog {
         JPanel countryCodePanel = new JPanel();
         countryCodePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel countryCodeLabel = new JLabel( "Country code for your translation:" );
+            JLabel countryCodeLabel = new JLabel( LABEL_COUNTRY_CODE );
             
             _countryCodeTextField = new JTextField();
             _countryCodeTextField.setColumns( 3 );
@@ -96,7 +111,7 @@ public class InitializationDialog extends JDialog {
                     updateContinueButton();
                 }
             } );
-            _countryCodeTextField.setToolTipText( "<html>enter a 2-letter ISO 3661 country code<br>that identifies the language you're translating to</html>" );
+            _countryCodeTextField.setToolTipText( TOOLTIP_COUNTRY_CODE );
             
             countryCodePanel.add( countryCodeLabel );
             countryCodePanel.add( _countryCodeTextField );
@@ -105,13 +120,13 @@ public class InitializationDialog extends JDialog {
         JPanel autoTranslatePanel = new JPanel();
         autoTranslatePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            _autoTranslateCheckBox = new JCheckBox( TUResources.getString( "checkbox.autoTranslate" ) );
+            _autoTranslateCheckBox = new JCheckBox( CHECKBOX_AUTO_TRANSLATE );
             _autoTranslateCheckBox.setSelected( false );
             autoTranslatePanel.add( _autoTranslateCheckBox );
             _autoTranslateCheckBox.setEnabled( false );//XXX
         }
         
-        _continueButton = new JButton( "Continue..." );
+        _continueButton = new JButton( BUTTON_CONTINUE );
         _continueButton.setEnabled( false );
         _continueButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -119,12 +134,12 @@ public class InitializationDialog extends JDialog {
                 File jarFile = new File( _jarFileTextField.getText() );
                 if ( !jarFile.exists() ) {
                     error = true;
-                    DialogUtils.showErrorDialog( InitializationDialog.this, "JAR file does not exist", "Error" );
+                    DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_NO_SUCH_JAR, TITLE_ERROR );
                 }
                 String countryCode = _countryCodeTextField.getText();
                 if ( !isWellFormedCountryCode( countryCode ) ) {
                     error = true;
-                    DialogUtils.showErrorDialog( InitializationDialog.this, "Country code must be 2 lowercase letters", "Error" );
+                    DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_COUNTRY_CODE_FORMAT, TITLE_ERROR );
                 }
                 if ( !error ) {
                     _continue = true;
@@ -133,7 +148,7 @@ public class InitializationDialog extends JDialog {
             }
         });
         
-        JButton cancelButton = new JButton( "Cancel" );
+        JButton cancelButton = new JButton( BUTTON_CANCEL );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 _continue = false;
@@ -191,6 +206,6 @@ public class InitializationDialog extends JDialog {
     
     // must have the form of an ISO 3166-1 alpha-2 country code
     private boolean isWellFormedCountryCode( String countryCode ) {
-        return ( countryCode.length() == 2 && countryCode.matches( "[a-z][a-z]" ) );
+        return ( countryCode.length() == 2 && countryCode.matches( COUNTRY_CODE_PATTERN ) );
     }
 }
