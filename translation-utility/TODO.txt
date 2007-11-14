@@ -27,7 +27,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.03 (?)
+********* version 0.00.03 (18545)
 11/13/07 - add disabled Save and Load buttons (for discussion)
 11/13/07 - add PhET logo to init dialog, delete lame instructions that no one will read
 11/13/07 - localize all strings in InitializationDialog
