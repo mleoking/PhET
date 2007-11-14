@@ -27,6 +27,8 @@ LOW PRIORITY:
 
 
 DONE:
+11/12/07 - revert to better implementation of JarFileManager.writeProperties
+11/12/07 - don't modify original JAR file, test using phet-test-translation.jar
 11/12/07 - check in eclipse .classpath file
 11/12/07 - disable "use Google Translate" checkbox
 11/12/07 - rewrite JarFileManager.writeProperties similar to developer.com example, otherwise tmpFile rename fails

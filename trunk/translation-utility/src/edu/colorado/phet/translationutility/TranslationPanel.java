@@ -236,8 +236,8 @@ public class TranslationPanel extends JPanel {
     private void testTranslation() {
         Properties targetProperties = getTargetProperties();
         try {
-            _jarFileManager.writeProperties( targetProperties, _targetCountryCode );
-            _jarFileManager.runJarFile( _targetCountryCode );
+            String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetCountryCode );
+            _jarFileManager.runJarFile( testJarFileName, _targetCountryCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );

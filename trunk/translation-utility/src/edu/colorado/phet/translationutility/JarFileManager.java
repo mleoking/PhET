@@ -3,12 +3,11 @@
 package edu.colorado.phet.translationutility;
 
 import java.io.*;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 
 import edu.colorado.phet.translationutility.Command.CommandException;
 
@@ -27,16 +26,18 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  */
 public class JarFileManager {
     
-    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
+    private static final String TEST_JAR_NAME = "phet-test-translation.jar";
+    
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
     private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
     private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
-    private static final String ERROR_CANNOT_CREATE_TMP_FILE = TUResources.getString( "error.cannotCreateTmpFile" );
+    private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_CANNOT_RENAME_TMP_FILE = TUResources.getString( "error.cannotRenameTmpFile" );
-
+    private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
+    
     private final String _jarFileName;
     private final String[] _commonProjectNames;
     private String _projectName;
@@ -124,9 +125,7 @@ public class JarFileManager {
         }
         
         if ( projectName == null ) {
-            JarIOException e = new JarIOException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
-            e.printStackTrace();
-            throw e;
+            throw new JarIOException( ERROR_CANNOT_DETERMINE_PROJECT_NAME + " : " + jarFileName );
         }
         
         return projectName;
@@ -254,87 +253,74 @@ public class JarFileManager {
     /**
      * Writes the properties containing the localized strings for a specified country code.
      * This reads the entire JAR file and adds (or replaces) a properties file for the localized strings provided.
-     * <p>
-     * This implementation is similar to the example at
-     * http://www.developer.com/repository/common/content/article/19990118/gm_trose_jarzip2/JarUpdate.java
-     * Other implementations failed on Windows at the point where tmpFile is renamed.
      * 
      * @param properties
      * @param countryCode
      * @throws JarIOException if the properties cannot be written to the JAR file
+     * @return new JAR file name
      */
-    public void writeProperties( Properties properties, String countryCode ) throws JarIOException {
-       
-        // Create the properties file name
+    public String writeProperties( Properties properties, String countryCode ) throws JarIOException {
+        
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesFileName( projectName, countryCode );
-        
-        // input comes from the original JAR file
         File jarFile = new File( _jarFileName );
-        JarFile jar = null;
+        
+        InputStream inputStream = null;
         try {
-            jar = new JarFile( jarFile );
+            inputStream = new FileInputStream( jarFile );
         }
-        catch ( IOException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
         }
         
-        // output goes to a temp JAR file
-        String tmpFileName = _jarFileName + ".tmp";
-        File tmpFile = new File( tmpFileName );
-        JarOutputStream tmpStream = null;
+        String testFileName = getJarDirName() + File.separatorChar + TEST_JAR_NAME;
+        File testFile = new File( testFileName );
         try {
-            tmpStream = new JarOutputStream( new FileOutputStream( tmpFile ) );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_CREATE_TMP_FILE + " : " + tmpFileName );
-        }
-        
-        try {    
-            // add the properties file to the tmp JAR
-            JarEntry jarEntry = new JarEntry( propertiesFileName );
-            tmpStream.putNextEntry( jarEntry );
-            String header = propertiesFileName;
-            properties.store( tmpStream, header );
+            // input comes from the original JAR file
+            JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
+            Manifest manifest = jarInputStream.getManifest();
+            if ( manifest == null ) {
+                throw new JarIOException( ERROR_MISSING_MANIFEST + " : " + _jarFileName );
+            }
+            
+            // output goes to test JAR file
+            OutputStream outputStream = new FileOutputStream( testFile );
+            JarOutputStream testOutputStream = new JarOutputStream( outputStream, manifest );
             
             // copy all entries from input to output, skipping the properties file
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            for ( Enumeration entries = jar.entries(); entries.hasMoreElements(); ) {
-                // Get the next entry.
-                JarEntry entry = (JarEntry) entries.nextElement();
-                // If the entry isn't the same as the properties file we added...
-                if ( !entry.getName().equals( propertiesFileName ) ) {
-                    // Get an input stream for the entry.
-                    InputStream entryStream = jar.getInputStream( entry );
-                    // Read the entry and write it to the temp jar.
-                    tmpStream.putNextEntry( entry );
-                    while ( ( bytesRead = entryStream.read( buffer ) ) != -1 ) {
-                        tmpStream.write( buffer, 0, bytesRead );
+            JarEntry jarEntry = jarInputStream.getNextJarEntry();
+            while ( jarEntry != null ) {
+                if ( !jarEntry.getName().equals( propertiesFileName ) ) {
+                    testOutputStream.putNextEntry( jarEntry );
+                    byte[] buf = new byte[1024];
+                    int len;
+                    while ( ( len = jarInputStream.read( buf ) ) > 0 ) {
+                        testOutputStream.write( buf, 0, len );
                     }
+                    testOutputStream.closeEntry();
                 }
-             }
+                jarEntry = jarInputStream.getNextJarEntry();
+            }
+            
+            // add properties file to output
+            jarEntry = new JarEntry( propertiesFileName );
+            testOutputStream.putNextEntry( jarEntry );
+            String header = propertiesFileName;
+            properties.store( testOutputStream, header );
+            testOutputStream.closeEntry();
             
             // close the streams
-            tmpStream.close();
-            jar.close();
+            jarInputStream.close();
+            testOutputStream.close();
         }
         catch ( IOException e ) {
-            tmpFile.delete();
+            testFile.delete();
             e.printStackTrace();
             throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + _jarFileName );
         }
         
-        // if everything went OK, move tmp file to JAR file
-        jarFile.delete(); // Windows seems to need this before the rename
-        boolean renameSuccess = tmpFile.renameTo( jarFile );
-        if ( !renameSuccess ) {
-            JarIOException e = new JarIOException( ERROR_CANNOT_RENAME_TMP_FILE + " : " + tmpFileName + " -> " + _jarFileName );
-            e.printStackTrace();
-            throw e;
-        }
+        return testFileName;
     }
 
     /**
@@ -380,9 +366,9 @@ public class JarFileManager {
      * 
      * @param countryCode
      */
-    public void runJarFile( String countryCode ) throws CommandException {
+    public static void runJarFile( String jarFileName, String countryCode ) throws CommandException {
         String languageArg = "-Duser.language=" + countryCode;
-        String[] cmdArray = { "java", "-jar", languageArg, _jarFileName };
+        String[] cmdArray = { "java", "-jar", languageArg, jarFileName };
         Command.run( cmdArray, false /* waitForCompletion */ );
     }
     
