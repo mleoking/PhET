@@ -705,15 +705,16 @@ PhET-team specific tasks are located in an auxiliary build file.
             </sftp>
         </maverick-ssh>
         <echo message="finished maverick"/>
-        <echo message="received list of flavors: ${flavor.jar.list}"/>
-        <foreach list="${sim.flavors}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"
+        <foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"
                  inheritrefs="true"/>
-        <var name="codebase.url" value="${prod.server.path}${sim.name}"/>
+        <!--<var name="codebase.url" value="${prod.server.path}${sim.name}"/>-->
+        <var name="codebase.url" value="${prod.server.url}${sim.name}"/>
 
         <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
                  inheritrefs="true"/>
 
-        <property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>-->
+        <property name="remotedir" value="${prod.server.path}${sim.name}"/>
 
         <!--Deploy modified JAR files and new JNLP files.-->
         <foreach list="${sim.flavors}" target="_deploy-translated-flavor-jar" param="sim.flavor" inheritall="true"
