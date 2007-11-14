@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -16,6 +13,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * InitializationDialog requests information required a initialization time.
@@ -32,12 +31,12 @@ public class InitializationDialog extends JDialog {
     private static final String LABEL_COUNTRY_CODE = TUResources.getString( "label.countryCode" );
     private static final String CHECKBOX_AUTO_TRANSLATE = TUResources.getString( "checkbox.autoTranslate" );
     private static final String TITLE_ERROR = TUResources.getString( "title.errorDialog" );
-    private static final String INSTRUCTIONS_INITIALIZATION = TUResources.getString( "instructions.initialization" );
     private static final String TOOLTIP_JAR_PATH = TUResources.getString( "tooltip.jarPath" );
     private static final String TOOLTIP_COUNTRY_CODE = TUResources.getString( "tooltip.countryCode" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
     
+    private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
     private static final String COUNTRY_CODE_PATTERN = "[a-z][a-z]"; // regular expression
     
     private JTextField _jarFileTextField;
@@ -59,11 +58,15 @@ public class InitializationDialog extends JDialog {
         _continue = false;
         _currentDirectory = null;
         
-        JPanel instructionsPanel = new JPanel();
-        instructionsPanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+        JPanel titlePanel = new JPanel();
+        titlePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel instructionsLabel = new JLabel( INSTRUCTIONS_INITIALIZATION );
-            instructionsPanel.add( instructionsLabel );
+            Image titleImage = TUResources.getCommonImage( PhetLookAndFeel.PHET_LOGO_120x50 );
+            JLabel titleImageLabel = new JLabel( new ImageIcon( titleImage ) );
+            JLabel titleLabel = new JLabel( TUResources.getString( "translation-utility.name" ) );
+            titleLabel.setFont( TITLE_FONT );
+            titlePanel.add( titleImageLabel );
+            titlePanel.add( titleLabel );
         }
         
         JPanel jarFilePanel = new JPanel();
@@ -157,7 +160,8 @@ public class InitializationDialog extends JDialog {
         });
         
         Box topPanel = new Box( BoxLayout.Y_AXIS );
-        topPanel.add( instructionsPanel );
+        topPanel.add( titlePanel );
+        topPanel.add( new JSeparator() );
         topPanel.add( jarFilePanel );
         topPanel.add( countryCodePanel );
         topPanel.add( autoTranslatePanel );
