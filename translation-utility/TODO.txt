@@ -21,10 +21,12 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - check for unsaved changes before exiting
+- File>New to start a new translation
 - select simulation from Translation Utility
 
 
 DONE:
+11/13/07 - add PhET logo to init dialog, delete lame instructions that no one will read
 11/13/07 - localize all strings in InitializationDialog
 11/13/07 - reduce vertical height of frame on Windows to account for Windows task bar
 11/13/07 - center frame on screen
