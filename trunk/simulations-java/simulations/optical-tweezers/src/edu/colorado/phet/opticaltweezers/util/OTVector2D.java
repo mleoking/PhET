@@ -2,9 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.util;
 
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 
 
 /**
