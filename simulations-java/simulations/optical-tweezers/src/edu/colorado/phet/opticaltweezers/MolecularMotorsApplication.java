@@ -6,16 +6,14 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
-//import com.sun.tools.example.debug.expr.ExpressionParser.GetFrame;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.persistence.XMLPersistenceManager;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.opticaltweezers.module.dna.DNAModule;
 import edu.colorado.phet.opticaltweezers.module.motors.MotorsModule;
-import edu.colorado.phet.opticaltweezers.module.physics.PhysicsModule;
-import edu.colorado.phet.opticaltweezers.persistence.*;
+import edu.colorado.phet.opticaltweezers.persistence.GlobalConfig;
+import edu.colorado.phet.opticaltweezers.persistence.MolecularMotorsConfig;
+import edu.colorado.phet.opticaltweezers.persistence.MotorsConfig;
 
 /**
  * MolecularMotorsApplication is the main application for the "Molecular Motors" flavor.

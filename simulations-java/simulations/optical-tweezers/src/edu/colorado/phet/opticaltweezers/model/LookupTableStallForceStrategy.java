@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.opticaltweezers.model;
 
-import com.sun.rsasign.s;
 
 /**
  * LookupTableStallForceStrategy uses a lookup table to find the stall force that 
