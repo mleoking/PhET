@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -50,8 +48,28 @@ public class TranslationUtility extends JFrame {
         frame.getContentPane().add( translationPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
-        //WORKAROUND: increase the width so we don't get a horizontal scrollbar
-        frame.setBounds( (int) frame.getBounds().getX(), (int) frame.getBounds().getY(), (int) frame.getBounds().getWidth() + 30, (int) frame.getBounds().getHeight() );
+        fixFrameBounds( frame );
         frame.show();
+    }
+    
+    private static void fixFrameBounds( JFrame frame ) {
+        
+        //WORKAROUND: decrease the height to account for Windows task bar
+        if ( PhetUtilities.isWindows() ) {
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            final int taskBarHeight = 200;
+            int overlap = (int) ( frame.getBounds().getHeight() - ( screenSize.getHeight() - taskBarHeight ) );
+            if ( overlap > 0 ) {
+                frame.setBounds( (int) frame.getBounds().getX(), (int) frame.getBounds().getY(), 
+                        (int) frame.getBounds().getWidth(), (int) frame.getBounds().getHeight() - overlap );
+            }
+        }
+        
+        //WORKAROUND: increase the width so we don't get a horizontal scrollbar
+        frame.setBounds( (int) frame.getBounds().getX(), (int) frame.getBounds().getY(),
+                (int) frame.getBounds().getWidth() + 30, (int) frame.getBounds().getHeight() );
+        
+        // center on the screen
+        SwingUtils.centerWindowOnScreen( frame );
     }
 }
