@@ -13,6 +13,7 @@ HIGH PRIORITY:
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
 
 MEDIUM PRIORITY:
+- make it possible to copy/paste filename and email address in Submit dialog
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - exception when writing properties file to filesystem shouldn't be fatal, might be permissions problem
 - choose specific fonts for specific languages (generalize FontJA)
@@ -26,6 +27,7 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 0.00.03 (?)
 11/13/07 - add disabled Save and Load buttons (for discussion)
 11/13/07 - add PhET logo to init dialog, delete lame instructions that no one will read
 11/13/07 - localize all strings in InitializationDialog
