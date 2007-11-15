@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
+import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
 import edu.colorado.phet.glaciers.view.PenguinNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -32,6 +33,7 @@ public class GlaciersCanvas extends PhetPCanvas {
     private PNode _rootNode;
     private BirdsEyeViewNode _birdsEyeViewNode;
     private PenguinNode _penguinNode;
+    private MagnifiedViewNode _magnifiedViewNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,9 +52,9 @@ public class GlaciersCanvas extends PhetPCanvas {
         
         // Birds Eye View
         {
-        _birdsEyeViewNode = new BirdsEyeViewNode();
-        _rootNode.addChild( _birdsEyeViewNode );
-        _birdsEyeViewNode.setOffset( 0, 0 ); // upper left
+            _birdsEyeViewNode = new BirdsEyeViewNode();
+            _rootNode.addChild( _birdsEyeViewNode );
+            _birdsEyeViewNode.setOffset( 0, 0 ); // upper left
         }
         
         // Penguin
@@ -71,6 +73,16 @@ public class GlaciersCanvas extends PhetPCanvas {
 
             Rectangle2D r = new Rectangle2D.Double( bb.getX(), pb.getY(), bb.getWidth(), pb.getHeight() );
             penguinDragBoundsNode.setPathTo( r );
+        }
+        
+        // Magnified View
+        {
+            _magnifiedViewNode = new MagnifiedViewNode();
+            _rootNode.addChild( _magnifiedViewNode );
+            
+            double x = 0;
+            double y = _birdsEyeViewNode.getFullBoundsReference().getMaxY();
+            _magnifiedViewNode.setOffset( x, y );
         }
     }
     
