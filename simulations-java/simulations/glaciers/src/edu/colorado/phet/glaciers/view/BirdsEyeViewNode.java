@@ -13,7 +13,6 @@ public class BirdsEyeViewNode extends PhetPNode {
     public BirdsEyeViewNode() {
         super();
         PImage imageNode = GlaciersResources.getImageNode( GlaciersConstants.IMAGE_VALLEY );
-        imageNode.scale( 3.25 );
         addChild( imageNode );
     }
 }
