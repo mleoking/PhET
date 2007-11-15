@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.module.GlaciersAbstractCanvas;
+import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.colorado.phet.glaciers.view.ExampleNode;
 
 /**
@@ -25,6 +26,7 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
     
     // View 
     private ExampleNode _exampleNode;
+    private BirdsEyeViewNode _birdsEyeViewNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -39,6 +41,9 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
         
         _exampleNode = new ExampleNode( _model.getExampleModelElement() );
         addNode( _exampleNode );
+        
+        _birdsEyeViewNode = new BirdsEyeViewNode();
+        addNode( _birdsEyeViewNode );
     }
     
 

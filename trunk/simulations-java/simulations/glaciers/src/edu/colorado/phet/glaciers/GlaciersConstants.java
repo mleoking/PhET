@@ -87,4 +87,6 @@ public class GlaciersConstants {
     public static final String ICON_TERMINUS_TRACKER = "terminus-tracker-icon.png";
     public static final String ICON_RULER = "ruler-icon.png";
     public static final String ICON_BOREHOLE_DRILL = "borehole-drill-icon.png";
+    
+    public static final String IMAGE_VALLEY = "valley.png";
 }

@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+11/14/07 - stub for "birds eye view" of valley
 11/14/07 - stubs for Climate Controls panel
 11/14/07 - add icons to View controls
 11/14/07 - add View controls (no icons)
