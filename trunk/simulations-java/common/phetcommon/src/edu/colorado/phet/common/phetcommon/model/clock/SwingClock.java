@@ -53,6 +53,22 @@ public class SwingClock extends Clock {
     }
 
     /**
+     * Sets whether the underlying Timer should coalesce events.
+     * <p/>
+     * When the amount of work done in the action listener is nearly the same value as the wait time
+     * on the clock (or more), the delay before next tick is unnecessarily high.
+     * <p/>
+     * The solution to this problem is to setCoalesce(false) on the clock.
+     * Since this may have unintended impact on existing simulations in terms of UI responsiveness,
+     * or other aspects of the simulation, this is to be turned-on on a simulation-by-simulation basis.
+     *
+     * @param coalesce
+     */
+    public void setCoalesce( boolean coalesce ) {
+        timer.setCoalesce( coalesce );
+    }
+
+    /**
      * Starts the Clock.
      */
     public void start() {
