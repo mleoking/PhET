@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation.tests;
+package edu.colorado.phet.common.phetcommon.tests;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
