@@ -6,8 +6,13 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 /**
- * Created by: Sam
- * Nov 12, 2007 at 5:48:19 PM
+ * Demonstrates the problem with using a Swing Timer when events are coalesced.
+ * When the amount of work done in the action listener is nearly the same value as the wait time
+ * on the clock (or more), the delay before next tick is unnecessarily high.
+ *
+ * The solution to this problem is to setCoalesce(false) on the clock.
+ * Since this may have unintended impact on existing simulations in terms of UI responsiveness,
+ * or other aspects of the simulation, this is to be turned-on on a simulation-by-simulation basis. 
  */
 public class TestSwingTimer {
     static long lastEndTime;
@@ -28,6 +33,7 @@ public class TestSwingTimer {
                 lastEndTime = System.currentTimeMillis();
             }
         } );
+//        timer.setCoalesce( false );
         timer.start();
         Thread.sleep(5000);
         System.exit( 0);
