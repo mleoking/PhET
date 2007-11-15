@@ -13,12 +13,12 @@ public class TestSwingTimer {
     static long lastEndTime;
 
     public static void main( String[] args ) throws InterruptedException {
-        Timer timer = new Timer( 10, new ActionListener() {
+        Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 long betweenTime=System.currentTimeMillis()-lastEndTime;
                 System.out.print( "betweenTime = " + betweenTime+", " );
                 try {
-                    Thread.sleep( 10 );
+                    Thread.sleep( 30 );
                 }
                 catch( InterruptedException e1 ) {
                     e1.printStackTrace();
