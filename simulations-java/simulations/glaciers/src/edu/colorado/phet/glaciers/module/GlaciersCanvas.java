@@ -10,6 +10,7 @@ import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.colorado.phet.glaciers.view.PenguinNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * GlaciersCanvas
@@ -47,11 +48,13 @@ public class GlaciersCanvas extends PhetPCanvas {
         
         _birdsEyeViewNode = new BirdsEyeViewNode();
         _rootNode.addChild( _birdsEyeViewNode );
+        _birdsEyeViewNode.setOffset( 0, 0 ); // upper left
         
         _penguinNode = new PenguinNode();
         _rootNode.addChild( _penguinNode );
-        double x = _birdsEyeViewNode.getFullBoundsReference().getWidth() / 2;
-        double y = _birdsEyeViewNode.getFullBoundsReference().getHeight() - _penguinNode.getFullBoundsReference().getHeight();
+        PBounds b = _birdsEyeViewNode.getFullBoundsReference();
+        double x = b.getX() + ( b.getWidth() / 2 );
+        double y = b.getY() + b.getHeight() - _penguinNode.getFullBoundsReference().getHeight();
         _penguinNode.setOffset( x, y );
     }
     
