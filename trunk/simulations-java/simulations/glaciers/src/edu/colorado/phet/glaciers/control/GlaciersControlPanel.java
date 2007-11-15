@@ -27,6 +27,7 @@ public class GlaciersControlPanel extends JPanel {
     public GlaciersControlPanel( GlaciersClock clock ) {
         
         ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
+        ClimateControlPanel climateControlPanel = new ClimateControlPanel( TITLE_FONT, CONTROL_FONT );
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
         MiscControlPanel miscControlPanel = new MiscControlPanel();
         
@@ -38,7 +39,8 @@ public class GlaciersControlPanel extends JPanel {
         topPanel.setLayout( topLayout  );
         row = 0;
         column = 0;
-        topLayout.addComponent( viewControlPanel, row, column++ );
+        topLayout.addFilledComponent( viewControlPanel, row, column++, GridBagConstraints.VERTICAL );
+        topLayout.addFilledComponent( climateControlPanel, row, column++, GridBagConstraints.VERTICAL  );
         
         JPanel bottomPanel = new JPanel();
         EasyGridBagLayout bottomLayout = new EasyGridBagLayout( bottomPanel );
@@ -58,7 +60,7 @@ public class GlaciersControlPanel extends JPanel {
         thisLayout.addComponent( topPanel, row++, column );
         thisLayout.addComponent( bottomPanel, row++, column );
         
-        Class[] excludedClasses = { ViewControlPanel.class, JTextComponent.class };
+        Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
 }

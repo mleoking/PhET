@@ -49,52 +49,52 @@ public class ViewControlPanel extends JPanel {
     public ViewControlPanel( Font titleFont, Font controlFont ) {
         super();
         
-        _equilibriumLineCheckBox = new JCheckBox( GlaciersResources.getString( "label.equilibriumLine" ) );
+        _equilibriumLineCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.equilibriumLine" ) );
         _equilibriumLineCheckBox.setFont( controlFont );
         _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon equilibriumLineIcon = new CheckBoxIcon( GlaciersConstants.ICON_EQUILIBRIUM_LINE, _equilibriumLineCheckBox );
         
-        _iceVelocitiesCheckBox = new JCheckBox( GlaciersResources.getString( "label.iceVelocities" ) );
+        _iceVelocitiesCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.iceVelocities" ) );
         _iceVelocitiesCheckBox.setFont( controlFont );
         _iceVelocitiesCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon iceVelocitiesIcon = new CheckBoxIcon( GlaciersConstants.ICON_ICE_VELOCITIES, _iceVelocitiesCheckBox );
         
-        _debrisCheckBox = new JCheckBox( GlaciersResources.getString( "label.debris" ) );
+        _debrisCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.debris" ) );
         _debrisCheckBox.setFont( controlFont );
         _debrisCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon debrisIcon = new CheckBoxIcon( GlaciersConstants.ICON_DEBRIS, _debrisCheckBox );
         
-        _snowfallCheckBox = new JCheckBox( GlaciersResources.getString( "label.snowfall" ) );
+        _snowfallCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.snowfall" ) );
         _snowfallCheckBox.setFont( controlFont );
         _snowfallCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon snowfallIcon = new CheckBoxIcon( GlaciersConstants.ICON_SNOWFALL, _snowfallCheckBox );
         
-        _coordinatesCheckBox = new JCheckBox( GlaciersResources.getString( "label.coordinates" ) );
+        _coordinatesCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.coordinates" ) );
         _coordinatesCheckBox.setFont( controlFont );
         _coordinatesCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon coordinatesIcon = new CheckBoxIcon( GlaciersConstants.ICON_COORDINATES, _coordinatesCheckBox );
         
-        _viewFollowsTerminusCheckBox = new JCheckBox( GlaciersResources.getString( "label.viewFollowsTerminus" ) );
+        _viewFollowsTerminusCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.viewFollowsTerminus" ) );
         _viewFollowsTerminusCheckBox.setFont( controlFont );
         _viewFollowsTerminusCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon viewFollowsTerminusIcon = new CheckBoxIcon( GlaciersConstants.ICON_VIEW_FOLLOWS_TERMINUS, _viewFollowsTerminusCheckBox );
         
-        _massBalanceCheckBox = new JCheckBox( GlaciersResources.getString( "label.massBalance" ) );
+        _massBalanceCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.massBalance" ) );
         _massBalanceCheckBox.setFont( controlFont );
         _massBalanceCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon massBalanceIcon = new CheckBoxIcon( GlaciersConstants.ICON_MASS_BALANCE, _massBalanceCheckBox );
         
-        _terminusTrackerCheckBox = new JCheckBox( GlaciersResources.getString( "label.terminusTracker" ) );
+        _terminusTrackerCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.terminusTracker" ) );
         _terminusTrackerCheckBox.setFont( controlFont );
         _terminusTrackerCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon terminusTrackerIcon = new CheckBoxIcon( GlaciersConstants.ICON_TERMINUS_TRACKER, _terminusTrackerCheckBox );
         
-        _rulerCheckBox = new JCheckBox( GlaciersResources.getString( "label.ruler" ) );
+        _rulerCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.ruler" ) );
         _rulerCheckBox.setFont( controlFont );
         _rulerCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon rulerIcon = new CheckBoxIcon( GlaciersConstants.ICON_RULER, _rulerCheckBox );
         
-        _boreholdDrillCheckBox = new JCheckBox( GlaciersResources.getString( "label.boreholeDrill" ) );
+        _boreholdDrillCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.boreholeDrill" ) );
         _boreholdDrillCheckBox.setFont( controlFont );
         _boreholdDrillCheckBox.setForeground( CONTROL_COLOR );
         CheckBoxIcon boreholdDrillIcon = new CheckBoxIcon( GlaciersConstants.ICON_BOREHOLE_DRILL, _boreholdDrillCheckBox );
