@@ -4,6 +4,9 @@ package edu.colorado.phet.glaciers;
 
 import java.awt.image.BufferedImage;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -40,6 +43,10 @@ public class GlaciersResources {
     
     public static final BufferedImage getImage( String name ) {
         return RESOURCES.getImage( name );
+    }
+    
+    public static final Icon getIcon( String name ) {
+        return new ImageIcon( getImage( name ) );
     }
     
     public static final PImage getImageNode( String name ) {
