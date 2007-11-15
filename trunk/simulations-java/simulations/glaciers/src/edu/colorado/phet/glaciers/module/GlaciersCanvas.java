@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module.example;
+package edu.colorado.phet.glaciers.module;
 
 import java.awt.geom.Dimension2D;
 

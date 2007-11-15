@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
-import edu.colorado.phet.glaciers.module.example.GlaciersModule;
+import edu.colorado.phet.glaciers.module.GlaciersModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
