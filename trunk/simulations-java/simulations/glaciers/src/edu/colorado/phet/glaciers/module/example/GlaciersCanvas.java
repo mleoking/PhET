@@ -4,46 +4,47 @@ package edu.colorado.phet.glaciers.module.example;
 
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
-import edu.colorado.phet.glaciers.module.GlaciersAbstractCanvas;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
-import edu.colorado.phet.glaciers.view.ExampleNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
- * ExampleCanvas is the canvas for ExampleModule.
+ * GlaciersCanvas
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleCanvas extends GlaciersAbstractCanvas {
+public class GlaciersCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private ExampleModel _model;
+    private GlaciersModel _model;
     
     // View 
-    private ExampleNode _exampleNode;
+    private PNode _rootNode;
     private BirdsEyeViewNode _birdsEyeViewNode;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleCanvas( ExampleModel model ) {
+    public GlaciersCanvas( GlaciersModel model ) {
         super( ExampleDefaults.VIEW_SIZE );
         
         _model = model;
         
         setBackground( GlaciersConstants.CANVAS_BACKGROUND );
         
-        _exampleNode = new ExampleNode( _model.getExampleModelElement() );
-        addNode( _exampleNode );
+        // Root of our scene graph
+        _rootNode = new PNode();
+        addWorldChild( _rootNode );
         
         _birdsEyeViewNode = new BirdsEyeViewNode();
-        addNode( _birdsEyeViewNode );
+        _rootNode.addChild( _birdsEyeViewNode );
     }
     
 
@@ -52,8 +53,8 @@ public class ExampleCanvas extends GlaciersAbstractCanvas {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public ExampleNode getExampleNode() {
-        return _exampleNode;
+    public BirdsEyeViewNode getBirdsEyeViewNode() {
+        return _birdsEyeViewNode;
     }
     
     //----------------------------------------------------------------------------
