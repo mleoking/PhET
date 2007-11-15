@@ -62,7 +62,8 @@ public class SwingClock extends Clock {
      * Since this may have unintended impact on existing simulations in terms of UI responsiveness,
      * or other aspects of the simulation, this is to be turned-on on a simulation-by-simulation basis.
      *
-     * @param coalesce
+     * @see edu.colorado.phet.common.phetcommon.tests.TestSwingTimer
+     * @param coalesce true if the underlying timer should coalesce events
      */
     public void setCoalesce( boolean coalesce ) {
         timer.setCoalesce( coalesce );
