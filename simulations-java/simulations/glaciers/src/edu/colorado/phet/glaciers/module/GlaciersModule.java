@@ -2,17 +2,15 @@
 
 package edu.colorado.phet.glaciers.module;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.GlaciersControlPanel;
-import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
-import edu.colorado.phet.glaciers.model.ExampleModelElement;
+import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.persistence.ExampleConfig;
+import edu.colorado.phet.glaciers.persistence.GlaciersModuleConfig;
 
 /**
  * GlaciersModule
@@ -34,7 +32,7 @@ public class GlaciersModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public GlaciersModule( Frame parentFrame ) {
-        super( GlaciersResources.getString( "title.exampleModule" ), ExampleDefaults.CLOCK );
+        super( GlaciersResources.getString( "title.exampleModule" ), GlaciersDefaults.CLOCK );
         setLogoPanel( null );
 
         // Model
@@ -83,14 +81,8 @@ public class GlaciersModule extends PiccoloModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( ExampleDefaults.CLOCK_DT_RANGE.getDefault() );
-            setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-            
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-            exampleModelElement.setSize( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_SIZE );
-            exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-            exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
+            clock.setDt( GlaciersDefaults.CLOCK_DT_RANGE.getDefault() );
+            setClockRunningWhenActive( GlaciersDefaults.CLOCK_RUNNING );
         }
 
         // Control panel settings that are view-related
@@ -103,9 +95,9 @@ public class GlaciersModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public ExampleConfig save() {
+    public GlaciersModuleConfig save() {
 
-        ExampleConfig config = new ExampleConfig();
+        GlaciersModuleConfig config = new GlaciersModuleConfig();
         GlaciersModel model = getExampleModel();
 
         // Module
@@ -117,13 +109,6 @@ public class GlaciersModule extends PiccoloModule {
             GlaciersClock clock = model.getClock();
             config.setClockDt( clock.getDt() );
             config.setClockRunning( getClockRunningWhenActive() );
-
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            config.setExampleModelElementWidth( exampleModelElement.getSizeReference().getWidth() );
-            config.setExampleModelElementHeight( exampleModelElement.getSizeReference().getHeight() );
-            config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
-            config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
         }
 
         // Control panel settings that are view-related
@@ -134,7 +119,7 @@ public class GlaciersModule extends PiccoloModule {
         return config;
     }
 
-    public void load( ExampleConfig config ) {
+    public void load( GlaciersModuleConfig config ) {
 
         GlaciersModel model = getExampleModel();
 
@@ -149,12 +134,6 @@ public class GlaciersModule extends PiccoloModule {
             GlaciersClock clock = model.getClock();
             clock.setDt( config.getClockDt() );
             setClockRunningWhenActive( config.isClockRunning() );
-
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            exampleModelElement.setSize( new Dimension( (int) config.getExampleModelElementWidth(), (int) config.getExampleModelElementHeight() ) );
-            exampleModelElement.setPosition( config.getExampleModelElementPosition() );
-            exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
         }
 
         // Control panel settings that are view-related

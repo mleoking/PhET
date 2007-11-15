@@ -10,14 +10,14 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 /**
- * ExampleDefaults contains default settings for ExampleModule.
+ * GlaciersDefaults contains default settings for GlaciersModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleDefaults {
+public class GlaciersDefaults {
 
     /* Not intended for instantiation */
-    private ExampleDefaults() {}
+    private GlaciersDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;
@@ -27,12 +27,7 @@ public class ExampleDefaults {
     public static final String CLOCK_UNITS = GlobalDefaults.CLOCK_UNITS;
     public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE, CLOCK_UNITS );
     
-    // Model-view transform
-    public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
-    
-    // ExampleModelElement
-    public static final Dimension EXAMPLE_MODEL_ELEMENT_SIZE = new Dimension( 200, 100 ); // meters
-    public static final Point2D EXAMPLE_MODEL_ELEMENT_POSITION = new Point2D.Double( 400, 400 );
-    public static final double EXAMPLE_MODEL_ELEMENT_ORIENTATION = 0; // radians
+    // World dimensions
+    public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );
 
 }

@@ -21,7 +21,7 @@ import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
 import edu.colorado.phet.glaciers.module.GlaciersModule;
-import edu.colorado.phet.glaciers.persistence.ExampleConfig;
+import edu.colorado.phet.glaciers.persistence.GlaciersModuleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
@@ -169,8 +169,8 @@ public class GlaciersApplication extends PhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        ExampleConfig exampleConfig = _glaciersModule.save();
-        appConfig.setExampleConfig( exampleConfig );
+        GlaciersModuleConfig exampleConfig = _glaciersModule.save();
+        appConfig.setGlaciersModuleConfig( exampleConfig );
         
         _persistenceManager.save( appConfig );
     }
@@ -186,7 +186,7 @@ public class GlaciersApplication extends PhetApplication {
             if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
                 
-                ExampleConfig exampleConfig = appConfig.getExampleConfig();
+                GlaciersModuleConfig exampleConfig = appConfig.getGlaciersModuleConfig();
                 _glaciersModule.load( exampleConfig );
             }
             else {

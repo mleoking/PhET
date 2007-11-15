@@ -6,7 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
+import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,7 +33,7 @@ public class GlaciersCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     
     public GlaciersCanvas( GlaciersModel model ) {
-        super( ExampleDefaults.VIEW_SIZE );
+        super( GlaciersDefaults.WORLD_SIZE );
         
         _model = model;
         

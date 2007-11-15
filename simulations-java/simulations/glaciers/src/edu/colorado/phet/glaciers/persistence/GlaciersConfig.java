@@ -24,7 +24,7 @@ public class GlaciersConfig implements IProguardKeepClass {
     private String _versionRevision;
     
     // Modules
-    private ExampleConfig _exampleConfig;
+    private GlaciersModuleConfig _glaciersModuleConfig;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -34,7 +34,7 @@ public class GlaciersConfig implements IProguardKeepClass {
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
     public GlaciersConfig() {
-        _exampleConfig = new ExampleConfig();
+        _glaciersModuleConfig = new GlaciersModuleConfig();
     }
 
     //----------------------------------------------------------------------------
@@ -85,11 +85,11 @@ public class GlaciersConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
     
-    public void setExampleConfig( ExampleConfig exampleConfig ) {
-        _exampleConfig = exampleConfig;
+    public void setGlaciersModuleConfig( GlaciersModuleConfig glaciersModuleConfig ) {
+        _glaciersModuleConfig = glaciersModuleConfig;
     }
     
-    public ExampleConfig getExampleConfig() {
-        return _exampleConfig;
+    public GlaciersModuleConfig getGlaciersModuleConfig() {
+        return _glaciersModuleConfig;
     }
 }
