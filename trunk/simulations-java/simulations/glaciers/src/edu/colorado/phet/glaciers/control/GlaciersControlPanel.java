@@ -18,13 +18,13 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
-public class BottomPanel extends JPanel {
+public class GlaciersControlPanel extends JPanel {
     
     private static final Color BACKGROUND_COLOR = new Color( 180, 158, 134 ); // tan
     private static final Font TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
     private static final Font CONTROL_FONT = new PhetDefaultFont();
 
-    public BottomPanel( GlaciersClock clock ) {
+    public GlaciersControlPanel( GlaciersClock clock ) {
         
         ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );

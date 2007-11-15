@@ -76,4 +76,15 @@ public class GlaciersConstants {
     //----------------------------------------------------------------------------
     // Images
     //----------------------------------------------------------------------------
+    
+    public static final String ICON_EQUILIBRIUM_LINE = "equilibrium-line-icon.png";
+    public static final String ICON_ICE_VELOCITIES = "ice-velocities-icon.png";
+    public static final String ICON_DEBRIS = "debris-icon.png";
+    public static final String ICON_SNOWFALL = "snowfall-icon.png";
+    public static final String ICON_COORDINATES = "coordinates-icon.png";
+    public static final String ICON_VIEW_FOLLOWS_TERMINUS = "view-follows-terminus-icon.png";
+    public static final String ICON_MASS_BALANCE = "mass-balance-icon.png";
+    public static final String ICON_TERMINUS_TRACKER = "terminus-tracker-icon.png";
+    public static final String ICON_RULER = "ruler-icon.png";
+    public static final String ICON_BOREHOLE_DRILL = "borehole-drill-icon.png";
 }
