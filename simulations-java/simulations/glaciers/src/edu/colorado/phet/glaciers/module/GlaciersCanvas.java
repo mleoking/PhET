@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.module;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
@@ -10,6 +11,7 @@ import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.colorado.phet.glaciers.view.PenguinNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -46,19 +48,31 @@ public class GlaciersCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addScreenChild( _rootNode );
         
+        // Birds Eye View
+        {
         _birdsEyeViewNode = new BirdsEyeViewNode();
         _rootNode.addChild( _birdsEyeViewNode );
         _birdsEyeViewNode.setOffset( 0, 0 ); // upper left
+        }
         
-        _penguinNode = new PenguinNode();
-        _rootNode.addChild( _penguinNode );
-        PBounds b = _birdsEyeViewNode.getFullBoundsReference();
-        double x = b.getX() + ( b.getWidth() / 2 );
-        double y = b.getY() + b.getHeight() - _penguinNode.getFullBoundsReference().getHeight();
-        _penguinNode.setOffset( x, y );
-    }
-    
+        // Penguin
+        {
+            PPath penguinDragBoundsNode = new PPath();
+            penguinDragBoundsNode.setStroke( null );
+            _rootNode.addChild( penguinDragBoundsNode );
 
+            _penguinNode = new PenguinNode( penguinDragBoundsNode );
+            _rootNode.addChild( _penguinNode );
+            PBounds bb = _birdsEyeViewNode.getFullBoundsReference();
+            double x = bb.getX() + ( bb.getWidth() / 2 );
+            double y = bb.getY() + bb.getHeight() - _penguinNode.getFullBoundsReference().getHeight();
+            _penguinNode.setOffset( x, y );
+            PBounds pb = _penguinNode.getFullBoundsReference();
+
+            Rectangle2D r = new Rectangle2D.Double( bb.getX(), pb.getY(), bb.getWidth(), pb.getHeight() );
+            penguinDragBoundsNode.setPathTo( r );
+        }
+    }
     
     //----------------------------------------------------------------------------
     // Accessors
