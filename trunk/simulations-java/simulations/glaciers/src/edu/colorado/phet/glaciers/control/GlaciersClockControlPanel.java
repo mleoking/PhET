@@ -128,14 +128,14 @@ public class GlaciersClockControlPanel extends JPanel {
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
             layout.setInsets( new Insets( 0, 0, 0, 0 ) );
-            layout.addComponent( _timePanel, 0, 0 );
-            layout.addComponent( _speedControl, 0, 1 );
-            layout.addComponent( _clockControlPanel, 0, 2 );
+            int column = 0;
+            layout.addComponent( _timePanel, 0, column++ );
+            layout.addComponent( _speedControl, 0, column++ );
+            layout.addComponent( _clockControlPanel, 0, column++ );
 
             FlowLayout flowLayout = new FlowLayout( FlowLayout.LEFT, 0, 0 );
             setLayout( flowLayout );
             add( innerPanel );
-            System.out.println( "insets=" + getInsets().toString() );
         }
         
         // Interactivity

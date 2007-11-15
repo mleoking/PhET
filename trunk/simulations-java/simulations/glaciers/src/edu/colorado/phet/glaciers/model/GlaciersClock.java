@@ -41,7 +41,6 @@ public class GlaciersClock extends ConstantDtClock {
             throw new IllegalArgumentException( "dt is out of range: " + dt );
         }
         super.setDt( dt );
-        resetSimulationTime();
         System.out.println( "GlaciersClock.setDt dt=" + dt );
     }
     
