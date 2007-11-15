@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +10,6 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
@@ -22,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
-import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.module.example.ExampleModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
@@ -153,33 +150,6 @@ public class GlaciersApplication extends PhetApplication {
 
     public static boolean isDeveloperControlsEnabled() {
         return DEVELOPER_CONTROLS_ENABLED;
-    }
-
-    public void setSelectedTabColor( Color color ) {
-        if ( _tabbedModulePane != null ) {
-            _tabbedModulePane.setSelectedTabColor( color );
-        }
-    }
-
-    public Color getSelectedTabColor() {
-        Color color = Color.WHITE; 
-        if ( _tabbedModulePane != null ) {
-            color = _tabbedModulePane.getSelectedTabColor();
-        }
-        return color;
-    }
-
-    public void setControlPanelBackground( Color color ) {
-        Module[] modules = getModules();
-        for ( int i = 0; i < modules.length; i++ ) {
-            modules[i].setControlPanelBackground( color );
-            modules[i].setClockControlPanelBackground( color );
-            modules[i].setHelpPanelBackground( color );
-        }
-    }
-
-    public Color getControlPanelBackground() {
-        return ( (GlaciersAbstractModule) getModule( 0 ) ).getControlPanel().getBackground();
     }
 
     //----------------------------------------------------------------------------

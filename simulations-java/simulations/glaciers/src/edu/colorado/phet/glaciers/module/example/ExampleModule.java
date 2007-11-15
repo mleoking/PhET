@@ -5,9 +5,9 @@ package edu.colorado.phet.glaciers.module.example;
 import java.awt.Dimension;
 import java.awt.Frame;
 
-import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.control.BottomPanel;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
@@ -28,8 +28,7 @@ public class ExampleModule extends GlaciersAbstractModule {
 
     private ExampleModel _model;
     private ExampleCanvas _canvas;
-    private ExampleControlPanel _controlPanel;
-    private GlaciersClockControlPanel _clockControlPanel;
+    private BottomPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -46,13 +45,9 @@ public class ExampleModule extends GlaciersAbstractModule {
         _canvas = new ExampleCanvas( _model );
         setSimulationPanel( _canvas );
 
-        // Control Panel
-        _controlPanel = new ExampleControlPanel( this, parentFrame );
-        setControlPanel( _controlPanel );
-
-        // Clock controls
-        _clockControlPanel = new GlaciersClockControlPanel( clock );
-        setClockControlPanel( _clockControlPanel );
+        // Bottom panel goes when clock controls normally go
+        _bottomPanel = new BottomPanel( clock );
+        setClockControlPanel( _bottomPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -78,30 +73,6 @@ public class ExampleModule extends GlaciersAbstractModule {
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
-
-    /**
-     * Indicates whether this module has help.
-     *
-     * @return true or false
-     */
-    public boolean hasHelp() {
-        return false;
-    }
-
-    /**
-     * Open selected dialogs when this module is activated.
-     */
-    public void activate() {
-        super.activate();
-    }
-
-    /**
-     * Close all dialogs when this module is deactivated.
-     */
-    public void deactivate() {
-        _controlPanel.closeAllDialogs();
-        super.deactivate();
-    }
 
     /**
      * Resets the module.

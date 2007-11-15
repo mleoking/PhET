@@ -2,19 +2,15 @@
 
 package edu.colorado.phet.glaciers.dialog;
 
-import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Insets;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersApplication;
@@ -57,24 +53,8 @@ public class DeveloperControlsDialog extends JDialog {
 
     private JPanel createInputPanel() {
 
-        Frame parentFrame = NonPiccoloPhetApplication.instance().getPhetFrame();
-
-        Color controlPanelBackground = _app.getControlPanelBackground();
-        final ColorControl controlPanelColorControl = new ColorControl( parentFrame, "control panel background color: ", controlPanelBackground );
-        controlPanelColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setControlPanelBackground( controlPanelColorControl.getColor() );
-            }
-        } );
-
-        Color selectedTabColor = _app.getSelectedTabColor();
-        final ColorControl selectedTabColorControl = new ColorControl( parentFrame, "selected module tab color: ", selectedTabColor );
-        selectedTabColorControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                _app.setSelectedTabColor( selectedTabColorControl.getColor() );
-            }
-        } );
-
+        JLabel label = new JLabel( "- developer controls go here -" );
+        
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -83,8 +63,7 @@ public class DeveloperControlsDialog extends JDialog {
         panel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( controlPanelColorControl, row++, column );
-        layout.addComponent( selectedTabColorControl, row++, column );
+        layout.addComponent( label, row, column );
 
         return panel;
     }
