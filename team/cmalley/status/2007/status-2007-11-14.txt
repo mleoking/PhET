@@ -1,0 +1,43 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 8-14, 2007 (Thu-Wed)
+
+ACCOMPLISHMENTS:
+
+  Glaciers:
+  - started setting up the user interface: control panels, birds-eye-view, magnified view
+  - custom module layout
+  
+  Translation Utility:
+  - published 0.00.03, see release notes for details
+  - ready for team to test drive
+  - misc discussions with Sam Reid
+  
+  Hydrogen Atom:
+  - investigated bug report received from Sam McKagan
+  
+  Misc:
+  - tested some sims on Linux for Sam Reid
+  - moved About dialog credits to localization file
+  - set up eclipse of Windows for testing Translation Utility
+    
+WHAT'S NEXT:
+
+  - publish Optical Tweezers 2.0, pending review and approval
+  
+  - continue work on Glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+  
+  - continue work on Translation Utility, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO.txt?view=markup
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  November 20-27
+  
+--
