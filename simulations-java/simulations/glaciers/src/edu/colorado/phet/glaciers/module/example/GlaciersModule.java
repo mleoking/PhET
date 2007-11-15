@@ -5,44 +5,44 @@ package edu.colorado.phet.glaciers.module.example;
 import java.awt.Dimension;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.GlaciersControlPanel;
-import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.defaults.ExampleDefaults;
 import edu.colorado.phet.glaciers.model.ExampleModelElement;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.module.GlaciersAbstractModule;
 import edu.colorado.phet.glaciers.persistence.ExampleConfig;
 
 /**
- * ExampleModule is the "Example" module.
+ * GlaciersModule
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleModule extends GlaciersAbstractModule {
+public class GlaciersModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModel _model;
-    private ExampleCanvas _canvas;
+    private GlaciersModel _model;
+    private GlaciersCanvas _canvas;
     private GlaciersControlPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public ExampleModule( Frame parentFrame ) {
+    public GlaciersModule( Frame parentFrame ) {
         super( GlaciersResources.getString( "title.exampleModule" ), ExampleDefaults.CLOCK );
+        setLogoPanel( null );
 
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
-        _model = new ExampleModel( clock );
+        _model = new GlaciersModel( clock );
 
         // Canvas
-        _canvas = new ExampleCanvas( _model );
+        _canvas = new GlaciersCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Bottom panel goes when clock controls normally go
@@ -62,11 +62,11 @@ public class ExampleModule extends GlaciersAbstractModule {
     // Mutators and accessors
     //----------------------------------------------------------------------------
 
-    public ExampleModel getExampleModel() {
+    public GlaciersModel getExampleModel() {
         return _model;
     }
 
-    public ExampleCanvas getExampleCanvas() {
+    public GlaciersCanvas getExampleCanvas() {
         return _canvas;
     }
 
@@ -106,7 +106,7 @@ public class ExampleModule extends GlaciersAbstractModule {
     public ExampleConfig save() {
 
         ExampleConfig config = new ExampleConfig();
-        ExampleModel model = getExampleModel();
+        GlaciersModel model = getExampleModel();
 
         // Module
         config.setActive( isActive() );
@@ -136,7 +136,7 @@ public class ExampleModule extends GlaciersAbstractModule {
 
     public void load( ExampleConfig config ) {
 
-        ExampleModel model = getExampleModel();
+        GlaciersModel model = getExampleModel();
 
         // Module
         if ( config.isActive() ) {
