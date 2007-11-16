@@ -57,7 +57,7 @@ public class SchrodingerModel extends DeBroglieModel {
     // Debug
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_STATE_TRANSITIONS = false;
+    private static final boolean DEBUG_STATE_TRANSITIONS = true;
     
     private static final boolean DEBUG_REJECTED_TRANSITIONS = false;
     
@@ -213,8 +213,8 @@ public class SchrodingerModel extends DeBroglieModel {
         int mNew = getNewTertiaryState( lNew, _m );
         
         if ( DEBUG_STATE_TRANSITIONS ) {
-            System.out.println( "SchrodingerModel.setElectronState " + 
-                    stateToString( getElectronState(), _l, _m ) + "->" + stateToString( nNew, lNew, mNew ) );
+            System.out.println( getClass().getName() + ".setElectronState " + 
+                    stateToString( getElectronState(), _l, _m ) + " -> " + stateToString( nNew, lNew, mNew ) );
         }
         
         // Verify that no transition rules have been broken.
