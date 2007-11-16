@@ -13,8 +13,8 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * Aug 20, 2007, 1:32:16 AM
  */
 public class RotationClock extends ConstantDtClock {
-    //    public static final int DELAY = (int) ( 1000.0 / 30.0 );
-    public static final int DELAY = (int) ( 1000.0 / 20.0 );
+        public static final int DELAY = (int) ( 1000.0 / 30.0 );
+//    public static final int DELAY = (int) ( 1000.0 / 20.0 );
     public static final double DEFAULT_CLOCK_DT = DELAY / 1000.0 / 2;
 
     private ArrayList tickTimes = new ArrayList();
@@ -24,7 +24,7 @@ public class RotationClock extends ConstantDtClock {
     private static ArrayList clocks = new ArrayList();
 
     public RotationClock() {
-        super( 2, DEFAULT_CLOCK_DT );
+        super( DELAY, DEFAULT_CLOCK_DT );
         setRunning( false );
         clocks.add( this );
         addClockListener( new ClockAdapter() {
@@ -36,6 +36,7 @@ public class RotationClock extends ConstantDtClock {
                 updateRepaintManager();
             }
         } );
+        start();
     }
 
     private void updateRepaintManager() {
@@ -47,6 +48,7 @@ public class RotationClock extends ConstantDtClock {
         long tickStartTime = System.currentTimeMillis();
 //        System.out.println( "off-time=" + ( lastTickFinishTime - tickStartTime ) );
         long tickDelay = tickStartTime - lastTickStartTime;
+        System.out.println( "Elapsed="+(System.currentTimeMillis()-lastTickStartTime) );
         lastTickStartTime = System.currentTimeMillis();
 
         long dt = ( tickStartTime - lastTickFinishTime );
@@ -63,16 +65,16 @@ public class RotationClock extends ConstantDtClock {
         MyRepaintManager.getInstance().doUpdateNow();
 //        }
         //see how long has passed:
-        long elapsed = System.currentTimeMillis() - tickStartTime;
-        if ( elapsed < DELAY ) {
-            try {
-//                System.out.println( "didn't sleep long enough: sleeping: " + ( DELAY - elapsed) );
-                Thread.sleep( DELAY - elapsed );
-            }
-            catch( InterruptedException e ) {
-                e.printStackTrace();
-            }
-        }
+//        long elapsed = System.currentTimeMillis() - tickStartTime;
+//        if ( elapsed < DELAY ) {
+//            try {
+////                System.out.println( "didn't sleep long enough: sleeping: " + ( DELAY - elapsed) );
+//                Thread.sleep( DELAY - elapsed );
+//            }
+//            catch( InterruptedException e ) {
+//                e.printStackTrace();
+//            }
+//        }
 //        System.out.println( "tickDelay = " + tickDelay );
 
         long tickFinishTime = System.currentTimeMillis();
