@@ -11,6 +11,8 @@ import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
@@ -35,6 +37,7 @@ public class InitializationDialog extends JDialog {
     private static final String TOOLTIP_COUNTRY_CODE = TUResources.getString( "tooltip.countryCode" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
+    private static final String JAR_FILE_FILTER_NAME = TUResources.getString( "fileFilter.jar" );
     
     private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
     private static final String COUNTRY_CODE_PATTERN = "[a-z][a-z]"; // regular expression
@@ -45,6 +48,25 @@ public class InitializationDialog extends JDialog {
     private JButton _continueButton;
     private boolean _continue;
     private File _currentDirectory;
+    
+    private static class JarFileFilter extends FileFilter {
+        public boolean accept( File f ) {
+            return f.isDirectory() || f.getName().endsWith( ".jar" );
+        }
+        public String getDescription() {
+            return JAR_FILE_FILTER_NAME;
+        }
+    }
+
+    private static class JarFileChooser extends JFileChooser {
+        public JarFileChooser( File currentDirectory ) {
+            super( currentDirectory );
+            FileFilter fileFilter = new JarFileFilter();
+            setAcceptAllFileFilterUsed( false );
+            addChoosableFileFilter( fileFilter );
+            setFileFilter( fileFilter );
+        }
+    }
     
     public InitializationDialog( String title ) {
         this( null, title );
@@ -86,14 +108,7 @@ public class InitializationDialog extends JDialog {
             JButton _browseButton = new JButton( BUTTON_BROWSE );
             _browseButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
-                    JFileChooser chooser = new JFileChooser( _currentDirectory );
-                    int option = chooser.showOpenDialog( InitializationDialog.this );
-                    _currentDirectory = chooser.getCurrentDirectory();
-                    if ( option == JFileChooser.APPROVE_OPTION ) {
-                        String fileName = chooser.getSelectedFile().getAbsolutePath();
-                        _jarFileTextField.setText( fileName );
-                        updateContinueButton();
-                    }
+                    handleJarBrowse();
                 }
             } );
             
@@ -133,29 +148,14 @@ public class InitializationDialog extends JDialog {
         _continueButton.setEnabled( false );
         _continueButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                boolean error = false;
-                File jarFile = new File( _jarFileTextField.getText() );
-                if ( !jarFile.exists() ) {
-                    error = true;
-                    DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_NO_SUCH_JAR, TITLE_ERROR );
-                }
-                String countryCode = _countryCodeTextField.getText();
-                if ( !isWellFormedCountryCode( countryCode ) ) {
-                    error = true;
-                    DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_COUNTRY_CODE_FORMAT, TITLE_ERROR );
-                }
-                if ( !error ) {
-                    _continue = true;
-                    dispose();  
-                }
+                handleContinueButton();
             }
         });
         
         JButton cancelButton = new JButton( BUTTON_CANCEL );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                _continue = false;
-                dispose();
+                handleCancelButton();
             }
         });
         
@@ -164,7 +164,7 @@ public class InitializationDialog extends JDialog {
         topPanel.add( new JSeparator() );
         topPanel.add( jarFilePanel );
         topPanel.add( countryCodePanel );
-        topPanel.add( autoTranslatePanel );
+//XXX        topPanel.add( autoTranslatePanel );
         
         JPanel innerPanel = new JPanel( new GridLayout( 1, 5 ) );
         innerPanel.add( _continueButton );
@@ -211,5 +211,39 @@ public class InitializationDialog extends JDialog {
     // must have the form of an ISO 3166-1 alpha-2 country code
     private boolean isWellFormedCountryCode( String countryCode ) {
         return ( countryCode.length() == 2 && countryCode.matches( COUNTRY_CODE_PATTERN ) );
+    }
+    
+    private void handleJarBrowse() {
+        JFileChooser chooser = new JarFileChooser( _currentDirectory );
+        int option = chooser.showOpenDialog( InitializationDialog.this );
+        _currentDirectory = chooser.getCurrentDirectory();
+        if ( option == JFileChooser.APPROVE_OPTION ) {
+            String fileName = chooser.getSelectedFile().getAbsolutePath();
+            _jarFileTextField.setText( fileName );
+            updateContinueButton();
+        }
+    }
+    
+    private void handleContinueButton() {
+        boolean error = false;
+        File jarFile = new File( _jarFileTextField.getText() );
+        if ( !jarFile.exists() ) {
+            error = true;
+            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_NO_SUCH_JAR, TITLE_ERROR );
+        }
+        String countryCode = _countryCodeTextField.getText();
+        if ( !isWellFormedCountryCode( countryCode ) ) {
+            error = true;
+            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_COUNTRY_CODE_FORMAT, TITLE_ERROR );
+        }
+        if ( !error ) {
+            _continue = true;
+            dispose();  
+        }
+    }
+    
+    private void handleCancelButton() {
+        _continue = false;
+        dispose();
     }
 }
