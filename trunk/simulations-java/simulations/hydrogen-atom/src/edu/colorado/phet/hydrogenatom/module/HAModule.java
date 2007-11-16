@@ -679,7 +679,10 @@ public class HAModule extends PiccoloModule {
         Point2D position = _model.getSpace().getCenter();
         
         if ( _modeSwitch.isExperimentSelected() ) {
-            _atomModel = new ExperimentModel( position );
+            ExperimentModel experimentModel = new ExperimentModel( position );
+            _atomModel = experimentModel;
+            // since Experiment is the same as Schrodinger, we need this to get us out of (2,0,0) state
+            _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), experimentModel );
         }
         else {
             AtomicModel atomicModel = _atomicModelSelector.getSelection();
@@ -709,6 +712,7 @@ public class HAModule extends PiccoloModule {
                 SchrodingerModel schrodingerModel = new SchrodingerModel( position );
                 _atomModel = schrodingerModel;
                 _schrodingerEnergyDiagram.setAtom( schrodingerModel );
+                // ...to get us out of (2,0,0) state
                 _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), schrodingerModel );
             }
             else { 
