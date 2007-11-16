@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 
 /**
@@ -17,7 +17,7 @@ public class TestPositionDrivenOffsets extends TestCase {
     //    boolean verbose = true;
     boolean verbose = false;
 
-    private void step( SwingClock clock, SingleBodyMotionModel motionModel, int i ) {
+    private void step( Clock clock, SingleBodyMotionModel motionModel, int i ) {
         for ( int k = 0; k < i; k++ ) {
             clock.stepClockWhilePaused();
             if ( verbose ) {
