@@ -48,7 +48,7 @@ public class RotationClock extends ConstantDtClock {
         long tickStartTime = System.currentTimeMillis();
 //        System.out.println( "off-time=" + ( lastTickFinishTime - tickStartTime ) );
         long tickDelay = tickStartTime - lastTickStartTime;
-        System.out.println( "Elapsed="+(System.currentTimeMillis()-lastTickStartTime) );
+//        System.out.println( "Elapsed="+(System.currentTimeMillis()-lastTickStartTime) );
         lastTickStartTime = System.currentTimeMillis();
 
         long dt = ( tickStartTime - lastTickFinishTime );
@@ -63,6 +63,12 @@ public class RotationClock extends ConstantDtClock {
         //if the repaint is scheduled for later, sometimes regions are dropped in the render process
         //therefore, we paint immediately here
         MyRepaintManager.getInstance().doUpdateNow();
+//        try {
+//            Thread.sleep(60);
+//        }
+//        catch( InterruptedException e ) {
+//            e.printStackTrace();
+//        }
 //        }
         //see how long has passed:
 //        long elapsed = System.currentTimeMillis() - tickStartTime;

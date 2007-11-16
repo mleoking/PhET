@@ -60,7 +60,7 @@ public class ThreadClock extends Clock {
                         long elapsed=System.currentTimeMillis()-timeBeforeTick;
 
                         long remainingTime= ThreadClock.this.delay-elapsed;
-                        System.out.println( "delay="+ThreadClock.this.delay+", elapsed = " + elapsed +", remaining="+remainingTime);
+//                        System.out.println( "delay="+ThreadClock.this.delay+", elapsed = " + elapsed +", remaining="+remainingTime);
                         if ( remainingTime > 0 ) {
                             Thread.sleep( remainingTime );
                         }
@@ -86,10 +86,10 @@ public class ThreadClock extends Clock {
      * Starts the Clock.
      */
     public void start() {
-        this.running=true;
-        if (!started){
-        this.started=true;
-        thread.start();
+        this.running = true;
+        if ( !started ) {
+            this.started = true;
+            thread.start();
         }
     }
 
