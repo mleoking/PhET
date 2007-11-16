@@ -57,7 +57,7 @@ public class SchrodingerModel extends DeBroglieModel {
     // Debug
     //----------------------------------------------------------------------------
     
-    private static final boolean DEBUG_STATE_TRANSITIONS = true;
+    private static final boolean DEBUG_STATE_TRANSITIONS = false;
     
     private static final boolean DEBUG_REJECTED_TRANSITIONS = false;
     
