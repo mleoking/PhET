@@ -1,3 +1,4 @@
+11-16-2007: Models of the Hydrogen Atom (1.06) - minor bug fixes
 10-24-2007: CCK (3.13) - Minor fixes
 10-24-2007: Wave Interference (1.03) - Minor user interface improvements
 10-16-2007: Semiconductor (1.02) - Minor user interface fixes
