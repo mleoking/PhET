@@ -8,20 +8,22 @@ OPEN ISSUES:
 
 HIGH PRIORITY:
 - save/load work in progress
-- add buttons to access translations for common projects, inform user about the gravity of editing common translations
-- make runnable via Web Start
+- search feature (Find, Find Next)
 - choose specific fonts for specific languages (generalize FontJA)
 - make it possible to copy/paste filename and email address in Submit dialog
+- try to recover from some types of errors
+- check for unsaved changes before exiting
+- refactor code base
 
 MEDIUM PRIORITY:
 - Flash sim support
+
+LOW PRIORITY:
+- add buttons to access translations for common projects, inform user about the gravity of editing common translations
+- make runnable via Web Start
 - replace individual translation requests with 1 big request to workaround Google Translate denial of service
 - rewrite Goggle's Translate class so that it handles problems (accessing URL, service denial, unsupported language, etc)
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
-
-LOW PRIORITY:
-- try to recover from some types of errors
-- check for unsaved changes before exiting
 - File>New to start a new translation (instead of restarting)
 - select the simulation from a list and download the associated JAR from within Translation Utility
 
