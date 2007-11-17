@@ -32,6 +32,7 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 0.00.04 (?)
 11/16/07 - add Help text with hyperlinks for init dialog
 11/16/07 - add Help button to init dialog
 11/16/07 - select all text when text field gains focus
