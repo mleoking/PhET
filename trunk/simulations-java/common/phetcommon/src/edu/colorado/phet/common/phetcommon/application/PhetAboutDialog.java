@@ -144,7 +144,7 @@ public class PhetAboutDialog extends JDialog {
         copyrightLabel.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
                 if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
-                    PhetServiceManager.showPhetPage();
+                    PhetServiceManager.showWebPage( e.getURL() );
                 }
             }
         } );

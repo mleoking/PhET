@@ -60,14 +60,24 @@ public class PhetServiceManager {
     }
 
     /**
-     * Opens a browser window to show the phet homepage.
+     * Opens a browser window to show the PHET homepage.
      */
     public static void showPhetPage() {
+        showWebPage( "http://phet.colorado.edu" );
+    }
+    
+    public static void showWebPage( String url ) {
         try {
-            PhetServiceManager.getBasicService().showDocument( new URL( "http://phet.colorado.edu" ) );
+            showWebPage( new URL( url ) );
         }
         catch( MalformedURLException e ) {
             e.printStackTrace();
+        }
+    }
+    
+    public static void showWebPage( URL url ) {
+        try {
+            PhetServiceManager.getBasicService().showDocument( url );
         }
         catch( UnavailableServiceException e ) {
             e.printStackTrace();
