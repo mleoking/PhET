@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- tab traversal between editable text fields
 - instructions in Help 
 - include link to list of country codes in instructions
 - save/load work in progress
@@ -33,6 +32,9 @@ LOW PRIORITY:
 
 
 DONE:
+11/16/07 - select all text when text field gains focus
+11/16/07 - remap tab and shift-tab to move between text fields
+11/16/07 - tab traversal between editable (target) text fields
 11/16/07 - filter on .jar extension in JAR file chooser
 ********* version 0.00.03 (18545)
 11/13/07 - add disabled Save and Load buttons (for discussion)
