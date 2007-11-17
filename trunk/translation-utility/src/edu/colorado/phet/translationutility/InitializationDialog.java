@@ -11,9 +11,13 @@ import java.io.File;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileView;
+import javax.swing.text.html.HTMLEditorKit;
 
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -30,6 +34,7 @@ public class InitializationDialog extends JDialog {
     private static final String BUTTON_BROWSE = TUResources.getString( "button.browse" );
     private static final String BUTTON_CANCEL = TUResources.getString( "button.cancel" );
     private static final String BUTTON_CONTINUE = TUResources.getString( "button.continue" );
+    private static final String BUTTON_HELP = TUResources.getString( "button.help" );
     private static final String LABEL_COUNTRY_CODE = TUResources.getString( "label.countryCode" );
     private static final String CHECKBOX_AUTO_TRANSLATE = TUResources.getString( "checkbox.autoTranslate" );
     private static final String TITLE_ERROR = TUResources.getString( "title.errorDialog" );
@@ -38,6 +43,8 @@ public class InitializationDialog extends JDialog {
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
     private static final String JAR_FILE_FILTER_NAME = TUResources.getString( "fileFilter.jar" );
+    private static final String HELP_TITLE = TUResources.getString( "title.help" );
+    private static final String HELP_TEXT = TUResources.getString( "help.initialization" );
     
     private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
     private static final String COUNTRY_CODE_PATTERN = "[a-z][a-z]"; // regular expression
@@ -159,6 +166,13 @@ public class InitializationDialog extends JDialog {
             }
         });
         
+        JButton helpButton = new JButton( BUTTON_HELP );
+        helpButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleHelpButton();
+            }
+        });
+        
         Box topPanel = new Box( BoxLayout.Y_AXIS );
         topPanel.add( titlePanel );
         topPanel.add( new JSeparator() );
@@ -169,6 +183,7 @@ public class InitializationDialog extends JDialog {
         JPanel innerPanel = new JPanel( new GridLayout( 1, 5 ) );
         innerPanel.add( _continueButton );
         innerPanel.add( cancelButton );
+        innerPanel.add( helpButton );
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( innerPanel );
         
@@ -245,5 +260,27 @@ public class InitializationDialog extends JDialog {
     private void handleCancelButton() {
         _continue = false;
         dispose();
+    }
+    
+    private void handleHelpButton() {
+        
+        JEditorPane helpText = new JEditorPane();
+        helpText.setEditorKit( new HTMLEditorKit() );
+        String html = new String( HELP_TEXT );
+        html = html.replaceAll( "@FONT_SIZE@", new PhetDefaultFont().getSize() + "pt" );
+        html = html.replaceAll( "@FONT_FAMILY@", new PhetDefaultFont().getFamily() );
+        helpText.setText( html );
+        helpText.setEditable( false );
+        helpText.setBackground( new JLabel().getBackground() );
+        helpText.setFont( new JLabel().getFont() );
+        helpText.addHyperlinkListener( new HyperlinkListener() {
+            public void hyperlinkUpdate( HyperlinkEvent e ) {
+                if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
+                    PhetServiceManager.showWebPage( e.getURL() );
+                }
+            }
+        } );
+        
+        JOptionPane.showMessageDialog( this, helpText, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
 }
