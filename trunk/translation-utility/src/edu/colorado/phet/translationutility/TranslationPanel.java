@@ -5,6 +5,8 @@ package edu.colorado.phet.translationutility;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -56,14 +58,39 @@ public class TranslationPanel extends JPanel {
     
     /*
      * Associates a key with a JTextArea.
+     * Pressing tab or shift-tab in the text area moves focus forward or backward.
      */
     private static class TargetTextArea extends JTextArea {
 
         private final String _key;
 
+        public static final Action NEXT_FOCUS_ACTION = new AbstractAction( "Move Focus Forwards" ) {
+            public void actionPerformed( ActionEvent evt ) {
+                ( (Component) evt.getSource() ).transferFocus();
+            }
+        };
+        public static final Action PREVIOUS_FOCUS_ACTION = new AbstractAction( "Move Focus Backwards" ) {
+            public void actionPerformed( ActionEvent evt ) {
+                ( (Component) evt.getSource() ).transferFocusBackward();
+            }
+        };
+        
         public TargetTextArea( String key, String value ) {
             super( value );
             _key = key;
+            // tab or shift-tab will move you to the next or previous text field
+            getInputMap(JComponent.WHEN_FOCUSED).put(
+                    KeyStroke.getKeyStroke("TAB"), NEXT_FOCUS_ACTION.getValue(Action.NAME));
+            getInputMap(JComponent.WHEN_FOCUSED).put(
+                    KeyStroke.getKeyStroke("shift TAB"), PREVIOUS_FOCUS_ACTION.getValue(Action.NAME));
+            getActionMap().put(NEXT_FOCUS_ACTION.getValue(Action.NAME), NEXT_FOCUS_ACTION);
+            getActionMap().put(PREVIOUS_FOCUS_ACTION.getValue(Action.NAME), PREVIOUS_FOCUS_ACTION);
+            // select the entire text when focus is gained
+            addFocusListener( new FocusAdapter() {
+                public void focusGained( FocusEvent e ) {
+                    selectAll();
+                }
+            } );
         }
 
         public String getKey() {
@@ -96,6 +123,8 @@ public class TranslationPanel extends JPanel {
         setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
         add( scrollPane, BorderLayout.CENTER );
         add( bottomPanel, BorderLayout.SOUTH );
+        
+        setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
     }
     
     private JPanel createInputPanel() {
@@ -166,6 +195,7 @@ public class TranslationPanel extends JPanel {
             sourceTextArea.setLineWrap( true );
             sourceTextArea.setWrapStyleWord( true );
             sourceTextArea.setEditable( false );
+            sourceTextArea.setFocusable( sourceTextArea.isEditable() );
             sourceTextArea.setBorder( TEXT_AREA_BORDER );
             sourceTextArea.setBackground( this.getBackground() );
 
