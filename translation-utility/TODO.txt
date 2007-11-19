@@ -30,6 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/19/07 - show URLs in Help dialog in case a browser fails to launch (eg, on Win98)
 11/19/07 - make it possible to copy/paste filename and email address in Submit dialog
 ********* version 0.00.04 (18588)
 11/16/07 - add Help text with hyperlinks for init dialog
