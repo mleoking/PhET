@@ -43,6 +43,9 @@ public class TranslationPanel extends JPanel {
     private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
     private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
     
+    private static final String HELP_TITLE = TUResources.getString( "title.help" );
+    private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
+    
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
     private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
@@ -258,12 +261,16 @@ public class TranslationPanel extends JPanel {
         } );
         
         JButton helpButton = new JButton( HELP_BUTTON_LABEL );
-        helpButton.setEnabled( false );//XXX
+        helpButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                showHelp();
+            }
+        } );
         
         JPanel buttonPanel = new JPanel( new GridLayout( 1, 9 ) );
+        buttonPanel.add( testButton );
         buttonPanel.add( saveButton );
         buttonPanel.add( loadButton );
-        buttonPanel.add( testButton );
         buttonPanel.add( submitButton );
         buttonPanel.add( helpButton );
 
@@ -390,5 +397,9 @@ public class TranslationPanel extends JPanel {
                 targetTextArea.setText( value );
             }
         }
+    }
+    
+    private void showHelp() {
+        DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
     }
 }
