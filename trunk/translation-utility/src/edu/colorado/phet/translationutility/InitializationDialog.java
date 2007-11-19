@@ -13,7 +13,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -41,7 +40,6 @@ public class InitializationDialog extends JDialog {
     private static final String TOOLTIP_COUNTRY_CODE = TUResources.getString( "tooltip.countryCode" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
-    private static final String JAR_FILE_FILTER_NAME = TUResources.getString( "fileFilter.jar" );
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_TEXT = TUResources.getString( "help.initialization" );
     
@@ -54,25 +52,6 @@ public class InitializationDialog extends JDialog {
     private JButton _continueButton;
     private boolean _continue;
     private File _currentDirectory;
-    
-    private static class JarFileFilter extends FileFilter {
-        public boolean accept( File f ) {
-            return f.isDirectory() || f.getName().endsWith( ".jar" );
-        }
-        public String getDescription() {
-            return JAR_FILE_FILTER_NAME;
-        }
-    }
-
-    private static class JarFileChooser extends JFileChooser {
-        public JarFileChooser( File currentDirectory ) {
-            super( currentDirectory );
-            FileFilter fileFilter = new JarFileFilter();
-            setAcceptAllFileFilterUsed( false );
-            addChoosableFileFilter( fileFilter );
-            setFileFilter( fileFilter );
-        }
-    }
     
     public InitializationDialog( String title ) {
         this( null, title );
@@ -228,8 +207,8 @@ public class InitializationDialog extends JDialog {
     }
     
     private void handleJarBrowse() {
-        JFileChooser chooser = new JarFileChooser( _currentDirectory );
-        int option = chooser.showOpenDialog( InitializationDialog.this );
+        JFileChooser chooser = FileChooserFactory.createJarFileChooser( _currentDirectory );
+        int option = chooser.showOpenDialog( this );
         _currentDirectory = chooser.getCurrentDirectory();
         if ( option == JFileChooser.APPROVE_OPTION ) {
             String fileName = chooser.getSelectedFile().getAbsolutePath();

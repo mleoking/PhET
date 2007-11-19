@@ -7,8 +7,8 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
+- change terminology: country code -> language code
 - instructions in Help
-- save/load work in progress
 - search feature (Find, Find Next)
 - choose specific fonts for specific languages (generalize FontJA)
 - try to recover from some types of errors
@@ -30,6 +30,8 @@ LOW PRIORITY:
 
 
 DONE:
+11/19/07 - recover from non-fatal errors related to file I/O and running 'java' command
+11/19/07 - save/load work in progress
 11/19/07 - show URLs in Help dialog in case a browser fails to launch (eg, on Win98)
 11/19/07 - make it possible to copy/paste filename and email address in Submit dialog
 ********* version 0.00.04 (18588)
