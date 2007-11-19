@@ -3,7 +3,6 @@
 package edu.colorado.phet.translationutility;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
@@ -33,10 +32,6 @@ public class ProjectProperties {
                 getVersion()
         };
         return MessageFormat.format( TITLE_FORMAT, titleFormatArgs );
-    }
-    
-    public static String getPhetEmailAddress() {
-        return CONFIG.getProjectProperty( "phet.email" );
     }
     
     public static String[] getCommonProjectNames() {
