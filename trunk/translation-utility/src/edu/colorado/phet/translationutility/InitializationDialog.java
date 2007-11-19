@@ -14,7 +14,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileView;
 import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
@@ -266,10 +265,7 @@ public class InitializationDialog extends JDialog {
         
         JEditorPane helpText = new JEditorPane();
         helpText.setEditorKit( new HTMLEditorKit() );
-        String html = new String( HELP_TEXT );
-        html = html.replaceAll( "@FONT_SIZE@", new PhetDefaultFont().getSize() + "pt" );
-        html = html.replaceAll( "@FONT_FAMILY@", new PhetDefaultFont().getFamily() );
-        helpText.setText( html );
+        helpText.setText( HELP_TEXT );
         helpText.setEditable( false );
         helpText.setBackground( new JLabel().getBackground() );
         helpText.setFont( new JLabel().getFont() );

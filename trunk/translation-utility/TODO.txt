@@ -7,12 +7,10 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- instructions in Help 
-- include link to list of country codes in instructions (http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
+- instructions in Help
 - save/load work in progress
 - search feature (Find, Find Next)
 - choose specific fonts for specific languages (generalize FontJA)
-- make it possible to copy/paste filename and email address in Submit dialog
 - try to recover from some types of errors
 - check for unsaved changes before exiting
 - refactor code base
@@ -32,6 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/19/07 - make it possible to copy/paste filename and email address in Submit dialog
 ********* version 0.00.04 (18588)
 11/16/07 - add Help text with hyperlinks for init dialog
 11/16/07 - add Help button to init dialog

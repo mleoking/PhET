@@ -13,8 +13,8 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.HTMLEditorKit;
 
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.translationutility.Command.CommandException;
 import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
@@ -35,7 +35,6 @@ public class TranslationPanel extends JPanel {
     private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
     private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
     
-    private static final String PHET_EMAIL_ADDRESS = ProjectProperties.getPhetEmailAddress();
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
     private static final String SUBMIT_TITLE = TUResources.getString( "title.submitDialog" );
 
@@ -277,7 +276,7 @@ public class TranslationPanel extends JPanel {
         Properties targetProperties = getTargetProperties();
         try {
             String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetCountryCode );
-            _jarFileManager.runJarFile( testJarFileName, _targetCountryCode );
+            JarFileManager.runJarFile( testJarFileName, _targetCountryCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -298,8 +297,16 @@ public class TranslationPanel extends JPanel {
             ExceptionHandler.handleFatalException( e );
         }
         
-        String[] args = { fileName, PHET_EMAIL_ADDRESS };
-        String message = MessageFormat.format( SUBMIT_MESSAGE, args );
-        DialogUtils.showInformationDialog( this, message, SUBMIT_TITLE );
+        // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
+        JEditorPane submitText = new JEditorPane();
+        submitText.setEditorKit( new HTMLEditorKit() );
+        Object[] args = { fileName };
+        String html = MessageFormat.format( SUBMIT_MESSAGE, args );
+        submitText.setText( html );
+        submitText.setEditable( false );
+        submitText.setBackground( new JLabel().getBackground() );
+        submitText.setFont( new JLabel().getFont() );
+        
+        JOptionPane.showMessageDialog( this, submitText, SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
 }
