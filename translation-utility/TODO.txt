@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- change terminology: country code -> language code
 - instructions in Help
 - search feature (Find, Find Next)
 - choose specific fonts for specific languages (generalize FontJA)
@@ -30,6 +29,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/19/07 - change terminology: country code -> language code
 11/19/07 - recover from non-fatal errors related to file I/O and running 'java' command
 11/19/07 - save/load work in progress
 11/19/07 - show URLs in Help dialog in case a browser fails to launch (eg, on Win98)

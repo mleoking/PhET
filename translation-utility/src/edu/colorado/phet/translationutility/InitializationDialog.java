@@ -33,21 +33,21 @@ public class InitializationDialog extends JDialog {
     private static final String BUTTON_CANCEL = TUResources.getString( "button.cancel" );
     private static final String BUTTON_CONTINUE = TUResources.getString( "button.continue" );
     private static final String BUTTON_HELP = TUResources.getString( "button.help" );
-    private static final String LABEL_COUNTRY_CODE = TUResources.getString( "label.countryCode" );
+    private static final String LABEL_LANGUAGE_CODE = TUResources.getString( "label.languageCode" );
     private static final String CHECKBOX_AUTO_TRANSLATE = TUResources.getString( "checkbox.autoTranslate" );
     private static final String TITLE_ERROR = TUResources.getString( "title.errorDialog" );
     private static final String TOOLTIP_JAR_PATH = TUResources.getString( "tooltip.jarPath" );
-    private static final String TOOLTIP_COUNTRY_CODE = TUResources.getString( "tooltip.countryCode" );
+    private static final String TOOLTIP_LANGUAGE_CODE = TUResources.getString( "tooltip.languageCode" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
-    private static final String ERROR_COUNTRY_CODE_FORMAT = TUResources.getString( "error.countryCodeFormat" );
+    private static final String ERROR_LANGUAGE_CODE_FORMAT = TUResources.getString( "error.languageCodeFormat" );
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_TEXT = TUResources.getString( "help.initialization" );
     
     private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
-    private static final String COUNTRY_CODE_PATTERN = "[a-z][a-z]"; // regular expression
+    private static final String LANGUAGE_CODE_PATTERN = "[a-z][a-z]"; // regular expression
     
     private JTextField _jarFileTextField;
-    private JTextField _countryCodeTextField;
+    private JTextField _languageCodeTextField;
     private JCheckBox _autoTranslateCheckBox;
     private JButton _continueButton;
     private boolean _continue;
@@ -102,22 +102,22 @@ public class InitializationDialog extends JDialog {
             jarFilePanel.add( _browseButton );
         }
         
-        JPanel countryCodePanel = new JPanel();
-        countryCodePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
+        JPanel languageCodePanel = new JPanel();
+        languageCodePanel.setLayout( new FlowLayout( FlowLayout.LEFT ) );
         {
-            JLabel countryCodeLabel = new JLabel( LABEL_COUNTRY_CODE );
+            JLabel languageCodeLabel = new JLabel( LABEL_LANGUAGE_CODE );
             
-            _countryCodeTextField = new JTextField();
-            _countryCodeTextField.setColumns( 3 );
-            _countryCodeTextField.addKeyListener( new KeyAdapter() {
+            _languageCodeTextField = new JTextField();
+            _languageCodeTextField.setColumns( 3 );
+            _languageCodeTextField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent event ) {
                     updateContinueButton();
                 }
             } );
-            _countryCodeTextField.setToolTipText( TOOLTIP_COUNTRY_CODE );
+            _languageCodeTextField.setToolTipText( TOOLTIP_LANGUAGE_CODE );
             
-            countryCodePanel.add( countryCodeLabel );
-            countryCodePanel.add( _countryCodeTextField );
+            languageCodePanel.add( languageCodeLabel );
+            languageCodePanel.add( _languageCodeTextField );
         }
         
         JPanel autoTranslatePanel = new JPanel();
@@ -155,7 +155,7 @@ public class InitializationDialog extends JDialog {
         topPanel.add( titlePanel );
         topPanel.add( new JSeparator() );
         topPanel.add( jarFilePanel );
-        topPanel.add( countryCodePanel );
+        topPanel.add( languageCodePanel );
 //XXX        topPanel.add( autoTranslatePanel );
         
         JPanel innerPanel = new JPanel( new GridLayout( 1, 5 ) );
@@ -181,7 +181,7 @@ public class InitializationDialog extends JDialog {
     
     private void updateContinueButton() {
         boolean b1 = _jarFileTextField.getText() != null && _jarFileTextField.getText().length() != 0;
-        boolean b2 = _countryCodeTextField.getText() != null && _countryCodeTextField.getText().length() != 0;
+        boolean b2 = _languageCodeTextField.getText() != null && _languageCodeTextField.getText().length() != 0;
         _continueButton.setEnabled( b1 && b2 );
     }
     
@@ -193,17 +193,17 @@ public class InitializationDialog extends JDialog {
         return _jarFileTextField.getText();
     }
     
-    public String getTargetCountryCode() {
-        return _countryCodeTextField.getText();
+    public String getTargetLanguageCode() {
+        return _languageCodeTextField.getText();
     }
     
     public boolean isAutoTranslateEnabled() { 
         return _autoTranslateCheckBox.isSelected();
     }
     
-    // must have the form of an ISO 3166-1 alpha-2 country code
-    private boolean isWellFormedCountryCode( String countryCode ) {
-        return ( countryCode.length() == 2 && countryCode.matches( COUNTRY_CODE_PATTERN ) );
+    // must have the form of an ISO 639-1 language code
+    private boolean isWellFormedLanguageCode( String languageCode ) {
+        return ( languageCode.length() == 2 && languageCode.matches( LANGUAGE_CODE_PATTERN ) );
     }
     
     private void handleJarBrowse() {
@@ -224,10 +224,10 @@ public class InitializationDialog extends JDialog {
             error = true;
             DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_NO_SUCH_JAR, TITLE_ERROR );
         }
-        String countryCode = _countryCodeTextField.getText();
-        if ( !isWellFormedCountryCode( countryCode ) ) {
+        String languageCode = _languageCodeTextField.getText();
+        if ( !isWellFormedLanguageCode( languageCode ) ) {
             error = true;
-            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_COUNTRY_CODE_FORMAT, TITLE_ERROR );
+            DialogUtils.showErrorDialog( InitializationDialog.this, ERROR_LANGUAGE_CODE_FORMAT, TITLE_ERROR );
         }
         if ( !error ) {
             _continue = true;

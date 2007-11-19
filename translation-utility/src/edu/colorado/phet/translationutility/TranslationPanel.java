@@ -103,17 +103,17 @@ public class TranslationPanel extends JPanel {
     }
     
     private JarFileManager _jarFileManager;
-    private final String _sourceCountryCode;
-    private final String _targetCountryCode;
+    private final String _sourceLanguageCode;
+    private final String _targetLanguageCode;
     private ArrayList _targetTextAreas; // array of TargetTextArea
     private File _currentDirectory;
 
-    public TranslationPanel( JarFileManager jarFileManager, String sourceCountryCode, String targetCountryCode, boolean autoTranslate ) {
+    public TranslationPanel( JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
         super();
         
         _jarFileManager = jarFileManager;
-        _sourceCountryCode = sourceCountryCode;
-        _targetCountryCode = targetCountryCode;
+        _sourceLanguageCode = sourceLanguageCode;
+        _targetLanguageCode = targetLanguageCode;
         _targetTextAreas = new ArrayList();
         _currentDirectory = null;
         
@@ -141,8 +141,8 @@ public class TranslationPanel extends JPanel {
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            sourceProperties = _jarFileManager.readProperties( _sourceCountryCode );
-            targetProperties = _jarFileManager.readProperties( _targetCountryCode );
+            sourceProperties = _jarFileManager.readProperties( _sourceLanguageCode );
+            targetProperties = _jarFileManager.readProperties( _targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -161,10 +161,10 @@ public class TranslationPanel extends JPanel {
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        JLabel sourceLocaleLable = new JLabel( _sourceCountryCode );
+        JLabel sourceLocaleLable = new JLabel( _sourceLanguageCode );
         sourceLocaleLable.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLocaleLable, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        JLabel targetLocaleLable = new JLabel( _targetCountryCode );
+        JLabel targetLocaleLable = new JLabel( _targetLanguageCode );
         targetLocaleLable.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLocaleLable, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
@@ -188,7 +188,7 @@ public class TranslationPanel extends JPanel {
             boolean autoTranslated = false;
 //            if ( targetValue == null ) {
 //                System.out.println( "auto translating " + key );//XXX
-//                targetValue = AutoTranslator.translate( sourceValue, _sourceCountryCode, _targetCountryCode );
+//                targetValue = AutoTranslator.translate( sourceValue, _sourceLanguageCode, _targetLanguageCode );
 //                autoTranslated = true;
 //            }
 
@@ -290,8 +290,8 @@ public class TranslationPanel extends JPanel {
     private void testTranslation() {
         Properties targetProperties = getTargetProperties();
         try {
-            String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetCountryCode );
-            JarFileManager.runJarFile( testJarFileName, _targetCountryCode );
+            String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetLanguageCode );
+            JarFileManager.runJarFile( testJarFileName, _targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -307,7 +307,7 @@ public class TranslationPanel extends JPanel {
         
         // create the output File, in same directory as JAR file
         String dirName = _jarFileManager.getJarDirName();
-        String baseName = JarFileManager.getPropertiesFileBaseName( _jarFileManager.getProjectName(), _targetCountryCode );
+        String baseName = JarFileManager.getPropertiesFileBaseName( _jarFileManager.getProjectName(), _targetLanguageCode );
         String fileName = null;
         if ( dirName != null && dirName.length() > 0 ) {
             fileName = dirName + File.separatorChar + baseName;
