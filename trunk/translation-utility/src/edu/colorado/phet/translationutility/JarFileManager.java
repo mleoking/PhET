@@ -184,17 +184,17 @@ public class JarFileManager {
     }
     
     /**
-     * Reads the properties file that contains the localized strings for a specified country code.
+     * Reads the properties file that contains the localized strings for a specified language code.
      * Extracts the properties file from the JAR and creates a Properties object.
      * 
-     * @param countryCode
+     * @param languageCode
      * @throws JarIOException if there is a problem reading the properties file from the JAR
      * @return Properties, null if properties file does not exist
      */
-    public Properties readProperties( String countryCode ) throws JarIOException {
+    public Properties readProperties( String languageCode ) throws JarIOException {
         
         String projectName = getProjectName();
-        String propertiesFileName = getPropertiesResourceName( projectName, countryCode );
+        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
         
         InputStream inputStream = null;
         try {
@@ -251,18 +251,18 @@ public class JarFileManager {
     }
     
     /**
-     * Writes the properties containing the localized strings for a specified country code.
+     * Writes the properties containing the localized strings for a specified language code.
      * This reads the entire JAR file and adds (or replaces) a properties file for the localized strings provided.
      * 
      * @param properties
-     * @param countryCode
+     * @param languageCode
      * @throws JarIOException if the properties cannot be written to the JAR file
      * @return new JAR file name
      */
-    public String writeProperties( Properties properties, String countryCode ) throws JarIOException {
+    public String writeProperties( Properties properties, String languageCode ) throws JarIOException {
         
         String projectName = getProjectName();
-        String propertiesFileName = getPropertiesResourceName( projectName, countryCode );
+        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
         File jarFile = new File( _jarFileName );
         
         InputStream inputStream = null;
@@ -365,35 +365,35 @@ public class JarFileManager {
     }
     
     /**
-     * Runs the JAR file for a specified country code.
+     * Runs the JAR file for a specified language code.
      * 
-     * @param countryCode
+     * @param languageCode
      */
-    public static void runJarFile( String jarFileName, String countryCode ) throws CommandException {
-        String languageArg = "-Duser.language=" + countryCode;
+    public static void runJarFile( String jarFileName, String languageCode ) throws CommandException {
+        String languageArg = "-Duser.language=" + languageCode;
         String[] cmdArray = { "java", "-jar", languageArg, jarFileName };
         Command.run( cmdArray, false /* waitForCompletion */ );
     }
     
     /*
-     * Gets the name of the properties resource that contains localized strings for a specified country code.
-     * If the country code is null, the default localization file (English) is returned.
+     * Gets the name of the properties resource that contains localized strings for a specified language code.
+     * If the language code is null, the default localization file (English) is returned.
      */
-    private static String getPropertiesResourceName( String projectName, String countryCode ) {
-        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, countryCode );
+    private static String getPropertiesResourceName( String projectName, String languageCode ) {
+        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, languageCode );
     }
     
     /**
      * Gets the base name of the localized properties file for a specified project and language.
      * 
      * @param projectName
-     * @param countryCode
+     * @param languageCode
      * @return
      */
-    public static String getPropertiesFileBaseName( String projectName, String countryCode ) {
+    public static String getPropertiesFileBaseName( String projectName, String languageCode ) {
         String baseName = projectName + "-strings";
-        if ( countryCode != null && countryCode != "en" ) {
-            baseName = baseName + "_" + countryCode;
+        if ( languageCode != null && languageCode != "en" ) {
+            baseName = baseName + "_" + languageCode;
         }
         baseName = baseName + ".properties";
         return baseName;

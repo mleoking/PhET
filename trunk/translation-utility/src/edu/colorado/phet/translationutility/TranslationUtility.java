@@ -36,7 +36,7 @@ public class TranslationUtility extends JFrame {
 
         // open the primary user interface
         String jarFileName = initDialog.getJarFileName();
-        String targetCountryCode = initDialog.getTargetCountryCode();
+        String targetCountryCode = initDialog.getTargetLanguageCode();
         String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
         JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
 
