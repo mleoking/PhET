@@ -686,39 +686,109 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name" inheritall="true"/>
     </target>
 
-    <target name="add-translation"
+    <!--<target name="add-translation-to-flavor-jars"-->
+            <!--depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">-->
+        <!--<antform title="Deployment Host Login" width="550" height="300">-->
+            <!--<label>Please enter the language code to be added.</label>-->
+            <!--<textProperty label="language code (e.g. fr):" property="sim.locale" required="true"-->
+                          <!--focus="true"/>-->
+        <!--</antform>-->
+        <!--<echo message="Started adding translation for ${sim.name}"/>-->
+        <!--<phet-list-flavors property="sim.flavors" project="${sim.name}"/>-->
+        <!--<echo message="flavors=${sim.flavors}"/>-->
+        <!--<maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"-->
+                      <!--version="2">-->
+            <!--<sftp action="get" remotedir="${prod.server.path}${sim.name}" verbose="true">-->
+                <!--<fileset dir=".">-->
+                    <!--<include name="*.jar"/>-->
+                <!--</fileset>-->
+            <!--</sftp>-->
+        <!--</maverick-ssh>-->
+        <!--<echo message="finished maverick"/>-->
+        <!--<foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+        <!--<var name="codebase.url" value="${prod.server.path}${sim.name}"/>-->
+        <!--<var name="codebase.url" value="${prod.server.url}${sim.name}"/>-->
+
+        <!--<foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>-->
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}"/>-->
+
+        <!--Deploy modified JAR files and new JNLP files.-->
+        <!--<foreach list="${sim.flavors}" target="_deploy-translated-flavor-jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+
+        <!--<if>-->
+            <!--<isset property="browser"/>-->
+            <!--<then>-->
+                <!--<echo message="Opening browser to rebuild translation page: ${browser} "/>-->
+                <!--<exec executable="${browser}" spawn="true">-->
+                    <!--<arg value="http://phet.colorado.edu/new/admin/test.php"/>-->
+                <!--</exec>-->
+            <!--</then>-->
+        <!--</if>-->
+    <!--</target>-->
+
+    <!--This target downloads the main site JAR file for a simulation, adds the new translation file,
+    deploys the new JAR and creates and deploys new JNLP files.-->
+    <target name="add-translation-main-jar"
             depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">
-        <antform title="Deployment Host Login" width="550" height="300">
-            <label>Please enter the language code to be added.</label>
-            <textProperty label="language code (e.g. fr):" property="sim.locale" required="true"
-                          focus="true"/>
-        </antform>
-        <echo message="added translation for ${sim.name}"/>
+
+        <if>
+            <not>
+                <isset property="sim.locale"/>
+            </not>
+            <then>
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter the language code to be added.</label>
+                    <textProperty label="language code (e.g. fr):" property="sim.locale" required="true"
+                                  focus="true"/>
+                </antform>
+            </then>
+        </if>
+
+
+        <echo message="Started adding translation for ${sim.name}"/>
         <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
         <echo message="flavors=${sim.flavors}"/>
+        <echo message="Starting download of JAR from ${prod.server.path}${sim.name}/${sim.name}.jar"/>
         <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
                       version="2">
             <sftp action="get" remotedir="${prod.server.path}${sim.name}" verbose="true">
                 <fileset dir=".">
-                    <include name="*.jar"/>
+                    <include name="*${sim.name}.jar"/>
                 </fileset>
             </sftp>
         </maverick-ssh>
-        <echo message="finished maverick"/>
-        <foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"
-                 inheritrefs="true"/>
+        <echo message="finished maverick, downloaded ${sim.name}.jar"/>
+        <antcall target="_add_translation_to_jar">
+            <param name="sim.flavor" value="${sim.name}"/>
+        </antcall>
+        <!--<foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
         <!--<var name="codebase.url" value="${prod.server.path}${sim.name}"/>-->
         <var name="codebase.url" value="${prod.server.url}${sim.name}"/>
 
         <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
                  inheritrefs="true"/>
 
-        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>-->
-        <property name="remotedir" value="${prod.server.path}${sim.name}"/>
+        <property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/test123"/>-->
 
-        <!--Deploy modified JAR files and new JNLP files.-->
-        <foreach list="${sim.flavors}" target="_deploy-translated-flavor-jar" param="sim.flavor" inheritall="true"
-                 inheritrefs="true"/>
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="mkdir" remotedir="${remotedir}"/>
+            <sftp action="put" remotedir="${remotedir}" verbose="true">
+                <fileset dir=".">
+                    <include name="*${sim.name}.jar"/>
+                </fileset>
+                <fileset dir="./simulations/${sim.name}/deploy">
+                    <include name="**_${sim.locale}.jnlp"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
 
         <if>
             <isset property="browser"/>
@@ -753,13 +823,16 @@ PhET-team specific tasks are located in an auxiliary build file.
         <!--<echo message="added flavor to the list: ${sim.flavor} :::: now the list is ${flavor.jar.list}"/>-->
     <!--</target>-->
     <target name="_add_translation_to_jar">
-        <echo message="iterating, sim.flavor=${sim.flavor}"/>
+        <echo message="iterating, jar.name=${sim.flavor}"/>
         <tstamp>
             <format property="time_millis" pattern="MM_dd_yyyy_hh_mm_ss_SSSS" unit="millisecond"/>
         </tstamp>
-        <copyfile src="${sim.flavor}.jar" dest="${sim.flavor}_${time_millis}.jar"/>
+        <property name="copy.name" value="${sim.flavor}_${time_millis}.jar"/>
+        <copyfile src="${sim.flavor}.jar" dest="${copy.name}"/>
+        <echo message="Backed up file to: ${copy.name}"/>
         <jar update="true" destfile="${sim.flavor}.jar" basedir="simulations/${sim.name}/data"
              includes="${sim.name}/localization/${sim.name}-strings_${sim.locale}.properties"/>
+        <echo message="Updated JAR file"/>
     </target>
 
     <target name="_test_add_translation_to_jar">
