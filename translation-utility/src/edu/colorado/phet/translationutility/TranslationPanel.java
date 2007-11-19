@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -15,6 +16,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.html.HTMLEditorKit;
 
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.translationutility.Command.CommandException;
 import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
@@ -38,6 +40,9 @@ public class TranslationPanel extends JPanel {
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
     private static final String SUBMIT_TITLE = TUResources.getString( "title.submitDialog" );
 
+    private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
+    private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
+    
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
     private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
@@ -101,6 +106,7 @@ public class TranslationPanel extends JPanel {
     private final String _sourceCountryCode;
     private final String _targetCountryCode;
     private ArrayList _targetTextAreas; // array of TargetTextArea
+    private File _currentDirectory;
 
     public TranslationPanel( JarFileManager jarFileManager, String sourceCountryCode, String targetCountryCode, boolean autoTranslate ) {
         super();
@@ -109,6 +115,7 @@ public class TranslationPanel extends JPanel {
         _sourceCountryCode = sourceCountryCode;
         _targetCountryCode = targetCountryCode;
         _targetTextAreas = new ArrayList();
+        _currentDirectory = null;
         
         JPanel inputPanel = createInputPanel();
         JPanel buttonPanel = createButtonPanel();
@@ -223,10 +230,18 @@ public class TranslationPanel extends JPanel {
     private JPanel createButtonPanel() {
         
         JButton saveButton = new JButton( SAVE_BUTTON_LABEL );
-        saveButton.setEnabled( false );
+        saveButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                saveTranslation();
+            }
+        } );
        
         JButton loadButton = new JButton( LOAD_BUTTON_LABEL );
-        loadButton.setEnabled( false );
+        loadButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                loadTranslation();
+            }
+        } );
         
         JButton testButton = new JButton( TEST_BUTTON_LABEL );
         testButton.addActionListener( new ActionListener() {
@@ -279,22 +294,42 @@ public class TranslationPanel extends JPanel {
             JarFileManager.runJarFile( testJarFileName, _targetCountryCode );
         }
         catch ( JarIOException e ) {
-            ExceptionHandler.handleFatalException( e );
+            ExceptionHandler.handleNonFatalException( e );
         }
         catch ( CommandException e ) {
-            ExceptionHandler.handleFatalException( e );
+            ExceptionHandler.handleNonFatalException( e );
         }
     }
     
     private void submitTranslation() {
 
         Properties properties = getTargetProperties();
+        
+        // create the output File, in same directory as JAR file
+        String dirName = _jarFileManager.getJarDirName();
+        String baseName = JarFileManager.getPropertiesFileBaseName( _jarFileManager.getProjectName(), _targetCountryCode );
         String fileName = null;
+        if ( dirName != null && dirName.length() > 0 ) {
+            fileName = dirName + File.separatorChar + baseName;
+        }
+        else {
+            fileName = baseName;
+        }
+        File outFile = new File( fileName );
+        if ( outFile.exists() ) {
+            Object[] args = { fileName };
+            String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
+            int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
+            if ( selection != JOptionPane.YES_OPTION ) {
+                return;
+            }
+        }
+        
         try {
-            fileName = _jarFileManager.savePropertiesToFile( properties, _targetCountryCode );
+            JarFileManager.savePropertiesToFile( properties, outFile );
         }
         catch ( JarIOException e ) {
-            ExceptionHandler.handleFatalException( e );
+            ExceptionHandler.handleNonFatalException( e );
         }
         
         // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
@@ -308,5 +343,52 @@ public class TranslationPanel extends JPanel {
         submitText.setFont( new JLabel().getFont() );
         
         JOptionPane.showMessageDialog( this, submitText, SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
+    }
+    
+    private void saveTranslation() {
+        JFileChooser chooser = new JFileChooser( _currentDirectory );
+        int option = chooser.showSaveDialog( this );
+        _currentDirectory = chooser.getCurrentDirectory();
+        if ( option == JFileChooser.APPROVE_OPTION ) {
+            Properties properties = getTargetProperties();
+            File outFile = chooser.getSelectedFile();
+            if ( outFile.exists() ) {
+                Object[] args = { outFile.getAbsolutePath() };
+                String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
+                int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
+                if ( selection != JOptionPane.YES_OPTION ) {
+                    return;
+                }
+            }
+            try {
+                JarFileManager.savePropertiesToFile( properties, outFile );
+            }
+            catch ( JarIOException e ) {
+                ExceptionHandler.handleNonFatalException( e );
+            }
+        }
+    }
+    
+    private void loadTranslation() {
+        JFileChooser chooser = new JFileChooser( _currentDirectory );
+        int option = chooser.showOpenDialog( this );
+        _currentDirectory = chooser.getCurrentDirectory();
+        if ( option == JFileChooser.APPROVE_OPTION ) {
+            File inFile = chooser.getSelectedFile();
+            Properties properties = null;
+            try {
+                properties = JarFileManager.readPropertiesFromFile( inFile );
+            }
+            catch ( JarIOException e ) {
+                ExceptionHandler.handleNonFatalException( e );
+            }
+            Iterator i = _targetTextAreas.iterator();
+            while ( i.hasNext() ) {
+                TargetTextArea targetTextArea = (TargetTextArea) i.next();
+                String key = targetTextArea.getKey();
+                String value = properties.getProperty( key );
+                targetTextArea.setText( value );
+            }
+        }
     }
 }

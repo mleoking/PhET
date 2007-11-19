@@ -33,9 +33,9 @@ public class JarFileManager {
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
     private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
+    private static final String ERROR_CANNOT_READ_PROPERTIES_FILE = TUResources.getString( "error.cannotReadPropertiesFile" );
     private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
-    private static final String ERROR_CANNOT_RENAME_TMP_FILE = TUResources.getString( "error.cannotRenameTmpFile" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
     
     private final String _jarFileName;
@@ -194,7 +194,7 @@ public class JarFileManager {
     public Properties readProperties( String countryCode ) throws JarIOException {
         
         String projectName = getProjectName();
-        String propertiesFileName = getPropertiesFileName( projectName, countryCode );
+        String propertiesFileName = getPropertiesResourceName( projectName, countryCode );
         
         InputStream inputStream = null;
         try {
@@ -262,7 +262,7 @@ public class JarFileManager {
     public String writeProperties( Properties properties, String countryCode ) throws JarIOException {
         
         String projectName = getProjectName();
-        String propertiesFileName = getPropertiesFileName( projectName, countryCode );
+        String propertiesFileName = getPropertiesResourceName( projectName, countryCode );
         File jarFile = new File( _jarFileName );
         
         InputStream inputStream = null;
@@ -324,41 +324,44 @@ public class JarFileManager {
     }
 
     /**
-     * Save properties to a localized string file.
-     * The file is put in the same directory as the JAR file.
+     * Saves properties to a file.
      * 
      * @param properties
-     * @param countryCode
+     * @param file
      * @throws JarIOException
-     * @return name of the saved file
      */
-    public String savePropertiesToFile( Properties properties, String countryCode ) throws JarIOException {
-        
-        // create the filename, using same directory as JAR file
-        String dirName = getJarDirName();
-        String baseName = _projectName + "-strings_" + countryCode + ".properties";
-        String propertiesFileName = null;
-        if ( dirName != null && dirName.length() > 0 ) {
-            propertiesFileName = dirName + File.separatorChar + baseName;
-        }
-        else {
-            propertiesFileName = baseName;
-        }
-        
-        // write the properties to the file
+    public static void savePropertiesToFile( Properties properties, File file ) throws JarIOException {
         try {
-            File outFile = new File( propertiesFileName );
-            OutputStream outputStream = new FileOutputStream( outFile );
-            String header = propertiesFileName + " (" + _jarFileName + ")";
+            OutputStream outputStream = new FileOutputStream( file );
+            String header = file.getCanonicalPath();
             properties.store( outputStream, header );
             outputStream.close();
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + propertiesFileName );
+            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + file.getAbsolutePath() );
         }
-        
-        return propertiesFileName;
+    }
+    
+    /**
+     * Reads properties from a file.
+     * 
+     * @param properties
+     * @param file
+     * @throws JarIOException
+     */
+    public static Properties readPropertiesFromFile( File file ) throws JarIOException {
+        Properties properties = new Properties();
+        try {
+            InputStream inStream = new FileInputStream( file );
+            properties.load( inStream );
+            inStream.close();
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+            throw new JarIOException( ERROR_CANNOT_READ_PROPERTIES_FILE + " : " + file.getAbsolutePath() );
+        }
+        return properties;
     }
     
     /**
@@ -373,15 +376,26 @@ public class JarFileManager {
     }
     
     /*
-     * Gets the name of the properties file that contains localized strings for a specified country code.
+     * Gets the name of the properties resource that contains localized strings for a specified country code.
      * If the country code is null, the default localization file (English) is returned.
      */
-    private static String getPropertiesFileName( String projectName, String countryCode ) {
-        String name = projectName + "/localization/" + projectName + "-strings";
+    private static String getPropertiesResourceName( String projectName, String countryCode ) {
+        return projectName + "/localization/" + getPropertiesFileBaseName( projectName, countryCode );
+    }
+    
+    /**
+     * Gets the base name of the localized properties file for a specified project and language.
+     * 
+     * @param projectName
+     * @param countryCode
+     * @return
+     */
+    public static String getPropertiesFileBaseName( String projectName, String countryCode ) {
+        String baseName = projectName + "-strings";
         if ( countryCode != null && countryCode != "en" ) {
-            name = name + "_" + countryCode;
+            baseName = baseName + "_" + countryCode;
         }
-        name = name + ".properties";
-        return name;
+        baseName = baseName + ".properties";
+        return baseName;
     }
 }
