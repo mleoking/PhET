@@ -9,7 +9,6 @@ OPEN ISSUES:
 HIGH PRIORITY:
 - search feature (Find, Find Next)
 - choose specific fonts for specific languages (generalize FontJA)
-- try to recover from some types of errors
 - check for unsaved changes before exiting
 - refactor code base
 
