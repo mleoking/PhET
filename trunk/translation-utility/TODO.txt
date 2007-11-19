@@ -27,7 +27,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.05 (18599)
+********* version 0.00.05 (18601)
 11/19/07 - fix help to format properly on Java 1.5
 11/19/07 - help for the main panel
 11/19/07 - change terminology: country code -> language code
