@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module;
+package edu.colorado.phet.glaciers.model;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
- * ExampleModel is the model for ExampleModule.
+ * AbstractModel is the base class for all models.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AdvancedModel extends ClockAdapter {
+public abstract class AbstractModel extends ClockAdapter {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -28,7 +28,7 @@ public class AdvancedModel extends ClockAdapter {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedModel( GlaciersClock clock ) {
+    public AbstractModel( GlaciersClock clock ) {
         super();
         
         _clock = clock;

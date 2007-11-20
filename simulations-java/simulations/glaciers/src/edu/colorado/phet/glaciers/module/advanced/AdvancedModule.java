@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module;
+package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Frame;
 
@@ -32,7 +32,7 @@ public class AdvancedModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public AdvancedModule( Frame parentFrame ) {
-        super( GlaciersResources.getString( "title.advancedModule" ), AdvancedDefaults.CLOCK );
+        super( GlaciersResources.getString( "title.advanced" ), AdvancedDefaults.CLOCK );
         setLogoPanel( null );
 
         // Model
@@ -60,11 +60,11 @@ public class AdvancedModule extends PiccoloModule {
     // Mutators and accessors
     //----------------------------------------------------------------------------
 
-    public AdvancedModel getExampleModel() {
+    public AdvancedModel getAdvancedModel() {
         return _model;
     }
 
-    public AdvancedCanvas getExampleCanvas() {
+    public AdvancedCanvas getAdvancedCanvas() {
         return _canvas;
     }
 
@@ -98,7 +98,7 @@ public class AdvancedModule extends PiccoloModule {
     public AdvancedConfig save() {
 
         AdvancedConfig config = new AdvancedConfig();
-        AdvancedModel model = getExampleModel();
+        AdvancedModel model = getAdvancedModel();
 
         // Module
         config.setActive( isActive() );
@@ -121,7 +121,7 @@ public class AdvancedModule extends PiccoloModule {
 
     public void load( AdvancedConfig config ) {
 
-        AdvancedModel model = getExampleModel();
+        AdvancedModel model = getAdvancedModel();
 
         // Module
         if ( config.isActive() ) {

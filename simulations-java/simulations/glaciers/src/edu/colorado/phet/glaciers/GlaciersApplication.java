@@ -20,8 +20,10 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
-import edu.colorado.phet.glaciers.module.AdvancedModule;
+import edu.colorado.phet.glaciers.module.advanced.AdvancedModule;
+import edu.colorado.phet.glaciers.module.basic.BasicModule;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
+import edu.colorado.phet.glaciers.persistence.BasicConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
@@ -41,6 +43,7 @@ public class GlaciersApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
+    private BasicModule _basicModule;
     private AdvancedModule _advancedModule;
 
     // PersistanceManager is used to save/load simulation configurations.
@@ -92,6 +95,9 @@ public class GlaciersApplication extends PhetApplication {
     private void initModules() {
         
         Frame parentFrame = getPhetFrame();
+        
+        _basicModule = new BasicModule( parentFrame );
+        addModule( _basicModule );
 
         _advancedModule = new AdvancedModule( parentFrame );
         addModule( _advancedModule );
@@ -169,6 +175,9 @@ public class GlaciersApplication extends PhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
+        BasicConfig basicConfig = _basicModule.save();
+        appConfig.setBasicConfig( basicConfig );
+        
         AdvancedConfig advancedConfig = _advancedModule.save();
         appConfig.setAdvancedConfig( advancedConfig );
         
@@ -185,6 +194,9 @@ public class GlaciersApplication extends PhetApplication {
             
             if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
+                
+                BasicConfig basicConfig = appConfig.getBasicConfig();
+                _basicModule.load( basicConfig );
                 
                 AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
                 _advancedModule.load( advancedConfig );

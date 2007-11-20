@@ -24,6 +24,7 @@ public class GlaciersConfig implements IProguardKeepClass {
     private String _versionRevision;
     
     // Modules
+    private BasicConfig _basicConfig;
     private AdvancedConfig _advancedConfig;
     
     //----------------------------------------------------------------------------
@@ -85,8 +86,16 @@ public class GlaciersConfig implements IProguardKeepClass {
     // Accessors for module configurations
     //----------------------------------------------------------------------------
     
-    public void setAdvancedConfig( AdvancedConfig glaciersModuleConfig ) {
-        _advancedConfig = glaciersModuleConfig;
+    public void setBasicConfig( BasicConfig basicConfig ) {
+        _basicConfig = basicConfig;
+    }
+    
+    public BasicConfig getBasicConfig() {
+        return _basicConfig;
+    }
+    
+    public void setAdvancedConfig( AdvancedConfig advancedConfig ) {
+        _advancedConfig = advancedConfig;
     }
     
     public AdvancedConfig getAdvancedConfig() {

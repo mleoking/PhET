@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.module;
+package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
+import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
 import edu.colorado.phet.glaciers.view.PenguinNode;
@@ -16,18 +16,18 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * GlaciersCanvas
+ * BasicCanvas
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class AdvancedCanvas extends PhetPCanvas {
+public class BasicCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     // Model
-    private AdvancedModel _model;
+    private BasicModel _model;
     
     // View 
     private PNode _rootNode;
@@ -39,8 +39,8 @@ public class AdvancedCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedCanvas( AdvancedModel model ) {
-        super( AdvancedDefaults.WORLD_SIZE );
+    public BasicCanvas( BasicModel model ) {
+        super( BasicDefaults.WORLD_SIZE );
         
         _model = model;
         
