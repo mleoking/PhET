@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+11/20/07 - break into Basic and Advanced modules
 11/14/07 - add stub for magnified view
 11/14/07 - add drag handler to penguin, horizontally constrained
 11/14/07 - add penguin as marker for which part of the valley we're zoomed in on
