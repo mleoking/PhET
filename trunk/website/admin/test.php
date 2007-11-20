@@ -12,5 +12,6 @@
 		print "Deleting $dir<br/>";
 		
 		exec("rm -rf $dir");
+		flush();
 	}
 ?>
