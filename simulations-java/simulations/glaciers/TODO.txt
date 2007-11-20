@@ -18,6 +18,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+11/20/07 - add credits
 11/20/07 - break into Basic and Advanced modules
 11/14/07 - add stub for magnified view
 11/14/07 - add drag handler to penguin, horizontally constrained
