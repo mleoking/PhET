@@ -272,6 +272,8 @@
 			if (!file_exists($vertical_icon_location)) {
 				$source = imagecreatefrompng($icon_location);
 
+				//the following line fails for some languages, so we bail out here with a horizontal until this is fixed:
+				return $icon_location;
 				// Rotate
 				$rotate = imagerotate($source, 90, 0);
 				
