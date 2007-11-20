@@ -122,7 +122,7 @@
 				}
 			}
 			
-			print "</ul>";
+			//print "</ul>";
 		}
 		
 		flush();
