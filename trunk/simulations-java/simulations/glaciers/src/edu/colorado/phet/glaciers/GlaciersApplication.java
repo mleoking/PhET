@@ -20,8 +20,8 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.glaciers.menu.DeveloperMenu;
 import edu.colorado.phet.glaciers.menu.OptionsMenu;
-import edu.colorado.phet.glaciers.module.GlaciersModule;
-import edu.colorado.phet.glaciers.persistence.GlaciersModuleConfig;
+import edu.colorado.phet.glaciers.module.AdvancedModule;
+import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
 import edu.colorado.phet.glaciers.persistence.GlaciersConfig;
 
 /**
@@ -41,7 +41,7 @@ public class GlaciersApplication extends PhetApplication {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private GlaciersModule _glaciersModule;
+    private AdvancedModule _advancedModule;
 
     // PersistanceManager is used to save/load simulation configurations.
     private XMLPersistenceManager _persistenceManager;
@@ -93,8 +93,8 @@ public class GlaciersApplication extends PhetApplication {
         
         Frame parentFrame = getPhetFrame();
 
-        _glaciersModule = new GlaciersModule( parentFrame );
-        addModule( _glaciersModule );
+        _advancedModule = new AdvancedModule( parentFrame );
+        addModule( _advancedModule );
     }
 
     /*
@@ -169,8 +169,8 @@ public class GlaciersApplication extends PhetApplication {
         appConfig.setVersionDev( getApplicationConfig().getVersion().getDev() );
         appConfig.setVersionRevision( getApplicationConfig().getVersion().getRevision() );
         
-        GlaciersModuleConfig exampleConfig = _glaciersModule.save();
-        appConfig.setGlaciersModuleConfig( exampleConfig );
+        AdvancedConfig advancedConfig = _advancedModule.save();
+        appConfig.setAdvancedConfig( advancedConfig );
         
         _persistenceManager.save( appConfig );
     }
@@ -186,8 +186,8 @@ public class GlaciersApplication extends PhetApplication {
             if ( object instanceof GlaciersConfig ) {
                 GlaciersConfig appConfig = (GlaciersConfig) object;
                 
-                GlaciersModuleConfig exampleConfig = appConfig.getGlaciersModuleConfig();
-                _glaciersModule.load( exampleConfig );
+                AdvancedConfig advancedConfig = appConfig.getAdvancedConfig();
+                _advancedModule.load( advancedConfig );
             }
             else {
                 String message = GlaciersResources.getString( "message.notAConfigFile" );

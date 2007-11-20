@@ -15,7 +15,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersModel extends ClockAdapter {
+public class AdvancedModel extends ClockAdapter {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -28,7 +28,7 @@ public class GlaciersModel extends ClockAdapter {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlaciersModel( GlaciersClock clock ) {
+    public AdvancedModel( GlaciersClock clock ) {
         super();
         
         _clock = clock;

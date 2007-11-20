@@ -10,14 +10,14 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 /**
- * GlaciersDefaults contains default settings for GlaciersModule.
+ * AdvancedDefaults contains default settings for AdvancedModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersDefaults {
+public class AdvancedDefaults {
 
     /* Not intended for instantiation */
-    private GlaciersDefaults() {}
+    private AdvancedDefaults() {}
     
     // Clock
     public static final boolean CLOCK_RUNNING = GlobalDefaults.CLOCK_RUNNING;

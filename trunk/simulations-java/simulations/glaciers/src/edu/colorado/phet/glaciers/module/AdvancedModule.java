@@ -8,39 +8,39 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.control.GlaciersControlPanel;
-import edu.colorado.phet.glaciers.defaults.GlaciersDefaults;
+import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
-import edu.colorado.phet.glaciers.persistence.GlaciersModuleConfig;
+import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
 
 /**
- * GlaciersModule
+ * AdvancedModule is the "Advanced" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersModule extends PiccoloModule {
+public class AdvancedModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private GlaciersModel _model;
-    private GlaciersCanvas _canvas;
+    private AdvancedModel _model;
+    private AdvancedCanvas _canvas;
     private GlaciersControlPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public GlaciersModule( Frame parentFrame ) {
-        super( GlaciersResources.getString( "title.exampleModule" ), GlaciersDefaults.CLOCK );
+    public AdvancedModule( Frame parentFrame ) {
+        super( GlaciersResources.getString( "title.advancedModule" ), AdvancedDefaults.CLOCK );
         setLogoPanel( null );
 
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
-        _model = new GlaciersModel( clock );
+        _model = new AdvancedModel( clock );
 
         // Canvas
-        _canvas = new GlaciersCanvas( _model );
+        _canvas = new AdvancedCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Bottom panel goes when clock controls normally go
@@ -60,11 +60,11 @@ public class GlaciersModule extends PiccoloModule {
     // Mutators and accessors
     //----------------------------------------------------------------------------
 
-    public GlaciersModel getExampleModel() {
+    public AdvancedModel getExampleModel() {
         return _model;
     }
 
-    public GlaciersCanvas getExampleCanvas() {
+    public AdvancedCanvas getExampleCanvas() {
         return _canvas;
     }
 
@@ -81,8 +81,8 @@ public class GlaciersModule extends PiccoloModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( GlaciersDefaults.CLOCK_DT_RANGE.getDefault() );
-            setClockRunningWhenActive( GlaciersDefaults.CLOCK_RUNNING );
+            clock.setDt( AdvancedDefaults.CLOCK_DT_RANGE.getDefault() );
+            setClockRunningWhenActive( AdvancedDefaults.CLOCK_RUNNING );
         }
 
         // Control panel settings that are view-related
@@ -95,10 +95,10 @@ public class GlaciersModule extends PiccoloModule {
     // Persistence
     //----------------------------------------------------------------------------
 
-    public GlaciersModuleConfig save() {
+    public AdvancedConfig save() {
 
-        GlaciersModuleConfig config = new GlaciersModuleConfig();
-        GlaciersModel model = getExampleModel();
+        AdvancedConfig config = new AdvancedConfig();
+        AdvancedModel model = getExampleModel();
 
         // Module
         config.setActive( isActive() );
@@ -119,9 +119,9 @@ public class GlaciersModule extends PiccoloModule {
         return config;
     }
 
-    public void load( GlaciersModuleConfig config ) {
+    public void load( AdvancedConfig config ) {
 
-        GlaciersModel model = getExampleModel();
+        AdvancedModel model = getExampleModel();
 
         // Module
         if ( config.isActive() ) {

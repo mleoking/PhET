@@ -9,11 +9,11 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
 /**
- * GlaciersModuleConfig is a Java Bean compliant configuration of ExampleModule.
+ * AdvancedConfig is a Java Bean compliant configuration of AdvancedModule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GlaciersModuleConfig implements IProguardKeepClass {
+public class AdvancedConfig implements IProguardKeepClass {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -33,7 +33,7 @@ public class GlaciersModuleConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance.
      */
-    public GlaciersModuleConfig() {}
+    public AdvancedConfig() {}
     
     //----------------------------------------------------------------------------
     // Accessors
