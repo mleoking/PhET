@@ -774,7 +774,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
                  inheritrefs="true"/>
 
-        <property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>
+        <property name="remotedir" value="${prod.server.path}${sim.name}"/>
         <!--<property name="remotedir" value="${prod.server.path}${sim.name}/test123"/>-->
 
         <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
