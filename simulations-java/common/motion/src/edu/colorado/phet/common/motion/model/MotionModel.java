@@ -40,13 +40,7 @@ public class MotionModel {
                 MotionModel.this.clear();
             }
         };
-        timeSeriesModel = new TimeSeriesModel( recordableModel, clock ) {
-            //workaround for buggy state/time sequence: time is obtained from record mode before switching to playback mode
-            public void rewind() {
-                setPlaybackMode();
-                super.rewind();
-            }
-        };
+        timeSeriesModel = createTimeSeriesModel( recordableModel, clock );
         timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
                 if ( timeSeriesModel.isRecordMode() ) {
@@ -64,6 +58,10 @@ public class MotionModel {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
             }
         } );
+    }
+
+    protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
+        return new MotionTimeSeriesModel( recordableModel, clock );
     }
 
     protected void setPlaybackTime( double time ) {

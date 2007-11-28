@@ -3,11 +3,10 @@ package edu.colorado.phet.rotation.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.motion.model.IPositionDriven;
-import edu.colorado.phet.common.motion.model.MotionModel;
-import edu.colorado.phet.common.motion.model.PositionDriven;
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
+import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.model.RecordableModel;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 /**
@@ -17,7 +16,8 @@ import edu.colorado.phet.rotation.view.RotationBodyNode;
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment, IPositionDriven {
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
-    public static final double MAX_TIME = 20.0;
+//    public static final double MAX_TIME = 20.0;
+    public static final double MAX_TIME = 2.0;
 
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
@@ -27,6 +27,11 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         addRotationBody( new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" ) );
 
         resetAll();
+    }
+    
+    protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
+//        return new RotationTimeSeriesModel( recordableModel, clock );
+        return new MotionTimeSeriesModel( recordableModel, clock );
     }
 
     private void resetBody2( RotationBody body ) {
