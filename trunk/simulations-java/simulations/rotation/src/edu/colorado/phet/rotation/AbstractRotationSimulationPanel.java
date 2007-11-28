@@ -6,6 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.*;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
@@ -17,6 +18,7 @@ import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolox.nodes.PClip;
+import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -41,12 +43,31 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
     private long paintTime = 0;
     private PClip playAreaClip;
 //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 250, 239, 197 );
-//    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 180, 250, 180 );
+    //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 180, 250, 180 );
     //    public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 140, 255, 140);
     public static final Color PLAY_AREA_BACKGROUND_COLOR = new Color( 144, 240, 168 );
 
-    public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, JFrame phetFrame ) {
+    public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, final JFrame phetFrame ) {
         this.rotationModule = rotationModule;
+        this.rotationModule.addListener( new Module.Listener() {
+            public void activated() {
+//                paintImmediately( 0, 0, getWidth(), getHeight() );
+//                MyRepaintManager.getInstance().doUpdateNow();
+//                SwingUtilities.invokeLater( new Runnable() {
+//                    public void run() {
+//                        final JComponent jComponent = (JComponent) phetFrame.getContentPane();
+//                        jComponent.invalidate();
+//                        jComponent.repaint();
+//
+//                        jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
+//                        MyRepaintManager.getInstance().doUpdateNow();
+//                    }
+//                } );
+            }
+
+            public void deactivated() {
+            }
+        } );
         setBackground( new RotationLookAndFeel().getBackgroundColor() );
         rotationGraphSet = createRotationGraphSet();
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );
