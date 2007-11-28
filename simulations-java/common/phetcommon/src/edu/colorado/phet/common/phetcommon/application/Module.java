@@ -13,6 +13,7 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.util.ArrayList;
 
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
@@ -47,6 +48,7 @@ public abstract class Module implements Resettable {
     private ClockAdapter moduleRunner;
 
     private ModulePanel modulePanel;
+    private ArrayList listeners=new ArrayList( );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -422,8 +424,24 @@ public abstract class Module implements Resettable {
             helpPanel.setVisible( hasHelp() );
         }
         active = true;
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).activated();
+        }
     }
 
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        void activated();
+
+        void deactivated();
+    }
     /**
      * Deactivates this Module (pausing it).
      */
@@ -431,6 +449,9 @@ public abstract class Module implements Resettable {
         this.clockRunningWhenActive = getClock().isRunning();
         clock.pause();
         active = false;
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ((Listener)listeners.get( i )).deactivated();
+        }
     }
 
     /**
