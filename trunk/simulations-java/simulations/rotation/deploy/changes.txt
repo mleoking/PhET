@@ -1,3 +1,4 @@
+11-27-2007: Rotation - Fixed high-priority memory leaks
 11-27-2007: Torque - Fixed the linear acceleration vector to be non-central for constant torque
 11-12-2007: Torque - Fixed the linear acceleration vector to be non-central for constant angular acceleration
 11-7-2007: Torque - Changed brake graphic from pusher to brake pad

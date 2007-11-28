@@ -3,7 +3,6 @@
 ################################
 
 fake 3d display for showing platform mass
-constant torque should have noncentripetal acceleration vector
 flowers should be faded (or look less grabbable)
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
