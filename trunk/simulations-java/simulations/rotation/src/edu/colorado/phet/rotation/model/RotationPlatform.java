@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.rotation.torque.TorqueModel;
 
 /**
  * Author: Sam Reid
@@ -135,6 +136,10 @@ public class RotationPlatform extends MotionBody {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).radiusChanged();
         }
+    }
+
+    public boolean isForceDriven() {
+        return super.getUpdateStrategy() instanceof TorqueModel.ForceDriven;
     }
 
     public static interface Listener {

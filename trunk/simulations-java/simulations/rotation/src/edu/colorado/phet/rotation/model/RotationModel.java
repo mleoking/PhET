@@ -18,19 +18,13 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
     public static final double MAX_TIME = 20.0;
-//    public static final double MAX_TIME = 2.0;
 
     public RotationModel( ConstantDtClock clock ) {
         super( clock );
-//        setMaxAllowedRecordTime( MAX_TIME );
         rotationPlatform = new RotationPlatform();
 
-        RotationBody body1 = new RotationBody( "ladybug.gif", true );
-        addRotationBody( body1 );
-
-//        RotationBody body2 = new RotationBody( "beetle.gif" );
-        RotationBody body2 = new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" );
-        addRotationBody( body2 );
+        addRotationBody( new RotationBody( "ladybug.gif", true ) );
+        addRotationBody( new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" ) );
 
         resetAll();
     }
@@ -56,7 +50,6 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         resetBody1( getRotationBody( 0 ) );
         resetBody2( getRotationBody( 1 ) );
         getTimeSeriesModel().setRecordMode();
-//        getTimeSeriesModel().setPaused( false );
     }
 
     protected void setPlaybackTime( double time ) {
@@ -127,5 +120,4 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public UpdateStrategy getAccelDriven() {
         return rotationPlatform.getAccelDriven();
     }
-
 }

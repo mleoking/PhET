@@ -2,10 +2,12 @@
 #     To Do
 ################################
 
-fake 3d thing for showing platform mass
-okay to cleanup force1d + ramps using rotation graphs + model
-
+fake 3d display for showing platform mass
+constant torque should have noncentripetal acceleration vector
+flowers should be faded (or look less grabbable)
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
+
+okay to cleanup force1d + ramps using rotation graphs + model
 
 Evaluate strategy for clipping the play area:
 •	theta=0 indicator needs to be moved into the play area
