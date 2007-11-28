@@ -13,7 +13,8 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * Aug 20, 2007, 1:32:16 AM
  */
 public class RotationClock extends ConstantDtClock {
-        public static final int DELAY = (int) ( 1000.0 / 30.0 );
+    private static final double FPS = 20;
+    public static final int DELAY = (int) ( 1000.0 / FPS );
 //    public static final int DELAY = (int) ( 1000.0 / 20.0 );
     public static final double DEFAULT_CLOCK_DT = DELAY / 1000.0 / 2;
 
@@ -25,7 +26,6 @@ public class RotationClock extends ConstantDtClock {
 
     public RotationClock() {
         super( DELAY, DEFAULT_CLOCK_DT );
-        setRunning( false );
         clocks.add( this );
         addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
@@ -36,7 +36,6 @@ public class RotationClock extends ConstantDtClock {
                 updateRepaintManager();
             }
         } );
-        start();
     }
 
     private void updateRepaintManager() {
