@@ -418,7 +418,7 @@ public class RotationBody {
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
-        if ( rotationPlatform.isAccelDriven() && !centered ) {
+        if ( (rotationPlatform.isAccelDriven() ||rotationPlatform.isForceDriven())&& !centered ) {
             //add on the tangential part under constant angular acceleration
             AbstractVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
             newA = newA.getAddedInstance( tanVector );
@@ -573,7 +573,6 @@ public class RotationBody {
     }
 
     private class OffPlatform extends UpdateStrategy {
-
         public void detach() {
         }
     }

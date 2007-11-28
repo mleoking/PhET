@@ -187,4 +187,8 @@ public class MotionBody implements IUpdateStrategy {
     public int getPositionSampleCount() {
         return x.getSampleCount();
     }
+
+    protected UpdateStrategy getUpdateStrategy() {
+        return updateStrategy;
+    }
 }
