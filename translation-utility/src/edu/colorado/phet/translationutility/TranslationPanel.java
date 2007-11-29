@@ -451,7 +451,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             }
         }
         
-        // search forwards from the position where we last found something
         if ( !found ) {
             
             int startTextAreaIndex = _previousFindTextAreaIndex + 1;
@@ -459,6 +458,7 @@ public class TranslationPanel extends JPanel implements FindListener {
                 startTextAreaIndex = 0;
             }
             
+            // search forwards from current location to end
             for ( int i = startTextAreaIndex; found == false && i < _findTextAreas.size() - 1; i++ ) {
                 JTextArea textArea = (JTextArea) _findTextAreas.get( i );
                 String text = textArea.getText();
@@ -472,7 +472,7 @@ public class TranslationPanel extends JPanel implements FindListener {
                 }
             }
             
-            // wrap around to the beginning
+            // wrap around, search from beginning to current location
             if ( !found ) {
                 for ( int i = 0; found == false && i < startTextAreaIndex; i++ ) {
                     JTextArea textArea = (JTextArea) _findTextAreas.get( i );
@@ -497,6 +497,71 @@ public class TranslationPanel extends JPanel implements FindListener {
 
     public void findPrevious( String findText ) {
         System.out.println( "TranslationPanel.findPrevious " + findText );//XXX
+        
+        boolean found = false;
+        
+        // start from the top when the text is changed
+        if ( !findText.equals( _previousFindText ) ) {
+            clearSelection( _previousFindTextAreaIndex );
+            _previousFindTextAreaIndex = -1;
+            _previousFindSelectionIndex = -1;
+            _previousFindText = findText;
+        }
+        else {
+            // search backwards in the current JTextField for another occurrence of the text
+            JTextArea textArea = (JTextArea) _findTextAreas.get( _previousFindTextAreaIndex );
+            String text = textArea.getText();
+            int matchIndex = text.lastIndexOf( findText, _previousFindSelectionIndex - 1 );
+            if ( matchIndex != -1 ) {
+                clearSelection( _previousFindTextAreaIndex );
+                _previousFindSelectionIndex = matchIndex;
+                setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                found = true;
+            }
+        }
+        
+        if ( !found ) {
+            
+            int startTextAreaIndex = _previousFindTextAreaIndex - 1;
+            if ( startTextAreaIndex < 0 ) {
+                startTextAreaIndex = _findTextAreas.size() - 1;
+            }
+            
+            // search backwards from current location to beginning
+            for ( int i = startTextAreaIndex; found == false && i >= 0; i-- ) {
+                JTextArea textArea = (JTextArea) _findTextAreas.get( i );
+                String text = textArea.getText();
+                int matchIndex = text.lastIndexOf( findText );
+                if ( matchIndex != -1 ) {
+                    clearSelection( _previousFindTextAreaIndex );
+                    _previousFindTextAreaIndex = i;
+                    _previousFindSelectionIndex = matchIndex;
+                    setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                    found = true;
+                }
+            }
+            
+            // wrap around, search from end to current location
+            if ( !found ) {
+                for ( int i = _findTextAreas.size() - 1; found == false && i > startTextAreaIndex; i-- ) {
+                    JTextArea textArea = (JTextArea) _findTextAreas.get( i );
+                    String text = textArea.getText();
+                    int matchIndex = text.lastIndexOf( findText );
+                    if ( matchIndex != -1 ) {
+                        clearSelection( _previousFindTextAreaIndex );
+                        _previousFindTextAreaIndex = i;
+                        _previousFindSelectionIndex = matchIndex;
+                        setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                        found = true;
+                    }
+                }
+            }
+        }
+        
+        // text not found
+        if ( !found ) {
+            Toolkit.getDefaultToolkit().beep();
+        }
     }
     
     private void clearSelection( int index ) {
