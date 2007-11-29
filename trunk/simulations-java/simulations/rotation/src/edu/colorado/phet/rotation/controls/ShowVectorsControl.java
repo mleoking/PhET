@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.colorado.phet.rotation.view.RotationColorScheme;
 
 /**
  * User: Sam Reid
@@ -46,7 +47,10 @@ public class ShowVectorsControl extends JPanel {
         JLabel showVectorLabel = new JLabel( "Show Vectors:" );
         showVectorLabel.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
         velocityCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+        velocityCheckBox.setForeground( RotationColorScheme.VELOCITY_COLOR );
+
         accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+        accelerationCheckBox.setForeground( RotationColorScheme.ACCELERATION_COLOR);
 
         add( showVectorLabel, gridBagConstraints );
         add( velocityCheckBox, gridBagConstraints );
