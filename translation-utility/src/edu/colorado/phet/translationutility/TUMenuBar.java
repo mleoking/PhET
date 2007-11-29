@@ -61,7 +61,6 @@ public class TUMenuBar extends JMenuBar {
                     }
                     // called by JDialog.dispose
                     public void windowClosed( WindowEvent e ) {
-                        System.out.println( "windowClosed" );
                         _previousFindText = _findDialog.getText();
                         _findDialog = null;
                         findMenuItem.setEnabled( true );
