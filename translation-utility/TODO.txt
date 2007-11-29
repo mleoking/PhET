@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 - delete phet-test-translation.jar
 
 LOW PRIORITY:
+- icons for buttons
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - make runnable via Web Start
 - replace individual translation requests with 1 big request to workaround Google Translate denial of service

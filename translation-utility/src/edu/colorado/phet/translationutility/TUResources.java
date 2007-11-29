@@ -4,6 +4,9 @@ package edu.colorado.phet.translationutility;
 
 import java.awt.image.BufferedImage;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
@@ -38,6 +41,10 @@ public class TUResources {
     
     public static final BufferedImage getImage( String name ) {
         return RESOURCES.getImage( name );
+    }
+    
+    public static final Icon getIcon( String name ) {
+        return new ImageIcon( RESOURCES.getImage( name ) );
     }
     
     public static final String getCommonString( String name ) {

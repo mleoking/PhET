@@ -44,7 +44,7 @@ public class TranslationUtility extends JFrame {
         TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode, autoTranslate );
 
         JFrame frame = new JFrame( title );
-        frame.setJMenuBar( new TUMenuBar() );
+        frame.setJMenuBar( new TUMenuBar( frame, translationPanel ) );
         frame.getContentPane().add( translationPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
