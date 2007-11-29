@@ -7,10 +7,7 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- search feature (Find, Find Next)
-- make Find insensitve to case
-- Find multiple occurrences in the same JTextArea
-- start from the top when Find text changes
+- Find Previous feature
 - choose specific fonts for specific languages (generalize FontJA)
 - check for unsaved changes before exiting
 - refactor code base
@@ -31,7 +28,10 @@ LOW PRIORITY:
 
 
 DONE:
+11/29/07 - start from the top when Find text changes
+11/29/07 - Find multiple occurrences in the same JTextArea
 11/29/07 - Find Next feature
+11/29/07 - modify focus traversal so that source textfields can be focusable (and therefore display Find selection)
 11/29/07 - framework and dialog for Find feature
 ********* version 0.00.05 (18601)
 11/19/07 - fix help to format properly on Java 1.5
@@ -92,6 +92,10 @@ DONE:
 10/30/07 - add dialog to request JAR file and target country code
 ********* version 0.00.01 (18366)
 10/29/07 - quick-&-dirty (non-portable, UNIX/Mac only) solution to allow testing of translation using Runtime.exec
+
+
+REJECTED:
+11/29/07 - make Find insensitve to case (problematic for all language codes)
 
 ===============================================================================
 end of file
