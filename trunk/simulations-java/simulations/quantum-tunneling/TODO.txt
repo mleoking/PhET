@@ -15,6 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/29/07 - change name to "Quantum Tunneling and Wave Packets"
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/9/07 - switch persistence to phetcommon's XMLPersistenceManager
