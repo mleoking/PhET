@@ -73,7 +73,7 @@ public class RotationPlayAreaNode extends PNode {
         public FlowerNode( String image, double scale, double x, double y ) {
             try {
                 BufferedImage bufferedImage = RotationResources.loadBufferedImage( image );
-//                bufferedImage = filterFlower( bufferedImage );
+                bufferedImage = filterFlower( bufferedImage );
                 PImage flower1 = new PImage( bufferedImage );
                 final double flowerscale1 = SCALE * scale;
                 flower1.scale( flowerscale1 );
