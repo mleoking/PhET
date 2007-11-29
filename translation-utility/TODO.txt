@@ -8,6 +8,9 @@ OPEN ISSUES:
 
 HIGH PRIORITY:
 - search feature (Find, Find Next)
+- make Find insensitve to case
+- Find multiple occurrences in the same JTextArea
+- start from the top when Find text changes
 - choose specific fonts for specific languages (generalize FontJA)
 - check for unsaved changes before exiting
 - refactor code base
@@ -28,6 +31,8 @@ LOW PRIORITY:
 
 
 DONE:
+11/29/07 - Find Next feature
+11/29/07 - framework and dialog for Find feature
 ********* version 0.00.05 (18601)
 11/19/07 - fix help to format properly on Java 1.5
 11/19/07 - help for the main panel

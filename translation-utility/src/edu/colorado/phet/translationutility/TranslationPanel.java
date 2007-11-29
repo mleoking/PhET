@@ -52,6 +52,9 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
     private static final Font SOURCE_VALUE_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
     private static final Font TARGET_VALUE_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
+    private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
+    
+    private static final Color SELECTION_COLOR = Color.GREEN;
     
     private static final int KEY_COLUMN = 0;
     private static final int SOURCE_COLUMN = 1;
@@ -63,6 +66,22 @@ public class TranslationPanel extends JPanel implements FindListener {
             /* inside */ BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
     
     private static final Color AUTO_TRANSLATED_BACKGROUND = Color.YELLOW;
+    
+    private static class SourceTextArea extends JTextArea {
+        
+        public SourceTextArea( String value ) {
+            super( value );
+            setFont( SOURCE_VALUE_FONT );
+            setColumns( TEXT_AREA_COLUMNS );
+            setLineWrap( true );
+            setWrapStyleWord( true );
+            setEditable( false );
+            setFocusable( true ); // must be true for Find selection to work
+            setBorder( TEXT_AREA_BORDER );
+            setBackground( SOURCE_BACKGROUND );
+            setSelectionColor( SELECTION_COLOR );
+        }
+    }
     
     /*
      * Associates a key with a JTextArea.
@@ -85,20 +104,21 @@ public class TranslationPanel extends JPanel implements FindListener {
         
         public TargetTextArea( String key, String value ) {
             super( value );
+            
             _key = key;
+            
+            setFont( TARGET_VALUE_FONT );
+            setLineWrap( true );
+            setWrapStyleWord( true );
+            setEditable( true );
+            setBorder( TEXT_AREA_BORDER );
+            setSelectionColor( SELECTION_COLOR );
+            
             // tab or shift-tab will move you to the next or previous text field
-            getInputMap(JComponent.WHEN_FOCUSED).put(
-                    KeyStroke.getKeyStroke("TAB"), NEXT_FOCUS_ACTION.getValue(Action.NAME));
-            getInputMap(JComponent.WHEN_FOCUSED).put(
-                    KeyStroke.getKeyStroke("shift TAB"), PREVIOUS_FOCUS_ACTION.getValue(Action.NAME));
-            getActionMap().put(NEXT_FOCUS_ACTION.getValue(Action.NAME), NEXT_FOCUS_ACTION);
-            getActionMap().put(PREVIOUS_FOCUS_ACTION.getValue(Action.NAME), PREVIOUS_FOCUS_ACTION);
-            // select the entire text when focus is gained
-            addFocusListener( new FocusAdapter() {
-                public void focusGained( FocusEvent e ) {
-                    selectAll();
-                }
-            } );
+            getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "TAB" ), NEXT_FOCUS_ACTION.getValue( Action.NAME ) );
+            getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "shift TAB" ), PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ) );
+            getActionMap().put( NEXT_FOCUS_ACTION.getValue( Action.NAME ), NEXT_FOCUS_ACTION );
+            getActionMap().put( PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ), PREVIOUS_FOCUS_ACTION );
         }
 
         public String getKey() {
@@ -110,6 +130,10 @@ public class TranslationPanel extends JPanel implements FindListener {
     private final String _sourceLanguageCode;
     private final String _targetLanguageCode;
     private ArrayList _targetTextAreas; // array of TargetTextArea
+    private ArrayList _findTextAreas; // array of JTextArea
+    private String _previousFindText; // text provided to previous call to findNext or findPrevious
+    private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
+    private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
     private File _currentDirectory;
 
     public TranslationPanel( JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
@@ -119,6 +143,10 @@ public class TranslationPanel extends JPanel implements FindListener {
         _sourceLanguageCode = sourceLanguageCode;
         _targetLanguageCode = targetLanguageCode;
         _targetTextAreas = new ArrayList();
+        _findTextAreas = new ArrayList();
+        _previousFindText = null;
+        _previousFindTextAreaIndex = -1;
+        _previousFindSelectionIndex = -1;
         _currentDirectory = null;
         
         JPanel inputPanel = createInputPanel();
@@ -183,6 +211,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             sortedSet.add( key );
         }
         
+        JTextArea previousTargetTextArea = null;
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
 
@@ -199,29 +228,23 @@ public class TranslationPanel extends JPanel implements FindListener {
             JLabel keyLabel = new JLabel( key );
             keyLabel.setFont( KEY_FONT );
 
-            JTextArea sourceTextArea = new JTextArea( sourceValue );
-            sourceTextArea.setFont( SOURCE_VALUE_FONT );
-            sourceTextArea.setColumns( TEXT_AREA_COLUMNS );
-            sourceTextArea.setLineWrap( true );
-            sourceTextArea.setWrapStyleWord( true );
-            sourceTextArea.setEditable( false );
-            sourceTextArea.setFocusable( sourceTextArea.isEditable() );
-            sourceTextArea.setBorder( TEXT_AREA_BORDER );
-            sourceTextArea.setBackground( this.getBackground() );
+            JTextArea sourceTextArea = new SourceTextArea( sourceValue );
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
             if ( autoTranslated ) {
                 targetTextArea.setBackground( AUTO_TRANSLATED_BACKGROUND );
             }
-            targetTextArea.setFont( TARGET_VALUE_FONT );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
-            targetTextArea.setLineWrap( true );
-            targetTextArea.setWrapStyleWord( true );
-            targetTextArea.setEditable( true );
-            targetTextArea.setBorder( TEXT_AREA_BORDER );
+            if ( previousTargetTextArea != null ) {
+                previousTargetTextArea.setNextFocusableComponent( targetTextArea ); // deprecated, but much simplier than using FocusTraversalPolicy
+            }
+            previousTargetTextArea = targetTextArea;
             _targetTextAreas.add( targetTextArea );
 
+            _findTextAreas.add( sourceTextArea );
+            _findTextAreas.add( targetTextArea );
+            
             layout.addAnchoredComponent( keyLabel, row, KEY_COLUMN, GridBagConstraints.EAST );
             layout.addComponent( sourceTextArea, row, SOURCE_COLUMN );
             layout.addComponent( targetTextArea, row, TARGET_COLUMN );
@@ -404,11 +427,90 @@ public class TranslationPanel extends JPanel implements FindListener {
         DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
     }
 
-    public void findNext( String text ) {
-        System.out.println( "TranslationPanel.findNext" );//XXX
+    public void findNext( String findText ) {
+        
+        boolean found = false;
+        
+        // start from the top when the text is changed
+        if ( !findText.equals( _previousFindText ) ) {
+            clearSelection( _previousFindTextAreaIndex );
+            _previousFindTextAreaIndex = -1;
+            _previousFindSelectionIndex = -1;
+            _previousFindText = findText;
+        }
+        else {
+            // search forwards in the current JTextField for another occurrence of the text
+            JTextArea textArea = (JTextArea) _findTextAreas.get( _previousFindTextAreaIndex );
+            String text = textArea.getText();
+            int matchIndex = text.indexOf( findText, _previousFindSelectionIndex + 1 );
+            if ( matchIndex != -1 ) {
+                clearSelection( _previousFindTextAreaIndex );
+                _previousFindSelectionIndex = matchIndex;
+                setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                found = true;
+            }
+        }
+        
+        // search forwards from the position where we last found something
+        if ( !found ) {
+            
+            int startTextAreaIndex = _previousFindTextAreaIndex + 1;
+            if ( startTextAreaIndex > _findTextAreas.size() ) {
+                startTextAreaIndex = 0;
+            }
+            
+            for ( int i = startTextAreaIndex; found == false && i < _findTextAreas.size() - 1; i++ ) {
+                JTextArea textArea = (JTextArea) _findTextAreas.get( i );
+                String text = textArea.getText();
+                int matchIndex = text.indexOf( findText );
+                if ( matchIndex != -1 ) {
+                    clearSelection( _previousFindTextAreaIndex );
+                    _previousFindTextAreaIndex = i;
+                    _previousFindSelectionIndex = matchIndex;
+                    setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                    found = true;
+                }
+            }
+            
+            // wrap around to the beginning
+            if ( !found ) {
+                for ( int i = 0; found == false && i < startTextAreaIndex; i++ ) {
+                    JTextArea textArea = (JTextArea) _findTextAreas.get( i );
+                    String text = textArea.getText();
+                    int matchIndex = text.indexOf( findText );
+                    if ( matchIndex != -1 ) {
+                        clearSelection( _previousFindTextAreaIndex );
+                        _previousFindTextAreaIndex = i;
+                        _previousFindSelectionIndex = matchIndex;
+                        setSelection( _previousFindTextAreaIndex, matchIndex, findText.length() );
+                        found = true;
+                    }
+                }
+            }
+        }
+        
+        // text not found
+        if ( !found ) {
+            Toolkit.getDefaultToolkit().beep();
+        }
     }
 
-    public void findPrevious( String text ) {
-        System.out.println( "TranslationPanel.findPrevious" );//XXX
+    public void findPrevious( String findText ) {
+        System.out.println( "TranslationPanel.findPrevious " + findText );//XXX
+    }
+    
+    private void clearSelection( int index ) {
+        if ( index >= 0 && index < _findTextAreas.size() ) {
+            JTextArea textArea = (JTextArea) _findTextAreas.get( index );
+            textArea.select( 0, 0 );
+        }
+    }
+    
+    private void setSelection( int index, int startIndex, int length ) {
+        if ( index >= 0 && index < _findTextAreas.size() ) {
+            JTextArea textArea = (JTextArea) _findTextAreas.get( index );
+            textArea.requestFocus();
+            textArea.select( startIndex, startIndex + length );
+        }
     }
 }
