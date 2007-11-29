@@ -19,6 +19,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.translationutility.Command.CommandException;
+import edu.colorado.phet.translationutility.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
 
 /**
@@ -29,7 +30,7 @@ import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TranslationPanel extends JPanel {
+public class TranslationPanel extends JPanel implements FindListener {
    
     private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
     private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
@@ -401,5 +402,13 @@ public class TranslationPanel extends JPanel {
     
     private void showHelp() {
         DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
+    }
+
+    public void findNext( String text ) {
+        System.out.println( "TranslationPanel.findNext" );//XXX
+    }
+
+    public void findPrevious( String text ) {
+        System.out.println( "TranslationPanel.findPrevious" );//XXX
     }
 }
