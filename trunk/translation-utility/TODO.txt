@@ -7,7 +7,7 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- Find Previous feature
+- refactor findNext and findPrevious
 - choose specific fonts for specific languages (generalize FontJA)
 - check for unsaved changes before exiting
 - refactor code base
@@ -28,6 +28,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/29/07 - Find Previous feature
 11/29/07 - start from the top when Find text changes
 11/29/07 - Find multiple occurrences in the same JTextArea
 11/29/07 - Find Next feature
