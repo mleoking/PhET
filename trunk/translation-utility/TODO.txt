@@ -17,6 +17,8 @@ MEDIUM PRIORITY:
 - delete phet-test-translation.jar
 
 LOW PRIORITY:
+- Find selection disappears when Find dialog is closed
+- Edit>Undo for editing target textfields
 - icons for buttons
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - make runnable via Web Start
@@ -28,6 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
+11/29/07 - clear selection in target textfield when focus is lost so that it works with Find feature
 11/29/07 - Find Previous feature
 11/29/07 - start from the top when Find text changes
 11/29/07 - Find multiple occurrences in the same JTextArea
