@@ -3,10 +3,7 @@
 package edu.colorado.phet.translationutility;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.*;
@@ -18,6 +15,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.Command.CommandException;
 import edu.colorado.phet.translationutility.FindDialog.FindListener;
 import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
@@ -34,8 +32,9 @@ public class TranslationPanel extends JPanel implements FindListener {
    
     private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
     private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
-    private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.testTranslation" );
-    private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submitTranslation" );
+    private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.test" );
+    private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submit" );
+    private static final String FIND_BUTTON_LABEL = TUResources.getString( "button.find" );
     private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
     
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
@@ -133,6 +132,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
+    private Frame _dialogOwner;
     private JarFileManager _jarFileManager;
     private final String _sourceLanguageCode;
     private final String _targetLanguageCode;
@@ -142,10 +142,12 @@ public class TranslationPanel extends JPanel implements FindListener {
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
     private File _currentDirectory;
+    private FindDialog _findDialog;
 
-    public TranslationPanel( JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
+    public TranslationPanel( Frame dialogOwner, JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
         super();
         
+        _dialogOwner = dialogOwner;
         _jarFileManager = jarFileManager;
         _sourceLanguageCode = sourceLanguageCode;
         _targetLanguageCode = targetLanguageCode;
@@ -263,35 +265,48 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     private JPanel createButtonPanel() {
         
-        JButton saveButton = new JButton( SAVE_BUTTON_LABEL );
-        saveButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                saveTranslation();
-            }
-        } );
-       
-        JButton loadButton = new JButton( LOAD_BUTTON_LABEL );
-        loadButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                loadTranslation();
-            }
-        } );
-        
-        JButton testButton = new JButton( TEST_BUTTON_LABEL );
+        Icon testIcon = TUResources.getIcon( "testButton.png" );
+        JButton testButton = new JButton( TEST_BUTTON_LABEL, testIcon );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 testTranslation();
             }
         } );
         
-        JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL );
+        Icon saveIcon = TUResources.getIcon( "saveButton.png" );
+        JButton saveButton = new JButton( SAVE_BUTTON_LABEL, saveIcon );
+        saveButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                saveTranslation();
+            }
+        } );
+       
+        Icon loadIcon = TUResources.getIcon( "loadButton.png" );
+        JButton loadButton = new JButton( LOAD_BUTTON_LABEL, loadIcon );
+        loadButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                loadTranslation();
+            }
+        } );
+        
+        Icon submitIcon = TUResources.getIcon( "submitButton.png" );
+        JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL, submitIcon );
         submitButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 submitTranslation();
             }
         } );
         
-        JButton helpButton = new JButton( HELP_BUTTON_LABEL );
+        Icon findIcon = TUResources.getIcon( "findButton.png" );
+        JButton findButton = new JButton( FIND_BUTTON_LABEL, findIcon );
+        findButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
+                handleFind();
+            }
+        } );
+        
+        Icon helpIcon = TUResources.getIcon( "helpButton.png" );
+        JButton helpButton = new JButton( HELP_BUTTON_LABEL, helpIcon );
         helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 showHelp();
@@ -303,6 +318,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         buttonPanel.add( saveButton );
         buttonPanel.add( loadButton );
         buttonPanel.add( submitButton );
+        buttonPanel.add( Box.createHorizontalStrut( 20 ) );
+        buttonPanel.add( findButton );
         buttonPanel.add( helpButton );
 
         JPanel panel = new JPanel();
@@ -432,6 +449,28 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     private void showHelp() {
         DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
+    }
+    
+    public void handleFind() {
+        if ( _findDialog == null ) {
+            _findDialog = new FindDialog( _dialogOwner, _previousFindText );
+            _findDialog.addFindListener( this );
+            _findDialog.addWindowListener( new WindowAdapter() {
+
+                // called when the close button in the dialog's window dressing is clicked
+                public void windowClosing( WindowEvent e ) {
+                    _findDialog.dispose();
+                }
+
+                // called by JDialog.dispose
+                public void windowClosed( WindowEvent e ) {
+                    _previousFindText = _findDialog.getText();
+                    _findDialog = null;
+                }
+            } );
+            SwingUtils.centerDialogInParent( _findDialog );
+            _findDialog.show();
+        }
     }
 
     public void findNext( String findText ) {

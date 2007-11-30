@@ -129,7 +129,8 @@ public class InitializationDialog extends JDialog {
             _autoTranslateCheckBox.setEnabled( false );//XXX
         }
         
-        _continueButton = new JButton( BUTTON_CONTINUE );
+        Icon continueIcon = TUResources.getIcon( "continueButton.png" );
+        _continueButton = new JButton( BUTTON_CONTINUE, continueIcon );
         _continueButton.setEnabled( false );
         _continueButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -137,14 +138,16 @@ public class InitializationDialog extends JDialog {
             }
         });
         
-        JButton cancelButton = new JButton( BUTTON_CANCEL );
+        Icon cancelIcon = TUResources.getIcon( "cancelButton.png" );
+        JButton cancelButton = new JButton( BUTTON_CANCEL, cancelIcon );
         cancelButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleCancelButton();
             }
         });
         
-        JButton helpButton = new JButton( BUTTON_HELP );
+        Icon helpIcon = TUResources.getIcon( "helpButton.png" );
+        JButton helpButton = new JButton( BUTTON_HELP, helpIcon );
         helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleHelpButton();
@@ -158,9 +161,10 @@ public class InitializationDialog extends JDialog {
         topPanel.add( languageCodePanel );
 //XXX        topPanel.add( autoTranslatePanel );
         
-        JPanel innerPanel = new JPanel( new GridLayout( 1, 5 ) );
+        JPanel innerPanel = new JPanel( new GridLayout( 1, 7 ) );
         innerPanel.add( _continueButton );
         innerPanel.add( cancelButton );
+        innerPanel.add( Box.createHorizontalStrut( 20 ) );
         innerPanel.add( helpButton );
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( innerPanel );
