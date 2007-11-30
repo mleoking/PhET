@@ -22,10 +22,11 @@ LOW PRIORITY:
 - Edit>Undo for editing target textfields
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - make runnable via Web Start
-- replace individual translation requests with 1 big request to workaround Google Translate denial of service
-- rewrite Goggle's Translate class so that it handles problems (accessing URL, service denial, unsupported language, etc)
+- perform default translation using Google Translate
+- replace individual Google Translate requests with 1 big request to workaround "denial of service" problem
+- rewrite com.google.api.translate.Translate so that it handles problems (accessing URL, service denial, unsupported language, etc)
 - Google Translate server returns HTTP response code 400 (bad request) when called with an unsupported language
-- File>New to start a new translation (instead of restarting)
+- File>New to start a new translation, instead of restarting
 - select the simulation from a list and download the associated JAR from within Translation Utility
 
 
