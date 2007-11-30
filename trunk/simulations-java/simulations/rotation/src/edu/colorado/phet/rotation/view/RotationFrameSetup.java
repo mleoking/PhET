@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
 

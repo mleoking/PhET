@@ -11,6 +11,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.RotationClock;
+import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 
 /**

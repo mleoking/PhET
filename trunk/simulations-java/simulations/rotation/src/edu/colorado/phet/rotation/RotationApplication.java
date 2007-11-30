@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.QuickProfiler;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 /**
@@ -21,13 +22,16 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 public class RotationApplication extends NonPiccoloPhetApplication {
     private RotationModule rotationModule;
+    private IntroRotationModule introRotationModule;
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
         DefaultTimeSeries.setMaxDataValues( 100 );
+
+        introRotationModule=new IntroRotationModule(getPhetFrame());
+        addModule( introRotationModule);
+
         rotationModule = new RotationModule( getPhetFrame() );
-
-
         addModule( rotationModule );
 
 //        getPhetFrame().addMenu( new RotationTestMenu() );

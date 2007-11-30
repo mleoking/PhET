@@ -10,7 +10,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 import edu.colorado.phet.rotation.util.UnicodeUtil;

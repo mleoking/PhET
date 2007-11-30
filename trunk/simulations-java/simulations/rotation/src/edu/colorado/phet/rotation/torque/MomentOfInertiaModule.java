@@ -2,7 +2,7 @@ package edu.colorado.phet.rotation.torque;
 
 import javax.swing.*;
 
-import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 
 /**
  * Created by IntelliJ IDEA.

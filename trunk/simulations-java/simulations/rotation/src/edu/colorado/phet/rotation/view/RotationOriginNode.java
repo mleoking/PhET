@@ -7,7 +7,7 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.util.UnicodeUtil;
 import edu.umd.cs.piccolo.PNode;
