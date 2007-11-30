@@ -9,10 +9,10 @@ OPEN ISSUES:
 HIGH PRIORITY:
 - refactor findNext and findPrevious
 - choose specific fonts for specific languages (generalize FontJA)
-- check for unsaved changes before exiting
 - refactor code base
 
 MEDIUM PRIORITY:
+- check for unsaved changes before exiting
 - Flash sim support
 - delete phet-test-translation.jar
 
