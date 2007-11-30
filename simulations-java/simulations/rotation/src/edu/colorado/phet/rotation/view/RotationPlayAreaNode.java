@@ -6,7 +6,7 @@ import java.awt.image.RescaleOp;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;

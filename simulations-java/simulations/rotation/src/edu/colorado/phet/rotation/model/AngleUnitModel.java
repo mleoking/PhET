@@ -1,12 +1,10 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.model;
 
 import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
  * Jul 20, 2007, 10:45:52 AM
- * <p/>
- * Test commit.
  */
 public class AngleUnitModel {
     private boolean radians;

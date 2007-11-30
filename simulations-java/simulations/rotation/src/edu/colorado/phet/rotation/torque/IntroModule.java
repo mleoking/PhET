@@ -4,8 +4,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.rotation.AngleUnitModel;
-import edu.colorado.phet.rotation.RotationClock;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
+import edu.colorado.phet.rotation.model.RotationClock;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 
 /**

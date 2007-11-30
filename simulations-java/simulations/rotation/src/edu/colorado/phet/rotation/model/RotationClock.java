@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.model;
 
 import java.util.ArrayList;
 

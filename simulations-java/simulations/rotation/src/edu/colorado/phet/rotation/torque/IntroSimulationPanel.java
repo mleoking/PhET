@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

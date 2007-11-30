@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.rotation.AngleUnitModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 
 /**
  * Author: Sam Reid

@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.util;
 
 import JSci.maths.LinearMath;
 import JSci.maths.vectors.AbstractDoubleVector;

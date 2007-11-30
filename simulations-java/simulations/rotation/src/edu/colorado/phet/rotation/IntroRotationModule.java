@@ -9,12 +9,11 @@ import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 
 /**
- * Author: Sam Reid
- * May 29, 2007, 1:05:16 AM
+ * Created by: Sam
+ * Nov 30, 2007 at 4:27:51 PM
  */
-public class RotationModule extends AbstractRotationModule {
-
-    public RotationModule( JFrame parentFrame ) {
+public class IntroRotationModule extends AbstractRotationModule {
+    public IntroRotationModule( JFrame parentFrame ) {
         super( "Rotation", parentFrame );
     }
 

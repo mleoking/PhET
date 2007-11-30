@@ -1,4 +1,4 @@
-package edu.colorado.phet.rotation;
+package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,10 +15,13 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.graphs.RotationGraphSet;
 import edu.colorado.phet.rotation.model.RotationModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
+import edu.colorado.phet.rotation.model.RotationClock;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
+import edu.colorado.phet.rotation.view.RotationLayout;
+import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.umd.cs.piccolox.nodes.PClip;
-import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

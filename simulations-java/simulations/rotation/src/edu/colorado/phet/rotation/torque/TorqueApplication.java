@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.rotation.RotationFrameSetup;
+import edu.colorado.phet.rotation.view.RotationFrameSetup;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.RotationDevMenu;
 import edu.colorado.phet.rotation.controls.RotationTestMenu;
