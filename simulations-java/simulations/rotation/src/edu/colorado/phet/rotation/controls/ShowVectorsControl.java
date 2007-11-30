@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 import edu.colorado.phet.rotation.view.RotationColorScheme;
+import edu.colorado.phet.rotation.view.RotationLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -50,7 +50,7 @@ public class ShowVectorsControl extends JPanel {
         velocityCheckBox.setForeground( RotationColorScheme.VELOCITY_COLOR );
 
         accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
-        accelerationCheckBox.setForeground( RotationColorScheme.ACCELERATION_COLOR);
+        accelerationCheckBox.setForeground( RotationColorScheme.ACCELERATION_COLOR );
 
         add( showVectorLabel, gridBagConstraints );
         add( velocityCheckBox, gridBagConstraints );
