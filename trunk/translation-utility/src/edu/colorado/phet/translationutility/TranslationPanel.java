@@ -161,15 +161,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         JPanel inputPanel = createInputPanel();
         JPanel buttonPanel = createButtonPanel();
         JScrollPane scrollPane = new JScrollPane( inputPanel );
-        
-        JPanel bottomPanel = new JPanel( new BorderLayout() );
-        bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
-        bottomPanel.add( buttonPanel, BorderLayout.CENTER );
 
         setLayout( new BorderLayout() );
-        setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
+        setBorder( new EmptyBorder( 0, 10, 10, 10 ) );
+        add( buttonPanel, BorderLayout.NORTH );
         add( scrollPane, BorderLayout.CENTER );
-        add( bottomPanel, BorderLayout.SOUTH );
         
         setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
     }
