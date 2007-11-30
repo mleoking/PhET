@@ -1,8 +1,8 @@
 package edu.colorado.phet.rotation.torque;
 
-import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.graphs.AbstractTorqueGraphSet;
 import edu.colorado.phet.rotation.graphs.RotationMinimizableControlGraph;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 
 /**
  * Created by: Sam

@@ -3,10 +3,10 @@ package edu.colorado.phet.rotation;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationClock;
-import edu.colorado.phet.rotation.view.RotationSimulationPanel;
+import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
+import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 
 /**
  * Created by: Sam

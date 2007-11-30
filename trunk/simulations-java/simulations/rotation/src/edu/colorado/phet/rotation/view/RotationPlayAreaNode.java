@@ -6,9 +6,9 @@ import java.awt.image.RescaleOp;
 import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
-import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
+import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -87,19 +87,19 @@ public class RotationPlayAreaNode extends PNode {
         }
 
         private BufferedImage filterFlower( BufferedImage bufferedImage ) {
-            BufferedImage bim=new BufferedImage( bufferedImage.getWidth( ),bufferedImage.getHeight( ),BufferedImage.TYPE_INT_ARGB );
-            bim.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform( ) );
+            BufferedImage bim = new BufferedImage( bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
+            bim.createGraphics().drawRenderedImage( bufferedImage, new AffineTransform() );
 //                System.out.println( "bufferedImage.getType() = " + bufferedImage.getType() );
 
             /* Create a rescale filter op that makes the image 50% opaque */
 //                float[] scales = {1f, 1f, 0.9f, 0.5f};
-            float colorscale=1.75f;
+            float colorscale = 1.75f;
             float[] scales = {colorscale, colorscale, colorscale, 0.275f};
-            float[] offsets = new float[]{0.1f,0.1f,0.1f,0.0f};
+            float[] offsets = new float[]{0.1f, 0.1f, 0.1f, 0.0f};
             RescaleOp rop = new RescaleOp( scales, offsets, null );
 
 //                PImage flower1 = new PImage( bufferedImage );
-            BufferedImage c= rop.filter( bim, null);
+            BufferedImage c = rop.filter( bim, null );
             return c;
         }
     }

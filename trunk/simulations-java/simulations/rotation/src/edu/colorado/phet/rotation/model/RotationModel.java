@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.model.RecordableModel;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.rotation.view.RotationBodyNode;
 
 /**
@@ -28,7 +28,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
 
         resetAll();
     }
-    
+
     protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
 //        return new RotationTimeSeriesModel( recordableModel, clock );
         return new MotionTimeSeriesModel( recordableModel, clock );

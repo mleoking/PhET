@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 public class RotationClock extends ConstantDtClock {
     private static final double FPS = 20;
     public static final int DELAY = (int) ( 1000.0 / FPS );
-//    public static final int DELAY = (int) ( 1000.0 / 20.0 );
+    //    public static final int DELAY = (int) ( 1000.0 / 20.0 );
     public static final double DEFAULT_CLOCK_DT = DELAY / 1000.0 / 2;
 
     private ArrayList tickTimes = new ArrayList();
