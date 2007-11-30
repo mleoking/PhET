@@ -31,6 +31,8 @@ LOW PRIORITY:
 
 DONE:
 ********* version 0.00.07 (18639)
+11/30/07 - revise Help
+11/30/07 - move button to top of the main panel, like a toolbar
 11/30/07 - revise Help, add Find feature, fix typo
 11/30/07 - move Find feature from menubar to button panel
 11/30/07 - add button icons
