@@ -17,6 +17,7 @@ MEDIUM PRIORITY:
 - delete phet-test-translation.jar
 
 LOW PRIORITY:
+- move Find feature to a panel above the button panel, ala Firefox
 - Find selection disappears when Find dialog is closed
 - Edit>Undo for editing target textfields
 - icons for buttons
