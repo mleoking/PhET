@@ -17,10 +17,9 @@ MEDIUM PRIORITY:
 - delete phet-test-translation.jar
 
 LOW PRIORITY:
-- move Find feature to a panel above the button panel, ala Firefox
+- replace Find dialog with a panel above the button panel, ala Firefox
 - Find selection disappears when Find dialog is closed
 - Edit>Undo for editing target textfields
-- icons for buttons
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - make runnable via Web Start
 - replace individual translation requests with 1 big request to workaround Google Translate denial of service
@@ -31,6 +30,9 @@ LOW PRIORITY:
 
 
 DONE:
+11/30/07 - revise Help, add Find feature, fix typo
+11/30/07 - move Find feature from menubar to button panel
+11/30/07 - add button icons
 ********* version 0.00.06 (18633)
 11/29/07 - clear selection in target textfield when focus is lost so that it works with Find feature
 11/29/07 - Find Previous feature

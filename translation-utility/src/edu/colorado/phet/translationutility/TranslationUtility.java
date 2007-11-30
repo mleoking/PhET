@@ -40,11 +40,12 @@ public class TranslationUtility extends JFrame {
         String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
         JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
 
-        boolean autoTranslate = initDialog.isAutoTranslateEnabled();
-        TranslationPanel translationPanel = new TranslationPanel( jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode, autoTranslate );
-
         JFrame frame = new JFrame( title );
-        frame.setJMenuBar( new TUMenuBar( frame, translationPanel ) );
+        
+        boolean autoTranslate = initDialog.isAutoTranslateEnabled();
+        TranslationPanel translationPanel = new TranslationPanel( frame, jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode, autoTranslate );
+
+        frame.setJMenuBar( new TUMenuBar() );
         frame.getContentPane().add( translationPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.pack();
