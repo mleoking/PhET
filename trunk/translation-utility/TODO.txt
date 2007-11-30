@@ -30,7 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.07 (18641)
+********* version 0.00.07 (18642)
 11/30/07 - revise Help
 11/30/07 - move button to top of the main panel, like a toolbar
 11/30/07 - revise Help, add Find feature, fix typo
