@@ -30,7 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.06 (?)
+********* version 0.00.06 (18633)
 11/29/07 - clear selection in target textfield when focus is lost so that it works with Find feature
 11/29/07 - Find Previous feature
 11/29/07 - start from the top when Find text changes
