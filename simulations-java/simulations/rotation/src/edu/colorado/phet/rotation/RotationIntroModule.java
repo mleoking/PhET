@@ -25,15 +25,7 @@ public class RotationIntroModule extends Module {
         torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
         RotationIntroSimulationPanel panel = new RotationIntroSimulationPanel( this, parentFrame );
         setSimulationPanel( panel );
-        addListener( new Listener() {
-            public void activated() {
-                //some junk is leftover from the previous panel unless we explicitly paint over it
-                getModulePanel().paintImmediately( 0, 0, getModulePanel().getWidth(), getModulePanel().getHeight() );
-            }
-
-            public void deactivated() {
-            }
-        } );
+        addRepaintOnActivateBehavior();
     }
 
     public RotationModel getRotationModel() {

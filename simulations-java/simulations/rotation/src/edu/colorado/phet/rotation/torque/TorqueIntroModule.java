@@ -22,6 +22,7 @@ public class TorqueIntroModule extends Module {
         torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
         TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this,parentFrame );
         setSimulationPanel( panel );
+        addRepaintOnActivateBehavior();
     }
 
     public TorqueModel getTorqueModel() {
