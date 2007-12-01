@@ -39,53 +39,12 @@ public class TorqueApplication extends PhetApplication {
         addModule( momentModule );
         addModule( angMomModule );
 
-//        ModuleConstructor mc = new ModuleConstructor() {
-//            public Module newModule() {
-//                return new TorqueModule( getPhetFrame() );
-//            }
-//        };
-//        addDelayedModule( "delay 1", mc );
-//        addDelayedModule( "delay 2", mc );
-//        addDelayedModule( "delay 3", mc );
-//        addDelayedModule( "delay 4", mc );
-//        addDelayedModule( "delay 5", mc );
-
         getPhetFrame().addMenu( new RotationDevMenu( this, torqueModule ) );
         getPhetFrame().addMenu( new RotationTestMenu() );
     }
 
     static interface ModuleConstructor {
         Module newModule();
-    }
-
-    static class DeferModule2 extends PiccoloModule {
-        private ModuleConstructor moduleConstructor;
-        private Module module;
-
-        public DeferModule2( String name, ModuleConstructor moduleConstructor ) {
-            super( name, new ConstantDtClock( 10000, 1 ) );
-            this.moduleConstructor = moduleConstructor;
-            setModel( new BaseModel() );
-            setSimulationPanel( new JPanel() );
-        }
-
-        public void activate() {
-            super.activate();
-            if ( module == null ) {
-                module = moduleConstructor.newModule();
-                setClockRunningWhenActive( module.getClockRunningWhenActive() );
-                setSimulationPanel( module.getSimulationPanel() );
-                setClockControlPanel( module.getClockControlPanel() );
-                setHelpPanel( module.getHelpPanel() );
-                setMonitorPanel( module.getModulePanel() );
-                setModel( module.getModel() );
-                setControlPanel( module.getControlPanel() );
-            }
-        }
-    }
-
-    private void addDelayedModule( String name, ModuleConstructor torqueModule ) {
-        addModule( new DeferModule2( name, torqueModule ) );
     }
 
     public static void main( final String[] args ) {
