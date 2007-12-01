@@ -50,6 +50,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
             }
         } );
         updateRepaintManager();
+        addRepaintOnActivateBehavior();
     }
 
     protected void updateRepaintManager() {

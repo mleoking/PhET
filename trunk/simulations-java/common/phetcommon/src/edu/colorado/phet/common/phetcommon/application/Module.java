@@ -437,6 +437,21 @@ public abstract class Module implements Resettable {
         listeners.remove( listener );
     }
 
+    //some junk is leftover from the previous panel unless we explicitly paint over it
+    //This problem has only appeared in the Rotation simulation, but doesn't appear to be correlated with
+    //Rotation's new repaint manager
+    // TODO: Add protection against calling this method multiple times
+    protected void addRepaintOnActivateBehavior() {       
+        addListener( new Listener() {
+            public void activated() {
+                getModulePanel().paintImmediately( 0, 0, getModulePanel().getWidth(), getModulePanel().getHeight() );
+            }
+
+            public void deactivated() {
+            }
+        } );
+    }
+
     public static interface Listener {
         void activated();
 
