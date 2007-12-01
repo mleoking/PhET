@@ -49,25 +49,6 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
 
     public AbstractRotationSimulationPanel( final AbstractRotationModule rotationModule, final JFrame phetFrame ) {
         this.rotationModule = rotationModule;
-        this.rotationModule.addListener( new Module.Listener() {
-            public void activated() {
-//                paintImmediately( 0, 0, getWidth(), getHeight() );
-//                MyRepaintManager.getInstance().doUpdateNow();
-//                SwingUtilities.invokeLater( new Runnable() {
-//                    public void run() {
-//                        final JComponent jComponent = (JComponent) phetFrame.getContentPane();
-//                        jComponent.invalidate();
-//                        jComponent.repaint();
-//
-//                        jComponent.paintImmediately( 0, 0, jComponent.getWidth(), jComponent.getHeight() );
-//                        MyRepaintManager.getInstance().doUpdateNow();
-//                    }
-//                } );
-            }
-
-            public void deactivated() {
-            }
-        } );
         setBackground( new RotationLookAndFeel().getBackgroundColor() );
         rotationGraphSet = createRotationGraphSet();
         graphSetModel = new GraphSetModel( rotationGraphSet.getGraphSuite( 0 ) );

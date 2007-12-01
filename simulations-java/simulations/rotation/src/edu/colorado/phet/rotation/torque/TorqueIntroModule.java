@@ -20,7 +20,7 @@ public class TorqueIntroModule extends Module {
     public TorqueIntroModule( JFrame parentFrame ) {
         super( "Intro", new RotationClock() );
         torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
-        TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this );
+        TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this,parentFrame );
         setSimulationPanel( panel );
     }
 

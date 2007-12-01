@@ -1,5 +1,7 @@
 package edu.colorado.phet.rotation.torque;
 
+import javax.swing.*;
+
 import edu.colorado.phet.rotation.AbstractIntroSimulationPanel;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -16,7 +18,8 @@ public class TorqueIntroSimulationPanel extends AbstractIntroSimulationPanel {
     private TorqueIntroControlPanel introSimControlPanel;
     private PSwing introSimControlPanelPSwing;
 
-    public TorqueIntroSimulationPanel( TorqueIntroModule introModule ) {
+    public TorqueIntroSimulationPanel( TorqueIntroModule introModule, JFrame phetFrame ) {
+        super( (JComponent) phetFrame.getContentPane(),introModule );
         this.introModule = introModule;
         playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
         playAreaNode.setOriginNodeVisible( false );

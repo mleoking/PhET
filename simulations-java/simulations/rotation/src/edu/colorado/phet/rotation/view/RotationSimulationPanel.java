@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.view;
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.rotation.AbstractRotationModule;
 import edu.colorado.phet.rotation.controls.RotationControlPanel;
 
@@ -11,7 +12,7 @@ import edu.colorado.phet.rotation.controls.RotationControlPanel;
  * May 29, 2007, 1:13:21 AM
  */
 public class RotationSimulationPanel extends AbstractRotationSimulationPanel {
-    public RotationSimulationPanel( AbstractRotationModule rotationModule, JFrame parentFrame ) {
+    public RotationSimulationPanel( AbstractRotationModule rotationModule, final JFrame parentFrame ) {
         super( rotationModule, parentFrame );
     }
 

@@ -8,7 +8,6 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationClock;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.torque.TorqueIntroSimulationPanel;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 
 /**
@@ -16,21 +15,6 @@ import edu.colorado.phet.rotation.torque.TorqueModel;
  * Nov 30, 2007 at 4:27:51 PM
  */
 public class RotationIntroModule extends Module {
-//    public RotationIntroModule( JFrame parentFrame ) {
-//        super( "Introduction", parentFrame );
-//    }
-//
-//    protected RotationModel createModel( ConstantDtClock clock ) {
-//        return new RotationModel( clock );
-//    }
-//
-//    protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {
-//        return new RotationSimulationPanel( this, parentFrame );
-//    }
-//
-//    public RotationClock getRotationClock() {
-//        return (RotationClock) getConstantDTClock();
-//    }
 
     private RotationModel torqueModel;
     private VectorViewModel vectorViewModel = new VectorViewModel();
@@ -39,8 +23,17 @@ public class RotationIntroModule extends Module {
     public RotationIntroModule( JFrame parentFrame ) {
         super( "Intro", new RotationClock() );
         torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
-        RotationIntroSimulationPanel panel = new RotationIntroSimulationPanel( this );
+        RotationIntroSimulationPanel panel = new RotationIntroSimulationPanel( this, parentFrame );
         setSimulationPanel( panel );
+        addListener( new Listener() {
+            public void activated() {
+                //some junk is leftover from the previous panel unless we explicitly paint over it
+                getModulePanel().paintImmediately( 0, 0, getModulePanel().getWidth(), getModulePanel().getHeight() );
+            }
+
+            public void deactivated() {
+            }
+        } );
     }
 
     public RotationModel getRotationModel() {
@@ -58,5 +51,9 @@ public class RotationIntroModule extends Module {
     public void reset() {
         super.reset();
         torqueModel.resetAll();
+    }
+
+    public RotationClock getRotationClock() {
+        return (RotationClock) getClock();
     }
 }
