@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -17,7 +18,7 @@ public class AbstractIntroSimulationPanel extends PhetPCanvas {
     private PNode introSimControlPanelPSwing;
     private RotationPlatform rotationPlatform;
 
-    public AbstractIntroSimulationPanel() {
+    public AbstractIntroSimulationPanel( final JComponent contentPane, Module module ) {
     }
 
     protected void init( RotationPlayAreaNode playAreaNode, PNode introSimControlPanelPSwing, RotationPlatform rotationPlatform ) {
