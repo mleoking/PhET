@@ -10,8 +10,8 @@ import edu.colorado.phet.rotation.controls.ShowVectorsControl;
  * Created by: Sam
  * Oct 31, 2007 at 11:34:53 PM
  */
-public class IntroSimulationControlPanel extends JPanel {
-    public IntroSimulationControlPanel( final IntroModule torqueModule ) {
+public class TorqueIntroControlPanel extends JPanel {
+    public TorqueIntroControlPanel( final TorqueIntroModule torqueModule ) {
 
         JPanel checkBoxPanel = new VerticalLayoutPanel();
 //        final JCheckBox showNonTangentialForces = new JCheckBox( "Allow non-tangential forces", torqueModule.getTorqueModel().isAllowNonTangentialForces() );
