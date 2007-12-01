@@ -22,13 +22,13 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
 
 public class RotationApplication extends PhetApplication {
     private RotationModule rotationModule;
-    private IntroRotationModule introRotationModule;
+    private RotationIntroModule introRotationModule;
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
         DefaultTimeSeries.setMaxDataValues( 100 );
 
-        introRotationModule = new IntroRotationModule( getPhetFrame() );
+        introRotationModule = new RotationIntroModule( getPhetFrame() );
         addModule( introRotationModule );
 
         rotationModule = new RotationModule( getPhetFrame() );

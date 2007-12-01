@@ -12,15 +12,15 @@ import edu.colorado.phet.rotation.model.RotationClock;
  * Author: Sam Reid
  * May 29, 2007, 12:57:07 AM
  */
-public class IntroModule extends Module {
+public class TorqueIntroModule extends Module {
     private TorqueModel torqueModel;
     private VectorViewModel vectorViewModel = new VectorViewModel();
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
 
-    public IntroModule( JFrame parentFrame ) {
+    public TorqueIntroModule( JFrame parentFrame ) {
         super( "Intro", new RotationClock() );
         torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
-        IntroSimulationPanel panel = new IntroSimulationPanel( this );
+        TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this );
         setSimulationPanel( panel );
     }
 

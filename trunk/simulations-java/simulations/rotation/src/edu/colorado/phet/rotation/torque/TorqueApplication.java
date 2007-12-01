@@ -22,14 +22,14 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  */
 public class TorqueApplication extends PhetApplication {
     private AbstractTorqueModule torqueModule;
-    private IntroModule introModule;
+    private TorqueIntroModule introModule;
     private MomentOfInertiaModule momentModule;
     private AngularMomentumModule angMomModule;
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
         DefaultTimeSeries.setMaxDataValues( 100 );
-        introModule = new IntroModule( getPhetFrame() );
+        introModule = new TorqueIntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
         momentModule = new MomentOfInertiaModule( getPhetFrame() );
         angMomModule = new AngularMomentumModule( getPhetFrame() );
