@@ -13,6 +13,8 @@ import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * Author: Sam Reid
@@ -21,11 +23,14 @@ import java.awt.*;
 public class MovingManMotionApplication {
     private JFrame frame;
     private ConstantDtClock clock;
+    private PhetPCanvas phetPCanvas;
+    private GraphSetNode graphSetNode;
+    private MovingManNode movingManNode;
 
     public MovingManMotionApplication() {
         frame = new JFrame( "Moving Man Motion Application" );
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, Toolkit.getDefaultToolkit().getScreenSize().height - 400 );
-        PhetPCanvas phetPCanvas = new BufferedPhetPCanvas();
+        phetPCanvas = new BufferedPhetPCanvas();
         phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
         JPanel contentPane = new JPanel( new BorderLayout() );
         contentPane.add( phetPCanvas, BorderLayout.CENTER );
@@ -36,7 +41,7 @@ public class MovingManMotionApplication {
 
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
 
-        MovingManNode movingManNode = new MovingManNode( motionModel );
+        movingManNode = new MovingManNode( motionModel );
         movingManNode.scale( 50 );
         movingManNode.translate( 10.5, 0 );
         phetPCanvas.addScreenChild( movingManNode );
@@ -53,7 +58,7 @@ public class MovingManMotionApplication {
 
         ControlGraphSeries vSeries = new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, motionModel.getVVariable() );
         MovingManGraph vGraph = new MovingManGraph(
-                phetPCanvas, vSeries, SimStrings.get( "variables.velocity.abbreviation" ), "x", -1, 1,
+                phetPCanvas, vSeries, SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MAX_T, motionModel );
 
         ControlGraphSeries aSeries = new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, motionModel.getAVariable() );
@@ -61,7 +66,7 @@ public class MovingManMotionApplication {
                 phetPCanvas, aSeries, SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MAX_T, motionModel );
 
-        GraphSetNode graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
+        graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
                 new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph ),
                 new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), aGraph )
@@ -74,9 +79,22 @@ public class MovingManMotionApplication {
         phetPCanvas.requestFocus();
         phetPCanvas.addKeyListener( new PDebugKeyHandler() );
 
+        phetPCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                updateLayout();
+            }
+        } );
+
         TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
         contentPane.add( timeControlPanel, BorderLayout.SOUTH );
+        updateLayout();
     }
+
+    private void updateLayout() {
+        int insetX=2;
+        graphSetNode.setBounds( insetX,movingManNode.getFullBounds().getMaxY(),phetPCanvas.getWidth()-2*insetX, phetPCanvas.getHeight( )-movingManNode.getFullBounds().getMaxY());
+    }
+
 
     private void start() {
         frame.setVisible( true );
