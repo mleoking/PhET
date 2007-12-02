@@ -8,7 +8,6 @@ import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationClock;
 import edu.colorado.phet.rotation.model.RotationModel;
-import edu.colorado.phet.rotation.torque.TorqueModel;
 
 /**
  * Created by: Sam
@@ -16,20 +15,25 @@ import edu.colorado.phet.rotation.torque.TorqueModel;
  */
 public class RotationIntroModule extends Module {
 
-    private RotationModel torqueModel;
+    private RotationModel rotationModule;
     private VectorViewModel vectorViewModel = new VectorViewModel();
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
+    private RotationIntroSimulationPanel rotationIntroSimulationPanel;
 
     public RotationIntroModule( JFrame parentFrame ) {
         super( "Intro", new RotationClock() );
-        torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
-        RotationIntroSimulationPanel panel = new RotationIntroSimulationPanel( this, parentFrame );
-        setSimulationPanel( panel );
+        rotationModule = new RotationModel( (ConstantDtClock) getClock() );
+        rotationIntroSimulationPanel = new RotationIntroSimulationPanel( this, parentFrame );
+        setSimulationPanel( rotationIntroSimulationPanel );
         addRepaintOnActivateBehavior();
     }
 
+    public RotationIntroSimulationPanel getRotationIntroSimulationPanel() {
+        return rotationIntroSimulationPanel;
+    }
+
     public RotationModel getRotationModel() {
-        return torqueModel;
+        return rotationModule;
     }
 
     public VectorViewModel getVectorViewModel() {
@@ -42,7 +46,7 @@ public class RotationIntroModule extends Module {
 
     public void reset() {
         super.reset();
-        torqueModel.resetAll();
+        rotationModule.resetAll();
     }
 
     public RotationClock getRotationClock() {
