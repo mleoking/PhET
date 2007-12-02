@@ -64,9 +64,6 @@ public class MovingManNode extends PNode {
         house.translate( -house.getFullBounds().getWidth() / 2.0 / house.getScale(), 0 );
         addChild( house );
 
-        final PImage manImage = PImageFactory.create( "moving-man/images/stand-ii.gif" );
-        manImage.scale( 2.0 / manImage.getHeight() );
-        addChild( manImage );
 
         PImage leftWall = PImageFactory.create( "moving-man/images/barrier.jpg" );
         leftWall.translate( -10, 0 );
@@ -78,6 +75,10 @@ public class MovingManNode extends PNode {
         rightWall.translate( 10, 0 );
         rightWall.scale( 2.0 / rightWall.getHeight() );
         addChild( rightWall );
+
+        final PImage manImage = PImageFactory.create( "moving-man/images/stand-ii.gif" );
+        manImage.scale( 2.0 / manImage.getHeight() );
+        addChild( manImage );
 
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
