@@ -1,5 +1,12 @@
 package edu.colorado.phet.movingman.motion;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.AffineTransform;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -10,11 +17,6 @@ import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * Author: Sam Reid
@@ -42,7 +44,8 @@ public class MovingManMotionApplication {
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
 
         movingManNode = new MovingManNode( motionModel );
-        movingManNode.scale( 50 );
+//        movingManNode.scale( 50 );
+        movingManNode.scale( 100 );
         movingManNode.translate( 10.5, 0 );
         phetPCanvas.addScreenChild( movingManNode );
 
@@ -91,8 +94,15 @@ public class MovingManMotionApplication {
     }
 
     private void updateLayout() {
-        int insetX=2;
-        graphSetNode.setBounds( insetX,movingManNode.getFullBounds().getMaxY(),phetPCanvas.getWidth()-2*insetX, phetPCanvas.getHeight( )-movingManNode.getFullBounds().getMaxY());
+        movingManNode.setTransform( new AffineTransform() );
+        int screenWidth=phetPCanvas.getWidth();
+        movingManNode.scale( screenWidth/21 );
+        movingManNode.translate( 10.5, 0 );
+        
+        int insetX = 2;
+        graphSetNode.setBounds( insetX, movingManNode.getFullBounds().getMaxY(), phetPCanvas.getWidth() - 2 * insetX, phetPCanvas.getHeight() - movingManNode.getFullBounds().getMaxY() );
+
+
     }
 
 
