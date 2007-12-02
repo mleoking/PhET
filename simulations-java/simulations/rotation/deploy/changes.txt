@@ -1,3 +1,4 @@
+12-1-2007: Rotation - Added an introductory panel.
 11-29-2007: Rotation - Changed label colors for checkboxes
 11-27-2007: Rotation - Fixed high-priority memory leaks
 11-27-2007: Torque - Fixed the linear acceleration vector to be non-central for constant torque
