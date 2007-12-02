@@ -7,6 +7,8 @@ import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.rotation.controls.RulerButton;
+import edu.colorado.phet.rotation.controls.ResetButton;
+import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.graphs.AbstractRotationGraphSet;
 import edu.colorado.phet.rotation.view.RotationSimPlayAreaNode;
 
@@ -17,6 +19,10 @@ import edu.colorado.phet.rotation.view.RotationSimPlayAreaNode;
 public class RotationIntroControlPanel extends VerticalLayoutPanel {
 
     public RotationIntroControlPanel( final RotationIntroModule introModule, RotationSimPlayAreaNode playAreaNode ) {
+        add( new ResetButton( introModule ) );
+//        checkBoxPanel.add( new RulerButton( rulerNode ) );
+        add( new ShowVectorsControl( introModule.getVectorViewModel() ) );
+
         RulerButton rulerButton = new RulerButton( playAreaNode.getRulerNode() );
         add( rulerButton );
         add( createAngleSlider( introModule ) );
