@@ -71,7 +71,7 @@ public abstract class AbstractValueControl extends JPanel {
     private SliderListener _sliderListener; // handles events related to the slider
     private boolean _initialized; // true when the constructor has completed
     private boolean _paintTickLabels;
-    private boolean beepOnOutOfBounds=true;//true if the system should beep when out of bounds value is requested
+    private boolean signifyOutOfBounds =true;//true if the system should beep and print a message when out of bounds value is requested
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -213,7 +213,7 @@ public abstract class AbstractValueControl extends JPanel {
             }
         }
         else {
-            if ( beepOnOutOfBounds ) {
+            if ( signifyOutOfBounds ) {
                 Toolkit.getDefaultToolkit().beep();
                 System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
             }
@@ -779,9 +779,9 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Sets whether the system should beep when out of bounds value is requested
-     * @param beepOnOutOfBounds true if the system should beep when out of bounds value is requested
+     * @param signifyOutOfBounds true if the system should beep when out of bounds value is requested
      */
-    public void setBeepOnOutOfBounds( boolean beepOnOutOfBounds ) {
-        this.beepOnOutOfBounds = beepOnOutOfBounds;
+    public void setSignifyOutOfBounds( boolean signifyOutOfBounds ) {
+        this.signifyOutOfBounds = signifyOutOfBounds;
     }
 }

@@ -25,7 +25,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
 
     private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
         final LinearValueControl linearSlider = new LinearValueControl( -Math.PI * 2 * 2, Math.PI * 2 * 2, 0.0, "Angle", "0.00", "radians" );
-        linearSlider.setBeepOnOutOfBounds( false );
+        linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 introModule.getRotationModel().getRotationPlatform().setPositionDriven();
@@ -47,7 +47,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
 
     private LinearValueControl createVelocitySlider( final RotationIntroModule introModule ) {
         final LinearValueControl linearSlider = new LinearValueControl( AbstractRotationGraphSet.MIN_ANG_VEL, AbstractRotationGraphSet.MAX_ANG_VEL, 0.0, "Angular Velocity", "0.00", "radians/sec" );
-        linearSlider.setBeepOnOutOfBounds( false );
+        linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 introModule.getRotationModel().getRotationPlatform().setVelocityDriven();
