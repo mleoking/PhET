@@ -2,12 +2,11 @@
 #     To Do
 ################################
 
-remove flowers for interviews
-
 sometimes recorded data appears out of sync with playback data
 
 fake 3d display for showing platform mass
 flowers should be faded (or look less grabbable)
+    >remove flowers for interviews
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
 okay to cleanup force1d + ramps using rotation graphs + model

@@ -42,6 +42,9 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private AngleUnitModel angleUnitModel;
     private RotationBody b0;
     private RotationBody b1;
+    public static final int MAX_ANG_VEL = 5;
+    public static final int MIN_ANG_VEL = -5;
+
 
     public AbstractRotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model, AngleUnitModel angleUnitModel ) {
         this.pSwingCanvas = pSwingCanvas;
@@ -134,9 +137,10 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createAngVelGraph() {
         final ControlGraphSeries platformVelSeries = new ControlGraphSeries( "Angular Velocity", RotationColorScheme.ANG_VEL_SUITE.getPlatformColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularVelocity() );
+
         RotationMinimizableControlGraph angVelGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, platformVelSeries,
-                UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, -5, 5,
+                UnicodeUtil.OMEGA, "Angular Velocity", angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, MIN_ANG_VEL, MAX_ANG_VEL,
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
 
         //angVelGraph.addSeries( platformVelSeries );

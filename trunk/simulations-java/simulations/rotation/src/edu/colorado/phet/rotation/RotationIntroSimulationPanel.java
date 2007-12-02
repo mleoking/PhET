@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 import edu.colorado.phet.rotation.view.RotationSimPlayAreaNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -33,7 +34,7 @@ public class RotationIntroSimulationPanel extends AbstractIntroSimulationPanel {
         playAreaNode.setOriginNodeVisible( false );
         addScreenChild( playAreaNode );
 
-        introSimControlPanel = new RotationIntroControlPanel( introModule );
+        introSimControlPanel = new RotationIntroControlPanel( introModule,playAreaNode );
         introSimControlPanelPSwing = new PSwing( introSimControlPanel );
         addScreenChild( introSimControlPanelPSwing );
 
@@ -75,4 +76,7 @@ public class RotationIntroSimulationPanel extends AbstractIntroSimulationPanel {
 //        super.paintImmediately( r );
     }
 
+    public RotationSimPlayAreaNode getPlayAreaNode() {
+        return playAreaNode;
+    }
 }
