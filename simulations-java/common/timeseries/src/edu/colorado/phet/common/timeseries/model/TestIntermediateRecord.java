@@ -41,7 +41,13 @@ public class TestIntermediateRecord extends TestCase {
         timeSeriesModel.startRecording();
         Thread.sleep( 2000 );
         timeSeriesModel.setPaused( true );
-        timeSeriesModel.setPlaybackTime( 1.0 );
+        timeSeriesModel.setPlaybackTime( 30 );
+        timeSeriesModel.setPlaybackMode();
+        timeSeriesModel.setPaused( false );
+        Thread.sleep(100);
+        timeSeriesModel.startRecording();
+        Thread.sleep(2000);
+        timeSeriesModel.setPlaybackTime( 0.0);
         timeSeriesModel.setPlaybackMode();
         timeSeriesModel.setPaused( false );
     }
