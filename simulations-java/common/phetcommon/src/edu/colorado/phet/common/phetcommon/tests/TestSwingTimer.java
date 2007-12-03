@@ -2,7 +2,6 @@ package edu.colorado.phet.common.phetcommon.tests;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
 /**
@@ -33,7 +32,7 @@ public class TestSwingTimer {
                 lastEndTime = System.currentTimeMillis();
             }
         } );
-//        timer.setCoalesce( false );
+        timer.setCoalesce( false );
         timer.start();
         Thread.sleep(5000);
         System.exit( 0);
