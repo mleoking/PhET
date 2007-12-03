@@ -221,4 +221,10 @@ public abstract class Clock implements IClock {
         }
     }
 
+    /**
+     * This method releases all resources associated with the clock.
+     */
+    public void stop() {
+        this.pause();
+    }
 }
