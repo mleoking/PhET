@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.patterns.PubliclyCloneable;
 
 import java.awt.geom.Point2D;
 
-public class StatesOfMatterParticle implements PubliclyCloneable {
+public final class StatesOfMatterParticle implements PubliclyCloneable {
     public static final StatesOfMatterParticle TEST = new StatesOfMatterParticle(0.0, 0.0, 1.0, 1.0);
 
     private Point2D.Double  position = new Point2D.Double();
@@ -31,19 +31,19 @@ public class StatesOfMatterParticle implements PubliclyCloneable {
     }
 
     public double getX() {
-        return position.getX();
+        return position.x;
     }
 
     public double getY() {
-        return position.getY();
+        return position.y;
     }
 
     public void setX(double x) {
-        position.setLocation(x, getY());
+        position.x = x;
     }
 
     public void setY(double y) {
-        position.setLocation(getX(), y);
+        position.y = y;
     }
 
     public double getVy() {

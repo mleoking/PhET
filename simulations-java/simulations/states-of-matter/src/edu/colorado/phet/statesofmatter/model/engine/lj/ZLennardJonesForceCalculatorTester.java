@@ -48,21 +48,21 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
         assertEquals(f1[1], -f2[1], 0.00001);
     }
 
-    public void testForcesOnParticlesCloserThanEpsilonRepulsive() {
+    public void testForcesOnParticlesCloserThanRMinRepulsive() {
         calculate(P3, P4);
 
         assertTrue(f1[1] < 0);
         assertTrue(f2[1] > 0);
     }
 
-    public void testForcesOnParticlesFurtherThanEpsilonAttractive() {
+    public void testForcesOnParticlesFurtherThanRMinAttractive() {
         calculate(P5, P6);
 
         assertTrue(f1[1] > 0);
         assertTrue(f2[1] < 0);
     }
 
-    public void testForcesOnParticlesSeparatedByEpsilonZero() {
+    public void testForcesOnParticlesSeparatedByRMinZero() {
         calculate(P7, P8);
 
         assertEquals(f1[1], 0.0, 0.00001);

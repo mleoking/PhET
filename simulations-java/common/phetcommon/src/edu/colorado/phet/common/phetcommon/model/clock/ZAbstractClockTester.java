@@ -92,9 +92,6 @@ public class ZAbstractClockTester extends TestCase {
 
         Robot robot = new Robot();
 
-        robot.mouseMove(50, 70);
-        robot.mousePress(InputEvent.BUTTON1_MASK);
-
         clockListener.maxDelay = DEFAULT_DELAY + DEFAULT_DELAY / 2;
 
         while ( clockListener.ticked < 1 ) {
@@ -108,6 +105,9 @@ public class ZAbstractClockTester extends TestCase {
                 invoked[0] = true;
             }
         });
+
+        robot.mouseMove(50, 60);
+        robot.mousePress(InputEvent.BUTTON1_MASK);
 
         long start = System.currentTimeMillis();
 

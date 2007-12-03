@@ -1,12 +1,12 @@
 package edu.colorado.phet.rotation.model;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.umd.cs.piccolox.pswing.MyRepaintManager;
 import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
+
+import java.util.ArrayList;
 
 /**
  * Author: Sam Reid
@@ -36,6 +36,8 @@ public class RotationClock extends ConstantDtClock {
                 updateRepaintManager();
             }
         } );
+
+        this.setCoalesce(false);
     }
 
     private void updateRepaintManager() {
@@ -47,7 +49,7 @@ public class RotationClock extends ConstantDtClock {
         long tickStartTime = System.currentTimeMillis();
 //        System.out.println( "off-time=" + ( lastTickFinishTime - tickStartTime ) );
         long tickDelay = tickStartTime - lastTickStartTime;
-//        System.out.println( "Elapsed="+(System.currentTimeMillis()-lastTickStartTime) );
+        System.out.println( "Elapsed="+(System.currentTimeMillis()-lastTickStartTime) );
         lastTickStartTime = System.currentTimeMillis();
 
         long dt = ( tickStartTime - lastTickFinishTime );

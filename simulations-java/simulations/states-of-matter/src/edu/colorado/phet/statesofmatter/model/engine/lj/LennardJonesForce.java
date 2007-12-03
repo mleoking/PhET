@@ -43,6 +43,12 @@ public class LennardJonesForce extends AbstractLennardJonesFunction implements V
     }
 
     private double ljf(double r) {
-        return A / Math.pow(r, 13) - B / Math.pow(r, 7);
+        double rSecond     = r * r;
+        double rThird      = rSecond * r;
+        double rSixth      = rThird * rThird;
+        double rSeventh    = rSixth * r;
+        double rThirteenth = rSixth * rSeventh;
+
+        return A / rThirteenth - B / rSeventh;
     }
 }

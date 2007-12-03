@@ -11,7 +11,7 @@ public class EngineConfig implements PubliclyCloneable {
         new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS),
         1.0,
         2.0 * StatesOfMatterConfig.PARTICLE_RADIUS,
-        0.0001
+        0.000001
     );
 
     public double gravity;
