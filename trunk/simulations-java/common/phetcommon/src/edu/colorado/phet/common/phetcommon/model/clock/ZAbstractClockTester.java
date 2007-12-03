@@ -37,6 +37,8 @@ public class ZAbstractClockTester extends TestCase {
     public void testThatClockListenerInvokedAtSpecifiedIntervals() throws InterruptedException {
         double averageDelay = getAverageDelayBetweenTicks(100);
 
+        System.out.println("average delay = " + averageDelay);
+
         assertEquals(DEFAULT_DELAY, averageDelay, 2);
     }
 
