@@ -12,7 +12,8 @@ public class ProjectProperties {
     
     private static final String TITLE_FORMAT = "{0} : {1} {2}";
     private static final String COMMON_PROJECT_NAME_SEPARATOR = ",";
-    
+    private static final String FONT_NAME_SEPARATOR = ",";
+        
     private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), TUResources.getResourceLoader() );
 
     private ProjectProperties() {}
@@ -45,6 +46,16 @@ public class ProjectProperties {
         // parse
         String[] names = allNames.split( COMMON_PROJECT_NAME_SEPARATOR );
         
+        return names;
+    }
+    
+    public static String[] getPreferredFontNames( String languageCode ) {
+        String[] names = null;
+        String key = "fonts." + languageCode; // eg, fonts.ja
+        String allNames = CONFIG.getProjectProperty( key );
+        if ( allNames != null ) {
+            names = allNames.split( FONT_NAME_SEPARATOR );
+        }
         return names;
     }
 }

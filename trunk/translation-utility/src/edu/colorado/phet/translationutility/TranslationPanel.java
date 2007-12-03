@@ -49,8 +49,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
     private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
-    private static final Font SOURCE_VALUE_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
-    private static final Font TARGET_VALUE_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
     private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
     
     private static final Color SELECTION_COLOR = Color.GREEN;
@@ -70,7 +68,6 @@ public class TranslationPanel extends JPanel implements FindListener {
         
         public SourceTextArea( String value ) {
             super( value );
-            setFont( SOURCE_VALUE_FONT );
             setColumns( TEXT_AREA_COLUMNS );
             setLineWrap( true );
             setWrapStyleWord( true );
@@ -106,7 +103,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             
             _key = key;
             
-            setFont( TARGET_VALUE_FONT );
             setLineWrap( true );
             setWrapStyleWord( true );
             setEditable( true );
@@ -216,6 +212,9 @@ public class TranslationPanel extends JPanel implements FindListener {
             sortedSet.add( key );
         }
         
+        Font sourceFont = FontFactory.createFont( _sourceLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
+        Font targetFont = FontFactory.createFont( _targetLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
+        
         JTextArea previousTargetTextArea = null;
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
@@ -234,8 +233,10 @@ public class TranslationPanel extends JPanel implements FindListener {
             keyLabel.setFont( KEY_FONT );
 
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
+            sourceTextArea.setFont( sourceFont );
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
+            targetTextArea.setFont( targetFont );
             if ( autoTranslated ) {
                 targetTextArea.setBackground( AUTO_TRANSLATED_BACKGROUND );
             }
