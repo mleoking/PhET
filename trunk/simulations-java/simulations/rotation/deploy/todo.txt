@@ -3,6 +3,7 @@
 ################################
 
 sometimes recorded data appears out of sync with playback data
+>>setting playback cursor to intermediate time, then pressing record (or confuses) deletes earlier data
 
 fake 3d display for showing platform mass
 flowers should be faded (or look less grabbable)
