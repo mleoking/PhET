@@ -162,12 +162,7 @@ public class ThreadClock extends Clock {
 
                                 remainingTime = ThreadClock.this.delay - elapsed;
 
-                                if ( remainingTime > 0 ) {
-                                    Thread.sleep( remainingTime / 2 );
-                                }
-                                else {
-                                    Thread.yield();
-                                }
+                                Thread.yield();
                             }
                             while ( remainingTime > 0 );
                         }
