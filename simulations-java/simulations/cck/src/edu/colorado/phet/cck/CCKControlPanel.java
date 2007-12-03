@@ -15,15 +15,10 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.HelpPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import net.n3.nanoxml.*;
 
-import javax.jnlp.*;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -31,7 +26,11 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.Arrays;
+import javax.jnlp.*;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -443,14 +442,8 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             }
         };
         jta.setEditable( false );
-        String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-        if( Arrays.asList( names ).contains( "Courier New" ) ) {
-            jta.setFont( CCKFontProvider.getFont( "Courier New", Font.BOLD, 18 ) );
-        }
-        else {
-            System.out.println( "Courier New font not supported." );
-            jta.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
-        }
+
+        jta.setFont( new PhetDefaultFont( "Courier New", Font.BOLD, 18 ) );
 
         readoutFrame.setContentPane( new JScrollPane( jta ) );
         readoutFrame.pack();
@@ -538,7 +531,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
-            Font labelFont = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
+            Font labelFont = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
             JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );

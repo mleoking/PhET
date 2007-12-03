@@ -30,6 +30,27 @@ public class PhetDefaultFont extends Font {
         return referenceFont;
     }
 
+    private static String getPreferredFontName( String fontName ) {
+        String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+
+        if (isJapaneseLocale()) {
+             return REFERENCE_FONT.getFontName();
+        }
+        else if ( !Arrays.asList( names ).contains( fontName ) ) {
+            return REFERENCE_FONT.getFontName();
+        }
+
+        return fontName;
+    }
+
+    public PhetDefaultFont( String fontName ) {
+        this( fontName, REFERENCE_FONT.getStyle(), REFERENCE_FONT.getSize() );
+    }
+
+    public PhetDefaultFont( String fontName, int style, float size ) {
+        super( getPreferredFontName( fontName ), style, (int)size );
+    }
+
     /**
      * Constructs a PhetDefaultFont with a specified point size.
      *
