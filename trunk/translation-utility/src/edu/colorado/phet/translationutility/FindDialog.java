@@ -16,7 +16,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
 
-
+/**
+ * FindDialog is a dialog that lets you specify a string to find.
+ * When the Next or Previous buttons are pressed, all FindListeners are notified.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FindDialog extends JDialog {
     
     private static final String FIND_LABEL = TUResources.getString( "label.find" );
@@ -32,19 +37,31 @@ public class FindDialog extends JDialog {
     private JButton _previousButton;
     private EventListenerList _listenerList;
     
+    /**
+     * FindListener is the interface implemented by all listeners who 
+     * want to be notified when the Next or Previous buttons are pushed.
+     */
     public static interface FindListener extends EventListener {
         public void findNext( String text );
         public void findPrevious( String text );
     }
 
+    /**
+     * Constructor.
+     * 
+     * @param owner
+     * @param defaultText
+     */
     public FindDialog( Frame owner, String defaultText ) {
         super( owner );
+        
         setTitle( TUResources.getString( "title.findDialog" ) );
         setModal( false );
         setResizable( false );
         
         _listenerList = new EventListenerList();
         
+        // create the panel where the user inputs information
         JPanel inputPanel = new JPanel();
         {
             JLabel findLabel = new JLabel( FIND_LABEL );
@@ -63,6 +80,7 @@ public class FindDialog extends JDialog {
             inputPanel.add( _textField );
         }
         
+        // create the panel that contains action buttons
         JPanel buttonPanel = new JPanel();
         {
             _nextButton = new JButton( NEXT_LABEL, NEXT_ICON );
@@ -94,26 +112,34 @@ public class FindDialog extends JDialog {
             buttonPanel.add( innerPanel );
         }
         
+        // layout
         JPanel bottomPanel = new JPanel( new BorderLayout() );
         bottomPanel.add( new JSeparator(), BorderLayout.NORTH );
         bottomPanel.add( buttonPanel, BorderLayout.CENTER );
-
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout( new BorderLayout() );
         mainPanel.setBorder( new EmptyBorder( 10, 10, 0, 10 ) );
         mainPanel.add( inputPanel, BorderLayout.CENTER );
         mainPanel.add( bottomPanel, BorderLayout.SOUTH );
-        
         setContentPane( mainPanel );
         pack();
         
+        // set the initial state of the buttons
         updateButtons();
     }
     
+    /**
+     * Gets the text that has been entered in the text field.
+     * @return String
+     */
     public String getText() {
         return _textField.getText();
     }
     
+    /*
+     * Updates the state of the Next and Previous buttons.
+     * These buttons are disabled if the text field is empty.
+     */
     private void updateButtons() {
         String s = _textField.getText();
         boolean enabled = ( s != null && s.length() != 0 );
@@ -121,14 +147,25 @@ public class FindDialog extends JDialog {
         _previousButton.setEnabled( enabled );
     }
     
+    /**
+     * Adds a FindListener.
+     * @param listener
+     */
     public void addFindListener( FindListener listener ) {
         _listenerList.add( FindListener.class, listener );
     }
     
+    /**
+     * Removes a FindListener.
+     * @param listener
+     */
     public void removeFindListener( FindListener listener ) {
         _listenerList.remove( FindListener.class, listener );
     }
     
+    /*
+     * Notifies all FindListeners that the Next button has been pressed.
+     */
     private void fireNext() {
         String text = getText();
         Object[] listeners = _listenerList.getListenerList();
@@ -139,6 +176,9 @@ public class FindDialog extends JDialog {
         }
     }
     
+    /*
+     * Notifies all FindListeners that the Previous button has been pressed.
+     */
     private void firePrevious() {
         String text = getText();
         Object[] listeners = _listenerList.getListenerList();

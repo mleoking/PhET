@@ -4,30 +4,23 @@ package edu.colorado.phet.translationutility;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.google.api.translate.Translate;
 
-
+/**
+ * AutoTranslator is a collection of static methods for performing translation using Google Translate.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class AutoTranslator {
 
+    // Describes a mapping between two strings.
     private static class StringMapping {
-
-        private final String _fromString;
-        private final String _toString;
-
-        public StringMapping( String fromString, String toString ) {
-            _fromString = fromString;
-            _toString = toString;
-        }
-
-        public String getFromString() {
-            return _fromString;
-        }
-
-        public String getToString() {
-            return _toString;
+        public final String from;
+        public final String to;
+        public StringMapping( String from, String to ) {
+            this.from = from;
+            this.to = to;
         }
     }
     
@@ -52,8 +45,17 @@ public class AutoTranslator {
         new StringMapping( " <br> ", "<br>" )
     };
     
+    /* not intended for instantiation */
     private AutoTranslator() {}
     
+    /**
+     * Translates a string using Google Translate.
+     * 
+     * @param value
+     * @param sourceCountryCode
+     * @param targetCountryCode
+     * @return String, possibly null
+     */
     public static String translate( String value, String sourceCountryCode, String targetCountryCode ) {
         String s = null;
         try {
@@ -70,11 +72,18 @@ public class AutoTranslator {
         return s;
     }
     
+    /*
+     * Applies mappings to a string.
+     * 
+     * @param s
+     * @param mappings
+     * @return a new string with the mappings applied
+     */
     private static String applyMappings( String s, StringMapping[] mappings ) {
         String sNew = s;
         if ( s != null && s.length() > 0 ) {
             for ( int i = 0; i < mappings.length; i++ ) {
-                sNew = sNew.replaceAll( mappings[i].getFromString(), mappings[i].getToString() );
+                sNew = sNew.replaceAll( mappings[i].from, mappings[i].to );
             }
         }
         return sNew;

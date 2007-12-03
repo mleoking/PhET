@@ -4,7 +4,11 @@ package edu.colorado.phet.translationutility;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 
-
+/**
+ * ExceptionHandler handles exceptions, including how the user is notified.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ExceptionHandler {
     
     private static final String FATAL_ERROR_DIALOG_TITLE = TUResources.getString( "title.fatalErrorDialog" );

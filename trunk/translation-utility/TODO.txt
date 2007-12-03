@@ -12,6 +12,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - check for unsaved changes before exiting
+- Find dialog uses default font, what to do for languages that have preferred fonts?
 - Flash sim support
 - delete phet-test-translation.jar
 
@@ -30,6 +31,9 @@ LOW PRIORITY:
 
 
 DONE:
+12/3/07 - organized imports
+12/3/07 - minor reorganization of constructors for custom dialogs
+12/3/07 - javadoc
 ********* version 0.00.08 (18685)
 12/3/07 - select preferred fonts for the source and target JTextAreas based on fonts.XX entries in properties file
 12/3/07 - remove tooltips from init dialog, they are annoying, Help provides the info

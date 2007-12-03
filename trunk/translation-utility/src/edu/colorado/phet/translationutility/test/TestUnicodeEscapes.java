@@ -1,13 +1,14 @@
 package edu.colorado.phet.translationutility.test;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
 
 /**
 This was a feasibility test to try to identify whether Java automatically converts strings to unicode escape when entered

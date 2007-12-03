@@ -4,7 +4,6 @@ package edu.colorado.phet.translationutility;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.MessageFormat;
 
 /**
  * Command runs an external command via Runtime.exec.
@@ -19,6 +18,9 @@ public class Command {
     
     private static final boolean DEBUG_COMMAND_OUTPUT = false;
     
+    /**
+     * All exceptions caught by Command will be mapped to CommandException.
+     */
     public static class CommandException extends Exception {
         public CommandException( String message ) {
             super( message );
