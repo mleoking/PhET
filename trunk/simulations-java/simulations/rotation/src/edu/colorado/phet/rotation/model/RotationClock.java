@@ -37,7 +37,7 @@ public class RotationClock extends ConstantDtClock {
             }
         } );
 
-        this.setCoalesce(false);
+        //this.setCoalesce(false);
     }
 
     private void updateRepaintManager() {
