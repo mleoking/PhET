@@ -2,7 +2,11 @@ package edu.colorado.phet.common.phetcommon.model.clock;
 
 import junit.framework.TestCase;
 
+import java.awt.*;
+import java.awt.event.InputEvent;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ZAbstractClockTester extends TestCase {
     private static final int DEFAULT_DELAY = 10;
@@ -50,7 +54,7 @@ public class ZAbstractClockTester extends TestCase {
         assertEquals(15.0, averageDelay, 2);
     }
 
-    public void testThatSwingEventsAreProcessedWhenListenerTakesMoreTimeThanDelay() {
+    public void testThatSwingRunnablesAreProcessedWhenListenerTakesMoreTimeThanDelay() {
         clockListener.maxDelay = DEFAULT_DELAY + DEFAULT_DELAY / 2;
 
         while ( clockListener.ticked < 1 ) {
@@ -61,6 +65,46 @@ public class ZAbstractClockTester extends TestCase {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                invoked[0] = true;
+            }
+        });
+
+        long start = System.currentTimeMillis();
+
+        while ( !invoked[0] ) {
+            Thread.yield();
+
+            if ( System.currentTimeMillis() - start > 500 ) {
+                assertFalse(false);
+            }
+        }
+    }
+
+    public void testThatInputEventsAreProcessedWhenListenerTakesMoreTimeThanDelay() throws AWTException {
+        JFrame frame = new JFrame();
+        frame.setSize(100, 100);
+        frame.setLocation(0, 0);
+        JButton button = new JButton();
+        button.setSize(100, 100);
+        frame.setContentPane(button);
+        frame.pack();
+        frame.setVisible(true);
+
+        Robot robot = new Robot();
+
+        robot.mouseMove(50, 70);
+        robot.mousePress(InputEvent.BUTTON1_MASK);
+
+        clockListener.maxDelay = DEFAULT_DELAY + DEFAULT_DELAY / 2;
+
+        while ( clockListener.ticked < 1 ) {
+            Thread.yield();
+        }
+
+        final boolean[] invoked = new boolean[]{false};
+
+        button.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
                 invoked[0] = true;
             }
         });
