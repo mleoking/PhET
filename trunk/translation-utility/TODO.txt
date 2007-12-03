@@ -30,7 +30,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.08 (?)
+********* version 0.00.08 (18685)
 12/3/07 - select preferred fonts for the source and target JTextAreas based on fonts.XX entries in properties file
 12/3/07 - remove tooltips from init dialog, they are annoying, Help provides the info
 12/3/07 - change common.projects property separator to ',' to be consistent with font.ja separator
