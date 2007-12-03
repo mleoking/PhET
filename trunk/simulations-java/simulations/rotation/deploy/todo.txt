@@ -2,6 +2,8 @@
 #     To Do
 ################################
 
+Generalize new rendering strategy for rotation platform opening panel
+
 Fix memory problem in DefaultTimeSeries when recording for a long time
 
 fake 3d display for showing platform mass
