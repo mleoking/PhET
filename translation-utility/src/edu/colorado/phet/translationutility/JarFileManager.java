@@ -12,9 +12,13 @@ import java.util.jar.Manifest;
 import edu.colorado.phet.translationutility.Command.CommandException;
 
 /**
- * JarFileManager handles operations on the simulation's JAR file.
- * This includes reading/writing properties files from/to the JAR,
- * and running the JAR file.
+ * JarFileManager handles operations on the simulation's JAR file, including:
+ * <ul>
+ * <li>reading properties files from the JAR
+ * <li>copying the JAR to a temporary JAR
+ * <li>writing properties to a temporary JAR
+ * <li>running a JAR
+ * </ul>
  * <p>
  * Notes:
  * <ul>
@@ -26,7 +30,7 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  */
 public class JarFileManager {
     
-    private static final String TEST_JAR_NAME = "phet-test-translation.jar";
+    private static final String TEST_JAR_NAME = "phet-test-translation.jar"; // temporary JAR file used to test translations
     
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
@@ -42,6 +46,9 @@ public class JarFileManager {
     private final String[] _commonProjectNames;
     private String _projectName;
     
+    /**
+     * All exceptions caught by JarFileManager will be mapped to JarIOException. 
+     */
     public static class JarIOException extends Exception {
         public JarIOException( String message ) {
             super( message );
@@ -252,7 +259,8 @@ public class JarFileManager {
     
     /**
      * Writes the properties containing the localized strings for a specified language code.
-     * This reads the entire JAR file and adds (or replaces) a properties file for the localized strings provided.
+     * This copies the original JAR file to a new JAR file, then adds (or replaces) 
+     * a properties file for the localized strings provided.
      * 
      * @param properties
      * @param languageCode

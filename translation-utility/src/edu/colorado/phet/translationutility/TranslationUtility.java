@@ -17,11 +17,16 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class TranslationUtility extends JFrame {
     
-    private static final String SOURCE_COUNTRY_CODE = "en"; // English
+    //NOTE: not tested with any source language code except "en"
+    private static final String SOURCE_LANGUAGE_CODE = "en";
 
     /* not intended for instantiation */
     private TranslationUtility() {}
     
+    /**
+     * main
+     * @param args
+     */
     public static void main( String[] args ) {
         
         String title = ProjectProperties.getTitle();
@@ -33,18 +38,17 @@ public class TranslationUtility extends JFrame {
         if ( !initDialog.isContinue() ) {
             System.exit( 0 );
         }
-
-        // open the primary user interface
         String jarFileName = initDialog.getJarFileName();
         String targetCountryCode = initDialog.getTargetLanguageCode();
+        boolean autoTranslate = initDialog.isAutoTranslateEnabled();
+        
+        // JAR file manager
         String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
         JarFileManager jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
-
-        JFrame frame = new JFrame( title );
         
-        boolean autoTranslate = initDialog.isAutoTranslateEnabled();
-        TranslationPanel translationPanel = new TranslationPanel( frame, jarFileManager, SOURCE_COUNTRY_CODE, targetCountryCode, autoTranslate );
-
+        // open the primary user interface
+        JFrame frame = new JFrame( title );
+        TranslationPanel translationPanel = new TranslationPanel( frame, jarFileManager, SOURCE_LANGUAGE_CODE, targetCountryCode, autoTranslate );
         frame.setJMenuBar( new TUMenuBar() );
         frame.getContentPane().add( translationPanel );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -53,6 +57,9 @@ public class TranslationUtility extends JFrame {
         frame.show();
     }
     
+    /*
+     * Fixes various problems with the bounds of the main frame.
+     */
     private static void fixFrameBounds( JFrame frame ) {
         
         //WORKAROUND: decrease the height to account for Windows task bar

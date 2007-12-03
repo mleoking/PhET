@@ -9,7 +9,11 @@ import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
-
+/**
+ * FontFactory is a factory used to create fonts.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FontFactory {
 
     /* not intended for instantiation */

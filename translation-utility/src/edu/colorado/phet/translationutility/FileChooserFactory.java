@@ -7,16 +7,32 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-
+/**
+ * FileChooserFactory is a factory for creating file choosers.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class FileChooserFactory {
 
     private static final String JAR_FILE_FILTER_NAME = TUResources.getString( "fileFilter.jar" );
     private static final String PROPERTIES_FILE_FILTER_NAME = TUResources.getString( "fileFilter.properties" );
     
+    /**
+     * Create a JAR file chooser (for files with a .jar suffix).
+     * 
+     * @param currentDirectory
+     * @return JarFileChooser
+     */
     public static JarFileChooser createJarFileChooser( File currentDirectory ) {
         return new JarFileChooser( currentDirectory );
     }
     
+    /**
+     * Creates a properties file chooser (for files with .properties suffix).
+     * 
+     * @param currentDirectory
+     * @return PropertiesFileChooser
+     */
     public static PropertiesFileChooser createPropertiesFileChooser( File currentDirectory ) {
         return new PropertiesFileChooser( currentDirectory );
     }

@@ -5,8 +5,6 @@ package edu.colorado.phet.translationutility.test;
 import java.io.IOException;
 import java.io.InputStream;
 
-import edu.colorado.phet.common.phetcommon.model.Command;
-
 /**
  * TestRuntimeExec is an example of how to use execute a command and read it's output.
  *

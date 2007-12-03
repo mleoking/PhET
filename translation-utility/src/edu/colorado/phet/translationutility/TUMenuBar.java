@@ -9,7 +9,11 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-
+/**
+ * TUMenuBar is the menu bar.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class TUMenuBar extends JMenuBar {
 
     public TUMenuBar() {

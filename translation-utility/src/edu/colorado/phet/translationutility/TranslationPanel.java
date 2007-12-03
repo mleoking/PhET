@@ -30,6 +30,10 @@ import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
  */
 public class TranslationPanel extends JPanel implements FindListener {
    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
     private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
     private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.test" );
@@ -64,6 +68,31 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     private static final Color AUTO_TRANSLATED_BACKGROUND = Color.YELLOW;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
+    private Frame _dialogOwner;
+    private JarFileManager _jarFileManager;
+    private final String _sourceLanguageCode;
+    private final String _targetLanguageCode;
+    private ArrayList _targetTextAreas; // array of TargetTextArea
+    private ArrayList _findTextAreas; // array of JTextArea
+    private String _previousFindText; // text provided to previous call to findNext or findPrevious
+    private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
+    private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
+    private File _currentDirectory;
+    private FindDialog _findDialog;
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * SourceTextArea contain a string in the source language.
+     * Source strings appear in the middle column of the interface.
+     * They are searchable but not editable.
+     */
     private static class SourceTextArea extends JTextArea {
         
         public SourceTextArea( String value ) {
@@ -80,8 +109,10 @@ public class TranslationPanel extends JPanel implements FindListener {
     }
     
     /*
-     * Associates a key with a JTextArea.
-     * Pressing tab or shift-tab in the text area moves focus forward or backward.
+     * TargetTextArea contain a string in the target language, associated with a key.
+     * Target strings appear in the right column of the interface.
+     * They are searchable and editable.
+     * Pressing tab or shift-tab moves focus forward or backward.
      */
     private static class TargetTextArea extends JTextArea {
 
@@ -92,6 +123,7 @@ public class TranslationPanel extends JPanel implements FindListener {
                 ( (Component) evt.getSource() ).transferFocus();
             }
         };
+        
         public static final Action PREVIOUS_FOCUS_ACTION = new AbstractAction( "Move Focus Backwards" ) {
             public void actionPerformed( ActionEvent evt ) {
                 ( (Component) evt.getSource() ).transferFocusBackward();
@@ -127,19 +159,20 @@ public class TranslationPanel extends JPanel implements FindListener {
             return _key;
         }
     }
-    
-    private Frame _dialogOwner;
-    private JarFileManager _jarFileManager;
-    private final String _sourceLanguageCode;
-    private final String _targetLanguageCode;
-    private ArrayList _targetTextAreas; // array of TargetTextArea
-    private ArrayList _findTextAreas; // array of JTextArea
-    private String _previousFindText; // text provided to previous call to findNext or findPrevious
-    private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
-    private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
-    private File _currentDirectory;
-    private FindDialog _findDialog;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Constructor.
+     * 
+     * @param dialogOwner
+     * @param jarFileManager
+     * @param sourceLanguageCode
+     * @param targetLanguageCode
+     * @param autoTranslate
+     */
     public TranslationPanel( Frame dialogOwner, JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
         super();
         
@@ -155,7 +188,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         _currentDirectory = null;
         
         JPanel inputPanel = createInputPanel();
-        JPanel buttonPanel = createButtonPanel();
+        JPanel buttonPanel = createToolBarPanel();
         JScrollPane scrollPane = new JScrollPane( inputPanel );
 
         setLayout( new BorderLayout() );
@@ -166,10 +199,22 @@ public class TranslationPanel extends JPanel implements FindListener {
         setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
     }
     
+    //----------------------------------------------------------------------------
+    // Initizalizers
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Creates the panel where user input occurs.
+     * This panel is organized as a table with three columns:
+     * - key (key used by simulation to look up the string)
+     * - source value (string in the source language, usually English)
+     * - target value (string in the target language)
+     */
     private JPanel createInputPanel() {
         
         JPanel inputPanel = new JPanel();
         
+        // get the source and target strings
         String projectName = _jarFileManager.getProjectName();
         Properties sourceProperties = null;
         Properties targetProperties = null;
@@ -212,9 +257,11 @@ public class TranslationPanel extends JPanel implements FindListener {
             sortedSet.add( key );
         }
         
+        // choose fonts that are appropriate for the languages
         Font sourceFont = FontFactory.createFont( _sourceLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
         Font targetFont = FontFactory.createFont( _targetLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
         
+        // create the table
         JTextArea previousTargetTextArea = null;
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
@@ -260,13 +307,16 @@ public class TranslationPanel extends JPanel implements FindListener {
         return inputPanel;
     }
     
-    private JPanel createButtonPanel() {
+    /*
+     * Creates the tool bar that contains action buttons.
+     */
+    private JPanel createToolBarPanel() {
         
         Icon testIcon = TUResources.getIcon( "testButton.png" );
         JButton testButton = new JButton( TEST_BUTTON_LABEL, testIcon );
         testButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                testTranslation();
+                handleTest();
             }
         } );
         
@@ -274,7 +324,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         JButton saveButton = new JButton( SAVE_BUTTON_LABEL, saveIcon );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                saveTranslation();
+                handleSave();
             }
         } );
        
@@ -282,7 +332,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         JButton loadButton = new JButton( LOAD_BUTTON_LABEL, loadIcon );
         loadButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                loadTranslation();
+                handleLoad();
             }
         } );
         
@@ -290,7 +340,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL, submitIcon );
         submitButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                submitTranslation();
+                handleSubmit();
             }
         } );
         
@@ -306,7 +356,7 @@ public class TranslationPanel extends JPanel implements FindListener {
         JButton helpButton = new JButton( HELP_BUTTON_LABEL, helpIcon );
         helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                showHelp();
+                handleHelp();
             }
         } );
         
@@ -324,6 +374,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         return panel;
     }
     
+    /**
+     * Collects all of the target strings into a Properties object.
+     * 
+     * @return Properties
+     */
     public Properties getTargetProperties() {
         Properties properties = new Properties();
         Iterator i = _targetTextAreas.iterator();
@@ -339,7 +394,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         return properties;
     }
     
-    private void testTranslation() {
+    /*
+     * Called when the Test button is pressed.
+     * Add the current translations to a temporary JAR file, then runs that JAR file.
+     */
+    private void handleTest() {
         Properties targetProperties = getTargetProperties();
         try {
             String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetLanguageCode );
@@ -353,7 +412,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
-    private void submitTranslation() {
+    /*
+     * Called when the Submit button is pressed.
+     * Saves the currrent translations to a properties file, then notifies the user of what to do.
+     */
+    private void handleSubmit() {
 
         Properties properties = getTargetProperties();
         
@@ -397,7 +460,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         JOptionPane.showMessageDialog( this, submitText, SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
     
-    private void saveTranslation() {
+    /*
+     * Called when the Save button is pressed.
+     * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
+     */
+    private void handleSave() {
         JFileChooser chooser = new JFileChooser( _currentDirectory );
         int option = chooser.showSaveDialog( this );
         _currentDirectory = chooser.getCurrentDirectory();
@@ -421,7 +488,12 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
-    private void loadTranslation() {
+    /*
+     * Called when the Load button is pressed.
+     * Opens an "open" file chooser that allows the user to choose a properties file.
+     * The contents of that properties file are loaded into the target text fields.
+     */
+    private void handleLoad() {
         JFileChooser chooser = new JFileChooser( _currentDirectory );
         int option = chooser.showOpenDialog( this );
         _currentDirectory = chooser.getCurrentDirectory();
@@ -444,10 +516,18 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
-    private void showHelp() {
+    /*
+     * Called when the Help button is pressed.
+     * Opens a dialog that contains help information.
+     */
+    private void handleHelp() {
         DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
     }
     
+    /*
+     * Called when the Find button is pressed. 
+     * Opens a Find dialog.
+     */
     public void handleFind() {
         if ( _findDialog == null ) {
             _findDialog = new FindDialog( _dialogOwner, _previousFindText );
@@ -470,6 +550,15 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
 
+    //----------------------------------------------------------------------------
+    // FindListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Finds the next occurrence of a string, searching through the source and target text areas.
+     * 
+     * @see edu.colorado.phet.translationutility.FindDialog.FindListener#findNext(java.lang.String)
+     */
     public void findNext( String findText ) {
         
         boolean found = false;
@@ -538,8 +627,12 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
 
+    /**
+     * Finds the previous occurrence of a string, searching through the source and target text areas.
+     * 
+     * @see edu.colorado.phet.translationutility.FindDialog.FindListener#findPrevious(java.lang.String)
+     */
     public void findPrevious( String findText ) {
-        System.out.println( "TranslationPanel.findPrevious " + findText );//XXX
         
         boolean found = false;
         
@@ -607,6 +700,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
+    /*
+     * Clears the selection of a target text area.
+     * 
+     * @param index index of the target text area
+     */
     private void clearSelection( int index ) {
         if ( index >= 0 && index < _findTextAreas.size() ) {
             JTextArea textArea = (JTextArea) _findTextAreas.get( index );
@@ -614,6 +712,13 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
     }
     
+    /*
+     * Sets the selection of a portion of a target text area.
+     * 
+     * @param index index of the target text area
+     * @param startIndex index of where to start the selection in the text area
+     * @param length length of the selection
+     */
     private void setSelection( int index, int startIndex, int length ) {
         if ( index >= 0 && index < _findTextAreas.size() ) {
             JTextArea textArea = (JTextArea) _findTextAreas.get( index );
