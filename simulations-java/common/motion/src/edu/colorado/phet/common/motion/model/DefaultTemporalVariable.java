@@ -11,6 +11,10 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     public DefaultTemporalVariable() {
     }
 
+    public String toString() {
+        return "value="+variable+", series="+series;
+    }
+
     public void addValue( double value, double time ) {
         variable.setValue( value );
         series.addValue( value, time );

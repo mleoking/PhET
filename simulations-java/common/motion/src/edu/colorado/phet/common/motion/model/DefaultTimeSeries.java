@@ -25,6 +25,10 @@ public class DefaultTimeSeries {
 //        instances.add( this );
     }
 
+    public String toString() {
+        return data.toString();
+    }
+
     public TimeData getData() {
         return getRecentData( 0 );
     }
@@ -54,9 +58,9 @@ public class DefaultTimeSeries {
         TimeData o = new TimeData( v, time );
         data.add( o );
 
-        while ( data.size() > MAX_DATA_VALUES ) {
-            data.remove( 0 );
-        }
+//        while ( data.size() > MAX_DATA_VALUES ) {
+//            data.remove( 0 );
+//        }
 
         notifyObservers( o );
     }

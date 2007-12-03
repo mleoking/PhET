@@ -30,7 +30,6 @@ public class TimeSeriesModel extends ClockAdapter {
         this.recordableModel = recordableModel;
         this.clock = clock;
         this.paused = clock.isPaused();
-        this.mode = live;
         clock.addClockListener( new ClockAdapter() {
             public void clockStarted( ClockEvent clockEvent ) {
                 updatePauseStateFromClock();
