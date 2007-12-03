@@ -21,6 +21,7 @@ public class ThreadClock extends Clock {
     private volatile boolean timerThreadAlive;
     private volatile boolean shouldRun;
     private volatile boolean paused = false;
+    private static final boolean TRUST_SLEEP = true;
 
     /**
      * Constructs a ThreadClock with specified wall time delay between events
@@ -135,17 +136,40 @@ public class ThreadClock extends Clock {
                                 }
                             } );
                         }
-                        long elapsed=System.currentTimeMillis()-timeBeforeTick;
 
-                        long remainingTime= ThreadClock.this.delay-elapsed;
-    //                        System.out.println( "delay="+ThreadClock.this.delay+", elapsed = " + elapsed +", remaining="+remainingTime);
-                        if ( remainingTime > 0 ) {
-                            Thread.sleep( remainingTime );
+                        if ( TRUST_SLEEP ) {
+                            long elapsed = System.currentTimeMillis() - timeBeforeTick;
+
+                            long remainingTime = ThreadClock.this.delay - elapsed;
+
+        //                        System.out.println( "delay="+ThreadClock.this.delay+", elapsed = " + elapsed +", remaining="+remainingTime);
+                            if ( remainingTime > 0 ) {
+                                Thread.sleep( remainingTime );
+                            }
+                            else {
+                                //work done in doTick took longer (or as long as ) requested delay time;
+                                //we must yield anyways so other threads (e.g. Swing EDT) have a chance
+                                Thread.yield();
+                            }
                         }
                         else {
-                            //work done in doTick took longer (or as long as ) requested delay time;
-                            //we must yield anyways so other threads (e.g. Swing EDT) have a chance
-                            Thread.yield();
+                            long remainingTime;
+
+                            do {
+                                long start = System.currentTimeMillis();
+
+                                long elapsed = start - timeBeforeTick;
+
+                                remainingTime = ThreadClock.this.delay - elapsed;
+
+                                if ( remainingTime > 0 ) {
+                                    Thread.sleep( remainingTime / 2 );
+                                }
+                                else {
+                                    Thread.yield();
+                                }
+                            }
+                            while ( remainingTime > 0 );
                         }
                     }
                     catch( Exception e ) {
