@@ -5,7 +5,10 @@ import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import java.util.List;
 
 public class KineticEnergyAdjuster {
+    private static final double TARGET_PRECISION_EPS = 0.00000001;
+
     public void adjust(List particles, double totalTargetKe) {
+        if (totalTargetKe < 0.0) throw new IllegalArgumentException("Total target KE must be positive, but was " + totalTargetKe);
         if (particles.size() == 0) return;
         
         do {
@@ -46,7 +49,7 @@ public class KineticEnergyAdjuster {
                 }
             }
         }
-        while (Math.abs(getKe(particles) - totalTargetKe) > 0.00000001);
+        while (Math.abs(getKe(particles) - totalTargetKe) > TARGET_PRECISION_EPS);
     }
 
     private int countParticlesHavingEnergy(List particles) {

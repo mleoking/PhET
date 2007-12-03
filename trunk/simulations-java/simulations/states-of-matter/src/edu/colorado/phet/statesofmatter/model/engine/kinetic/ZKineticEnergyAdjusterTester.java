@@ -51,6 +51,18 @@ public class ZKineticEnergyAdjusterTester extends TestCase {
         performTest(1.9);
     }
 
+    public void testIllegalArgumentExceptionThrownWhenTargetEnergyNegative() {
+        try {
+            performTest(-0.00001);
+
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
+    }
+
+    
+
     // TODO: Add some stress tests here
 
     public void testManyRandomCases() {
