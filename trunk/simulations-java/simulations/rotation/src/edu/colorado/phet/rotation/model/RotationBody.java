@@ -34,6 +34,7 @@ public class RotationBody {
 
     private String imageName;
     private boolean constrained;
+    private boolean debug;
     private RotationPlatform rotationPlatform;//the platform this body is riding on, or null if not on a platform
     private boolean displayGraph = true;
     private CircularRegression.Circle circle;
@@ -55,8 +56,12 @@ public class RotationBody {
     }
 
     public RotationBody( String imageName, boolean constrained ) {
+        this(imageName,constrained ,false);
+    }
+    public RotationBody( String imageName, boolean constrained,boolean debug ) {
         this.imageName = imageName;
         this.constrained = constrained;
+        this.debug = debug;
         listener = new RotationPlatform.Adapter() {
             public void innerRadiusChanged() {
                 platformInnerRadiusChanged();
@@ -181,6 +186,9 @@ public class RotationBody {
     }
 
     public void stepInTime( double time, double dt ) {
+        if (debug){
+            System.out.println( "Stepped: x="+getPositionX() );
+        }
         Point2D origPosition = getPosition();
         if ( isOffPlatform() ) {
             updateOffPlatform( time );

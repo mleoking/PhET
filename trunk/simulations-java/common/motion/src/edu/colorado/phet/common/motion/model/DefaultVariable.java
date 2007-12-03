@@ -30,4 +30,8 @@ public class DefaultVariable implements IVariable {
     public double getValue() {
         return value;
     }
+
+    public String toString() {
+        return value+"";
+    }
 }
