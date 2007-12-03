@@ -1,14 +1,13 @@
 /*  */
 package edu.colorado.phet.cck.chart;
 
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.common.CCKStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -17,7 +16,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +23,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -148,7 +147,7 @@ public abstract class AbstractFloatingChart extends PhetPNode {
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
             readout = new PText( ( "value" ) );
-            readout.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+            readout.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
         }

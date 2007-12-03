@@ -1,6 +1,5 @@
 package edu.colorado.phet.cck.piccolo_cck.lifelike;
 
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.LineSegment;
@@ -17,12 +16,12 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -34,7 +33,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private ICCKModule module;
     private static final double SCALE = 1.0 / 60.0;
     private Stroke stroke = new BasicStroke( (float)( 5 * SCALE ) );
-    private Font font = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 17 );
+    private Font font = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;

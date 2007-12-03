@@ -9,7 +9,6 @@ package edu.colorado.phet.greenhouse;
 import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
-import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
@@ -105,10 +104,8 @@ public class GreenhouseApplication extends PhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
         phetLookAndFeel.setForegroundColor( Color.black );
-        if( PhetDefaultFont.isJapaneseLocale() ) {
-            phetLookAndFeel.setFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.PLAIN, 14 ) );
-            phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.BOLD, 12 ) );
-        }
+        phetLookAndFeel.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
+        phetLookAndFeel.setTitledBorderFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 ) );
         phetLookAndFeel.initLookAndFeel();
     }
 

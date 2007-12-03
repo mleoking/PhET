@@ -1,6 +1,5 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKLookAndFeel;
 import edu.colorado.phet.cck.ICCKModule;
 import edu.colorado.phet.cck.common.CCKStrings;
@@ -10,7 +9,6 @@ import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbComponentNode;
 import edu.colorado.phet.cck.piccolo_cck.lifelike.BulbNode;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -126,7 +124,7 @@ public class ToolboxNode extends PhetPNode {
             this.scale = scale;
             label = new PText( name );
             label.setFont( createFont() );
-//            label.setFont( CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
+//            label.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
@@ -164,8 +162,12 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Font createFont() {
-            String fontName = FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS );
-            return Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ? CCKFontProvider.getFont( fontName, Font.PLAIN, 16 ) : CCKFontProvider.getFont( fontName, Font.PLAIN, 12 );
+            if (Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+                return new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
+            }
+            else {
+                return new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+            }
         }
 
         public Point2D getWorldLocation( PInputEvent event ) {

@@ -1,12 +1,12 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -94,7 +94,7 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addChild( PImageFactory.create( "cck/images/vm3.gif" ) );
             textNode = new PText();
-            textNode.setFont( CCKFontProvider.getFont( "Dialog", Font.PLAIN, 20 ) );
+            textNode.setFont( new PhetDefaultFont( "Dialog", Font.PLAIN, 20 ) );
             textNode.setOffset( 15, 20 );
             addChild( textNode );
             addInputEventListener( new PBasicInputEventHandler() {

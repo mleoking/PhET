@@ -1,10 +1,9 @@
 package edu.colorado.phet.cck.piccolo_cck;
 
-import edu.colorado.phet.cck.CCKFontProvider;
 import edu.colorado.phet.cck.CCKResources;
 import edu.colorado.phet.cck.ICCKModule;
-import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.cck.model.CCKModel;
+import edu.colorado.phet.cck.model.components.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -12,13 +11,13 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -33,7 +32,7 @@ public class ReadoutNode extends PhetPNode {
     protected DecimalFormat formatter;
     private PPath linePNode;
 
-    static Font font = CCKFontProvider.getFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    static Font font = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;
