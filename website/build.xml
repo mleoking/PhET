@@ -9,7 +9,7 @@ build-related libraries from the simulations-java project.
     <property name="dir.website"        value="${basedir}" />
     
     <!-- Deployment properties -->
-    <property name="deploy.server.name" value="tigercat2.colorado.edu" />
+    <property name="deploy.server.name" value="tigercat.colorado.edu" />
 
     <!-- Properties for deploy output-->
     <property name="deploy.server.path" value="/web/htdocs/phet/new" />
