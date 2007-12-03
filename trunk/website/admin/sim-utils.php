@@ -271,9 +271,16 @@
 			
 			if (!file_exists($vertical_icon_location)) {
 				$source = imagecreatefrompng($icon_location);
+				
+				if (!$source) { /* See if it failed */
+			        $source  = imagecreatetruecolor(150, 30); /* Create a blank image */
+			        $bgc     = imagecolorallocate($source, 255, 255, 255);
+			        $tc      = imagecolorallocate($source, 0, 0, 0);
+			        imagefilledrectangle($source, 0, 0, 150, 30, $bgc);
+			        /* Output an errmsg */
+			        imagestring($source, 1, 5, 5, "Error loading $icon_location", $tc);
+			    }
 
-				//the following line fails for some languages, so we bail out here with a horizontal until this is fixed:
-				return $icon_location;
 				// Rotate
 				$rotate = imagerotate($source, 90, 0);
 				
