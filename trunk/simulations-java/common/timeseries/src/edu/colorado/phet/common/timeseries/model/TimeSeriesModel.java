@@ -179,27 +179,8 @@ public class TimeSeriesModel extends ClockAdapter {
         }
     }
 
-    public void startPlaybackMode( double playbackSpeed ) {
-        //todo: set playback speed on clock, or maybe this functionality should be elsewhere.
-        if ( clock instanceof Clock ) {
-            Clock clock1 = (Clock) clock;
-            clock1.setTimingStrategy( new TimingStrategy.Constant( playbackSpeed ) );
-        }
-        setMode( playback );
-        setPaused( false );
-        notifyDataSeriesChanged();
-    }
-
     public boolean isPlaybackMode() {
         return mode == playback;
-    }
-
-    public boolean isPlaybackMode( double speed ) {
-        return isPlaybackMode() && getSpeed() == speed;
-    }
-
-    public double getSpeed() {
-        return clock instanceof Clock ? ( (Clock) clock ).getTimingStrategy().getSimulationTimeChangeForPausedClock() : clock.getSimulationTimeChange();
     }
 
     public boolean isRecording() {
