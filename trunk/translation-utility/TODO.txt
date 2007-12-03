@@ -7,8 +7,9 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- refactor findNext and findPrevious
 - revise JarFileManager interface
+- refactor Translation.findNext and findPrevious
+- refactor TranslationPanel
 - refactor code base
 
 MEDIUM PRIORITY:
