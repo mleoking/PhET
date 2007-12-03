@@ -79,10 +79,6 @@ public class TimeSeriesModel extends ClockAdapter {
         return mode;
     }
 
-    public Mode.Playback getPlaybackMode() {
-        return playback;
-    }
-
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
@@ -131,16 +127,6 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public void setRecordMode() {
         setMode( record );
-    }
-
-    public void confirmAndApplyReset() {
-        if ( confirmReset() ) {
-            reset();
-        }
-    }
-
-    private boolean confirmReset() {
-        return true;
     }
 
     protected void setMode( Mode mode ) {
@@ -218,10 +204,6 @@ public class TimeSeriesModel extends ClockAdapter {
 
     public boolean isThereRecordedData() {
         return getSeries().size() > 0;
-    }
-
-    public boolean isFirstPlaybackPoint() {
-        return getSeries().size() > 0 && isPlaybackMode() && playback.getPlaybackTime() == 0;
     }
 
     public void updateModel( double dt ) {
