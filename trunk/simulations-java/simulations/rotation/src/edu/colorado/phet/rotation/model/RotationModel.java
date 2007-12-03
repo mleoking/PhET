@@ -23,7 +23,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         super( clock );
         rotationPlatform = new RotationPlatform();
 
-        addRotationBody( new RotationBody( "ladybug.gif", true ,true) );
+        addRotationBody( new RotationBody( "ladybug.gif", true ) );
         addRotationBody( new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" ) );
 
         resetAll();
