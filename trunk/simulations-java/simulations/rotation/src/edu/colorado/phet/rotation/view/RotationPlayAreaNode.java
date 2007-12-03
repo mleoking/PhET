@@ -57,9 +57,7 @@ public class RotationPlayAreaNode extends PNode {
 
         setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
 
-        addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
-        addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
-        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.7, rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
+//        addFlowerNodes( rotationModel );
 
         addChild( rotationBodyLayer );
         addChild( vectorLayer );
@@ -67,6 +65,12 @@ public class RotationPlayAreaNode extends PNode {
         addChild( rulerNode );
 
         addChild( circularMotionNode );
+    }
+
+    private void addFlowerNodes( RotationModel rotationModel ) {
+        addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+        addChild( new FlowerNode( "flower2.gif", 0.32, -rotationModel.getRotationPlatform().getRadius(), -rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
+        addChild( new FlowerNode( "flower2.gif", 0.39, rotationModel.getRotationPlatform().getRadius() * 0.7, rotationModel.getRotationPlatform().getRadius() * 1.1 ) );
     }
 
     static class FlowerNode extends PNode {
