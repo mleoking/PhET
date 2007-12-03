@@ -8,7 +8,7 @@ OPEN ISSUES:
 
 HIGH PRIORITY:
 - refactor findNext and findPrevious
-- choose specific fonts for specific languages (generalize FontJA)
+- choose specific fonts for specific languages (generalize FontJA) on Windows
 - refactor code base
 
 MEDIUM PRIORITY:
@@ -31,6 +31,9 @@ LOW PRIORITY:
 
 
 DONE:
+12/3/07 - remove tooltips from init dialog, they are annoying, Help provides the info
+12/3/07 - change common.projects property separator to ',' to be consistent with font.ja separator
+12/3/07 - add font.XX property for specifying the font for language code XX
 ********* version 0.00.07 (18642)
 11/30/07 - revise Help
 11/30/07 - move button to top of the main panel, like a toolbar

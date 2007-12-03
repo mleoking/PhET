@@ -36,8 +36,6 @@ public class InitializationDialog extends JDialog {
     private static final String LABEL_LANGUAGE_CODE = TUResources.getString( "label.languageCode" );
     private static final String CHECKBOX_AUTO_TRANSLATE = TUResources.getString( "checkbox.autoTranslate" );
     private static final String TITLE_ERROR = TUResources.getString( "title.errorDialog" );
-    private static final String TOOLTIP_JAR_PATH = TUResources.getString( "tooltip.jarPath" );
-    private static final String TOOLTIP_LANGUAGE_CODE = TUResources.getString( "tooltip.languageCode" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_LANGUAGE_CODE_FORMAT = TUResources.getString( "error.languageCodeFormat" );
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
@@ -88,7 +86,6 @@ public class InitializationDialog extends JDialog {
                     updateContinueButton();
                 }
             } );
-            _jarFileTextField.setToolTipText( TOOLTIP_JAR_PATH );
 
             JButton _browseButton = new JButton( BUTTON_BROWSE );
             _browseButton.addActionListener( new ActionListener() {
@@ -114,7 +111,6 @@ public class InitializationDialog extends JDialog {
                     updateContinueButton();
                 }
             } );
-            _languageCodeTextField.setToolTipText( TOOLTIP_LANGUAGE_CODE );
             
             languageCodePanel.add( languageCodeLabel );
             languageCodePanel.add( _languageCodeTextField );
@@ -126,7 +122,7 @@ public class InitializationDialog extends JDialog {
             _autoTranslateCheckBox = new JCheckBox( CHECKBOX_AUTO_TRANSLATE );
             _autoTranslateCheckBox.setSelected( false );
             autoTranslatePanel.add( _autoTranslateCheckBox );
-            _autoTranslateCheckBox.setEnabled( false );//XXX
+            _autoTranslateCheckBox.setEnabled( false );
         }
         
         Icon continueIcon = TUResources.getIcon( "continueButton.png" );
