@@ -1,13 +1,12 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-
 import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * Provides support for finding and returning Japanese fonts.
@@ -34,7 +33,7 @@ public class FontJA {
                 }
             }
         }
-        return null;
+        return new PhetDefaultFont();
     }
 
     public static boolean isJapaneseLocale() {
