@@ -1,6 +1,5 @@
 package edu.colorado.phet.cck;
 
-import edu.colorado.phet.common.phetcommon.view.util.FontJA;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import java.awt.*;
@@ -44,8 +43,8 @@ public class CCKLookAndFeel {
         }
         font = uifont;
 
-        if( FontJA.isJapaneseLocale() ) {
-            font = FontJA.getPreferredJAFont().deriveFont( Font.PLAIN, uifont.getSize2D() );
+        if( PhetDefaultFont.isJapaneseLocale() ) {
+            font = PhetDefaultFont.getPreferredJAFont().deriveFont( Font.PLAIN, uifont.getSize2D() );
         }
 
     }

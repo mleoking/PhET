@@ -1,21 +1,33 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.*;
 
 /**
  * Simplified interface for instantiating the default font used in PhET simulations.
  */
 public class PhetDefaultFont extends Font {
-
-    private static final Font REFERENCE_FONT = new JLabel().getFont();
+    private static final Font REFERENCE_FONT = getReferenceFont();
     private static final String FONT_NAME = REFERENCE_FONT.getFontName();
     public static final String LUCIDA_SANS = "Lucida Sans";
 
     public PhetDefaultFont() {
-        this( REFERENCE_FONT.getSize() );
+        this( getReferenceFont().getSize() );
+    }
+
+    private static Font getReferenceFont() {
+        Font referenceFont = new JLabel().getFont();
+
+        if (isJapaneseLocale()) {
+            referenceFont = getPreferredJAFont();
+        }
+        
+        return referenceFont;
     }
 
     /**
@@ -74,6 +86,28 @@ public class PhetDefaultFont extends Font {
      * @return the font size for the default font
      */
     public static int getDefaultFontSize() {
-        return REFERENCE_FONT.getSize();
+        return getReferenceFont().getSize();
+    }
+
+    public static Font getPreferredJAFont() {
+        float defaultSize = new JLabel().getFont().getSize();
+
+        String[] preferredJAFonts = new String[]{"MS Mincho", "MS Gothic", "Osaka"};
+        for ( int i = 0; i < preferredJAFonts.length; i++ ) {
+            String preferredJAFont = preferredJAFonts[i];
+            ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
+            for ( int k = 0; k < fonts.size(); k++ ) {
+                Font o = (Font) fonts.get( k );
+                if ( o.getName().equals( preferredJAFont ) ) {
+                    System.out.println( "Chose Font: " + o );
+                    return o.deriveFont(defaultSize);
+                }
+            }
+        }
+        return new JLabel().getFont();
+    }
+
+    public static boolean isJapaneseLocale() {
+        return PhetResources.readLocale().getLanguage().equalsIgnoreCase( "ja" );
     }
 }
