@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
-
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
@@ -71,9 +70,9 @@ public class PhetLookAndFeel {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Font font;
-    private Font titledBorderFont;
-    private Font tabFont;
+    private Font font = new PhetDefaultFont();
+    private Font titledBorderFont = new PhetDefaultFont();
+    private Font tabFont = new PhetDefaultFont();
     private Color foregroundColor;
     private Color backgroundColor;
     private Color textFieldBackgroundColor = Color.white;//necessary to get white textfields on webstart under 1.5?
@@ -99,6 +98,8 @@ public class PhetLookAndFeel {
     }
 
     public void setFont( Font font ) {
+        if ( font == null ) font = new PhetDefaultFont();
+
         this.font = font;
     }
 
@@ -107,6 +108,8 @@ public class PhetLookAndFeel {
     }
 
     public void setTabFont( Font tabFont ) {
+        if ( tabFont == null ) tabFont = new PhetDefaultFont();
+
         this.tabFont = tabFont;
     }
 
@@ -115,6 +118,8 @@ public class PhetLookAndFeel {
     }
 
     public void setTitledBorderFont( Font borderFont ) {
+        if ( titledBorderFont == null ) titledBorderFont = new PhetDefaultFont();
+
         this.titledBorderFont = borderFont;
     }
 
@@ -190,21 +195,14 @@ public class PhetLookAndFeel {
     private Object[] constructDefaults() {
 
         // UI resources
-        FontUIResource fontResource = null;
-        FontUIResource titledBorderFontResource = null;
         ColorUIResource backgroundResource = null;
         ColorUIResource foregroundResource = null;
         ColorUIResource textFieldBackgroundResource = null;
         InsetsUIResource insetsResource = null;
-        ColorUIResource buttonBackgroundResource = null;
+        //ColorUIResource buttonBackgroundResource = null;
 
         // Construct UI resources
-        if ( font != null ) {
-            fontResource = new FontUIResource( font );
-        }
-        if ( titledBorderFont != null ) {
-            titledBorderFontResource = new FontUIResource( titledBorderFont );
-        }
+
         if ( backgroundColor != null ) {
             backgroundResource = new ColorUIResource( backgroundColor );
         }
@@ -223,9 +221,8 @@ public class PhetLookAndFeel {
         for ( int i = 0; i < types.length; i++ ) {
             String type = types[i];
 
-            if ( fontResource != null ) {
-                add( keyValuePairs, type, "font", fontResource );
-            }
+            add( keyValuePairs, type, "font", new FontUIResource( titledBorderFont ) );
+
             if ( foregroundResource != null ) {
                 add( keyValuePairs, type, "foreground", foregroundResource );
             }
@@ -238,16 +235,16 @@ public class PhetLookAndFeel {
         }
 
         // These types require some special modifications.
-        if ( titledBorderFontResource != null ) {
-            add( keyValuePairs, "TitledBorder", "font", titledBorderFontResource );
-        }
+        add( keyValuePairs, "TitledBorder", "font", new FontUIResource( titledBorderFont ) );
+        
         if ( textFieldBackgroundResource != null ) {
             add( keyValuePairs, "TextField", "background", textFieldBackgroundResource );
         }
 
-        if ( buttonBackgroundResource != null ) {
-            add( keyValuePairs, "Button", "background", buttonBackgroundResource );
-        }
+        // TODO: ALWAYS FALSE
+//        if ( buttonBackgroundResource != null ) {
+//            add( keyValuePairs, "Button", "background", buttonBackgroundResource );
+//        }
         if ( tabFont != null ) {
             add( keyValuePairs, "TabbedPane", "font", new FontUIResource( tabFont ) );
         }

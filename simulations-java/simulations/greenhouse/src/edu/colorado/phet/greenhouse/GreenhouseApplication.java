@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.application.AWTSplashWindow;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FontJA;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_greenhouse.application.Module;
 import edu.colorado.phet.common_greenhouse.application.PhetApplication;
 import edu.colorado.phet.common_greenhouse.model.IClock;
@@ -21,10 +21,10 @@ import edu.colorado.phet.coreadditions_greenhouse.MessageFormatter;
 import edu.colorado.phet.coreadditions_greenhouse.clock.StaticClockModel;
 import edu.colorado.phet.coreadditions_greenhouse.clock.SwingTimerClock;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import javax.swing.*;
 
 /**
  * General comments, issues:
@@ -65,7 +65,7 @@ public class GreenhouseApplication extends PhetApplication {
                 initLookAndFeel();
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, FontJA.isJapaneseLocale() ? "Greenhouse Application" : SimStrings.get( "GreenHouseApplication.title" ) );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, PhetDefaultFont.isJapaneseLocale() ? "Greenhouse Application" : SimStrings.get( "GreenHouseApplication.title" ) );
                 splashWindow.show();
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
@@ -105,7 +105,7 @@ public class GreenhouseApplication extends PhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
         phetLookAndFeel.setForegroundColor( Color.black );
-        if( FontJA.isJapaneseLocale() ) {
+        if( PhetDefaultFont.isJapaneseLocale() ) {
             phetLookAndFeel.setFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.PLAIN, 14 ) );
             phetLookAndFeel.setTitledBorderFont( new Font( FontJA.getFontName( PhetDefaultFont.LUCIDA_SANS ), Font.BOLD, 12 ) );
         }
