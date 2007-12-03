@@ -115,7 +115,7 @@ DONE:
 
 
 REJECTED:
-11/29/07 - make Find insensitve to case (problematic for all language codes)
+11/29/07 - make Find insensitive to case (problematic to generalized this for all language codes)
 
 ===============================================================================
 end of file
