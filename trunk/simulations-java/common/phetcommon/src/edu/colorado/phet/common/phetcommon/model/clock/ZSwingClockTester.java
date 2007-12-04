@@ -1,3 +1,5 @@
+/* Copyright 2007, University of Colorado */
+
 package edu.colorado.phet.common.phetcommon.model.clock;
 
 public class ZSwingClockTester extends ZAbstractClockTester {
