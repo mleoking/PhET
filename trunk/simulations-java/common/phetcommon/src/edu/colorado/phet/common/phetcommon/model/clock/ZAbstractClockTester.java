@@ -87,7 +87,7 @@ public class ZAbstractClockTester extends TestCase {
         JButton button = new JButton();
         button.setSize(100, 100);
         frame.setContentPane(button);
-        frame.pack();
+        frame.setSize( 200,200);
         frame.setVisible(true);
 
         Robot robot = new Robot();
@@ -118,6 +118,7 @@ public class ZAbstractClockTester extends TestCase {
                 assertFalse(false);
             }
         }
+        robot.mouseRelease( InputEvent.BUTTON1_MASK );
     }
 
     private double getAverageDelayBetweenTicks(int maxTicks) {
