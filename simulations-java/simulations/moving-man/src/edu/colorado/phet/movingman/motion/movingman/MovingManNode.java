@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion;
+package edu.colorado.phet.movingman.motion.movingman;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;

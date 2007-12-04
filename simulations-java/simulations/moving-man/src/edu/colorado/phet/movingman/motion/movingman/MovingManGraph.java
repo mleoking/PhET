@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion;
+package edu.colorado.phet.movingman.motion.movingman;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;

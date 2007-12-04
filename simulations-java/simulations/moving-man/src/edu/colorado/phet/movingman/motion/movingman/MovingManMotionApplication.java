@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion;
+package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
