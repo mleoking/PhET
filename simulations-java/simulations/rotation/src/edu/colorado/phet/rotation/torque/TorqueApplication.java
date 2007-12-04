@@ -23,7 +23,7 @@ public class TorqueApplication extends PhetApplication {
     private AngularMomentumModule angMomModule;
 
     public TorqueApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "variable.torque" ) );
+        super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
         introModule = new TorqueIntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
         momentModule = new MomentOfInertiaModule( getPhetFrame() );
