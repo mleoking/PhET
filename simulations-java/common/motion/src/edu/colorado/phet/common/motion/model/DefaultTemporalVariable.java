@@ -5,14 +5,24 @@ package edu.colorado.phet.common.motion.model;
  * Jul 26, 2007, 8:04:10 PM
  */
 public class DefaultTemporalVariable implements ITemporalVariable {
-    private DefaultVariable variable = new DefaultVariable();
-    private DefaultTimeSeries series = new DefaultTimeSeries();
+    private DefaultVariable variable;
+    private DefaultTimeSeries series;
 
     public DefaultTemporalVariable() {
+        this( new DefaultVariable(), new DefaultTimeSeries() );
+    }
+
+    public DefaultTemporalVariable( DefaultVariable variable, DefaultTimeSeries series ) {
+        this.variable = variable;
+        this.series = series;
+    }
+
+    public DefaultTemporalVariable( TimeSeriesFactory timeSeriesFactory ) {
+        this( new DefaultVariable(), timeSeriesFactory.createTimeSeries() );
     }
 
     public String toString() {
-        return "value="+variable+", series="+series;
+        return "value=" + variable + ", series=" + series;
     }
 
     public void addValue( double value, double time ) {

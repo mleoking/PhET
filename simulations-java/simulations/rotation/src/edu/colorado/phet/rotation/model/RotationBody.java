@@ -56,9 +56,10 @@ public class RotationBody {
     }
 
     public RotationBody( String imageName, boolean constrained ) {
-        this(imageName,constrained ,false);
+        this( imageName, constrained, false );
     }
-    public RotationBody( String imageName, boolean constrained,boolean debug ) {
+
+    public RotationBody( String imageName, boolean constrained, boolean debug ) {
         this.imageName = imageName;
         this.constrained = constrained;
         this.debug = debug;
@@ -71,15 +72,15 @@ public class RotationBody {
                 platformOuterRadiusChanged();
             }
         };
-        xBody = new MotionBody();
-        yBody = new MotionBody();
+        xBody = new MotionBody( RotationModel.getTimeSeriesFactory() );
+        yBody = new MotionBody( RotationModel.getTimeSeriesFactory() );
 
-        speed = new DefaultTemporalVariable();
-        accelMagnitude = new DefaultTemporalVariable();
-        angle = new DefaultTemporalVariable();
-        angularVelocity = new DefaultTemporalVariable();
-        angularAccel = new DefaultTemporalVariable();
-        orientation = new DefaultTemporalVariable();
+        speed = new RotationTemporalVariable();
+        accelMagnitude = new RotationTemporalVariable();
+        angle = new RotationTemporalVariable();
+        angularVelocity = new RotationTemporalVariable();
+        angularAccel = new RotationTemporalVariable();
+        orientation = new RotationTemporalVariable();
     }
 
     interface DoubleComparator {
@@ -186,8 +187,8 @@ public class RotationBody {
     }
 
     public void stepInTime( double time, double dt ) {
-        if (debug){
-            System.out.println( "Stepped: x="+getPositionX() );
+        if ( debug ) {
+            System.out.println( "Stepped: x=" + getPositionX() );
         }
         Point2D origPosition = getPosition();
         if ( isOffPlatform() ) {

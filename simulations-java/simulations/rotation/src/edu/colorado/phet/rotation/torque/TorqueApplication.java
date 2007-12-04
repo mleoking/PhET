@@ -28,7 +28,7 @@ public class TorqueApplication extends PhetApplication {
 
     public TorqueApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance(), "torque" ) );
-        DefaultTimeSeries.setMaxDataValues( 100 );
+//        DefaultTimeSeries.setMaxDataValues( 100 );
         introModule = new TorqueIntroModule( getPhetFrame() );
         torqueModule = new TorqueModule( getPhetFrame() );
         momentModule = new MomentOfInertiaModule( getPhetFrame() );

@@ -3,6 +3,8 @@ package edu.colorado.phet.common.motion.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.rotation.model.RotationTimeSeries;
+
 /**
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
@@ -10,14 +12,6 @@ import java.util.List;
 public class DefaultTimeSeries {
     private ArrayList data = new ArrayList();
     private ArrayList listeners = new ArrayList();
-
-    //Attempted fix for memory leak
-    private static int MAX_DATA_VALUES = Integer.MAX_VALUE;
-
-    //Quick fix for memory leak problem
-    public static void setMaxDataValues( int maxDataValues ) {
-        MAX_DATA_VALUES = maxDataValues;
-    }
 
     public DefaultTimeSeries() {
     }

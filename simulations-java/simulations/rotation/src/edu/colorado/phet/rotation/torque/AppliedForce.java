@@ -9,6 +9,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.model.RotationTemporalVariable;
 import edu.colorado.phet.rotation.util.RotationUtil;
 
 /**
@@ -19,15 +20,15 @@ import edu.colorado.phet.rotation.util.RotationUtil;
  */
 public class AppliedForce {
     //independent values
-    private DefaultTemporalVariable appliedForceSrcX = new DefaultTemporalVariable();
-    private DefaultTemporalVariable appliedForceSrcY = new DefaultTemporalVariable();
-    private DefaultTemporalVariable appliedForceDstX = new DefaultTemporalVariable();
-    private DefaultTemporalVariable appliedForceDstY = new DefaultTemporalVariable();
+    private DefaultTemporalVariable appliedForceSrcX = new RotationTemporalVariable();
+    private DefaultTemporalVariable appliedForceSrcY = new RotationTemporalVariable();
+    private DefaultTemporalVariable appliedForceDstX = new RotationTemporalVariable();
+    private DefaultTemporalVariable appliedForceDstY = new RotationTemporalVariable();
 
     //dependent values
-    private DefaultTemporalVariable radius = new DefaultTemporalVariable();
-    private DefaultTemporalVariable signedForce = new DefaultTemporalVariable();
-    private DefaultTemporalVariable torque = new DefaultTemporalVariable();
+    private DefaultTemporalVariable radius = new RotationTemporalVariable();
+    private DefaultTemporalVariable signedForce = new RotationTemporalVariable();
+    private DefaultTemporalVariable torque = new RotationTemporalVariable();
 
     private ArrayList listeners = new ArrayList();
     private RotationPlatform platform;

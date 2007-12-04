@@ -11,8 +11,16 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     private MotionBody motionBody;
 
     public SingleBodyMotionModel( ConstantDtClock clock ) {
-        super( clock );
-        motionBody = new MotionBody();
+        this( clock, new TimeSeriesFactory() {
+            public DefaultTimeSeries createTimeSeries() {
+                return new DefaultTimeSeries();
+            }
+        } );
+    }
+
+    public SingleBodyMotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
+        super( clock,timeSeriesFactory );
+        motionBody = new MotionBody( timeSeriesFactory );
     }
 
     protected void setPlaybackTime( double time ) {
