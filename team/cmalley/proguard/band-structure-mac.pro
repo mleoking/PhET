@@ -1,9 +1,9 @@
--injars /Volumes/files/phet-workspace/jars/bound-states.jar
+-injars /Volumes/files/phet-workspace/jars/band-structure.jar
 -injars /Volumes/files/phet-workspace/jfreechart/lib/jfreechart-1.0.5.jqr
 -injars /Volumes/files/phet-workspace/jfreechart/lib/jcommon-1.0.9.jar
 -injars /Volumes/files/phet-workspace/junit-3.8.1/junit.jar
 -injars /Volumes/files/phet-workspace/javaws-1_2-dev/jnlp.jar
--outjars /Volumes/files/phet-workspace/jars/bound-states-proguard.jar
+-outjars /Volumes/files/phet-workspace/jars/band-structure-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
@@ -17,7 +17,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.boundstates.BoundStatesApplication {
+-keepclasseswithmembers public class edu.colorado.phet.boundstates.BandStructureApplication {
     public static void main(java.lang.String[]);
 }
 
