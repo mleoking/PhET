@@ -7,6 +7,8 @@ import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JLabel;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
@@ -15,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FontFactory {
+    
+    private static final Font DEFAULT_FONT = new JLabel().getFont();
 
     /* not intended for instantiation */
     private FontFactory() {}
@@ -26,6 +30,16 @@ public class FontFactory {
      * or if one of the preferred font is not found, then a default font is returned.
      * <p>
      * NOTE: This is probably not necessary on Macintosh, but doesn't hurt.
+     * 
+     * @param languageCode
+     * @return Font
+     */
+    public static Font createFont( String languageCode ) {
+        return createFont( languageCode, DEFAULT_FONT.getStyle(), DEFAULT_FONT.getSize() );
+    }
+    
+    /**
+     * Creates a Font for a specified language code, style and size.
      * 
      * @param languageCode
      * @param style

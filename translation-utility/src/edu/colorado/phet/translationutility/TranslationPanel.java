@@ -52,7 +52,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
-    private static final Font KEY_FONT = new Font( DEFAULT_FONT.getName(), Font.PLAIN, DEFAULT_FONT.getSize() );
     private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
     
     private static final Color SELECTION_COLOR = Color.GREEN;
@@ -75,7 +74,9 @@ public class TranslationPanel extends JPanel implements FindListener {
     private Frame _dialogOwner;
     private JarFileManager _jarFileManager;
     private final String _sourceLanguageCode;
+    private final Font _sourceFont;
     private final String _targetLanguageCode;
+    private final Font _targetFont;
     private ArrayList _targetTextAreas; // array of TargetTextArea
     private ArrayList _findTextAreas; // array of JTextArea
     private String _previousFindText; // text provided to previous call to findNext or findPrevious
@@ -179,7 +180,9 @@ public class TranslationPanel extends JPanel implements FindListener {
         _dialogOwner = dialogOwner;
         _jarFileManager = jarFileManager;
         _sourceLanguageCode = sourceLanguageCode;
+        _sourceFont = FontFactory.createFont( _sourceLanguageCode );
         _targetLanguageCode = targetLanguageCode;
+        _targetFont = FontFactory.createFont( _targetLanguageCode );
         _targetTextAreas = new ArrayList();
         _findTextAreas = new ArrayList();
         _previousFindText = null;
@@ -257,10 +260,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             sortedSet.add( key );
         }
         
-        // choose fonts that are appropriate for the languages
-        Font sourceFont = FontFactory.createFont( _sourceLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
-        Font targetFont = FontFactory.createFont( _targetLanguageCode, Font.PLAIN, DEFAULT_FONT.getSize() );
-        
         // create the table
         JTextArea previousTargetTextArea = null;
         Iterator i = sortedSet.iterator();
@@ -277,13 +276,12 @@ public class TranslationPanel extends JPanel implements FindListener {
 //            }
 
             JLabel keyLabel = new JLabel( key );
-            keyLabel.setFont( KEY_FONT );
 
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
-            sourceTextArea.setFont( sourceFont );
+            sourceTextArea.setFont( _sourceFont );
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
-            targetTextArea.setFont( targetFont );
+            targetTextArea.setFont( _targetFont );
             if ( autoTranslated ) {
                 targetTextArea.setBackground( AUTO_TRANSLATED_BACKGROUND );
             }
@@ -528,9 +526,9 @@ public class TranslationPanel extends JPanel implements FindListener {
      * Called when the Find button is pressed. 
      * Opens a Find dialog.
      */
-    public void handleFind() {
+    private void handleFind() {
         if ( _findDialog == null ) {
-            _findDialog = new FindDialog( _dialogOwner, _previousFindText );
+            _findDialog = new FindDialog( _dialogOwner, _previousFindText, _sourceFont );
             _findDialog.addFindListener( this );
             _findDialog.addWindowListener( new WindowAdapter() {
 

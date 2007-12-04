@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -51,8 +48,9 @@ public class FindDialog extends JDialog {
      * 
      * @param owner
      * @param defaultText
+     * @param textFieldFont
      */
-    public FindDialog( Frame owner, String defaultText ) {
+    public FindDialog( Frame owner, String defaultText, Font textFieldFont ) {
         super( owner );
         
         setTitle( TUResources.getString( "title.findDialog" ) );
@@ -67,6 +65,7 @@ public class FindDialog extends JDialog {
             JLabel findLabel = new JLabel( FIND_LABEL );
 
             _textField = new JTextField( defaultText );
+            _textField.setFont( textFieldFont );
             _textField.setColumns( 30 );
             _textField.setEditable( true );
             _textField.addKeyListener( new KeyAdapter() {
