@@ -53,6 +53,7 @@ public class RotationBody {
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
 
+    /** @noinspection HardCodedStringLiteral*/
     public RotationBody() {
         this( "ladybug.gif" );
     }

@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 
 /**
@@ -20,7 +21,7 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
 
     public AngleUnitsSelectionControl( final AngleUnitModel angleUnitModel ) {
         this.angleUnitModel = angleUnitModel;
-        degrees = new JRadioButton( "degrees" );
+        degrees = new JRadioButton( RotationStrings.getString( "degrees" ) );
         degrees.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 angleUnitModel.setRadians( false );
@@ -36,7 +37,7 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
         add( degrees );
         add( radians );
 
-        setBorder( new TitledBorder( "Angle Units" ) );
+        setBorder( new TitledBorder( RotationStrings.getString( "angle.units" ) ) );
         angleUnitModel.addListener( new AngleUnitModel.Listener() {
             public void changed() {
                 update();

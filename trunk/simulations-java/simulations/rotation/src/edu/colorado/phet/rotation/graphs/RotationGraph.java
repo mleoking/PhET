@@ -15,6 +15,7 @@ import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -44,7 +45,7 @@ public class RotationGraph extends MotionControlGraph {
         verticalAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getRangeAxis().getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
-        NumberAxis domainAxis = new NumberAxis( "time (s)" );
+        NumberAxis domainAxis = new NumberAxis( RotationStrings.getString( "time.s" ) );
         domainAxis.setLabelFont( new PhetDefaultFont( 12 ) );
         domainAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getRange() );
         domainAxis.setTickUnit( new NumberTickUnit( 2.5 ) );

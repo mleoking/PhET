@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -36,21 +37,21 @@ public class RotationControlPanel extends JPanel implements Resettable {
         VerticalLayoutPanel box = new VerticalLayoutPanel();
         box.add( symbolKeyButton );
 
-        final JCheckBox beetleGraph = new JCheckBox( "Show Beetle Graph", beetle.getDisplayGraph() );
+        final JCheckBox beetleGraph = new JCheckBox( RotationStrings.getString( "show.beetle.graph" ), beetle.getDisplayGraph() );
         beetleGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 beetle.setDisplayGraph( beetleGraph.isSelected() );
             }
         } );
 
-        final JCheckBox ladybugGraph = new JCheckBox( "Show Ladybug Graph", ladybug.getDisplayGraph() );
+        final JCheckBox ladybugGraph = new JCheckBox( RotationStrings.getString( "show.ladybug.graph" ), ladybug.getDisplayGraph() );
         ladybugGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ladybug.setDisplayGraph( ladybugGraph.isSelected() );
             }
         } );
 
-        final JCheckBox platformGraph = new JCheckBox( "Show Platform Graph", platform.getDisplayGraph() );
+        final JCheckBox platformGraph = new JCheckBox( RotationStrings.getString( "show.platform.graph" ), platform.getDisplayGraph() );
         platformGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 platform.setDisplayGraph( platformGraph.isSelected() );

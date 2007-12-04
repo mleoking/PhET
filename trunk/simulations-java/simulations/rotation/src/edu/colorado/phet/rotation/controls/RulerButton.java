@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -25,7 +26,7 @@ public class RulerButton extends Box {
     public RulerButton( final RulerNode rulerNode ) {
         super( BoxLayout.X_AXIS );
         this.rulerNode = rulerNode;
-        checkBox = new JCheckBox( "Show Ruler" );
+        checkBox = new JCheckBox( RotationStrings.getString( "show.ruler" ) );
 //        checkBox.setFont( new PhetDefaultFont( ));
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
