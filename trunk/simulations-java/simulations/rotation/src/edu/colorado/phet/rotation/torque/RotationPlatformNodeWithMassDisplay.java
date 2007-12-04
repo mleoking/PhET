@@ -2,6 +2,7 @@ package edu.colorado.phet.rotation.torque;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
+import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -41,12 +42,14 @@ public class RotationPlatformNodeWithMassDisplay extends RotationPlatformNode {
 
     class EdgeGraphic extends PhetPPath {
         public EdgeGraphic() {
-            super( Color.gray, new BasicStroke( (float) ( 1.0 * RotationPlayAreaNode.SCALE ) ), Color.darkGray );
+            super( Color.gray, new BasicStroke( (float) ( 2.0 * RotationPlayAreaNode.SCALE ) ), Color.darkGray );
         }
     }
 
     private void update() {
-        Function.LinearFunction linearFunction = new Function.LinearFunction( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, 0, 0.15 );
+//        final double MAX_THICKNESS = 0.15;
+        final double MAX_THICKNESS = 0.4;
+        Function.LinearFunction linearFunction = new Function.LinearFunction( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, 0, MAX_THICKNESS );
         double dy = linearFunction.evaluate( getRotationPlatform().getMass() );
         DoubleGeneralPath doubleGeneralPath = new DoubleGeneralPath( getRotationPlatform().getCenter().getX() - getRadius(), getRotationPlatform().getCenter().getY() );
         doubleGeneralPath.lineToRelative( 0, -dy );
@@ -58,5 +61,7 @@ public class RotationPlatformNodeWithMassDisplay extends RotationPlatformNode {
         doubleGeneralPath.lineTo( getRotationPlatform().getCenter().getX() + getRadius(), getRotationPlatform().getCenter().getY() );
         doubleGeneralPath.closePath();
         edgeGraphic.setPathTo( doubleGeneralPath.getGeneralPath() );
+        edgeGraphic.setTransform( new AffineTransform( ) );
+        edgeGraphic.rotateAboutPoint( -Math.PI/2-Math.PI/4,0,0);
     }
 }
