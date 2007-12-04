@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -31,14 +32,14 @@ public class BodyVectorLayer extends PNode {
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
         this.rotationModel = rotationModel;
         this.rotationBody = rotationBody;
-        accelArrow = new VectorNode( "a", RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
+        accelArrow = new VectorNode( RotationStrings.getString( "a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getAcceleration().getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
-        velocityArrow = new VectorNode( "v", RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
+        velocityArrow = new VectorNode( RotationStrings.getString( "v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getVelocity().getScaledInstance( velScale );
             }
