@@ -18,11 +18,8 @@ public class DefaultTimeSeries {
     public static void setMaxDataValues( int maxDataValues ) {
         MAX_DATA_VALUES = maxDataValues;
     }
-    //todo: debugging only; should be removed, possible GC prevention 
-//    public static final ArrayList instances = new ArrayList();
 
     public DefaultTimeSeries() {
-//        instances.add( this );
     }
 
     public String toString() {
