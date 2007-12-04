@@ -111,7 +111,7 @@ EOT;
 			<div class="introduction">		
 				
 	            <div class="mainImage">    
-	                <a href="simulations/index.php" title="Click here to view the simulations"><img width="300" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
+	                <a href="simulations/index.php" title="Click here to view the simulations"><img width="320" height="240" src="random-thumbnail.php" alt="Random screenshot of a simulation"/></a>
 	            </div>
 
 	            <h1>Interactive Physics Simulations</h1>
@@ -166,10 +166,12 @@ EOT;
 							</a>
 						</td>
 						
-						<td>							
-							<a href="simulations/translations.php">
-								Other languages...
-							</a>
+						<td>
+						    <p>
+								<a href="simulations/translations.php">
+									Other languages...
+								</a>
+							</p>
 						</td>
 					</tr>
 				</table>
@@ -202,7 +204,9 @@ EOT;
 
                 <dd><a href="teacher_ideas/index.php">Provide ideas you've used in class</a></dd>
 
-                <dd><a href="contribute/index.php">Other contributions</a></dd>
+                <dd><a href="contribute/index.php">Support PhET</a></dd>
+
+				<dd><a href="contribute/index.php">Translate Simulations</a></dd>
             </dl>
 
             <dl class="last">
