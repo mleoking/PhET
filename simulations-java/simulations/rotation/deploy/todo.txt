@@ -9,7 +9,7 @@ Generalize new rendering strategy for rotation platform opening panel
 
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
-okay to cleanup force1d + ramps using rotation graphs + model
+rewrite moving-man/force1d/ramps using rotation graphs + model
 
 Evaluate strategy for clipping the play area:
 •	theta=0 indicator needs to be moved into the play area
