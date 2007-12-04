@@ -25,7 +25,6 @@ public class RotationApplication extends PhetApplication {
 
     public RotationApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new RotationFrameSetup(), RotationResources.getInstance() ) );
-//        DefaultTimeSeries.setMaxDataValues( 100 );
 
         RotationIntroModule introRotationModule = new RotationIntroModule( getPhetFrame() );
         addModule( introRotationModule );

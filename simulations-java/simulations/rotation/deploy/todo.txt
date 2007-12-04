@@ -7,11 +7,7 @@ Platform and ladybug get out of sync when moving the angle slider quickly
 fake 3d display for showing platform mass
     >>Current implementation has problems; not sure this will work
 
-Generalize new rendering strategy for rotation platform opening panel
-
-the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
-
-rewrite moving-man/force1d/ramps using rotation graphs + model
+the theta = 0 indicator is partially obscured by the platform handle on rotation panel
 
 Evaluate strategy for clipping the play area:
 •	theta=0 indicator needs to be moved into the play area

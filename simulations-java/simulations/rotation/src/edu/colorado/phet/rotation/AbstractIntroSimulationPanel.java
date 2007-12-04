@@ -3,10 +3,11 @@ package edu.colorado.phet.rotation;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.view.FullRepaintCanvas;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -14,13 +15,13 @@ import edu.umd.cs.piccolo.PNode;
  * Created by: Sam
  * Dec 1, 2007 at 7:42:12 AM
  */
-public class AbstractIntroSimulationPanel extends PhetPCanvas {
+public class AbstractIntroSimulationPanel extends FullRepaintCanvas {
     private RotationPlayAreaNode playAreaNode;
     private PNode introSimControlPanelPSwing;
     private RotationPlatform rotationPlatform;
 
-    public AbstractIntroSimulationPanel( final JComponent contentPane, Module module ) {
-
+    public AbstractIntroSimulationPanel( final JComponent contentPane, ConstantDtClock clock, Module module ) {
+        super( clock, module );
         addKeyListener( new PDebugKeyHandler() );
         requestFocus();
     }
