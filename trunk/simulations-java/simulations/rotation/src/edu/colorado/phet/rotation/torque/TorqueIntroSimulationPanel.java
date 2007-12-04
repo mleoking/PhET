@@ -20,7 +20,7 @@ public class TorqueIntroSimulationPanel extends AbstractIntroSimulationPanel {
     private PSwing introSimControlPanelPSwing;
 
     public TorqueIntroSimulationPanel( TorqueIntroModule introModule, JFrame phetFrame ) {
-        super( (JComponent) phetFrame.getContentPane(),introModule );
+        super( (JComponent) phetFrame.getContentPane(),introModule.getConstantDtClock(), introModule );
         this.introModule = introModule;
         playAreaNode = new TorqueSimPlayAreaNode( introModule.getTorqueModel(), introModule.getVectorViewModel(), introModule.getAngleUnitModel() );
         playAreaNode.setOriginNodeVisible( false );

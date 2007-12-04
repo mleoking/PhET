@@ -1,3 +1,4 @@
+12-4-2007: Rotation - Generalized new rendering strategy for rotation platform opening panel
 12-4-2007: Rotation - Fixed: Handbrake doesn't move on playback
 12-4-2007: Rotation - added a trial implementation for mass graphic
 12-3-2007: Rotation - Fixed: memory problem in DefaultTimeSeries when recording for a long time

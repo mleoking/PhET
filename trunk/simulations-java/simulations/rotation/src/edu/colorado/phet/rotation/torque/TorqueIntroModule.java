@@ -19,10 +19,14 @@ public class TorqueIntroModule extends Module {
 
     public TorqueIntroModule( JFrame parentFrame ) {
         super( "Intro", new RotationClock() );
-        torqueModel = new TorqueModel( (ConstantDtClock) getClock() );
+        torqueModel = new TorqueModel( getConstantDtClock() );
         TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this,parentFrame );
         setSimulationPanel( panel );
         addRepaintOnActivateBehavior();
+    }
+
+    public ConstantDtClock getConstantDtClock() {
+        return (ConstantDtClock) getClock();
     }
 
     public TorqueModel getTorqueModel() {
@@ -41,4 +45,5 @@ public class TorqueIntroModule extends Module {
         super.reset();
         torqueModel.resetAll();
     }
+
 }
