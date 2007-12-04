@@ -241,7 +241,6 @@ public class RotationPlatformNode extends PNode {
             return new BasicStroke( (float) ( 1 * RotationPlayAreaNode.SCALE ) );
         }
 
-
         public double getMinInnerRadius() {
             return minInnerRadius;
         }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
-import edu.colorado.phet.common.motion.model.TimeSeriesFactory;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 
@@ -19,9 +18,15 @@ public class RotationPlatform extends MotionBody {
     private double innerRadius = DEFAULT_INNER_RADIUS;
     private double mass = getDefaultMass();//by default torque equals angular acceleration
 
-    public RotationPlatform( ) {
-        super( RotationModel.getTimeSeriesFactory());
+
+    public RotationPlatform() {
+        super( RotationModel.getTimeSeriesFactory() );
     }
+
+    private static double getDefaultMassValue( double innerRadius, double radius ) {
+        return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
+    }
+
 
     private double getDefaultMass() {
         return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
@@ -34,6 +39,9 @@ public class RotationPlatform extends MotionBody {
     public static final double DEFAULT_OUTER_RADIUS = MAX_RADIUS;
     public static final double DEFAULT_INNER_RADIUS = 0.0;
     public static final boolean DEFAULT_DISPLAY_GRAPH = true;
+
+    public static final double MIN_MASS = getDefaultMassValue( DEFAULT_INNER_RADIUS, DEFAULT_OUTER_RADIUS ) / 10.0;
+    public static final double MAX_MASS = getDefaultMassValue( DEFAULT_INNER_RADIUS, DEFAULT_OUTER_RADIUS ) * 2;
 
     public boolean containsPosition( Point2D loc ) {
         return loc.distance( center ) <= radius && loc.distance( center ) >= innerRadius;

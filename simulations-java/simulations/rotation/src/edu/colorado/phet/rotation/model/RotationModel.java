@@ -16,8 +16,8 @@ import edu.colorado.phet.rotation.view.RotationBodyNode;
 public class RotationModel extends MotionModel implements RotationBodyNode.RotationBodyEnvironment, IPositionDriven {
     private RotationPlatform rotationPlatform;
     private ArrayList rotationBodies = new ArrayList();
-//    public static final double MAX_TIME = 20.0;
-    public static final double MAX_TIME = 2.0;
+    public static final double MAX_TIME = 20.0;
+//    public static final double MAX_TIME = 2.0;
     private static TimeSeriesFactory timeSeriesFactory=new TimeSeriesFactory() {
         public DefaultTimeSeries createTimeSeries() {
             return new RotationTimeSeries();
