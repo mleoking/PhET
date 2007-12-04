@@ -7,6 +7,7 @@ Platform and ladybug get out of sync when moving the angle slider quickly
 fake 3d display for showing platform mass
     >>Current implementation has problems; not sure this will work
 
+Low Priority:
 the theta = 0 indicator is partially obscured by the platform handle on rotation panel
 
 Evaluate strategy for clipping the play area:
