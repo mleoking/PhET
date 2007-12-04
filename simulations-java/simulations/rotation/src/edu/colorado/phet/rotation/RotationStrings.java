@@ -35,7 +35,8 @@ public class RotationStrings {
 
 
     public static String getString( String s ) {
-        return "!" + RotationResources.getInstance().getLocalizedString( s ) + "?";
+//        return "!" + RotationResources.getInstance().getLocalizedString( s ) + "?";
+        return RotationResources.getInstance().getLocalizedString( s );
     }
 
     public static String abs( String s ) {
