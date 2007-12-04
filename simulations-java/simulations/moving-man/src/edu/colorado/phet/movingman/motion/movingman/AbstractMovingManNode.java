@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
@@ -76,5 +77,11 @@ public class AbstractMovingManNode extends PNode {
 
     public PImage getManImage() {
         return manImage;
+    }
+
+    public void setTransform( double modelWidth, int screenWidth ) {
+        setTransform( new AffineTransform() );
+        scale( screenWidth / modelWidth );
+        translate( modelWidth / 2, 0 );
     }
 }
