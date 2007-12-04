@@ -19,20 +19,19 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 
 /**
- * BSBandStructureApplication is the simulation titled "Band Structure".
- * It has only the "Many Wells" module.
+ * BSCovalentBondsApplication is the simulation titled "Double Wells and Covalent Bonds".
+ * It has only the "Two Wells" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSBandStructureApplication extends BSAbstractApplication {
+public class CovalentBondsApplication extends BSAbstractApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSBandStructureApplication( PhetApplicationConfig config )
-    {
+    public CovalentBondsApplication( PhetApplicationConfig config ) {
         super( config );
     }
     
@@ -44,8 +43,8 @@ public class BSBandStructureApplication extends BSAbstractApplication {
      * Initializes modules.
      */
     protected void initModules() {
-        addManyWellsModule();
-        getManyWellsModule().setHasWiggleMe( true );
+        addTwoWellsModule();
+        getTwoWellsModule().setHasWiggleMe( true );
     }
     
     //----------------------------------------------------------------------------
@@ -76,12 +75,12 @@ public class BSBandStructureApplication extends BSAbstractApplication {
                 // Initialize look-and-feel
                 PhetLookAndFeel laf = new PhetLookAndFeel();
                 laf.initLookAndFeel();
-                
+
                 // Config
-                PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_BAND_STRUCTURE );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_COVALENT_BONDS );
                 
                 // Create the application.
-                BSAbstractApplication app = new BSBandStructureApplication( config );
+                BSAbstractApplication app = new CovalentBondsApplication( config );
                 
                 // Start the application.
                 app.startApplication();

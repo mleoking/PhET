@@ -181,13 +181,13 @@ public class BSLauncher extends JFrame {
      */
     private void handleStart() {
         if ( _boundStatesRadioButton.isSelected() ) {
-            BSBoundStatesApplication.main( _args );
+            BoundStatesApplication.main( _args );
         }
         else if ( _covalentBoundsRadioButton.isSelected() ) {
-            BSCovalentBondsApplication.main( _args );
+            CovalentBondsApplication.main( _args );
         }
         else if ( _bandStructureRadioButton.isSelected() ) {
-            BSBandStructureApplication.main( _args );
+            BandStructureApplication.main( _args );
         }
         dispose();
     }
