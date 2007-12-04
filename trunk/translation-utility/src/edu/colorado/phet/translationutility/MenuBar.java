@@ -10,13 +10,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * TUMenuBar is the menu bar.
+ * MenuBar is the menu bar for the main window.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TUMenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar {
 
-    public TUMenuBar() {
+    public MenuBar() {
         
         // File menu
         JMenu fileMenu = new JMenu( TUResources.getString( "menu.file" ) );
