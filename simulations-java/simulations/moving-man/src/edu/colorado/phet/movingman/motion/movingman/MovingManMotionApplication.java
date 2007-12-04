@@ -11,13 +11,12 @@ import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
-import edu.colorado.phet.common_movingman.view.PhetLookAndFeel;
 import edu.colorado.phet.movingman.MovingManApplication;
+import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 /**
@@ -114,11 +113,7 @@ public class MovingManMotionApplication {
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                PhetLookAndFeel plaf = new PhetLookAndFeel();
-                plaf.setFont( new PhetDefaultFont( 16,true) );
-                plaf.setInsets( new Insets( 1, 1, 1, 1 ) );
-                plaf.apply();
-                PhetLookAndFeel.setLookAndFeel();
+                MotionProjectLookAndFeel.init();
                 SimStrings.getInstance().addStrings( MovingManApplication.localizedStringsPath );
                 new MovingManMotionApplication().start();
             }
