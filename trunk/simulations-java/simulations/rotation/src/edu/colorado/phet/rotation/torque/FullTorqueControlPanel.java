@@ -102,7 +102,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createMassSlider( final RotationPlatform rp ) {
-        final TorqueSlider massSlider = new TorqueSlider( rp.getMass() / 10.0, rp.getMass() * 2, rp.getMass(), "Platform Mass", "0.00", "kg" );
+        final TorqueSlider massSlider = new TorqueSlider( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, rp.getMass(), "Platform Mass", "0.00", "kg" );
         massSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setMass( massSlider.getValue() );

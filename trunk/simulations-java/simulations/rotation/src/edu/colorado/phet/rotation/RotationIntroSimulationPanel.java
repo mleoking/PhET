@@ -42,8 +42,7 @@ public class RotationIntroSimulationPanel extends AbstractIntroSimulationPanel {
 
         updateLayout();
         setBackground( AbstractRotationSimulationPanel.PLAY_AREA_BACKGROUND_COLOR );
-        addKeyListener( new PDebugKeyHandler() );
-        requestFocus();
+        
         final Timer timer=new Timer( introModule.getRotationClock().getDelay(), new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 doPaintImm();

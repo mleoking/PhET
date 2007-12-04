@@ -58,7 +58,7 @@ public class TorqueSimPlayAreaNode extends RotationPlayAreaNode {
     }
 
     protected PNode createRotationPlatformNode( RotationPlatform rotationPlatform ) {
-        return new RotationPlatformNode( rotationPlatform );
+        return new RotationPlatformNodeWithMassDisplay( rotationPlatform );
     }
 
     private void updateArrows() {
