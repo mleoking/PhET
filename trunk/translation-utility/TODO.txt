@@ -14,15 +14,15 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - check for unsaved changes before exiting
-- Find dialog uses default font, what to do for languages that have preferred fonts?
 - Flash sim support
 - delete phet-test-translation.jar
+- add buttons to access translations for common projects, inform user about the gravity of editing common translations
 
 LOW PRIORITY:
+- Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
 - replace Find dialog with a panel above the button panel, ala Firefox
 - Find selection disappears when Find dialog is closed
 - Edit>Undo for editing target textfields
-- add buttons to access translations for common projects, inform user about the gravity of editing common translations
 - make runnable via Web Start
 - perform default translation using Google Translate
 - replace individual Google Translate requests with 1 big request to workaround "denial of service" problem
@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/4/07 - set font for textfield in Find dialog based on source language code
 12/3/07 - organized imports
 12/3/07 - minor reorganization of constructors for custom dialogs
 12/3/07 - javadoc
