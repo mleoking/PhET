@@ -48,11 +48,6 @@ public class DefaultTimeSeries {
     public void addValue( double v, double time ) {
         TimeData o = new TimeData( v, time );
         data.add( o );
-
-//        while ( data.size() > MAX_DATA_VALUES ) {
-//            data.remove( 0 );
-//        }
-
         notifyObservers( o );
     }
 
@@ -116,5 +111,9 @@ public class DefaultTimeSeries {
 
     public void removeListener( ITemporalVariable.Listener listener ) {
         listeners.remove( listener );
+    }
+
+    protected void removeValue( int index ) {
+        data.remove(index );
     }
 }
