@@ -1,10 +1,10 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -29,10 +29,10 @@ public abstract class PlotDeviceModel implements ModelElement {
     }
 
     public void setPaused( boolean p ) {
-        if( this.paused != p ) {
+        if ( this.paused != p ) {
             this.paused = p;
 //            System.out.println( "Plot device model["+myCount+"]: paused=" + this.paused );
-            if( paused ) {
+            if ( paused ) {
                 currentMode.firePaused();
             }
             else {
@@ -43,8 +43,8 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public void setRecordMode() {
         this.currentMode = recordMode;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.recordingStarted();
         }
     }
@@ -52,7 +52,7 @@ public abstract class PlotDeviceModel implements ModelElement {
     public void stepInTime( double dt ) {
         boolean currentModeNull = currentMode == null;
 //        System.out.println( "SIT[" + myCount + "]: paused=" + paused );
-        if( currentModeNull || paused ) {
+        if ( currentModeNull || paused ) {
 
         }
         else {
@@ -94,18 +94,18 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public int convertTimeToIndex( double time ) {
 //        return playbackMode.convertTimeToIndex( time );
-        if( recordMode.recordedTimes.size() == 0 ) {
+        if ( recordMode.recordedTimes.size() == 0 ) {
             return 0;               //todo shouldn't this be -1?
         }
         double last = recordMode.recordedTimes.getLastPoint();
         double lastIndex = recordMode.recordedTimes.size();
         double scale = lastIndex / last;//use the whole data series to guess the time.
 
-        int index = (int)( time * scale );
-        if( index < 0 ) {
+        int index = (int) ( time * scale );
+        if ( index < 0 ) {
             index = 0;
         }
-        if( index >= recordMode.recordedTimes.size() ) {
+        if ( index >= recordMode.recordedTimes.size() ) {
             index = recordMode.recordedTimes.size() - 1;
         }
         return index;//TODO check this.
@@ -206,15 +206,15 @@ public abstract class PlotDeviceModel implements ModelElement {
         }
 
         public void firePaused() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.recordingPaused();
             }
         }
 
         public void fireUnpaused() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.recordingStarted();
             }
         }
@@ -255,15 +255,15 @@ public abstract class PlotDeviceModel implements ModelElement {
         }
 
         public void firePaused() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.playbackPaused();
             }
         }
 
         public void fireUnpaused() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.playbackStarted();
             }
         }
@@ -274,10 +274,10 @@ public abstract class PlotDeviceModel implements ModelElement {
         }
 
         public int convertTimeToIndex( double modelX ) {
-            if( conversionFactor == 0 ) {
+            if ( conversionFactor == 0 ) {
                 conversionFactor = 0.02;//TODO MAGICK!
             }
-            return (int)( modelX / conversionFactor );
+            return (int) ( modelX / conversionFactor );
         }
     }
 
@@ -290,8 +290,8 @@ public abstract class PlotDeviceModel implements ModelElement {
         setPaused( true );
         playbackMode.reset();
         recordMode.reset();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.reset();
         }
 
@@ -300,8 +300,8 @@ public abstract class PlotDeviceModel implements ModelElement {
 
     public void setPlaybackMode() {
         currentMode = playbackMode;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.playbackStarted();
         }
     }
@@ -309,8 +309,8 @@ public abstract class PlotDeviceModel implements ModelElement {
     public void rewind() {
         playbackMode.rewind();
         stepPlayback( 0, 0 );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.rewind();
         }
 

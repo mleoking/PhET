@@ -42,9 +42,9 @@ public class MultiMap implements Map {
      */
     public Object put( Object key, Object value ) {
         Object returnValue = map.get( key );
-        ArrayList list = (ArrayList)returnValue;
+        ArrayList list = (ArrayList) returnValue;
         lastModified = System.currentTimeMillis();
-        if( returnValue == null ) {
+        if ( returnValue == null ) {
             list = new ArrayList();
             map.put( key, list );
             returnValue = list;
@@ -65,8 +65,8 @@ public class MultiMap implements Map {
     public boolean containsValue( Object value ) {
         boolean result = false;
         Iterator it = map.values().iterator();
-        while( it.hasNext() && !result ) {
-            result = ( (ArrayList)it.next() ).contains( value );
+        while ( it.hasNext() && !result ) {
+            result = ( (ArrayList) it.next() ).contains( value );
         }
         return result;
     }
@@ -82,10 +82,10 @@ public class MultiMap implements Map {
     }
 
     public void removeValue( Object value ) {
-        while( this.containsValue( value ) ) {
+        while ( this.containsValue( value ) ) {
             Iterator i = this.iterator();
-            while( i.hasNext() ) {
-                if( i.next().equals( value ) ) {
+            while ( i.hasNext() ) {
+                if ( i.next().equals( value ) ) {
                     i.remove();
                     break;
                 }
@@ -111,9 +111,9 @@ public class MultiMap implements Map {
     public int size() {
         int n = 0;
         Iterator it = map.entrySet().iterator();
-        while( it.hasNext() ) {
-            Entry entry = (Entry)it.next();
-            List list = (List)entry.getValue();
+        while ( it.hasNext() ) {
+            Entry entry = (Entry) it.next();
+            List list = (List) entry.getValue();
             n += list.size();
         }
         return n;
@@ -136,9 +136,9 @@ public class MultiMap implements Map {
     public Collection values() {
         ArrayList values = new ArrayList();
         Iterator it = map.entrySet().iterator();
-        while( it.hasNext() ) {
-            Entry entry = (Entry)it.next();
-            List list = (List)entry.getValue();
+        while ( it.hasNext() ) {
+            Entry entry = (Entry) it.next();
+            List list = (List) entry.getValue();
             values.addAll( list );
         }
         return values;
@@ -181,7 +181,7 @@ public class MultiMap implements Map {
         }
 
         protected void concurrentModificationCheck() {
-            if( timeCreated < MultiMap.this.lastModified ) {
+            if ( timeCreated < MultiMap.this.lastModified ) {
                 throw new ConcurrentModificationException();
             }
         }
@@ -196,17 +196,17 @@ public class MultiMap implements Map {
         ForwardIterator() {
             mapIterator = map.entrySet().iterator();
 //            mapIterator = MultiMap.this.entrySet().iterator();
-            if( mapIterator.hasNext() ) {
+            if ( mapIterator.hasNext() ) {
                 nextListIterator();
             }
         }
 
         public boolean hasNext() {
             concurrentModificationCheck();
-            if( mapIterator.hasNext() ) {
+            if ( mapIterator.hasNext() ) {
                 return true;
             }
-            else if( listIterator != null ) {
+            else if ( listIterator != null ) {
                 return listIterator.hasNext();
             }
             return false;
@@ -214,10 +214,10 @@ public class MultiMap implements Map {
 
         public Object next() {
             concurrentModificationCheck();
-            if( listIterator.hasNext() ) {
+            if ( listIterator.hasNext() ) {
                 return listIterator.next();
             }
-            else if( mapIterator.hasNext() ) {
+            else if ( mapIterator.hasNext() ) {
                 nextListIterator();
                 return this.next();
             }
@@ -227,14 +227,14 @@ public class MultiMap implements Map {
         public void remove() {
             concurrentModificationCheck();
             listIterator.remove();
-            if( currentList.size() == 0 ) {
+            if ( currentList.size() == 0 ) {
                 mapIterator.remove();
             }
             MultiMap.this.lastModified++;
         }
 
         private void nextListIterator() {
-            currentList = (ArrayList)( (Map.Entry)mapIterator.next() ).getValue();
+            currentList = (ArrayList) ( (Map.Entry) mapIterator.next() ).getValue();
             listIterator = currentList.iterator();
         }
     }
@@ -248,10 +248,10 @@ public class MultiMap implements Map {
         private int currentListIdx = 0;
 
         public ReverseIterator() {
-            if( !map.isEmpty() ) {
+            if ( !map.isEmpty() ) {
                 Object currentLastKey = map.lastKey();
-                if( currentLastKey != null ) {
-                    currentList = (ArrayList)map.get( currentLastKey );
+                if ( currentLastKey != null ) {
+                    currentList = (ArrayList) map.get( currentLastKey );
                     currentListIdx = currentList.size();
                 }
             }
@@ -259,12 +259,12 @@ public class MultiMap implements Map {
 
         public boolean hasNext() {
             concurrentModificationCheck();
-            if( currentList != null && currentListIdx > 0 ) {
+            if ( currentList != null && currentListIdx > 0 ) {
                 return true;
             }
             else {
                 nextList();
-                if( currentList != null ) {
+                if ( currentList != null ) {
                     currentListIdx = currentList.size();
                     return hasNext();
                 }
@@ -274,13 +274,13 @@ public class MultiMap implements Map {
 
         public Object next() {
             concurrentModificationCheck();
-            if( currentList != null && currentListIdx > 0 ) {
+            if ( currentList != null && currentListIdx > 0 ) {
                 currentListIdx--;
                 return currentList.get( currentListIdx );
             }
             else {
                 nextList();
-                if( currentList != null ) {
+                if ( currentList != null ) {
                     currentListIdx = currentList.size();
                     return next();
                 }
@@ -290,14 +290,14 @@ public class MultiMap implements Map {
 
         public void remove() {
             concurrentModificationCheck();
-            if( currentList != null ) {
+            if ( currentList != null ) {
                 currentList.remove( currentListIdx );
-                if( currentList.isEmpty() ) {
+                if ( currentList.isEmpty() ) {
                     Iterator it = map.keySet().iterator();
                     boolean found = false;
-                    while( it.hasNext() && !found ) {
+                    while ( it.hasNext() && !found ) {
                         Object o = it.next();
-                        if( o == currentList ) {
+                        if ( o == currentList ) {
                             MultiMap.this.remove( o );
                             found = true;
                         }
@@ -311,17 +311,17 @@ public class MultiMap implements Map {
             Iterator it = map.values().iterator();
             ArrayList nextList = null;
             boolean found = false;
-            while( it.hasNext() && !found ) {
+            while ( it.hasNext() && !found ) {
                 Object o = it.next();
-                if( o == currentList ) {
+                if ( o == currentList ) {
                     currentList = nextList;
-                    if( currentList != null ) {
+                    if ( currentList != null ) {
                         currentListIdx = currentList.size();
                     }
                     found = true;
                 }
                 else {
-                    nextList = (ArrayList)o;
+                    nextList = (ArrayList) o;
                 }
             }
         }

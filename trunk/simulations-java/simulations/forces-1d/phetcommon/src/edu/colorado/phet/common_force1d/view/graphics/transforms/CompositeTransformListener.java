@@ -22,14 +22,14 @@ public class CompositeTransformListener implements TransformListener {
     ArrayList listeners = new ArrayList();
 
     public void transformChanged( ModelViewTransform2D mvt ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TransformListener o = (TransformListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TransformListener o = (TransformListener) listeners.get( i );
             o.transformChanged( mvt );
         }
     }
 
     public TransformListener transformListenerAt( int i ) {
-        return (TransformListener)listeners.get( i );
+        return (TransformListener) listeners.get( i );
     }
 
     public void removeTransformListener( TransformListener tl ) {
@@ -45,6 +45,6 @@ public class CompositeTransformListener implements TransformListener {
     }
 
     public TransformListener[] getTransformListeners() {
-        return (TransformListener[])listeners.toArray( new TransformListener[0] );
+        return (TransformListener[]) listeners.toArray( new TransformListener[0] );
     }
 }

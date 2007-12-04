@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
-import edu.colorado.phet.common_force1d.model.clock.ClockStateEvent;
-import edu.colorado.phet.common_force1d.model.clock.ClockStateListener;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockStateEvent;
+import edu.colorado.phet.common_force1d.model.clock.ClockStateListener;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 
 /**
  * ClockControlPanel
@@ -38,7 +39,7 @@ public class ClockControlPanel extends JPanel implements ClockStateListener {
     public ClockControlPanel( final AbstractClock clock ) throws IOException {
         this.clock = clock;
         clock.addClockStateListener( this );
-        if( clock == null ) {
+        if ( clock == null ) {
             throw new RuntimeException( "Cannot have a control panel for a null clock." );
         }
         ImageLoader cil = new ImageLoader();

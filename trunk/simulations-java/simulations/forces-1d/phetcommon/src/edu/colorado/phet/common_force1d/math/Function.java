@@ -4,7 +4,6 @@ package edu.colorado.phet.common_force1d.math;
  * User: Sam Reid
  * Date: Dec 12, 2004
  * Time: 8:13:02 PM
- *
  */
 public interface Function {
     public double evaluate( double x );

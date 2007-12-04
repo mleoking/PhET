@@ -26,7 +26,7 @@ public class CompositeClockTickListener implements ClockTickListener {
     }
 
     public ClockTickListener clockTickListenerAt( int i ) {
-        return (ClockTickListener)list.get( i );
+        return (ClockTickListener) list.get( i );
     }
 
     public int numClockTickListeners() {
@@ -34,8 +34,8 @@ public class CompositeClockTickListener implements ClockTickListener {
     }
 
     public void clockTicked( ClockTickEvent event ) {
-        for( int i = 0; i < list.size(); i++ ) {
-            ClockTickListener clockListener = (ClockTickListener)list.get( i );
+        for ( int i = 0; i < list.size(); i++ ) {
+            ClockTickListener clockListener = (ClockTickListener) list.get( i );
             clockListener.clockTicked( event );
         }
     }

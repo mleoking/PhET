@@ -10,14 +10,6 @@
  */
 package edu.colorado.phet.common_force1d.view.components;
 
-import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common_force1d.view.util.SwingUtils;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
@@ -26,6 +18,15 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.math.ModelViewTransform1D;
+import edu.colorado.phet.common_force1d.view.util.SwingUtils;
 
 /**
  * ModelSlider combines title, slider, and textfield, with units for normal usage.
@@ -37,7 +38,7 @@ import java.util.Set;
 public class ModelSlider extends JPanel {
     private JTextField textField;
     private JSlider slider;
-//    private Function modelViewTransform;//goes from model to view
+    //    private Function modelViewTransform;//goes from model to view
     private ModelViewTransform1D modelViewTransform;
     private String units;
     private NumberFormat formatter;
@@ -67,7 +68,7 @@ public class ModelSlider extends JPanel {
 
         // In case this has been called in response to a change in some characteristic, remove all the items in the
         // control
-        while( getComponentCount() > 0 ) {
+        while ( getComponentCount() > 0 ) {
             this.remove( getComponent( 0 ) );
         }
 
@@ -159,7 +160,7 @@ public class ModelSlider extends JPanel {
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
         Font labelFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 );
         Hashtable table = new Hashtable();
-        for( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
+        for ( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = modelViewTransform.viewToModel( value );
             JLabel label = new JLabel( formatter.format( modelValue ) );
             label.setFont( labelFont );
@@ -175,9 +176,9 @@ public class ModelSlider extends JPanel {
         Hashtable viewLabels = new Hashtable();
         Set keys = modelLabels.keySet();
         Iterator it = keys.iterator();
-        while( it.hasNext() ) {
-            Object o = (Object)it.next();
-            Number modelValue = (Number)o;
+        while ( it.hasNext() ) {
+            Object o = (Object) it.next();
+            Number modelValue = (Number) o;
             double v = modelValue.doubleValue();
             int viewValue = modelViewTransform.modelToView( v );
             viewLabels.put( new Integer( viewValue ), modelLabels.get( o ) );
@@ -187,7 +188,7 @@ public class ModelSlider extends JPanel {
 
     private void createSlider() {
         int initSliderValue = modelViewTransform.modelToView( initialValue );
-        if( initSliderValue < SLIDER_MIN || initSliderValue > SLIDER_MAX ) {
+        if ( initSliderValue < SLIDER_MIN || initSliderValue > SLIDER_MAX ) {
             throw new RuntimeException( "Illegal slider value, min=" + SLIDER_MIN + ", max=" + SLIDER_MAX + ", value=" + initSliderValue );
         }
         final JSlider slider = new JSlider( SwingConstants.HORIZONTAL,
@@ -219,8 +220,8 @@ public class ModelSlider extends JPanel {
     }
 
     private void fireStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener) listeners.get( i );
             ChangeEvent ce = new ChangeEvent( this );
             changeListener.stateChanged( ce );
         }
@@ -238,10 +239,10 @@ public class ModelSlider extends JPanel {
         } );
         textField.addKeyListener( new KeyAdapter() {
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                     testCommit();
                 }
-                else if( e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+                else if ( e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
                     setValue( initialValue );
                 }
             }
@@ -274,10 +275,10 @@ public class ModelSlider extends JPanel {
         double val = getValue();
         this.min = min;
         this.max = max;
-        if( val < min ) {
+        if ( val < min ) {
             val = min;
         }
-        if( val > max ) {
+        if ( val > max ) {
             val = max;
         }
         modelViewTransform = new ModelViewTransform1D( min, max, SLIDER_MIN, SLIDER_MAX );
@@ -286,7 +287,7 @@ public class ModelSlider extends JPanel {
 
     public void setModelTicks( double[] ticks ) {
         Hashtable table = new Hashtable();
-        for( int i = 0; i < ticks.length; i++ ) {
+        for ( int i = 0; i < ticks.length; i++ ) {
             double tick = ticks[i];
             table.put( new Double( tick ), new JLabel( tick + "" ) );
         }
@@ -327,7 +328,7 @@ public class ModelSlider extends JPanel {
         String text = ModelSlider.this.textField.getText();
         try {
             double value = Double.parseDouble( text );
-            if( value >= min && value <= max ) {
+            if ( value >= min && value <= max ) {
                 //still legal.
                 setValue( value );
             }
@@ -357,24 +358,24 @@ public class ModelSlider extends JPanel {
         }
 
         private void fire() {
-            if( keyCode == -1 ) {
+            if ( keyCode == -1 ) {
                 return;
             }
-            else if( keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_DOWN ) {
+            else if ( keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_DOWN ) {
                 double request = getValue() - delta;
-                if( request < min ) {
+                if ( request < min ) {
                     request = min;
                 }
                 setValue( request );
             }
-            else if( keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_UP ) {
+            else if ( keyCode == KeyEvent.VK_RIGHT || keyCode == KeyEvent.VK_UP ) {
                 double request = getValue() + delta;
-                if( request > max ) {
+                if ( request > max ) {
                     request = max;
                 }
                 setValue( request );
             }
-            else if( keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_SPACE ) {
+            else if ( keyCode == KeyEvent.VK_ESCAPE || keyCode == KeyEvent.VK_SPACE ) {
                 setValue( initialValue );
             }
         }
@@ -398,21 +399,21 @@ public class ModelSlider extends JPanel {
     }
 
     public void setValue( double value ) {
-        if( value == this.value ) {
+        if ( value == this.value ) {
             return;
         }
-        if( value >= min && value <= max ) {
+        if ( value >= min && value <= max ) {
             String string = formatter.format( value );
-            string=string.replace( ',','.');//to handle multi-lingual
+            string = string.replace( ',', '.' );//to handle multi-lingual
             double newValue = Double.parseDouble( string );
-            if( this.value == newValue ) {
+            if ( this.value == newValue ) {
                 return;
             }
 
             this.value = newValue;
             textField.setText( string );
             int sliderValue = modelViewTransform.modelToView( value );
-            if( sliderValue != slider.getValue() ) {
+            if ( sliderValue != slider.getValue() ) {
                 slider.setValue( sliderValue ); //this recursively changes values
             }
             fireStateChanged();

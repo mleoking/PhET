@@ -28,7 +28,7 @@ public abstract class DataSetGraphic implements DataSet.Observer {
 
     protected void addAllPoints() {
         DataSet dataSet = getDataSet();
-        for( int i = 0; i < dataSet.size(); i++ ) {
+        for ( int i = 0; i < dataSet.size(); i++ ) {
 //            System.out.println( "i = " + i + ", point=" + dataSet.pointAt( i ) );
             Point2D point = dataSet.pointAt( i );
             pointAdded( point );

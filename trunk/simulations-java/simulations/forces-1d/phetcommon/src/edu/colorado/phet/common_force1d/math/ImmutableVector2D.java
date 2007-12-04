@@ -69,7 +69,7 @@ public interface ImmutableVector2D extends AbstractVector2D {
         }
 
         public Float( Point2D initialPt, Point2D finalPt ) {
-            this( (float)( finalPt.getX() - initialPt.getX() ), (float)( finalPt.getY() - initialPt.getY() ) );
+            this( (float) ( finalPt.getX() - initialPt.getX() ), (float) ( finalPt.getY() - initialPt.getY() ) );
         }
 
     }

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.force1d_tag_chart;
 
 import java.awt.*;
@@ -63,7 +62,8 @@ public class GridLineSet {
 
 //    public void setMajorTickLabelsVisible( boolean visible ) {
 //        majorGrid.setTicksVisible( visible );
-//    }
+
+    //    }
     public void setMajorGridlines( double[] lines ) {
         majorGrid.setGridlines( lines );
     }

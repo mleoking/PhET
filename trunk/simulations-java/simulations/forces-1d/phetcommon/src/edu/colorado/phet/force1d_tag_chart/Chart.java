@@ -8,17 +8,17 @@ package edu.colorado.phet.force1d_tag_chart;
 
 //import edu.colorado.phet.common.view.graphics.Graphic;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 public class Chart extends PhetGraphic {
     private Component component;
@@ -111,7 +111,7 @@ public class Chart extends PhetGraphic {
             this.chart = chart;
             this.offsetX = offsetX;
 
-            if( title.startsWith( "<html>" ) ) {
+            if ( title.startsWith( "<html>" ) ) {
                 graphic = new HTMLGraphic( chart.getComponent(), font, title, color );
             }
             else {
@@ -125,7 +125,7 @@ public class Chart extends PhetGraphic {
 //            Rectangle chartRect = chart.getViewBounds();
             Rectangle chartRect = chart.getViewBounds();
             Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
-            if( frame == null ) {
+            if ( frame == null ) {
                 frame = chart.getViewBounds();
             }
             AffineTransform at = new AffineTransform();
@@ -141,7 +141,7 @@ public class Chart extends PhetGraphic {
             Rectangle rect = graphic.getBounds();
             Rectangle chartRect = chart.getViewBounds();
             Rectangle frame = chart.getVerticalTicks().getMajorTickTextBounds();
-            if( frame == null ) {
+            if ( frame == null ) {
                 frame = chart.getViewBounds();
             }
             frame.width = offsetX;//TODO this looks like a hack.
@@ -245,17 +245,17 @@ public class Chart extends PhetGraphic {
     }
 
     public Range2D getDataRange() {
-        if( numDataSetGraphics() == 0 ) {
+        if ( numDataSetGraphics() == 0 ) {
             return null;
         }
-        Range2D range = ( (DataSetGraphic)dataSetGraphics.get( 0 ) ).getDataSet().getRange();
-        for( int i = 1; i < dataSetGraphics.size(); i++ ) {
-            DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+        Range2D range = ( (DataSetGraphic) dataSetGraphics.get( 0 ) ).getDataSet().getRange();
+        for ( int i = 1; i < dataSetGraphics.size(); i++ ) {
+            DataSetGraphic dataSetGraphic = (DataSetGraphic) dataSetGraphics.get( i );
             Range2D nextRange = dataSetGraphic.getDataSet().getRange();
-            if( range == null ) {
+            if ( range == null ) {
                 range = nextRange;
             }
-            else if( nextRange != null ) {
+            else if ( nextRange != null ) {
                 range = range.union( nextRange );
             }
         }
@@ -272,7 +272,7 @@ public class Chart extends PhetGraphic {
     }
 
     public void addDataSetGraphic( DataSetGraphic dataSetGraphic ) {
-        if( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
+        if ( dataSetGraphic.getChart() == null || dataSetGraphic.getChart() == this ) {
             dataSetGraphic.setChart( this );
             dataSetGraphics.add( dataSetGraphic );
         }
@@ -292,7 +292,7 @@ public class Chart extends PhetGraphic {
      * @return the Point in view coordinates.
      */
     public Point transform( Point2D point ) {
-        if( point == null ) {
+        if ( point == null ) {
             throw new RuntimeException( "Null point" );
         }
 
@@ -304,7 +304,7 @@ public class Chart extends PhetGraphic {
     }
 
     public void paint( Graphics2D graphics2D ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
 
             super.saveGraphicsState( graphics2D );
             graphics2D.transform( getNetTransform() );
@@ -329,8 +329,8 @@ public class Chart extends PhetGraphic {
             //paint the datasets
             Shape clip = graphics2D.getClip();
             graphics2D.setClip( viewBounds );
-            for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-                DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+            for ( int i = 0; i < dataSetGraphics.size(); i++ ) {
+                DataSetGraphic dataSetGraphic = (DataSetGraphic) dataSetGraphics.get( i );
                 dataSetGraphic.paint( graphics2D );
             }
             graphics2D.setClip( clip );
@@ -338,7 +338,7 @@ public class Chart extends PhetGraphic {
             graphics2D.setColor( outlineColor );
             graphics2D.draw( viewBounds );
 
-            if( title != null ) {
+            if ( title != null ) {
                 title.paint( graphics2D );
             }
             super.restoreGraphicsState();
@@ -367,10 +367,10 @@ public class Chart extends PhetGraphic {
         transform.setViewBounds( viewBounds );
         fireTransformChanged();
         Rectangle r2 = getViewBounds();
-        if( r != null ) {
+        if ( r != null ) {
             component.repaint( r.x, r.y, r.width, r.height );
         }
-        if( r2 != null ) {
+        if ( r2 != null ) {
             component.repaint( r2.x, r2.y, r2.width, r2.height );
         }
 //        repaint();
@@ -400,19 +400,19 @@ public class Chart extends PhetGraphic {
     }
 
     private void fireTransformChanged() {
-        for( int i = 0; i < dataSetGraphics.size(); i++ ) {
-            DataSetGraphic dataSetGraphic = (DataSetGraphic)dataSetGraphics.get( i );
+        for ( int i = 0; i < dataSetGraphics.size(); i++ ) {
+            DataSetGraphic dataSetGraphic = (DataSetGraphic) dataSetGraphics.get( i );
             dataSetGraphic.transformChanged();
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.transformChanged( this );
         }
     }
 
 
     public DataSetGraphic dataSetGraphicAt( int i ) {
-        return (DataSetGraphic)dataSetGraphics.get( i );
+        return (DataSetGraphic) dataSetGraphics.get( i );
     }
 
     public int transformY( double gridLineY ) {

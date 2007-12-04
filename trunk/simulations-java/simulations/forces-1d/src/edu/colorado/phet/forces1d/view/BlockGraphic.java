@@ -1,5 +1,12 @@
 package edu.colorado.phet.forces1d.view;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -7,12 +14,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.model.Force1dObject;
-
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -102,7 +103,7 @@ public class BlockGraphic extends CompositePhetGraphic {
         setLocation( center.x - graphic.getWidth() / 2, center.y - graphic.getHeight() / 2 + 5 );
         setBoundsDirty();//so that the bounds gets recalculated when needed
         setAutoRepaint( true );
-        if( lastCenter == null || lastCenter.equals( center ) ) {
+        if ( lastCenter == null || lastCenter.equals( center ) ) {
 
         }
         else {
@@ -114,7 +115,7 @@ public class BlockGraphic extends CompositePhetGraphic {
 
     public Point getCenter() {
         Dimension dim = computeDimension();
-        int x = (int)transform1d.evaluate( block.getPosition() );
+        int x = (int) transform1d.evaluate( block.getPosition() );
         int y = panel.getWalkwayGraphic().getFloorY() - dim.height / 2;
         return new Point( x, y );
     }

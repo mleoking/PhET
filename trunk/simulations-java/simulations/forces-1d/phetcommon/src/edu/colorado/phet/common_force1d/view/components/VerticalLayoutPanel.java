@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.common_force1d.view.components;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * VerticalLayoutPanel

@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
+import java.net.URL;
+
 import edu.colorado.phet.forces1d.common.JSAudioPlayer;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import java.net.URL;
 
 /**
  * User: Sam Reid
@@ -31,13 +31,13 @@ public class CrashAudioPlayer implements Force1DModel.CollisionListener {
 //                System.out.println( "url2 = " + url2 );
 //                System.out.println( "url1 = " + url1 );
 //                System.out.println( "mom = " + mom );
-        if( mom < 50 ) {
+        if ( mom < 50 ) {
             //no audio for soft touches.
         }
-        else if( mom < 2000 ) {
+        else if ( mom < 2000 ) {
             JSAudioPlayer.playNoBlock( url0 );
         }
-        else if( mom < 4000 ) {
+        else if ( mom < 4000 ) {
             JSAudioPlayer.playNoBlock( url1 );
         }
         else {

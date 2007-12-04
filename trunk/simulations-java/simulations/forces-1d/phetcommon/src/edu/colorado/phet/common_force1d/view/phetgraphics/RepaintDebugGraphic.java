@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
-import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
-import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
-import edu.colorado.phet.common_force1d.view.ApparatusPanel;
-
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickEvent;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 
 /**
  * RepaintDebugGraphic
@@ -55,7 +55,7 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
     }
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             g2.setColor( new Color( r, g, b, alpha ) );
@@ -73,11 +73,11 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
 
     public void setActive( boolean active ) {
 
-        if( this.active == active ) {
+        if ( this.active == active ) {
             return;
         }
         this.active = active;
-        if( active ) {
+        if ( active ) {
             clock.addClockTickListener( this );
         }
         else {
@@ -110,12 +110,12 @@ public class RepaintDebugGraphic extends PhetGraphic implements ClockTickListene
         debugGraphic.setVisible( false );
         apparatusPanel.addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
                     boolean active = !debugGraphic.isActive();
 
                     debugGraphic.setActive( active );
                     debugGraphic.setVisible( active );
-                    if( active ) {
+                    if ( active ) {
                         apparatusPanel.addGraphic( debugGraphic, Double.POSITIVE_INFINITY );
                     }
                     else {

@@ -1,17 +1,18 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-import edu.colorado.phet.forces1d.model.Force1dObject;
-import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
+import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**
  * User: Sam Reid
@@ -49,7 +50,7 @@ public class SimpleControlPanel extends IForceControl {
         addControl( fbdSuite.getCheckBox() );
         addControl( fbdSuite.getFBDPanel() );
 
-        if( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1200 ) {
             super.removeTitle();
         }
 

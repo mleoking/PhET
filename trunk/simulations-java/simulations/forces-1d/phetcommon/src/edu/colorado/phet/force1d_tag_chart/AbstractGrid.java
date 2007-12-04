@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.force1d_tag_chart;
 
 import java.awt.*;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:25:44 AM
- *
  */
 public abstract class AbstractGrid {
     private double[] lines;
@@ -112,17 +110,17 @@ public abstract class AbstractGrid {
 //    }
 
     public double[] getGridLines( double origin, double min, double max, double spacing ) {
-        if( lines != null ) {
+        if ( lines != null ) {
             return lines;
         }
-        int n = (int)Math.ceil( ( min - origin ) / spacing );
+        int n = (int) Math.ceil( ( min - origin ) / spacing );
         ArrayList results = new ArrayList();
-        for( double currentPoint = origin + n * spacing; currentPoint <= max; currentPoint += spacing ) {
+        for ( double currentPoint = origin + n * spacing; currentPoint <= max; currentPoint += spacing ) {
             results.add( new Double( currentPoint ) );
         }
         double[] output = new double[results.size()];
-        for( int i = 0; i < output.length; i++ ) {
-            output[i] = ( (Double)results.get( i ) ).doubleValue();
+        for ( int i = 0; i < output.length; i++ ) {
+            output[i] = ( (Double) results.get( i ) ).doubleValue();
         }
         return output;
     }

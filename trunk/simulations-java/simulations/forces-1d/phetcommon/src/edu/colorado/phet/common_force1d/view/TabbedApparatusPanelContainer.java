@@ -10,11 +10,14 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import edu.colorado.phet.common_force1d.application.*;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common_force1d.application.Module;
+import edu.colorado.phet.common_force1d.application.ModuleEvent;
+import edu.colorado.phet.common_force1d.application.ModuleObserver;
+import edu.colorado.phet.common_force1d.application.PhetApplication;
 
 /**
  * An on-screen container for the modules in an application. It displays the
@@ -53,10 +56,10 @@ public class TabbedApparatusPanelContainer extends JTabbedPane implements Module
     }
 
     public void activeModuleChanged( ModuleEvent event ) {
-        if( current != event.getModule() ) {
+        if ( current != event.getModule() ) {
             int index = application.indexOf( event.getModule() );
             int numTabs = getTabCount();
-            if( index < numTabs ) {
+            if ( index < numTabs ) {
                 setSelectedIndex( index );
             }
             else {

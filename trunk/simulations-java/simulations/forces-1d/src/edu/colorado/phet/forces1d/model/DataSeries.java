@@ -42,8 +42,8 @@ public class DataSeries {
     }
 
     private void updateObservers() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.changed();
         }
     }
@@ -58,7 +58,7 @@ public class DataSeries {
 
     public double pointAt( int i ) {
 
-        return ( (Double)pts.get( i ) ).doubleValue();
+        return ( (Double) pts.get( i ) ).doubleValue();
     }
 
     public boolean indexInBounds( int index ) {

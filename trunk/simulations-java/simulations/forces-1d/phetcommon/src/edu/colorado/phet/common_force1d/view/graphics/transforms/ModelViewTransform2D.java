@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.view.graphics.transforms;
 
-import edu.colorado.phet.common_force1d.math.AbstractVector2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 
 /**
  * ModelViewTransform2D
@@ -25,11 +25,11 @@ import java.awt.geom.Rectangle2D;
  * @version $Revision$
  */
 public class ModelViewTransform2D {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private Rectangle2D.Double modelBounds;
     private Rectangle2D viewBounds;
     private CompositeTransformListener listeners = new CompositeTransformListener();
@@ -42,7 +42,7 @@ public class ModelViewTransform2D {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructs a forwardTransform from the specified model bounds to view bounds.
      *
@@ -83,13 +83,13 @@ public class ModelViewTransform2D {
         setModelBounds( mr );
         setViewBounds( vr );
     }
-    
+
     //----------------------------------------------------------------------------
     // Bounds methods
     //----------------------------------------------------------------------------
 
     public void setModelBounds( Rectangle2D modelBounds ) {
-        if( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
+        if ( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "modelBounds dimensons must be > 0 : " + modelBounds );
         }
         this.modelBounds = new Rectangle2D.Double( modelBounds.getX(), modelBounds.getY(), modelBounds.getWidth(), modelBounds.getHeight() );
@@ -97,13 +97,13 @@ public class ModelViewTransform2D {
         backTransformDirty = true;
         listeners.transformChanged( this );
     }
-    
+
     public Rectangle2D getModelBounds() {
         return modelBounds;
     }
-    
+
     public void setViewBounds( Rectangle2D viewBounds ) {
-        if( viewBounds.getWidth() <= 0 || viewBounds.getHeight() <= 0 ) {
+        if ( viewBounds.getWidth() <= 0 || viewBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "viewBounds dimensions must be > 0 : " + viewBounds );
         }
         forwardTransformDirty = true;
@@ -115,12 +115,12 @@ public class ModelViewTransform2D {
     public Rectangle getViewBounds() {
         return toRectangle( viewBounds );
     }
-    
+
     /* Double precision ! */
     public Rectangle2D getViewBoundsDouble() {
         return viewBounds;
     }
-    
+
     //----------------------------------------------------------------------------
     // Model-to-View methods  (integer precision)
     //----------------------------------------------------------------------------
@@ -128,11 +128,11 @@ public class ModelViewTransform2D {
     public Point modelToView( Point2D p ) {
         return toPoint( modelToViewDouble( p ) );
     }
-    
+
     public Point modelToView( double x, double y ) {
         return modelToView( new Point2D.Double( x, y ) );
     }
-    
+
     public Point modelToView( AbstractVector2D v ) {
         return modelToView( v.toPoint2D() );
     }
@@ -140,7 +140,7 @@ public class ModelViewTransform2D {
     public Rectangle modelToView( Rectangle2D r ) {
         return toRectangle( modelToViewDouble( r ) );
     }
-    
+
     public int modelToViewX( double x ) {
         return modelToView( x, 0 ).x;
     }
@@ -153,19 +153,19 @@ public class ModelViewTransform2D {
         fixForwardTransform();
         return toPoint( forwardTransform.deltaTransform( p, null ) );
     }
-    
+
     public Point modelToViewDifferential( double dx, double dy ) {
         return modelToViewDifferential( new Point2D.Double( dx, dy ) );
     }
-    
+
     public int modelToViewDifferentialX( double dx ) {
         return modelToViewDifferential( dx, 0 ).x;
     }
-    
+
     public int modelToViewDifferentialY( double dy ) {
         return modelToViewDifferential( 0, dy ).y;
     }
- 
+
     //----------------------------------------------------------------------------
     // Model-to-View methods  (double precision)
     //----------------------------------------------------------------------------
@@ -175,11 +175,11 @@ public class ModelViewTransform2D {
         Point2D out = forwardTransform.transform( p, null );
         return out;
     }
-    
+
     public Point2D modelToViewDouble( double x, double y ) {
         return modelToViewDouble( new Point2D.Double( x, y ) );
     }
-    
+
     public Point2D modelToViewDouble( AbstractVector2D v ) {
         return modelToViewDouble( v.toPoint2D() );
     }
@@ -191,7 +191,7 @@ public class ModelViewTransform2D {
         out.add( cornerB );
         return out;
     }
-    
+
     public double modelToViewXDouble( double x ) {
         return modelToViewDouble( x, 0 ).getX();
     }
@@ -204,23 +204,23 @@ public class ModelViewTransform2D {
         fixForwardTransform();
         return forwardTransform.deltaTransform( p, null );
     }
-    
+
     public Point2D modelToViewDifferentialDouble( double dx, double dy ) {
         return modelToViewDifferentialDouble( new Point2D.Double( dx, dy ) );
     }
-    
+
     public double modelToViewDifferentialXDouble( double dx ) {
         return modelToViewDifferentialDouble( dx, 0 ).getX();
     }
-    
+
     public double modelToViewDifferentialYDouble( double dy ) {
         return modelToViewDifferentialDouble( 0, dy ).getY();
     }
-    
+
     //----------------------------------------------------------------------------
     // View-to-Model methods
     //----------------------------------------------------------------------------
-    
+
     public Point2D viewToModel( Point2D p ) {
         fixBackTransform();
         return backTransform.transform( p, null );
@@ -229,11 +229,11 @@ public class ModelViewTransform2D {
     public Point2D viewToModel( double x, double y ) {
         return viewToModel( new Point2D.Double( x, y ) );
     }
-    
+
     public double viewToModelX( double x ) {
         return viewToModel( x, 0 ).getX();
     }
-    
+
     public double viewToModelY( double y ) {
         return viewToModel( 0, y ).getY();
     }
@@ -246,7 +246,7 @@ public class ModelViewTransform2D {
     public Point2D viewToModelDifferential( double dx, double dy ) {
         return viewToModelDifferential( new Point2D.Double( dx, dy ) );
     }
-    
+
     public double viewToModelDifferentialX( double dx ) {
         return viewToModelDifferential( dx, 0 ).getX();
     }
@@ -254,11 +254,11 @@ public class ModelViewTransform2D {
     public double viewToModelDifferentialY( double dy ) {
         return viewToModelDifferential( 0, dy ).getY();
     }
-    
+
     //----------------------------------------------------------------------------
     // Transform methods
     //----------------------------------------------------------------------------
-    
+
     public Shape createTransformedShape( Shape shape ) {
         fixForwardTransform();
         return forwardTransform.createTransformedShape( shape );
@@ -273,7 +273,7 @@ public class ModelViewTransform2D {
         fixBackTransform();
         return backTransform;
     }
-    
+
     public static AffineTransform createTX( Rectangle2D viewBounds, Rectangle2D modelBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
@@ -289,30 +289,30 @@ public class ModelViewTransform2D {
         double m12 = viewBounds.getY() + viewBounds.getHeight() / modelBounds.getHeight() * ( modelBounds.getY() + modelBounds.getHeight() );
         return new AffineTransform( m00, 0, 0, m11, m02, m12 );
     }
-    
+
     private void fixForwardTransform() {
-        if( forwardTransformDirty ) {
+        if ( forwardTransformDirty ) {
             forwardTransform = createForwardTransform();
             forwardTransformDirty = false;
         }
     }
 
     private void fixBackTransform() {
-        if( backTransformDirty ) {
+        if ( backTransformDirty ) {
             backTransform = createBackTransform();
             backTransformDirty = false;
         }
     }
 
     protected AffineTransform createForwardTransform() {
-        if( invertY ) {
+        if ( invertY ) {
             return createTXInvertY( viewBounds, modelBounds );
         }
         else {
             return createTX( viewBounds, modelBounds );
         }
     }
-    
+
     protected AffineTransform createBackTransform() {
         fixForwardTransform();
         try {
@@ -322,11 +322,11 @@ public class ModelViewTransform2D {
             throw new RuntimeException( e );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     public void addTransformListener( TransformListener listener ) {
         listeners.addTransformListener( listener );
     }
@@ -334,7 +334,7 @@ public class ModelViewTransform2D {
     public void removeTransformListener( TransformListener listener ) {
         listeners.removeTransformListener( listener );
     }
-    
+
     public int numTransformListeners() {
         return listeners.numTransformListeners();
     }
@@ -342,11 +342,11 @@ public class ModelViewTransform2D {
     public TransformListener[] getTransformListeners() {
         return listeners.getTransformListeners();
     }
-    
+
     //----------------------------------------------------------------------------
     //  Object overrides
     //----------------------------------------------------------------------------
-    
+
     public String toString() {
         return "modelBounds=" + modelBounds.toString() + ", viewBounds=" + viewBounds;
     }
@@ -354,22 +354,22 @@ public class ModelViewTransform2D {
     //----------------------------------------------------------------------------
     //  Utilities for converting precision
     //----------------------------------------------------------------------------
-    
+
     private static Point toPoint( Point2D p ) {
-        if( p instanceof Point ) {
-            return (Point)p;
+        if ( p instanceof Point ) {
+            return (Point) p;
         }
         else {
-            return new Point( (int)p.getX(), (int)p.getY() );
+            return new Point( (int) p.getX(), (int) p.getY() );
         }
     }
-    
+
     private static Rectangle toRectangle( Rectangle2D r ) {
-        if( r instanceof Rectangle ) {
-            return (Rectangle)r;
+        if ( r instanceof Rectangle ) {
+            return (Rectangle) r;
         }
         else {
-            return new Rectangle( (int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight() );
+            return new Rectangle( (int) r.getX(), (int) r.getY(), (int) r.getWidth(), (int) r.getHeight() );
         }
     }
 }

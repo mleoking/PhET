@@ -11,6 +11,9 @@
 
 package edu.colorado.phet.common_force1d.application;
 
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.model.BaseModel;
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
@@ -21,9 +24,6 @@ import edu.colorado.phet.common_force1d.view.ControlPanel;
 import edu.colorado.phet.common_force1d.view.help.HelpManager;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 
 /**
  * This class encapsulates the parts of an application that make up
@@ -80,7 +80,7 @@ public class Module implements ClockTickListener {
 
     public void setApparatusPanel( ApparatusPanel apparatusPanel ) {
         this.apparatusPanel = apparatusPanel;
-        if( helpManager != null ) {
+        if ( helpManager != null ) {
             helpManager.setComponent( apparatusPanel );
         }
         else {
@@ -141,7 +141,7 @@ public class Module implements ClockTickListener {
      * @param app
      */
     public void activate( PhetApplication app ) {
-        if( !moduleIsWellFormed() ) {
+        if ( !moduleIsWellFormed() ) {
             throw new RuntimeException( "Module missing important data, module=" + this );
         }
         app.getPhetFrame().getBasicPhetPanel().setControlPanel( this.getControlPanel() );
@@ -193,7 +193,7 @@ public class Module implements ClockTickListener {
         if ( controlPanel instanceof ControlPanel ) {
             // If our control panel is a Phet control panel, then change the 
             // state of its Help button.
-            ((ControlPanel)controlPanel).setHelpEnabled( h );
+            ( (ControlPanel) controlPanel ).setHelpEnabled( h );
         }
     }
 

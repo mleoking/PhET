@@ -47,7 +47,7 @@ public abstract class BoundaryCondition {
         }
 
         public void apply() {
-            if( block.getPosition() > 10 ) {
+            if ( block.getPosition() > 10 ) {
                 double mv = Math.abs( block.getMass() * block.getVelocity() );
                 block.setPosition( 10 );
                 block.setAcceleration( 0.0 );
@@ -55,7 +55,7 @@ public abstract class BoundaryCondition {
 //                System.out.println( "block = " + block );
                 model.fireCollisionHappened( mv );
             }
-            else if( block.getPosition() < -10 ) {
+            else if ( block.getPosition() < -10 ) {
                 double mv = Math.abs( block.getMass() * block.getVelocity() );
                 block.setPosition( -10 );
                 block.setAcceleration( 0.0 );
@@ -68,7 +68,7 @@ public abstract class BoundaryCondition {
         public double getWallForce( double appliedForce, double frictionForce ) {
             boolean right = block.getPosition() >= 10.0 && appliedForce > 0;
             boolean left = block.getPosition() <= -10.0 && appliedForce < 0;
-            if( right || left ) {
+            if ( right || left ) {
                 return -( appliedForce + frictionForce );
             }
             else {

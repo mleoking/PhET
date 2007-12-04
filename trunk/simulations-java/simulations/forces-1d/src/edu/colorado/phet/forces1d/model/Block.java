@@ -52,8 +52,8 @@ public class Block {
     }
 
     private void firePropertyChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.propertyChanged();
         }
     }
@@ -87,14 +87,14 @@ public class Block {
         double origVelocity = velocity;
         velocity += acceleration * dt;
 
-        if( changedSign( origVelocity, velocity ) ) {
+        if ( changedSign( origVelocity, velocity ) ) {
             velocity = 0;
         }
         position += velocity * dt;
 
-        if( origPosition != position ) {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+        if ( origPosition != position ) {
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.positionChanged();
             }
         }
@@ -107,10 +107,10 @@ public class Block {
         private String s;
 
         public static Sign toSign( double value ) {
-            if( value > 0 ) {
+            if ( value > 0 ) {
                 return POSITIVE;
             }
-            else if( value < 0 ) {
+            else if ( value < 0 ) {
                 return NEGATIVE;
             }
             else {
@@ -123,7 +123,7 @@ public class Block {
         }
 
         public boolean equals( Object obj ) {
-            return obj instanceof Sign && ( (Sign)obj ).s.equals( s );
+            return obj instanceof Sign && ( (Sign) obj ).s.equals( s );
         }
     }
 
@@ -141,7 +141,7 @@ public class Block {
     }
 
     public double getFrictionCoefficient() {
-        if( isMoving() ) {
+        if ( isMoving() ) {
             return kineticFriction;
         }
         else {

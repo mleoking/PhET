@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common_force1d.view.graphics.mousecontrols;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * CursorControl

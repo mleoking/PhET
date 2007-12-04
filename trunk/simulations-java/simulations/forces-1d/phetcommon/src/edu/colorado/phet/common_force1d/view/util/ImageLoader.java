@@ -10,16 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import java.awt.Container;
-import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /**
  * User: University of Colorado, PhET
@@ -31,7 +28,7 @@ import javax.swing.ImageIcon;
  * and the conversion mechanism.
  * <p/>
  * All combinations do not return the same results.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -74,14 +71,14 @@ public class ImageLoader {
     public BufferedImage loadImage( String name ) throws IOException {
         ClassLoader cl = this.getClass().getClassLoader();
         URL imageUrl = cl.getResource( name );
-        if( imageUrl == null ) {
+        if ( imageUrl == null ) {
             throw new IOException( "Null image URL for resource name=" + name );
         }
         return loadImage( imageUrl );
     }
 
     public BufferedImage loadImage( URL imageURL ) throws IOException {
-        if( imageURL == null ) {
+        if ( imageURL == null ) {
             throw new IOException( "Null image URL." );
         }
         Image image = loadStrategy.loadImage( imageURL );
@@ -152,7 +149,7 @@ public class ImageLoader {
             public Image fetchImage( URL imageLocation ) throws IOException {
                 Image image = null;
                 try {
-                    if( imageLocation == null ) {
+                    if ( imageLocation == null ) {
                         throw new IOException( "Image resource not found: Null imagelocation URL" );
                     }
                     else {
@@ -170,7 +167,7 @@ public class ImageLoader {
         }
 
         public Image loadImage( URL location ) throws IOException {
-            if( location == null ) {
+            if ( location == null ) {
                 throw new IOException( "Null URL Location" );
             }
             Image im = null;

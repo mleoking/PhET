@@ -1,20 +1,20 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.force1d_tag_chart.controllers;
 
-import edu.colorado.phet.force1d_tag_chart.Chart;
-import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
-
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.force1d_tag_chart.Chart;
 
 /**
  * User: Sam Reid
  * Date: Jul 1, 2003
  * Time: 9:02:00 AM
- *
  */
 public class HorizontalCursor2 extends CompositePhetGraphic {
 
@@ -43,10 +43,10 @@ public class HorizontalCursor2 extends CompositePhetGraphic {
                 newX = Math.min( newX, chart.getRange().getMaxX() );
                 newX = Math.max( newX, minX );
                 newX = Math.min( newX, maxX );
-                if( newX != modelX ) {
+                if ( newX != modelX ) {
                     setModelX( newX );
-                    for( int i = 0; i < listeners.size(); i++ ) {
-                        Listener listener = (Listener)listeners.get( i );
+                    for ( int i = 0; i < listeners.size(); i++ ) {
+                        Listener listener = (Listener) listeners.get( i );
                         listener.modelValueChanged( newX );
                     }
                 }

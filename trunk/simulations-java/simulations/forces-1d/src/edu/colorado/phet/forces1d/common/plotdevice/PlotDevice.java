@@ -1,8 +1,20 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -19,17 +31,6 @@ import edu.colorado.phet.force1d_tag_chart.controllers.VerticalChartSlider2;
 import edu.colorado.phet.forces1d.model.DataSeries;
 import edu.colorado.phet.forces1d.model.PhetTimer;
 import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -118,8 +119,8 @@ public class PlotDevice extends GraphicLayerSet {
 //        addGraphic( verticalChartSlider, Double.POSITIVE_INFINITY );
         verticalChartSlider.addListener( new VerticalChartSlider2.Listener() {
             public void valueChanged( double value ) {
-                for( int i = 0; i < listeners.size(); i++ ) {
-                    Listener listener = (Listener)listeners.get( i );
+                for ( int i = 0; i < listeners.size(); i++ ) {
+                    Listener listener = (Listener) listeners.get( i );
                     listener.valueChanged( value );
                 }
             }
@@ -147,9 +148,9 @@ public class PlotDevice extends GraphicLayerSet {
                         catch( InterruptedException e1 ) {
                             e1.printStackTrace();
                         }
-                        if( adorned ) {
-                            if( panel instanceof ApparatusPanel2 ) {
-                                ApparatusPanel2 p2 = (ApparatusPanel2)panel;
+                        if ( adorned ) {
+                            if ( panel instanceof ApparatusPanel2 ) {
+                                ApparatusPanel2 p2 = (ApparatusPanel2) panel;
                                 p2.getGraphic().setKeyFocus( textFieldGraphic );
                             }
                             textFieldGraphic.gainedKeyFocus();
@@ -196,39 +197,39 @@ public class PlotDevice extends GraphicLayerSet {
         updateControllable();
         plotDeviceModel.addListener( new PlotDeviceModel.ListenerAdapter() {
             public void recordingStarted() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( false );
                 }
             }
 
             public void recordingPaused() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                     horizontalCursor.setModelX( horizontalCursor.getMaxX() );
                 }
             }
 
             public void recordingFinished() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                     horizontalCursor.setModelX( horizontalCursor.getMaxX() );//TODO maybe this should be more to the middle of the screen.?
                 }
             }
 
             public void playbackStarted() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                 }
             }
 
             public void playbackPaused() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                 }
             }
 
             public void playbackFinished() {
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                 }
             }
@@ -239,7 +240,7 @@ public class PlotDevice extends GraphicLayerSet {
 
             public void rewind() {
 //                super.rewind();
-                if( isVisible() ) {
+                if ( isVisible() ) {
                     horizontalCursor.setVisible( true );
                 }
             }
@@ -257,7 +258,7 @@ public class PlotDevice extends GraphicLayerSet {
 
     public void setAdorned( boolean adorned ) {
         this.adorned = adorned;
-        if( adorned ) {
+        if ( adorned ) {
             apparatusPanel.addGraphic( textFieldGraphic );//TODO needs an "if use textField"
         }
         else {
@@ -270,7 +271,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     private void updateControllable() {
-        if( !controllable ) {
+        if ( !controllable ) {
             setSliderVisible( false );
             textBox.setEditable( false );
         }
@@ -284,14 +285,14 @@ public class PlotDevice extends GraphicLayerSet {
 
     private void updateTextBox( final PlotDeviceModel module, final DataSeries series ) {
         int index = 0;
-        if( module.isTakingData() ) {
+        if ( module.isTakingData() ) {
             index = series.size() - 1;
         }
         else {
             double time = module.getPlaybackTimer().getTime() + chartComponent.getxShift();
-            index = (int)time;//(int)( time / MovingManModel.TIMER_SCALE );
+            index = (int) time;//(int)( time / MovingManModel.TIMER_SCALE );
         }
-        if( series.indexInBounds( index ) ) {
+        if ( series.indexInBounds( index ) ) {
             double value = series.pointAt( index );
             setTextValue( value );
         }
@@ -299,11 +300,11 @@ public class PlotDevice extends GraphicLayerSet {
 
 
     public void setValue( double value ) {
-        if( value != this.value ) {
+        if ( value != this.value ) {
             verticalChartSlider.setValue( value );
             setTextValue( value );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.valueChanged( value );
             }
             this.value = value;
@@ -330,7 +331,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void repaintBuffer() {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             chartComponent.repaintBuffer();
         }
     }
@@ -361,7 +362,7 @@ public class PlotDevice extends GraphicLayerSet {
 
     public void setTextValue( double value ) {
         if ( lastTextValue != value ) {
-            lastTextValue=value;
+            lastTextValue = value;
             String valueString = format.format( value );
             if ( valueString.equals( "-0.00" ) ) {
                 valueString = "0.00";
@@ -390,18 +391,18 @@ public class PlotDevice extends GraphicLayerSet {
 
     private double[] getYLines( double magnitude, double dy ) {
         ArrayList values = new ArrayList();
-        for( double i = dy; i < magnitude; i += dy ) {
+        for ( double i = dy; i < magnitude; i += dy ) {
             values.add( new Double( i ) );
         }
-        if( values.size() > 5 ) {
+        if ( values.size() > 5 ) {
             return getYLines( magnitude, dy * 2 );
         }
-        if( values.size() <= 1 ) {
+        if ( values.size() <= 1 ) {
             return getYLines( magnitude, dy / 2 );
         }
         double[] d = new double[values.size()];
-        for( int i = 0; i < d.length; i++ ) {
-            d[i] = ( (Double)values.get( i ) ).doubleValue();
+        for ( int i = 0; i < d.length; i++ ) {
+            d[i] = ( (Double) values.get( i ) ).doubleValue();
         }
         return d;
     }
@@ -431,7 +432,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void setViewBounds( Rectangle rectangle ) {
-        if( rectangle.width > 0 && rectangle.height > 0 ) {
+        if ( rectangle.width > 0 && rectangle.height > 0 ) {
             chartComponent.setViewBounds( rectangle );
             verticalChartSlider.setOffsetX( chartComponent.chart.getVerticalTicks().getMajorTickTextBounds().width + getChart().getTitle().getBounds().width );
             verticalChartSlider.update();
@@ -459,7 +460,7 @@ public class PlotDevice extends GraphicLayerSet {
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
         setSliderVisible( visible );
-        if( visible ) {
+        if ( visible ) {
             horizontalCursor.setVisible( true );
         }
         else {
@@ -483,7 +484,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void update() {
-        chartComponent.update( (float)timer.getTime() );
+        chartComponent.update( (float) timer.getTime() );
     }
 
     public void setMagnitude( double magnitude ) {
@@ -501,14 +502,14 @@ public class PlotDevice extends GraphicLayerSet {
     public void updateSlider() {
         JSlider js = verticalChartSlider.getSlider();
         DataSet dataSet = chartComponent.getDefaultDataSet();
-        if( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
+        if ( !js.getValueIsAdjusting() && dataSet.size() > 0 ) {
             double lastY = dataSet.getLastPoint().getY();
             verticalChartSlider.setValue( lastY );
         }
     }
 
     public void cursorMovedToTime( double time, int index ) {
-        if( index < chartComponent.seriesAt( 0 ).dataSeries.size() ) {
+        if ( index < chartComponent.seriesAt( 0 ).dataSeries.size() ) {
 
             horizontalCursor.setX( time );
             DataSeries dataSeries = chartComponent.seriesAt( 0 ).dataSeries;
@@ -519,7 +520,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public void setCursorVisible( boolean visible ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             horizontalCursor.setVisible( visible );
         }
     }
@@ -531,7 +532,7 @@ public class PlotDevice extends GraphicLayerSet {
     public class ChartComponent {
         //        private CloseButton closeButton;
         private ArrayList series = new ArrayList();
-//        private MagButton magPlus;
+        //        private MagButton magPlus;
         //        private MagButton magMinus;
         private Chart chart;
         private float lastTime;
@@ -551,11 +552,11 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         private Series seriesAt( int i ) {
-            return (Series)series.get( i );
+            return (Series) series.get( i );
         }
 
         public void addSeries( DataSeries dataSeries, Color color, String title, Stroke stroke ) {
-            Series series = new Series( title, (ApparatusPanel)getComponent(), dataSeries, stroke, color );
+            Series series = new Series( title, (ApparatusPanel) getComponent(), dataSeries, stroke, color );
             addSeries( series );
         }
 
@@ -564,15 +565,15 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public void cursorMovedToTime( double time, int index ) {
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.cursorMovedToTime( time, index );
             }
         }
 
         public void repaintBuffer() {
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.repaintBuffer();
             }
         }
@@ -583,8 +584,8 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public void clearData() {
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.clearData();
             }
         }
@@ -619,13 +620,13 @@ public class PlotDevice extends GraphicLayerSet {
                 bufferedLinePlot = new BufferedLinePlot( chart, dataSet, stroke, color, bufferedPhetGraphic );
                 dataSeries.addListener( new DataSeries.Listener() {
                     public void changed() {
-                        update( (float)timer.getTime() );
+                        update( (float) timer.getTime() );
                     }
                 } );
                 readout = new PhetTextGraphic( panel, readoutFont, name + " = ", color, 100, 100 );
                 panel.addGraphic( readout, 10000 );
                 readoutValue = new PhetTextGraphic( panel, readoutFont, "0.0 ", color, 100, 100 );
-                if( units.startsWith( "<html>" ) ) {
+                if ( units.startsWith( "<html>" ) ) {
                     readoutUnits = new HTMLGraphic( panel, readoutFont, units, color );
                 }
                 else {
@@ -673,7 +674,7 @@ public class PlotDevice extends GraphicLayerSet {
             public void setViewBounds( Rectangle rectangle ) {
                 int index = series.indexOf( this );
                 int yOffset = 0;
-                for( int i = 0; i < index; i++ ) {
+                for ( int i = 0; i < index; i++ ) {
                     yOffset += seriesAt( i ).readout.getBounds().height + 2;
                 }
                 readout.setLocation( chart.getViewBounds().x + 15, chart.getViewBounds().y + readout.getHeight() - 5 + yOffset );
@@ -682,12 +683,12 @@ public class PlotDevice extends GraphicLayerSet {
 
             public void update( float time ) {
                 lastTime = time;
-                if( dataSeries.size() <= 1 ) {
+                if ( dataSeries.size() <= 1 ) {
                     dataSet.clear();
                 }
                 else {
                     double position = dataSeries.getLastPoint();// * scale + yoffset;
-                    if( Double.isInfinite( position ) ) {
+                    if ( Double.isInfinite( position ) ) {
                         return;
                     }
                     Point2D.Double pt = new Point2D.Double( time - xShift, position );
@@ -706,11 +707,11 @@ public class PlotDevice extends GraphicLayerSet {
             }
 
             public void repaintBuffer() {
-                if( visible && PlotDevice.this.isVisible() ) {
+                if ( visible && PlotDevice.this.isVisible() ) {
                     bufferedLinePlot.clear();
                     dataSet.clear();
                     bufferedLinePlot.setAutoRepaint( false );
-                    for( int i = 0; i < dataSeries.size(); i++ ) {
+                    for ( int i = 0; i < dataSeries.size(); i++ ) {
                         double pt = dataSeries.pointAt( i );
                         double time = plotDeviceModel.convertIndexToTime( i );
                         dataSet.addPoint( time, pt );
@@ -797,8 +798,8 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public void reset() {
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.reset();
             }
         }
@@ -810,17 +811,17 @@ public class PlotDevice extends GraphicLayerSet {
             magPlusGraphic.setVisible( visible );
             magMinusGraphic.setVisible( visible );
 
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.setVisible( visible );
             }
         }
 
         public void update( float time ) {
-            if( time == lastTime ) {
+            if ( time == lastTime ) {
                 return;
             }
-            for( int i = 0; i < series.size(); i++ ) {
+            for ( int i = 0; i < series.size(); i++ ) {
                 seriesAt( i ).update( time );
             }
             horizontalCursor.setMaxX( time );
@@ -849,8 +850,8 @@ public class PlotDevice extends GraphicLayerSet {
 
             magPlusGraphic.setLocation( magX, magY );
             magMinusGraphic.setLocation( magX, magY + magSep + buttonSize.height );
-            for( int i = 0; i < series.size(); i++ ) {
-                Series series1 = (Series)series.get( i );
+            for ( int i = 0; i < series.size(); i++ ) {
+                Series series1 = (Series) series.get( i );
                 series1.setViewBounds( rectangle );
             }
         }
@@ -869,7 +870,7 @@ public class PlotDevice extends GraphicLayerSet {
                 double diffY = origRange.getMaxY();
                 double newDiffY = diffY + increment;
                 double MAX = maxRange;
-                if( newDiffY < MAX ) {
+                if ( newDiffY < MAX ) {
                     setMagnitude( newDiffY );
                     setPaintYLines( getYLines( newDiffY, 5 ) );
                     plotDeviceView.repaintBackground();//TODO this could just repaint this part (not the whole thing.)
@@ -889,7 +890,7 @@ public class PlotDevice extends GraphicLayerSet {
                 Range2D origRange = chart.getRange();
                 double diffY = origRange.getMaxY();
                 double newDiffY = diffY - increment;
-                if( newDiffY > 0 ) {
+                if ( newDiffY > 0 ) {
                     setMagnitude( newDiffY );
                     setPaintYLines( getYLines( newDiffY, 5 ) );
                     plotDeviceView.repaintBackground();
@@ -900,14 +901,14 @@ public class PlotDevice extends GraphicLayerSet {
 
         public void setPaintYLines( double[] lines ) {
             double[] full = new double[lines.length * 2 + 1];
-            for( int i = 0; i < lines.length; i++ ) {
+            for ( int i = 0; i < lines.length; i++ ) {
                 full[i] = lines[i];
                 full[full.length - 1 - i] = -lines[i];
             }
             full[lines.length] = 0;
 
             double[] half = new double[lines.length * 2];
-            for( int i = 0; i < lines.length; i++ ) {
+            for ( int i = 0; i < lines.length; i++ ) {
                 half[i] = lines[i];
                 half[half.length - 1 - i] = -lines[i];
             }
@@ -977,7 +978,7 @@ public class PlotDevice extends GraphicLayerSet {
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {
                 public void mousePressed( MouseEvent e ) {
-                    if( isEnabled() ) {
+                    if ( isEnabled() ) {
                         selectAll();
                     }
                 }
@@ -993,7 +994,7 @@ public class PlotDevice extends GraphicLayerSet {
 
                 public void keyReleased( KeyEvent e ) {
                     changedByUser = true;
-                    if( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                    if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                         System.out.println( "pressed enter." );
                         parseAndSetValue();
                     }
@@ -1039,7 +1040,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         public void setEnabled( boolean enabled ) {
             super.setEnabled( enabled );
-            if( enabled ) {
+            if ( enabled ) {
                 selectAll();
             }
         }
@@ -1090,11 +1091,11 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public void setText( String valueString ) {
-            if( valueString.length() > textField.getColumns() ) {
+            if ( valueString.length() > textField.getColumns() ) {
                 valueString = valueString.subSequence( 0, textField.getColumns() ) + "";
             }
-            if (!textField.getText().equals( valueString )){
-            textField.setText( valueString );
+            if ( !textField.getText().equals( valueString ) ) {
+                textField.setText( valueString );
             }
         }
 
@@ -1111,7 +1112,7 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public static Icon loadIcon() throws IOException {
-            if( icon == null ) {
+            if ( icon == null ) {
 //                BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x-25.gif" );
 //                BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x.png" );
                 BufferedImage image = ImageLoader.loadBufferedImage( "forces-1d/images/x-30.png" );
@@ -1150,10 +1151,10 @@ public class PlotDevice extends GraphicLayerSet {
         }
 
         public void mouseReleased( MouseEvent e ) {
-            if( timer != null ) {
+            if ( timer != null ) {
                 timer.stop();
                 long time = System.currentTimeMillis();
-                if( time - pressTime < initDelay ) {
+                if ( time - pressTime < initDelay ) {
                     discrete.actionPerformed( null );
                 }
             }

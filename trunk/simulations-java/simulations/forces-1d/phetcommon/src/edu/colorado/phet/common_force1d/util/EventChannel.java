@@ -74,7 +74,7 @@ public class EventChannel implements InvocationHandler {
      * @param interf
      */
     public EventChannel( Class interf ) {
-        if( !EventListener.class.isAssignableFrom( interf ) ) {
+        if ( !EventListener.class.isAssignableFrom( interf ) ) {
             throw new RuntimeException( "Attempt to create proxy for an interface that is not an EventListener" );
         }
         targetInterface = interf;
@@ -90,7 +90,7 @@ public class EventChannel implements InvocationHandler {
      * @param listener
      */
     public synchronized void addListener( EventListener listener ) {
-        if( targetInterface.isInstance( listener ) ) {
+        if ( targetInterface.isInstance( listener ) ) {
             targets.add( listener );
         }
     }
@@ -164,7 +164,7 @@ public class EventChannel implements InvocationHandler {
     public Object invoke( Object proxy, Method method, Object[] args ) throws Throwable {
         Object target = null;
         try {
-            for( int i = 0; i < targets.size(); i++ ) {
+            for ( int i = 0; i < targets.size(); i++ ) {
                 target = targets.get( i );
                 method.invoke( target, args );
             }

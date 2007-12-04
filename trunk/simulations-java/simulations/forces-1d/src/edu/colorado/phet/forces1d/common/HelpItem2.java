@@ -1,15 +1,15 @@
 /*  */
 package edu.colorado.phet.forces1d.common;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

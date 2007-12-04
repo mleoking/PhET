@@ -10,9 +10,10 @@
  */
 package edu.colorado.phet.common_force1d.model.clock;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
 
 /**
  * SwingTimerClock
@@ -72,8 +73,8 @@ public class SwingTimerClock extends AbstractClock {
      */
     public SwingTimerClock( double dt, int tickSpec, int tickSpecType, boolean isFixed ) {
         super( dt, tickSpec, tickSpecType, isFixed );
-        timer = new Timer( (int)super.getDelay(), new Ticker() );
-        delayStrategy = new DynamicDelay( (int)super.getDelay() );
+        timer = new Timer( (int) super.getDelay(), new Ticker() );
+        delayStrategy = new DynamicDelay( (int) super.getDelay() );
     }
 
     public void doStart() {
@@ -142,7 +143,7 @@ public class SwingTimerClock extends AbstractClock {
         public int getDelay( long actualWaitTime ) {
             long dt = actualWaitTime - lastRequestedDelay;
             long nextRequest = delay - dt;
-            int result = Math.min( delay, Math.max( (int)nextRequest, min ) );
+            int result = Math.min( delay, Math.max( (int) nextRequest, min ) );
             lastRequestedDelay = result;
             return result;
         }
@@ -151,13 +152,13 @@ public class SwingTimerClock extends AbstractClock {
     private class Ticker implements ActionListener {
 
         public void actionPerformed( ActionEvent e ) {
-            if( isRunning() ) {
+            if ( isRunning() ) {
                 long tickTime = System.currentTimeMillis();
                 long actualWaitTime = tickTime - lastTickTime;
                 int delay = delayStrategy.getDelay( actualWaitTime );
                 timer.setDelay( delay );
                 lastTickTime = tickTime;
-                if( isRunning() ) {
+                if ( isRunning() ) {
                     clockTicked( getSimulationTime( actualWaitTime ) );
                 }
             }

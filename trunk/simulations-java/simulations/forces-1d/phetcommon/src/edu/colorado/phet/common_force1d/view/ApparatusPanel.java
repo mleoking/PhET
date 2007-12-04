@@ -10,17 +10,18 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
 import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common_force1d.view.util.GraphicsState;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -83,27 +84,27 @@ public class ApparatusPanel extends JPanel {
         // Hook up all the graphics to the apparatus panel
         graphic.setComponent( this );
         Iterator gIt = graphic.getGraphicMap().iterator();
-        while( gIt.hasNext() ) {
+        while ( gIt.hasNext() ) {
             Object obj = gIt.next();
-            if( obj instanceof PhetGraphic ) {
-                PhetGraphic phetGraphic = (PhetGraphic)obj;
+            if ( obj instanceof PhetGraphic ) {
+                PhetGraphic phetGraphic = (PhetGraphic) obj;
                 phetGraphic.setComponent( this );
             }
         }
 
         // Clear the old handlers
         MouseListener[] mouseListeners = this.getMouseListeners();
-        for( int i = 0; i < mouseListeners.length; i++ ) {
+        for ( int i = 0; i < mouseListeners.length; i++ ) {
             MouseListener mouseListener = mouseListeners[i];
             this.removeMouseListener( mouseListener );
         }
         MouseMotionListener[] mouseMostionListeners = this.getMouseMotionListeners();
-        for( int i = 0; i < mouseMostionListeners.length; i++ ) {
+        for ( int i = 0; i < mouseMostionListeners.length; i++ ) {
             MouseMotionListener mouseMostionListener = mouseMostionListeners[i];
             this.removeMouseMotionListener( mouseMostionListener );
         }
         KeyListener[] keyListeners = this.getKeyListeners();
-        for( int i = 0; i < keyListeners.length; i++ ) {
+        for ( int i = 0; i < keyListeners.length; i++ ) {
             KeyListener keyListener = keyListeners[i];
             this.removeKeyListener( keyListener );
         }
@@ -132,7 +133,7 @@ public class ApparatusPanel extends JPanel {
         } );
         addKeyListener( new KeyListener() {
             public void keyPressed( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_P ) {
+                if ( e.getKeyCode() == KeyEvent.VK_P ) {
                     rdg.setActive( !rdg.isActive() );
                     rdg.setVisible( rdg.isActive() );
                 }
@@ -163,8 +164,8 @@ public class ApparatusPanel extends JPanel {
     }
 
     protected void setup( Graphics2D g2 ) {
-        for( int i = 0; i < graphicsSetups.size(); i++ ) {
-            GraphicsSetup graphicsSetup = (GraphicsSetup)graphicsSetups.get( i );
+        for ( int i = 0; i < graphicsSetups.size(); i++ ) {
+            GraphicsSetup graphicsSetup = (GraphicsSetup) graphicsSetups.get( i );
             graphicsSetup.setup( g2 );
         }
     }
@@ -175,7 +176,7 @@ public class ApparatusPanel extends JPanel {
      * @param graphics
      */
     protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         super.paintComponent( g2 );
         GraphicsState state = new GraphicsState( g2 );
         setup( g2 );
@@ -212,11 +213,11 @@ public class ApparatusPanel extends JPanel {
     }
 
     protected void drawBorder( Graphics2D g2 ) {
-        if( displayBorder ) {
+        if ( displayBorder ) {
             GraphicsState gs = new GraphicsState( g2 );
             g2.setColor( Color.black );
             g2.setStroke( borderStroke );
-            Rectangle border = new Rectangle( 0, 0, (int)this.getBounds().getWidth() - 1, (int)this.getBounds().getHeight() - 1 );
+            Rectangle border = new Rectangle( 0, 0, (int) this.getBounds().getWidth() - 1, (int) this.getBounds().getHeight() - 1 );
             g2.draw( border );
             gs.restoreGraphics();
         }

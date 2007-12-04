@@ -11,17 +11,17 @@
 
 package edu.colorado.phet.common_force1d.application;
 
-import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
+
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.model.clock.ClockTickListener;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.PhetFrame;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.util.FrameSetup;
-
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.IOException;
 
 /**
  * The top-level class for all PhET applications.
@@ -90,7 +90,7 @@ public class PhetApplication {
         this.description = description;
         this.version = version;
         this.useClockControlPanel = useClockControlPanel;
-        if( frameSetup != null ) {
+        if ( frameSetup != null ) {
             setFrameSetup( frameSetup );
         }
 
@@ -129,10 +129,10 @@ public class PhetApplication {
         moduleManager = new ModuleManager( this );
         clock = descriptor.getClock();
 
-        if( descriptor.getModules() == null ) {
+        if ( descriptor.getModules() == null ) {
             throw new RuntimeException( "Module(s) not specified in ApplicationModel" );
         }
-        if( descriptor.getClock() == null ) {
+        if ( descriptor.getClock() == null ) {
             throw new RuntimeException( "Clock not specified in ApplicationModel" );
         }
         this.applicationModel = descriptor;
@@ -157,9 +157,9 @@ public class PhetApplication {
      * @param args
      */
     protected void parseArgs( String[] args ) {
-        for( int i = 0; args != null && i < args.length; i++ ) {
+        for ( int i = 0; args != null && i < args.length; i++ ) {
             String arg = args[i];
-            if( arg.equals( DEBUG_MENU_ARG ) ) {
+            if ( arg.equals( DEBUG_MENU_ARG ) ) {
                 phetFrame.addDebugMenu();
             }
         }
@@ -171,7 +171,7 @@ public class PhetApplication {
      * Sets up the mechanism that sets the reference sizes of all ApparatusPanel2 instances.
      */
     public void startApplication() {
-        if( initialModule == null ) {
+        if ( initialModule == null ) {
             throw new RuntimeException( "Initial module not specified." );
         }
 
@@ -181,11 +181,11 @@ public class PhetApplication {
         // at the proper size, but the ApparatusPanel2 has not yet gotten its resize event.
         phetFrame.addWindowFocusListener( new WindowAdapter() {
             public void windowGainedFocus( WindowEvent e ) {
-                for( int i = 0; i < moduleManager.numModules(); i++ ) {
+                for ( int i = 0; i < moduleManager.numModules(); i++ ) {
                     Module module = moduleManager.moduleAt( i );
                     ApparatusPanel panel = module.getApparatusPanel();
-                    if( panel instanceof ApparatusPanel2 ) {
-                        final ApparatusPanel2 apparatusPanel = (ApparatusPanel2)panel;
+                    if ( panel instanceof ApparatusPanel2 ) {
+                        final ApparatusPanel2 apparatusPanel = (ApparatusPanel2) panel;
 
                         // Add the listener to the apparatus panel that will tell it to set its
                         // reference size
@@ -238,7 +238,7 @@ public class PhetApplication {
      */
     public void setModules( Module[] modules ) {
         // Remove any modules that may currently be in the module manager
-        while( moduleManager.numModules() > 0 ) {
+        while ( moduleManager.numModules() > 0 ) {
             Module module = moduleManager.moduleAt( 0 );
             moduleManager.removeModule( module );
         }

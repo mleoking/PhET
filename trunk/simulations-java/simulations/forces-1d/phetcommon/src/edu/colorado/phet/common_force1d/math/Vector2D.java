@@ -65,7 +65,7 @@ public interface Vector2D extends AbstractVector2D {
 
         public Vector2D normalize() {
             double length = getMagnitude();
-            if( length == 0 ) {
+            if ( length == 0 ) {
                 throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
             }
             return scale( 1.0 / length );
@@ -117,7 +117,7 @@ public interface Vector2D extends AbstractVector2D {
         }
 
         public Float( Vector2D.Double v ) {
-            this( (float)v.getX(), (float)v.getY() );
+            this( (float) v.getX(), (float) v.getY() );
         }
 
         public Float( float x, float y ) {
@@ -125,7 +125,7 @@ public interface Vector2D extends AbstractVector2D {
         }
 
         public Float( double x, double y ) {
-            super( (float)x, (float)y );
+            super( (float) x, (float) y );
         }
 
         public Float( Point2D src, Point2D dst ) {
@@ -140,7 +140,7 @@ public interface Vector2D extends AbstractVector2D {
 
         public Vector2D normalize() {
             double length = getMagnitude();
-            if( length == 0 ) {
+            if ( length == 0 ) {
                 throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
             }
             return scale( 1.0 / length );

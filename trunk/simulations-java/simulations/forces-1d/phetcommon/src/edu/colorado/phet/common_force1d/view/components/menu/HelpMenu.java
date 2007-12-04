@@ -10,18 +10,19 @@
  */
 package edu.colorado.phet.common_force1d.view.components.menu;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common_force1d.application.ModuleEvent;
 import edu.colorado.phet.common_force1d.application.ModuleManager;
 import edu.colorado.phet.common_force1d.application.ModuleObserver;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.application.PhetAboutDialog;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.*;
 
 /**
  * HelpMenu
@@ -34,15 +35,15 @@ public class HelpMenu extends JMenu implements ModuleObserver {
     private JMenuItem onscreenHelp;
     private Frame parent;
 
-    public HelpMenu( Frame parent,PhetApplication application ) {
-        this( parent,application.getModuleManager(), application.getApplicationModel().getName(),
+    public HelpMenu( Frame parent, PhetApplication application ) {
+        this( parent, application.getModuleManager(), application.getApplicationModel().getName(),
               application.getApplicationModel().getDescription(), application.getApplicationModel().getVersion() );
     }
 
-    public HelpMenu( final Frame parent,final ModuleManager moduleManager, final String title,
+    public HelpMenu( final Frame parent, final ModuleManager moduleManager, final String title,
                      String description, String version ) {
         super( SimStrings.get( "Common.HelpMenu.Title" ) );
-        this.parent=parent;
+        this.parent = parent;
         this.setMnemonic( SimStrings.get( "Common.HelpMenu.TitleMnemonic" ).charAt( 0 ) );
         moduleManager.addModuleObserver( this );
 
@@ -57,7 +58,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         } );
         onscreenHelp.setEnabled( moduleManager.getActiveModule() != null && moduleManager.getActiveModule().hasHelp() );
         add( onscreenHelp );
-        
+
         //----------------------------------------------------------------------
         // "MegaHelp" menu item
 //        final JMenuItem megaHelpItem = new JMenuItem( SimStrings.get( "Common.HelpMenu.MegaHelp" ) );
@@ -90,15 +91,15 @@ public class HelpMenu extends JMenu implements ModuleObserver {
         //----------------------------------------------------------------------
         // Separator
         addSeparator();
-        
+
         //----------------------------------------------------------------------
         // "About" menu item
         final JMenuItem about = new JMenuItem( SimStrings.get( "Common.HelpMenu.About" ) );
         about.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetAboutDialog phetAboutDialog=new PhetAboutDialog( parent, "forces-1d");
+                PhetAboutDialog phetAboutDialog = new PhetAboutDialog( parent, "forces-1d" );
                 SwingUtils.centerWindowOnScreen( phetAboutDialog );//not sure why the default centering fails for this application
-                phetAboutDialog.show( );
+                phetAboutDialog.show();
             }
         } );
         add( about );
@@ -108,7 +109,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
      * Sets the state of the Help menu item.
      * This is used to keep the menubar's Help menu item
      * in sync with the control panel's Help button.
-     * 
+     *
      * @param selected
      */
     public void setHelpSelected( boolean selected ) {

@@ -10,19 +10,15 @@
  */
 package edu.colorado.phet.common_force1d.view.help;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * HelpPanel
@@ -53,7 +49,7 @@ public class HelpPanel extends JPanel {
                 miniHelpShowing = !miniHelpShowing;
 
                 // If there is no megahelp, don't show the megahelp button
-                if( miniHelpShowing ) {
+                if ( miniHelpShowing ) {
                     setTwoButtonMode();
                 }
                 else {
@@ -77,19 +73,21 @@ public class HelpPanel extends JPanel {
     }
 
     private void layoutPanel() {
-        setPreferredSize( new Dimension( (int)Math.max( miniHelpBtn.getPreferredSize().getWidth(),
-                                                        megaHelpBtn.getPreferredSize().getWidth() ),
-                                         (int)( miniHelpBtn.getPreferredSize().getHeight()
-                                                + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
-        GridBagConstraints gbc = new GridBagConstraints( 0,0,1,1,0,0,
+        setPreferredSize( new Dimension( (int) Math.max( miniHelpBtn.getPreferredSize().getWidth(),
+                                                         megaHelpBtn.getPreferredSize().getWidth() ),
+                                         (int) ( miniHelpBtn.getPreferredSize().getHeight()
+                                                 + megaHelpBtn.getPreferredSize().getHeight() + padY * 2 ) ) );
+        GridBagConstraints gbc = new GridBagConstraints( 0, 0, 1, 1, 0, 0,
                                                          GridBagConstraints.CENTER,
                                                          GridBagConstraints.NONE,
-                                                         new Insets( 0,0,0,0),0,0 );
+                                                         new Insets( 0, 0, 0, 0 ), 0, 0 );
         this.setLayout( new GridBagLayout() );
         add( miniHelpBtn, gbc );
         gbc.gridy = 1;
         add( megaHelpBtn, gbc );
-        if( true) return;
+        if ( true ) {
+            return;
+        }
         this.invalidate();
         this.repaint();
 

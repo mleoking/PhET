@@ -1,9 +1,10 @@
 /*  */
 package edu.colorado.phet.forces1d.view;
 
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import javax.swing.event.MouseInputListener;
 
 /**
  * User: Sam Reid
@@ -54,18 +55,18 @@ public class ThresholdedDragAdapter implements MouseInputListener {
     }
 
     public void mouseDragged( MouseEvent e ) {
-        if( System.currentTimeMillis() - lastDragTime >= thresholdMillis ) {//you waited too long, now have to start dragging again.
+        if ( System.currentTimeMillis() - lastDragTime >= thresholdMillis ) {//you waited too long, now have to start dragging again.
             resetDragging();
         }
-        if( lastPressLocation == null ) {
+        if ( lastPressLocation == null ) {
             lastPressLocation = e.getPoint();
         }
         int dx = Math.abs( lastPressLocation.x - e.getX() );
         int dy = Math.abs( lastPressLocation.y - e.getY() );
-        if( dx >= thresholdX && dy >= thresholdY ) {
+        if ( dx >= thresholdX && dy >= thresholdY ) {
             isDragging = true;
         }
-        if( isDragging ) {
+        if ( isDragging ) {
 //            System.out.println( "mouse dragged" + e );
             target.mouseDragged( e );
         }

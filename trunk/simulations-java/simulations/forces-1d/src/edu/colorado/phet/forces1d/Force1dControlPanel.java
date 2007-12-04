@@ -95,7 +95,7 @@ public class Force1dControlPanel extends IForceControl {
                 //todo: this hack only works if the static and kinetic friction sliders have the same range
                 if ( staticFriction.getSlider().getValue() <= kineticFriction.getSlider().getValue() ) {
                     //todo: this hack seems to be necessary to get the slider value to snap to (since the slider somehow has a value different than the location of its thumb icon)
-                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue()+1 );
+                    staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() + 1 );
                     staticFriction.getSlider().setValue( kineticFriction.getSlider().getValue() );
                 }
             }

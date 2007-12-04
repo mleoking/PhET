@@ -10,14 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import edu.colorado.phet.common_force1d.application.PhetApplication;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.application.PhetApplication;
 
 /**
  * ContentPanel
@@ -132,7 +131,7 @@ public class ContentPanel extends JPanel {
 //        if( panel != null ) {
 //            appCtrlPane.setRightComponent( panel );
 //        }
-        if( controlPanel != null ) {
+        if ( controlPanel != null ) {
             remove( controlPanel );
         }
         controlPanel = panel;
@@ -140,7 +139,7 @@ public class ContentPanel extends JPanel {
     }
 
     public void setMonitorPanel( JComponent panel ) {
-        if( monitorPanel != null ) {
+        if ( monitorPanel != null ) {
             remove( monitorPanel );
         }
         monitorPanel = panel;
@@ -148,7 +147,7 @@ public class ContentPanel extends JPanel {
     }
 
     public void setApparatusPanelContainer( JComponent panel ) {
-        if( apparatusPanel != null ) {
+        if ( apparatusPanel != null ) {
             remove( apparatusPanel );
         }
         apparatusPanel = panel;
@@ -156,7 +155,7 @@ public class ContentPanel extends JPanel {
     }
 
     public void setAppControlPanel( JComponent panel ) {
-        if( clockControlPanel != null ) {
+        if ( clockControlPanel != null ) {
             remove( clockControlPanel );
         }
         clockControlPanel = panel;
@@ -164,7 +163,7 @@ public class ContentPanel extends JPanel {
     }
 
     private void setPanel( JComponent component, GridBagConstraints gridBagConstraints ) {
-        if( component != null ) {
+        if ( component != null ) {
             add( component, gridBagConstraints );
         }
         revalidate();
@@ -172,44 +171,44 @@ public class ContentPanel extends JPanel {
     }
 
     public void setFullScreen( boolean fullScreen ) {
-        if( fullScreen && !isFullScreen() ) {
+        if ( fullScreen && !isFullScreen() ) {
             activateFullScreen();
         }
-        else if( !fullScreen && isFullScreen() ) {
+        else if ( !fullScreen && isFullScreen() ) {
             deactivateFullScreen();
         }
     }
 
     private void deactivateFullScreen() {
-        if( controlPanel != null ) {
+        if ( controlPanel != null ) {
             controlPanel.setVisible( true );
         }
-        if( monitorPanel != null ) {
+        if ( monitorPanel != null ) {
             monitorPanel.setVisible( true );
         }
-        if( clockControlPanel != null ) {
+        if ( clockControlPanel != null ) {
             clockControlPanel.setVisible( true );
         }
         this.fullScreen = false;
     }
 
     private void activateFullScreen() {
-        if( controlPanel != null ) {
+        if ( controlPanel != null ) {
             controlPanel.setVisible( false );
         }
-        if( monitorPanel != null ) {
+        if ( monitorPanel != null ) {
             monitorPanel.setVisible( false );
         }
-        if( clockControlPanel != null ) {
+        if ( clockControlPanel != null ) {
             clockControlPanel.setVisible( false );
         }
 
-        if( buttonDlg == null ) {
+        if ( buttonDlg == null ) {
             buttonDlg = new JDialog();
             buttonDlg.setTitle( SimStrings.get( "Common.BasicPhetPanel.Title" ) );
             buttonDlg.setDefaultCloseOperation( JDialog.DO_NOTHING_ON_CLOSE );
 //            ImageIcon logo = new ImageIcon( phetLogo );
-            JButton logoButton = new JButton( "Toggle Fullscreen");
+            JButton logoButton = new JButton( "Toggle Fullscreen" );
 //            logoButton.setPreferredSize( new Dimension( logo.getIconWidth() + 12, logo.getIconHeight() + 12 ) );
             logoButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -222,8 +221,8 @@ public class ContentPanel extends JPanel {
             buttonDlg.getContentPane().add( logoButton );
             Rectangle thisBounds = this.getBounds();
             buttonDlg.pack();
-            buttonDlg.setLocation( (int)( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
-                                   (int)( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
+            buttonDlg.setLocation( (int) ( this.getLocationOnScreen().getX() + thisBounds.getMaxX() - buttonDlg.getWidth() ),
+                                   (int) ( this.getLocationOnScreen().getY() + thisBounds.getMaxY() - buttonDlg.getHeight() ) );
         }
         buttonDlg.setVisible( true );
         this.fullScreen = true;
@@ -241,10 +240,10 @@ public class ContentPanel extends JPanel {
      * @deprecated
      */
     private JComponent createApparatusPanelContainer( PhetApplication application ) {
-        if( application.numModules() == 1 ) {
+        if ( application.numModules() == 1 ) {
             JPanel apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( application.moduleAt( 0 ).getApparatusPanel() == null ) {
+            if ( application.moduleAt( 0 ).getApparatusPanel() == null ) {
                 throw new RuntimeException( "Null Apparatus Panel in Module: " + application.moduleAt( 0 ).getName() );
             }
             apparatusPanelContainer.add( application.moduleAt( 0 ).getApparatusPanel() );

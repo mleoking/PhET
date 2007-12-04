@@ -14,7 +14,7 @@ import java.awt.*;
 
 /**
  * Convenience class for common rendering options.
- * 
+ *
  * @author ?
  * @version $Revision$
  */
@@ -28,7 +28,7 @@ public class BasicGraphicsSetup implements GraphicsSetup {
     }
 
     public void setAntialias( boolean antialias ) {
-        if( antialias ) {
+        if ( antialias ) {
             renderingHints.put( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         }
         else {
@@ -49,7 +49,7 @@ public class BasicGraphicsSetup implements GraphicsSetup {
     }
 
     public void setRenderQuality( boolean quality ) {
-        if( quality ) {
+        if ( quality ) {
             renderingHints.put( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
         }
         else {

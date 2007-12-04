@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_force1d.view.graphics.shapes;
 
-import edu.colorado.phet.common_force1d.math.AbstractVector2D;
-import edu.colorado.phet.common_force1d.math.ImmutableVector2D;
-
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_force1d.math.AbstractVector2D;
+import edu.colorado.phet.common_force1d.math.ImmutableVector2D;
 
 /**
  * Arrow
@@ -39,8 +39,8 @@ public class Arrow {
     private boolean scaleTailToo;
 
     public boolean equals( Object obj ) {
-        if( obj instanceof Arrow ) {
-            Arrow a = (Arrow)obj;
+        if ( obj instanceof Arrow ) {
+            Arrow a = (Arrow) obj;
             return a.tailLocation.equals( tailLocation ) && a.tipLocation.equals( tipLocation ) && a.headHeight == headHeight
                    && a.headWidth == headWidth && a.tailWidth == tailWidth && a.isHeadDynamic == isHeadDynamic;
         }
@@ -83,10 +83,10 @@ public class Arrow {
 
     private void computeArrow() {
 
-        if( tailLocation.equals( tipLocation ) ) {
+        if ( tailLocation.equals( tipLocation ) ) {
             return;
         }
-        
+
         AbstractVector2D.Double tailPt = new ImmutableVector2D.Double( tailLocation );
         AbstractVector2D.Double tipPt = new ImmutableVector2D.Double( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
@@ -94,14 +94,14 @@ public class Arrow {
         double tempHeadHeight = headHeight;
         double tempHeadWidth = headWidth;
         double tempTailWidth = tailWidth;
-        if( isHeadDynamic && dist < headHeight / fractionalHeadHeight ) {
+        if ( isHeadDynamic && dist < headHeight / fractionalHeadHeight ) {
             tempHeadHeight = dist * fractionalHeadHeight;
-            if( scaleTailToo ) {
+            if ( scaleTailToo ) {
                 tempTailWidth = tailWidth * tempHeadHeight / headHeight;
                 tempHeadWidth = headWidth * tempHeadHeight / headHeight;
             }
         }
-        else if( dist < headHeight ) {
+        else if ( dist < headHeight ) {
             throw new RuntimeException( "Head too big." );
         }
         norm = direction.getNormalVector();
@@ -114,7 +114,7 @@ public class Arrow {
         AbstractVector2D.Double leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
 
         this.arrowPath.reset();
-        arrowPath.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
+        arrowPath.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
         lineTo( arrowPath, rightFlap );
         lineTo( arrowPath, rightPin );
         lineTo( arrowPath, rightTail );
@@ -124,13 +124,13 @@ public class Arrow {
         lineTo( arrowPath, tipPt );
 
         headShape.reset();
-        headShape.moveTo( (float)tipPt.getX(), (float)tipPt.getY() );
+        headShape.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
         lineTo( headShape, rightFlap );
         lineTo( headShape, leftFlap );
         lineTo( headShape, tipPt );
 
         tailShape.reset();
-        tailShape.moveTo( (float)rightPin.getX(), (float)rightPin.getY() );
+        tailShape.moveTo( (float) rightPin.getX(), (float) rightPin.getY() );
         lineTo( tailShape, rightTail );
         lineTo( tailShape, leftTail );
         lineTo( tailShape, leftPin );
@@ -138,7 +138,7 @@ public class Arrow {
     }
 
     private void lineTo( GeneralPath path, AbstractVector2D.Double loc ) {
-        path.lineTo( (float)loc.getX(), (float)loc.getY() );
+        path.lineTo( (float) loc.getX(), (float) loc.getY() );
     }
 
     //parallel and normal are from the tip

@@ -1,13 +1,13 @@
 package edu.colorado.phet.forces1d.model;
 
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
+
 import edu.colorado.phet.common_force1d.model.ModelElement;
 import edu.colorado.phet.common_force1d.util.EventChannel;
 import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 
 /**
  * User: Sam Reid
@@ -79,7 +79,7 @@ public class Force1DModel implements ModelElement {
     }
 
     void setWallForce( double wallForce ) {
-        if( this.wallForce != wallForce ) {
+        if ( this.wallForce != wallForce ) {
             this.wallForce = wallForce;
         }
     }
@@ -90,24 +90,24 @@ public class Force1DModel implements ModelElement {
 
     public void setBoundsOpen() {
         this.boundaryCondition = open;
-        for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
-            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener)boundaryConditionListeners.get( i );
+        for ( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
+            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener) boundaryConditionListeners.get( i );
             boundaryConditionListener.boundaryConditionOpen();
         }
     }
 
     public void setBoundsWalled() {
         this.boundaryCondition = walls;
-        for( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
-            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener)boundaryConditionListeners.get( i );
+        for ( int i = 0; i < boundaryConditionListeners.size(); i++ ) {
+            BoundaryCondition.Listener boundaryConditionListener = (BoundaryCondition.Listener) boundaryConditionListeners.get( i );
             boundaryConditionListener.boundaryConditionWalls();
         }
     }
 
     public void setPlaybackIndex( int index ) {
         int numDataPoints = netForceDataSeries.numSmoothedPoints();
-        if( index < numDataPoints ) {
-            if( index == 0 ) {
+        if ( index < numDataPoints ) {
+            if ( index == 0 ) {
                 this.netForce = 0;
                 this.frictionForce = 0;//TODO this could cause more problems than it solves.
             }
@@ -121,23 +121,23 @@ public class Force1DModel implements ModelElement {
             block.setPosition( positionDataSeries.smoothedPointAt( index ) );
             this.appliedForceChanged();
             double newGravity = gravitySeries.smoothedPointAt( index );
-            if( newGravity != gravity ) {
+            if ( newGravity != gravity ) {
                 this.gravity = newGravity;
                 fireGravityChanged();
             }
             double newKinetic = kineticSeries.smoothedPointAt( index );
-            if( newKinetic != block.getStaticFriction() ) {
+            if ( newKinetic != block.getStaticFriction() ) {
                 block.setKineticFriction( newKinetic );
             }
             double newStatic = staticSeries.smoothedPointAt( index );
-            if( newStatic != block.getStaticFriction() ) {
+            if ( newStatic != block.getStaticFriction() ) {
                 block.setStaticFriction( newStatic );
             }
             double newMass = massSeries.smoothedPointAt( index );
-            if( newMass != block.getMass() ) {
+            if ( newMass != block.getMass() ) {
                 block.setMass( newMass );
             }
-            int imageIndex = ( (Integer)imageSeries.get( index ) ).intValue();
+            int imageIndex = ( (Integer) imageSeries.get( index ) ).intValue();
             module.setImageIndex( imageIndex );
         }//TODO else we should stop playback
 
@@ -279,7 +279,7 @@ public class Force1DModel implements ModelElement {
     }
 
     public void fireCollisionHappened( double momentum ) {
-        CollisionListener cl = (CollisionListener)eventChannel.getListenerProxy();
+        CollisionListener cl = (CollisionListener) eventChannel.getListenerProxy();
         CollisionEvent ce = new CollisionEvent( momentum );
         cl.collisionOccurred( ce );
     }
@@ -305,8 +305,8 @@ public class Force1DModel implements ModelElement {
     }
 
     private void fireGravityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.gravityChanged();
         }
     }
@@ -318,7 +318,7 @@ public class Force1DModel implements ModelElement {
     public void setAppliedForce( double appliedForce ) {
 //        System.out.println( "appliedForce = " + appliedForce );
 //        new Exception().printStackTrace( );
-        if( appliedForce != this.appliedForce ) {
+        if ( appliedForce != this.appliedForce ) {
             this.appliedForce = appliedForce;
             updateBlockAcceleration();
             appliedForceChanged();
@@ -326,8 +326,8 @@ public class Force1DModel implements ModelElement {
     }
 
     private void appliedForceChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.appliedForceChanged();
         }
     }
@@ -342,10 +342,10 @@ public class Force1DModel implements ModelElement {
     }
 
     public double getFrictionForce() {
-        if( !friction ) {
+        if ( !friction ) {
             return 0.0;
         }
-        if( block.isMoving() ) {
+        if ( block.isMoving() ) {
             double sign = block.getVelocity() >= 0 ? -1 : 1;
             double kineticFrictionForce = sign * block.getKineticFriction() * block.getMass() * gravity;
             return kineticFrictionForce;
@@ -353,7 +353,7 @@ public class Force1DModel implements ModelElement {
         else {//block was stationary
             double u = Math.max( block.getKineticFriction(), block.getStaticFriction() );
             double maxStaticFrictionForce = u * block.getMass() * gravity;
-            if( Math.abs( maxStaticFrictionForce ) > Math.abs( appliedForce ) ) {
+            if ( Math.abs( maxStaticFrictionForce ) > Math.abs( appliedForce ) ) {
                 //block stays at rest, friction balances applied force.
                 return -appliedForce;
             }

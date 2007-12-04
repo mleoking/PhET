@@ -31,14 +31,14 @@ public class RectangleUtils {
     }
 
     public static Rectangle toRectangle( Rectangle2D b ) {
-        if( b == null ) {
+        if ( b == null ) {
             return null;
         }
-        if( b instanceof Rectangle ) {
-            return (Rectangle)b;
+        if ( b instanceof Rectangle ) {
+            return (Rectangle) b;
         }
         else {
-            return new Rectangle( (int)b.getX(), (int)b.getY(), (int)b.getWidth(), (int)b.getHeight() );
+            return new Rectangle( (int) b.getX(), (int) b.getY(), (int) b.getWidth(), (int) b.getHeight() );
         }
     }
 
@@ -79,14 +79,14 @@ public class RectangleUtils {
     }
 
     public static Rectangle union( Rectangle[] rectangles ) {
-        if( rectangles.length == 0 ) {
+        if ( rectangles.length == 0 ) {
             return null;
         }
         Rectangle union = null;//new Rectangle( rectangles[0] );
-        for( int i = 0; i < rectangles.length; i++ ) {
+        for ( int i = 0; i < rectangles.length; i++ ) {
             Rectangle rectangle = rectangles[i];
-            if( rectangle != null ) {
-                if( union == null ) {
+            if ( rectangle != null ) {
+                if ( union == null ) {
                     union = new Rectangle( rectangle );
                 }
                 else {
@@ -99,13 +99,13 @@ public class RectangleUtils {
     }
 
     public static boolean areEqual( Rectangle a, Rectangle b ) {
-        if( a == null && b == null ) {
+        if ( a == null && b == null ) {
             return true;
         }
-        else if( a != null && b == null ) {
+        else if ( a != null && b == null ) {
             return false;
         }
-        else if( a == null && b != null ) {
+        else if ( a == null && b != null ) {
             return false;
         }
         else {
@@ -114,25 +114,25 @@ public class RectangleUtils {
     }
 
     public static Rectangle union( ArrayList rectangles ) {
-        if( rectangles.size() == 0 ) {
+        if ( rectangles.size() == 0 ) {
             return null;
         }
-        Rectangle union = (Rectangle)rectangles.remove( 0 );
-        while( rectangles.size() > 0 ) {
-            union = union.union( (Rectangle)rectangles.remove( 0 ) );
+        Rectangle union = (Rectangle) rectangles.remove( 0 );
+        while ( rectangles.size() > 0 ) {
+            union = union.union( (Rectangle) rectangles.remove( 0 ) );
         }
         return union;
     }
 
     public static Rectangle2D union( Rectangle2D[] rectangles ) {
-        if( rectangles.length == 0 ) {
+        if ( rectangles.length == 0 ) {
             return null;
         }
         Rectangle2D.Double union = null;//new Rectangle( rectangles[0] );
-        for( int i = 0; i < rectangles.length; i++ ) {
+        for ( int i = 0; i < rectangles.length; i++ ) {
             Rectangle2D rectangle = rectangles[i];
-            if( rectangle != null ) {
-                if( union == null ) {
+            if ( rectangle != null ) {
+                if ( union == null ) {
                     union = new Rectangle2D.Double( rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight() );
                 }
                 else {

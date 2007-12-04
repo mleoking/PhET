@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.model.Force1dObject;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.model.Force1dObject;
 
 /**
  * User: Sam Reid
@@ -28,7 +29,7 @@ public class ObjectSelectionPanel extends JPanel {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
-        for( int i = 0; i < imageElements.length; i++ ) {
+        for ( int i = 0; i < imageElements.length; i++ ) {
             final Force1dObject imageElement = imageElements[i];
             BufferedImage image = null;
             try {
@@ -41,7 +42,7 @@ public class ObjectSelectionPanel extends JPanel {
             ImageIcon icon = new ImageIcon( image );
             JRadioButton jRadioButton = new JRadioButton( imageElement.getName() + " (" + imageElement.getMass() + " kg)", icon );
             jRadioButtons[i] = jRadioButton;
-            if( i == 0 ) {
+            if ( i == 0 ) {
                 jRadioButton.setSelected( true );
                 jRadioButton.setFont( selectedFont );
             }
@@ -53,9 +54,9 @@ public class ObjectSelectionPanel extends JPanel {
             jRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     simpleControlPanel.setup( imageElement );
-                    for( int j = 0; j < jRadioButtons.length; j++ ) {
+                    for ( int j = 0; j < jRadioButtons.length; j++ ) {
                         JRadioButton radioButton = jRadioButtons[j];
-                        if( j == i1 ) {
+                        if ( j == i1 ) {
                             radioButton.setFont( selectedFont );
                         }
                         else {

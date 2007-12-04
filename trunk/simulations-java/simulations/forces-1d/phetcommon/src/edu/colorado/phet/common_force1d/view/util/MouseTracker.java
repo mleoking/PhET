@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
-
 import java.awt.*;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+
+import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 
 /**
  * A utility class that draws crosshair lines at the location of the mouse, and prints the coordinates of the mouse.
@@ -83,8 +83,8 @@ public class MouseTracker extends CompositePhetGraphic implements MouseMotionLis
 
             g2.setStroke( stroke );
             g2.setColor( Color.red );
-            g2.drawLine( 0, (int)mouseLocation.getY(), canvasSize.width, (int)mouseLocation.getY() );
-            g2.drawLine( (int)mouseLocation.getX(), 0, (int)mouseLocation.getX(), canvasSize.height );
+            g2.drawLine( 0, (int) mouseLocation.getY(), canvasSize.width, (int) mouseLocation.getY() );
+            g2.drawLine( (int) mouseLocation.getX(), 0, (int) mouseLocation.getX(), canvasSize.height );
 
             gs.restoreGraphics();
         }

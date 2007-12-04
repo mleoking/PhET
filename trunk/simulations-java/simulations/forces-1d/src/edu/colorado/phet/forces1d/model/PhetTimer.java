@@ -1,9 +1,9 @@
 /*PhET, 2004.*/
 package edu.colorado.phet.forces1d.model;
 
-import edu.colorado.phet.common_force1d.model.ModelElement;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common_force1d.model.ModelElement;
 
 /**
  * User: Sam Reid
@@ -33,8 +33,8 @@ public class PhetTimer implements ModelElement {
     }
 
     private void updateObservers() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.timeChanged( this );
         }
     }

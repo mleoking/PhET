@@ -10,9 +10,7 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 /**
@@ -30,7 +28,7 @@ public class GraphicsUtil {
      * @param alpha
      */
     public static void setAlpha( Graphics2D g2, double alpha ) {
-        g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, (float)alpha ) );
+        g2.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, (float) alpha ) );
     }
 
     /**

@@ -88,19 +88,19 @@ public class PhetTextGraphic extends PhetGraphic {
                 p.setLocation( 0, -characterHeight );
                 break;
             case NORTH:
-                p.setLocation( (int)( getBounds().getWidth() / 2 ), -characterHeight );
+                p.setLocation( (int) ( getBounds().getWidth() / 2 ), -characterHeight );
                 break;
             case NORTH_EAST:
-                p.setLocation( (int)getBounds().getWidth(), -characterHeight );
+                p.setLocation( (int) getBounds().getWidth(), -characterHeight );
                 break;
             case EAST:
-                p.setLocation( (int)getBounds().getWidth(), -getHeight() + characterHeight / 2 );
+                p.setLocation( (int) getBounds().getWidth(), -getHeight() + characterHeight / 2 );
                 break;
             case SOUTH_EAST:
-                p.setLocation( (int)getBounds().getWidth(), -getHeight() + characterHeight );
+                p.setLocation( (int) getBounds().getWidth(), -getHeight() + characterHeight );
                 break;
             case SOUTH:
-                p.setLocation( (int)( getBounds().getWidth() / 2 ), -getHeight() + characterHeight );
+                p.setLocation( (int) ( getBounds().getWidth() / 2 ), -getHeight() + characterHeight );
                 break;
             case SOUTH_WEST:
                 p.setLocation( 0, -getHeight() + characterHeight );
@@ -109,7 +109,7 @@ public class PhetTextGraphic extends PhetGraphic {
                 p.setLocation( 0, -getHeight() + characterHeight / 2 );
                 break;
             case CENTER:
-                p.setLocation( (int)( getBounds().getWidth() / 2 ), -getHeight() + characterHeight / 2 );
+                p.setLocation( (int) ( getBounds().getWidth() / 2 ), -getHeight() + characterHeight / 2 );
                 break;
             default:
                 throw new RuntimeException( "Invalid justification specified" );
@@ -135,7 +135,7 @@ public class PhetTextGraphic extends PhetGraphic {
     }
 
     public void setText( String text ) {
-        if( this.text.equals( text ) || this.text == text ) {
+        if ( this.text.equals( text ) || this.text == text ) {
             return;
         }
         this.text = text;
@@ -170,7 +170,7 @@ public class PhetTextGraphic extends PhetGraphic {
     //----------------------------------------------------------------
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             g2.setFont( font );
@@ -183,7 +183,7 @@ public class PhetTextGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( text == null || text.equals( "" ) ) {
+        if ( text == null || text.equals( "" ) ) {
             return null;
         }
         int width = fontMetrics.stringWidth( text );//this ignores antialias and fractional metrics.

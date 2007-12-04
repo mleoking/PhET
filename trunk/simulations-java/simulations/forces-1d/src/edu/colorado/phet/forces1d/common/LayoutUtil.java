@@ -64,9 +64,9 @@ public class LayoutUtil {
 
         int numVariable = 0;
         double fixedSpace = 0;
-        for( int i = 0; i < elements.length; i++ ) {
+        for ( int i = 0; i < elements.length; i++ ) {
             LayoutElement element = elements[i];
-            if( element instanceof Fixed ) {
+            if ( element instanceof Fixed ) {
                 LayoutElement f = element;
                 fixedSpace += f.getSize();
             }
@@ -78,15 +78,15 @@ public class LayoutUtil {
         double remainingSpace = range - sepSpace - fixedSpace;
         double spacePerElement = remainingSpace / numVariable;
         double minVal = min;
-        for( int i = 0; i < elements.length; i++ ) {
+        for ( int i = 0; i < elements.length; i++ ) {
             LayoutElement element = elements[i];
-            if( element instanceof Dynamic ) {
-                Dynamic d = (Dynamic)element;
+            if ( element instanceof Dynamic ) {
+                Dynamic d = (Dynamic) element;
                 d.set( minVal, spacePerElement );
                 minVal += spacePerElement + separatorWidth;
             }
             else {
-                Fixed f = (Fixed)element;
+                Fixed f = (Fixed) element;
                 f.min = minVal;
                 minVal += f.size + separatorWidth;
 
