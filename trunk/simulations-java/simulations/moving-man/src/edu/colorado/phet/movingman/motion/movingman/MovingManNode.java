@@ -1,25 +1,21 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * Author: Sam Reid
@@ -40,7 +36,7 @@ public class MovingManNode extends PNode {
         PhetPPath floorNode = new PhetPPath( floorRect, floorPaint );
         addChild( floorNode );
 
-        for( int i = -10; i <= 10; i += 2 ) {
+        for ( int i = -10; i <= 10; i += 2 ) {
             PText tickText = new PText( "" + i + ( i == 0 ? " meters" : "" ) );
             tickText.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
             tickText.scale( 0.025 );
@@ -104,26 +100,4 @@ public class MovingManNode extends PNode {
         object.setOffset( model.getMotionBody().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame( "Test Moving Man Node" );
-        frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, 300 );
-        PhetPCanvas phetPCanvas = new PhetPCanvas();
-        phetPCanvas.setZoomEventHandler( new PZoomEventHandler() );
-        frame.setContentPane( phetPCanvas );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-
-        ConstantDtClock swingClock = new ConstantDtClock( 30, 1.0 );
-        final SingleBodyMotionModel model = new SingleBodyMotionModel( swingClock );
-
-        MovingManNode movingManNode = new MovingManNode( model );
-        movingManNode.scale( 50 );
-        movingManNode.translate( 10.5, 0 );
-        phetPCanvas.addScreenChild( movingManNode );
-
-        frame.setVisible( true );
-
-//        swingClock.start();
-        model.setVelocityDriven();
-        model.getMotionBody().setVelocity( 0.1 );
-    }
 }
