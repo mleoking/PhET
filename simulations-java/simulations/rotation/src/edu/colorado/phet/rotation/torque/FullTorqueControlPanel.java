@@ -118,7 +118,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createInnerRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "r.inner.radius" ), "0.00", "m" );
+        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "r.inner.radius" ), "0.00", RotationStrings.getString( "m" ) );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );
@@ -136,7 +136,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createOuterRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "r.outer.radius" ), "0.00", "m" );
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "r.outer.radius" ), "0.00", RotationStrings.getString( "m" ) );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );
