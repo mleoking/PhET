@@ -59,7 +59,7 @@ public class FullTorqueControlPanel extends JPanel {
         } );
         checkBoxPanel.add( showNonTangentialForces );
 
-        final JCheckBox showComponents = new JCheckBox( "Show Components", torqueModule.getTorqueModel().isShowComponents() );
+        final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "show.components" ), torqueModule.getTorqueModel().isShowComponents() );
         showComponents.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
@@ -88,7 +88,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createFrictionSlider( final AbstractTorqueModule torqueModule ) {
-        final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForceMagnitude(), RotationStrings.getString( "force.of.brake" ), "0.00", "N" );
+        final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForceMagnitude(), RotationStrings.getString( "force.of.brake" ), "0.00", RotationStrings.getString( "n" ) );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 torqueModule.getTorqueModel().setBrakePressure( frictionSlider.getValue() );
@@ -103,7 +103,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createMassSlider( final RotationPlatform rp ) {
-        final TorqueSlider massSlider = new TorqueSlider( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, rp.getMass(), RotationStrings.getString( "platform.mass" ), "0.00", "kg" );
+        final TorqueSlider massSlider = new TorqueSlider( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, rp.getMass(), RotationStrings.getString( "platform.mass" ), "0.00", RotationStrings.getString( "kg" ) );
         massSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setMass( massSlider.getValue() );
