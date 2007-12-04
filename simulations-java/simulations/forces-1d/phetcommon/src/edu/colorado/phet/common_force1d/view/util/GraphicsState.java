@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphics2D;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphics2D;
 
 /**
  * A utilitye class for saving and restoring the state of Graphics2D objects
@@ -36,8 +36,8 @@ public class GraphicsState {
     public GraphicsState( Graphics2D graphics2D ) {
         this.g2 = graphics2D;
 
-        if( g2 instanceof PhetGraphics2D ) {
-            PhetGraphics2D phetGraphics2D = (PhetGraphics2D)g2;
+        if ( g2 instanceof PhetGraphics2D ) {
+            PhetGraphics2D phetGraphics2D = (PhetGraphics2D) g2;
             phetGraphics2D.pushState();
         }
         else {
@@ -60,36 +60,36 @@ public class GraphicsState {
      */
     public void restoreGraphics() {
 
-        if( g2 instanceof PhetGraphics2D ) {
-            PhetGraphics2D phetGraphics2D = (PhetGraphics2D)g2;
+        if ( g2 instanceof PhetGraphics2D ) {
+            PhetGraphics2D phetGraphics2D = (PhetGraphics2D) g2;
             phetGraphics2D.popState();
         }
         else {
-            if( g2.getRenderingHints() != renderingHints ) {
+            if ( g2.getRenderingHints() != renderingHints ) {
                 g2.setRenderingHints( renderingHints );
             }
-            if( g2.getPaint() != paint ) {
+            if ( g2.getPaint() != paint ) {
                 g2.setPaint( paint );
             }
-            if( g2.getColor() != color ) {
+            if ( g2.getColor() != color ) {
                 g2.setColor( color );
             }
-            if( g2.getStroke() != stroke ) {
+            if ( g2.getStroke() != stroke ) {
                 g2.setStroke( stroke );
             }
-            if( g2.getComposite() != composite ) {
+            if ( g2.getComposite() != composite ) {
                 g2.setComposite( composite );
             }
-            if( g2.getTransform() != transform ) {
+            if ( g2.getTransform() != transform ) {
                 g2.setTransform( transform );
             }
-            if( g2.getFont() != font ) {
+            if ( g2.getFont() != font ) {
                 g2.setFont( font );
             }
-            if( g2.getClip() != clip ) {
+            if ( g2.getClip() != clip ) {
                 g2.setClip( clip );
             }
-            if( g2.getBackground() != background ) {
+            if ( g2.getBackground() != background ) {
                 g2.setBackground( background );
             }
         }

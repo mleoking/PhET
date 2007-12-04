@@ -10,16 +10,6 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import edu.colorado.phet.common_force1d.model.BaseModel;
-import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
-import edu.colorado.phet.common_force1d.util.EventChannel;
-import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphics2D;
-import edu.colorado.phet.common_force1d.view.util.GraphicsState;
-import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -28,6 +18,17 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.*;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common_force1d.model.BaseModel;
+import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
+import edu.colorado.phet.common_force1d.util.EventChannel;
+import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphics2D;
+import edu.colorado.phet.common_force1d.view.util.GraphicsState;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 /**
  * This is a base class for panels that contain graphic representations
@@ -169,11 +170,10 @@ public class ApparatusPanel2 extends ApparatusPanel {
 //        panelResizeHandler = new PanelResizeHandler();
 //        this.addComponentListener( panelResizeHandler );
 
-
         // Set the canvas size
         determineCanvasSize();
 
-        if( DEBUG_OUTPUT_ENABLED ) {
+        if ( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
         }
     }
@@ -215,7 +215,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * @param useOffscreenBuffer
      */
     public void setUseOffscreenBuffer( boolean useOffscreenBuffer ) {
-        this.paintStrategy = useOffscreenBuffer ? new OffscreenBufferStrategy( this ) : (PaintStrategy)new DefaultPaintStrategy( this );
+        this.paintStrategy = useOffscreenBuffer ? new OffscreenBufferStrategy( this ) : (PaintStrategy) new DefaultPaintStrategy( this );
         // Todo: Determine if the following two lines help or not
 //        setOpaque( useOffscreenBuffer );
         setDoubleBuffered( !useOffscreenBuffer );
@@ -315,7 +315,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * taken by our superclasss' repaint() should only happen in the model loop.
      */
     public void repaint() {
-        if( clock != null && clock.isPaused() ) {
+        if ( clock != null && clock.isPaused() ) {
             super.repaint();
         }
     }
@@ -333,7 +333,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      * Paints immediately the union of dirty rectangles
      */
     private void paintDirtyRectanglesImmediately() {
-        if( rectangles.size() > 0 ) {
+        if ( rectangles.size() > 0 ) {
             Rectangle unionRectangle = RectangleUtils.union( rectangles );
             this.repaintArea = transformManager.transform( unionRectangle );
             paintImmediately( repaintArea );
@@ -342,7 +342,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private void addRectangleToRepaintList( int x, int y, int width, int height ) {
-        if( height > 0 && width > 0 ) {
+        if ( height > 0 && width > 0 ) {
             Rectangle r = new Rectangle( x, y, width, height );
             rectangles.add( r );
         }
@@ -356,9 +356,9 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     protected void paintComponent( Graphics graphics ) {
-        Graphics2D g2 = (Graphics2D)graphics;
+        Graphics2D g2 = (Graphics2D) graphics;
         g2 = new PhetGraphics2D( g2 );
-        if( repaintArea == null ) {
+        if ( repaintArea == null ) {
             repaintArea = this.getBounds();
         }
         g2.setBackground( super.getBackground() );
@@ -402,7 +402,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     private class PanelResizeHandler extends ComponentAdapter {
 
         public void componentResized( ComponentEvent e ) {
-            if( !transformManager.isReferenceSizeSet() ) {
+            if ( !transformManager.isReferenceSizeSet() ) {
                 setReferenceSize();
             }
             else {
@@ -425,7 +425,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
      */
     private void determineCanvasSize() {
         boolean changed = transformManager.determineCanvasSize();
-        if( changed ) {
+        if ( changed ) {
             changeListenerProxy.canvasSizeChanged( new ApparatusPanel2.ChangeEvent( ApparatusPanel2.this ) );
         }
     }
@@ -439,8 +439,6 @@ public class ApparatusPanel2 extends ApparatusPanel {
         scaledComponentLayout.layoutSwingComponents( scale );
         repaint( 0, 0, getWidth(), getHeight() );
     }
-
-
 
     //-------------------------------------------------------------------------
     // Inner classes
@@ -476,8 +474,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
             Point2D.Double p = new Point2D.Double( event.getPoint().getX(), event.getPoint().getY() );
             AffineTransform mouseTx = transformManager.getMouseTx();
             mouseTx.transform( p, p );
-            int dx = (int)( p.getX() - event.getPoint().getX() );
-            int dy = (int)( p.getY() - event.getPoint().getY() );
+            int dx = (int) ( p.getX() - event.getPoint().getX() );
+            int dy = (int) ( p.getY() - event.getPoint().getY() );
             event.translatePoint( dx, dy );
         }
 
@@ -489,16 +487,16 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
             // If the clock is paused, then process mouse events
             // in the Swing thread
-            if( clock.isPaused() ) {
+            if ( clock.isPaused() ) {
                 SwingUtilities.invokeLater( pausedEventListProcessor );
             }
         }
 
         private void processMouseEventList() {
             MouseEvent event;
-            while( mouseEventList.size() > 0 ) {
+            while ( mouseEventList.size() > 0 ) {
                 synchronized( mouseEventList ) {
-                    event = (MouseEvent)mouseEventList.removeFirst();
+                    event = (MouseEvent) mouseEventList.removeFirst();
                 }
                 handleMouseEvent( event );
             }
@@ -577,7 +575,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -623,8 +621,8 @@ public class ApparatusPanel2 extends ApparatusPanel {
     }
 
     private void paintImmediatelyDisjoint() {
-        for( int i = 0; i < rectangles.size(); i++ ) {
-            Rectangle rectangle = (Rectangle)rectangles.get( i );
+        for ( int i = 0; i < rectangles.size(); i++ ) {
+            Rectangle rectangle = (Rectangle) rectangles.get( i );
             paintImmediately( transformManager.transform( rectangle ) );
         }
         rectangles.clear();
@@ -664,11 +662,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
         }
 
         public void render( Graphics2D g2, AffineTransform graphicTx ) {
-            if( bImg == null ) {
+            if ( bImg == null ) {
                 componentResized();
             }
-            if( bImg != null ) {
-                Graphics2D bImgGraphics = (Graphics2D)bImg.getGraphics();
+            if ( bImg != null ) {
+                Graphics2D bImgGraphics = (Graphics2D) bImg.getGraphics();
                 //TODO: we'll be painting over this region, do we really have to clear it?
                 //todo especially if our image has no alpha?
                 bImgGraphics.setColor( apparatusPanel2.getBackground() );
@@ -686,7 +684,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         public void componentResized() {
             Rectangle r = new Rectangle( getWidth(), getHeight() );
-            if( r.width > 0 && r.height > 0 ) {
+            if ( r.width > 0 && r.height > 0 ) {
                 bImg = new BufferedImage( r.width, r.height, BUFFER_TYPE );
             }
         }
@@ -728,7 +726,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 
         private void saveSwingComponentCoordinates( double scale ) {
             Component[] components = component.getComponents();
-            for( int i = 0; i < components.length; i++ ) {
+            for ( int i = 0; i < components.length; i++ ) {
                 Component component = components[i];
                 Point location = component.getLocation();
 
@@ -737,7 +735,7 @@ public class ApparatusPanel2 extends ApparatusPanel {
 //                component.setSize( (int)(refSize.width * scale), (int)(refSize.height * scale ));
 
                 //factor out the old scale, if any.
-                componentOrgLocationsMap.put( component, new Point( (int)( location.x / scale ), (int)( location.y / scale ) ) );
+                componentOrgLocationsMap.put( component, new Point( (int) ( location.x / scale ), (int) ( location.y / scale ) ) );
             }
         }
 
@@ -750,11 +748,11 @@ public class ApparatusPanel2 extends ApparatusPanel {
          */
         private void layoutSwingComponents( double scale ) {
             Component[] components = component.getComponents();
-            for( int i = 0; i < components.length; i++ ) {
+            for ( int i = 0; i < components.length; i++ ) {
                 Component component = components[i];
-                Point origLocation = (Point)componentOrgLocationsMap.get( component );
-                if( origLocation != null ) {
-                    Point newLocation = new Point( (int)( origLocation.getX() * scale ), (int)( origLocation.getY() * scale ) );
+                Point origLocation = (Point) componentOrgLocationsMap.get( component );
+                if ( origLocation != null ) {
+                    Point newLocation = new Point( (int) ( origLocation.getX() * scale ), (int) ( origLocation.getY() * scale ) );
                     component.setLocation( newLocation );
                 }
             }

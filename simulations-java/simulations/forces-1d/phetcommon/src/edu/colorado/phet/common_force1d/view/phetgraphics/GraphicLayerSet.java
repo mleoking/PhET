@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.util.MultiMap;
-import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-
-import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
+
+import javax.swing.event.MouseInputListener;
+
+import edu.colorado.phet.common_force1d.util.MultiMap;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 /**
  * GraphicLayerSet is a collection of PhetGraphics (referred to as "children").
@@ -58,10 +58,10 @@ public class GraphicLayerSet extends PhetGraphic {
     public void setComponent( Component component ) {
         super.setComponent( component );
         Iterator gIt = graphicMap.iterator();
-        while( gIt.hasNext() ) {
+        while ( gIt.hasNext() ) {
             Object o = gIt.next();
-            if( o instanceof PhetGraphic ) {
-                PhetGraphic phetGraphic = (PhetGraphic)o;
+            if ( o instanceof PhetGraphic ) {
+                PhetGraphic phetGraphic = (PhetGraphic) o;
                 phetGraphic.setComponent( component );
             }
         }
@@ -73,17 +73,17 @@ public class GraphicLayerSet extends PhetGraphic {
      * @param g2 the Graphics2D on which to paint.
      */
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             // Iterate over each child graphic.
             Iterator it = graphicMap.iterator();
-            while( it.hasNext() ) {
-                PhetGraphic graphic = (PhetGraphic)it.next();
+            while ( it.hasNext() ) {
+                PhetGraphic graphic = (PhetGraphic) it.next();
 
                 // The following test is here because as persistence support is being developed, null
                 // entries are turning up in the MultiMap
-                if( graphic != null ) {
+                if ( graphic != null ) {
                     graphic.paint( g2 );//The children know about our transform implicitly.  They handle the transform.
                 }
                 else {
@@ -111,11 +111,11 @@ public class GraphicLayerSet extends PhetGraphic {
      * @return true if any child graphics contain the specified point.
      */
     public boolean contains( int x, int y ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             Iterator it = this.graphicMap.iterator();
-            while( it.hasNext() ) {
-                PhetGraphic o = (PhetGraphic)it.next();
-                if( o.contains( x, y ) ) {
+            while ( it.hasNext() ) {
+                PhetGraphic o = (PhetGraphic) it.next();
+                if ( o.contains( x, y ) ) {
                     return true;
                 }
             }
@@ -141,7 +141,7 @@ public class GraphicLayerSet extends PhetGraphic {
     protected Rectangle determineBounds() {
         PhetGraphic[] ch = getGraphics();
         Rectangle[] r = new Rectangle[ch.length];
-        for( int i = 0; i < r.length; i++ ) {
+        for ( int i = 0; i < r.length; i++ ) {
             r[i] = ch[i].getBounds();
         }
 
@@ -158,9 +158,9 @@ public class GraphicLayerSet extends PhetGraphic {
     public void clear() {
         Iterator i = graphicMap.iterator();
         PhetGraphic graphic;
-        while( i.hasNext() ) {
+        while ( i.hasNext() ) {
             // Do everything that removeGraphic method does.
-            graphic = (PhetGraphic)i.next();
+            graphic = (PhetGraphic) i.next();
             graphic.setParent( null );
             setBoundsDirty();
             graphic.autorepaint();//Automatically repaint.
@@ -174,7 +174,7 @@ public class GraphicLayerSet extends PhetGraphic {
      * @param graphic the graphic to remove.
      */
     public void removeGraphic( PhetGraphic graphic ) {
-        if( containsGraphic( graphic ) ) {
+        if ( containsGraphic( graphic ) ) {
             graphicMap.removeValue( graphic );
             graphic.setParent( null );
             setBoundsDirty();
@@ -185,8 +185,8 @@ public class GraphicLayerSet extends PhetGraphic {
     public void setBoundsDirty() {
         super.setBoundsDirty();
         Iterator it = graphicMap.iterator();
-        while( it.hasNext() ) {
-            PhetGraphic graphic = (PhetGraphic)it.next();
+        while ( it.hasNext() ) {
+            PhetGraphic graphic = (PhetGraphic) it.next();
             graphic.setBoundsDirty();
         }
     }
@@ -197,8 +197,8 @@ public class GraphicLayerSet extends PhetGraphic {
     protected void forceRepaint() {
         syncBounds();//This guarantees a notification, if necessary.
         Iterator it = graphicMap.iterator();
-        while( it.hasNext() ) {
-            PhetGraphic graphic = (PhetGraphic)it.next();
+        while ( it.hasNext() ) {
+            PhetGraphic graphic = (PhetGraphic) it.next();
             graphic.forceRepaint();
         }
     }
@@ -222,11 +222,11 @@ public class GraphicLayerSet extends PhetGraphic {
     public PhetGraphic[] getGraphics() {
         Iterator it = graphicMap.iterator();
         ArrayList graphics = new ArrayList();
-        while( it.hasNext() ) {
-            PhetGraphic graphic = (PhetGraphic)it.next();
+        while ( it.hasNext() ) {
+            PhetGraphic graphic = (PhetGraphic) it.next();
             graphics.add( graphic );
         }
-        return (PhetGraphic[])graphics.toArray( new PhetGraphic[0] );
+        return (PhetGraphic[]) graphics.toArray( new PhetGraphic[0] );
     }
 
     /**
@@ -283,7 +283,7 @@ public class GraphicLayerSet extends PhetGraphic {
     // Methods for MouseInteraction.
     //
     public void startDragging( MouseEvent event, PhetGraphic activeUnit ) {
-        if( this.activeUnit != null ) {
+        if ( this.activeUnit != null ) {
             this.activeUnit.fireMouseExited( event );
         }
         this.activeUnit = activeUnit;
@@ -294,7 +294,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
     //experimental
     public void clearActiveUnit() {
-        if( this.activeUnit != null ) {
+        if ( this.activeUnit != null ) {
             activeUnit.fireMouseReleased( new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false ) );
             activeUnit.fireMouseExited( new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false ) );
         }
@@ -309,24 +309,24 @@ public class GraphicLayerSet extends PhetGraphic {
         // Find the topmost graphic that can handle the event
         PhetGraphic newUnit = getHandler( e.getPoint() );
 //        System.out.println( "newUnit = " + newUnit );
-        if( newUnit == null ) {
+        if ( newUnit == null ) {
             // If the mouse isn't over anything contained in the
             // CompositeGraphic...
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMouseExited( e );
                 activeUnit = null;
             }
         }
         else {//newUnit was non-null.
-            if( activeUnit == newUnit ) {
+            if ( activeUnit == newUnit ) {
                 //same guy
             }
-            else if( activeUnit == null ) {
+            else if ( activeUnit == null ) {
                 //Fire a mouse entered, set the active newUnit.
                 activeUnit = newUnit;
                 activeUnit.fireMouseEntered( e );
             }
-            else if( activeUnit != newUnit ) {
+            else if ( activeUnit != newUnit ) {
                 //Switch active units.
                 activeUnit.fireMouseExited( e );
                 activeUnit = newUnit;
@@ -350,34 +350,34 @@ public class GraphicLayerSet extends PhetGraphic {
         if ( getIgnoreMouse() == true ) {
             return null;
         }
-        
+
         PhetGraphic[] graphics = getGraphics();
         PhetGraphic result = null;
-             
+
         // For each graphic, working from foreground to background layer...
-        for( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
+        for ( int i = graphics.length - 1; result == null && i >= 0; i-- ) {
             PhetGraphic g = graphics[i];
 
             // XMLEncoder/Decoder serialization puts nulls in the map, for some reason.
-            if( g != null ) {
-                if( g.isVisible() && !g.getIgnoreMouse() ) {
-                    if( g instanceof GraphicLayerSet ) {
+            if ( g != null ) {
+                if ( g.isVisible() && !g.getIgnoreMouse() ) {
+                    if ( g instanceof GraphicLayerSet ) {
                         // Ask the GraphicLayerSet for the graphic.
-                        result = ( (GraphicLayerSet)g ).getHandler( p );
+                        result = ( (GraphicLayerSet) g ).getHandler( p );
                     }
-                    else if( g.contains( p.x, p.y ) ) {
+                    else if ( g.contains( p.x, p.y ) ) {
                         // We picked this graphic.
                         result = g;
                     }
                 }
             }
         }
-        
+
         // We picked a graphic with no mouse listener, 
         // and this GraphicLayerSet does have a mouse listener.
         // So let the GraphicLayerSet handle the event.
-        if( result != null && result.numMouseInputListeners() == 0 &&
-            isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
+        if ( result != null && result.numMouseInputListeners() == 0 &&
+             isVisible() && numMouseInputListeners() != 0 && this.contains( p ) ) {
             result = this;
         }
 
@@ -389,14 +389,14 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     public void setKeyFocus( PhetGraphic focus ) {
-        if( keyFocusUnit != focus ) {
-            if( keyFocusUnit != null ) {
+        if ( keyFocusUnit != focus ) {
+            if ( keyFocusUnit != null ) {
                 keyFocusUnit.lostKeyFocus();
             }
 
             this.keyFocusUnit = focus;
             //Fire a focus change.
-            if( keyFocusUnit != null ) {
+            if ( keyFocusUnit != null ) {
                 keyFocusUnit.gainedKeyFocus();
             }
         }
@@ -404,10 +404,10 @@ public class GraphicLayerSet extends PhetGraphic {
     }
 
     public void childBecameInvisible( PhetGraphic phetGraphic ) {
-        if( keyFocusUnit == phetGraphic ) {
+        if ( keyFocusUnit == phetGraphic ) {
             setKeyFocus( null );
         }
-        if( activeUnit == phetGraphic ) {
+        if ( activeUnit == phetGraphic ) {
             MouseEvent mouseEvent = new MouseEvent( getComponent(), mouseEventID++, System.currentTimeMillis(), 0, 0, 0, 0, false );
             activeUnit.fireMouseExitedBecauseInvisible( mouseEvent );
             activeUnit = null;
@@ -424,19 +424,19 @@ public class GraphicLayerSet extends PhetGraphic {
     public class KeyAdapter implements KeyListener {
         //TODO this should probably include code to have a separate key-focused handler.
         public void keyTyped( KeyEvent e ) {
-            if( keyFocusUnit != null ) {
+            if ( keyFocusUnit != null ) {
                 keyFocusUnit.fireKeyTyped( e );
             }
         }
 
         public void keyPressed( KeyEvent e ) {
-            if( keyFocusUnit != null ) {
+            if ( keyFocusUnit != null ) {
                 keyFocusUnit.fireKeyPressed( e );
             }
         }
 
         public void keyReleased( KeyEvent e ) {
-            if( keyFocusUnit != null ) {
+            if ( keyFocusUnit != null ) {
                 keyFocusUnit.fireKeyReleased( e );
             }
         }
@@ -453,7 +453,7 @@ public class GraphicLayerSet extends PhetGraphic {
         public void mouseClicked( MouseEvent e ) {
             //Make sure we're over the active guy.
             handleEntranceAndExit( e );
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMouseClicked( e );
             }
             setKeyFocus( activeUnit );
@@ -463,7 +463,7 @@ public class GraphicLayerSet extends PhetGraphic {
 
         public void mousePressed( MouseEvent e ) {
             handleEntranceAndExit( e );
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMousePressed( e );
             }
             setKeyFocus( activeUnit );
@@ -482,7 +482,7 @@ public class GraphicLayerSet extends PhetGraphic {
          * @param e
          */
         public void mouseReleased( MouseEvent e ) {
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMouseReleased( e );
                 handleEntranceAndExit( e );
             }
@@ -497,7 +497,7 @@ public class GraphicLayerSet extends PhetGraphic {
          * @param e
          */
         public void mouseEntered( MouseEvent e ) {
-            if( !pressed && activeUnit == null ) {
+            if ( !pressed && activeUnit == null ) {
                 handleEntranceAndExit( e );
             }
         }
@@ -510,7 +510,7 @@ public class GraphicLayerSet extends PhetGraphic {
          * @param e
          */
         public void mouseExited( MouseEvent e ) {
-            if( !pressed && activeUnit != null ) {
+            if ( !pressed && activeUnit != null ) {
                 activeUnit.fireMouseExited( e );
                 activeUnit = null;
 //                handleEntranceAndExit( e );
@@ -518,7 +518,7 @@ public class GraphicLayerSet extends PhetGraphic {
         }
 
         public void mouseDragged( MouseEvent e ) {
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMouseDragged( e );
             }
             pressed = true;
@@ -527,7 +527,7 @@ public class GraphicLayerSet extends PhetGraphic {
         public void mouseMoved( MouseEvent e ) {
             //iterate down over the mouse handlers.
             handleEntranceAndExit( e );
-            if( activeUnit != null ) {
+            if ( activeUnit != null ) {
                 activeUnit.fireMouseMoved( e );
             }
             pressed = false;
@@ -545,7 +545,7 @@ public class GraphicLayerSet extends PhetGraphic {
     public Rectangle getVisibleBounds() {
         PhetGraphic[] ch = getGraphics();
         Rectangle[] r = new Rectangle[ch.length];
-        for( int i = 0; i < r.length; i++ ) {
+        for ( int i = 0; i < r.length; i++ ) {
             r[i] = ch[i].getVisibleBounds();
         }
 

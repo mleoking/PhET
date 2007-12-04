@@ -1,6 +1,15 @@
 /*  */
 package edu.colorado.phet.forces1d.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.ControlPanel;
@@ -9,14 +18,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DApplication;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -43,7 +44,7 @@ public class FreeBodyDiagramSuite {
             public void stateChanged( ChangeEvent e ) {
                 boolean showFBD = checkBox.isSelected();
                 fbdPanel.setVisible( showFBD );
-                if( showFBD ) {
+                if ( showFBD ) {
                     checkBox.setVisible( false );
                 }
             }
@@ -68,7 +69,7 @@ public class FreeBodyDiagramSuite {
 
             tearButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( dialog == null || !dialog.isVisible() ) {
+                    if ( dialog == null || !dialog.isVisible() ) {
                         setWindowed();
                     }
                     else {
@@ -115,7 +116,7 @@ public class FreeBodyDiagramSuite {
     }
 
     private void setWindowed() {
-        if( dialog == null ) {
+        if ( dialog == null ) {
             createDialog();
         }
 
@@ -162,8 +163,8 @@ public class FreeBodyDiagramSuite {
         dialog.setVisible( false );
         updateButtons();
         Window w = SwingUtilities.getWindowAncestor( controlPanel );
-        if( w instanceof JFrame ) {
-            JFrame frame = (JFrame)w;
+        if ( w instanceof JFrame ) {
+            JFrame frame = (JFrame) w;
 
             frame.invalidate();
             frame.validate();

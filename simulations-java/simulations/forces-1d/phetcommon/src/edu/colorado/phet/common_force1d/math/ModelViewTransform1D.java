@@ -7,7 +7,6 @@ import java.util.ArrayList;
  * User: Sam Reid
  * Date: Dec 14, 2004
  * Time: 8:22:30 PM
- *
  */
 
 public class ModelViewTransform1D {
@@ -27,7 +26,7 @@ public class ModelViewTransform1D {
     }
 
     public int modelToView( double x ) {
-        return (int)modelToView.evaluate( x );
+        return (int) modelToView.evaluate( x );
     }
 
     public int modelToViewDifferential( double dModel ) {
@@ -35,7 +34,7 @@ public class ModelViewTransform1D {
     }
 
     public double viewToModelDifferential( int dView ) {
-        return viewToModel( dView ) - viewToModel( 0 );            
+        return viewToModel( dView ) - viewToModel( 0 );
     }
 
     public double viewToModel( int x ) {
@@ -47,8 +46,8 @@ public class ModelViewTransform1D {
     }
 
     public void update() {
-        for( int i = 0; i < transformListeners.size(); i++ ) {
-            Observer observer = (Observer)transformListeners.get( i );
+        for ( int i = 0; i < transformListeners.size(); i++ ) {
+            Observer observer = (Observer) transformListeners.get( i );
             observer.transformChanged( this );
         }
     }

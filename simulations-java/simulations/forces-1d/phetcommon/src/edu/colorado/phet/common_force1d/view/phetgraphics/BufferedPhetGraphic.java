@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
-import edu.colorado.phet.common_force1d.view.GraphicsSetup;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
+import edu.colorado.phet.common_force1d.view.GraphicsSetup;
 
 /**
  * BufferedPhetGraphic
@@ -38,7 +38,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
         this.background = background;
         this.type = type;
         this.graphicLayerSet = new CompositePhetGraphic( component );
-        if( width > 0 && height > 0 ) {
+        if ( width > 0 && height > 0 ) {
             buffer = new BufferedImage( width, height, type );
         }
         repaintBuffer();
@@ -49,7 +49,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
     }
 
     public void setSize( int width, int height ) {
-        if( width > 0 && height > 0 ) {
+        if ( width > 0 && height > 0 ) {
             buffer = new BufferedImage( width, height, type );
         }
         setBoundsDirty();
@@ -82,7 +82,7 @@ public class BufferedPhetGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             g2.drawRenderedImage( buffer, getNetTransform() );
@@ -104,15 +104,15 @@ public class BufferedPhetGraphic extends PhetGraphic {
 
     public void repaintBuffer( int x, int y, int width, int height ) {
         Graphics2D g2 = buffer.createGraphics();
-        if( graphicsSetup != null ) {
+        if ( graphicsSetup != null ) {
             graphicsSetup.setup( g2 );
         }
         g2.setClip( x, y, width, height );
-        if( background != null ) {
+        if ( background != null ) {
             g2.setPaint( background );
             g2.fillRect( x, y, width, height );
         }
-        if( buffer != null ) {
+        if ( buffer != null ) {
             graphicLayerSet.paint( g2 );
         }
     }

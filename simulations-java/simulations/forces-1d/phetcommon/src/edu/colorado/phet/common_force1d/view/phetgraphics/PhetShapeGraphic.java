@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
-import edu.colorado.phet.common_force1d.view.util.GraphicsUtil;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
+import edu.colorado.phet.common_force1d.view.util.GraphicsUtil;
 
 /**
  * PhetShapeGraphic
@@ -61,7 +61,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setShape( Shape shape ) {
         boolean sameShape = sameShape( this.shape, shape );
-        if( !sameShape ) {
+        if ( !sameShape ) {
             this.shape = shape;
             setShapeDirty();
         }
@@ -106,19 +106,19 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     public void setPaint( Paint paint ) {
         boolean changed = false;
-        if( this.fill == null && paint != null ) {
+        if ( this.fill == null && paint != null ) {
             changed = true;
         }
-        else if( this.fill != null && paint == null ) {
+        else if ( this.fill != null && paint == null ) {
             changed = true;
         }
-        else if( this.fill == null && paint == null ) {
+        else if ( this.fill == null && paint == null ) {
             changed = false;//to miss the next line.
         }
-        else if( !this.fill.equals( paint ) ) {
+        else if ( !this.fill.equals( paint ) ) {
             changed = true;
         }
-        if( changed ) {
+        if ( changed ) {
             this.fill = paint;
             autorepaint();
         }
@@ -132,7 +132,7 @@ public class PhetShapeGraphic extends PhetGraphic {
      * Computes and caches the stroked shape.
      */
     private void computeStrokedShape() {
-        if( stroke != null && shape != null ) {
+        if ( stroke != null && shape != null ) {
             strokedShape = stroke.createStrokedShape( shape );
         }
         else {
@@ -150,12 +150,12 @@ public class PhetShapeGraphic extends PhetGraphic {
      * @param g2
      */
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
-            if( shape != null ) {
+            if ( shape != null ) {
                 g2.transform( getNetTransform() );
-                if( fill != null ) {
+                if ( fill != null ) {
                     workingPaint = fill;
                     // Set the alpha if necessary
                     setAlpha( g2, fill );
@@ -163,7 +163,7 @@ public class PhetShapeGraphic extends PhetGraphic {
                     g2.fill( shape );
                     restoreAlpha( g2 );
                 }
-                if( stroke != null ) {
+                if ( stroke != null ) {
                     workingPaint = fill;
                     setAlpha( g2, border );
                     g2.setPaint( workingPaint );
@@ -185,7 +185,7 @@ public class PhetShapeGraphic extends PhetGraphic {
      * @param g2
      */
     private void restoreAlpha( Graphics2D g2 ) {
-        if( orgComposite != null ) {
+        if ( orgComposite != null ) {
             g2.setComposite( orgComposite );
             orgComposite = null;
         }
@@ -208,17 +208,17 @@ public class PhetShapeGraphic extends PhetGraphic {
         // Graphics2D that represents alpha in the Paint, compounded with whatever
         // AlphaComposite might have been already set on the Graphics2D.
         workingPaint = paint;
-        if( component instanceof ApparatusPanel2 ) {
-            ApparatusPanel2 apparatusPanel2 = (ApparatusPanel2)component;
-            if( apparatusPanel2.isUseOffscreenBuffer() ) {
-                if( paint instanceof Color ) {
-                    Color color = (Color)paint;
-                    if( color.getAlpha() < 255 ) {
+        if ( component instanceof ApparatusPanel2 ) {
+            ApparatusPanel2 apparatusPanel2 = (ApparatusPanel2) component;
+            if ( apparatusPanel2.isUseOffscreenBuffer() ) {
+                if ( paint instanceof Color ) {
+                    Color color = (Color) paint;
+                    if ( color.getAlpha() < 255 ) {
                         workingPaint = new Color( color.getRed(), color.getGreen(), color.getBlue() );
-                        double fillAlpha = (double)color.getAlpha() / 255;
+                        double fillAlpha = (double) color.getAlpha() / 255;
                         Composite composite = g2.getComposite();
-                        if( composite instanceof AlphaComposite ) {
-                            AlphaComposite alphaComposite = (AlphaComposite)composite;
+                        if ( composite instanceof AlphaComposite ) {
+                            AlphaComposite alphaComposite = (AlphaComposite) composite;
                             fillAlpha *= alphaComposite.getAlpha();
                         }
                         // Save whatever Composite is already set on the Graphics2D
@@ -231,12 +231,12 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     protected Rectangle determineBounds() {
-        if( shape == null ) {
+        if ( shape == null ) {
             return null;
         }
 
         // todo: this looks like it could be expensive
-        if( stroke == null ) {
+        if ( stroke == null ) {
             return getNetTransform().createTransformedShape( shape.getBounds() ).getBounds();
         }
         else {
@@ -249,31 +249,31 @@ public class PhetShapeGraphic extends PhetGraphic {
     }
 
     private void synchronizeStrokedShape() {
-        if( shapeDirty ) {
+        if ( shapeDirty ) {
             computeStrokedShape();
             shapeDirty = false;
         }
     }
 
     private boolean sameShape( Shape a, Shape b ) {
-        if( a == null && b == null ) {
+        if ( a == null && b == null ) {
             return true;
         }
-        else if( a == null && b != null ) {
+        else if ( a == null && b != null ) {
             return false;
         }
-        else if( a != null && b == null ) {
+        else if ( a != null && b == null ) {
             return false;
         }
-        else if( a.equals( b ) ) {
+        else if ( a.equals( b ) ) {
             return true;
         }
         else {
             //use specific comparators, not provided by java API.
-            if( new GeneralPathComparator().isMatch( a, b ) ) {
+            if ( new GeneralPathComparator().isMatch( a, b ) ) {
                 return true;
             }
-            else if( new Rectangle2DComparator().isMatch( a, b ) ) {
+            else if ( new Rectangle2DComparator().isMatch( a, b ) ) {
                 return true;
             }
             //this could default to comparinng new Areas., again, that may be better than drawing to the screen
@@ -286,10 +286,10 @@ public class PhetShapeGraphic extends PhetGraphic {
      */
     private static class GeneralPathComparator {
         public boolean isMatch( Shape a, Shape b ) {
-            if( a.getClass().equals( GeneralPath.class ) && b.getClass().equals( GeneralPath.class ) ) {
+            if ( a.getClass().equals( GeneralPath.class ) && b.getClass().equals( GeneralPath.class ) ) {
                 Area m = new Area( a );
                 Area n = new Area( b );
-                if( m.equals( n ) ) {//slow, but better than drawing to the screen. //TODO is this working..?
+                if ( m.equals( n ) ) {//slow, but better than drawing to the screen. //TODO is this working..?
                     return true;
                 }
             }
@@ -306,19 +306,19 @@ public class PhetShapeGraphic extends PhetGraphic {
      * @return true if this PhetGraphic contains the specified point.
      */
     public boolean contains( int x, int y ) {
-        if( isVisible() && shape != null ) {
+        if ( isVisible() && shape != null ) {
             boolean borderVisible = stroke != null && border != null;
             boolean fillVisible = fill != null;
-            if( fillVisible && shapeContains( x, y ) ) {
+            if ( fillVisible && shapeContains( x, y ) ) {
                 return true;
             }
-            else if( borderVisible && borderContains( x, y ) ) {
+            else if ( borderVisible && borderContains( x, y ) ) {
                 return true;
             }
         }
         return false;
     }
-    
+
     public boolean contains( Point p ) {
         return contains( p.x, p.y );
     }
@@ -326,7 +326,7 @@ public class PhetShapeGraphic extends PhetGraphic {
     private boolean borderContains( int x, int y ) {
         boolean contains = false;
         synchronizeStrokedShape();
-        if( strokedShape != null ) {
+        if ( strokedShape != null ) {
             Shape txBorderShape = getNetTransform().createTransformedShape( strokedShape );
             contains = txBorderShape.contains( x, y );
         }
@@ -335,7 +335,7 @@ public class PhetShapeGraphic extends PhetGraphic {
 
     private boolean shapeContains( int x, int y ) {
         boolean contains = false;
-        if( shape != null ) {
+        if ( shape != null ) {
             Shape txShape = getNetTransform().createTransformedShape( shape );
             contains = txShape.contains( x, y );
         }
@@ -351,9 +351,9 @@ public class PhetShapeGraphic extends PhetGraphic {
      */
     private static class Rectangle2DComparator {
         public boolean isMatch( Shape a, Shape b ) {
-            if( a.getClass().equals( Rectangle2D.Double.class ) && b.getClass().equals( Rectangle2D.Double.class ) ) {
-                Rectangle2D.Double r = (Rectangle2D.Double)a;
-                Rectangle2D.Double s = (Rectangle2D.Double)b;
+            if ( a.getClass().equals( Rectangle2D.Double.class ) && b.getClass().equals( Rectangle2D.Double.class ) ) {
+                Rectangle2D.Double r = (Rectangle2D.Double) a;
+                Rectangle2D.Double s = (Rectangle2D.Double) b;
                 boolean same = r.x == s.x && r.y == s.y && r.width == s.width && r.height == s.height;
                 return same;
             }

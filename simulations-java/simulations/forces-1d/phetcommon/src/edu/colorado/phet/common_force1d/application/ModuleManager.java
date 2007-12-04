@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_force1d.application;
 
-import edu.colorado.phet.common_force1d.util.EventChannel;
-
 import java.beans.XMLEncoder;
 import java.io.File;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common_force1d.util.EventChannel;
 
 /**
  * ModuleManager
@@ -29,7 +29,7 @@ public class ModuleManager {
     private ArrayList modules = new ArrayList();
     private Module activeModule;
     private EventChannel moduleObserversChannel = new EventChannel( ModuleObserver.class );
-    private ModuleObserver moduleObserverProxy = (ModuleObserver)moduleObserversChannel.getListenerProxy();
+    private ModuleObserver moduleObserverProxy = (ModuleObserver) moduleObserversChannel.getListenerProxy();
     private PhetApplication phetApplication;
 
     public ModuleManager() {
@@ -40,7 +40,7 @@ public class ModuleManager {
     }
 
     public Module moduleAt( int i ) {
-        return (Module)modules.get( i );
+        return (Module) modules.get( i );
     }
 
     public Module getActiveModule() {
@@ -65,12 +65,12 @@ public class ModuleManager {
     public void addModule( Module module, boolean isActive ) {
 
         // Check that the module is well-formed
-        if( !moduleIsWellFormed( module ) ) {
+        if ( !moduleIsWellFormed( module ) ) {
             throw new RuntimeException( "Module is missing something." );
         }
 
         modules.add( module );
-        if( isActive ) {
+        if ( isActive ) {
             setActiveModule( module );
         }
         moduleObserverProxy.moduleAdded( new ModuleEvent( this, module ) );
@@ -81,8 +81,8 @@ public class ModuleManager {
 
         // If the module we are removing is the active module, we need to
         // set another one active
-        if( getActiveModule() == module ) {
-            setActiveModule( (Module)modules.get( 0 ) );
+        if ( getActiveModule() == module ) {
+            setActiveModule( (Module) modules.get( 0 ) );
         }
         // Notifiy listeners
         moduleObserverProxy.moduleRemoved( new ModuleEvent( this, module ) );
@@ -93,7 +93,7 @@ public class ModuleManager {
     }
 
     public void setActiveModule( Module module ) {
-        if( activeModule != module ) {
+        if ( activeModule != module ) {
             forceSetActiveModule( module );
         }
     }
@@ -110,7 +110,7 @@ public class ModuleManager {
     }
 
     private void deactivate() {
-        if( activeModule != null ) {
+        if ( activeModule != null ) {
             activeModule.deactivate( phetApplication );
         }
     }
@@ -124,7 +124,7 @@ public class ModuleManager {
     }
 
     public void addAllModules( Module[] modules ) {
-        for( int i = 0; i < modules.length; i++ ) {
+        for ( int i = 0; i < modules.length; i++ ) {
             addModule( modules[i] );
         }
     }
@@ -133,8 +133,8 @@ public class ModuleManager {
     // Save/restore methods
     //
     public void saveStateToConsole() {
-        for( int i = 0; i < modules.size(); i++ ) {
-            Module module = (Module)modules.get( i );
+        for ( int i = 0; i < modules.size(); i++ ) {
+            Module module = (Module) modules.get( i );
             XMLEncoder encoder = new XMLEncoder( System.out );
             encoder.writeObject( module );
             encoder.close();
@@ -148,8 +148,8 @@ public class ModuleManager {
      */
     public Module[] getModules() {
         Module[] moduleArray = new Module[this.modules.size()];
-        for( int i = 0; i < modules.size(); i++ ) {
-            Module module = (Module)modules.get( i );
+        for ( int i = 0; i < modules.size(); i++ ) {
+            Module module = (Module) modules.get( i );
             moduleArray[i] = module;
         }
         return moduleArray;

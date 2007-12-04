@@ -2,8 +2,8 @@ package edu.colorado.phet.common_force1d.math;
 
 /**
  * Author: Sam Reid
-* Aug 25, 2007, 1:33:38 AM
-*/
+ * Aug 25, 2007, 1:33:38 AM
+ */
 public class Average {
     private double sum;
     private int num;

@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import edu.colorado.phet.common_force1d.math.AbstractVector2D;
-
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
@@ -43,11 +43,11 @@ public class DoubleGeneralPath {
 
     public DoubleGeneralPath( double x, double y ) {
         path = new GeneralPath();
-        path.moveTo( (float)x, (float)y );
+        path.moveTo( (float) x, (float) y );
     }
 
     public void moveTo( double x, double y ) {
-        path.moveTo( (float)x, (float)y );
+        path.moveTo( (float) x, (float) y );
     }
 
     public void moveTo( Point2D pt ) {
@@ -59,15 +59,15 @@ public class DoubleGeneralPath {
     }
 
     public void quadTo( double x1, double y1, double x2, double y2 ) {
-        path.quadTo( (float)x1, (float)y1, (float)x2, (float)y2 );
+        path.quadTo( (float) x1, (float) y1, (float) x2, (float) y2 );
     }
 
     public void curveTo( double x1, double y1, double x2, double y2, double x3, double y3 ) {
-        path.curveTo( (float)x1, (float)y1, (float)x2, (float)y2, (float)x3, (float)y3 );
+        path.curveTo( (float) x1, (float) y1, (float) x2, (float) y2, (float) x3, (float) y3 );
     }
 
     public void lineTo( double x, double y ) {
-        path.lineTo( (float)x, (float)y );
+        path.lineTo( (float) x, (float) y );
     }
 
     public void lineTo( Point2D pt ) {

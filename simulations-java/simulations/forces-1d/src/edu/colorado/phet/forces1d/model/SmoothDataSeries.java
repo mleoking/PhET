@@ -27,11 +27,11 @@ public class SmoothDataSeries {
 
         int numPtsToAvg = windowSize;
         numPtsToAvg = Math.min( numPtsToAvg, data.size() );
-        for( int i = 0; i < numPtsToAvg; i++ ) {
+        for ( int i = 0; i < numPtsToAvg; i++ ) {
             avg.update( data.lastPointAt( i ) );
         }
         double value = avg.value();
-        if( Double.isNaN( value ) ) {
+        if ( Double.isNaN( value ) ) {
             value = 0;
         }
         smoothed.addPoint( value );
@@ -43,7 +43,7 @@ public class SmoothDataSeries {
 
     public void updateDerivative( double dt ) {
         DataSeries dataToDerive = this.smoothed;
-        if( dataToDerive.size() > 2 ) {
+        if ( dataToDerive.size() > 2 ) {
             double x1 = dataToDerive.lastPointAt( 0 );
             double x0 = dataToDerive.lastPointAt( 2 );
             double dx = x1 - x0;//median algorithm is smoothest.
@@ -75,10 +75,10 @@ public class SmoothDataSeries {
     }
 
     public void clearAfter( int index ) {
-        for( int i = data.size() - 1; i > index; i-- ) {
+        for ( int i = data.size() - 1; i > index; i-- ) {
             data.remove( i );
         }
-        for( int i = smoothed.size() - 1; i > index; i-- ) {
+        for ( int i = smoothed.size() - 1; i > index; i-- ) {
             smoothed.remove( i );
         }
     }

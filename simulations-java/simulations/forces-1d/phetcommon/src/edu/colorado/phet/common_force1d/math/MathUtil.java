@@ -40,10 +40,10 @@ public class MathUtil {
      * @return +1 or -1
      */
     public static int getSign( double d ) {
-        if( d != 0
-            && !Double.isNaN( d )
-            && !Double.isInfinite( d ) ) {
-            return (int)( Math.abs( d ) / d );
+        if ( d != 0
+             && !Double.isNaN( d )
+             && !Double.isInfinite( d ) ) {
+            return (int) ( Math.abs( d ) / d );
         }
         else {
             return 1;
@@ -57,10 +57,10 @@ public class MathUtil {
      * @return +1 or -1
      */
     public static int getSign( float f ) {
-        if( f != 0
-            && !Float.isNaN( f )
-            && !Float.isInfinite( f ) ) {
-            return (int)( Math.abs( f ) / f );
+        if ( f != 0
+             && !Float.isNaN( f )
+             && !Float.isInfinite( f ) ) {
+            return (int) ( Math.abs( f ) / f );
         }
         else {
             return 1;
@@ -88,7 +88,7 @@ public class MathUtil {
      *         returns NaN
      */
     public static float[] quadraticRoots( float[] quadRoots, float a, float b, float c ) {
-        float sqrt = (float)Math.sqrt( ( b * b ) - 4 * a * c );
+        float sqrt = (float) Math.sqrt( ( b * b ) - 4 * a * c );
 
         quadRoots[0] = ( -b + sqrt ) / ( 2 * a );
         quadRoots[1] = ( -b - sqrt ) / ( 2 * a );
@@ -178,7 +178,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
         else {
@@ -187,7 +187,7 @@ public class MathUtil {
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if( !( ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1 ) ) {
+            if ( !( ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1 ) ) {
                 result.setLocation( Float.NaN, Float.NaN );
             }
             else {
@@ -226,7 +226,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
         else {
@@ -235,7 +235,7 @@ public class MathUtil {
 
             // ua and ub must both be in the range 0 to 1 for the segments
             // to have an interesection pt.
-            if( !( ub >= 0 && ub <= 1 ) ) {
+            if ( !( ub >= 0 && ub <= 1 ) ) {
                 result.setLocation( Double.NaN, Double.NaN );
             }
             else {
@@ -273,7 +273,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result.setLocation( Double.NaN, Double.NaN );
         }
         else {
@@ -309,7 +309,7 @@ public class MathUtil {
         double denom = ( y4 - y3 ) * ( x2 - x1 ) - ( x4 - x3 ) * ( y2 - y1 );
 
         // If denominator is 0, the lines are parallel or coincident
-        if( denom == 0 ) {
+        if ( denom == 0 ) {
             result = false;
         }
         else {
@@ -331,10 +331,10 @@ public class MathUtil {
     public static Point2D.Float getLinesIntersection( float m1, float b1, float m2, float b2 ) {
 
         Point2D.Float result = new Point2D.Float( 0, 0 );
-        if( m1 == m2 ) {
+        if ( m1 == m2 ) {
             result.setLocation( Float.NaN, Float.NaN );
         }
-        else if( m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY ) {
+        else if ( m1 == Float.NEGATIVE_INFINITY || m1 == Float.POSITIVE_INFINITY ) {
             // Handle vertical lines!!
             throw new RuntimeException( "Method does not handle vertical lines yet" );
         }
@@ -355,13 +355,13 @@ public class MathUtil {
      * @return the clamped value
      */
     public static double clamp( double min, double value, double max ) {
-        if( Double.isNaN( min ) || Double.isNaN( value ) || Double.isNaN( max ) ) {
+        if ( Double.isNaN( min ) || Double.isNaN( value ) || Double.isNaN( max ) ) {
             return Double.NaN;
         }
-        else if( value < min ) {
+        else if ( value < min ) {
             return min;
         }
-        else if( value > max ) {
+        else if ( value > max ) {
             return max;
         }
         return value;

@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.forces1d;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.model.Force1dObject;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.model.Force1dObject;
 
 /**
  * User: Sam Reid
@@ -28,7 +29,7 @@ public class ObjectComboBox extends JComboBox {
         super( toLabelArray( imageElements, controlPanel ) );
         setRenderer( new ComboBoxRenderer() );
         this.controlPanel = controlPanel;
-        if( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
             setBorder( Force1DUtil.createSmoothBorder( SimStrings.get( "ObjectComboBox.chooseObject" ) ) );
         }
         addItemListener( new ItemListener() {
@@ -44,7 +45,7 @@ public class ObjectComboBox extends JComboBox {
 
     private static ImageIcon[] toLabelArray( Force1dObject[] imageElements, Component component ) {
         ImageIcon[] lab = new ImageIcon[imageElements.length];
-        for( int i = 0; i < lab.length; i++ ) {
+        for ( int i = 0; i < lab.length; i++ ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( component, image, 35 );
@@ -78,7 +79,7 @@ public class ObjectComboBox extends JComboBox {
                                                        int index,
                                                        boolean isSelected,
                                                        boolean cellHasFocus ) {
-            if( isSelected ) {
+            if ( isSelected ) {
                 setBackground( list.getSelectionBackground() );
                 setForeground( list.getSelectionForeground() );
             }
@@ -87,7 +88,7 @@ public class ObjectComboBox extends JComboBox {
                 setForeground( list.getForeground() );
             }
 
-            ImageIcon icon = (ImageIcon)value;
+            ImageIcon icon = (ImageIcon) value;
             setText( icon.getDescription() );
             setIcon( icon );
             setFont( font );

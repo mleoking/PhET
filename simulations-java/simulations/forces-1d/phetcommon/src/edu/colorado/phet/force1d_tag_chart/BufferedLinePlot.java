@@ -6,13 +6,14 @@
  */
 package edu.colorado.phet.force1d_tag_chart;
 
-import edu.colorado.phet.common_force1d.view.phetgraphics.BufferedPhetGraphic;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common_force1d.view.phetgraphics.BufferedPhetGraphic;
 
 public class BufferedLinePlot implements DataSet.Observer {
     private boolean visible = true;
@@ -36,28 +37,28 @@ public class BufferedLinePlot implements DataSet.Observer {
     }
 
     public void pointAdded( Point2D point ) {
-        if( point == null ) {
+        if ( point == null ) {
             throw new RuntimeException( "Null point" );
         }
         Point viewLocation = chart.transform( point );
-        if( generalPath == null ) {
+        if ( generalPath == null ) {
             generalPath = new GeneralPath();
             generalPath.moveTo( viewLocation.x, viewLocation.y );
         }
         else {
 
-            if( isVisible() && autorepaint ) {
+            if ( isVisible() && autorepaint ) {
                 //Determine the exact region for repaint.
                 Line2D line = new Line2D.Double( generalPath.getCurrentPoint(), viewLocation );
 
                 Rectangle bounds = stroke.createStrokedShape( line ).getBounds();
                 drawToBuffer( line );
-                JComponent jc = (JComponent)chart.getComponent();
+                JComponent jc = (JComponent) chart.getComponent();
 
 //                jc.paintImmediately( bounds.x, bounds.y, bounds.width, bounds.height );
                 jc.repaint( bounds.x, bounds.y, bounds.width, bounds.height );//We could pass a flag (or call a method) that this rectangle not be unioned with the rest of the crowd.
             }
-            generalPath.lineTo( (float)viewLocation.getX(), (float)viewLocation.getY() );
+            generalPath.lineTo( (float) viewLocation.getX(), (float) viewLocation.getY() );
         }
     }
 
@@ -73,7 +74,7 @@ public class BufferedLinePlot implements DataSet.Observer {
     }
 
     private void drawToBuffer( Line2D line ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             Graphics2D g2 = bufferedPhetGraphic.getBuffer().createGraphics();
             g2.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -88,7 +89,7 @@ public class BufferedLinePlot implements DataSet.Observer {
     }
 
     public void cleared() {
-        if( generalPath != null ) {
+        if ( generalPath != null ) {
             Rectangle shape = stroke.createStrokedShape( generalPath ).getBounds();
             chart.getComponent().repaint( shape.x, shape.y, shape.width, shape.height );
         }
@@ -98,7 +99,7 @@ public class BufferedLinePlot implements DataSet.Observer {
     public void repaintAll() {
         Graphics2D graphics2D = bufferedPhetGraphic.getBuffer().createGraphics();
         Shape origClip = graphics2D.getClip();
-        if( generalPath != null ) {
+        if ( generalPath != null ) {
             Stroke oldStroke = graphics2D.getStroke();
             Paint oldPaint = graphics2D.getPaint();
             graphics2D.setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );

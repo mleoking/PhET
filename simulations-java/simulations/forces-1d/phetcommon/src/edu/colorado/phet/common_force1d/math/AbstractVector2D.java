@@ -89,11 +89,11 @@ public interface AbstractVector2D {
 
         public boolean equals( Object obj ) {
             boolean result = true;
-            if( this.getClass() != obj.getClass() ) {
+            if ( this.getClass() != obj.getClass() ) {
                 result = false;
             }
             else {
-                AbstractVector2D that = (AbstractVector2D)obj;
+                AbstractVector2D that = (AbstractVector2D) obj;
                 result = this.getX() == that.getX() && this.getY() == that.getY();
             }
             return result;
@@ -121,7 +121,7 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
-            if( mag == 0 ) {
+            if ( mag == 0 ) {
                 throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
             }
             return new AbstractVector2D.Double( getX() / mag, getY() / mag );
@@ -210,8 +210,8 @@ public interface AbstractVector2D {
         }
 
         protected Float( double x, double y ) {
-            this.x = (float)x;
-            this.y = (float)y;
+            this.x = (float) x;
+            this.y = (float) y;
         }
 
         protected Float( Vector2D v ) {
@@ -232,11 +232,11 @@ public interface AbstractVector2D {
 
         public boolean equals( Object obj ) {
             boolean result = true;
-            if( this.getClass() != obj.getClass() ) {
+            if ( this.getClass() != obj.getClass() ) {
                 result = false;
             }
             else {
-                AbstractVector2D that = (AbstractVector2D)obj;
+                AbstractVector2D that = (AbstractVector2D) obj;
                 result = this.getX() == that.getX() && this.getY() == that.getY();
             }
             return result;
@@ -247,7 +247,7 @@ public interface AbstractVector2D {
         }
 
         public AbstractVector2D getAddedInstance( AbstractVector2D v ) {
-            return getAddedInstance( (float)v.getX(), (float)v.getY() );
+            return getAddedInstance( (float) v.getX(), (float) v.getY() );
         }
 
         public AbstractVector2D getAddedInstance( double x, double y ) {
@@ -264,7 +264,7 @@ public interface AbstractVector2D {
 
         public AbstractVector2D getNormalizedInstance() {
             double mag = getMagnitude();
-            if( mag == 0 ) {
+            if ( mag == 0 ) {
                 throw new RuntimeException( "Cannot normalize a zero-magnitude vector." );
             }
             return new AbstractVector2D.Float( getX() / mag, getY() / mag );
@@ -275,7 +275,7 @@ public interface AbstractVector2D {
         }
 
         public AbstractVector2D getSubtractedInstance( AbstractVector2D v ) {
-            return getSubtractedInstance( (float)v.getX(), (float)v.getY() );
+            return getSubtractedInstance( (float) v.getX(), (float) v.getY() );
         }
 
         public double getY() {
@@ -303,11 +303,11 @@ public interface AbstractVector2D {
         }
 
         public void setX( double x ) {
-            this.x = (float)x;
+            this.x = (float) x;
         }
 
         public void setY( double y ) {
-            this.y = (float)y;
+            this.y = (float) y;
         }
 
 
@@ -339,7 +339,7 @@ public interface AbstractVector2D {
         }
 
         public Point2D getDestination( Point2D startPt ) {
-            return new Point2D.Float( (float)( getX() + startPt.getX() ), (float)( getY() + startPt.getY() ) );
+            return new Point2D.Float( (float) ( getX() + startPt.getX() ), (float) ( getY() + startPt.getY() ) );
         }
 
         public AbstractVector2D getRotatedInstance( double angle ) {

@@ -26,8 +26,8 @@ public class SimpleObservable {
     }
 
     public void notifyObservers() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            SimpleObserver simpleObserver = (SimpleObserver)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            SimpleObserver simpleObserver = (SimpleObserver) observers.get( i );
             simpleObserver.update();
         }
     }
@@ -49,7 +49,7 @@ public class SimpleObservable {
     }
 
     public SimpleObserver[] getObservers() {
-        return (SimpleObserver[])observers.toArray( new SimpleObserver[0] );
+        return (SimpleObserver[]) observers.toArray( new SimpleObserver[0] );
     }
 
     //////////////////////////////////////////////////

@@ -154,21 +154,21 @@ public class VisibleColor extends Color {
     public static Color wavelengthToColor( double wl ) {
         Color color = null;
 
-        if( wl == WHITE_WAVELENGTH ) {
+        if ( wl == WHITE_WAVELENGTH ) {
             // Special case: white light.
             color = Color.WHITE;
         }
-        else if( wl < MIN_WAVELENGTH || wl > MAX_WAVELENGTH ) {
+        else if ( wl < MIN_WAVELENGTH || wl > MAX_WAVELENGTH ) {
             // Special case: wavelength outside the visible spectrum.
             return COLOR_INVISIBLE;
         }
         else {
             // Look up the color.
-            if( _colorLookup == null ) {
+            if ( _colorLookup == null ) {
                 initColorLookup();
             }
             // Colors are immuatable, so use the color from the lookup array.
-            color = _colorLookup[(int)( wl - MIN_WAVELENGTH )];
+            color = _colorLookup[(int) ( wl - MIN_WAVELENGTH )];
         }
 
         return color;
@@ -186,18 +186,18 @@ public class VisibleColor extends Color {
     public static double colorToWavelength( Color color ) {
         double wavelength = INVISIBLE_WAVELENGTH;
 
-        if( _colorLookup == null ) {
+        if ( _colorLookup == null ) {
             initColorLookup();
         }
 
-        if( color.equals( Color.WHITE ) ) {
+        if ( color.equals( Color.WHITE ) ) {
             return WHITE_WAVELENGTH;
         }
 
-        for( int i = 0; i < _colorLookup.length; i++ ) {
-            if( Math.abs( color.getRed() - _colorLookup[i].getRed() ) < COLOR_MATCH_DELTA &&
-                Math.abs( color.getGreen() - _colorLookup[i].getGreen() ) < COLOR_MATCH_DELTA &&
-                Math.abs( color.getBlue() - _colorLookup[i].getBlue() ) < COLOR_MATCH_DELTA ) {
+        for ( int i = 0; i < _colorLookup.length; i++ ) {
+            if ( Math.abs( color.getRed() - _colorLookup[i].getRed() ) < COLOR_MATCH_DELTA &&
+                 Math.abs( color.getGreen() - _colorLookup[i].getGreen() ) < COLOR_MATCH_DELTA &&
+                 Math.abs( color.getBlue() - _colorLookup[i].getBlue() ) < COLOR_MATCH_DELTA ) {
                 wavelength = MIN_WAVELENGTH + i;
                 break;
             }
@@ -220,44 +220,44 @@ public class VisibleColor extends Color {
      */
     private static void initColorLookup() {
         // Allocate the color array.
-        int numWavelengths = (int)( MAX_WAVELENGTH - MIN_WAVELENGTH + 1 );
+        int numWavelengths = (int) ( MAX_WAVELENGTH - MIN_WAVELENGTH + 1 );
         _colorLookup = new Color[numWavelengths];
 
         // Populate the color array.
         double wl;
         double r, g, b;
-        for( int i = 0; i < numWavelengths; i++ ) {
+        for ( int i = 0; i < numWavelengths; i++ ) {
             // Create the RGB component values.
             wl = MIN_WAVELENGTH + i;
             r = g = b = 0.0;
 
             // Determine the RGB component values.
-            if( wl >= 380. && wl <= 440. ) {
+            if ( wl >= 380. && wl <= 440. ) {
                 r = -1. * ( wl - 440. ) / ( 440. - 380. );
                 g = 0;
                 b = 1;
             }
-            else if( wl > 440. && wl <= 490. ) {
+            else if ( wl > 440. && wl <= 490. ) {
                 r = 0;
                 g = ( wl - 440. ) / ( 490. - 440. );
                 b = 1.;
             }
-            else if( wl > 490. && wl <= 510. ) {
+            else if ( wl > 490. && wl <= 510. ) {
                 r = 0;
                 g = 1;
                 b = -1. * ( wl - 510. ) / ( 510. - 490. );
             }
-            else if( wl > 510. && wl <= 580. ) {
+            else if ( wl > 510. && wl <= 580. ) {
                 r = ( wl - 510. ) / ( 580. - 510. );
                 g = 1.;
                 b = 0.;
             }
-            else if( wl > 580. && wl <= 645. ) {
+            else if ( wl > 580. && wl <= 645. ) {
                 r = 1.;
                 g = -1. * ( wl - 645. ) / ( 645. - 580. );
                 b = 0.;
             }
-            else if( wl > 645. && wl <= 780. ) {
+            else if ( wl > 645. && wl <= 780. ) {
                 r = 1.;
                 g = 0.;
                 b = 0;
@@ -270,18 +270,18 @@ public class VisibleColor extends Color {
             // Because all values above 645 have the same RGB components (see above),
             // this resulted in duplicate entries in the color lookup array for wavelengths
             // int the range 645-700 inclusive.  Setting the value to 645 solves this problem.
-            if( wl > 645. ) {
+            if ( wl > 645. ) {
                 intensity = .3 + .7 * ( 780. - wl ) / ( 780. - 645. );
             }
-            else if( wl < 420. ) {
+            else if ( wl < 420. ) {
                 intensity = .3 + .7 * ( wl - 380. ) / ( 420. - 380. );
             }
             else {
                 intensity = 1.;
             }
-            int red = (int)Math.round( 255 * ( intensity * r ) );
-            int green = (int)Math.round( 255 * ( intensity * g ) );
-            int blue = (int)Math.round( 255 * ( intensity * b ) );
+            int red = (int) Math.round( 255 * ( intensity * r ) );
+            int green = (int) Math.round( 255 * ( intensity * g ) );
+            int blue = (int) Math.round( 255 * ( intensity * b ) );
             int alpha = 255;
 
             // Add the color to the lookup array.
@@ -305,8 +305,8 @@ public class VisibleColor extends Color {
     private static final void debug_colorLookup() {
         // Determines how many duplicate colors are in the lookup array.
         int duplicates = 0;
-        for( int i = 0; i < _colorLookup.length - 1; i++ ) {
-            if( _colorLookup[i].equals( _colorLookup[i + 1] ) ) {
+        for ( int i = 0; i < _colorLookup.length - 1; i++ ) {
+            if ( _colorLookup[i].equals( _colorLookup[i + 1] ) ) {
                 duplicates++;
             }
         }
@@ -314,6 +314,5 @@ public class VisibleColor extends Color {
     }
 
 }
-
 
 /* end of file */

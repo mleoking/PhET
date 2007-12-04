@@ -1,13 +1,14 @@
 package edu.colorado.phet.forces1d.common;
 
-import edu.colorado.phet.common_force1d.view.util.SwingUtils;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common_force1d.view.util.SwingUtils;
 
 /**
  * User: Sam Reid

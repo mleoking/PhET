@@ -13,11 +13,8 @@ package edu.colorado.phet.common_force1d.view.util;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /**
  * BufferedImageUtils
@@ -52,7 +49,8 @@ public class BufferedImageUtils {
 //        BufferedImage out = ato.createCompatibleDestImage( in, in.getColorModel() );
 //        ato.filter( in, out );
 //        return out;
-//    }
+
+    //    }
     public static BufferedImage rescaleYMaintainAspectRatio( Component parent, BufferedImage im, int height ) {
         double iny = im.getHeight();
         double dy = height / iny;
@@ -84,8 +82,8 @@ public class BufferedImageUtils {
     }
 
     public static BufferedImage rescaleFractionalMacFriendly( Component parent, BufferedImage in, double dx, double dy ) {
-        int width = (int)( in.getWidth() * dx );
-        int height = (int)( in.getHeight() * dy );
+        int width = (int) ( in.getWidth() * dx );
+        int height = (int) ( in.getHeight() * dy );
         BufferedImage newImage = new BufferedImage( width, height, BufferedImage.TYPE_INT_ARGB );
 //        Image created = parent.createImage( width, height );
 //        BufferedImage newImage = null;
@@ -124,7 +122,7 @@ public class BufferedImageUtils {
 
     public static BufferedImage flipXMacFriendly( BufferedImage source ) {
         int type = source.getType();
-        if( source.getType() == 0 ) {
+        if ( source.getType() == 0 ) {
             type = BufferedImage.TYPE_INT_ARGB;  //This is a hack that works.
         }
         BufferedImage output = new BufferedImage( source.getWidth(), source.getHeight(), type );
@@ -155,7 +153,7 @@ public class BufferedImageUtils {
         tx.translate( -source.getWidth(), 0 );
         return tx;
     }
-    
+
     /**
      * Creates and returns a buffered image that is a rotated version of a specified
      * buffered image. The transform is done so that the image is not truncated, and
@@ -173,22 +171,22 @@ public class BufferedImageUtils {
         double alpha = 0;
         double w = bImage.getWidth();
         double h = bImage.getHeight();
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
+        if ( theta >= 0 && theta <= Math.PI / 2 ) {
             x = h * Math.sin( theta );
             y = 0;
         }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+        if ( theta > Math.PI / 2 && theta <= Math.PI ) {
             alpha = theta - Math.PI / 2;
             x = w * Math.sin( alpha ) + h * Math.cos( alpha );
             y = h * Math.sin( alpha );
         }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+        if ( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
             alpha = theta - Math.PI;
             x = w * Math.cos( alpha );
             y = w * Math.sin( alpha ) + h * Math.cos( alpha );
         }
         // Works
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+        if ( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             alpha = Math.PI * 2 - theta;
             x = 0;
             y = w * Math.sin( alpha );
@@ -199,13 +197,13 @@ public class BufferedImageUtils {
         BufferedImage result = op.filter( bImage, null );
         return result;
     }
-    
+
     // This method returns true if the specified image has transparent pixels
     // Taken from The Java Developer's Almanac, 1.4
     public static boolean hasAlpha( Image image ) {
         // If buffered image, the color model is readily available
-        if( image instanceof BufferedImage ) {
-            BufferedImage bimage = (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage) image;
             return bimage.getColorModel().hasAlpha();
         }
 
@@ -225,14 +223,14 @@ public class BufferedImageUtils {
 
     /**
      * Gets the transparency of an image.
-     * 
+     *
      * @param image the image
      * @return OPAQUE, BITMASK or TRANSLUCENT (see java.awt.Transparency)
      */
     public static int getTransparency( Image image ) {
         // If buffered image, the color model is readily available
-        if( image instanceof BufferedImage ) {
-            BufferedImage bimage = (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            BufferedImage bimage = (BufferedImage) image;
             return bimage.getColorModel().getTransparency();
         }
         // Use a pixel grabber to retrieve the image's color model;
@@ -246,19 +244,19 @@ public class BufferedImageUtils {
 
         // Get the image's color model
         ColorModel cm = pg.getColorModel();
-        
+
         int transparency = Transparency.OPAQUE;
         if ( cm != null ) {
             transparency = cm.getTransparency();
         }
         return transparency;
     }
-    
+
     // This method returns a buffered image with the contents of an image
     // Taken from The Java Developer's Almanac, 1.4
     public static BufferedImage toBufferedImage( Image image ) {
-        if( image instanceof BufferedImage ) {
-            return (BufferedImage)image;
+        if ( image instanceof BufferedImage ) {
+            return (BufferedImage) image;
         }
 
         // This code ensures that all the pixels in the image are loaded
@@ -278,11 +276,11 @@ public class BufferedImageUtils {
             // The system does not have a screen
         }
 
-        if( bimage == null ) {
+        if ( bimage == null ) {
             // Create a buffered image using the default color model
             boolean hasAlpha = hasAlpha( image );
             int type = BufferedImage.TYPE_INT_RGB;
-            if( hasAlpha ) {
+            if ( hasAlpha ) {
                 type = BufferedImage.TYPE_INT_ARGB;
             }
             bimage = new BufferedImage( image.getWidth( null ), image.getHeight( null ), type );

@@ -10,6 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.util;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common_force1d.application.Module;
 import edu.colorado.phet.common_force1d.application.ModuleManager;
 import edu.colorado.phet.common_force1d.application.PhetApplication;
@@ -21,12 +28,6 @@ import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.util.LineGrid;
 import edu.colorado.phet.common_force1d.view.util.MouseTracker;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 /**
  * DebugMenu
@@ -74,7 +75,6 @@ public class DebugMenu extends JMenu {
         return appPanel;
     }
 
-
     //----------------------------------------------------------------
     // Menu Items
     //----------------------------------------------------------------
@@ -89,16 +89,16 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ApparatusPanel appPanel = getApparatusPanel();
-                    if( appPanel instanceof ApparatusPanel2 ) {
-                        ApparatusPanel2 appPanel2 = (ApparatusPanel2)appPanel;
-                        if( isSelected() ) {
+                    if ( appPanel instanceof ApparatusPanel2 ) {
+                        ApparatusPanel2 appPanel2 = (ApparatusPanel2) appPanel;
+                        if ( isSelected() ) {
                             LineGrid grid = new LineGrid( appPanel2, 100, 100, new Color( 0, 128, 0 ) );
                             appPanelsToGrids.put( appPanel2, grid );
                             appPanel2.addGraphic( grid );
                             appPanel.repaint();
                         }
                         else {
-                            LineGrid grid = (LineGrid)appPanelsToGrids.get( appPanel2 );
+                            LineGrid grid = (LineGrid) appPanelsToGrids.get( appPanel2 );
                             appPanel2.removeGraphic( grid );
                             appPanelsToGrids.remove( appPanel2 );
                             appPanel2.repaint();
@@ -125,15 +125,15 @@ public class DebugMenu extends JMenu {
             this.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     ApparatusPanel appPanel = getApparatusPanel();
-                    if( appPanel instanceof ApparatusPanel2 ) {
-                        ApparatusPanel2 appPanel2 = (ApparatusPanel2)appPanel;
-                        if( isSelected() ) {
+                    if ( appPanel instanceof ApparatusPanel2 ) {
+                        ApparatusPanel2 appPanel2 = (ApparatusPanel2) appPanel;
+                        if ( isSelected() ) {
                             MouseTracker tracker = new MouseTracker( appPanel2 );
                             appPanel.addGraphic( tracker, Double.MAX_VALUE );
                             appPanelToTracker.put( appPanel2, tracker );
                         }
                         else {
-                            MouseTracker tracker = (MouseTracker)appPanelToTracker.get( appPanel );
+                            MouseTracker tracker = (MouseTracker) appPanelToTracker.get( appPanel );
                             appPanel.removeGraphic( tracker );
                             appPanelToTracker.remove( appPanel );
                         }
@@ -179,7 +179,7 @@ public class DebugMenu extends JMenu {
                 public void clockTicked( ClockTickEvent event ) {
                     frameCnt++;
                     long currTime = System.currentTimeMillis();
-                    if( currTime - lastTickTime > averagingTime ) {
+                    if ( currTime - lastTickTime > averagingTime ) {
                         double rate = frameCnt * 1000 / ( currTime - lastTickTime );
                         lastTickTime = currTime;
                         frameCnt = 0;
@@ -200,11 +200,11 @@ public class DebugMenu extends JMenu {
                 public void actionPerformed( ActionEvent e ) {
                     PhetApplication app = PhetApplication.instance();
                     ModuleManager mm = app.getModuleManager();
-                    for( int i = 0; i < mm.numModules(); i++ ) {
+                    for ( int i = 0; i < mm.numModules(); i++ ) {
                         Module module = mm.moduleAt( i );
                         ApparatusPanel ap = module.getApparatusPanel();
-                        if( ap instanceof ApparatusPanel2 ) {
-                            ApparatusPanel2 ap2 = (ApparatusPanel2)ap;
+                        if ( ap instanceof ApparatusPanel2 ) {
+                            ApparatusPanel2 ap2 = (ApparatusPanel2) ap;
                             ap2.setUseOffscreenBuffer( useOffscreenBuffer );
                             ap2.revalidate();
                             ap2.repaint( ap2.getBounds() );
@@ -221,10 +221,10 @@ public class DebugMenu extends JMenu {
             super( "OffscreenBuffer-(Dirty Regions Only)" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                    for ( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
                         ApparatusPanel ap = PhetApplication.instance().getModuleManager().moduleAt( i ).getApparatusPanel();
-                        if( ap instanceof ApparatusPanel2 ) {
-                            ( (ApparatusPanel2)ap ).setUseOffscreenBufferDirtyRegion();
+                        if ( ap instanceof ApparatusPanel2 ) {
+                            ( (ApparatusPanel2) ap ).setUseOffscreenBufferDirtyRegion();
                         }
                     }
                 }
@@ -237,10 +237,10 @@ public class DebugMenu extends JMenu {
             super( "Paint Direct/Disjoint" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    for( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
+                    for ( int i = 0; i < PhetApplication.instance().getModuleManager().numModules(); i++ ) {
                         ApparatusPanel ap = PhetApplication.instance().getModuleManager().moduleAt( i ).getApparatusPanel();
-                        if( ap instanceof ApparatusPanel2 ) {
-                            ( (ApparatusPanel2)ap ).setPaintStrategyDisjoint();
+                        if ( ap instanceof ApparatusPanel2 ) {
+                            ( (ApparatusPanel2) ap ).setPaintStrategyDisjoint();
                         }
                     }
                 }

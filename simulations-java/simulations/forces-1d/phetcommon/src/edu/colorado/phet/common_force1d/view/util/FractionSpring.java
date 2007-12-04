@@ -25,7 +25,7 @@ public class FractionSpring extends Spring {
     protected double fraction;
 
     public FractionSpring( Spring p, double f ) {
-        if( p == null ) {
+        if ( p == null ) {
             throw new NullPointerException( "Parent spring cannot be null" );
         }
         parent = p;
@@ -33,25 +33,25 @@ public class FractionSpring extends Spring {
     }
 
     public int getValue() {
-        return (int)Math.round( parent.getValue() * fraction );
+        return (int) Math.round( parent.getValue() * fraction );
     }
 
     public int getPreferredValue() {
-        return (int)Math.round( parent.getPreferredValue() * fraction );
+        return (int) Math.round( parent.getPreferredValue() * fraction );
     }
 
     public int getMinimumValue() {
-        return (int)Math.round( parent.getMinimumValue() * fraction );
+        return (int) Math.round( parent.getMinimumValue() * fraction );
     }
 
     public int getMaximumValue() {
-        return (int)Math.round( parent.getMaximumValue() * fraction );
+        return (int) Math.round( parent.getMaximumValue() * fraction );
     }
 
     public void setValue( int val ) {
         // Uncomment this next line to watch when our spring is resized:
         // System.err.println("Value to setValue: " + val);
-        if( val == UNSET ) {
+        if ( val == UNSET ) {
             return;
         }
         throw new UnsupportedOperationException( "Cannot set value on a derived spring" );

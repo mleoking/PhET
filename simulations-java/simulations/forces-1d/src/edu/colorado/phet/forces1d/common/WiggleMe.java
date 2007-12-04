@@ -1,5 +1,11 @@
 package edu.colorado.phet.forces1d.common;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.model.clock.AbstractClock;
@@ -9,11 +15,6 @@ import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * Created by IntelliJ IDEA.
@@ -81,13 +82,13 @@ public class WiggleMe extends CompositePhetGraphic {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( visible ) {
-            if( !clock.containsClockTickListener( tickListener ) ) {
+        if ( visible ) {
+            if ( !clock.containsClockTickListener( tickListener ) ) {
                 clock.addClockTickListener( tickListener );
             }
         }
         else {
-            while( clock.containsClockTickListener( tickListener ) ) {
+            while ( clock.containsClockTickListener( tickListener ) ) {
                 clock.removeClockTickListener( tickListener );
             }
         }
@@ -108,7 +109,7 @@ public class WiggleMe extends CompositePhetGraphic {
 
     private void tick() {
 //        System.out.println( "tick" );
-        if( isVisible() && getComponent().isShowing() ) {
+        if ( isVisible() && getComponent().isShowing() ) {
             double time = ( System.currentTimeMillis() - t0 ) / 1000.0;
             Point targetLoc = target.getLocation();
 
@@ -117,7 +118,7 @@ public class WiggleMe extends CompositePhetGraphic {
             AbstractVector2D norm = oscillationAxis.getInstanceOfMagnitude( distAlongAxis );
             Point2D dest = norm.getDestination( oscillationCenter );
 
-            setLocation( (int)dest.getX(), (int)dest.getY() );
+            setLocation( (int) dest.getX(), (int) dest.getY() );
         }
     }
 

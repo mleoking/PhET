@@ -10,19 +10,20 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import edu.colorado.phet.common_force1d.application.Module;
-import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common_force1d.view.help.HelpPanel;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-
-import javax.swing.*;
-import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 import java.util.Arrays;
+
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common_force1d.application.Module;
+import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_force1d.view.help.HelpPanel;
 
 /**
  * ControlPanel
@@ -56,7 +57,7 @@ public class ControlPanel extends JPanel {
         // The panel with the logo
 //        URL resource = getClass().getClassLoader().getResource( "images/Phet-Flatirons-logo-3-small.gif" );
 //        URL resource = ;
-        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo.jpg"));
+        imageIcon = new ImageIcon( PhetCommonResources.getInstance().getImage( "logos/phet-logo.jpg" ) );
         titleLabel = ( new JLabel( imageIcon ) );
         northPanel = new JPanel();
         northPanel.add( titleLabel );
@@ -68,7 +69,6 @@ public class ControlPanel extends JPanel {
 
         horizontalScrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
         horizontalScrollPane.setBorder( createBorder() );
-
 
         // The panel for the help button
         helpPanel = new HelpPanel( module );
@@ -217,10 +217,10 @@ public class ControlPanel extends JPanel {
             verticalScrollPane.setViewportView( null );
             horizontalScrollPane.setViewportView( null );
 
-            if( getAvailableHeight() <= 0 ) {
+            if ( getAvailableHeight() <= 0 ) {
                 //no room for controls, sorry.
             }
-            else if( requiresVerticalScrollbars() ) {
+            else if ( requiresVerticalScrollbars() ) {
                 //not enough room for all controls, so use vertical scrolling.
                 controlPane.setLocation( 0, 0 );
                 verticalScrollPane.setViewportView( controlPane );
@@ -236,7 +236,7 @@ public class ControlPanel extends JPanel {
                 addToPanel( controlPane );
                 controlPane.setBounds( 0, getControlTop(), controlPane.getPreferredSize().width, controlPane.getPreferredSize().height );
             }
-            if( isMacOSX() ) {
+            if ( isMacOSX() ) {
                 fixAll( controlPane );
             }
         }
@@ -274,9 +274,9 @@ public class ControlPanel extends JPanel {
 
             component.setBounds( component.getX(), component.getY(), d.width, d.height );
             component.repaint();
-            if( component instanceof Container ) {
-                Container c = (Container)component;
-                for( int i = 0; i < c.getComponentCount(); i++ ) {
+            if ( component instanceof Container ) {
+                Container c = (Container) component;
+                for ( int i = 0; i < c.getComponentCount(); i++ ) {
                     fixAll( c.getComponent( i ) );
                 }
             }
@@ -292,14 +292,14 @@ public class ControlPanel extends JPanel {
              * <br>
              * See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4220108
              */
-            if( component instanceof JSlider ) {
+            if ( component instanceof JSlider ) {
                 JSlider slider = (JSlider) component;
                 Dimension dim = slider.getSize();
-                dim.height +=1;
-                slider.setSize(dim);
+                dim.height += 1;
+                slider.setSize( dim );
                 slider.repaint();
-                dim.height -=1;
-                slider.setSize(dim);
+                dim.height -= 1;
+                slider.setSize( dim );
                 slider.repaint();
             }
         }
@@ -312,7 +312,7 @@ public class ControlPanel extends JPanel {
          */
         private int getPositionToCenter( Component component ) {
             int availWidth = getWidth() - component.getWidth();
-            if( availWidth <= 0 ) {
+            if ( availWidth <= 0 ) {
                 return 0;
             }
             else {
@@ -326,7 +326,7 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private int getHelpTop() {
-            if( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
+            if ( helpPanel.isVisible() && containsComponent( helpPanel ) ) {
                 return helpPanel.getY();
             }
             else {
@@ -340,7 +340,7 @@ public class ControlPanel extends JPanel {
          * @return
          */
         private int getLogoBottom() {
-            if( northPanel.isVisible() && containsComponent( northPanel ) ) {
+            if ( northPanel.isVisible() && containsComponent( northPanel ) ) {
                 return northPanel.getY() + northPanel.getHeight();
             }
             else {
@@ -378,16 +378,16 @@ public class ControlPanel extends JPanel {
          */
         private int getMinWidth() {
             int width = 0;
-            if( northPanel.isVisible() ) {
+            if ( northPanel.isVisible() ) {
                 width = Math.max( width, northPanel.getPreferredSize().width );
             }
-            if( controlPane.isVisible() ) {
+            if ( controlPane.isVisible() ) {
                 width = Math.max( width, controlPane.getPreferredSize().width );
             }
-            if( helpPanel.isVisible() ) {
+            if ( helpPanel.isVisible() ) {
                 width = Math.max( width, helpPanel.getPreferredSize().width );
             }
-            if( getLayoutRequiresScrollPane() ) {
+            if ( getLayoutRequiresScrollPane() ) {
                 width += getScrollBarWidth();
             }
             return width;

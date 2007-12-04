@@ -1,7 +1,10 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
 import edu.colorado.phet.common_force1d.view.graphics.transforms.ModelViewTransform2D;
@@ -10,9 +13,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -99,7 +99,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         public void update() {
             double force = forceComponent.getForce();
 //            System.out.println( "force: "+name+" = " + force );
-            if( force == 0 ) {
+            if ( force == 0 ) {
                 setVisible( false );
                 return;
             }
@@ -115,7 +115,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
             Shape forceArrowShape = forceArrow.getShape();
-            if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
+            if ( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
                 shapeGraphic.setShape( forceArrowShape );
 
                 Shape forceArrowBody = forceArrow.getTailShape();
@@ -123,7 +123,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 double arrowHeight = forceArrowBody.getBounds().getHeight();
                 double y = forceArrowBody.getBounds().getY() + arrowHeight / 2 - tgHeight / 2;
 //                textGraphic.setLocation( forceArrowBody.getBounds().x, forceArrowBody.getBounds().y + textGraphic.getHeight()/2 );
-                textGraphic.setLocation( forceArrowBody.getBounds().x, (int)y );
+                textGraphic.setLocation( forceArrowBody.getBounds().x, (int) y );
             }
             this.lastArrow = forceArrow;
         }
@@ -140,14 +140,14 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
     }
 
     private void checkTextOverlap() {
-        if( friction.textGraphic.isVisible() && applied.textGraphic.isVisible() ) {
+        if ( friction.textGraphic.isVisible() && applied.textGraphic.isVisible() ) {
             Rectangle f = friction.textGraphic.getBounds();
             Rectangle a = applied.textGraphic.getBounds();
-            if( f.intersects( a ) ) {
+            if ( f.intersects( a ) ) {
                 Rectangle intersection = f.intersection( a );
                 int dx = intersection.width;
                 int d = dx / 2 + 5;
-                if( f.x < a.x ) {
+                if ( f.x < a.x ) {
                     friction.textGraphic.setLocation( f.x - d, friction.textGraphic.getY() );
                     applied.textGraphic.setLocation( a.x + d, applied.textGraphic.getY() );
                 }

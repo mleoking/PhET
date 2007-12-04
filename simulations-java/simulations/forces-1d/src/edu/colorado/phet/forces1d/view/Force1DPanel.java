@@ -1,7 +1,15 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
@@ -21,13 +29,6 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -233,8 +234,8 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             }
 
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
-                    if( repaintDebugGraphic.isActive() ) {
+                if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    if ( repaintDebugGraphic.isActive() ) {
                         removeGraphic( repaintDebugGraphic );
                     }
                     else {
@@ -305,7 +306,7 @@ new WiggleMe.Target() {
             public void stateChanged( javax.swing.event.ChangeEvent e ) {
                 sliderWiggleMe.setVisible( false );
 //                goButtonHelp.setVisible( true );
-                if( !goButtonPressed && module.getForceModel().getPlotDeviceModel().isPaused() ) {
+                if ( !goButtonPressed && module.getForceModel().getPlotDeviceModel().isPaused() ) {
                     soloGoButtonHelp.setVisible( true );
                 }
             }
@@ -373,7 +374,7 @@ new WiggleMe.Target() {
     }
 
     private PhetGraphic getGoButtonGraphic() {
-        PhetGraphic goButtonGraphic = ( (GraphicLayerSet)floatingControlGraphic ).getGraphics()[1];//TODO this will break when we fix PhetJComponent to have the right tree structure.
+        PhetGraphic goButtonGraphic = ( (GraphicLayerSet) floatingControlGraphic ).getGraphics()[1];//TODO this will break when we fix PhetJComponent to have the right tree structure.
         return goButtonGraphic;
     }
 
@@ -411,7 +412,7 @@ new WiggleMe.Target() {
     }
 
     public void firstLayout() {
-        if( !didLayout ) {
+        if ( !didLayout ) {
             forceLayout( getWidth(), getHeight() );
         }
     }
@@ -423,7 +424,7 @@ new WiggleMe.Target() {
     }
 
     public void forceLayout( int width, int height ) {
-        if( getWidth() > 0 && getHeight() > 0 ) {
+        if ( getWidth() > 0 && getHeight() > 0 ) {
             backgroundGraphic.setSize( width, height );
             Paint background = module.getPhetLookAndFeel().getBackgroundColor();
             backgroundGraphic.setBackground( background );
@@ -442,7 +443,7 @@ new WiggleMe.Target() {
             int floX = 5;
             int floY = getHeight() / 2 - floDim.height / 2;
 
-            if( forcePlotDevice.isVisible() ) {
+            if ( forcePlotDevice.isVisible() ) {
                 Rectangle r = forcePlotDevice.getTextBox().getBounds();
                 floY = r.y + r.height + 10;
 
@@ -463,7 +464,7 @@ new WiggleMe.Target() {
         int yInsetBottom = forcePlotDevice.getChart().getHorizontalTicks().getMajorTickTextBounds().height * 2;
 
         Rectangle chartArea = new Rectangle( plotInsetX, plotY + yInsetBottom, plotWidth, height - plotY - yInsetBottom * 2 );
-        if( chartArea.width > 0 && chartArea.height > 0 ) {
+        if ( chartArea.width > 0 && chartArea.height > 0 ) {
             int separatorWidth = 7;
 //            System.out.println( "separatorWidth = " + separatorWidth );
             LayoutUtil layoutUtil = new LayoutUtil( chartArea.getY(), chartArea.getHeight() + chartArea.getY(), separatorWidth );
@@ -471,16 +472,16 @@ new WiggleMe.Target() {
 
             LayoutUtil.LayoutElement[] elements = new LayoutUtil.LayoutElement[devices.length];
             int buttonHeight = devices[0].getButtonHeight();
-            for( int i = 0; i < elements.length; i++ ) {
+            for ( int i = 0; i < elements.length; i++ ) {
                 LayoutUtil.LayoutElement le = new LayoutUtil.Dynamic();
                 elements[i] = devices[i].isVisible() ? le : new LayoutUtil.Fixed( buttonHeight );//TODO button size.
             }
 
             layoutUtil.layout( elements );
 
-            for( int i = 0; i < elements.length; i++ ) {
+            for ( int i = 0; i < elements.length; i++ ) {
                 LayoutUtil.LayoutElement element = elements[i];
-                if( devices[i].isVisible() ) {
+                if ( devices[i].isVisible() ) {
                     devices[i].setViewBounds( restrictBounds( chartArea, element ) );
                 }
                 else {
@@ -501,7 +502,7 @@ new WiggleMe.Target() {
     }
 
     private Rectangle restrictBounds( Rectangle area, LayoutUtil.LayoutElement element ) {
-        return new Rectangle( area.x, (int)element.getMin(), area.width, (int)element.getSize() );
+        return new Rectangle( area.x, (int) element.getMin(), area.width, (int) element.getSize() );
     }
 
     public Function.LinearFunction getWalkwayTransform() {
@@ -526,7 +527,7 @@ new WiggleMe.Target() {
 
     private void handleWiggleMes() {
         boolean moved = forcePlotDevice.getVerticalChartSlider().hasMoved();
-        if( !moved ) {
+        if ( !moved ) {
             sliderWiggleMe.setVisible( true );
         }
     }
@@ -549,7 +550,7 @@ new WiggleMe.Target() {
     }
 
     public void setHelpEnabled( boolean h ) {
-        if( h ) {
+        if ( h ) {
             removeGraphic( wiggleMe );
             addGraphic( wiggleMe, 10000 );
             wiggleMe.setVisible( true );

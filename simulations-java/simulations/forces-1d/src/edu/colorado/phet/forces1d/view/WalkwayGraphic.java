@@ -1,7 +1,14 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
@@ -11,13 +18,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.model.BoundaryCondition;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -145,11 +145,11 @@ public class WalkwayGraphic extends CompositePhetGraphic {
             double modelRange = maxValue - minValue;
             double modelDX = modelRange / ( numTickMarks - 1 );
 
-            for( int i = 0; i < numTickMarks; i++ ) {
+            for ( int i = 0; i < numTickMarks; i++ ) {
 
                 double modelx = minValue + i * modelDX;
                 String str = format.format( modelx );
-                if( str.equals( "0" ) ) {
+                if ( str.equals( "0" ) ) {
                     str = SimStrings.get( "WalkwayGraphic.zeroMeters" );
                 }
                 TickGraphic tickGraphic = new TickGraphic( component, modelx, transform, str );
@@ -159,15 +159,15 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            for( int i = 0; i < graphicList.size(); i++ ) {
-                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+            for ( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic) graphicList.get( i );
                 tickGraphic.update();
             }
         }
 
         public void setY( int y ) {
-            for( int i = 0; i < graphicList.size(); i++ ) {
-                TickGraphic tickGraphic = (TickGraphic)graphicList.get( i );
+            for ( int i = 0; i < graphicList.size(); i++ ) {
+                TickGraphic tickGraphic = (TickGraphic) graphicList.get( i );
                 tickGraphic.setY( y );
             }
         }
@@ -199,7 +199,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         }
 
         public void update() {
-            int x = (int)transform.evaluate( modelx );
+            int x = (int) transform.evaluate( modelx );
             int dy = 5;
             Line2D.Double line = new Line2D.Double( x, y, x, y + dy );
             shapeGraphic.setShape( line );
@@ -227,14 +227,14 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         tickSetGraphic.setY( floor.y );
         tickSetGraphic.update();
 
-        treeGraphic.setLocation( (int)transform.evaluate( treex ) - treeGraphic.getWidth() / 2, floor.y - treeGraphic.getHeight() );
-        cottageGraphic.setLocation( (int)transform.evaluate( housex ) - cottageGraphic.getWidth() / 2, floor.y - cottageGraphic.getHeight() );
+        treeGraphic.setLocation( (int) transform.evaluate( treex ) - treeGraphic.getWidth() / 2, floor.y - treeGraphic.getHeight() );
+        cottageGraphic.setLocation( (int) transform.evaluate( housex ) - cottageGraphic.getWidth() / 2, floor.y - cottageGraphic.getHeight() );
 
         leftWallGraphic.setLocation( bounds.x, bounds.y );
         leftWallGraphic.setTransform( new AffineTransform() );
         leftWallGraphic.scale( ( transform.evaluate( treex ) - bounds.x ) / leftWallGraphic.getImage().getWidth(), bounds.getHeight() / leftWallGraphic.getImage().getHeight() );
 
-        rightWallGraphic.setLocation( (int)transform.evaluate( housex ), 0 );
+        rightWallGraphic.setLocation( (int) transform.evaluate( housex ), 0 );
         rightWallGraphic.setTransform( new AffineTransform() );
         double newWidth = bounds.x + bounds.width - transform.evaluate( housex );
         rightWallGraphic.scale( newWidth / rightWallGraphic.getImage().getWidth(), bounds.getHeight() / rightWallGraphic.getImage().getHeight() );

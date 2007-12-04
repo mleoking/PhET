@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 /**
  * PhetShadowTextGraphic
@@ -42,7 +42,7 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() ) {
+        if ( isVisible() ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             g2.transform( getNetTransform() );
@@ -55,13 +55,13 @@ public class PhetShadowTextGraphic extends PhetGraphic {
     protected Rectangle determineBounds() {
         Rectangle fore = foreground.getBounds();
         Rectangle back = background.getBounds();
-        if( fore == null && back == null ) {
+        if ( fore == null && back == null ) {
             return null;
         }
-        else if( fore == null ) {
+        else if ( fore == null ) {
             return back;
         }
-        else if( back == null ) {
+        else if ( back == null ) {
             return fore;
         }
         else {

@@ -1,4 +1,3 @@
-
 package edu.colorado.phet.force1d_tag_chart;
 
 //import edu.colorado.phet.common.view.graphics.Graphic;
@@ -11,7 +10,6 @@ import java.text.NumberFormat;
  * User: Sam Reid
  * Date: Sep 21, 2004
  * Time: 6:21:43 AM
- *
  */
 public class Axis {
     private Chart chart;
@@ -54,19 +52,19 @@ public class Axis {
     }
 
     public void paint( Graphics2D g ) {
-        if( isInRange() && isVisible() ) {
+        if ( isInRange() && isVisible() ) {
             Stroke origStroke = g.getStroke();
             Color origColor = g.getColor();
             g.setStroke( stroke );
             g.setColor( color );
-            if( orientation == AbstractGrid.HORIZONTAL ) {
+            if ( orientation == AbstractGrid.HORIZONTAL ) {
                 Point2D.Double leftEndOfAxis = new Point2D.Double( chart.getRange().getMinX(), crossesOtherAxisAt );
                 Point left = chart.transform( leftEndOfAxis );
                 Point2D.Double rightEndOfAxis = new Point2D.Double( chart.getRange().getMaxX(), crossesOtherAxisAt );
                 Point right = chart.transform( rightEndOfAxis );
                 g.drawLine( left.x, left.y, right.x, right.y );
             }
-            else if( orientation == AbstractGrid.VERTICAL ) {
+            else if ( orientation == AbstractGrid.VERTICAL ) {
                 Point2D.Double bottomEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMinY() );
                 Point bottom = chart.transform( bottomEndOfAxis );
                 Point2D.Double topEndOfAxis = new Point2D.Double( crossesOtherAxisAt, chart.getRange().getMaxY() );
@@ -81,10 +79,10 @@ public class Axis {
     }
 
     private boolean isInRange() {
-        if( orientation == Grid.HORIZONTAL ) {
+        if ( orientation == Grid.HORIZONTAL ) {
             return chart.getRange().containsY( crossesOtherAxisAt );
         }
-        else if( orientation == Grid.VERTICAL ) {
+        else if ( orientation == Grid.VERTICAL ) {
             return chart.getRange().containsX( crossesOtherAxisAt );
         }
         else {

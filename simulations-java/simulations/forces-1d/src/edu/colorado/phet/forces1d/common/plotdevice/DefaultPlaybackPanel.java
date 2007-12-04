@@ -1,13 +1,14 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 
 /**
  * Created by IntelliJ IDEA.

@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.common_force1d.view.components.menu;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * PhetFileMenu
@@ -32,7 +33,7 @@ public class PhetFileMenu extends JMenu {
     public PhetFileMenu( JComponent[] menuStuff ) {
         super( SimStrings.get( "Common.FileMenu.Title" ) );
         setMnemonic( SimStrings.get( "Common.FileMenu.TitleMnemonic" ).charAt( 0 ) );
-        for( int i = 0; i < menuStuff.length; i++ ) {
+        for ( int i = 0; i < menuStuff.length; i++ ) {
             Component component = menuStuff[i];
             this.add( component );
         }

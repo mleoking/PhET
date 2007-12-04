@@ -10,8 +10,9 @@
  */
 package edu.colorado.phet.common_force1d.view.util;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * FrameSetup
@@ -88,7 +89,7 @@ public interface FrameSetup {
         }
 
         public void initialize( JFrame frame ) {
-            if( pre != null ) {
+            if ( pre != null ) {
                 pre.initialize( frame );
             }
             int state = frame.getExtendedState();

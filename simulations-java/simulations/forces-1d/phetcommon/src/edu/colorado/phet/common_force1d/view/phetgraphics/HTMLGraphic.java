@@ -1,21 +1,22 @@
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * Class for rendering HTML Text.
  */
 public class HTMLGraphic extends CompositePhetGraphic {
-    
+
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
-    
+
     private String html;
     private Font font;
     private Color color;
@@ -24,7 +25,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
     public HTMLGraphic( Component component ) {
         this( component, DEFAULT_FONT, "", DEFAULT_COLOR );
     }
-    
+
     public HTMLGraphic( Component component, Font font, String html, Color color ) {
         super( component );
         this.html = html;
@@ -39,15 +40,15 @@ public class HTMLGraphic extends CompositePhetGraphic {
         this.html = html;
         update();
     }
-    
+
     public String getHTML() {
         return html;
     }
-    
+
     public void setHtml( String html ) {
         setHTML( html );
     }
-    
+
     public String getHtml() {
         return getHTML();
     }
@@ -81,7 +82,7 @@ public class HTMLGraphic extends CompositePhetGraphic {
             if ( dim.width == 0 || dim.height == 0 ) {
                 return null;
             }
-            
+
             BufferedImage image = new BufferedImage( dim.width, dim.height, BufferedImage.TYPE_INT_ARGB );
             final Graphics2D g = image.createGraphics();
             g.setColor( new Color( 255, 255, 255, 0 ) );//transparent background

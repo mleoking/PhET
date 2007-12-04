@@ -1,8 +1,9 @@
 package edu.colorado.phet.forces1d;
 
+import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.*;
 
 /**
  * User: Sam Reid

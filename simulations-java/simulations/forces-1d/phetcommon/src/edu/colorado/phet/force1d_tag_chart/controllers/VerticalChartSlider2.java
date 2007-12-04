@@ -1,33 +1,32 @@
-
 package edu.colorado.phet.force1d_tag_chart.controllers;
 
-import edu.colorado.phet.force1d_tag_chart.Chart;
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.util.EventListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common_force1d.math.Function;
 import edu.colorado.phet.common_force1d.util.EventChannel;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.util.EventListener;
+import edu.colorado.phet.force1d_tag_chart.Chart;
 
 /**
  * User: Sam Reid
  * Date: Oct 18, 2004
  * Time: 10:35:14 PM
- *
  */
 public class VerticalChartSlider2 extends GraphicLayerSet {
     private Chart chart;
     private JSlider slider;
     private EventChannel eventChannel = new EventChannel( Listener.class );
-    private Listener proxy = (Listener)eventChannel.getListenerProxy();
+    private Listener proxy = (Listener) eventChannel.getListenerProxy();
     private int numTicks = 1000;
     public int offsetX = 0;
     private boolean changed;
@@ -62,7 +61,7 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
         Rectangle r = chart.getViewBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( 0, numTicks, r.y + r.height, r.y );
         double output = transform1d.evaluate( value );
-        double modelValue = chart.getModelViewTransform().viewToModelY( (int)output );
+        double modelValue = chart.getModelViewTransform().viewToModelY( (int) output );
         return modelValue;
     }
 
@@ -88,7 +87,7 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
 
     private Dimension getIconDimension() {
         Icon vert = UIManager.getIcon( "Slider.verticalThumbIcon" );
-        if( vert == null ) {
+        if ( vert == null ) {
             return new Dimension( preferredWidth, preferredWidth );
         }
         return new Dimension( vert.getIconWidth(), vert.getIconHeight() );
@@ -98,14 +97,14 @@ public class VerticalChartSlider2 extends GraphicLayerSet {
         double viewY = chart.getModelViewTransform().modelToViewY( y );
         Rectangle r = chart.getViewBounds();
         Function.LinearFunction transform1d = new Function.LinearFunction( r.y + r.height, r.y, 0, numTicks );
-        int tick = (int)transform1d.evaluate( viewY );
+        int tick = (int) transform1d.evaluate( viewY );
         ChangeListener[] s = slider.getChangeListeners();
-        for( int i = 0; i < s.length; i++ ) {
+        for ( int i = 0; i < s.length; i++ ) {
             ChangeListener changeListener = s[i];
             slider.removeChangeListener( changeListener );
         }
         slider.setValue( tick );
-        for( int i = 0; i < s.length; i++ ) {
+        for ( int i = 0; i < s.length; i++ ) {
             ChangeListener changeListener = s[i];
             slider.addChangeListener( changeListener );
         }

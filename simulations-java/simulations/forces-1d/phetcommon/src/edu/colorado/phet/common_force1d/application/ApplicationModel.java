@@ -96,18 +96,18 @@ public class ApplicationModel {
      * @throws IllegalArgumentException if the module is not one of the application's modules
      */
     public void setInitialModule( Module initialModule ) {
-        if( modules == null ) {
+        if ( modules == null ) {
             throw new IllegalStateException( "no modules have been set" );
         }
 
         boolean found = false;
-        for( int i = 0; i < modules.length; i++ ) {
-            if( initialModule == modules[i] ) {
+        for ( int i = 0; i < modules.length; i++ ) {
+            if ( initialModule == modules[i] ) {
                 found = true;
                 break;
             }
         }
-        if( !found ) {
+        if ( !found ) {
             throw new IllegalArgumentException( "module is not part of this ApplicationModel" );
         }
 

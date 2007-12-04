@@ -33,7 +33,7 @@ public abstract class AbstractClock {
     private int executionState = NOT_STARTED;
     private double dt;
     private EventChannel clockStateEventChannel = new EventChannel( ClockStateListener.class );
-    private ClockStateListener clockStateListenerProxy = (ClockStateListener)clockStateEventChannel.getListenerProxy();
+    private ClockStateListener clockStateListenerProxy = (ClockStateListener) clockStateEventChannel.getListenerProxy();
     private CompositeClockTickListener tickHandler = new CompositeClockTickListener();
 
 
@@ -48,7 +48,7 @@ public abstract class AbstractClock {
      *                     dt, or is scaled according to the desired tick spacing and the actual time between ticks.
      */
     public AbstractClock( double dt, int tickSpec, int tickSpecType, boolean isFixed ) {
-        if( isFixed ) {
+        if ( isFixed ) {
             tickConverter = new Static();
         }
         else {
@@ -68,7 +68,7 @@ public abstract class AbstractClock {
     }
 
     public AbstractClock( double dt, int delay, boolean isFixed ) {
-        if( isFixed ) {
+        if ( isFixed ) {
             tickConverter = new Static();
         }
         else {
@@ -103,7 +103,7 @@ public abstract class AbstractClock {
     }
 
     public synchronized void start() {
-        if( executionState == NOT_STARTED || executionState == DEAD ) {
+        if ( executionState == NOT_STARTED || executionState == DEAD ) {
             doStart();
             setRunningTime( 0 );
             this.executionState = RUNNING;
@@ -114,8 +114,8 @@ public abstract class AbstractClock {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused ) {
-            if( executionState == RUNNING ) {
+        if ( paused ) {
+            if ( executionState == RUNNING ) {
                 this.executionState = PAUSED;
                 doPause();
             }
@@ -124,7 +124,7 @@ public abstract class AbstractClock {
             }
         }
         else {
-            if( executionState == PAUSED ) {
+            if ( executionState == PAUSED ) {
                 this.executionState = RUNNING;
                 doUnpause();
             }

@@ -1,7 +1,11 @@
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.phetgraphics.GraphicLayerSet;
@@ -9,10 +13,6 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.forces1d.model.Block;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * Author: Sam Reid
@@ -38,7 +38,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                 boolean neg = blockGraphic.getBounds().getX() <= walkway.getBounds().getX();
                 boolean pos = blockGraphic.getBounds().getX() >= walkway.getBounds().getX() + walkway.getWidth();
                 int insetX = 30;
-                if( neg || pos ) {
+                if ( neg || pos ) {
                     Block block = blockGraphic.getBlock();
                     double x = block.getPosition();
                     String locStr = decimalFormat.format( x );
@@ -49,18 +49,18 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
                     Point2D.Double dst = new Point2D.Double( source.getX() + x, yRel );
                     AbstractVector2D arrowVector = new Vector2D.Double( source, dst );
                     int maxArrowLength = textGraphic.getWidth() / 2;
-                    if( arrowVector.getMagnitude() > maxArrowLength ) {
+                    if ( arrowVector.getMagnitude() > maxArrowLength ) {
                         arrowVector = arrowVector.getInstanceOfMagnitude( maxArrowLength );
                     }
 
                     setBoundsDirty();
                     Rectangle bounds = getBounds();
-                    if( pos ) {
+                    if ( pos ) {
                         //TODO these used to use walkway.getX(), when that meant x on the screen.
-                        setLocation( (int)( walkway.getBounds().getX() + walkway.getWidth() - bounds.width - insetX ), y );
+                        setLocation( (int) ( walkway.getBounds().getX() + walkway.getWidth() - bounds.width - insetX ), y );
                     }
                     else {
-                        setLocation( (int)( walkway.getBounds().getX() + insetX ), y );
+                        setLocation( (int) ( walkway.getBounds().getX() + insetX ), y );
                     }
                     setVisible( true );
                 }

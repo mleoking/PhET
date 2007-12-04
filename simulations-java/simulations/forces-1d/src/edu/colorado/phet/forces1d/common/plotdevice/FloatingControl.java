@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_force1d.view.ApparatusPanel;
-import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
+import edu.colorado.phet.common_force1d.view.components.VerticalLayoutPanel;
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.forces1d.view.PlotDeviceFontManager;
 
 /**
  * User: Sam Reid
@@ -70,10 +71,10 @@ public class FloatingControl extends VerticalLayoutPanel {
                 boolean paused = plotDeviceModel.isPaused();
                 plotDeviceModel.setPaused( true );
                 int option = JOptionPane.showConfirmDialog( apparatusPanel, SimStrings.get( "FloatingControl.sureToClear" ), SimStrings.get( "FloatingControl.confirmReset" ), JOptionPane.YES_NO_CANCEL_OPTION );
-                if( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+                if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
                     plotDeviceModel.reset();
                 }
-                else if( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
+                else if ( option == JOptionPane.CANCEL_OPTION || option == JOptionPane.NO_OPTION ) {
                     plotDeviceModel.setPaused( paused );
                 }
             }

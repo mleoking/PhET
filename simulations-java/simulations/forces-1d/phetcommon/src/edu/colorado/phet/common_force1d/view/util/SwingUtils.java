@@ -11,10 +11,11 @@
 
 package edu.colorado.phet.common_force1d.view.util;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
+
+import javax.swing.*;
 
 
 /**
@@ -45,16 +46,16 @@ public class SwingUtils {
     public static JMenuBar addMenuAt( JMenu newMenu, JMenuBar menuBar, int index ) {
 
         ArrayList menuList = new ArrayList();
-        for( int i = 0; i < menuBar.getMenuCount(); i++ ) {
-            if( i == index ) {
+        for ( int i = 0; i < menuBar.getMenuCount(); i++ ) {
+            if ( i == index ) {
                 menuList.add( newMenu );
             }
             menuList.add( menuBar.getMenu( i ) );
         }
         menuBar.removeAll();
         //        menuBar = new JMenuBar();
-        for( int i = 0; i < menuList.size(); i++ ) {
-            JMenu menu = (JMenu)menuList.get( i );
+        for ( int i = 0; i < menuList.size(); i++ ) {
+            JMenu menu = (JMenu) menuList.get( i );
             menuBar.add( menu );
         }
         return menuBar;
@@ -106,14 +107,14 @@ public class SwingUtils {
                                             int fill, int anchor, Insets insets )
             throws AWTException {
         LayoutManager lm = container.getLayout();
-        if( !( lm instanceof GridBagLayout ) ) {
+        if ( !( lm instanceof GridBagLayout ) ) {
             throw new AWTException( "Invalid layout: " + lm );
         }
         else {
             GridBagConstraints gbc = getGridBagConstraints( gridX, gridY,
                                                             gridWidth, gridHeight, fill, anchor );
             gbc.insets = insets;
-            ( (GridBagLayout)lm ).setConstraints( component, gbc );
+            ( (GridBagLayout) lm ).setConstraints( component, gbc );
             container.add( component );
         }
     }
@@ -121,8 +122,8 @@ public class SwingUtils {
     public static void centerWindowOnScreen( Window window ) {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension screenSize = tk.getScreenSize();
-        window.setLocation( (int)( screenSize.getWidth() / 2 - window.getWidth() / 2 ),
-                            (int)( screenSize.getHeight() / 2 - window.getHeight() / 2 ) );
+        window.setLocation( (int) ( screenSize.getWidth() / 2 - window.getWidth() / 2 ),
+                            (int) ( screenSize.getHeight() / 2 - window.getHeight() / 2 ) );
     }
 
     /**
@@ -132,8 +133,8 @@ public class SwingUtils {
      */
     public static void centerDialogInParent( JDialog dialog ) {
         Rectangle frameBounds = dialog.getParent().getBounds();
-        Rectangle dialogBounds = new Rectangle( (int)( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
-                                                (int)( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
+        Rectangle dialogBounds = new Rectangle( (int) ( frameBounds.getMinX() + frameBounds.getWidth() / 2 - dialog.getWidth() / 2 ),
+                                                (int) ( frameBounds.getMinY() + frameBounds.getHeight() / 2 - dialog.getHeight() / 2 ),
                                                 dialog.getWidth(), dialog.getHeight() );
         dialog.setBounds( dialogBounds );
     }
@@ -141,9 +142,9 @@ public class SwingUtils {
     // This method returns the selected radio button in a button group
     // Taken from The Java Developer's Almanac, 1.4
     public static JRadioButton getSelection( ButtonGroup group ) {
-        for( Enumeration e = group.getElements(); e.hasMoreElements(); ) {
-            JRadioButton b = (JRadioButton)e.nextElement();
-            if( b.getModel() == group.getSelection() ) {
+        for ( Enumeration e = group.getElements(); e.hasMoreElements(); ) {
+            JRadioButton b = (JRadioButton) e.nextElement();
+            if ( b.getModel() == group.getSelection() ) {
                 return b;
             }
         }

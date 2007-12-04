@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common_force1d.model;
 
-import edu.colorado.phet.common_force1d.util.SimpleObservable;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.common_force1d.util.SimpleObservable;
 
 /**
  * CompositeModelElement
@@ -28,7 +28,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
     }
 
     public ModelElement modelElementAt( int i ) {
-        return (ModelElement)modelElements.get( i );
+        return (ModelElement) modelElements.get( i );
     }
 
     public boolean containsModelElement( ModelElement modelElement ) {
@@ -40,7 +40,7 @@ public class CompositeModelElement extends SimpleObservable implements ModelElem
     }
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < numModelElements(); i++ ) {
+        for ( int i = 0; i < numModelElements(); i++ ) {
             modelElementAt( i ).stepInTime( dt );
         }
         notifyObservers();

@@ -10,8 +10,7 @@
  */
 package edu.colorado.phet.common_force1d.view;
 
-import java.awt.GridLayout;
-import java.awt.HeadlessException;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -67,7 +66,7 @@ public class PhetFrame extends JFrame {
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
                 paused = clock.isPaused(); // save clock state
-                if( !paused ) {
+                if ( !paused ) {
                     clock.setPaused( true );
                 }
             }
@@ -75,7 +74,7 @@ public class PhetFrame extends JFrame {
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
-                if( !paused ) {
+                if ( !paused ) {
                     clock.setPaused( false );
                 }
             }
@@ -88,11 +87,11 @@ public class PhetFrame extends JFrame {
         menuBar.add( helpMenu );
         setJMenuBar( menuBar );
 
-        if( frameSetup != null ) {
+        if ( frameSetup != null ) {
             frameSetup.initialize( this );
         }
 
-        if( useClockControlPanel ) {
+        if ( useClockControlPanel ) {
             try {
                 clockControlPanel = new ClockControlPanel( clock );
             }
@@ -117,7 +116,7 @@ public class PhetFrame extends JFrame {
             public void windowIconified( WindowEvent e ) {
                 super.windowIconified( e );
                 paused = model.getClock().isPaused(); // save clock state
-                if( !paused ) {
+                if ( !paused ) {
                     model.getClock().setPaused( true );
                 }
             }
@@ -125,7 +124,7 @@ public class PhetFrame extends JFrame {
             // Restore the clock state if the simulation window is deiconified.
             public void windowDeiconified( WindowEvent e ) {
                 super.windowDeiconified( e );
-                if( !paused ) {
+                if ( !paused ) {
                     model.getClock().setPaused( false );
                 }
             }
@@ -140,7 +139,7 @@ public class PhetFrame extends JFrame {
 
         JComponent apparatusPanelContainer = createApparatusPanelContainer( application, model.getModules() );
 
-        if( model.getUseClockControlPanel() ) {
+        if ( model.getUseClockControlPanel() ) {
             clockControlPanel = new ClockControlPanel( model.getClock() );
         }
         basicPhetPanel = new ContentPanel( apparatusPanelContainer, null, null, clockControlPanel );
@@ -157,7 +156,7 @@ public class PhetFrame extends JFrame {
      * If we have a frame setup, we should not pack the frame
      */
     public void pack() {
-        if( frameSetup == null ) {
+        if ( frameSetup == null ) {
             super.pack();
         }
     }
@@ -182,10 +181,10 @@ public class PhetFrame extends JFrame {
      */
     private JComponent createApparatusPanelContainer( PhetApplication application, Module[] modules ) {
         JComponent apparatusPanelContainer = null;
-        if( modules.length == 1 ) {
+        if ( modules.length == 1 ) {
             apparatusPanelContainer = new JPanel();
             apparatusPanelContainer.setLayout( new GridLayout( 1, 1 ) );
-            if( modules[0].getApparatusPanel() == null ) {
+            if ( modules[0].getApparatusPanel() == null ) {
                 throw new RuntimeException( "Null Apparatus Panel in Module: " + modules[0].getName() );
             }
             apparatusPanelContainer.add( modules[0].getApparatusPanel() );
@@ -227,9 +226,9 @@ public class PhetFrame extends JFrame {
      */
     public void addFileMenuSeparatorAfter( JMenuItem menuItem ) {
         JMenu fileMenu = getFileMenu();
-        if( fileMenu != null ) {
-            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
-                if( fileMenu.getItem( i ) == menuItem ) {
+        if ( fileMenu != null ) {
+            for ( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if ( fileMenu.getItem( i ) == menuItem ) {
                     fileMenu.insertSeparator( i + 1 );
                     return;
                 }
@@ -244,9 +243,9 @@ public class PhetFrame extends JFrame {
      */
     public void addFileMenuSeparatorBefore( JMenuItem menuItem ) {
         JMenu fileMenu = getFileMenu();
-        if( fileMenu != null ) {
-            for( int i = 0; i < fileMenu.getItemCount(); i++ ) {
-                if( fileMenu.getItem( i ) == menuItem ) {
+        if ( fileMenu != null ) {
+            for ( int i = 0; i < fileMenu.getItemCount(); i++ ) {
+                if ( fileMenu.getItem( i ) == menuItem ) {
                     fileMenu.insertSeparator( i );
                     return;
                 }
@@ -256,6 +255,7 @@ public class PhetFrame extends JFrame {
 
     /**
      * Adds a menu item to the File menu, just before the Exit menu item.
+     *
      * @param menuItem
      */
     public void addFileMenuItem( JMenuItem menuItem ) {
@@ -264,11 +264,12 @@ public class PhetFrame extends JFrame {
 
     /**
      * Removes a menu item from the File menu
+     *
      * @param menuItem
      */
     public void removeFileMenuItem( JMenuItem menuItem ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
@@ -276,11 +277,12 @@ public class PhetFrame extends JFrame {
 
     /**
      * Sets a specified menu in the leftmost postition of the menu bar
+     *
      * @param defaultFileMenu
      */
     public void setFileMenu( PhetFileMenu defaultFileMenu ) {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
             getJMenuBar().remove( testMenu );
         }
         getJMenuBar().add( defaultFileMenu, 0 );
@@ -288,34 +290,35 @@ public class PhetFrame extends JFrame {
 
     /**
      * Returns the leftmost menu on the menu bar
+     *
      * @return
      */
     private PhetFileMenu getFileMenu() {
         JMenu testMenu = getJMenuBar().getMenu( 0 );
-        if( testMenu != null && testMenu instanceof PhetFileMenu ) {
-            return (PhetFileMenu)testMenu;
+        if ( testMenu != null && testMenu instanceof PhetFileMenu ) {
+            return (PhetFileMenu) testMenu;
         }
         return null;
     }
-    
+
     public HelpMenu getHelpMenu() {
         return helpMenu;
     }
-    
+
     /**
      * Adds the "Debug" menu to the menu bar.
      */
     public void addDebugMenu() {
-        if( debugMenu == null ) {
+        if ( debugMenu == null ) {
             debugMenu = new DebugMenu( application );
             addMenu( debugMenu );
         }
     }
-    
+
     /**
      * Gets the debug menu.
      * Clients can use this to add new items to the menu.
-     * 
+     *
      * @return DebugMenu
      */
     public DebugMenu getDebugMenu() {

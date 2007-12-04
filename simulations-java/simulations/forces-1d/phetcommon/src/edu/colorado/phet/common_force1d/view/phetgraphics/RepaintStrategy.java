@@ -1,14 +1,14 @@
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid
  * Date: Dec 17, 2004
  * Time: 5:51:14 PM
- *
  */
 public interface RepaintStrategy {
     void repaint( int x, int y, int width, int height );
@@ -28,9 +28,9 @@ public interface RepaintStrategy {
         }
 
         public void paintImmediately() {
-            Rectangle union = (Rectangle)rectangles.get( 0 );
-            for( int i = 0; i < rectangles.size(); i++ ) {
-                Rectangle rectangle = (Rectangle)rectangles.get( i );
+            Rectangle union = (Rectangle) rectangles.get( 0 );
+            for ( int i = 0; i < rectangles.size(); i++ ) {
+                Rectangle rectangle = (Rectangle) rectangles.get( i );
                 union = union.union( rectangle );
             }
             doPaint( union );

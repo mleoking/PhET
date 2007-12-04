@@ -1,17 +1,18 @@
 package edu.colorado.phet.forces1d.common.phetcomponents;
 
-import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
-import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.event.MouseInputAdapter;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common_force1d.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,8 +66,8 @@ public class PhetButton extends CompositePhetGraphic {
 
     private void fireEvent() {
         ActionEvent event = new ActionEvent( this, eventID++, "PhetButtonPress" );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ActionListener actionListener = (ActionListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ActionListener actionListener = (ActionListener) listeners.get( i );
             actionListener.actionPerformed( event );
         }
     }

@@ -51,9 +51,9 @@ public class ThreadedClock extends AbstractClock implements Runnable {
 
     public void run() {
         //exits cleanly on deadthread
-        while( !super.isDead() ) {
+        while ( !super.isDead() ) {
             try {
-                if( isPaused() ) {
+                if ( isPaused() ) {
                     Thread.sleep( PAUSE_WAIT );
                 }
                 else {
@@ -64,7 +64,7 @@ public class ThreadedClock extends AbstractClock implements Runnable {
                 }
             }
             catch( InterruptedException e ) {
-                if( selfInterrupt ) {
+                if ( selfInterrupt ) {
                     selfInterrupt = false;
                 }
                 else {

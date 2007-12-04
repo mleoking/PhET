@@ -1,8 +1,8 @@
 package edu.colorado.phet.forces1d.common.plotdevice;
 
-import edu.colorado.phet.common_force1d.view.ApparatusPanel;
-
 import java.awt.*;
+
+import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 
 /**
  * User: Sam Reid

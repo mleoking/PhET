@@ -10,12 +10,12 @@
  */
 package edu.colorado.phet.common_force1d.view.phetgraphics;
 
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 
 /**
  * PhetImageGraphic
@@ -34,7 +34,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public PhetImageGraphic( Component component, String imageResourceName ) {
-        this( component, (BufferedImage)null );
+        this( component, (BufferedImage) null );
         this.imageResourceName = imageResourceName;
 
         BufferedImage bufferedImage;
@@ -59,8 +59,8 @@ public class PhetImageGraphic extends PhetGraphic {
 
     public Shape getShape() {
         AffineTransform transform = getNetTransform();
-        if( shapeDirty ) {
-            if( image == null ) {
+        if ( shapeDirty ) {
+            if ( image == null ) {
                 return null;
             }
             Rectangle rect = new Rectangle( 0, 0, image.getWidth(), image.getHeight() );
@@ -79,7 +79,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public void paint( Graphics2D g2 ) {
-        if( isVisible() && image != null ) {
+        if ( isVisible() && image != null ) {
             super.saveGraphicsState( g2 );
             super.updateGraphicsState( g2 );
             try {
@@ -99,7 +99,7 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     public void setImage( BufferedImage image ) {
-        if( this.image != image ) {
+        if ( this.image != image ) {
             this.image = image;
             setBoundsDirty();
             autorepaint();
@@ -109,7 +109,6 @@ public class PhetImageGraphic extends PhetGraphic {
     public BufferedImage getImage() {
         return image;
     }
-
 
     ///////////////////////////////////////////////////
     // Persistence support

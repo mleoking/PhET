@@ -1,8 +1,17 @@
 /*  */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.MouseInputListener;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.AbstractVector2D;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.graphics.shapes.Arrow;
@@ -14,14 +23,6 @@ import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
 import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import javax.swing.event.MouseInputListener;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -196,34 +197,34 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 30, 30, 10, 0.5, true );
             Shape sh = arrow.getShape();
-            if( lastArrow == null || !lastArrow.equals( arrow ) ) {
+            if ( lastArrow == null || !lastArrow.equals( arrow ) ) {
                 shapeGraphic.setShape( sh );
             }
             lastArrow = arrow;
 
             Rectangle b = sh.getBounds();
             Point ctr = RectangleUtils.getCenter( b );
-            if( v.getX() > 0 ) {
+            if ( v.getX() > 0 ) {
                 this.textGraphic.setLocation( b.x + b.width + 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getX() < 0 ) {
+            else if ( v.getX() < 0 ) {
                 this.textGraphic.setLocation( b.x - textGraphic.getWidth() - 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getY() > 0 ) {
+            else if ( v.getY() > 0 ) {
                 this.textGraphic.setLocation( ctr.x - textGraphic.getWidth() / 2, b.y + b.height );
                 textGraphic.setVisible( true );
 //                System.out.println( name+", y>0" );
             }
-            else if( v.getY() < 0 ) {
+            else if ( v.getY() < 0 ) {
                 this.textGraphic.setLocation( ctr.x - textGraphic.getWidth() / 2, b.y - textGraphic.getHeight() );
                 textGraphic.setVisible( true );
             }
             else {
                 textGraphic.setVisible( false );
             }
-            if( v.getMagnitude() <= 0.05 ) {
+            if ( v.getMagnitude() <= 0.05 ) {
                 setVisible( false );
             }
             else {
@@ -267,8 +268,8 @@ public class FreeBodyDiagram extends CompositePhetGraphic {
             xAxis.setShape( xLine );
             yAxis.setShape( yLine );
 
-            xLabel.setLocation( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
-            yLabel.setLocation( (int)yLine.getX1() + 3, (int)yLine.getY1() );
+            xLabel.setLocation( (int) xLine.getX2() - xLabel.getWidth(), (int) xLine.getY2() );
+            yLabel.setLocation( (int) yLine.getX1() + 3, (int) yLine.getY1() );
         }
     }
 

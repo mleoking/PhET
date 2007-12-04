@@ -1,8 +1,14 @@
 /*  */
 package edu.colorado.phet.forces1d.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.awt.*;
+import java.awt.event.MouseEvent;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common_force1d.math.Vector2D;
 import edu.colorado.phet.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.common_force1d.view.BasicGraphicsSetup;
@@ -11,11 +17,6 @@ import edu.colorado.phet.forces1d.Force1DApplication;
 import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-
-import javax.swing.*;
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
 
 /**
  * User: Sam Reid
@@ -41,7 +42,7 @@ public class FreeBodyDiagramPanel {
         fbdPanel.setLayout( new BoxLayout( fbdPanel, BoxLayout.Y_AXIS ) );
         fbdPanel.addGraphicsSetup( new BasicGraphicsSetup() );
         int fbdWidth = 180;
-        if( Toolkit.getDefaultToolkit().getScreenSize().width < 1280 ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width < 1280 ) {
             fbdWidth = 157;
         }
         fbdPanel.setPreferredSize( new Dimension( fbdWidth, fbdWidth ) );
@@ -102,7 +103,7 @@ public class FreeBodyDiagramPanel {
 
     public void updateGraphics() {
         freeBodyDiagram.updateAll();
-        if( fbdPanel.isShowing() ) {
+        if ( fbdPanel.isShowing() ) {
             fbdPanel.paint();
         }
     }
@@ -112,9 +113,9 @@ public class FreeBodyDiagramPanel {
     }
 
     public void reset() {
-        if( !freeBodyDiagram.isUserClicked() ) {//TODO maybe this should be smarter.
+        if ( !freeBodyDiagram.isUserClicked() ) {//TODO maybe this should be smarter.
             fbdWiggleMe.setVisible( true );
-            if( !containsGraphic( fbdWiggleMe ) ) {
+            if ( !containsGraphic( fbdWiggleMe ) ) {
                 fbdPanel.addGraphic( fbdWiggleMe );
             }
         }
@@ -123,9 +124,9 @@ public class FreeBodyDiagramPanel {
     private boolean containsGraphic( PhetGraphic graphic ) {
 
         PhetGraphic[] g = fbdPanel.getGraphic().getGraphics();
-        for( int i = 0; i < g.length; i++ ) {
+        for ( int i = 0; i < g.length; i++ ) {
             PhetGraphic phetGraphic = g[i];
-            if( phetGraphic == graphic ) {
+            if ( phetGraphic == graphic ) {
                 return true;
             }
         }

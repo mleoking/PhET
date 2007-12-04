@@ -1,14 +1,15 @@
 package edu.colorado.phet.forces1d.common;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetGraphicListener;
 import edu.colorado.phet.common_force1d.view.util.RectangleUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * User: Sam Reid
@@ -255,7 +256,7 @@ public abstract class RelativeLocationSetter {
         }
 
         public Rectangle getBounds() {
-            if( panel != null && jComponent.getParent() != panel ) {
+            if ( panel != null && jComponent.getParent() != panel ) {
                 Rectangle r = SwingUtilities.convertRectangle( jComponent, jComponent.getBounds(), panel );
                 return r;
             }
@@ -274,7 +275,7 @@ public abstract class RelativeLocationSetter {
                     boundsObserver.boundsChanged();
                 }
             } );
-            if( panel != null ) {
+            if ( panel != null ) {
                 panel.addComponentListener( new ComponentAdapter() {
                     public void componentResized( ComponentEvent e ) {
                         boundsObserver.boundsChanged();
