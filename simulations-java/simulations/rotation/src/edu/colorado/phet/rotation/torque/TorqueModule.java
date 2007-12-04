@@ -3,6 +3,7 @@ package edu.colorado.phet.rotation.torque;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
 
 /**
@@ -13,7 +14,7 @@ import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
  */
 public class TorqueModule extends AbstractTorqueModule {
     public TorqueModule( PhetFrame phetFrame ) {
-        super( "Torque", phetFrame );
+        super( RotationStrings.getString( "torque.name" ), phetFrame );
     }
 
     protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {

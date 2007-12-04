@@ -58,6 +58,7 @@ public class RotationApplication extends PhetApplication {
 
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
+            /** @noinspection HardCodedStringLiteral*/
             public void run() {
                 PSwingRepaintManager synchronizedPSwingRepaintManager = new PSwingRepaintManager();
                 synchronizedPSwingRepaintManager.setDoMyCoalesce( true );

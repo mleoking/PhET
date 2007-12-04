@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationClock;
@@ -18,7 +19,7 @@ public class TorqueIntroModule extends Module {
     private AngleUnitModel angleUnitModel = new AngleUnitModel( false );
 
     public TorqueIntroModule( JFrame parentFrame ) {
-        super( "Intro", new RotationClock() );
+        super( RotationStrings.getString( "intro.torque.modulename" ), new RotationClock() );
         torqueModel = new TorqueModel( getConstantDtClock() );
         TorqueIntroSimulationPanel panel = new TorqueIntroSimulationPanel( this,parentFrame );
         setSimulationPanel( panel );

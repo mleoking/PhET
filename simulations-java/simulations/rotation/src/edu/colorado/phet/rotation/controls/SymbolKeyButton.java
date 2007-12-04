@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -22,7 +23,7 @@ public class SymbolKeyButton extends JPanel {
     private MultiStateButton button;
 
     public SymbolKeyButton( JFrame parentFrame ) {
-        dialog = new JDialog( parentFrame, "Symbol Key", false );
+        dialog = new JDialog( parentFrame, RotationStrings.getString( "symbol.key" ), false );
         button = new MultiStateButton();
         button.addMode( SHOW_MODE, "Symbol Key", null );
         button.addMode( HIDE_MODE, "Hide Symbol Key", null );
