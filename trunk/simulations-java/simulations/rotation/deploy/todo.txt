@@ -2,6 +2,8 @@
 #     To Do
 ################################
 
+Platform and ladybug get out of sync when moving the angle slider quickly 
+
 fake 3d display for showing platform mass
     >>Current implementation has problems; not sure this will work
 
