@@ -13,6 +13,7 @@ package edu.colorado.phet.common.phetcommon.view.util;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Arc2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
@@ -115,5 +116,9 @@ public class DoubleGeneralPath {
 
     public void closePath() {
         path.closePath();
+    }
+
+    public void append( Arc2D.Double arc ,boolean connect) {
+        path.append( arc,connect );
     }
 }
