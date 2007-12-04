@@ -989,25 +989,15 @@ position: relative;
 border-bottom: 1px solid #E3E3E3;
 clear: right;
 }
-#people ul li.hewlett {
+#people ul li.hewlett, 
+#people ul li.nsf, 
+#people ul li.kavli,
+#people ul li.cu {
 position: relative;
 border-bottom: 1px solid #E3E3E3;
 background: none;
 padding: 10px 0px 30px 0px;
 }
-#people ul li.nsf {
-position: relative;
-border-bottom: 1px solid #E3E3E3;
-background: none;
-padding: 10px 0px 30px 0px;
-}
-#people ul li.kavli {
-position: relative;
-border-bottom: 1px solid #E3E3E3;
-background: none;
-padding: 10px 0px 30px 0px;
-}
-
 #people img.sponsors {
 float: right;
 margin-bottom: 1em;
