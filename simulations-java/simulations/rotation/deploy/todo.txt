@@ -19,8 +19,9 @@ Evaluate strategy for clipping the play area:
 Misc
 •	In-Chart readouts go offscreen at 1024x768
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
-•	Should the Rotation sim have a playful start tab as in Torque?
 •	add help button if the sim ever has help.
+•	Play area layout is wrong under linux
+•	Chart maximize buttons disappear under mac
 
 Performance Issues
 •	Improve performance?
