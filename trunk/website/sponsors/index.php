@@ -17,6 +17,8 @@
 	                <li class="nsf"><a href="http://www.nsf.gov/"><img class="sponsors" src="../images/nsf-logo.gif" /><strong>The National Science Foundation</strong></a></li>
 
 	                <li class="kavli"><a href="http://www.kavlifoundation.org/"><img class="sponsors" src="../images/kavli-logo.jpg" /><strong>The Kavli Operating Institute</strong></a></li>
+	
+					<li class="cu"><a href="http://www.colorado.edu"><img class="sponsors" src="../images/cu.gif" width="45"/><strong>University of Colorado</strong></a></li>
 	            </ul><br />
 
 	            <h2>Technical Support</h2>

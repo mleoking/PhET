@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>simulations/sims.php</string>
+	<string>admin/create-vertical-language-icons.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -75,6 +75,8 @@
 			<date>2007-09-18T18:54:38Z</date>
 		</dict>
 		<dict>
+			<key>expanded</key>
+			<true/>
 			<key>name</key>
 			<string>images</string>
 			<key>regexFolderFilter</key>
@@ -156,7 +158,7 @@
 			<key>filename</key>
 			<string>build.xml</string>
 			<key>lastUsed</key>
-			<date>2007-10-16T15:55:23Z</date>
+			<date>2007-12-03T18:13:12Z</date>
 		</dict>
 	</array>
 	<key>fileHierarchyDrawerWidth</key>
@@ -246,6 +248,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>780</integer>
+		</dict>
+		<key>admin/create-vertical-language-icons.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>3</integer>
+				<key>line</key>
+				<integer>9</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>admin/dispatch-newsletter.php</key>
 		<dict>
@@ -468,28 +484,12 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>247</integer>
+				<integer>283</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>212</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>94</integer>
-				<key>line</key>
-				<integer>247</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>0</integer>
-				<key>line</key>
-				<integer>247</integer>
-			</dict>
+			<integer>267</integer>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
@@ -596,9 +596,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>63</integer>
+				<integer>42</integer>
 				<key>line</key>
-				<integer>23</integer>
+				<integer>6</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -717,19 +717,19 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
-		<key>simulations/sims.php</key>
+		<key>simulations/translations.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>16</integer>
+				<integer>54</integer>
 				<key>line</key>
-				<integer>123</integer>
+				<integer>49</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>100</integer>
+			<integer>23</integer>
 		</dict>
 		<key>teacher_ideas/edit-contribution.php</key>
 		<dict>
@@ -823,7 +823,8 @@
 		<string>index.php</string>
 		<string>admin/cache-utils.php</string>
 		<string>build.xml</string>
-		<string>simulations/sims.php</string>
+		<string>admin/create-vertical-language-icons.php</string>
+		<string>simulations/translations.php</string>
 		<string>admin/sim-utils.php</string>
 		<string>css/main.css</string>
 		<string>css/home.css</string>
@@ -831,6 +832,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{91, 315}, {895, 656}}</string>
+	<string>{{364, 232}, {895, 656}}</string>
 </dict>
 </plist>
