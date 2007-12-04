@@ -36,19 +36,19 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private static final String VELOCITY_UNITS = RotationStrings.VELOCITY_ABBR;
     private static final String ACCEL_UNITS = RotationStrings.ACCEL_ABBR;
 
-    private static final String CHARACTER_PLATFORM = RotationStrings.getString( "platform" );
-    private static final String CHARACTER_LADY = RotationStrings.getString( "ladybug" );
-    private static final String CHARACTER_BEETLE = RotationStrings.getString( "beetle" );
+    private static final String CHARACTER_PLATFORM = RotationStrings.getString( "object.platform" );
+    private static final String CHARACTER_LADY = RotationStrings.getString( "object.ladybug" );
+    private static final String CHARACTER_BEETLE = RotationStrings.getString( "object.beetle" );
     private PhetPCanvas pSwingCanvas;
     private AngleUnitModel angleUnitModel;
     private RotationBody b0;
     private RotationBody b1;
     public static final int MAX_ANG_VEL = 5;
     public static final int MIN_ANG_VEL = -5;
-    private static final String ANG_ACCEL = RotationStrings.getString( "angular.acceleration" );
-    private final String ANG_VEL = RotationStrings.getString( "angular.velocity" );
-    private final String ANGLE = RotationStrings.getString( "angle" );
-    private final String PLATFORM_ANG_ACCEL = RotationStrings.getString( "platform.ang.accel" );
+    private static final String ANG_ACCEL = RotationStrings.getString( "variable.angular.acceleration" );
+    private final String ANG_VEL = RotationStrings.getString( "variable.angular.velocity" );
+    private final String ANGLE = RotationStrings.getString( "variable.angle" );
+    private final String PLATFORM_ANG_ACCEL = RotationStrings.getString( "variable.platform.ang.accel" );
 
     public AbstractRotationGraphSet( PhetPCanvas pSwingCanvas, final RotationModel model, AngleUnitModel angleUnitModel ) {
         this.pSwingCanvas = pSwingCanvas;

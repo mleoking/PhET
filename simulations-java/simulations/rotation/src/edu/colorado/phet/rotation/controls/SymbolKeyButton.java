@@ -23,7 +23,7 @@ public class SymbolKeyButton extends JPanel {
     private MultiStateButton button;
 
     public SymbolKeyButton( JFrame parentFrame ) {
-        dialog = new JDialog( parentFrame, RotationStrings.getString( "symbol.key" ), false );
+        dialog = new JDialog( parentFrame, RotationStrings.getString( "controls.symbol.key" ), false );
         button = new MultiStateButton();
         button.addMode( SHOW_MODE, "Symbol Key", null );
         button.addMode( HIDE_MODE, "Hide Symbol Key", null );

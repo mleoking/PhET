@@ -21,7 +21,7 @@ public class RotationIntroModule extends Module {
     private RotationIntroSimulationPanel rotationIntroSimulationPanel;
 
     public RotationIntroModule( JFrame parentFrame ) {
-        super( RotationStrings.getString( "intro" ), new RotationClock() );
+        super( RotationStrings.getString( "module.intro.rotation" ), new RotationClock() );
         rotationModule = new RotationModel( (ConstantDtClock) getClock() );
         rotationIntroSimulationPanel = new RotationIntroSimulationPanel( this, parentFrame );
         setSimulationPanel( rotationIntroSimulationPanel );

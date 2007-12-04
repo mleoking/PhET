@@ -26,7 +26,7 @@ public class RulerButton extends Box {
     public RulerButton( final RulerNode rulerNode ) {
         super( BoxLayout.X_AXIS );
         this.rulerNode = rulerNode;
-        checkBox = new JCheckBox( RotationStrings.getString( "show.ruler" ) );
+        checkBox = new JCheckBox( RotationStrings.getString( "controls.show.ruler" ) );
 //        checkBox.setFont( new PhetDefaultFont( ));
         checkBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {

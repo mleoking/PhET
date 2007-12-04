@@ -21,13 +21,13 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
 
     public AngleUnitsSelectionControl( final AngleUnitModel angleUnitModel ) {
         this.angleUnitModel = angleUnitModel;
-        degrees = new JRadioButton( RotationStrings.getString( "degrees" ) );
+        degrees = new JRadioButton( RotationStrings.getString( "units.degrees" ) );
         degrees.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 angleUnitModel.setRadians( false );
             }
         } );
-        radians = new JRadioButton( "radians" );
+        radians = new JRadioButton( "units.radians" );
         radians.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 angleUnitModel.setRadians( true );
@@ -37,7 +37,7 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
         add( degrees );
         add( radians );
 
-        setBorder( new TitledBorder( RotationStrings.getString( "angle.units" ) ) );
+        setBorder( new TitledBorder( RotationStrings.getString( "controls.angle.units" ) ) );
         angleUnitModel.addListener( new AngleUnitModel.Listener() {
             public void changed() {
                 update();

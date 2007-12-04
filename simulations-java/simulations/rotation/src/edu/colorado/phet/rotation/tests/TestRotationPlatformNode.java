@@ -33,7 +33,7 @@ public class TestRotationPlatformNode {
         rotationPlatformNode = new RotationPlatformNode( rotationPlatform );
         phetPCanvas.addScreenChild( rotationPlatformNode );
 
-        final ModelSlider modelSlider = new ModelSlider( "angle", "radians", 0, Math.PI * 2 * 2, Math.PI * 2 );
+        final ModelSlider modelSlider = new ModelSlider( "variable.angle", "units.radians", 0, Math.PI * 2 * 2, Math.PI * 2 );
         modelSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rotationPlatform.setPosition( modelSlider.getValue() );

@@ -51,7 +51,7 @@ public class FullTorqueControlPanel extends JPanel {
         add( sliderPanel, getConstraints( 0, 0, 2 ) );
 
         JPanel checkBoxPanel = new VerticalLayoutPanel();
-        final JCheckBox showNonTangentialForces = new JCheckBox( RotationStrings.getString( "allow.non.tangential.forces" ), torqueModule.getTorqueModel().isAllowNonTangentialForces() );
+        final JCheckBox showNonTangentialForces = new JCheckBox( RotationStrings.getString( "controls.allow.non.tangential.forces" ), torqueModule.getTorqueModel().isAllowNonTangentialForces() );
         showNonTangentialForces.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 torqueModule.getTorqueModel().setAllowNonTangentialForces( showNonTangentialForces.isSelected() );
@@ -59,7 +59,7 @@ public class FullTorqueControlPanel extends JPanel {
         } );
         checkBoxPanel.add( showNonTangentialForces );
 
-        final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "show.components" ), torqueModule.getTorqueModel().isShowComponents() );
+        final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "controls.show.components" ), torqueModule.getTorqueModel().isShowComponents() );
         showComponents.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
@@ -88,7 +88,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createFrictionSlider( final AbstractTorqueModule torqueModule ) {
-        final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForceMagnitude(), RotationStrings.getString( "force.of.brake" ), "0.00", RotationStrings.getString( "n" ) );
+        final TorqueSlider frictionSlider = new TorqueSlider( MIN_BRAKE, MAX_BRAKE, torqueModule.getTorqueModel().getBrakeForceMagnitude(), RotationStrings.getString( "variable.force.of.brake" ), "0.00", RotationStrings.getString( "units.n" ) );
         frictionSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 torqueModule.getTorqueModel().setBrakePressure( frictionSlider.getValue() );
@@ -103,7 +103,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createMassSlider( final RotationPlatform rp ) {
-        final TorqueSlider massSlider = new TorqueSlider( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, rp.getMass(), RotationStrings.getString( "platform.mass" ), "0.00", RotationStrings.getString( "kg" ) );
+        final TorqueSlider massSlider = new TorqueSlider( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, rp.getMass(), RotationStrings.getString( "variable.platform.mass" ), "0.00", RotationStrings.getString( "units.kg" ) );
         massSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setMass( massSlider.getValue() );
@@ -118,7 +118,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createInnerRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "r.inner.radius" ), "0.00", RotationStrings.getString( "m" ) );
+        final TorqueSlider innerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getInnerRadius(), RotationStrings.getString( "variable.r.inner.radius" ), "0.00", RotationStrings.getString( "units.m" ) );
         innerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setInnerRadius( innerRadiusSlider.getValue() );
@@ -136,7 +136,7 @@ public class FullTorqueControlPanel extends JPanel {
     }
 
     protected TorqueSlider createOuterRadiusSlider( final RotationPlatform rp ) {
-        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "r.outer.radius" ), "0.00", RotationStrings.getString( "m" ) );
+        final TorqueSlider outerRadiusSlider = new TorqueSlider( 0, RotationPlatform.MAX_RADIUS, rp.getRadius(), RotationStrings.getString( "variable.r.outer.radius" ), "0.00", RotationStrings.getString( "units.m" ) );
         outerRadiusSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 rp.setRadius( outerRadiusSlider.getValue() );

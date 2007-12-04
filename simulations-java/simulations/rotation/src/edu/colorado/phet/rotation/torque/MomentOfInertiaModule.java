@@ -13,7 +13,7 @@ import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
  */
 public class MomentOfInertiaModule extends AbstractTorqueModule {
     public MomentOfInertiaModule( JFrame parentFrame ) {
-        super( RotationStrings.getString( "moment.of.inertia" ), parentFrame );
+        super( RotationStrings.getString( "variable.moment.of.inertia" ), parentFrame );
     }
 
     protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {
