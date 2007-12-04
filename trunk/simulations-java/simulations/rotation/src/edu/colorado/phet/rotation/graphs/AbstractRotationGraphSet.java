@@ -7,6 +7,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
@@ -25,19 +26,19 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private Stroke platformStroke = new BasicStroke( 4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
 
     private RotationModel model;
-    private String ANGLE_UNITS_RAD = "radians";
-    private String ANGLE_UNITS_DEG = "degrees";
-    private static final String ANG_VEL_UNITS_RAD = "rad/s";
-    private static final String ANG_VEL_UNITS_DEG = "degrees/s";
-    private static final String ANG_ACC_UNITS_RAD = "rad/s^2";
-    private static final String ANG_ACC_UNITS_DEG = "degrees/s^2";
-    private static final String POSITION_UNITS = "m";
-    private static final String VELOCITY_UNITS = "m/s";
-    private String ACCEL_UNITS = "m/s^2";
+    private String ANGLE_UNITS_RAD = RotationStrings.RADIANS;
+    private String ANGLE_UNITS_DEG = RotationStrings.DEGREES;
+    private static final String ANG_VEL_UNITS_RAD = RotationStrings.ANG_VEL_ABBR;
+    private static final String ANG_VEL_UNITS_DEG = RotationStrings.ANG_VEL_DEG_ABBR;
+    private static final String ANG_ACC_UNITS_RAD = RotationStrings.ANG_ACC_ABBR;
+    private static final String ANG_ACC_UNITS_DEG = RotationStrings.ANG_ACC_DEG_ABBR;
+    private static final String POSITION_UNITS = RotationStrings.METERS_ABBR;
+    private static final String VELOCITY_UNITS = RotationStrings.VELOCITY_ABBR;
+    private static final String ACCEL_UNITS = RotationStrings.ACCEL_ABBR;
 
-    private static final String CHARACTER_PLATFORM = "platform";
-    private static final String CHARACTER_LADY = "ladybug";
-    private static final String CHARACTER_BEETLE = "beetle";
+    private static final String CHARACTER_PLATFORM = RotationStrings.getString( "platform" );
+    private static final String CHARACTER_LADY = RotationStrings.getString( "ladybug" );
+    private static final String CHARACTER_BEETLE = RotationStrings.getString( "beetle" );
     private PhetPCanvas pSwingCanvas;
     private AngleUnitModel angleUnitModel;
     private RotationBody b0;
@@ -62,13 +63,13 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     }
 
     protected RotationMinimizableControlGraph createAGraph() {
-        RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( "a", new RotationGraph(
+        RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( RotationStrings.ACCELERATION_ABBR, new RotationGraph(
                 pSwingCanvas, null, "ax", "Acceleration", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
 
         aGraph.addSeriesPair( "|Acceleration|",
-                              new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, "a", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelMagnitude() ),
-                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), "a", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
+                              new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelMagnitude() ),
+                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
                               b0, b1 );
         aGraph.addSeriesPair( "X-Acceleration",
                               new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
