@@ -32,7 +32,6 @@ Performance Issues
         radius in a controlled way to explore this relationship.
         Should this torque sim get into relationship between angular momentum and angular velocity,
         or should this be another companion sim?
-•	Should we make controls over moment of inertia as an “advanced feature”? or put it in as a second panel?
 
 ################################################
 #           Questions/Discussion
@@ -120,5 +119,4 @@ This gives the graphs the feeling that they are a physical thing rather than an 
 ################################################
 #           Postponed:
 ################################
-•	Investigate acceleration model from Motion2D simulation as a possibility for replacing the implementation in rotation. 
-
+•	Investigate acceleration model from Motion2D simulation as a possibility for replacing the implementation in rotation.
