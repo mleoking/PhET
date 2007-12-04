@@ -10,6 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 public class Force1DMotionModule extends Module {
     public Force1DMotionModule() {
         super( "Force 1D", new ConstantDtClock( 30, 1.0 ) );
-        setSimulationPanel( new Force1DMotionSimPanel());
+        setSimulationPanel( new Force1DMotionSimPanel( (ConstantDtClock) getClock() ) );
     }
 }
