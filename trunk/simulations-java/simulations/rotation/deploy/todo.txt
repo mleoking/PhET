@@ -2,8 +2,6 @@
 #     To Do
 ################################
 
-Fix memory problem in DefaultTimeSeries when recording for a long time
-
 fake 3d display for showing platform mass
 
 Handbrake doesn't move on playback
