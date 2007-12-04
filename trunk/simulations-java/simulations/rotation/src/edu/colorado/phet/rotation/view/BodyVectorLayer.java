@@ -32,14 +32,14 @@ public class BodyVectorLayer extends PNode {
     public BodyVectorLayer( final RotationModel rotationModel, final RotationBody rotationBody, final VectorViewModel vectorViewModel ) {
         this.rotationModel = rotationModel;
         this.rotationBody = rotationBody;
-        accelArrow = new VectorNode( RotationStrings.getString( "a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
+        accelArrow = new VectorNode( RotationStrings.getString( "variable.a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getAcceleration().getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
-        velocityArrow = new VectorNode( RotationStrings.getString( "v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
+        velocityArrow = new VectorNode( RotationStrings.getString( "variable.v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
             public AbstractVector2D getVector() {
                 return rotationBody.getVelocity().getScaledInstance( velScale );
             }

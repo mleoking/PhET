@@ -13,7 +13,7 @@ import edu.colorado.phet.rotation.view.AbstractRotationSimulationPanel;
  */
 public class AngularMomentumModule extends AbstractTorqueModule {
     public AngularMomentumModule( JFrame parentFrame ) {
-        super( RotationStrings.getString( "angular.momentum" ), parentFrame );
+        super( RotationStrings.getString( "variable.angular.momentum" ), parentFrame );
     }
 
     protected AbstractRotationSimulationPanel createSimulationPanel( JFrame parentFrame ) {

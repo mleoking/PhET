@@ -27,8 +27,8 @@ public class SymbolKey extends JPanel {
         addItem( UnicodeUtil.OMEGA, "Angular Velocity" );
         addItem( UnicodeUtil.ALPHA, "Angular Acceleration" );
         addItem( "x, y", "Position" );
-        addItem( "v", "Velocity" );
-        addItem( "a", "Acceleration" );
+        addItem( "variable.v", "Velocity" );
+        addItem( "variable.a", "Acceleration" );
         setBorder( BorderFactory.createLineBorder( Color.lightGray ) );
     }
 

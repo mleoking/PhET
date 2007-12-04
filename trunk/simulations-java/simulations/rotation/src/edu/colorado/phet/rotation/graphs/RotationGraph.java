@@ -45,7 +45,7 @@ public class RotationGraph extends MotionControlGraph {
         verticalAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getRangeAxis().getRange() );
         getJFreeChartNode().getChart().getXYPlot().setRangeAxis( verticalAxis );
 
-        NumberAxis domainAxis = new NumberAxis( RotationStrings.getString( "time.s" ) );
+        NumberAxis domainAxis = new NumberAxis( RotationStrings.getString( "variable.time.s" ) );
         domainAxis.setLabelFont( new PhetDefaultFont( 12 ) );
         domainAxis.setRange( getJFreeChartNode().getChart().getXYPlot().getDomainAxis().getRange() );
         domainAxis.setTickUnit( new NumberTickUnit( 2.5 ) );

@@ -15,7 +15,7 @@ import edu.colorado.phet.rotation.view.RotationSimulationPanel;
 public class RotationModule extends AbstractRotationModule {
 
     public RotationModule( JFrame parentFrame ) {
-        super( RotationStrings.getString( "rotation.modulename" ), parentFrame );
+        super( RotationStrings.getString( "module.rotation" ), parentFrame );
     }
 
     protected RotationModel createModel( ConstantDtClock clock ) {

@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 public class TestJFreeChartNodeCoordinates {
     private JFrame frame;
-    private XYSeries series = new XYSeries( "a" );
+    private XYSeries series = new XYSeries( "variable.a" );
     private XYDataset dataset = new XYSeriesCollection( series );
     private PhetPCanvas phetPCanvas;
     private JFreeChartNode jFreeChartNode;
@@ -40,7 +40,7 @@ public class TestJFreeChartNodeCoordinates {
         series.add( 0, 0 );
         series.add( 10, 2 );
         series.add( 20, -2 );
-        JFreeChart chart = ChartFactory.createXYLineChart( "title", "x", "y", dataset, PlotOrientation.VERTICAL, false, false, false );
+        JFreeChart chart = ChartFactory.createXYLineChart( "title", "variable.x", "variable.y", dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChartNode = new JFreeChartNode( chart );
         jFreeChartNode.setBuffered( true );
 
