@@ -2,11 +2,13 @@
 #     To Do
 ################################
 
-Generalize new rendering strategy for rotation platform opening panel
-
 Fix memory problem in DefaultTimeSeries when recording for a long time
 
 fake 3d display for showing platform mass
+
+Handbrake doesn't move on playback
+
+Generalize new rendering strategy for rotation platform opening panel
 
 the theta = 0 indicator is hidden on the Torque panel and partially obscured on the other two.
 
