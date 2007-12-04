@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/4/07 - add MainFrame
 12/4/07 - set font for textfield in Find dialog based on source language code
 12/3/07 - organized imports
 12/3/07 - minor reorganization of constructors for custom dialogs
