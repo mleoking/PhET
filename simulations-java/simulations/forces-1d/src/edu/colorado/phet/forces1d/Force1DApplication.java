@@ -42,7 +42,6 @@ public class Force1DApplication extends Module {
     private Force1dControlPanel fullControlPanel;
     private SimpleControlPanel simpleControlPanel;
     private Force1dObject[] imageElements;
-    private static boolean readyToRender = false;
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
