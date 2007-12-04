@@ -15,7 +15,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 1.09.00 (?)
+********* version 1.09.00 (18718)
 11/29/07 - change name to "Quantum Tunneling and Wave Packets"
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
