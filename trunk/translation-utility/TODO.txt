@@ -9,7 +9,8 @@ OPEN ISSUES:
 HIGH PRIORITY:
 - revise JarFileManager interface
 - refactor Translation.findNext and findPrevious
-- refactor code base to support alternate strategies for Flash sims (packages: model, view, java, flash, util)
+- refactor to separate model and view (packages: model, view, java, flash, util)
+- refactor to support alternate strategies for Flash sims
 
 MEDIUM PRIORITY:
 - check for unsaved changes before exiting
