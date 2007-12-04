@@ -66,7 +66,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 
     protected void updateLayout() {
         super.updateLayout();
-        movingManNode.setTransform( 21.0, getWidth() );
+        movingManNode.setTransform( 22.0, getWidth() );
 
         int insetX = 2;
         graphSetNode.setBounds( insetX, movingManNode.getFullBounds().getMaxY(), getWidth() - 2 * insetX, getHeight() - movingManNode.getFullBounds().getMaxY() );
