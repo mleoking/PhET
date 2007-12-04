@@ -1,3 +1,4 @@
+12-4-2007: Rotation - Fixed: Handbrake doesn't move on playback
 12-4-2007: Rotation - added a trial implementation for mass graphic
 12-3-2007: Rotation - Fixed: memory problem in DefaultTimeSeries when recording for a long time
 12-1-2007: Rotation - Added an introductory panel.

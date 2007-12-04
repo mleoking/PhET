@@ -3,8 +3,7 @@
 ################################
 
 fake 3d display for showing platform mass
-
-Handbrake doesn't move on playback
+    >>Current implementation has problems; not sure this will work
 
 Generalize new rendering strategy for rotation platform opening panel
 

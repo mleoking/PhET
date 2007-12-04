@@ -24,6 +24,7 @@ public class TorqueModel extends RotationModel {
     //independent values
     private AppliedForce appliedForceObject;
     private AppliedForce brakeForceObject;
+    private DefaultTemporalVariable brakePressure = new RotationTemporalVariable();
 
     //dependent values
     private DefaultTemporalVariable netForce = new RotationTemporalVariable();
@@ -37,7 +38,7 @@ public class TorqueModel extends RotationModel {
     private boolean allowNonTangentialForces = DEFAULT_ALLOW_NONTANGENTIAL_FORCES;
     private boolean showComponents = DEFAULT_SHOW_COMPONENTS;
     private boolean inited = false;
-    private double brakePressure = 0;
+
     private boolean overwhelmingBrake = false;
 
     private static boolean DEFAULT_ALLOW_NONTANGENTIAL_FORCES = false;
@@ -76,6 +77,7 @@ public class TorqueModel extends RotationModel {
         super.stepInTime( dt );
         momentOfInertia.addValue( getRotationPlatform().getMomentOfInertia(), getTime() );
         angularMomentum.addValue( getRotationPlatform().getMomentOfInertia() * getRotationPlatform().getVelocity(), getTime() );
+        defaultUpdate( brakePressure );
         defaultUpdate( netForce );
         defaultUpdate( netTorque );
 
@@ -105,6 +107,12 @@ public class TorqueModel extends RotationModel {
         angularMomentum.setPlaybackTime( time );
         momentOfInertia.setPlaybackTime( time );
         netForce.setPlaybackTime( time );
+        double origBP = brakePressure.getValue();
+        brakePressure.setPlaybackTime( time );
+        if ( brakePressure.getValue() != origBP ) {
+            notifyBrakePressureChanged();
+        }
+
         netTorque.setPlaybackTime( time );
 
         appliedForceObject.setPlaybackTime( time );
@@ -121,6 +129,7 @@ public class TorqueModel extends RotationModel {
             brakeForceObject.clear();
             netForce.clear();
             netTorque.clear();
+            brakePressure.clear();
         }
     }
 
@@ -133,16 +142,20 @@ public class TorqueModel extends RotationModel {
     }
 
     public double getBrakePressure() {
-        return brakePressure;
+        return brakePressure.getValue();
     }
 
     public void setBrakePressure( double brakePressure ) {
-        if ( brakePressure != this.brakePressure ) {
-            this.brakePressure = brakePressure;
+        if ( brakePressure != this.brakePressure.getValue() ) {
+            this.brakePressure.setValue( brakePressure );
             updateBrakeForce();
-            for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener) listeners.get( i ) ).brakePressureChanged();
-            }
+            notifyBrakePressureChanged();
+        }
+    }
+
+    private void notifyBrakePressureChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).brakePressureChanged();
         }
     }
 
@@ -165,8 +178,8 @@ public class TorqueModel extends RotationModel {
             }
             clockwise = appliedForceObject.getTorque() > 0;
         }
-        double magnitude = brakePressure;
-        double requestedBrakeTorqueMagnitude = Math.abs( brakePressure * getRotationPlatform().getRadius() );
+        double magnitude = brakePressure.getValue();
+        double requestedBrakeTorqueMagnitude = Math.abs( brakePressure.getValue() * getRotationPlatform().getRadius() );
         double appliedTorqueMagnitude = Math.abs( appliedForceObject.getTorque( getPlatformCenter() ) );
         //todo: remove need for magic number
         double VELOCITY_THRESHOLD = 1;
