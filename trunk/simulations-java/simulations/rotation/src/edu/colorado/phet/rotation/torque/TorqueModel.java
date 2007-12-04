@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
+import edu.colorado.phet.rotation.model.RotationTemporalVariable;
 import edu.colorado.phet.rotation.util.RotationUtil;
 
 /**
@@ -25,10 +26,10 @@ public class TorqueModel extends RotationModel {
     private AppliedForce brakeForceObject;
 
     //dependent values
-    private DefaultTemporalVariable netForce = new DefaultTemporalVariable();
-    private DefaultTemporalVariable netTorque = new DefaultTemporalVariable();
-    private DefaultTemporalVariable momentOfInertia = new DefaultTemporalVariable();
-    private DefaultTemporalVariable angularMomentum = new DefaultTemporalVariable();
+    private DefaultTemporalVariable netForce = new RotationTemporalVariable();
+    private DefaultTemporalVariable netTorque = new RotationTemporalVariable();
+    private DefaultTemporalVariable momentOfInertia = new RotationTemporalVariable();
+    private DefaultTemporalVariable angularMomentum = new RotationTemporalVariable();
 
     private UpdateStrategy forceDriven = new ForceDriven();
     private ArrayList listeners = new ArrayList();

@@ -8,9 +8,9 @@ import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
  */
 public class MotionBody implements IUpdateStrategy {
 
-    private ITemporalVariable x = new DefaultTemporalVariable();
-    private ITemporalVariable v = new DefaultTemporalVariable();
-    private ITemporalVariable a = new DefaultTemporalVariable();
+    private ITemporalVariable x;
+    private ITemporalVariable v;
+    private ITemporalVariable a;
 
     /*Different strategies for updating simulation variables*/
     private PositionDriven positionDriven = new PositionDriven();
@@ -19,6 +19,17 @@ public class MotionBody implements IUpdateStrategy {
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
     public MotionBody() {
+        this(new DefaultTemporalVariable( ),new DefaultTemporalVariable( ),new DefaultTemporalVariable( ));
+    }
+
+    public MotionBody (TimeSeriesFactory factory){
+        this(new DefaultTemporalVariable( factory ),new DefaultTemporalVariable( factory ),new DefaultTemporalVariable( factory ) );
+    }
+
+    public MotionBody( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a) {
+        this.x=x;
+        this.v=v;
+        this.a=a;
     }
 
     public void setTime( double time ) {

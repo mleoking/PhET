@@ -15,8 +15,8 @@ public class MotionModel {
     private TimeSeriesModel timeSeriesModel;
     private ITemporalVariable timeVariable;
 
-    public MotionModel( ConstantDtClock clock ) {
-        timeVariable = new DefaultTemporalVariable();
+    public MotionModel( ConstantDtClock clock,TimeSeriesFactory timeSeriesFactory ) {
+        timeVariable = new DefaultTemporalVariable(timeSeriesFactory );
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );

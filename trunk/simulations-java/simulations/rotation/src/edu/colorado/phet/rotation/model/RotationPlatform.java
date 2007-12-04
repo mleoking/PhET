@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.TimeSeriesFactory;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.rotation.torque.TorqueModel;
 
@@ -17,6 +18,10 @@ public class RotationPlatform extends MotionBody {
     private double radius = DEFAULT_OUTER_RADIUS;
     private double innerRadius = DEFAULT_INNER_RADIUS;
     private double mass = getDefaultMass();//by default torque equals angular acceleration
+
+    public RotationPlatform( ) {
+        super( RotationModel.getTimeSeriesFactory());
+    }
 
     private double getDefaultMass() {
         return 1.0 / ( ( innerRadius * innerRadius + radius * radius ) / 2.0 );
