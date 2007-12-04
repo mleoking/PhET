@@ -40,6 +40,7 @@ public class TranslationUtility extends JFrame {
         
         // open the primary user interface
         JFrame mainFrame = new MainFrame( title, jarFileName, SOURCE_LANGUAGE_CODE, targetLanguageCode, autoTranslate );
+        mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.show();
     }
 }

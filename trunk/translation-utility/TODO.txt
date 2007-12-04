@@ -9,7 +9,6 @@ OPEN ISSUES:
 HIGH PRIORITY:
 - revise JarFileManager interface
 - refactor Translation.findNext and findPrevious
-- refactor TranslationPanel
 - refactor code base to support alternate strategies for Flash sims
 
 MEDIUM PRIORITY:
@@ -33,6 +32,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/4/07 - refactor TranslationPanel, move functionality into ToolBar and MainFrame 
 12/4/07 - add MainFrame
 12/4/07 - set font for textfield in Find dialog based on source language code
 12/3/07 - organized imports

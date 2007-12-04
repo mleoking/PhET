@@ -24,7 +24,6 @@ import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
  * From left-to-right, the columns are: key, source language value, target language value.
  * The target language value is editable.
- * Buttons at the bottom of the panel support various actions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -33,22 +32,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    private static final String SAVE_BUTTON_LABEL = TUResources.getString( "button.save" );
-    private static final String LOAD_BUTTON_LABEL = TUResources.getString( "button.load" );
-    private static final String TEST_BUTTON_LABEL = TUResources.getString( "button.test" );
-    private static final String SUBMIT_BUTTON_LABEL = TUResources.getString( "button.submit" );
-    private static final String FIND_BUTTON_LABEL = TUResources.getString( "button.find" );
-    private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
-    
-    private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
-    private static final String SUBMIT_TITLE = TUResources.getString( "title.submitDialog" );
-
-    private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
-    private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
-    
-    private static final String HELP_TITLE = TUResources.getString( "title.help" );
-    private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
@@ -71,19 +54,16 @@ public class TranslationPanel extends JPanel implements FindListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Frame _dialogOwner;
-    private JarFileManager _jarFileManager;
     private final String _sourceLanguageCode;
     private final Font _sourceFont;
     private final String _targetLanguageCode;
     private final Font _targetFont;
     private ArrayList _targetTextAreas; // array of TargetTextArea
+    
     private ArrayList _findTextAreas; // array of JTextArea
     private String _previousFindText; // text provided to previous call to findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
-    private File _currentDirectory;
-    private FindDialog _findDialog;
     
     //----------------------------------------------------------------------------
     // Inner classes
@@ -168,17 +148,18 @@ public class TranslationPanel extends JPanel implements FindListener {
     /**
      * Constructor.
      * 
-     * @param dialogOwner
-     * @param jarFileManager
      * @param sourceLanguageCode
+     * @param sourceProperties
      * @param targetLanguageCode
+     * @param targetProperties
      * @param autoTranslate
      */
-    public TranslationPanel( Frame dialogOwner, JarFileManager jarFileManager, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
+    public TranslationPanel( String projectName, 
+            String sourceLanguageCode, Properties sourceProperties, 
+            String targetLanguageCode, Properties targetProperties, 
+            boolean autoTranslate ) {
         super();
         
-        _dialogOwner = dialogOwner;
-        _jarFileManager = jarFileManager;
         _sourceLanguageCode = sourceLanguageCode;
         _sourceFont = FontFactory.createFont( _sourceLanguageCode );
         _targetLanguageCode = targetLanguageCode;
@@ -188,53 +169,9 @@ public class TranslationPanel extends JPanel implements FindListener {
         _previousFindText = null;
         _previousFindTextAreaIndex = -1;
         _previousFindSelectionIndex = -1;
-        _currentDirectory = null;
         
-        JPanel inputPanel = createInputPanel();
-        JPanel buttonPanel = createToolBarPanel();
-        JScrollPane scrollPane = new JScrollPane( inputPanel );
-
-        setLayout( new BorderLayout() );
-        setBorder( new EmptyBorder( 0, 10, 10, 10 ) );
-        add( buttonPanel, BorderLayout.NORTH );
-        add( scrollPane, BorderLayout.CENTER );
-        
-        setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Initizalizers
-    //----------------------------------------------------------------------------
-    
-    /*
-     * Creates the panel where user input occurs.
-     * This panel is organized as a table with three columns:
-     * - key (key used by simulation to look up the string)
-     * - source value (string in the source language, usually English)
-     * - target value (string in the target language)
-     */
-    private JPanel createInputPanel() {
-        
-        JPanel inputPanel = new JPanel();
-        
-        // get the source and target strings
-        String projectName = _jarFileManager.getProjectName();
-        Properties sourceProperties = null;
-        Properties targetProperties = null;
-        try {
-            sourceProperties = _jarFileManager.readProperties( _sourceLanguageCode );
-            targetProperties = _jarFileManager.readProperties( _targetLanguageCode );
-        }
-        catch ( JarIOException e ) {
-            ExceptionHandler.handleFatalException( e );
-        }
-        
-        if ( targetProperties == null ) {
-            targetProperties = new Properties();
-        }
-        
-        EasyGridBagLayout layout = new EasyGridBagLayout( inputPanel );
-        inputPanel.setLayout( layout );
+        EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        setLayout( layout );
         layout.setAnchor( GridBagConstraints.WEST );
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
@@ -242,12 +179,12 @@ public class TranslationPanel extends JPanel implements FindListener {
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        JLabel sourceLocaleLable = new JLabel( _sourceLanguageCode );
-        sourceLocaleLable.setFont( TITLE_FONT );
-        layout.addAnchoredComponent( sourceLocaleLable, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        JLabel targetLocaleLable = new JLabel( _targetLanguageCode );
-        targetLocaleLable.setFont( TITLE_FONT );
-        layout.addAnchoredComponent( targetLocaleLable, row, TARGET_COLUMN, GridBagConstraints.WEST );
+        JLabel sourceLanguageLabel = new JLabel( _sourceLanguageCode );
+        sourceLanguageLabel.setFont( TITLE_FONT );
+        layout.addAnchoredComponent( sourceLanguageLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
+        JLabel targetLanguageLabel = new JLabel( _targetLanguageCode );
+        targetLanguageLabel.setFont( TITLE_FONT );
+        layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
         layout.addComponent( new JSeparator(), row, 0, 3, 1, GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL );
         row++;
@@ -302,74 +239,27 @@ public class TranslationPanel extends JPanel implements FindListener {
             row++;
         }
         
-        return inputPanel;
+        setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
     }
     
-    /*
-     * Creates the tool bar that contains action buttons.
-     */
-    private JPanel createToolBarPanel() {
-        
-        Icon testIcon = TUResources.getIcon( "testButton.png" );
-        JButton testButton = new JButton( TEST_BUTTON_LABEL, testIcon );
-        testButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleTest();
-            }
-        } );
-        
-        Icon saveIcon = TUResources.getIcon( "saveButton.png" );
-        JButton saveButton = new JButton( SAVE_BUTTON_LABEL, saveIcon );
-        saveButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleSave();
-            }
-        } );
-       
-        Icon loadIcon = TUResources.getIcon( "loadButton.png" );
-        JButton loadButton = new JButton( LOAD_BUTTON_LABEL, loadIcon );
-        loadButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleLoad();
-            }
-        } );
-        
-        Icon submitIcon = TUResources.getIcon( "submitButton.png" );
-        JButton submitButton = new JButton( SUBMIT_BUTTON_LABEL, submitIcon );
-        submitButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleSubmit();
-            }
-        } );
-        
-        Icon findIcon = TUResources.getIcon( "findButton.png" );
-        JButton findButton = new JButton( FIND_BUTTON_LABEL, findIcon );
-        findButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleFind();
-            }
-        } );
-        
-        Icon helpIcon = TUResources.getIcon( "helpButton.png" );
-        JButton helpButton = new JButton( HELP_BUTTON_LABEL, helpIcon );
-        helpButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                handleHelp();
-            }
-        } );
-        
-        JPanel buttonPanel = new JPanel( new GridLayout( 1, 9 ) );
-        buttonPanel.add( testButton );
-        buttonPanel.add( saveButton );
-        buttonPanel.add( loadButton );
-        buttonPanel.add( submitButton );
-        buttonPanel.add( Box.createHorizontalStrut( 20 ) );
-        buttonPanel.add( findButton );
-        buttonPanel.add( helpButton );
-
-        JPanel panel = new JPanel();
-        panel.add( buttonPanel );
-        return panel;
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public String getSourceLanguageCode() {
+        return _sourceLanguageCode;
+    }
+    
+    public Font getSourceFont() {
+        return _sourceFont;
+    }
+    
+    public String getTargetLanguageCode() {
+        return _targetLanguageCode;
+    }
+    
+    public Font getTargetFont() {
+        return _targetFont;
     }
     
     /**
@@ -392,170 +282,24 @@ public class TranslationPanel extends JPanel implements FindListener {
         return properties;
     }
     
-    /*
-     * Called when the Test button is pressed.
-     * Add the current translations to a temporary JAR file, then runs that JAR file.
-     */
-    private void handleTest() {
-        Properties targetProperties = getTargetProperties();
-        try {
-            String testJarFileName =_jarFileManager.writeProperties( targetProperties, _targetLanguageCode );
-            JarFileManager.runJarFile( testJarFileName, _targetLanguageCode );
-        }
-        catch ( JarIOException e ) {
-            ExceptionHandler.handleNonFatalException( e );
-        }
-        catch ( CommandException e ) {
-            ExceptionHandler.handleNonFatalException( e );
+    public void setTargetProperties( Properties targetProperties ) {
+        Iterator i = _targetTextAreas.iterator();
+        while ( i.hasNext() ) {
+            TargetTextArea targetTextArea = (TargetTextArea) i.next();
+            String key = targetTextArea.getKey();
+            String value = targetProperties.getProperty( key );
+            targetTextArea.setText( value );
         }
     }
     
-    /*
-     * Called when the Submit button is pressed.
-     * Saves the currrent translations to a properties file, then notifies the user of what to do.
-     */
-    private void handleSubmit() {
-
-        Properties properties = getTargetProperties();
-        
-        // create the output File, in same directory as JAR file
-        String dirName = _jarFileManager.getJarDirName();
-        String baseName = JarFileManager.getPropertiesFileBaseName( _jarFileManager.getProjectName(), _targetLanguageCode );
-        String fileName = null;
-        if ( dirName != null && dirName.length() > 0 ) {
-            fileName = dirName + File.separatorChar + baseName;
-        }
-        else {
-            fileName = baseName;
-        }
-        File outFile = new File( fileName );
-        if ( outFile.exists() ) {
-            Object[] args = { fileName };
-            String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
-            int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
-            if ( selection != JOptionPane.YES_OPTION ) {
-                return;
-            }
-        }
-        
-        try {
-            JarFileManager.savePropertiesToFile( properties, outFile );
-        }
-        catch ( JarIOException e ) {
-            ExceptionHandler.handleNonFatalException( e );
-        }
-        
-        // Use a JEditorPane so that it's possible to copy-paste the filename and email address.
-        JEditorPane submitText = new JEditorPane();
-        submitText.setEditorKit( new HTMLEditorKit() );
-        Object[] args = { fileName };
-        String html = MessageFormat.format( SUBMIT_MESSAGE, args );
-        submitText.setText( html );
-        submitText.setEditable( false );
-        submitText.setBackground( new JLabel().getBackground() );
-        submitText.setFont( new JLabel().getFont() );
-        
-        JOptionPane.showMessageDialog( this, submitText, SUBMIT_TITLE, JOptionPane.INFORMATION_MESSAGE );
-    }
-    
-    /*
-     * Called when the Save button is pressed.
-     * Opens a "save" file chooser that allows the user to save the current translations to a properties file.
-     */
-    private void handleSave() {
-        JFileChooser chooser = new JFileChooser( _currentDirectory );
-        int option = chooser.showSaveDialog( this );
-        _currentDirectory = chooser.getCurrentDirectory();
-        if ( option == JFileChooser.APPROVE_OPTION ) {
-            Properties properties = getTargetProperties();
-            File outFile = chooser.getSelectedFile();
-            if ( outFile.exists() ) {
-                Object[] args = { outFile.getAbsolutePath() };
-                String message = MessageFormat.format( CONFIRM_OVERWRITE_MESSAGE, args );
-                int selection = JOptionPane.showConfirmDialog( this, message, CONFIRM_OVERWRITE_TITLE, JOptionPane.YES_NO_OPTION );
-                if ( selection != JOptionPane.YES_OPTION ) {
-                    return;
-                }
-            }
-            try {
-                JarFileManager.savePropertiesToFile( properties, outFile );
-            }
-            catch ( JarIOException e ) {
-                ExceptionHandler.handleNonFatalException( e );
-            }
-        }
-    }
-    
-    /*
-     * Called when the Load button is pressed.
-     * Opens an "open" file chooser that allows the user to choose a properties file.
-     * The contents of that properties file are loaded into the target text fields.
-     */
-    private void handleLoad() {
-        JFileChooser chooser = new JFileChooser( _currentDirectory );
-        int option = chooser.showOpenDialog( this );
-        _currentDirectory = chooser.getCurrentDirectory();
-        if ( option == JFileChooser.APPROVE_OPTION ) {
-            File inFile = chooser.getSelectedFile();
-            Properties properties = null;
-            try {
-                properties = JarFileManager.readPropertiesFromFile( inFile );
-            }
-            catch ( JarIOException e ) {
-                ExceptionHandler.handleNonFatalException( e );
-            }
-            Iterator i = _targetTextAreas.iterator();
-            while ( i.hasNext() ) {
-                TargetTextArea targetTextArea = (TargetTextArea) i.next();
-                String key = targetTextArea.getKey();
-                String value = properties.getProperty( key );
-                targetTextArea.setText( value );
-            }
-        }
-    }
-    
-    /*
-     * Called when the Help button is pressed.
-     * Opens a dialog that contains help information.
-     */
-    private void handleHelp() {
-        DialogUtils.showInformationDialog( this, HELP_MESSAGE, HELP_TITLE );
-    }
-    
-    /*
-     * Called when the Find button is pressed. 
-     * Opens a Find dialog.
-     */
-    private void handleFind() {
-        if ( _findDialog == null ) {
-            _findDialog = new FindDialog( _dialogOwner, _previousFindText, _sourceFont );
-            _findDialog.addFindListener( this );
-            _findDialog.addWindowListener( new WindowAdapter() {
-
-                // called when the close button in the dialog's window dressing is clicked
-                public void windowClosing( WindowEvent e ) {
-                    _findDialog.dispose();
-                }
-
-                // called by JDialog.dispose
-                public void windowClosed( WindowEvent e ) {
-                    _previousFindText = _findDialog.getText();
-                    _findDialog = null;
-                }
-            } );
-            SwingUtils.centerDialogInParent( _findDialog );
-            _findDialog.show();
-        }
-    }
-
     //----------------------------------------------------------------------------
-    // FindListener implementation
+    // Find
     //----------------------------------------------------------------------------
     
     /**
      * Finds the next occurrence of a string, searching through the source and target text areas.
      * 
-     * @see edu.colorado.phet.translationutility.FindDialog.FindListener#findNext(java.lang.String)
+     * @param findText
      */
     public void findNext( String findText ) {
         
@@ -628,7 +372,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     /**
      * Finds the previous occurrence of a string, searching through the source and target text areas.
      * 
-     * @see edu.colorado.phet.translationutility.FindDialog.FindListener#findPrevious(java.lang.String)
+     * @param findText
      */
     public void findPrevious( String findText ) {
         
