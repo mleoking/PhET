@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 public class ProjectProperties {
     
     private static final String TITLE_FORMAT = "{0} : {1} {2}";
-    private static final String COMMON_PROJECT_NAME_SEPARATOR = ",";
-    private static final String FONT_NAME_SEPARATOR = ",";
+    private static final String COMMON_PROJECTS_SEPARATOR = ",";
+    private static final String PREFERRED_FONTS_SEPARATOR = ",";
         
     private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), TUResources.getResourceLoader() );
 
@@ -68,7 +68,7 @@ public class ProjectProperties {
         allNames = allNames.replaceAll( "\\s+", "" );
         
         // parse
-        String[] names = allNames.split( COMMON_PROJECT_NAME_SEPARATOR );
+        String[] names = allNames.split( COMMON_PROJECTS_SEPARATOR );
         
         return names;
     }
@@ -84,7 +84,7 @@ public class ProjectProperties {
         String key = "fonts." + languageCode; // eg, fonts.ja
         String allNames = CONFIG.getProjectProperty( key );
         if ( allNames != null ) {
-            names = allNames.split( FONT_NAME_SEPARATOR );
+            names = allNames.split( PREFERRED_FONTS_SEPARATOR );
         }
         return names;
     }
