@@ -1,3 +1,4 @@
+12-4-2007: Rotation - Fixed: Platform and ladybug get out of sync when moving the angle slider quickly
 12-4-2007: Rotation - Generalized new rendering strategy for rotation platform opening panel
 12-4-2007: Rotation - Fixed: Handbrake doesn't move on playback
 12-4-2007: Rotation - added a trial implementation for mass graphic

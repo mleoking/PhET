@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.common.motion.MotionMath;
-import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.tests.CircularRegression;
@@ -46,6 +49,9 @@ public class RotationBody {
     private ArrayList listeners = new ArrayList();
 
     private RotationPlatform.Listener listener;
+
+    //angle of the bug relative to the platform, used when updating position on the platform 
+    private double relAngleOnPlatform = 0.0;
 
     public RotationBody() {
         this( "ladybug.gif" );
@@ -156,8 +162,10 @@ public class RotationBody {
         }
         if ( !isOnPlatform( rotationPlatform ) ) {
             setUpdateStrategy( new OnPlatform( rotationPlatform ) );
+
             this.rotationPlatform = rotationPlatform;
             this.rotationPlatform.addListener( listener );
+            this.relAngleOnPlatform = angle.getValue() - rotationPlatform.getPosition();
             notifyPlatformStateChanged();
         }
     }
@@ -438,12 +446,24 @@ public class RotationBody {
         addAccelerationData( newA, time );
 
         //ToDo: these next 3 lines entail the assumption that the rotation platform has stepped in time first, and has at least one recorded value for recent position time series
-        angle.addValue( getUserSetAngle(), rotationPlatform.getRecentPositionTimeSeries( 1 )[0].getTime() );
+        angle.addValue( rotationPlatform.getPosition() + relAngleOnPlatform, rotationPlatform.getRecentPositionTimeSeries( 1 )[0].getTime() );
         angularVelocity.addValue( rotationPlatform.getVelocity(), rotationPlatform.getRecentVelocityTimeSeries( 1 )[0].getTime() );
         angularAccel.addValue( rotationPlatform.getAcceleration(), rotationPlatform.getRecentAccelerationTimeSeries( 1 )[0].getTime() );
         checkCentripetalAccel();
         if ( r > 0 ) {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
+        }
+    }
+
+    private double getDAngle() {
+        if ( rotationPlatform.getPositionSampleCount() >= 2 ) {
+            double lastPlatformAngle = rotationPlatform.getRecentPositionTimeSeries( 2 )[0].getValue();
+            double currentPlatformAngle = rotationPlatform.getRecentPositionTimeSeries( 2 )[1].getValue();
+            return currentPlatformAngle - lastPlatformAngle;
+        }
+        else {
+            //todo: could handle case in which there is exactly one point of recorded data
+            return 0;
         }
     }
 
