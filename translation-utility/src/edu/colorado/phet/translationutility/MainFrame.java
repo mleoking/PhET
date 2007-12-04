@@ -59,7 +59,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         _findDialog = null;
         _previousFindText = null;
         
-        setJMenuBar( new TUMenuBar() );
+        setJMenuBar( new MenuBar() );
         
         // JAR file manager
         String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
