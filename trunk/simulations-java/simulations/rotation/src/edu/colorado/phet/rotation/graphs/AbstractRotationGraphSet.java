@@ -64,20 +64,20 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createAGraph() {
         RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( RotationStrings.ACCELERATION_ABBR, new RotationGraph(
-                pSwingCanvas, null, "ax", "Acceleration", ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
+                pSwingCanvas, null, "ax", RotationStrings.ACCELERATION, ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
 
-        aGraph.addSeriesPair( "|Acceleration|",
-                              new ControlGraphSeries( "|Acceleration|", RotationColorScheme.AM_COLOR, RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelMagnitude() ),
-                              new ControlGraphSeries( "|Acceleration|(2)", darken( RotationColorScheme.AM_COLOR ), RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
+        aGraph.addSeriesPair( RotationStrings.abs( RotationStrings.ACCELERATION ),
+                              new ControlGraphSeries( RotationStrings.abs( RotationStrings.ACCELERATION ), RotationColorScheme.AM_COLOR, RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelMagnitude() ),
+                              new ControlGraphSeries( RotationStrings.abs( RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AM_COLOR ), RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
                               b0, b1 );
-        aGraph.addSeriesPair( "X-Acceleration",
-                              new ControlGraphSeries( "X-Acceleration", RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
-                              new ControlGraphSeries( "X-Acceleration(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX() ),
+        aGraph.addSeriesPair( RotationStrings.caps( RotationStrings.X ) + "-" + RotationStrings.ACCELERATION,
+                              new ControlGraphSeries( RotationStrings.caps( RotationStrings.X ) + "-" + RotationStrings.ACCELERATION, RotationColorScheme.AX_COLOR, "ax", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
+                              new ControlGraphSeries( RotationStrings.caps( RotationStrings.X ) + "-" + RotationStrings.ACCELERATION + "(2)", darken( RotationColorScheme.AX_COLOR ), "ax", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX() ),
                               b0, b1, false );
-        aGraph.addSeriesPair( "Y-Acceleration",
-                              new ControlGraphSeries( "Y-Acceleration", RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY() ),
-                              new ControlGraphSeries( "Y-Acceleration(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY() ),
+        aGraph.addSeriesPair( RotationStrings.caps( RotationStrings.Y ) + "-" + RotationStrings.ACCELERATION,
+                              new ControlGraphSeries( RotationStrings.caps( RotationStrings.Y ) + "-" + RotationStrings.ACCELERATION, RotationColorScheme.AY_COLOR, "ay", ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY() ),
+                              new ControlGraphSeries( RotationStrings.caps( RotationStrings.Y ) + "-" + RotationStrings.ACCELERATION + "(2)", darken( RotationColorScheme.AY_COLOR ), "ay", ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY() ),
                               b0, b1, false );
         return aGraph;
     }
