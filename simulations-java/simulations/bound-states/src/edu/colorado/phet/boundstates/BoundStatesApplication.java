@@ -25,13 +25,13 @@ import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class BSBoundStatesApplication extends BSAbstractApplication {
+public class BoundStatesApplication extends BSAbstractApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BSBoundStatesApplication( PhetApplicationConfig config ) {
+    public BoundStatesApplication( PhetApplicationConfig config ) {
         super( config );
     }
     
@@ -82,7 +82,7 @@ public class BSBoundStatesApplication extends BSAbstractApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, BSConstants.FRAME_SETUP, BSResources.getResourceLoader(), BSConstants.FLAVOR_BOUND_STATES );
 
                 // Create the application.
-                BSAbstractApplication app = new BSBoundStatesApplication( config );
+                BSAbstractApplication app = new BoundStatesApplication( config );
                 
                 // Start the application.
                 app.startApplication();

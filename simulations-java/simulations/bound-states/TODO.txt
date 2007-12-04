@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/4/07 - rename main classes to be consistent with flavor names
 11/12/07 - fix property names for Spanish translation of covalent-bonds and band-structure flavors
 11/9/07 - move about.credits property to localization file
 10/29/07 - Sam Reid fixed bug in Spanish translation of bound-states.description
