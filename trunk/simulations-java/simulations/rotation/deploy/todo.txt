@@ -6,7 +6,6 @@ fake 3d display for showing platform mass
     >>Current implementation has problems; not sure this will work
 
 Misc
-•	Internationalize text
 •	In-Chart readouts go offscreen at 1024x768
 •	Start paused, use wiggle me for startup (low priority, don't implement yet)
 •	add help button if the sim ever has help
