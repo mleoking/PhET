@@ -2,6 +2,8 @@ package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -35,7 +37,8 @@ public class MovingManMotionModule extends Module {
 
         motionModel.setMaxAllowedRecordTime( MAX_T );
         System.out.println( "motionModel.getTimeSeriesModel().getMode() = " + motionModel.getTimeSeriesModel().getMode() + " ispaused=" + motionModel.getTimeSeriesModel().isPaused() );
-
+        setLogoPanelVisible( false );
+        
     }
 
     public ControlGraphSeries getXSeries() {
