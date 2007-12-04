@@ -8,9 +8,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * Dec 4, 2007 at 1:26:27 PM
  */
 public class Force1DMotionModule extends Module {
-    public Force1DMotionModule() {
-        super( "Force 1D", new ConstantDtClock( 30, 1.0 ) );
-        setSimulationPanel( new Force1DMotionSimPanel( (ConstantDtClock) getClock() ) );
+    public Force1DMotionModule( ConstantDtClock clock ) {
+        super( "Force 1D", clock );
+        Force1DMotionModel model = new Force1DMotionModel( clock );
+        setSimulationPanel( new Force1DMotionSimPanel( (ConstantDtClock) getClock(), model ) );
         setLogoPanelVisible( false );
     }
 }

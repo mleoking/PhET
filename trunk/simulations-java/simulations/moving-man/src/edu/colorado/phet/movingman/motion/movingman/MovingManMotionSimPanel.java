@@ -20,25 +20,22 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private MovingManNode movingManNode;
     private GraphSetNode graphSetNode;
 
-    public MovingManMotionSimPanel( MovingManMotionModule movingManMotionModule ) {
-        final SingleBodyMotionModel motionModel = movingManMotionModule.getSingleBodyMotionModel();
+    public MovingManMotionSimPanel( MovingManMotionModel manMotionModel ) {
+        final SingleBodyMotionModel motionModel = manMotionModel.getMotionModel();
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
 
-
         MovingManGraph xGraph = new MovingManGraph(
-                this, movingManMotionModule.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModule.MAX_T, motionModel );
-
+                this, manMotionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, movingManMotionModule.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModule.MAX_T, motionModel );
-
+                this, manMotionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
+                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, movingManMotionModule.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModule.MAX_T, motionModel );
+                this, manMotionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
+                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
@@ -47,17 +44,9 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         } ) ) );
 
         graphSetNode.setAlignedLayout();
-        graphSetNode.setBounds( 0, 0, 800, 600 );
-        graphSetNode.setOffset( 0, 200 );
         addScreenChild( graphSetNode );
         requestFocus();
         addKeyListener( new PDebugKeyHandler() );
-
-//        addComponentListener( new ComponentAdapter() {
-//            public void componentResized( ComponentEvent e ) {
-//                updateLayout();
-//            }
-//        } );
 
         TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
         add( timeControlPanel, BorderLayout.SOUTH );

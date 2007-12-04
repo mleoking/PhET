@@ -1,10 +1,11 @@
-package edu.colorado.phet.movingman.motion.movingman;
+package edu.colorado.phet.movingman.motion.force1d;
 
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.movingman.motion.movingman.AbstractMovingManNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -14,14 +15,14 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Author: Sam Reid
  * May 22, 2007, 2:37:54 PM
  */
-public class MovingManNode extends AbstractMovingManNode {
-    public MovingManNode( final SingleBodyMotionModel motionModel ) {
+public class Force1DPlayAreaNode extends AbstractMovingManNode {
+    public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel ) {
         PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
-                motionModel.setPositionDriven();
-                motionModel.getMotionBody().setPosition( event.getPositionRelativeTo( getManImage().getParent() ).getX() );
+                motionModel.setAccelerationDriven();
+                motionModel.getMotionBody().setAcceleration( 0.010 );
             }
         } );
 
@@ -31,7 +32,6 @@ public class MovingManNode extends AbstractMovingManNode {
             }
         } );
         updateObject( manImage, motionModel );
-
     }
 
     private void updateObject( PNode object, SingleBodyMotionModel model ) {
