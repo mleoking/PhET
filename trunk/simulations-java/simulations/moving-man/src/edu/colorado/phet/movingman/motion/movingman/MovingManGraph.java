@@ -18,10 +18,9 @@ public class MovingManGraph extends MotionControlGraph {
 
     public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title, double min, double max, final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject iPositionDriven ) {
         super( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
-//        getJFreeChartNode().getChart().setBackgroundPaint( MotionProjectLookAndFeel.CHART_BACKGROUND_COLOR );
         getJFreeChartNode().getChart().setBackgroundPaint( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         getJFreeChartNode().getChart().getXYPlot().setBackgroundPaint( MotionProjectLookAndFeel.CHART_BACKGROUND_COLOR );
-        DynamicJFreeChartNode dj= (DynamicJFreeChartNode) getJFreeChartNode();
+        DynamicJFreeChartNode dj = (DynamicJFreeChartNode) getJFreeChartNode();
         dj.updateAll();
     }
 
