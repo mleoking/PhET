@@ -17,7 +17,7 @@ import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
  */
 public class Force1DMotionApplication extends PhetApplication {
     public Force1DMotionApplication( String[] args ) {
-        super( new Forece1DMotionConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-force1d" ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-force1d" ) );
         addModule( new Force1DMotionModule( new ConstantDtClock( 30, 1.0 ) ) );
     }
 
@@ -32,9 +32,4 @@ public class Force1DMotionApplication extends PhetApplication {
 
     }
 
-    private static class Forece1DMotionConfig extends PhetApplicationConfig {
-        public Forece1DMotionConfig( String[] commandLineArgs, FrameSetup frameSetup, PhetResources resourceLoader, String flavor ) {
-            super( commandLineArgs, frameSetup, resourceLoader, flavor );
-        }
-    }
 }
