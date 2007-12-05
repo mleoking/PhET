@@ -20,7 +20,7 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
 - replace Find dialog with a panel above the button panel, ala Firefox
-- Find selection disappears when Find dialog is closed
+- manually selected text in a TargetTextArea will sometimes stay selected when using Find feature
 - Edit>Undo for editing target textfields
 - make runnable via Web Start
 - perform default translation using Google Translate
@@ -31,6 +31,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - fix Find selection so that it persists when Find dialog is closed
 12/5/07 - ensure that Component with focus is always visible in the JScrollPane
 12/5/07 - replace deprecated focus traversal call with a custom FocusTraversalPolicy
 12/5/07 - bugfix and clean up in Translation.findNext and findPrevious
