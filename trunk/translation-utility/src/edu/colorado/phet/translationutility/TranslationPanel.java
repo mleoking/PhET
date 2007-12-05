@@ -4,8 +4,6 @@ package edu.colorado.phet.translationutility;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.util.*;
 
 import javax.swing.*;
@@ -119,13 +117,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             getInputMap( JComponent.WHEN_FOCUSED ).put( KeyStroke.getKeyStroke( "shift TAB" ), PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ) );
             getActionMap().put( NEXT_FOCUS_ACTION.getValue( Action.NAME ), NEXT_FOCUS_ACTION );
             getActionMap().put( PREVIOUS_FOCUS_ACTION.getValue( Action.NAME ), PREVIOUS_FOCUS_ACTION );
-            
-            // clear selection when focus is lost, needed for Find feature
-            addFocusListener( new FocusAdapter() {
-                public void focusLost(FocusEvent e) {
-                    select( 0, 0 );
-                }
-            });
         }
 
         public String getKey() {
