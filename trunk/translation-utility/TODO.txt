@@ -33,6 +33,9 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - remove unused autoTranslate flag in various constructors
+12/5/07 - use HashMap for entry and tag mappings in GoogleTranslateService
+12/5/07 - delete AutoTranslator
 12/5/07 - replace google-api-translate-java with more robust GoogleTranslateStrategy
 12/5/07 - add strategy interface to AutoTranslator
 12/4/07 - refactor TranslationPanel, move functionality into ToolBar and MainFrame 

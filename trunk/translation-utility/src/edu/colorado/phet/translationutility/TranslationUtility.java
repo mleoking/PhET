@@ -36,10 +36,9 @@ public class TranslationUtility extends JFrame {
         }
         String jarFileName = initDialog.getJarFileName();
         String targetLanguageCode = initDialog.getTargetLanguageCode();
-        boolean autoTranslate = initDialog.isAutoTranslateEnabled();
         
         // open the primary user interface
-        JFrame mainFrame = new MainFrame( title, jarFileName, SOURCE_LANGUAGE_CODE, targetLanguageCode, autoTranslate );
+        JFrame mainFrame = new MainFrame( title, jarFileName, SOURCE_LANGUAGE_CODE, targetLanguageCode );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mainFrame.show();
     }
