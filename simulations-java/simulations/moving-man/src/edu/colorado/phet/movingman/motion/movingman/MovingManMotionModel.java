@@ -115,59 +115,20 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public static class PositionDriven extends UpdateStrategy.PositionDriven {
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            MovingManMotionModel m = (MovingManMotionModel) motionBody;
-            double prevPosition = m.getPosition();
-            TimeData newPosition = getNewX( motionBody, time );
-            if ( prevPosition < 10 && newPosition.getValue() >= 10 ) {
-                newPosition = new TimeData( 10, time );
-                //signify a crash
-            }
-            motionBody.addPositionData( newPosition );
-            motionBody.addVelocityData( getNewVelocity( motionBody ) );
-            motionBody.addAccelerationData( getNewAcceleration( motionBody ) );
+        public PositionDriven() {
+            super(-10,10);
         }
     }
 
     public static class VelocityDriven extends UpdateStrategy.VelocityDriven {
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            MovingManMotionModel m = (MovingManMotionModel) motionBody;
-            double prevPosition = m.getPosition();
-            TimeData newX = getNewPosition( motionBody, dt, time );
-            TimeData newV = getNewVelocity( motionBody, dt, time );
-            TimeData newA = getNewAcceleration( motionBody, dt );
-            if ( prevPosition < 10 && newX.getValue() >= 10 ) {
-                newX = new TimeData( 10, newX.getTime() );
-                newV = new TimeData( 0, newV.getTime() );
-                newA = new TimeData( 0, newA.getTime() );
-
-                m.setPositionDriven();
-                //signify a crash
-            }
-            motionBody.addPositionData( newX );
-            motionBody.addVelocityData( newV );
-            motionBody.addAccelerationData( newA );
+        public VelocityDriven() {
+            super(-10,10);
         }
     }
 
     public static class AccelDriven extends UpdateStrategy.AccelerationDriven {
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            MovingManMotionModel m = (MovingManMotionModel) motionBody;
-            double prevPosition = m.getPosition();
-            double newX = getNewPosition( motionBody, dt );
-            double newV = getNewVelocity( motionBody, dt );
-            double newA = m.getAcceleration();
-            if ( prevPosition != 10 && newX >= 10 ) {
-                newX = 10;
-                newV = 0;
-                newA = 0;
-
-                m.setPositionDriven();
-                //signify a crash
-            }
-            motionBody.addPositionData( newX, time );
-            motionBody.addVelocityData( newV, time );
-            motionBody.addAccelerationData( newA, time );
+        public AccelDriven() {
+            super(-10,10);
         }
     }
 

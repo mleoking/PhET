@@ -10,28 +10,96 @@ import edu.colorado.phet.common.motion.MotionMath;
 public interface UpdateStrategy {
     void update( IMotionBody motionBody, double dt, double time );
 
-    public static class PositionDriven implements UpdateStrategy {
+    public static abstract class DefaultUpdateStrategy implements UpdateStrategy {
+        private double min;
+        private double max;
+
+        protected DefaultUpdateStrategy() {
+            this( Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
+        }
+
+        public DefaultUpdateStrategy( double min, double max ) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public double getMin() {
+            return min;
+        }
+
+        public void setMin( double min ) {
+            this.min = min;
+        }
+
+        public double getMax() {
+            return max;
+        }
+
+        public void setMax( double max ) {
+            this.max = max;
+        }
+
+        public abstract TimeData getNewX( IMotionBody motionBody, double dt, double time );
+
+        public abstract TimeData getNewV( IMotionBody motionBody, double dt, double time );
+
+        public abstract TimeData getNewA( IMotionBody motionBody, double dt, double time );
+
+        public void doDefaultUpdate( IMotionBody motionBody, double dt, double time ) {
+            double prevX = motionBody.getPosition();
+            TimeData newX = getNewX( motionBody, dt, time );
+            TimeData newV = getNewV( motionBody, dt, time );
+            TimeData newA = getNewA( motionBody, dt, time );
+
+            if ( newX.getValue() >= max ) {
+                newX = new TimeData( max, newX.getTime() );
+                newV = new TimeData( 0, newV.getTime() );
+                newA = new TimeData( 0, newA.getTime() );
+                if ( prevX < max ) {
+                    //signify a crash
+                }
+            }
+            else if ( newX.getValue() <= min ) {
+                newX = new TimeData( min, newX.getTime() );
+                newV = new TimeData( 0, newV.getTime() );
+                newA = new TimeData( 0, newA.getTime() );
+                if ( prevX > min ) {
+                    //signify a crash
+                }
+            }
+
+            motionBody.addPositionData( newX );
+            motionBody.addVelocityData( newV );
+            motionBody.addAccelerationData( newA );
+        }
+
+        public void update( IMotionBody motionBody, double dt, double time ) {
+            doDefaultUpdate( motionBody, dt, time );
+        }
+    }
+
+    public static class PositionDriven extends DefaultUpdateStrategy {
         private int velocityWindow = 6;
         private int accelerationWindow = 6;
 
-        //todo: try 2nd order derivative directly from position data?
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
-            motionBody.addPositionData( getNewX( motionBody, time ) );
-            motionBody.addVelocityData( getNewVelocity( motionBody ) );
-            motionBody.addAccelerationData( getNewAcceleration( motionBody ) );
+        public PositionDriven() {
         }
 
-        protected TimeData getNewX( IMotionBody motionBody, double time ) {
+        public PositionDriven( double minX, double maxX ) {
+            super( minX, maxX );
+        }
+
+        public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
             return new TimeData( motionBody.getPosition(), time );
         }
 
-        protected TimeData getNewAcceleration( IMotionBody motionBody ) {
-            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
+        public TimeData getNewV( IMotionBody motionBody, double dt, double time ) {
+            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
         }
 
-        protected TimeData getNewVelocity( IMotionBody motionBody ) {
-            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
+        //todo: try 2nd order derivative directly from position data?
+        public TimeData getNewA( IMotionBody motionBody, double dt, double time ) {
+            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
         }
 
         public void setVelocityWindow( int maxWindowSize ) {
@@ -39,50 +107,50 @@ public interface UpdateStrategy {
         }
     }
 
-    public static class VelocityDriven implements UpdateStrategy {
+    public static class VelocityDriven extends DefaultUpdateStrategy {
         int velWindow = 10;
 
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            TimeData newX = getNewPosition( motionBody, dt, time );
-            TimeData newV = getNewVelocity( motionBody, dt, time );
-            TimeData a = getNewAcceleration( motionBody, dt );
-
-            motionBody.addPositionData( newX );
-            motionBody.addVelocityData( newV );
-            motionBody.addAccelerationData( a );//todo: why is it necessary that velocity be offset by dt in order to be correct?
+        public VelocityDriven() {
         }
 
-        protected TimeData getNewVelocity( IMotionBody motionBody, double dt, double time ) {
+        public VelocityDriven( double min, double max ) {
+            super( min, max );
+        }
+
+        public TimeData getNewV( IMotionBody motionBody, double dt, double time ) {
             return new TimeData( motionBody.getVelocity(), time );
         }
 
-        protected TimeData getNewAcceleration( IMotionBody motionBody, double dt ) {
+        public TimeData getNewA( IMotionBody motionBody, double dt, double time ) {
             TimeData data = MotionMath.getDerivative( motionBody.getRecentVelocityTimeSeries( Math.min( velWindow, motionBody.getAccelerationSampleCount() ) ) );
+            //todo: why is it necessary that velocity be offset by dt in order to be correct?
             data = new TimeData( data.getValue(), data.getTime() + dt );
             return data;
         }
 
-        protected TimeData getNewPosition( IMotionBody motionBody, double dt, double time ) {
+        public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
             return new TimeData( motionBody.getPosition() + motionBody.getVelocity() * dt, time );
         }
     }
 
-    public static class AccelerationDriven implements UpdateStrategy {
-
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            //assume a constant acceleration model with the given acceleration.
-            //        System.out.println( "AccelerationDriven.update" );
-            motionBody.addAccelerationData( motionBody.getAcceleration(), time );
-            motionBody.addVelocityData( getNewVelocity( motionBody, dt ), time );
-            motionBody.addPositionData( getNewPosition( motionBody, dt ), time );
+    public static class AccelerationDriven extends DefaultUpdateStrategy {
+        public AccelerationDriven() {
         }
 
-        protected double getNewPosition( IMotionBody motionBody, double dt ) {
-            return motionBody.getPosition() + ( motionBody.getVelocity() + getNewVelocity( motionBody, dt ) ) / 2.0 * dt;
+        public AccelerationDriven( double min, double max ) {
+            super( min, max );
         }
 
-        protected double getNewVelocity( IMotionBody motionBody, double dt ) {
-            return motionBody.getVelocity() + motionBody.getAcceleration() * dt;
+        public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
+            return new TimeData( motionBody.getPosition() + ( motionBody.getVelocity() + getNewV( motionBody, dt, time ).getValue() ) / 2.0 * dt, time );
+        }
+
+        public TimeData getNewV( IMotionBody motionBody, double dt, double time ) {
+            return new TimeData( motionBody.getVelocity() + motionBody.getAcceleration() * dt, time );
+        }
+
+        public TimeData getNewA( IMotionBody motionBody, double dt, double time ) {
+            return new TimeData( motionBody.getAcceleration(), time );
         }
     }
 }
