@@ -8,14 +8,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * Dec 4, 2007 at 1:42:37 PM
  */
 public class MovingManMotionModule extends Module {
+    private MovingManMotionModel movingManMotionModel;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( "Moving Man", clock );
-        MovingManMotionModel model = new MovingManMotionModel( clock );
+        movingManMotionModel = new MovingManMotionModel( clock );
 
-        final MovingManMotionSimPanel simPanel = new MovingManMotionSimPanel( model );
+        final MovingManMotionSimPanel simPanel = new MovingManMotionSimPanel( movingManMotionModel );
         setSimulationPanel( simPanel );
         setLogoPanelVisible( false );
     }
 
+    public void activate() {
+        super.activate();
+        movingManMotionModel.startRecording();
+    }
 }

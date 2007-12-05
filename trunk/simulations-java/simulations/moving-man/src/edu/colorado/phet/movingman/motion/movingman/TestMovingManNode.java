@@ -23,8 +23,8 @@ public class TestMovingManNode {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         ConstantDtClock swingClock = new ConstantDtClock( 30, 1.0 );
-        final SingleBodyMotionModel model = new SingleBodyMotionModel( swingClock );
 
+        final MovingManMotionModel model = new MovingManMotionModel( swingClock );
         MovingManNode movingManNode = new MovingManNode( model );
         movingManNode.scale( 50 );
         movingManNode.translate( 10.5, 0 );
@@ -34,7 +34,7 @@ public class TestMovingManNode {
 
 //        swingClock.start();
         model.setVelocityDriven();
-        model.getMotionBody().setVelocity( 0.1 );
+        model.setVelocity( 0.1 );
     }
 
 }

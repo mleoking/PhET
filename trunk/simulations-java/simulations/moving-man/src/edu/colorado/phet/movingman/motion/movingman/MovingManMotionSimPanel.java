@@ -6,7 +6,6 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
@@ -20,8 +19,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private MovingManNode movingManNode;
     private GraphSetNode graphSetNode;
 
-    public MovingManMotionSimPanel( MovingManMotionModel manMotionModel ) {
-        final SingleBodyMotionModel motionModel = manMotionModel.getMotionModel();
+    public MovingManMotionSimPanel( MovingManMotionModel motionModel ) {
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
 //        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
@@ -33,15 +31,15 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 //        }
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, manMotionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                this, motionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, manMotionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
+                this, motionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, manMotionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
+                this, motionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{

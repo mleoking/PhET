@@ -10,11 +10,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     private MotionBody motionBody;
 
     public SingleBodyMotionModel( ConstantDtClock clock ) {
-        this( clock, new TimeSeriesFactory() {
-            public DefaultTimeSeries createTimeSeries() {
-                return new DefaultTimeSeries();
-            }
-        } );
+        this( clock, new TimeSeriesFactory.Default() );
     }
 
     public SingleBodyMotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
