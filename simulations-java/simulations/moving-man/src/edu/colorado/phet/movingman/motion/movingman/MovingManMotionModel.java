@@ -101,7 +101,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public static class PositionDriven implements UpdateStrategy {
         public void update( IMotionBody motionBody, double dt, double time ) {
-            System.out.println( "MovingManMotionModel$PositionDriven.update, time=" + time );
+            new UpdateStrategy.PositionDriven().update( motionBody, dt, time );
+//            System.out.println( "MovingManMotionModel$PositionDriven.update, time=" + time );
         }
     }
 
@@ -154,6 +155,6 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        updateStrategy.update( null, dt, super.getTime() );
+        updateStrategy.update( this, dt, super.getTime() );
     }
 }
