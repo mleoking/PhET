@@ -12,6 +12,8 @@ HIGH PRIORITY:
 - refactor to support alternate strategies for Flash sims
 
 MEDIUM PRIORITY:
+- tab traversal does not cause the scrollpane to scroll to the component with focus, see 
+  http://forum.java.sun.com/thread.jspa?threadID=764444&messageID=4360345
 - check for unsaved changes before exiting
 - Flash sim support
 - delete phet-test-translation.jar
@@ -31,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - replace deprecated focus traversal call with a custom FocusTraversalPolicy
 12/5/07 - bugfix and clean up in Translation.findNext and findPrevious
 12/5/07 - add cause to JarIOExceptions
 12/5/07 - remove unused autoTranslate flag in various constructors

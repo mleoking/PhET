@@ -3,22 +3,16 @@
 package edu.colorado.phet.translationutility;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.text.MessageFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.html.HTMLEditorKit;
 
-import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.Command.CommandException;
 import edu.colorado.phet.translationutility.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
 
 /**
  * TranslationPanel is a panel that consists of 3 columns for localizing strings.
@@ -88,7 +82,7 @@ public class TranslationPanel extends JPanel implements FindListener {
     }
     
     /*
-     * TargetTextArea contain a string in the target language, associated with a key.
+     * TargetTextArea contains a string in the target language, associated with a key.
      * Target strings appear in the right column of the interface.
      * They are searchable and editable.
      * Pressing tab or shift-tab moves focus forward or backward.
@@ -138,7 +132,7 @@ public class TranslationPanel extends JPanel implements FindListener {
             return _key;
         }
     }
-
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -194,7 +188,6 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
         
         // create the table
-        JTextArea previousTargetTextArea = null;
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
 
@@ -211,10 +204,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             targetTextArea.setFont( _targetFont );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
-            if ( previousTargetTextArea != null ) {
-                previousTargetTextArea.setNextFocusableComponent( targetTextArea ); // deprecated, but much simplier than using FocusTraversalPolicy
-            }
-            previousTargetTextArea = targetTextArea;
             _targetTextAreas.add( targetTextArea );
 
             _findTextAreas.add( sourceTextArea );
@@ -226,7 +215,8 @@ public class TranslationPanel extends JPanel implements FindListener {
             row++;
         }
         
-        setFocusTraversalPolicy( new ContainerOrderFocusTraversalPolicy() );
+        setFocusTraversalPolicy( new ComponentListFocusPolicy( _targetTextAreas ) );
+        setFocusCycleRoot( true ); // enable this container as a FocusCycleRoot, so that custom FocusTraversalPolicy will work
     }
     
     //----------------------------------------------------------------------------
