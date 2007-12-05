@@ -1,9 +1,6 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
-import java.awt.geom.AffineTransform;
-
 import edu.colorado.phet.common.motion.model.IVariable;
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -15,13 +12,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class MovingManNode extends AbstractMovingManNode {
-    public MovingManNode( final SingleBodyMotionModel motionModel ) {
+    public MovingManNode( final IMovingManModel motionModel ) {
         PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 motionModel.setPositionDriven();
-                motionModel.getMotionBody().setPosition( event.getPositionRelativeTo( getManImage().getParent() ).getX() );
+                motionModel.setPosition( event.getPositionRelativeTo( getManImage().getParent() ).getX() );
             }
         } );
 
@@ -34,9 +31,9 @@ public class MovingManNode extends AbstractMovingManNode {
 
     }
 
-    private void updateObject( PNode object, SingleBodyMotionModel model ) {
+    private void updateObject( PNode object, IMovingManModel model ) {
 //        object.setOffset( rotationModel.getPosition() - object.getFullBounds().getWidth() / 2/object.getScale(), 2.0 - object.getFullBounds().getHeight()/object.getScale() );
-        object.setOffset( model.getMotionBody().getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
+        object.setOffset( model.getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
 }

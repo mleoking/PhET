@@ -20,7 +20,7 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
     private GraphSetNode graphSetNode;
 
     public Force1DMotionSimPanel( ConstantDtClock clock, Force1DMotionModel model ) {
-        SingleBodyMotionModel motionModel = model.getMotionModel();
+        SingleBodyMotionModel motionModel = null;//todo: fix
         movingManNode = new Force1DPlayAreaNode( motionModel,model.getForceModel() );
         addScreenChild( movingManNode );
 
