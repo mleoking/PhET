@@ -30,6 +30,8 @@ import edu.colorado.phet.translationutility.ToolBar.ToolBarListener;
  */
 public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     
+    private static final String TEST_JAR_NAME = "phet-test-translation.jar"; // temporary JAR file used to test translations
+    
     private static final String CONFIRM_OVERWRITE_TITLE = TUResources.getString( "title.confirmOverwrite" );
     private static final String CONFIRM_OVERWRITE_MESSAGE = TUResources.getString( "message.confirmOverwrite" );
     private static final String SUBMIT_MESSAGE = TUResources.getString( "message.submit" );
@@ -37,7 +39,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
     private static final String HELP_MESSAGE = TUResources.getString( "help.translation" );
     
-    private JarFileManager _jarFileManager;
+    private String _jarFileName;
+    private String _targetLanguageCode;
+    private String _projectName;
     private TranslationPanel _translationPanel;
     private File _currentDirectory;
     private FindDialog _findDialog;
@@ -54,27 +58,26 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     public MainFrame( String title, String jarFileName, String sourceLanguageCode, String targetLanguageCode ) {
         super( title );
         
+        _jarFileName = jarFileName;
+        _targetLanguageCode = targetLanguageCode;
         _currentDirectory = null;
         _findDialog = null;
         _previousFindText = null;
         
         setJMenuBar( new MenuBar() );
         
-        // JAR file manager
-        String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
-        _jarFileManager = new JarFileManager( jarFileName, commonProjectNames );
-        
         // Tool Bar
         ToolBar toolBar = new ToolBar();
         toolBar.addToolBarListener( this );
         
         // Translation Panel
-        String projectName = _jarFileManager.getProjectName();
+        String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            sourceProperties = _jarFileManager.readProperties( sourceLanguageCode );
-            targetProperties = _jarFileManager.readProperties( targetLanguageCode );
+            _projectName = JarFileManager.getSimulationProjectName( jarFileName, commonProjectNames );
+            sourceProperties = JarFileManager.readPropertiesFromJar( jarFileName, _projectName, sourceLanguageCode );
+            targetProperties = JarFileManager.readPropertiesFromJar( jarFileName, _projectName, targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -82,7 +85,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
-        _translationPanel = new TranslationPanel( projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
+        _translationPanel = new TranslationPanel( _projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
         
         // make Component with focus visible in the scroll pane
@@ -142,11 +145,11 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * Add the current translations to a temporary JAR file, then runs that JAR file.
      */
     public void handleTest() {
-        Properties targetProperties = _translationPanel.getTargetProperties();
-        String targetLanguageCode = _translationPanel.getTargetLanguageCode();
+        Properties properties = _translationPanel.getTargetProperties();
+        String propertiesFileName = JarFileManager.getPropertiesResourceName( _projectName, _targetLanguageCode );
         try {
-            String testJarFileName =_jarFileManager.writeProperties( targetProperties, targetLanguageCode );
-            JarFileManager.runJarFile( testJarFileName, targetLanguageCode );
+            JarFileManager.writePropertiesToJar( _jarFileName, TEST_JAR_NAME, propertiesFileName, properties );
+            JarFileManager.runJarFile( TEST_JAR_NAME, _targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -213,11 +216,10 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
     public void handleSubmit() {
         
         Properties properties = _translationPanel.getTargetProperties();
-        String targetLanguageCode = _translationPanel.getTargetLanguageCode();
         
         // create the output File, in same directory as JAR file
-        String dirName = _jarFileManager.getJarDirName();
-        String baseName = JarFileManager.getPropertiesFileBaseName( _jarFileManager.getProjectName(), targetLanguageCode );
+        String dirName = new File( _jarFileName ).getParent();
+        String baseName = JarFileManager.getPropertiesFileBaseName( _projectName, _targetLanguageCode );
         String fileName = null;
         if ( dirName != null && dirName.length() > 0 ) {
             fileName = dirName + File.separatorChar + baseName;
@@ -261,7 +263,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public void handleFind() {
         if ( _findDialog == null ) {
-            _findDialog = new FindDialog( this, _previousFindText, _translationPanel.getTargetFont() );
+            _findDialog = new FindDialog( this, _previousFindText, FontFactory.createFont( _targetLanguageCode ) );
             _findDialog.addFindListener( this );
             _findDialog.addWindowListener( new WindowAdapter() {
 

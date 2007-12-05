@@ -12,13 +12,7 @@ import java.util.jar.Manifest;
 import edu.colorado.phet.translationutility.Command.CommandException;
 
 /**
- * JarFileManager handles operations on the simulation's JAR file, including:
- * <ul>
- * <li>reading properties files from the JAR
- * <li>copying the JAR to a temporary JAR
- * <li>writing properties to a temporary JAR
- * <li>running a JAR
- * </ul>
+ * JarFileManager handles operations related to a Java-based simulation's JAR file.
  * <p>
  * Notes:
  * <ul>
@@ -30,8 +24,6 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  */
 public class JarFileManager {
     
-    private static final String TEST_JAR_NAME = "phet-test-translation.jar"; // temporary JAR file used to test translations
-    
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
@@ -41,10 +33,6 @@ public class JarFileManager {
     private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
-    
-    private final String _jarFileName;
-    private final String[] _commonProjectNames;
-    private String _projectName;
     
     /**
      * All exceptions caught by JarFileManager will be mapped to JarIOException. 
@@ -58,22 +46,8 @@ public class JarFileManager {
         }
     }
     
-    /**
-     * Constructor.
-     * 
-     * @param jarFileName
-     * @param commonProjectNames
-     */
-    public JarFileManager( String jarFileName, String[] commonProjectNames ) {
-        _jarFileName = new String( jarFileName );
-        _commonProjectNames = commonProjectNames;
-        try {
-            _projectName = getProjectName( _jarFileName, _commonProjectNames );
-        }
-        catch ( JarIOException e ) {
-            ExceptionHandler.handleFatalException( e );
-        }
-    }
+    /* not intended for instantiation */
+    private JarFileManager() {}
     
     /**
      * Gets the name of the simulation project used to create the JAR file.
@@ -83,10 +57,10 @@ public class JarFileManager {
      * 
      * @param jarFileName
      * @param commonProjectNames
-     * @return
+     * @return String
      * @throws JarIOException
      */
-    public static String getProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
+    public static String getSimulationProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
         
         String projectName = null;
         
@@ -148,80 +122,6 @@ public class JarFileManager {
      */
     private static String getLocalizationResourceName( String projectName ) {
         return projectName + "/localization/" + projectName + "-strings.properties";
-    }
-    
-    /**
-     * Gets the JAR file name.
-     * 
-     * @return
-     */
-    public String getJarFileName() {
-        return _jarFileName;
-    }
-    
-    /**
-     * Gets the directory portion of the JAR file name.
-     * For example, if JAR filename is /usr/home/cmalley/foo.jar,
-     * then this method returns /usr/home/cmalley.
-     * This method assumes that the platform-specific file separator character
-     * is used to specify the JAR file name.
-     * 
-     * @return
-     */
-    public String getJarDirName() {
-        String dirName = "";
-        int index = _jarFileName.lastIndexOf( File.separatorChar );
-        if ( index != -1 ) {
-            dirName = _jarFileName.substring( 0, index );
-        }
-        return dirName;
-    }
-    
-    /**
-     * Gets the project name.
-     * @return
-     */
-    public String getProjectName() {
-        return _projectName;
-    }
-    
-    /**
-     * Gets the names of the common projects that the JAR file contains.
-     * @return
-     */
-    public String[] getCommonProjectNames() {
-        return _commonProjectNames;
-    }
-    
-    /**
-     * Reads the properties file that contains the localized strings for a specified language code.
-     * Extracts the properties file from the JAR and creates a Properties object.
-     * 
-     * @param languageCode
-     * @throws JarIOException if there is a problem reading the properties file from the JAR
-     * @return Properties, null if properties file does not exist
-     */
-    public Properties readProperties( String languageCode ) throws JarIOException {
-        String projectName = getProjectName();
-        return readPropertiesFromJar( _jarFileName, projectName, languageCode );
-    }
-    
-    /**
-     * Writes the properties containing the localized strings for a specified language code.
-     * This copies the original JAR file to a new JAR file, then adds (or replaces) 
-     * a properties file for the localized strings provided.
-     * 
-     * @param properties
-     * @param languageCode
-     * @throws JarIOException if the properties cannot be written to the JAR file
-     * @return new JAR file name
-     */
-    public String writeProperties( Properties properties, String languageCode ) throws JarIOException {
-        String projectName = getProjectName();
-        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
-        String testFileName = getJarDirName() + File.separatorChar + TEST_JAR_NAME;
-        writePropertiesToJarFile( _jarFileName, testFileName, propertiesFileName, properties );
-        return testFileName;
     }
     
     /**
@@ -295,6 +195,7 @@ public class JarFileManager {
      * Writes properties to a JAR file.
      * This is accomplished by making a copy of the original JAR file, and adding (or replacing) a properties file.
      * The properties file contains localized strings.
+     * The original JAR file is not modified.
      * 
      * @param originalJarFileName
      * @param newJarFileName
@@ -302,7 +203,7 @@ public class JarFileManager {
      * @param properties
      * @throws JarIOException
      */
-    public static void writePropertiesToJarFile( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
+    public static void writePropertiesToJar( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -416,11 +317,11 @@ public class JarFileManager {
         Command.run( cmdArray, false /* waitForCompletion */ );
     }
     
-    /*
+    /**
      * Gets the name of the properties resource that contains localized strings for a specified language code.
      * If the language code is null, the default localization file (English) is returned.
      */
-    private static String getPropertiesResourceName( String projectName, String languageCode ) {
+    public static String getPropertiesResourceName( String projectName, String languageCode ) {
         return projectName + "/localization/" + getPropertiesFileBaseName( projectName, languageCode );
     }
     
