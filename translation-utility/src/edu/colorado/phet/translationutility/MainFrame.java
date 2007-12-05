@@ -72,7 +72,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         toolBar.addToolBarListener( this );
         
         // Translation Panel
-        String[] commonProjectNames = ProjectProperties.getCommonProjectNames();
+        String[] commonProjectNames = TUResources.getCommonProjectNames();
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
