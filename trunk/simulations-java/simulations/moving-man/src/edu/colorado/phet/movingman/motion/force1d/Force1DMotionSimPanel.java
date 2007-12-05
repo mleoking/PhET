@@ -25,17 +25,17 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
         addScreenChild( movingManNode );
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, model.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                this, model.getXSeries(), "x", -10, 10,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, model.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
+                this, model.getVSeries(), "x", -0.1, 0.1,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
 
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, model.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
+                this, model.getASeries(), "x", -0.01, 0.01,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{

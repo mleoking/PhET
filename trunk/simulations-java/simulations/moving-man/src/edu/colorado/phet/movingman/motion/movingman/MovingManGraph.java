@@ -14,8 +14,8 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  */
 public class MovingManGraph extends MotionControlGraph {
 
-    public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title, double min, double max, final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
-        super( pSwingCanvas, series, title, min, max, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+    public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String title, double min, double max, final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
+        super( pSwingCanvas, series, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
     }
 
 }

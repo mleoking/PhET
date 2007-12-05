@@ -25,20 +25,20 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         for ( int i = 0; i < s.length; i++ ) {
             ControlGraphSeries controlGraphSeries = s[i];
             MovingManGraph graph = new MovingManGraph(
-                    this, controlGraphSeries, controlGraphSeries.getAbbr(), controlGraphSeries.getTitle(), -10, 10,
+                    this, controlGraphSeries, controlGraphSeries.getTitle(), -10, 10,
                     motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
         }
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, manMotionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                this, manMotionModel.getXSeries(), "x", -10, 10,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, manMotionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
+                this, manMotionModel.getVSeries(), "x", -0.1, 0.1,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, manMotionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
+                this, manMotionModel.getASeries(), "x", -0.01, 0.01,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{

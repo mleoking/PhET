@@ -37,7 +37,7 @@ public class RotationGraph extends MotionControlGraph {
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
         super( pSwingCanvas, series,
                title, min, max,
-               motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+               editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.title = title;
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
 
