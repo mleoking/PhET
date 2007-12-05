@@ -47,8 +47,8 @@ public class CollisionAudioEffects extends Man.Adapter {
     public void collided( Man man ) {
         if( lastCollisionLocation.equals( FREE ) ) {
             if( soundEnabled ) {
-                URL crash = CollisionAudioEffects.class.getClassLoader().getResource( "moving-man/audio/smash0.wav" );
-                JSAudioPlayer.playNoBlock( crash );
+//                URL crash = CollisionAudioEffects.class.getClassLoader().getResource( "moving-man/audio/smash0.wav" );
+                JSAudioPlayer.playNoBlock( Thread.currentThread().getContextClassLoader().getResource( "moving-man/audio/smash0.wav" ));
                 lastCollisionLocation = man.isMaximum() ? RIGHT : LEFT;
             }
         }
