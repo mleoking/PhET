@@ -147,6 +147,18 @@ public class MotionBody implements UpdateableObject, IMotionBody {
         x.addValue( position, time );
     }
 
+    public void addPositionData( TimeData data ) {
+        addPositionData( data.getValue(), data.getTime() );
+    }
+
+    public void addVelocityData( TimeData data ) {
+        addVelocityData( data.getValue(), data.getTime() );
+    }
+
+    public void addAccelerationData( TimeData data ) {
+        addAccelerationData( data.getValue(),data.getTime());
+    }
+
     public void addVelocityData( double velocity, double time ) {
         v.addValue( velocity, time );
     }

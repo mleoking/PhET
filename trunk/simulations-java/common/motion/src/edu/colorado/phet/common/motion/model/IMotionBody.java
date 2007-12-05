@@ -17,6 +17,12 @@ public interface IMotionBody {
 
     void addPositionData( double v, double time );
 
+    void addPositionData( TimeData data );
+
+    void addVelocityData( TimeData data );
+
+    void addAccelerationData( TimeData data );
+
     int getAccelerationSampleCount();
 
     TimeData[] getRecentVelocityTimeSeries( int i );

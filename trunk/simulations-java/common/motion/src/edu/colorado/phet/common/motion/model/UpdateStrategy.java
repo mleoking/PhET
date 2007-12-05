@@ -10,6 +10,63 @@ import edu.colorado.phet.common.motion.MotionMath;
 public interface UpdateStrategy {
     void update( IMotionBody motionBody, double dt, double time );
 
+    public static class PositionDriven implements UpdateStrategy {
+        private int velocityWindow = 6;
+        private int accelerationWindow = 6;
+
+        //todo: try 2nd order derivative directly from position data?
+        public void update( IMotionBody motionBody, double dt, double time ) {
+            //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
+            motionBody.addPositionData( getNewX( motionBody, time ) );
+            motionBody.addVelocityData( getNewVelocity( motionBody ) );
+            motionBody.addAccelerationData( getNewAcceleration( motionBody ) );
+        }
+
+        protected TimeData getNewX( IMotionBody motionBody, double time ) {
+            return new TimeData( motionBody.getPosition(), time );
+        }
+
+        protected TimeData getNewAcceleration( IMotionBody motionBody ) {
+            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
+        }
+
+        protected TimeData getNewVelocity( IMotionBody motionBody ) {
+            return MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
+        }
+
+        public void setVelocityWindow( int maxWindowSize ) {
+            this.velocityWindow = maxWindowSize;
+        }
+    }
+
+    public static class VelocityDriven implements UpdateStrategy {
+        int velWindow = 10;
+
+        public void update( IMotionBody motionBody, double dt, double time ) {
+            TimeData newX = getNewPosition( motionBody, dt, time );
+            TimeData newV = getNewVelocity( motionBody, dt, time );
+            TimeData a = getNewAcceleration( motionBody, dt );
+
+            motionBody.addPositionData( newX );
+            motionBody.addVelocityData( newV );
+            motionBody.addAccelerationData( a );//todo: why is it necessary that velocity be offset by dt in order to be correct?
+        }
+
+        protected TimeData getNewVelocity( IMotionBody motionBody, double dt, double time ) {
+            return new TimeData( motionBody.getVelocity(), time );
+        }
+
+        protected TimeData getNewAcceleration( IMotionBody motionBody, double dt ) {
+            TimeData data = MotionMath.getDerivative( motionBody.getRecentVelocityTimeSeries( Math.min( velWindow, motionBody.getAccelerationSampleCount() ) ) );
+            data = new TimeData( data.getValue(), data.getTime() + dt );
+            return data;
+        }
+
+        protected TimeData getNewPosition( IMotionBody motionBody, double dt, double time ) {
+            return new TimeData( motionBody.getPosition() + motionBody.getVelocity() * dt, time );
+        }
+    }
+
     public static class AccelerationDriven implements UpdateStrategy {
 
         public void update( IMotionBody motionBody, double dt, double time ) {
@@ -20,46 +77,5 @@ public interface UpdateStrategy {
             motionBody.addVelocityData( motionBody.getVelocity() + motionBody.getAcceleration() * dt, time );
             motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
         }
-    }
-
-    public static class VelocityDriven implements UpdateStrategy {
-        int velWindow = 10;
-
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            double newX = motionBody.getPosition() + motionBody.getVelocity() * dt;
-            TimeData a = MotionMath.getDerivative( motionBody.getRecentVelocityTimeSeries( Math.min( velWindow, motionBody.getAccelerationSampleCount() ) ) );
-            motionBody.addPositionData( newX, time );
-            motionBody.addVelocityData( motionBody.getVelocity(), time );
-            motionBody.addAccelerationData( a.getValue(), a.getTime() + dt );//todo: why is it necessary that velocity be offset by dt in order to be correct?
-        }
-    }
-
-    public static class PositionDriven implements UpdateStrategy {
-        private int velocityWindow = 6;
-        private int accelerationWindow = 6;
-
-        //todo: try 2nd order derivative directly from position data?
-        public void update( IMotionBody motionBody, double dt, double time ) {
-            TimeData v = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
-            TimeData a = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
-            //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
-
-            motionBody.addPositionData( motionBody.getPosition(), time );
-            motionBody.addVelocityData( v.getValue(), v.getTime() );
-            motionBody.addAccelerationData( a.getValue(), a.getTime() );
-        }
-
-        public double getAccelerationWindow() {
-            return accelerationWindow;
-        }
-
-        public void setVelocityWindow( int maxWindowSize ) {
-            this.velocityWindow = maxWindowSize;
-        }
-
-        public int getVelocityWindow() {
-            return velocityWindow;
-        }
-
     }
 }

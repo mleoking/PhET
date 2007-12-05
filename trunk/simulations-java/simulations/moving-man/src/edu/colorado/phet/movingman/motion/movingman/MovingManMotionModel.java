@@ -32,6 +32,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public void setPosition( double x ) {
+        if ( x > 10 ) {
+            x = 10;
+        }
         this.x.setValue( x );
     }
 
@@ -61,6 +64,18 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void addPositionData( double v, double time ) {
         this.x.addValue( v, time );
+    }
+
+    public void addPositionData( TimeData data ) {
+        addPositionData( data.getValue(), data.getTime() );
+    }
+
+    public void addVelocityData( TimeData data ) {
+        addVelocityData( data.getValue(), data.getTime() );
+    }
+
+    public void addAccelerationData( TimeData data ) {
+        addAccelerationData( data.getValue(), data.getTime() );
     }
 
     public int getAccelerationSampleCount() {
@@ -99,20 +114,45 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         getTimeSeriesModel().startRecording();
     }
 
-    public static class PositionDriven implements UpdateStrategy {
+    public static class PositionDriven extends UpdateStrategy.PositionDriven {
         public void update( IMotionBody motionBody, double dt, double time ) {
-            new UpdateStrategy.PositionDriven().update( motionBody, dt, time );
-//            System.out.println( "MovingManMotionModel$PositionDriven.update, time=" + time );
+            MovingManMotionModel m = (MovingManMotionModel) motionBody;
+            double prevPosition = m.getPosition();
+            TimeData newPosition = getNewX( motionBody, time );
+            if ( prevPosition < 10 && newPosition.getValue() >= 10 ) {
+                newPosition = new TimeData( 10, time );
+                //signify a crash
+            }
+            motionBody.addPositionData( newPosition );
+            motionBody.addVelocityData( getNewVelocity( motionBody ) );
+            motionBody.addAccelerationData( getNewAcceleration( motionBody ) );
         }
     }
 
-    public static class VelocityDriven implements UpdateStrategy {
+    public static class VelocityDriven extends UpdateStrategy.VelocityDriven {
         public void update( IMotionBody motionBody, double dt, double time ) {
+            MovingManMotionModel m = (MovingManMotionModel) motionBody;
+            double prevPosition = m.getPosition();
+            TimeData newX = getNewPosition( motionBody, dt, time );
+            TimeData newV = getNewVelocity( motionBody, dt, time );
+            TimeData newA = getNewAcceleration( motionBody, dt );
+            if ( prevPosition < 10 && newX.getValue() >= 10 ) {
+                newX = new TimeData( 10, newX.getTime() );
+                newV = new TimeData( 0, newV.getTime() );
+                newA = new TimeData( 0, newA.getTime() );
+
+                m.setPositionDriven();
+                //signify a crash
+            }
+            motionBody.addPositionData( newX );
+            motionBody.addVelocityData( newV );
+            motionBody.addAccelerationData( newA );
         }
     }
 
     public static class AccelDriven implements UpdateStrategy {
         public void update( IMotionBody motionBody, double dt, double time ) {
+            new UpdateStrategy.AccelerationDriven().update( motionBody, dt, time );
         }
     }
 
