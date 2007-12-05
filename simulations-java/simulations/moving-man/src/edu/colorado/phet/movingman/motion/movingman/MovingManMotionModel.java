@@ -4,6 +4,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -21,9 +22,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public static final int MAX_T = 500;
 
-    private UpdateStrategy positionDriven = new PositionDriven();
-    private UpdateStrategy velocityDriven = new VelocityDriven();
-    private UpdateStrategy accelDriven = new AccelDriven();
+    private double min = -10;
+    private double max = 10;
+
+    private UpdateStrategy positionDriven = new UpdateStrategy.PositionDriven( min, max );
+    private UpdateStrategy velocityDriven = new UpdateStrategy.VelocityDriven( min, max );
+    private UpdateStrategy accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
 
     private UpdateStrategy updateStrategy = positionDriven;
 
@@ -32,10 +36,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public void setPosition( double x ) {
-        if ( x > 10 ) {
-            x = 10;
-        }
-        this.x.setValue( x );
+        this.x.setValue( MathUtil.clamp( min, x, max ) );
+//        this.x.setValue( x );
     }
 
     public ITemporalVariable getXVariable() {
@@ -113,24 +115,24 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void startRecording() {
         getTimeSeriesModel().startRecording();
     }
-
-    public static class PositionDriven extends UpdateStrategy.PositionDriven {
-        public PositionDriven() {
-            super(-10,10);
-        }
-    }
-
-    public static class VelocityDriven extends UpdateStrategy.VelocityDriven {
-        public VelocityDriven() {
-            super(-10,10);
-        }
-    }
-
-    public static class AccelDriven extends UpdateStrategy.AccelerationDriven {
-        public AccelDriven() {
-            super(-10,10);
-        }
-    }
+//
+//    public class PositionDriven extends UpdateStrategy.PositionDriven {
+//        public PositionDriven() {
+//            super( min, max );
+//        }
+//    }
+//
+//    public class VelocityDriven extends UpdateStrategy.VelocityDriven {
+//        public VelocityDriven() {
+//            super( min, max );
+//        }
+//    }
+//
+//    public class AccelDriven extends UpdateStrategy.AccelerationDriven {
+//        public AccelDriven() {
+//            super( min, max );
+//        }
+//    }
 
     public MovingManMotionModel( ConstantDtClock clock ) {
         super( clock, new TimeSeriesFactory.Default() );
