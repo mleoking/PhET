@@ -37,7 +37,7 @@ import java.util.ArrayList;
  * Date: Jun 30, 2003
  * Time: 12:19:49 AM
  */
-public class MovingManModule extends Module {
+public class MovingManModule extends Module implements ArrowPanel.IArrowPanelModule{
     private PhetFrame frame;
 
     private MovingManModel movingManModel;

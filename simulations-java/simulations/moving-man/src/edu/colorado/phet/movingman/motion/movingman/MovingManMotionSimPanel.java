@@ -1,7 +1,5 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
-import java.awt.*;
-
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
@@ -9,8 +7,8 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Created by: Sam
@@ -19,11 +17,22 @@ import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private MovingManNode movingManNode;
     private GraphSetNode graphSetNode;
+    private MotionVectorNode velocityVector;
+    private MotionVectorNode accelVector;
 
     public MovingManMotionSimPanel( MovingManMotionModel motionModel ) {
         setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
+
+        PNode vectorLayer = new PNode();
+        addScreenChild( vectorLayer );
+
+        velocityVector = new MotionVectorNode();
+        vectorLayer.addChild( velocityVector );
+
+        accelVector = new MotionVectorNode();
+        vectorLayer.addChild( accelVector );
 //        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
 //        for ( int i = 0; i < s.length; i++ ) {
 //            ControlGraphSeries controlGraphSeries = s[i];
@@ -66,5 +75,13 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 
         int insetX = 2;
         graphSetNode.setBounds( insetX, movingManNode.getFullBounds().getMaxY(), getWidth() - 2 * insetX, getHeight() - movingManNode.getFullBounds().getMaxY() );
+    }
+
+    public void setShowVelocityVector( boolean selected ) {
+        velocityVector.setVisible( selected );
+    }
+
+    public void setShowAccelerationVector( boolean selected ) {
+        accelVector.setVisible( selected );
     }
 }

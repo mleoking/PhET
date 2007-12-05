@@ -1,12 +1,13 @@
 /*  */
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_movingman.view.components.HorizontalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
  */
 
 public class ArrowPanel extends HorizontalLayoutPanel {
-    public ArrowPanel( final MovingManModule module ) {
+    public ArrowPanel( final IArrowPanelModule module ) {
         setBorder( BorderFactory.createTitledBorder( SimStrings.get( "controls.vectors" ) ) );
         final JCheckBox velocity = new JCheckBox( SimStrings.get( "variables.velocity" ) );
         velocity.addActionListener( new ActionListener() {
@@ -35,5 +36,11 @@ public class ArrowPanel extends HorizontalLayoutPanel {
         add( acceleration );
         module.setShowAccelerationVector( false );
         module.setShowVelocityVector( false );
+    }
+
+    public static interface IArrowPanelModule {
+        void setShowVelocityVector( boolean selected );
+
+        void setShowAccelerationVector( boolean selected );
     }
 }

@@ -28,7 +28,6 @@ public class MovingManNode extends AbstractMovingManNode {
             }
         } );
         updateObject( manImage, motionModel );
-
     }
 
     private void updateObject( PNode object, IMovingManModel model ) {
