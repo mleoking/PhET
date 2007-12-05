@@ -3,7 +3,6 @@ package edu.colorado.phet.common.motion.graphs;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
-import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
@@ -17,29 +16,26 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
  */
 public class MotionControlGraph extends ControlGraph {
     private ArrayList listeners = new ArrayList();
-    private MotionModel motionModel;
     private JFreeChartCursorNode jFreeChartCursorNode;
     private IUpdateStrategy iPositionDriven;
     private UpdateStrategy updateStrategy;
+    private TimeSeriesModel timeSeriesModel;
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, final MotionModel motionModel,
-                               boolean editable, TimeSeriesModel timeSeriesModel, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, motionModel, editable, timeSeriesModel, null, iPositionDriven );
+                               double min, double max, boolean editable, TimeSeriesModel timeSeriesModel, IUpdateStrategy iPositionDriven ) {
+        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, null, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, final MotionModel motionModel,
-                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, motionModel, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
+                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
+        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, final MotionModel motionModel,
-                               boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
+                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
         super( pSwingCanvas, series, title, min, max, timeSeriesModel, maxDomainValue );
         this.iPositionDriven = iPositionDriven;
-        this.motionModel = motionModel;
+        this.timeSeriesModel = timeSeriesModel;
         this.updateStrategy = updateStrategy;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -64,7 +60,7 @@ public class MotionControlGraph extends ControlGraph {
                 timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
             }
         } );
-        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void modeChanged() {
                 updateCursorVisible();
             }
@@ -76,15 +72,15 @@ public class MotionControlGraph extends ControlGraph {
         } );
         jFreeChartCursorNode.addListener( new JFreeChartCursorNode.Listener() {
             public void cursorTimeChanged() {
-                motionModel.getTimeSeriesModel().setPlaybackMode();
-                motionModel.getTimeSeriesModel().setPlaybackTime( jFreeChartCursorNode.getTime() );
+                timeSeriesModel.setPlaybackMode();
+                timeSeriesModel.setPlaybackTime( jFreeChartCursorNode.getTime() );
 //                System.out.println( "playback time=" + jFreeChartCursorNode.getTime() );
             }
         } );
-        motionModel.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
             public void dataSeriesChanged() {
-                jFreeChartCursorNode.setMaxDragTime( motionModel.getTimeSeriesModel().getRecordTime() );
-//                System.out.println( "max record time=" + motionModel.getTimeSeriesModel().getRecordTime() );
+                jFreeChartCursorNode.setMaxDragTime( timeSeriesModel.getRecordTime() );
+//                System.out.println( "max record time=" + timeSeriesModel.getRecordTime() );
             }
 
             public void dataSeriesCleared() {
@@ -109,11 +105,11 @@ public class MotionControlGraph extends ControlGraph {
     }
 
     private void updateCursorLocation() {
-        jFreeChartCursorNode.setTime( motionModel.getTimeSeriesModel().getTime() );
+        jFreeChartCursorNode.setTime( timeSeriesModel.getTime() );
     }
 
     private void updateCursorVisible() {
-        jFreeChartCursorNode.setVisible( motionModel.getTimeSeriesModel().isPlaybackMode() || motionModel.getTimeSeriesModel().isPaused() );
+        jFreeChartCursorNode.setVisible( timeSeriesModel.isPlaybackMode() || timeSeriesModel.isPaused() );
     }
 
     public boolean hasListener( Listener listener ) {

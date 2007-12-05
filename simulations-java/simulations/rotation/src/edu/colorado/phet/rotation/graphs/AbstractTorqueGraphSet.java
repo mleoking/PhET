@@ -67,7 +67,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         return new RotationMinimizableControlGraph( ANG_MOM_VARNAME, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( ANG_MOM, Color.red, ANG_MOM_VARNAME, UNITS_GENERIC, new BasicStroke( 2 ), null, tm.getAngularMomentumTimeSeries() ),
                 ANG_MOM_VARNAME, ANG_MOM, UNITS_GENERIC, -0.1, 0.1,
-                tm, false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
     protected RotationMinimizableControlGraph createMomentGraph() {
@@ -75,7 +75,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         return new RotationMinimizableControlGraph( MOMENT_OF_INERTIA_VARNAME, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( MOMENT_OF_INERTIA, Color.green, MOMENT_OF_INERTIA_VARNAME, MOM_INERTIA_UNITS, new BasicStroke( 2 ), null, tm.getMomentOfInertiaTimeSeries() ),
                 MOMENT_OF_INERTIA_VARNAME, MOMENT_OF_INERTIA, UNITS_GENERIC, -5, 5,
-                tm, false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
     protected RotationMinimizableControlGraph createTorqueGraph() {
@@ -83,7 +83,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, UNITS_GENERIC, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries() ),
                 UnicodeUtil.TAU, TORQUE, UNITS_GENERIC, -10, 10,
-                tm, false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
 
         ControlGraphSeries brakeTorqueSeries = new ControlGraphSeries( BRAKE_TORQUE, Color.red, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), false, BRAKE, tm.getBrakeTorque() );
         torqueGraph.addSeries( brakeTorqueSeries );
@@ -99,7 +99,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( RADIUS_VARNAME, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( FORCE_RADIUS, Color.green, RADIUS_VARNAME, RADIUS_UNITS, new BasicStroke( 2 ), true, APPLIED, tm.getRadiusSeries() ),
                 RADIUS_VARNAME, FORCE_RADIUS, RADIUS_UNITS, 0, 4.5,
-                tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) {
+                true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) {
             protected Range getVerticalRange( double zoomValue ) {
                 Range range = super.getVerticalRange( zoomValue );
                 return new Range( 0, range.getUpperBound() );
@@ -127,7 +127,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( F, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( APPLIED_FORCE, Color.blue, F, N, new BasicStroke( 4 ), true, APPLIED, tm.getAppliedForceVariable() ),
                 F, FORCE, UNITS_GENERIC, -2.5, 2.5,
-                tm, true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
+                true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         forceGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
             public void valueChanged( double value ) {
                 tm.setAppliedForce( tm.getAppliedForceRadius(), value );
