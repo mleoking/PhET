@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - add cause to JarIOExceptions
 12/5/07 - remove unused autoTranslate flag in various constructors
 12/5/07 - use HashMap for entry and tag mappings in GoogleTranslateService
 12/5/07 - delete AutoTranslator
