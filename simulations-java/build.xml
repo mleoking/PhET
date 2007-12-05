@@ -849,4 +849,17 @@ PhET-team specific tasks are located in an auxiliary build file.
                  inheritrefs="true"/>
         <echo message="var.list is now ${flavor.jar.list}"/>
     </target>
+
+    <!--a test target for checking whether VPN+tigercat+maverick are working-->
+    <target name="test-maverick-tigercat" depends="_read-username-and-password-prod">
+        <echo file="maverick-test-file.txt" message="test text"/>
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="put" remotedir="${remotedir}" verbose="true">
+                <fileset dir=".">
+                    <include name="*maverick-test-file.txt"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+    </target>
 </project>
