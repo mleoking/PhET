@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
+import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 
 /**
  * Created by: Sam
@@ -20,6 +21,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private GraphSetNode graphSetNode;
 
     public MovingManMotionSimPanel( MovingManMotionModel motionModel ) {
+        setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
 //        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
