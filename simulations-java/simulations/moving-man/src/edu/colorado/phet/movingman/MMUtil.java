@@ -13,4 +13,9 @@ public class MMUtil {
     public static boolean isHighScreenResolution() {
         return Toolkit.getDefaultToolkit().getScreenSize().width >= 1240;
     }
+
+    public static Color transparify( Color color, int alpha ) {
+        return new Color( color.getRed(), color.getGreen(), color.getBlue(), alpha );
+    }
+
 }

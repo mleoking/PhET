@@ -1,12 +1,16 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
+import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,18 +24,31 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private MotionVectorNode velocityVector;
     private MotionVectorNode accelVector;
 
-    public MovingManMotionSimPanel( MovingManMotionModel motionModel ) {
+    public MovingManMotionSimPanel( final MovingManMotionModel motionModel ) {
         setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
 
         PNode vectorLayer = new PNode();
-        addScreenChild( vectorLayer );
+        movingManNode.addChild( vectorLayer );
 
-        velocityVector = new MotionVectorNode();
+        velocityVector = new MotionVectorNode( MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black );
+        velocityVector.setVisible( true );
+        motionModel.getXVariable().addListener( new ITemporalVariable.ListenerAdapter() {
+            public void valueChanged() {
+                velocityVector.setVector( motionModel.getPosition(), 2, 30 * motionModel.getVelocity(), 0 );
+            }
+        } );
+        motionModel.getVVariable().addListener( new ITemporalVariable.ListenerAdapter() {
+            public void valueChanged() {
+                System.out.println( "motionModel.getVelocity() = " + motionModel.getVelocity() );
+                velocityVector.setVector( motionModel.getPosition(), 2, 30 * motionModel.getVelocity(), 0 );
+            }
+        } );
         vectorLayer.addChild( velocityVector );
 
-        accelVector = new MotionVectorNode();
+        accelVector = new MotionVectorNode( MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.01f ), Color.black );
+        accelVector.setVisible( true );
         vectorLayer.addChild( accelVector );
 //        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
 //        for ( int i = 0; i < s.length; i++ ) {
@@ -78,10 +95,10 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     }
 
     public void setShowVelocityVector( boolean selected ) {
-        velocityVector.setVisible( selected );
+//        velocityVector.setVisible( selected );
     }
 
     public void setShowAccelerationVector( boolean selected ) {
-        accelVector.setVisible( selected );
+//        accelVector.setVisible( selected );
     }
 }
