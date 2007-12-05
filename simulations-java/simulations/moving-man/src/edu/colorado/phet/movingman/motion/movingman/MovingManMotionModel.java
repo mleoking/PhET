@@ -150,9 +150,24 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         }
     }
 
-    public static class AccelDriven implements UpdateStrategy {
+    public static class AccelDriven extends UpdateStrategy.AccelerationDriven {
         public void update( IMotionBody motionBody, double dt, double time ) {
-            new UpdateStrategy.AccelerationDriven().update( motionBody, dt, time );
+            MovingManMotionModel m = (MovingManMotionModel) motionBody;
+            double prevPosition = m.getPosition();
+            double newX = getNewPosition( motionBody, dt );
+            double newV = getNewVelocity( motionBody, dt );
+            double newA = m.getAcceleration();
+            if ( prevPosition != 10 && newX >= 10 ) {
+                newX = 10;
+                newV = 0;
+                newA = 0;
+
+                m.setPositionDriven();
+                //signify a crash
+            }
+            motionBody.addPositionData( newX, time );
+            motionBody.addVelocityData( newV, time );
+            motionBody.addAccelerationData( newA, time );
         }
     }
 
