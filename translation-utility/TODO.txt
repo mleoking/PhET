@@ -33,6 +33,8 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - replace google-api-translate-java with more robust GoogleTranslateStrategy
+12/5/07 - add strategy interface to AutoTranslator
 12/4/07 - refactor TranslationPanel, move functionality into ToolBar and MainFrame 
 12/4/07 - add MainFrame
 12/4/07 - set font for textfield in Find dialog based on source language code
