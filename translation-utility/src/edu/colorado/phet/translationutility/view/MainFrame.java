@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.view;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -18,11 +18,16 @@ import javax.swing.text.html.HTMLEditorKit;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.translationutility.Command.CommandException;
-import edu.colorado.phet.translationutility.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.JarIO.JarIOException;
-import edu.colorado.phet.translationutility.PropertiesIO.PropertiesIOException;
-import edu.colorado.phet.translationutility.ToolBar.ToolBarListener;
+import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.java.JarIO;
+import edu.colorado.phet.translationutility.java.PropertiesIO;
+import edu.colorado.phet.translationutility.java.JarIO.JarIOException;
+import edu.colorado.phet.translationutility.java.PropertiesIO.PropertiesIOException;
+import edu.colorado.phet.translationutility.util.ExceptionHandler;
+import edu.colorado.phet.translationutility.util.FontFactory;
+import edu.colorado.phet.translationutility.util.Command.CommandException;
+import edu.colorado.phet.translationutility.view.FindDialog.FindListener;
+import edu.colorado.phet.translationutility.view.ToolBar.ToolBarListener;
 
 /**
  * MainFrame is the application's main window.

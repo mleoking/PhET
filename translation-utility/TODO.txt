@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
-- refactor to separate model and view (packages: model, view, java, flash, util)
 - refactor to support alternate strategies for Flash sims
 - replace Properties with a neutral data abstraction, or map Flash XML to Properties
 
@@ -34,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - reorganize package structure
 12/5/07 - absorb ProjectProperties into TUResources
 12/5/07 - move properties file i/o operations out of JarIO and into PropertiesIO
 12/5/07 - rename JarFileManager to JarIO

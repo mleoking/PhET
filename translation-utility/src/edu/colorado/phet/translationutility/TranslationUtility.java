@@ -5,6 +5,8 @@ package edu.colorado.phet.translationutility;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.translationutility.view.InitializationDialog;
+import edu.colorado.phet.translationutility.view.MainFrame;
 
 /**
  * TranslationUtility is the main class for the translation utility.

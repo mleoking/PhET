@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +12,8 @@ import java.util.EventListener;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.EventListenerList;
+
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * FindDialog is a dialog that lets you specify a string to find.

@@ -1,8 +1,9 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.util;
 
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * ExceptionHandler handles exceptions, including how the user is notified.

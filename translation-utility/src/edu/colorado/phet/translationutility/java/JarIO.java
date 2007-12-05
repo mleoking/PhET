@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.java;
 
 import java.io.*;
 import java.util.Properties;
@@ -9,7 +9,9 @@ import java.util.jar.JarInputStream;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import edu.colorado.phet.translationutility.Command.CommandException;
+import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.util.Command;
+import edu.colorado.phet.translationutility.util.Command.CommandException;
 
 /**
  * JarIO handles input and output related to a Java-based simulation's JAR file.

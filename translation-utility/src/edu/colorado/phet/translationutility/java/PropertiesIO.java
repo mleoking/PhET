@@ -1,9 +1,11 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.java;
 
 import java.io.*;
 import java.util.Properties;
+
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * PropertiesIO handles input/output of properties files.

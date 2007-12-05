@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.translationutility.TUResources;
+import edu.colorado.phet.translationutility.util.FileChooserFactory;
 
 /**
  * InitializationDialog is the first dialog seen by the user.
