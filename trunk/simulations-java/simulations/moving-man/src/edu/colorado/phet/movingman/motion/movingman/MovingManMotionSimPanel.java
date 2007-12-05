@@ -7,6 +7,7 @@ import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
@@ -32,23 +33,26 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         PNode vectorLayer = new PNode();
         movingManNode.addChild( vectorLayer );
 
-        velocityVector = new MotionVectorNode( MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black );
+        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), "Velocity", MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
         velocityVector.setVisible( true );
-        motionModel.getXVariable().addListener( new ITemporalVariable.ListenerAdapter() {
+        final ITemporalVariable.ListenerAdapter velocityVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
-                velocityVector.setVector( motionModel.getPosition(), 2, 30 * motionModel.getVelocity(), 0 );
+                velocityVector.setVector( motionModel.getPosition(), 2, 15 * motionModel.getVelocity(), 0 );
             }
-        } );
-        motionModel.getVVariable().addListener( new ITemporalVariable.ListenerAdapter() {
-            public void valueChanged() {
-                System.out.println( "motionModel.getVelocity() = " + motionModel.getVelocity() );
-                velocityVector.setVector( motionModel.getPosition(), 2, 30 * motionModel.getVelocity(), 0 );
-            }
-        } );
+        };
+        motionModel.getXVariable().addListener( velocityVectorUpdate );
+        motionModel.getVVariable().addListener( velocityVectorUpdate );
         vectorLayer.addChild( velocityVector );
 
-        accelVector = new MotionVectorNode( MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.01f ), Color.black );
+        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), "Acceleration", MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
         accelVector.setVisible( true );
+        final ITemporalVariable.ListenerAdapter accelVectorUpdate = new ITemporalVariable.ListenerAdapter() {
+            public void valueChanged() {
+                accelVector.setVector( motionModel.getPosition(), 2, 40 * motionModel.getAcceleration(), 0 );
+            }
+        };
+        motionModel.getXVariable().addListener( accelVectorUpdate );
+        motionModel.getAVariable().addListener( accelVectorUpdate );
         vectorLayer.addChild( accelVector );
 //        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
 //        for ( int i = 0; i < s.length; i++ ) {
@@ -81,8 +85,6 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         requestFocus();
         addKeyListener( new PDebugKeyHandler() );
 
-//        TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
-//        add( timeControlPanel, BorderLayout.SOUTH );
         updateLayout();
     }
 
@@ -95,10 +97,10 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     }
 
     public void setShowVelocityVector( boolean selected ) {
-//        velocityVector.setVisible( selected );
+        velocityVector.setVisible( selected );
     }
 
     public void setShowAccelerationVector( boolean selected ) {
-//        accelVector.setVisible( selected );
+        accelVector.setVisible( selected );
     }
 }
