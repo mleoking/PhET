@@ -2,9 +2,9 @@ package edu.colorado.phet.common.motion.tests;
 
 import junit.framework.TestCase;
 
-import edu.colorado.phet.common.motion.model.AccelerationDriven;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -25,7 +25,7 @@ public class TestConstantAcceleration extends TestCase {
     }
 
     public static void main( String[] args ) {
-        AccelerationDriven accelerationDriven = new AccelerationDriven();
+        UpdateStrategy.AccelerationDriven accelerationDriven = new UpdateStrategy.AccelerationDriven();
         SingleBodyMotionModel model = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         model.getMotionBody().setAcceleration( 1.0 );
         model.setUpdateStrategy( accelerationDriven );

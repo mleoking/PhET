@@ -125,7 +125,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform.setPositionDriven();
     }
 
-    public PositionDriven getPositionDriven() {
+    public UpdateStrategy.PositionDriven getPositionDriven() {
         return rotationPlatform.getPositionDriven();
     }
 

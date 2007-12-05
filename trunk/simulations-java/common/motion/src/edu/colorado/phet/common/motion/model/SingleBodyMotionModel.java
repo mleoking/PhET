@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.graphs.UpdateableObject;
+import edu.colorado.phet.common.motion.model.UpdateableObject;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -62,15 +62,15 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
         return motionBody.getPositionVariable();
     }
 
-    public PositionDriven getPositionDriven() {
+    public UpdateStrategy.PositionDriven getPositionDriven() {
         return motionBody.getPositionDriven();
     }
 
-    public VelocityDriven getVelocityDriven() {
+    public UpdateStrategy.VelocityDriven getVelocityDriven() {
         return motionBody.getVelocityDriven();
     }
 
-    public AccelerationDriven getAccelDriven() {
+    public UpdateStrategy.AccelerationDriven getAccelDriven() {
         return motionBody.getAccelDriven();
     }
 

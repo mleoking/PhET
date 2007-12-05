@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
+import edu.colorado.phet.common.motion.model.UpdateableObject;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ZoomControlNode;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
