@@ -1,7 +1,7 @@
 package edu.colorado.phet.translationutility.test;
 
-import com.google.api.translate.Language;
-import com.google.api.translate.Translate;
+import edu.colorado.phet.translationutility.GoogleTranslateStrategy;
+import edu.colorado.phet.translationutility.AutoTranslator.IAutoTranslateStrategy;
 
 /**
  * Created by: Sam
@@ -10,10 +10,11 @@ import com.google.api.translate.Translate;
  * Demonstration of api from:
  * http://code.google.com/p/google-api-translate-java/
  */
-public class TestTranslate {
+public class TestGoogleTranslate {
     public static void main( String[] args ) {
+        IAutoTranslateStrategy translationStrategy = new GoogleTranslateStrategy();
         try {
-            String translatedText = Translate.translate( "<html>fluid</html>", Language.ENGLISH, Language.FRENCH );
+            String translatedText = translationStrategy.translate( "<html>foo</html>", "en", "fr" );
             System.out.println( translatedText );
         }
         catch( Exception ex ) {

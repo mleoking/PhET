@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
-import com.google.api.translate.Translate;
 
 /**
  * AutoTranslator is a collection of static methods for performing translation using Google Translate.
@@ -13,40 +9,39 @@ import com.google.api.translate.Translate;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AutoTranslator {
-
-    // Describes a mapping between two strings.
-    private static class StringMapping {
-        public final String from;
-        public final String to;
-        public StringMapping( String from, String to ) {
-            this.from = from;
-            this.to = to;
+    
+    public static class AutoTranslateException extends Exception {
+        
+        public AutoTranslateException( String message ) {
+            super( message );
+        }
+        
+        public AutoTranslateException( String message, Throwable cause ) {
+            super( message, cause );
         }
     }
     
-    // HTML entities that need to be remapped to their ASCII characters
-    private static final StringMapping[] ENTITY_MAPPINGS = {
-        new StringMapping( "&#34;", "\"" ),
-        new StringMapping( "&quot;", "\"" ),
-        new StringMapping( "&#39;", "'" ),
-        new StringMapping( "&apos;", "'" ),
-        new StringMapping( "&#38;", "&" ),
-        new StringMapping( "&amp;", "&" ),
-        new StringMapping( "&#60;", "<" ),
-        new StringMapping( "&lt;", "<" ),
-        new StringMapping( "&#62;", ">" ),
-        new StringMapping( "&gt;", ">" )
-    };
+    public static interface IAutoTranslateStrategy {
+        public String translate( String text, String sourceLanguageCode, String targetLanguageCode ) throws AutoTranslateException;
+    }
     
-    // HTML tags that get broken by Google translate
-    private static final StringMapping[] TAG_MAPPINGS = {
-        new StringMapping( "<Html>", "<html>" ),
-        new StringMapping( "</ html>", "</html>" ),
-        new StringMapping( " <br> ", "<br>" )
-    };
+    private IAutoTranslateStrategy _autoTranslateStrategy;
     
-    /* not intended for instantiation */
-    private AutoTranslator() {}
+    /**
+     * Constructor that uses a default auto-translation strategy.
+     */
+    public AutoTranslator() {
+        this( new GoogleTranslateStrategy() );
+    }
+    
+    /**
+     * Constructor that uses a specified auto-translation strategy.
+     * 
+     * @param autoTranslateStrategy
+     */
+    public AutoTranslator( IAutoTranslateStrategy autoTranslateStrategy ) {
+        _autoTranslateStrategy = autoTranslateStrategy;
+    }
     
     /**
      * Translates a string using Google Translate.
@@ -56,36 +51,17 @@ public class AutoTranslator {
      * @param targetCountryCode
      * @return String, possibly null
      */
-    public static String translate( String value, String sourceCountryCode, String targetCountryCode ) {
+    public String translate( String value, String sourceCountryCode, String targetCountryCode ) {
         String s = null;
         try {
-            s = Translate.translate( value, sourceCountryCode, targetCountryCode );
-            s = applyMappings( s, ENTITY_MAPPINGS ); //XXX expensive!
-            s = applyMappings( s, TAG_MAPPINGS ); //XXX expensive!
+            s = _autoTranslateStrategy.translate( value, sourceCountryCode, targetCountryCode );
         }
-        catch ( MalformedURLException e ) {
-            e.printStackTrace();
-        }
-        catch ( IOException e ) {
+        catch ( AutoTranslateException e ) {
+            //XXX
             e.printStackTrace();
         }
         return s;
     }
     
-    /*
-     * Applies mappings to a string.
-     * 
-     * @param s
-     * @param mappings
-     * @return a new string with the mappings applied
-     */
-    private static String applyMappings( String s, StringMapping[] mappings ) {
-        String sNew = s;
-        if ( s != null && s.length() > 0 ) {
-            for ( int i = 0; i < mappings.length; i++ ) {
-                sNew = sNew.replaceAll( mappings[i].from, mappings[i].to );
-            }
-        }
-        return sNew;
-    }
+
 }
