@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.colorado.phet.translationutility.autotranslate.ITranslationService.TranslationServiceException;
-
 /**
  * GoogleTranslateService uses Google Translate translate strings.
  * See http://translate.google.com
