@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.translationutility;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.Properties;
@@ -84,6 +84,18 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         _translationPanel = new TranslationPanel( projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
+        
+        // make Component with focus visible in the scroll pane
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent e ) {
+                if ( "focusOwner".equals( e.getPropertyName() ) ) {
+                    Component focusedComponent = getFocusOwner();
+                    if ( focusedComponent != null ) {
+                        _translationPanel.scrollRectToVisible( focusedComponent.getBounds( null ) );
+                    }
+                }
+            }
+        } );
         
         // Layout
         JPanel panel = new JPanel();
