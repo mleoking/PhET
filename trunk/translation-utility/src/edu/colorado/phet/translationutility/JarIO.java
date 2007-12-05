@@ -12,7 +12,8 @@ import java.util.jar.Manifest;
 import edu.colorado.phet.translationutility.Command.CommandException;
 
 /**
- * JarFileManager handles operations related to a Java-based simulation's JAR file.
+ * JarIO handles input and output related to a Java-based simulation's JAR file.
+ * It also handles running a JAR file.
  * <p>
  * Notes:
  * <ul>
@@ -22,15 +23,13 @@ import edu.colorado.phet.translationutility.Command.CommandException;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class JarFileManager {
+public class JarIO {
     
     private static final String ERROR_CANNOT_OPEN_JAR = TUResources.getString( "error.cannotOpenJar" );
     private static final String ERROR_CANNOT_CLOSE_JAR = TUResources.getString( "error.cannotCloseJar" );
     private static final String ERROR_CANNOT_READ_JAR = TUResources.getString( "error.cannotReadJar" );
     private static final String ERROR_CANNOT_EXTRACT_PROPERTIES_FILE = TUResources.getString( "error.cannotExtractPropertiesFile" );
     private static final String ERROR_CANNOT_INSERT_PROPERTIES_FILE = TUResources.getString( "error.cannotInsertPropertiesFile" );
-    private static final String ERROR_CANNOT_READ_PROPERTIES_FILE = TUResources.getString( "error.cannotReadPropertiesFile" );
-    private static final String ERROR_CANNOT_WRITE_PROPERTIES_FILE = TUResources.getString( "error.cannotWritePropertiesFile" );
     private static final String ERROR_CANNOT_DETERMINE_PROJECT_NAME = TUResources.getString( "error.cannotDetermineProjectName" );
     private static final String ERROR_MISSING_MANIFEST = TUResources.getString( "error.missingManifest" );
     
@@ -47,7 +46,7 @@ public class JarFileManager {
     }
     
     /* not intended for instantiation */
-    private JarFileManager() {}
+    private JarIO() {}
     
     /**
      * Gets the name of the simulation project used to create the JAR file.
@@ -192,8 +191,7 @@ public class JarFileManager {
     }
     
     /**
-     * Writes properties to a JAR file.
-     * This is accomplished by making a copy of the original JAR file, and adding (or replacing) a properties file.
+     * Copies a JAR file and adds (or replaces) a properties file.
      * The properties file contains localized strings.
      * The original JAR file is not modified.
      * 
@@ -203,7 +201,7 @@ public class JarFileManager {
      * @param properties
      * @throws JarIOException
      */
-    public static void writePropertiesToJar( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
+    public static void copyJarAndAddProperties( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
         
         if ( originalJarFileName.equals( newJarFileName  ) ) {
             throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
@@ -266,52 +264,11 @@ public class JarFileManager {
     }
 
     /**
-     * Write properties to a file.
-     * 
-     * @param properties
-     * @param file
-     * @throws JarIOException
-     */
-    public static void writePropertiesToFile( Properties properties, File file ) throws JarIOException {
-        try {
-            OutputStream outputStream = new FileOutputStream( file );
-            String header = file.getCanonicalPath();
-            properties.store( outputStream, header );
-            outputStream.close();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
-        }
-    }
-    
-    /**
-     * Reads properties from a file.
-     * 
-     * @param properties
-     * @param file
-     * @throws JarIOException
-     */
-    public static Properties readPropertiesFromFile( File file ) throws JarIOException {
-        Properties properties = new Properties();
-        try {
-            InputStream inStream = new FileInputStream( file );
-            properties.load( inStream );
-            inStream.close();
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
-        }
-        return properties;
-    }
-    
-    /**
      * Runs the JAR file for a specified language code.
      * 
      * @param languageCode
      */
-    public static void runJarFile( String jarFileName, String languageCode ) throws CommandException {
+    public static void runJar( String jarFileName, String languageCode ) throws CommandException {
         String languageArg = "-Duser.language=" + languageCode;
         String[] cmdArray = { "java", "-jar", languageArg, jarFileName };
         Command.run( cmdArray, false /* waitForCompletion */ );
