@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.autotranslate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,6 +10,8 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+
+import edu.colorado.phet.translationutility.autotranslate.ITranslationService.TranslationServiceException;
 
 /**
  * GoogleTranslateService uses Google Translate translate strings.

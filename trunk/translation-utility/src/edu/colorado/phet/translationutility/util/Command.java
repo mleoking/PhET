@@ -1,9 +1,11 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * Command runs an external command via Runtime.exec.
@@ -22,8 +24,13 @@ public class Command {
      * All exceptions caught by Command will be mapped to CommandException.
      */
     public static class CommandException extends Exception {
+
         public CommandException( String message ) {
             super( message );
+        }
+
+        public CommandException( String message, Throwable cause ) {
+            super( message, cause );
         }
     }
     
@@ -80,11 +87,11 @@ public class Command {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new CommandException( ERROR_COMMAND_FAILED + " : " + command );
+            throw new CommandException( ERROR_COMMAND_FAILED + " : " + command, e );
         }
         catch ( InterruptedException e ) {
             e.printStackTrace();
-            throw new CommandException( ERROR_COMMAND_INTERRUPTED + " : " + command );
+            throw new CommandException( ERROR_COMMAND_INTERRUPTED + " : " + command, e );
         } 
     }
 }

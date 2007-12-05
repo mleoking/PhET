@@ -1,7 +1,7 @@
 package edu.colorado.phet.translationutility.test;
 
-import edu.colorado.phet.translationutility.GoogleTranslateService;
-import edu.colorado.phet.translationutility.ITranslationService;
+import edu.colorado.phet.translationutility.autotranslate.GoogleTranslateService;
+import edu.colorado.phet.translationutility.autotranslate.ITranslationService;
 
 /**
  * Created by: Sam

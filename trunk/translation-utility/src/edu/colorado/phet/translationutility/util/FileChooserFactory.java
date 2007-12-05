@@ -1,11 +1,13 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.util;
 
 import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
+
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * FileChooserFactory is a factory for creating file choosers.

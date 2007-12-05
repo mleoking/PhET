@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.translationutility;
+package edu.colorado.phet.translationutility.util;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.translationutility.TUResources;
 
 /**
  * FontFactory is a factory used to create fonts.

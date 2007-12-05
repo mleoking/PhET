@@ -3,9 +3,9 @@ package edu.colorado.phet.translationutility.test;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.translationutility.GoogleTranslateService;
-import edu.colorado.phet.translationutility.ITranslationService;
-import edu.colorado.phet.translationutility.ITranslationService.TranslationServiceException;
+import edu.colorado.phet.translationutility.autotranslate.GoogleTranslateService;
+import edu.colorado.phet.translationutility.autotranslate.ITranslationService;
+import edu.colorado.phet.translationutility.autotranslate.ITranslationService.TranslationServiceException;
 
 /**
  * Feasibility test for translating a group of strings as a batch instead of making multiple translate requests.
