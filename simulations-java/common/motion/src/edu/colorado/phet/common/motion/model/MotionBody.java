@@ -1,12 +1,12 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.graphs.IUpdateStrategy;
+import edu.colorado.phet.common.motion.graphs.UpdateableObject;
 
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 6:19:17 PM
  */
-public class MotionBody implements IUpdateStrategy {
+public class MotionBody implements UpdateableObject {
 
     private ITemporalVariable x;
     private ITemporalVariable v;
