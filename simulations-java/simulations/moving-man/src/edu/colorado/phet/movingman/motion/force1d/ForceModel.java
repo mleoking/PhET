@@ -1,6 +1,5 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
-import edu.colorado.phet.common.motion.model.AccelerationDriven;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;

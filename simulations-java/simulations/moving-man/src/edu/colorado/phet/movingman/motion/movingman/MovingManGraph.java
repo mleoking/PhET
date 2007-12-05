@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
-import edu.colorado.phet.common.motion.graphs.UpdateableObject;
+import edu.colorado.phet.common.motion.model.UpdateableObject;
 import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
 import edu.colorado.phet.common.motion.model.MotionModel;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;

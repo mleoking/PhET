@@ -1,8 +1,8 @@
 package edu.colorado.phet.common.motion.tests;
 
-import edu.colorado.phet.common.motion.model.PositionDriven;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 public class TestConstantVelocity {
     public static void main( String[] args ) {
-        PositionDriven updateRule = new PositionDriven();
+        UpdateStrategy.PositionDriven updateRule = new UpdateStrategy.PositionDriven();
         SingleBodyMotionModel model = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
         model.setUpdateStrategy( updateRule );
         System.out.println( "init state=" + model );

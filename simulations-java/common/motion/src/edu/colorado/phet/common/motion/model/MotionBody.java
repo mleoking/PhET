@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.graphs.UpdateableObject;
+import edu.colorado.phet.common.motion.model.UpdateableObject;
 
 /**
  * Author: Sam Reid
@@ -13,9 +13,9 @@ public class MotionBody implements UpdateableObject {
     private ITemporalVariable a;
 
     /*Different strategies for updating simulation variables*/
-    private PositionDriven positionDriven = new PositionDriven();
-    private VelocityDriven velocityDriven = new VelocityDriven();
-    private AccelerationDriven accelDriven = new AccelerationDriven();
+    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven();
+    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven();
+    private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven();
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
     public MotionBody() {
@@ -133,15 +133,15 @@ public class MotionBody implements UpdateableObject {
      *
      * @return the strategy
      */
-    public PositionDriven getPositionDriven() {
+    public UpdateStrategy.PositionDriven getPositionDriven() {
         return positionDriven;
     }
 
-    public VelocityDriven getVelocityDriven() {
+    public UpdateStrategy.VelocityDriven getVelocityDriven() {
         return velocityDriven;
     }
 
-    public AccelerationDriven getAccelDriven() {
+    public UpdateStrategy.AccelerationDriven getAccelDriven() {
         return accelDriven;
     }
 

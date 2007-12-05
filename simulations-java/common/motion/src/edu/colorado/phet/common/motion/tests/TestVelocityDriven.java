@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.motion.model.VelocityDriven;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
@@ -31,7 +31,7 @@ public class TestVelocityDriven {
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 
         singleBodyMotionModel = new SingleBodyMotionModel( new ConstantDtClock( 30, 1 ) );
-        final VelocityDriven updateStrategy = new VelocityDriven();
+        final UpdateStrategy.VelocityDriven updateStrategy = new UpdateStrategy.VelocityDriven();
         singleBodyMotionModel.setUpdateStrategy( updateStrategy );
         final ModelSlider modelSlider = new ModelSlider( "Velocity", "m/s", -10, 10, singleBodyMotionModel.getMotionBody().getVelocity() );
         modelSlider.addChangeListener( new ChangeListener() {
