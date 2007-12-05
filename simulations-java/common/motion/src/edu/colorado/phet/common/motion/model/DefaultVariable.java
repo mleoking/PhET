@@ -36,6 +36,6 @@ public class DefaultVariable implements IVariable {
     }
 
     public String toString() {
-        return value+"";
+        return value + "";
     }
 }

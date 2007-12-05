@@ -1,6 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.model.UpdateableObject;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -19,7 +18,7 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     }
 
     public SingleBodyMotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
-        super( clock,timeSeriesFactory );
+        super( clock, timeSeriesFactory );
         motionBody = new MotionBody( timeSeriesFactory );
     }
 
