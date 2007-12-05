@@ -1,6 +1,6 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
@@ -17,12 +17,27 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class Force1DPlayAreaNode extends AbstractMovingManNode {
     public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel ) {
-        PImage manImage = super.getManImage();
+        final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
+            public Point2D pressPoint = null;
+
             public void mouseDragged( PInputEvent event ) {
+                Point2D p2 = event.getPositionRelativeTo( manImage.getParent() );
                 motionModel.setAccelerationDriven();
-                motionModel.getMotionBody().setAcceleration( 0.010 );
+                double dx = p2.getX() - pressPoint.getX();
+
+                final double acceleration = dx * 0.001;
+                motionModel.getMotionBody().setAcceleration( acceleration );
+            }
+
+            public void mouseReleased( PInputEvent event ) {
+                motionModel.getMotionBody().setAcceleration( 0.0 );
+            }
+
+            public void mousePressed( PInputEvent event ) {
+                pressPoint = event.getPositionRelativeTo( manImage.getParent() );
+                super.mousePressed( event );
             }
         } );
 
