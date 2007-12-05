@@ -17,24 +17,24 @@ import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 public class MotionControlGraph extends ControlGraph {
     private ArrayList listeners = new ArrayList();
     private JFreeChartCursorNode jFreeChartCursorNode;
-    private IUpdateStrategy iPositionDriven;
+    private UpdateableObject updateableObject;
     private UpdateStrategy updateStrategy;
     private TimeSeriesModel timeSeriesModel;
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, boolean editable, TimeSeriesModel timeSeriesModel, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, null, iPositionDriven );
+                               double min, double max, boolean editable, TimeSeriesModel timeSeriesModel, UpdateableObject updateableObject ) {
+        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, null, updateableObject );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, IUpdateStrategy iPositionDriven ) {
-        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, 1000, iPositionDriven );
+                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, UpdateableObject updateableObject ) {
+        this( pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, 1000, updateableObject );
     }
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
-                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final IUpdateStrategy iPositionDriven ) {
+                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject updateableObject ) {
         super( pSwingCanvas, series, title, min, max, timeSeriesModel, maxDomainValue );
-        this.iPositionDriven = iPositionDriven;
+        this.updateableObject = updateableObject;
         this.timeSeriesModel = timeSeriesModel;
         this.updateStrategy = updateStrategy;
         addHorizontalZoomListener( new ZoomControlNode.ZoomListener() {
@@ -100,7 +100,7 @@ public class MotionControlGraph extends ControlGraph {
     protected void handleControlFocusGrabbed() {
         super.handleControlFocusGrabbed();
         if ( updateStrategy != null ) {
-            iPositionDriven.setUpdateStrategy( updateStrategy );
+            updateableObject.setUpdateStrategy( updateStrategy );
         }
     }
 
