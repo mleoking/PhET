@@ -68,15 +68,15 @@ public class JarFileManager {
         _jarFileName = new String( jarFileName );
         _commonProjectNames = commonProjectNames;
         try {
-            _projectName = discoverProjectName( _jarFileName, _commonProjectNames );
+            _projectName = getProjectName( _jarFileName, _commonProjectNames );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );
         }
     }
     
-    /*
-     * Discovers the name of the simulation project used to create the JAR file.
+    /**
+     * Gets the name of the simulation project used to create the JAR file.
      * We search for localization files in the JAR file.
      * The first localization file that does not belong to a common project is assumed
      * to belong to the simulation, and we extract the project name from the localization file name.
@@ -86,7 +86,7 @@ public class JarFileManager {
      * @return
      * @throws JarIOException
      */
-    private static String discoverProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
+    public static String getProjectName( String jarFileName, String[] commonProjectNames ) throws JarIOException {
         
         String projectName = null;
         
@@ -100,7 +100,7 @@ public class JarFileManager {
         }
         
         JarInputStream jarInputStream = null;
-        String localizationWildcard = getJarEntryNameForLocalization( ".*" /* match for any project name */ );
+        String localizationWildcard = getLocalizationResourceName( ".*" /* match for any project name */ );
         try {
             jarInputStream = new JarInputStream( inputStream );
             
@@ -112,7 +112,7 @@ public class JarFileManager {
                     boolean commonMatch = false;
                     for ( int i = 0; i < commonProjectNames.length; i++ ) {
                         // for example, phetcommon/localization/phetcommon-strings.properties
-                        String commonProjectFileName = getJarEntryNameForLocalization( commonProjectNames[i] );
+                        String commonProjectFileName = getLocalizationResourceName( commonProjectNames[i] );
                         if ( jarEntryName.matches( commonProjectFileName ) ) {
                             commonMatch = true;
                             break;
@@ -146,7 +146,7 @@ public class JarFileManager {
      * By PhET convention the form is: projectName/localization/projectName-strings.properties
      * Note that JAR entries use '/' as the file separator, rather than the platform-specific separator.
      */
-    private static String getJarEntryNameForLocalization( String projectName ) {
+    private static String getLocalizationResourceName( String projectName ) {
         return projectName + "/localization/" + projectName + "-strings.properties";
     }
     
@@ -202,19 +202,50 @@ public class JarFileManager {
      * @return Properties, null if properties file does not exist
      */
     public Properties readProperties( String languageCode ) throws JarIOException {
-        
+        String projectName = getProjectName();
+        return readPropertiesFromJar( _jarFileName, projectName, languageCode );
+    }
+    
+    /**
+     * Writes the properties containing the localized strings for a specified language code.
+     * This copies the original JAR file to a new JAR file, then adds (or replaces) 
+     * a properties file for the localized strings provided.
+     * 
+     * @param properties
+     * @param languageCode
+     * @throws JarIOException if the properties cannot be written to the JAR file
+     * @return new JAR file name
+     */
+    public String writeProperties( Properties properties, String languageCode ) throws JarIOException {
         String projectName = getProjectName();
         String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
+        String testFileName = getJarDirName() + File.separatorChar + TEST_JAR_NAME;
+        writePropertiesToJarFile( _jarFileName, testFileName, propertiesFileName, properties );
+        return testFileName;
+    }
+    
+    /**
+     * Reads a properties file from the specified JAR file.
+     * The properties file contains localized strings.
+     * 
+     * @param jarFileName
+     * @param projectName
+     * @param languageCode
+     * @return Properties
+     * @throws JarIOException
+     */
+    public static Properties readPropertiesFromJar( String jarFileName, String projectName, String languageCode ) throws JarIOException {
         
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream( _jarFileName );
+            inputStream = new FileInputStream( jarFileName );
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName, e );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
         }
         
+        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
         JarInputStream jarInputStream = null;
         boolean found = false;
         try {
@@ -234,7 +265,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + _jarFileName, e );
+            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
         }
         
         Properties properties = null;
@@ -254,45 +285,46 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + _jarFileName, e );
+            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + jarFileName, e );
         }
     
         return properties;
     }
     
     /**
-     * Writes the properties containing the localized strings for a specified language code.
-     * This copies the original JAR file to a new JAR file, then adds (or replaces) 
-     * a properties file for the localized strings provided.
+     * Writes properties to a JAR file.
+     * This is accomplished by making a copy of the original JAR file, and adding (or replacing) a properties file.
+     * The properties file contains localized strings.
      * 
+     * @param originalJarFileName
+     * @param newJarFileName
+     * @param propertiesFileName
      * @param properties
-     * @param languageCode
-     * @throws JarIOException if the properties cannot be written to the JAR file
-     * @return new JAR file name
+     * @throws JarIOException
      */
-    public String writeProperties( Properties properties, String languageCode ) throws JarIOException {
+    public static void writePropertiesToJarFile( String originalJarFileName, String newJarFileName, String propertiesFileName, Properties properties ) throws JarIOException {
         
-        String projectName = getProjectName();
-        String propertiesFileName = getPropertiesResourceName( projectName, languageCode );
-        File jarFile = new File( _jarFileName );
+        if ( originalJarFileName.equals( newJarFileName  ) ) {
+            throw new IllegalArgumentException( "originalJarFileName and newJarFileName must be different" );
+        }
         
+        File jarFile = new File( originalJarFileName );
         InputStream inputStream = null;
         try {
             inputStream = new FileInputStream( jarFile );
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName, e );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + originalJarFileName, e );
         }
         
-        String testFileName = getJarDirName() + File.separatorChar + TEST_JAR_NAME;
-        File testFile = new File( testFileName );
+        File testFile = new File( newJarFileName );
         try {
             // input comes from the original JAR file
             JarInputStream jarInputStream = new JarInputStream( inputStream ); // throws IOException
             Manifest manifest = jarInputStream.getManifest();
             if ( manifest == null ) {
-                throw new JarIOException( ERROR_MISSING_MANIFEST + " : " + _jarFileName );
+                throw new JarIOException( ERROR_MISSING_MANIFEST + " : " + originalJarFileName );
             }
             
             // output goes to test JAR file
@@ -328,20 +360,18 @@ public class JarFileManager {
         catch ( IOException e ) {
             testFile.delete();
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + _jarFileName, e );
+            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + newJarFileName, e );
         }
-        
-        return testFileName;
     }
 
     /**
-     * Saves properties to a file.
+     * Write properties to a file.
      * 
      * @param properties
      * @param file
      * @throws JarIOException
      */
-    public static void savePropertiesToFile( Properties properties, File file ) throws JarIOException {
+    public static void writePropertiesToFile( Properties properties, File file ) throws JarIOException {
         try {
             OutputStream outputStream = new FileOutputStream( file );
             String header = file.getCanonicalPath();
