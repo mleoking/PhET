@@ -3,33 +3,35 @@
 ================================================================================
 
 OPEN ISSUES:
-- how to access Flash localization files
-- how to run Flash player from Java
+- how to bundle a Flash sim into a single JAR to fit our model?
+- how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
 - refactor to separate model and view (packages: model, view, java, flash, util)
 - refactor to support alternate strategies for Flash sims
+- replace Properties with a neutral data abstraction, or map Flash XML to Properties
 
 MEDIUM PRIORITY:
+- support translation of common Java projects
 - check for unsaved changes before exiting
-- Flash sim support
+- support translation of Flash sims
 - delete phet-test-translation.jar
-- add buttons to access translations for common projects, inform user about the gravity of editing common translations
 
 LOW PRIORITY:
-- scrollpane scrolls when loading a properties file
 - Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
 - replace Find dialog with a panel above the button panel, ala Firefox
-- manually selected text in a TargetTextArea will sometimes stay selected when using Find feature
 - Edit>Undo for editing target textfields
-- make runnable via Web Start
+- make runnable via Web Start (will Runtime.exec work?)
 - perform default translation using Google Translate
 - replace individual Google Translate requests with 1 big request to workaround "denial of service" problem
 - localize error messages in GoogleTranslateService
-- File>New to start a new translation, instead of restarting
-- select the simulation from a list and download the associated JAR from within Translation Utility
-- pressing Help button causes scrollpane to scroll to top
-- Load allows user to load a properties file that doesn't pertain to the simulation
+- add File>New to start a new translation, instead of restarting
+- select a desired simulation from a list and automatically download the associated JAR from the PhET website
+- bug: pressing Help button causes scrollpane to scroll to top
+- bug: Load allows user to load a properties file that doesn't pertain to the simulation
+- bug: scrollpane scrolls when loading a properties file
+- bug: text that is manually-selected while Find dialog is open will stay selected when selection changes via Find
+
 
 DONE:
 12/5/07 - move properties file i/o operations out of JarIO and into PropertiesIO
