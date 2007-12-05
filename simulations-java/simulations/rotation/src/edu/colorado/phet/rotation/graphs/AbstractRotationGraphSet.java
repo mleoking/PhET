@@ -124,7 +124,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
         RotationMinimizableControlGraph angAccelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, platformAccelSeries,
-                UnicodeUtil.ALPHA, ANG_ACCEL, angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1,
+                ANG_ACCEL, angleUnitModel, ANG_ACC_UNITS_RAD, ANG_ACC_UNITS_DEG, -1.1, 1.1,
                 model, editable, model.getTimeSeriesModel(), model.getAccelDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
 
         //angAccelGraph.addSeries( platformAccelSeries );
@@ -145,7 +145,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
         RotationMinimizableControlGraph angVelGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, platformVelSeries,
-                UnicodeUtil.OMEGA, ANG_VEL, angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, MIN_ANG_VEL, MAX_ANG_VEL,
+                ANG_VEL, angleUnitModel, ANG_VEL_UNITS_RAD, ANG_VEL_UNITS_DEG, MIN_ANG_VEL, MAX_ANG_VEL,
                 model, true, model.getTimeSeriesModel(), model.getVelocityDriven(), RotationModel.MAX_TIME, model.getRotationPlatform() ) );
 
         //angVelGraph.addSeries( platformVelSeries );
@@ -165,7 +165,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
         final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( ANGLE, RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngle() );
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
                 pSwingCanvas, platformAngleSeries,
-                UnicodeUtil.THETA, ANGLE, angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3,
+                ANGLE, angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3,
                 model, true, model.getTimeSeriesModel(), model.getPositionDriven(),
                 RotationModel.MAX_TIME, model.getRotationPlatform() ) );
         angleGraph.addSeriesPair( ANGLE,
