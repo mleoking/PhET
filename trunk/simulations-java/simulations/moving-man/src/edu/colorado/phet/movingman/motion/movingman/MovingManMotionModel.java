@@ -19,7 +19,6 @@ public class MovingManMotionModel {
     public static final int MAX_T = 500;
 
     public MovingManMotionModel( ConstantDtClock clock ) {
-
         motionModel = new SingleBodyMotionModel( clock );
         motionModel.setPositionDriven();
 
@@ -27,6 +26,10 @@ public class MovingManMotionModel {
         vSeries = new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, motionModel.getVVariable() );
         aSeries = new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, motionModel.getAVariable() );
         motionModel.setMaxAllowedRecordTime( MAX_T );
+    }
+
+    public ControlGraphSeries[] getControlGraphSeriesArray() {
+        return new ControlGraphSeries[]{xSeries, vSeries, aSeries};
     }
 
     public ControlGraphSeries getXSeries() {

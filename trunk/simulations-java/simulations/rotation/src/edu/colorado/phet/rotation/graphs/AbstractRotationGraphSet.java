@@ -67,7 +67,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createAGraph() {
         RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( RotationStrings.ACCELERATION_ABBR, new RotationGraph(
-                pSwingCanvas, null, RotationStrings.twoChar( "ax"), RotationStrings.ACCELERATION, ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
+                pSwingCanvas, null, RotationStrings.ACCELERATION, ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
 
         aGraph.addSeriesPair( RotationStrings.abs( RotationStrings.ACCELERATION ),
@@ -87,7 +87,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createVGraph() {
         final RotationMinimizableControlGraph vGraph = new RotationMinimizableControlGraph( RotationStrings.V, new RotationGraph(
-                pSwingCanvas, null, RotationStrings.V + "" + RotationStrings.X, RotationStrings.VELOCITY, VELOCITY_UNITS, -15, +15,
+                pSwingCanvas, null, RotationStrings.VELOCITY, VELOCITY_UNITS, -15, +15,
                 model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
         vGraph.addSeriesPair( RotationStrings.SPEED,
                               new ControlGraphSeries( RotationStrings.SPEED, RotationColorScheme.VM_COLOR, RotationStrings.abs( RotationStrings.V ), VELOCITY_UNITS, body0Stroke, CHARACTER_LADY, b0.getSpeed() ),
@@ -106,7 +106,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createXGraph() {
         RotationMinimizableControlGraph xGraph = new RotationMinimizableControlGraph( RotationStrings.X + " & " + RotationStrings.Y, new RotationGraph(
-                pSwingCanvas, null, RotationStrings.X, RotationStrings.POSITION, POSITION_UNITS, -5, 5,
+                pSwingCanvas, null, RotationStrings.POSITION, POSITION_UNITS, -5, 5,
                 model, false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
         xGraph.addSeriesPair( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.POSITION ),
                               new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.POSITION ), RotationColorScheme.X_COLOR, RotationStrings.X, POSITION_UNITS, body0Stroke, CHARACTER_LADY, b0.getPositionX() ),
