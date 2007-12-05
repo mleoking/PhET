@@ -7,10 +7,10 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
-- refactor to support alternate strategies for Flash sims
-- replace Properties with a neutral data abstraction, or map Flash XML to Properties
 
 MEDIUM PRIORITY:
+- refactor to support alternate strategies for Flash sims
+- replace Properties with a neutral data abstraction, or map Flash XML to Properties
 - support translation of common Java projects
 - check for unsaved changes before exiting
 - support translation of Flash sims
@@ -33,6 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 0.00.09 (?)
 12/5/07 - organize imports
 12/5/07 - reorganize package structure
 12/5/07 - absorb ProjectProperties into TUResources
