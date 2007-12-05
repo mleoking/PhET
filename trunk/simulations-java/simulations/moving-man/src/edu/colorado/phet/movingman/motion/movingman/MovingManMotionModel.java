@@ -73,6 +73,10 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return x;
     }
 
+    public ITemporalVariable getVVariable(){
+        return v;
+    }
+
     public double getVelocity() {
         return v.getValue();
     }
