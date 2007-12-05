@@ -4,7 +4,7 @@ package edu.colorado.phet.common.motion.model;
  * Author: Sam Reid
  * Jun 26, 2007, 6:19:17 PM
  */
-public class MotionBody implements UpdateableObject {
+public class MotionBody implements UpdateableObject, IMotionBody {
 
     private ITemporalVariable x;
     private ITemporalVariable v;

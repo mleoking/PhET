@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * Created by: Sam
  * Dec 4, 2007 at 3:37:57 PM
  */
-public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel {
+public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody {
     private ITemporalVariable x = new DefaultTemporalVariable();
     private ITemporalVariable v = new DefaultTemporalVariable();
     private ITemporalVariable a = new DefaultTemporalVariable();
@@ -39,8 +39,52 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return x;
     }
 
+    public double getVelocity() {
+        return v.getValue();
+    }
+
+    public double getAcceleration() {
+        return a.getValue();
+    }
+
     public double getPosition() {
         return x.getValue();
+    }
+
+    public void addAccelerationData( double acceleration, double time ) {
+        a.addValue( acceleration, time );
+    }
+
+    public void addVelocityData( double v, double time ) {
+        this.v.addValue( v, time );
+    }
+
+    public void addPositionData( double v, double time ) {
+        this.x.addValue( v, time );
+    }
+
+    public int getAccelerationSampleCount() {
+        return a.getSampleCount();
+    }
+
+    public TimeData[] getRecentVelocityTimeSeries( int i ) {
+        return v.getRecentSeries( i );
+    }
+
+    public int getPositionSampleCount() {
+        return x.getSampleCount();
+    }
+
+    public int getVelocitySampleCount() {
+        return v.getSampleCount();
+    }
+
+    public TimeData[] getRecentPositionTimeSeries( int i ) {
+        return x.getRecentSeries( i );
+    }
+
+    public void setAcceleration( double value ) {
+        a.setValue( value );
     }
 
     public void setVelocityDriven() {
@@ -56,18 +100,18 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public static class PositionDriven implements UpdateStrategy {
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
             System.out.println( "MovingManMotionModel$PositionDriven.update, time=" + time );
         }
     }
 
     public static class VelocityDriven implements UpdateStrategy {
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
         }
     }
 
     public static class AccelDriven implements UpdateStrategy {
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
         }
     }
 
