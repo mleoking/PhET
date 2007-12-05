@@ -36,6 +36,7 @@ public class ForceModel implements UpdateStrategy {
 
     public void update( MotionBody motionBody, double dt, double time ) {
         motionBody.setAcceleration( acceleration.getValue() );
+//        System.out.println( "acceleration.getValue() = " + acceleration.getValue() );
         accelerationDriven.update( motionBody, dt, time );
     }
 
