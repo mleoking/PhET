@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run Flash player from Java
 
 HIGH PRIORITY:
-- revise JarFileManager interface
 - refactor to separate model and view (packages: model, view, java, flash, util)
 - refactor to support alternate strategies for Flash sims
 
@@ -18,6 +17,7 @@ MEDIUM PRIORITY:
 - add buttons to access translations for common projects, inform user about the gravity of editing common translations
 
 LOW PRIORITY:
+- scrollpane scrolls when loading a properties file
 - Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
 - replace Find dialog with a panel above the button panel, ala Firefox
 - manually selected text in a TargetTextArea will sometimes stay selected when using Find feature

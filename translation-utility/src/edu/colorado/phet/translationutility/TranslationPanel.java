@@ -28,7 +28,6 @@ public class TranslationPanel extends JPanel implements FindListener {
     private static final Font DEFAULT_FONT = new JLabel().getFont();
     private static final Font TITLE_FONT = new Font( DEFAULT_FONT.getName(), Font.BOLD,  DEFAULT_FONT.getSize() + 4 );
     private static final Color SOURCE_BACKGROUND = new JPanel().getBackground();
-    
     private static final Color SELECTION_COLOR = Color.GREEN;
     
     private static final int KEY_COLUMN = 0;
@@ -44,14 +43,9 @@ public class TranslationPanel extends JPanel implements FindListener {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final String _sourceLanguageCode;
-    private final Font _sourceFont;
-    private final String _targetLanguageCode;
-    private final Font _targetFont;
-    private ArrayList _targetTextAreas; // array of TargetTextArea
-    
-    private ArrayList _findTextAreas; // array of JTextArea
-    private String _previousFindText; // text provided to previous call to findNext or findPrevious
+    private ArrayList _targetTextAreas; // array of TargetTextArea, the right column of the table ordered from top to bottom
+    private ArrayList _findTextAreas; // array of JTextArea, all the JTextAreas that Find will search in
+    private String _previousFindText; // text we previously search for in findNext or findPrevious
     private int _previousFindTextAreaIndex; // index into _findTextArea, identifies the JTextArea in which text was found
     private int _previousFindSelectionIndex; // index into a JTextArea's text, identifies where in the JTextArea the text was found
     
@@ -141,10 +135,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             String targetLanguageCode, Properties targetProperties ) {
         super();
         
-        _sourceLanguageCode = sourceLanguageCode;
-        _sourceFont = FontFactory.createFont( _sourceLanguageCode );
-        _targetLanguageCode = targetLanguageCode;
-        _targetFont = FontFactory.createFont( _targetLanguageCode );
         _targetTextAreas = new ArrayList();
         _findTextAreas = new ArrayList();
         _previousFindText = null;
@@ -160,10 +150,10 @@ public class TranslationPanel extends JPanel implements FindListener {
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        JLabel sourceLanguageLabel = new JLabel( _sourceLanguageCode );
+        JLabel sourceLanguageLabel = new JLabel( sourceLanguageCode );
         sourceLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLanguageLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        JLabel targetLanguageLabel = new JLabel( _targetLanguageCode );
+        JLabel targetLanguageLabel = new JLabel( targetLanguageCode );
         targetLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;
@@ -179,6 +169,8 @@ public class TranslationPanel extends JPanel implements FindListener {
         }
         
         // create the table
+        Font sourceFont = FontFactory.createFont( sourceLanguageCode );
+        Font targetFont = FontFactory.createFont( targetLanguageCode );
         Iterator i = sortedSet.iterator();
         while ( i.hasNext() ) {
 
@@ -189,10 +181,10 @@ public class TranslationPanel extends JPanel implements FindListener {
             JLabel keyLabel = new JLabel( key );
 
             JTextArea sourceTextArea = new SourceTextArea( sourceValue );
-            sourceTextArea.setFont( _sourceFont );
+            sourceTextArea.setFont( sourceFont );
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
-            targetTextArea.setFont( _targetFont );
+            targetTextArea.setFont( targetFont );
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
             _targetTextAreas.add( targetTextArea );
@@ -214,24 +206,8 @@ public class TranslationPanel extends JPanel implements FindListener {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public String getSourceLanguageCode() {
-        return _sourceLanguageCode;
-    }
-    
-    public Font getSourceFont() {
-        return _sourceFont;
-    }
-    
-    public String getTargetLanguageCode() {
-        return _targetLanguageCode;
-    }
-    
-    public Font getTargetFont() {
-        return _targetFont;
-    }
-    
     /**
-     * Collects all of the target strings into a Properties object.
+     * Gets the target strings.
      * 
      * @return Properties
      */
@@ -250,6 +226,11 @@ public class TranslationPanel extends JPanel implements FindListener {
         return properties;
     }
     
+    /**
+     * Sets the targets strings.
+     * 
+     * @param targetProperties
+     */
     public void setTargetProperties( Properties targetProperties ) {
         Iterator i = _targetTextAreas.iterator();
         while ( i.hasNext() ) {
