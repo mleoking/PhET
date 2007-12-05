@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.model.UpdateStrategy;
-
 /**
  * Author: Sam Reid
  * Jun 27, 2007, 12:37:50 AM

@@ -1,7 +1,5 @@
 package edu.colorado.phet.common.motion.model;
 
-import edu.colorado.phet.common.motion.model.UpdateableObject;
-
 /**
  * Author: Sam Reid
  * Jun 26, 2007, 6:19:17 PM
@@ -19,17 +17,17 @@ public class MotionBody implements UpdateableObject {
     private UpdateStrategy updateStrategy = positionDriven; //current strategy
 
     public MotionBody() {
-        this(new DefaultTemporalVariable( ),new DefaultTemporalVariable( ),new DefaultTemporalVariable( ));
+        this( new DefaultTemporalVariable(), new DefaultTemporalVariable(), new DefaultTemporalVariable() );
     }
 
-    public MotionBody (TimeSeriesFactory factory){
-        this(new DefaultTemporalVariable( factory ),new DefaultTemporalVariable( factory ),new DefaultTemporalVariable( factory ) );
+    public MotionBody( TimeSeriesFactory factory ) {
+        this( new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ) );
     }
 
-    public MotionBody( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a) {
-        this.x=x;
-        this.v=v;
-        this.a=a;
+    public MotionBody( DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
+        this.x = x;
+        this.v = v;
+        this.a = a;
     }
 
     public void setTime( double time ) {
@@ -94,9 +92,9 @@ public class MotionBody implements UpdateableObject {
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
     }
-    
-    public boolean isAccelDriven(){
-        return updateStrategy==accelDriven;
+
+    public boolean isAccelDriven() {
+        return updateStrategy == accelDriven;
     }
 
     public void setVelocityDriven() {

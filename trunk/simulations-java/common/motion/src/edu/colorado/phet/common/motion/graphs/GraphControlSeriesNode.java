@@ -28,7 +28,7 @@ public class GraphControlSeriesNode extends PNode {
         addChild( textBox );
     }
 
-    public void addListener(GraphControlTextBox.Listener listener){
+    public void addListener( GraphControlTextBox.Listener listener ) {
         boxGraphControl.addListener( listener );
     }
 

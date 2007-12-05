@@ -11,7 +11,7 @@ public interface UpdateStrategy {
     void update( MotionBody motionBody, double dt, double time );
 
     /**
- * User: Sam Reid
+     * User: Sam Reid
      * Date: Dec 29, 2006
      * Time: 11:37:32 PM
      */
@@ -20,7 +20,7 @@ public interface UpdateStrategy {
 
         public void update( MotionBody motionBody, double dt, double time ) {
             //assume a constant acceleration model with the given acceleration.
-    //        System.out.println( "AccelerationDriven.update" );
+            //        System.out.println( "AccelerationDriven.update" );
             double origAngVel = motionBody.getVelocity();
             motionBody.addAccelerationData( motionBody.getAcceleration(), time );
             motionBody.addVelocityData( motionBody.getVelocity() + motionBody.getAcceleration() * dt, time );
@@ -29,7 +29,7 @@ public interface UpdateStrategy {
     }
 
     /**
- * User: Sam Reid
+     * User: Sam Reid
      * Date: Dec 29, 2006
      * Time: 11:37:32 PM
      */
@@ -47,7 +47,7 @@ public interface UpdateStrategy {
     }
 
     /**
- * User: Sam Reid
+     * User: Sam Reid
      * Date: Dec 29, 2006
      * Time: 11:37:32 PM
      */
@@ -60,7 +60,7 @@ public interface UpdateStrategy {
         public void update( MotionBody motionBody, double dt, double time ) {
             TimeData v = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
             TimeData a = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
-    //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
+            //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
 
             motionBody.addPositionData( motionBody.getPosition(), time );
             motionBody.addVelocityData( v.getValue(), v.getTime() );

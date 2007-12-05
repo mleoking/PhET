@@ -3,8 +3,6 @@ package edu.colorado.phet.common.motion.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.rotation.model.RotationTimeSeries;
-
 /**
  * Author: Sam Reid
  * Jun 25, 2007, 11:31:28 PM
@@ -114,6 +112,6 @@ public class DefaultTimeSeries {
     }
 
     protected void removeValue( int index ) {
-        data.remove(index );
+        data.remove( index );
     }
 }

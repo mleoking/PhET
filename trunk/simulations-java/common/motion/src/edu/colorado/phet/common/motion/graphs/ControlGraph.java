@@ -572,7 +572,7 @@ public class ControlGraph extends PNode {
 
     public void addValue( int series, double time, double value ) {
         //Throw away data that is outside of the max allowed domain
-        if ( domainContains( time )  ) {
+        if ( domainContains( time ) ) {
             dynamicJFreeChartNode.addValue( series, time, value );
         }
 //        System.out.println( "series = " + series + " time=" + time + ", value=" + value );

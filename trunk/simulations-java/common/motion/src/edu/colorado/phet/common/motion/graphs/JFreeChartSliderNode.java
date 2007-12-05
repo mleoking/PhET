@@ -180,7 +180,7 @@ public class JFreeChartSliderNode extends PNode {
         void sliderDragged( double value );
     }
 
-    public static class Adapter implements Listener{
+    public static class Adapter implements Listener {
 
         public void valueChanged() {
         }
