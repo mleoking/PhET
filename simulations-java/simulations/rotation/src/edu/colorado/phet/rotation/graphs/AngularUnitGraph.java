@@ -21,7 +21,7 @@ public class AngularUnitGraph extends RotationGraph {
     private double maxRad;
 
     public AngularUnitGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series, String label, String title, AngleUnitModel angleUnitModel, String unitsRad, String unitsDeg, double minRad, double maxRad, RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel, UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
-        super( pSwingCanvas, series, label, title, unitsRad, minRad, maxRad, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+        super( pSwingCanvas, series, title, unitsRad, minRad, maxRad, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.angleUnitModel = angleUnitModel;
         this.unitsRad = unitsRad;
         this.unitsDeg = unitsDeg;

@@ -2,10 +2,7 @@ package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.motion.graphs.GraphSetModel;
-import edu.colorado.phet.common.motion.graphs.GraphSetNode;
-import edu.colorado.phet.common.motion.graphs.GraphSuite;
-import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.graphs.*;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
@@ -24,6 +21,13 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         final SingleBodyMotionModel motionModel = manMotionModel.getMotionModel();
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
+        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
+        for ( int i = 0; i < s.length; i++ ) {
+            ControlGraphSeries controlGraphSeries = s[i];
+            MovingManGraph graph = new MovingManGraph(
+                    this, controlGraphSeries, controlGraphSeries.getAbbr(), controlGraphSeries.getTitle(), -10, 10,
+                    motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
+        }
 
         MovingManGraph xGraph = new MovingManGraph(
                 this, manMotionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,

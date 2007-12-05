@@ -32,11 +32,11 @@ public class RotationGraph extends MotionControlGraph {
     private String title;
 
     public RotationGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
-                          String label, String title, String units, double min, double max,
+                          String title, String units, double min, double max,
                           RotationModel motionModel, boolean editable, TimeSeriesModel timeSeriesModel,
                           UpdateStrategy updateStrategy, double maxDomainValue, RotationPlatform iPositionDriven ) {
         super( pSwingCanvas, series,
-               label, title, min, max,
+               title, min, max,
                motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         this.title = title;
         super.getDynamicJFreeChartNode().setAutoUpdateAll( false );
