@@ -26,6 +26,7 @@ LOW PRIORITY:
 - make runnable via Web Start
 - perform default translation using Google Translate
 - replace individual Google Translate requests with 1 big request to workaround "denial of service" problem
+- localize error messages in GoogleTranslateService
 - File>New to start a new translation, instead of restarting
 - select the simulation from a list and download the associated JAR from within Translation Utility
 
