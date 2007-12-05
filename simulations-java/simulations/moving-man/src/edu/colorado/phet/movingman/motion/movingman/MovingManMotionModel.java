@@ -40,6 +40,20 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         accelDriven.addListener( this );
     }
 
+    protected void setPlaybackTime( double time ) {
+        super.setPlaybackTime( time );
+        x.setPlaybackTime( time );
+        v.setPlaybackTime( time );
+        a.setPlaybackTime( time );
+    }
+
+    public void clear() {
+        super.clear();
+        x.clear();
+        v.clear();
+        a.clear();
+    }
+
     public void setPositionDriven() {
         setUpdateStrategy( positionDriven );
     }

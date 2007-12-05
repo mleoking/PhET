@@ -55,8 +55,8 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         requestFocus();
         addKeyListener( new PDebugKeyHandler() );
 
-        TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
-        add( timeControlPanel, BorderLayout.SOUTH );
+//        TimeSeriesControlPanel timeControlPanel = new TimeSeriesControlPanel( motionModel.getTimeSeriesModel(), 0.1, 1.0 );
+//        add( timeControlPanel, BorderLayout.SOUTH );
         updateLayout();
     }
 
