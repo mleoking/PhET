@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * Created by: Sam
  * Dec 4, 2007 at 3:37:57 PM
  */
-public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody {
+public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody, UpdateStrategy.DefaultUpdateStrategy.Listener {
     private ITemporalVariable x = new DefaultTemporalVariable();
     private ITemporalVariable v = new DefaultTemporalVariable();
     private ITemporalVariable a = new DefaultTemporalVariable();
@@ -25,19 +25,34 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private double min = -10;
     private double max = 10;
 
-    private UpdateStrategy positionDriven = new UpdateStrategy.PositionDriven( min, max );
-    private UpdateStrategy velocityDriven = new UpdateStrategy.VelocityDriven( min, max );
-    private UpdateStrategy accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
+    private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( min, max );
+    private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( min, max );
+    private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
 
     private UpdateStrategy updateStrategy = positionDriven;
+
+    public MovingManMotionModel( ConstantDtClock clock ) {
+        super( clock, new TimeSeriesFactory.Default() );
+        setMaxAllowedRecordTime( MAX_T );
+
+        positionDriven.addListener( this );
+        velocityDriven.addListener( this );
+        accelDriven.addListener( this );
+    }
 
     public void setPositionDriven() {
         setUpdateStrategy( positionDriven );
     }
 
     public void setPosition( double x ) {
-        this.x.setValue( MathUtil.clamp( min, x, max ) );
-//        this.x.setValue( x );
+        double origX=getPosition();
+        final double newX = MathUtil.clamp( min, x, max );
+        this.x.setValue( newX );
+        if (origX>min&&newX==min){
+            crashedMin();
+        }else if (origX<max&&newX==max){
+            crashedMax();
+        }
     }
 
     public ITemporalVariable getXVariable() {
@@ -115,29 +130,6 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void startRecording() {
         getTimeSeriesModel().startRecording();
     }
-//
-//    public class PositionDriven extends UpdateStrategy.PositionDriven {
-//        public PositionDriven() {
-//            super( min, max );
-//        }
-//    }
-//
-//    public class VelocityDriven extends UpdateStrategy.VelocityDriven {
-//        public VelocityDriven() {
-//            super( min, max );
-//        }
-//    }
-//
-//    public class AccelDriven extends UpdateStrategy.AccelerationDriven {
-//        public AccelDriven() {
-//            super( min, max );
-//        }
-//    }
-
-    public MovingManMotionModel( ConstantDtClock clock ) {
-        super( clock, new TimeSeriesFactory.Default() );
-        setMaxAllowedRecordTime( MAX_T );
-    }
 
     public ControlGraphSeries[] getControlGraphSeriesArray() {
         return new ControlGraphSeries[]{xSeries, vSeries, aSeries};
@@ -174,5 +166,13 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
         updateStrategy.update( this, dt, super.getTime() );
+    }
+
+    public void crashedMin() {
+        System.out.println( "MovingManMotionModel.crashedMin" );
+    }
+
+    public void crashedMax() {
+        System.out.println( "MovingManMotionModel.crashedMax" );
     }
 }

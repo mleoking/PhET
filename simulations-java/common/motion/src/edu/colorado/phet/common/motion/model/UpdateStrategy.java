@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.motion.MotionMath;
 
 /**
@@ -13,6 +15,8 @@ public interface UpdateStrategy {
     public static abstract class DefaultUpdateStrategy implements UpdateStrategy {
         private double min;
         private double max;
+
+        private ArrayList listeners = new ArrayList();
 
         protected DefaultUpdateStrategy() {
             this( Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
@@ -57,7 +61,7 @@ public interface UpdateStrategy {
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX < max ) {
                     motionBody.setPositionDriven();
-                    //signify a crash
+                    notifyCrashedMax();
                 }
             }
             else if ( newX.getValue() < min ) {
@@ -66,13 +70,35 @@ public interface UpdateStrategy {
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX > min ) {
                     motionBody.setPositionDriven();
-                    //signify a crash
+                    notifyCrashedMin();
                 }
             }
 
             motionBody.addPositionData( newX );
             motionBody.addVelocityData( newV );
             motionBody.addAccelerationData( newA );
+        }
+
+        private void notifyCrashedMin() {
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener) listeners.get( i ) ).crashedMin();
+            }
+        }
+
+        private void notifyCrashedMax() {
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ( (Listener) listeners.get( i ) ).crashedMax();
+            }
+        }
+
+        public static interface Listener {
+            void crashedMin();
+
+            void crashedMax();
+        }
+
+        public void addListener( Listener listener ) {
+            listeners.add( listener );
         }
 
         public void update( IMotionBody motionBody, double dt, double time ) {
