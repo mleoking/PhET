@@ -23,10 +23,8 @@ public class GraphTimeControlNode extends PNode {
     private PNode seriesLayer = new PNode();
     private boolean editable = true;
     private boolean constructed = false;
-    private TimeSeriesModel timeSeriesModel;
 
     public GraphTimeControlNode( TimeSeriesModel timeSeriesModel ) {
-        this.timeSeriesModel = timeSeriesModel;
         addChild( seriesLayer );
 
         goStopButton = new PSwing( new GoStopButton( timeSeriesModel ) );
