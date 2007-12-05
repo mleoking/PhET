@@ -51,19 +51,21 @@ public interface UpdateStrategy {
             TimeData newV = getNewV( motionBody, dt, time );
             TimeData newA = getNewA( motionBody, dt, time );
 
-            if ( newX.getValue() >= max ) {
+            if ( newX.getValue() > max ) {
                 newX = new TimeData( max, newX.getTime() );
                 newV = new TimeData( 0, newV.getTime() );
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX < max ) {
+                    motionBody.setPositionDriven();
                     //signify a crash
                 }
             }
-            else if ( newX.getValue() <= min ) {
+            else if ( newX.getValue() < min ) {
                 newX = new TimeData( min, newX.getTime() );
                 newV = new TimeData( 0, newV.getTime() );
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX > min ) {
+                    motionBody.setPositionDriven();
                     //signify a crash
                 }
             }
