@@ -34,4 +34,6 @@ public interface IMotionBody {
     TimeData[] getRecentPositionTimeSeries( int i );
 
     void setAcceleration( double value );
+
+    void setPositionDriven();
 }
