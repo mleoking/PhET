@@ -50,9 +50,8 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      * @param jarFileName
      * @param sourceLanguageCode
      * @param targetLanguageCode
-     * @param autoTranslate
      */
-    public MainFrame( String title, String jarFileName, String sourceLanguageCode, String targetLanguageCode, boolean autoTranslate ) {
+    public MainFrame( String title, String jarFileName, String sourceLanguageCode, String targetLanguageCode ) {
         super( title );
         
         _currentDirectory = null;
@@ -83,7 +82,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         if ( targetProperties == null ) {
             targetProperties = new Properties();
         }
-        _translationPanel = new TranslationPanel( projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties, autoTranslate );
+        _translationPanel = new TranslationPanel( projectName, sourceLanguageCode, sourceProperties, targetLanguageCode, targetProperties );
         JScrollPane scrollPane = new JScrollPane( _translationPanel );
         
         // Layout

@@ -3,9 +3,9 @@ package edu.colorado.phet.translationutility.test;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.translationutility.GoogleTranslateStrategy;
-import edu.colorado.phet.translationutility.AutoTranslator.AutoTranslateException;
-import edu.colorado.phet.translationutility.AutoTranslator.IAutoTranslateStrategy;
+import edu.colorado.phet.translationutility.GoogleTranslateService;
+import edu.colorado.phet.translationutility.ITranslationService;
+import edu.colorado.phet.translationutility.ITranslationService.TranslationServiceException;
 
 /**
  * Feasibility test for translating a group of strings as a batch instead of making multiple translate requests.
@@ -16,7 +16,7 @@ import edu.colorado.phet.translationutility.AutoTranslator.IAutoTranslateStrateg
 public class TestMultiGoogleTranslate {
     public static String[] translate( String[] toTranslate, String srcLang, String dstLang ) throws IOException {
         
-        IAutoTranslateStrategy translationStrategy = new GoogleTranslateStrategy();
+        ITranslationService translationService = new GoogleTranslateService();
         
         StringBuffer str = new StringBuffer();
         for ( int i = 0; i < toTranslate.length; i++ ) {
@@ -26,9 +26,9 @@ public class TestMultiGoogleTranslate {
         System.out.println( "Requesting translate for: " + str.toString() );
         String translatedText = null;
         try {
-            translatedText = translationStrategy.translate( str.toString(), srcLang, dstLang );
+            translatedText = translationService.translate( str.toString(), srcLang, dstLang );
         }
-        catch ( AutoTranslateException e ) {
+        catch ( TranslationServiceException e ) {
             e.printStackTrace();
             System.exit( 1 );
         }

@@ -48,8 +48,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             /* outside */ BorderFactory.createLineBorder( Color.BLACK, 1 ), 
             /* inside */ BorderFactory.createEmptyBorder( 2, 2, 2, 2 ) );
     
-    private static final Color AUTO_TRANSLATED_BACKGROUND = Color.YELLOW;
-    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -152,12 +150,10 @@ public class TranslationPanel extends JPanel implements FindListener {
      * @param sourceProperties
      * @param targetLanguageCode
      * @param targetProperties
-     * @param autoTranslate
      */
     public TranslationPanel( String projectName, 
             String sourceLanguageCode, Properties sourceProperties, 
-            String targetLanguageCode, Properties targetProperties, 
-            boolean autoTranslate ) {
+            String targetLanguageCode, Properties targetProperties ) {
         super();
         
         _sourceLanguageCode = sourceLanguageCode;
@@ -205,12 +201,6 @@ public class TranslationPanel extends JPanel implements FindListener {
             String key = (String) i.next();
             String sourceValue = sourceProperties.getProperty( key );
             String targetValue = targetProperties.getProperty( key );
-            boolean autoTranslated = false;
-//            if ( targetValue == null ) {
-//                System.out.println( "auto translating " + key );//XXX
-//                targetValue = AutoTranslator.translate( sourceValue, _sourceLanguageCode, _targetLanguageCode );
-//                autoTranslated = true;
-//            }
 
             JLabel keyLabel = new JLabel( key );
 
@@ -219,9 +209,6 @@ public class TranslationPanel extends JPanel implements FindListener {
 
             TargetTextArea targetTextArea = new TargetTextArea( key, targetValue );
             targetTextArea.setFont( _targetFont );
-            if ( autoTranslated ) {
-                targetTextArea.setBackground( AUTO_TRANSLATED_BACKGROUND );
-            }
             targetTextArea.setColumns( sourceTextArea.getColumns() );
             targetTextArea.setRows( sourceTextArea.getLineCount() );
             if ( previousTargetTextArea != null ) {

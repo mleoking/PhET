@@ -1,7 +1,7 @@
 package edu.colorado.phet.translationutility.test;
 
-import edu.colorado.phet.translationutility.GoogleTranslateStrategy;
-import edu.colorado.phet.translationutility.AutoTranslator.IAutoTranslateStrategy;
+import edu.colorado.phet.translationutility.GoogleTranslateService;
+import edu.colorado.phet.translationutility.ITranslationService;
 
 /**
  * Created by: Sam
@@ -12,9 +12,9 @@ import edu.colorado.phet.translationutility.AutoTranslator.IAutoTranslateStrateg
  */
 public class TestGoogleTranslate {
     public static void main( String[] args ) {
-        IAutoTranslateStrategy translationStrategy = new GoogleTranslateStrategy();
+        ITranslationService translationService = new GoogleTranslateService();
         try {
-            String translatedText = translationStrategy.translate( "<html>foo</html>", "en", "fr" );
+            String translatedText = translationService.translate( "cookies", "en", "fr" );
             System.out.println( translatedText );
         }
         catch( Exception ex ) {
