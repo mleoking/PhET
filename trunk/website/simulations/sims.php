@@ -27,7 +27,6 @@
 		}
         
         $sim_encoding = $_REQUEST['sim'];
-
         
         $sim_id = sim_get_sim_id_by_sim_encoding($sim_encoding);
         

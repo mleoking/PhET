@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/create-vertical-language-icons.php</string>
+	<string>css/home.css</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -16,7 +16,7 @@
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-10-12T16:22:15Z</date>
+			<date>2007-12-04T18:59:42Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -503,7 +503,7 @@
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>177</integer>
+			<integer>153</integer>
 		</dict>
 		<key>admin/sys-utils.php</key>
 		<dict>
@@ -605,33 +605,47 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>contribute/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>0</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>1</integer>
+		</dict>
 		<key>css/home.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>9</integer>
+				<integer>4</integer>
 				<key>line</key>
-				<integer>53</integer>
+				<integer>67</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>30</integer>
+			<integer>50</integer>
 		</dict>
 		<key>css/main.css</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>15</integer>
+				<integer>16</integer>
 				<key>line</key>
-				<integer>807</integer>
+				<integer>994</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>794</integer>
+			<integer>980</integer>
 		</dict>
 		<key>get_phet/simlauncher.php</key>
 		<dict>
@@ -652,14 +666,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>22</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>159</integer>
+				<integer>208</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>144</integer>
+			<integer>185</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
@@ -730,6 +744,20 @@
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
 			<integer>23</integer>
+		</dict>
+		<key>sponsors/index.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>17</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
 		</dict>
 		<key>teacher_ideas/edit-contribution.php</key>
 		<dict>
@@ -824,14 +852,17 @@
 		<string>admin/cache-utils.php</string>
 		<string>build.xml</string>
 		<string>admin/create-vertical-language-icons.php</string>
+		<string>sponsors/index.php</string>
+		<string>contribute/index.php</string>
 		<string>simulations/translations.php</string>
 		<string>admin/sim-utils.php</string>
+		<string>admin/site-utils.php</string>
 		<string>css/main.css</string>
 		<string>css/home.css</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{364, 232}, {895, 656}}</string>
+	<string>{{40, 280}, {895, 656}}</string>
 </dict>
 </plist>
