@@ -71,6 +71,10 @@ public class FindDialog extends JDialog {
             _textField.addKeyListener( new KeyAdapter() {
                 public void keyReleased( KeyEvent e ) {
                     updateButtons();
+                    // pressing enter in the textfield is the same as pressing the Next button
+                    if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                        fireNext();
+                    }
                 }
             } );
             
@@ -167,10 +171,12 @@ public class FindDialog extends JDialog {
      */
     private void fireNext() {
         String text = getText();
-        Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i+=2 ) {
-            if ( listeners[i] == FindListener.class ) {
-                ((FindListener) listeners[ i + 1 ] ).findNext( text );
+        if ( text != null && text.length() > 0 ) {
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == FindListener.class ) {
+                    ( (FindListener) listeners[i + 1] ).findNext( text );
+                }
             }
         }
     }
@@ -180,10 +186,12 @@ public class FindDialog extends JDialog {
      */
     private void firePrevious() {
         String text = getText();
-        Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i+=2 ) {
-            if ( listeners[i] == FindListener.class ) {
-                ((FindListener) listeners[ i + 1 ] ).findPrevious( text );
+        if ( text != null && text.length() > 0 ) {
+            Object[] listeners = _listenerList.getListenerList();
+            for ( int i = 0; i < listeners.length; i += 2 ) {
+                if ( listeners[i] == FindListener.class ) {
+                    ( (FindListener) listeners[i + 1] ).findPrevious( text );
+                }
             }
         }
     }
