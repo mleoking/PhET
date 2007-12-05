@@ -9,7 +9,11 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     private DefaultTimeSeries series;
 
     public DefaultTemporalVariable() {
-        this( new DefaultVariable(), new DefaultTimeSeries() );
+        this( 0 );
+    }
+
+    public DefaultTemporalVariable( double value ) {
+        this( new DefaultVariable( value ), new DefaultTimeSeries() );
     }
 
     public DefaultTemporalVariable( DefaultVariable variable, DefaultTimeSeries series ) {
@@ -18,7 +22,11 @@ public class DefaultTemporalVariable implements ITemporalVariable {
     }
 
     public DefaultTemporalVariable( TimeSeriesFactory timeSeriesFactory ) {
-        this( new DefaultVariable(), timeSeriesFactory.createTimeSeries() );
+        this( 0, timeSeriesFactory );
+    }
+
+    public DefaultTemporalVariable( double value, TimeSeriesFactory timeSeriesFactory ) {
+        this( new DefaultVariable( value ), timeSeriesFactory.createTimeSeries() );
     }
 
     public String toString() {
