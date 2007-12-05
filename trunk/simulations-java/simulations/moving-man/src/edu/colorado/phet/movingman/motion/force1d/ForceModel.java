@@ -1,7 +1,7 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
-import edu.colorado.phet.common.motion.model.MotionBody;
+import edu.colorado.phet.common.motion.model.IMotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 
 /**
@@ -33,7 +33,7 @@ public class ForceModel implements UpdateStrategy {
         acceleration.setValue( netForce.getValue() / mass.getValue() );
     }
 
-    public void update( MotionBody motionBody, double dt, double time ) {
+    public void update( IMotionBody motionBody, double dt, double time ) {
         motionBody.setAcceleration( acceleration.getValue() );
 //        System.out.println( "acceleration.getValue() = " + acceleration.getValue() );
         accelerationDriven.update( motionBody, dt, time );

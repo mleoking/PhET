@@ -5,8 +5,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
+import edu.colorado.phet.common.motion.model.IMotionBody;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
-import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -308,7 +308,7 @@ public class TorqueModel extends RotationModel {
     }
 
     public class ForceDriven implements UpdateStrategy {
-        public void update( MotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
+        public void update( IMotionBody motionBody, double dt, double time ) {//todo: factor out duplicated code in AccelerationDriven
             //assume a constant acceleration model with the given acceleration.
             double origAngVel = motionBody.getVelocity();
 //            System.out.println( "net torque value=" + ( appliedTorque.getValue() + brakeTorque.getValue() ) + ", applied=" + appliedTorque.getValue() + ", brake=" + brakeTorque.getValue() );

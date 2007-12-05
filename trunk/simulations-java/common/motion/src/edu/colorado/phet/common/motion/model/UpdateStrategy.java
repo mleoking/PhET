@@ -8,17 +8,11 @@ import edu.colorado.phet.common.motion.MotionMath;
  * Time: 11:36:26 PM
  */
 public interface UpdateStrategy {
-    void update( MotionBody motionBody, double dt, double time );
-
-    /**
-     * User: Sam Reid
-     * Date: Dec 29, 2006
-     * Time: 11:37:32 PM
-     */
+    void update( IMotionBody motionBody, double dt, double time );
 
     public static class AccelerationDriven implements UpdateStrategy {
 
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
             //assume a constant acceleration model with the given acceleration.
             //        System.out.println( "AccelerationDriven.update" );
             double origAngVel = motionBody.getVelocity();
@@ -28,16 +22,10 @@ public interface UpdateStrategy {
         }
     }
 
-    /**
-     * User: Sam Reid
-     * Date: Dec 29, 2006
-     * Time: 11:37:32 PM
-     */
-
     public static class VelocityDriven implements UpdateStrategy {
         int velWindow = 10;
 
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
             double newX = motionBody.getPosition() + motionBody.getVelocity() * dt;
             TimeData a = MotionMath.getDerivative( motionBody.getRecentVelocityTimeSeries( Math.min( velWindow, motionBody.getAccelerationSampleCount() ) ) );
             motionBody.addPositionData( newX, time );
@@ -46,18 +34,12 @@ public interface UpdateStrategy {
         }
     }
 
-    /**
-     * User: Sam Reid
-     * Date: Dec 29, 2006
-     * Time: 11:37:32 PM
-     */
-
     public static class PositionDriven implements UpdateStrategy {
         private int velocityWindow = 6;
         private int accelerationWindow = 6;
 
         //todo: try 2nd order derivative directly from position data?
-        public void update( MotionBody motionBody, double dt, double time ) {
+        public void update( IMotionBody motionBody, double dt, double time ) {
             TimeData v = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentPositionTimeSeries( Math.min( velocityWindow, motionBody.getPositionSampleCount() ) ), 1 ) );
             TimeData a = MotionMath.getDerivative( MotionMath.smooth( motionBody.getRecentVelocityTimeSeries( Math.min( accelerationWindow, motionBody.getVelocitySampleCount() ) ), 1 ) );
             //        TimeData a = MotionMath.getSecondDerivative( smooth( motionBodySeries.getRecentPositionTimeSeries( Math.min( accelerationWindow, motionBodySeries.getPositionSampleCount() ) ), 20 ) );
