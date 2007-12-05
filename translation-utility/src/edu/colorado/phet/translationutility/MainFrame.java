@@ -20,7 +20,8 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.translationutility.Command.CommandException;
 import edu.colorado.phet.translationutility.FindDialog.FindListener;
-import edu.colorado.phet.translationutility.JarFileManager.JarIOException;
+import edu.colorado.phet.translationutility.JarIO.JarIOException;
+import edu.colorado.phet.translationutility.PropertiesIO.PropertiesIOException;
 import edu.colorado.phet.translationutility.ToolBar.ToolBarListener;
 
 /**
@@ -75,9 +76,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         Properties sourceProperties = null;
         Properties targetProperties = null;
         try {
-            _projectName = JarFileManager.getSimulationProjectName( jarFileName, commonProjectNames );
-            sourceProperties = JarFileManager.readPropertiesFromJar( jarFileName, _projectName, sourceLanguageCode );
-            targetProperties = JarFileManager.readPropertiesFromJar( jarFileName, _projectName, targetLanguageCode );
+            _projectName = JarIO.getSimulationProjectName( jarFileName, commonProjectNames );
+            sourceProperties = JarIO.readPropertiesFromJar( jarFileName, _projectName, sourceLanguageCode );
+            targetProperties = JarIO.readPropertiesFromJar( jarFileName, _projectName, targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleFatalException( e );
@@ -146,10 +147,10 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
      */
     public void handleTest() {
         Properties properties = _translationPanel.getTargetProperties();
-        String propertiesFileName = JarFileManager.getPropertiesResourceName( _projectName, _targetLanguageCode );
+        String propertiesFileName = JarIO.getPropertiesResourceName( _projectName, _targetLanguageCode );
         try {
-            JarFileManager.writePropertiesToJar( _jarFileName, TEST_JAR_NAME, propertiesFileName, properties );
-            JarFileManager.runJarFile( TEST_JAR_NAME, _targetLanguageCode );
+            JarIO.copyJarAndAddProperties( _jarFileName, TEST_JAR_NAME, propertiesFileName, properties );
+            JarIO.runJar( TEST_JAR_NAME, _targetLanguageCode );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleNonFatalException( e );
@@ -179,9 +180,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
             }
             try {
-                JarFileManager.writePropertiesToFile( properties, outFile );
+                PropertiesIO.writePropertiesToFile( properties, outFile );
             }
-            catch ( JarIOException e ) {
+            catch ( PropertiesIOException e ) {
                 ExceptionHandler.handleNonFatalException( e );
             }
         }
@@ -200,9 +201,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
             File inFile = chooser.getSelectedFile();
             Properties properties = null;
             try {
-                properties = JarFileManager.readPropertiesFromFile( inFile );
+                properties = PropertiesIO.readPropertiesFromFile( inFile );
             }
-            catch ( JarIOException e ) {
+            catch ( PropertiesIOException e ) {
                 ExceptionHandler.handleNonFatalException( e );
             }
             _translationPanel.setTargetProperties( properties );
@@ -219,7 +220,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         
         // create the output File, in same directory as JAR file
         String dirName = new File( _jarFileName ).getParent();
-        String baseName = JarFileManager.getPropertiesFileBaseName( _projectName, _targetLanguageCode );
+        String baseName = JarIO.getPropertiesFileBaseName( _projectName, _targetLanguageCode );
         String fileName = null;
         if ( dirName != null && dirName.length() > 0 ) {
             fileName = dirName + File.separatorChar + baseName;
@@ -238,9 +239,9 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         try {
-            JarFileManager.writePropertiesToFile( properties, outFile );
+            PropertiesIO.writePropertiesToFile( properties, outFile );
         }
-        catch ( JarIOException e ) {
+        catch ( PropertiesIOException e ) {
             ExceptionHandler.handleNonFatalException( e );
         }
         
