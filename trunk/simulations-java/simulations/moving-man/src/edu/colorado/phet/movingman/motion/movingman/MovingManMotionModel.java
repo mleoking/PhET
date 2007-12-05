@@ -1,12 +1,12 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.mri.model.MriModel;
 
 /**
  * Created by: Sam
@@ -31,6 +31,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
 
     private UpdateStrategy updateStrategy = positionDriven;
+    private ArrayList listeners = new ArrayList();
 
     public MovingManMotionModel( ConstantDtClock clock ) {
         super( clock, new TimeSeriesFactory.Default() );
@@ -60,12 +61,13 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public void setPosition( double x ) {
-        double origX=getPosition();
+        double origX = getPosition();
         final double newX = MathUtil.clamp( min, x, max );
         this.x.setValue( newX );
-        if (origX>min&&newX==min){
+        if ( origX > min && newX == min ) {
             crashedMin();
-        }else if (origX<max&&newX==max){
+        }
+        else if ( origX < max && newX == max ) {
             crashedMax();
         }
     }
@@ -74,7 +76,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return x;
     }
 
-    public ITemporalVariable getVVariable(){
+    public ITemporalVariable getVVariable() {
         return v;
     }
 
@@ -189,13 +191,29 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void crashedMin() {
         System.out.println( "MovingManMotionModel.crashedMin" );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).crashedMin();
+        }
     }
 
     public void crashedMax() {
         System.out.println( "MovingManMotionModel.crashedMax" );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).crashedMax();
+        }
     }
 
     public ITemporalVariable getAVariable() {
         return a;
+    }
+
+    public static interface Listener {
+        void crashedMin();
+
+        void crashedMax();
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 }
