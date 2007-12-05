@@ -387,8 +387,23 @@
                 return $sim;
             }
         }
+
+		$best_dist = 9999999;
+		$best_sim  = false;
+
+		// No exact match could be found. Look for best match using Levenshtein distance function:
+		foreach($map as $name => $sim) {
+            $encoding = web_encode_string($name);
+
+			$distance = levenshtein(strtolower($sim_encoding), strtolower($encoding), 0, 2, 1);
+            
+            if ($distance < $best_dist && $distance !== -1) {
+				$best_dist = $distance;
+				$best_sim  = $sim;
+			}
+        }
         
-        return false;
+        return $best_sim;
     }
     
     function sim_get_sim_id_by_sim_encoding($sim_encoding) {
