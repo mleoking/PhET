@@ -53,6 +53,9 @@ public class JarFileManager {
         public JarIOException( String message ) {
             super( message );
         }
+        public JarIOException( String message, Throwable cause ) {
+            super( message, cause );
+        }
     }
     
     /**
@@ -93,7 +96,7 @@ public class JarFileManager {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + jarFileName, e );
         }
         
         JarInputStream jarInputStream = null;
@@ -128,7 +131,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName );
+            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + jarFileName, e );
         }
         
         if ( projectName == null ) {
@@ -209,7 +212,7 @@ public class JarFileManager {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName, e );
         }
         
         JarInputStream jarInputStream = null;
@@ -231,7 +234,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_READ_JAR + " : " + _jarFileName, e );
         }
         
         Properties properties = null;
@@ -242,7 +245,7 @@ public class JarFileManager {
             }
             catch ( IOException e ) {
                 e.printStackTrace();
-                throw new JarIOException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName );
+                throw new JarIOException( ERROR_CANNOT_EXTRACT_PROPERTIES_FILE + " : " + propertiesFileName, e );
             }
         }
         
@@ -251,7 +254,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_CLOSE_JAR + " : " + _jarFileName, e );
         }
     
         return properties;
@@ -279,7 +282,7 @@ public class JarFileManager {
         }
         catch ( FileNotFoundException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_OPEN_JAR + " : " + _jarFileName, e );
         }
         
         String testFileName = getJarDirName() + File.separatorChar + TEST_JAR_NAME;
@@ -325,7 +328,7 @@ public class JarFileManager {
         catch ( IOException e ) {
             testFile.delete();
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + _jarFileName );
+            throw new JarIOException( ERROR_CANNOT_INSERT_PROPERTIES_FILE + " : " + _jarFileName, e );
         }
         
         return testFileName;
@@ -347,7 +350,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + file.getAbsolutePath() );
+            throw new JarIOException( ERROR_CANNOT_WRITE_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
         }
     }
     
@@ -367,7 +370,7 @@ public class JarFileManager {
         }
         catch ( IOException e ) {
             e.printStackTrace();
-            throw new JarIOException( ERROR_CANNOT_READ_PROPERTIES_FILE + " : " + file.getAbsolutePath() );
+            throw new JarIOException( ERROR_CANNOT_READ_PROPERTIES_FILE + " : " + file.getAbsolutePath(), e );
         }
         return properties;
     }
