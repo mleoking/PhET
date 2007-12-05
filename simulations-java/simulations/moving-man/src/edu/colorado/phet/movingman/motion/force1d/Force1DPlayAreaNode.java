@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class Force1DPlayAreaNode extends AbstractMovingManNode {
-    public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel ) {
+    public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel, final ForceModel forceModel ) {
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
@@ -24,20 +24,19 @@ public class Force1DPlayAreaNode extends AbstractMovingManNode {
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D p2 = event.getPositionRelativeTo( manImage.getParent() );
-                motionModel.setAccelerationDriven();
+                motionModel.setUpdateStrategy( forceModel );
                 double dx = p2.getX() - pressPoint.getX();
 
-                final double acceleration = dx * 0.001;
-                motionModel.getMotionBody().setAcceleration( acceleration );
+                final double appliedForce = dx * 0.001;
+                forceModel.setAppliedForce( appliedForce );
             }
 
             public void mouseReleased( PInputEvent event ) {
-                motionModel.getMotionBody().setAcceleration( 0.0 );
+                forceModel.setAppliedForce( 0.0 );
             }
 
             public void mousePressed( PInputEvent event ) {
                 pressPoint = event.getPositionRelativeTo( manImage.getParent() );
-                super.mousePressed( event );
             }
         } );
 

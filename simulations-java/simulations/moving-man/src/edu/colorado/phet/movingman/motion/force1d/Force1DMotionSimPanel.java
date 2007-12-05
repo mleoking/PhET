@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingman.motion.movingman.MovingManGraph;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
-import edu.colorado.phet.movingman.motion.movingman.MovingManNode;
 
 /**
  * Created by: Sam
@@ -22,7 +21,7 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
 
     public Force1DMotionSimPanel( ConstantDtClock clock, Force1DMotionModel model ) {
         SingleBodyMotionModel motionModel = model.getMotionModel();
-        movingManNode = new Force1DPlayAreaNode( new SingleBodyMotionModel( clock ) );
+        movingManNode = new Force1DPlayAreaNode( motionModel,model.getForceModel() );
         addScreenChild( movingManNode );
 
         MovingManGraph xGraph = new MovingManGraph(
@@ -51,7 +50,7 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
     }
 
     protected void updateLayout() {
-                super.updateLayout();
+        super.updateLayout();
         movingManNode.setTransform( 22.0, getWidth() );
 
         int insetX = 2;

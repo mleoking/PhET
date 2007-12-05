@@ -10,6 +10,10 @@ public class DefaultVariable implements IVariable {
     private double value;
     private ArrayList listeners = new ArrayList();
 
+    public DefaultVariable( double value ) {
+        this.value = value;
+    }
+
     public void setValue( double value ) {
         if ( this.value != value ) {
             this.value = value;
