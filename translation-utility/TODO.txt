@@ -8,7 +8,6 @@ OPEN ISSUES:
 
 HIGH PRIORITY:
 - revise JarFileManager interface
-- refactor Translation.findNext and findPrevious
 - refactor to separate model and view (packages: model, view, java, flash, util)
 - refactor to support alternate strategies for Flash sims
 
@@ -32,6 +31,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - bugfix and clean up in Translation.findNext and findPrevious
 12/5/07 - add cause to JarIOExceptions
 12/5/07 - remove unused autoTranslate flag in various constructors
 12/5/07 - use HashMap for entry and tag mappings in GoogleTranslateService
