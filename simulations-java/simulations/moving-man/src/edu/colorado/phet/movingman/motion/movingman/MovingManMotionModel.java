@@ -6,6 +6,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.mri.model.MriModel;
 
 /**
  * Created by: Sam
@@ -192,5 +193,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void crashedMax() {
         System.out.println( "MovingManMotionModel.crashedMax" );
+    }
+
+    public ITemporalVariable getAVariable() {
+        return a;
     }
 }
