@@ -176,7 +176,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
             }
             try {
-                JarFileManager.savePropertiesToFile( properties, outFile );
+                JarFileManager.writePropertiesToFile( properties, outFile );
             }
             catch ( JarIOException e ) {
                 ExceptionHandler.handleNonFatalException( e );
@@ -236,7 +236,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
         }
         
         try {
-            JarFileManager.savePropertiesToFile( properties, outFile );
+            JarFileManager.writePropertiesToFile( properties, outFile );
         }
         catch ( JarIOException e ) {
             ExceptionHandler.handleNonFatalException( e );

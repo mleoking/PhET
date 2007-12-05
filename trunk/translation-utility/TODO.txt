@@ -31,6 +31,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - cleanup JarFileManager interface
 12/5/07 - in FindDialog, make pressing Return/Enter the same as pressing the Next button
 12/5/07 - fix Find selection so that it persists when Find dialog is closed
 12/5/07 - ensure that Component with focus is always visible in the JScrollPane
