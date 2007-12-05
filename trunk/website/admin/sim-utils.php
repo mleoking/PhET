@@ -388,10 +388,25 @@
             }
         }
 
+		// Look for best match using substrings:
+		foreach($map as $name => $sim) {
+            $encoding = web_encode_string($name);
+
+			$s1 = strtolower($sim_encoding);
+			$s2 = strtolower($encoding);
+			
+			if (strpos($s1, $s2) !== false) {
+				return $sim;
+			}
+			else if (strpos($s2, $s1) !== false) {
+				return $sim;
+			}
+        }
+
 		$best_dist = 9999999;
 		$best_sim  = false;
 
-		// No exact match could be found. Look for best match using Levenshtein distance function:
+		// Look for best match using Levenshtein distance function:
 		foreach($map as $name => $sim) {
             $encoding = web_encode_string($name);
 
