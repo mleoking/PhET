@@ -91,6 +91,10 @@ public class MotionModel {
         clear();
     }
 
+    public ITemporalVariable getTimeVariable() {
+        return timeVariable;
+    }
+
     public void setMaxAllowedRecordTime( double maxAllowedRecordTime ) {
         getTimeSeriesModel().setMaxAllowedRecordTime( maxAllowedRecordTime );
     }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
@@ -14,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Created by: Sam
@@ -29,6 +31,11 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
+
+        final TimeReadoutNode timeReadoutNode = new TimeReadoutNode( motionModel );
+        timeReadoutNode.scale( 1.0 / 35.0 );
+        timeReadoutNode.setOffset( -7, 0.02 );
+        movingManNode.addChild( timeReadoutNode );
 
         PNode vectorLayer = new PNode();
         movingManNode.addChild( vectorLayer );
@@ -102,5 +109,20 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 
     public void setShowAccelerationVector( boolean selected ) {
         accelVector.setVisible( selected );
+    }
+
+    private class TimeReadoutNode extends PNode {
+        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+
+        public TimeReadoutNode( final MovingManMotionModel motionModel ) {
+            final PText text = new PText();
+            text.setFont( new PhetDefaultFont( 16, true ) );
+            motionModel.getTimeVariable().addListener( new ITemporalVariable.ListenerAdapter() {
+                public void valueChanged() {
+                    text.setText( decimalFormat.format( motionModel.getTime() ) + " seconds" );
+                }
+            } );
+            addChild( text );
+        }
     }
 }
