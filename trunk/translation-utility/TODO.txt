@@ -34,6 +34,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/5/07 - absorb ProjectProperties into TUResources
 12/5/07 - move properties file i/o operations out of JarIO and into PropertiesIO
 12/5/07 - rename JarFileManager to JarIO
 12/5/07 - cleanup JarFileManager interface

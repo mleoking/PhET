@@ -25,7 +25,7 @@ public class TranslationUtility extends JFrame {
      */
     public static void main( String[] args ) {
         
-        String title = ProjectProperties.getTitle();
+        String title = TUResources.getTitle();
 
         // prompt the user for initialization info
         InitializationDialog initDialog = new InitializationDialog( title );

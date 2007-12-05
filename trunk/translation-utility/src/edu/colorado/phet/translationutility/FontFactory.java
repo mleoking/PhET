@@ -48,7 +48,7 @@ public class FontFactory {
      */
     public static Font createFont( String languageCode, int style, int size ) {
         Font font = new PhetDefaultFont( style, size );
-        String[] preferredFontNames = ProjectProperties.getPreferredFontNames( languageCode );
+        String[] preferredFontNames = TUResources.getPreferredFontNames( languageCode );
         if ( preferredFontNames != null ) {
             for ( int i = 0; i < preferredFontNames.length; i++ ) {
                 String fontName = preferredFontNames[i];
