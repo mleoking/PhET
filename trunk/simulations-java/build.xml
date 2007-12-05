@@ -855,7 +855,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         <echo file="maverick-test-file.txt" message="test text"/>
         <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
                       version="2">
-            <sftp action="put" remotedir="${remotedir}" verbose="true">
+            <sftp action="put" remotedir="/web/htdocs/phet/temp" verbose="true">
                 <fileset dir=".">
                     <include name="*maverick-test-file.txt"/>
                 </fileset>
