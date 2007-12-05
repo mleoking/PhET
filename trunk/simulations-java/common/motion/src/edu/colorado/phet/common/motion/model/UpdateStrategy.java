@@ -72,10 +72,17 @@ public interface UpdateStrategy {
         public void update( IMotionBody motionBody, double dt, double time ) {
             //assume a constant acceleration model with the given acceleration.
             //        System.out.println( "AccelerationDriven.update" );
-            double origAngVel = motionBody.getVelocity();
             motionBody.addAccelerationData( motionBody.getAcceleration(), time );
-            motionBody.addVelocityData( motionBody.getVelocity() + motionBody.getAcceleration() * dt, time );
-            motionBody.addPositionData( motionBody.getPosition() + ( motionBody.getVelocity() + origAngVel ) / 2.0 * dt, time );
+            motionBody.addVelocityData( getNewVelocity( motionBody, dt ), time );
+            motionBody.addPositionData( getNewPosition( motionBody, dt ), time );
+        }
+
+        protected double getNewPosition( IMotionBody motionBody, double dt ) {
+            return motionBody.getPosition() + ( motionBody.getVelocity() + getNewVelocity( motionBody, dt ) ) / 2.0 * dt;
+        }
+
+        protected double getNewVelocity( IMotionBody motionBody, double dt ) {
+            return motionBody.getVelocity() + motionBody.getAcceleration() * dt;
         }
     }
 }
