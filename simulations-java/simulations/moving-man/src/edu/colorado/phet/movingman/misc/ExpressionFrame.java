@@ -29,7 +29,7 @@ public class ExpressionFrame extends JDialog {
         this.mode = new EvaluationMode( module );
         VerticalLayoutPanel contentPanel = new VerticalLayoutPanel();
         JLabel explanation = new JLabel( SimStrings.get( "expressions.description" ) );
-        JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
+
 
         String testEquation = SimStrings.get( "expressions.example" );
         final JTextField expression = new JTextField( testEquation, 15 );
@@ -39,6 +39,8 @@ public class ExpressionFrame extends JDialog {
             }
         } );
         expression.setBackground( Color.white );
+
+        JPanel horizontalLayoutPanel = new JPanel( new FlowLayout() );
         horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "expressions.range" ) + " = " ) );
         horizontalLayoutPanel.add( expression );
         contentPanel.add( explanation );
@@ -124,23 +126,7 @@ public class ExpressionFrame extends JDialog {
         Interpreter interpreter = new Interpreter();
 
         public void stepInTime( double dt ) {
-            String timeString = "(" + module.getRecordingTimer().getTime() + ")";
-
-//            String equation = expression.replaceAll( "t", timeString );
-            String equation = expression.replaceAll( "cos", "Math.cos" );
-            equation = equation.replaceAll( "sin", "Math.sin" );
-            equation = equation.replaceAll( "pi", "Math.PI" );
-            equation = equation.replaceAll( "log", "Math.log" );
-            equation = equation.replaceAll( "pow", "Math.pow" );
-
-            double x = 0;
-            try {
-                Object value = interpreter.eval( "t=" + timeString + "; y=" + equation );
-                x = ( (Number)value ).doubleValue();
-            }
-            catch( EvalError evalError ) {
-                evalError.printStackTrace();
-            }
+            double x = evaluate( module.getRecordingTimer().getTime(), expression, interpreter );
 
             if( module.getRecordingTimer().getTime() >= module.getMaxTime() ) {
                 timeFinished();
@@ -187,5 +173,27 @@ public class ExpressionFrame extends JDialog {
             System.out.println( "expression = " + expression );
         }
     }
+
+    public static double evaluate( double time, String expression, Interpreter interpreter ) {
+        String timeString = "(" + time + ")";
+
+//            String equation = expression.replaceAll( "t", timeString );
+        String equation = expression.replaceAll( "cos", "Math.cos" );
+        equation = equation.replaceAll( "sin", "Math.sin" );
+        equation = equation.replaceAll( "pi", "Math.PI" );
+        equation = equation.replaceAll( "log", "Math.log" );
+        equation = equation.replaceAll( "pow", "Math.pow" );
+
+        double x = 0;
+        try {
+            Object value = interpreter.eval( "t=" + timeString + "; y=" + equation );
+            x = ( (Number)value ).doubleValue();
+        }
+        catch( EvalError evalError ) {
+            evalError.printStackTrace();
+        }
+        return x;
+    }
+
 
 }

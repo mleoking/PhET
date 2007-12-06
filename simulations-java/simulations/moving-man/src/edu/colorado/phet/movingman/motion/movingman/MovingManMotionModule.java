@@ -22,6 +22,8 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
     private boolean audioEnabled = true;
+    public static double MIN_DT = 0.5;
+    public static double MAX_DT = 2.0;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( "Moving Man", clock );
@@ -38,7 +40,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
         movingManMotionSimPanel = new MovingManMotionSimPanel( movingManMotionModel );
         setSimulationPanel( movingManMotionSimPanel );
-        setClockControlPanel( new MovingManSouthControlPanel( this, movingManMotionModel.getTimeSeriesModel(), clock.getDt() / 2, clock.getDt() * 2 ) );
+        setClockControlPanel( new MovingManSouthControlPanel( this, movingManMotionModel.getTimeSeriesModel(), MIN_DT, MAX_DT ) );
         setLogoPanelVisible( false );
     }
 
@@ -86,7 +88,15 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     }
 
     public void setBoundaryOpen( boolean b ) {
-        movingManMotionModel.setBoundaryOpen(b);
+        movingManMotionModel.setBoundaryOpen( b );
+    }
+
+    public TimeSeriesModel getTimeSeriesModel() {
+        return movingManMotionModel.getTimeSeriesModel();
+    }
+
+    public void setExpressionUpdate( String text ) {
+        movingManMotionModel.setExpressionUpdate(text);
     }
 
     private class MovingManSouthControlPanel extends HorizontalLayoutPanel {
