@@ -5,6 +5,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -19,6 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class AbstractMovingManNode extends PNode {
     private PImage manImage;
+    private double modelWidth;
+    private int screenWidth;
 
     public AbstractMovingManNode() {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
@@ -80,8 +84,53 @@ public class AbstractMovingManNode extends PNode {
     }
 
     public void setTransform( double modelWidth, int screenWidth ) {
-        setTransform( new AffineTransform() );
-        scale( screenWidth / modelWidth );
-        translate( modelWidth / 2, 0 );
+        this.modelWidth = modelWidth;
+        this.screenWidth = screenWidth;
+        updateTransform();
     }
+
+    double sign = +1.0;
+
+    private void updateTransform() {
+        setTransform( new AffineTransform() );
+        translate( screenWidth / 2, 0 );
+
+        transformBy( AffineTransform.getScaleInstance( sign * screenWidth / modelWidth, screenWidth / modelWidth ) );
+    }
+
+    public void setRightDirPositive( boolean rightPositive, JComponent component ) {
+        double newSign = rightPositive ? +1:-1;
+        double oldSign=sign>0?+1:-1;
+        if ( newSign != sign ) {
+            if ( newSign < 0 ) {
+                for ( double s = 1; s >= -1; s -= 0.05 ) {
+                    sign = s;
+                    updateTransform();
+                    component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+                    try {
+                        Thread.sleep( 5 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            else {
+                for ( double s = -1; s <= +1; s += 0.05 ) {
+                    sign = s;
+                    updateTransform();
+                    component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+                    try {
+                        Thread.sleep( 5 );
+                    }
+                    catch( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            sign = newSign;
+            updateTransform();
+        }
+    }
+
 }

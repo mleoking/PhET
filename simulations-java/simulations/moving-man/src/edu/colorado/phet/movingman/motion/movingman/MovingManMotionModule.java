@@ -68,23 +68,18 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     }
 
     public boolean confirmClear() {
-//        double recTime = getMovingManModel().getTimeModel().getRecordMode().getTimer().getTime();
-//        if ( recTime == 0.0 ) {
-//            return true;
-//        }
+        if ( getTimeSeriesModel().getRecordTime() == 0 ) {
+            return true;
+        }
         int option = JOptionPane.showConfirmDialog( movingManMotionSimPanel,
                                                     SimStrings.get( "plot.confirm-clear" ),
                                                     SimStrings.get( "plot.confirm-reset" ),
                                                     JOptionPane.YES_NO_CANCEL_OPTION );
-        if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return option == JOptionPane.OK_OPTION;
     }
 
     public void setRightDirPositive( boolean b ) {
+        movingManMotionSimPanel.setRightDirPositive(b);
     }
 
     public void setBoundaryOpen( boolean b ) {
@@ -96,7 +91,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     }
 
     public void setExpressionUpdate( String text ) {
-        movingManMotionModel.setExpressionUpdate(text);
+        movingManMotionModel.setExpressionUpdate( text );
     }
 
     private class MovingManSouthControlPanel extends HorizontalLayoutPanel {
