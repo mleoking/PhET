@@ -106,6 +106,21 @@ public class MotionModel {
         timeSeriesModel.clear();
     }
 
+    /**
+     * Adds the current value to the history for the specified variable with the current time.
+     *
+     * @param variable var
+     */
+    protected void defaultUpdate( ITemporalVariable variable ) {
+        variable.addValue( variable.getValue(), getTime() );
+    }
+
+    protected void defaultUpdate( ITemporalVariable[] v ) {
+        for ( int i = 0; i < v.length; i++ ) {
+            defaultUpdate( v[i] );
+        }
+    }
+
     public double getTime() {
         return timeVariable.getValue();
     }
