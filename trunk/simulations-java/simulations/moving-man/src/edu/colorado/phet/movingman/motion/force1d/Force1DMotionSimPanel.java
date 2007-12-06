@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
+import java.io.IOException;
+
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
@@ -21,7 +23,12 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
 
     public Force1DMotionSimPanel( ConstantDtClock clock, Force1DMotionModel model ) {
         SingleBodyMotionModel motionModel = null;//todo: fix
-        movingManNode = new Force1DPlayAreaNode( motionModel, model.getForceModel() );
+        try {
+            movingManNode = new Force1DPlayAreaNode( motionModel, model.getForceModel() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         addScreenChild( movingManNode );
 
         MovingManGraph xGraph = new MovingManGraph(

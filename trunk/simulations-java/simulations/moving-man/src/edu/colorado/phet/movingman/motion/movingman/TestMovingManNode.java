@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -14,7 +15,7 @@ import edu.umd.cs.piccolo.event.PZoomEventHandler;
  * Dec 4, 2007 at 1:22:14 PM
  */
 public class TestMovingManNode {
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws IOException {
         JFrame frame = new JFrame( "Test Moving Man Node" );
         frame.setSize( Toolkit.getDefaultToolkit().getScreenSize().width, 300 );
         PhetPCanvas phetPCanvas = new PhetPCanvas();
