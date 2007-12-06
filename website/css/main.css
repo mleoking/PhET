@@ -1273,7 +1273,7 @@ border-collapse: collapse;
 #referring-statistics thead td {
 background-color: gray;
 }
-#referring-statistics tbody td:nth-child(even) {
+#referring-statistics tbody tr:nth-child(even) {
 background-color: rgb(210, 210, 210);
 }
 
