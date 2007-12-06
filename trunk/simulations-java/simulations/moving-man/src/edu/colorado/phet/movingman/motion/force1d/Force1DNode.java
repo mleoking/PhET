@@ -24,7 +24,7 @@ public class Force1DNode extends AbstractMovingManNode {
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D p2 = event.getPositionRelativeTo( manImage.getParent() );
-                forceModel.setUpdateStrategy( forceModel );
+                forceModel.setUpdateStrategy( forceModel.getAppliedForceStrategy() );
                 double dx = p2.getX() - pressPoint.getX();
 
 //                final double appliedForce = dx * 0.2;
