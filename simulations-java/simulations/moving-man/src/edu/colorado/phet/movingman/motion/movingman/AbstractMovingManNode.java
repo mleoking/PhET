@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -23,6 +24,25 @@ public class AbstractMovingManNode extends PNode {
     private PImage manImage;
     private double modelWidth;
     private int screenWidth;
+    private double sign = +1.0;
+    private ArrayList tickTextList = new ArrayList();
+
+    class TickLabel extends PText {
+        private double x;
+
+        public TickLabel( double x ) {
+            super( "" + x + ( x == 0 ? " meters" : "" ) );
+            this.x = x;
+            setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
+            updateTransform();
+        }
+
+        public void updateTransform() {
+            setTransform( new AffineTransform() );
+            transformBy( AffineTransform.getScaleInstance( 0.025 * sign, 0.025 ) );
+            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2 );
+        }
+    }
 
     public AbstractMovingManNode() {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
@@ -39,15 +59,14 @@ public class AbstractMovingManNode extends PNode {
         addChild( floorNode );
 
         for ( int i = -10; i <= 10; i += 2 ) {
-            PText tickText = new PText( "" + i + ( i == 0 ? " meters" : "" ) );
-            tickText.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
-            tickText.scale( 0.025 );
-            tickText.setOffset( i - tickText.getFullBounds().getWidth() / 2, 2 );
+            TickLabel tickLabel = new TickLabel( i );
+            tickTextList.add( tickLabel );
 
             PPath tickNode = new PhetPPath( new Line2D.Double( 0, 0, 0, -0.2 ), new BasicStroke( 0.1f / 2 ), Color.black );
             tickNode.setOffset( i, 2 );
 
-            addChild( tickText );
+
+            addChild( tickLabel );
             addChild( tickNode );
         }
         PImage tree = PImageFactory.create( "moving-man/images/tree.gif" );
@@ -89,8 +108,6 @@ public class AbstractMovingManNode extends PNode {
         updateTransform();
     }
 
-    double sign = +1.0;
-
     private void updateTransform() {
         setTransform( new AffineTransform() );
         translate( screenWidth / 2, 0 );
@@ -99,38 +116,49 @@ public class AbstractMovingManNode extends PNode {
     }
 
     public void setRightDirPositive( boolean rightPositive, JComponent component ) {
-        double newSign = rightPositive ? +1:-1;
-        double oldSign=sign>0?+1:-1;
+        double newSign = rightPositive ? +1 : -1;
+        double oldSign = sign > 0 ? +1 : -1;
         if ( newSign != sign ) {
-            if ( newSign < 0 ) {
-                for ( double s = 1; s >= -1; s -= 0.05 ) {
-                    sign = s;
-                    updateTransform();
-                    component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
-                    try {
-                        Thread.sleep( 5 );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
+            for ( double s = 1 * oldSign; newSign == -1 ? s >= -1 * oldSign : s <= -1 * oldSign; s -= 0.05 * oldSign )
+            {//new sign =-1 old sign=+1
+                sign = s;
+                updateTransform();
+                for ( int i = 0; i < tickTextList.size(); i++ ) {
+                    TickLabel pText = (TickLabel) tickTextList.get( i );
+                    pText.updateTransform();
                 }
-            }
-            else {
-                for ( double s = -1; s <= +1; s += 0.05 ) {
-                    sign = s;
-                    updateTransform();
-                    component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
-                    try {
-                        Thread.sleep( 5 );
-                    }
-                    catch( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
+                component.paintImmediately( 0, 0, component.getWidth(), component.getHeight() );
+                try {
+                    Thread.sleep( 5 );
+                }
+                catch( InterruptedException e ) {
+                    e.printStackTrace();
                 }
             }
             sign = newSign;
             updateTransform();
+            notifyDirectionChanged();
         }
+    }
+
+    public static interface Listener {
+        void directionChanged();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyDirectionChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).directionChanged();
+        }
+    }
+
+    public double getScaleX() {
+        return sign;
     }
 
 }
