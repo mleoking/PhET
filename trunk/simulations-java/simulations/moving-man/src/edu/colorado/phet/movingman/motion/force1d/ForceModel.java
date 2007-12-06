@@ -16,8 +16,8 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     private DefaultTemporalVariable wallForce = new DefaultTemporalVariable();
     private DefaultTemporalVariable netForce = new DefaultTemporalVariable();
 
-    private DefaultTemporalVariable time = new DefaultTemporalVariable();
-
+    //handled in parent hierarchy
+//    private DefaultTemporalVariable time = new DefaultTemporalVariable();
 //    private DefaultTemporalVariable position = new DefaultTemporalVariable();
 //    private DefaultTemporalVariable velocity = new DefaultTemporalVariable();
 //    private DefaultTemporalVariable acceleration = new DefaultTemporalVariable();
@@ -26,8 +26,6 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     private DefaultTemporalVariable staticFriction = new DefaultTemporalVariable();
     private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable();
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( 1.0 );
-
-    private AccelerationDriven accelerationDriven = new AccelerationDriven();
 
     public ForceModel( ConstantDtClock clock ) {
         super( clock );
@@ -42,7 +40,7 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     public void update( IMotionBody motionBody, double dt, double time ) {
         motionBody.setAcceleration( getAcceleration() );
 //        System.out.println( "acceleration.getValue() = " + acceleration.getValue() );
-        accelerationDriven.update( motionBody, dt, time );
+        getAccelDriven().update( motionBody, dt, time );
     }
 
 }
