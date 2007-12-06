@@ -2,6 +2,8 @@ package edu.colorado.phet.common.motion.graphs;
 
 import java.util.ArrayList;
 
+import org.jfree.chart.JFreeChart;
+
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartCursorNode;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.motion.model.UpdateableObject;
@@ -34,7 +36,12 @@ public class MotionControlGraph extends ControlGraph {
 
     public MotionControlGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
                                double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject updateableObject ) {
-        super( pSwingCanvas, series, title, min, max, timeSeriesModel, maxDomainValue );
+        this(ControlGraph.createDefaultChart(title),pSwingCanvas,series, label, title, min,max,editable, timeSeriesModel, updateStrategy, maxDomainValue, updateableObject );
+    }
+
+    public MotionControlGraph( JFreeChart chart,PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title,
+                               double min, double max, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject updateableObject ) {
+        super( chart,pSwingCanvas, series, min, max, timeSeriesModel, maxDomainValue );
         this.updateableObject = updateableObject;
         this.timeSeriesModel = timeSeriesModel;
         this.updateStrategy = updateStrategy;

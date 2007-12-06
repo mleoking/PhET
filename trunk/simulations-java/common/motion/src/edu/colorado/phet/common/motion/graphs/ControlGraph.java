@@ -8,9 +8,12 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
@@ -75,6 +78,12 @@ public class ControlGraph extends PNode {
 
     public ControlGraph( PhetPCanvas pSwingCanvas, ControlGraphSeries series,
                          String title, double minY, final double maxY, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+        this( createDefaultChart( title ), pSwingCanvas, series, minY, maxY, timeSeriesModel, maxDomainTime );
+    }
+
+    public ControlGraph( JFreeChart jFreeChart, PhetPCanvas pSwingCanvas, ControlGraphSeries series,
+                         double minY, final double maxY, TimeSeriesModel timeSeriesModel, double maxDomainTime ) {
+        this.jFreeChart = jFreeChart;
         PNode thumb = null;
         if ( series != null ) {
             this.variable = series.getTemporalVariable();
@@ -87,8 +96,6 @@ public class ControlGraph extends PNode {
         }
         this.maxDomainValue = maxDomainTime;
         titleLayer = createTitleLayer();
-        XYDataset dataset = new XYSeriesCollection( new XYSeries( "dummy series" ) );
-        jFreeChart = ChartFactory.createXYLineChart( title, null, null, dataset, PlotOrientation.VERTICAL, false, false, false );
         jFreeChart.setTitle( (String) null );
         setVerticalRange( minY, maxY );
         setHorizontalRange( maxDomainTime );
@@ -175,6 +182,22 @@ public class ControlGraph extends PNode {
             addSeries( series );
         }
         updateSliderValue();
+    }
+
+    public static JFreeChart createDefaultChart( String title ) {
+        return createXYLineChart( title, null, null, new XYSeriesCollection( new XYSeries( "dummy series", false ) ), PlotOrientation.VERTICAL );
+    }
+
+    public static JFreeChart createXYLineChart( String title, String xAxisLabel, String yAxisLabel, XYDataset dataset,
+                                                PlotOrientation orientation ) {
+        NumberAxis xAxis = new NumberAxis( xAxisLabel );
+        xAxis.setAutoRangeIncludesZero( false );
+        NumberAxis yAxis = new NumberAxis( yAxisLabel );
+        XYItemRenderer renderer = new XYLineAndShapeRenderer( true, false );
+        XYPlot plot = new XYPlot( dataset, xAxis, yAxis, renderer );
+        plot.setOrientation( orientation );
+
+        return new JFreeChartDecorator( title, JFreeChart.DEFAULT_TITLE_FONT, plot, false );
     }
 
     protected JFreeChartSliderNode createSliderNode( PNode thumb ) {
