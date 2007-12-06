@@ -43,7 +43,7 @@ public class MovingManGraph extends MotionControlGraph {
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRangeIncludesZero( false );
         xAxis.setTickLabelsVisible( false );
-        xAxis.setTickUnit( new NumberTickUnit( 100 ) );
+        xAxis.setTickUnit( new NumberTickUnit( 5 ) );
 
         NumberAxis yAxis = new NumberAxis();
         yAxis.setTickLabelFont( new PhetDefaultFont( 12, true ) );
@@ -57,12 +57,12 @@ public class MovingManGraph extends MotionControlGraph {
         plot.setRangeGridlinePaint( Color.lightGray );
 
         plot.setDomainGridlineStroke( new BasicStroke( 1 ) );
-        plot.setDomainGridlinePaint( Color.lightGray);
+        plot.setDomainGridlinePaint( Color.lightGray );
 
 //        plot.setDomainGridlinesVisible();
         plot.setOrientation( PlotOrientation.VERTICAL );
         final JFreeChartDecorator chart = new JFreeChartDecorator( null, JFreeChart.DEFAULT_TITLE_FONT, plot, false );
-        chart.addJFreeChartNodeGraphic( new JFreeChartDecorator.InChartTickMarks( 0, 100, 10 ) );
+        chart.addJFreeChartNodeGraphic( new JFreeChartDecorator.InChartTickMarks( 0, 2, 11 ) );
         chart.addJFreeChartNodeGraphic( new JFreeChartDecorator.DottedZeroLine() );
 
         return chart;

@@ -2,8 +2,8 @@ package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.text.DecimalFormat;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
@@ -56,7 +56,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         velocityVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter velocityVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
-                velocityVector.setVector( motionModel.getPosition(), 2, 15 * motionModel.getVelocity(), 0 );
+                velocityVector.setVector( motionModel.getPosition(), 2, 15.0 / 500 * 10 * motionModel.getVelocity(), 0 );
             }
         };
         motionModel.getXVariable().addListener( velocityVectorUpdate );
@@ -67,7 +67,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         accelVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter accelVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
-                accelVector.setVector( motionModel.getPosition(), 2, 40 * motionModel.getAcceleration(), 0 );
+                accelVector.setVector( motionModel.getPosition(), 2, 40.0 / 500 * 20 * motionModel.getAcceleration(), 0 );
             }
         };
         motionModel.getXVariable().addListener( accelVectorUpdate );
@@ -86,11 +86,11 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, motionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
+                this, motionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -11, 11,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, motionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
+                this, motionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
@@ -113,7 +113,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         timeReadoutNode.setOffset( -7, 0.02 );
         if ( movingManNode.getScaleX() < 0 ) {
             timeReadoutNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
-            timeReadoutNode.translate( -3*35, 0 );
+            timeReadoutNode.translate( -3 * 35, 0 );
         }
     }
 

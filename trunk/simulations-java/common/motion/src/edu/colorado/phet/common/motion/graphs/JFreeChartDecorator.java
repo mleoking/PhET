@@ -49,7 +49,7 @@ public class JFreeChartDecorator extends JFreeChart {
         private double min;
         private double tickIncrement;
         private int numTicks;
-        private DecimalFormat format = new DecimalFormat( "0.0" );
+        private DecimalFormat format = new DecimalFormat( "0" );
 
         public InChartTickMarks( double min, double tickIncrement, int numTicks ) {
             this.min = min;

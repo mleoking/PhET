@@ -22,8 +22,8 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
     private boolean audioEnabled = true;
-    public static double MIN_DT = 0.5;
-    public static double MAX_DT = 2.0;
+    public static double MIN_DT = MovingManMotionApplication.FRAME_DELAY_SEC/2;
+    public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC*2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( "Moving Man", clock );
