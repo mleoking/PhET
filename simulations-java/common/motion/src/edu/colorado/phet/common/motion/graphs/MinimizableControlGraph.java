@@ -30,6 +30,10 @@ public class MinimizableControlGraph extends PNode {
     private PSwing closeButton;
 
     public MinimizableControlGraph( String label, ControlGraph controlGraph ) {
+        this( label, controlGraph, false );
+    }
+
+    public MinimizableControlGraph( String label, ControlGraph controlGraph, boolean minimized ) {
         this.label = label;
 
         graphChild = new PNode();
@@ -76,6 +80,7 @@ public class MinimizableControlGraph extends PNode {
         stubChild.addChild( maxButton );
 
         relayout();
+        setMinimized( minimized );
     }
 
     public ControlGraph getControlGraph() {

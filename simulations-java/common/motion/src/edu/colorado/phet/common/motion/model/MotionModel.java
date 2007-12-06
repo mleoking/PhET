@@ -1,5 +1,7 @@
 package edu.colorado.phet.common.motion.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -14,6 +16,7 @@ import edu.colorado.phet.common.timeseries.model.TimeState;
 public class MotionModel {
     private TimeSeriesModel timeSeriesModel;
     private ITemporalVariable timeVariable;
+    private ArrayList temporalVariables = new ArrayList();
 
     public MotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
         timeVariable = new DefaultTemporalVariable( timeSeriesFactory );
@@ -58,14 +61,33 @@ public class MotionModel {
                 timeSeriesModel.stepMode( clockEvent.getSimulationTimeChange() );
             }
         } );
+        addTemporalVariable( timeVariable );
     }
+
 
     protected TimeSeriesModel createTimeSeriesModel( RecordableModel recordableModel, ConstantDtClock clock ) {
         return new MotionTimeSeriesModel( recordableModel, clock );
     }
 
+    /**
+     * Sets the specified time for all registered temporal variables.
+     *
+     * @param time
+     */
     protected void setPlaybackTime( double time ) {
-        timeVariable.setPlaybackTime( time );
+        for ( int i = 0; i < temporalVariables.size(); i++ ) {
+            ( (ITemporalVariable) temporalVariables.get( i ) ).setPlaybackTime( time );
+        }
+    }
+
+    public void addTemporalVariables( ITemporalVariable[] temporalVariables ) {
+        for ( int i = 0; i < temporalVariables.length; i++ ) {
+            addTemporalVariable( temporalVariables[i] );
+        }
+    }
+
+    public void addTemporalVariable( ITemporalVariable temporalVariable ) {
+        temporalVariables.add( temporalVariable );
     }
 
     public void stepInTime( double dt ) {
@@ -73,9 +95,14 @@ public class MotionModel {
         timeVariable.addValue( newTime, newTime );
     }
 
+    /**
+     * Clears history for all registered temporal variables.
+     */
     public void clear() {
         timeVariable.setValue( 0.0 );
-        timeVariable.clear();
+        for ( int i = 0; i < temporalVariables.size(); i++ ) {
+            ( (ITemporalVariable) temporalVariables.get( i ) ).clear();
+        }
         timeSeriesModel.clear();
     }
 
