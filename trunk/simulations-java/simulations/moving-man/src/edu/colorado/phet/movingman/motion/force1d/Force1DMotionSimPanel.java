@@ -6,10 +6,8 @@ import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
-import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.movingman.motion.movingman.MovingManGraph;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
 
@@ -17,14 +15,13 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
  * Created by: Sam
  * Dec 4, 2007 at 1:29:00 PM
  */
-public class Force1DMotionSimPanel extends PhetPCanvas {
+public class Force1DMotionSimPanel extends BufferedPhetPCanvas {
     private Force1DPlayAreaNode movingManNode;
     private GraphSetNode graphSetNode;
 
-    public Force1DMotionSimPanel( ConstantDtClock clock, Force1DMotionModel model ) {
-        SingleBodyMotionModel motionModel = null;//todo: fix
+    public Force1DMotionSimPanel( ForceModel forceModel ) {
         try {
-            movingManNode = new Force1DPlayAreaNode( motionModel, model.getForceModel() );
+            movingManNode = new Force1DPlayAreaNode( forceModel );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -32,18 +29,18 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
         addScreenChild( movingManNode );
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, model.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
+                this, forceModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
+                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getPositionDriven(), MovingManMotionModel.MAX_T, forceModel );
 
 
         MovingManGraph vGraph = new MovingManGraph(
-                this, model.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -0.1, 0.1,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
+                this, forceModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -11, 11,
+                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getVelocityDriven(), MovingManMotionModel.MAX_T, forceModel );
 
 
         MovingManGraph aGraph = new MovingManGraph(
-                this, model.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -0.01, 0.01,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
+                this, forceModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
+                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getAccelDriven(), MovingManMotionModel.MAX_T, forceModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
