@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.movingman.MovingManApplication;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
+import edu.colorado.phet.movingman.motion.movingman.MovingManMotionApplication;
 
 /**
  * Created by: Sam
@@ -18,7 +19,7 @@ import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 public class Force1DMotionApplication extends PhetApplication {
     public Force1DMotionApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-force1d" ) );
-        addModule( new Force1DMotionModule( new ConstantDtClock( 30, 1.0 ) ) );
+        addModule( new Force1DMotionModule( new ConstantDtClock( (int) MovingManMotionApplication.FRAME_DELAY_MILLIS, MovingManMotionApplication.FRAME_DELAY_SEC ) ) );
     }
 
     public static void main( final String[] args ) {
