@@ -49,8 +49,9 @@
         @import url(css/home.css);        
 /*]]>*/
 </style>
-
-<script src="js/jquery.pack.js"         type="text/javascript"></script>
+<!-- compliance patch for microsoft browsers -->
+<!--[if lt IE 7]><script src="js/ie7/ie7-standard-p.js" type="text/javascript"></script><![endif]-->
+<script src="js/jquery.pack.js" type="text/javascript"></script>
 </head>
 
 <body>
