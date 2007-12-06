@@ -28,10 +28,7 @@ public class OptionsMenu extends JMenu {
         final JCheckBoxMenuItem jcbmi = new JCheckBoxMenuItem( SimStrings.get( "controls.reverse-x-axis" ), false );
         jcbmi.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                boolean ok = module.confirmClear();
-                if ( ok ) {
-                    module.setRightDirPositive( !jcbmi.isSelected() );
-                }
+                module.setRightDirPositive( !jcbmi.isSelected() );
             }
         } );
         add( jcbmi );

@@ -111,6 +111,10 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         accelVector.setVisible( selected );
     }
 
+    public void setRightDirPositive( boolean rightPositive ) {
+        movingManNode.setRightDirPositive(rightPositive,this );
+    }
+
     private class TimeReadoutNode extends PNode {
         private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
