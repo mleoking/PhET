@@ -12,9 +12,9 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
+import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Created by: Sam
  * Dec 4, 2007 at 1:44:35 PM
  */
-public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
+public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
     private MovingManNode movingManNode;
     private GraphSetNode graphSetNode;
     private MotionVectorNode velocityVector;
@@ -31,7 +31,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private TimeReadoutNode timeReadoutNode;
 
     public MovingManMotionSimPanel( final MovingManMotionModel motionModel ) {
-        setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
+        
         try {
             movingManNode = new MovingManNode( motionModel );
         }

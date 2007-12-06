@@ -6,10 +6,12 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -31,9 +33,9 @@ public class AbstractMovingManNode extends PNode {
     private double sign = +1.0;
     private ArrayList tickTextList = new ArrayList();
 
-    BufferedImage left = MovingManResources.loadBufferedImage( "left-ii.gif" );
-    BufferedImage right = BufferedImageUtils.flipX( MovingManResources.loadBufferedImage( "left-ii.gif" ) );
-    BufferedImage standing = BufferedImageUtils.rescaleYMaintainAspectRatio( MovingManResources.loadBufferedImage( "stand-ii.gif" ),left.getHeight( ) );
+    private BufferedImage left = MovingManResources.loadBufferedImage( "left-ii.gif" );
+    private BufferedImage right = BufferedImageUtils.flipX( MovingManResources.loadBufferedImage( "left-ii.gif" ) );
+    private BufferedImage standing = BufferedImageUtils.rescaleYMaintainAspectRatio( MovingManResources.loadBufferedImage( "stand-ii.gif" ), left.getHeight() );
 
     public AbstractMovingManNode() throws IOException {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
@@ -49,12 +51,13 @@ public class AbstractMovingManNode extends PNode {
         PhetPPath floorNode = new PhetPPath( floorRect, floorPaint );
         addChild( floorNode );
 
+        DecimalFormat format = new DefaultDecimalFormat( "0" );
         for ( int i = -10; i <= 10; i += 2 ) {
-            TickLabel tickLabel = new TickLabel( i );
+            TickLabel tickLabel = new TickLabel( format, i );
             tickTextList.add( tickLabel );
 
             PPath tickNode = new PhetPPath( new Line2D.Double( 0, 0, 0, -0.2 ), new BasicStroke( 0.1f / 2 ), Color.black );
-            tickNode.setOffset( i, 2 );
+            tickNode.setOffset( i, 2+0.1 );
 
 
             addChild( tickLabel );
@@ -175,17 +178,17 @@ public class AbstractMovingManNode extends PNode {
     class TickLabel extends PText {
         private double x;
 
-        public TickLabel( double x ) {
-            super( "" + x + ( x == 0 ? " meters" : "" ) );
+        public TickLabel( DecimalFormat decimalFormat, double x ) {
+            super( "" + decimalFormat.format( x ) + ( x == 0 ? " meters" : "" ) );
             this.x = x;
-            setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
+            setFont( new PhetDefaultFont( 14,true) );
             updateTransform();
         }
 
         public void updateTransform() {
             setTransform( new AffineTransform() );
             transformBy( AffineTransform.getScaleInstance( 0.025 * sign, 0.025 ) );
-            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2 );
+            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2+0.1 );
         }
     }
 }
