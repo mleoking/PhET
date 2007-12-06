@@ -3,6 +3,7 @@ package edu.colorado.phet.movingman.motion.movingman;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
+import java.io.IOException;
 
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
@@ -31,7 +32,12 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 
     public MovingManMotionSimPanel( final MovingManMotionModel motionModel ) {
         setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
-        movingManNode = new MovingManNode( motionModel );
+        try {
+            movingManNode = new MovingManNode( motionModel );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
         addScreenChild( movingManNode );
 
         timeReadoutNode = new TimeReadoutNode( motionModel );

@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
@@ -16,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class Force1DPlayAreaNode extends AbstractMovingManNode {
-    public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel, final ForceModel forceModel ) {
+    public Force1DPlayAreaNode( final SingleBodyMotionModel motionModel, final ForceModel forceModel ) throws IOException {
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {

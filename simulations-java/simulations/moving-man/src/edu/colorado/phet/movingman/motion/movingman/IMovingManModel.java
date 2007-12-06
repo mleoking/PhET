@@ -14,4 +14,6 @@ public interface IMovingManModel {
     ITemporalVariable getXVariable();
 
     double getPosition();
+
+    ITemporalVariable getVVariable();
 }

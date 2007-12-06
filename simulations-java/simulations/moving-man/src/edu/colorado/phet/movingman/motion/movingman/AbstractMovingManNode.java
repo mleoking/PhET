@@ -4,13 +4,17 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
+import edu.colorado.phet.movingman.motion.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,24 +31,11 @@ public class AbstractMovingManNode extends PNode {
     private double sign = +1.0;
     private ArrayList tickTextList = new ArrayList();
 
-    class TickLabel extends PText {
-        private double x;
+    BufferedImage left = MovingManResources.loadBufferedImage( "left-ii.gif" );
+    BufferedImage right = BufferedImageUtils.flipX( MovingManResources.loadBufferedImage( "left-ii.gif" ) );
+    BufferedImage standing = BufferedImageUtils.rescaleYMaintainAspectRatio( MovingManResources.loadBufferedImage( "stand-ii.gif" ),left.getHeight( ) );
 
-        public TickLabel( double x ) {
-            super( "" + x + ( x == 0 ? " meters" : "" ) );
-            this.x = x;
-            setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
-            updateTransform();
-        }
-
-        public void updateTransform() {
-            setTransform( new AffineTransform() );
-            transformBy( AffineTransform.getScaleInstance( 0.025 * sign, 0.025 ) );
-            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2 );
-        }
-    }
-
-    public AbstractMovingManNode() {
+    public AbstractMovingManNode() throws IOException {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
         GradientPaint skyPaint = new GradientPaint( skyRect.x, skyRect.y, new Color( 150, 120, 255 ), skyRect.x, skyRect.y + skyRect.height, Color.white );
         PhetPPath skyNode = new PhetPPath( skyRect, skyPaint );
@@ -93,9 +84,29 @@ public class AbstractMovingManNode extends PNode {
         rightWall.scale( 2.0 / rightWall.getHeight() );
         addChild( rightWall );
 
-        manImage = PImageFactory.create( "moving-man/images/stand-ii.gif" );
+        manImage = new PImage( standing );
         manImage.scale( 2.0 / manImage.getHeight() );
         addChild( manImage );
+        setDirection( 0.0 );
+    }
+
+    public void setDirection( double value ) {
+        Image origImage = manImage.getImage();
+
+        Image newImage;
+        double tolerance = 1E-2;
+        if ( value < -tolerance ) {
+            newImage = left;
+        }
+        else if ( value > tolerance ) {
+            newImage = right;
+        }
+        else {
+            newImage = standing;
+        }
+        if ( newImage != origImage ) {
+            manImage.setImage( newImage );
+        }
     }
 
     public PImage getManImage() {
@@ -161,4 +172,20 @@ public class AbstractMovingManNode extends PNode {
         return sign;
     }
 
+    class TickLabel extends PText {
+        private double x;
+
+        public TickLabel( double x ) {
+            super( "" + x + ( x == 0 ? " meters" : "" ) );
+            this.x = x;
+            setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
+            updateTransform();
+        }
+
+        public void updateTransform() {
+            setTransform( new AffineTransform() );
+            transformBy( AffineTransform.getScaleInstance( 0.025 * sign, 0.025 ) );
+            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2 );
+        }
+    }
 }
