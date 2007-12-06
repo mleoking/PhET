@@ -1,0 +1,58 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Nov 30 - Dec 6, 2007 (Fri-Thu)
+
+ACCOMPLISHMENTS:
+
+  Translation Utility:
+  - select fonts for text areas based on language code (required for Japanese)
+  - Find feature
+  - Tool Bar
+  - focus issues related to tab traversal
+  - deleted google-translate-api from SVN, added robust GoogleTranslateService
+  - refactored, changed package structure
+  - published 0.00.06, 0.00.07, 0.00.08, 0.00.09
+  - all requested features are completed
+  * need to review additional features (big 2: Flash support, Java common project support)
+  * need to discuss deployment on PhET website
+  
+  Glaciers:
+  - started changing what I've done so far to match design version 3
+
+  Quantum Tunneling:
+  - changed name
+  - published 1.09 to PhET website
+  
+  Optical Tweezers:
+  - published 3 flavors of 2.00 to PhET website
+  - updated 1 flavor on PhET website: Optical Tweezers and Applications
+  - added 2 flavors to PhET website: Molecular Motors, Stretching DNA
+  
+  Misc:
+  - discussed problems associated with changing simulation names
+  - discussed problems with the build process
+  - obtained IdentiKey from CU ITS
+  - got CU VPN client working (with Sam Reid)
+    
+WHAT'S NEXT:
+
+  - continue work on Glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+  
+  - continue work on Translation Utility, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO.txt?view=markup
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  December 24,25,31
+  January 1,21
+  February 4,5
+  March 17,18,24-28
+  
+  
+--
