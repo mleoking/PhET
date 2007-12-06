@@ -19,7 +19,7 @@ public class Force1DMotionSimPanel extends AbstractMotionSimPanel {
     private Force1DNode movingManNode;
     private GraphSetNode graphSetNode;
 
-    public Force1DMotionSimPanel( ForceModel forceModel ) {
+    public Force1DMotionSimPanel( Force1DMotionModel forceModel ) {
         try {
             movingManNode = new Force1DNode( forceModel );
         }
@@ -34,6 +34,9 @@ public class Force1DMotionSimPanel extends AbstractMotionSimPanel {
 
         MovingManGraph forceGraph = new MovingManGraph( this, forceModel.getAppliedForceSeries(), "f", "f", -1000, 1000,
                                                         forceModel, true, forceModel.getTimeSeriesModel(), forceModel, MovingManMotionModel.MAX_T, forceModel, 200 );
+        forceGraph.addSeries( forceModel.getFrictionForceSeries() );
+        forceGraph.addSeries( forceModel.getWallForceSeries() );
+        forceGraph.addSeries( forceModel.getNetForceSeries() );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( "Forces", forceGraph ),

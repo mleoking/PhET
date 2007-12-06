@@ -85,9 +85,9 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
                 UnicodeUtil.TAU, TORQUE, UNITS_GENERIC, -10, 10,
                 false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
 
-        ControlGraphSeries brakeTorqueSeries = new ControlGraphSeries( BRAKE_TORQUE, Color.red, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), false, BRAKE, tm.getBrakeTorque() );
+        ControlGraphSeries brakeTorqueSeries = new ControlGraphSeries( BRAKE_TORQUE, Color.red, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), BRAKE, tm.getBrakeTorque(), false );
         torqueGraph.addSeries( brakeTorqueSeries );
-        ControlGraphSeries netTorqueSeries = new ControlGraphSeries( NET_TORQUE, Color.black, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), false, NET, tm.getNetTorque() );
+        ControlGraphSeries netTorqueSeries = new ControlGraphSeries( NET_TORQUE, Color.black, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), NET, tm.getNetTorque(), false );
         torqueGraph.addSeries( netTorqueSeries );
         torqueGraph.addControl( new SeriesJCheckBox( brakeTorqueSeries ) );
         torqueGraph.addControl( new SeriesJCheckBox( netTorqueSeries ) );
@@ -97,7 +97,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     protected RotationMinimizableControlGraph createRadiusGraph() {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         RotationMinimizableControlGraph radiusGraph = new RotationMinimizableControlGraph( RADIUS_VARNAME, new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( FORCE_RADIUS, Color.green, RADIUS_VARNAME, RADIUS_UNITS, new BasicStroke( 2 ), true, APPLIED, tm.getRadiusSeries() ),
+                pSwingCanvas, new ControlGraphSeries( FORCE_RADIUS, Color.green, RADIUS_VARNAME, RADIUS_UNITS, new BasicStroke( 2 ), APPLIED, tm.getRadiusSeries(), true ),
                 RADIUS_VARNAME, FORCE_RADIUS, RADIUS_UNITS, 0, 4.5,
                 true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) {
             protected Range getVerticalRange( double zoomValue ) {
@@ -118,14 +118,14 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
                 tm.setAppliedForceRadius( MathUtil.clamp( tm.getRotationPlatform().getInnerRadius(), value, tm.getRotationPlatform().getRadius() ) );
             }
         } );
-        radiusGraph.addSeries( new ControlGraphSeries( BRAKE_RADIUS, Color.red, RADIUS_VARNAME, RADIUS_UNITS, new BasicStroke( 3 ), false, BRAKE, tm.getBrakeRadiusSeries() ) );
+        radiusGraph.addSeries( new ControlGraphSeries( BRAKE_RADIUS, Color.red, RADIUS_VARNAME, RADIUS_UNITS, new BasicStroke( 3 ), BRAKE, tm.getBrakeRadiusSeries(), false ) );
         return radiusGraph;
     }
 
     protected RotationMinimizableControlGraph createForceGraph() {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( F, new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( APPLIED_FORCE, Color.blue, F, N, new BasicStroke( 4 ), true, APPLIED, tm.getAppliedForceVariable() ),
+                pSwingCanvas, new ControlGraphSeries( APPLIED_FORCE, Color.blue, F, N, new BasicStroke( 4 ), APPLIED, tm.getAppliedForceVariable(), true ),
                 F, FORCE, UNITS_GENERIC, -2.5, 2.5,
                 true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         forceGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
@@ -134,9 +134,9 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
             }
         } );
 
-        ControlGraphSeries brakeForceSeries = new ControlGraphSeries( BRAKE_FORCE, Color.red, F, N, new BasicStroke( 3 ), false, BRAKE, tm.getBrakeForceMagnitudeVariable() );
+        ControlGraphSeries brakeForceSeries = new ControlGraphSeries( BRAKE_FORCE, Color.red, F, N, new BasicStroke( 3 ), BRAKE, tm.getBrakeForceMagnitudeVariable(), false );
         forceGraph.addSeries( brakeForceSeries );
-        ControlGraphSeries netForceSeries = new ControlGraphSeries( NET_FORCE, Color.black, F, N, new BasicStroke( 2 ), false, NET, tm.getNetForce() );
+        ControlGraphSeries netForceSeries = new ControlGraphSeries( NET_FORCE, Color.black, F, N, new BasicStroke( 2 ), NET, tm.getNetForce(), false );
         forceGraph.getControlGraph().addSeries( netForceSeries );
 
         forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );

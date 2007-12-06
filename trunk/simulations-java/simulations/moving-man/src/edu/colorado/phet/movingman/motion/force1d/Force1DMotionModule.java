@@ -11,7 +11,7 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModule;
 public class Force1DMotionModule extends AbstractMotionModule {
     public Force1DMotionModule( ConstantDtClock clock ) {
         super( "Force 1D", clock );
-        ForceModel model = new ForceModel( clock );
+        Force1DMotionModel model = new Force1DMotionModel( clock );
         setSimulationPanel( new Force1DMotionSimPanel( model ) );
         setClockControlPanel( new Force1DSouthControlPanel( this, this, model.getTimeSeriesModel(), MovingManMotionModule.MIN_DT, MovingManMotionModule.MAX_DT ) );
         setLogoPanelVisible( false );
