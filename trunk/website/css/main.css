@@ -1476,3 +1476,8 @@ text-decoration: underline;
 #translated-versions table tr.even td.odd {
 	background-color: rgb(230, 230, 230);
 }
+#translated-versions table tbody td a.translate-prompt {
+	display: block;
+	width:  25px;
+	height: 25px;
+}

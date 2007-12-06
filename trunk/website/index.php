@@ -207,7 +207,7 @@ EOT;
 
                 <dd><a href="contribute/index.php">Support PhET</a></dd>
 
-				<dd><a href="contribute/index.php">Translate Simulations</a></dd>
+				<dd><a href="contribute/translate.php">Translate Simulations</a></dd>
             </dl>
 
             <dl class="last">
