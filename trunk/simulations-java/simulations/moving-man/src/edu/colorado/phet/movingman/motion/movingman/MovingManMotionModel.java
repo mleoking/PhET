@@ -1,5 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
+import bsh.Interpreter;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -7,6 +9,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.movingman.misc.ExpressionFrame;
 
 /**
  * Created by: Sam
@@ -218,6 +221,10 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         accelDriven.setMax( max );
     }
 
+    public void setExpressionUpdate( String text ) {
+        setUpdateStrategy( new MovingManExpressionUpdate( text ) );
+    }
+
     public static interface Listener {
         void crashedMin();
 
@@ -226,5 +233,19 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
+    }
+
+    private class MovingManExpressionUpdate extends UpdateStrategy.PositionDriven {
+        private String text;
+        private Interpreter interpreter = new Interpreter();
+
+        public MovingManExpressionUpdate( String text ) {
+            this.text = text;
+        }
+
+        public TimeData getNewX( IMotionBody motionBody, double dt, double time ) {
+            double x = ExpressionFrame.evaluate( time, text, interpreter );
+            return new TimeData( x, time );
+        }
     }
 }

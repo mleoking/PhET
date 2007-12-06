@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 /**
  * Created by: Sam
@@ -17,10 +18,10 @@ public class OptionsMenu extends JMenu {
         setMnemonic( SimStrings.get( "controls.special-features.mnemonic" ).charAt( 0 ) );
         JMenuItem jep = new JMenuItem( SimStrings.get( "expressions.title" ) );
         add( jep );
-//        final ExpressionFrame jef = new ExpressionFrame( frame, module );
+        final MotionExpressionFrame mef = new MotionExpressionFrame( frame, module );
         jep.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-//                jef.setVisible( true );
+                mef.setVisible( true );
             }
         } );
 
@@ -60,5 +61,9 @@ public class OptionsMenu extends JMenu {
         void setRightDirPositive( boolean b );
 
         void setBoundaryOpen( boolean b );
+
+        TimeSeriesModel getTimeSeriesModel();
+
+        void setExpressionUpdate( String text );
     }
 }
