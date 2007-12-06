@@ -2262,7 +2262,7 @@ EOT;
 				print <<<EOT
                     </table>
 
-                   <input class="button" name="Submit" type="submit" id="submit" value="Done" />
+                    <input class="button" name="Submit" type="submit" id="submit" value="Done" />
 
 					<input type="hidden" name="contributor_id" value="$contributor_id" />
                  </fieldset>

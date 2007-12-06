@@ -1264,6 +1264,18 @@ margin: 0 auto;
 border: none;
 }
 
+#referring-statistics {
+margin-left:  2em;
+margin-right: 2em;
+border: 1px solid black;
+border-collapse: collapse;
+}
+#referring-statistics thead td {
+background-color: gray;
+}
+#referring-statistics tbody td:nth-child(even) {
+background-color: rgb(210, 210, 210);
+}
 
 #simrunoptions table {
 width: 300px;
