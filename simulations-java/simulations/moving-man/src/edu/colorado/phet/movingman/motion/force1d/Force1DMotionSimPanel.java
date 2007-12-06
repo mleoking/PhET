@@ -21,11 +21,11 @@ public class Force1DMotionSimPanel extends PhetPCanvas {
 
     public Force1DMotionSimPanel( ConstantDtClock clock, Force1DMotionModel model ) {
         SingleBodyMotionModel motionModel = null;//todo: fix
-        movingManNode = new Force1DPlayAreaNode( motionModel,model.getForceModel() );
+        movingManNode = new Force1DPlayAreaNode( motionModel, model.getForceModel() );
         addScreenChild( movingManNode );
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, model.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                this, model.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
 

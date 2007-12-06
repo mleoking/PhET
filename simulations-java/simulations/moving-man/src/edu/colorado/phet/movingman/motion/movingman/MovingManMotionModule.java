@@ -8,6 +8,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.ArrowPanel;
@@ -43,7 +44,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
     private void playSound() {
         if ( audioEnabled ) {
-            JSAudioPlayer.playNoBlock( Thread.currentThread().getContextClassLoader().getResource( "moving-man/audio/smash0.wav" ) );
+            new PhetAudioClip("moving-man/audio/smash0.wav").play();
         }
     }
 
