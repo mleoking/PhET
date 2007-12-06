@@ -33,7 +33,7 @@ public class Force1DMotionSimPanel extends AbstractMotionSimPanel {
         MovingManGraph aGraph = getAGraph( forceModel );
 
         MovingManGraph forceGraph = new MovingManGraph( this, forceModel.getAppliedForceSeries(), "f", "f", -1000, 1000,
-                                                        forceModel, true, forceModel.getTimeSeriesModel(), forceModel, MovingManMotionModel.MAX_T, forceModel, 200 );
+                                                        forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getAppliedForceStrategy(), MovingManMotionModel.MAX_T, forceModel, 200 );
         forceGraph.addSeries( forceModel.getFrictionForceSeries() );
         forceGraph.addSeries( forceModel.getWallForceSeries() );
         forceGraph.addSeries( forceModel.getNetForceSeries() );
