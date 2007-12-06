@@ -207,6 +207,17 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return a;
     }
 
+    public void setBoundaryOpen( boolean b ) {
+        min = b ? Double.NEGATIVE_INFINITY : -10;
+        max = b ? Double.POSITIVE_INFINITY : +10;
+        positionDriven.setMin( min );
+        positionDriven.setMax( max );
+        velocityDriven.setMin( min );
+        velocityDriven.setMax( max );
+        accelDriven.setMin( min );
+        accelDriven.setMax( max );
+    }
+
     public static interface Listener {
         void crashedMin();
 
