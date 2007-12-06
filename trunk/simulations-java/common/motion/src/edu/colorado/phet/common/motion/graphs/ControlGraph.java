@@ -301,6 +301,7 @@ public class ControlGraph extends PNode {
             newValue = maxDomainValue;
         }
         setDomainUpperBound( newValue );
+        forceUpdateAll();
     }
 
     private void notifyZoomChanged() {
@@ -315,6 +316,7 @@ public class ControlGraph extends PNode {
         setVerticalRange( verticalRange.getLowerBound(), verticalRange.getUpperBound() );
         updateHorizontalZoomEnabled();//todo: this should probably update the vertical zoom
         notifyZoomChanged();
+        forceUpdateAll();
     }
 
     protected Range getVerticalRange( double zoomValue ) {
