@@ -23,7 +23,7 @@
     }
     
     function do_delete() {
-        eval(get_code_to_create_variables_from_array($_REQUEST));
+        $contributor_id = $_REQUEST['contributor_id'];
         
         contributor_delete_contributor($contributor_id);
     }
@@ -92,7 +92,7 @@ EOT;
 							</td>
 
 							<td>
-								<a href="edit-other-profile.php?contributor_id=$contributor_id&amp;action=delete">Delete</a>
+								<a href="manage-contributors.php?contributor_id=$contributor_id&amp;action=delete">Delete</a>
 								<a href="edit-other-profile.php?edit_contributor_id=$contributor_id">Edit</a>
                             </td>
                         </tr>

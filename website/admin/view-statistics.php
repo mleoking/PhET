@@ -7,6 +7,7 @@
 	include_once(SITE_ROOT."admin/contrib-utils.php");
 	include_once(SITE_ROOT."admin/web-utils.php");
 	include_once(SITE_ROOT."admin/nominate-utils.php");	
+	include_once(SITE_ROOT."admin/referring-statistics.php");
 
 	function print_file_to_stats($file_to_stats, $print_missing = true) {
 		if (count($file_to_stats) > 0) {
@@ -34,6 +35,14 @@
 		print <<<EOT
 			<h1>View Statistics</h1>
 			
+			<h2>Referring Page Statistics</h2>
+			
+			<p>These statistics show you what source page brought a user to a given target page.</p>
+EOT;
+
+			referring_statistics_print_into_table('referring-statistics');
+			
+			print <<<EOT
 			<h2>Contributor Statistics</h2>
 			
 			<p>Click <a href="get-contributor-statistics.php">here</a> to download the contributor data as a CSV file.</p>

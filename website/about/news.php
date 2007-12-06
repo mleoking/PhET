@@ -16,6 +16,12 @@
 		print <<<EOT
 			<h1>News</h1>
 			
+			<h2>Subscribe to Newsletter</h2>
+			
+			<p>The best way to learn about changes to the PhET simulations or website is to <a href="../teacher_ideas/subscribe-newsletter.php">subscribe to PhET newsletters</a>, distributed approximately four times per year.</p>
+			
+			<p>You may unsubscribe from the newsletters at any time.</p>
+			
 			<h2>Website &amp; Simulation Updates</h2>
 			
 			<p>$changes_html</p>
