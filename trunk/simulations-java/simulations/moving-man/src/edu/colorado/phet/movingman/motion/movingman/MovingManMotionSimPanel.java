@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
@@ -26,15 +27,20 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     private GraphSetNode graphSetNode;
     private MotionVectorNode velocityVector;
     private MotionVectorNode accelVector;
+    private TimeReadoutNode timeReadoutNode;
 
     public MovingManMotionSimPanel( final MovingManMotionModel motionModel ) {
         setBackground( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         movingManNode = new MovingManNode( motionModel );
         addScreenChild( movingManNode );
 
-        final TimeReadoutNode timeReadoutNode = new TimeReadoutNode( motionModel );
-        timeReadoutNode.scale( 1.0 / 35.0 );
-        timeReadoutNode.setOffset( -7, 0.02 );
+        timeReadoutNode = new TimeReadoutNode( motionModel );
+        movingManNode.addListener( new AbstractMovingManNode.Listener() {
+            public void directionChanged() {
+                updateTimeReadoutTransform();
+            }
+        } );
+        updateTimeReadoutTransform();
         movingManNode.addChild( timeReadoutNode );
 
         PNode vectorLayer = new PNode();
@@ -95,6 +101,16 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         updateLayout();
     }
 
+    private void updateTimeReadoutTransform() {
+        timeReadoutNode.setTransform( new AffineTransform() );
+        timeReadoutNode.scale( 1.0 / 35.0 );
+        timeReadoutNode.setOffset( -7, 0.02 );
+        if ( movingManNode.getScaleX() < 0 ) {
+            timeReadoutNode.transformBy( AffineTransform.getScaleInstance( -1, 1 ) );
+            timeReadoutNode.translate( -3*35, 0 );
+        }
+    }
+
     protected void updateLayout() {
         super.updateLayout();
         movingManNode.setTransform( 22.0, getWidth() );
@@ -112,7 +128,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
     }
 
     public void setRightDirPositive( boolean rightPositive ) {
-        movingManNode.setRightDirPositive(rightPositive,this );
+        movingManNode.setRightDirPositive( rightPositive, this );
     }
 
     private class TimeReadoutNode extends PNode {
