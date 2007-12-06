@@ -51,6 +51,7 @@ public interface UpdateStrategy {
 
         public void doDefaultUpdate( IMotionBody motionBody, double dt, double time ) {
             double prevX = motionBody.getPosition();
+            double prevV = motionBody.getVelocity();
             TimeData newX = getNewX( motionBody, dt, time );
             TimeData newV = getNewV( motionBody, dt, time );
             TimeData newA = getNewA( motionBody, dt, time );
@@ -61,7 +62,7 @@ public interface UpdateStrategy {
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX < max ) {
                     motionBody.setPositionDriven();
-                    notifyCrashedMax();
+                    notifyCrashedMax(prevV);
                 }
             }
             else if ( newX.getValue() < min ) {
@@ -70,7 +71,7 @@ public interface UpdateStrategy {
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX > min ) {
                     motionBody.setPositionDriven();
-                    notifyCrashedMin();
+                    notifyCrashedMin(prevV);
                 }
             }
 
@@ -79,22 +80,22 @@ public interface UpdateStrategy {
             motionBody.addAccelerationData( newA );
         }
 
-        private void notifyCrashedMin() {
+        private void notifyCrashedMin( double velocity ) {
             for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener) listeners.get( i ) ).crashedMin();
+                ( (Listener) listeners.get( i ) ).crashedMin(velocity);
             }
         }
 
-        private void notifyCrashedMax() {
+        private void notifyCrashedMax( double velocity ) {
             for ( int i = 0; i < listeners.size(); i++ ) {
-                ( (Listener) listeners.get( i ) ).crashedMax();
+                ( (Listener) listeners.get( i ) ).crashedMax(velocity);
             }
         }
 
         public static interface Listener {
-            void crashedMin();
+            void crashedMin(double velocity);
 
-            void crashedMax();
+            void crashedMax(double velocity);
         }
 
         public void addListener( Listener listener ) {

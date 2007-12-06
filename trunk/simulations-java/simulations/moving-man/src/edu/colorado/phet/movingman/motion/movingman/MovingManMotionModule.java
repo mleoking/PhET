@@ -1,27 +1,20 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
-import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.ArrowPanel;
+import edu.colorado.phet.movingman.motion.AbstractMotionModule;
 
 /**
  * Created by: Sam
  * Dec 4, 2007 at 1:42:37 PM
  */
-public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPanelModule, OptionsMenu.MovingManOptions {
+public class MovingManMotionModule extends AbstractMotionModule implements ArrowPanel.IArrowPanelModule, OptionsMenu.MovingManOptions {
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
-    private boolean audioEnabled = true;
     public static double MIN_DT = MovingManMotionApplication.FRAME_DELAY_SEC / 2;
     public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC * 2;
 
@@ -29,25 +22,23 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
         super( "Moving Man", clock );
         movingManMotionModel = new MovingManMotionModel( clock );
         movingManMotionModel.addListener( new MovingManMotionModel.Listener() {
-            public void crashedMin() {
+            public void crashedMin( double v ) {
                 playSound();
             }
 
-            public void crashedMax() {
+            public void crashedMax( double v ) {
                 playSound();
             }
         } );
 
         movingManMotionSimPanel = new MovingManMotionSimPanel( movingManMotionModel );
         setSimulationPanel( movingManMotionSimPanel );
-        setClockControlPanel( new MovingManSouthControlPanel( this, movingManMotionModel.getTimeSeriesModel(), MIN_DT, MAX_DT ) );
+        setClockControlPanel( new MovingManSouthControlPanel( this, this, movingManMotionModel.getTimeSeriesModel(), MIN_DT, MAX_DT ) );
         setLogoPanelVisible( false );
     }
 
     private void playSound() {
-        if ( audioEnabled ) {
-            new PhetAudioClip( "moving-man/audio/smash0.wav" ).play();
-        }
+        super.playSound( "moving-man/audio/smash0.wav" );
     }
 
     public void activate() {
@@ -61,10 +52,6 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
     public void setShowAccelerationVector( boolean selected ) {
         movingManMotionSimPanel.setShowAccelerationVector( selected );
-    }
-
-    public boolean isAudioEnabled() {
-        return audioEnabled;
     }
 
     public boolean confirmClear() {
@@ -94,28 +81,4 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
         movingManMotionModel.setExpressionUpdate( text );
     }
 
-    private class MovingManSouthControlPanel extends HorizontalLayoutPanel {
-        public MovingManSouthControlPanel( MovingManMotionModule seriesModel, TimeSeriesModel timeSeriesModel, double min, double max ) {
-//            super( new FlowLayout() );
-            add( new TimeSeriesControlPanel( timeSeriesModel, min, max ) );
-            add( new ArrowPanel( MovingManMotionModule.this ) );
-            add( new SoundCheckBox( seriesModel ) );
-        }
-
-        private class SoundCheckBox extends JCheckBox {
-            public SoundCheckBox( final MovingManMotionModule seriesModel ) {
-                super( "Sound" );
-                setSelected( seriesModel.isAudioEnabled() );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        seriesModel.setAudioEnabled( isSelected() );
-                    }
-                } );
-            }
-        }
-    }
-
-    private void setAudioEnabled( boolean audio ) {
-        this.audioEnabled = audio;
-    }
 }
