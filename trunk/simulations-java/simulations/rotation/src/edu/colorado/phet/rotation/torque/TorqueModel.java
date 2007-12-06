@@ -98,10 +98,6 @@ public class TorqueModel extends RotationModel {
         }
     }
 
-    private void defaultUpdate( ITemporalVariable variable ) {
-        variable.addValue( variable.getValue(), getTime() );
-    }
-
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
         angularMomentum.setPlaybackTime( time );

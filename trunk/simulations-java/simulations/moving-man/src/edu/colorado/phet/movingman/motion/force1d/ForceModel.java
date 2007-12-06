@@ -40,7 +40,16 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
 
     public ForceModel( ConstantDtClock clock ) {
         super( clock );
-        addTemporalVariables( new ITemporalVariable[]{appliedForce, frictionForce, wallForce, netForce, gravity, staticFriction, kineticFriction, mass} );
+        addTemporalVariables( getForce1DVars() );
+    }
+
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        defaultUpdate( getForce1DVars() );
+    }
+
+    private ITemporalVariable[] getForce1DVars() {
+        return new ITemporalVariable[]{appliedForce, frictionForce, wallForce, netForce, gravity, staticFriction, kineticFriction, mass};
     }
 
     public void setAppliedForce( double appliedForceValue ) {
