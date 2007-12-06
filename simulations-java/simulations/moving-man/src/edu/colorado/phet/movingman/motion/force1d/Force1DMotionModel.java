@@ -14,7 +14,7 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
  * Created by: Sam
  * Dec 5, 2007 at 3:32:30 AM
  */
-public class ForceModel extends MovingManMotionModel implements UpdateStrategy, IForceModel {
+public class Force1DMotionModel extends MovingManMotionModel implements UpdateStrategy, IForceModel {
 
     //handled in parent hierarchy: time, x,v,a
 
@@ -28,17 +28,17 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable();
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( 30 );
 
-    private ControlGraphSeries appliedForceSeries = new ControlGraphSeries( "Fa", Color.blue, "x", "m", new BasicStroke( 2 ), true, null, appliedForce );
-    private ControlGraphSeries frictionForceSeries = new ControlGraphSeries( "Ff", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, frictionForce );
-    private ControlGraphSeries wallForceSeries = new ControlGraphSeries( "Fw", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, wallForce );
-    private ControlGraphSeries netForceSeries = new ControlGraphSeries( "Fnet", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, netForce );
+    private ControlGraphSeries appliedForceSeries = new ControlGraphSeries( "Fa", Color.blue, "x", "m", new BasicStroke( 2 ), null, appliedForce, true );
+    private ControlGraphSeries frictionForceSeries = new ControlGraphSeries( "Ff", Color.red, "v", "m/s", new BasicStroke( 2 ), null, frictionForce, true );
+    private ControlGraphSeries wallForceSeries = new ControlGraphSeries( "Fw", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, wallForce, true );
+    private ControlGraphSeries netForceSeries = new ControlGraphSeries( "Fnet", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, netForce, true );
 
-    private ControlGraphSeries gravitySeries = new ControlGraphSeries( "Fg", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, gravity );
-    private ControlGraphSeries staticFrictionSeries = new ControlGraphSeries( "us", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, staticFriction );
-    private ControlGraphSeries kineticFrictionSeries = new ControlGraphSeries( "uk", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, kineticFriction );
-    private ControlGraphSeries massSeries = new ControlGraphSeries( "m", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, mass );
+    private ControlGraphSeries gravitySeries = new ControlGraphSeries( "Fg", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, gravity, true );
+    private ControlGraphSeries staticFrictionSeries = new ControlGraphSeries( "us", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, staticFriction, true );
+    private ControlGraphSeries kineticFrictionSeries = new ControlGraphSeries( "uk", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, kineticFriction, true );
+    private ControlGraphSeries massSeries = new ControlGraphSeries( "m", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, mass, true );
 
-    public ForceModel( ConstantDtClock clock ) {
+    public Force1DMotionModel( ConstantDtClock clock ) {
         super( clock );
         addTemporalVariables( getForce1DVars() );
     }

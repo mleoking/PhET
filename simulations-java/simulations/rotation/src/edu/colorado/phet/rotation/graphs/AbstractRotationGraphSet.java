@@ -120,7 +120,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     }
 
     protected RotationMinimizableControlGraph createAngAccelGraph( boolean editable ) {
-        final ControlGraphSeries platformAccelSeries = new ControlGraphSeries( PLATFORM_ANG_ACCEL, RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, platformStroke, editable, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularAcceleration() );
+        final ControlGraphSeries platformAccelSeries = new ControlGraphSeries( PLATFORM_ANG_ACCEL, RotationColorScheme.ANG_ACC_SUITE.getPlatformColor(), UnicodeUtil.ALPHA, ANG_ACC_UNITS_RAD, platformStroke, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularAcceleration(), editable );
 
         RotationMinimizableControlGraph angAccelGraph = new RotationMinimizableControlGraph( UnicodeUtil.ALPHA, new AngularUnitGraph(
                 pSwingCanvas, platformAccelSeries,
@@ -141,7 +141,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     }
 
     protected RotationMinimizableControlGraph createAngVelGraph() {
-        final ControlGraphSeries platformVelSeries = new ControlGraphSeries( ANG_VEL, RotationColorScheme.ANG_VEL_SUITE.getPlatformColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularVelocity() );
+        final ControlGraphSeries platformVelSeries = new ControlGraphSeries( ANG_VEL, RotationColorScheme.ANG_VEL_SUITE.getPlatformColor(), UnicodeUtil.OMEGA, ANG_VEL_UNITS_RAD, platformStroke, CHARACTER_PLATFORM, model.getRotationPlatform().getAngularVelocity(), true );
 
         RotationMinimizableControlGraph angVelGraph = new RotationMinimizableControlGraph( UnicodeUtil.OMEGA, new AngularUnitGraph(
                 pSwingCanvas, platformVelSeries,
@@ -162,7 +162,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     }
 
     protected RotationMinimizableControlGraph createAngleGraph() {
-        final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( ANGLE, RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, platformStroke, true, CHARACTER_PLATFORM, model.getRotationPlatform().getAngle() );
+        final ControlGraphSeries platformAngleSeries = new ControlGraphSeries( ANGLE, RotationColorScheme.ANGLE_SUITE.getPlatformColor(), UnicodeUtil.THETA, ANGLE_UNITS_RAD, platformStroke, CHARACTER_PLATFORM, model.getRotationPlatform().getAngle(), true );
         final RotationMinimizableControlGraph angleGraph = new RotationMinimizableControlGraph( UnicodeUtil.THETA, new AngularUnitGraph(
                 pSwingCanvas, platformAngleSeries,
                 UnicodeUtil.THETA, ANGLE, angleUnitModel, ANGLE_UNITS_RAD, ANGLE_UNITS_DEG, -Math.PI * 3, Math.PI * 3,

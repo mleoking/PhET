@@ -32,12 +32,11 @@ public class ControlGraphSeries {
         this( title, color, abbr, units, BufferedSeriesView.DEFAULT_STROKE, character, temporalVariable );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units,
-                               Stroke stroke, String character, ITemporalVariable temporalVariable ) {
-        this( title, color, abbr, units, stroke, false, character, temporalVariable );
+    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, String character, ITemporalVariable temporalVariable ) {
+        this( title, color, abbr, units, stroke, character, temporalVariable, false );
     }
 
-    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, boolean editable, String character, ITemporalVariable defaultTemporalVariable ) {
+    public ControlGraphSeries( String title, Color color, String abbr, String units, Stroke stroke, String character, ITemporalVariable defaultTemporalVariable, boolean editable ) {
         this.units = units;
         this.editable = editable;
         this.stroke = stroke;

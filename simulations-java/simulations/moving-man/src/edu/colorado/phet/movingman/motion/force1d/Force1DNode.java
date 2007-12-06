@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class Force1DNode extends AbstractMovingManNode {
-    public Force1DNode( final ForceModel forceModel ) throws IOException {
+    public Force1DNode( final Force1DMotionModel forceModel ) throws IOException {
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
@@ -49,7 +49,7 @@ public class Force1DNode extends AbstractMovingManNode {
         updateObject( manImage, forceModel );
     }
 
-    private void updateObject( PNode object, ForceModel model ) {
+    private void updateObject( PNode object, Force1DMotionModel model ) {
         object.setOffset( model.getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
