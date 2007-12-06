@@ -18,6 +18,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/6/07 - advanced vs basic climate controls
+12/6/07 - add listener interface for View control panel
 12/6/07 - rename localization properties related to clock
 12/6/07 - delete View controls that were dropped, remove all icons from View controls
 11/20/07 - add credits

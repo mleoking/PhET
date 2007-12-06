@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersResources;
 
 
-public class ClimateControlPanel extends JPanel {
+public class AdvancedClimateControlPanel extends JPanel {
 
     private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
     private static final Color TITLE_COLOR = Color.WHITE;
@@ -26,7 +26,7 @@ public class ClimateControlPanel extends JPanel {
     private JRadioButton _climatePresetsRadioButton;
     private JRadioButton _massBalanceRadioButton;
     
-    public ClimateControlPanel( Font titleFont, Font controlFont ) {
+    public AdvancedClimateControlPanel( Font titleFont, Font controlFont ) {
         super();
         
         _snowfallAndTemperatureRadioButton = new JRadioButton( GlaciersResources.getString( "radioButton.snowfallAndTemperature" ) );
