@@ -73,13 +73,6 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
         motionModel.getXVariable().addListener( accelVectorUpdate );
         motionModel.getAVariable().addListener( accelVectorUpdate );
         vectorLayer.addChild( accelVector );
-//        ControlGraphSeries[] s = manMotionModel.getControlGraphSeriesArray();
-//        for ( int i = 0; i < s.length; i++ ) {
-//            ControlGraphSeries controlGraphSeries = s[i];
-//            MovingManGraph graph = new MovingManGraph(
-//                    this, controlGraphSeries, controlGraphSeries.getTitle(), -10, 10,
-//                    motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
-//        }
 
         MovingManGraph xGraph = new MovingManGraph(
                 this, motionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
