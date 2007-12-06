@@ -23,8 +23,10 @@ public class MovingManMotionApplication extends PhetApplication {
 
     public MovingManMotionApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-motion" ) );
-        Module m = new MovingManMotionModule( new ConstantDtClock( 30, 1 ) );
+        MovingManMotionModule m = new MovingManMotionModule( new ConstantDtClock( 30, 1 ) );
         addModule( m );
+
+        getPhetFrame().addMenu( new OptionsMenu( getPhetFrame(), m ) );
     }
 
     public static void main( final String[] args ) {

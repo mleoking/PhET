@@ -70,7 +70,7 @@ public class MovingManMotionSimPanel extends BufferedPhetPCanvas {
 //        }
 
         MovingManGraph xGraph = new MovingManGraph(
-                this, motionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -10, 10,
+                this, motionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
                 motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
 
         MovingManGraph vGraph = new MovingManGraph(

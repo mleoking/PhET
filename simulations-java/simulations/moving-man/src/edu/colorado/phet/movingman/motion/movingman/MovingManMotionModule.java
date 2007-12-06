@@ -9,16 +9,16 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetAudioClip;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
 import edu.colorado.phet.movingman.ArrowPanel;
-import edu.colorado.phet.movingman.common.JSAudioPlayer;
 
 /**
  * Created by: Sam
  * Dec 4, 2007 at 1:42:37 PM
  */
-public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPanelModule {
+public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPanelModule, OptionsMenu.MovingManOptions {
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
     private boolean audioEnabled = true;
@@ -44,7 +44,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
     private void playSound() {
         if ( audioEnabled ) {
-            new PhetAudioClip("moving-man/audio/smash0.wav").play();
+            new PhetAudioClip( "moving-man/audio/smash0.wav" ).play();
         }
     }
 
@@ -63,6 +63,30 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
     public boolean isAudioEnabled() {
         return audioEnabled;
+    }
+
+    public boolean confirmClear() {
+//        double recTime = getMovingManModel().getTimeModel().getRecordMode().getTimer().getTime();
+//        if ( recTime == 0.0 ) {
+//            return true;
+//        }
+        int option = JOptionPane.showConfirmDialog( movingManMotionSimPanel,
+                                                    SimStrings.get( "plot.confirm-clear" ),
+                                                    SimStrings.get( "plot.confirm-reset" ),
+                                                    JOptionPane.YES_NO_CANCEL_OPTION );
+        if ( option == JOptionPane.OK_OPTION || option == JOptionPane.YES_OPTION ) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void setRightDirPositive( boolean b ) {
+    }
+
+    public void setBoundaryOpen( boolean b ) {
+        movingManMotionModel.setBoundaryOpen(b);
     }
 
     private class MovingManSouthControlPanel extends HorizontalLayoutPanel {
