@@ -22,8 +22,8 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
     private boolean audioEnabled = true;
-    public static double MIN_DT = MovingManMotionApplication.FRAME_DELAY_SEC/2;
-    public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC*2;
+    public static double MIN_DT = MovingManMotionApplication.FRAME_DELAY_SEC / 2;
+    public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC * 2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( "Moving Man", clock );
@@ -79,7 +79,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
     }
 
     public void setRightDirPositive( boolean b ) {
-        movingManMotionSimPanel.setRightDirPositive(b);
+        movingManMotionSimPanel.setRightDirPositive( b );
     }
 
     public void setBoundaryOpen( boolean b ) {
@@ -96,6 +96,7 @@ public class MovingManMotionModule extends Module implements ArrowPanel.IArrowPa
 
     private class MovingManSouthControlPanel extends HorizontalLayoutPanel {
         public MovingManSouthControlPanel( MovingManMotionModule seriesModel, TimeSeriesModel timeSeriesModel, double min, double max ) {
+//            super( new FlowLayout() );
             add( new TimeSeriesControlPanel( timeSeriesModel, min, max ) );
             add( new ArrowPanel( MovingManMotionModule.this ) );
             add( new SoundCheckBox( seriesModel ) );

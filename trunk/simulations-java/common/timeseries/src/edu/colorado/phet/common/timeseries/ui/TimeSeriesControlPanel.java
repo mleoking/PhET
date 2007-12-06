@@ -3,6 +3,7 @@ package edu.colorado.phet.common.timeseries.ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -62,6 +63,7 @@ public class TimeSeriesControlPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
                     timeSeriesModel.setRecordMode();
                     clock.start();
+                    notifyRecordButtonPressed();
                 }
             } );
             recordButton.addActionListener( KEY_PAUSE_REC, new ActionListener() {
@@ -176,6 +178,22 @@ public class TimeSeriesControlPanel extends JPanel {
         } );
         add( clearButton );
         updateRecordButton();
+    }
+
+    public static interface Listener {
+        void recordButtonPressed();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyRecordButtonPressed() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).recordButtonPressed();
+        }
     }
 
     protected void updateStepEnabled() {
