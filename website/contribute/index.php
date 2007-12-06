@@ -22,15 +22,9 @@
 
             <h2>Translate Simulations</h2>
 
-            <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process, which requires no programming skills, is described in these two documents:</p>
+            <p>The PhET simulations have been written so that they are easily translated to languages other than English. The process uses a simple tool called the <a href="../contribute/translate.php">PhET Translation Utility</a>, and requires no programming skills.</p>
 
-            <div class="p-indentation">
-                <ul class="content-points">
-                    <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation.htm">Translating PhET Simulations (also in DOC format)</a></li>
-
-                    <li><a href="http://phet.colorado.edu/web-pages/publications/phet-translation-deployment.htm">Deploying Translated PhET Simulations (also in DOC format)</a></li>
-                </ul>
-            </div>
+            <p>Translating the PhET simulations into other languages greatly expands our target audience, and helps us accomplish the <a href="../about/index.php">PhET mission</a>.</p>
         <?php
     }
 

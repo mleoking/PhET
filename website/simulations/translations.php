@@ -104,7 +104,7 @@ EOT;
 					flush();
 				}
 				else {
-					print "";
+					print "<a class=\"translate-prompt\" title=\"Click to translate this sim into $language_name!\" href=\"../contribute/translate.php\"></a>";
 				}
 				
 				print "</td>";

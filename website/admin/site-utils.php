@@ -156,7 +156,10 @@ EOT;
             $prefix, 
             $selected_page, 
             "contribute/index.php", 
-            "Contribute"
+            "Contribute",
+			array(
+				'contribute/translate.php'	=> 'PhET Translation Utility'
+			)
         );
         
         print_navigation_element(
@@ -316,7 +319,7 @@ EOT;
                 
                 <style type="text/css">
 	                /*<![CDATA[*/
-	                        @import url($prefix/css/main.css);
+	                	@import url($prefix/css/main.css);
 	                /*]]>*/
                 </style>    
                 
