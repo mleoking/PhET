@@ -26,7 +26,7 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     private DefaultTemporalVariable gravity = new DefaultTemporalVariable();
     private DefaultTemporalVariable staticFriction = new DefaultTemporalVariable();
     private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable();
-    private DefaultTemporalVariable mass = new DefaultTemporalVariable( 1.0 );
+    private DefaultTemporalVariable mass = new DefaultTemporalVariable( 30 );
 
     private ControlGraphSeries appliedForceSeries = new ControlGraphSeries( "Fa", Color.blue, "x", "m", new BasicStroke( 2 ), true, null, appliedForce );
     private ControlGraphSeries frictionForceSeries = new ControlGraphSeries( "Ff", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, frictionForce );
@@ -53,6 +53,7 @@ public class ForceModel extends MovingManMotionModel implements UpdateStrategy, 
     }
 
     public void setAppliedForce( double appliedForceValue ) {
+        System.out.println( "appliedForceValue = " + appliedForceValue );
         appliedForce.setValue( appliedForceValue );
         netForce.setValue( appliedForce.getValue() + frictionForce.getValue() + wallForce.getValue() );
         getAVariable().setValue( netForce.getValue() / mass.getValue() );

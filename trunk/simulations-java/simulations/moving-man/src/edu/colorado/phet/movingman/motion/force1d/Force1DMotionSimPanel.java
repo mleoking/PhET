@@ -16,12 +16,12 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
  * Dec 4, 2007 at 1:29:00 PM
  */
 public class Force1DMotionSimPanel extends AbstractMotionSimPanel {
-    private Force1DPlayAreaNode movingManNode;
+    private Force1DNode movingManNode;
     private GraphSetNode graphSetNode;
 
     public Force1DMotionSimPanel( ForceModel forceModel ) {
         try {
-            movingManNode = new Force1DPlayAreaNode( forceModel );
+            movingManNode = new Force1DNode( forceModel );
         }
         catch( IOException e ) {
             e.printStackTrace();
