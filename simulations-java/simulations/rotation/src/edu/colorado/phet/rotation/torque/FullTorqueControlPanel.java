@@ -11,6 +11,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.motion.graphs.GraphSelectionControl;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -25,39 +26,39 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
  * Author: Sam Reid
  * May 29, 2007, 1:48:07 AM
  */
-public class FullTorqueControlPanel extends JPanel {
+public class FullTorqueControlPanel extends VerticalLayoutPanel {
     private AbstractTorqueModule torqueModule;
     public static final int MIN_BRAKE = 0;
     public static final int MAX_BRAKE = 3;
+    private JPanel leftPanel;
 
     public FullTorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
-        super( new GridBagLayout() );
         this.torqueModule = torqueModule;
 
         setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "controls" ) ) );
-        GridBagConstraints sliderSetConstraints = new GridBagConstraints();
-        sliderSetConstraints.gridx = 0;
-        sliderSetConstraints.gridy = GridBagConstraints.RELATIVE;
 
         final RotationPlatform rp = torqueModule.getRotationModel().getRotationPlatform();
 
         TorqueSlider[] sliders = getSliders( torqueModule, rp );
         AlignedSliderSetLayoutStrategy alignedSliderSetLayoutStrategy = new AlignedSliderSetLayoutStrategy( sliders );
         alignedSliderSetLayoutStrategy.doLayout();
-        JPanel sliderPanel = new JPanel( new GridBagLayout() );
+        JPanel sliderPanel = new VerticalLayoutPanel();
         for ( int i = 0; i < sliders.length; i++ ) {
-            sliderPanel.add( sliders[i], sliderSetConstraints );
+            sliderPanel.add( sliders[i] );
         }
-        add( sliderPanel, getConstraints( 0, 0, 2 ) );
+        add( sliderPanel );
+        add( Box.createRigidArea( new Dimension( 10,10 ) ) );
+        HorizontalLayoutPanel controls = new HorizontalLayoutPanel();
 
-        JPanel checkBoxPanel = new VerticalLayoutPanel();
+        JPanel rightPanel = new VerticalLayoutPanel();
+        leftPanel = new VerticalLayoutPanel();
         final JCheckBox showNonTangentialForces = new JCheckBox( RotationStrings.getString( "controls.allow.non.tangential.forces" ), torqueModule.getTorqueModel().isAllowNonTangentialForces() );
         showNonTangentialForces.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 torqueModule.getTorqueModel().setAllowNonTangentialForces( showNonTangentialForces.isSelected() );
             }
         } );
-        checkBoxPanel.add( showNonTangentialForces );
+        rightPanel.add( showNonTangentialForces );
 
         final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "controls.show.components" ), torqueModule.getTorqueModel().isShowComponents() );
         showComponents.addActionListener( new ActionListener() {
@@ -65,17 +66,21 @@ public class FullTorqueControlPanel extends JPanel {
                 torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
             }
         } );
-        checkBoxPanel.add( showComponents );
-        checkBoxPanel.add( new ResetButton( torqueModule ) );
-        checkBoxPanel.add( new RulerButton( rulerNode ) );
-        checkBoxPanel.add( new ShowVectorsControl( vectorViewModel ) );
-        add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
+        rightPanel.add( showComponents );
+        rightPanel.add( new ResetButton( torqueModule ) );
+        leftPanel.add( new RulerButton( rulerNode ) );
+        leftPanel.add( new ShowVectorsControl( vectorViewModel ) );
+        controls.add( leftPanel );
+        add( Box.createRigidArea( new Dimension( 30, 30 ) ) );
+        controls.add( rightPanel );
+
+        add( controls );
 //        addGraphSelectionControl( rotationGraphSet, graphSetModel );
     }
 
     protected void addGraphSelectionControl( GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel ) {
         GraphSelectionControl graphSelectionControl = new GraphSelectionControl( rotationGraphSet, graphSetModel );
-        add( graphSelectionControl, getConstraints( 1, 1, 1 ) );
+        leftPanel.add( graphSelectionControl );
     }
 
     protected TorqueSlider[] getSliders( AbstractTorqueModule torqueModule, RotationPlatform rp ) {
@@ -153,9 +158,9 @@ public class FullTorqueControlPanel extends JPanel {
         return outerRadiusSlider;
     }
 
-    private GridBagConstraints getConstraints( int gridX, int gridY, int gridWidth ) {
-        return new GridBagConstraints( gridX, gridY, gridWidth, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 10, 10, 10, 10 ), 0, 0 );
-    }
+//    private GridBagConstraints getConstraints( int gridX, int gridY, int gridWidth ) {
+//        return new GridBagConstraints( gridX, gridY, gridWidth, 1, 1, 1, GridBagConstraints.NORTHWEST, GridBagConstraints.NONE, new Insets( 10, 10, 10, 10 ), 0, 0 );
+//    }
 
     public static class TorqueSlider extends LinearValueControl {
         public TorqueSlider( double min, double max, double initialValue, String label, String textFieldPattern, String units ) {
