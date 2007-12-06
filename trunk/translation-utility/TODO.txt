@@ -33,7 +33,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.09 (?)
+********* version 0.00.09 (18815)
 12/5/07 - organize imports
 12/5/07 - reorganize package structure
 12/5/07 - absorb ProjectProperties into TUResources
