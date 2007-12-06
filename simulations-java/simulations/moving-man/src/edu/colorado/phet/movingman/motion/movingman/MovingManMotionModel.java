@@ -24,7 +24,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private ControlGraphSeries vSeries = new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), true, null, v );
     private ControlGraphSeries aSeries = new ControlGraphSeries( "A", Color.green, "a", "m/s^2", new BasicStroke( 2 ), true, null, a );
 
-    public static final int MAX_T = 500;
+    public static final int MAX_T = 20;
 
     private double min = -10;
     private double max = 10;
