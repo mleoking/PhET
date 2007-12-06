@@ -1,3 +1,4 @@
+12-6-2007: Rotation - rewrote layout for play area and torque control panels
 12-6-2007: Rotation - rewrote control panel layout
 12-4-2007: Rotation - Moved mass graphic (partial side view) to the North West side, increased size range
 12-4-2007: Rotation - Internationalized text

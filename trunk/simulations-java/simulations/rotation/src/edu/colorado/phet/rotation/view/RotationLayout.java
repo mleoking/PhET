@@ -1,12 +1,14 @@
 package edu.colorado.phet.rotation.view;
 
 import java.awt.*;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -39,34 +41,26 @@ public class RotationLayout {
     }
 
     public void layout() {
-//        int padX = 20;
-//        int padY = 50;
         rotationControlPanelNode.setOffset( 0, getHeight() - rotationControlPanelNode.getFullBounds().getHeight() );
-        double availWidth = rotationControlPanelNode.getFullBounds().getWidth();
+        double availWidth = Math.max( rotationControlPanelNode.getFullBounds().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().width * minFraction );
         double availHeight = getHeight() - rotationControlPanelNode.getFullBounds().getHeight();
 
-        availWidth = Math.max( Toolkit.getDefaultToolkit().getScreenSize().width * minFraction, availWidth );
-//        availWidth=Math.min( availWidth, )
+        double platformMaxRadius = RotationPlatform.MAX_RADIUS*2;
+        Dimension2D d = new PDimension( platformMaxRadius, platformMaxRadius );
+        rotationPlayAreaNode.setScale( 1.0 );
+        platformNode.getParent().localToGlobal( d );
+//        System.out.println( "d = " + d );
 
-//        rotationPlayAreaNode.setOffset( 200, 200 );
         rotationPlayAreaNode.setScale( 1.0 );
 
-        //determine the radius in pixels of the rotation play area node
-//        availHeight -= padY * 2;
-//        availWidth -= padX * 2;
-
-//        availWidth-=50;//for the origin node
-
-        double sx = availWidth / ( platformNode.getFullBounds().getWidth() );
-        double sy = availHeight / ( platformNode.getFullBounds().getHeight() );
+        double sx = availWidth / Math.abs( d.getHeight() );
+        double sy = availHeight / Math.abs( d.getWidth() );
         double scale = Math.min( sx, sy );
-//        System.out.println( "sx = " + sx + ", sy=" + sy + ", scale=" + scale );
+//        System.out.println( "scale = " + scale + " limited by sx=" + ( scale == sx ) + ", lim by sy=" + ( scale == sy ) );
         if ( scale > 0 ) {
             rotationPlayAreaNode.scale( scale * 0.825 );
         }
         rotationPlayAreaNode.setOffset( scale * getRotationPlatform().getRadius(), scale * getRotationPlatform().getRadius() );
-
-//        double originNodeWidth = originNode.getGlobalFullBounds().getWidth();
         playAreaClip.setPathToRectangle( 0, 0, (float) availWidth, (float) availHeight );
         int padx = 3;
         timeSeriesGraphSetNode.setBounds( new Rectangle2D.Double( padx + getMaxXPlayAreaAndControlPanel(), 0, getWidth() - getMaxXPlayAreaAndControlPanel() - padx, getHeight() ) );
