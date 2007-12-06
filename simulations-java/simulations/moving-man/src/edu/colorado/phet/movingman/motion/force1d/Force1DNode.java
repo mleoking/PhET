@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Author: Sam Reid
  * May 22, 2007, 2:37:54 PM
  */
-public class Force1DPlayAreaNode extends AbstractMovingManNode {
-    public Force1DPlayAreaNode( final ForceModel forceModel ) throws IOException {
+public class Force1DNode extends AbstractMovingManNode {
+    public Force1DNode( final ForceModel forceModel ) throws IOException {
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
@@ -27,7 +27,8 @@ public class Force1DPlayAreaNode extends AbstractMovingManNode {
                 forceModel.setUpdateStrategy( forceModel );
                 double dx = p2.getX() - pressPoint.getX();
 
-                final double appliedForce = dx * 0.2;
+//                final double appliedForce = dx * 0.2;
+                final double appliedForce = dx * 30;
                 forceModel.setAppliedForce( appliedForce );
             }
 
