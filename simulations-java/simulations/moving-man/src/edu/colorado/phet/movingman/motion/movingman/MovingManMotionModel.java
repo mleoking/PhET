@@ -67,11 +67,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         double origX = getPosition();
         final double newX = MathUtil.clamp( min, x, max );
         this.x.setValue( newX );
+        double dt = getTimeSeriesModel().getTimeModelClock().getDt();
         if ( origX > min && newX == min ) {
-            crashedMin();
+            crashedMin( ( newX - origX ) / dt );
         }
         else if ( origX < max && newX == max ) {
-            crashedMax();
+            crashedMax( ( newX - origX ) / dt );
         }
     }
 
@@ -192,17 +193,17 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         updateStrategy.update( this, dt, super.getTime() );
     }
 
-    public void crashedMin() {
-        System.out.println( "MovingManMotionModel.crashedMin" );
+    public void crashedMin( double velocity ) {
+        System.out.println( "MovingManMotionModel.crashedMin, v="+velocity );
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).crashedMin();
+            ( (Listener) listeners.get( i ) ).crashedMin( velocity );
         }
     }
 
-    public void crashedMax() {
-        System.out.println( "MovingManMotionModel.crashedMax" );
+    public void crashedMax( double velocity ) {
+        System.out.println( "MovingManMotionModel.crashedMax, v="+velocity );
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).crashedMax();
+            ( (Listener) listeners.get( i ) ).crashedMax( velocity );
         }
     }
 
@@ -226,9 +227,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public static interface Listener {
-        void crashedMin();
+        void crashedMin( double velocity );
 
-        void crashedMax();
+        void crashedMax( double velocity );
     }
 
     public void addListener( Listener listener ) {
