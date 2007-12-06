@@ -15,8 +15,12 @@ import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
  * Dec 5, 2007 at 8:58:57 PM
  */
 public class MotionExpressionFrame extends JDialog {
+    private JTextField expressionTextField;
+    private OptionsMenu.MovingManOptions module;
+
     public MotionExpressionFrame( JFrame frame, final OptionsMenu.MovingManOptions module ) {
         super( frame, SimStrings.get( "expressions.title" ), false );
+        this.module = module;
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
         contentPane.setAnchor( GridBagConstraints.CENTER );
         contentPane.add( new JLabel( SimStrings.get( "expressions.description" ) ) );
@@ -25,7 +29,7 @@ public class MotionExpressionFrame extends JDialog {
         horizontalLayoutPanel.add( new JLabel( " " + SimStrings.get( "expressions.range" ) + " = " ) );
 
         String testEquation = SimStrings.get( "expressions.example" );
-        final JTextField expression = new JTextField( testEquation, 15 ) {
+        expressionTextField = new JTextField( testEquation, 15 ) {
             protected void paintComponent( Graphics g ) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
@@ -33,24 +37,31 @@ public class MotionExpressionFrame extends JDialog {
             }
         };
 
-        expression.addActionListener( new ActionListener() {
+        expressionTextField.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                module.setExpressionUpdate( expression.getText() );
+                setExpressionToModel();
             }
         } );
-        expression.setBackground( Color.white );
+        expressionTextField.setBackground( Color.white );
 
-        horizontalLayoutPanel.add( expression );
+        horizontalLayoutPanel.add( expressionTextField );
         contentPane.add( horizontalLayoutPanel );
 
 
         TimeSeriesControlPanel controlPanel = new TimeSeriesControlPanel( module.getTimeSeriesModel(), MovingManMotionModule.MIN_DT, MovingManMotionModule.MAX_DT );
+        controlPanel.addListener( new TimeSeriesControlPanel.Listener() {
+            public void recordButtonPressed() {
+                setExpressionToModel();
+            }
+        } );
         contentPane.add( controlPanel );
 
 
         setContentPane( contentPane );
         pack();
+    }
 
-
+    private void setExpressionToModel() {
+        this.module.setExpressionUpdate( expressionTextField.getText() );
     }
 }
