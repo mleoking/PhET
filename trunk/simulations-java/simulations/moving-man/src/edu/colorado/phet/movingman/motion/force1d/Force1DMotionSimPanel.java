@@ -28,24 +28,18 @@ public class Force1DMotionSimPanel extends AbstractMotionSimPanel {
         }
         addScreenChild( movingManNode );
 
-        MovingManGraph xGraph = new MovingManGraph(
-                this, forceModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
-                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getPositionDriven(), MovingManMotionModel.MAX_T, forceModel );
+        MovingManGraph xGraph = getXGraph( forceModel );
+        MovingManGraph vGraph = getVGraph( forceModel );
+        MovingManGraph aGraph = getAGraph( forceModel );
 
-
-        MovingManGraph vGraph = new MovingManGraph(
-                this, forceModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -11, 11,
-                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getVelocityDriven(), MovingManMotionModel.MAX_T, forceModel );
-
-
-        MovingManGraph aGraph = new MovingManGraph(
-                this, forceModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
-                forceModel, true, forceModel.getTimeSeriesModel(), forceModel.getAccelDriven(), MovingManMotionModel.MAX_T, forceModel );
+        MovingManGraph forceGraph = new MovingManGraph( this, forceModel.getAppliedForceSeries(), "f", "f", -1000, 1000,
+                                                        forceModel, true, forceModel.getTimeSeriesModel(), forceModel, MovingManMotionModel.MAX_T, forceModel, 200 );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
-                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
-                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph ),
-                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), aGraph )
+                new MinimizableControlGraph( "Forces", forceGraph ),
+                new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph, true ),
+                new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph, true ),
+                new MinimizableControlGraph( SimStrings.get( "variables.acceleration.abbreviation" ), aGraph, true )
         } ) ) );
         addScreenChild( graphSetNode );
 

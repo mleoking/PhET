@@ -43,20 +43,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         positionDriven.addListener( this );
         velocityDriven.addListener( this );
         accelDriven.addListener( this );
+        addTemporalVariables( new ITemporalVariable[]{x, v, a} );
     }
 
-    protected void setPlaybackTime( double time ) {
-        super.setPlaybackTime( time );
-        x.setPlaybackTime( time );
-        v.setPlaybackTime( time );
-        a.setPlaybackTime( time );
-    }
-
-    public void clear() {
-        super.clear();
-        x.clear();
-        v.clear();
-        a.clear();
+    public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        updateStrategy.update( this, dt, super.getTime() );
     }
 
     public void setPositionDriven() {
@@ -156,10 +148,6 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         getTimeSeriesModel().startRecording();
     }
 
-    public ControlGraphSeries[] getControlGraphSeriesArray() {
-        return new ControlGraphSeries[]{xSeries, vSeries, aSeries};
-    }
-
     public ControlGraphSeries getXSeries() {
         return xSeries;
     }
@@ -188,20 +176,15 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         this.updateStrategy = updateStrategy;
     }
 
-    public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-        updateStrategy.update( this, dt, super.getTime() );
-    }
-
     public void crashedMin( double velocity ) {
-        System.out.println( "MovingManMotionModel.crashedMin, v="+velocity );
+        System.out.println( "MovingManMotionModel.crashedMin, v=" + velocity );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).crashedMin( velocity );
         }
     }
 
     public void crashedMax( double velocity ) {
-        System.out.println( "MovingManMotionModel.crashedMax, v="+velocity );
+        System.out.println( "MovingManMotionModel.crashedMax, v=" + velocity );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).crashedMax( velocity );
         }

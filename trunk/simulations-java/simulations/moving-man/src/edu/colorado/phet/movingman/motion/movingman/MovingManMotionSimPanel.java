@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
-import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -31,7 +30,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
     private TimeReadoutNode timeReadoutNode;
 
     public MovingManMotionSimPanel( final MovingManMotionModel motionModel ) {
-        
+
         try {
             movingManNode = new MovingManNode( motionModel );
         }
@@ -74,17 +73,9 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         motionModel.getAVariable().addListener( accelVectorUpdate );
         vectorLayer.addChild( accelVector );
 
-        MovingManGraph xGraph = new MovingManGraph(
-                this, motionModel.getXSeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getPositionDriven(), MovingManMotionModel.MAX_T, motionModel );
-
-        MovingManGraph vGraph = new MovingManGraph(
-                this, motionModel.getVSeries(), SimStrings.get( "variables.velocity.abbreviation" ), "x", -11, 11,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getVelocityDriven(), MovingManMotionModel.MAX_T, motionModel );
-
-        MovingManGraph aGraph = new MovingManGraph(
-                this, motionModel.getASeries(), SimStrings.get( "variables.position.abbreviation" ), "x", -11, 11,
-                motionModel, true, motionModel.getTimeSeriesModel(), motionModel.getAccelDriven(), MovingManMotionModel.MAX_T, motionModel );
+        MovingManGraph xGraph = getXGraph( motionModel );
+        MovingManGraph vGraph = getVGraph( motionModel );
+        MovingManGraph aGraph = getAGraph( motionModel );
 
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),

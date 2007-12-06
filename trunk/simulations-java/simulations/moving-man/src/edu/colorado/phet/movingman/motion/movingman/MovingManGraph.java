@@ -29,16 +29,23 @@ import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
  * Jul 18, 2007, 5:45:18 PM
  */
 public class MovingManGraph extends MotionControlGraph {
+    public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title, double min, double max,
+                           final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel,
+                           final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject iPositionDriven ) {
+        this( pSwingCanvas, series, label, title, min, max, motionModel, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven, 5 );
+    }
 
-    public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title, double min, double max, final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel, final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject iPositionDriven ) {
-        super( createMovingManJFreeChart(), pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
+    public MovingManGraph( PhetPCanvas pSwingCanvas, final ControlGraphSeries series, String label, String title, double min, double max,
+                           final MotionModel motionModel, boolean editable, final TimeSeriesModel timeSeriesModel,
+                           final UpdateStrategy updateStrategy, double maxDomainValue, final UpdateableObject iPositionDriven, int verticalTickUnit ) {
+        super( createMovingManJFreeChart( verticalTickUnit ), pSwingCanvas, series, label, title, min, max, editable, timeSeriesModel, updateStrategy, maxDomainValue, iPositionDriven );
         getJFreeChartNode().getChart().setBackgroundPaint( MotionProjectLookAndFeel.BACKGROUND_COLOR );
         getJFreeChartNode().getChart().getXYPlot().setBackgroundPaint( MotionProjectLookAndFeel.CHART_BACKGROUND_COLOR );
         DynamicJFreeChartNode dj = (DynamicJFreeChartNode) getJFreeChartNode();
         dj.updateAll();
     }
 
-    public static JFreeChart createMovingManJFreeChart() {
+    public static JFreeChart createMovingManJFreeChart( int verticalTickUnit ) {
 
         NumberAxis xAxis = new NumberAxis();
         xAxis.setAutoRangeIncludesZero( false );
@@ -47,7 +54,7 @@ public class MovingManGraph extends MotionControlGraph {
 
         NumberAxis yAxis = new NumberAxis();
         yAxis.setTickLabelFont( new PhetDefaultFont( 12, true ) );
-        yAxis.setTickUnit( new NumberTickUnit( 5 ) );
+        yAxis.setTickUnit( new NumberTickUnit( verticalTickUnit ) );
 
 
         XYItemRenderer renderer = new XYLineAndShapeRenderer( true, false );
