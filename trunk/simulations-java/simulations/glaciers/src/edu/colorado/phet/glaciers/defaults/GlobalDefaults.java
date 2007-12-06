@@ -28,5 +28,5 @@ import edu.colorado.phet.glaciers.GlaciersResources;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final int CLOCK_TIME_COLUMNS = 10;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 50, 1 ); // years
-    public static final String CLOCK_UNITS = GlaciersResources.getString( "units.time" );
+    public static final String CLOCK_UNITS = GlaciersResources.getString( "clock.units" );
 }

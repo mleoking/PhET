@@ -104,8 +104,8 @@ public class GlaciersClockControlPanel extends JPanel {
             _speedControl.setMinorTicksVisible( false );
             
             // Label the min and max
-            String normalString = GlaciersResources.getString( "label.clockSpeed.slow" );
-            String fastString = GlaciersResources.getString( "label.clockSpeed.fast" );
+            String normalString = GlaciersResources.getString( "clock.label.slow" );
+            String fastString = GlaciersResources.getString( "clock.label.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Double( min ), new JLabel( normalString ) );
             labelTable.put( new Double( max ), new JLabel( fastString ) );
