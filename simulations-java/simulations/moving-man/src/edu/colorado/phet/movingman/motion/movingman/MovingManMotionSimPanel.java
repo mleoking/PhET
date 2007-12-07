@@ -73,10 +73,17 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         motionModel.getAVariable().addListener( accelVectorUpdate );
         vectorLayer.addChild( accelVector );
 
-        MovingManGraph xGraph = getXGraph( motionModel );
-        MovingManGraph vGraph = getVGraph( motionModel );
-        MovingManGraph aGraph = getAGraph( motionModel );
+        final MovingManGraph xGraph = getXGraph( motionModel );
+        final MovingManGraph vGraph = getVGraph( motionModel );
+        final MovingManGraph aGraph = getAGraph( motionModel );
 
+        motionModel.addListener( new MovingManMotionModel.Adapter() {
+            public void updateStrategyChanged() {
+                xGraph.setSliderSelected( motionModel.isPositionDriven() );
+                vGraph.setSliderSelected( motionModel.isVelocityDriven() );
+                aGraph.setSliderSelected( motionModel.isAccelerationDriven() );
+            }
+        } );
         graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{
                 new MinimizableControlGraph( SimStrings.get( "variables.position.abbreviation" ), xGraph ),
                 new MinimizableControlGraph( SimStrings.get( "variables.velocity.abbreviation" ), vGraph ),
