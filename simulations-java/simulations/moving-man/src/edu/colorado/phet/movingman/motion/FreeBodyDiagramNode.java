@@ -44,7 +44,7 @@ public class FreeBodyDiagramNode extends PNode {
     private IFBDObject f;
 
     public static interface IFBDObject {
-        void record();
+        void startRecording();
 
         void setAppliedForce( double v );
 
@@ -100,7 +100,7 @@ public class FreeBodyDiagramNode extends PNode {
 
         PBasicInputEventHandler mia = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent e ) {
-                f.record();
+                f.startRecording();
                 applyForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
                 userClicked = true;
             }

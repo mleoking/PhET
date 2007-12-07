@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingman.motion.FreeBodyDiagramNode;
 import edu.colorado.phet.theramp.model.Block;
@@ -173,7 +174,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
             PhetPCanvas controlPanelFBD = new PhetPCanvas();
             controlPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
             FreeBodyDiagramNode freeBodyDiagram = new FreeBodyDiagramNode( new FreeBodyDiagramNode.IFBDObject() {
-                public void record() {
+                public void startRecording() {
                     module.record();
                 }
 
@@ -189,27 +190,27 @@ public class AdvancedRampControlPanel extends RampControlPanel {
                     return rampPanel.getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic().getViewAngle();
                 }
 
-                public RampPhysicalModel.ForceVector getAppliedForce() {
+                public Vector2D.Double getAppliedForce() {
                     return module.getRampPhysicalModel().getAppliedForce();
                 }
 
-                public RampPhysicalModel.ForceVector getFrictionForce() {
+                public Vector2D.Double getFrictionForce() {
                     return module.getRampPhysicalModel().getFrictionForce();
                 }
 
-                public RampPhysicalModel.ForceVector getTotalForce() {
+                public Vector2D.Double getTotalForce() {
                     return module.getRampPhysicalModel().getTotalForce();
                 }
 
-                public RampPhysicalModel.ForceVector getWallForce() {
+                public Vector2D.Double getWallForce() {
                     return module.getRampPhysicalModel().getWallForce();
                 }
 
-                public RampPhysicalModel.ForceVector getGravityForce() {
+                public Vector2D.Double getGravityForce() {
                     return module.getRampPhysicalModel().getGravityForce();
                 }
 
-                public RampPhysicalModel.ForceVector getNormalForce() {
+                public Vector2D.Double getNormalForce() {
                     return module.getRampPhysicalModel().getNormalForce();
                 }
             } );
