@@ -108,11 +108,19 @@ public class PhetProject {
         return expandPath( getSource() );
     }
 
+    /**
+     * Retrieves a list of this project's dependencies (the project is 
+     * considered to be itself a dependency, so this list will always contain
+     * at least one element).
+     *
+     * @return A list of this project's dependencies.
+     */
     public PhetProject[] getAllDependencies() {
         ArrayList toSearch = new ArrayList();
         ArrayList found = new ArrayList();
         toSearch.addAll( Arrays.asList( getDependencies() ) );
         getAllDependencies( toSearch, found );
+		found.add( this );
         return (PhetProject[])found.toArray( new PhetProject[0] );
     }
 
@@ -207,7 +215,7 @@ public class PhetProject {
     }
 
     public File[] getAllSourceRoots() {
-        PhetProject[] dependencies = getAllProjects();
+        PhetProject[] dependencies = getAllDependencies();
         ArrayList srcDirs = new ArrayList();
         for( int i = 0; i < dependencies.length; i++ ) {
             PhetProject dependency = dependencies[i];
@@ -223,7 +231,7 @@ public class PhetProject {
     }
 
     public File[] getAllDataDirectories() {
-        PhetProject[] all = getAllProjects();
+        PhetProject[] all = getAllDependencies();
         ArrayList jarFiles = new ArrayList();
 
         for( int i = 0; i < all.length; i++ ) {
@@ -240,7 +248,7 @@ public class PhetProject {
     }
 
     public File[] getAllJarFiles() {
-        PhetProject[] all = getAllProjects();
+        PhetProject[] all = getAllDependencies();
         ArrayList jarFiles = new ArrayList();
 
         for( int i = 0; i < all.length; i++ ) {
@@ -266,14 +274,6 @@ public class PhetProject {
         File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
         file.getParentFile().mkdirs();
         return file;
-    }
-
-    private PhetProject[] getAllProjects() {
-        ArrayList projects = new ArrayList( Arrays.asList( getAllDependencies() ) );
-        if( !projects.contains( this ) ) {
-            projects.add( this );
-        }
-        return (PhetProject[])projects.toArray( new PhetProject[0] );
     }
 
     public File getAntOutputDir() {
