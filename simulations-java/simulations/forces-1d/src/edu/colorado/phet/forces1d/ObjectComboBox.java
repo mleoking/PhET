@@ -9,10 +9,10 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 
 /**
@@ -22,13 +22,11 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
  */
 
 public class ObjectComboBox extends JComboBox {
-    private Force1dControlPanel controlPanel;
     private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
 
-    public ObjectComboBox( final Force1DApplication module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
-        super( toLabelArray( imageElements, controlPanel ) );
+    public ObjectComboBox( final Force1DApplication module, final Force1dObject[] imageElements ) {
+        super( toLabelArray( imageElements ) );
         setRenderer( new ComboBoxRenderer() );
-        this.controlPanel = controlPanel;
         if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
             setBorder( Force1DUtil.createSmoothBorder( SimStrings.get( "ObjectComboBox.chooseObject" ) ) );
         }
@@ -43,20 +41,16 @@ public class ObjectComboBox extends JComboBox {
         setFont( font );
     }
 
-    private static ImageIcon[] toLabelArray( Force1dObject[] imageElements, Component component ) {
+    private static ImageIcon[] toLabelArray( Force1dObject[] imageElements ) {
         ImageIcon[] lab = new ImageIcon[imageElements.length];
         for ( int i = 0; i < lab.length; i++ ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
-                image = BufferedImageUtils.rescaleYMaintainAspectRatio( component, image, 35 );
+                image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
                 ImageIcon icon = new ImageIcon( image );
-//                icon.setDescription( imageElements[i].getName() );
-//                icon.setDescription( imageElements[i].getName() );
-//                icon.setDescription( imageElements[i].getName()+" ("+imageElements[i].getMass()+" kg)");
                 icon.setDescription( imageElements[i].getName() + " (" + imageElements[i].getMass() + " " + SimStrings.get( "ObjectComboBox.kg" ) + ")" );
 
                 lab[i] = icon;
-//                lab[i] = new JLabel( imageElements[i].getName(), icon, JLabel.CENTER );
             }
             catch( IOException e ) {
                 e.printStackTrace();

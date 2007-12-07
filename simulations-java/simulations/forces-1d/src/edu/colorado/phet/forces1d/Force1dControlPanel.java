@@ -59,7 +59,7 @@ public class Force1dControlPanel extends IForceControl {
         addControl( freeBodyDiagramSuite.getCheckBox() );
         addControl( freeBodyDiagramSuite.getFBDPanel() );
 
-        comboBox = new ObjectComboBox( module, module.getImageElements(), this );
+        comboBox = new ObjectComboBox( module, module.getImageElements() );
         addControl( comboBox );
 
         mass = createControl( 5, 0.1, 1000, SimStrings.get( "Force1dControlPanel.mass" ), SimStrings.get( "Force1dControlPanel.kg" ), new SpinnerHandler() {
