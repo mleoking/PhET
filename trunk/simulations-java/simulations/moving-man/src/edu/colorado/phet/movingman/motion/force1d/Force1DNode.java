@@ -27,7 +27,6 @@ public class Force1DNode extends AbstractMovingManNode {
                 forceModel.setUpdateStrategy( forceModel.getAppliedForceStrategy() );
                 double dx = p2.getX() - pressPoint.getX();
 
-//                final double appliedForce = dx * 0.2;
                 final double appliedForce = dx * 30;
                 forceModel.setAppliedForce( appliedForce );
             }
