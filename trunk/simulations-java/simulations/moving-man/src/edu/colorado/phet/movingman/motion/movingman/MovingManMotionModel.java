@@ -41,7 +41,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private double lastPlaybackTime;
 
     public MovingManMotionModel( ConstantDtClock clock ) {
-        super( clock, new TimeSeriesFactory.Default() );
+        super( clock, new HeuristicPrunedTimeSeries.Factory( MAX_T ) );
         setMaxAllowedRecordTime( MAX_T );
 
         positionDriven.addListener( this );
@@ -64,7 +64,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     protected void setPlaybackTime( double time ) {
         super.setPlaybackTime( time );
         if ( containsCrash( lastPlaybackTime, time ) ) {
-            System.out.println( "t0="+lastPlaybackTime+", t1="+time+", crashTimes="+crashTimes);
+            System.out.println( "t0=" + lastPlaybackTime + ", t1=" + time + ", crashTimes=" + crashTimes );
             notifyCrashedMin( getVelocity() );
         }
         lastPlaybackTime = time;
