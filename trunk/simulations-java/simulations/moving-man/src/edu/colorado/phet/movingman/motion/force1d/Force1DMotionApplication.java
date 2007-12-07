@@ -25,7 +25,8 @@ public class Force1DMotionApplication extends PhetApplication {
     public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                SimStrings.getInstance().init( args, "forces-1d/localization/forces-1d-strings");//todo: replace with resource loader
+                SimStrings.getInstance().init( args, "forces-1d/localization/forces-1d-strings" );//todo: replace with resource loader
+                SimStrings.getInstance().init( args, "the-ramp/localization/the-ramp-strings" );//todo: replace with resource loader
                 MotionProjectLookAndFeel.init();
                 SimStrings.getInstance().addStrings( MovingManApplication.localizedStringsPath );
                 new Force1DMotionApplication( args ).startApplication();
