@@ -45,7 +45,6 @@ public class FreeBodyDiagramNode extends PNode {
     private IFBDObject f;
 
     public static interface IFBDObject {
-
         void record();
 
         void setAppliedForce( double v );
@@ -65,7 +64,6 @@ public class FreeBodyDiagramNode extends PNode {
         RampPhysicalModel.ForceVector getGravityForce();
 
         RampPhysicalModel.ForceVector getNormalForce();
-
     }
 
     public FreeBodyDiagramNode( final IFBDObject f ) {
@@ -80,7 +78,6 @@ public class FreeBodyDiagramNode extends PNode {
         addChild( background );
         axes = new AxesGraphic();
         addChild( axes );
-//        axes.setVisible( false );
 
         mg = new ForceArrow( this, laf.getWeightColor(), ( TheRampStrings.getString( "force.subscript.gravity" ) ), new Vector2D.Double( 0, 80 ) );
         addForceArrow( mg );
@@ -103,7 +100,6 @@ public class FreeBodyDiagramNode extends PNode {
         wallForce.setVerticalOffset( -30 );
 
         PBasicInputEventHandler mia = new PBasicInputEventHandler() {
-            // implements java.awt.event.MouseListener
             public void mousePressed( PInputEvent e ) {
                 f.record();
                 setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
@@ -111,13 +107,10 @@ public class FreeBodyDiagramNode extends PNode {
             }
 
             public void mouseDragged( PInputEvent e ) {
-//                System.out.println( "dragged: e = " + e );
                 setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
             }
 
-            // implements java.awt.event.MouseListener
             public void mouseReleased( PInputEvent e ) {
-//                System.out.println( "released: e = " + e );
                 f.setAppliedForce( 0.0 );
             }
         };
@@ -145,7 +138,6 @@ public class FreeBodyDiagramNode extends PNode {
     }
 
     private void updateXForces() {
-
         Vector2D.Double af = new Vector2D.Double( f.getAppliedForce().getScaledInstance( scale ) );
         appliedForce.setVector( af );
 
@@ -215,10 +207,8 @@ public class FreeBodyDiagramNode extends PNode {
 
         public void setVector( AbstractVector2D v ) {
             Point2D origin = fbd.getCenter();
-//            double viewAngle = fbd.component.getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic().getViewAngle();
             double viewAngle = fbd.f.getViewAngle();
 
-//            origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
@@ -278,31 +268,20 @@ public class FreeBodyDiagramNode extends PNode {
             addChild( xAxis );
             addChild( yAxis );
 
-//            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
-//            xLabel = new HTMLGraphic( ( "FreeBodyDiagram.fx" ), font, Color.black );
-//            yLabel = new HTMLGraphic( ( "FreeBodyDiagram.fy" ), font, Color.black );
-//            addChild( xLabel );
-//            addChild( yLabel );
-
             update();
         }
 
         public void update() {
-
             Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
             Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
-//
             if ( this.xLine == null || !xLine.equals( this.xLine ) ) {
                 this.xLine = xLine;
                 xAxis.setPathTo( xLine );
-//                xLabel.setOffset( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
             }
             if ( this.yLine == null || !yLine.equals( this.yLine ) ) {
                 this.yLine = yLine;
                 yAxis.setPathTo( yLine );
-//                yLabel.setOffset( (int)yLine.getX1() + 3, (int)yLine.getY1() );
             }
-
         }
     }
 
