@@ -2,6 +2,17 @@
 
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
 PhET-team specific tasks are located in an auxiliary build file.  
+
+Developer Notes:
+
+1. Ignore any task prefixed with an underscore.
+
+2. The main tasks you need are as follows:
+
+    * build-and-deploy-dev: builds and deploys development version, updating dev and revision numbers
+    * build-and-deploy-prod: builds and deploys development and production versions, updating dev, minor, and revision numbers
+    * build-and-deploy-prod-no-change: builds and deploys production version, updating revision number but nothing else
+
 -->
 <project name="PhET Master Build Script" default="launch-sim" basedir=".">
     <!--
@@ -675,15 +686,6 @@ PhET-team specific tasks are located in an auxiliary build file.
         <foreach list="${phet.simlist}" target="build-installer" param="sim.name" inheritall="true"/>
     </target>
 
-    <target name="test-file-exists" depends="_init">
-        <if>
-            <fileexists file="C:\phet\subversion\trunk\simulations-java\build.xml"/>
-            <then>
-                <echo message="file does exist"/>
-            </then>
-        </if>
-    </target>
-
     <target name="_build-jar-for-flavor">
         <copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
               tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
@@ -873,7 +875,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     </target>
 
     <!--a test target for checking whether VPN+tigercat+maverick are working-->
-    <target name="test-maverick-tigercat" depends="_read-username-and-password-prod">
+    <target name="_test-maverick-tigercat" depends="_read-username-and-password-prod">
         <echo file="maverick-test-file.txt" message="test text"/>
         <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
                       version="2">
