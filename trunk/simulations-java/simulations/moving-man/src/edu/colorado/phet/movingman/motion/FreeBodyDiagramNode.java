@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.TheRampStrings;
-import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.ThresholdedPDragAdapter;
 import edu.umd.cs.piccolo.PNode;
@@ -53,17 +52,17 @@ public class FreeBodyDiagramNode extends PNode {
 
         double getViewAngle();
 
-        RampPhysicalModel.ForceVector getAppliedForce();
+        Vector2D.Double getAppliedForce();
 
-        RampPhysicalModel.ForceVector getFrictionForce();
+        Vector2D.Double getFrictionForce();
 
-        RampPhysicalModel.ForceVector getTotalForce();
+        Vector2D.Double getTotalForce();
 
-        RampPhysicalModel.ForceVector getWallForce();
+        Vector2D.Double getWallForce();
 
-        RampPhysicalModel.ForceVector getGravityForce();
+        Vector2D.Double getGravityForce();
 
-        RampPhysicalModel.ForceVector getNormalForce();
+        Vector2D.Double getNormalForce();
     }
 
     public FreeBodyDiagramNode( final IFBDObject f ) {
@@ -102,12 +101,12 @@ public class FreeBodyDiagramNode extends PNode {
         PBasicInputEventHandler mia = new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent e ) {
                 f.record();
-                setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
+                applyForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
                 userClicked = true;
             }
 
             public void mouseDragged( PInputEvent e ) {
-                setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
+                applyForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
             }
 
             public void mouseReleased( PInputEvent e ) {
@@ -128,7 +127,7 @@ public class FreeBodyDiagramNode extends PNode {
         addChild( title );
     }
 
-    private void setForce( Point2D pt ) {
+    private void applyForce( Point2D pt ) {
         double x = pt.getX();
 
         //set the applied force
@@ -138,22 +137,14 @@ public class FreeBodyDiagramNode extends PNode {
     }
 
     private void updateXForces() {
-        Vector2D.Double af = new Vector2D.Double( f.getAppliedForce().getScaledInstance( scale ) );
-        appliedForce.setVector( af );
-
-        Vector2D.Double ff = new Vector2D.Double( f.getFrictionForce().getScaledInstance( scale ) );
-        frictionForce.setVector( ff );
-
-        AbstractVector2D net = new Vector2D.Double( f.getTotalForce().getScaledInstance( scale ) );
-        netForce.setVector( net );
-
-        Vector2D.Double wf = new Vector2D.Double( f.getWallForce().getScaledInstance( scale ) );
-        wallForce.setVector( wf );
+        appliedForce.setVector( new Vector2D.Double( f.getAppliedForce().getScaledInstance( scale ) ) );
+        frictionForce.setVector( new Vector2D.Double( f.getFrictionForce().getScaledInstance( scale ) ) );
+        netForce.setVector( new Vector2D.Double( f.getTotalForce().getScaledInstance( scale ) ) );
+        wallForce.setVector( new Vector2D.Double( f.getWallForce().getScaledInstance( scale ) ) );
     }
 
     private void updateMG() {
-        Vector2D gravity = f.getGravityForce();
-        mg.setVector( gravity.getScaledInstance( scale ) );
+        mg.setVector( f.getGravityForce().getScaledInstance( scale ) );
         normal.setVector( f.getNormalForce().getScaledInstance( scale ) );
     }
 
@@ -183,20 +174,17 @@ public class FreeBodyDiagramNode extends PNode {
         private Arrow lastArrow;
         private double verticalOffset = 0;
 
-        public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, Vector2D.Double v ) {
-            this.fbd = fbd;
+        public ForceArrow( FreeBodyDiagramNode freeBodyDiagramNode, Color color, String name, Vector2D.Double vector ) {
+            this.fbd = freeBodyDiagramNode;
             shapeGraphic = new PPath();
-//            component, null, RampUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), RampUtil.transparify( Color.black, 128 ) );
             shapeGraphic.setStroke( new BasicStroke( 1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
             shapeGraphic.setPaint( color );
-//            shapeGraphic.setStrokePaint( RampUtil.transparify( Color.black, 150 ) );
             shapeGraphic.setStrokePaint( Color.black );
             addChild( shapeGraphic );
             Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
-//            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
-            setVector( v );
+            setVector( vector );
             setPickable( false );
             setChildrenPickable( false );
         }
@@ -206,10 +194,10 @@ public class FreeBodyDiagramNode extends PNode {
         }
 
         public void setVector( AbstractVector2D v ) {
-            Point2D origin = fbd.getCenter();
             double viewAngle = fbd.f.getViewAngle();
 
-            origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
+            Point2D origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().
+                    getNormalVector().getNormalVector().getDestination( fbd.getCenter() );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
             if ( lastArrow == null || !lastArrow.equals( arrow ) ) {
