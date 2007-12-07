@@ -16,7 +16,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class Force1DNode extends AbstractMovingManNode {
+    private Force1DMotionModel forceModel;
+
     public Force1DNode( final Force1DMotionModel forceModel ) throws IOException {
+        this.forceModel = forceModel;
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
@@ -42,14 +45,32 @@ public class Force1DNode extends AbstractMovingManNode {
 
         forceModel.getXVariable().addListener( new IVariable.Listener() {
             public void valueChanged() {
-                updateObject( getManImage(), forceModel );
+                updateLocation();
             }
         } );
-        updateObject( manImage, forceModel );
+        updateLocation();
+
+        forceModel.addListener( new Force1DMotionModel.Adapter() {
+            public void objectChanged() {
+                updateObject();
+            }
+        } );
+        updateObject();
     }
 
-    private void updateObject( PNode object, Force1DMotionModel model ) {
-        object.setOffset( model.getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
+    private void updateObject() {
+        try {
+            getManImage().setImage( forceModel.getObject().getImage() );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+        updateLocation();
+    }
+
+    private void updateLocation() {
+        PNode object = super.getManImage();
+        object.setOffset( forceModel.getPosition() - object.getFullBounds().getWidth() / 2, 2.0 - object.getFullBounds().getHeight() );
     }
 
 }

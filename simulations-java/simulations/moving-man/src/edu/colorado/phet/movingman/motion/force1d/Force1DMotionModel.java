@@ -5,13 +5,14 @@ import java.awt.*;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModel;
 
 /**
  * Created by: Sam
  * Dec 5, 2007 at 3:32:30 AM
  */
-public class Force1DMotionModel extends MovingManMotionModel implements IForceModel {
+public class Force1DMotionModel extends MovingManMotionModel {
 
     //handled in parent hierarchy: time, x,v,a
 
@@ -35,6 +36,9 @@ public class Force1DMotionModel extends MovingManMotionModel implements IForceMo
     private ControlGraphSeries kineticFrictionSeries = new ControlGraphSeries( "uk", Color.green, "", "m/s^2", new BasicStroke( 2 ), null, kineticFriction, false );
     private ControlGraphSeries massSeries = new ControlGraphSeries( "m", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, mass, true );
 
+    private Force1DObject object;
+    private Force1DObject[] objects;
+
     private UpdateStrategy appliedForceStrategy = new UpdateStrategy() {
         public void update( IMotionBody motionBody, double dt, double time ) {
             Force1DMotionModel model = (Force1DMotionModel) motionBody;//Force1DMotionModel.this
@@ -42,17 +46,26 @@ public class Force1DMotionModel extends MovingManMotionModel implements IForceMo
         }
     };
 
+
     public Force1DMotionModel( ConstantDtClock clock ) {
         super( clock );
         addTemporalVariables( getForce1DVars() );
         appliedForce.addListener( new IVariable.Listener() {
             public void valueChanged() {
-                System.out.println( "appliedForceValue = " + appliedForce.getValue());
+                System.out.println( "appliedForceValue = " + appliedForce.getValue() );
 //                appliedForce.setValue( appliedForceValue );
                 netForce.setValue( appliedForce.getValue() + frictionForce.getValue() + wallForce.getValue() );
                 getAVariable().setValue( netForce.getValue() / mass.getValue() );
             }
-        });
+        } );
+        objects = new Force1DObject[]{
+                new Force1DObject( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
+                new Force1DObject( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
+                new Force1DObject( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
+                new Force1DObject( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
+                new Force1DObject( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
+        };
+        object = objects[0];
     }
 
     public void stepInTime( double dt ) {
@@ -134,5 +147,22 @@ public class Force1DMotionModel extends MovingManMotionModel implements IForceMo
 
     public UpdateStrategy getAppliedForceStrategy() {
         return appliedForceStrategy;
+    }
+
+    public static interface Listener extends MovingManMotionModel.Listener {
+        void objectChanged();
+    }
+
+    public static class Adapter extends MovingManMotionModel.Adapter implements Listener {
+        public void objectChanged() {
+        }
+    }
+
+    public Force1DObject getObject() {
+        return object;
+    }
+
+    public Force1DObject[] getObjects() {
+        return objects;
     }
 }
