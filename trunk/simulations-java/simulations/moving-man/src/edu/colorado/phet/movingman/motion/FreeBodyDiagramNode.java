@@ -1,31 +1,30 @@
 /*  */
 package edu.colorado.phet.movingman.motion;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.theramp.view.ThresholdedPDragAdapter;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
-import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.theramp.view.ThresholdedPDragAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -34,8 +33,6 @@ import java.awt.geom.Point2D;
  */
 
 public class FreeBodyDiagramNode extends PNode {
-    private RampModule module;
-    private PPath background;
     private AxesGraphic axes;
     private Rectangle rect;
 
@@ -47,22 +44,17 @@ public class FreeBodyDiagramNode extends PNode {
     private ForceArrow netForce;
 
     private double scale = 1.0 / 20.0;
-    private RampLookAndFeel laf;
     private boolean userClicked = false;
     private RampPhysicalModel model;
     private RampPanel component;
-    private JComponent owner;
 
-    public FreeBodyDiagramNode( RampPanel component, final RampModule module, JComponent owner ) {
+    public FreeBodyDiagramNode( RampPanel component, final RampModule module ) {
         this.component = component;
-        this.owner = owner;
-//        super( component );
         this.model = module.getRampPhysicalModel();
-        this.module = module;
         rect = new Rectangle( 0, 0, 200, 200 );
-        laf = new RampLookAndFeel();
+        RampLookAndFeel laf = new RampLookAndFeel();
 
-        background = new PPath( rect );
+        PPath background = new PPath( rect );
         background.setPaint( Color.white );
         background.setStroke( new BasicStroke( 1.0f ) );
         background.setStrokePaint( Color.black );
@@ -163,12 +155,9 @@ public class FreeBodyDiagramNode extends PNode {
     }
 
     public void updateAll() {
-        if( owner.isVisible() ) {
-//        System.out.println( "FreeBodyDiagram.updateAll@"+System.currentTimeMillis() );
-            updateXForces();
-            updateMG();
-            axes.update();
-        }
+        updateXForces();
+        updateMG();
+        axes.update();
     }
 
     public void setBounds( int x, int y, int width, int height ) {
@@ -180,15 +169,11 @@ public class FreeBodyDiagramNode extends PNode {
         private PPath shapeGraphic;
         private HTMLNode textGraphic;
         private FreeBodyDiagramNode fbd;
-//        private double dx;
-        //        private double dy;
-        private String name;
         private Arrow lastArrow;
         private double verticalOffset = 0;
 
         public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, Vector2D.Double v ) {
             this.fbd = fbd;
-            this.name = name;
             shapeGraphic = new PPath();
 //            component, null, RampUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), RampUtil.transparify( Color.black, 128 ) );
             shapeGraphic.setStroke( new BasicStroke( 1.5f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ) );
@@ -218,34 +203,34 @@ public class FreeBodyDiagramNode extends PNode {
             origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
-            if( lastArrow == null || !lastArrow.equals( arrow ) ) {
+            if ( lastArrow == null || !lastArrow.equals( arrow ) ) {
                 shapeGraphic.setPathTo( sh );
             }
             lastArrow = arrow;
 
             Rectangle b = sh.getBounds();
             Point ctr = RectangleUtils.getCenter( b );
-            if( v.getX() > 0 ) {
+            if ( v.getX() > 0 ) {
                 this.textGraphic.setOffset( b.x + b.width + 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getX() < 0 ) {
+            else if ( v.getX() < 0 ) {
                 this.textGraphic.setOffset( b.x - textGraphic.getWidth() - 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getY() > 0 ) {
+            else if ( v.getY() > 0 ) {
                 this.textGraphic.setOffset( ctr.x - textGraphic.getWidth() / 2, b.y + b.height );
                 textGraphic.setVisible( true );
 //                System.out.println( name+", y>0" );
             }
-            else if( v.getY() < 0 ) {
+            else if ( v.getY() < 0 ) {
                 this.textGraphic.setOffset( ctr.x - textGraphic.getWidth() / 2, b.y - textGraphic.getHeight() );
                 textGraphic.setVisible( true );
             }
             else {
                 textGraphic.setVisible( false );
             }
-            if( v.getMagnitude() <= 0.05 ) {
+            if ( v.getMagnitude() <= 0.05 ) {
                 setVisible( false );
             }
             else {
@@ -261,8 +246,6 @@ public class FreeBodyDiagramNode extends PNode {
     public class AxesGraphic extends PNode {
         private PPath xAxis;
         private PPath yAxis;
-        private PNode xLabel;
-        private PNode yLabel;
         private Line2D.Double yLine = null;
         private Line2D.Double xLine = null;
 
@@ -294,12 +277,12 @@ public class FreeBodyDiagramNode extends PNode {
             Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
             Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
 //
-            if( this.xLine == null || !xLine.equals( this.xLine ) ) {
+            if ( this.xLine == null || !xLine.equals( this.xLine ) ) {
                 this.xLine = xLine;
                 xAxis.setPathTo( xLine );
 //                xLabel.setOffset( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
             }
-            if( this.yLine == null || !yLine.equals( this.yLine ) ) {
+            if ( this.yLine == null || !yLine.equals( this.yLine ) ) {
                 this.yLine = yLine;
                 yAxis.setPathTo( yLine );
 //                yLabel.setOffset( (int)yLine.getX1() + 3, (int)yLine.getY1() );
