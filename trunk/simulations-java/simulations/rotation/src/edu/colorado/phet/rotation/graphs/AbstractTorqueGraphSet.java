@@ -105,8 +105,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
                 return new Range( 0, range.getUpperBound() );
             }
 
-            protected JFreeChartSliderNode createSliderNode( PNode thumb ) {
-                return new JFreeChartSliderNodeForRadius( getDynamicJFreeChartNode(), thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
+            protected JFreeChartSliderNode createSliderNode( PNode thumb,Color color ) {
+                return new JFreeChartSliderNodeForRadius( getDynamicJFreeChartNode(), thumb == null ? new PPath() : thumb ,color);//todo: better support for non-controllable graphs
             }
 
             protected void handleValueChanged() {
@@ -145,8 +145,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     }
 
     private class JFreeChartSliderNodeForRadius extends JFreeChartSliderNode {
-        public JFreeChartSliderNodeForRadius( DynamicJFreeChartNode dynamicJFreeChartNode, PNode pNode ) {
-            super( dynamicJFreeChartNode, pNode );
+        public JFreeChartSliderNodeForRadius( DynamicJFreeChartNode dynamicJFreeChartNode, PNode pNode,Color highlightColor ) {
+            super( dynamicJFreeChartNode, pNode,highlightColor );
         }
 
         protected double getMaxRangeValue() {

@@ -21,9 +21,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private ITemporalVariable v = new DefaultTemporalVariable();
     private ITemporalVariable a = new DefaultTemporalVariable();
 
-    private ControlGraphSeries xSeries = new ControlGraphSeries( "X", Color.blue, "x", "m", new BasicStroke( 2 ), null, x, true );
-    private ControlGraphSeries vSeries = new ControlGraphSeries( "V", Color.red, "v", "m/s", new BasicStroke( 2 ), null, v, true );
-    private ControlGraphSeries aSeries = new ControlGraphSeries( "A", Color.green, "a", MovingManResources.getString("units.acceleration.abbreviation"), new BasicStroke( 2 ), null, a, true );
+    private ControlGraphSeries xSeries = new ControlGraphSeries( "Position", Color.blue, "x", "m", new BasicStroke( 2 ), null, x, true );
+    private ControlGraphSeries vSeries = new ControlGraphSeries( "Velocity", Color.red, "v", "m/s", new BasicStroke( 2 ), null, v, true );
+    private ControlGraphSeries aSeries = new ControlGraphSeries( "Acceleration", Color.green, "a", MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
 
     public static final int MAX_T = 20;
 
@@ -176,6 +176,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).updateStrategyChanged();
+        }
     }
 
     public void crashedMin( double velocity ) {
@@ -227,12 +230,26 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         setUpdateStrategy( new MovingManExpressionUpdate( text ) );
     }
 
+    public boolean isPositionDriven() {
+        return updateStrategy == positionDriven;
+    }
+
+    public boolean isVelocityDriven() {
+        return updateStrategy == velocityDriven;
+    }
+
+    public boolean isAccelerationDriven() {
+        return updateStrategy == accelDriven;
+    }
+
     public static interface Listener {
         void crashedMin( double velocity );
 
         void crashedMax( double velocity );
 
         void boundaryChanged();
+
+        void updateStrategyChanged();
     }
 
     public static class Adapter implements Listener {
@@ -243,6 +260,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         }
 
         public void boundaryChanged() {
+        }
+
+        public void updateStrategyChanged() {
         }
     }
 

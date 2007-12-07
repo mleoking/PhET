@@ -27,12 +27,15 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class JFreeChartSliderNode extends PNode {
     private PhetPPath trackPPath;
     private PNode sliderThumb;
+    private Color highlightColor;
     private double value = 0.0;
     private ArrayList listeners = new ArrayList();
     private JFreeChartNode jFreeChartNode;
+    private boolean selected = false;//highlight
 
-    public JFreeChartSliderNode( JFreeChartNode jFreeChartNode, final PNode sliderThumb ) {
+    public JFreeChartSliderNode( JFreeChartNode jFreeChartNode, final PNode sliderThumb,Color highlightColor ) {
         this.sliderThumb = sliderThumb;
+        this.highlightColor = highlightColor;
         this.sliderThumb.addInputEventListener( new CursorHandler() );
         trackPPath = new PhetPPath( new BasicStroke( 1 ), Color.black );
         addChild( trackPPath );
@@ -87,7 +90,7 @@ public class JFreeChartSliderNode extends PNode {
         } );
 
         updateLayout();
-
+        updateTrackPPath();
     }
 
     private void notifySliderDragged( double value ) {
@@ -167,6 +170,16 @@ public class JFreeChartSliderNode extends PNode {
         Point2D nodeLocation = plotToNode( new Point2D.Double( 0, clamp( value ) ) );
         sliderThumb.setOffset( trackPPath.getFullBounds().getCenterX() - sliderThumb.getFullBounds().getWidth() / 2.0,
                                nodeLocation.getY() - sliderThumb.getFullBounds().getHeight() / 2.0 );
+    }
+
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
+        updateTrackPPath();
+    }
+
+    private void updateTrackPPath() {
+        trackPPath.setStroke( new BasicStroke( selected ? 2 : 1 ) );
+        trackPPath.setStrokePaint( selected ? highlightColor : Color.black );
     }
 
     /**

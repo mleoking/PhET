@@ -1,5 +1,6 @@
 package edu.colorado.phet.common.motion.graphs;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -110,7 +111,7 @@ public class ControlGraph extends PNode {
         additionalControls = new PSwing( additionalControlPanel );
 //        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
-        jFreeChartSliderNode = createSliderNode( thumb );
+        jFreeChartSliderNode = createSliderNode( thumb,series.getColor( ) );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -200,8 +201,8 @@ public class ControlGraph extends PNode {
         return new JFreeChartDecorator( title, JFreeChart.DEFAULT_TITLE_FONT, plot, false );
     }
 
-    protected JFreeChartSliderNode createSliderNode( PNode thumb ) {
-        return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb );//todo: better support for non-controllable graphs
+    protected JFreeChartSliderNode createSliderNode( PNode thumb, Color highlightColor ) {
+        return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb ,highlightColor );//todo: better support for non-controllable graphs
     }
 
     public void setHorizontalRange( double maxDomainValue ) {
@@ -650,6 +651,10 @@ public class ControlGraph extends PNode {
 
     public void forceUpdateAll() {
         dynamicJFreeChartNode.forceUpdateAll();
+    }
+
+    public void setSliderSelected( boolean selected ) {
+        jFreeChartSliderNode.setSelected(selected);
     }
 
 }
