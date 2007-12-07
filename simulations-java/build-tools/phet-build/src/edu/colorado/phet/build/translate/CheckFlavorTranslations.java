@@ -62,7 +62,7 @@ public class CheckFlavorTranslations {
         boolean same = setEquals( local, jarList );
         System.out.print( jar + ": same = " + same );
         if ( !same ) {
-            System.out.print( "Remote : " + jarList + ", local: " + local );
+            System.out.print( " Remote : " + jarList + ", local: " + local );
         }
         System.out.println( "" );
     }
