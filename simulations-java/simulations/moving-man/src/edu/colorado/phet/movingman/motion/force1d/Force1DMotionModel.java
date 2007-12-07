@@ -25,14 +25,14 @@ public class Force1DMotionModel extends MovingManMotionModel implements IForceMo
     private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable();
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( 30 );
 
-    private ControlGraphSeries appliedForceSeries = new ControlGraphSeries( "Fa", Color.blue, "x", "m", new BasicStroke( 2 ), null, appliedForce, true );
-    private ControlGraphSeries frictionForceSeries = new ControlGraphSeries( "Ff", Color.red, "v", "m/s", new BasicStroke( 2 ), null, frictionForce, false );
-    private ControlGraphSeries wallForceSeries = new ControlGraphSeries( "Fw", Color.magenta, "a", "m/s^2", new BasicStroke( 2 ), null, wallForce, false );
-    private ControlGraphSeries netForceSeries = new ControlGraphSeries( "Fnet", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, netForce, false );
+    private ControlGraphSeries appliedForceSeries = new ControlGraphSeries( "Fa", Color.blue, "Fa", "N", new BasicStroke( 2 ), null, appliedForce, true );
+    private ControlGraphSeries frictionForceSeries = new ControlGraphSeries( "Ff", Color.red, "Ff", "N", new BasicStroke( 2 ), null, frictionForce, false );
+    private ControlGraphSeries wallForceSeries = new ControlGraphSeries( "Fw", Color.magenta, "Fw", "N", new BasicStroke( 2 ), null, wallForce, false );
+    private ControlGraphSeries netForceSeries = new ControlGraphSeries( "Fnet", Color.green, "Fnet", "N", new BasicStroke( 2 ), null, netForce, false );
 
-    private ControlGraphSeries gravitySeries = new ControlGraphSeries( "Fg", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, gravity, true );
-    private ControlGraphSeries staticFrictionSeries = new ControlGraphSeries( "us", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, staticFriction, false );
-    private ControlGraphSeries kineticFrictionSeries = new ControlGraphSeries( "uk", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, kineticFriction, false );
+    private ControlGraphSeries gravitySeries = new ControlGraphSeries( "Fg", Color.green, "a", "N", new BasicStroke( 2 ), null, gravity, true );
+    private ControlGraphSeries staticFrictionSeries = new ControlGraphSeries( "us", Color.green, "", "m/s^2", new BasicStroke( 2 ), null, staticFriction, false );
+    private ControlGraphSeries kineticFrictionSeries = new ControlGraphSeries( "uk", Color.green, "", "m/s^2", new BasicStroke( 2 ), null, kineticFriction, false );
     private ControlGraphSeries massSeries = new ControlGraphSeries( "m", Color.green, "a", "m/s^2", new BasicStroke( 2 ), null, mass, true );
 
     private UpdateStrategy appliedForceStrategy = new UpdateStrategy() {
