@@ -9,10 +9,10 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common_force1d.view.util.BufferedImageUtils;
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
 import edu.colorado.phet.forces1d.model.Force1dObject;
 
 /**
@@ -25,7 +25,10 @@ public class ObjectSelectionPanel extends JPanel {
     private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
     private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
 
-    public ObjectSelectionPanel( final Force1dObject[] imageElements, final SimpleControlPanel simpleControlPanel ) {
+    public static interface Listener{
+        void setup( Force1dObject imageElement );
+    }
+    public ObjectSelectionPanel( final Force1dObject[] imageElements, final Listener simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
@@ -38,7 +41,7 @@ public class ObjectSelectionPanel extends JPanel {
             catch( IOException e ) {
                 e.printStackTrace();
             }
-            image = BufferedImageUtils.rescaleYMaintainAspectRatio( simpleControlPanel, image, 35 );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
             ImageIcon icon = new ImageIcon( image );
             JRadioButton jRadioButton = new JRadioButton( imageElement.getName() + " (" + imageElement.getMass() + " kg)", icon );
             jRadioButtons[i] = jRadioButton;

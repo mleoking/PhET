@@ -20,7 +20,7 @@ import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
  * Time: 8:15:29 PM
  */
 
-public class SimpleControlPanel extends IForceControl {
+public class SimpleControlPanel extends IForceControl implements ObjectSelectionPanel.Listener{
     private FreeBodyDiagramSuite fbdSuite;
     private JCheckBox frictionCheckBox;
     private BarrierCheckBox barriers;
