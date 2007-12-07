@@ -1,14 +1,17 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Created by: Sam
@@ -27,7 +30,23 @@ public class MotionVectorNode extends PNode {
         this.textOffsetY = textOffsetY;
         shapeNode = new PhetPPath( fill, stroke, strokePaint );
         addChild( shapeNode );
-        textNode = new ShadowPText( text );
+        //todo: the following is short term workaround for getting text to appear forward even when embedded in a backward node
+        textNode = new ShadowPText( text ) {
+            public void fullPaint( PPaintContext paintContext ) {
+                Rectangle2D b = getFullBounds();
+                double scalex = paintContext.getGraphics().getTransform().getScaleX();
+                AffineTransform t = new AffineTransform( getTransformReference( true ) );
+                if ( scalex < 0 ) {
+                    getTransformReference( true ).translate( b.getCenterX(), b.getCenterY() );
+                    getTransformReference( true ).scale( -1, 1 );
+                    getTransformReference( true ).translate( -b.getCenterX(), -b.getCenterY() );
+                }
+                super.fullPaint( paintContext );
+                if ( scalex < 0 ) {
+                    setTransform( t );
+                }
+            }
+        };
         textNode.setTextPaint( fill );
         textNode.setShadowColor( Color.black );
         textNode.setFont( font );
