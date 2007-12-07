@@ -50,6 +50,7 @@ PhET-team specific tasks are located in an auxiliary build file.
     <property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
     <property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
     <property name="phet-list-sims-classname"       value="edu.colorado.phet.build.PhetListSimTask"/>
+    <property name="phet-list-depends-classname"    value="edu.colorado.phet.build.PhetListDependsTask"/>
     <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
     <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
     <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
@@ -138,6 +139,10 @@ PhET-team specific tasks are located in an auxiliary build file.
 
         <taskdef name="phet-list-sims"
                  classname="${phet-list-sims-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-list-depends"
+                 classname="${phet-list-depends-classname}"
                  classpath="${phetbuild-classpath}"/>
 
         <taskdef name="phet-list-flavors"
@@ -292,30 +297,6 @@ PhET-team specific tasks are located in an auxiliary build file.
 
         <propertyfile file="${file.project.properties}">
             <entry key="version.minor" type="int" operation="+" value="1" pattern="00"/>
-        </propertyfile>
-    </target>
-
-    <target name="_set-sim-revision-number" description="Sets the simulation revision number" depends="_define-sim-properties-file">
-        <echo message="Setting the simulation revision number in property file ${file.project.properties}" />
-
-        <exec executable="${svn.executable}" outputproperty="exec.output.svn.info">
-            <arg value="info"/>
-            <arg value="${simulations-directory}/${sim.name}"/>
-        </exec>
-
-        <echo message="Svn output = ${exec.output.svn.info}" />
-
-        <propertyregex property="number.subversion.revision"
-            override="true"
-            input="${exec.output.svn.info}"
-            regexp="Revision: *(\d+)"
-            select="\1"
-            casesensitive="false" />
-
-        <echo message="Revision number is ${number.subversion.revision}" />
-
-        <propertyfile file="${file.project.properties}">
-            <entry key="version.revision" type="string" operation="=" value="${number.subversion.revision}"/>
         </propertyfile>
     </target>
     
@@ -516,8 +497,48 @@ PhET-team specific tasks are located in an auxiliary build file.
 
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
     <target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
+    
+    <target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
+            depends="_init, _verify-sim-name-specified, _define-sim-properties-file, _define-sim-version">
 
-    <target name="build-and-deploy-dev" depends="_init, _read-username-and-password-dev, _set-sim-revision-number, _inc-sim-dev-version-number, _define-sim-version">
+        <phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true"/>
+
+        <echo message="Dependencies of ${sim.name}: ${phet.dependslist}" />
+        
+        <exec executable="svn" outputproperty="svn.output">
+            <arg line="update ${phet.dependslist}" />
+        </exec>
+        
+        <if>
+            <contains string="${svn.output}" substring="Updated to revision" casesensitive="false" />
+            <then>
+                <fail message="Your working copy was not up-to-date. Please re-build and test before running this task again." />
+            </then>
+        </if>
+        
+        <propertyregex property="number.subversion.revision" override="true" input="${svn.output}" regexp="revision *(\d+)" 
+            select="\1" casesensitive="false" />
+
+        <echo message="Current revision number is ${number.subversion.revision}" />
+        
+        <!-- Set revision number in project property file to current revision number -->
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="string" operation="=" value="${number.subversion.revision}"/>
+        </propertyfile>
+        
+        <!-- Now increment revision number by 1 (to the next revision number) -->
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="int" operation="+" value="1"/>
+        </propertyfile>
+        
+        <echo message="Committing ${sim.name} ${sim.version}" />
+        
+        <exec executable="svn">
+            <arg line="commit --message &quot;${sim.name}: Deployed version ${sim.version}&quot; ${phet.dependslist}" />
+        </exec>
+    </target>
+
+    <target name="build-and-deploy-dev" depends="_init, _read-username-and-password-dev, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
         <antcall target="_build-and-deploy">
             <param name="deploy.to.dev"         value="true"/>
             <param name="sim.server.url"        value="${dev.server.url}"/>
@@ -541,7 +562,7 @@ PhET-team specific tasks are located in an auxiliary build file.
         </if>
     </target>
     
-    <target name="_build-and-deploy-only-prod" depends="_set-sim-revision-number, _define-sim-version">
+    <target name="_build-and-deploy-only-prod" depends="_generate-svn-revision-number, _define-sim-version">
         <!-- Deploy production version -->
         <antcall target="_build-and-deploy">
             <param name="sim.server.url"        value="${prod.server.url}"/>
@@ -552,7 +573,8 @@ PhET-team specific tasks are located in an auxiliary build file.
         </antcall>
     </target>
 
-    <target name="build-and-deploy-prod" depends="_init, _read-username-and-password-dev, _read-username-and-password-prod,_reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+    <target name="build-and-deploy-prod" 
+        depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
         <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
 
