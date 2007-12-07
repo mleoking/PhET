@@ -4,7 +4,7 @@ package edu.colorado.phet.movingman.motion.force1d;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import edu.colorado.phet.common_force1d.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid
