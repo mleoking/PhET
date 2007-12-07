@@ -59,6 +59,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     public void clear() {
         super.clear();
         crashTimes.clear();
+        getTimeSeriesModel().setRecordMode();
+        getTimeSeriesModel().getTimeModelClock().pause();
     }
 
     protected void setPlaybackTime( double time ) {
@@ -77,7 +79,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         }
         for ( int i = 0; i < crashTimes.size(); i++ ) {
             double t = ( (Double) crashTimes.get( i ) ).doubleValue();
-            if ( t >= t0 && t <= t1 ) {
+            if ( t >= t0 && t < t1 ) {
                 return true;
             }
         }
