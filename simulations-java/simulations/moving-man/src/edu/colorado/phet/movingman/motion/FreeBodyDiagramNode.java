@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -11,6 +11,10 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.theramp.view.RampLookAndFeel;
+import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.theramp.view.ThresholdedPDragAdapter;
+import edu.colorado.phet.theramp.view.SurfaceGraphic;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -29,7 +33,7 @@ import java.awt.geom.Point2D;
  * Time: 5:57:05 PM
  */
 
-public class FreeBodyDiagram extends PNode {
+public class FreeBodyDiagramNode extends PNode {
     private RampModule module;
     private PPath background;
     private AxesGraphic axes;
@@ -49,7 +53,7 @@ public class FreeBodyDiagram extends PNode {
     private RampPanel component;
     private JComponent owner;
 
-    public FreeBodyDiagram( RampPanel component, final RampModule module, JComponent owner ) {
+    public FreeBodyDiagramNode( RampPanel component, final RampModule module, JComponent owner ) {
         this.component = component;
         this.owner = owner;
 //        super( component );
@@ -91,13 +95,13 @@ public class FreeBodyDiagram extends PNode {
             // implements java.awt.event.MouseListener
             public void mousePressed( PInputEvent e ) {
                 module.record();
-                setForce( e.getPositionRelativeTo( FreeBodyDiagram.this ) );
+                setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
                 userClicked = true;
             }
 
             public void mouseDragged( PInputEvent e ) {
 //                System.out.println( "dragged: e = " + e );
-                setForce( e.getPositionRelativeTo( FreeBodyDiagram.this ) );
+                setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
             }
 
             // implements java.awt.event.MouseListener
@@ -175,14 +179,14 @@ public class FreeBodyDiagram extends PNode {
     public static class ForceArrow extends PNode {
         private PPath shapeGraphic;
         private HTMLNode textGraphic;
-        private FreeBodyDiagram fbd;
+        private FreeBodyDiagramNode fbd;
 //        private double dx;
         //        private double dy;
         private String name;
         private Arrow lastArrow;
         private double verticalOffset = 0;
 
-        public ForceArrow( FreeBodyDiagram fbd, Color color, String name, Vector2D.Double v ) {
+        public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, Vector2D.Double v ) {
             this.fbd = fbd;
             this.name = name;
             shapeGraphic = new PPath();

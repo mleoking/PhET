@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampObject;
-import edu.colorado.phet.theramp.view.FreeBodyDiagram;
+import edu.colorado.phet.movingman.motion.FreeBodyDiagramNode;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
@@ -169,7 +169,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         {
             PhetPCanvas controlPanelFBD = new PhetPCanvas();
             controlPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
-            FreeBodyDiagram freeBodyDiagram = new FreeBodyDiagram( rampPanel, module, controlPanelFBD );
+            FreeBodyDiagramNode freeBodyDiagram = new FreeBodyDiagramNode( rampPanel, module, controlPanelFBD );
             controlPanelFBD.addWorldChild( freeBodyDiagram );
 
             AdvancedPanel advancedFBDPanel = new AdvancedPanel( TheRampStrings.getString( "controls.show-free-body-diagram" ), TheRampStrings.getString( "controls.hide-free-body-diagram" ) );
