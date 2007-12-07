@@ -23,4 +23,8 @@ public class MovingManResources {
     public static BufferedImage loadBufferedImage( String url ) throws IOException {
         return INSTANCE.getImage( url );
     }
+
+    public static String getString( String s ) {
+        return INSTANCE.getLocalizedString( s );
+    }
 }

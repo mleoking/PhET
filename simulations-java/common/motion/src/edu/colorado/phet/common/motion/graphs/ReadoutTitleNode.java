@@ -21,6 +21,7 @@ public class ReadoutTitleNode extends PNode {
     //Therefore, we just set the HTMLNode once, and update the text in piccolo without swing 
     private ShadowHTMLNode titleNode;
     private ShadowPText valueNode;
+    private ShadowHTMLNode unitsNode;
 
     private ControlGraphSeries series;
     private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
@@ -38,15 +39,22 @@ public class ReadoutTitleNode extends PNode {
         valueNode = new ShadowPText();
         valueNode.setFont( getTitleFont() );
         valueNode.setTextPaint( series.getColor() );
+
+        unitsNode = new ShadowHTMLNode( series.getUnits() );
+        unitsNode.setFont( getTitleFont() );
+        unitsNode.setColor( series.getColor() );
+
         if ( isLowRes() ) {
             titleNode.setShadowColor( new Color( 255, 255, 255, 255 ) );
             valueNode.setShadowColor( new Color( 255, 255, 255, 255 ) );
+            unitsNode.setShadowColor( new Color( 255, 255, 255, 255 ) );
         }
 
         background = new PhetPPath( Color.white );
         addChild( background );
         addChild( titleNode );
         addChild( valueNode );
+        addChild( unitsNode );
         background.translate( insetX, insetY );
         titleNode.translate( insetX, insetY );
         series.getTemporalVariable().addListener( new IVariable.Listener() {
@@ -59,7 +67,7 @@ public class ReadoutTitleNode extends PNode {
                 updateText();
             }
         } );
-        updateText();
+
         if ( series.getCharacterName() != null ) {
             titleNode.setHtml( "<html>" + series.getAbbr() + "<sub>" + series.getCharacterName() + "</sub>= " );
         }
@@ -68,6 +76,7 @@ public class ReadoutTitleNode extends PNode {
         }
 
         valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
+        updateText();
     }
 
     private Font getTitleFont() {
@@ -88,8 +97,10 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private void setValueText( String valueText ) {
-        valueNode.setText( valueText + " " + series.getUnits() );
-        background.setPathTo( RectangleUtils.expand( titleNode.getFullBounds().createUnion( valueNode.getFullBounds() ), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
+        valueNode.setText( valueText );
+        double maxY=valueNode.getFullBounds().getMaxY();
+        unitsNode.setOffset( valueNode.getFullBounds().getMaxX() + 3, maxY-unitsNode.getFullBounds().getHeight());
+        background.setPathTo( RectangleUtils.expand( titleNode.getFullBounds().createUnion( unitsNode.getFullBounds() ), insetX, insetY ) );//todo: avoid setting identical shapes here for performance considerations
     }
 
     public double getPreferredWidth() {
