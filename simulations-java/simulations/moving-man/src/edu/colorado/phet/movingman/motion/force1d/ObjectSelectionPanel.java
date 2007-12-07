@@ -27,7 +27,7 @@ public class ObjectSelectionPanel extends JPanel {
     private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
 
     public static interface Listener{
-        void setup( Force1DObject imageElement );
+        void objectChanged( Force1DObject imageElement );
     }
     public ObjectSelectionPanel( final Force1DObject[] imageElements, final Listener simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
@@ -57,7 +57,7 @@ public class ObjectSelectionPanel extends JPanel {
             final int i1 = i;
             jRadioButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    simpleControlPanel.setup( imageElement );
+                    simpleControlPanel.objectChanged( imageElement );
                     for ( int j = 0; j < jRadioButtons.length; j++ ) {
                         JRadioButton radioButton = jRadioButtons[j];
                         if ( j == i1 ) {

@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.force1d;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
@@ -147,6 +148,23 @@ public class Force1DMotionModel extends MovingManMotionModel {
 
     public UpdateStrategy getAppliedForceStrategy() {
         return appliedForceStrategy;
+    }
+
+    public void setObject( Force1DObject object ) {
+        if ( this.object != object ) {
+            this.object = object;
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener o = (Listener) listeners.get( i );
+                o.objectChanged();
+            }
+        }
+    }
+
+    ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        super.addListener( listener );
+        listeners.add( listener );
     }
 
     public static interface Listener extends MovingManMotionModel.Listener {

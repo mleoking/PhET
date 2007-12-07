@@ -94,7 +94,7 @@ public class SimpleControlPanel extends IForceControl implements ObjectSelection
         fbdSuite.reset();
     }
 
-    public void setup( Force1DObject imageElement ) {
+    public void objectChanged( Force1DObject imageElement ) {
         simpleForceModule.setObject( imageElement );
     }
 
