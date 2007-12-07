@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.ArrowPanel;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
+import edu.colorado.phet.movingman.motion.MovingManResources;
 
 /**
  * Created by: Sam
@@ -19,7 +20,7 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
     public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC * 2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
-        super( "Moving Man", clock );
+        super( MovingManResources.getString( "moving-man.name"), clock );
         movingManMotionModel = new MovingManMotionModel( clock );
         movingManMotionModel.addListener( new MovingManMotionModel.Adapter() {
             public void crashedMin( double v ) {

@@ -21,9 +21,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private ITemporalVariable v = new DefaultTemporalVariable();
     private ITemporalVariable a = new DefaultTemporalVariable();
 
-    private ControlGraphSeries xSeries = new ControlGraphSeries( "Position", Color.blue, "x", "m", new BasicStroke( 2 ), null, x, true );
-    private ControlGraphSeries vSeries = new ControlGraphSeries( "Velocity", Color.red, "v", "m/s", new BasicStroke( 2 ), null, v, true );
-    private ControlGraphSeries aSeries = new ControlGraphSeries( "Acceleration", Color.green, "a", MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
+    private ControlGraphSeries xSeries = new ControlGraphSeries( MovingManResources.getString( "variables.position"), Color.blue, MovingManResources.getString( "variables.position.abbreviation"), MovingManResources.getString( "units.meters.abbreviation" ), new BasicStroke( 2 ), null, x, true );
+    private ControlGraphSeries vSeries = new ControlGraphSeries( MovingManResources.getString( "variables.velocity"), Color.red, MovingManResources.getString( "variables.velocity.abbreviation"), MovingManResources.getString( "units.velocity.abbreviation" ), new BasicStroke( 2 ), null, v, true );
+    private ControlGraphSeries aSeries = new ControlGraphSeries( MovingManResources.getString( "variables.acceleration"), Color.green, MovingManResources.getString( "variables.acceleration.abbreviation"), MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
 
     public static final int MAX_T = 20;
 

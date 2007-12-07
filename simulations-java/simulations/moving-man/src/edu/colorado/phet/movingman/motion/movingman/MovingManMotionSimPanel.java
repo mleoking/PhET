@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
+import edu.colorado.phet.movingman.motion.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -51,7 +52,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         PNode vectorLayer = new PNode();
         movingManNode.addChild( vectorLayer );
 
-        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), "Velocity", MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
+        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.velocity"), MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
         velocityVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter velocityVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -62,7 +63,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         motionModel.getVVariable().addListener( velocityVectorUpdate );
         vectorLayer.addChild( velocityVector );
 
-        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), "Acceleration", MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
+        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.acceleration"), MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
         accelVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter accelVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -136,7 +137,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
             text.setFont( new PhetDefaultFont( 16, true ) );
             motionModel.getTimeVariable().addListener( new ITemporalVariable.ListenerAdapter() {
                 public void valueChanged() {
-                    text.setText( decimalFormat.format( motionModel.getTime() ) + " seconds" );
+                    text.setText( decimalFormat.format( motionModel.getTime() ) + " "+MovingManResources.getString( "units.seconds"));
                 }
             } );
             addChild( text );
