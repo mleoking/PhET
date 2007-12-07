@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
 import edu.colorado.phet.movingman.motion.MovingManResources;
+import edu.colorado.phet.movingman.motion.MotionVectorNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

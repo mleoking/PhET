@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion.movingman;
+package edu.colorado.phet.movingman.motion;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -30,7 +30,7 @@ public class MotionVectorNode extends PNode {
         this.textOffsetY = textOffsetY;
         shapeNode = new PhetPPath( fill, stroke, strokePaint );
         addChild( shapeNode );
-        //todo: the following is short term workaround for getting text to appear forward even when embedded in a backward node
+        //todo: the following is workaround for getting text to appear forward even when embedded in a backward node
         textNode = new ShadowPText( text ) {
             public void fullPaint( PPaintContext paintContext ) {
                 Rectangle2D b = getFullBounds();
