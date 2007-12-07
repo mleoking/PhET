@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.arrows;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.umd.cs.piccolo.PNode;
 

@@ -2,7 +2,7 @@
 package edu.colorado.phet.theramp.view.bars;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
-import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.ValueAccessor;
 import edu.colorado.phet.theramp.view.RampPanel;

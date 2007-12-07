@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

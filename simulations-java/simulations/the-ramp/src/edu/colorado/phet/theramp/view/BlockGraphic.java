@@ -10,6 +10,7 @@ import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
 import edu.colorado.phet.theramp.model.RampObject;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
+import edu.colorado.phet.movingman.motion.ThresholdedPDragAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

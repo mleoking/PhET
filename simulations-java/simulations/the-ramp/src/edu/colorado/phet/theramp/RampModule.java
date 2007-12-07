@@ -16,14 +16,13 @@ import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesModel;
 import edu.colorado.phet.theramp.timeseries_ramp.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.theramp.view.FireDog;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * User: Sam Reid

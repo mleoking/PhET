@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.theramp.model.RampObject;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.RampModule;
-import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 

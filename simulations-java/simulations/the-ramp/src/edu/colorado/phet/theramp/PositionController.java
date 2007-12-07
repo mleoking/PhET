@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.Ramp;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

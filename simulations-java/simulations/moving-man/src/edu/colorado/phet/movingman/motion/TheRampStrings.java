@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp;
+package edu.colorado.phet.movingman.motion;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 

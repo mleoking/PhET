@@ -1,4 +1,4 @@
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.movingman.motion;
 
 import java.awt.*;
 
