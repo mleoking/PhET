@@ -61,6 +61,7 @@ public class Force1DApplication extends Module {
 
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
+        SimStrings.getInstance().init( new String[0], "forces-1d");
         imageElements = new Force1DObject[]{
                 new Force1DObject( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
                 new Force1DObject( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
