@@ -1,25 +1,28 @@
 /*  */
 package edu.colorado.phet.theramp;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.movingman.motion.FreeBodyDiagramNode;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.model.RampObject;
-import edu.colorado.phet.movingman.motion.FreeBodyDiagramNode;
+import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -169,7 +172,47 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         {
             PhetPCanvas controlPanelFBD = new PhetPCanvas();
             controlPanelFBD.setPreferredSize( new Dimension( 200, 200 ) );
-            FreeBodyDiagramNode freeBodyDiagram = new FreeBodyDiagramNode( rampPanel, module );
+            FreeBodyDiagramNode freeBodyDiagram = new FreeBodyDiagramNode( new FreeBodyDiagramNode.IFBDObject() {
+                public void record() {
+                    module.record();
+                }
+
+                public void setAppliedForce( double v ) {
+                    module.setAppliedForce( v );
+                }
+
+                public void addModelElement( ModelElement modelElement ) {
+                    module.getModel().addModelElement( modelElement );
+                }
+
+                public double getViewAngle() {
+                    return rampPanel.getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic().getViewAngle();
+                }
+
+                public RampPhysicalModel.ForceVector getAppliedForce() {
+                    return module.getRampPhysicalModel().getAppliedForce();
+                }
+
+                public RampPhysicalModel.ForceVector getFrictionForce() {
+                    return module.getRampPhysicalModel().getFrictionForce();
+                }
+
+                public RampPhysicalModel.ForceVector getTotalForce() {
+                    return module.getRampPhysicalModel().getTotalForce();
+                }
+
+                public RampPhysicalModel.ForceVector getWallForce() {
+                    return module.getRampPhysicalModel().getWallForce();
+                }
+
+                public RampPhysicalModel.ForceVector getGravityForce() {
+                    return module.getRampPhysicalModel().getGravityForce();
+                }
+
+                public RampPhysicalModel.ForceVector getNormalForce() {
+                    return module.getRampPhysicalModel().getNormalForce();
+                }
+            } );
             controlPanelFBD.addWorldChild( freeBodyDiagram );
 
             AdvancedPanel advancedFBDPanel = new AdvancedPanel( TheRampStrings.getString( "controls.show-free-body-diagram" ), TheRampStrings.getString( "controls.hide-free-body-diagram" ) );
@@ -190,7 +233,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     class GraphButtonSet extends VerticalLayoutPanel {
         public GraphButtonSet() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "display.graphs" ) ) );
-            for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
+            for ( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
                 final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
                 final JCheckBox checkBox = new JCheckBox( unit.getFullName(), true );
 
