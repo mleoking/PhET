@@ -2,6 +2,8 @@
 #     To Do
 ################################
 
+curve brake graphic (if easy)
+
 fake 3d display for showing platform mass
     >>Current implementation has problems; not sure this will work
 

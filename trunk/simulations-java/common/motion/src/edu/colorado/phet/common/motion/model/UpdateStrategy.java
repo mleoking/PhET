@@ -62,9 +62,6 @@ public interface UpdateStrategy {
                 newV = new TimeData( 0, newV.getTime() );
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX < max ) {
-                    motionBody.setPositionDriven();
-                    newV = new TimeData( prevV, newV.getTime() );
-                    newA = new TimeData( prevA, newA.getTime() );
                     notifyCrashedMax( prevV );
                 }
             }
@@ -73,9 +70,6 @@ public interface UpdateStrategy {
                 newV = new TimeData( 0, newV.getTime() );
                 newA = new TimeData( 0, newA.getTime() );
                 if ( prevX > min ) {
-                    motionBody.setPositionDriven();
-                    newV = new TimeData( prevV, newV.getTime() );
-                    newA = new TimeData( prevA, newA.getTime() );
                     notifyCrashedMin( prevV );
                 }
             }

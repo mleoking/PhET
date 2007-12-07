@@ -596,6 +596,13 @@ public class ControlGraph extends PNode {
     }
 
     public void addValue( int series, double time, double value ) {
+        //scrolling test
+//        if ( time > maxDomainValue / 2 ) {
+//            //scroll to put maxDomain time in the middle
+//            jFreeChart.getXYPlot().getDomainAxis().setRange( time - maxDomainValue / 2, time + maxDomainValue / 2 );
+//            forceUpdateAll();
+//        }
+
         //Throw away data that is outside of the max allowed domain
         if ( domainContains( time ) ) {
             dynamicJFreeChartNode.addValue( series, time, value );
