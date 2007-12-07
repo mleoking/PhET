@@ -186,7 +186,7 @@ public class AbstractMovingManNode extends PNode {
         private double x;
 
         public TickLabel( DecimalFormat decimalFormat, double x ) {
-            super( "" + decimalFormat.format( x ) + ( x == 0 ? " meters" : "" ) );
+            super( "" + decimalFormat.format( x ) + ( x == 0 ? " " + MovingManResources.getString( "units.meters" ) : "" ) );
             this.x = x;
             setFont( new PhetDefaultFont( 14, true ) );
             updateTransform();
