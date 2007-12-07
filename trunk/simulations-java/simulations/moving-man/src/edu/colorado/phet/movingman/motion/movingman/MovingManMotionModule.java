@@ -21,7 +21,7 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( "Moving Man", clock );
         movingManMotionModel = new MovingManMotionModel( clock );
-        movingManMotionModel.addListener( new MovingManMotionModel.Listener() {
+        movingManMotionModel.addListener( new MovingManMotionModel.Adapter() {
             public void crashedMin( double v ) {
                 playSound();
             }

@@ -36,6 +36,8 @@ public class AbstractMovingManNode extends PNode {
     private BufferedImage left = MovingManResources.loadBufferedImage( "left-ii.gif" );
     private BufferedImage right = BufferedImageUtils.flipX( MovingManResources.loadBufferedImage( "left-ii.gif" ) );
     private BufferedImage standing = BufferedImageUtils.rescaleYMaintainAspectRatio( MovingManResources.loadBufferedImage( "stand-ii.gif" ), left.getHeight() );
+    private PImage leftWall;
+    private PImage rightWall;
 
     public AbstractMovingManNode() throws IOException {
         Rectangle2D.Float skyRect = new Rectangle2D.Float( -20, 0, 40, 2 );
@@ -57,7 +59,7 @@ public class AbstractMovingManNode extends PNode {
             tickTextList.add( tickLabel );
 
             PPath tickNode = new PhetPPath( new Line2D.Double( 0, 0, 0, -0.2 ), new BasicStroke( 0.1f / 2 ), Color.black );
-            tickNode.setOffset( i, 2+0.1 );
+            tickNode.setOffset( i, 2 + 0.1 );
 
 
             addChild( tickLabel );
@@ -76,13 +78,13 @@ public class AbstractMovingManNode extends PNode {
         addChild( house );
 
 
-        PImage leftWall = PImageFactory.create( "moving-man/images/barrier.jpg" );
+        leftWall = PImageFactory.create( "moving-man/images/barrier.jpg" );
         leftWall.translate( -10, 0 );
         leftWall.scale( 2.0 / leftWall.getHeight() );
         leftWall.translate( -leftWall.getFullBounds().getWidth() / leftWall.getScale(), 0 );
         addChild( leftWall );
 
-        PImage rightWall = PImageFactory.create( "moving-man/images/barrier.jpg" );
+        rightWall = PImageFactory.create( "moving-man/images/barrier.jpg" );
         rightWall.translate( 10, 0 );
         rightWall.scale( 2.0 / rightWall.getHeight() );
         addChild( rightWall );
@@ -110,6 +112,11 @@ public class AbstractMovingManNode extends PNode {
         if ( newImage != origImage ) {
             manImage.setImage( newImage );
         }
+    }
+
+    public void setWallsVisible( boolean vis ) {
+        leftWall.setVisible( vis );
+        rightWall.setVisible( vis );
     }
 
     public PImage getManImage() {
@@ -181,14 +188,14 @@ public class AbstractMovingManNode extends PNode {
         public TickLabel( DecimalFormat decimalFormat, double x ) {
             super( "" + decimalFormat.format( x ) + ( x == 0 ? " meters" : "" ) );
             this.x = x;
-            setFont( new PhetDefaultFont( 14,true) );
+            setFont( new PhetDefaultFont( 14, true ) );
             updateTransform();
         }
 
         public void updateTransform() {
             setTransform( new AffineTransform() );
             transformBy( AffineTransform.getScaleInstance( 0.025 * sign, 0.025 ) );
-            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2+0.1 );
+            setOffset( x - getFullBounds().getWidth() / 2 * sign, 2 + 0.1 );
         }
     }
 }

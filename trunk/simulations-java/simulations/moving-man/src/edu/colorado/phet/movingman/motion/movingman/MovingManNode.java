@@ -36,6 +36,11 @@ public class MovingManNode extends AbstractMovingManNode {
             }
         } );
         updateObject( manImage, motionModel );
+        motionModel.addListener( new MovingManMotionModel.Adapter(){
+            public void boundaryChanged() {
+                MovingManNode.this.setWallsVisible( motionModel.isBoundaryOpen());
+            }
+        });
     }
 
     private void updateObject( PNode object, IMovingManModel model ) {
