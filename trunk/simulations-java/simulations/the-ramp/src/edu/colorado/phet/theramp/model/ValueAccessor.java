@@ -1,8 +1,8 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.theramp.TheRampStrings;
-import edu.colorado.phet.theramp.view.RampLookAndFeel;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
+import edu.colorado.phet.movingman.motion.RampLookAndFeel;
 
 import java.awt.*;
 import java.text.MessageFormat;

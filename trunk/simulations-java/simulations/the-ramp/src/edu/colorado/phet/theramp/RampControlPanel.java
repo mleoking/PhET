@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.GoPauseClearPanel;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

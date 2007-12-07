@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.movingman.motion.TheRampStrings;
+
 /**
  * User: Sam Reid
  * Date: Oct 8, 2005

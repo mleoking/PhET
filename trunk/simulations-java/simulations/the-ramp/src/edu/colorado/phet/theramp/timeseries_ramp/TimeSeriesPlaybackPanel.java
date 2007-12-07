@@ -1,7 +1,7 @@
 package edu.colorado.phet.theramp.timeseries_ramp;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

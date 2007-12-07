@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.theramp.view;
+package edu.colorado.phet.movingman.motion;
 
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

@@ -3,7 +3,7 @@ package edu.colorado.phet.theramp.view.arrows;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.BlockGraphic;
-import edu.colorado.phet.theramp.view.RampLookAndFeel;
+import edu.colorado.phet.movingman.motion.RampLookAndFeel;
 import edu.colorado.phet.theramp.view.RampPanel;
 
 

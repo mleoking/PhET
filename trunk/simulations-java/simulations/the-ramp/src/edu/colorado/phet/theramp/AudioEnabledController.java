@@ -2,6 +2,7 @@
 package edu.colorado.phet.theramp;
 
 import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

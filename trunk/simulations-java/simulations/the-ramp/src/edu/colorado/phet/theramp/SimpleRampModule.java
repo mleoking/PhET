@@ -4,6 +4,7 @@ package edu.colorado.phet.theramp;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.theramp.view.RampPanel;
+import edu.colorado.phet.movingman.motion.TheRampStrings;
 
 /**
  * User: Sam Reid
