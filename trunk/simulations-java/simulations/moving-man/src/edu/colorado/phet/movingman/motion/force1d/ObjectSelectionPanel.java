@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
-import edu.colorado.phet.forces1d.Force1DUtil;
 
 /**
  * User: Sam Reid
@@ -26,9 +24,10 @@ public class ObjectSelectionPanel extends JPanel {
     private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
     private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
 
-    public static interface Listener{
+    public static interface Listener {
         void objectChanged( Force1DObject imageElement );
     }
+
     public ObjectSelectionPanel( final Force1DObject[] imageElements, final Listener simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
@@ -72,6 +71,6 @@ public class ObjectSelectionPanel extends JPanel {
             add( jRadioButton );
 
         }
-        setBorder( Force1DUtil.createSmoothBorder( SimStrings.get( "ObjectSelectionPanel.chooseObject" ) ) );
+        setBorder( BorderFactory.createTitledBorder( SimStrings.get( "ObjectSelectionPanel.chooseObject" ) ) );
     }
 }
