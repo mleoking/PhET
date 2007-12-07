@@ -19,6 +19,7 @@ public class MovingManNode extends AbstractMovingManNode {
         manImage.addInputEventListener( new CursorHandler() );
         manImage.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
+                motionModel.unpause();
                 motionModel.setPositionDriven();
                 motionModel.setPosition( event.getPositionRelativeTo( getManImage().getParent() ).getX() );
             }

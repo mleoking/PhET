@@ -200,6 +200,10 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return boundaryOpen;
     }
 
+    public void unpause() {
+        getClock().start();
+    }
+
     public void setBoundaryOpen( boolean boundaryOpen ) {
         this.boundaryOpen = boundaryOpen;
         min = boundaryOpen ? Double.NEGATIVE_INFINITY : -10;

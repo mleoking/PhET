@@ -17,9 +17,11 @@ public class MotionModel {
     private TimeSeriesModel timeSeriesModel;
     private ITemporalVariable timeVariable;
     private ArrayList temporalVariables = new ArrayList();
+    private ConstantDtClock clock;
 
     public MotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
         timeVariable = new DefaultTemporalVariable( timeSeriesFactory );
+        this.clock=clock;
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );
@@ -139,5 +141,9 @@ public class MotionModel {
 
     public void setMaxAllowedRecordTime( double maxAllowedRecordTime ) {
         getTimeSeriesModel().setMaxAllowedRecordTime( maxAllowedRecordTime );
+    }
+
+    public ConstantDtClock getClock() {
+        return clock;
     }
 }

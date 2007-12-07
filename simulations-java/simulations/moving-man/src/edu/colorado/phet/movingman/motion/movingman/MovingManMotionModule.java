@@ -43,7 +43,7 @@ public class MovingManMotionModule extends AbstractMotionModule implements Arrow
 
     public void activate() {
         super.activate();
-        movingManMotionModel.startRecording();
+        getClock().pause();
     }
 
     public void setShowVelocityVector( boolean selected ) {
