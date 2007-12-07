@@ -7,6 +7,9 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
+- put Help buttons next to each file in init dialog, remove existing Help button
+- update instructions on web site, indicate can be used to edit existing translation
+- replace dev instructions with a pointer to the PhET website
 
 MEDIUM PRIORITY:
 - refactor to support alternate strategies for Flash sims
@@ -26,6 +29,7 @@ LOW PRIORITY:
 - localize error messages in GoogleTranslateService
 - add File>New to start a new translation, instead of restarting
 - select a desired simulation from a list and automatically download the associated JAR from the PhET website
+- select language code from a list, by language name
 - bug: pressing Help button causes scrollpane to scroll to top
 - bug: Load allows user to load a properties file that doesn't pertain to the simulation
 - bug: scrollpane scrolls when loading a properties file
