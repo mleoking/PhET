@@ -16,4 +16,8 @@ public interface IMovingManModel {
     double getPosition();
 
     ITemporalVariable getVVariable();
+
+    void addListener( MovingManMotionModel.Listener listener );
+
+    boolean isBoundaryOpen();
 }

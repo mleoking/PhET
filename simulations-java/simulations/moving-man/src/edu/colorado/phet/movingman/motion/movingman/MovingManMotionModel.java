@@ -35,6 +35,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     private UpdateStrategy updateStrategy = positionDriven;
     private ArrayList listeners = new ArrayList();
+    private boolean boundaryOpen = false;
 
     public MovingManMotionModel( ConstantDtClock clock ) {
         super( clock, new TimeSeriesFactory.Default() );
@@ -194,15 +195,27 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         return a;
     }
 
-    public void setBoundaryOpen( boolean b ) {
-        min = b ? Double.NEGATIVE_INFINITY : -10;
-        max = b ? Double.POSITIVE_INFINITY : +10;
+    public boolean isBoundaryOpen() {
+        return boundaryOpen;
+    }
+
+    public void setBoundaryOpen( boolean boundaryOpen ) {
+        this.boundaryOpen = boundaryOpen;
+        min = boundaryOpen ? Double.NEGATIVE_INFINITY : -10;
+        max = boundaryOpen ? Double.POSITIVE_INFINITY : +10;
         positionDriven.setMin( min );
         positionDriven.setMax( max );
         velocityDriven.setMin( min );
         velocityDriven.setMax( max );
         accelDriven.setMin( min );
         accelDriven.setMax( max );
+        notifyBoundaryChanged();
+    }
+
+    private void notifyBoundaryChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).boundaryChanged();
+        }
     }
 
     public void setExpressionUpdate( String text ) {
@@ -213,6 +226,19 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         void crashedMin( double velocity );
 
         void crashedMax( double velocity );
+
+        void boundaryChanged();
+    }
+
+    public static class Adapter implements Listener {
+        public void crashedMin( double velocity ) {
+        }
+
+        public void crashedMax( double velocity ) {
+        }
+
+        public void boundaryChanged() {
+        }
     }
 
     public void addListener( Listener listener ) {
