@@ -13,44 +13,35 @@ import edu.colorado.phet.build.PhetProject;
  * Dec 7, 2007 at 11:33:12 AM
  */
 public class CheckFlavorTranslations {
+    private static final String WEBROOT = "http://phet.colorado.edu/sims/";
+    private static final String LOCAL_ROOT_DIR = "C:\\Users\\Sam\\Desktop\\jars\\";
+
     public static void main( String[] args ) throws IOException {
         CheckTranslations.Sim[] s = CheckTranslations.getLocalSims();
-        ArrayList checked = new ArrayList();
         for ( int i = 0; i < s.length; i++ ) {
             CheckTranslations.Sim sim = s[i];
             PhetProject phetProject = new PhetProject( new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" ), sim.getName() );
-//            System.out.println( "phetProject = " + Arrays.asList( phetProject.getFlavorNames() ) );
 
             //check flavor jars
             for ( int j = 0; j < phetProject.getFlavorNames().length; j++ ) {
-                String flavor = phetProject.getFlavorNames()[j];
-                String webLocation = "http://phet.colorado.edu/sims/" + sim.getName() + "/" + flavor + ".jar";
-                final String fileName = "C:\\Users\\Sam\\Desktop\\jars\\" + flavor + ".jar";
-                try {
-                    FileDownload.download( webLocation, fileName );
-//                    System.out.println( "downloaded: " + webLocation );
-                    checkTranslations( sim, phetProject, fileName );
-                    checked.add( webLocation );
-                }
-                catch( FileNotFoundException fnfe ) {
-                    System.out.println( "File not found for: " + webLocation );
-                }
+                checkJAR( sim, phetProject, phetProject.getFlavorNames()[j] );
             }
+            //check main jar (if we haven't already)
+            if ( !Arrays.asList( phetProject.getFlavorNames() ).contains( phetProject.getName() ) ) {
+                checkJAR( sim, phetProject, phetProject.getName() );
+            }
+        }
+    }
 
-            //check main jar
-            String webLocation = "http://phet.colorado.edu/sims/" + sim.getName() + "/" + sim.getName() + ".jar";
-            if ( !checked.contains( webLocation ) ) {
-                final String fileName = "C:\\Users\\Sam\\Desktop\\jars\\" + sim.getName() + ".jar";
-                try {
-                    FileDownload.download( webLocation, fileName );
-//                System.out.println( "downloaded: " + webLocation );
-                    checkTranslations( sim, phetProject, fileName );
-                    checked.add( webLocation );
-                }
-                catch( FileNotFoundException fnfe ) {
-                    System.out.println( "File not found for: " + webLocation );
-                }
-            }
+    private static void checkJAR( CheckTranslations.Sim sim, PhetProject phetProject, String flavor ) throws IOException {
+        String webLocation = WEBROOT + sim.getName() + "/" + flavor + ".jar";
+        final String fileName = LOCAL_ROOT_DIR + flavor + ".jar";
+        try {
+            FileDownload.download( webLocation, fileName );
+            checkTranslations( sim, phetProject, fileName );
+        }
+        catch( FileNotFoundException fnfe ) {
+            System.out.println( "File not found for: " + webLocation );
         }
     }
 
