@@ -21,6 +21,7 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
+import edu.colorado.phet.movingman.motion.force1d.ObjectComboBox;
 
 /**
  * User: Sam Reid

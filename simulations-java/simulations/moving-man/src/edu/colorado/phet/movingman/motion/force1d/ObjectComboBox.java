@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.forces1d;
+package edu.colorado.phet.movingman.motion.force1d;
 
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -13,7 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
+import edu.colorado.phet.forces1d.Force1DApplication;
+import edu.colorado.phet.forces1d.Force1DUtil;
 
 /**
  * User: Sam Reid
@@ -24,7 +26,7 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
 public class ObjectComboBox extends JComboBox {
     private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
 
-    public ObjectComboBox( final Force1DApplication module, final Force1dObject[] imageElements ) {
+    public ObjectComboBox( final Force1DApplication module, final Force1DObject[] imageElements ) {
         super( toLabelArray( imageElements ) );
         setRenderer( new ComboBoxRenderer() );
         if ( Toolkit.getDefaultToolkit().getScreenSize().width >= 1280 ) {
@@ -41,7 +43,7 @@ public class ObjectComboBox extends JComboBox {
         setFont( font );
     }
 
-    private static ImageIcon[] toLabelArray( Force1dObject[] imageElements ) {
+    private static ImageIcon[] toLabelArray( Force1DObject[] imageElements ) {
         ImageIcon[] lab = new ImageIcon[imageElements.length];
         for ( int i = 0; i < lab.length; i++ ) {
             try {

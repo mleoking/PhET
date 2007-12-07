@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.forces1d;
+package edu.colorado.phet.movingman.motion.force1d;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
+import edu.colorado.phet.forces1d.Force1DUtil;
 
 /**
  * User: Sam Reid
@@ -26,14 +27,14 @@ public class ObjectSelectionPanel extends JPanel {
     private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
 
     public static interface Listener{
-        void setup( Force1dObject imageElement );
+        void setup( Force1DObject imageElement );
     }
-    public ObjectSelectionPanel( final Force1dObject[] imageElements, final Listener simpleControlPanel ) {
+    public ObjectSelectionPanel( final Force1DObject[] imageElements, final Listener simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
         for ( int i = 0; i < imageElements.length; i++ ) {
-            final Force1dObject imageElement = imageElements[i];
+            final Force1DObject imageElement = imageElements[i];
             BufferedImage image = null;
             try {
                 image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );

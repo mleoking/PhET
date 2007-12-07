@@ -13,7 +13,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.forces1d.model.Force1dObject;
+import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
 
 /**
  * User: Sam Reid
@@ -32,7 +32,7 @@ public class BlockGraphic extends CompositePhetGraphic {
     private ThresholdedDragAdapter mouseListener;
 
     public BlockGraphic( Force1DPanel panel, final Block block, final Force1DModel model,
-                         ModelViewTransform2D transform2D, final Function.LinearFunction transform1d, Force1dObject force1dObject ) {
+                         ModelViewTransform2D transform2D, final Function.LinearFunction transform1d, Force1DObject force1dObject ) {
         super( panel );
         this.panel = panel;
         this.block = block;
