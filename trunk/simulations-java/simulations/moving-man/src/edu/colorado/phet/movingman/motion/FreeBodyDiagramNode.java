@@ -13,12 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampLookAndFeel;
-import edu.colorado.phet.theramp.view.RampPanel;
-import edu.colorado.phet.theramp.view.SurfaceGraphic;
 import edu.colorado.phet.theramp.view.ThresholdedPDragAdapter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -45,12 +42,34 @@ public class FreeBodyDiagramNode extends PNode {
 
     private double scale = 1.0 / 20.0;
     private boolean userClicked = false;
-    private RampPhysicalModel model;
-    private RampPanel component;
+    private IFBDObject f;
 
-    public FreeBodyDiagramNode( RampPanel component, final RampModule module ) {
-        this.component = component;
-        this.model = module.getRampPhysicalModel();
+    public static interface IFBDObject {
+
+        void record();
+
+        void setAppliedForce( double v );
+
+        void addModelElement( ModelElement modelElement );
+
+        double getViewAngle();
+
+        RampPhysicalModel.ForceVector getAppliedForce();
+
+        RampPhysicalModel.ForceVector getFrictionForce();
+
+        RampPhysicalModel.ForceVector getTotalForce();
+
+        RampPhysicalModel.ForceVector getWallForce();
+
+        RampPhysicalModel.ForceVector getGravityForce();
+
+        RampPhysicalModel.ForceVector getNormalForce();
+
+    }
+
+    public FreeBodyDiagramNode( final IFBDObject f ) {
+        this.f = f;
         rect = new Rectangle( 0, 0, 200, 200 );
         RampLookAndFeel laf = new RampLookAndFeel();
 
@@ -86,7 +105,7 @@ public class FreeBodyDiagramNode extends PNode {
         PBasicInputEventHandler mia = new PBasicInputEventHandler() {
             // implements java.awt.event.MouseListener
             public void mousePressed( PInputEvent e ) {
-                module.record();
+                f.record();
                 setForce( e.getPositionRelativeTo( FreeBodyDiagramNode.this ) );
                 userClicked = true;
             }
@@ -99,14 +118,14 @@ public class FreeBodyDiagramNode extends PNode {
             // implements java.awt.event.MouseListener
             public void mouseReleased( PInputEvent e ) {
 //                System.out.println( "released: e = " + e );
-                model.setAppliedForce( 0.0 );
+                f.setAppliedForce( 0.0 );
             }
         };
         ThresholdedPDragAdapter listener = new ThresholdedPDragAdapter( mia, 10, 0, 1000 );
         addInputEventListener( listener );
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
         updateAll();
-        module.getModel().addModelElement( new ModelElement() {
+        f.addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
                 updateAll();
             }
@@ -122,28 +141,28 @@ public class FreeBodyDiagramNode extends PNode {
         //set the applied force
         double dx = x - getCenter().getX();
         double appliedForceRequest = dx / scale;
-        model.setAppliedForce( appliedForceRequest );
+        f.setAppliedForce( appliedForceRequest );
     }
 
     private void updateXForces() {
 
-        Vector2D.Double af = new Vector2D.Double( model.getAppliedForce().getScaledInstance( scale ) );
+        Vector2D.Double af = new Vector2D.Double( f.getAppliedForce().getScaledInstance( scale ) );
         appliedForce.setVector( af );
 
-        Vector2D.Double ff = new Vector2D.Double( model.getFrictionForce().getScaledInstance( scale ) );
+        Vector2D.Double ff = new Vector2D.Double( f.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
-        AbstractVector2D net = new Vector2D.Double( model.getTotalForce().getScaledInstance( scale ) );
+        AbstractVector2D net = new Vector2D.Double( f.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
-        Vector2D.Double wf = new Vector2D.Double( model.getWallForce().getScaledInstance( scale ) );
+        Vector2D.Double wf = new Vector2D.Double( f.getWallForce().getScaledInstance( scale ) );
         wallForce.setVector( wf );
     }
 
     private void updateMG() {
-        Vector2D gravity = model.getGravityForce();
+        Vector2D gravity = f.getGravityForce();
         mg.setVector( gravity.getScaledInstance( scale ) );
-        normal.setVector( model.getNormalForce().getScaledInstance( scale ) );
+        normal.setVector( f.getNormalForce().getScaledInstance( scale ) );
     }
 
     public void addForceArrow( ForceArrow forceArrow ) {
@@ -196,8 +215,8 @@ public class FreeBodyDiagramNode extends PNode {
 
         public void setVector( AbstractVector2D v ) {
             Point2D origin = fbd.getCenter();
-            SurfaceGraphic surfaceGraphic = fbd.getRampPanel().getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic();
-            double viewAngle = surfaceGraphic.getViewAngle();
+//            double viewAngle = fbd.component.getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic().getViewAngle();
+            double viewAngle = fbd.f.getViewAngle();
 
 //            origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             origin = Vector2D.Double.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
@@ -237,10 +256,6 @@ public class FreeBodyDiagramNode extends PNode {
                 setVisible( true );
             }
         }
-    }
-
-    private RampPanel getRampPanel() {
-        return component;
     }
 
     public class AxesGraphic extends PNode {
