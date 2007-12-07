@@ -45,6 +45,7 @@ public class CheckFlavorTranslations {
                     FileDownload.download( webLocation, fileName );
 //                System.out.println( "downloaded: " + webLocation );
                     checkTranslations( sim, phetProject, fileName );
+                    checked.add( webLocation );
                 }
                 catch( FileNotFoundException fnfe ) {
                     System.out.println( "File not found for: " + webLocation );
