@@ -37,6 +37,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private UpdateStrategy updateStrategy = positionDriven;
     private ArrayList listeners = new ArrayList();
     private boolean boundaryOpen = false;
+    private ArrayList crashTimes = new ArrayList();
+    private double lastPlaybackTime;
 
     public MovingManMotionModel( ConstantDtClock clock ) {
         super( clock, new TimeSeriesFactory.Default() );
@@ -49,8 +51,37 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     }
 
     public void stepInTime( double dt ) {
+        lastPlaybackTime = Double.NaN;
         super.stepInTime( dt );
         updateStrategy.update( this, dt, super.getTime() );
+    }
+
+    public void clear() {
+        super.clear();
+        crashTimes.clear();
+    }
+
+    protected void setPlaybackTime( double time ) {
+        super.setPlaybackTime( time );
+        if ( containsCrash( lastPlaybackTime, time ) ) {
+            System.out.println( "t0="+lastPlaybackTime+", t1="+time+", crashTimes="+crashTimes);
+            notifyCrashedMin( getVelocity() );
+        }
+        lastPlaybackTime = time;
+    }
+
+    private boolean containsCrash( double t0, double t1 ) {
+        if ( Double.isNaN( t0 ) || Double.isNaN( t1 ) ) {
+            return false;
+
+        }
+        for ( int i = 0; i < crashTimes.size(); i++ ) {
+            double t = ( (Double) crashTimes.get( i ) ).doubleValue();
+            if ( t >= t0 && t <= t1 ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setPositionDriven() {
@@ -183,6 +214,11 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void crashedMin( double velocity ) {
         System.out.println( "MovingManMotionModel.crashedMin, v=" + velocity );
+        crashTimes.add( new Double( getTime() ) );
+        notifyCrashedMin( velocity );
+    }
+
+    private void notifyCrashedMin( double velocity ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).crashedMin( velocity );
         }
@@ -190,6 +226,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 
     public void crashedMax( double velocity ) {
         System.out.println( "MovingManMotionModel.crashedMax, v=" + velocity );
+        crashTimes.add( new Double( getTime() ) );
+        notifyCrashedMax( velocity );
+
+    }
+
+    private void notifyCrashedMax( double velocity ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).crashedMax( velocity );
         }
