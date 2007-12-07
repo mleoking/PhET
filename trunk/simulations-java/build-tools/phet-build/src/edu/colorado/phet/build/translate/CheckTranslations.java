@@ -1,4 +1,4 @@
-package edu.colorado.phet.build;
+package edu.colorado.phet.build.translate;
 
 import java.io.BufferedReader;
 import java.io.File;
