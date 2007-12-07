@@ -13,6 +13,7 @@ public class Force1DMotionModule extends AbstractMotionModule {
         super( "Force 1D", clock );
         Force1DMotionModel model = new Force1DMotionModel( clock );
         setSimulationPanel( new Force1DMotionSimPanel( model ) );
+        setControlPanel( new Force1DMotionControlPanel(model));
         setClockControlPanel( new Force1DSouthControlPanel( this, this, model.getTimeSeriesModel(), MovingManMotionModule.MIN_DT, MovingManMotionModule.MAX_DT ) );
         setLogoPanelVisible( false );
     }
