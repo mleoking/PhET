@@ -20,4 +20,6 @@ public interface IMovingManModel {
     void addListener( MovingManMotionModel.Listener listener );
 
     boolean isBoundaryOpen();
+
+    void unpause();
 }
