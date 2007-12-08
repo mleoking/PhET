@@ -13,7 +13,7 @@ import edu.colorado.phet.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common_force1d.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.forces1d.model.Block;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
+import edu.colorado.phet.movingman.motion.ramps.Force1DObject;
 
 /**
  * User: Sam Reid

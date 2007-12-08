@@ -24,7 +24,7 @@ import edu.colorado.phet.common_force1d.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
+import edu.colorado.phet.movingman.motion.ramps.Force1DObject;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 

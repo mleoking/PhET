@@ -11,8 +11,8 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-import edu.colorado.phet.movingman.motion.force1d.Force1DObject;
-import edu.colorado.phet.movingman.motion.force1d.ObjectSelectionPanel;
+import edu.colorado.phet.movingman.motion.ramps.Force1DObject;
+import edu.colorado.phet.movingman.motion.ramps.ObjectSelectionPanel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
 /**

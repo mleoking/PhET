@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.movingman.motion.force1d;
+package edu.colorado.phet.movingman.motion.ramps;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

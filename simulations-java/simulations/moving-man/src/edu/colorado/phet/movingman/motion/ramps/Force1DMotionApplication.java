@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion.force1d;
+package edu.colorado.phet.movingman.motion.ramps;
 
 import javax.swing.*;
 
@@ -18,7 +18,7 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionApplication;
  */
 public class Force1DMotionApplication extends PhetApplication {
     public Force1DMotionApplication( String[] args ) {
-        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-force1d" ) );
+        super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-ramps" ) );
         addModule( new Force1DMotionModule( new ConstantDtClock( (int) MovingManMotionApplication.FRAME_DELAY_MILLIS, MovingManMotionApplication.FRAME_DELAY_SEC ) ) );
     }
 
