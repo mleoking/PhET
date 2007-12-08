@@ -11,7 +11,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceModel;
-import edu.colorado.phet.movingman.motion.ramps.Force1DObject;
+import edu.colorado.phet.movingman.motion.ramps.Force1DObjectConfig;
 import edu.colorado.phet.movingman.motion.ramps.ObjectSelectionPanel;
 import edu.colorado.phet.forces1d.view.FreeBodyDiagramSuite;
 
@@ -94,7 +94,7 @@ public class SimpleControlPanel extends IForceControl implements ObjectSelection
         fbdSuite.reset();
     }
 
-    public void objectChanged( Force1DObject imageElement ) {
+    public void objectChanged( Force1DObjectConfig imageElement ) {
         simpleForceModule.setObject( imageElement );
     }
 

@@ -25,18 +25,18 @@ public class ObjectSelectionPanel extends JPanel {
     private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
 
     public static interface Listener {
-        void objectChanged( Force1DObject imageElement );
+        void objectChanged( Force1DObjectConfig imageElement );
     }
 
-    public ObjectSelectionPanel( final Force1DObject[] imageElements, final Listener simpleControlPanel ) {
+    public ObjectSelectionPanel( final Force1DObjectConfig[] imageElements, final Listener simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
         for ( int i = 0; i < imageElements.length; i++ ) {
-            final Force1DObject imageElement = imageElements[i];
+            final Force1DObjectConfig imageElement = imageElements[i];
             BufferedImage image = null;
             try {
-                image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
+                image = ImageLoader.loadBufferedImage( imageElements[i].getImageURL() );
             }
             catch( IOException e ) {
                 e.printStackTrace();
