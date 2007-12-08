@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion.force1d;
+package edu.colorado.phet.movingman.motion.ramps;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;

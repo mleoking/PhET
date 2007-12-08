@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion.force1d;
+package edu.colorado.phet.movingman.motion.ramps;
 
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;

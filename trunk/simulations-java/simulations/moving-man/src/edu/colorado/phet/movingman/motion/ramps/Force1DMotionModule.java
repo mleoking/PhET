@@ -1,4 +1,4 @@
-package edu.colorado.phet.movingman.motion.force1d;
+package edu.colorado.phet.movingman.motion.ramps;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
