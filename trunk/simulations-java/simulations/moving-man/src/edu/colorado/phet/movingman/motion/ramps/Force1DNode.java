@@ -3,7 +3,11 @@ package edu.colorado.phet.movingman.motion.ramps;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 
+import org.eclipse.swt.widgets.Widget;
+import org.eclipse.swt.widgets.Button;
+
 import edu.colorado.phet.common.motion.model.IVariable;
+import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.movingman.motion.movingman.AbstractMovingManNode;
 import edu.umd.cs.piccolo.PNode;
@@ -16,9 +20,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * May 22, 2007, 2:37:54 PM
  */
 public class Force1DNode extends AbstractMovingManNode {
-    private Force1DMotionModel forceModel;
+    private IForceNodeModel forceModel;
+    static interface IForceNodeModel{
+        void setAppliedForce( double appliedForce );
 
-    public Force1DNode( final Force1DMotionModel forceModel ) throws IOException {
+        ITemporalVariable getXVariable();
+
+        void addListener( Force1DMotionModel.Listener adapter );
+
+        Force1DObjectConfig getCurrentObject();
+
+        double getPosition();
+    }
+    public Force1DNode( final IForceNodeModel forceModel ) throws IOException {
         this.forceModel = forceModel;
         final PImage manImage = super.getManImage();
         manImage.addInputEventListener( new CursorHandler() );
@@ -27,7 +41,7 @@ public class Force1DNode extends AbstractMovingManNode {
 
             public void mouseDragged( PInputEvent event ) {
                 Point2D p2 = event.getPositionRelativeTo( manImage.getParent() );
-                forceModel.setUpdateStrategy( forceModel.getAppliedForceStrategy() );
+//                forceModel.setUpdateStrategy( forceModel.getAppliedForceStrategy() );
                 double dx = p2.getX() - pressPoint.getX();
 
                 final double appliedForce = dx * 30;
@@ -60,7 +74,7 @@ public class Force1DNode extends AbstractMovingManNode {
 
     private void updateObject() {
         try {
-            getManImage().setImage( forceModel.getObject().getImage() );
+            getManImage().setImage( forceModel.getCurrentObject().getImage() );
         }
         catch( IOException e ) {
             e.printStackTrace();

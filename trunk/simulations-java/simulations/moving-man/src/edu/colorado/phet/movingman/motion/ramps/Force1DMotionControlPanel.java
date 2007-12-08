@@ -39,19 +39,19 @@ public class Force1DMotionControlPanel extends VerticalLayoutPanel {
             }
 
             public Vector2D.Double getAppliedForce() {
-                return new Vector2D.Double( model.getAppliedForce().getValue(), 0 );
+                return new Vector2D.Double( model.getObject().getAppliedForce().getValue(), 0 );
             }
 
             public Vector2D.Double getFrictionForce() {
-                return new Vector2D.Double( model.getFrictionForce().getValue(), 0 );
+                return new Vector2D.Double( model.getObject().getFrictionForce().getValue(), 0 );
             }
 
             public Vector2D.Double getTotalForce() {
-                return new Vector2D.Double( model.getNetForce().getValue(), 0 );
+                return new Vector2D.Double( model.getObject().getNetForce().getValue(), 0 );
             }
 
             public Vector2D.Double getWallForce() {
-                return new Vector2D.Double( model.getWallForce().getValue(), 0 );
+                return new Vector2D.Double( model.getObject().getWallForce().getValue(), 0 );
             }
 
             public Vector2D.Double getGravityForce() {
@@ -67,9 +67,9 @@ public class Force1DMotionControlPanel extends VerticalLayoutPanel {
         phetPCanvas.setSize( 200, 200 );
         phetPCanvas.setPreferredSize( new Dimension( 200, 200 ) );
         add( phetPCanvas );
-        add( new ObjectSelectionPanel( model.getObjects(), new ObjectSelectionPanel.Listener() {
-            public void objectChanged( Force1DObject force1DObject ) {
-                model.setObject( force1DObject );
+        add( new ObjectSelectionPanel( model.getAvailableObjects(), new ObjectSelectionPanel.Listener() {
+            public void objectChanged( Force1DObjectConfig force1DObject ) {
+                model.setCurrentObject( force1DObject );
             }
         } ) );
     }

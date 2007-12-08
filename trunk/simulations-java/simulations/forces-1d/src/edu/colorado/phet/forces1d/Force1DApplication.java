@@ -24,7 +24,7 @@ import edu.colorado.phet.common_force1d.view.util.FrameSetup;
 import edu.colorado.phet.forces1d.common.ColorDialog;
 import edu.colorado.phet.forces1d.common.plotdevice.DefaultPlaybackPanel;
 import edu.colorado.phet.forces1d.model.Force1DModel;
-import edu.colorado.phet.movingman.motion.ramps.Force1DObject;
+import edu.colorado.phet.movingman.motion.ramps.Force1DObjectConfig;
 import edu.colorado.phet.forces1d.view.Force1DLookAndFeel;
 import edu.colorado.phet.forces1d.view.Force1DPanel;
 
@@ -41,7 +41,7 @@ public class Force1DApplication extends Module {
     protected Force1DPanel forcePanel;
     private Force1dControlPanel fullControlPanel;
     private SimpleControlPanel simpleControlPanel;
-    private Force1DObject[] imageElements;
+    private Force1DObjectConfig[] imageElements;
     private DefaultPlaybackPanel playbackPanel;
     private PhetFrame phetFrame;
     private Force1DLookAndFeel force1DLookAndFeel = new Force1DLookAndFeel();
@@ -62,12 +62,12 @@ public class Force1DApplication extends Module {
         forceModel = new Force1DModel( this );
         setModel( new BaseModel() );
         SimStrings.getInstance().init( new String[0], "forces-1d");
-        imageElements = new Force1DObject[]{
-                new Force1DObject( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
-                new Force1DObject( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
-                new Force1DObject( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
-                new Force1DObject( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
-                new Force1DObject( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
+        imageElements = new Force1DObjectConfig[]{
+                new Force1DObjectConfig( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
+                new Force1DObjectConfig( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
+                new Force1DObjectConfig( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
+                new Force1DObjectConfig( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
+                new Force1DObjectConfig( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
         System.out.println( "Force1DModule.Force1DModule" );
         forcePanel = new Force1DPanel( this );
@@ -172,11 +172,11 @@ public class Force1DApplication extends Module {
         p.paintImmediately( 0, 0, p.getWidth(), p.getHeight() );
     }
 
-    public Force1DObject imageElementAt( int i ) {
+    public Force1DObjectConfig imageElementAt( int i ) {
         return imageElements[i];
     }
 
-    public Force1DObject[] getImageElements() {
+    public Force1DObjectConfig[] getImageElements() {
         return imageElements;
     }
 
@@ -188,7 +188,7 @@ public class Force1DApplication extends Module {
         return force1DLookAndFeel;
     }
 
-    public void setObject( Force1DObject force1dObject ) {
+    public void setObject( Force1DObjectConfig force1dObject ) {
         objectIndex = Arrays.asList( imageElements ).indexOf( force1dObject );
         try {
             getForcePanel().getBlockGraphic().setImage( force1dObject.getImage() );
