@@ -61,7 +61,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         frictionForce = new ForceVector();
         appliedForce = new ForceVector();
         normalForce = new ForceVector();
-        setStepStrategy( new RampPhysicalModel.NewStepCode() );
+        setStepStrategy( new NewStepCode() );
         setupForces();
     }
 
@@ -95,7 +95,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
      * We solve this as a system of 5 equations and 8 unknowns.
      * We take KE & PE as given (from newton), and delta Work applied (computed) as given.
      *
-     * @param dt
+     * @param dt time step
      */
     private void newStepCode( double dt ) {
         if( lastTick != 0.0 ) {
@@ -198,10 +198,6 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
     private double getBlockPosition() {
         return getBlock().getPosition();
-    }
-
-    private double getMechanicalEnergy() {
-        return block.getKineticEnergy() + getPotentialEnergy();
     }
 
     public void setUserIsAddingEnergy( boolean userAddingEnergy ) {
@@ -338,10 +334,6 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         getBlock().setMass( rampObject.getMass() );
         getBlock().setStaticFriction( rampObject.getStaticFriction() );
         getBlock().setKineticFriction( rampObject.getKineticFriction() );
-    }
-
-    public void setStepStrategyConstrained() {
-        setStepStrategy( new NewStepCode() );
     }
 
     public void collided( Surface surface ) {
