@@ -20,6 +20,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/6/07 - rename equilibrium button
 12/6/07 - add BasicClimateControlPanel
 12/6/07 - advanced vs basic climate controls
 12/6/07 - add listener interface for View control panel
