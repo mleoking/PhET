@@ -37,7 +37,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.10 (18907)
+********* version 0.00.10 (?)
 12/10/07 - show language names at top of columns in TranslationPanel
 12/10/07 - revise help for language selection
 12/10/07 - select language from a combo box, with option to enter a PhET-assigned language code for a non-ISO language
