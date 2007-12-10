@@ -1,102 +1,130 @@
 package edu.colorado.phet.build.translate;
 
-import java.io.BufferedReader;
+import edu.colorado.phet.build.PhetProject;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
+import java.util.jar.JarFile;
 
 /**
  * Created by: Sam
- * Nov 19, 2007 at 6:17:23 PM
+ * Dec 7, 2007 at 11:33:12 AM
  */
 public class CheckTranslations {
-    public static void main( String[] args ) throws IOException {
-        Sim[] local = getLocalSims(new File(args[0]));
-        Sim[] web = listWebSims();
-        for ( int i = 0; i < local.length; i++ ) {
-            Sim localSim = local[i];
-            for ( int k = 0; k < localSim.getTranslations().length; k++ ) {
-                String t = localSim.getTranslations()[k];
-                if ( !webContains( web, localSim.getName(), t ) ) {
-                    System.out.println( "Web is missing: " + localSim.getName() + ", translation: " + t );
+    private boolean verbose = true;
+    private static final String WEBROOT = "http://phet.colorado.edu/sims/";
+    //private static final String LOCAL_ROOT_DIR = "C:\\Users\\Sam\\Desktop\\jars\\";
+    private static File LOCAL_ROOT_DIR = new File(System.getProperty("java.io.tmpdir"), "temp-jar-dir");
+    static{
+        LOCAL_ROOT_DIR.mkdirs();
+    }
+
+    public CheckTranslations(boolean verbose) {
+        this.verbose = verbose;
+    }
+
+    public void checkTranslations(File simDir) throws IOException {
+        Sim[] s = getLocalSims(simDir);
+        for (int i = 0; i < s.length; i++) {
+            Sim sim = s[i];
+
+            PhetProject phetProject = new PhetProject(simDir, sim.getName());
+
+            //check flavor jars
+            for (int j = 0; j < phetProject.getFlavorNames().length; j++) {
+                checkJAR(sim, phetProject, phetProject.getFlavorNames()[j]);
+            }
+            //check main jar (if we haven't already)
+            if (!Arrays.asList(phetProject.getFlavorNames()).contains(phetProject.getName())) {
+                checkJAR(sim, phetProject, phetProject.getName());
+            }
+        }
+
+    }
+    public static void main(String[] args) throws IOException {
+        new CheckTranslations(Boolean.parseBoolean(args[1])).checkTranslations(new File(args[0]));
+    }
+
+    private void checkJAR(Sim sim, PhetProject phetProject, String flavor) throws IOException {
+        String webLocation = WEBROOT + sim.getName() + "/" + flavor + ".jar";
+        final File fileName = new File(LOCAL_ROOT_DIR, flavor + ".jar");
+        try {
+            FileDownload.download(webLocation, fileName);
+            checkTranslations(sim, phetProject, fileName,flavor);
+        }
+        catch (FileNotFoundException fnfe) {
+            if (verbose) {
+                System.out.println("File not found for: " + webLocation);
+            }
+        }
+    }
+
+    private void checkTranslations(Sim s, PhetProject phetProject, File jar, String flavor) throws IOException {
+        final Set local = new HashSet(Arrays.asList(s.getTranslations()));
+
+        final Set remote = new HashSet(Arrays.asList(listTranslationsInJar(phetProject, jar)));
+
+        boolean same = local.equals(remote);
+        if (verbose) {
+            System.out.println("sim=" + s.getName() + ", : same = " + same + " local=" + local + ", remote=" + remote);
+        }
+        if (!same) {
+            showDiff(s, local, remote,flavor);
+            //System.out.print( " Remote : " + jarList + ", local: " + local );
+        }
+        //System.out.println( "" );
+    }
+
+    private void showDiff(Sim s, Set local, Set remote, String flavor) {
+        Set extraLocal = new HashSet(local);
+        extraLocal.removeAll(remote);
+
+        Set extraRemote = new HashSet(remote);
+        extraRemote.removeAll(local);
+
+        boolean anyChange = extraLocal.size() > 0 || extraRemote.size() > 0;
+        if (anyChange) {
+            System.out.print(s.getName() + "["+flavor+"]: ");
+        }
+        if (extraRemote.size() > 0) {
+            System.out.print("need to be removed from remote jar: " + extraRemote + " ");
+        }
+        if (extraLocal.size() > 0) {
+            System.out.print("need to be added to remote jar: " + extraLocal + " ");
+        }
+
+        if (anyChange) {
+            System.out.println("");
+        }
+    }
+
+    private String[] listTranslationsInJar(PhetProject p, File file) throws IOException {
+        ArrayList translations = new ArrayList();
+        //final File file = new File( jar );
+        if (file.exists()) {
+            JarFile jarFile = new JarFile(file);
+            Enumeration e = jarFile.entries();
+            while (e.hasMoreElements()) {
+                Object o = e.nextElement();
+//            System.out.println( "o = " + o );
+                final String prefix = p.getName() + "/localization/" + p.getName() + "-strings_";
+                if (o.toString().startsWith(prefix)) {
+                    String translation = o.toString().substring(prefix.length() + 0, prefix.length() + 2);
+                    translations.add(translation);
                 }
             }
+            return (String[])translations.toArray(new String[0]);
+        }
+        else {
+            System.out.println("No such file: " + file);
+            return new String[0];
         }
     }
 
-    private static boolean webContains( Sim[] web, String name, String t ) {
-        for ( int i = 0; i < web.length; i++ ) {
-            Sim s = web[i];
-            if ( s.getName().equals( name ) && s.containsTranslation( t ) ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static Sim[] listWebSims() throws IOException {
-        URL url = new URL( "http://phet.colorado.edu/new/admin/list-translations.php" );
-        URLConnection yc = url.openConnection();
-        BufferedReader in = new BufferedReader( new InputStreamReader( yc.getInputStream() ) );
-        String inputLine;
-
-        ArrayList lines = new ArrayList();
-        while ( ( inputLine = in.readLine() ) != null ) {
-            System.out.println( inputLine );
-            lines.add( inputLine + "" );
-        }
-        in.close();
-        System.out.println( "lines = " + lines );
-        if ( lines.size() > 1 ) {
-            System.out.println( "Error, multiple line output" );
-        }
-        String line = (String) lines.get( 0 );
-        line = line.replaceAll( "</br>", "," );
-        System.out.println( "line = " + line );
-
-        StringTokenizer st = new StringTokenizer( line, "," );
-        ArrayList list = new ArrayList();
-        while ( st.hasMoreTokens() ) {
-            list.add( st.nextToken() );
-        }
-
-//        ArrayList sims=new ArrayList( );
-        HashMap map = new HashMap();
-        for ( int i = 0; i < list.size(); i++ ) {
-            String s = (String) list.get( i );
-
-            final String str = s.substring( prefix.length() );
-            String sim = new StringTokenizer( str, "/" ).nextToken();
-            map.put( sim, "value" );
-        }
-        ArrayList simList = new ArrayList();
-        Set keys = map.keySet();
-        for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
-            String simName = (String) iterator.next();
-            simList.add( new Sim( simName, getSimFlavors( simName, (String[]) list.toArray( new String[0] ) ) ) );
-        }
-        return (Sim[]) simList.toArray( new Sim[0] );
-    }
 
     static String prefix = "http://phet.colorado.edu/sims/";
-
-    private static String[] getSimFlavors( String simName, String[] jnlpFiles ) {
-        ArrayList langs = new ArrayList();
-        for ( int i = 0; i < jnlpFiles.length; i++ ) {
-            String jnlpFile = jnlpFiles[i];
-            if ( jnlpFile.startsWith( prefix + simName ) ) {
-                String suffix = ".jnlp";
-                String language = jnlpFile.substring( jnlpFile.length() - suffix.length() - 2, jnlpFile.length() - suffix.length() );
-                if ( !langs.contains( language ) ) {
-                    langs.add( language );
-                }
-            }
-        }
-        return (String[]) langs.toArray( new String[0] );
-    }
 
     public static Sim[] getLocalSims(File simDir) {
         ArrayList sims = new ArrayList();
