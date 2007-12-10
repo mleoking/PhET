@@ -225,7 +225,7 @@ public class SwingUtils {
 
     /**
      * Sets the background of all components in a container hierachy.
-     * The contants of contains are processed recursively.
+     * See setForegroundOrBackgroundDeep.
      *
      * @param component
      * @param color
@@ -235,9 +235,46 @@ public class SwingUtils {
     }
 
     /**
-     * Sets the background of all components in a container hierachy.
+     * Sets the background of all components in a container hierachy, with exclusions.
+     * See setForegroundOrBackgroundDeep.
+     * 
+     * @param component
+     * @param color
+     * @param excludedClasses
+     * @param processContentsOfExcludedContainers
+     */
+    public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
+        setForegroundOrBackgroundDeep( false /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );
+    }
+    
+    /**
+     * Sets the foreground of all components in a container hierachy.
+     * See setForegroundOrBackgroundDeep.
+     *
+     * @param component
+     * @param color
+     */
+    public static void setForegroundDeep( Component component, Color color ) {
+        setForegroundDeep( component, color, null, true );
+    }
+    
+    /**
+     * Sets the foreground of all components in a container hierachy, with exclusions.
+     * See setForegroundOrBackgroundDeep.
+     * 
+     * @param component
+     * @param color
+     * @param excludedClasses
+     * @param processContentsOfExcludedContainers
+     */
+    public static void setForegroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
+        setForegroundOrBackgroundDeep( true /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );
+    }
+   
+    /*
+     * Sets the foreground or background of all components in a container hierachy.
      * The contents of containers are processed recursively.
-     * Any component that is an instance of one of the classes in excludedClasses will not have its background color set.
+     * Any component that is an instance of one of the classes in excludedClasses will not have its foregroung or background color set.
      * The contents of excluded containers will be processed based on the value of processContentsOfExcludedContainers.
      * <p/>
      * Sample use:
@@ -248,13 +285,13 @@ public class SwingUtils {
      * SwingUtils.setBackgroundDeep( controlPanel, Color.RED, excludedClasses, false );
      * </code>
      *
+     * @param doForeground true to set foreground, false to set background
      * @param component
      * @param color
      * @param excludedClasses
      * @param processContentsOfExcludedContainers
-     *
      */
-    public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
+    private static void setForegroundOrBackgroundDeep( final boolean doForeground, Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
 
         // If this component one that should be excluded?
         boolean excluded = false;
@@ -266,9 +303,14 @@ public class SwingUtils {
             }
         }
 
-        // If not exluded, set the component's background.
+        // If not exluded, set the component's foreground or background.
         if ( !excluded ) {
-            component.setBackground( color );
+            if ( doForeground ) {
+                component.setForeground( color );
+            }
+            else {
+                component.setBackground( color );  
+            }
         }
 
         // Recursively process the contents of containers.
@@ -277,7 +319,7 @@ public class SwingUtils {
             Component[] children = container.getComponents();
             if ( children != null ) {
                 for ( int i = 0; i < children.length; i++ ) {
-                    setBackgroundDeep( children[i], color, excludedClasses, processContentsOfExcludedContainers );
+                    setForegroundOrBackgroundDeep( doForeground, children[i], color, excludedClasses, processContentsOfExcludedContainers );
                 }
             }
         }
