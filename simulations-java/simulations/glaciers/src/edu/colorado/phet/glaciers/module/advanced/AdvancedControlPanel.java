@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.glaciers.control;
+package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -15,6 +15,10 @@ import javax.swing.text.JTextComponent;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.control.AdvancedClimateControlPanel;
+import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
+import edu.colorado.phet.glaciers.control.MiscControlPanel;
+import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 

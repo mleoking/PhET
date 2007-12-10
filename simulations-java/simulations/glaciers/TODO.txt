@@ -9,6 +9,7 @@ MEDIUM PRIORITY:
 - set foreground color of ticks & labels on BasicClimateControl sliders
 
 LOW PRIORITY:
+- control panels in both panels should be the same height
 
 COMMON CODE:
 
