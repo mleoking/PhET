@@ -14,7 +14,7 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
     private String dest = null;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
-        File destFile = dest != null ? new File( phetProject.getDir(), dest ) : phetProject.getDefaultDeployJar();
+        File destFile = dest != null ? new File( phetProject.getProjectDir(), dest ) : phetProject.getDefaultDeployJar();
 
         PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink, destFile );
 

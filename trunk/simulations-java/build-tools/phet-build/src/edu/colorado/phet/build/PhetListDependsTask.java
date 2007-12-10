@@ -1,7 +1,5 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,35 +12,35 @@ public class PhetListDependsTask extends AbstractPhetBuildTask implements Proper
 
 	protected void executeImpl( PhetProject phetProject ) throws Exception {
 		PhetProject[] projects = phetProject.getAllDependencies();
-		
+
 		List dependPaths = new ArrayList();
-		
+
 		for (int i = 0; i < projects.length; i++) {
-			dependPaths.add( projects[i].getDir().getPath() );
+			dependPaths.add( projects[i].getProjectDir().getPath() );
 		}
-		
+
         buildList( (String[])dependPaths.toArray(new String[dependPaths.size()]) );
     }
 
     public void buildList( String[] dependPaths ) {
 		if (!commandLineFormat) {
         	String string = PhetBuildUtils.convertArrayToList( dependPaths );
-        
+
         	getProject().setProperty( property, string );
 		}
 		else {
 			StringBuffer buffer = new StringBuffer();
-			
+
 			for (int i = 0; i < dependPaths.length; i++) {
 				String path = dependPaths[i];
-				
+
 				if (i != 0) {
 					buffer.append(" ");
 				}
-				
+
 				buffer.append("\"" + path + "\"");
 			}
-			
+
 			getProject().setProperty( property, buffer.toString() );
 		}
     }

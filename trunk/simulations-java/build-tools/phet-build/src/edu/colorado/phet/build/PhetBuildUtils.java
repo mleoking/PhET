@@ -11,9 +11,9 @@ public class PhetBuildUtils {
     private PhetBuildUtils() {
     }
 
-    public static String convertArrayToList(String[] array) {
+    public static String convertArrayToList(Object[] array) {
         String list = "";
-        
+
         for( int i = 0; i < array.length; i++ ) {
             list += array[i];
             if( i < array.length - 1 ) {
@@ -90,7 +90,7 @@ public class PhetBuildUtils {
 
         throw new IllegalArgumentException( "No project found for name=" + name + ", searched in roots=" + Arrays.asList( searchRoots ) );
     }
-    
+
     public static String[] toStringArray( String property,String tokens ) {
         StringTokenizer st = new StringTokenizer( property, tokens );
         String[] array = new String[st.countTokens()];
