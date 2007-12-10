@@ -1,7 +1,7 @@
 <!--
 
 This build file is specific to building phet simulation files, in particular building jars and jnlp files.
-PhET-team specific tasks are located in an auxiliary build file.  
+PhET-team specific tasks are located in an auxiliary build file.
 
 Developer Notes:
 
@@ -69,19 +69,20 @@ Developer Notes:
     <property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
     <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
     <property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
+    <property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
-    
+
     <!-- Support jars -->
     <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
     <property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar"/>
-    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>    
-    
+    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+
     <!-- Installer builder properties -->
     <property name="bitrock.bin.dir"                value="${dir.build-tools}bitrock/bin/" />
     <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
     <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
-    
+
     <!-- Subversion configuration -->
     <property name="svn.executable" value="svn" />
 
@@ -105,7 +106,7 @@ Developer Notes:
 
     <target name="_compile-phet-build">
         <mkdir dir="${phetbuild-classes-dir}"/>
-        
+
         <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}:${apache.commons.lang.jar}" debug="true"
                debuglevel="lines,source">
             <src path="${phetbuild-src}" />
@@ -175,15 +176,19 @@ Developer Notes:
         <taskdef name="imageio"
                  classname="${imageio-classname}"
                  classpath="${phetbuild-classpath}"/>
-                 
+
         <taskdef name="create-installer-build-file"
                  classname="${create-installer-build-file-classname}"
                  classpath="${phetbuild-classpath}"/>
-                 
+
         <taskdef name="build-intellij-idea-file"
                  classname="${build-intellij-idea-file-classname}"
                  classpath="${phetbuild-classpath}"/>
-                 
+
+        <taskdef name="check-translations"
+                 classname="${check-translations-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
         <typedef
                 name="fileexists"
                 classname="${phet-file-exists-classname}"
@@ -191,7 +196,7 @@ Developer Notes:
 
     </target>
     <target name="test-imageio" depends="_init">
-        <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg" 
+        <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
                  outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
                  outputwidth="64"
                  outputheight="64"/>
@@ -202,7 +207,7 @@ Developer Notes:
     <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
         <phet-build-gui/>
     </target>
-    
+
     <target name="build-intellij-idea" depends="_init">
         <build-intellij-idea-file/>
     </target>
@@ -269,7 +274,7 @@ Developer Notes:
         <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}"/>
         <if>
             <isset property="deploy.to.dev"/>
-            
+
             <then>
                 <var name="codebase.url" value="${sim.server.url}${sim.name}/${sim.version}"/>
             </then>
@@ -278,14 +283,14 @@ Developer Notes:
             </else>
         </if>
         <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}, codebase=${codebase.url}"/>
-        
+
         <phet-list-locales property="sim.locales" project="${sim.name}"/>
         <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
 
         <!--And build a locale-less version-->
         <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${codebase.url}"/>
     </target>
-    
+
     <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
     <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
@@ -301,7 +306,7 @@ Developer Notes:
         <propertyfile file="${file.project.properties}">
             <entry key="version.dev" type="int" operation="=" value="0" pattern="00"/>
         </propertyfile>
-    </target>    
+    </target>
 
     <target name="_inc-sim-minor-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Incrementing the simulation minor version number..." />
@@ -310,7 +315,7 @@ Developer Notes:
             <entry key="version.minor" type="int" operation="+" value="1" pattern="00"/>
         </propertyfile>
     </target>
-    
+
     <!-- *************************************END BUILD NUMBERS************************************* -->
 
     <target name="_define-sim-version" depends="_define-sim-properties-file" description="Defines the simulation version in terms of the major, minor, and development versions.">
@@ -322,9 +327,9 @@ Developer Notes:
                  <loadproperties srcFile="${file.project.properties}"/>
                  <var name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
              </then>
-         </if>             
+         </if>
     </target>
-    
+
     <target name="_define-sim-properties-file" depends="_verify-sim-name-specified" description="Creates a property whose value is equal to the name of the simulation properties file.">
         <var name="file.project.properties" value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
     </target>
@@ -492,7 +497,7 @@ Developer Notes:
                 <fileset dir="simulations/${sim.name}/deploy" />
             </sftp>
 
-            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->        
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
             <exec cmd="chmod -R 775 ${sim.deploy.dir}" />
         </maverick-ssh>
         <if>
@@ -503,47 +508,47 @@ Developer Notes:
                     <arg value="${deployurl}"/>
                 </exec>
             </then>
-        </if>        
+        </if>
     </target>
 
     <!-- This task builds and deploys; assumes all required properties have been previously defined -->
     <target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
-    
+
     <target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
             depends="_init, _verify-sim-name-specified, _define-sim-properties-file, _define-sim-version">
 
         <phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true"/>
 
         <echo message="Dependencies of ${sim.name}: ${phet.dependslist}" />
-        
+
         <exec executable="svn" outputproperty="svn.output">
             <arg line="update ${phet.dependslist}" />
         </exec>
-        
+
         <if>
             <contains string="${svn.output}" substring="Updated to revision" casesensitive="false" />
             <then>
                 <fail message="Your working copy was not up-to-date. Please re-build and test before running this task again." />
             </then>
         </if>
-        
-        <propertyregex property="number.subversion.revision" override="true" input="${svn.output}" regexp="revision *(\d+)" 
+
+        <propertyregex property="number.subversion.revision" override="true" input="${svn.output}" regexp="revision *(\d+)"
             select="\1" casesensitive="false" />
 
         <echo message="Current revision number is ${number.subversion.revision}" />
-        
+
         <!-- Set revision number in project property file to current revision number -->
         <propertyfile file="${file.project.properties}">
             <entry key="version.revision" type="string" operation="=" value="${number.subversion.revision}"/>
         </propertyfile>
-        
+
         <!-- Now increment revision number by 1 (to the next revision number) -->
         <propertyfile file="${file.project.properties}">
             <entry key="version.revision" type="int" operation="+" value="1"/>
         </propertyfile>
-        
+
         <echo message="Committing ${sim.name} ${sim.version}" />
-        
+
         <exec executable="svn">
             <arg line="commit --message &quot;${sim.name}: Deployed version ${sim.version}&quot; ${phet.dependslist}" />
         </exec>
@@ -555,7 +560,7 @@ Developer Notes:
             <param name="sim.server.url"        value="${dev.server.url}"/>
             <param name="sim.server.path"       value="${dev.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
-            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />          
+            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />
             <param name="ssh-host"              value="${dev.server.name}"/>
         </antcall>
     </target>
@@ -572,7 +577,7 @@ Developer Notes:
             </then>
         </if>
     </target>
-    
+
     <target name="_build-and-deploy-only-prod" depends="_generate-svn-revision-number, _define-sim-version">
         <!-- Deploy production version -->
         <antcall target="_build-and-deploy">
@@ -584,7 +589,7 @@ Developer Notes:
         </antcall>
     </target>
 
-    <target name="build-and-deploy-prod" 
+    <target name="build-and-deploy-prod"
         depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
         <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
@@ -598,13 +603,13 @@ Developer Notes:
             <param name="sim.server.url"        value="${dev.server.url}"/>
             <param name="sim.server.path"       value="${dev.server.path}"/>
             <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
-            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />          
+            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />
             <param name="ssh-host"              value="${dev.server.name}"/>
         </antcall>
     </target>
-    
+
     <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod" />
-    
+
     <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
     </target>
@@ -612,13 +617,13 @@ Developer Notes:
     <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
     </target>
-    
+
     <!-- Assume sim.name and sim.flavor defined -->
     <target name="_run-bitrock-installer-builder">
         <!-- Create the directory where the buildfile & installers will be placed -->
         <var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
         <var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
-        
+
         <mkdir dir="${sim.installer.dir}" />
 
         <echo message="${os.name}"/>
@@ -629,18 +634,18 @@ Developer Notes:
         </if>
         <echo message="set installer exe to: ${bitrock.exe}"/>
         <!-- Copy the template buildfile to the right location -->
-        
+
         <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
-        
-        <!-- Build the installers for this simulation/flavor: -->      
+
+        <!-- Build the installers for this simulation/flavor: -->
         <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="osx"/></exec>
         <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="windows"/></exec>
         <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="linux"/></exec>
         <!-- Build Windows installer bundled with JRE-->
         <!-- copy the installers from bitrock to ${sim.installer.dir} -->
-        
+
     </target>
-    
+
     <!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
     <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
     <target name="_build-installer-for-flavor">
@@ -660,7 +665,7 @@ Developer Notes:
                  outputwidth="64"
                  outputheight="64"/>
 
-        <!-- Generate a Linux png from the simulation screenshot 
+        <!-- Generate a Linux png from the simulation screenshot
         Work on linux icon is postponed since there is no direct support for command line args in shortcuts.-->
 
 

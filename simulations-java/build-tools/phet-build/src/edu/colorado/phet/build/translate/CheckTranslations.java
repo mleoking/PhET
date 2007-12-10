@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class CheckTranslations {
     public static void main( String[] args ) throws IOException {
-        Sim[] local = getLocalSims(args[0]);
+        Sim[] local = getLocalSims(new File(args[0]));
         Sim[] web = listWebSims();
         for ( int i = 0; i < local.length; i++ ) {
             Sim localSim = local[i];
@@ -98,9 +98,9 @@ public class CheckTranslations {
         return (String[]) langs.toArray( new String[0] );
     }
 
-    public static Sim[] getLocalSims(String sim_root) {
+    public static Sim[] getLocalSims(File simDir) {
         ArrayList sims = new ArrayList();
-        File simDir = new File( sim_root );
+        //File simDir = new File( sim_root );
         File[] f = simDir.listFiles();
         for ( int i = 0; i < f.length; i++ ) {
             File file = f[i];
