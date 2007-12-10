@@ -891,4 +891,8 @@ Developer Notes:
             </sftp>
         </maverick-ssh>
     </target>
+
+    <target name="check-translations" depends="_init">
+        <check-translations/>
+    </target>
 </project>
