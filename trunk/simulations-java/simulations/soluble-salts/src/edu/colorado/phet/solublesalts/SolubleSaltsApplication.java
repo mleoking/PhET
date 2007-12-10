@@ -58,43 +58,47 @@ public class SolubleSaltsApplication extends PhetApplication {
         this.getPhetFrame().addMenu( new OptionsMenu( getPhetFrame() ) );
     }
 
-    public static void main( String[] args ) {
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                for ( int i = 0; i < args.length; i++ ) {
+                    String arg = args[i];
+                    if ( arg.equals( "-b" ) ) {
+                        IonGraphic.showBondIndicators( true );
+                    }
+                    if ( arg.startsWith( "-w" ) ) {
+                        SolubleSaltsConfig.DEFAULT_WATER_LEVEL = Integer.parseInt( arg.substring( 3 ) );
+                    }
+                    if ( arg.equals( "-o" ) ) {
+                        SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
+                    }
+                    if ( arg.startsWith( "-s=" ) ) {
+                        SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
+                    }
+                    if ( arg.startsWith( "-d=" ) ) {
+                        SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
+                    }
+                    if ( arg.startsWith( "-c=" ) ) {
+                        SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = Double.parseDouble( arg.substring( 3 ) );
+                    }
+                    if ( arg.startsWith( "debug=" ) ) {
+                        SolubleSaltsConfig.DEBUG = true;
+                    }
+                }
 
-        for ( int i = 0; i < args.length; i++ ) {
-            String arg = args[i];
-            if ( arg.equals( "-b" ) ) {
-                IonGraphic.showBondIndicators( true );
-            }
-            if ( arg.startsWith( "-w" ) ) {
-                SolubleSaltsConfig.DEFAULT_WATER_LEVEL = Integer.parseInt( arg.substring( 3 ) );
-            }
-            if ( arg.equals( "-o" ) ) {
-                SolubleSaltsConfig.ONE_CRYSTAL_ONLY = true;
-            }
-            if ( arg.startsWith( "-s=" ) ) {
-                SolubleSaltsConfig.DEFAULT_LATTICE_STICK_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
-            }
-            if ( arg.startsWith( "-d=" ) ) {
-                SolubleSaltsConfig.DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = Double.parseDouble( arg.substring( 3 ) );
-            }
-            if ( arg.startsWith( "-c=" ) ) {
-                SolubleSaltsConfig.CONCENTRATION_CALIBRATION_FACTOR = Double.parseDouble( arg.substring( 3 ) );
-            }
-            if ( arg.startsWith( "debug=" ) ) {
-                SolubleSaltsConfig.DEBUG = true;
-            }
-        }
+                Color blueBackground = new Color( 230, 250, 255 );
+                Color grayBackground = new Color( 220, 220, 220 );
+                UIManager.put( "Panel.background", blueBackground );
+                UIManager.put( "MenuBar.background", grayBackground );
+                UIManager.put( "Menu.background", grayBackground );
+                UIManager.put( "TabbedPane.background", blueBackground );
+                UIManager.put( "TabbedPane.selected", blueBackground );
 
-        Color blueBackground = new Color( 230, 250, 255 );
-        Color grayBackground = new Color( 220, 220, 220 );
-        UIManager.put( "Panel.background", blueBackground );
-        UIManager.put( "MenuBar.background", grayBackground );
-        UIManager.put( "Menu.background", grayBackground );
-        UIManager.put( "TabbedPane.background", blueBackground );
-        UIManager.put( "TabbedPane.selected", blueBackground );
+                PhetApplication app = new SolubleSaltsApplication( args );
 
-        PhetApplication app = new SolubleSaltsApplication( args );
+                app.startApplication();
 
-        app.startApplication();
+            }
+        } );
     }
 }
