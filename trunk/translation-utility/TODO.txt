@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
-- put Help buttons next to each file in init dialog, remove existing Help button
 - update instructions on web site, indicate can be used to edit existing translation
 - replace dev instructions with a pointer to the PhET website
 
@@ -37,6 +36,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/10/07 - put Help buttons next to each file in init dialog, remove existing Help button
 ********* version 0.00.09 (18815)
 12/5/07 - organize imports
 12/5/07 - reorganize package structure
