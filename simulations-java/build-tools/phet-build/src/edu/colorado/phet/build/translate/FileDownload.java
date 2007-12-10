@@ -12,8 +12,8 @@ import java.net.URLConnection;
  * http://schmidt.devlib.org/java/file-download.html#source
  */
 public class FileDownload {
-    public static void download( String address, String localFileName ) throws FileNotFoundException {
-        new File(localFileName).getParentFile().mkdirs();
+    public static void download( String address, File localFileName ) throws FileNotFoundException {
+        localFileName.getParentFile().mkdirs();
         OutputStream out = null;
         URLConnection conn = null;
         InputStream in = null;
@@ -51,19 +51,4 @@ public class FileDownload {
         }
     }
 
-    public static void download( String address ) throws FileNotFoundException {
-        int lastSlashIndex = address.lastIndexOf( '/' );
-        if ( lastSlashIndex >= 0 && lastSlashIndex < address.length() - 1 ) {
-            download( address, address.substring( lastSlashIndex + 1 ) );
-        }
-        else {
-            System.err.println( "Could not figure out local file name for " + address );
-        }
-    }
-
-    public static void main( String[] args ) throws FileNotFoundException {
-        for ( int i = 0; i < args.length; i++ ) {
-            download( args[i] );
-        }
-    }
 }
