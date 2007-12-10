@@ -7,7 +7,6 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.control.AdvancedControlPanel;
 import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
