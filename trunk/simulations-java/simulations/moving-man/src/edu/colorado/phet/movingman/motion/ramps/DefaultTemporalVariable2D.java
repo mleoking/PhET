@@ -33,10 +33,6 @@ public class DefaultTemporalVariable2D {
         y.setValue( v );
     }
 
-    public double getParallelComponent( double angle ) {
-        return getMagnitude() * Math.cos( angle );
-    }
-
     public Vector2D.Double getScaledInstance( double scale ) {
         return new Vector2D.Double( getXValue() * scale, getYValue() * scale );
     }
@@ -63,10 +59,14 @@ public class DefaultTemporalVariable2D {
     }
 
     public String toString() {
-        return "value="+getValue()+", xseries="+x+", yseries="+y;
+        return "value=" + getValue() + ", xseries=" + x + ", yseries=" + y;
     }
 
     public int getSampleCount() {
         return x.getSampleCount();
+    }
+
+    public void setMagnitudeAndAngle( double magnitude, double angle ) {
+        setValue( Vector2D.Double.parseAngleAndMagnitude( magnitude, angle ) );
     }
 }
