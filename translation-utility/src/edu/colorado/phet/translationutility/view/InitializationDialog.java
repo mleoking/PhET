@@ -3,10 +3,7 @@
 package edu.colorado.phet.translationutility.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 
 import javax.swing.*;
@@ -34,14 +31,14 @@ public class InitializationDialog extends JDialog {
     private static final String BROWSE_BUTTON_LABEL = TUResources.getString( "button.browse" );
     private static final String CANCEL_BUTTON_LABEL = TUResources.getString( "button.cancel" );
     private static final String CONTINUE_BUTTON_LABEL = TUResources.getString( "button.continue" );
-    private static final String HELP_BUTTON_LABEL = TUResources.getString( "button.help" );
     private static final String LANGUAGE_CODE_LABEL = TUResources.getString( "label.languageCode" );
     private static final String AUTO_TRANSLATE_CHECKBOX_LABEL = TUResources.getString( "checkbox.autoTranslate" );
     private static final String ERROR_TITLE = TUResources.getString( "title.errorDialog" );
     private static final String ERROR_NO_SUCH_JAR = TUResources.getString( "error.noSuchJar" );
     private static final String ERROR_LANGUAGE_CODE_FORMAT = TUResources.getString( "error.languageCodeFormat" );
     private static final String HELP_TITLE = TUResources.getString( "title.help" );
-    private static final String HELP_TEXT = TUResources.getString( "help.initialization" );
+    private static final String HELP_JAR_FILE = TUResources.getString( "help.jarFile" );
+    private static final String HELP_LANGUAGE_CODE = TUResources.getString( "help.languageCode" );
     
     private static final Font TITLE_FONT = new PhetDefaultFont( 32, true /* bold */ );
     private static final String LANGUAGE_CODE_PATTERN = "[a-z][a-z]"; // regular expression that describes ISO 639-1 specification
@@ -102,6 +99,14 @@ public class InitializationDialog extends JDialog {
                     updateContinueButton();
                 }
             } );
+            
+            Icon helpIcon = TUResources.getIcon( "helpButton.png" );
+            JLabel helpLabel = new JLabel( helpIcon );
+            helpLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    showHelp( HELP_JAR_FILE );
+                }
+            } );
 
             JButton _browseButton = new JButton( BROWSE_BUTTON_LABEL );
             _browseButton.addActionListener( new ActionListener() {
@@ -112,6 +117,7 @@ public class InitializationDialog extends JDialog {
             
             jarFilePanel.add( jarFileLabel );
             jarFilePanel.add( _jarFileTextField );
+            jarFilePanel.add( helpLabel );
             jarFilePanel.add( _browseButton );
         }
         
@@ -129,8 +135,17 @@ public class InitializationDialog extends JDialog {
                 }
             } );
             
+            Icon helpIcon = TUResources.getIcon( "helpButton.png" );
+            JLabel helpLabel = new JLabel( helpIcon );
+            helpLabel.addMouseListener( new MouseAdapter() {
+                public void mouseReleased( MouseEvent event ) {
+                    showHelp( HELP_LANGUAGE_CODE );
+                }
+            } );
+            
             languageCodePanel.add( languageCodeLabel );
             languageCodePanel.add( _languageCodeTextField );
+            languageCodePanel.add( helpLabel );
         }
         
         // panel for selecting automatic translation
@@ -162,19 +177,9 @@ public class InitializationDialog extends JDialog {
                 }
             } );
 
-            Icon helpIcon = TUResources.getIcon( "helpButton.png" );
-            JButton helpButton = new JButton( HELP_BUTTON_LABEL, helpIcon );
-            helpButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent event ) {
-                    handleHelpButton();
-                }
-            } );
-
             JPanel innerPanel = new JPanel( new GridLayout( 1, 7 ) );
             innerPanel.add( _continueButton );
             innerPanel.add( cancelButton );
-            innerPanel.add( Box.createHorizontalStrut( 20 ) );
-            innerPanel.add( helpButton );
             buttonPanel.add( innerPanel );
         }
         
@@ -295,15 +300,15 @@ public class InitializationDialog extends JDialog {
      * Called when the Help button is pressed.
      * Displays a dialog containing Help information.
      */
-    private void handleHelpButton() {
+    private void showHelp( String helpText ) {
         
-        JEditorPane helpText = new JEditorPane();
-        helpText.setEditorKit( new HTMLEditorKit() );
-        helpText.setText( HELP_TEXT );
-        helpText.setEditable( false );
-        helpText.setBackground( new JLabel().getBackground() );
-        helpText.setFont( new JLabel().getFont() );
-        helpText.addHyperlinkListener( new HyperlinkListener() {
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setEditorKit( new HTMLEditorKit() );
+        editorPane.setText( helpText );
+        editorPane.setEditable( false );
+        editorPane.setBackground( new JLabel().getBackground() );
+        editorPane.setFont( new JLabel().getFont() );
+        editorPane.addHyperlinkListener( new HyperlinkListener() {
             public void hyperlinkUpdate( HyperlinkEvent e ) {
                 if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
                     PhetServiceManager.showWebPage( e.getURL() );
@@ -311,6 +316,6 @@ public class InitializationDialog extends JDialog {
             }
         } );
         
-        JOptionPane.showMessageDialog( this, helpText, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
+        JOptionPane.showMessageDialog( this, editorPane, HELP_TITLE, JOptionPane.INFORMATION_MESSAGE );
     }
 }
