@@ -6,6 +6,6 @@ public class SynchronizeTranslations {
     }
 
     private void synchronizeTranslations(String simName) {
-
+        
     }
 }

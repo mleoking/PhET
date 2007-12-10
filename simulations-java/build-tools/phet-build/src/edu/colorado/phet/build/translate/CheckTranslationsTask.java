@@ -15,7 +15,7 @@ public class CheckTranslationsTask extends AbstractPhetTask {
     public void execute() throws BuildException {
         super.execute();
         try {
-            new CheckTranslations(verbose).checkTranslations(getBaseDir());
+            new CheckTranslations(verbose).checkTranslationsAllSims(getBaseDir());
         }
         catch (IOException e) {
             e.printStackTrace();
