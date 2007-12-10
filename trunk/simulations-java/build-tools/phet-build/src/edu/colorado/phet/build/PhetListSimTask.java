@@ -9,13 +9,13 @@ public class PhetListSimTask extends PhetAllSimTask implements PropertyTask{
     private String property = "phet.simlist";
 
     public final void execute() throws BuildException {
-        buildList( getSimNames() );
+        buildList( PhetProject.getSimNames(getBaseDir()));
 //        getProject().setProperty( "phet.simlist","my simulation list");
     }
 
     public void buildList( String[] simNames ) {
         String string = PhetBuildUtils.convertArrayToList( simNames );
-        
+
         getProject().setProperty( property, string );
     }
 

@@ -1,5 +1,7 @@
 package edu.colorado.phet.build;
 
+import org.apache.tools.ant.BuildException;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -109,7 +111,7 @@ public class PhetProject {
     }
 
     /**
-     * Retrieves a list of this project's dependencies (the project is 
+     * Retrieves a list of this project's dependencies (the project is
      * considered to be itself a dependency, so this list will always contain
      * at least one element).
      *
@@ -457,5 +459,52 @@ public class PhetProject {
             e.printStackTrace();
         }
         return prop.getProperty( "version.major")+"."+prop.getProperty( "version.minor")+"."+prop.getProperty( "version.dev");
+    }
+
+//        protected static String[] getSimNames(File baseDir) {
+//        return getSimNames( new File( baseDir, "simulations" ));
+//    }
+        public static String[] getSimNames(File basedir){
+        File[] simulations = new File(basedir,"simulations").listFiles();
+        ArrayList sims = new ArrayList();
+        for( int i = 0; i < simulations.length; i++ ) {
+            File simulation = simulations[i];
+            if( isSimulation( simulation ) ) {
+                sims.add( simulation.getName() );
+            }
+        }
+        return (String[])sims.toArray( new String[0] );
+    }
+
+
+
+    private static boolean isSimulation( File simulation ) {
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" );
+    }
+
+    public static PhetProject[] getAllProjects(File baseDir){
+
+            List phetProjects = new ArrayList();
+
+            String[] sims = getSimNames(baseDir);
+
+            for( int i = 0; i < sims.length; i++ ) {
+                String sim = sims[i];
+
+                File projectDir = PhetBuildUtils.resolveProject( baseDir, sim );
+
+                try {
+                    PhetProject phetProject = new PhetProject( projectDir, sim );
+
+                    phetProjects.add(phetProject);
+                }
+                catch (IOException e) {
+                    throw new BuildException(e);
+                }
+            }
+
+            return (PhetProject[])phetProjects.toArray(new PhetProject[0]);
+
+
     }
 }
