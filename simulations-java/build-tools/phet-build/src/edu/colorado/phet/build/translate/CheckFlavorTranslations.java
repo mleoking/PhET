@@ -82,10 +82,10 @@ public class CheckFlavorTranslations {
             System.out.print(s.getName() + "["+flavor+"]: ");
         }
         if (extraRemote.size() > 0) {
-            System.out.print("extraRemote = " + extraRemote + " ");
+            System.out.print("need to be removed from remote jar: " + extraRemote + " ");
         }
         if (extraLocal.size() > 0) {
-            System.out.print("extraLocal = " + extraLocal + " ");
+            System.out.print("need to be added to remote jar: " + extraLocal + " ");
         }
 
         if (anyChange) {
