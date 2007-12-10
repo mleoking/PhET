@@ -2,9 +2,12 @@ package edu.colorado.phet.build;
 
 import org.apache.tools.ant.BuildException;
 
-import java.util.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class GenerateIntelliJProjectFile extends PhetAllSimTask {
@@ -32,10 +35,10 @@ public class GenerateIntelliJProjectFile extends PhetAllSimTask {
         Set librarySet = new HashSet();
         Set dataSet = new HashSet();
 
-        List phetProjects = getAllPhetProjects();
+        PhetProject[] phetProjects = PhetProject.getAllProjects(getBaseDir());
 
-        for ( int i = 0; i < phetProjects.size(); i++ ) {
-            PhetProject phetProject = (PhetProject)phetProjects.get( i );
+        for ( int i = 0; i < phetProjects.length; i++ ) {
+            PhetProject phetProject = phetProjects[i];
 
             sourceSet.addAll(Arrays.asList(phetProject.getAllSourceRoots()));
             librarySet.addAll(Arrays.asList(phetProject.getAllJarFiles()));
@@ -58,7 +61,7 @@ public class GenerateIntelliJProjectFile extends PhetAllSimTask {
             FileUtils.filter(INTELLIJ_IDEA_MODULE_FILE_TEMPLATE,    INTELLIJ_IDEA_MODULE_FILE_OUTPUT, macroToValue);
 
 			FileUtils.copyTo(INTELLIJ_IDEA_PROJECT_FILE_TEMPLATE,   INTELLIJ_IDEA_PROJECT_FILE_OUTPUT);
-			
+
 			FileUtils.copyTo(INTELLIJ_IDEA_WORKSPACE_FILE_TEMPLATE, INTELLIJ_IDEA_WORKSPACE_FILE_OUTPUT);
         }
         catch (IOException e) {
@@ -100,8 +103,8 @@ public class GenerateIntelliJProjectFile extends PhetAllSimTask {
         String relativePath = convertAbsoluteToRelative(absoluteFile);
 
 		boolean isJar = absoluteFile.getName().toLowerCase().endsWith("jar");
-		
-		String prefix = isJar ? "jar" : "file";	
+
+		String prefix = isJar ? "jar" : "file";
         String suffix = isJar ? "!/"  : "";
 
         return "        <orderEntry type=\"module-library\">\n" +

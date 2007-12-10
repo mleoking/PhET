@@ -4,8 +4,6 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Echo;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Author: Sam Reid
@@ -14,7 +12,7 @@ import java.util.List;
 public class PhetBuildAllSimJarTask extends PhetAllSimTask {
 
     public void execute() throws BuildException {
-        String[] sims = getSimNames();
+        String[] sims = PhetProject.getSimNames(getBaseDir());
         String SIMS = "";
         for( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
@@ -31,17 +29,17 @@ public class PhetBuildAllSimJarTask extends PhetAllSimTask {
                           "project.description=\n" +
                           "project.screenshot=\n";
 
-        List phetProjects = getAllPhetProjects();
+        PhetProject[] phetProjects = PhetProject.getAllProjects(getBaseDir());
 
-        for( int i = 0; i < phetProjects.size(); i++ ) {
-            PhetProject phetProject = (PhetProject)phetProjects.get(i);
+        for( int i = 0; i < phetProjects.length; i++ ) {
+            PhetProject phetProject = phetProjects[i];
 
             String sim = phetProject.getName();
 
             template+="\n# Simulation entry for "+sim+"\n";
 
             PhetProjectFlavor[] f = phetProject.getFlavors();
-            
+
             for( int j = 0; j < f.length; j++ ) {
                 PhetProjectFlavor phetProjectFlavor = f[j];
                 String flavorname = sim + "_" + phetProjectFlavor.getFlavorName();

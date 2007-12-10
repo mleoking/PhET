@@ -8,7 +8,7 @@ import java.util.*;
 
 public class PhetDisplayStatsTask extends PhetAllSimTask {
     public final void execute() throws BuildException {
-        showStats( getSimNames() );
+        showStats( PhetProject.getSimNames(getBaseDir()) );
     }
 
     public void showStats( String[] simNames ) {
@@ -78,12 +78,5 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         File prop = new File( child, phetProject.getName() + ".properties" );
         boolean containsProperties = Arrays.asList( child.listFiles() ).contains( prop );
         return rootOK && containsProperties;
-    }
-
-    public static void main( String[] args ) {
-        File simsroot = new File( "C:\\phet\\subversion\\trunk\\simulations-java" );
-        String[] sims = PhetAllSimTask.getSimNames( new File( simsroot, "simulations" ) );
-        PhetDisplayStatsTask phetDisplayStatsTask = new PhetDisplayStatsTask();
-        phetDisplayStatsTask.showStats( sims, simsroot );
     }
 }

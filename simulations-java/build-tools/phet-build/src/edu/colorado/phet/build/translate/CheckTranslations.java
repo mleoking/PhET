@@ -17,7 +17,8 @@ public class CheckTranslations {
     private static final String WEBROOT = "http://phet.colorado.edu/sims/";
     //private static final String LOCAL_ROOT_DIR = "C:\\Users\\Sam\\Desktop\\jars\\";
     private static File LOCAL_ROOT_DIR = new File(System.getProperty("java.io.tmpdir"), "temp-jar-dir");
-    static{
+
+    static {
         LOCAL_ROOT_DIR.mkdirs();
     }
 
@@ -26,23 +27,30 @@ public class CheckTranslations {
     }
 
     public void checkTranslations(File simDir) throws IOException {
+//        PhetProject
         Sim[] s = getLocalSims(simDir);
         for (int i = 0; i < s.length; i++) {
             Sim sim = s[i];
 
             PhetProject phetProject = new PhetProject(simDir, sim.getName());
+            getDiff(sim, phetProject);
 
-            //check flavor jars
-            for (int j = 0; j < phetProject.getFlavorNames().length; j++) {
-                checkJAR(sim, phetProject, phetProject.getFlavorNames()[j]);
-            }
-            //check main jar (if we haven't already)
-            if (!Arrays.asList(phetProject.getFlavorNames()).contains(phetProject.getName())) {
-                checkJAR(sim, phetProject, phetProject.getName());
-            }
+
         }
 
     }
+
+    private void getDiff(Sim sim, PhetProject phetProject) throws IOException {
+        //check flavor jars
+        for (int j = 0; j < phetProject.getFlavorNames().length; j++) {
+            checkJAR(sim, phetProject, phetProject.getFlavorNames()[j]);
+        }
+        //check main jar (if we haven't already)
+        if (!Arrays.asList(phetProject.getFlavorNames()).contains(phetProject.getName())) {
+            checkJAR(sim, phetProject, phetProject.getName());
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         new CheckTranslations(Boolean.parseBoolean(args[1])).checkTranslations(new File(args[0]));
     }
@@ -52,7 +60,7 @@ public class CheckTranslations {
         final File fileName = new File(LOCAL_ROOT_DIR, flavor + ".jar");
         try {
             FileDownload.download(webLocation, fileName);
-            checkTranslations(sim, phetProject, fileName,flavor);
+            checkTranslations(sim, phetProject, fileName, flavor);
         }
         catch (FileNotFoundException fnfe) {
             if (verbose) {
@@ -61,7 +69,7 @@ public class CheckTranslations {
         }
     }
 
-    private void checkTranslations(Sim s, PhetProject phetProject, File jar, String flavor) throws IOException {
+    private TranslationDiscrepancy checkTranslations(Sim s, PhetProject phetProject, File jar, String flavor) throws IOException {
         final Set local = new HashSet(Arrays.asList(s.getTranslations()));
 
         final Set remote = new HashSet(Arrays.asList(listTranslationsInJar(phetProject, jar)));
@@ -71,13 +79,31 @@ public class CheckTranslations {
             System.out.println("sim=" + s.getName() + ", : same = " + same + " local=" + local + ", remote=" + remote);
         }
         if (!same) {
-            showDiff(s, local, remote,flavor);
+            return getDiff(s, local, remote, flavor);
             //System.out.print( " Remote : " + jarList + ", local: " + local );
+        }
+        else {
+            return TranslationDiscrepancy.NULL;
         }
         //System.out.println( "" );
     }
 
-    private void showDiff(Sim s, Set local, Set remote, String flavor) {
+    static class TranslationDiscrepancy {
+        private Set extraLocal;
+        private Set extraRemote;
+        public static final TranslationDiscrepancy NULL = new TranslationDiscrepancy(new HashSet(), new HashSet());
+
+        public TranslationDiscrepancy(Set extraLocal, Set extraRemote) {
+            this.extraLocal = extraLocal;
+            this.extraRemote = extraRemote;
+        }
+
+        public String toString() {
+            return "need to be removed from remote jar: " + extraRemote + ", " + "need to be added to remote jar: " + extraLocal + " ";
+        }
+    }
+
+    private TranslationDiscrepancy getDiff(Sim s, Set local, Set remote, String flavor) {
         Set extraLocal = new HashSet(local);
         extraLocal.removeAll(remote);
 
@@ -86,7 +112,7 @@ public class CheckTranslations {
 
         boolean anyChange = extraLocal.size() > 0 || extraRemote.size() > 0;
         if (anyChange) {
-            System.out.print(s.getName() + "["+flavor+"]: ");
+            System.out.print(s.getName() + "[" + flavor + "]: ");
         }
         if (extraRemote.size() > 0) {
             System.out.print("need to be removed from remote jar: " + extraRemote + " ");
@@ -98,6 +124,7 @@ public class CheckTranslations {
         if (anyChange) {
             System.out.println("");
         }
+        return new TranslationDiscrepancy(extraLocal, extraRemote);
     }
 
     private String[] listTranslationsInJar(PhetProject p, File file) throws IOException {
@@ -130,25 +157,25 @@ public class CheckTranslations {
         ArrayList sims = new ArrayList();
         //File simDir = new File( sim_root );
         File[] f = simDir.listFiles();
-        for ( int i = 0; i < f.length; i++ ) {
+        for (int i = 0; i < f.length; i++) {
             File file = f[i];
             String projectName = file.getName();
-            File localization = new File( file, "data/" + projectName + "/localization" );
+            File localization = new File(file, "data/" + projectName + "/localization");
             ArrayList locales = new ArrayList();
-            if ( localization.exists() && !localization.getName().equalsIgnoreCase( ".svn" ) && !projectName.equalsIgnoreCase( ".svn" ) ) {
+            if (localization.exists() && !localization.getName().equalsIgnoreCase(".svn") && !projectName.equalsIgnoreCase(".svn")) {
                 File[] localizations = localization.listFiles();
-                for ( int j = 0; j < localizations.length; j++ ) {
+                for (int j = 0; j < localizations.length; j++) {
                     File localization1 = localizations[j];
                     final String prefix = projectName + "-strings_";
-                    if ( localization1.getName().startsWith( prefix ) && localization1.getName().indexOf( "_" ) >= 0 ) {
-                        locales.add( localization1.getName().substring( prefix.length(), prefix.length() + 2 ) );
+                    if (localization1.getName().startsWith(prefix) && localization1.getName().indexOf("_") >= 0) {
+                        locales.add(localization1.getName().substring(prefix.length(), prefix.length() + 2));
                     }
                 }
-                sims.add( new Sim( projectName, (String[]) locales.toArray( new String[0] ) ) );
+                sims.add(new Sim(projectName, (String[])locales.toArray(new String[0])));
             }
 
         }
-        return (Sim[]) sims.toArray( new Sim[0] );
+        return (Sim[])sims.toArray(new Sim[0]);
     }
 
 
@@ -156,13 +183,13 @@ public class CheckTranslations {
         private String name;
         private String[] translations;
 
-        public Sim( String name, String[] translations ) {
+        public Sim(String name, String[] translations) {
             this.name = name;
             this.translations = translations;
         }
 
         public String toString() {
-            return "" + name + " " + Arrays.asList( translations );
+            return "" + name + " " + Arrays.asList(translations);
         }
 
         public String[] getTranslations() {
@@ -173,8 +200,8 @@ public class CheckTranslations {
             return name;
         }
 
-        public boolean containsTranslation( String t ) {
-            return Arrays.asList( translations ).contains( t );
+        public boolean containsTranslation(String t) {
+            return Arrays.asList(translations).contains(t);
         }
     }
 }
