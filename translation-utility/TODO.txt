@@ -17,6 +17,8 @@ MEDIUM PRIORITY:
 - check for unsaved changes before exiting
 - support translation of Flash sims
 - delete phet-test-translation.jar
+- other strategies for submitting translations to PhET
+- build.xml
 
 LOW PRIORITY:
 - Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
@@ -35,6 +37,7 @@ LOW PRIORITY:
 
 
 DONE:
+********* version 0.00.10 (?)
 12/10/07 - show language names at top of columns in TranslationPanel
 12/10/07 - revise help for language selection
 12/10/07 - select language from a combo box, with option to enter a PhET-assigned language code for a non-ISO language
