@@ -1,5 +1,7 @@
 package edu.colorado.phet.build;
 
+import java.util.Locale;
+
 /**
  * Constructs an iterable list of simulations for use in ant-contrib.
  */
@@ -7,8 +9,16 @@ public class PhetListLocalesTask extends AbstractPhetBuildTask implements Proper
     private String property = "sim.locales";
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
-        String flavorsList = PhetBuildUtils.convertArrayToList( phetProject.getLocales() );
+        String flavorsList = PhetBuildUtils.convertArrayToList( getLocaleCodeList(phetProject.getLocales()) );
         getProject().setProperty( property, flavorsList );
+    }
+
+    private String[] getLocaleCodeList(Locale[] locales) {
+        String[]s=new String[locales.length];
+        for (int i = 0; i < s.length; i++) {
+            s[i]=locales[i].getLanguage();
+        }
+        return s;
     }
 
     public void setProperty( String property ) {

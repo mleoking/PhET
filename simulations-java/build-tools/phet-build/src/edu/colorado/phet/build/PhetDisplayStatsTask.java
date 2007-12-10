@@ -29,7 +29,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
                 numStandardized+= isNonClashData( phetProject )?1:0;
                 flavorCount += phetProject.getFlavorNames().length;
                 for( int j = 0; j < phetProject.getLocales().length; j++ ) {
-                    String locale = phetProject.getLocales()[j];
+                    Locale locale = phetProject.getLocales()[j];
                     languages.put( locale, "" );
                 }
             }
@@ -68,7 +68,7 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
      * Quick check to make sure resources are inside data/[simname]/
      */
     private boolean isNonClashData( PhetProject phetProject ) {
-        File dir = new File( phetProject.getDir(), "data" );
+        File dir = new File( phetProject.getProjectDir(), "data" );
 
         //standardized if contains "[simname]/" "[simname].properties" and optionally ".svn"
         File child = new File( dir, phetProject.getName() );

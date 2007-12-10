@@ -13,7 +13,10 @@ import java.util.*;
  * Apr 14, 2007, 2:40:56 PM
  */
 public class PhetProject {
-    private final File dir;
+
+    private static final String WEBROOT = "http://phet.colorado.edu/sims/";
+
+    private final File projectDir;
     private final Properties properties;
     private final String name;
 
@@ -23,16 +26,16 @@ public class PhetProject {
 
     public PhetProject( File parentDir, String name ) throws IOException {
         this.name = name;
-        this.dir = new File( parentDir, name );
+        this.projectDir = new File( parentDir, name );
         this.properties = new Properties();
 
-        File propertyFile = PhetBuildUtils.getBuildPropertiesFile( dir, name );
+        File propertyFile = PhetBuildUtils.getBuildPropertiesFile(projectDir, name );
 
         this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
     }
 
     public File getDefaultDeployDir() {
-        File file = new File( getDir(), "deploy/" );
+        File file = new File( getProjectDir(), "deploy/" );
 
         file.mkdirs();
 
@@ -43,14 +46,14 @@ public class PhetProject {
         return new File( getDefaultDeployDir(), getName() + ".jar" );
     }
 
-    public File getDir() {
-        return dir;
+    public File getProjectDir() {
+        return projectDir;
     }
 
     public boolean equals( Object obj ) {
         if( obj instanceof PhetProject ) {
             PhetProject phetProject = (PhetProject)obj;
-            return phetProject.dir.equals( dir );
+            return phetProject.projectDir.equals( projectDir );
         }
         else {
             return false;
@@ -67,7 +70,7 @@ public class PhetProject {
     }
 
     public String toString() {
-        return "project=" + name + ", root=" + dir.getAbsolutePath() + ", properties=" + properties;
+        return "project=" + name + ", root=" + projectDir.getAbsolutePath() + ", properties=" + properties;
     }
 
     public String getSource() {
@@ -201,7 +204,7 @@ public class PhetProject {
         if( contribPath.exists() ) {
             return contribPath;
         }
-        File path = new File( dir, token );
+        File path = new File(projectDir, token );
         if( path.exists() ) {
             return path;
         }
@@ -421,7 +424,7 @@ public class PhetProject {
     /*
      * Returns an array of the 2-character locale codes supported by this application (the empty string represents the default locale).
      */
-    public String[] getLocales() {
+    public Locale[] getLocales() {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
         ArrayList locales = new ArrayList();
@@ -432,16 +435,16 @@ public class PhetProject {
             String suffix = ".properties";
 //            System.out.println( "filename = " + filename );
             if( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
-                String middle = filename.substring( prefix.length(), filename.length() - suffix.length() );
+                String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
 //                System.out.println( "middle = " + middle );
-                locales.add( middle );
+                locales.add( new Locale(languageCode));
             }
         }
-        return (String[])locales.toArray( new String[0] );
+        return (Locale[])locales.toArray( new Locale[0]);
     }
 
     private File getLocalizationDir() {
-        return new File( getDir(), "data/" + getName() + "/localization" );
+        return new File( getProjectDir(), "data/" + getName() + "/localization" );
     }
 
     public File getLocalizationFile( String locale ) {
@@ -453,7 +456,7 @@ public class PhetProject {
     public String getVersionString() {
         Properties prop=new Properties( );
         try {
-            prop.load( new FileInputStream( new File( getDir(), "data/"+getName()+"/"+getName()+".properties") ));
+            prop.load( new FileInputStream( new File( getProjectDir(), "data/"+getName()+"/"+getName()+".properties") ));
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -506,5 +509,9 @@ public class PhetProject {
             return (PhetProject[])phetProjects.toArray(new PhetProject[0]);
 
 
+    }
+
+    public String getDeployedFlavorJarURL(String flavor) {
+        return WEBROOT + getName() + "/" + flavor + ".jar";
     }
 }
