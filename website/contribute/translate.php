@@ -11,6 +11,7 @@
 	        <p>
 	            This is a beta version of the PhET Translation Utility. PLEASE READ THIS PAGE COMPLETELY.
 	        </p>
+	        <p>The Translation Utility can be used to create a translation for a new language, or to edit an existing translation. In both cases, the instructions are the same.</p>
 	        
 			<h2>
 	            General instructions
@@ -34,7 +35,7 @@
 	            </li>
 	
 	            <li>
-					Enter the language code for the language that you're translating.
+					Select the language that you're translating from the option menu. If your language is not listed in the menu, contact <a href="mailto:phethelp@colorado.edu?subject=Translation%20Utility">phethelp@colorado.edu</a> to request a custom language code. When you receive your custom language code, select CUSTOM from the option menu (the last option in the menu) and enter your customer language code in the text box that appears.
 	            </li>
 	
 	            <li>
@@ -88,7 +89,7 @@
 	            </li>
 
 	            <li>
-					Enter fr in the country code field.
+					Select "French (fr) from the language option menu.
 	            </li>
 
 	            <li>
@@ -148,7 +149,7 @@
 	
 	        <p>
 	            Report bugs to <a href="mailto:phethelp@colorado.edu?subject=Translation%20Utility">phethelp@colorado.edu</a>. Please include the version number (shown in the title bar) in your correspondence.
-	        </p>		
+	        </p>
 EOT;
 	}
 
