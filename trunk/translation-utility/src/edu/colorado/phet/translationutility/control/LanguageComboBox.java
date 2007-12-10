@@ -16,6 +16,7 @@ import edu.colorado.phet.translationutility.util.LanguageCodes;
 
 public class LanguageComboBox extends JComboBox {
     
+    public static final String SELECT_NAME = TUResources.getString( "label.selectALanguage" );
     public static final String CUSTOM_NAME = TUResources.getString( "label.custom" );
 
     private static class LanguageChoice {
@@ -68,6 +69,8 @@ public class LanguageComboBox extends JComboBox {
         
         setRenderer( new LanguageRenderer() );
         
+        addItem( new LanguageChoice( SELECT_NAME, null ) );
+        
         LanguageCodes lc = LanguageCodes.getInstance();
         String[] names = lc.getSortedNames();
         for ( int i = 0; i < names.length; i++ ) {
@@ -79,10 +82,15 @@ public class LanguageComboBox extends JComboBox {
         addItem( new LanguageChoice( CUSTOM_NAME, null ) );
     }
     
+    private boolean isLanguageSelected() {
+        LanguageChoice choice = (LanguageChoice) getSelectedItem();
+        return ! ( choice.getName().equals( SELECT_NAME ) || choice.getName().equals( CUSTOM_NAME ) );
+    }
+    
     public String getSelectedCode() {
         String code = null;
-        LanguageChoice choice = (LanguageChoice) getSelectedItem();
-        if ( !choice.getName().equals( CUSTOM_NAME ) ) {
+        if ( isLanguageSelected() ) {
+            LanguageChoice choice = (LanguageChoice) getSelectedItem();
             code = choice.getCode();
         }
         return code;
@@ -91,7 +99,7 @@ public class LanguageComboBox extends JComboBox {
     public String getSelectedName() {
         LanguageChoice choice = (LanguageChoice) getSelectedItem();
         String name = choice.getName();
-        if ( name.equals( CUSTOM_NAME ) ) {
+        if ( !isLanguageSelected() ) {
             name = null;
         }
         return name;
