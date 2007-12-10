@@ -26,9 +26,9 @@ public class Force1DModelObject {
     private DefaultTemporalVariable2D normalForce = new DefaultTemporalVariable2D();
     private DefaultTemporalVariable2D gravityForce = new DefaultTemporalVariable2D();
 
-    private DefaultTemporalVariable gravity = new DefaultTemporalVariable();
-    private DefaultTemporalVariable staticFriction = new DefaultTemporalVariable();
-    private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable();
+    private DefaultTemporalVariable gravity = new DefaultTemporalVariable( 9.8 );
+    private DefaultTemporalVariable staticFriction = new DefaultTemporalVariable( 1 );
+    private DefaultTemporalVariable kineticFriction = new DefaultTemporalVariable( 1 );
     private DefaultTemporalVariable mass = new DefaultTemporalVariable( 30 );
     private DefaultTemporalVariable angle = new DefaultTemporalVariable( 0.0 );
 
@@ -146,7 +146,7 @@ public class Force1DModelObject {
 //            RampModel orig = lastState;
 //            RampMotionModel initialState = getState();
 
-        setupForces();
+        updateForces();
         updateBlock( dt, time );
 
 //        updateEnergyAndWork();
@@ -204,13 +204,26 @@ public class Force1DModelObject {
 
     //todo: should be addValue
 
-    public void setupForces() {
+    public AbstractVector2D getUnitNormal() {
+        return Vector2D.Double.parseAngleAndMagnitude( 1.0, getUnitNormalAngle() );
+    }
+
+    public double getUnitNormalAngle() {
+        return angle.getValue() + Math.PI / 2;
+    }
+
+    private void updateForces() {
 //        appliedForce.setValue( 500, 0 );
 //        netForce.setValue( appliedForce.getValue() );
-        netForce.setValue( appliedForce.getValue() );
-//        gravityForce.setXValue( 0 );
-//        gravityForce.setYValue( gravity.getValue() * mass.getValue() );
-//        double fa = block.getFrictionForce( gravity, appliedForce.getParallelComponent() + gravityForce.getParallelComponent() );
+//        netForce.setValue( appliedForce.getValue() );
+        gravityForce.setXValue( 0 );
+        gravityForce.setYValue( gravity.getValue() * mass.getValue() );
+        frictionForce.setMagnitudeAndAngle( computeFrictionForce(), angle.getValue() );
+
+        final AbstractVector2D f = appliedForce.getValue().getAddedInstance( gravityForce.getValue().getAddedInstance( frictionForce.getValue() ) );
+        normalForce.setMagnitudeAndAngle( gravityForce.getValue().dot( getUnitNormal() ), getUnitNormalAngle() );
+        wallForce.setMagnitudeAndAngle( getWallForce( f.dot( getUnitVector() ) ), angle.getValue() );
+        netForce.setValue( f.getAddedInstance( wallForce.getValue() ) );
 //        frictionForce.setParallel( fa );
 //
 //        double netForce = appliedForce.getParallelComponent() + gravityForce.getParallelComponent() + frictionForce.getParallelComponent();
@@ -225,6 +238,44 @@ public class Force1DModelObject {
 //        updateAppliedForceValue();
     }
 
+    private double getWallForce( double sumOtherForces ) {
+        if ( position.getX().getValue() >= 10 && sumOtherForces > 0 ) {
+            return -sumOtherForces;
+        }
+        else {
+            return 0.0;
+        }
+    }
+
+    public double computeFrictionForce() {
+//        if (true)
+//        return 0;
+        double N = getMass().getValue() * gravity.getValue() * Math.cos( angle.getValue() );
+        System.out.println( "velocity = " + velocity.getMagnitude() );
+        if ( Math.abs( velocity.getValue().dot( getUnitVector() ) ) > 1E-6 ) {
+            double sign = velocity.getValue().dot( getUnitVector() ) >= 0 ? -1 : 1;
+            final double kineticFriction = sign * this.kineticFriction.getValue() * N;
+            System.out.println( "kinetic friction=" + kineticFriction );
+            return kineticFriction;
+        }
+        else {//this was stationary
+            double otherForces = appliedForce.getValue().dot( getUnitVector() ) + gravityForce.getValue().dot( getUnitVector() );
+            double u = Math.max( kineticFriction.getValue(), staticFriction.getValue() );
+            double maxStaticFrictionForce = u * N;
+            if ( Math.abs( maxStaticFrictionForce ) > Math.abs( otherForces ) ) {
+                //this stays at rest, friction balances applied force.
+                System.out.println( "otherForces = " + otherForces );
+                return -otherForces;
+            }
+            else { //applied force overcomes friction force, this starts moving
+                double sign = otherForces >= 0 ? -1 : 1;
+                final double staticFriction = sign * u * N;
+                System.out.println( "staticFriction = " + staticFriction );
+                return staticFriction; //should be less than applied force
+            }
+        }
+    }
+
     private void updateBlock( double dt, double time ) {
         acceleration.setValue( netForce.getScaledInstance( 1.0 / mass.getValue() ) );
         velocity.setValue( acceleration.getScaledInstance( dt ).getAddedInstance( velocity.getValue() ) );
@@ -235,7 +286,7 @@ public class Force1DModelObject {
             acceleration.setValue( new Vector2D.Double( 0, 0 ) );
         }
         position.setValue( MathUtil.clamp( -10, vector2D.getX(), 10 ), 0 );
-        System.out.println( "position = " + position );
+//        System.out.println( "position = " + position );
 
 //        double a = netForce.getParallelComponent( angle.getValue() ) / mass.getValue();
 //        acceleration.setParallel( a, angle.getValue() );
@@ -247,5 +298,9 @@ public class Force1DModelObject {
 
     public ITemporalVariable getXVariable() {
         return position.getX();
+    }
+
+    public AbstractVector2D getUnitVector() {
+        return Vector2D.Double.parseAngleAndMagnitude( 1.0, angle.getValue() );
     }
 }
