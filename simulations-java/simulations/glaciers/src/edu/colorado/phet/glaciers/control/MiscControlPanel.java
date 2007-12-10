@@ -20,7 +20,7 @@ public class MiscControlPanel extends JPanel {
     public MiscControlPanel() {
         super();
         
-        _equilibriumButton = new JButton( GlaciersResources.getString( "button.equilibrium" ) );
+        _equilibriumButton = new JButton( GlaciersResources.getString( "button.steadyState" ) );
         _resetAllButton = new JButton( GlaciersResources.getCommonString( "ControlPanel.button.resetAll" ) );
         _helpButton = new JButton( GlaciersResources.getCommonString( "Common.HelpPanel.ShowHelp" ) );
         

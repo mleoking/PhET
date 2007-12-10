@@ -69,7 +69,6 @@ public class BasicClimateControlPanel extends JPanel {
             while ( e.hasMoreElements() ) {
                 Object o = e.nextElement();
                 if ( o instanceof JComponent )
-                    System.out.println( "changing tick label for snowfall control" );//XXX
                     ( (JComponent) o ).setForeground( CONTROL_COLOR );
                     ( (JComponent) o ).setFont( controlFont );
             }
