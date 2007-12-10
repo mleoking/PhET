@@ -7,7 +7,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersResources;
-import edu.colorado.phet.glaciers.control.GlaciersControlPanel;
+import edu.colorado.phet.glaciers.control.BasicControlPanel;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
@@ -25,7 +25,7 @@ public class BasicModule extends PiccoloModule {
 
     private BasicModel _model;
     private BasicCanvas _canvas;
-    private GlaciersControlPanel _bottomPanel;
+    private BasicControlPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,7 +44,7 @@ public class BasicModule extends PiccoloModule {
         setSimulationPanel( _canvas );
 
         // Bottom panel goes when clock controls normally go
-        _bottomPanel = new GlaciersControlPanel( clock );
+        _bottomPanel = new BasicControlPanel( clock );
         setClockControlPanel( _bottomPanel );
 
         // Help

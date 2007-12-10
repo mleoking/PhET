@@ -15,7 +15,11 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersResources;
 
-
+/**
+ * AdvancedClimateControlPanel is the climate control panel for the "Advanced" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class AdvancedClimateControlPanel extends JPanel {
 
     private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green

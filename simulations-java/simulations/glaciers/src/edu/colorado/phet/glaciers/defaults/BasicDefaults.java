@@ -30,4 +30,7 @@ public class BasicDefaults {
     // World dimensions
     public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );
 
+    // Climate
+    public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE;
+    public static final DoubleRange TEMPERATURE_RANGE = GlobalDefaults.TEMPERATURE_RANGE;
 }

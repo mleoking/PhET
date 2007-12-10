@@ -15,19 +15,21 @@ import javax.swing.text.JTextComponent;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
-public class GlaciersControlPanel extends JPanel {
+public class BasicControlPanel extends JPanel {
     
     private static final Color BACKGROUND_COLOR = new Color( 180, 158, 134 ); // tan
     private static final Font TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
     private static final Font CONTROL_FONT = new PhetDefaultFont();
 
-    public GlaciersControlPanel( GlaciersClock clock ) {
+    public BasicControlPanel( GlaciersClock clock ) {
+        super();
         
         ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
-        AdvancedClimateControlPanel climateControlPanel = new AdvancedClimateControlPanel( TITLE_FONT, CONTROL_FONT );
+        BasicClimateControlPanel climateControlPanel = new BasicClimateControlPanel( TITLE_FONT, CONTROL_FONT, BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE );
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
         MiscControlPanel miscControlPanel = new MiscControlPanel();
         
@@ -60,7 +62,7 @@ public class GlaciersControlPanel extends JPanel {
         thisLayout.addComponent( topPanel, row++, column );
         thisLayout.addComponent( bottomPanel, row++, column );
         
-        Class[] excludedClasses = { ViewControlPanel.class, AdvancedClimateControlPanel.class, JTextComponent.class };
+        Class[] excludedClasses = { ViewControlPanel.class, BasicClimateControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
 }

@@ -29,4 +29,8 @@ import edu.colorado.phet.glaciers.GlaciersResources;
     public static final int CLOCK_TIME_COLUMNS = 10;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 50, 1 ); // years
     public static final String CLOCK_UNITS = GlaciersResources.getString( "clock.units" );
+    
+    // Climate
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 100, 0 ); //XXX units?
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 0, 100, 0 );  //XXX units?
 }

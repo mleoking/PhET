@@ -152,8 +152,7 @@ public class ViewControlPanel extends JPanel {
     }
     
     /**
-     * ViewControlPanelListener is the interface implemented by all listeners
-     * that are interested in control changes for ViewControlPanel.
+     * Interface implemented by all listeners who are interested in changes to this control panel.
      */
     public static interface ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b );
@@ -164,10 +163,21 @@ public class ViewControlPanel extends JPanel {
     }
     
     /**
+     * Default implementation of ViewControlPanelListener.
+     */
+    public static class ViewControlPanelAdapter {
+        public void equilibriumLineChanged( boolean b ) {};
+        public void iceFlowChanged( boolean b ) {};
+        public void snowfallChanged( boolean b ) {};
+        public void coordinatesChanged( boolean b ) {};
+        public void ageOfIceChanged( boolean b ) {};
+    }
+    
+    /**
      * Adds a ViewControlPanelListener.
      * @param listener
      */
-    public void addViewListener( ViewControlPanelListener listener ) {
+    public void addListener( ViewControlPanelListener listener ) {
         _listenerList.add( listener );
     }
     
@@ -175,7 +185,7 @@ public class ViewControlPanel extends JPanel {
      * Removes a ViewControlPanelListener.
      * @param listener
      */
-    public void removeViewListener( ViewControlPanelListener listener ) {
+    public void removeListener( ViewControlPanelListener listener ) {
         _listenerList.remove( listener );
     }
     

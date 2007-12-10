@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -21,8 +19,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.AbstractValueControl;
-import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -49,15 +45,6 @@ public class GlaciersClockControlPanel extends JPanel {
     private LinearValueControl _speedControl;
     private JButton _restartButton;
 
-    public class SliderOnlyLayoutStrategy implements ILayoutStrategy {
-
-        public SliderOnlyLayoutStrategy() {}
-
-        public void doLayout( AbstractValueControl valueControl ) {
-            valueControl.add( valueControl.getSlider() );
-        }
-    }
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -103,13 +90,15 @@ public class GlaciersClockControlPanel extends JPanel {
             _speedControl.setValue( _clock.getDt() );
             _speedControl.setMinorTicksVisible( false );
             
-            // Label the min and max
+            // Tick labels
             String normalString = GlaciersResources.getString( "clock.label.slow" );
             String fastString = GlaciersResources.getString( "clock.label.fast" );
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Double( min ), new JLabel( normalString ) );
             labelTable.put( new Double( max ), new JLabel( fastString ) );
             _speedControl.setTickLabels( labelTable );
+            
+            // Change font on tick labels
             Dictionary d = _speedControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
