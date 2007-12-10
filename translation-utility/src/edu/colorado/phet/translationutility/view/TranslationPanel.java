@@ -10,7 +10,9 @@ import javax.swing.*;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.translationutility.TUResources;
 import edu.colorado.phet.translationutility.util.FontFactory;
+import edu.colorado.phet.translationutility.util.LanguageCodes;
 import edu.colorado.phet.translationutility.view.FindDialog.FindListener;
 
 /**
@@ -148,13 +150,20 @@ public class TranslationPanel extends JPanel implements FindListener {
         layout.setInsets( new Insets( 2, 5, 2, 5 ) ); // top, left, bottom, right
         int row = 0;
         
+        LanguageCodes lc = LanguageCodes.getInstance();
         JLabel projectNameLabel = new JLabel( projectName );
         projectNameLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( projectNameLabel, row, KEY_COLUMN, GridBagConstraints.WEST );
-        JLabel sourceLanguageLabel = new JLabel( sourceLanguageCode );
+        String sourceText = lc.getName( sourceLanguageCode ) + " (" + sourceLanguageCode + ")";
+        JLabel sourceLanguageLabel = new JLabel( sourceText );
         sourceLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( sourceLanguageLabel, row, SOURCE_COLUMN, GridBagConstraints.WEST );
-        JLabel targetLanguageLabel = new JLabel( targetLanguageCode );
+        String targetName = lc.getName( targetLanguageCode );
+        if ( targetName == null ) {
+            targetName = TUResources.getString( "label.custom" );
+        }
+        String targetText = targetName + " (" + targetLanguageCode + ")";
+        JLabel targetLanguageLabel = new JLabel( targetText );
         targetLanguageLabel.setFont( TITLE_FONT );
         layout.addAnchoredComponent( targetLanguageLabel, row, TARGET_COLUMN, GridBagConstraints.WEST );
         row++;

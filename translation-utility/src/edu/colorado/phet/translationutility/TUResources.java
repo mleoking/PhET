@@ -26,6 +26,7 @@ public class TUResources {
 
     private static final String COMMON_PROJECTS_SEPARATOR = ",";
     private static final String PREFERRED_FONTS_SEPARATOR = ",";
+    private static final String LANGUAGE_CODES_SEPARATOR = ",";
     
     /* not intended for instantiation */
     private TUResources() {}
@@ -122,5 +123,20 @@ public class TUResources {
             names = allNames.split( PREFERRED_FONTS_SEPARATOR );
         }
         return names;
+    }
+    
+    public static String[] getLanguageCodes() {
+        String[] codes = null;
+        String key = "language.codes";
+        String allNames = CONFIG.getProjectProperty( key );
+        if ( allNames != null ) {
+            codes = allNames.split( LANGUAGE_CODES_SEPARATOR );
+        }
+        return codes;
+    }
+    
+    public static String getLanguageName( String languageCode ) {
+        String key = "language." + languageCode;
+        return CONFIG.getProjectProperty( key );
     }
 }
