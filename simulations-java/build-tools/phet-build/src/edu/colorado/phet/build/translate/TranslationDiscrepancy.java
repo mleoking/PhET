@@ -45,7 +45,6 @@ public class TranslationDiscrepancy {
     }
 
     public void resolve(File resolveJAR) throws IOException {
-//        final Pattern excludePattern = Pattern.compile(Pattern.quote(phetProject.getName()) + "[\\\\/]localization[\\\\/]" + Pattern.quote(phetProject.getName()) + ".*\\.properties");
         final Pattern excludePattern = Pattern.compile(quote(phetProject.getName()) + "[\\\\/]localization[\\\\/]" + quote(phetProject.getName()) + ".*\\.properties");
 
         String deployUrl = phetProject.getDeployedFlavorJarURL(flavor);
@@ -58,11 +57,7 @@ public class TranslationDiscrepancy {
 
         FileUtils.unzip(jarFile, tempUnzipDir, new FileFilter() {
             public boolean accept(File file) {
-                if (excludePattern.matcher(file.getAbsolutePath()).find()) {
-                    return false;
-                }
-
-                return true;
+                return !excludePattern.matcher( file.getAbsolutePath() ).find();
             }
         });
 
