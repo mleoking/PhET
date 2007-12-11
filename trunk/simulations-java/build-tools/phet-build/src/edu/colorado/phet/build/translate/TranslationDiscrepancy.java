@@ -48,18 +48,12 @@ public class TranslationDiscrepancy {
 
     public void resolve() {
         try {
-            File resolveJAR = new File( getTmpDir(), flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
+            File resolveJAR = new File( FileUtils.getTmpDir(), flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
             resolve( resolveJAR );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-    }
-
-    private File getTmpDir() {
-        final File file = new File( System.getProperty( "java.io.tmpdir" ) );
-        file.mkdirs();
-        return file;
     }
 
     public void resolve( File resolveJAR ) throws IOException {
@@ -85,7 +79,7 @@ public class TranslationDiscrepancy {
     }
 
     private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
-        File tempUnzipDir = new File( getTmpDir(), flavor + "-dir" );
+        File tempUnzipDir = new File( FileUtils.getTmpDir(), flavor + "-dir" );
         System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
 
