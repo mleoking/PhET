@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
 import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
@@ -34,6 +35,7 @@ public class BasicCanvas extends PhetPCanvas {
     private BirdsEyeViewNode _birdsEyeViewNode;
     private PenguinNode _penguinNode;
     private MagnifiedViewNode _magnifiedViewNode;
+    private ToolboxNode _toolboxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -84,6 +86,10 @@ public class BasicCanvas extends PhetPCanvas {
             double y = _birdsEyeViewNode.getFullBoundsReference().getMaxY();
             _magnifiedViewNode.setOffset( x, y );
         }
+        
+        // Toolbox
+        _toolboxNode = new ToolboxNode();
+        _rootNode.addChild( _toolboxNode );
     }
     
     //----------------------------------------------------------------------------
@@ -103,13 +109,16 @@ public class BasicCanvas extends PhetPCanvas {
      */
     protected void updateLayout() {
 
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+        Dimension2D screenSize = getScreenSize();
+        if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
         else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
+            System.out.println( "PhysicsCanvas.updateLayout screenSize=" + screenSize );//XXX
         }
+        
+        // Toolbox at the bottom of the play area
+        _toolboxNode.setOffset( 20, screenSize.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5 );
     }
 }
