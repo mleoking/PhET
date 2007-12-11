@@ -1,8 +1,6 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import junit.framework.TestCase;
-
 import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -16,7 +14,7 @@ import java.util.zip.ZipOutputStream;
 
 import edu.colorado.phet.build.translate.TranslationDiscrepancy;
 
-public class FileUtils extends TestCase {
+public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
 
     public static String loadFileAsString(File file) throws IOException {
