@@ -17,7 +17,6 @@ public class SynchronizeTranslations {
 
     private void synchronizeTranslations( PhetProject phetProject ) throws IOException {
         TranslationDiscrepancy[] discrepancies = new CheckTranslations( false ).checkTranslations( phetProject );
-
         for ( int i = 0; i < discrepancies.length; i++ ) {
             TranslationDiscrepancy discrepancy = discrepancies[i];
             discrepancy.resolve();

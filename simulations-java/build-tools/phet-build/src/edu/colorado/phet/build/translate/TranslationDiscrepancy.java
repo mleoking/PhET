@@ -100,7 +100,7 @@ public class TranslationDiscrepancy {
             File source = phetProject.getTranslationFile( locale );
             FileUtils.copyTo( source, new File( localizationDir, source.getName() ) );
         }
-        FileUtils.zip( tempUnzipDir, resolveJAR );
+        FileUtils.jar( tempUnzipDir, resolveJAR );
     }
 
     private File downloadJAR() throws IOException {
