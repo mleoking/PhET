@@ -47,7 +47,7 @@ public class CheckTranslations {
     }
 
     public static void main(String[] args) throws IOException {
-        new CheckTranslations(Boolean.parseBoolean(args[1])).checkTranslationsAllSims(new File(args[0]));
+        new CheckTranslations(Boolean.getBoolean( args[1])).checkTranslationsAllSims(new File(args[0]));
     }
 
     private TranslationDiscrepancy checkJAR(PhetProject phetProject, String flavor) throws IOException {
@@ -61,7 +61,7 @@ public class CheckTranslations {
             if (verbose) {
                 System.out.println("File not found for: " + webLocation);
             }
-            return new TranslationDiscrepancy(Collections.emptySet(), Collections.emptySet(), phetProject, flavor);
+            return new TranslationDiscrepancy(new HashSet( ), new HashSet( ), phetProject, flavor);
         }
     }
 
