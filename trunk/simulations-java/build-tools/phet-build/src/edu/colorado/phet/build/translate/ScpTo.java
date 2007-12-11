@@ -25,7 +25,7 @@ public class ScpTo {
             String host = arg[1].substring( 0, arg[1].indexOf( ':' ) );
             String rfile = arg[1].substring( arg[1].indexOf( ':' ) + 1 );
 
-            fis = uploadFile( lfile, user, host, rfile );
+            fis = uploadFile( new File( lfile ), user, host, rfile );
         }
         catch( Exception e ) {
             System.out.println( e );
@@ -38,7 +38,7 @@ public class ScpTo {
         }
     }
 
-    private static FileInputStream uploadFile( String lfile, String user, String host, String rfile ) throws JSchException, IOException {
+    private static FileInputStream uploadFile( File localFile, String user, String host, String remoteFilePath ) throws JSchException, IOException {
 
         JSch jsch = new JSch();
         Session session = jsch.getSession( user, host, 22 );
@@ -48,8 +48,8 @@ public class ScpTo {
         session.setUserInfo( ui );
         session.connect();
 
-        // exec 'scp -t rfile' remotely
-        String command = "scp -p -t " + rfile;
+        // exec 'scp -t remoteFilePath' remotely
+        String command = "scp -p -t " + remoteFilePath;
         Channel channel = session.openChannel( "exec" );
         ( (ChannelExec) channel ).setCommand( command );
 
@@ -64,13 +64,13 @@ public class ScpTo {
         }
 
         // send "C0644 filesize filename", where filename should not include '/'
-        long filesize = ( new File( lfile ) ).length();
+        long filesize = ( localFile ).length();
         command = "C0644 " + filesize + " ";
-        if ( lfile.lastIndexOf( '/' ) > 0 ) {
-            command += lfile.substring( lfile.lastIndexOf( '/' ) + 1 );
+        if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
+            command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
         }
         else {
-            command += lfile;
+            command += localFile;
         }
         command += "\n";
         out.write( command.getBytes() );
@@ -79,8 +79,8 @@ public class ScpTo {
             System.exit( 0 );
         }
 
-        // send a content of lfile
-        FileInputStream fis = new FileInputStream( lfile );
+        // send a content of localFile
+        FileInputStream fis = new FileInputStream( localFile );
         byte[] buf = new byte[1024];
         while ( true ) {
             int len = fis.read( buf, 0, buf.length );
