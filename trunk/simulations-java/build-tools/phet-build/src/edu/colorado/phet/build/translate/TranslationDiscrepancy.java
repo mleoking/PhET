@@ -10,7 +10,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.CRC32;
 
 public class TranslationDiscrepancy {
     private final Set extraLocal;
@@ -77,7 +76,7 @@ public class TranslationDiscrepancy {
             File source = phetProject.getTranslationFile(locale);
             FileUtils.copyTo(source, new File(localizationDir, source.getName()));
         }
-        FileUtils.zip(new CRC32(), localizationDir,resolveJAR);
+        FileUtils.zip( localizationDir,resolveJAR);
     }
 
     //http://www.exampledepot.com/egs/java.util.regex/Escape.html

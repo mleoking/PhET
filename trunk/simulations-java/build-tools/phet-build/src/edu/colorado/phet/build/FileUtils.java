@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.regex.Pattern;
-import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
@@ -190,20 +189,16 @@ public class FileUtils {
 
         unzip(new File("/Users/jdegoes/Desktop/quantum-tunneling.jar"), new File("/Users/jdegoes/Desktop/temp-dir"), new FileFilter() {
             public boolean accept(File file) {
-                if (excludePattern.matcher(file.getAbsolutePath()).find()) {
-                    return false;
-                }
-
-                return true;
+                return !excludePattern.matcher( file.getAbsolutePath() ).find();
             }
         });
     }
 
-    public static void zipSingleFile(CRC32 crc, File rootDir, File file, ZipOutputStream zipOutputStream) throws IOException {
+    public static void zipSingleFile( File rootDir, File file, ZipOutputStream zipOutputStream ) throws IOException {
         if (file.isDirectory()) {
             File[] f = file.listFiles();
             for (int i = 0; i < f.length; i++) {
-                zipSingleFile(crc, rootDir, f[i], zipOutputStream);
+                zipSingleFile( rootDir, f[i], zipOutputStream);
             }
         }
         else {
@@ -213,33 +208,24 @@ public class FileUtils {
                 path = "/" + path;
             }
             ZipEntry zipEntry = new ZipEntry(path);
-//            zipEntry.setMethod(ZipEntry.STORED);
-//            zipEntry.setCompressedSize(file.length());
-//            zipEntry.setSize(file.length());
-//            zipEntry.setCrc(crc.getValue());
-
-
             zipOutputStream.putNextEntry(zipEntry);
 
             FileInputStream inputStream = new FileInputStream(file);
             System.out.println("file.getAbsolutePath() = " + file.getAbsolutePath() + ", path=" + path);
             copy(inputStream, zipOutputStream,false);
 
-
             zipOutputStream.closeEntry();
             inputStream.close();
         }
     }
 
-    public static void zip(CRC32 crc, File dir, File dest) throws IOException {
+    public static void zip( File dir, File dest ) throws IOException {
         ZipOutputStream zipOutputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(dest)));
-        zipSingleFile(crc, dir, dir, zipOutputStream);
+        zipSingleFile( dir, dir, zipOutputStream);
         zipOutputStream.close();
     }
 
     public static void main(String[] args) throws IOException {
-        zip(new CRC32(), new File("/Users/jdegoes/Desktop/temp-dir"), new File("/Users/jdegoes/Desktop/temp-dir-rezipped.zip"));
+        zip( new File("/Users/jdegoes/Desktop/temp-dir"), new File("/Users/jdegoes/Desktop/temp-dir-rezipped.zip"));
     }
-
-
 }
