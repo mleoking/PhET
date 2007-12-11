@@ -184,23 +184,10 @@ public class FileUtils {
                     FileOutputStream fileOutputStream = new FileOutputStream( targetFile );
 
                     copyAndClose( source, fileOutputStream, false );
-
-                    source.close();
-                    fileOutputStream.close();
                 }
             }
         }
         zipFile.close();
-    }
-
-    public static void testUnzip() throws IOException {
-        final Pattern excludePattern = Pattern.compile( TranslationDiscrepancy.quote( "quantum-tunneling" ) + "[\\\\/]localization[\\\\/]" + TranslationDiscrepancy.quote( "quantum-tunneling" ) + ".*\\.properties" );
-
-        unzip( new File( "/Users/jdegoes/Desktop/quantum-tunneling.jar" ), new File( "/Users/jdegoes/Desktop/temp-dir" ), new FileFilter() {
-            public boolean accept( File file ) {
-                return !excludePattern.matcher( file.getAbsolutePath() ).find();
-            }
-        } );
     }
 
     public static void jarSingleFile( File rootDir, File file, ZipOutputStream zipOutputStream ) throws IOException {
@@ -227,9 +214,10 @@ public class FileUtils {
             FileInputStream inputStream = new FileInputStream( file );
 //            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() + ", path=" + path );
             copy( inputStream, zipOutputStream, false );
+            inputStream.close();
 
             zipOutputStream.closeEntry();
-            inputStream.close();
+
         }
     }
 
@@ -242,6 +230,18 @@ public class FileUtils {
     }
 
     public static void main( String[] args ) throws IOException {
-        jar( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025-rezip4.jar" ) );
+//        jar( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025-rezip4.jar" ) );
+        testUnzip();
     }
+
+    public static void testUnzip() throws IOException {
+        final Pattern excludePattern = Pattern.compile( TranslationDiscrepancy.quote( "quantum-tunneling" ) + "[\\\\/]localization[\\\\/]" + TranslationDiscrepancy.quote( "quantum-tunneling" ) + ".*\\.properties" );
+
+        unzip( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\soluble-salts40662.jar" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\soluble-salts40662-test-unzip-8" ), new FileFilter() {
+            public boolean accept( File file ) {
+                return !excludePattern.matcher( file.getAbsolutePath() ).find();
+            }
+        } );
+    }
+
 }
