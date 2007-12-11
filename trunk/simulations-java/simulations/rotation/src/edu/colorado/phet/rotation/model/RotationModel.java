@@ -140,4 +140,8 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     public static TimeSeriesFactory getTimeSeriesFactory() {
         return timeSeriesFactory;
     }
+
+    public void startRecording() {
+        getTimeSeriesModel().startRecording();
+    }
 }

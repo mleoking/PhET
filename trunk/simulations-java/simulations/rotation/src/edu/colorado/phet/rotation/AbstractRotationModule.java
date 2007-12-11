@@ -86,7 +86,7 @@ public abstract class AbstractRotationModule extends PiccoloModule {
         }
     }
 
-    private boolean clockPaused = false;
+    private boolean clockPaused = true;
 
     public void deactivate() {
         this.clockPaused = getClock().isPaused();
