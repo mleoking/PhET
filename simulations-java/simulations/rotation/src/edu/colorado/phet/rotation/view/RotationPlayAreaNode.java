@@ -5,6 +5,8 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.io.IOException;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
@@ -29,6 +31,7 @@ public class RotationPlayAreaNode extends PNode {
     private PNode vectorLayer = new PNode();
     private RotationOriginNode originNode;
     private RotationRulerNode rulerNode;
+    private PauseNode pauseNode = new PauseNode();
 
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
@@ -65,6 +68,22 @@ public class RotationPlayAreaNode extends PNode {
         addChild( rulerNode );
 
         addChild( circularMotionNode );
+        pauseNode.setScale( SCALE * 3.5 );
+        pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS - pauseNode.getFullBounds().getHeight() );
+        rotationModel.getClock().addClockListener( new ClockAdapter() {
+            public void clockPaused( ClockEvent clockEvent ) {
+                updatePauseNode();
+            }
+
+            public void clockStarted( ClockEvent clockEvent ) {
+                updatePauseNode();
+            }
+        } );
+        addChild( pauseNode );
+    }
+
+    private void updatePauseNode() {
+        pauseNode.setVisible( rotationModel.getClock().isPaused() );
     }
 
     private void addFlowerNodes( RotationModel rotationModel ) {
