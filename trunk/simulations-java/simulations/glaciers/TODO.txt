@@ -21,6 +21,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/11/07 - add draggable tools to the canvas, no way to delete them yet
 12/11/07 - first pass at ToolboxNode, no interactivity yet
 12/10/07 - add all strings shown in design doc to localization file
 12/10/07 - rename equilibrium button
