@@ -423,7 +423,7 @@ public class PhetProject {
     }
 
     /*
-     * Returns an array of the 2-character locale codes supported by this application (the empty string represents the default locale).
+     * Returns an array of the 2-character locale codes supported by this application.
      */
     public Locale[] getLocales() {
         File localeDir = getLocalizationDir();
