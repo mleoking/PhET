@@ -44,7 +44,7 @@ public class ViewControlPanel extends JPanel {
         
         _listenerList = new ArrayList();
         
-        _equilibriumLineCheckBox = new JCheckBox( GlaciersResources.getString( "view.checkBox.equilibriumLine" ) );
+        _equilibriumLineCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.equilibriumLine" ) );
         _equilibriumLineCheckBox.setFont( controlFont );
         _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
         _equilibriumLineCheckBox.addActionListener( new ActionListener() {
@@ -53,7 +53,7 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _iceFlowCheckBox = new JCheckBox( GlaciersResources.getString( "view.checkBox.iceFlow" ) );
+        _iceFlowCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.iceFlow" ) );
         _iceFlowCheckBox.setFont( controlFont );
         _iceFlowCheckBox.setForeground( CONTROL_COLOR );
         _iceFlowCheckBox.addActionListener( new ActionListener() {
@@ -62,7 +62,7 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _snowfallCheckBox = new JCheckBox( GlaciersResources.getString( "view.checkBox.snowfall" ) );
+        _snowfallCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.snowfall" ) );
         _snowfallCheckBox.setFont( controlFont );
         _snowfallCheckBox.setForeground( CONTROL_COLOR );
         _snowfallCheckBox.addActionListener( new ActionListener() {
@@ -71,7 +71,7 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _coordinatesCheckBox = new JCheckBox( GlaciersResources.getString( "view.checkBox.coordinates" ) );
+        _coordinatesCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.coordinates" ) );
         _coordinatesCheckBox.setFont( controlFont );
         _coordinatesCheckBox.setForeground( CONTROL_COLOR );
         _coordinatesCheckBox.addActionListener( new ActionListener() {
@@ -80,7 +80,7 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _ageOfIceCheckBox = new JCheckBox( GlaciersResources.getString( "view.checkBox.ageOfIce" ) );
+        _ageOfIceCheckBox = new JCheckBox( GlaciersResources.getString( "checkBox.ageOfIce" ) );
         _ageOfIceCheckBox.setFont( controlFont );
         _ageOfIceCheckBox.setForeground( CONTROL_COLOR );
         _ageOfIceCheckBox.addActionListener( new ActionListener() {
@@ -90,7 +90,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersResources.getString( "view.title" ) );
+        TitledBorder titledBorder = new TitledBorder( GlaciersResources.getString( "title.view" ) );
         titledBorder.setTitleFont( titleFont );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
