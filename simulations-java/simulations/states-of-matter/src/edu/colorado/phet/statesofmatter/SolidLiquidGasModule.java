@@ -9,7 +9,7 @@ public class SolidLiquidGasModule extends Module {
     private MultipleParticleModel model;
 
     protected SolidLiquidGasModule() {
-        super("Solid, Liquid, Gas", new ConstantDtClock(10, 1.0));
+        super("Solid, Liquid, Gas", new ConstantDtClock(10, StatesOfMatterConfig.TIME_PER_TICK));
 
         this.model = new MultipleParticleModel(getClock());
 

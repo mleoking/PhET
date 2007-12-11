@@ -7,11 +7,11 @@ import edu.colorado.phet.statesofmatter.model.container.RectangularParticleConta
 
 public class EngineConfig implements PubliclyCloneable {
     public static final EngineConfig TEST = new EngineConfig(
-        -150,
+        StatesOfMatterConfig.GRAVITY,
         new RectangularParticleContainer(StatesOfMatterConfig.CONTAINER_BOUNDS),
-        1.0,
-        2.0 * StatesOfMatterConfig.PARTICLE_RADIUS,
-        0.000001
+        StatesOfMatterConfig.EPSILON,
+        StatesOfMatterConfig.RMIN,
+        StatesOfMatterConfig.DELTA_T
     );
 
     public double gravity;
@@ -19,9 +19,6 @@ public class EngineConfig implements PubliclyCloneable {
     public double epsilon;
     public double rMin;
     public double deltaT;
-
-    public EngineConfig() {
-    }
 
     public EngineConfig(double gravity, ParticleContainer container, double epsilon, double rmin, double deltaT) {
         this.gravity   = gravity;

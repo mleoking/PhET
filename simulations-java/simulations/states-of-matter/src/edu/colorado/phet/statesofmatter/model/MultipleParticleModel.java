@@ -52,7 +52,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
         KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
 
-        adjuster.adjust(particles, targetKineticEnergy);        
+        adjuster.adjust(particles, targetKineticEnergy);
 
         totalEnergy = engineFacade.measureKineticEnergy() + engineFacade.measurePotentialEnergy();
     }
