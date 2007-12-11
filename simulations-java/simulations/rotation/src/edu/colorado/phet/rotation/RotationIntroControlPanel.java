@@ -30,7 +30,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( -Math.PI * 2 * 2, Math.PI * 2 * 2, 0.0, RotationStrings.getString( "variable.angle" ), "0.00", "units.radians" );
+        final LinearValueControl linearSlider = new LinearValueControl( -Math.PI * 2 * 2, Math.PI * 2 * 2, 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.radians"));
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
