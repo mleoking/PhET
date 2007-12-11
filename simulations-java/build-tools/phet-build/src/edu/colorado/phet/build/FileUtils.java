@@ -220,6 +220,7 @@ public class FileUtils {
     }
 
     public static void zip( File dir, File dest ) throws IOException {
+        System.out.println( "FileUtils.zip: dir="+dir.getAbsolutePath()+", dest="+dest.getAbsolutePath() );
         ZipOutputStream zipOutputStream = new ZipOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) );
         zipSingleFile( dir, dir, zipOutputStream );
         zipOutputStream.close();
