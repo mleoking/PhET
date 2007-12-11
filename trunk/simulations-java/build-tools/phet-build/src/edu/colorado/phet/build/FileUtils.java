@@ -14,6 +14,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import edu.colorado.phet.build.translate.TranslationDiscrepancy;
+
 public class FileUtils extends TestCase {
     private static String DEFAULT_ENCODING = "utf-8";
 
@@ -186,7 +188,7 @@ public class FileUtils extends TestCase {
     }
 
     public static void testUnzip() throws IOException {
-        final Pattern excludePattern = Pattern.compile(Pattern.quote("quantum-tunneling") + "[\\\\/]localization[\\\\/]" + Pattern.quote("quantum-tunneling") + ".*\\.properties");
+        final Pattern excludePattern = Pattern.compile( TranslationDiscrepancy.quote("quantum-tunneling") + "[\\\\/]localization[\\\\/]" + TranslationDiscrepancy.quote("quantum-tunneling") + ".*\\.properties");
 
         unzip(new File("/Users/jdegoes/Desktop/quantum-tunneling.jar"), new File("/Users/jdegoes/Desktop/temp-dir"), new FileFilter() {
             public boolean accept(File file) {

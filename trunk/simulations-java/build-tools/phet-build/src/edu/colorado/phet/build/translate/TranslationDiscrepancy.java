@@ -46,7 +46,8 @@ public class TranslationDiscrepancy {
     }
 
     public void resolve(File resolveJAR) throws IOException {
-        final Pattern excludePattern = Pattern.compile(Pattern.quote(phetProject.getName()) + "[\\\\/]localization[\\\\/]" + Pattern.quote(phetProject.getName()) + ".*\\.properties");
+//        final Pattern excludePattern = Pattern.compile(Pattern.quote(phetProject.getName()) + "[\\\\/]localization[\\\\/]" + Pattern.quote(phetProject.getName()) + ".*\\.properties");
+        final Pattern excludePattern = Pattern.compile(quote(phetProject.getName()) + "[\\\\/]localization[\\\\/]" + quote(phetProject.getName()) + ".*\\.properties");
 
         String deployUrl = phetProject.getDeployedFlavorJarURL(flavor);
 
@@ -77,5 +78,13 @@ public class TranslationDiscrepancy {
             FileUtils.copyTo(source, new File(localizationDir, source.getName()));
         }
         FileUtils.zip(new CRC32(), localizationDir,resolveJAR);
+    }
+
+    //http://www.exampledepot.com/egs/java.util.regex/Escape.html
+    public static String quote( String name ) {
+        if (name.toLowerCase().indexOf( "\\e")>0){
+            throw new RuntimeException( "Quote method will fail");
+        }
+        return "\\Q"+name+"\\E";
     }
 }
