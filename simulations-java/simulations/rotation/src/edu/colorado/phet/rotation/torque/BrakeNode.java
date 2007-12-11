@@ -25,6 +25,7 @@ public class BrakeNode extends PNode {
     private RotationPlatform rotationPlatform;
     private TorqueModel torqueModel;
     private PNode im;
+    private double BRAKE_SCALE=5;
 
     public BrakeNode( final RotationPlatform rotationPlatform, final TorqueModel torqueModel ) {
         this.rotationPlatform = rotationPlatform;
@@ -72,6 +73,7 @@ public class BrakeNode extends PNode {
                         appliedBrake = 0;
                     }
 //                    torqueModel.setBrakePressure( Math.min( appliedBrake, FullTorqueControlPanel.MAX_BRAKE ) );
+                    appliedBrake=appliedBrake*BRAKE_SCALE;
                     torqueModel.setBrakePressure( MathUtil.clamp( FullTorqueControlPanel.MIN_BRAKE, appliedBrake, FullTorqueControlPanel.MAX_BRAKE ) );
                 }
             }
