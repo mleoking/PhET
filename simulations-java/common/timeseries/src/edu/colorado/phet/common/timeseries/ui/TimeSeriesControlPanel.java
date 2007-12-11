@@ -2,7 +2,6 @@ package edu.colorado.phet.common.timeseries.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -14,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
 /**
@@ -52,44 +50,39 @@ public class TimeSeriesControlPanel extends JPanel {
 
 
         add( timeSpeedSlider );
-        try {
 
-            recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{"REC", "Pause"},
-                                                 new Icon[]{
-                                                         new ImageIcon( ImageLoader.loadBufferedImage( "timeseries/images/icons/record24.gif" ) ),
-                                                         loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )
-                                                 } );
-            recordButton.addActionListener( KEY_REC, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    timeSeriesModel.setRecordMode();
-                    clock.start();
-                    notifyRecordButtonPressed();
-                }
-            } );
-            recordButton.addActionListener( KEY_PAUSE_REC, new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    clock.pause();
-                }
-            } );
-            add( recordButton );
-            timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
-                public void modeChanged() {
-                    updateRecordButton();
-                }
-            } );
-            clock.addClockListener( new ClockAdapter() {
-                public void clockPaused( ClockEvent clockEvent ) {
-                    updateRecordButton();
-                }
+        recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{"Go!", "Stop"},
+                                             new Icon[]{
+                                                     new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/go.png" ) ),
+                                                     new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/stop.png" ) )
+                                             } );
+        recordButton.addActionListener( KEY_REC, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                timeSeriesModel.setRecordMode();
+                clock.start();
+                notifyRecordButtonPressed();
+            }
+        } );
+        recordButton.addActionListener( KEY_PAUSE_REC, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                clock.pause();
+            }
+        } );
+        add( recordButton );
+        timeSeriesModel.addListener( new TimeSeriesModel.Adapter() {
+            public void modeChanged() {
+                updateRecordButton();
+            }
+        } );
+        clock.addClockListener( new ClockAdapter() {
+            public void clockPaused( ClockEvent clockEvent ) {
+                updateRecordButton();
+            }
 
-                public void clockStarted( ClockEvent clockEvent ) {
-                    updateRecordButton();
-                }
-            } );
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
-        }
+            public void clockStarted( ClockEvent clockEvent ) {
+                updateRecordButton();
+            }
+        } );
 
         playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{"Playback", "Pause"}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
         playbackButton.addActionListener( KEY_PLAYBACK, new ActionListener() {

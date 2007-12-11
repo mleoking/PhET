@@ -15,6 +15,9 @@ import edu.colorado.phet.rotation.model.RotationBody;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.event.PInputEventListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
@@ -35,6 +38,16 @@ public class RotationPlayAreaNode extends PNode {
 
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
+
+    PInputEventListener startSimWhenInteracting = new PBasicInputEventHandler() {
+        public void mouseDragged( PInputEvent event ) {
+            rotationModel.startRecording();
+        }
+//
+//            public void mousePressed( PInputEvent event ) {
+//                super.mousePressed( event );
+//            }
+    };
 
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
@@ -79,7 +92,10 @@ public class RotationPlayAreaNode extends PNode {
                 updatePauseNode();
             }
         } );
+        updatePauseNode();
         addChild( pauseNode );
+
+        rotationPlatformNode.addInputEventListener( startSimWhenInteracting );
     }
 
     private void updatePauseNode() {
@@ -144,7 +160,9 @@ public class RotationPlayAreaNode extends PNode {
     }
 
     private void addRotationBodyNode( RotationBody rotationBody ) {
-        rotationBodyLayer.addChild( new RotationBodyNode( rotationModel, rotationBody ) );
+        final RotationBodyNode child = new RotationBodyNode( rotationModel, rotationBody );
+        child.addInputEventListener( startSimWhenInteracting );
+        rotationBodyLayer.addChild( child );
     }
 
     public RulerNode getRulerNode() {

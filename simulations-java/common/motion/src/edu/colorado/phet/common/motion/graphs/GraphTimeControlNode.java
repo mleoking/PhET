@@ -2,12 +2,11 @@ package edu.colorado.phet.common.motion.graphs;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.MotionResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
+import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -144,12 +143,7 @@ public class GraphTimeControlNode extends PNode {
         private void setGoButton( boolean go ) {
             this.goButton = go;
             setText( goButton ? "Go!" : "Stop" );
-            try {
-                setIcon( new ImageIcon( MotionResources.loadBufferedImage( goButton ? "go.png" : "stop.png" ) ) );
-            }
-            catch( IOException e ) {
-                e.printStackTrace();
-            }
+            setIcon( new ImageIcon( TimeseriesResources.loadBufferedImage( goButton ? "icons/go.png" : "icons/stop.png" ) ) );
         }
 
         private boolean isGoButton() {
