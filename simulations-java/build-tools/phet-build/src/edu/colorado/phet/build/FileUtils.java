@@ -11,10 +11,19 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.tools.ant.Project;
+import org.apache.tools.ant.ProjectHelper;
+
 import edu.colorado.phet.build.translate.TranslationDiscrepancy;
 
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
+
+    public static final File getTmpDir() {
+        final File file = new File( System.getProperty( "java.io.tmpdir" ) );
+        file.mkdirs();
+        return file;
+    }
 
     public static String loadFileAsString( File file ) throws IOException {
         return loadFileAsString( file, DEFAULT_ENCODING );
