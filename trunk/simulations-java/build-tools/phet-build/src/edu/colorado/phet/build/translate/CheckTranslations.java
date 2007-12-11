@@ -117,6 +117,8 @@ public class CheckTranslations {
                     translations.add( new Locale( translation ) );
                 }
             }
+            //assume all jars always contain english, even though currently uses a different standard
+            translations.add( new Locale( "en" ) );
             return (Locale[]) translations.toArray( new Locale[translations.size()] );
         }
         else {
