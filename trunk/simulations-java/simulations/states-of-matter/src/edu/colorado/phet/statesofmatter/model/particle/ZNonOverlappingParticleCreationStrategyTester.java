@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
+    private static final double CUSHION = 0.05;
+
     public void setUp() {
-        strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS);
+        strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS, CUSHION);
     }
 
     public void testThatParticlesDoNotOverlap() {
@@ -24,7 +26,7 @@ public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParti
 
                 double dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS);
+                assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS + CUSHION - 0.0001);
             }
 
             particles.add(p1);

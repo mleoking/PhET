@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class ZBoundedParticleCreationStrategyTester extends TestCase {
-    protected static final int NUM_PARTICLES_TO_TEST = 500;
+    protected static final int NUM_PARTICLES_TO_TEST = 300;
     protected static final double PARTICLE_RADIUS = 0.1;
 
     protected volatile ParticleCreationStrategy strategy;
