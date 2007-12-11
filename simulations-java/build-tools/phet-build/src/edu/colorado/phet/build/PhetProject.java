@@ -519,6 +519,6 @@ public class PhetProject {
 
     public File getTranslationFile( Locale locale ) {
         String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
-        return new File( projectDir, "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
+        return new File( projectDir, "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
     }
 }
