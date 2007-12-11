@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
+import com.jcraft.jsch.JSchException;
+
 public class TranslationDiscrepancy {
     private final Set extraLocal;
     private final Set extraRemote;
@@ -44,17 +46,45 @@ public class TranslationDiscrepancy {
         return "need to be removed from remote jar: " + extraRemote + ", " + "need to be added to remote jar: " + extraLocal + " ";
     }
 
+    public void resolve() {
+        try {
+            File resolveJAR = new File( getTmpDir(), flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
+            resolve( resolveJAR );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getTmpDir() {
+        final File file = new File( System.getProperty( "java.io.tmpdir" ) );
+        file.mkdirs();
+        return file;
+    }
+
     public void resolve( File resolveJAR ) throws IOException {
+        File jarFile = downloadJAR();
+        System.out.println( "Downloaded Jar file: "+jarFile.getAbsolutePath() );
+        synchronizeStrings( jarFile, resolveJAR );
+
+        try {
+            uploadJAR( resolveJAR );
+        }
+        catch( JSchException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private void uploadJAR( File resolveJAR ) throws JSchException, IOException {
+        ScpTo.uploadFile( resolveJAR, "reids", "tigercat.colorado.edu", "/home/tigercat/phet/reids/" + resolveJAR.getName() );
+    }
+
+    private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
+        File tempUnzipDir = new File(getTmpDir(),flavor + "-dir");
+        System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
+        tempUnzipDir.mkdirs();
+
         final Pattern excludePattern = Pattern.compile( quote( phetProject.getName() ) + "[\\\\/]localization[\\\\/]" + quote( phetProject.getName() ) + ".*\\.properties" );
-
-        String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
-
-        File jarFile = File.createTempFile( flavor, ".jar" );
-
-        FileDownload.download( deployUrl, jarFile );
-
-        File tempUnzipDir = File.createTempFile( flavor + "-dir", "" );
-
         FileUtils.unzip( jarFile, tempUnzipDir, new FileFilter() {
             public boolean accept( File file ) {
                 return !excludePattern.matcher( file.getAbsolutePath() ).find();
@@ -74,6 +104,15 @@ public class TranslationDiscrepancy {
         FileUtils.zip( localizationDir, resolveJAR );
     }
 
+    private File downloadJAR() throws IOException {
+        String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
+
+        File jarFile = File.createTempFile( flavor, ".jar" );
+
+        FileDownload.download( deployUrl, jarFile );
+        return jarFile;
+    }
+
     //http://www.exampledepot.com/egs/java.util.regex/Escape.html
     public static String quote( String name ) {
         if ( name.toLowerCase().indexOf( "\\e" ) > 0 ) {
@@ -81,4 +120,5 @@ public class TranslationDiscrepancy {
         }
         return "\\Q" + name + "\\E";
     }
+
 }
