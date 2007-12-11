@@ -13,16 +13,16 @@ public class InvokeAntTask {
     public static void main( String[] args ) {
         Project project = new Project();
         project.init();
-        ProjectHelper ph = ProjectHelper.getProjectHelper();
-        project.addReference( "ant.projectHelper", ph );
-
-        Echo task = new Echo();
-        task.setOwningTarget( new Target() );
-        task.setMessage( "hello ant" );
-        task.setProject( project );
-        task.init();
-        task.execute();
-
-        System.out.println( "Task execute finished" );
+//        ProjectHelper ph = ProjectHelper.getProjectHelper();
+//        project.addReference( "ant.projectHelper", ph );
+//
+//        Echo task = new Echo();
+//        task.setOwningTarget( new Target() );
+//        task.setMessage( "hello ant" );
+//        task.setProject( project );
+//        task.init();
+//        task.execute();
+//
+//        System.out.println( "Task execute finished" );
     }
 }
