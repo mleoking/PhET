@@ -441,6 +441,7 @@ public class PhetProject {
                 locales.add( new Locale( languageCode ) );
             }
         }
+        locales.add( new Locale( "en" ) );
         return (Locale[]) locales.toArray( new Locale[0] );
     }
 

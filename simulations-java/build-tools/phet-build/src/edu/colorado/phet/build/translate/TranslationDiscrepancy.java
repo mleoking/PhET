@@ -94,8 +94,12 @@ public class TranslationDiscrepancy {
 
         localizationDir.mkdir();
 
-        for ( Iterator iterator = extraLocal.iterator(); iterator.hasNext(); ) {
-            Locale locale = (Locale) iterator.next();
+        Locale[]locales=phetProject.getLocales();
+        for ( int i = 0; i < locales.length; i++ ) {
+            Locale locale = locales[i];
+            
+//        for ( Iterator iterator = extraLocal.iterator(); iterator.hasNext(); ) {
+//            Locale locale = (Locale) iterator.next();
 
             File source = phetProject.getTranslationFile( locale );
             FileUtils.copyTo( source, new File( localizationDir, source.getName() ) );
