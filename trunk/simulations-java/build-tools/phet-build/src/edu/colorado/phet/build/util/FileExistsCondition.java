@@ -1,9 +1,9 @@
 package edu.colorado.phet.build.util;
 
-import org.apache.tools.ant.taskdefs.condition.Condition;
-import org.apache.tools.ant.BuildException;
-
 import java.io.File;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.condition.Condition;
 
 /**
  * Author: Sam Reid
@@ -21,6 +21,6 @@ public class FileExistsCondition implements Condition {
     }
 
     public boolean eval() throws BuildException {
-        return file!=null&&new File(file).exists();
+        return file != null && new File( file ).exists();
     }
 }

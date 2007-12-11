@@ -1,9 +1,9 @@
 package edu.colorado.phet.build;
 
+import java.io.File;
+
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Echo;
-
-import java.io.File;
 
 /**
  * Author: Sam Reid
@@ -12,13 +12,13 @@ import java.io.File;
 public class PhetBuildAllSimJarTask extends PhetAllSimTask {
 
     public void execute() throws BuildException {
-        String[] sims = PhetProject.getSimNames(getBaseDir());
+        String[] sims = PhetProject.getSimNames( getBaseDir() );
         String SIMS = "";
-        for( int i = 0; i < sims.length; i++ ) {
+        for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
             SIMS += sim;
-            if (i<sims.length-1){
-                SIMS+=" : ";
+            if ( i < sims.length - 1 ) {
+                SIMS += " : ";
             }
         }
 
@@ -29,38 +29,38 @@ public class PhetBuildAllSimJarTask extends PhetAllSimTask {
                           "project.description=\n" +
                           "project.screenshot=\n";
 
-        PhetProject[] phetProjects = PhetProject.getAllProjects(getBaseDir());
+        PhetProject[] phetProjects = PhetProject.getAllProjects( getBaseDir() );
 
-        for( int i = 0; i < phetProjects.length; i++ ) {
+        for ( int i = 0; i < phetProjects.length; i++ ) {
             PhetProject phetProject = phetProjects[i];
 
             String sim = phetProject.getName();
 
-            template+="\n# Simulation entry for "+sim+"\n";
+            template += "\n# Simulation entry for " + sim + "\n";
 
             PhetProjectFlavor[] f = phetProject.getFlavors();
 
-            for( int j = 0; j < f.length; j++ ) {
+            for ( int j = 0; j < f.length; j++ ) {
                 PhetProjectFlavor phetProjectFlavor = f[j];
                 String flavorname = sim + "_" + phetProjectFlavor.getFlavorName();
                 template += "project.flavor." + flavorname + ".mainclass=" + phetProjectFlavor.getMainclass() + "\n" +
-                            "project.flavor." + flavorname + ".args=" + toArgsList( phetProjectFlavor.getArgs() )+"\n";
+                            "project.flavor." + flavorname + ".args=" + toArgsList( phetProjectFlavor.getArgs() ) + "\n";
             }
         }
         System.out.println( "template=\n" + template );
-        Echo echo=new Echo();
-        echo.setFile( new File( getProject().getBaseDir(),"simulations/all-sims/all-sims-build.properties") );
+        Echo echo = new Echo();
+        echo.setFile( new File( getProject().getBaseDir(), "simulations/all-sims/all-sims-build.properties" ) );
         echo.setMessage( template );
         runTask( echo );
 
-        PhetBuildTask buildTask=new PhetBuildTask();
-        buildTask.setProject( "all-sims");
+        PhetBuildTask buildTask = new PhetBuildTask();
+        buildTask.setProject( "all-sims" );
         runTask( buildTask );
     }
 
     private String toArgsList( String[] args ) {
         String str = "";
-        for( int i = 0; i < args.length; i++ ) {
+        for ( int i = 0; i < args.length; i++ ) {
             String arg = args[i];
             str += arg + " ";
         }

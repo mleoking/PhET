@@ -1,12 +1,12 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
+
+import org.apache.tools.ant.BuildException;
 
 /**
  * Author: Sam Reid
@@ -20,22 +20,22 @@ public class PhetProject {
     private final Properties properties;
     private final String name;
 
-    public PhetProject(File projectRoot) throws IOException {
-        this(projectRoot.getParentFile(), projectRoot.getName());
+    public PhetProject( File projectRoot ) throws IOException {
+        this( projectRoot.getParentFile(), projectRoot.getName() );
     }
 
-    public PhetProject(File parentDir, String name) throws IOException {
+    public PhetProject( File parentDir, String name ) throws IOException {
         this.name = name;
-        this.projectDir = new File(parentDir, name);
+        this.projectDir = new File( parentDir, name );
         this.properties = new Properties();
 
-        File propertyFile = PhetBuildUtils.getBuildPropertiesFile(projectDir, name);
+        File propertyFile = PhetBuildUtils.getBuildPropertiesFile( projectDir, name );
 
-        this.properties.load(new BufferedInputStream(new FileInputStream(propertyFile)));
+        this.properties.load( new BufferedInputStream( new FileInputStream( propertyFile ) ) );
     }
 
     public File getDefaultDeployDir() {
-        File file = new File(getProjectDir(), "deploy/");
+        File file = new File( getProjectDir(), "deploy/" );
 
         file.mkdirs();
 
@@ -43,17 +43,17 @@ public class PhetProject {
     }
 
     public File getDefaultDeployJar() {
-        return new File(getDefaultDeployDir(), getName() + ".jar");
+        return new File( getDefaultDeployDir(), getName() + ".jar" );
     }
 
     public File getProjectDir() {
         return projectDir;
     }
 
-    public boolean equals(Object obj) {
-        if (obj instanceof PhetProject) {
-            PhetProject phetProject = (PhetProject)obj;
-            return phetProject.projectDir.equals(projectDir);
+    public boolean equals( Object obj ) {
+        if ( obj instanceof PhetProject ) {
+            PhetProject phetProject = (PhetProject) obj;
+            return phetProject.projectDir.equals( projectDir );
         }
         else {
             return false;
@@ -62,7 +62,7 @@ public class PhetProject {
 
     public File getAntBaseDir() {
 //        return new File( "../../" );
-        return new File(".");
+        return new File( "." );
     }
 
     public String getName() {
@@ -74,43 +74,43 @@ public class PhetProject {
     }
 
     public String getSource() {
-        return properties.getProperty("project.depends.source");
+        return properties.getProperty( "project.depends.source" );
     }
 
     public String getLib() {
-        return properties.getProperty("project.depends.lib");
+        return properties.getProperty( "project.depends.lib" );
     }
 
     public String getData() {
-        return properties.getProperty("project.depends.data");
+        return properties.getProperty( "project.depends.data" );
     }
 
     public String[] getKeepMains() {
-        String v = properties.getProperty("project.keepmains");
-        if (v == null) {
+        String v = properties.getProperty( "project.keepmains" );
+        if ( v == null ) {
             v = "";
         }
-        return split(v, ": ");
+        return split( v, ": " );
     }
 
     private File[] getDataDirectories() {
-        return expandPath(getData());
+        return expandPath( getData() );
     }
 
     public File[] getJarFiles() {
-        ArrayList all = new ArrayList(Arrays.asList(expandPath(getLib())));
-        for (int i = 0; i < all.size(); i++) {
-            File file = (File)all.get(i);
-            if (isProject(file)) {
-                all.remove(i);
+        ArrayList all = new ArrayList( Arrays.asList( expandPath( getLib() ) ) );
+        for ( int i = 0; i < all.size(); i++ ) {
+            File file = (File) all.get( i );
+            if ( isProject( file ) ) {
+                all.remove( i );
                 i--;
             }
         }
-        return (File[])all.toArray(new File[0]);
+        return (File[]) all.toArray( new File[0] );
     }
 
     public File[] getSourceRoots() {
-        return expandPath(getSource());
+        return expandPath( getSource() );
     }
 
     /**
@@ -123,23 +123,23 @@ public class PhetProject {
     public PhetProject[] getAllDependencies() {
         ArrayList toSearch = new ArrayList();
         ArrayList found = new ArrayList();
-        toSearch.addAll(Arrays.asList(getDependencies()));
-        getAllDependencies(toSearch, found);
-        found.add(this);
-        return (PhetProject[])found.toArray(new PhetProject[0]);
+        toSearch.addAll( Arrays.asList( getDependencies() ) );
+        getAllDependencies( toSearch, found );
+        found.add( this );
+        return (PhetProject[]) found.toArray( new PhetProject[0] );
     }
 
-    private void getAllDependencies(ArrayList toSearch, ArrayList found) {
-        toSearch.addAll(Arrays.asList(getDependencies()));
-        while (toSearch.size() > 0) {
-            PhetProject project = (PhetProject)toSearch.remove(0);
-            if (!found.contains(project)) {
-                found.add(project);
+    private void getAllDependencies( ArrayList toSearch, ArrayList found ) {
+        toSearch.addAll( Arrays.asList( getDependencies() ) );
+        while ( toSearch.size() > 0 ) {
+            PhetProject project = (PhetProject) toSearch.remove( 0 );
+            if ( !found.contains( project ) ) {
+                found.add( project );
                 PhetProject[] dependencies = project.getDependencies();
-                for (int i = 0; i < dependencies.length; i++) {
+                for ( int i = 0; i < dependencies.length; i++ ) {
                     PhetProject dependency = dependencies[i];
-                    if (!found.contains(dependency) && !toSearch.contains(dependency)) {
-                        toSearch.add(dependency);
+                    if ( !found.contains( dependency ) && !toSearch.contains( dependency ) ) {
+                        toSearch.add( dependency );
                     }
                 }
             }
@@ -153,153 +153,153 @@ public class PhetProject {
      */
     public PhetProject[] getDependencies() {
         ArrayList projects = new ArrayList();
-        File[] path = expandPath(getLib());
-        for (int i = 0; i < path.length; i++) {
+        File[] path = expandPath( getLib() );
+        for ( int i = 0; i < path.length; i++ ) {
             File file = path[i];
-            if (file.exists() && isProject(file)) {
+            if ( file.exists() && isProject( file ) ) {
                 try {
-                    projects.add(new PhetProject(file));
+                    projects.add( new PhetProject( file ) );
                 }
-                catch (IOException e) {
+                catch( IOException e ) {
                     e.printStackTrace();
                 }
             }
         }
-        return (PhetProject[])projects.toArray(new PhetProject[0]);
+        return (PhetProject[]) projects.toArray( new PhetProject[0] );
     }
 
-    private boolean isProject(File file) {
-        if (!file.exists() || !file.isDirectory()) {
+    private boolean isProject( File file ) {
+        if ( !file.exists() || !file.isDirectory() ) {
             return false;
         }
-        return new File(file, file.getName() + "-build.properties").exists();
+        return new File( file, file.getName() + "-build.properties" ).exists();
     }
 
-    private String[] split(String str, String delimiters) {
+    private String[] split( String str, String delimiters ) {
         ArrayList out = new ArrayList();
-        StringTokenizer stringTokenizer = new StringTokenizer(str, delimiters);
-        while (stringTokenizer.hasMoreTokens()) {
-            out.add(stringTokenizer.nextToken());
+        StringTokenizer stringTokenizer = new StringTokenizer( str, delimiters );
+        while ( stringTokenizer.hasMoreTokens() ) {
+            out.add( stringTokenizer.nextToken() );
         }
-        return (String[])out.toArray(new String[0]);
+        return (String[]) out.toArray( new String[0] );
     }
 
-    private File[] expandPath(String lib) {
+    private File[] expandPath( String lib ) {
         ArrayList files = new ArrayList();
-        StringTokenizer stringTokenizer = new StringTokenizer(lib, ": ");
-        while (stringTokenizer.hasMoreTokens()) {
+        StringTokenizer stringTokenizer = new StringTokenizer( lib, ": " );
+        while ( stringTokenizer.hasMoreTokens() ) {
             String token = stringTokenizer.nextToken();
-            File path = searchPath(token);
-            files.add(path);
+            File path = searchPath( token );
+            files.add( path );
         }
-        return (File[])files.toArray(new File[0]);
+        return (File[]) files.toArray( new File[0] );
     }
 
-    private File searchPath(String token) {
-        File commonProject = new File(getAntBaseDir(), "common/" + token);
-        if (commonProject.exists() && isProject(commonProject)) {
+    private File searchPath( String token ) {
+        File commonProject = new File( getAntBaseDir(), "common/" + token );
+        if ( commonProject.exists() && isProject( commonProject ) ) {
             return commonProject;
         }
-        File contribPath = new File(getAntBaseDir(), "contrib/" + token);
-        if (contribPath.exists()) {
+        File contribPath = new File( getAntBaseDir(), "contrib/" + token );
+        if ( contribPath.exists() ) {
             return contribPath;
         }
-        File path = new File(projectDir, token);
-        if (path.exists()) {
+        File path = new File( projectDir, token );
+        if ( path.exists() ) {
             return path;
         }
-        File commonPathNonProject = new File(getAntBaseDir(), "common/" + token);
-        if (commonPathNonProject.exists()) {
+        File commonPathNonProject = new File( getAntBaseDir(), "common/" + token );
+        if ( commonPathNonProject.exists() ) {
             return commonPathNonProject;
         }
-        File simProject = new File(getAntBaseDir(), "simulations/" + token);
-        if (simProject.exists() && isProject(simProject)) {
+        File simProject = new File( getAntBaseDir(), "simulations/" + token );
+        if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
-        throw new RuntimeException("No path found for token=" + token + ", in project=" + this);
+        throw new RuntimeException( "No path found for token=" + token + ", in project=" + this );
     }
 
     public File[] getAllSourceRoots() {
         PhetProject[] dependencies = getAllDependencies();
         ArrayList srcDirs = new ArrayList();
-        for (int i = 0; i < dependencies.length; i++) {
+        for ( int i = 0; i < dependencies.length; i++ ) {
             PhetProject dependency = dependencies[i];
             File[] jf = dependency.getSourceRoots();
-            for (int j = 0; j < jf.length; j++) {
+            for ( int j = 0; j < jf.length; j++ ) {
                 File file = jf[j];
-                if (!srcDirs.contains(file)) {
-                    srcDirs.add(file);
+                if ( !srcDirs.contains( file ) ) {
+                    srcDirs.add( file );
                 }
             }
         }
-        return (File[])srcDirs.toArray(new File[0]);
+        return (File[]) srcDirs.toArray( new File[0] );
     }
 
     public File[] getAllDataDirectories() {
         PhetProject[] all = getAllDependencies();
         ArrayList jarFiles = new ArrayList();
 
-        for (int i = 0; i < all.length; i++) {
+        for ( int i = 0; i < all.length; i++ ) {
             PhetProject phetProject = all[i];
             File[] jf = phetProject.getDataDirectories();
-            for (int j = 0; j < jf.length; j++) {
+            for ( int j = 0; j < jf.length; j++ ) {
                 File file = jf[j];
-                if (!jarFiles.contains(file)) {
-                    jarFiles.add(file);
+                if ( !jarFiles.contains( file ) ) {
+                    jarFiles.add( file );
                 }
             }
         }
-        return (File[])jarFiles.toArray(new File[0]);
+        return (File[]) jarFiles.toArray( new File[0] );
     }
 
     public File[] getAllJarFiles() {
         PhetProject[] all = getAllDependencies();
         ArrayList jarFiles = new ArrayList();
 
-        for (int i = 0; i < all.length; i++) {
+        for ( int i = 0; i < all.length; i++ ) {
             PhetProject phetProject = all[i];
             File[] jf = phetProject.getJarFiles();
-            for (int j = 0; j < jf.length; j++) {
+            for ( int j = 0; j < jf.length; j++ ) {
                 File file = jf[j];
-                if (!jarFiles.contains(file)) {
-                    jarFiles.add(file);
+                if ( !jarFiles.contains( file ) ) {
+                    jarFiles.add( file );
                 }
             }
         }
-        return (File[])jarFiles.toArray(new File[0]);
+        return (File[]) jarFiles.toArray( new File[0] );
     }
 
     public File getClassesDirectory() {
-        File file = new File(getAntOutputDir(), "classes");
+        File file = new File( getAntOutputDir(), "classes" );
         file.mkdirs();
         return file;
     }
 
     public File getJarFile() {
-        File file = new File(getAntOutputDir(), "jars/" + name + ".jar");
+        File file = new File( getAntOutputDir(), "jars/" + name + ".jar" );
         file.getParentFile().mkdirs();
         return file;
     }
 
     public File getAntOutputDir() {
-        File destDir = new File(getAntBaseDir(), "ant_output/projects/" + name);
+        File destDir = new File( getAntBaseDir(), "ant_output/projects/" + name );
         destDir.mkdirs();
         return destDir;
     }
 
     public String getMainClass() {
-        return properties.getProperty("project.mainclass");
+        return properties.getProperty( "project.mainclass" );
     }
 
     public String[] getAllMainClasses() {
         HashSet mainClasses = new HashSet();
-        if (getMainClass() != null) {
-            mainClasses.add(getMainClass());
+        if ( getMainClass() != null ) {
+            mainClasses.add( getMainClass() );
         }
 
-        mainClasses.addAll(Arrays.asList(getKeepMains()));
-        mainClasses.addAll(Arrays.asList(getAllFlavorMainClasses()));
-        return (String[])mainClasses.toArray(new String[0]);
+        mainClasses.addAll( Arrays.asList( getKeepMains() ) );
+        mainClasses.addAll( Arrays.asList( getAllFlavorMainClasses() ) );
+        return (String[]) mainClasses.toArray( new String[0] );
     }
 
     /**
@@ -311,24 +311,24 @@ public class PhetProject {
     public String[] getFlavorNames() {
         ArrayList flavorNames = new ArrayList();
         Enumeration e = properties.propertyNames();
-        while (e.hasMoreElements()) {
-            String s = (String)e.nextElement();
+        while ( e.hasMoreElements() ) {
+            String s = (String) e.nextElement();
             String prefix = "project.flavor.";
-            if (s.startsWith(prefix)) {
-                String lastPart = s.substring(prefix.length());
-                int lastIndex = lastPart.indexOf('.');
+            if ( s.startsWith( prefix ) ) {
+                String lastPart = s.substring( prefix.length() );
+                int lastIndex = lastPart.indexOf( '.' );
 //                String flavorName = lastPart.substring( 0, lastIndex - 1 );
-                String flavorName = lastPart.substring(0, lastIndex);
-                if (!flavorNames.contains(flavorName)) {
-                    flavorNames.add(flavorName);
+                String flavorName = lastPart.substring( 0, lastIndex );
+                if ( !flavorNames.contains( flavorName ) ) {
+                    flavorNames.add( flavorName );
                 }
             }
         }
-        if (flavorNames.size() == 0) {
-            flavorNames.add(getName());
+        if ( flavorNames.size() == 0 ) {
+            flavorNames.add( getName() );
         }
 
-        return (String[])flavorNames.toArray(new String[0]);
+        return (String[]) flavorNames.toArray( new String[0] );
     }
 
     /**
@@ -339,8 +339,8 @@ public class PhetProject {
     public PhetProjectFlavor[] getFlavors() {//todo: separate locale-specific from locale dependent?
         String[] flavorNames = getFlavorNames();
         PhetProjectFlavor[] flavors = new PhetProjectFlavor[flavorNames.length];
-        for (int i = 0; i < flavorNames.length; i++) {
-            flavors[i] = getFlavor(flavorNames[i]);
+        for ( int i = 0; i < flavorNames.length; i++ ) {
+            flavors[i] = getFlavor( flavorNames[i] );
         }
         return flavors;
     }
@@ -348,17 +348,17 @@ public class PhetProject {
     private String[] getAllFlavorMainClasses() {
         ArrayList mainClasses = new ArrayList();
         PhetProjectFlavor[] flavors = getFlavors();//see todo: in getFlavors(String)
-        for (int i = 0; i < flavors.length; i++) {
+        for ( int i = 0; i < flavors.length; i++ ) {
             PhetProjectFlavor flavor = flavors[i];
-            if (!mainClasses.contains(flavor.getMainclass())) {
-                mainClasses.add(flavor.getMainclass());
+            if ( !mainClasses.contains( flavor.getMainclass() ) ) {
+                mainClasses.add( flavor.getMainclass() );
             }
         }
-        return (String[])mainClasses.toArray(new String[0]);
+        return (String[]) mainClasses.toArray( new String[0] );
     }
 
-    public PhetProjectFlavor getFlavor(String flavorName) {
-        return getFlavor(flavorName, "en");
+    public PhetProjectFlavor getFlavor( String flavorName ) {
+        return getFlavor( flavorName, "en" );
     }
 
     /**
@@ -366,60 +366,59 @@ public class PhetProject {
      * todo: better error handling for missing attributes (for sims that don't support flavors yet)
      *
      * @param flavorName
-     *
      * @return
      */
-    public PhetProjectFlavor getFlavor(String flavorName, String locale) {
-        String mainclass = properties.getProperty("project.flavor." + flavorName + ".mainclass");
-        if (mainclass == null) {
-            mainclass = properties.getProperty("project.mainclass");
+    public PhetProjectFlavor getFlavor( String flavorName, String locale ) {
+        String mainclass = properties.getProperty( "project.flavor." + flavorName + ".mainclass" );
+        if ( mainclass == null ) {
+            mainclass = properties.getProperty( "project.mainclass" );
         }
-        if (mainclass == null) {
-            throw new RuntimeException("Mainclass was null for project=" + name + ", flavor=" + flavorName);
+        if ( mainclass == null ) {
+            throw new RuntimeException( "Mainclass was null for project=" + name + ", flavor=" + flavorName );
         }
-        String argsString = properties.getProperty("project.flavor." + flavorName + ".args");
-        String[] args = PhetBuildUtils.toStringArray(argsString == null ? "" : argsString, ",");
-        String screenshotPathname = properties.getProperty("project.flavor." + flavorName + ".screenshot");
-        File screenshot = new File(screenshotPathname == null ? "screenshot.gif" : screenshotPathname);
+        String argsString = properties.getProperty( "project.flavor." + flavorName + ".args" );
+        String[] args = PhetBuildUtils.toStringArray( argsString == null ? "" : argsString, "," );
+        String screenshotPathname = properties.getProperty( "project.flavor." + flavorName + ".screenshot" );
+        File screenshot = new File( screenshotPathname == null ? "screenshot.gif" : screenshotPathname );
 
         //If we reuse PhetResources class, we should move Proguard usage out, so GPL doesn't virus over
         Properties localizedProperties = new Properties();
         try {
-            File localizationFile = getLocalizationFile(locale);
+            File localizationFile = getLocalizationFile( locale );
             String title = null;
             String description = null;
-            if (localizationFile.exists()) {
-                localizedProperties.load(new FileInputStream(localizationFile));//todo: handle locale (graceful support for missing strings in locale)
+            if ( localizationFile.exists() ) {
+                localizedProperties.load( new FileInputStream( localizationFile ) );//todo: handle locale (graceful support for missing strings in locale)
                 String titleKey = flavorName + ".name";
-                title = localizedProperties.getProperty(titleKey);
-                if (title == null) {
-                    throw new RuntimeException("Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath());
+                title = localizedProperties.getProperty( titleKey );
+                if ( title == null ) {
+                    throw new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() );
                 }
                 String descriptionKey = flavorName + ".description";
-                description = localizedProperties.getProperty(descriptionKey);
-                if (description == null) {
-                    throw new RuntimeException("Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath());
+                description = localizedProperties.getProperty( descriptionKey );
+                if ( description == null ) {
+                    throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
                 }
             }
             else {
-                System.out.println("Localization file doesn't exist: " + localizationFile.getAbsolutePath());
-                title = properties.getProperty("project.name");
-                description = properties.getProperty("project.description");
-                if (title == null) {
-                    System.out.println("Project.name not found, using: " + name);
+                System.out.println( "Localization file doesn't exist: " + localizationFile.getAbsolutePath() );
+                title = properties.getProperty( "project.name" );
+                description = properties.getProperty( "project.description" );
+                if ( title == null ) {
+                    System.out.println( "Project.name not found, using: " + name );
                     title = name;
                 }
-                if (description == null) {
-                    System.out.println("Project.description not found; using empty string");
+                if ( description == null ) {
+                    System.out.println( "Project.description not found; using empty string" );
                     description = "";
                 }
             }
 
-            return new PhetProjectFlavor(flavorName, title, description, mainclass, args, screenshot);
+            return new PhetProjectFlavor( flavorName, title, description, mainclass, args, screenshot );
         }
-        catch (IOException e) {
+        catch( IOException e ) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException( e );
         }
     }
 
@@ -430,95 +429,96 @@ public class PhetProject {
         File localeDir = getLocalizationDir();
         File[] children = localeDir.listFiles();
         ArrayList locales = new ArrayList();
-        for (int i = 0; i < children.length; i++) {
+        for ( int i = 0; i < children.length; i++ ) {
             File child = children[i];
             String filename = child.getName();
             String prefix = getName() + "-strings_";
             String suffix = ".properties";
 //            System.out.println( "filename = " + filename );
-            if (child.isFile() && filename.startsWith(prefix) && filename.endsWith(suffix)) {
-                String languageCode = filename.substring(prefix.length(), filename.length() - suffix.length());
+            if ( child.isFile() && filename.startsWith( prefix ) && filename.endsWith( suffix ) ) {
+                String languageCode = filename.substring( prefix.length(), filename.length() - suffix.length() );
 //                System.out.println( "middle = " + middle );
-                locales.add(new Locale(languageCode));
+                locales.add( new Locale( languageCode ) );
             }
         }
-        return (Locale[])locales.toArray(new Locale[0]);
+        return (Locale[]) locales.toArray( new Locale[0] );
     }
 
     private File getLocalizationDir() {
-        return new File(getProjectDir(), "data/" + getName() + "/localization");
+        return new File( getProjectDir(), "data/" + getName() + "/localization" );
     }
 
-    public File getLocalizationFile(String locale) {
-        String suffix = locale.equals("en") || locale.equals("") ? "" : "_" + locale;
-        return new File(getLocalizationDir(), getName() + "-strings" + suffix + ".properties");
+    public File getLocalizationFile( String locale ) {
+        String suffix = locale.equals( "en" ) || locale.equals( "" ) ? "" : "_" + locale;
+        return new File( getLocalizationDir(), getName() + "-strings" + suffix + ".properties" );
     }
 
     //Can't reuse the property loading code from phetcommon since the build process currently is GPL only.
     public String getVersionString() {
         Properties prop = new Properties();
         try {
-            prop.load(new FileInputStream(new File(getProjectDir(), "data/" + getName() + "/" + getName() + ".properties")));
+            prop.load( new FileInputStream( new File( getProjectDir(), "data/" + getName() + "/" + getName() + ".properties" ) ) );
         }
-        catch (IOException e) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
-        return prop.getProperty("version.major") + "." + prop.getProperty("version.minor") + "." + prop.getProperty("version.dev");
+        return prop.getProperty( "version.major" ) + "." + prop.getProperty( "version.minor" ) + "." + prop.getProperty( "version.dev" );
     }
 
 //        protected static String[] getSimNames(File baseDir) {
 //        return getSimNames( new File( baseDir, "simulations" ));
 
     //    }
-    public static String[] getSimNames(File basedir) {
-        File[] simulations = new File(basedir, "simulations").listFiles();
+
+    public static String[] getSimNames( File basedir ) {
+        File[] simulations = new File( basedir, "simulations" ).listFiles();
         ArrayList sims = new ArrayList();
-        for (int i = 0; i < simulations.length; i++) {
+        for ( int i = 0; i < simulations.length; i++ ) {
             File simulation = simulations[i];
-            if (isSimulation(simulation)) {
-                sims.add(simulation.getName());
+            if ( isSimulation( simulation ) ) {
+                sims.add( simulation.getName() );
             }
         }
-        return (String[])sims.toArray(new String[0]);
+        return (String[]) sims.toArray( new String[0] );
     }
 
 
-    private static boolean isSimulation(File simulation) {
-        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase("all-sims") && !simulation.getName().equalsIgnoreCase(".svn");
+    private static boolean isSimulation( File simulation ) {
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" );
     }
 
-    public static PhetProject[] getAllProjects(File baseDir) {
+    public static PhetProject[] getAllProjects( File baseDir ) {
 
         List phetProjects = new ArrayList();
 
-        String[] sims = getSimNames(baseDir);
+        String[] sims = getSimNames( baseDir );
 
-        for (int i = 0; i < sims.length; i++) {
+        for ( int i = 0; i < sims.length; i++ ) {
             String sim = sims[i];
 
-            File projectDir = PhetBuildUtils.resolveProject(baseDir, sim);
+            File projectDir = PhetBuildUtils.resolveProject( baseDir, sim );
 
             try {
-                PhetProject phetProject = new PhetProject(projectDir, sim);
+                PhetProject phetProject = new PhetProject( projectDir, sim );
 
-                phetProjects.add(phetProject);
+                phetProjects.add( phetProject );
             }
-            catch (IOException e) {
-                throw new BuildException(e);
+            catch( IOException e ) {
+                throw new BuildException( e );
             }
         }
 
-        return (PhetProject[])phetProjects.toArray(new PhetProject[0]);
+        return (PhetProject[]) phetProjects.toArray( new PhetProject[0] );
 
 
     }
 
-    public String getDeployedFlavorJarURL(String flavor) {
+    public String getDeployedFlavorJarURL( String flavor ) {
         return WEBROOT + getName() + "/" + flavor + ".jar";
     }
 
-    public File getTranslationFile(Locale locale) {
-        String lang = locale.getLanguage().equals("en") ? "" : "_" + locale.getLanguage();
-        return new File(projectDir, "localization" + File.separator + getName() + "-strings" + lang + ".properties");
+    public File getTranslationFile( Locale locale ) {
+        String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
+        return new File( projectDir, "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
     }
 }

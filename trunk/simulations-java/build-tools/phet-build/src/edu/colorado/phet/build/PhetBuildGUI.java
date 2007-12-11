@@ -1,14 +1,5 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.Task;
-import org.apache.tools.ant.taskdefs.Java;
-import org.apache.tools.ant.types.FileSet;
-import org.apache.tools.ant.types.Path;
-
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +9,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Java;
+import org.apache.tools.ant.types.FileSet;
+import org.apache.tools.ant.types.Path;
 
 /**
  * Author: Sam Reid
@@ -78,8 +79,8 @@ public class PhetBuildGUI extends AbstractPhetTask {
 //        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
 
         JScrollPane localeScrollPane = new JScrollPane( localeList );
-        localeScrollPane.setPreferredSize( new Dimension( 100,50) );
-        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Country Code") );
+        localeScrollPane.setPreferredSize( new Dimension( 100, 50 ) );
+        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Country Code" ) );
 //        gridBagConstraints.fill=GridBagConstraints.NONE;
         contentPane.add( localeScrollPane, gridBagConstraints );
 
@@ -108,14 +109,14 @@ public class PhetBuildGUI extends AbstractPhetTask {
         commandPanel.setLayout( new GridBagLayout() );
 //        commandPanel.add( refresh, commandConstraints );
 //        commandPanel.add( showLocalizationFile, commandConstraints );
-        
+
         commandPanel.add( runButton, commandConstraints );
         commandPanel.add( Box.createVerticalBox() );
 
         contentPane.add( commandPanel );
 
 
-        frame.setSize( 500, 300);
+        frame.setSize( 500, 300 );
         frame.setContentPane( contentPane );
 //        frame.pack();
 //        frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
@@ -124,15 +125,15 @@ public class PhetBuildGUI extends AbstractPhetTask {
     private Simulation[] listSimulations() {
         String[] simNames = toArray( getProperty( new PhetListSimTask() ) );
         ArrayList simulations = new ArrayList();
-        for( int i = 0; i < simNames.length; i++ ) {
+        for ( int i = 0; i < simNames.length; i++ ) {
             String simName = simNames[i];
             String[] flavors = getFlavors( simName );
-            for( int j = 0; j < flavors.length; j++ ) {
+            for ( int j = 0; j < flavors.length; j++ ) {
                 String flavor = flavors[j];
                 simulations.add( new Simulation( simName, flavor ) );
             }
         }
-        return (Simulation[])simulations.toArray( new Simulation[0] );
+        return (Simulation[]) simulations.toArray( new Simulation[0] );
     }
 
     private static class Simulation {
@@ -164,7 +165,7 @@ public class PhetBuildGUI extends AbstractPhetTask {
         try {
             BufferedReader bufferedReader = new BufferedReader( new FileReader( localizationFile ) );
             String text = "";
-            for( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
+            for ( String line = bufferedReader.readLine(); line != null; line = bufferedReader.readLine() ) {
                 text += line + System.getProperty( "line.separator" );
             }
             JTextArea jta = new JTextArea( text );
@@ -213,22 +214,22 @@ public class PhetBuildGUI extends AbstractPhetTask {
         Java java = new Java();
 
         PhetProject phetProject = getSelectedProject();
-        if( phetProject != null ) {
-            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName()).getMainclass() );
+        if ( phetProject != null ) {
+            java.setClassname( phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getMainclass() );
             java.setFork( true );
-            String args="";
-            String[]a=phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getArgs();
-            for( int i = 0; i < a.length; i++ ) {
+            String args = "";
+            String[] a = phetProject.getFlavor( getSelectedSimulation().getFlavorName() ).getArgs();
+            for ( int i = 0; i < a.length; i++ ) {
                 String s = a[i];
-                args+=s+" ";
+                args += s + " ";
             }
-            java.setArgs(args); 
+            java.setArgs( args );
             Path classpath = new Path( getProject() );
             FileSet set = new FileSet();
             set.setFile( phetProject.getDefaultDeployJar() );
             classpath.addFileset( set );
             java.setClasspath( classpath );
-            if( !locale.equals( "en" ) ) {
+            if ( !locale.equals( "en" ) ) {
                 java.setJvmargs( "-Djavaws.phet.locale=" + locale );
             }
             SwingUtilities.invokeLater( new Runnable() {
@@ -241,11 +242,11 @@ public class PhetBuildGUI extends AbstractPhetTask {
     }
 
     private Simulation getSelectedSimulation() {
-        return (Simulation)simList.getSelectedValue();
+        return (Simulation) simList.getSelectedValue();
     }
 
     private String getSelectedLocale() {
-        return (String)localeList.getSelectedValue();
+        return (String) localeList.getSelectedValue();
     }
 
     private PhetProject getSelectedProject() {
@@ -264,14 +265,14 @@ public class PhetBuildGUI extends AbstractPhetTask {
     private String[] toArray( String simListString ) {
         ArrayList simNames = new ArrayList();
         StringTokenizer st = new StringTokenizer( simListString, "," );
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             simNames.add( st.nextToken() );
         }
-        return (String[])simNames.toArray( new String[0] );
+        return (String[]) simNames.toArray( new String[0] );
     }
 
     private String getProperty( Task task ) {
-        ( (PropertyTask)task ).setProperty( "phet.sim.list" );
+        ( (PropertyTask) task ).setProperty( "phet.sim.list" );
         runTask( task );
         return getProject().getProperty( "phet.sim.list" );
     }
@@ -294,19 +295,19 @@ public class PhetBuildGUI extends AbstractPhetTask {
     }
 
     private void updateRunButtonEnabled() {
-        runButton.setEnabled( getSelectedSimulation()!=null );
+        runButton.setEnabled( getSelectedSimulation() != null );
     }
 
     private String[] setDefaultValueEnglish( String[] strings ) {
         ArrayList list = new ArrayList( Arrays.asList( strings ) );
         list.remove( "en" );
         list.add( 0, "en" );
-        return (String[])list.toArray( new String[0] );
+        return (String[]) list.toArray( new String[0] );
     }
 
     private void start() {
-        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width/2-frame.getWidth()/2,
-                           Toolkit.getDefaultToolkit().getScreenSize().height/2-frame.getHeight()/2);
+        frame.setLocation( Toolkit.getDefaultToolkit().getScreenSize().width / 2 - frame.getWidth() / 2,
+                           Toolkit.getDefaultToolkit().getScreenSize().height / 2 - frame.getHeight() / 2 );
         frame.setVisible( true );
     }
 }

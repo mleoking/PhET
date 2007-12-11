@@ -1,14 +1,14 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.tools.ant.BuildException;
+
 public class PhetDisplayStatsTask extends PhetAllSimTask {
     public final void execute() throws BuildException {
-        showStats( PhetProject.getSimNames(getBaseDir()) );
+        showStats( PhetProject.getSimNames( getBaseDir() ) );
     }
 
     public void showStats( String[] simNames ) {
@@ -18,17 +18,17 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
 
     private void showStats( String[] simNames, File baseDir ) {
         int flavorCount = 0;
-        int numStandardized=0;
+        int numStandardized = 0;
         HashMap languages = new HashMap();
-        for( int i = 0; i < simNames.length; i++ ) {
+        for ( int i = 0; i < simNames.length; i++ ) {
             String simName = simNames[i];
             try {
                 File projectParentDir = PhetBuildUtils.resolveProject( baseDir, simName );
                 PhetProject phetProject = new PhetProject( projectParentDir, simName );
-                System.out.println( phetProject.getName() + " ("+phetProject.getVersionString() +") : " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject )+", user-readable-names="+Arrays.asList( getUserReadableFlavorNames(phetProject)));
-                numStandardized+= isNonClashData( phetProject )?1:0;
+                System.out.println( phetProject.getName() + " (" + phetProject.getVersionString() + ") : " + Arrays.asList( phetProject.getFlavorNames() ) + " locales: " + Arrays.asList( phetProject.getLocales() ) + " non-clash-data=" + isNonClashData( phetProject ) + ", user-readable-names=" + Arrays.asList( getUserReadableFlavorNames( phetProject ) ) );
+                numStandardized += isNonClashData( phetProject ) ? 1 : 0;
                 flavorCount += phetProject.getFlavorNames().length;
-                for( int j = 0; j < phetProject.getLocales().length; j++ ) {
+                for ( int j = 0; j < phetProject.getLocales().length; j++ ) {
                     Locale locale = phetProject.getLocales()[j];
                     languages.put( locale, "" );
                 }
@@ -39,21 +39,21 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         }
         ArrayList locales = new ArrayList( languages.keySet() );
         ArrayList language = new ArrayList();
-        for( int i = 0; i < locales.size(); i++ ) {
-            String o = (String)locales.get( i );
+        for ( int i = 0; i < locales.size(); i++ ) {
+            String o = (String) locales.get( i );
             language.add( new Locale( o ).getDisplayLanguage() );
         }
-        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language+", non-clash-data="+numStandardized );
+        System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language + ", non-clash-data=" + numStandardized );
     }
 
     private String[] getUserReadableFlavorNames( PhetProject phetProject ) {
-        ArrayList list=new ArrayList( );
-        PhetProjectFlavor[] flavors=phetProject.getFlavors();
-        for( int i = 0; i < flavors.length; i++ ) {
+        ArrayList list = new ArrayList();
+        PhetProjectFlavor[] flavors = phetProject.getFlavors();
+        for ( int i = 0; i < flavors.length; i++ ) {
             PhetProjectFlavor flavor = flavors[i];
-            list.add( flavor.getTitle());
+            list.add( flavor.getTitle() );
         }
-        return (String[])list.toArray( new String[0]);
+        return (String[]) list.toArray( new String[0] );
     }
 
     private boolean containsExactly( File root, File[] files ) {

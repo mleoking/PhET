@@ -14,7 +14,7 @@ public class PhetProjectFlavor {
     private File screenshot;
     private String title;
 
-    public PhetProjectFlavor( String flavorName,String title, String description, String mainclass, String[] args, File screenshot ) {
+    public PhetProjectFlavor( String flavorName, String title, String description, String mainclass, String[] args, File screenshot ) {
         this.flavorName = flavorName;
         this.description = description;
         this.args = args;

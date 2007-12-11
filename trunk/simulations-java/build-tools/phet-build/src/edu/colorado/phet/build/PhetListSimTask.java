@@ -5,11 +5,11 @@ import org.apache.tools.ant.BuildException;
 /**
  * Constructs an iterable list of simulations for use in ant-contrib.
  */
-public class PhetListSimTask extends PhetAllSimTask implements PropertyTask{
+public class PhetListSimTask extends PhetAllSimTask implements PropertyTask {
     private String property = "phet.simlist";
 
     public final void execute() throws BuildException {
-        buildList( PhetProject.getSimNames(getBaseDir()));
+        buildList( PhetProject.getSimNames( getBaseDir() ) );
 //        getProject().setProperty( "phet.simlist","my simulation list");
     }
 
@@ -19,7 +19,7 @@ public class PhetListSimTask extends PhetAllSimTask implements PropertyTask{
         getProject().setProperty( property, string );
     }
 
-    public void setProperty(String property) {
+    public void setProperty( String property ) {
         this.property = property;
     }
 

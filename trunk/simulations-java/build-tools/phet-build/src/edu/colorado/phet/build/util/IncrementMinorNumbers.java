@@ -1,12 +1,12 @@
 package edu.colorado.phet.build.util;
 
-import edu.colorado.phet.build.FileUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+
+import edu.colorado.phet.build.FileUtils;
 
 /**
  * Author: Sam Reid
@@ -15,12 +15,12 @@ import java.util.Properties;
 public class IncrementMinorNumbers {
     public static void main( String[] args ) {
         File simRoot = new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations" );
-        for( int i = 0; i < simRoot.listFiles().length; i++ ) {
+        for ( int i = 0; i < simRoot.listFiles().length; i++ ) {
             File simDir = simRoot.listFiles()[i];
             String name = simDir.getName();
             File propertyFile = new File( simDir, "data/" + name + "/" + name + ".properties" );
             System.out.println( "propertyFile = " + propertyFile + ", exists=" + propertyFile.exists() );
-            if( propertyFile.exists() && !( propertyFile.getAbsolutePath().indexOf( "all-sims" ) >= 0 ) ) {
+            if ( propertyFile.exists() && !( propertyFile.getAbsolutePath().indexOf( "all-sims" ) >= 0 ) ) {
                 updateVersionNumbers( name, propertyFile );
             }
         }
@@ -38,10 +38,10 @@ public class IncrementMinorNumbers {
             String revision = properties.getProperty( "version.revision" );
 //            String aboutcredits=properties.getProperty( )
             String newMinorNumber = String.valueOf( Integer.parseInt( minor ) + 1 );
-            if( newMinorNumber.length() == 1 ) {
+            if ( newMinorNumber.length() == 1 ) {
                 newMinorNumber = "0" + newMinorNumber;
             }
-            if( major.equals( "0" ) ) {
+            if ( major.equals( "0" ) ) {
                 major = "1";
             }
 //            properties.setProperty( "version.major", major );

@@ -1,9 +1,9 @@
 package edu.colorado.phet.build;
 
+import java.io.File;
+
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
-
-import java.io.File;
 
 /**
  * This class is responsible for building a phet project given the project
@@ -25,7 +25,7 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
         this.shrink = shrink;
     }
 
-    public void setDestFile( String destFile){
+    public void setDestFile( String destFile ) {
         this.dest = destFile;
     }
 

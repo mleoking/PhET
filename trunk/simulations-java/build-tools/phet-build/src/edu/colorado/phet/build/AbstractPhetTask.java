@@ -1,8 +1,8 @@
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.Task;
-
 import java.io.File;
+
+import org.apache.tools.ant.Task;
 
 /**
  * Author: Sam Reid
@@ -18,7 +18,7 @@ public class AbstractPhetTask extends Task implements AntTaskRunner {
         childTask.execute();
     }
 
-    protected void echo(String string) {
+    protected void echo( String string ) {
         PhetBuildUtils.antEcho( this, string, getClass() );
     }
 
