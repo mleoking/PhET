@@ -40,8 +40,8 @@ public class PhetDisplayStatsTask extends PhetAllSimTask {
         ArrayList locales = new ArrayList( languages.keySet() );
         ArrayList language = new ArrayList();
         for ( int i = 0; i < locales.size(); i++ ) {
-            String o = (String) locales.get( i );
-            language.add( new Locale( o ).getDisplayLanguage() );
+            Locale o = (Locale) locales.get( i );
+            language.add( o.getDisplayLanguage() );
         }
         System.out.println( "Number of Sims: " + simNames.length + ", number of declared flavors: " + flavorCount + ", number of locales used at least once: " + languages.size() + ", all locales=" + locales + ", languages=" + language + ", non-clash-data=" + numStandardized );
     }
