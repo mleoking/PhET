@@ -111,7 +111,7 @@ public class ControlGraph extends PNode {
         additionalControls = new PSwing( additionalControlPanel );
 //        additionalControls.addChild( new PSwing( additionalControlPanel) );
 
-        jFreeChartSliderNode = createSliderNode( thumb,series.getColor( ) );
+        jFreeChartSliderNode = createSliderNode( thumb, series != null ? series.getColor() : Color.yellow );
         zoomControl = new ZoomSuiteNode();
         zoomControl.addVerticalZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
@@ -202,7 +202,7 @@ public class ControlGraph extends PNode {
     }
 
     protected JFreeChartSliderNode createSliderNode( PNode thumb, Color highlightColor ) {
-        return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb ,highlightColor );//todo: better support for non-controllable graphs
+        return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb, highlightColor );//todo: better support for non-controllable graphs
     }
 
     public void setHorizontalRange( double maxDomainValue ) {
@@ -654,7 +654,7 @@ public class ControlGraph extends PNode {
     }
 
     public void setSliderSelected( boolean selected ) {
-        jFreeChartSliderNode.setSelected(selected);
+        jFreeChartSliderNode.setSelected( selected );
     }
 
 }
