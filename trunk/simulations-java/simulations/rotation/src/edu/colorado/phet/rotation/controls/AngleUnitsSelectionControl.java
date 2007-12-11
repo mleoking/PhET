@@ -27,7 +27,7 @@ public class AngleUnitsSelectionControl extends VerticalLayoutPanel {
                 angleUnitModel.setRadians( false );
             }
         } );
-        radians = new JRadioButton( "units.radians" );
+        radians = new JRadioButton( RotationStrings.getString( "units.radians" ) );
         radians.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 angleUnitModel.setRadians( true );
