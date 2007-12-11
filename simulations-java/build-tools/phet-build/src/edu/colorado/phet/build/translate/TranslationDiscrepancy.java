@@ -3,7 +3,6 @@ package edu.colorado.phet.build.translate;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -94,14 +93,9 @@ public class TranslationDiscrepancy {
 
         localizationDir.mkdir();
 
-        Locale[]locales=phetProject.getLocales();
+        Locale[] locales = phetProject.getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
-            Locale locale = locales[i];
-            
-//        for ( Iterator iterator = extraLocal.iterator(); iterator.hasNext(); ) {
-//            Locale locale = (Locale) iterator.next();
-
-            File source = phetProject.getTranslationFile( locale );
+            File source = phetProject.getTranslationFile( locales[i] );
             FileUtils.copyTo( source, new File( localizationDir, source.getName() ) );
         }
         FileUtils.jar( tempUnzipDir, resolveJAR );

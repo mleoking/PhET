@@ -225,7 +225,7 @@ public class FileUtils {
             zipOutputStream.putNextEntry( zipEntry );
 
             FileInputStream inputStream = new FileInputStream( file );
-            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() + ", path=" + path );
+//            System.out.println( "file.getAbsolutePath() = " + file.getAbsolutePath() + ", path=" + path );
             copy( inputStream, zipOutputStream, false );
 
             zipOutputStream.closeEntry();
