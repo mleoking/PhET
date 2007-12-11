@@ -61,9 +61,24 @@ public class ZKineticEnergyAdjusterTester extends TestCase {
         }
     }
 
-    
+    public void testStressRandomCases() {
+        particles = new ArrayList();
 
-    // TODO: Add some stress tests here
+        for (int i = 0; i < 1000; i++) {
+            StatesOfMatterParticle particle = new StatesOfMatterParticle(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random(), 1.0);
+
+            particles.add(particle);
+
+            particle.setVx(Math.random() * 40 - 20);
+            particle.setVy(Math.random() * 40 - 20);
+        }
+
+        for (int i = 0; i < 100; i++) {
+            double target = Math.random() * 10000;
+
+            performTest(target);
+        }
+    }
 
     public void testManyRandomCases() {
         for (int i = 0; i < 100; i++) {

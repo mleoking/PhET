@@ -82,8 +82,8 @@ public class ZMultipleParticleModelTester extends TestCase {
         }
     }
 
-    public void testInitialKineticEnergyIsDefault() {
-        assertEquals(StatesOfMatterConfig.INITIAL_KINETIC_ENERGY, new KineticEnergyMeasurer(model.getParticles()).measure(), 0.00001);
+    public void testInitialTotalEnergyIsDefault() {
+        assertEquals(StatesOfMatterConfig.INITIAL_TOTAL_ENERGY, model.getTotalEnergy(), 0.00001);
     }
 
     public void testGetKineticEnergy() {

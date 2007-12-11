@@ -46,11 +46,13 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
             particles.add(strategy.createNewParticle(particles, particleRadius, particleMass));
         }
 
+        engineFacade = new EngineFacade(particles, EngineConfig.TEST);
+
+        double targetKineticEnergy = StatesOfMatterConfig.INITIAL_TOTAL_ENERGY - engineFacade.measurePotentialEnergy();
+
         KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
 
-        adjuster.adjust(particles, StatesOfMatterConfig.INITIAL_KINETIC_ENERGY);
-
-        engineFacade = new EngineFacade(particles, EngineConfig.TEST);
+        adjuster.adjust(particles, targetKineticEnergy);        
 
         totalEnergy = engineFacade.measureKineticEnergy() + engineFacade.measurePotentialEnergy();
     }
@@ -69,12 +71,6 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     public synchronized void clockTicked(ClockEvent clockEvent) {
         for (int i = 0; i < StatesOfMatterConfig.COMPUTATIONS_PER_RENDER; i++) {
-//            double kineticEnergy = engineFacade.getKineticEnergy();
-//            double potentialEnergy = engineFacade.getPotentialEnergy();
-//            double totalEnergy = kineticEnergy + potentialEnergy;
-//
-//            System.out.println("KE = " + kineticEnergy + ", PE = " + potentialEnergy + ", Total = " + totalEnergy);
-
             ForceComputation computation = engineFacade.step();
 
             computation.apply(particles);
@@ -83,16 +79,16 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
             new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
 
             // Readjust to conserve total energy:
-            //double curKE = engineFacade.getKineticEnergy();
-            //double curTotalEnergy = curKE + engineFacade.getPotentialEnergy();
+            double curKE = engineFacade.measureKineticEnergy();
+            double curTotalEnergy = curKE + engineFacade.measurePotentialEnergy();
 
-            //double energyDiff = curTotalEnergy - totalEnergy;
+            double energyDiff = curTotalEnergy - totalEnergy;
 
-            //double targetKE = curKE - energyDiff;
+            double targetKE = curKE - energyDiff;
 
-//            if (targetKE > 0) {
-//                new KineticEnergyAdjuster().adjust(particles, targetKE);
-//            }
+            if (targetKE > 0) {
+                new KineticEnergyAdjuster().adjust(particles, targetKE);
+            }
         }
     }
 
