@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- remove tools by dragging them back to the toolbox or to the trash can
 - implement all controls shown in design doc
 - prototype the top and middle views
 
