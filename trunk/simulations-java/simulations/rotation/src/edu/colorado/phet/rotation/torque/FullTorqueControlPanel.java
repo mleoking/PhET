@@ -29,7 +29,8 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 public class FullTorqueControlPanel extends VerticalLayoutPanel {
     private AbstractTorqueModule torqueModule;
     public static final int MIN_BRAKE = 0;
-    public static final int MAX_BRAKE = 3;
+//    public static final int MAX_BRAKE = 3;
+    public static final int MAX_BRAKE = 10;
     private JPanel leftPanel;
 
     public FullTorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
