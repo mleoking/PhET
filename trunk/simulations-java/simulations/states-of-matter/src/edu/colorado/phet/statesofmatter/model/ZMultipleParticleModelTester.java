@@ -14,7 +14,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     private volatile ConstantDtClock clock;
 
     public void setUp() {
-        this.clock = new ConstantDtClock(1, 1);
+        this.clock = new ConstantDtClock(1, StatesOfMatterConfig.DELTA_T);
         this.model = new MultipleParticleModel(clock);
     }
 

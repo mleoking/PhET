@@ -48,9 +48,13 @@ public class EngineFacade {
     /**
      * Steps the model forward one instant in time.
      *
+     * @param timeStep  The time that has elapsed since the last step.
+     *
      * @return The force computation.
      */
-    public ForceComputation step() {
+    public ForceComputation step(double timeStep) {
+        descriptor.deltaT = timeStep;
+        
         return forceEngine.compute(particles, descriptor);
     }
 }
