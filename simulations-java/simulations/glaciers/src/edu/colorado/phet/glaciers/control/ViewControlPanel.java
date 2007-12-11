@@ -165,7 +165,7 @@ public class ViewControlPanel extends JPanel {
     /**
      * Default implementation of ViewControlPanelListener.
      */
-    public static class ViewControlPanelAdapter {
+    public static class ViewControlPanelAdapter implements ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b ) {};
         public void iceFlowChanged( boolean b ) {};
         public void snowfallChanged( boolean b ) {};

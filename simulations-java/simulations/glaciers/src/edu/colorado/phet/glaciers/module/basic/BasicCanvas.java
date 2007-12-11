@@ -3,16 +3,18 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.control.ToolboxNode;
+import edu.colorado.phet.glaciers.control.ToolboxControlPanel;
+import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
-import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
-import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
-import edu.colorado.phet.glaciers.view.PenguinNode;
+import edu.colorado.phet.glaciers.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -35,7 +37,7 @@ public class BasicCanvas extends PhetPCanvas {
     private BirdsEyeViewNode _birdsEyeViewNode;
     private PenguinNode _penguinNode;
     private MagnifiedViewNode _magnifiedViewNode;
-    private ToolboxNode _toolboxNode;
+    private ToolboxControlPanel _toolboxControlPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -88,8 +90,38 @@ public class BasicCanvas extends PhetPCanvas {
         }
         
         // Toolbox
-        _toolboxNode = new ToolboxNode();
-        _rootNode.addChild( _toolboxNode );
+        _toolboxControlPanel = new ToolboxControlPanel();
+        _rootNode.addChild( _toolboxControlPanel );
+        _toolboxControlPanel.addListener( new ToolboxListener() {
+            public void addThermometer( Point2D atCanvasPosition ) {
+                addToolNode( new ThermometerNode(), atCanvasPosition );
+            }
+            public void addGlacialBudgetMeter( Point2D atCanvasPosition ) {
+                addToolNode( new GlacialBudgetMeterNode(), atCanvasPosition );
+            }
+            public void addTracerFlag( Point2D atCanvasPosition ) {
+                addToolNode( new TracerFlagNode(), atCanvasPosition );
+            }
+            public void addIceThicknessTool( Point2D atCanvasPosition ) {
+                addToolNode( new IceThicknessToolNode(), atCanvasPosition );
+            }
+            public void addBoreholeDrill( Point2D atCanvasPosition ) {
+                addToolNode( new BoreholeDrillNode(), atCanvasPosition );
+            }
+        });
+    }
+    
+    /*
+     * Adds a tool to the canvas, positioned directly above the toolbox 
+     * and horizontally aligned with the tool that was clicked in the toolbox.
+     */
+    private void addToolNode( PNode node, Point2D atCanvasPosition ) {
+        _rootNode.addChild( node );
+        double x = atCanvasPosition.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
+        double y = _toolboxControlPanel.getFullBoundsReference().getMinY() - node.getFullBoundsReference().getHeight() - 5;
+        node.setOffset( x, y );
+        node.addInputEventListener( new CursorHandler() );
+        node.addInputEventListener( new PDragEventHandler() );
     }
     
     //----------------------------------------------------------------------------
@@ -119,6 +151,6 @@ public class BasicCanvas extends PhetPCanvas {
         }
         
         // Toolbox at the bottom of the play area
-        _toolboxNode.setOffset( 20, screenSize.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5 );
+        _toolboxControlPanel.setOffset( 20, screenSize.getHeight() - _toolboxControlPanel.getFullBoundsReference().getHeight() - 5 );
     }
 }

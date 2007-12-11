@@ -157,7 +157,7 @@ public class BasicClimateControlPanel extends JPanel {
     /**
      * Default implementation of BasicClimateControlPanelListener.
      */
-    public static class BasicClimateControlPanelAdapter {
+    public static class BasicClimateControlPanelAdapter implements BasicClimateControlPanelListener {
         public void snowfallChanged( double snowfall ) {};
         public void temperatureChanged( double temperature ) {};
     }

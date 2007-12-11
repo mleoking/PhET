@@ -7,12 +7,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -91,12 +95,11 @@ public class ToolboxNode extends PNode {
     // tools in the toolbox
     private ToolNode _thermometer;
     private ToolNode _glacialBudgetMeter;
-    private ToolNode _tracerFlags;
+    private ToolNode _tracerFlag;
     private ToolNode _iceThicknessTool;
     private ToolNode _boreholeDrill;
     private ToolNode _trashCan;
     
-
     /**
      * Constructor.
      */
@@ -108,14 +111,14 @@ public class ToolboxNode extends PNode {
         {
             _thermometer = new ToolNode( "toolbox-thermometer.png", "toolbox.thermometer" );
             _glacialBudgetMeter = new ToolNode( "toolbox-glacialBudgetMeter.png", "toolbox.glacialBudgetMeter" );
-            _tracerFlags = new ToolNode( "toolbox-tracerFlags.png", "toolbox.tracerFlags" );
+            _tracerFlag = new ToolNode( "toolbox-tracerFlag.png", "toolbox.tracerFlag" );
             _iceThicknessTool = new ToolNode( "toolbox-iceThicknessTool.png", "toolbox.iceThicknessTool" );
             _boreholeDrill = new ToolNode( "toolbox-boreholeDrill.png", "toolbox.boreholeDrill" );
             _trashCan = new ToolNode( "toolbox-trashCan.png", "toolbox.trashCan", false );
             
             toolsParent.addChild( _thermometer );
             toolsParent.addChild( _glacialBudgetMeter );
-            toolsParent.addChild( _tracerFlags );
+            toolsParent.addChild( _tracerFlag );
             toolsParent.addChild( _iceThicknessTool );
             toolsParent.addChild( _boreholeDrill );
             toolsParent.addChild( _trashCan );
@@ -131,10 +134,10 @@ public class ToolboxNode extends PNode {
             _glacialBudgetMeter.setOffset( x, y );
             
             x = _glacialBudgetMeter.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - _tracerFlags.getFullBoundsReference().getHeight() ) / 2;
-            _tracerFlags.setOffset( x, y );
+            y = ( maxToolHeight - _tracerFlag.getFullBoundsReference().getHeight() ) / 2;
+            _tracerFlag.setOffset( x, y );
             
-            x = _tracerFlags.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            x = _tracerFlag.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
             y = ( maxToolHeight - _iceThicknessTool.getFullBoundsReference().getHeight() ) / 2;
             _iceThicknessTool.setOffset( x, y );
             
@@ -198,5 +201,29 @@ public class ToolboxNode extends PNode {
         backgroundNode.setChildrenPickable( false );
         tabNode.setPickable( false );
         tabNode.setChildrenPickable( false );
+    }
+    
+    public PNode getThermometer() {
+        return _thermometer;
+    }
+    
+    public PNode getGlacialBudgetMeter() {
+        return _glacialBudgetMeter;
+    }
+
+    public PNode getTracerFlag() {
+        return _tracerFlag;
+    }
+    
+    public PNode getIceThicknessTool() {
+        return _iceThicknessTool;
+    }
+    
+    public PNode getBoreholeDrill() {
+        return _boreholeDrill;
+    }
+    
+    public PNode getTrashCan() {
+        return _trashCan;
     }
 }
