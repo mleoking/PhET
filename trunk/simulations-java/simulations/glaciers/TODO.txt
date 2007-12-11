@@ -4,6 +4,7 @@
 
 HIGH PRIORITY:
 - remove tools by dragging them back to the toolbox or to the trash can
+- create and continue dragging tool when you click on an icon in the toolbox
 - implement all controls shown in design doc
 - prototype the top and middle views
 
@@ -22,6 +23,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/11/07 - replace images for ice thickness tool
 12/11/07 - add draggable tools to the canvas, no way to delete them yet
 12/11/07 - first pass at ToolboxNode, no interactivity yet
 12/10/07 - add all strings shown in design doc to localization file
