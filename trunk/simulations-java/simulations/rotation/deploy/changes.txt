@@ -1,4 +1,5 @@
-12-11-2007: Rotation - Fixed: On the first panel the units should be degrees rather than radians.  
+12-11-2007: Rotation - Fixed: 3. Why does the ruler say units.m?
+12-11-2007: Rotation - Fixed: On the first panel the units should be degrees rather than radians.
 12-11-2007: Rotation - Moved the pause symbol partly on the disc; increased its size
 12-11-2007: Rotation - "Clear" also pauses the simulation
 12-11-2007: Rotation - Fixes (see unfuddle)

@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationResources;
+import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.controls.VectorViewModel;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
 import edu.colorado.phet.rotation.model.RotationBody;
@@ -54,7 +55,7 @@ public class RotationPlayAreaNode extends PNode {
         rotationPlatformNode = createRotationPlatformNode( rotationModel.getRotationPlatform() );
 //        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
-        rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, "units.m", 4, 14 );
+        rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, RotationStrings.getString( "units.m" ), 4, 14 );
         rulerNode.setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
         rulerNode.setVisible( false );
 
@@ -82,10 +83,10 @@ public class RotationPlayAreaNode extends PNode {
 
         addChild( circularMotionNode );
 //        pauseNode.setScale( SCALE * 3.5 );
-        pauseNode.setScale( SCALE * 3.5*2.5 );
+        pauseNode.setScale( SCALE * 3.5 * 2.5 );
         pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS
 //                                                           - pauseNode.getFullBounds().getHeight()/2
-                                                           -pauseNode.getFullBounds().getHeight()
+- pauseNode.getFullBounds().getHeight()
         );
         rotationModel.getClock().addClockListener( new ClockAdapter() {
             public void clockPaused( ClockEvent clockEvent ) {
