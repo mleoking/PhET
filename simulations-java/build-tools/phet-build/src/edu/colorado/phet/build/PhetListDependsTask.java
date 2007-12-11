@@ -8,48 +8,48 @@ import java.util.List;
  */
 public class PhetListDependsTask extends AbstractPhetBuildTask implements PropertyTask {
     private String property = "phet.dependslist";
-	private boolean commandLineFormat = false;
+    private boolean commandLineFormat = false;
 
-	protected void executeImpl( PhetProject phetProject ) throws Exception {
-		PhetProject[] projects = phetProject.getAllDependencies();
+    protected void executeImpl( PhetProject phetProject ) throws Exception {
+        PhetProject[] projects = phetProject.getAllDependencies();
 
-		List dependPaths = new ArrayList();
+        List dependPaths = new ArrayList();
 
-		for (int i = 0; i < projects.length; i++) {
-			dependPaths.add( projects[i].getProjectDir().getPath() );
-		}
+        for ( int i = 0; i < projects.length; i++ ) {
+            dependPaths.add( projects[i].getProjectDir().getPath() );
+        }
 
-        buildList( (String[])dependPaths.toArray(new String[dependPaths.size()]) );
+        buildList( (String[]) dependPaths.toArray( new String[dependPaths.size()] ) );
     }
 
     public void buildList( String[] dependPaths ) {
-		if (!commandLineFormat) {
-        	String string = PhetBuildUtils.convertArrayToList( dependPaths );
+        if ( !commandLineFormat ) {
+            String string = PhetBuildUtils.convertArrayToList( dependPaths );
 
-        	getProject().setProperty( property, string );
-		}
-		else {
-			StringBuffer buffer = new StringBuffer();
+            getProject().setProperty( property, string );
+        }
+        else {
+            StringBuffer buffer = new StringBuffer();
 
-			for (int i = 0; i < dependPaths.length; i++) {
-				String path = dependPaths[i];
+            for ( int i = 0; i < dependPaths.length; i++ ) {
+                String path = dependPaths[i];
 
-				if (i != 0) {
-					buffer.append(" ");
-				}
+                if ( i != 0 ) {
+                    buffer.append( " " );
+                }
 
-				buffer.append("\"" + path + "\"");
-			}
+                buffer.append( "\"" + path + "\"" );
+            }
 
-			getProject().setProperty( property, buffer.toString() );
-		}
+            getProject().setProperty( property, buffer.toString() );
+        }
     }
 
-	public void setCommandLineFormat( boolean commandLineFormat ) {
-		this.commandLineFormat = commandLineFormat;
-	}
+    public void setCommandLineFormat( boolean commandLineFormat ) {
+        this.commandLineFormat = commandLineFormat;
+    }
 
-	public void setProperty( String property ) {
-		this.property = property;
-	}
+    public void setProperty( String property ) {
+        this.property = property;
+    }
 }

@@ -1,8 +1,11 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import edu.colorado.phet.build.patterns.Command;
-import edu.colorado.phet.build.proguard.ProguardCommand;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.taskdefs.Manifest;
@@ -10,10 +13,8 @@ import org.apache.tools.ant.taskdefs.ManifestException;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import edu.colorado.phet.build.patterns.Command;
+import edu.colorado.phet.build.proguard.ProguardCommand;
 
 /**
  * This command builds a PhET project, together with any dependencies.
@@ -26,10 +27,10 @@ public class PhetBuildCommand implements Command {
     public static final String FLAVOR_LAUNCHER = "edu.colorado.phet.common.phetcommon.view.util.FlavorLauncher";
 
     public PhetBuildCommand( PhetProject project, AntTaskRunner taskRunner, boolean shrink, File outputJar ) {
-        this.project       = project;
+        this.project = project;
         this.antTaskRunner = taskRunner;
-        this.shrink        = shrink;
-        this.outputJar     = outputJar;
+        this.shrink = shrink;
+        this.outputJar = outputJar;
     }
 
     public void execute() throws Exception {
@@ -74,7 +75,7 @@ public class PhetBuildCommand implements Command {
     private void jar() throws ManifestException {
         Jar jar = new Jar();
         File[] dataDirectories = project.getAllDataDirectories();
-        for( int i = 0; i < dataDirectories.length; i++ ) {
+        for ( int i = 0; i < dataDirectories.length; i++ ) {
             FileSet set = new FileSet();
             set.setDir( dataDirectories[i] );
             jar.addFileset( set );
@@ -84,7 +85,6 @@ public class PhetBuildCommand implements Command {
         Manifest manifest = new Manifest();
 
         Manifest.Attribute attribute = new Manifest.Attribute();
-
 
         //need to use flavor launcher if there are multiple flavors or if any flavor contains args
         //for now, let's just use FlavorLauncher for all usages.
@@ -107,21 +107,21 @@ public class PhetBuildCommand implements Command {
 
     private File createFlavorFile() {
         File flavorsProp = new File( project.getAntOutputDir(), "flavors.properties" );
-        Properties properties=new Properties( );
-        for (int i=0;i<project.getFlavors().length;i++){
-            PhetProjectFlavor flavor=project.getFlavors()[i];
-            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".mainclass",flavor.getMainclass( ));
-            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".title",flavor.getTitle( ));
-            String args="";
-            String []a=flavor.getArgs();
-            for( int j = 0; j < a.length; j++ ) {
-                args+=a[j]+" ";
+        Properties properties = new Properties();
+        for ( int i = 0; i < project.getFlavors().length; i++ ) {
+            PhetProjectFlavor flavor = project.getFlavors()[i];
+            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".mainclass", flavor.getMainclass() );
+            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".title", flavor.getTitle() );
+            String args = "";
+            String[] a = flavor.getArgs();
+            for ( int j = 0; j < a.length; j++ ) {
+                args += a[j] + " ";
             }
-            properties.setProperty( "project.flavor."+flavor.getFlavorName()+".args",args.trim());
+            properties.setProperty( "project.flavor." + flavor.getFlavorName() + ".args", args.trim() );
         }
         flavorsProp.getParentFile().mkdirs();
         try {
-            properties.store( new FileOutputStream( flavorsProp),null );
+            properties.store( new FileOutputStream( flavorsProp ), null );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -141,10 +141,10 @@ public class PhetBuildCommand implements Command {
 
     private String toString( File[] files ) {
         String string = "";
-        for( int i = 0; i < files.length; i++ ) {
+        for ( int i = 0; i < files.length; i++ ) {
             File file = files[i];
             string += file.getAbsolutePath();
-            if( i < files.length - 1 ) {
+            if ( i < files.length - 1 ) {
                 string += " : ";
             }
         }

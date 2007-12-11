@@ -1,12 +1,12 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import org.apache.commons.lang.StringEscapeUtils;
-
-import java.io.*;
-import java.util.HashMap;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+
+import org.apache.commons.lang.StringEscapeUtils;
 //todo: needs better error handling for loading flavors
 //todo: test support for deploying with online url
 
@@ -19,17 +19,17 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     private volatile String locale = "en";
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
-        if( flavorName == null ) {
+        if ( flavorName == null ) {
             flavorName = phetProject.getFlavorNames()[0];
         }
-        PhetProjectFlavor flavor = phetProject.getFlavor( flavorName,locale);
+        PhetProjectFlavor flavor = phetProject.getFlavor( flavorName, locale );
         echo( "loaded flavor=" + flavor );
-        if( deployUrl == null ) {
+        if ( deployUrl == null ) {
             deployUrl = phetProject.getDefaultDeployDir().toURL().toString();
 
-			echo("Deploy url is null -- using " + deployUrl);
+            echo( "Deploy url is null -- using " + deployUrl );
         }
-        FileUtils.filter(JNLP_TEMPLATE,getDestFile( phetProject ),createJNLPFilterMap( flavor, phetProject ) ,"UTF-16");
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( phetProject ), createJNLPFilterMap( flavor, phetProject ), "UTF-16" );
     }
 
     private String getJNLPFileName() {
@@ -44,33 +44,33 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     private HashMap createJNLPFilterMap( PhetProjectFlavor flavor, PhetProject phetProject ) {
         HashMap map = new HashMap();
-        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( flavor.getTitle()) );
+        map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( flavor.getTitle() ) );
         map.put( "JNLP.NAME", getJNLPFileName() );
         map.put( "PROJECT.DESCRIPTION", StringEscapeUtils.escapeHtml( flavor.getDescription() ) );
         map.put( "PROJECT.JAR", phetProject.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//todo: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", flavor.getMainclass() );
-        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs(flavor ) ) );
+        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( flavor ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties() );
         map.put( "PROJECT.DEPLOY.PATH", deployUrl );
-		echo("JNLP filter map:\n" + map);
+        echo( "JNLP filter map:\n" + map );
         return map;
     }
 
     private String[] getArgs( PhetProjectFlavor flavor ) {
-        ArrayList args=new ArrayList( Arrays.asList( flavor.getArgs()));
+        ArrayList args = new ArrayList( Arrays.asList( flavor.getArgs() ) );
 
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
         String property = getOwningTarget().getProject().getProperty( "deploy.to.dev" );
-        if ( property!=null&&property.equalsIgnoreCase( "true")){
-            args.add("-dev");
+        if ( property != null && property.equalsIgnoreCase( "true" ) ) {
+            args.add( "-dev" );
         }
-        return (String[])args.toArray(new String[0]);
+        return (String[]) args.toArray( new String[0] );
     }
 
     private String getJNLPProperties() {//todo: locale support
         String properties = "";
-        if( locale != null && !locale.equals( "en" ) ) {
+        if ( locale != null && !locale.equals( "en" ) ) {
             properties += "<property name=\"javaws.phet.locale\" value=\"" + locale + "\" />";
         }
         return properties;
@@ -78,7 +78,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
     private String toJNLPArgs( String[] args ) {
         String string = "";
-        for( int i = 0; i < args.length; i++ ) {
+        for ( int i = 0; i < args.length; i++ ) {
             string += "<argument>" + args[i] + "</argument>\n";
         }
         return string;
@@ -100,7 +100,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
     public void setDeployUrl( String deployUrl ) {
         this.deployUrl = deployUrl;
 
-		echo("Setting deploy URL to " + deployUrl);
+        echo( "Setting deploy URL to " + deployUrl );
     }
 
     public static void main( String[] args ) throws Exception {
@@ -110,7 +110,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
 
 
         String[] idealGasFlavors = phetProject.getFlavorNames();
-        for( int i = 0; i < idealGasFlavors.length; i++ ) {
+        for ( int i = 0; i < idealGasFlavors.length; i++ ) {
             PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
 //        phetBuildJnlpTask.setFlavor( "cck-ac" );
 //        phetBuildJnlpTask.setLocale( "fr" );

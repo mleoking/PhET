@@ -20,13 +20,13 @@ public class ProguardConfigBuilder {
     }
 
     public void reset() {
-        this.name               = null;
-        this.proguardTemplate   = null;
+        this.name = null;
+        this.proguardTemplate = null;
         this.proguardOutputFile = null;
-        this.inputJars          = null;
-        this.outputJar          = null;
-        this.mainClasses        = null;
-        this.shrink             = true;
+        this.inputJars = null;
+        this.outputJar = null;
+        this.mainClasses = null;
+        this.shrink = true;
     }
 
     public void setName( String name ) {
@@ -59,7 +59,7 @@ public class ProguardConfigBuilder {
 
     public ProguardConfig build() {
         try {
-            return new ProguardConfig(name, proguardTemplate, proguardOutputFile, inputJars, outputJar, mainClasses, shrink);
+            return new ProguardConfig( name, proguardTemplate, proguardOutputFile, inputJars, outputJar, mainClasses, shrink );
         }
         finally {
             reset();

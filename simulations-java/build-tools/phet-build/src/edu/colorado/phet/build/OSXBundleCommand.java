@@ -1,13 +1,13 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import edu.colorado.phet.build.patterns.Command;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+
+import edu.colorado.phet.build.patterns.Command;
 
 /*
 
@@ -40,10 +40,10 @@ public class OSXBundleCommand implements Command {
     private File resourcesDir;
     private File javaDir;
 
-    public OSXBundleCommand(File baseDir, File destDir, File jarFile, File iconFile ) {
-        this.baseDir  = baseDir;
-        this.destDir  = destDir;
-        this.jarFile  = jarFile;
+    public OSXBundleCommand( File baseDir, File destDir, File jarFile, File iconFile ) {
+        this.baseDir = baseDir;
+        this.destDir = destDir;
+        this.jarFile = jarFile;
         this.iconFile = iconFile;
     }
 
@@ -61,7 +61,7 @@ public class OSXBundleCommand implements Command {
         resourcesDir.mkdir();
 
         javaDir = new File( resourcesDir, "Java" );
-        
+
         javaDir.mkdir();
     }
 
@@ -88,9 +88,9 @@ public class OSXBundleCommand implements Command {
 
     public void execute() throws Exception {
         if ( !destDir.getName().toLowerCase().endsWith( ".app" ) ) {
-            throw new IllegalArgumentException("The destination directory must end in .app");
+            throw new IllegalArgumentException( "The destination directory must end in .app" );
         }
-        
+
         createBundleStructure();
 
         createPkgInfo();

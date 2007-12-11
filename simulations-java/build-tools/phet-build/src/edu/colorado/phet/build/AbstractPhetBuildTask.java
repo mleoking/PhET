@@ -1,9 +1,9 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import org.apache.tools.ant.BuildException;
-
 import java.io.File;
+
+import org.apache.tools.ant.BuildException;
 
 public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
     private volatile String projectName;
@@ -20,7 +20,7 @@ public abstract class AbstractPhetBuildTask extends AbstractPhetTask {
             executeImpl( phetProject );
         }
         catch( Exception e ) {
-            e.printStackTrace( );
+            e.printStackTrace();
             throw new BuildException( "A problem occurred while trying to build " + projectName + ".", e );
         }
     }

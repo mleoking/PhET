@@ -1,15 +1,16 @@
 /* Copyright 2007, University of Colorado */
 package edu.colorado.phet.build;
 
-import edu.colorado.phet.build.patterns.Command;
 import org.apache.tools.ant.taskdefs.Delete;
+
+import edu.colorado.phet.build.patterns.Command;
 
 public class PhetCleanCommand implements Command {
     private final PhetProject project;
     private final AntTaskRunner antTaskRunner;
 
     public PhetCleanCommand( PhetProject project, AntTaskRunner antTaskRunner ) {
-        this.project       = project;
+        this.project = project;
         this.antTaskRunner = antTaskRunner;
     }
 

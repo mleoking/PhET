@@ -31,7 +31,7 @@ public class FileDownload {
             }
 //            System.out.println( localFileName + "\t" + numWritten );
         }
-        catch( FileNotFoundException f ){
+        catch( FileNotFoundException f ) {
             throw f;
         }
         catch( Exception exception ) {

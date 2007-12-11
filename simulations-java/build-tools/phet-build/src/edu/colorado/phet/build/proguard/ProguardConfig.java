@@ -11,7 +11,7 @@ import java.util.Arrays;
  * and because the object is immutable, impossible to transition an instance
  * from a valid to an invalid state. So clients that have a reference to a
  * ProGuard configuration object know it's valid (no null fields, for example)
- * and do not have to perform any validation. 
+ * and do not have to perform any validation.
  */
 public class ProguardConfig {
     private final String name;
@@ -23,30 +23,30 @@ public class ProguardConfig {
     private final boolean shrink;
 
     ProguardConfig( String name, File proguardTemplate, File proguardFile, File[] inJars, File outJar, String[] mainClasses, boolean shrink ) {
-        this.name               = name;
-        this.proguardTemplate   = proguardTemplate;
+        this.name = name;
+        this.proguardTemplate = proguardTemplate;
         this.proguardOutputFile = proguardFile;
-        this.inputJars          = inJars;
-        this.outputJar          = outJar;
-        this.mainClasses        = mainClasses;
-        this.shrink             = shrink;
+        this.inputJars = inJars;
+        this.outputJar = outJar;
+        this.mainClasses = mainClasses;
+        this.shrink = shrink;
 
         verifySettings();
     }
 
     private void verifyNotNull( Object o, String name ) {
-        if( o == null ) {
+        if ( o == null ) {
             throw new IllegalStateException( "The parameter for the " + name + " must not be null." );
         }
     }
 
     private void verifySettings() {
-        verifyNotNull( name,             "name" );
+        verifyNotNull( name, "name" );
         verifyNotNull( proguardTemplate, "template" );
-        verifyNotNull( proguardOutputFile,     "ProGuard file" );
-        verifyNotNull( inputJars,        "input jars" );
-        verifyNotNull( outputJar,           "output jars" );
-        verifyNotNull( mainClasses,      "main classes" );
+        verifyNotNull( proguardOutputFile, "ProGuard file" );
+        verifyNotNull( inputJars, "input jars" );
+        verifyNotNull( outputJar, "output jars" );
+        verifyNotNull( mainClasses, "main classes" );
     }
 
     public String getName() {
@@ -78,34 +78,34 @@ public class ProguardConfig {
     }
 
     public boolean equals( Object o ) {
-        if( this == o ) {
+        if ( this == o ) {
             return true;
         }
-        if( o == null || getClass() != o.getClass() ) {
+        if ( o == null || getClass() != o.getClass() ) {
             return false;
         }
 
-        ProguardConfig that = (ProguardConfig)o;
+        ProguardConfig that = (ProguardConfig) o;
 
-        if( shrink != that.shrink ) {
+        if ( shrink != that.shrink ) {
             return false;
         }
-        if( !Arrays.equals( inputJars, that.inputJars ) ) {
+        if ( !Arrays.equals( inputJars, that.inputJars ) ) {
             return false;
         }
-        if( !Arrays.equals( mainClasses, that.mainClasses ) ) {
+        if ( !Arrays.equals( mainClasses, that.mainClasses ) ) {
             return false;
         }
-        if( !name.equals( that.name ) ) {
+        if ( !name.equals( that.name ) ) {
             return false;
         }
-        if( !outputJar.equals( that.outputJar ) ) {
+        if ( !outputJar.equals( that.outputJar ) ) {
             return false;
         }
-        if( !proguardOutputFile.equals( that.proguardOutputFile ) ) {
+        if ( !proguardOutputFile.equals( that.proguardOutputFile ) ) {
             return false;
         }
-        if( !proguardTemplate.equals( that.proguardTemplate ) ) {
+        if ( !proguardTemplate.equals( that.proguardTemplate ) ) {
             return false;
         }
 
