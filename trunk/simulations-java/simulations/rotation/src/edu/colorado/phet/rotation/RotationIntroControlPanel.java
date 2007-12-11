@@ -6,8 +6,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.rotation.controls.RulerButton;
 import edu.colorado.phet.rotation.controls.ResetButton;
+import edu.colorado.phet.rotation.controls.RulerButton;
 import edu.colorado.phet.rotation.controls.ShowVectorsControl;
 import edu.colorado.phet.rotation.graphs.AbstractRotationGraphSet;
 import edu.colorado.phet.rotation.view.RotationSimPlayAreaNode;
@@ -29,13 +29,21 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
         add( createVelocitySlider( introModule ) );
     }
 
+    public static double radiansToDegrees( double rad ) {
+        return rad * 360 / 2 / Math.PI;
+    }
+
+    public static double degreesToRadians( double d ) {
+        return d * Math.PI * 2 / 360;
+    }
+
     private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( -Math.PI * 2 * 2, Math.PI * 2 * 2, 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.radians"));
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) );
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 introModule.getRotationModel().getRotationPlatform().setPositionDriven();
-                introModule.getRotationModel().getRotationPlatform().setPosition( linearSlider.getValue() );
+                introModule.getRotationModel().getRotationPlatform().setPosition( degreesToRadians( linearSlider.getValue() ) );
             }
         };
         linearSlider.addChangeListener( listener );
@@ -44,7 +52,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
             public void valueChanged() {
                 //set a value to the slider without sending notification, otherwise interpolated values for omega will cause problems
                 linearSlider.removeChangeListener( listener );
-                linearSlider.setValue( introModule.getRotationModel().getRotationPlatform().getPositionVariable().getValue() );
+                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getPositionVariable().getValue() ) );
                 linearSlider.addChangeListener( listener );
             }
         } );
