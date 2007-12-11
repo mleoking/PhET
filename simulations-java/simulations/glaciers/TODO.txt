@@ -3,13 +3,14 @@
 ================================================================================
 
 HIGH PRIORITY:
-- iterate on specification
+- implement all controls shown in design doc
+- prototype the top and middle views
 
 MEDIUM PRIORITY:
 - set foreground color of ticks & labels on BasicClimateControl sliders
 
 LOW PRIORITY:
-- control panels in both panels should be the same height
+- control panels in all panels should be the same height
 
 COMMON CODE:
 
@@ -27,6 +28,7 @@ DONE:
 12/6/07 - add listener interface for View control panel
 12/6/07 - rename localization properties related to clock
 12/6/07 - delete View controls that were dropped, remove all icons from View controls
+11/20/07 - review design doc #3
 11/20/07 - add credits
 11/20/07 - break into Basic and Advanced modules
 11/14/07 - add stub for magnified view
@@ -41,7 +43,8 @@ DONE:
 11/14/07 - first pass at clock control panel
 11/14/07 - add a bunch of image files, extracted from SVG mockup
 11/9/07 - move about.credits property to localization file
-10/22/07 - review design draft #1
+10/31/07 - review design doc #2
+10/22/07 - review design doc #1
 10/9/07 - inner classes for MVC observers
 10/9/07 - add width and height controls to control panel
 10/9/07 - flatten ExampleModelElement in preparation for replacing Observer pattern
