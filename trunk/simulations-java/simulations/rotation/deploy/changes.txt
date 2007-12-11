@@ -1,3 +1,5 @@
+12-11-2007: Rotation - "Clear" also pauses the simulation
+12-11-2007: Rotation - Fixes (see unfuddle)
 12-6-2007: Rotation - rewrote layout for play area and torque control panels
 12-6-2007: Rotation - rewrote control panel layout
 12-4-2007: Rotation - Moved mass graphic (partial side view) to the North West side, increased size range
