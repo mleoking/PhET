@@ -10,101 +10,95 @@ import javax.swing.*;
 import com.jcraft.jsch.*;
 
 public class ScpTo {
-    public static void main( String[] arg ) {
+    public static void main( String[] arg ) throws JSchException, IOException {
         if ( arg.length != 2 ) {
             System.err.println( "usage: java ScpTo file1 user@remotehost:file2" );
             System.exit( -1 );
         }
 
-        FileInputStream fis = null;
-        try {
+        String lfile = arg[0];
+        String user = arg[1].substring( 0, arg[1].indexOf( '@' ) );
+        arg[1] = arg[1].substring( arg[1].indexOf( '@' ) + 1 );
+        String host = arg[1].substring( 0, arg[1].indexOf( ':' ) );
+        String rfile = arg[1].substring( arg[1].indexOf( ':' ) + 1 );
 
-            String lfile = arg[0];
-            String user = arg[1].substring( 0, arg[1].indexOf( '@' ) );
-            arg[1] = arg[1].substring( arg[1].indexOf( '@' ) + 1 );
-            String host = arg[1].substring( 0, arg[1].indexOf( ':' ) );
-            String rfile = arg[1].substring( arg[1].indexOf( ':' ) + 1 );
-
-            fis = uploadFile( new File( lfile ), user, host, rfile );
-        }
-        catch( Exception e ) {
-            System.out.println( e );
-            try {
-                if ( fis != null ) {
-                    fis.close();
-                }
-            }
-            catch( Exception ee ) {}
-        }
+        uploadFile( new File( lfile ), user, host, rfile );
     }
 
-    private static FileInputStream uploadFile( File localFile, String user, String host, String remoteFilePath ) throws JSchException, IOException {
+    public static void uploadFile( File localFile, String user, String host, String remoteFilePath ) throws JSchException, IOException {
+        FileInputStream fis = null;
+        try {
+            JSch jsch = new JSch();
+            Session session = jsch.getSession( user, host, 22 );
 
-        JSch jsch = new JSch();
-        Session session = jsch.getSession( user, host, 22 );
+            // username and password will be given via UserInfo interface.
+            UserInfo ui = new MyUserInfo();
+            session.setUserInfo( ui );
+            session.connect();
 
-        // username and password will be given via UserInfo interface.
-        UserInfo ui = new MyUserInfo();
-        session.setUserInfo( ui );
-        session.connect();
+            // exec 'scp -t remoteFilePath' remotely
+            String command = "scp -p -t " + remoteFilePath;
+            Channel channel = session.openChannel( "exec" );
+            ( (ChannelExec) channel ).setCommand( command );
 
-        // exec 'scp -t remoteFilePath' remotely
-        String command = "scp -p -t " + remoteFilePath;
-        Channel channel = session.openChannel( "exec" );
-        ( (ChannelExec) channel ).setCommand( command );
+            // get I/O streams for remote scp
+            OutputStream out = channel.getOutputStream();
+            InputStream in = channel.getInputStream();
 
-        // get I/O streams for remote scp
-        OutputStream out = channel.getOutputStream();
-        InputStream in = channel.getInputStream();
+            channel.connect();
 
-        channel.connect();
-
-        if ( checkAck( in ) != 0 ) {
-            System.exit( 0 );
-        }
-
-        // send "C0644 filesize filename", where filename should not include '/'
-        long filesize = ( localFile ).length();
-        command = "C0644 " + filesize + " ";
-        if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
-            command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
-        }
-        else {
-            command += localFile;
-        }
-        command += "\n";
-        out.write( command.getBytes() );
-        out.flush();
-        if ( checkAck( in ) != 0 ) {
-            System.exit( 0 );
-        }
-
-        // send a content of localFile
-        FileInputStream fis = new FileInputStream( localFile );
-        byte[] buf = new byte[1024];
-        while ( true ) {
-            int len = fis.read( buf, 0, buf.length );
-            if ( len <= 0 ) {
-                break;
+            if ( checkAck( in ) != 0 ) {
+                System.exit( 0 );
             }
-            out.write( buf, 0, len ); //out.flush();
-        }
-        fis.close();
-        fis = null;
-        // send '\0'
-        buf[0] = 0;
-        out.write( buf, 0, 1 );
-        out.flush();
-        if ( checkAck( in ) != 0 ) {
+
+            // send "C0644 filesize filename", where filename should not include '/'
+            long filesize = ( localFile ).length();
+            command = "C0644 " + filesize + " ";
+            if ( localFile.getAbsolutePath().lastIndexOf( '/' ) > 0 ) {
+                command += localFile.getAbsolutePath().substring( localFile.getAbsolutePath().lastIndexOf( '/' ) + 1 );
+            }
+            else {
+                command += localFile;
+            }
+            command += "\n";
+            out.write( command.getBytes() );
+            out.flush();
+            if ( checkAck( in ) != 0 ) {
+                System.exit( 0 );
+            }
+
+            // send a content of localFile
+
+            fis = new FileInputStream( localFile );
+            byte[] buf = new byte[1024];
+            while ( true ) {
+                int len = fis.read( buf, 0, buf.length );
+                if ( len <= 0 ) {
+                    break;
+                }
+                out.write( buf, 0, len ); //out.flush();
+            }
+            fis.close();
+            fis = null;
+            // send '\0'
+            buf[0] = 0;
+            out.write( buf, 0, 1 );
+            out.flush();
+            if ( checkAck( in ) != 0 ) {
+                System.exit( 0 );
+            }
+            out.close();
+
+            channel.disconnect();
+            session.disconnect();
+
             System.exit( 0 );
         }
-        out.close();
-
-        channel.disconnect();
-        session.disconnect();
-
-        System.exit( 0 );
-        return fis;
+        finally {
+            if ( fis != null ) {
+                fis.close();
+            }
+        }
     }
 
     static int checkAck( InputStream in ) throws IOException {
