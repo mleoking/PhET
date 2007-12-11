@@ -6,13 +6,13 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.jar.JarEntry;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
-
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.ProjectHelper;
 
 import edu.colorado.phet.build.translate.TranslationDiscrepancy;
 
@@ -203,20 +203,25 @@ public class FileUtils {
         } );
     }
 
-    public static void zipSingleFile( File rootDir, File file, ZipOutputStream zipOutputStream ) throws IOException {
+    public static void jarSingleFile( File rootDir, File file, ZipOutputStream zipOutputStream ) throws IOException {
         if ( file.isDirectory() ) {
             File[] f = file.listFiles();
             for ( int i = 0; i < f.length; i++ ) {
-                zipSingleFile( rootDir, f[i], zipOutputStream );
+                if ( !f[i].getAbsolutePath().endsWith( "MANIFEST.MF" ) ) {
+                    jarSingleFile( rootDir, f[i], zipOutputStream );
+                }
             }
         }
         else {
             String path = file.getAbsolutePath().substring( rootDir.getAbsolutePath().length() );
             path = path.replace( '\\', '/' );
-            if ( !path.startsWith( "/" ) ) {
-                path = "/" + path;
+//            if ( !path.startsWith( "/" ) ) {
+//                path = "/" + path;
+//            }
+            while ( path.startsWith( "/" ) ) {
+                path = path.substring( 1 );
             }
-            ZipEntry zipEntry = new ZipEntry( path );
+            JarEntry zipEntry = new JarEntry( path );
             zipOutputStream.putNextEntry( zipEntry );
 
             FileInputStream inputStream = new FileInputStream( file );
@@ -228,14 +233,15 @@ public class FileUtils {
         }
     }
 
-    public static void zip( File dir, File dest ) throws IOException {
-        System.out.println( "FileUtils.zip: dir="+dir.getAbsolutePath()+", dest="+dest.getAbsolutePath() );
-        ZipOutputStream zipOutputStream = new ZipOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) );
-        zipSingleFile( dir, dir, zipOutputStream );
-        zipOutputStream.close();
+    public static void jar( File dir, File dest ) throws IOException {
+        System.out.println( "FileUtils.zip: dir=" + dir.getAbsolutePath() + ", dest=" + dest.getAbsolutePath() );
+//        JarOutputStream jarOutputStream = new JarOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) ,new Manifest( new FileInputStream( new File( dir,"META-INF/MANIFEST.MF") ) ) );
+        JarOutputStream jarOutputStream = new JarOutputStream( new FileOutputStream( dest ), new Manifest( new FileInputStream( new File( dir, "META-INF/MANIFEST.MF" ) ) ) );
+        jarSingleFile( dir, dir, jarOutputStream );
+        jarOutputStream.close();
     }
 
     public static void main( String[] args ) throws IOException {
-        zip( new File( "/Users/jdegoes/Desktop/temp-dir" ), new File( "/Users/jdegoes/Desktop/temp-dir-rezipped.zip" ) );
+        jar( new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025" ), new File( "C:\\Users\\Sam\\AppData\\Local\\Temp\\cck-ac47025-rezip4.jar" ) );
     }
 }
