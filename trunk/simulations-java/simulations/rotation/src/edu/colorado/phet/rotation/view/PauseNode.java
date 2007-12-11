@@ -1,5 +1,6 @@
 package edu.colorado.phet.rotation.view;
 
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -10,7 +11,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class PauseNode extends PNode {
     public PauseNode() {
-        PImage image = new PImage( TimeseriesResources.loadBufferedImage( "icons/java/media/Pause24.gif" ) );
+        PImage image = new PImage( BufferedImageUtils.flipY( TimeseriesResources.loadBufferedImage( "icons/java/media/Pause24.gif" ) ) );
         addChild( image );
     }
 }

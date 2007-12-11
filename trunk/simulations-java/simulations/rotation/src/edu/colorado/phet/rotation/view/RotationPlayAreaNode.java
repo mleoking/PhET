@@ -81,8 +81,12 @@ public class RotationPlayAreaNode extends PNode {
         addChild( rulerNode );
 
         addChild( circularMotionNode );
-        pauseNode.setScale( SCALE * 3.5 );
-        pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS - pauseNode.getFullBounds().getHeight() );
+//        pauseNode.setScale( SCALE * 3.5 );
+        pauseNode.setScale( SCALE * 3.5*2.5 );
+        pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS
+//                                                           - pauseNode.getFullBounds().getHeight()/2
+                                                           -pauseNode.getFullBounds().getHeight()
+        );
         rotationModel.getClock().addClockListener( new ClockAdapter() {
             public void clockPaused( ClockEvent clockEvent ) {
                 updatePauseNode();
