@@ -60,12 +60,12 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createVelocitySlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( AbstractRotationGraphSet.MIN_ANG_VEL, AbstractRotationGraphSet.MAX_ANG_VEL, 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", "radians/sec" );
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( AbstractRotationGraphSet.MIN_ANG_VEL), radiansToDegrees( AbstractRotationGraphSet.MAX_ANG_VEL), 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", RotationStrings.getString( "units.degrees")+"/"+ RotationStrings.getString( "units.s"));
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 introModule.getRotationModel().getRotationPlatform().setVelocityDriven();
-                introModule.getRotationModel().getRotationPlatform().setVelocity( linearSlider.getValue() );
+                introModule.getRotationModel().getRotationPlatform().setVelocity( degreesToRadians( linearSlider.getValue()));
             }
         };
         linearSlider.addChangeListener( listener );
@@ -74,7 +74,7 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
             public void valueChanged() {
                 //set a value to the slider without sending notification, otherwise interpolated values for omega will cause problems
                 linearSlider.removeChangeListener( listener );
-                linearSlider.setValue( introModule.getRotationModel().getRotationPlatform().getVelocityVariable().getValue() );
+                linearSlider.setValue( radiansToDegrees( introModule.getRotationModel().getRotationPlatform().getVelocityVariable().getValue()));
                 linearSlider.addChangeListener( listener );
             }
         } );
