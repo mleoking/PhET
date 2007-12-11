@@ -76,7 +76,7 @@ public class ViewControlPanel extends JPanel {
         _coordinatesCheckBox.setForeground( CONTROL_COLOR );
         _coordinatesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                fireCoordinatesChanged();
+                notifyCoordinatesChanged();
             }
         });
         
@@ -213,7 +213,7 @@ public class ViewControlPanel extends JPanel {
         }
     }
     
-    private void fireCoordinatesChanged() {
+    private void notifyCoordinatesChanged() {
         boolean b = isCoordinatesSelected();
         Iterator i = _listenerList.iterator();
         while ( i.hasNext() ) {
