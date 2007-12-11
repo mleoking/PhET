@@ -4,11 +4,14 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 public class NonOverlappingParticleCreationStrategy implements ParticleCreationStrategy {
-    private final int MAX_TRIALS = 1000;
+    private static final int MAX_TRIALS = 1000;
+
     private final ParticleCreationStrategy boundedStrategy;
     private final double particleRadius;
+    private final double cushion;
 
-    public NonOverlappingParticleCreationStrategy(Rectangle2D.Double bounds, double particleRadius) {
+    public NonOverlappingParticleCreationStrategy(Rectangle2D.Double bounds, double particleRadius, double cushion) {
+        this.cushion = cushion;
         this.boundedStrategy = new BoundedParticleCreationStrategy(bounds);
         this.particleRadius  = particleRadius;
     }
@@ -27,7 +30,7 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
 
                 double dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                if (dist < 2 * particleRadius) {
+                if (dist < 2 * particleRadius + cushion) {
                     nonOverlapping = false;
 
                     break;
@@ -39,6 +42,6 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
             }
         }
 
-        throw new RuntimeException("Space too bounded to create new non-overlapping particle");
+        throw new RuntimeException("Space too crowded to create new non-overlapping particle");
     }
 }

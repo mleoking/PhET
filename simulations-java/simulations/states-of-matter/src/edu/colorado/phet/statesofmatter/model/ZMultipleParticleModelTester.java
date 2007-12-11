@@ -105,7 +105,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
         for (int i = 0; i < 100; i++) {
             waitForParticleToMove();
-            
+
             double curEnergy = model.getKineticEnergy() + model.getPotentialEnergy();
 
             assertEquals("Energy not conserved at step " + i, initialEnergy, curEnergy, 0.00001);
@@ -119,7 +119,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
         StatesOfMatterParticle originalP = (StatesOfMatterParticle)p.clone();
 
-        while (p.equals(originalP)) {
+        while (p.getPosition().equals(originalP.getPosition())) {
             if (clock.isPaused()) {
                 clock.stepClockWhilePaused();
             }

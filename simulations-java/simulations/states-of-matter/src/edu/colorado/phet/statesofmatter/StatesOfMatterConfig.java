@@ -19,6 +19,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final double PARTICLE_MASS = 1.0;
     public static final int COMPUTATIONS_PER_RENDER = 100;
     public static final double PARTICLE_MAX_KE = 500000;
+    public static final double PARTICLE_CREATION_CUSHION = 0.05;
 
     public StatesOfMatterConfig(String[] commandLineArgs, FrameSetup frameSetup) {
         super(commandLineArgs, frameSetup, RESOURCES);

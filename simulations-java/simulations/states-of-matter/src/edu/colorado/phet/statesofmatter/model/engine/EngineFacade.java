@@ -28,7 +28,7 @@ public class EngineFacade {
      *
      * @return The total potential energy.
      */
-    public double getPotentialEnergy() {
+    public double measurePotentialEnergy() {
         EnginePotentialEnergyMeasurer measurer = new EnginePotentialEnergyMeasurer(particles, StatesOfMatterConfig.CONTAINER_BOUNDS.getMaxY(), descriptor.gravity, ljp);
 
         return measurer.measure();
@@ -39,7 +39,7 @@ public class EngineFacade {
      *
      * @return The total kinetic energy.
      */
-    public double getKineticEnergy() {
+    public double measureKineticEnergy() {
         KineticEnergyMeasurer measurer = new KineticEnergyMeasurer(particles);
 
         return measurer.measure();
