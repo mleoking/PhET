@@ -63,15 +63,20 @@ public class TranslationDiscrepancy {
     }
 
     public void resolve( File resolveJAR ) throws IOException {
-        File jarFile = downloadJAR();
-        System.out.println( "Downloaded Jar file: "+jarFile.getAbsolutePath() );
-        synchronizeStrings( jarFile, resolveJAR );
+        if ( !extraLocal.isEmpty() || !extraRemote.isEmpty() ) {
+            File jarFile = downloadJAR();
+            System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
+            synchronizeStrings( jarFile, resolveJAR );
 
-        try {
-            uploadJAR( resolveJAR );
+//        try {
+//            uploadJAR( resolveJAR );
+//        }
+//        catch( JSchException e ) {
+//            e.printStackTrace();
+//        }
         }
-        catch( JSchException e ) {
-            e.printStackTrace();
+        else {
+            System.out.println( "no resolution needed for: " + phetProject.getName() + ": " + flavor );
         }
     }
 
@@ -80,7 +85,7 @@ public class TranslationDiscrepancy {
     }
 
     private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
-        File tempUnzipDir = new File(getTmpDir(),flavor + "-dir");
+        File tempUnzipDir = new File( getTmpDir(), flavor + "-dir" );
         System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
 
@@ -101,7 +106,7 @@ public class TranslationDiscrepancy {
             File source = phetProject.getTranslationFile( locale );
             FileUtils.copyTo( source, new File( localizationDir, source.getName() ) );
         }
-        FileUtils.zip( localizationDir, resolveJAR );
+        FileUtils.zip( tempUnzipDir, resolveJAR );
     }
 
     private File downloadJAR() throws IOException {
