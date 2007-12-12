@@ -4,6 +4,9 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import junit.framework.TestCase;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class ZBoundedParticleCreationStrategyTester extends TestCase {
     protected static final int NUM_PARTICLES_TO_TEST = 300;
@@ -21,8 +24,12 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
     public void testThatNoParticleCenterIsOutsideBounds() {
         Rectangle2D.Double bounds = StatesOfMatterConfig.CONTAINER_BOUNDS;
 
-        for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle particle = strategy.createParticle();
+        Collection particles = new ArrayList();
+
+        strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
+
+        for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
+            StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
 
             assertTrue(bounds.contains(particle.getX(), particle.getY()));
         }
@@ -36,16 +43,39 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
                                                            bounds.width  - 2 * PARTICLE_RADIUS,
                                                            bounds.height - 2 * PARTICLE_RADIUS);
 
-        for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle particle = strategy.createParticle();
+        Collection particles = new ArrayList();
+
+        strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
+
+        for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
+            StatesOfMatterParticle particle = (StatesOfMatterParticle)iterator.next();
 
             assertTrue(narrow.contains(particle.getX(), particle.getY()));
         }
     }
 
     public void testCanCreateList() {
-        assertEquals(1, strategy.createParticles(1).size());
-        
-        assertTrue(strategy.createParticles(1).iterator().next() instanceof StatesOfMatterParticle);
+        Collection particles = new ArrayList();
+
+        assertEquals(3, strategy.createParticles(particles, 3));
+
+        assertTrue(particles.iterator().next() instanceof StatesOfMatterParticle);
+    }
+
+    public void testListCreationAddsToExistingList() {
+        Collection particles = new ArrayList();
+
+        strategy.createParticles(particles, 3);
+        strategy.createParticles(particles, 3);
+
+        assertEquals(6, particles.size());
+    }
+
+    public void testListCreationReturnsAppropriateParticleCount() {
+        Collection particles = new ArrayList();
+
+        strategy.createParticles(particles, 3);
+
+        assertEquals(2, strategy.createParticles(particles, 2));
     }
 }

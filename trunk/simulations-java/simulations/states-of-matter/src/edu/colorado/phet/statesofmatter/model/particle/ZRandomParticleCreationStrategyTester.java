@@ -2,6 +2,8 @@ package edu.colorado.phet.statesofmatter.model.particle;
 
 import junit.framework.TestCase;
 
+import java.util.ArrayList;
+
 public class ZRandomParticleCreationStrategyTester extends TestCase {
     private volatile ParticleCreationStrategy strategy;
 
@@ -14,6 +16,6 @@ public class ZRandomParticleCreationStrategyTester extends TestCase {
     }
 
     public void testCanCreateList() {
-        assertEquals(1, strategy.createParticles(1).size());
+        assertEquals(1, strategy.createParticles(new ArrayList(), 1));
     }
 }

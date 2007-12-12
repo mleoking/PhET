@@ -41,7 +41,8 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
         ParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, particles);
 
         particles.clear();
-        particles.addAll(strategy.createParticles(StatesOfMatterConfig.INITIAL_PARTICLE_COUNT));
+
+        strategy.createParticles(particles, StatesOfMatterConfig.INITIAL_PARTICLE_COUNT);
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);
 

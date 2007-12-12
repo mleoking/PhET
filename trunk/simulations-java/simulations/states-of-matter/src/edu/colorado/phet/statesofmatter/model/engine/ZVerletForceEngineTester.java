@@ -87,6 +87,6 @@ public class ZVerletForceEngineTester extends TestCase {
 
         NonOverlappingParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, 1.0, StatesOfMatterConfig.PARTICLE_RADIUS, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, particles);
 
-        particles.addAll(strategy.createParticles(particleCount));
+        strategy.createParticles(particles, particleCount);
     }
 }

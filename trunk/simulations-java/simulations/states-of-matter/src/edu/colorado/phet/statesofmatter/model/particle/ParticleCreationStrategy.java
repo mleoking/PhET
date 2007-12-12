@@ -16,9 +16,10 @@ public interface ParticleCreationStrategy {
      * Different strategies may have different limitations regarding how
      * many particles they can create.
      *
-     * @param maximum   The maximum of particles.
+     * @param destination   Where to place the particles.
+     * @param maximum       The maximum of particles.
      *
-     * @return A collection of new particles.
+     * @return The number of particles actually created.
      */
-    Collection createParticles(int maximum);
+    int createParticles(Collection destination, int maximum);
 }
