@@ -7,6 +7,7 @@ import edu.colorado.phet.build.PhetProject;
 
 public class SynchronizeTranslations {
     public static void main( String[] args ) throws IOException {
+        CheckTranslations.clearTempDir();
         PhetProject[] p = PhetProject.getAllProjects( new File( args[0] ) );
         for ( int i = 0; i < p.length; i++ ) {
             PhetProject phetProject = p[i];

@@ -130,4 +130,7 @@ public class CheckTranslations {
 
     static String prefix = "http://phet.colorado.edu/sims/";
 
+    public static void clearTempDir() {
+        FileUtils.delete( TRANSLATIONS_TEMP_DIR,true );
+    }
 }
