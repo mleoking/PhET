@@ -2,14 +2,120 @@
 
 package edu.colorado.phet.glaciers.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.model.Thermometer;
+import edu.colorado.phet.glaciers.model.Thermometer.ThermometerAdapter;
+import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
-
-public class ThermometerNode extends PImage {
-
-    public ThermometerNode() {
+/**
+ * ThermometerNode is the visual representation of a thermometer.
+ * It's origin is at the bottom center.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class ThermometerNode extends PNode {
+    
+    private static final String TEMPERATURE_UNITS = GlaciersResources.getString( "units.temperature" );
+    
+    private static final Font TEXT_FONT = new PhetDefaultFont( 12 );
+    private static final Color TEXT_COLOR = Color.BLACK;
+    private static final Insets TEXT_INSETS = new Insets( 2, 2, 2, 2 ); //top,left,bottom,right
+    private static final Color TEXT_BACKGROUND_COLOR = Color.WHITE;
+    private static final Color TEXT_BACKGROUND_STROKE_COLOR = Color.BLACK;
+    private static final Stroke TEXT_BACKGROUND_STROKE = new BasicStroke( 1f );
+    private static final String TEMPERATURE_PATTERN = "###0.0";
+    private static final DecimalFormat TEMPERATURE_FORMAT = new DecimalFormat( TEMPERATURE_PATTERN );
+    
+    private ThermometerListener _thermometerListener;
+    private Thermometer _thermometer;
+    private PText _textNode;
+    private PPath _textBackgroundNode;
+    
+    public ThermometerNode( Thermometer thermometer ) {
         super();
-        setImage( GlaciersResources.getImage( "thermometer.png" ) );
+        
+        PImage imageNode = GlaciersResources.getImageNode( "thermometer.png" );
+        
+        String widestString = TEMPERATURE_PATTERN + " " + TEMPERATURE_UNITS;
+        _textNode = new PText( widestString );
+        _textNode.setFont( TEXT_FONT );
+        _textNode.setTextPaint( TEXT_COLOR );
+        
+        double width = _textNode.getWidth() + TEXT_INSETS.left + TEXT_INSETS.right;
+        double height = _textNode.getHeight() + TEXT_INSETS.top + TEXT_INSETS.bottom;
+        
+        Rectangle2D r = new Rectangle2D.Double( 0, 0, width, height );
+        _textBackgroundNode = new PPath( r );
+        _textBackgroundNode.setPaint( TEXT_BACKGROUND_COLOR );
+        _textBackgroundNode.setStrokePaint( TEXT_BACKGROUND_STROKE_COLOR );
+        _textBackgroundNode.setStroke( TEXT_BACKGROUND_STROKE );
+        
+        addChild( imageNode );
+        addChild( _textBackgroundNode );
+        addChild( _textNode );
+        
+        double x = -imageNode.getWidth()/2;
+        double y = -imageNode.getHeight();
+        imageNode.setOffset( x, y );
+        x = imageNode.getFullBoundsReference().getX() + ( imageNode.getFullBoundsReference().getWidth() / 2 );
+        y = imageNode.getFullBoundsReference().getY() + ( imageNode.getFullBoundsReference().getHeight() / 2 );
+        _textBackgroundNode.setOffset( x, y );
+        x = _textBackgroundNode.getFullBoundsReference().getX() + TEXT_INSETS.left;
+        y = _textBackgroundNode.getFullBoundsReference().getY() + TEXT_INSETS.top;
+        _textNode.setOffset( x, y );//XXX should be right justified!
+        
+        _thermometerListener = new ThermometerAdapter() {
+            public void positionChanged() {
+                updatePosition();
+            }
+            public void temperatureChanged() {
+                updateTemperature();
+            }
+        };
+        
+        _thermometer = thermometer;
+        _thermometer.addListener( _thermometerListener );
+        
+        addInputEventListener( new PDragEventHandler() {
+            protected void drag( PInputEvent event ) {
+                Point2D p = event.getCanvasPosition();
+                //TODO transform p first!
+                _thermometer.setPosition( p );
+            }
+        } );
+
+        updatePosition();
+        updateTemperature();
+    }
+    
+    public void cleanup() {
+        _thermometer.removeListener( _thermometerListener );
+    }
+    
+    private void updatePosition() {
+        Point2D position = _thermometer.getPositionReference();
+        //TODO transform position first!
+        setOffset( position.getX(), position.getY() );
+    }
+    
+    private void updateTemperature() {
+        double temperature = _thermometer.getTemperature();
+        String s = TEMPERATURE_FORMAT.format( temperature ) + " " + TEMPERATURE_UNITS;
+        _textNode.setText( s );
+        double x = _textBackgroundNode.getFullBoundsReference().getMaxX() - _textNode.getFullBoundsReference().getWidth() - TEXT_INSETS.right;
+        double y = _textBackgroundNode.getFullBoundsReference().getY() + TEXT_INSETS.top;
+        _textNode.setOffset( x, y );
     }
 }
