@@ -1,7 +1,9 @@
 package edu.colorado.phet.build.translate;
 
 import java.io.*;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -94,10 +96,44 @@ public class TranslationDiscrepancy {
         Locale[] locales = phetProject.getLocales();
         for ( int i = 0; i < locales.length; i++ ) {
             File source = phetProject.getTranslationFile( locales[i] );
+            validateKeySet( locales[i], jarFile, source );
             FileUtils.copyAndClose( new FileInputStream( source ), new FileOutputStream( new File( localizationDir, source.getName() ) ), false );
-//            FileUtils.copyTo( source, new File( localizationDir, source.getName() ) );
         }
+
         FileUtils.jar( tempUnzipDir, resolveJAR );
+    }
+
+    private void validateKeySet( Locale locale, File jarFile, File source ) throws IOException {
+        File tempDir = new File( FileUtils.getTmpDir(), jarFile.getName() + "_keytest" );
+        tempDir.mkdirs();
+        FileUtils.unzip( jarFile, tempDir );
+        String localeName = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
+        File keysToBeReplaced = new File( tempDir, phetProject.getName() + File.separator + "localization" + File.separator + "/" + phetProject.getName() + "-strings" + localeName + ".properties" );
+        HashSet missingKeys = validateKeySet( keysToBeReplaced, source );
+        if ( missingKeys.isEmpty() ) {
+
+        }
+        else {
+            System.out.println( "Project: " + phetProject.getName() + " flavor=" + flavor + ", locale=" + locale + ": New key set is missing some pre-existing keys= " + missingKeys );
+        }
+    }
+
+    private HashSet validateKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
+        Properties oldProperties = new Properties();
+        oldProperties.load( new FileInputStream( oldPropertiesFile ) );
+
+        Properties newProperties = new Properties();
+        newProperties.load( new FileInputStream( newPropertiesFile ) );
+
+//        final boolean b = newProperties.keySet().containsAll( oldProperties.keySet() );
+//        if (!b){
+        HashSet set = new HashSet( oldProperties.keySet() );
+        set.removeAll( newProperties.keySet() );
+
+        return set;
+//            System.out.println( "missing = " + set );
+//        }
+//        return b;
     }
 
     private File downloadJAR() throws IOException {
