@@ -12,6 +12,7 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxControlPanel;
 import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
+import edu.colorado.phet.glaciers.model.Thermometer;
 import edu.colorado.phet.glaciers.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
@@ -92,9 +93,13 @@ public class BasicCanvas extends PhetPCanvas {
         // Toolbox
         _toolboxControlPanel = new ToolboxControlPanel();
         _rootNode.addChild( _toolboxControlPanel );
+        
+        //XXX testing, this all needs to go elsewhere
         _toolboxControlPanel.addListener( new ToolboxListener() {
             public void addThermometer( Point2D atCanvasPosition ) {
-                addToolNode( new ThermometerNode(), atCanvasPosition );
+                Thermometer thermometer = new Thermometer( 0, atCanvasPosition );
+                ThermometerNode node = new ThermometerNode( thermometer );
+                _rootNode.addChild( node );
             }
             public void addGlacialBudgetMeter( Point2D atCanvasPosition ) {
                 addToolNode( new GlacialBudgetMeterNode(), atCanvasPosition );

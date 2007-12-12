@@ -3,12 +3,18 @@
 ================================================================================
 
 HIGH PRIORITY:
+- forward toolbox drag events to newly-created model elements
+- fix position transforms in ThermometerNode
 - remove tools by dragging them back to the toolbox or to the trash can
+- move trash can out of toolbox
+- add controller package
+- separate out controllers for toolbox and ThermometerNode
 - create and continue dragging tool when you click on an icon in the toolbox
 - implement all controls shown in design doc
 - prototype the top and middle views
 
 MEDIUM PRIORITY:
+- move time units out of clock model
 - set foreground color of ticks & labels on BasicClimateControl sliders
 
 LOW PRIORITY:
@@ -23,6 +29,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/12/07 - update thermometer view as thermometer model changes
+12/12/07 - add basic thermometer model
 12/11/07 - replace images for ice thickness tool
 12/11/07 - add draggable tools to the canvas, no way to delete them yet
 12/11/07 - first pass at ToolboxNode, no interactivity yet
