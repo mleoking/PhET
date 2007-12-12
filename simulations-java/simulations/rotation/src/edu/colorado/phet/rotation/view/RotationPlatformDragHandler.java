@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Aug 8, 2007, 7:26:37 PM
  */
 public class RotationPlatformDragHandler extends PBasicInputEventHandler {
-    double initAngle;
-    public Point2D initLoc;
+    private double initAngle;
+    private Point2D initLoc;
     private final IPositionDriven environment;
     private final RotationPlatform rotationPlatform;
     private PNode rotationPlatformNode;
