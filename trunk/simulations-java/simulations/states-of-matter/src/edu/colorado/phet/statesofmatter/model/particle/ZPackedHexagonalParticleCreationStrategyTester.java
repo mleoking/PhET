@@ -10,17 +10,21 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlappingParticleCreationStrategyTester {
-    private static final Rectangle2D.Double B = StatesOfMatterConfig.CONTAINER_BOUNDS;;
+    private static final Rectangle2D.Double B = StatesOfMatterConfig.CONTAINER_BOUNDS;
     private static final Shape ICE_CUBE = new Rectangle2D.Double(B.getX() + 1, B.getY() + 1, B.getWidth() - 1, B.getHeight() - 1);
 
     public void setUp() {
         particles = new ArrayList();
 
+        createNewStrategy();
+
+        strategy.createParticles(particles, NUM_PARTICLES_TO_TEST * 400);
+    }
+
+    private void createNewStrategy() {
         cushion = 0.01;
 
         strategy = new PackedHexagonalParticleCreationStrategy(ICE_CUBE, PARTICLE_MASS, PARTICLE_RADIUS, cushion);
-
-        strategy.createParticles(particles, NUM_PARTICLES_TO_TEST * 400);
     }
 
     private double dist(double x1, double y1, double x2, double y2) {
@@ -77,5 +81,23 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
                 assertEquals("Particle " + p + " is one of the six closest to particle " + closest + ", but is not the same distance away from it as at least one of the others.", dist, curDist, 0.000001);
             }
         }
+    }
+
+    public void testCanCreateList() {
+        createNewStrategy();
+
+        super.testCanCreateList();
+    }
+
+    public void testListCreationAddsToExistingList() {
+        createNewStrategy();
+
+        super.testListCreationAddsToExistingList();
+    }
+
+    public void testListCreationReturnsAppropriateParticleCount() {
+        createNewStrategy();
+        
+        super.testListCreationReturnsAppropriateParticleCount();
     }
 }
