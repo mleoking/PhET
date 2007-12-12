@@ -3,11 +3,8 @@ package edu.colorado.phet.movingman.motion.ramps;
 import java.awt.geom.Point2D;
 import java.io.IOException;
 
-import org.eclipse.swt.widgets.Widget;
-import org.eclipse.swt.widgets.Button;
-
-import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.movingman.motion.movingman.AbstractMovingManNode;
 import edu.umd.cs.piccolo.PNode;
