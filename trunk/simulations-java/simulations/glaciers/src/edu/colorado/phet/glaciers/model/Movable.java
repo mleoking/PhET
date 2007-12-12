@@ -5,10 +5,8 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 
-
-public abstract class Movable extends ClockAdapter {
+public abstract class Movable {
     
     private static final Point2D DEFAULT_POSITION = new Point2D.Double( 0, 0 );
     private static final double DEFAULT_ORIENTATION = 0;
