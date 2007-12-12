@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.jar.JarFile;
 
+import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
 /**
@@ -14,9 +15,8 @@ import edu.colorado.phet.build.PhetProject;
  */
 public class CheckTranslations {
     private boolean verbose = true;
-
-    //private static final String LOCAL_ROOT_DIR = "C:\\Users\\Sam\\Desktop\\jars\\";
-    private static File LOCAL_ROOT_DIR = new File( System.getProperty( "java.io.tmpdir" ), "temp-jar-dir" );
+    public static final File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
+    private static File LOCAL_ROOT_DIR = new File( TRANSLATIONS_TEMP_DIR, "temp-jar-dir" );
 
     static {
         LOCAL_ROOT_DIR.mkdirs();

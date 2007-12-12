@@ -19,8 +19,8 @@ import edu.colorado.phet.build.translate.TranslationDiscrepancy;
 public class FileUtils {
     private static String DEFAULT_ENCODING = "utf-8";
 
-    public static final File getTmpDir() {
-        final File file = new File( System.getProperty( "java.io.tmpdir" ) );
+    public static File getTmpDir() {
+        File file = new File( System.getProperty( "java.io.tmpdir" ) );
         file.mkdirs();
         return file;
     }
