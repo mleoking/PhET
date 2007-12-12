@@ -117,14 +117,20 @@ public class FileUtils {
     }
 
     public static void delete( File file ) {
+        delete( file, false );
+    }
+
+    public static void delete( File file, boolean verbose ) {
         if ( file.isDirectory() ) {
             File[] children = file.listFiles();
 
             for ( int i = 0; i < children.length; i++ ) {
-                delete( children[i] );
+                delete( children[i],verbose );
             }
         }
-
+        if ( verbose ) {
+            System.out.println( "Deleting: " + file.getAbsolutePath() );
+        }
         file.delete();
     }
 
@@ -134,7 +140,7 @@ public class FileUtils {
 
     public static void copy( InputStream source, OutputStream dest, boolean buffered ) throws IOException {
         //todo: buffering is disabled until file truncation issue is resolved
-        buffered=false;
+        buffered = false;
         if ( buffered ) {
             source = new BufferedInputStream( source );
             dest = new BufferedOutputStream( dest );
