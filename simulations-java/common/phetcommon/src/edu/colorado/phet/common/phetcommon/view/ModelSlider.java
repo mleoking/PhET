@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -443,13 +445,13 @@ public class ModelSlider extends JPanel {
 //        }
 //        double value = number.doubleValue();
 //
-//    I haven't made any changes to these classes because I don't use them and don't have the time to test adequately.  Up to you whether you think it's worth changing, or at least noting the pitfalls with a comment.
+
+    //    I haven't made any changes to these classes because I don't use them and don't have the time to test adequately.  Up to you whether you think it's worth changing, or at least noting the pitfalls with a comment.
 
     public void commitEdit() throws IllegalValueException {
         String text = ModelSlider.this.textField.getText();
         try {
-            text = text.replace( ',', '.' );//for languages in which 0,00 is written for 0.00
-            double value = Double.parseDouble( text );
+            double value = DecimalFormat.getNumberInstance( PhetResources.readLocale() ).parse( text ).doubleValue();
             if ( value >= min && value <= max ) {
                 //still legal.
                 setValue( value );
@@ -460,7 +462,9 @@ public class ModelSlider extends JPanel {
             }
         }
         catch( NumberFormatException nfe ) {
-            return;
+        }
+        catch( ParseException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -527,8 +531,15 @@ public class ModelSlider extends JPanel {
         }
         if ( value >= min && value <= max ) {
             String string = textFieldFormat.format( value );
-            string = string.replace( ',', '.' );
-            double newValue = Double.parseDouble( string );
+            double newValue= value;
+            try {
+                newValue = DecimalFormat.getNumberInstance( PhetResources.readLocale() ).parse( string).doubleValue();
+            }
+            catch( ParseException e ) {
+                e.printStackTrace();
+            }
+//            string = string.replace( ',', '.' );
+//            double newValue = Double.parseDouble( string );
             if ( slider.getValue() == modelViewTransform.modelToView( value ) && this.value == newValue ) {
                 return;
             }

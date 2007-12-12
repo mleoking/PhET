@@ -18,6 +18,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -265,9 +266,8 @@ public class PhetSlider extends JPanel {
 
     public void commitEdit() throws IllegalValueException {
         String text = PhetSlider.this.textField.getText();
-        text = text.replace( ',', '.' );
         try {
-            double value = Double.parseDouble( text );
+            double value = DecimalFormat.getNumberInstance().parse( text).doubleValue();
             if( value >= min && value <= max ) {
                 //still legal.
                 setValue( value );
@@ -279,6 +279,9 @@ public class PhetSlider extends JPanel {
         }
         catch( NumberFormatException nfe ) {
             return;
+        }
+        catch( ParseException e ) {
+            e.printStackTrace();
         }
     }
 
@@ -354,8 +357,13 @@ public class PhetSlider extends JPanel {
         }
         if( value >= min && value <= max ) {
             String string = formatter.format( value );
-            string = string.replace( ',', '.' );
-            double newValue = Double.parseDouble( string );
+            double newValue = 0;
+            try {
+                newValue = DecimalFormat.getNumberInstance( ).parse( string).doubleValue();
+            }
+            catch( ParseException e ) {
+                e.printStackTrace();
+            }
             if( this.value == newValue && !forceChange ) {
                 return;
             }

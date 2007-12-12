@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -1047,8 +1048,13 @@ public class PlotDevice extends GraphicLayerSet {
 
         private void parseAndSetValue() {
             String text = getText();
-            text = text.replace( ',', '.' );//to handle multi-lingual
-            double value = Double.parseDouble( text );
+            double value = 0;
+            try {
+                value = DecimalFormat.getNumberInstance().parse( text ).doubleValue();
+            }
+            catch( ParseException e ) {
+                e.printStackTrace();
+            }
             plotDevice.setValue( value );//needs error handling.
 
         }
