@@ -21,6 +21,8 @@ public class LennardJonesWallForceCalculator implements Calculator {
     public void calculate(StatesOfMatterParticle p, double[] forces) {
         Vector2D lineToPoint = MathUtil.getVectorFromLineToPoint(wall, p.getPosition());
 
+        double dist = lineToPoint.getMagnitude();
+
         args[0] = lineToPoint.getX();
         args[1] = lineToPoint.getY();
 
@@ -33,12 +35,17 @@ public class LennardJonesWallForceCalculator implements Calculator {
         double crossProductZ = -ly * lineToPoint.getX() + lx * lineToPoint.getY();
 
         if (crossProductZ < 0) {
-            double dist = lineToPoint.getMagnitude();
-
+            // Behind wall:
             args[0] = -args[0] / dist * ljf.getEpsilon() * 0.01;
             args[1] = -args[1] / dist * ljf.getEpsilon() * 0.01;
         }
-        
+        else if (dist > ljf.getRMin() ) {
+            forces[0] = 0.0;
+            forces[1] = 0.0;
+
+            return;
+        }
+
         ljf.evaluateInPlace(args, forces);
     }
 }

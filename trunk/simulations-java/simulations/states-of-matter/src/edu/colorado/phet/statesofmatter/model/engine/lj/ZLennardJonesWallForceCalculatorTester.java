@@ -8,12 +8,15 @@ import java.awt.geom.Line2D;
 
 public class ZLennardJonesWallForceCalculatorTester extends TestCase {
     private static final double EPSILON = 1.0;
-    private static final double RMIN    = 1.0;
+    private static final double RMIN    = 2.0;
+    private static final double EQUALITY_EPS = 0.0000001;
+    
     private static final Line2D.Double     WALL  = new Line2D.Double(1, 1, -1, -1);
     private static final LennardJonesForce FORCE = new LennardJonesForce(EPSILON, RMIN);
 
     private volatile StatesOfMatterParticle p;
     private double[] forces = new double[2];
+
 
     public void setUp() {
         p = new StatesOfMatterParticle(0, 1, 1, 1);
@@ -23,30 +26,30 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
         }
     }
 
-    public void testForceIsZeroAtEpsilonFromWall() {
-        calcForceAtDist(EPSILON);
+    public void testForceIsZeroAtRMinFromWall() {
+        calcForceAtDist(RMIN);
 
-        assertEquals(forces[0], 0.0, 0.0000001);
-        assertEquals(forces[1], 0.0, 0.0000001);
+        assertEquals(forces[0], 0.0, EQUALITY_EPS);
+        assertEquals(forces[1], 0.0, EQUALITY_EPS);
     }
 
 
-    public void testForceIsRepulsiveAtLessThanEpsilonFromWall() {
-        calcForceAtDist(0.5 * EPSILON);
+    public void testForceIsRepulsiveAtLessThanRMinFromWall() {
+        calcForceAtDist(0.5 * RMIN);
 
         assertTrue(forces[0] > 0);
         assertTrue(forces[1] < 0);
     }
 
-    public void testForceIsAttractiveAtGreaterThanEpsilonFromWall() {
-        calcForceAtDist(1.5 * EPSILON);
+    public void testForceIsZeroAtGreaterThanRMinFromWall() {
+        calcForceAtDist(1.1 * RMIN);
 
-        assertTrue(forces[0] < 0);
-        assertTrue(forces[1] > 0);
+        assertEquals(0, forces[0], EQUALITY_EPS);
+        assertEquals(0, forces[1], EQUALITY_EPS);
     }
 
     public void testForceIsRepulsiveBehindWall() {
-        calcForceAtDist(-1.0 * EPSILON);
+        calcForceAtDist(-1.0 * RMIN);
 
         assertTrue(forces[0] > 0);
         assertTrue(forces[1] < 0);
@@ -62,9 +65,9 @@ public class ZLennardJonesWallForceCalculatorTester extends TestCase {
 
         LennardJonesWallForceCalculator calculator = new LennardJonesWallForceCalculator(FORCE, WALL);
 
-        assertEquals(WALL.ptLineDist(p.getX(), p.getY()) * MathUtil.signum(dist), dist, 0.000001);
+        assertEquals(WALL.ptLineDist(p.getX(), p.getY()) * MathUtil.signum(dist), dist, EQUALITY_EPS);
 
         calculator.calculate(p, forces);
     }
-    
+
 }
