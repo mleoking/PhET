@@ -47,7 +47,7 @@ public class TranslationDiscrepancy {
 
     public void resolve() {
         try {
-            File resolveJAR = new File( FileUtils.getTmpDir(), flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
+            File resolveJAR = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
             resolve( resolveJAR );
         }
         catch( IOException e ) {
@@ -78,7 +78,7 @@ public class TranslationDiscrepancy {
     }
 
     private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
-        File tempUnzipDir = new File( FileUtils.getTmpDir(), flavor + "-dir" );
+        File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "-dir" );
         System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
 
@@ -104,7 +104,7 @@ public class TranslationDiscrepancy {
     }
 
     private void validateKeySet( Locale locale, File jarFile, File source ) throws IOException {
-        File tempDir = new File( FileUtils.getTmpDir(), jarFile.getName() + "_keytest" );
+        File tempDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, jarFile.getName() + "_keytest" );
         tempDir.mkdirs();
         FileUtils.unzip( jarFile, tempDir );
         String localeName = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
@@ -119,6 +119,10 @@ public class TranslationDiscrepancy {
     }
 
     private HashSet validateKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
+        if(!oldPropertiesFile.exists()||!newPropertiesFile.exists() ){
+            System.out.println( "Cannot compare properties files, one does not exist: old="+oldPropertiesFile.getAbsolutePath()+", new="+newPropertiesFile.getAbsolutePath() );
+            return new HashSet( );
+        }
         Properties oldProperties = new Properties();
         oldProperties.load( new FileInputStream( oldPropertiesFile ) );
 
@@ -139,7 +143,8 @@ public class TranslationDiscrepancy {
     private File downloadJAR() throws IOException {
         String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
 
-        File jarFile = File.createTempFile( flavor, ".jar" );
+//        File jarFile = File.createTempFile( flavor, ".jar" );
+        File jarFile = new File(CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor+".jar" );
 
         FileDownload.download( deployUrl, jarFile );
         return jarFile;
