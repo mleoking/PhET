@@ -3,7 +3,7 @@ package edu.colorado.phet.statesofmatter.model.particle;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
-public class NonOverlappingParticleCreationStrategy implements ParticleCreationStrategy {
+public class NonOverlappingParticleCreationStrategy extends AbstractParticleCreationStrategy implements ParticleCreationStrategy {
     private static final int MAX_TRIALS = 1000;
 
     private final ParticleCreationStrategy boundedStrategy;
@@ -18,11 +18,11 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
         this.particleRadius  = particleRadius;
     }
 
-    public StatesOfMatterParticle createNewParticle() {
+    public StatesOfMatterParticle createParticle() {
         for (int i = 0; i < MAX_TRIALS; i++) {
             boolean nonOverlapping = true;
 
-            StatesOfMatterParticle p1 = boundedStrategy.createNewParticle();
+            StatesOfMatterParticle p1 = boundedStrategy.createParticle();
 
             for (int j = 0; j < particles.size(); j++) {
                 StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);

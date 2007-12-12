@@ -22,7 +22,7 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
         Rectangle2D.Double bounds = StatesOfMatterConfig.CONTAINER_BOUNDS;
 
         for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle particle = strategy.createNewParticle();
+            StatesOfMatterParticle particle = strategy.createParticle();
 
             assertTrue(bounds.contains(particle.getX(), particle.getY()));
         }
@@ -37,9 +37,15 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
                                                            bounds.height - 2 * PARTICLE_RADIUS);
 
         for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle particle = strategy.createNewParticle();
+            StatesOfMatterParticle particle = strategy.createParticle();
 
             assertTrue(narrow.contains(particle.getX(), particle.getY()));
         }
+    }
+
+    public void testCanCreateList() {
+        assertEquals(1, strategy.createParticles(1).size());
+        
+        assertTrue(strategy.createParticles(1).iterator().next() instanceof StatesOfMatterParticle);
     }
 }
