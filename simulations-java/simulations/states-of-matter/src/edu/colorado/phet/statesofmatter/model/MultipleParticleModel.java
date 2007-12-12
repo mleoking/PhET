@@ -13,7 +13,7 @@ import edu.colorado.phet.statesofmatter.model.engine.EngineFacade;
 import edu.colorado.phet.statesofmatter.model.engine.ForceComputation;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyAdjuster;
 import edu.colorado.phet.statesofmatter.model.engine.kinetic.KineticEnergyCapper;
-import edu.colorado.phet.statesofmatter.model.particle.NonOverlappingParticleCreationStrategy;
+import edu.colorado.phet.statesofmatter.model.particle.PackedHexagonalParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.ParticleCreationStrategy;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 
@@ -38,11 +38,11 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void initialize() {
-        ParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, particles);
+        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION);
 
         particles.clear();
 
-        strategy.createParticles(particles, StatesOfMatterConfig.INITIAL_PARTICLE_COUNT);
+        strategy.createParticles(particles, StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);
 

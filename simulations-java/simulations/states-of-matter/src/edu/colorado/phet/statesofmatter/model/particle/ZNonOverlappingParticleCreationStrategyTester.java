@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
     protected double cushion = 0.05;
-    private List particles;
+    protected List particles;
 
     public void setUp() {
         particles = new ArrayList();

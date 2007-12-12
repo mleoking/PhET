@@ -21,7 +21,7 @@ public class ZMultipleParticleModelTester extends TestCase {
     public void testThatNewlyConstructedModelContainsDefaultParticles() {
         List particleList = model.getParticles();
 
-        assertEquals(StatesOfMatterConfig.INITIAL_PARTICLE_COUNT, particleList.size());
+        assertTrue(particleList.size() <= StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
     }
 
     public void testThatInitializeResetsParticleList() {
@@ -29,7 +29,7 @@ public class ZMultipleParticleModelTester extends TestCase {
 
         List particleList = model.getParticles();
 
-        assertEquals(StatesOfMatterConfig.INITIAL_PARTICLE_COUNT, particleList.size());
+        assertTrue(particleList.size() <= StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
     }
 
     public void testThatParticleListIsUnmodifiable() {

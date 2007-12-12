@@ -16,7 +16,7 @@ public class ZVerletForceEngineTester extends TestCase {
     private ForceComputation computation;
 
     public void setUp() {
-        createParticles(StatesOfMatterConfig.INITIAL_PARTICLE_COUNT);
+        createParticles(StatesOfMatterConfig.INITIAL_MAX_PARTICLE_COUNT);
 
         performComputation(descriptor);
     }
