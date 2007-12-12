@@ -1,6 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-public class RandomParticleCreationStrategy implements ParticleCreationStrategy {
+public class RandomParticleCreationStrategy extends AbstractParticleCreationStrategy implements ParticleCreationStrategy {
     private final double radius;
     private final double mass;
 
@@ -9,7 +9,7 @@ public class RandomParticleCreationStrategy implements ParticleCreationStrategy 
         this.mass   = mass;
     }
 
-    public StatesOfMatterParticle createNewParticle() {
+    public StatesOfMatterParticle createParticle() {
         return new StatesOfMatterParticle(Math.random(), Math.random(), radius, mass);
     }
 }
