@@ -1,0 +1,849 @@
+<!--
+
+This build file is specific to building phet simulation files, in particular building jars and jnlp files.
+PhET-team specific tasks are located in an auxiliary build file.
+
+Developer Notes:
+
+1. Ignore any task prefixed with an underscore.
+
+2. The main tasks you need are defined in build.xml (which calls the implementations in this file)
+
+-->
+<project name="PhET Master Build Script" default="launch-sim" basedir=".">
+    <!--
+    The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
+      The supported options are:
+    username
+    password
+    ssh-host
+    browser
+
+    Local property loading is done first to allow property overwriting.
+    -->
+    <property file="local.properties"/>
+
+    <!--Properties for the structure of the phet codebase.-->
+    <property name="build-tools" value="build-tools"/>
+    <property name="simulations-directory"          value="${basedir}/simulations"/>
+    <property name="dir.build-tools"                value="${basedir}/build-tools/"/>
+
+    <!-- Deployment properties -->
+    <property name="dev.server.name"    value="spot.colorado.edu"/>
+    <property name="prod.server.name"   value="tigercat.colorado.edu"/>
+
+    <!--Properties for deploy output-->
+    <property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/"/>
+    <property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev/"/>
+    <property name="prod.server.path"   value="/web/htdocs/phet/sims/"/>
+    <property name="prod.server.url"    value="http://phet.colorado.edu/sims/"/>
+
+    <!--Do not modify: these properties define the codebase for java-implementation of ant tasks.-->
+    <property name="ant-output"             location="ant_output"/>
+    <property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
+    <property name="proguard.jar"           location="${dir.build-tools}proguard3.8/lib/proguard.jar"/>
+    <property name="jsch.jar"               location="${dir.build-tools}jsch/jsch-0.1.36.jar"/>
+    <property name="apache.commons.lang.jar" location="${dir.build-tools}commons-lang-2.3/commons-lang-2.3.jar"/>
+    <property name="phetbuild-src"          location="${dir.build-tools}phet-build/src"/>
+
+    <property name="imageio-src"            location="${dir.build-tools}image4j/src" />
+
+    <property name="phet.version"           value=""/>
+    <property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
+
+    <!--Phet task implementations-->
+    <property name="phetbuild-classname"            value="edu.colorado.phet.build.PhetBuildTask"/>
+    <property name="phetbuild-classpath"            value="${phetbuild-classes-dir};${proguard.jar};${apache.commons.lang.jar};${jsch.jar}"/>
+    <property name="phetdisplaystats-classname"     value="edu.colorado.phet.build.PhetDisplayStatsTask"/>
+    <property name="phetclean-classname"            value="edu.colorado.phet.build.PhetCleanTask"/>
+    <property name="phetjnlp-classname"             value="edu.colorado.phet.build.PhetBuildJnlpTask"/>
+    <property name="phet-list-sims-classname"       value="edu.colorado.phet.build.PhetListSimTask"/>
+    <property name="phet-list-depends-classname"    value="edu.colorado.phet.build.PhetListDependsTask"/>
+    <property name="phet-list-flavors-classname"    value="edu.colorado.phet.build.PhetListFlavorsTask"/>
+    <property name="phet-list-locales-classname"    value="edu.colorado.phet.build.PhetListLocalesTask"/>
+    <property name="phet-build-gui-classname"       value="edu.colorado.phet.build.PhetBuildGUI"/>
+    <property name="phet-build-all-sim-jar-classname" value="edu.colorado.phet.build.PhetBuildAllSimJarTask"/>
+    <property name="phet-file-exists-classname"       value="edu.colorado.phet.build.util.FileExistsCondition"/>
+    <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
+    <property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
+    <property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
+
+    <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
+
+    <!-- Support jars -->
+    <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
+    <property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar"/>
+    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+
+    <!-- Installer builder properties -->
+    <property name="bitrock.bin.dir"                value="${dir.build-tools}bitrock/bin/" />
+    <property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
+    <property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
+
+    <!-- Subversion configuration -->
+    <property name="svn.executable" value="svn" />
+
+    <!-- Ant-Contrib tasks definition -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${jar.ant-contrib}"/>
+        </classpath>
+    </taskdef>
+
+    <!-- AntForm task definition -->
+    <taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}"/>
+
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
+             classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
+
+
+    <target name="_clean-phet-build">
+        <delete dir="${phetbuild-classes-dir}"/>
+    </target>
+
+    <target name="_compile-phet-build">
+        <mkdir dir="${phetbuild-classes-dir}"/>
+
+        <javac srcdir="${phetbuild-src}" destdir="${phetbuild-classes-dir}" classpath="${proguard.jar}:${apache.commons.lang.jar};${jsch.jar}" debug="true"
+               debuglevel="lines,source">
+            <src path="${phetbuild-src}" />
+            <src path="${imageio-src}" />
+        </javac>
+    </target>
+
+    <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
+    <!--<target name="_build-phet-build" depends="_clean-phet-build, _compile-phet-build" />-->
+
+        <!--This task was rewritten to avoid recompilation of the phet-java ant task implementations.-->
+    <target name="_build-phet-build">
+        <if>
+            <not>
+                <isset property="init.complete"/>
+            </not>
+            <then>
+                <antcall target="_clean-phet-build"/>
+                <antcall target="_compile-phet-build"/>
+                <var name="init.complete" value="true"/>
+            </then>
+        </if>
+    </target>
+
+
+    <target name="_declare-phet-build-tasks" depends="_build-phet-build">
+        <taskdef name="phet-build"
+                 classname="${phetbuild-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-clean"
+                 classname="${phetclean-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-jnlp"
+                 classname="${phetjnlp-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-display-stats"
+                 classname="${phetdisplaystats-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-list-sims"
+                 classname="${phet-list-sims-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-list-depends"
+                 classname="${phet-list-depends-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-list-flavors"
+                 classname="${phet-list-flavors-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-list-locales"
+                 classname="${phet-list-locales-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-build-gui"
+                 classname="${phet-build-gui-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="phet-build-all-sim-jar"
+                 classname="${phet-build-all-sim-jar-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="imageio"
+                 classname="${imageio-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="create-installer-build-file"
+                 classname="${create-installer-build-file-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="build-intellij-idea-file"
+                 classname="${build-intellij-idea-file-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="check-translations"
+                 classname="${check-translations-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+        <typedef
+                name="fileexists"
+                classname="${phet-file-exists-classname}"
+                classpath="${phetbuild-classpath}"/>
+
+    </target>
+    <target name="test-imageio" depends="_init">
+        <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
+                 outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
+                 outputwidth="64"
+                 outputheight="64"/>
+    </target>
+
+    <target name="_init" depends="_declare-phet-build-tasks"/>
+
+    <target name="build-intellij-idea" depends="_init">
+        <build-intellij-idea-file/>
+    </target>
+
+<target name="build-all-sim-jar" depends="_init">
+<phet-build-all-sim-jar/>
+</target>
+
+    <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
+    <target name="_list-sims">
+        <phet-list-sims property="phet.simlist"/>
+    </target>
+
+    <target name="list-locales" depends="_init">
+        <phet-list-locales property="locale-list" project="balloons"/>
+        <echo message="locales: ${locale-list}"/>
+    </target>
+
+    <target name="build-all-jars" depends="_init, _list-sims">
+        <foreach list="${phet.simlist}" target="build-jar" param="sim.name" inheritall="true"/>
+    </target>
+
+    <target name="build-all-jnlp" depends="_init, _list-sims">
+        <foreach list="${phet.simlist}" target="build-jnlp" param="sim.name" inheritall="true"/>
+    </target>
+
+    <!--Cleans a single simulation's jar, jnlp and exe files in the deploy directory-->
+    <target name="clean-sim" depends="_init, _verify-sim-name-specified">
+        <!--Delete the simulation jar file.-->
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.jar"/>
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.exe"/>
+        <delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.jnlp"/>
+    </target>
+
+    <target name="clean-sim-jnlp">
+        <var name="sim.flavor.jnlp" value="${simulations-directory}/${sim.name}/deploy/${sim.flavor}.jnlp"/>
+        <echo message="Cleaning jnlp file ${sim.flavor.jnlp}"/>
+        <delete file="${sim.flavor.jnlp}"/>
+    </target>
+
+    <!--Builds jars and jnlp files for all phet simulations-->
+    <target name="build-all" depends="_init,clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
+
+    <!--Builds the jar file for the simulation specified as property "sim.name"-->
+    <target name="build-jar" depends="_init,_verify-sim-name-specified">
+        <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
+    </target>
+
+    <!--Builds the jnlp file for a specific locale and flavor-->
+    <target name="_build-jnlp-locale-flavor">
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" locale="${sim.locale}"
+                  deployurl="${codebase.url}"/>
+    </target>
+
+    <!--Builds jnlp files for all locales for a specific flavor, as well as the locale-less version.-->
+    <target name="_build-jnlp">
+        <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}"/>
+        <if>
+            <isset property="deploy.to.dev"/>
+
+            <then>
+                <var name="codebase.url" value="${sim.server.url}${sim.name}/${sim.version}"/>
+            </then>
+            <else>
+                <var name="codebase.url" value="${sim.server.url}${sim.name}"/>
+            </else>
+        </if>
+        <echo message="building JNLP, deploy.to.dev=${deploy.to.dev}, codebase=${codebase.url}"/>
+
+        <phet-list-locales property="sim.locales" project="${sim.name}"/>
+        <foreach list="${sim.locales}" target="_build-jnlp-locale-flavor" param="sim.locale" inheritall="true" inheritrefs="true"/>
+
+        <!--And build a locale-less version-->
+        <phet-jnlp project="${sim.name}" flavor="${sim.flavor}" deployurl="${codebase.url}"/>
+    </target>
+
+    <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
+    <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
+        <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="+" value="1" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_reset-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
+        <echo message="Resetting the simulation development version number in property file ${file.project.properties}" />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.dev" type="int" operation="=" value="0" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <target name="_inc-sim-minor-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
+        <echo message="Incrementing the simulation minor version number..." />
+
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.minor" type="int" operation="+" value="1" pattern="00"/>
+        </propertyfile>
+    </target>
+
+    <!-- *************************************END BUILD NUMBERS************************************* -->
+
+    <target name="_define-sim-version" depends="_define-sim-properties-file" description="Defines the simulation version in terms of the major, minor, and development versions.">
+         <if>
+             <not>
+                 <isset property="sim.version"/>
+             </not>
+             <then>
+                 <loadproperties srcFile="${file.project.properties}"/>
+                 <var name="sim.version" value="${version.major}.${version.minor}.${version.dev}"/>
+             </then>
+         </if>
+    </target>
+
+    <target name="_define-sim-properties-file" depends="_verify-sim-name-specified" description="Creates a property whose value is equal to the name of the simulation properties file.">
+        <var name="file.project.properties" value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
+    </target>
+
+    <!--
+    To use this task, call ant like this:
+    ant build-jnlp -Dsim.name=cck -Dsim.flavor=cck-dc -Dsim.version=1.2.3.445
+
+    sim.flavor defaults to sim.name
+    sim.version defaults to the value in [project].properties (see below)
+    sim.url defaults to the location on PhET's dev/ site
+
+        The JNLP task requires these files and properties:
+    [project]/data/[project]/localization/[project]-strings.properties
+    has properties
+    [project].name
+    [project].description
+
+    [project]/data/[project]/[project].properties
+    has properties
+    version.major
+    version.minor
+    version.dev
+    version.revision
+
+    about.credits (optional)
+    -->
+    <target name="build-jnlp" depends="_init, _define-sim-version">
+        <if>
+            <not>
+                <isset property="sim.flavors"/>
+            </not>
+            <then>
+                <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+            </then>
+        </if>
+        <if>
+            <not>
+                <isset property="sim.server.url"/>
+            </not>
+            <then>
+                <var name="sim.server.url" value="${dev.server.url}"/>
+            </then>
+        </if>
+
+        <var name="deployurl" value="${sim.server.url}${sim.name}/${sim.version}"/>
+
+        <foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true"/>
+    </target>
+
+    <!-- To Do: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
+    <target name="build-source-distribution" depends="_init,clean-all" >
+        <zip destfile="${phet.src.distribution}" basedir="${basedir}"
+                excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
+                **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
+                **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
+                **/liquidlnf-2.9.1-src/, **/oyoaha/"></zip>
+    </target>
+
+    <target name="_build-translatable-sim" depends="_init,_verify-sim-name-specified">
+        <phet-build project="${sim.name}"/>
+        <var name="sim.translation.dir" value="${ant-output}/translation/sims/${sim.name}"/>
+        <var name="sim.localization.dir" value="${sim.translation.dir}/${sim.name}/localization"/>
+        <mkdir dir="${sim.localization.dir}"/>
+        <copy file="${basedir}/simulations/${sim.name}/deploy/${sim.name}.jar" todir="${sim.translation.dir}"/>
+        <copy todir="${sim.localization.dir}">
+            <fileset dir="${basedir}/simulations/${sim.name}/data/${sim.name}/localization"/>
+        </copy>
+    </target>
+
+    <target name="_build-translatable-distribution" depends="_init,clean-all,_list-sims">
+        <delete dir="${ant-output}/translation"/>
+        <copy file="${basedir}/docs/translation-readme.txt" tofile="${ant-output}/translation/readme.txt"/>
+        <copy file="${basedir}/phet-license.txt" todir="${ant-output}/translation/"/>
+        <copy file="${basedir}/LICENSE.txt" todir="${ant-output}/translation/"/>
+        <foreach list="${phet.simlist}" target="_build-translatable-sim" param="sim.name" inheritall="true"/>
+    </target>
+
+    <target name="_read-username-and-password-dev">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.dev.username"/>
+                    <isset property="deploy.dev.password"/>
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user"/>
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter your username and password that you use to login to the deployment DEV host machine.
+                    </label>
+
+                    <textProperty label="Username:" property="deploy.dev.username" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.dev.password" required="true" password="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+        <target name="_read-username-and-password-prod">
+        <if>
+            <not>
+                <and>
+                    <isset property="deploy.prod.username"/>
+                    <isset property="deploy.prod.password"/>
+                </and>
+            </not>
+            <then>
+                <echo message="Gathering username and password from user"/>
+
+                <!-- If the username and password are not set, get them now: -->
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter your username and password that you use to login to the deployment PROD host machine.
+                    </label>
+
+                    <textProperty label="Username:" property="deploy.prod.username" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.prod.password" required="true" password="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+    <target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified">
+        <if>
+            <not>
+                <isset property="sim.name"/>
+            </not>
+            <then>
+                <antform title="Enter Simulation Name" width="750" height="300">
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name
+                        of the Subversion folder that the simulation is stored in.
+                    </label>
+                    <textProperty label="Simulation Name: " property="sim.name" required="true"
+                                  tooltip="The simulation name" focus="true"/>
+                </antform>
+            </then>
+        </if>
+    </target>
+
+    <target name="_deploy">
+        <if>
+            <isset property="deploy.to.dev"/>
+            <then>
+                <var name="deploy.username" value="${deploy.dev.username}"/>
+                <var name="deploy.password" value="${deploy.dev.password}"/>
+            </then>
+            <else>
+                <var name="deploy.username" value="${deploy.prod.username}"/>
+                <var name="deploy.password" value="${deploy.prod.password}"/>
+            </else>
+        </if>
+
+        <echo message="logging in to ${ssh-host} (deploy to dev=${deploy.to.dev}) with username: ${deploy.username}"/>
+        <maverick-ssh host="${ssh-host}" username="${deploy.username}" password="${deploy.password}" version="2">
+            <sftp action="mkdir" remotedir="${sim.deploy.dir.parent}"/>
+            <sftp action="mkdir" remotedir="${sim.deploy.dir}"/>
+            <sftp action="put" remotedir="${sim.deploy.dir}" verbose="true">
+                <fileset dir="simulations/${sim.name}/deploy" />
+            </sftp>
+
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
+            <exec cmd="chmod -R 775 ${sim.deploy.dir}" />
+        </maverick-ssh>
+        <if>
+            <isset property="browser"/>
+            <then>
+                <echo message="Opening browser: ${browser} ${deployurl}"/>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="${deployurl}"/>
+                </exec>
+            </then>
+        </if>
+    </target>
+
+    <!-- This task builds and deploys; assumes all required properties have been previously defined -->
+    <target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
+
+    <target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
+            depends="_init, _verify-sim-name-specified, _define-sim-properties-file, _define-sim-version">
+
+        <phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true"/>
+
+        <echo message="Dependencies of ${sim.name}: ${phet.dependslist}" />
+
+        <exec executable="svn" outputproperty="svn.output">
+            <arg line="update ${phet.dependslist}" />
+        </exec>
+
+        <if>
+            <contains string="${svn.output}" substring="Updated to revision" casesensitive="false" />
+            <then>
+                <fail message="Your working copy was not up-to-date. Please re-build and test before running this task again." />
+            </then>
+        </if>
+
+        <propertyregex property="number.subversion.revision" override="true" input="${svn.output}" regexp="revision *(\d+)"
+            select="\1" casesensitive="false" />
+
+        <echo message="Current revision number is ${number.subversion.revision}" />
+
+        <!-- Set revision number in project property file to current revision number -->
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="string" operation="=" value="${number.subversion.revision}"/>
+        </propertyfile>
+
+        <!-- Now increment revision number by 1 (to the next revision number) -->
+        <propertyfile file="${file.project.properties}">
+            <entry key="version.revision" type="int" operation="+" value="1"/>
+        </propertyfile>
+
+        <echo message="Committing ${sim.name} ${sim.version}" />
+
+        <exec executable="svn">
+            <arg line="commit --message &quot;${sim.name}: Deployed version ${sim.version}&quot; ${phet.dependslist}" />
+        </exec>
+    </target>
+
+
+<!--shows the browser for the last dev-deployed sim (if any)-->
+    <target name="show-browser-dev" depends="_init, _define-sim-version">
+        <if>
+            <isset property="browser"/>
+            <then>
+                <var name="deployurl" value="${dev.server.url}${sim.name}/${sim.version}"/>
+                <echo message="Opening browser: ${browser} ${deployurl}"/>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="${deployurl}"/>
+                </exec>
+            </then>
+        </if>
+    </target>
+
+    <target name="_build-and-deploy-only-prod" depends="_generate-svn-revision-number, _define-sim-version">
+        <!-- Deploy production version -->
+        <antcall target="_build-and-deploy">
+            <param name="sim.server.url"        value="${prod.server.url}"/>
+            <param name="sim.server.path"       value="${prod.server.path}"/>
+            <param name="sim.deploy.dir.parent" value="${prod.server.path}" />
+            <param name="sim.deploy.dir"        value="${prod.server.path}${sim.name}" />
+            <param name="ssh-host"              value="${prod.server.name}"/>
+        </antcall>
+    </target>
+
+    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
+        <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
+    </target>
+
+    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
+        <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
+    </target>
+
+    <!-- Assume sim.name and sim.flavor defined -->
+    <target name="_run-bitrock-installer-builder">
+        <!-- Create the directory where the buildfile & installers will be placed -->
+        <var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
+        <var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
+
+        <mkdir dir="${sim.installer.dir}" />
+
+        <echo message="${os.name}"/>
+        <var name="bitrock.exe" value="${bitrock.bin.dir}Builder.app/Contents/MacOS/installbuilder"></var>
+        <if>
+            <equals arg1="${os.name}" arg2="Windows NT (unknown)"></equals>
+            <then> <var name="bitrock.exe" value="${bitrock.bin.dir}builder.exe"></var> </then>
+        </if>
+        <echo message="set installer exe to: ${bitrock.exe}"/>
+        <!-- Copy the template buildfile to the right location -->
+
+        <create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
+
+        <!-- Build the installers for this simulation/flavor: -->
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="osx"/></exec>
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="windows"/></exec>
+        <exec executable="${bitrock.exe}">  <arg value="build" /><arg value="${sim.installer.buildfile}" /> <arg value="linux"/></exec>
+        <!-- Build Windows installer bundled with JRE-->
+        <!-- copy the installers from bitrock to ${sim.installer.dir} -->
+
+    </target>
+
+    <!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
+    <!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
+    <target name="_build-installer-for-flavor">
+         <!-- Generate a Windows ico from the simulation screenshot -->
+
+        <var name="flavor.screenshot.file" value="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"/>
+        <if>
+            <fileexists file="${flavor.screenshot.file}"/>
+            <then></then>
+            <else>
+                <var name="flavor.screenshot.file" value="build-tools/phet-build/installer-data/phet-logo.png"/>
+            </else>
+        </if>
+        <echo message="using image file: ${flavor.screenshot.file}"/>
+        <imageio inputfile="${flavor.screenshot.file}"
+                 outputfile="${ant-output}/projects/${sim.name}/${sim.flavor}.ico"
+                 outputwidth="64"
+                 outputheight="64"/>
+
+        <!-- Generate a Linux png from the simulation screenshot
+        Work on linux icon is postponed since there is no direct support for command line args in shortcuts.-->
+
+
+        <!-- Perform a replacement on the installer builder template XML file -->
+
+
+        <!-- Execute the installer builder for each platform -->
+        <antcall target="_run-bitrock-installer-builder" />
+
+
+        <!-- Perform post-processing on Mac installer file (zip) -->
+    </target>
+
+    <target name="build-installer" depends="_init, _verify-sim-name-specified, build-jar">
+        <!-- add the java auto-detect:
+        On Windows: if no java is available, and the JRE is bundled, must be installed -->
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+
+        <foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor" inheritall="true"/>
+    </target>
+
+    <target name="build-all-sim-installers" depends="_init, _list-sims" description="Builds all single-sim installers.">
+        <foreach list="${phet.simlist}" target="build-installer" param="sim.name" inheritall="true"/>
+    </target>
+
+    <target name="_build-jar-for-flavor">
+        <copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
+              tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
+        <mkdir dir="${ant-output}/projects/${sim.name}/launchable-jars/"/>
+        <echo message="main.flavor=${sim.flavor}"
+              file="${ant-output}/projects/${sim.name}/launchable-jars/main-flavor.properties"/>
+        <jar destfile="simulations/${sim.name}/deploy/${sim.flavor}.jar"
+             basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
+    </target>
+
+    <target name="_build-all-flavor-jars-for-sim" depends="_init">
+        <!--ToDo: handle flavor/sim name clash better than this.-->
+    	<var name="jar-all-file" value="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
+        <copy file="simulations/${sim.name}/deploy/${sim.name}.jar" tofile="${jar-all-file}"/>
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor" inheritall="true"/>
+        <!--remove [sim.name]_all.jar files from build process-->
+        <delete file="${jar-all-file}"/>
+    </target>
+
+    <target name="build-all-flavor-jars" depends="_init,_list-sims">
+        <foreach list="${phet.simlist}" target="build-all-flavor-jars-for-sim" param="sim.name" inheritall="true"/>
+    </target>
+
+    <!--<target name="add-translation-to-flavor-jars"-->
+            <!--depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">-->
+        <!--<antform title="Deployment Host Login" width="550" height="300">-->
+            <!--<label>Please enter the language code to be added.</label>-->
+            <!--<textProperty label="language code (e.g. fr):" property="sim.locale" required="true"-->
+                          <!--focus="true"/>-->
+        <!--</antform>-->
+        <!--<echo message="Started adding translation for ${sim.name}"/>-->
+        <!--<phet-list-flavors property="sim.flavors" project="${sim.name}"/>-->
+        <!--<echo message="flavors=${sim.flavors}"/>-->
+        <!--<maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"-->
+                      <!--version="2">-->
+            <!--<sftp action="get" remotedir="${prod.server.path}${sim.name}" verbose="true">-->
+                <!--<fileset dir=".">-->
+                    <!--<include name="*.jar"/>-->
+                <!--</fileset>-->
+            <!--</sftp>-->
+        <!--</maverick-ssh>-->
+        <!--<echo message="finished maverick"/>-->
+        <!--<foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+        <!--<var name="codebase.url" value="${prod.server.path}${sim.name}"/>-->
+        <!--<var name="codebase.url" value="${prod.server.url}${sim.name}"/>-->
+
+        <!--<foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/testdir"/>-->
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}"/>-->
+
+        <!--Deploy modified JAR files and new JNLP files.-->
+        <!--<foreach list="${sim.flavors}" target="_deploy-translated-flavor-jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+
+        <!--<if>-->
+            <!--<isset property="browser"/>-->
+            <!--<then>-->
+                <!--<echo message="Opening browser to rebuild translation page: ${browser} "/>-->
+                <!--<exec executable="${browser}" spawn="true">-->
+                    <!--<arg value="http://phet.colorado.edu/new/admin/test.php"/>-->
+                <!--</exec>-->
+            <!--</then>-->
+        <!--</if>-->
+    <!--</target>-->
+
+    <!--This target downloads the main site JAR file for a simulation, adds the new translation file,
+    deploys the new JAR and creates and deploys new JNLP files.-->
+    <target name="add-translation-main-jar"
+            depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">
+
+        <if>
+            <not>
+                <isset property="sim.locale"/>
+            </not>
+            <then>
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter the language code to be added.</label>
+                    <textProperty label="language code (e.g. fr):" property="sim.locale" required="true"
+                                  focus="true"/>
+                </antform>
+            </then>
+        </if>
+
+
+        <echo message="Started adding translation for ${sim.name}"/>
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <echo message="flavors=${sim.flavors}"/>
+        <echo message="Starting download of JAR from ${prod.server.path}${sim.name}/${sim.name}.jar"/>
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="get" remotedir="${prod.server.path}${sim.name}" verbose="true">
+                <fileset dir=".">
+                    <include name="*${sim.name}.jar"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+        <echo message="finished maverick, downloaded ${sim.name}.jar"/>
+        <antcall target="_add_translation_to_jar">
+            <param name="sim.flavor" value="${sim.name}"/>
+        </antcall>
+        <!--<foreach list="${sim.flavors},${sim.name}" target="_add_translation_to_jar" param="sim.flavor" inheritall="true"-->
+                 <!--inheritrefs="true"/>-->
+        <!--<var name="codebase.url" value="${prod.server.path}${sim.name}"/>-->
+        <var name="codebase.url" value="${prod.server.url}${sim.name}"/>
+
+        <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
+                 inheritrefs="true"/>
+
+        <property name="remotedir" value="${prod.server.path}${sim.name}"/>
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/test123"/>-->
+
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="mkdir" remotedir="${remotedir}"/>
+            <sftp action="put" remotedir="${remotedir}" verbose="true">
+                <fileset dir=".">
+                    <include name="*${sim.name}.jar"/>
+                </fileset>
+                <fileset dir="./simulations/${sim.name}/deploy">
+                    <include name="**_${sim.locale}.jnlp"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+
+        <if>
+            <isset property="browser"/>
+            <then>
+                <echo message="Opening browser to rebuild translation page: ${browser} "/>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="http://phet.colorado.edu/new/admin/test.php"/>
+                </exec>
+            </then>
+        </if>
+    </target>
+
+    <target name="_deploy-translated-flavor-jar">
+                <!--Deploy modified JAR files and new JNLP files.-->
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="mkdir" remotedir="${remotedir}"/>
+            <sftp action="put" remotedir="${remotedir}" verbose="true">
+                <fileset dir=".">
+                    <include name="${sim.flavor}.jar"/>
+                </fileset>
+                <fileset dir="simulations/${sim.name}/deploy">
+                    <include name="${sim.flavor}_${sim.locale}.jnlp"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+    </target>
+    <!--<target name="_add-flavor-to-path">-->
+        <!--<var name="temp-flavor-list" value="${flavor.jar.list}" unset="true"/>-->
+        <!--<var name="flavor.jar.list" unset="true"/>-->
+        <!--<var name="flavor.jar.list" value="${temp-flavor-list}, ${sim.flavor}"/>-->
+        <!--<echo message="added flavor to the list: ${sim.flavor} :::: now the list is ${flavor.jar.list}"/>-->
+    <!--</target>-->
+    <target name="_add_translation_to_jar">
+        <echo message="iterating, jar.name=${sim.flavor}"/>
+        <tstamp>
+            <format property="time_millis" pattern="MM_dd_yyyy_hh_mm_ss_SSSS" unit="millisecond"/>
+        </tstamp>
+        <property name="copy.name" value="${sim.flavor}_${time_millis}.jar"/>
+        <copyfile src="${sim.flavor}.jar" dest="${copy.name}"/>
+        <echo message="Backed up file to: ${copy.name}"/>
+        <jar update="true" destfile="${sim.flavor}.jar" basedir="simulations/${sim.name}/data"
+             includes="${sim.name}/localization/${sim.name}-strings_${sim.locale}.properties"/>
+        <echo message="Updated JAR file"/>
+    </target>
+
+    <target name="_test_add_translation_to_jar">
+        <antcall target="_add_translation_to_jar">
+            <param name="sim.name" value="bound-states"/>
+            <param name="sim.locale" value="xy"/>
+            <param name="sim.flavor" value="band-structure"/>
+        </antcall>
+    </target>
+
+    <target name="_test_string_append">
+        <var name="flavor.jar.list" value=""/>
+        <foreach list="band-structure, covalent-bonds, bound-states" target="_add-flavor-to-path" param="sim.flavor" inheritall="true"
+                 inheritrefs="true"/>
+        <echo message="var.list is now ${flavor.jar.list}"/>
+    </target>
+
+    <!--a test target for checking whether VPN+tigercat+maverick are working-->
+    <target name="_test-maverick-tigercat" depends="_read-username-and-password-prod">
+        <echo file="maverick-test-file.txt" message="test text"/>
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="put" remotedir="/web/htdocs/phet/temp" verbose="true">
+                <fileset dir=".">
+                    <include name="*maverick-test-file.txt"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+    </target>
+
+    <target name="check-translations" depends="_init">
+        <check-translations/>
+    </target>
+</project>
