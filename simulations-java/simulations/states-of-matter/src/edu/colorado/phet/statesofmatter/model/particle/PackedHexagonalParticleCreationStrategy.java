@@ -22,7 +22,7 @@ public class PackedHexagonalParticleCreationStrategy extends AbstractParticleCre
     private double startXOdd;
     private int row;
 
-    public PackedHexagonalParticleCreationStrategy(Shape shape, double mass, double radius, double cushion) {
+    public PackedHexagonalParticleCreationStrategy(Shape shape, double mass, double radius, double cushion, double distFromBottom) {
         this.shape  = shape;
         this.radius = radius;
         this.mass   = mass;
@@ -34,7 +34,7 @@ public class PackedHexagonalParticleCreationStrategy extends AbstractParticleCre
 
         double startY;
 
-        startY     = bounds.getMaxY() - radius;
+        startY     = bounds.getMaxY() - distFromBottom;
         startXEven = bounds.getMinX() + radius;
         startXOdd  = startXEven - distBetween / 2.0;
 

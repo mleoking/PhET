@@ -38,7 +38,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void initialize() {
-        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION);
+        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, StatesOfMatterConfig.ICE_CUBE_DIST_FROM_FLOOR);
 
         particles.clear();
 

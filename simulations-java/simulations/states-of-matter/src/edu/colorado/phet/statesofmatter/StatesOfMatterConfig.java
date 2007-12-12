@@ -19,7 +19,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final double PARTICLE_RADIUS = 0.1;
     public static final double PARTICLE_MASS = 1.0;
     public static final double PARTICLE_MAX_KE = 100000;
-    public static final double PARTICLE_CREATION_CUSHION = 0.005;
+    public static final double PARTICLE_CREATION_CUSHION = 0.0;
 
     public static final int COMPUTATIONS_PER_RENDER = 5;
 
@@ -28,6 +28,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
 
     public static final double EPSILON = 1.0;
     public static final double RMIN    = 2.0 * PARTICLE_RADIUS;
+    public static final double ICE_CUBE_DIST_FROM_FLOOR = RMIN;
 
 
     public StatesOfMatterConfig(String[] commandLineArgs, FrameSetup frameSetup) {
