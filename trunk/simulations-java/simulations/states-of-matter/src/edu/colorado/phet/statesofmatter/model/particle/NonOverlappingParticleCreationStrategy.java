@@ -9,18 +9,20 @@ public class NonOverlappingParticleCreationStrategy implements ParticleCreationS
     private final ParticleCreationStrategy boundedStrategy;
     private final double particleRadius;
     private final double cushion;
+    private final List particles;
 
-    public NonOverlappingParticleCreationStrategy(Rectangle2D.Double bounds, double particleRadius, double cushion) {
-        this.cushion = cushion;
-        this.boundedStrategy = new BoundedParticleCreationStrategy(bounds);
+    public NonOverlappingParticleCreationStrategy(Rectangle2D.Double bounds, double particleMass, double particleRadius, double cushion, List particles) {
+        this.cushion         = cushion;
+        this.particles       = particles;
+        this.boundedStrategy = new BoundedParticleCreationStrategy(bounds, particleMass, particleRadius);
         this.particleRadius  = particleRadius;
     }
 
-    public StatesOfMatterParticle createNewParticle(List particles, double radius, double mass) {
+    public StatesOfMatterParticle createNewParticle() {
         for (int i = 0; i < MAX_TRIALS; i++) {
             boolean nonOverlapping = true;
 
-            StatesOfMatterParticle p1 = boundedStrategy.createNewParticle(particles, radius, mass);
+            StatesOfMatterParticle p1 = boundedStrategy.createNewParticle();
 
             for (int j = 0; j < particles.size(); j++) {
                 StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);

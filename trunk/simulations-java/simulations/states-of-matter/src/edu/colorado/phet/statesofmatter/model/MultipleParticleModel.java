@@ -38,12 +38,12 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void initialize() {
-        ParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION);
+        ParticleCreationStrategy strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, particles);
 
         particles.clear();
 
         for (int i = 0; i < StatesOfMatterConfig.INITIAL_PARTICLE_COUNT; i++) {
-            particles.add(strategy.createNewParticle(particles, particleRadius, particleMass));
+            particles.add(strategy.createNewParticle());
         }
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);

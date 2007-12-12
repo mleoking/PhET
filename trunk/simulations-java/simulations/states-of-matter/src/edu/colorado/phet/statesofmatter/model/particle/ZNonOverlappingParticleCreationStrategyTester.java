@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
-    private static final double CUSHION = 0.05;
+    protected double cushion = 0.05;
+    private List particles;
 
     public void setUp() {
-        strategy = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_RADIUS, CUSHION);
+        particles = new ArrayList();
+        strategy  = new NonOverlappingParticleCreationStrategy(StatesOfMatterConfig.CONTAINER_BOUNDS, PARTICLE_MASS, PARTICLE_RADIUS, cushion, particles);
     }
 
     public void testThatParticlesDoNotOverlap() {
-        List particles = new ArrayList();
-
         for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle p1 = strategy.createNewParticle(particles, PARTICLE_RADIUS, 1.0);
+            StatesOfMatterParticle p1 = strategy.createNewParticle();
 
             for (int j = 0; j < particles.size(); j++) {
                 StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);
@@ -26,7 +26,7 @@ public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParti
 
                 double dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS + CUSHION - 0.0001);
+                assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS + cushion - 0.0001);
             }
 
             particles.add(p1);

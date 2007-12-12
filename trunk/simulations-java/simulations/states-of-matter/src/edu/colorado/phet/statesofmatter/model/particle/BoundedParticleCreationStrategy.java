@@ -1,18 +1,21 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 import java.util.Random;
 
 public class BoundedParticleCreationStrategy implements ParticleCreationStrategy {
     private final Random random = new Random();
     private final Rectangle2D.Double bounds;
+    private final double mass;
+    private final double radius;
 
-    public BoundedParticleCreationStrategy(Rectangle2D.Double bounds) {
+    public BoundedParticleCreationStrategy(Rectangle2D.Double bounds, double mass, double radius) {
         this.bounds = bounds;
+        this.mass   = mass;
+        this.radius = radius;
     }
 
-    public StatesOfMatterParticle createNewParticle(List particles, double radius, double mass) {
+    public StatesOfMatterParticle createNewParticle() {
         double length = 2 * radius;
 
         double x = bounds.x + radius + random.nextDouble() * (bounds.width  - length);
