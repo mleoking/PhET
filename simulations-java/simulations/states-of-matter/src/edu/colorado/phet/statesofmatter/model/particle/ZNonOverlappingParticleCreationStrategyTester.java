@@ -3,6 +3,7 @@ package edu.colorado.phet.statesofmatter.model.particle;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParticleCreationStrategyTester {
@@ -15,21 +16,24 @@ public class ZNonOverlappingParticleCreationStrategyTester extends ZBoundedParti
     }
 
     public void testThatParticlesDoNotOverlap() {
-        for (int i = 0; i < NUM_PARTICLES_TO_TEST; i++) {
-            StatesOfMatterParticle p1 = strategy.createParticle();
+        strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
 
-            for (int j = 0; j < particles.size(); j++) {
-                StatesOfMatterParticle p2 = (StatesOfMatterParticle)particles.get(j);
+        for (Iterator iterator = particles.iterator(); iterator.hasNext();) {
+            StatesOfMatterParticle p1 = (StatesOfMatterParticle)iterator.next();
 
-                double deltaX = p1.getX() - p2.getX();
-                double deltaY = p1.getY() - p2.getY();
+            for (Iterator iterator2 = particles.iterator(); iterator2.hasNext();) {
+                StatesOfMatterParticle p2 = (StatesOfMatterParticle)iterator2.next();
 
-                double dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (p1 != p2) {
+                    double deltaX = p1.getX() - p2.getX();
+                    double deltaY = p1.getY() - p2.getY();
 
-                assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS + cushion - 0.0001);
+                    double dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                    assertTrue("Particles " + p1 + " and " + p2 + " overlap by " + (dist - PARTICLE_RADIUS) + "cm", dist >= 2 * PARTICLE_RADIUS + cushion - 0.0001);
+                }
+
             }
-
-            particles.add(p1);
         }
     }
 }

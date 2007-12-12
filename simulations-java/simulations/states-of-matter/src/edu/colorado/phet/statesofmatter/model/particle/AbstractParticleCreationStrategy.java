@@ -1,17 +1,17 @@
 package edu.colorado.phet.statesofmatter.model.particle;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public abstract class AbstractParticleCreationStrategy implements ParticleCreationStrategy {
-    public Collection createParticles(int maximum) {
-        List list = new ArrayList();
+    public int createParticles(Collection list, int maximum) {
+        int created = 0;
 
         for (int i = 0; i < maximum; i++) {
             StatesOfMatterParticle p = createParticle();
 
             if (p != null) {
+                ++created;
+
                 list.add(p);
             }
             else {
@@ -19,6 +19,6 @@ public abstract class AbstractParticleCreationStrategy implements ParticleCreati
             }
         }
 
-        return list;
+        return created;
     }
 }
