@@ -12,6 +12,7 @@ import java.util.List;
 public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlappingParticleCreationStrategyTester {
     private static final Rectangle2D.Double B = StatesOfMatterConfig.CONTAINER_BOUNDS;
     private static final Shape ICE_CUBE = new Rectangle2D.Double(B.getX() + 1, B.getY() + 1, B.getWidth() - 1, B.getHeight() - 1);
+    private static final double DIST_FROM_BOTTOM = 1.1 * PARTICLE_RADIUS;
 
     public void setUp() {
         particles = new ArrayList();
@@ -24,7 +25,7 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
     private void createNewStrategy() {
         cushion = 0.01;
 
-        strategy = new PackedHexagonalParticleCreationStrategy(ICE_CUBE, PARTICLE_MASS, PARTICLE_RADIUS, cushion);
+        strategy = new PackedHexagonalParticleCreationStrategy(ICE_CUBE, PARTICLE_MASS, PARTICLE_RADIUS, cushion, DIST_FROM_BOTTOM);
     }
 
     private double dist(double x1, double y1, double x2, double y2) {
@@ -83,6 +84,16 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
         }
     }
 
+    public void testIsSpecifiedDistanceAwayFromBottom() {
+        double maxY = ICE_CUBE.getBounds2D().getMaxY();
+
+        List list = getClosest(ICE_CUBE.getBounds2D().getMinX(), maxY);
+
+        StatesOfMatterParticle p = (StatesOfMatterParticle)list.get(0);
+
+        assertEquals(DIST_FROM_BOTTOM, maxY - p.getY(), 0.000001);
+    }
+
     public void testCanCreateList() {
         createNewStrategy();
 
@@ -97,7 +108,7 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
 
     public void testListCreationReturnsAppropriateParticleCount() {
         createNewStrategy();
-        
+
         super.testListCreationReturnsAppropriateParticleCount();
     }
 }
