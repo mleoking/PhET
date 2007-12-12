@@ -20,6 +20,7 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     private final IPositionDriven environment;
     private final RotationPlatform rotationPlatform;
     private PNode rotationPlatformNode;
+    private static final double MIN_ANG_VEL_FLING_THRESHOLD = 0.05;
 
     public RotationPlatformDragHandler( PNode rotationPlatformNode, IPositionDriven environment, RotationPlatform rotationPlatform ) {
         this.rotationPlatformNode = rotationPlatformNode;
@@ -34,6 +35,12 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     }
 
     public void mouseReleased( PInputEvent event ) {
+        double angularVelocity = rotationPlatform.getAngularVelocity().getValue();
+
+        if ( Math.abs( angularVelocity ) > MIN_ANG_VEL_FLING_THRESHOLD ) {
+            rotationPlatform.setVelocityDriven();
+            rotationPlatform.setVelocity( angularVelocity );
+        }
     }
 
     public void mouseDragged( PInputEvent event ) {
