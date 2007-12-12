@@ -42,7 +42,6 @@ public class ZBoundedParticleCreationStrategyTester extends TestCase {
                                                            bounds.y + PARTICLE_RADIUS,
                                                            bounds.width  - 2 * PARTICLE_RADIUS,
                                                            bounds.height - 2 * PARTICLE_RADIUS);
-
         Collection particles = new ArrayList();
 
         strategy.createParticles(particles, NUM_PARTICLES_TO_TEST);
