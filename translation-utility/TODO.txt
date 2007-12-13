@@ -36,7 +36,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.00.11 (?)
+********* version 0.00.11 (19013)
 12/13/07 - add hand cursor to help buttons on initial dialog
 ********* version 0.00.10 (18912)
 12/10/07 - show language names at top of columns in TranslationPanel
