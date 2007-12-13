@@ -13,6 +13,7 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
     private static final Rectangle2D.Double B = StatesOfMatterConfig.CONTAINER_BOUNDS;
     private static final Shape ICE_CUBE = new Rectangle2D.Double(B.getX() + 1, B.getY() + 1, B.getWidth() - 1, B.getHeight() - 1);
     private static final double DIST_FROM_BOTTOM = 1.1 * PARTICLE_RADIUS;
+    private static final double MARGIN = PARTICLE_RADIUS * 4.0;
 
     public void setUp() {
         particles = new ArrayList();
@@ -54,13 +55,11 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
     }
 
     public void testPackingIsHexagonal() {
-        double margin = PARTICLE_RADIUS * 4.0;
-
         Rectangle2D b = ICE_CUBE.getBounds2D();
 
         for (int i = 0; i < 100; i++) {
-            double x = Math.random() * (b.getWidth()  - 2 * margin) + b.getMinX() + margin;
-            double y = Math.random() * (b.getHeight() - 2 * margin) + b.getMinY() + margin;
+            double x = Math.random() * (b.getWidth()  - 2 * MARGIN) + b.getMinX() + MARGIN;
+            double y = Math.random() * (b.getHeight() - 2 * MARGIN) + b.getMinY() + MARGIN;
 
             StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
 
@@ -85,15 +84,13 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
     }
 
     public void testPackingFollowsDistanceConstraint() {
-        double margin = PARTICLE_RADIUS * 4.0;
-
         Rectangle2D b = ICE_CUBE.getBounds2D();
 
         double distBetweenParticles = 2.0 * PARTICLE_RADIUS + cushion;
 
         for (int i = 0; i < 100; i++) {
-            double x = Math.random() * (b.getWidth()  - 2 * margin) + b.getMinX() + margin;
-            double y = Math.random() * (b.getHeight() - 2 * margin) + b.getMinY() + margin;
+            double x = Math.random() * (b.getWidth()  - 2 * MARGIN) + b.getMinX() + MARGIN;
+            double y = Math.random() * (b.getHeight() - 2 * MARGIN) + b.getMinY() + MARGIN;
 
             StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
 
