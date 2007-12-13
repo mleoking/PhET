@@ -452,7 +452,7 @@ public class RotationBody {
         if ( r > 0 ) {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
         }
-        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
+//        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
         if ( newV.getMagnitude() > FLY_OFF_SPEED_THRESHOLD ) {
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
