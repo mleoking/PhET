@@ -52,8 +52,11 @@ public class RotationBody {
 
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
+    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0;
 
-    /** @noinspection HardCodedStringLiteral*/
+    /**
+     * @noinspection HardCodedStringLiteral
+     */
     public RotationBody() {
         this( "ladybug.gif" );
     }
@@ -200,12 +203,7 @@ public class RotationBody {
             System.out.println( "Stepped: x=" + getPositionX() );
         }
         Point2D origPosition = getPosition();
-        if ( isOffPlatform() ) {
-            updateOffPlatform( time );
-        }
-        else {
-            updateOnPlatform( time );
-        }
+        updateStrategy.stepInTime( time, dt );
         if ( !getPosition().equals( origPosition ) ) {//todo: integrate listener behavior into xBody and yBody?
             notifyPositionChanged();
         }
@@ -454,6 +452,11 @@ public class RotationBody {
         if ( r > 0 ) {
             lastNonZeroRadiusAngle = getAngleOverPlatform();
         }
+        System.out.println( "newV.getMagnitude() = " + newV.getMagnitude() );
+        if ( newV.getMagnitude() > FLY_OFF_SPEED_THRESHOLD ) {
+//            System.out.println( "flying off" );
+            setUpdateStrategy( new FlyingOff( newV ) );
+        }
     }
 
     private double getDAngle() {
@@ -590,6 +593,8 @@ public class RotationBody {
 
     private static abstract class UpdateStrategy implements Serializable {
         public abstract void detach();
+
+        public abstract void stepInTime( double time, double dt );
     }
 
     private static Point2D rotate( Point2D pt, Point2D center, double angle ) {
@@ -605,6 +610,11 @@ public class RotationBody {
     private class OffPlatform extends UpdateStrategy {
         public void detach() {
         }
+
+        public void stepInTime( double time, double dt ) {
+            updateOffPlatform( time );
+        }
+
     }
 
     private class OnPlatform extends UpdateStrategy implements IVariable.Listener {
@@ -629,6 +639,10 @@ public class RotationBody {
 
         public void detach() {
             rotationPlatform.getPositionVariable().removeListener( this );
+        }
+
+        public void stepInTime( double time, double dt ) {
+            updateOnPlatform( time );
         }
 
         public void valueChanged() {
@@ -708,4 +722,29 @@ public class RotationBody {
         angle.setValue( getUserSetAngle() );
     }
 
+    private class FlyingOff extends UpdateStrategy {
+        private AbstractVector2D velocity;
+
+        public FlyingOff( AbstractVector2D velocity ) {
+            this.velocity = velocity;
+        }
+
+        public void detach() {
+        }
+
+        public void stepInTime( double time, double dt ) {
+            xBody.addPositionData( xBody.getPosition() + velocity.getX() * dt, time );
+            yBody.addPositionData( yBody.getPosition() + velocity.getY() * dt, time );
+
+            xBody.addVelocityData( velocity.getX(), time );
+            yBody.addVelocityData( velocity.getY(), time );
+
+            xBody.addAccelerationData( 0, time );
+            yBody.addAccelerationData( 0, time );
+
+            angle.addValue( getUserSetAngle(), time );
+            angularVelocity.addValue( 0, time );
+            angularAccel.addValue( 0, time );
+        }
+    }
 }
