@@ -91,8 +91,8 @@
 	<classpathentry kind="src" path="simulations/moving-man/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/mri/src"/>
 	<classpathentry kind="src" path="simulations/mri/data"/>
-        <classpathentry kind="src" path="simulations/mvc-example/src"/>
-        <classpathentry kind="src" path="simulations/mvc-example/data"/>
+	<classpathentry kind="src" path="simulations/mvc-example/src"/>
+	<classpathentry kind="src" path="simulations/mvc-example/data"/>
 	<classpathentry kind="src" path="simulations/nuclear-physics/src"/>
 	<classpathentry kind="src" path="simulations/nuclear-physics/data"/>
 	<classpathentry kind="src" path="simulations/ohm-1d/src"/>
@@ -101,8 +101,8 @@
 	<classpathentry kind="src" path="simulations/optical-quantum-control/data"/>
 	<classpathentry kind="src" path="simulations/optical-tweezers/src"/>
 	<classpathentry kind="src" path="simulations/optical-tweezers/data"/>
-        <classpathentry kind="src" path="simulations/phetgraphics-demo/src"/>
-        <classpathentry kind="src" path="simulations/phetgraphics-demo/data"/>
+	<classpathentry kind="src" path="simulations/phetgraphics-demo/src"/>
+	<classpathentry kind="src" path="simulations/phetgraphics-demo/data"/>
 	<classpathentry kind="src" path="simulations/photoelectric/src"/>
 	<classpathentry kind="src" path="simulations/photoelectric/data"/>
 	<classpathentry kind="src" path="simulations/quantum-tunneling/src"/>
@@ -152,7 +152,8 @@
 	<classpathentry kind="lib" path="build-tools/proguard3.8/lib/proguard.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.4.jar"/>
 	<classpathentry kind="lib" path="/jfreechart/lib/jfreechart-1.0.5.jar" sourcepath="/jfreechart/source.zip"/>
+	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.5.jar"/>
+	<classpathentry kind="lib" path="build-tools/jsch/jsch-0.1.36.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
