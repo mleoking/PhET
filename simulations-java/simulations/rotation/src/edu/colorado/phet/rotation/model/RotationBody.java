@@ -445,10 +445,11 @@ public class RotationBody {
             newA = newA.getAddedInstance( tanVector );
         }
         else if ( offsetVelocityDueToUserControl ) {
-            double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 3 );
+            double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 2 );
             AbstractVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
-            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
+//            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
             newA = newA.getAddedInstance( tanVector );
+//            newA=new Vector2D.Double(5,5);
         }
 
         addPositionData( newX, time );
@@ -468,11 +469,12 @@ public class RotationBody {
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
-            String[]audio=new String[]{"whee5","whoah-7","words2"};
-            RotationResources.getInstance().getAudioClip( audio[random.nextInt( audio.length )]+".wav" ).play();
+            String[] audio = new String[]{"whee5", "whoah-7", "words2"};
+            RotationResources.getInstance().getAudioClip( audio[random.nextInt( audio.length )] + ".wav" ).play();
         }
     }
-    static final Random random=new Random( );
+
+    static final Random random = new Random();
 
     private double getDAngle() {
         if ( rotationPlatform.getPositionSampleCount() >= 2 ) {
@@ -648,7 +650,7 @@ public class RotationBody {
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
 
             setOrientation( new Vector2D.Double( rot.getP1(), rot.getP2() ).getAngle() );
-            updateVectorsOnPlatform();
+//            updateVectorsOnPlatform();  //todo: was this necessary when repaints weren't synchronized?
             notifyPositionChanged();
         }
 
