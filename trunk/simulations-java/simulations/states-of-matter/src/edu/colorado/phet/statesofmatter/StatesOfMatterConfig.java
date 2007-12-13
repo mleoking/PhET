@@ -14,10 +14,10 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final int WINDOW_HEIGHT = 600;
     public static final int INITIAL_MAX_PARTICLE_COUNT = 600;
     public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(-3, -4, 6, 8);
-    public static final Rectangle2D.Double ICE_CUBE_BOUNDS = new Rectangle2D.Double(-1.5, 1, 3, 3);
+    public static final Rectangle2D.Double ICE_CUBE_BOUNDS  = new Rectangle2D.Double(-1.5, 1, 3, 3);
     public static final double INITIAL_TOTAL_ENERGY_PER_PARTICLE = 225;
     public static final double PARTICLE_RADIUS = 0.2;
-    public static final double PARTICLE_MASS = 1.0;
+    public static final double PARTICLE_MASS   = 1.0;
     public static final double PARTICLE_MAX_KE = 100000;
     public static final double PARTICLE_CREATION_CUSHION = 0.0;
 
@@ -26,7 +26,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final double GRAVITY = -10;
     public static final double DELTA_T = 0.0000001;
 
-    public static final double EPSILON = 1.0;
+    public static final double EPSILON = 10000000.0;
     public static final double RMIN    = 2.0 * PARTICLE_RADIUS;
     public static final double ICE_CUBE_DIST_FROM_FLOOR = RMIN;
 
