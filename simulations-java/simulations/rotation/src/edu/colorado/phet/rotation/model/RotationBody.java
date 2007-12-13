@@ -17,6 +17,7 @@ import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.tests.CircularRegression;
 
 /**
@@ -456,6 +457,8 @@ public class RotationBody {
         if ( newV.getMagnitude() > FLY_OFF_SPEED_THRESHOLD ) {
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
+//            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
+            RotationResources.getInstance().getAudioClip( "whee5.wav" ).play();
         }
     }
 
