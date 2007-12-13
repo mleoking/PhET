@@ -54,13 +54,13 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
     }
 
     public void testPackingIsHexagonal() {
-        double cushion = PARTICLE_RADIUS * 4.0;
+        double margin = PARTICLE_RADIUS * 4.0;
 
         Rectangle2D b = ICE_CUBE.getBounds2D();
 
         for (int i = 0; i < 100; i++) {
-            double x = Math.random() * (b.getWidth()  - 2 * cushion) + b.getMinX() + cushion;
-            double y = Math.random() * (b.getHeight() - 2 * cushion) + b.getMinY() + cushion;
+            double x = Math.random() * (b.getWidth()  - 2 * margin) + b.getMinX() + margin;
+            double y = Math.random() * (b.getHeight() - 2 * margin) + b.getMinY() + margin;
 
             StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
 
@@ -80,6 +80,33 @@ public class ZPackedHexagonalParticleCreationStrategyTester extends ZNonOverlapp
                 double curDist = dist(closest.getX(), closest.getY(), p.getX(), p.getY());
 
                 assertEquals("Particle " + p + " is one of the six closest to particle " + closest + ", but is not the same distance away from it as at least one of the others.", dist, curDist, 0.000001);
+            }
+        }
+    }
+
+    public void testPackingFollowsDistanceConstraint() {
+        double margin = PARTICLE_RADIUS * 4.0;
+
+        Rectangle2D b = ICE_CUBE.getBounds2D();
+
+        double distBetweenParticles = 2.0 * PARTICLE_RADIUS + cushion;
+
+        for (int i = 0; i < 100; i++) {
+            double x = Math.random() * (b.getWidth()  - 2 * margin) + b.getMinX() + margin;
+            double y = Math.random() * (b.getHeight() - 2 * margin) + b.getMinY() + margin;
+
+            StatesOfMatterParticle closest = (StatesOfMatterParticle)getClosest(x, y).iterator().next();
+
+            List list = getClosest(closest.getX(), closest.getY());
+
+            list.remove(0);
+
+            for (int j = 1; j < 6; j++) {
+                StatesOfMatterParticle p = (StatesOfMatterParticle)list.get(j);
+
+                double curDist = dist(closest.getX(), closest.getY(), p.getX(), p.getY());
+
+                assertEquals("Particle is wrong distance away from closest neighbor", distBetweenParticles, curDist, 0.000001);
             }
         }
     }

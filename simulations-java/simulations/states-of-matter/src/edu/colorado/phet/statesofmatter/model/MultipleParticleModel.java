@@ -72,20 +72,28 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
             computation.apply(particles);
 
             // Cap the kinetic energy:
-            new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
-
-            // Readjust to conserve total energy:
-            double curKE = engineFacade.measureKineticEnergy();
-            double curTotalEnergy = curKE + engineFacade.measurePotentialEnergy();
-
-            double energyDiff = curTotalEnergy - totalEnergy;
-
-            double targetKE = curKE - energyDiff;
-
-            if (targetKE > 0) {
-                new KineticEnergyAdjuster().adjust(particles, targetKE);
-            }
+            capKineticEnergy();
         }
+
+        // Readjust to conserve total energy:
+        conserveTotalEnergy();
+    }
+
+    private void conserveTotalEnergy() {
+        double curKE = engineFacade.measureKineticEnergy();
+        double curTotalEnergy = curKE + engineFacade.measurePotentialEnergy();
+
+        double energyDiff = curTotalEnergy - totalEnergy;
+
+        double targetKE = curKE - energyDiff;
+
+        if (targetKE > 0) {
+            new KineticEnergyAdjuster().adjust(particles, targetKE);
+        }
+    }
+
+    private void capKineticEnergy() {
+        new KineticEnergyCapper(particles).cap(StatesOfMatterConfig.PARTICLE_MAX_KE);
     }
 
     public void clockStarted(ClockEvent clockEvent) {
