@@ -1,5 +1,7 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+
 import java.util.Arrays;
 
 public class ZLennardJonesForceTester extends ZAbstractLennardJonesFunctionTester {
@@ -24,14 +26,9 @@ public class ZLennardJonesForceTester extends ZAbstractLennardJonesFunctionTeste
     public void testForceIsZeroAtRmin() {
         double[] force = ljf.evaluate(RMIN, 0);
 
-        assertTrue("Force should be zero but is " + force[0] + ", " + force[1],
-                   Arrays.equals(
-                       new double[]{
-                           0.0,
-                           0.0
-                       },
-                       force
-                   )
-        );
+        Vector2D.Double v = new Vector2D.Double(force[0], force[1]);
+
+        assertEquals("Force should be zero but is " + force[0] + ", " + force[1],
+                     0.0, v.getMagnitude(), 0.000000001);
     }
 }

@@ -7,9 +7,9 @@ public class LennardJonesPotential extends AbstractLennardJonesFunction implemen
 
     private final double A;
     private final double B;
-    
+
     public LennardJonesPotential(double epsilon, double rMin) {
-        super(rMin, epsilon);
+        super(epsilon, rMin);
 
         this.A = epsilon * Math.pow(rMin, 12);
         this.B = epsilon * 2 * Math.pow(rMin, 6);

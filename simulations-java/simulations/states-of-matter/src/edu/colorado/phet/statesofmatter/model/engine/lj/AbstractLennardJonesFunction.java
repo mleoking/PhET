@@ -5,7 +5,7 @@ public abstract class AbstractLennardJonesFunction {
     protected final double rMin;
     protected final double sigma;
 
-    public AbstractLennardJonesFunction(double rMin, double epsilon) {
+    public AbstractLennardJonesFunction(double epsilon, double rMin) {
         this.rMin    = rMin;
         this.epsilon = epsilon;
         this.sigma   = rMin / Math.pow(2.0, 1.0/6.0);

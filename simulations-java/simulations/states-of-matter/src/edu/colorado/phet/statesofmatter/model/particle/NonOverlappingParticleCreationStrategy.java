@@ -44,6 +44,6 @@ public class NonOverlappingParticleCreationStrategy extends AbstractParticleCrea
             }
         }
 
-        throw new RuntimeException("Space too crowded to create new non-overlapping particle");
+        return null;
     }
 }

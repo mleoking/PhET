@@ -36,8 +36,8 @@ public class LennardJonesWallForceCalculator implements Calculator {
 
         if (crossProductZ < 0) {
             // Behind wall:
-            args[0] = -args[0] / dist * ljf.getEpsilon() * 0.01;
-            args[1] = -args[1] / dist * ljf.getEpsilon() * 0.01;
+            args[0] = -args[0] / dist * ljf.getRMin() * 0.01;
+            args[1] = -args[1] / dist * ljf.getRMin() * 0.01;
         }
         else if (dist > ljf.getRMin() ) {
             forces[0] = 0.0;
