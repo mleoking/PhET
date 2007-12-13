@@ -96,6 +96,9 @@ public class MotionBody implements UpdateableObject, IMotionBody {
     public boolean isAccelDriven() {
         return updateStrategy == accelDriven;
     }
+    public boolean isPositionDriven(){
+        return updateStrategy==positionDriven;
+    }
 
     public void setVelocityDriven() {
         setUpdateStrategy( velocityDriven );
