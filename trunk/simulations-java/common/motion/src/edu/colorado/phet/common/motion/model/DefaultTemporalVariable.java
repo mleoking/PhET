@@ -95,4 +95,14 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         series.removeListener( listener );
         variable.removeListener( listener );
     }
+
+    //computes an average using min(s,numSamples) data points
+    public double estimateAverage( int s ) {
+        double sum = 0;
+        int count = Math.min( s, getSampleCount() );
+        for ( int i = 0; i < count; i++ ) {
+            sum += getRecentData( i ).getValue();
+        }
+        return sum / count;
+    }
 }

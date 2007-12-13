@@ -27,6 +27,9 @@ public interface ITemporalVariable extends IVariable {
 
     void removeListener( Listener listener );
 
+    //computes an average using min(s,numSamples) data points
+    double estimateAverage( int s);
+
     public static interface Listener extends IVariable.Listener {
         void dataAdded( TimeData data );
 

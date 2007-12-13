@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
@@ -435,9 +436,18 @@ public class RotationBody {
         Vector2D.Double centripetalVector = new Vector2D.Double( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
-        if ( ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() ) && !centered ) {
+        boolean offsetVelocityDueToConstantAccel = !centered && ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() );
+        boolean offsetVelocityDueToUserControl = !centered && ( rotationPlatform.isPositionDriven() );// && Math.abs( rotationPlatform.getVelocity() ) > 1E-2;
+//        System.out.println( "offsetVelocityDueToUserControl = " + offsetVelocityDueToUserControl );
+        if ( offsetVelocityDueToConstantAccel ) {
             //add on the tangential part under constant angular acceleration
             AbstractVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
+            newA = newA.getAddedInstance( tanVector );
+        }
+        else if ( offsetVelocityDueToUserControl ) {
+            double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 3 );
+            AbstractVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
+            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
             newA = newA.getAddedInstance( tanVector );
         }
 
@@ -458,9 +468,11 @@ public class RotationBody {
 //            System.out.println( "flying off" );
             setUpdateStrategy( new FlyingOff( newV ) );
 //            RotationResources.getInstance().getAudioClip( "bug-flyoff.wav" );
-            RotationResources.getInstance().getAudioClip( "whee5.wav" ).play();
+            String[]audio=new String[]{"whee5","whoah-7","words2"};
+            RotationResources.getInstance().getAudioClip( audio[random.nextInt( audio.length )]+".wav" ).play();
         }
     }
+    static final Random random=new Random( );
 
     private double getDAngle() {
         if ( rotationPlatform.getPositionSampleCount() >= 2 ) {
