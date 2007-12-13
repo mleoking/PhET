@@ -26,7 +26,7 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final double GRAVITY = -10;
     public static final double DELTA_T = 0.0000001;
 
-    public static final double EPSILON = 100.0;
+    public static final double EPSILON = 1.0;
     public static final double RMIN    = 2.0 * PARTICLE_RADIUS;
     public static final double ICE_CUBE_DIST_FROM_FLOOR = RMIN;
 
