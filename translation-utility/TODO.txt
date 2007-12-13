@@ -7,8 +7,7 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
-- update instructions on web site, indicate can be used to edit existing translation
-- replace dev instructions with a pointer to the PhET website
+- add hand cursor to help buttons on initial dialog
 
 MEDIUM PRIORITY:
 - refactor to support alternate strategies for Flash sims
