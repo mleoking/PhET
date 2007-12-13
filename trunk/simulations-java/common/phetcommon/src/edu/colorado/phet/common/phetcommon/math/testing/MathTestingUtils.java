@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.math.VectorToVectorFunctionAdapter;
 import junit.framework.TestCase;
 
 public class MathTestingUtils {
+    private static final double SIGNIFICANCE = 1.0E-10;
     private static final int DEFAULT_STEPS = 100;
 
     public static void testHasMinimum(VectorToDoubleFunction function, double[] min, double[] max, double[] minimum) {
@@ -42,8 +43,8 @@ public class MathTestingUtils {
             double[] curValue = function.evaluate(cur);
 
             for (int i = 0; i < min.length; i++) {
-                if (curValue[i] < valueAtMinimum[i]) {
-                    TestCase.fail("The function " + function + " has a lower minimum than specified.");
+                if ((curValue[i] + SIGNIFICANCE) < valueAtMinimum[i]) {
+                    TestCase.fail("The function " + function + " has a lower minimum than specified: diff = " + Math.abs(curValue[i] - valueAtMinimum[i]));
                 }
             }
         }

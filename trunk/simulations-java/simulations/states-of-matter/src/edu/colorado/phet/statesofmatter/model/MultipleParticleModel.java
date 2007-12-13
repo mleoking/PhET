@@ -26,8 +26,6 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
     public static final MultipleParticleModel TEST = new MultipleParticleModel(ConstantDtClock.TEST);
 
-    private double particleRadius = 0.1;
-    private double particleMass   = 1;
     private double totalEnergy;
     private EngineFacade engineFacade;
 
@@ -38,7 +36,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
     }
 
     public void initialize() {
-        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, particleMass, particleRadius, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, StatesOfMatterConfig.ICE_CUBE_DIST_FROM_FLOOR);
+        ParticleCreationStrategy strategy = new PackedHexagonalParticleCreationStrategy(StatesOfMatterConfig.ICE_CUBE_BOUNDS, StatesOfMatterConfig.PARTICLE_MASS, StatesOfMatterConfig.PARTICLE_RADIUS, StatesOfMatterConfig.PARTICLE_CREATION_CUSHION, StatesOfMatterConfig.ICE_CUBE_DIST_FROM_FLOOR);
 
         particles.clear();
 
@@ -46,7 +44,7 @@ public class MultipleParticleModel extends BaseModel implements ClockListener {
 
         engineFacade = new EngineFacade(particles, EngineConfig.TEST);
 
-        double targetKineticEnergy = StatesOfMatterConfig.INITIAL_TOTAL_ENERGY - engineFacade.measurePotentialEnergy();
+        double targetKineticEnergy = StatesOfMatterConfig.INITIAL_TOTAL_ENERGY_PER_PARTICLE * getNumParticles() - engineFacade.measurePotentialEnergy();
 
         KineticEnergyAdjuster adjuster = new KineticEnergyAdjuster();
 

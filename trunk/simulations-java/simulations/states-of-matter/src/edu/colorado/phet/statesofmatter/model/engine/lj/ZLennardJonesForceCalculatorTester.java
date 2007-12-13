@@ -1,5 +1,6 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
+import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
@@ -7,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ZLennardJonesForceCalculatorTester extends TestCase {
-    private static final double EPSILON = 1.0;
-    private static final double RMIN    = 1.0;
+    static final double RMIN    = StatesOfMatterConfig.RMIN;
+    static final double EPSILON = StatesOfMatterConfig.EPSILON;
 
     private static final LennardJonesForce LJF = new LennardJonesForce(EPSILON, RMIN);
 
@@ -16,13 +17,13 @@ public class ZLennardJonesForceCalculatorTester extends TestCase {
     private static final StatesOfMatterParticle P2 = new StatesOfMatterParticle(-2, -2, 1, 1);
 
     private static final StatesOfMatterParticle P3 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P4 = new StatesOfMatterParticle(0, 0.5 * EPSILON, 1, 1);
+    private static final StatesOfMatterParticle P4 = new StatesOfMatterParticle(0, 0.5 * RMIN, 1, 1);
 
     private static final StatesOfMatterParticle P5 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P6 = new StatesOfMatterParticle(0, 1.5 * EPSILON, 1, 1);
+    private static final StatesOfMatterParticle P6 = new StatesOfMatterParticle(0, 1.5 * RMIN, 1, 1);
 
     private static final StatesOfMatterParticle P7 = new StatesOfMatterParticle(0, 0, 1, 1);
-    private static final StatesOfMatterParticle P8 = new StatesOfMatterParticle(0, EPSILON, 1, 1);
+    private static final StatesOfMatterParticle P8 = new StatesOfMatterParticle(0, RMIN, 1, 1);
 
     private final double[] f1 = new double[2];
     private final double[] f2 = new double[2];

@@ -1,16 +1,17 @@
 package edu.colorado.phet.statesofmatter.model.engine.lj;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
 
 public class ZLennardJonesWallForceCalculatorTester extends TestCase {
-    private static final double EPSILON = 1.0;
-    private static final double RMIN    = 2.0;
+    private static final double RMIN    = StatesOfMatterConfig.RMIN;
+    private static final double EPSILON = StatesOfMatterConfig.EPSILON;
     private static final double EQUALITY_EPS = 0.0000001;
-    
+
     private static final Line2D.Double     WALL  = new Line2D.Double(1, 1, -1, -1);
     private static final LennardJonesForce FORCE = new LennardJonesForce(EPSILON, RMIN);
 
