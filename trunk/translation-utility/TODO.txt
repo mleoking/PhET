@@ -7,7 +7,6 @@ OPEN ISSUES:
 - how to run the Flash player from Java, with a specified locale?
 
 HIGH PRIORITY:
-- add hand cursor to help buttons on initial dialog
 
 MEDIUM PRIORITY:
 - refactor to support alternate strategies for Flash sims
@@ -36,6 +35,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/13/07 - add hand cursor to help buttons on initial dialog
 ********* version 0.00.10 (18912)
 12/10/07 - show language names at top of columns in TranslationPanel
 12/10/07 - revise help for language selection

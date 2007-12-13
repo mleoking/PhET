@@ -114,6 +114,7 @@ public class InitializationDialog extends JDialog {
                     showHelp( HELP_JAR_FILE );
                 }
             } );
+            helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
 
             JButton _browseButton = new JButton( BROWSE_BUTTON_LABEL );
             _browseButton.addActionListener( new ActionListener() {
@@ -160,6 +161,7 @@ public class InitializationDialog extends JDialog {
                     showHelp( HELP_LANGUAGE_CODE );
                 }
             } );
+            helpLabel.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
             
             languagePanel.add( languageLabel );
             languagePanel.add( _languageComboBox );
