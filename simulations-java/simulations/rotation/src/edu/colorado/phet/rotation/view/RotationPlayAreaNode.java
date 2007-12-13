@@ -35,7 +35,7 @@ public class RotationPlayAreaNode extends PNode {
     private PNode vectorLayer = new PNode();
     private RotationOriginNode originNode;
     private RotationRulerNode rulerNode;
-    private PauseNode pauseNode = new PauseNode();
+//    private PauseNode pauseNode = new PauseNode();
 
     public static final double SCALE = 3.0 / 200.0;
     private CircleNode circularMotionNode;
@@ -82,30 +82,28 @@ public class RotationPlayAreaNode extends PNode {
         addChild( rulerNode );
 
         addChild( circularMotionNode );
-//        pauseNode.setScale( SCALE * 3.5 );
-        pauseNode.setScale( SCALE * 3.5 * 2.5 );
-        pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS
-//                                                           - pauseNode.getFullBounds().getHeight()/2
-- pauseNode.getFullBounds().getHeight()
-        );
-        rotationModel.getClock().addClockListener( new ClockAdapter() {
-            public void clockPaused( ClockEvent clockEvent ) {
-                updatePauseNode();
-            }
-
-            public void clockStarted( ClockEvent clockEvent ) {
-                updatePauseNode();
-            }
-        } );
-        updatePauseNode();
-        addChild( pauseNode );
+//        pauseNode.setScale( SCALE * 3.5 * 2.5 );
+//        pauseNode.setOffset( -RotationPlatform.MAX_RADIUS, RotationPlatform.MAX_RADIUS
+//                                                           - pauseNode.getFullBounds().getHeight()
+//        );
+//        rotationModel.getClock().addClockListener( new ClockAdapter() {
+//            public void clockPaused( ClockEvent clockEvent ) {
+//                updatePauseNode();
+//            }
+//
+//            public void clockStarted( ClockEvent clockEvent ) {
+//                updatePauseNode();
+//            }
+//        } );
+//        updatePauseNode();
+//        addChild( pauseNode );
 
         rotationPlatformNode.addInputEventListener( startSimWhenInteracting );
     }
 
-    private void updatePauseNode() {
-        pauseNode.setVisible( rotationModel.getClock().isPaused() );
-    }
+//    private void updatePauseNode() {
+//        pauseNode.setVisible( rotationModel.getClock().isPaused() );
+//    }
 
     private void addFlowerNodes( RotationModel rotationModel ) {
         addChild( new FlowerNode( "flower1.gif", 0.5, -rotationModel.getRotationPlatform().getRadius(), rotationModel.getRotationPlatform().getRadius() * 0.8 ) );
