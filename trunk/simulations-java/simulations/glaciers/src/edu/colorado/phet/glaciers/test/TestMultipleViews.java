@@ -33,6 +33,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestMultipleViews extends JFrame {
     
+    private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
+    
     /** Implement this interface to be notified of changes to a square's properties. */
     private interface SquareListener {
         public void positionChanged();
@@ -100,8 +102,11 @@ public class TestMultipleViews extends JFrame {
         private final Square _redSquare, _blueSquare;
         
         public TestModel() {
-            _redSquare = new Square( new Point2D.Double( 100, 50 ), new Dimension( 100, 100 ), Color.RED );
-            _blueSquare = new Square( new Point2D.Double( 300, 50 ), new Dimension( 100, 100 ), Color.BLUE );
+            final int leftMargin = 50;
+            final int topMargin = 50;
+            final int spacing = 50;
+            _redSquare = new Square( new Point2D.Double( leftMargin, topMargin ), DEFAULT_SQUARE_SIZE, Color.RED );
+            _blueSquare = new Square( new Point2D.Double( leftMargin + _redSquare.getSize().getWidth() + spacing, topMargin ), DEFAULT_SQUARE_SIZE, Color.BLUE );
         }
 
         public Square getRedSquare() {
