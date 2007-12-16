@@ -3,6 +3,7 @@
 ================================================================================
 
 HIGH PRIORITY:
+- prototype the top and middle views
 - forward toolbox drag events to newly-created model elements
 - fix position transforms in ThermometerNode
 - remove tools by dragging them back to the toolbox or to the trash can
@@ -29,6 +30,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/16/07 - started example for birds-eye and zoomed views of one model
 12/12/07 - update thermometer view as thermometer model changes
 12/12/07 - add basic thermometer model
 12/11/07 - replace images for ice thickness tool
