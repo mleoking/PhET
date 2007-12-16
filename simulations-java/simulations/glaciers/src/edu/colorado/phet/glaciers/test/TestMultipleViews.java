@@ -26,8 +26,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * one view updates the model, and causes all views to update.
  * 
  * TODO:
- * - top canvas is clipped to area that is similar to its camera's scale
- * - add control to move bottom canvas viewport
+ * - keep height of top view constant
+ * - add control to top canvas that translates bottom canvas via Camera.translateView
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -164,7 +164,7 @@ public class TestMultipleViews extends JFrame {
         
         public TestCanvas( TestModel model, double scale ) {
             super();
-            getCamera().scale( scale );
+            getCamera().setViewScale( scale );
             
             setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
             removeInputEventListener( getZoomEventHandler() );
