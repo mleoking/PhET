@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
+import edu.umd.cs.piccolo.PNode;
+
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * PhetPNode provides useful extensions to the
@@ -69,6 +69,14 @@ public class PhetPNode extends PNode {
         if ( !getTransform().equals( transform ) ) {
             super.setTransform( transform );
         }
+    }
+
+
+    /**
+     * Resets the transform to the identity transform.
+     */
+    public void resetTransformToIdentity() {
+        setTransform( new AffineTransform() );
     }
 
     /**

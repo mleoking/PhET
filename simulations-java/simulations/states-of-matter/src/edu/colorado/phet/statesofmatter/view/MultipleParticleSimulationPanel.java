@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Point2D;
+import java.io.IOException;
 
 public class MultipleParticleSimulationPanel extends PhetPCanvas {
     public static final MultipleParticleSimulationPanel TEST = new MultipleParticleSimulationPanel(MultipleParticleModel.TEST, ConstantDtClock.TEST);
@@ -25,7 +26,13 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
 
     public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
-        particleContainer = new ParticleContainerNode(model.getParticleContainer());
+        
+        try {
+            particleContainer = new ParticleContainerNode(this, model.getParticleContainer());
+        }
+        catch (IOException e) {
+            throw new RuntimeException();
+        }
 
         clock.addClockListener(new ViewUpdatingClockListener());
 
