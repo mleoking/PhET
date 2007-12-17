@@ -45,36 +45,36 @@ public class TranslationDiscrepancy {
         return "need to be removed from remote jar: " + extraRemote + ", " + "need to be added to remote jar: " + extraLocal + " ";
     }
 
-    public void resolve() {
+    public void resolve(String username) {
         try {
             File resolveJAR = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
-            resolve( resolveJAR );
+            resolve( resolveJAR,username );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
 
-    public void resolve( File resolveJAR ) throws IOException {
+    public void resolve( File resolveJAR ,String username) throws IOException {
         if ( !extraLocal.isEmpty() || !extraRemote.isEmpty() ) {
             File jarFile = downloadJAR();
             System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
             synchronizeStrings( jarFile, resolveJAR );
 
-//        try {
-//            uploadJAR( resolveJAR );
-//        }
-//        catch( JSchException e ) {
-//            e.printStackTrace();
-//        }
+            try {
+                uploadJAR( resolveJAR, username);
+            }
+            catch( JSchException e ) {
+                e.printStackTrace();
+            }
         }
         else {
             System.out.println( "no resolution needed for: " + phetProject.getName() + ": " + flavor );
         }
     }
 
-    private void uploadJAR( File resolveJAR ) throws JSchException, IOException {
-        ScpTo.uploadFile( resolveJAR, "reids", "tigercat.colorado.edu", "/home/tigercat/phet/reids/" + resolveJAR.getName() );
+    private void uploadJAR( File resolveJAR, String username ) throws JSchException, IOException {
+        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar" );
     }
 
     private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
@@ -119,9 +119,9 @@ public class TranslationDiscrepancy {
     }
 
     private HashSet validateKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
-        if(!oldPropertiesFile.exists()||!newPropertiesFile.exists() ){
-            System.out.println( "Cannot compare properties files, one does not exist: old="+oldPropertiesFile.getAbsolutePath()+", new="+newPropertiesFile.getAbsolutePath() );
-            return new HashSet( );
+        if ( !oldPropertiesFile.exists() || !newPropertiesFile.exists() ) {
+            System.out.println( "Cannot compare properties files, one does not exist: old=" + oldPropertiesFile.getAbsolutePath() + ", new=" + newPropertiesFile.getAbsolutePath() );
+            return new HashSet();
         }
         Properties oldProperties = new Properties();
         oldProperties.load( new FileInputStream( oldPropertiesFile ) );
@@ -144,7 +144,7 @@ public class TranslationDiscrepancy {
         String deployUrl = phetProject.getDeployedFlavorJarURL( flavor );
 
 //        File jarFile = File.createTempFile( flavor, ".jar" );
-        File jarFile = new File(CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor+".jar" );
+        File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + ".jar" );
 
         FileDownload.download( deployUrl, jarFile );
         return jarFile;
