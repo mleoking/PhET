@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.glaciers.test;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Shape;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -27,7 +30,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * TODO:
  * - keep height of top view constant
- * - add control to top canvas that translates bottom canvas via Camera.translateView
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -35,7 +37,7 @@ public class TestMultipleViews extends JFrame {
     
     private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
     
-    /** Implement this interface to be notified of changes to a square's properties. */
+    /** Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
         public void positionChanged();
     }
@@ -125,8 +127,9 @@ public class TestMultipleViews extends JFrame {
         
         public SquareNode( Square square ) {
             super();
-            
+
             _square = square;
+            
             setPathTo( _square.getShape() );
             setPaint( _square.getColor() );
             
@@ -182,6 +185,143 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
+    /** Implement this interface to be notified of changes to the pan control. */
+    private interface PannerListener {
+        public void positionChanged();
+        public void sizeChanged();
+    }
+    
+    /** Adapter for PannerListener */
+    private static class PannerAdapter implements PannerListener {
+        public void positionChanged() {};
+        public void sizeChanged() {};
+    }
+    
+    /** Panner describes the visible bounds of a portion of the model. */
+    private static class Panner {
+        
+        private Point2D _position;
+        private Dimension _size;
+        private ArrayList _listeners;
+        
+        public Panner( Point2D position, Dimension size ) {
+            _position = new Point2D.Double( position.getX(), position.getY() );
+            _size = new Dimension( size );
+            _listeners = new ArrayList();
+        }
+        
+        public void setPosition( Point2D position ) {
+            if ( !position.equals( _position ) ) {
+                _position.setLocation( position );
+                notifyPositionChanged();
+            }
+        }
+        
+        public Point2D getPosition() {
+            return new Point2D.Double( _position.getX(), _position.getY() );
+        }
+        
+        public void setSize( Dimension size ) {
+            if ( !size.equals( _size ) ) {
+                _size.setSize( size );
+                notifySizeChanged();
+            }
+        }
+
+        public Dimension getSize() {
+            return new Dimension( _size );
+        }
+        
+        public void addListener( PannerListener listener ) {
+            _listeners.add( listener );
+        }
+
+        public void removeListener( PannerListener listener ) {
+            _listeners.remove( listener );
+        }
+        
+        private void notifyPositionChanged() {
+            for ( int i = 0; i < _listeners.size(); i++ ) {
+                Object listener = _listeners.get( i );
+                if ( listener instanceof PannerListener ) {
+                    ( (PannerListener) listener ).positionChanged();
+                }
+            }
+        }
+        
+        private void notifySizeChanged() {
+            for ( int i = 0; i < _listeners.size(); i++ ) {
+                Object listener = _listeners.get( i );
+                if ( listener instanceof PannerListener ) {
+                    ( (PannerListener) listener ).sizeChanged();
+                }
+            }
+        }
+    }
+    
+    /** View of the panner */
+    private static class PannerNode extends PPath {
+        
+        private Panner _panner;
+        
+        public PannerNode( Panner panner ) {
+            super();
+            
+            _panner = panner;
+            
+            setPaint( null );
+            setStroke( new BasicStroke( 6f ) );
+            setStrokePaint( Color.GREEN );
+            
+            _panner.addListener( new PannerListener() {
+
+                public void positionChanged() {
+                    updatePosition();
+                }
+
+                public void sizeChanged() {
+                    updateSize();
+                }
+                
+            });
+            
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PDragEventHandler() {
+
+                private double _xOffset, _yOffset;
+
+                protected void startDrag( PInputEvent event ) {
+                    _xOffset = event.getPosition().getX() - _panner.getPosition().getX();
+                    _yOffset = event.getPosition().getY() - _panner.getPosition().getY();
+                    super.startDrag( event );
+                }
+
+                protected void drag( PInputEvent event ) {
+                    double x = event.getPosition().getX() - _xOffset;
+                    double y = event.getPosition().getY() - _yOffset;
+                    _panner.setPosition( new Point2D.Double( x, y ) );
+                }
+            } );
+            
+            updatePosition();
+            updateSize();
+        }
+        
+        private void updatePosition() {
+            setOffset( _panner.getPosition() );
+        }
+        
+        private void updateSize() {
+            Dimension size = _panner.getSize();
+            Rectangle2D r = new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() );
+            setPathTo( r );
+        }
+
+    }
+    
+    private TestCanvas bottomCanvas;
+    private Panner panner;
+    
     /** Main window, creates one model with two views. */
     public TestMultipleViews() {
         super();
@@ -189,7 +329,24 @@ public class TestMultipleViews extends JFrame {
         TestModel model = new TestModel();
         
         TestCanvas topCanvas = new TestCanvas( model, 0.5 /* scale */ );
-        TestCanvas bottomCanvas = new TestCanvas( model, 1 /* scale */ );
+        bottomCanvas = new TestCanvas( model, 1 /* scale */ );
+        
+        // panner controls what portion of the top view is shown in the bottom view
+        panner = new Panner( new Point2D.Double( 0, 0 ), new Dimension( 1, 1 ) );
+        PannerNode pannerNode = new PannerNode( panner );
+        topCanvas.getLayer().addChild( pannerNode );
+        
+        bottomCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                handleBottomCanvasResized();
+            }
+        } );
+        
+        panner.addListener( new PannerAdapter() {
+            public void positionChanged() {
+                handlePannerPositionChanged();
+            }
+        });
         
         //XXX topCanvas is not visible, zero size?
 //        JPanel panel = new JPanel( new BorderLayout() );
@@ -201,6 +358,22 @@ public class TestMultipleViews extends JFrame {
         box.add( topCanvas );
         box.add( bottomCanvas );
         getContentPane().add( box );
+        
+        handleBottomCanvasResized();
+        handlePannerPositionChanged();
+    }
+    
+    /* when the bottom view is resized, resize the panner */
+    private void handleBottomCanvasResized() {
+        Rectangle2D r = bottomCanvas.getBounds();
+        double scale = bottomCanvas.getCamera().getViewScale();
+        panner.setSize( new Dimension( (int)( scale * r.getWidth() ), (int)( scale * r.getHeight() ) ) );
+    }
+    
+    /* when the panner is moved, translate the bottom view's camera */
+    private void handlePannerPositionChanged() {
+        Point2D p = panner.getPosition();
+        bottomCanvas.getCamera().setViewOffset( -p.getX(), -p.getY() );
     }
     
     public static void main( String args[] ) {
