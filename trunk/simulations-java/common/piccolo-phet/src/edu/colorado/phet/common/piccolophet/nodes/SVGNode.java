@@ -57,7 +57,7 @@ public class SVGNode extends PhetPNode {
         this(canvas, resourceLoader.getResourceAsStream(resourceName), width, height);
     }
 
-    private void convertSVGToPImage(int pixelWidth, int pixelHeight) throws IOException {
+    private void convertSVGToImage(int pixelWidth, int pixelHeight) throws IOException {
         SVGIcon icon = new SVGIcon();
 
         icon.setSvgURI(uri);
@@ -75,7 +75,7 @@ public class SVGNode extends PhetPNode {
 
         canvas.getPhetRootNode().globalToScreen(bounds);
 
-        int desiredWidth = (int)Math.round(bounds.getWidth());
+        int desiredWidth  = (int)Math.round(bounds.getWidth());
         int desiredHeight = (int)Math.round(bounds.getHeight());
 
         if (desiredWidth > 0 && desiredHeight > 0) {
@@ -83,7 +83,7 @@ public class SVGNode extends PhetPNode {
                 try {
                     System.out.println("Rerendering SVG: desiredWidth = " + desiredWidth + ", desiredHeight = " + desiredHeight);
 
-                    convertSVGToPImage(desiredWidth, desiredHeight);
+                    convertSVGToImage(desiredWidth, desiredHeight);
                 }
                 catch (IOException e) {
                     e.printStackTrace();
