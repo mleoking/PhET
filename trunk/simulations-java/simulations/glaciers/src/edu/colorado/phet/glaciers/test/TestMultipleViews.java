@@ -42,12 +42,12 @@ public class TestMultipleViews extends JFrame {
     /* squares will be distributed in the bounds of the world */
     private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 );
     
-    /** Implement this interface to be notified of changes to a square. */
+    /* Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
         public void positionChanged();
     }
     
-    /** Model of a square, with position being the only mutable property. */
+    /* Model of a square, with position being the only mutable property. */
     private static class Square {
 
         private Point2D _position;
@@ -103,7 +103,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** Model contains a random collection of squares */
+    /* Model contains a random collection of squares */
     private static class TestModel {
         
         private final ArrayList _squares;
@@ -122,7 +122,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** View of a square, drag to change square's position. */
+    /* View of a square, drag to change square's position. */
     private static class SquareNode extends PPath {
         
         private final Square _square;
@@ -167,7 +167,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** Canvas, contains a visual representation of the specified model, at the specified scale. */
+    /* Canvas, contains a visual representation of the specified model, at the specified scale. */
     private static class TestCanvas extends PCanvas {
         
         public TestCanvas( TestModel model, double scale ) {
@@ -186,12 +186,12 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** Implement this interface to be notified of changes to a viewport. */
+    /* Implement this interface to be notified of changes to a viewport. */
     private interface ViewportListener {
         public void boundsChanged();
     }
     
-    /** Model of a viewport, describes a portion of the model that is visible. */
+    /* Model of a viewport, describes a portion of the model that is visible. */
     private static class Viewport {
         
         private Rectangle2D _bounds;
@@ -231,7 +231,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** View of a viewport, drag to change viewport's position */
+    /* View of a viewport, drag to change viewport's position */
     private static class ViewportNode extends PPath {
         
         private Viewport _viewport;
@@ -284,7 +284,7 @@ public class TestMultipleViews extends JFrame {
 
     }
     
-    /** 
+    /* 
      * Main window, creates one model with two views.
      * The top view has a draggable viewport control that determines what is shown in the bottom view. 
      */
