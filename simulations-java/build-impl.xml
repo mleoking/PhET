@@ -781,6 +781,57 @@ Developer Notes:
         </if>
     </target>
 
+    <!--This target downloads the main site JAR file for a simulation, adds the new translation file,
+    deploys the new JAR and creates and deploys new JNLP files.-->
+    <target name="add-translation-jnlp"
+            depends="_init,_list-sims,_verify-sim-name-specified, _read-username-and-password-prod">
+
+        <if>
+            <not>
+                <isset property="sim.locale"/>
+            </not>
+            <then>
+                <antform title="Deployment Host Login" width="550" height="300">
+                    <label>Please enter the language code to be added.</label>
+                    <textProperty label="language code (e.g. fr):" property="sim.locale" required="true"
+                                  focus="true"/>
+                </antform>
+            </then>
+        </if>
+
+
+        <echo message="Started adding translation for ${sim.name}"/>
+        <phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+        <echo message="flavors=${sim.flavors}"/>
+        <var name="codebase.url" value="${prod.server.url}${sim.name}"/>
+
+        <foreach list="${sim.flavors}" target="_build-jnlp-locale-flavor" param="sim.flavor" inheritall="true"
+                 inheritrefs="true"/>
+
+        <property name="remotedir" value="${prod.server.path}${sim.name}"/>
+        <!--<property name="remotedir" value="${prod.server.path}${sim.name}/test123"/>-->
+
+        <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+                      version="2">
+            <sftp action="mkdir" remotedir="${remotedir}"/>
+            <sftp action="put" remotedir="${remotedir}" verbose="true">
+                <fileset dir="./simulations/${sim.name}/deploy">
+                    <include name="**_${sim.locale}.jnlp"/>
+                </fileset>
+            </sftp>
+        </maverick-ssh>
+
+        <if>
+            <isset property="browser"/>
+            <then>
+                <echo message="Opening browser to rebuild translation page: ${browser} "/>
+                <exec executable="${browser}" spawn="true">
+                    <arg value="http://phet.colorado.edu/new/admin/test.php"/>
+                </exec>
+            </then>
+        </if>
+    </target>
+
     <target name="_deploy-translated-flavor-jar">
                 <!--Deploy modified JAR files and new JNLP files.-->
         <maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
