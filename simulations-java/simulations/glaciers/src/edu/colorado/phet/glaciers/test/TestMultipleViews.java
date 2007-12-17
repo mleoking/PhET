@@ -302,7 +302,7 @@ public class TestMultipleViews extends JFrame {
             _bottomCanvas = new TestCanvas( model, 1 /* scale */);
 
             // viewport in the top view determines what is shown in the bottom view
-            _viewport = new Viewport( new Rectangle2D.Double( 0, 0, 1, 1 ) );
+            _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) );
             ViewportNode viewportNode = new ViewportNode( _viewport );
             topCanvas.getLayer().addChild( viewportNode );
 
