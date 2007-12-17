@@ -30,16 +30,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * TODO:
  * - keep height of top view constant
+ * - redraw artifacts when squares are dragged
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestMultipleViews extends JFrame {
     
     private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
-    private static final int NUMBER_OF_SQUARES = 50;
+    private static final int NUMBER_OF_SQUARES = 100;
     
     /* squares will be distributed in the bounds of the world */
-    private static final Dimension WORLD_SIZE = new Dimension( 3000, 800 );
+    private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 );
     
     /** Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
@@ -121,7 +122,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** View of a square. Dragging this node updates the model. */
+    /** View of a square, drag to change square's position. */
     private static class SquareNode extends PPath {
         
         private final Square _square;
@@ -230,7 +231,7 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** View of a viewport */
+    /** View of a viewport, drag to change viewport's position */
     private static class ViewportNode extends PPath {
         
         private Viewport _viewport;
@@ -283,7 +284,10 @@ public class TestMultipleViews extends JFrame {
 
     }
     
-    /** Main window, creates one model with two views. */
+    /** 
+     * Main window, creates one model with two views.
+     * The top view has a draggable viewport control that determines what is shown in the bottom view. 
+     */
     private static class TestFrame extends JFrame {
 
         private TestCanvas _bottomCanvas;
