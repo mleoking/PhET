@@ -2,7 +2,6 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.app.beans.SVGIcon;
-import edu.colorado.phet.common.phetcommon.resources.IResourceLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -15,6 +14,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+/**
+ * Represents an SVG image that is rendered into a buffered image as necessary.
+ */
 public class SVGNode extends PhetPNode {
     private static volatile int counter;
 
@@ -32,13 +34,13 @@ public class SVGNode extends PhetPNode {
     }
 
     /**
-     * Constructor.
+     * Creates a new SVGNode with the specified width and height.
      *
      * @param canvas         The canvas, from which we get the transform
      *                       using to draw rescaled node.
      * @param svgInputStream The input stream for the SVG image.
-     * @param width          The initial width of the image, in pixels.
-     * @param height         The initial height of the image, in pixels.
+     * @param width          The initial width of the image.
+     * @param height         The initial height of the image.
      *
      * @throws java.io.IOException If an error occurs while loading the image.
      */
@@ -53,8 +55,17 @@ public class SVGNode extends PhetPNode {
         setHeight(height);
     }
 
-    public SVGNode(final PhetPCanvas canvas, IResourceLoader resourceLoader, String resourceName, int width, int height) throws IOException {
-        this(canvas, resourceLoader.getResourceAsStream(resourceName), width, height);
+    /**
+     * Creates a new SVGNode with width and height equal to 1.
+     *
+     * @param canvas         The canvas, from which we get the transform
+     *                       using to draw rescaled node.
+     * @param svgInputStream The input stream for the SVG image.
+     *
+     * @throws java.io.IOException If an error occurs while loading the image.
+     */
+    public SVGNode(final PhetPCanvas canvas, final InputStream svgInputStream) throws IOException {
+        this(canvas, svgInputStream, 1.0, 1.0);
     }
 
     private void convertSVGToImage(int pixelWidth, int pixelHeight) throws IOException {
