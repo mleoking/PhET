@@ -36,6 +36,10 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class TestMultipleViews extends JFrame {
     
     private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
+    private static final int NUMBER_OF_SQUARES = 50;
+    
+    /* squares will be distributed in the bounds of the world */
+    private static final Dimension WORLD_SIZE = new Dimension( 3000, 800 );
     
     /** Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
@@ -98,29 +102,26 @@ public class TestMultipleViews extends JFrame {
         }
     }
     
-    /** Model for the application, contains a couple of squares */
+    /** Model contains a random collection of squares */
     private static class TestModel {
         
-        private final Square _redSquare, _blueSquare;
+        private final ArrayList _squares;
         
         public TestModel() {
-            final int leftMargin = 50;
-            final int topMargin = 50;
-            final int spacing = 50;
-            _redSquare = new Square( new Point2D.Double( leftMargin, topMargin ), DEFAULT_SQUARE_SIZE, Color.RED );
-            _blueSquare = new Square( new Point2D.Double( leftMargin + _redSquare.getSize().getWidth() + spacing, topMargin ), DEFAULT_SQUARE_SIZE, Color.BLUE );
+            _squares = new ArrayList();
+            for ( int i = 0; i < NUMBER_OF_SQUARES; i++ ) {
+                Point2D randomPosition = new Point2D.Double( Math.random() * WORLD_SIZE.getWidth(), Math.random() * WORLD_SIZE.getHeight() );
+                Color randomColor = new Color( (int) ( 255 * Math.random() ), (int) ( 255 * Math.random() ), (int) ( 255 * Math.random() ) );
+                _squares.add( new Square( randomPosition, DEFAULT_SQUARE_SIZE, randomColor ) );
+            }
         }
 
-        public Square getRedSquare() {
-            return _redSquare;
-        }
-        
-        public Square getBlueSquare() {
-            return _blueSquare;
+        public Square[] getSquares() {
+            return (Square[]) _squares.toArray( new Square[_squares.size()] );
         }
     }
     
-    /** Visual representation of a square. Dragging this node updates the model. */
+    /** View of a square. Dragging this node updates the model. */
     private static class SquareNode extends PPath {
         
         private final Square _square;
@@ -168,8 +169,6 @@ public class TestMultipleViews extends JFrame {
     /** Canvas, contains a visual representation of the specified model, at the specified scale. */
     private static class TestCanvas extends PCanvas {
         
-        private final SquareNode _redSquareNode, _blueSquareNode;
-        
         public TestCanvas( TestModel model, double scale ) {
             super();
             getCamera().setViewScale( scale );
@@ -178,111 +177,77 @@ public class TestMultipleViews extends JFrame {
             removeInputEventListener( getZoomEventHandler() );
             removeInputEventListener( getPanEventHandler() );
             
-            _redSquareNode = new SquareNode( model.getRedSquare() );
-            getLayer().addChild( _redSquareNode );
-            _blueSquareNode = new SquareNode( model.getBlueSquare() );
-            getLayer().addChild( _blueSquareNode );
+            Square[] squares = model.getSquares();
+            for ( int i = 0; i < squares.length; i++ ) {
+                SquareNode node = new SquareNode( squares[i] );
+                getLayer().addChild( node );
+            }
         }
     }
     
-    /** Implement this interface to be notified of changes to the pan control. */
-    private interface PannerListener {
-        public void positionChanged();
-        public void sizeChanged();
+    /** Implement this interface to be notified of changes to a viewport. */
+    private interface ViewportListener {
+        public void boundsChanged();
     }
     
-    /** Adapter for PannerListener */
-    private static class PannerAdapter implements PannerListener {
-        public void positionChanged() {};
-        public void sizeChanged() {};
-    }
-    
-    /** Panner describes the visible bounds of a portion of the model. */
-    private static class Panner {
+    /** Model of a viewport, describes a portion of the model that is visible. */
+    private static class Viewport {
         
-        private Point2D _position;
-        private Dimension _size;
+        private Rectangle2D _bounds;
         private ArrayList _listeners;
         
-        public Panner( Point2D position, Dimension size ) {
-            _position = new Point2D.Double( position.getX(), position.getY() );
-            _size = new Dimension( size );
+        public Viewport( Rectangle2D bounds ) {
+            _bounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
             _listeners = new ArrayList();
         }
         
-        public void setPosition( Point2D position ) {
-            if ( !position.equals( _position ) ) {
-                _position.setLocation( position );
-                notifyPositionChanged();
+        public void setBounds( Rectangle2D bounds ) {
+            if ( !bounds.equals( _bounds ) ) {
+                _bounds.setRect( bounds );
+                notifyBoundsChanged();
             }
         }
         
-        public Point2D getPosition() {
-            return new Point2D.Double( _position.getX(), _position.getY() );
+        public Rectangle2D getBounds() {
+            return new Rectangle2D.Double( _bounds.getX(), _bounds.getY(), _bounds.getWidth(), _bounds.getHeight() );
         }
         
-        public void setSize( Dimension size ) {
-            if ( !size.equals( _size ) ) {
-                _size.setSize( size );
-                notifySizeChanged();
-            }
-        }
-
-        public Dimension getSize() {
-            return new Dimension( _size );
-        }
-        
-        public void addListener( PannerListener listener ) {
+        public void addListener( ViewportListener listener ) {
             _listeners.add( listener );
         }
 
-        public void removeListener( PannerListener listener ) {
+        public void removeListener( ViewportListener listener ) {
             _listeners.remove( listener );
         }
         
-        private void notifyPositionChanged() {
+        private void notifyBoundsChanged() {
             for ( int i = 0; i < _listeners.size(); i++ ) {
                 Object listener = _listeners.get( i );
-                if ( listener instanceof PannerListener ) {
-                    ( (PannerListener) listener ).positionChanged();
-                }
-            }
-        }
-        
-        private void notifySizeChanged() {
-            for ( int i = 0; i < _listeners.size(); i++ ) {
-                Object listener = _listeners.get( i );
-                if ( listener instanceof PannerListener ) {
-                    ( (PannerListener) listener ).sizeChanged();
+                if ( listener instanceof ViewportListener ) {
+                    ( (ViewportListener) listener ).boundsChanged();
                 }
             }
         }
     }
     
-    /** View of the panner */
-    private static class PannerNode extends PPath {
+    /** View of a viewport */
+    private static class ViewportNode extends PPath {
         
-        private Panner _panner;
+        private Viewport _viewport;
         
-        public PannerNode( Panner panner ) {
+        public ViewportNode( Viewport viewport ) {
             super();
             
-            _panner = panner;
+            _viewport = viewport;
             
             setPaint( null );
             setStroke( new BasicStroke( 6f ) );
-            setStrokePaint( Color.GREEN );
+            setStrokePaint( Color.RED );
             
-            _panner.addListener( new PannerListener() {
-
-                public void positionChanged() {
-                    updatePosition();
+            _viewport.addListener( new ViewportListener() {
+                public void boundsChanged() {
+                    updateBounds();
                 }
-
-                public void sizeChanged() {
-                    updateSize();
-                }
-                
             });
             
             addInputEventListener( new CursorHandler() );
@@ -291,93 +256,103 @@ public class TestMultipleViews extends JFrame {
                 private double _xOffset, _yOffset;
 
                 protected void startDrag( PInputEvent event ) {
-                    _xOffset = event.getPosition().getX() - _panner.getPosition().getX();
-                    _yOffset = event.getPosition().getY() - _panner.getPosition().getY();
+                    Rectangle2D viewportBounds = _viewport.getBounds();
+                    _xOffset = event.getPosition().getX() - viewportBounds.getX();
+                    _yOffset = event.getPosition().getY() - viewportBounds.getY();
                     super.startDrag( event );
                 }
 
                 protected void drag( PInputEvent event ) {
+                    Rectangle2D viewportBounds = _viewport.getBounds();
                     double x = event.getPosition().getX() - _xOffset;
                     double y = event.getPosition().getY() - _yOffset;
-                    _panner.setPosition( new Point2D.Double( x, y ) );
+                    double w = viewportBounds.getWidth();
+                    double h = viewportBounds.getHeight();
+                    _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
                 }
             } );
             
-            updatePosition();
-            updateSize();
+            updateBounds();
         }
         
-        private void updatePosition() {
-            setOffset( _panner.getPosition() );
-        }
-        
-        private void updateSize() {
-            Dimension size = _panner.getSize();
-            Rectangle2D r = new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() );
-            setPathTo( r );
+        private void updateBounds() {
+            Rectangle2D viewportBounds = _viewport.getBounds();
+            setPathTo( new Rectangle2D.Double( 0, 0, viewportBounds.getWidth(), viewportBounds.getHeight() ) );
+            setOffset( viewportBounds.getX(), viewportBounds.getY() );
         }
 
     }
     
-    private TestCanvas bottomCanvas;
-    private Panner panner;
-    
     /** Main window, creates one model with two views. */
-    public TestMultipleViews() {
-        super();
+    private static class TestFrame extends JFrame {
+
+        private TestCanvas _bottomCanvas;
+        private Viewport _viewport;
         
-        TestModel model = new TestModel();
-        
-        TestCanvas topCanvas = new TestCanvas( model, 0.5 /* scale */ );
-        bottomCanvas = new TestCanvas( model, 1 /* scale */ );
-        
-        // panner controls what portion of the top view is shown in the bottom view
-        panner = new Panner( new Point2D.Double( 0, 0 ), new Dimension( 1, 1 ) );
-        PannerNode pannerNode = new PannerNode( panner );
-        topCanvas.getLayer().addChild( pannerNode );
-        
-        bottomCanvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                handleBottomCanvasResized();
-            }
-        } );
-        
-        panner.addListener( new PannerAdapter() {
-            public void positionChanged() {
-                handlePannerPositionChanged();
-            }
-        });
-        
-        //XXX topCanvas is not visible, zero size?
-//        JPanel panel = new JPanel( new BorderLayout() );
-//        panel.add( topCanvas, BorderLayout.NORTH );
-//        panel.add( bottomCanvas, BorderLayout.CENTER );
-//        getContentPane().add( panel );
-        
-        Box box = new Box( BoxLayout.Y_AXIS );
-        box.add( topCanvas );
-        box.add( bottomCanvas );
-        getContentPane().add( box );
-        
-        handleBottomCanvasResized();
-        handlePannerPositionChanged();
+        public TestFrame() {
+            super();
+
+            TestModel model = new TestModel();
+
+            TestCanvas topCanvas = new TestCanvas( model, 0.25 /* scale */);
+            _bottomCanvas = new TestCanvas( model, 1 /* scale */);
+
+            // viewport in the top view determines what is shown in the bottom view
+            _viewport = new Viewport( new Rectangle2D.Double( 0, 0, 1, 1 ) );
+            ViewportNode viewportNode = new ViewportNode( _viewport );
+            topCanvas.getLayer().addChild( viewportNode );
+
+            _bottomCanvas.addComponentListener( new ComponentAdapter() {
+                public void componentResized( ComponentEvent e ) {
+                    handleBottomCanvasResized();
+                }
+            } );
+
+            _viewport.addListener( new ViewportListener() {
+                public void boundsChanged() {
+                    handleViewportBoundsChanged();
+                }
+            } );
+
+            //XXX topCanvas is not visible, zero size?
+            //        JPanel panel = new JPanel( new BorderLayout() );
+            //        panel.add( topCanvas, BorderLayout.NORTH );
+            //        panel.add( bottomCanvas, BorderLayout.CENTER );
+            //        getContentPane().add( panel );
+
+            Box box = new Box( BoxLayout.Y_AXIS );
+            box.add( topCanvas );
+            box.add( _bottomCanvas );
+            getContentPane().add( box );
+
+            handleBottomCanvasResized();
+            handleViewportBoundsChanged();
+        }
+
+        /* when the bottom view is resized, resize the viewport */
+        private void handleBottomCanvasResized() {
+            Rectangle2D canvasBounds = _bottomCanvas.getBounds();
+            double scale = _bottomCanvas.getCamera().getViewScale();
+            Rectangle2D viewportBounds = _viewport.getBounds();
+            double x = viewportBounds.getX();
+            double y = viewportBounds.getY();
+            double w = scale * canvasBounds.getWidth();
+            double h = scale * canvasBounds.getHeight();
+            _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
+        }
+
+        /* when the viewport is moved, translate the bottom view's camera */
+        private void handleViewportBoundsChanged() {
+            Rectangle2D viewportBounds = _viewport.getBounds();
+            _bottomCanvas.getCamera().setViewOffset( -viewportBounds.getX(), -viewportBounds.getY() );
+        }
     }
     
-    /* when the bottom view is resized, resize the panner */
-    private void handleBottomCanvasResized() {
-        Rectangle2D r = bottomCanvas.getBounds();
-        double scale = bottomCanvas.getCamera().getViewScale();
-        panner.setSize( new Dimension( (int)( scale * r.getWidth() ), (int)( scale * r.getHeight() ) ) );
-    }
-    
-    /* when the panner is moved, translate the bottom view's camera */
-    private void handlePannerPositionChanged() {
-        Point2D p = panner.getPosition();
-        bottomCanvas.getCamera().setViewOffset( -p.getX(), -p.getY() );
-    }
+    /* not intended for instantiation */
+    private TestMultipleViews() {}
     
     public static void main( String args[] ) {
-        JFrame frame = new TestMultipleViews();
+        JFrame frame = new TestFrame();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( new Dimension( 640, 480 ) );
         frame.show();
