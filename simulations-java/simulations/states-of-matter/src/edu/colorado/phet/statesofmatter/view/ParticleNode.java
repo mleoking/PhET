@@ -9,9 +9,11 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 public class ParticleNode extends PNode implements Updatable {
+    public static final ParticleNode TEST = new ParticleNode(StatesOfMatterParticle.TEST);
+
     private final StatesOfMatterParticle particle;
     private final PhetPPath path;
-
+    
     public ParticleNode(StatesOfMatterParticle particle) {
         this.particle = particle;
         this.path     = new PhetPPath(Color.blue);

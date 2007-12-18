@@ -16,4 +16,18 @@ public class ZParticleContainerNodeTester extends TestCase {
     public void testThatBoundsAreNotEmpty() {
         PiccoloTestingUtils.testBoundsAreNonZero(node);
     }
+
+    public void testCanRetrieveAddedParticleNode() {
+        node.addParticleNode(ParticleNode.TEST);
+
+        assertSame(ParticleNode.TEST, node.getParticleNode(0));
+    }
+
+    public void testAddedParticleNodeIncreasesParticleNodeListSize() {
+        assertEquals(0, node.getParticleNodes().size());
+
+        node.addParticleNode(ParticleNode.TEST);
+
+        assertEquals(1, node.getParticleNodes().size());
+    }
 }
