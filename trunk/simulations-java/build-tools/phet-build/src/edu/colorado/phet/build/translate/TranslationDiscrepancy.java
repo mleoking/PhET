@@ -59,10 +59,12 @@ public class TranslationDiscrepancy {
         if ( !extraLocal.isEmpty() || !extraRemote.isEmpty() ) {
             File jarFile = downloadJAR();
 //            System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
-            synchronizeStrings( jarFile, resolveJAR, addNewOnly );
+            boolean changed = synchronizeStrings( jarFile, resolveJAR, addNewOnly );
 
             try {
-                uploadJAR( resolveJAR, username );
+                if ( changed ) {
+                    uploadJAR( resolveJAR, username );
+                }
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -74,11 +76,14 @@ public class TranslationDiscrepancy {
     }
 
     private void uploadJAR( File resolveJAR, String username ) throws JSchException, IOException {
-        System.out.println( "should have uploaded resolvejar=" + resolveJAR.getAbsolutePath() );
-//        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar" );
+//        System.out.println( "should have uploaded resolvejar=" + resolveJAR.getAbsolutePath() );
+        final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar";
+        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename );
+        System.out.println( "Uploading: " + filename );
     }
 
-    private void synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
+    private boolean synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
+        boolean changed = false;
         File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "-dir" );
 //        System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
@@ -101,10 +106,13 @@ public class TranslationDiscrepancy {
             File target = new File( localizationDir, source.getName() );
             if ( ( addNewOnly && !target.exists() ) || !addNewOnly ) {
                 FileUtils.copyAndClose( new FileInputStream( source ), new FileOutputStream( target ), false );
+                System.out.println( "Added new file: " + target.getAbsolutePath() );
+                changed = true;
             }
         }
 
         FileUtils.jar( tempUnzipDir, resolveJAR );
+        return changed || !addNewOnly;
     }
 
     private void validateKeySet( Locale locale, File jarFile, File source ) throws IOException {
