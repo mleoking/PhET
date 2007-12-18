@@ -72,11 +72,4 @@ public class GlaciersConstants {
     
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
-    
-    //----------------------------------------------------------------------------
-    // Images
-    //----------------------------------------------------------------------------
-    
-    public static final String IMAGE_PENGUIN = "penguin.png";
-    public static final String IMAGE_VALLEY = "valley.png";
 }

@@ -8,7 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Thermometer;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerAdapter;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
@@ -27,8 +28,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class ThermometerNode extends PNode {
     
-    private static final String TEMPERATURE_UNITS = GlaciersResources.getString( "units.temperature" );
-    
     private static final Font TEXT_FONT = new PhetDefaultFont( 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Insets TEXT_INSETS = new Insets( 2, 2, 2, 2 ); //top,left,bottom,right
@@ -46,9 +45,9 @@ public class ThermometerNode extends PNode {
     public ThermometerNode( Thermometer thermometer ) {
         super();
         
-        PImage imageNode = GlaciersResources.getImageNode( "thermometer.png" );
+        PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
         
-        String widestString = TEMPERATURE_PATTERN + " " + TEMPERATURE_UNITS;
+        String widestString = TEMPERATURE_PATTERN + " " + GlaciersStrings.UNITS_TEMPERATURE;
         _textNode = new PText( widestString );
         _textNode.setFont( TEXT_FONT );
         _textNode.setTextPaint( TEXT_COLOR );
@@ -112,7 +111,7 @@ public class ThermometerNode extends PNode {
     
     private void updateTemperature() {
         double temperature = _thermometer.getTemperature();
-        String s = TEMPERATURE_FORMAT.format( temperature ) + " " + TEMPERATURE_UNITS;
+        String s = TEMPERATURE_FORMAT.format( temperature ) + " " + GlaciersStrings.UNITS_TEMPERATURE;
         _textNode.setText( s );
         double x = _textBackgroundNode.getFullBoundsReference().getMaxX() - _textNode.getFullBoundsReference().getWidth() - TEXT_INSETS.right;
         double y = _textBackgroundNode.getFullBoundsReference().getY() + TEXT_INSETS.top;

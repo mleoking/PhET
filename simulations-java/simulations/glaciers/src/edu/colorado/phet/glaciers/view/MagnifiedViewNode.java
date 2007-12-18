@@ -3,8 +3,7 @@
 package edu.colorado.phet.glaciers.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
@@ -12,7 +11,7 @@ public class MagnifiedViewNode extends PhetPNode {
 
     public MagnifiedViewNode() {
         super();
-        PImage imageNode = GlaciersResources.getImageNode( GlaciersConstants.IMAGE_VALLEY );
+        PImage imageNode = new PImage( GlaciersImages.VALLEY );
         imageNode.scale( 8 );
         addChild( imageNode );
     }

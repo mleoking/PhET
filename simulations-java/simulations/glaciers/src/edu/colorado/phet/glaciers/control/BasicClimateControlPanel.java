@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
  * BasicClimateControlPanel is the climate control panel for the "Basic" module.
@@ -41,7 +41,7 @@ public class BasicClimateControlPanel extends JPanel {
         _listenerList = new ArrayList();
         
         // snowfall
-        JLabel snowfallLabel = new JLabel( GlaciersResources.getString( "slider.snowfall.label" ) );        
+        JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
         snowfallLabel.setForeground( CONTROL_COLOR );
         snowfallLabel.setFont( controlFont );
         {
@@ -56,11 +56,9 @@ public class BasicClimateControlPanel extends JPanel {
             } );
             
             // Tick labels
-            String minString = GlaciersResources.getString( "slider.snowfall.none" );
-            String maxString = GlaciersResources.getString( "slider.snowfall.lots" );
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( min ), new JLabel( minString ) );
-            labelTable.put( new Double( max ), new JLabel( maxString ) );
+            labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_SNOWFALL_NONE ) );
+            labelTable.put( new Double( max ), new JLabel( GlaciersStrings.SLIDER_SNOWFALL_LOTS ) );
             _snowfallControl.setTickLabels( labelTable );
             
             // Change the font and color of the tick labels
@@ -75,7 +73,7 @@ public class BasicClimateControlPanel extends JPanel {
         }
         
         // temperature
-        JLabel temperatureLabel = new JLabel( GlaciersResources.getString( "slider.temperature.label" ) );
+        JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
         temperatureLabel.setForeground( CONTROL_COLOR );
         temperatureLabel.setFont( controlFont );
         {
@@ -90,11 +88,9 @@ public class BasicClimateControlPanel extends JPanel {
             } );
             
             // Tick labels
-            String minString = GlaciersResources.getString( "slider.temperature.cold" );
-            String maxString = GlaciersResources.getString( "slider.temperature.hot" );
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( min ), new JLabel( minString ) );
-            labelTable.put( new Double( max ), new JLabel( maxString ) );
+            labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_TEMPERATURE_COLD ) );
+            labelTable.put( new Double( max ), new JLabel( GlaciersStrings.SLIDER_TEMPERATURE_HOT ) );
             _temperatureControl.setTickLabels( labelTable );
             
             // Change the font and color of the tick labels
@@ -109,7 +105,7 @@ public class BasicClimateControlPanel extends JPanel {
         }
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersResources.getString( "title.climateControls" ) );
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
         titledBorder.setTitleFont( titleFont );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );

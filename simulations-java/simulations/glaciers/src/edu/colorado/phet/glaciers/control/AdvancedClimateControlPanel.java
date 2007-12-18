@@ -13,7 +13,7 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
  * AdvancedClimateControlPanel is the climate control panel for the "Advanced" module.
@@ -33,15 +33,15 @@ public class AdvancedClimateControlPanel extends JPanel {
     public AdvancedClimateControlPanel( Font titleFont, Font controlFont ) {
         super();
         
-        _snowfallAndTemperatureRadioButton = new JRadioButton( GlaciersResources.getString( "radioButton.snowfallAndTemperature" ) );
+        _snowfallAndTemperatureRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_SNOWFALL_AND_TEMPERATURE );
         _snowfallAndTemperatureRadioButton.setFont( controlFont );
         _snowfallAndTemperatureRadioButton.setForeground( CONTROL_COLOR );
         
-        _climatePresetsRadioButton = new JRadioButton( GlaciersResources.getString( "radioButton.climatePresets" ) );
+        _climatePresetsRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_CLIMATE_PRESETS );
         _climatePresetsRadioButton.setFont( controlFont );
         _climatePresetsRadioButton.setForeground( CONTROL_COLOR );
         
-        _massBalanceRadioButton = new JRadioButton( GlaciersResources.getString( "radioButton.massBalance" ) );
+        _massBalanceRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_MASS_BALANCE );
         _massBalanceRadioButton.setFont( controlFont );
         _massBalanceRadioButton.setForeground( CONTROL_COLOR );
         
@@ -51,7 +51,7 @@ public class AdvancedClimateControlPanel extends JPanel {
         buttonGroup.add( _massBalanceRadioButton );
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersResources.getString( "title.climateControls" ) );
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
         titledBorder.setTitleFont( titleFont );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );

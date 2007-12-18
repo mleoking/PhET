@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.menu;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.
@@ -14,7 +15,7 @@ import edu.colorado.phet.glaciers.GlaciersResources;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu() {
-        super( GlaciersResources.getString( "menu.options" ) );
-        setMnemonic( GlaciersResources.getChar( "menu.options.mnemonic", 'O' ) );
+        super( GlaciersStrings.MENU_OPTIONS );
+        setMnemonic( GlaciersStrings.MENU_OPTIONS_MNEMONIC );
     }
 }

@@ -6,7 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
@@ -31,7 +31,7 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public BasicModule( Frame parentFrame ) {
-        super( GlaciersResources.getString( "title.basic" ), BasicDefaults.CLOCK );
+        super( GlaciersStrings.TITLE_BASIC, BasicDefaults.CLOCK );
         setLogoPanel( null );
 
         // Model
