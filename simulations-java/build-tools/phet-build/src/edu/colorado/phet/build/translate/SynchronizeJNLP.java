@@ -43,7 +43,7 @@ public class SynchronizeJNLP {
     }
 
     private void synchronizeAllJNLP( PhetProject phetProject ) throws IOException {
-        for ( int i = 0; i < phetProject.getFlavorNames().length; i++ ) {
+        for ( int i = 0; i < phetProject.getFlavorNames().length; i++ ) {//todo: no need to iterate over flavors if all flavors are re-deployed
             synchronizeAllJNLP( phetProject, phetProject.getFlavorNames()[i] );
         }
     }
