@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxControlPanel;
-import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxListener;
+import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxControlPanelListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Thermometer;
 import edu.colorado.phet.glaciers.view.*;
@@ -95,7 +95,7 @@ public class BasicCanvas extends PhetPCanvas {
         _rootNode.addChild( _toolboxControlPanel );
         
         //XXX testing, this all needs to go elsewhere
-        _toolboxControlPanel.addListener( new ToolboxListener() {
+        _toolboxControlPanel.addListener( new ToolboxControlPanelListener() {
             public void addThermometer( Point2D atCanvasPosition ) {
                 Thermometer thermometer = new Thermometer( 0, atCanvasPosition );
                 ThermometerNode node = new ThermometerNode( thermometer );
