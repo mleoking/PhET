@@ -35,6 +35,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/17/07 - add viewport demo to developer menu
 12/17/07 - check in first version of model document
 12/17/07 - clean up naming conventions for listeners
 12/17/07 - listener interface for misc controls
