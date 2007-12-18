@@ -64,7 +64,7 @@ public class SynchronizeJNLP {
 
     private boolean remoteJNLPExists( PhetProject phetProject, String flavor, Locale locale ) {
         try {
-            URL url = new URL( "http://phet.colorado.edu/sims/" + phetProject.getName() + "/" + phetProject.getName() + "_" + locale.getLanguage() + ".jnlp" );
+            URL url = new URL( "http://phet.colorado.edu/sims/" + phetProject.getName() + "/" +  flavor+ "_" + locale.getLanguage() + ".jnlp" );
             URLConnection uc = url.openConnection();
             int length = uc.getContentLength();
             System.out.println( "length = " + length );
@@ -85,7 +85,7 @@ public class SynchronizeJNLP {
     }
 
     private void createJNLPFile( PhetProject phetProject, String flavor, Locale locale ) {
-//        System.setProperty( "JAVA_HOME","C:\\j2sdk1.4.2_15" );
+        System.setProperty( "JAVA_HOME","C:\\j2sdk1.4.2_15" );
         System.out.println( "Creating JNLP files for: " + phetProject + ", locale=" + locale );
         File buildFile = new File( basedir, "build.xml" );
         Project p = new Project();
