@@ -445,7 +445,7 @@ public class PhetProject {
         return (Locale[]) locales.toArray( new Locale[0] );
     }
 
-    private File getLocalizationDir() {
+    public File getLocalizationDir() {
         return new File( getProjectDir(), "data/" + getName() + "/localization" );
     }
 
