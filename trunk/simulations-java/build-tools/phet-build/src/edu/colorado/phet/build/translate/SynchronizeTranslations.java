@@ -7,6 +7,7 @@ import edu.colorado.phet.build.PhetProject;
 
 //Usage example:
 // java edu.colorado.phet.build.translate.SynchronizeTranslations C:/phet/trunk/simulations-java reids energy-skate-park
+
 //also don't forget to deploy any new JNLP files, using the add-translation-jnlp task
 public class SynchronizeTranslations {
     public static void main( String[] args ) throws IOException {
