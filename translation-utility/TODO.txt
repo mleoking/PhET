@@ -12,6 +12,7 @@ HIGH PRIORITY:
 - Save/Load/Send in zip format since a translation may consist of multiple properties files
 
 MEDIUM PRIORITY:
+- make it easier to enter translation credits
 - refactor to support alternate strategies for Flash sims
 - replace Properties with a neutral data abstraction, or map Flash XML to Properties
 - support translation of common Java projects
