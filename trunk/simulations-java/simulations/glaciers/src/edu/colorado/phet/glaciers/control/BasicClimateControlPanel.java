@@ -33,12 +33,12 @@ public class BasicClimateControlPanel extends JPanel {
     private LinearValueControl _snowfallControl;
     private LinearValueControl _temperatureControl;
     
-    private ArrayList _listenerList;
+    private ArrayList _listeners;
     
     public BasicClimateControlPanel( Font titleFont, Font controlFont, DoubleRange snowfallRange, DoubleRange temperatureRange ) {
         super();
         
-        _listenerList = new ArrayList();
+        _listeners = new ArrayList();
         
         // snowfall
         JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
@@ -150,43 +150,38 @@ public class BasicClimateControlPanel extends JPanel {
         public void temperatureChanged( double temperature );
     }
     
-    /**
-     * Default implementation of BasicClimateControlPanelListener.
-     */
     public static class BasicClimateControlPanelAdapter implements BasicClimateControlPanelListener {
         public void snowfallChanged( double snowfall ) {};
         public void temperatureChanged( double temperature ) {};
     }
     
-    /**
-     * Adds a BasicClimateControlPanelListener.
-     * @param listener
-     */
     public void addListener( BasicClimateControlPanelListener listener ) {
-        _listenerList.add( listener );
+        _listeners.add( listener );
     }
     
-    /**
-     * Removes a BasicClimateControlPanelListener.
-     * @param listener
-     */
     public void removeListener( BasicClimateControlPanelListener listener ) {
-        _listenerList.remove( listener );
+        _listeners.remove( listener );
     }
     
     private void notifySnowfallChanged() {
         double value = getSnowfall();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (BasicClimateControlPanelListener) i.next() ).snowfallChanged( value );
+            Object o = i.next();
+            if ( o instanceof BasicClimateControlPanelListener ) {
+                ( (BasicClimateControlPanelListener) o ).snowfallChanged( value );
+            }
         }
     }
     
     private void notifyTemperatureChanged() {
         double value = getTemperature();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (BasicClimateControlPanelListener) i.next() ).temperatureChanged( value );
+            Object o = i.next();
+            if ( o instanceof BasicClimateControlPanelListener ) {
+                ( (BasicClimateControlPanelListener) o ).temperatureChanged( value );
+            }
         }
     }
 }
