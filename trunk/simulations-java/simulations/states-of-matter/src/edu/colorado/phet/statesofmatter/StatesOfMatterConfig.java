@@ -13,7 +13,8 @@ public class StatesOfMatterConfig extends PhetApplicationConfig {
     public static final int WINDOW_WIDTH  = 800;
     public static final int WINDOW_HEIGHT = 600;
     public static final int INITIAL_MAX_PARTICLE_COUNT = 600;
-    public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(-5, -4, 10, 8);
+    public static final Rectangle2D.Double CONTAINER_SIZE   = new Rectangle2D.Double(0, 0, 10, 8);
+    public static final Rectangle2D.Double CONTAINER_BOUNDS = new Rectangle2D.Double(-5, -4, CONTAINER_SIZE.getWidth(), CONTAINER_SIZE.getHeight());
     public static final Rectangle2D.Double ICE_CUBE_BOUNDS  = new Rectangle2D.Double(-1.5, 1, 3, 3);
     public static final double INITIAL_TOTAL_ENERGY_PER_PARTICLE = 225;
     public static final double PARTICLE_RADIUS = 0.2;

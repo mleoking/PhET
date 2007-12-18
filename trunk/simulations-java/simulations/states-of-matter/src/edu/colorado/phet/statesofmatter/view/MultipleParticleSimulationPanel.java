@@ -22,11 +22,9 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
     private MultipleParticleModel model;
     private boolean layoutPerformed=false;
 
-    private PNode particleLayer = new PNode();
-
     public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
-        
+
         try {
             particleContainer = new ParticleContainerNode(this, model.getParticleContainer());
         }
@@ -37,14 +35,13 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
         clock.addClockListener(new ViewUpdatingClockListener());
 
         addWorldChild(particleContainer);
-        addWorldChild(particleLayer);
 
         addComponentListener(new LayoutAdjustingComponentListener());
 
         performLayout();
 
         for ( int i = 0; i < model.getParticles().size(); i++ ) {
-            particleLayer.addChild(new ParticleNode(model.getParticle(i)));
+            particleContainer.addParticleNode(new ParticleNode(model.getParticle(i)));
         }
     }
 
@@ -76,7 +73,7 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
      * @return  The particle node.
      */
     public PNode getParticleNode(int i) {
-        return particleLayer.getChild(i);
+        return particleContainer.getParticleNode(i);
     }
 
     public boolean isLayoutPerformed() {
