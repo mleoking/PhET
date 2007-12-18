@@ -24,8 +24,7 @@ public class BasicDefaults {
     public static final int CLOCK_FRAME_RATE = GlobalDefaults.CLOCK_FRAME_RATE;
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
     public static final DoubleRange CLOCK_DT_RANGE = GlobalDefaults.CLOCK_DT_RANGE;
-    public static final String CLOCK_UNITS = GlobalDefaults.CLOCK_UNITS;
-    public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE, CLOCK_UNITS );
+    public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
     // World dimensions
     public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );

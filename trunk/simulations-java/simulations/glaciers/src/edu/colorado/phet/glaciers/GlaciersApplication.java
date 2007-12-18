@@ -116,16 +116,16 @@ public class GlaciersApplication extends PhetApplication {
 
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( GlaciersResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( GlaciersResources.getChar( "menu.file.save.mnemonic", 'S' ) );
+            JMenuItem saveItem = new JMenuItem( GlaciersStrings.MENU_FILE_SAVE );
+            saveItem.setMnemonic( GlaciersStrings.MENU_FILE_SAVE_MNEMONIC );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     save();
                 }
             } );
 
-            JMenuItem loadItem = new JMenuItem( GlaciersResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' ) );
+            JMenuItem loadItem = new JMenuItem( GlaciersStrings.MENU_FILE_LOAD );
+            loadItem.setMnemonic( GlaciersStrings.MENU_FILE_LOAD_MNEMONIC );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     load();
@@ -202,9 +202,7 @@ public class GlaciersApplication extends PhetApplication {
                 _advancedModule.load( advancedConfig );
             }
             else {
-                String message = GlaciersResources.getString( "message.notAConfigFile" );
-                String title = GlaciersResources.getString( "title.error" );
-                DialogUtils.showErrorDialog( getPhetFrame(), message, title );
+                DialogUtils.showErrorDialog( getPhetFrame(), GlaciersStrings.MESSAGE_NOT_A_CONFIG_FILE, GlaciersStrings.TITLE_ERROR );
             }
         }
     }

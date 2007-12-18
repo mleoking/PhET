@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
@@ -10,6 +10,6 @@ public class GlacialBudgetMeterNode extends PImage {
 
     public GlacialBudgetMeterNode() {
         super();
-        setImage( GlaciersResources.getImage( "glacialBudgetMeter.png" ) );
+        setImage( GlaciersImages.GLACIAL_BUDGET_METER );
     }
 }

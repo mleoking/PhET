@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
@@ -10,6 +10,6 @@ public class IceThicknessToolNode extends PImage {
 
     public IceThicknessToolNode() {
         super();
-        setImage( GlaciersResources.getImage( "iceThicknessTool.png" ) );
+        setImage( GlaciersImages.ICE_THICKNESS_TOOL );
     }
 }

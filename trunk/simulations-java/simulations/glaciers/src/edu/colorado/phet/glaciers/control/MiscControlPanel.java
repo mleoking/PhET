@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 
 
 public class MiscControlPanel extends JPanel {
@@ -20,9 +18,9 @@ public class MiscControlPanel extends JPanel {
     public MiscControlPanel() {
         super();
         
-        _equilibriumButton = new JButton( GlaciersResources.getString( "button.steadyState" ) );
-        _resetAllButton = new JButton( GlaciersResources.getCommonString( "ControlPanel.button.resetAll" ) );
-        _helpButton = new JButton( GlaciersResources.getCommonString( "Common.HelpPanel.ShowHelp" ) );
+        _equilibriumButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
+        _resetAllButton = new JButton( GlaciersStrings.BUTTON_RESET_ALL );
+        _helpButton = new JButton( GlaciersStrings.BUTTON_HELP );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );

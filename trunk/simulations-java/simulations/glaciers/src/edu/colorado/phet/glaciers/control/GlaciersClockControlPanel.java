@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
@@ -73,10 +74,9 @@ public class GlaciersClockControlPanel extends JPanel {
 
         // Time display
         {
-            String units = clock.getUnits();
             DecimalFormat format = new DecimalFormat( "0" );
             int columns = 6;
-            _timePanel = new ClockTimePanel( clock, units, format, columns );
+            _timePanel = new ClockTimePanel( clock, GlaciersStrings.UNITS_TIME, format, columns );
         }
         
         // Speed control
@@ -91,11 +91,9 @@ public class GlaciersClockControlPanel extends JPanel {
             _speedControl.setMinorTicksVisible( false );
             
             // Tick labels
-            String normalString = GlaciersResources.getString( "clock.label.slow" );
-            String fastString = GlaciersResources.getString( "clock.label.fast" );
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( min ), new JLabel( normalString ) );
-            labelTable.put( new Double( max ), new JLabel( fastString ) );
+            labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_CLOCK_SLOW ) );
+            labelTable.put( new Double( max ), new JLabel( GlaciersStrings.SLIDER_CLOCK_FAST ) );
             _speedControl.setTickLabels( labelTable );
             
             // Change font on tick labels

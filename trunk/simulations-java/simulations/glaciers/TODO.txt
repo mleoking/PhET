@@ -15,7 +15,6 @@ HIGH PRIORITY:
 - prototype the top and middle views
 
 MEDIUM PRIORITY:
-- move time units out of clock model
 - set foreground color of ticks & labels on BasicClimateControl sliders
 
 LOW PRIORITY:
@@ -30,6 +29,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/17/07 - convert strings and images to statics
+12/17/07 - move time units out of clock model
 12/17/07 - add panning control to prototype, ala Google Maps
 12/16/07 - started prototype for birds-eye and zoomed views of one model
 12/12/07 - update thermometer view as thermometer model changes

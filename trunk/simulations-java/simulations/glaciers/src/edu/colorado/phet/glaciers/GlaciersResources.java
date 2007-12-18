@@ -49,10 +49,6 @@ public class GlaciersResources {
         return new ImageIcon( getImage( name ) );
     }
     
-    public static final PImage getImageNode( String name ) {
-        return new PImage( RESOURCES.getImage( name ) );
-    }
-    
     public static final String getCommonString( String name ) {
         return PhetCommonResources.getInstance().getLocalizedString( name );
     }

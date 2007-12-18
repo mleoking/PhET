@@ -15,16 +15,14 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 public class GlaciersClock extends ConstantDtClock {
 
     private DoubleRange _dtRange;
-    private String _units;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlaciersClock( int framesPerSecond, DoubleRange dtRange, String units ) {
+    public GlaciersClock( int framesPerSecond, DoubleRange dtRange ) {
         super( 1000 / framesPerSecond, dtRange.getDefault() );
         _dtRange = dtRange;
-        _units = new String( units );
     }
     
     //----------------------------------------------------------------------------
@@ -50,9 +48,5 @@ public class GlaciersClock extends ConstantDtClock {
     
     public DoubleRange getDtRange() {
         return _dtRange;
-    }
-    
-    public String getUnits() {
-        return new String( _units );
     }
 }

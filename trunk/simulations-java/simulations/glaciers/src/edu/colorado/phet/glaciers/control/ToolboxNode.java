@@ -2,21 +2,15 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersImages;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -61,18 +55,17 @@ public class ToolboxNode extends PNode {
      */
     private class ToolNode extends PNode {
         
-        public ToolNode( String imageName, String labelName ) {
-            this( imageName, labelName, true /* isDraggable */ );
+        public ToolNode( Image image, String name ) {
+            this( image, name, true /* isDraggable */ );
         }
         
-        public ToolNode( String imageName, String labelName, boolean isDraggable ) {
+        public ToolNode( Image image, String name, boolean isDraggable ) {
             super();
             
-            PImage imageNode = GlaciersResources.getImageNode( imageName );
+            PImage imageNode = new PImage( image );
             addChild( imageNode );
             
-            String html = GlaciersResources.getString( labelName );
-            HTMLNode labelNode = new HTMLNode( html );
+            HTMLNode labelNode = new HTMLNode( name );
             labelNode.setFont( TOOL_LABEL_FONT );
             labelNode.setHTMLColor( TOOL_LABEL_COLOR );
             addChild( labelNode );
@@ -109,12 +102,12 @@ public class ToolboxNode extends PNode {
         // create tools, under a common parent
         PNode toolsParent = new PNode();
         {
-            _thermometer = new ToolNode( "toolbox-thermometer.png", "toolbox.thermometer" );
-            _glacialBudgetMeter = new ToolNode( "toolbox-glacialBudgetMeter.png", "toolbox.glacialBudgetMeter" );
-            _tracerFlag = new ToolNode( "toolbox-tracerFlag.png", "toolbox.tracerFlag" );
-            _iceThicknessTool = new ToolNode( "toolbox-iceThicknessTool.png", "toolbox.iceThicknessTool" );
-            _boreholeDrill = new ToolNode( "toolbox-boreholeDrill.png", "toolbox.boreholeDrill" );
-            _trashCan = new ToolNode( "toolbox-trashCan.png", "toolbox.trashCan", false );
+            _thermometer = new ToolNode( GlaciersImages.TOOLBOX_THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER );
+            _glacialBudgetMeter = new ToolNode( GlaciersImages.TOOLBOX_GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER );
+            _tracerFlag = new ToolNode( GlaciersImages.TOOLBOX_TRACER_FLAG, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER );
+            _iceThicknessTool = new ToolNode( GlaciersImages.TOOLBOX_ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL );
+            _boreholeDrill = new ToolNode( GlaciersImages.TOOLBOX_BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL );
+            _trashCan = new ToolNode( GlaciersImages.TOOLBOX_TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN, false );
             
             toolsParent.addChild( _thermometer );
             toolsParent.addChild( _glacialBudgetMeter );
@@ -166,7 +159,7 @@ public class ToolboxNode extends PNode {
         PComposite tabNode = new PComposite();
         final double tabOverlap = 100;
         {
-            PText titleNode = new PText( GlaciersResources.getString( "title.toolbox" ) );
+            PText titleNode = new PText( GlaciersStrings.TITLE_TOOLBOX );
             titleNode.setFont( TAB_LABEL_FONT );
             titleNode.setTextPaint( TAB_LABEL_COLOR );
             
