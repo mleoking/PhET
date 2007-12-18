@@ -87,6 +87,7 @@ public class SVGNode extends PhetPNode {
         canvas.getPhetRootNode().globalToScreen(bounds);
 
         //account for the canvas view transform
+        //assume this node is viewed through exactly 1 camera
         bounds=canvas.getCamera().getViewTransform().createTransformedShape( bounds ).getBounds2D();
 
         int desiredWidth  = (int)Math.round(bounds.getWidth());
