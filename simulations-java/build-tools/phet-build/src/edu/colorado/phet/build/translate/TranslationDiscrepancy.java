@@ -78,8 +78,16 @@ public class TranslationDiscrepancy {
     private void uploadJAR( File resolveJAR, String username ) throws JSchException, IOException {
 //        System.out.println( "should have uploaded resolvejar=" + resolveJAR.getAbsolutePath() );
         final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar";
-        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename );
-        System.out.println( "Uploading: " + filename );
+        try {
+            System.out.println( "Uploading: " + filename );
+            ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename );
+        }
+        catch( Exception e ) {
+            System.out.println( "Error in upload: " + e );
+            e.printStackTrace();
+            System.out.println( "continuing..." );
+        }
+
     }
 
     private boolean synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
