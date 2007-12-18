@@ -2,6 +2,11 @@
 
 package edu.colorado.phet.glaciers.control;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -14,13 +19,33 @@ public class MiscControlPanel extends JPanel {
     private JButton _equilibriumButton;
     private JButton _resetAllButton;
     private JButton _helpButton;
+    private ArrayList _listeners;
     
     public MiscControlPanel() {
         super();
         
+        _listeners = new ArrayList();
+        
         _equilibriumButton = new JButton( GlaciersStrings.BUTTON_STEADY_STATE );
+        _equilibriumButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyEquilibriumButtonPressed();
+            }
+        });
+        
         _resetAllButton = new JButton( GlaciersStrings.BUTTON_RESET_ALL );
+        _resetAllButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyResetAllButtonPressed();
+            }
+        });
+        
         _helpButton = new JButton( GlaciersStrings.BUTTON_HELP );
+        _helpButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyHelpButtonPressed();
+            }
+        });
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -28,5 +53,55 @@ public class MiscControlPanel extends JPanel {
         layout.addComponent( _equilibriumButton, 0, column++ );
         layout.addComponent( _resetAllButton, 0, column++ );
         layout.addComponent( _helpButton, 0, column++ );
+    }
+    
+    public static interface MiscControlListener {
+        public void equilibriumButtonPressed();
+        public void resetAllButtonPressed();
+        public void helpButtonPressed();
+    }
+    
+    public static class MiscControlAdapter implements MiscControlListener {
+        public void equilibriumButtonPressed() {};
+        public void resetAllButtonPressed() {};
+        public void helpButtonPressed() {};
+    }
+    
+    public void addListener( MiscControlListener listener ) {
+        _listeners.add( listener );
+    }
+    
+    public void removeListener( MiscControlListener listener ) {
+        _listeners.remove( listener );
+    }
+    
+    private void notifyEquilibriumButtonPressed() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            Object o = i.next();
+            if ( o instanceof MiscControlListener ) {
+                ( (MiscControlListener) o ).equilibriumButtonPressed();
+            }
+        }
+    }
+    
+    private void notifyResetAllButtonPressed() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            Object o = i.next();
+            if ( o instanceof MiscControlListener ) {
+                ( (MiscControlListener) o ).resetAllButtonPressed();
+            }
+        }
+    }
+    
+    private void notifyHelpButtonPressed() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            Object o = i.next();
+            if ( o instanceof MiscControlListener ) {
+                ( (MiscControlListener) o ).helpButtonPressed();
+            }
+        }
     }
 }
