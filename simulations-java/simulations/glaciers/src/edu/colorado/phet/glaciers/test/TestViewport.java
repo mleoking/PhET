@@ -24,17 +24,20 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * TestMultipleViews tests viewing one model with two difference canvases,
- * with each camera having a different camera scale.  Dragging a node in
- * one view updates the model, and causes all views to update.
+ * TestViewport tests viewing one model with two difference canvases.
+ * The top canvas is a birds-eye view, with a draggable viewport.
+ * The bottom canvas is a zoomed in view.
+ * The position and size of the viewport determines what is visible 
+ * in the zoomed view.
  * 
  * TODO:
+ * - use same scenegraph with both canvases
  * - keep height of top view constant
  * - redraw artifacts when squares are dragged
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestMultipleViews extends JFrame {
+public class TestViewport extends JFrame {
     
     private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
     private static final int NUMBER_OF_SQUARES = 100;
@@ -288,7 +291,7 @@ public class TestMultipleViews extends JFrame {
      * Main window, creates one model with two views.
      * The top view has a draggable viewport control that determines what is shown in the bottom view. 
      */
-    private static class TestFrame extends JFrame {
+    public static class TestFrame extends JFrame {
 
         private TestCanvas _bottomCanvas;
         private Viewport _viewport;
@@ -353,7 +356,7 @@ public class TestMultipleViews extends JFrame {
     }
     
     /* not intended for instantiation */
-    private TestMultipleViews() {}
+    private TestViewport() {}
     
     public static void main( String args[] ) {
         JFrame frame = new TestFrame();
