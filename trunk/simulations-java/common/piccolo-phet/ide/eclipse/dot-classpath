@@ -5,5 +5,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/phetcommon"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/piccolo"/>
+	<classpathentry kind="lib" path="/piccolo-sax/piccolo-sax.jar"/>
+	<classpathentry kind="lib" path="/svgsalamander/svgSalamander-tiny.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
