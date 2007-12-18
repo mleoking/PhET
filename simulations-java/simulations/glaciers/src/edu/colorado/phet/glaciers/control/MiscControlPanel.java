@@ -13,12 +13,17 @@ import javax.swing.JPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
-
+/**
+ * MiscControlPanel contains miscellaneous controls.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MiscControlPanel extends JPanel {
 
     private JButton _equilibriumButton;
     private JButton _resetAllButton;
     private JButton _helpButton;
+    
     private ArrayList _listeners;
     
     public MiscControlPanel() {
@@ -55,23 +60,26 @@ public class MiscControlPanel extends JPanel {
         layout.addComponent( _helpButton, 0, column++ );
     }
     
-    public static interface MiscControlListener {
+    /**
+     * Interface implemented by all listeners who are interested in changes to this control panel.
+     */
+    public static interface MiscControlPanelListener {
         public void equilibriumButtonPressed();
         public void resetAllButtonPressed();
         public void helpButtonPressed();
     }
     
-    public static class MiscControlAdapter implements MiscControlListener {
+    public static class MiscControlPanelAdapter implements MiscControlPanelListener {
         public void equilibriumButtonPressed() {};
         public void resetAllButtonPressed() {};
         public void helpButtonPressed() {};
     }
     
-    public void addListener( MiscControlListener listener ) {
+    public void addListener( MiscControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( MiscControlListener listener ) {
+    public void removeListener( MiscControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
@@ -79,8 +87,8 @@ public class MiscControlPanel extends JPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             Object o = i.next();
-            if ( o instanceof MiscControlListener ) {
-                ( (MiscControlListener) o ).equilibriumButtonPressed();
+            if ( o instanceof MiscControlPanelListener ) {
+                ( (MiscControlPanelListener) o ).equilibriumButtonPressed();
             }
         }
     }
@@ -89,8 +97,8 @@ public class MiscControlPanel extends JPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             Object o = i.next();
-            if ( o instanceof MiscControlListener ) {
-                ( (MiscControlListener) o ).resetAllButtonPressed();
+            if ( o instanceof MiscControlPanelListener ) {
+                ( (MiscControlPanelListener) o ).resetAllButtonPressed();
             }
         }
     }
@@ -99,8 +107,8 @@ public class MiscControlPanel extends JPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             Object o = i.next();
-            if ( o instanceof MiscControlListener ) {
-                ( (MiscControlListener) o ).helpButtonPressed();
+            if ( o instanceof MiscControlPanelListener ) {
+                ( (MiscControlPanelListener) o ).helpButtonPressed();
             }
         }
     }

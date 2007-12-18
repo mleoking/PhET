@@ -13,12 +13,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 public class ToolboxControlPanel extends PNode {
 
-    private ArrayList _listenerList;
+    private ArrayList _listeners;
     
     public ToolboxControlPanel() {
         super();
         
-        _listenerList = new ArrayList();
+        _listeners = new ArrayList();
         
         ToolboxNode toolboxNode = new ToolboxNode();
         addChild( toolboxNode );
@@ -65,9 +65,6 @@ public class ToolboxControlPanel extends PNode {
         public void addBoreholeDrill( Point2D atCanvasPosition );
     }
     
-    /**
-     * Default implementation of ToolboxListener.
-     */
     public static class ToolboxAdapter implements ToolboxListener {
         public void addThermometer( Point2D atCanvasPosition ) {};
         public void addGlacialBudgetMeter( Point2D atCanvasPosition ) {};
@@ -76,52 +73,44 @@ public class ToolboxControlPanel extends PNode {
         public void addBoreholeDrill( Point2D atCanvasPosition ) {};
     }
     
-    /**
-     * Adds a ToolboxListener.
-     * @param listener
-     */
     public void addListener( ToolboxListener listener ) {
-        _listenerList.add( listener );
+        _listeners.add( listener );
     }
     
-    /**
-     * Removes a ToolboxListener.
-     * @param listener
-     */
     public void removeListener( ToolboxListener listener ) {
-        _listenerList.remove( listener );
+        _listeners.remove( listener );
     }
     
     private void notifyAddThermometer( Point2D atCanvasPosition ) {
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolboxListener) i.next() ).addThermometer( atCanvasPosition );
         }
     }
     
     private void notifyAddGlacialBudgetMeter( Point2D atCanvasPosition ) {
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolboxListener) i.next() ).addGlacialBudgetMeter( atCanvasPosition );
         }
     }
     
     private void notifyAddTraceFlag( Point2D atCanvasPosition ) {
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolboxListener) i.next() ).addTracerFlag( atCanvasPosition );
         }
     }
     
     private void notifyAddIceThicknessTool( Point2D atCanvasPosition ) {
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolboxListener) i.next() ).addIceThicknessTool( atCanvasPosition );
         }
     }
     
     private void notifyAddBoreholeDrill( Point2D atCanvasPosition ) {
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ToolboxListener) i.next() ).addBoreholeDrill( atCanvasPosition );
         }

@@ -37,12 +37,12 @@ public class ViewControlPanel extends JPanel {
     private JCheckBox _coordinatesCheckBox;
     private JCheckBox _ageOfIceCheckBox;
     
-    private ArrayList _listenerList; // array of ViewControlPanelListener
+    private ArrayList _listeners;
     
     public ViewControlPanel( Font titleFont, Font controlFont ) {
         super();
         
-        _listenerList = new ArrayList();
+        _listeners = new ArrayList();
         
         _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
         _equilibriumLineCheckBox.setFont( controlFont );
@@ -162,9 +162,6 @@ public class ViewControlPanel extends JPanel {
         public void ageOfIceChanged( boolean b );
     }
     
-    /**
-     * Default implementation of ViewControlPanelListener.
-     */
     public static class ViewControlPanelAdapter implements ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b ) {};
         public void iceFlowChanged( boolean b ) {};
@@ -173,59 +170,66 @@ public class ViewControlPanel extends JPanel {
         public void ageOfIceChanged( boolean b ) {};
     }
     
-    /**
-     * Adds a ViewControlPanelListener.
-     * @param listener
-     */
     public void addListener( ViewControlPanelListener listener ) {
-        _listenerList.add( listener );
+        _listeners.add( listener );
     }
     
-    /**
-     * Removes a ViewControlPanelListener.
-     * @param listener
-     */
     public void removeListener( ViewControlPanelListener listener ) {
-        _listenerList.remove( listener );
+        _listeners.remove( listener );
     }
     
     private void notifyEquilibriumLineChanged() {
         boolean b = isEquilibriumSelected();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).equilibriumLineChanged( b );
+            Object o = i.next();
+            if ( o instanceof ViewControlPanelListener ) {
+                ( (ViewControlPanelListener) o ).equilibriumLineChanged( b );
+            }
         }
     }
     
     private void notifyIceFlowChanged() {
         boolean b = isIceFlowSelected();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).iceFlowChanged( b );
+            Object o = i.next();
+            if ( o instanceof ViewControlPanelListener ) {
+                ( (ViewControlPanelListener) o ).iceFlowChanged( b );
+            }
         }
     }
     
     private void notifySnowfallChanged() {
         boolean b = isSnowfallSelected();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).snowfallChanged( b );
+            Object o = i.next();
+            if ( o instanceof ViewControlPanelListener ) {
+                ( (ViewControlPanelListener) o ).snowfallChanged( b );
+            }
         }
     }
     
     private void notifyCoordinatesChanged() {
         boolean b = isCoordinatesSelected();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).coordinatesChanged( b );
+            Object o = i.next();
+            if ( o instanceof ViewControlPanelListener ) {
+                ( (ViewControlPanelListener) o ).coordinatesChanged( b );
+            }
         }
     }
     
     private void notifyAgeOfIceChanged() {
         boolean b = isAgeOfIceSelected();
-        Iterator i = _listenerList.iterator();
+        Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).ageOfIceChanged( b );
+            Object o = i.next();
+            if ( o instanceof ViewControlPanelListener ) {
+                ( (ViewControlPanelListener) o ).ageOfIceChanged( b );
+            }
         }
     }
 }
