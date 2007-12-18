@@ -15,4 +15,9 @@ public interface ParticleContainer {
     ParticleContainerWall getSouthWall();
 
     Collection getAllWalls();
+
+    void setRotation(double radians);
+
+    double getRotation();
+
 }
