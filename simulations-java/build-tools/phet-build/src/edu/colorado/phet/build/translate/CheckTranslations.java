@@ -98,7 +98,7 @@ public class CheckTranslations {
         return new TranslationDiscrepancy( extraLocal, extraRemote, phetProject, flavor );
     }
 
-    private Locale[] listTranslationsInJar( PhetProject p, File file ) throws IOException {
+    public static Locale[] listTranslationsInJar( PhetProject p, File file ) throws IOException {
         ArrayList translations = new ArrayList();
         //final File file = new File( jar );
         if ( file.exists() ) {
@@ -124,7 +124,7 @@ public class CheckTranslations {
     }
 
 
-    static String prefix = "http://phet.colorado.edu/sims/";
+    
 
     public static void clearTempDir() {
         System.out.print( "Cleaning temp dir..." );
