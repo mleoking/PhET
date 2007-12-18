@@ -61,7 +61,7 @@ public class MiscControlPanel extends JPanel {
     }
     
     /**
-     * Interface implemented by all listeners who are interested in changes to this control panel.
+     * Interface implemented by all listeners who are interested in events related to this control panel.
      */
     public static interface MiscControlPanelListener {
         public void equilibriumButtonPressed();
