@@ -64,7 +64,7 @@ public class BufferedPNode extends PhetPNode {
         managedNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 // if the managed node's children change, we need a new scaling node
-                if ( event.getPropertyName() == PNode.PROPERTY_CHILDREN ) {
+                if ( event.getPropertyName() == PNode.PROPERTY_CHILDREN ) {//todo: should this use .equals comparison?
                     rescaledNode = new RescaledNode( canvas, managedNode.toImage() );
                     update();
                 }
