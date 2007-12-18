@@ -392,12 +392,19 @@ public class PhetProject {
                 String titleKey = flavorName + ".name";
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
-                    throw new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() );
+                    Properties englishProperties = new Properties();
+                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ));
+                    title = englishProperties.getProperty( titleKey );
+                    new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() +", using english").printStackTrace(  );
+
                 }
                 String descriptionKey = flavorName + ".description";
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
-                    throw new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() );
+                    Properties englishProperties = new Properties();
+                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ));
+                    description= englishProperties.getProperty( descriptionKey);
+                    new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() +", using english").printStackTrace(  );
                 }
             }
             else {
