@@ -1,9 +1,9 @@
 package edu.colorado.phet.build;
 
-import java.io.File;
-
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.ProjectHelper;
+
+import java.io.File;
 
 /**
  * This class is responsible for building a phet project given the project
@@ -11,6 +11,7 @@ import org.apache.tools.ant.ProjectHelper;
  */
 public class PhetBuildTask extends AbstractPhetBuildTask {
     private volatile boolean shrink = true;
+    private volatile boolean test = false;
     private String dest = null;
 
     protected void executeImpl( PhetProject phetProject ) throws Exception {
@@ -19,6 +20,10 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
         PhetBuildCommand buildCommand = new PhetBuildCommand( phetProject, this, shrink, destFile );
 
         buildCommand.execute();
+
+        if ( test ) {
+            new TestCommand( phetProject, this, this ).execute();
+        }
     }
 
     public void setShrink( boolean shrink ) {
@@ -27,6 +32,10 @@ public class PhetBuildTask extends AbstractPhetBuildTask {
 
     public void setDestFile( String destFile ) {
         this.dest = destFile;
+    }
+
+    public void setTest( boolean test ) {
+        this.test = test;
     }
 
     /*
