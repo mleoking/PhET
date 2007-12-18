@@ -48,6 +48,7 @@ public class ScpTo {
             channel.connect();
 
             if ( checkAck( in ) != 0 ) {
+                System.out.println( "ack failed, exiting" );
                 System.exit( 0 );
             }
 
@@ -64,6 +65,7 @@ public class ScpTo {
             out.write( command.getBytes() );
             out.flush();
             if ( checkAck( in ) != 0 ) {
+                System.out.println( "ack failed, exiting" );
                 System.exit( 0 );
             }
 
@@ -85,14 +87,15 @@ public class ScpTo {
             out.write( buf, 0, 1 );
             out.flush();
             if ( checkAck( in ) != 0 ) {
-                System.exit( 0 );
+                System.out.println( "ack failed... continuing" );
+//                System.exit( 0 );
             }
             out.close();
 
             channel.disconnect();
             session.disconnect();
 
-            System.exit( 0 );
+            System.out.println( "Finished scp." );
         }
         finally {
             if ( fis != null ) {
