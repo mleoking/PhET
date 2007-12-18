@@ -125,7 +125,7 @@ public class FileUtils {
             File[] children = file.listFiles();
 
             for ( int i = 0; i < children.length; i++ ) {
-                delete( children[i],verbose );
+                delete( children[i], verbose );
             }
         }
         if ( verbose ) {
@@ -252,4 +252,7 @@ public class FileUtils {
         } );
     }
 
+    public static void addPrefix( File file, String prefix ) throws IOException {
+        writeString( file, prefix + loadFileAsString( file ) );
+    }
 }

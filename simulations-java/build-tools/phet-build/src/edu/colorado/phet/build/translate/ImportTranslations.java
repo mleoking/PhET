@@ -14,6 +14,7 @@ import edu.colorado.phet.build.PhetProject;
 public class ImportTranslations {
     private File basedir;
     private boolean addSVN = true;
+    private String prefix;
 
     public ImportTranslations( File basedir ) {
         this.basedir = basedir;
@@ -39,6 +40,9 @@ public class ImportTranslations {
             File localizationDir = phetProject.getLocalizationDir();
             final File dst = new File( localizationDir, file.getName() );
             FileUtils.copyTo( file, dst );
+            if ( prefix != null ) {
+                FileUtils.addPrefix( dst, prefix );
+            }
             if ( addSVN ) {
                 Runtime.getRuntime().exec( "svn add " + dst.getAbsolutePath() );
             }
@@ -46,5 +50,9 @@ public class ImportTranslations {
         catch( FileNotFoundException e ) {
             System.out.println( "skipping: " + file.getAbsolutePath() );
         }
+    }
+
+    public void setPrefix( String prefix ) {
+        this.prefix = prefix;
     }
 }
