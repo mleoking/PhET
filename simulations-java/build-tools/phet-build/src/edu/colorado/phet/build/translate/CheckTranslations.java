@@ -46,10 +46,6 @@ public class CheckTranslations {
         return (TranslationDiscrepancy[]) list.toArray( new TranslationDiscrepancy[list.size()] );
     }
 
-    public static void main( String[] args ) throws IOException {
-        new CheckTranslations( Boolean.getBoolean( args[1] ) ).checkTranslationsAllSims( new File( args[0] ) );
-    }
-
     private TranslationDiscrepancy checkJAR( PhetProject phetProject, String flavor ) throws IOException {
         String webLocation = phetProject.getDeployedFlavorJarURL( flavor );
         final File fileName = new File( LOCAL_ROOT_DIR, flavor + ".jar" );
@@ -132,5 +128,9 @@ public class CheckTranslations {
 
     public static void clearTempDir() {
         FileUtils.delete( TRANSLATIONS_TEMP_DIR,true );
+    }
+
+    public static void main( String[] args ) throws IOException {
+        new CheckTranslations( Boolean.getBoolean( args[1] ) ).checkTranslationsAllSims( new File( args[0] ) );
     }
 }
