@@ -14,14 +14,14 @@ public class SynchronizeTranslations {
         PhetProject[] p = args.length == 2 ? PhetProject.getAllProjects( new File( args[0] ) ) :
                           new PhetProject[]{new PhetProject( new File( args[0], "simulations/" + args[2] ) )};
         for ( int i = 0; i < p.length; i++ ) {
-            new SynchronizeTranslations().synchronizeTranslations( p[i], args[1] );
+            new SynchronizeTranslations().synchronizeTranslations( p[i], args[1], true );
         }
     }
 
-    private void synchronizeTranslations( PhetProject phetProject, String username ) throws IOException {
+    private void synchronizeTranslations( PhetProject phetProject, String username, boolean addOnly ) throws IOException {
         TranslationDiscrepancy[] discrepancies = new CheckTranslations( false ).checkTranslations( phetProject );
         for ( int i = 0; i < discrepancies.length; i++ ) {
-            discrepancies[i].resolve( username );
+            discrepancies[i].resolve( username, addOnly );
         }
     }
 }

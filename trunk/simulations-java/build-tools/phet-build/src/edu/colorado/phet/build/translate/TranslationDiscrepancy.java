@@ -45,24 +45,24 @@ public class TranslationDiscrepancy {
         return "need to be removed from remote jar: " + extraRemote + ", " + "need to be added to remote jar: " + extraLocal + " ";
     }
 
-    public void resolve(String username) {
+    public void resolve( String username, boolean addNewOnly ) {
         try {
             File resolveJAR = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "_resolved" + System.currentTimeMillis() + ".jar" );
-            resolve( resolveJAR,username );
+            resolve( resolveJAR, username, addNewOnly );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
     }
 
-    public void resolve( File resolveJAR ,String username) throws IOException {
+    public void resolve( File resolveJAR, String username, boolean addNewOnly ) throws IOException {
         if ( !extraLocal.isEmpty() || !extraRemote.isEmpty() ) {
             File jarFile = downloadJAR();
-            System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
-            synchronizeStrings( jarFile, resolveJAR );
+//            System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
+            synchronizeStrings( jarFile, resolveJAR, addNewOnly );
 
             try {
-                uploadJAR( resolveJAR, username);
+                uploadJAR( resolveJAR, username );
             }
             catch( JSchException e ) {
                 e.printStackTrace();
@@ -74,18 +74,19 @@ public class TranslationDiscrepancy {
     }
 
     private void uploadJAR( File resolveJAR, String username ) throws JSchException, IOException {
-        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar" );
+        System.out.println( "should have uploaded resolvejar=" + resolveJAR.getAbsolutePath() );
+//        ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar" );
     }
 
-    private void synchronizeStrings( File jarFile, File resolveJAR ) throws IOException {
+    private void synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
         File tempUnzipDir = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + "-dir" );
-        System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
+//        System.out.println( "tempUnzipDir.getAbsolutePath() = " + tempUnzipDir.getAbsolutePath() );
         tempUnzipDir.mkdirs();
 
         final Pattern excludePattern = Pattern.compile( quote( phetProject.getName() ) + "[\\\\/]localization[\\\\/]" + quote( phetProject.getName() ) + ".*\\.properties" );
         FileUtils.unzip( jarFile, tempUnzipDir, new FileFilter() {
             public boolean accept( File file ) {
-                return !excludePattern.matcher( file.getAbsolutePath() ).find();
+                return addNewOnly || !excludePattern.matcher( file.getAbsolutePath() ).find();
             }
         } );
 
@@ -97,7 +98,10 @@ public class TranslationDiscrepancy {
         for ( int i = 0; i < locales.length; i++ ) {
             File source = phetProject.getTranslationFile( locales[i] );
             validateKeySet( locales[i], jarFile, source );
-            FileUtils.copyAndClose( new FileInputStream( source ), new FileOutputStream( new File( localizationDir, source.getName() ) ), false );
+            File target = new File( localizationDir, source.getName() );
+            if ( ( addNewOnly && !target.exists() ) || !addNewOnly ) {
+                FileUtils.copyAndClose( new FileInputStream( source ), new FileOutputStream( target ), false );
+            }
         }
 
         FileUtils.jar( tempUnzipDir, resolveJAR );
@@ -109,7 +113,7 @@ public class TranslationDiscrepancy {
         FileUtils.unzip( jarFile, tempDir );
         String localeName = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
         File keysToBeReplaced = new File( tempDir, phetProject.getName() + File.separator + "localization" + File.separator + "/" + phetProject.getName() + "-strings" + localeName + ".properties" );
-        HashSet missingKeys = validateKeySet( keysToBeReplaced, source );
+        HashSet missingKeys = getMissingKeySet( keysToBeReplaced, source );
         if ( missingKeys.isEmpty() ) {
 
         }
@@ -118,9 +122,9 @@ public class TranslationDiscrepancy {
         }
     }
 
-    private HashSet validateKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
+    private HashSet getMissingKeySet( File oldPropertiesFile, File newPropertiesFile ) throws IOException {
         if ( !oldPropertiesFile.exists() || !newPropertiesFile.exists() ) {
-            System.out.println( "Cannot compare properties files, one does not exist: old=" + oldPropertiesFile.getAbsolutePath() + ", new=" + newPropertiesFile.getAbsolutePath() );
+//            System.out.println( "Cannot compare properties files, one does not exist: old=" + oldPropertiesFile.getAbsolutePath() + ", new=" + newPropertiesFile.getAbsolutePath() );
             return new HashSet();
         }
         Properties oldProperties = new Properties();

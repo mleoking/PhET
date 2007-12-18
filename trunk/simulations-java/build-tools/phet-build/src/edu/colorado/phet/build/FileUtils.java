@@ -230,7 +230,7 @@ public class FileUtils {
     }
 
     public static void jar( File dir, File dest ) throws IOException {
-        System.out.println( "FileUtils.zip: dir=" + dir.getAbsolutePath() + ", dest=" + dest.getAbsolutePath() );
+//        System.out.println( "FileUtils.zip: dir=" + dir.getAbsolutePath() + ", dest=" + dest.getAbsolutePath() );
 //        JarOutputStream jarOutputStream = new JarOutputStream( new BufferedOutputStream( new FileOutputStream( dest ) ) ,new Manifest( new FileInputStream( new File( dir,"META-INF/MANIFEST.MF") ) ) );
         JarOutputStream jarOutputStream = new JarOutputStream( new FileOutputStream( dest ), new Manifest( new FileInputStream( new File( dir, "META-INF/MANIFEST.MF" ) ) ) );
         jarSingleFile( dir, dir, jarOutputStream );

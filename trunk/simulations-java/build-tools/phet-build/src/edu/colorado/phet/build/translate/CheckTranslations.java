@@ -127,7 +127,9 @@ public class CheckTranslations {
     static String prefix = "http://phet.colorado.edu/sims/";
 
     public static void clearTempDir() {
-        FileUtils.delete( TRANSLATIONS_TEMP_DIR,true );
+        System.out.print( "Cleaning temp dir..." );
+        FileUtils.delete( TRANSLATIONS_TEMP_DIR, false );
+        System.out.println( "Finished." );
     }
 
     public static void main( String[] args ) throws IOException {
