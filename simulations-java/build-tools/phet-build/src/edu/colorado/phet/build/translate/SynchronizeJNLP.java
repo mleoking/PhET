@@ -49,22 +49,29 @@ public class SynchronizeJNLP {
     }
 
     private void synchronizeAllJNLP( PhetProject phetProject, String flavor ) throws IOException {
-        File downloaded = downloadJAR( phetProject, flavor );
-        //for all languages declared locally and remotely, make sure we also have remote JNLP files
-        Locale[] local = phetProject.getLocales();
-        Locale[] remote = CheckTranslations.listTranslationsInJar( phetProject, downloaded );
+        try {
+            File downloaded = downloadJAR( phetProject, flavor );
 
-        for ( int i = 0; i < local.length; i++ ) {
-            if ( !local[i].getLanguage().equals( "en" ) && ( Arrays.asList( remote ).contains( local[i] ) && !remoteJNLPExists( phetProject, flavor, local[i] ) ) ) {
-                createJNLPFile( phetProject, flavor, local[i] );
+            //for all languages declared locally and remotely, make sure we also have remote JNLP files
+            Locale[] local = phetProject.getLocales();
+            Locale[] remote = CheckTranslations.listTranslationsInJar( phetProject, downloaded );
+
+            for ( int i = 0; i < local.length; i++ ) {
+                if ( !local[i].getLanguage().equals( "en" ) && ( Arrays.asList( remote ).contains( local[i] ) && !remoteJNLPExists( phetProject, flavor, local[i] ) ) ) {
+                    createJNLPFile( phetProject, flavor, local[i] );
+                }
+
             }
-
+        }
+        catch( FileNotFoundException f ) {
+            System.out.println( "ignoring " + phetProject );
+            return;//ignore
         }
     }
 
     private boolean remoteJNLPExists( PhetProject phetProject, String flavor, Locale locale ) {
         try {
-            URL url = new URL( "http://phet.colorado.edu/sims/" + phetProject.getName() + "/" +  flavor+ "_" + locale.getLanguage() + ".jnlp" );
+            URL url = new URL( "http://phet.colorado.edu/sims/" + phetProject.getName() + "/" + flavor + "_" + locale.getLanguage() + ".jnlp" );
             URLConnection uc = url.openConnection();
             int length = uc.getContentLength();
             System.out.println( "length = " + length );
@@ -85,7 +92,7 @@ public class SynchronizeJNLP {
     }
 
     private void createJNLPFile( PhetProject phetProject, String flavor, Locale locale ) {
-        System.setProperty( "JAVA_HOME","C:\\j2sdk1.4.2_15" );
+        System.setProperty( "JAVA_HOME", "C:\\j2sdk1.4.2_15" );
         System.out.println( "Creating JNLP files for: " + phetProject + ", locale=" + locale );
         File buildFile = new File( basedir, "build.xml" );
         Project p = new Project();
