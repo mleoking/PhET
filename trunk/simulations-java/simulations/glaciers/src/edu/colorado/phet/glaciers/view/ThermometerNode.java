@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Thermometer;
@@ -71,9 +72,6 @@ public class ThermometerNode extends PNode {
         x = imageNode.getFullBoundsReference().getX() + ( imageNode.getFullBoundsReference().getWidth() / 2 );
         y = imageNode.getFullBoundsReference().getY() + ( imageNode.getFullBoundsReference().getHeight() / 2 );
         _textBackgroundNode.setOffset( x, y );
-        x = _textBackgroundNode.getFullBoundsReference().getX() + TEXT_INSETS.left;
-        y = _textBackgroundNode.getFullBoundsReference().getY() + TEXT_INSETS.top;
-        _textNode.setOffset( x, y );//XXX should be right justified!
         
         _thermometerListener = new ThermometerAdapter() {
             public void positionChanged() {
@@ -87,11 +85,21 @@ public class ThermometerNode extends PNode {
         _thermometer = thermometer;
         _thermometer.addListener( _thermometerListener );
         
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
+            
+            private double _xOffset, _yOffset;
+            
+            protected void startDrag( PInputEvent event ) {
+                _xOffset = event.getPosition().getX() - _thermometer.getPosition().getX();
+                _yOffset = event.getPosition().getY() - _thermometer.getPosition().getY();
+                super.startDrag( event );
+            }
+
             protected void drag( PInputEvent event ) {
-                Point2D p = event.getCanvasPosition();
-                //TODO transform p first!
-                _thermometer.setPosition( p );
+                double x = event.getPosition().getX() - _xOffset;
+                double y = event.getPosition().getY() - _yOffset;
+                _thermometer.setPosition( new Point2D.Double( x, y ) );
             }
         } );
 
@@ -113,6 +121,7 @@ public class ThermometerNode extends PNode {
         double temperature = _thermometer.getTemperature();
         String s = TEMPERATURE_FORMAT.format( temperature ) + " " + GlaciersStrings.UNITS_TEMPERATURE;
         _textNode.setText( s );
+        // right justify the text
         double x = _textBackgroundNode.getFullBoundsReference().getMaxX() - _textNode.getFullBoundsReference().getWidth() - TEXT_INSETS.right;
         double y = _textBackgroundNode.getFullBoundsReference().getY() + TEXT_INSETS.top;
         _textNode.setOffset( x, y );

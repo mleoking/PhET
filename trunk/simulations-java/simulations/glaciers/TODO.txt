@@ -5,7 +5,6 @@
 HIGH PRIORITY:
 - prototype the birds-eye and zoomed views
 - forward toolbox drag events to newly-created model elements
-- fix position transforms in ThermometerNode
 - remove tools by dragging them back to the toolbox or to the trash can
 - move trash can out of toolbox
 - add controller package
@@ -29,6 +28,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/17/07 - fix drag offset in ThermometerNode
 12/17/07 - convert strings and images to statics
 12/17/07 - move time units out of clock model
 12/17/07 - add panning control to prototype, ala Google Maps
