@@ -114,4 +114,8 @@ public class DefaultTimeSeries {
     protected void removeValue( int index ) {
         data.remove( index );
     }
+
+    public void insertValue( int index, double time, double value ) {
+        data.add( index, new TimeData( value, time ) );
+    }
 }

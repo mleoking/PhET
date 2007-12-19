@@ -70,6 +70,7 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         velocityDriven.addListener( this );
         accelDriven.addListener( this );
         addTemporalVariables( new ITemporalVariable[]{x, v, a} );
+//        v=x.getDerivative();
     }
 
     public void stepInTime( double dt ) {

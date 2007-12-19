@@ -657,4 +657,13 @@ public class ControlGraph extends PNode {
         jFreeChartSliderNode.setSelected( selected );
     }
 
+    public void rebuildSeries() {
+        getDynamicJFreeChartNode().clear();
+        for ( int i = 0; i < series.size(); i++ ) {
+            ControlGraphSeries controlGraphSeries = (ControlGraphSeries) series.get( i );
+            for ( int k = 0; k < controlGraphSeries.getTemporalVariable().getSampleCount(); k++ ) {
+                handleDataAdded( i, controlGraphSeries.getTemporalVariable().getData( k ) );
+            }
+        }
+    }
 }

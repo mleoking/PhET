@@ -9,6 +9,8 @@ public interface ITemporalVariable extends IVariable {
 
     TimeData getData( int index );
 
+    TimeData[] getData( int index, int requestedPoints );
+
     TimeData getRecentData( int index );
 
     int getSampleCount();
@@ -21,6 +23,8 @@ public interface ITemporalVariable extends IVariable {
 
     void addValue( double magnitude, double time );
 
+    void addValue( TimeData timeData );
+
     void setPlaybackTime( double time );
 
     void addListener( Listener listener );
@@ -28,7 +32,17 @@ public interface ITemporalVariable extends IVariable {
     void removeListener( Listener listener );
 
     //computes an average using min(s,numSamples) data points
-    double estimateAverage( int s);
+    double estimateAverage( int s );
+
+    int getIndexForTime( double time );
+
+    void setTimeData( int index, double time, double value );
+
+    int[] getIndicesForTimeInterval( double t0, double t1 );
+
+    void removeAll( int[] indices );
+
+    ITemporalVariable getDerivative();
 
     public static interface Listener extends IVariable.Listener {
         void dataAdded( TimeData data );

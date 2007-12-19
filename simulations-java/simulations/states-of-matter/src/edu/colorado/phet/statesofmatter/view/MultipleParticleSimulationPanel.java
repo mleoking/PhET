@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 import edu.colorado.phet.statesofmatter.model.particle.StatesOfMatterParticle;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PZoomEventHandler;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -24,7 +25,7 @@ public class MultipleParticleSimulationPanel extends PhetPCanvas {
 
     public MultipleParticleSimulationPanel(MultipleParticleModel model, IClock clock) {
         this.model = model;
-
+        setZoomEventHandler( new PZoomEventHandler() );
         try {
             particleContainer = new ParticleContainerNode(this, model.getParticleContainer());
         }
