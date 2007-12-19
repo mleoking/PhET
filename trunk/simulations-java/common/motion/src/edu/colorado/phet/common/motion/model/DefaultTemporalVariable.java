@@ -1,5 +1,9 @@
 package edu.colorado.phet.common.motion.model;
 
+import java.util.ArrayList;
+
+import edu.colorado.phet.common.motion.MotionMath;
+
 /**
  * Author: Sam Reid
  * Jul 26, 2007, 8:04:10 PM
@@ -38,6 +42,10 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         series.addValue( value, time );
     }
 
+    public void addValue( TimeData timeData ) {
+        addValue( timeData.getValue(), timeData.getTime() );
+    }
+
     public void setValue( double value ) {
         variable.setValue( value );
     }
@@ -64,6 +72,17 @@ public class DefaultTemporalVariable implements ITemporalVariable {
 
     public TimeData getData( int index ) {
         return series.getData( index );
+    }
+
+    public TimeData[] getData( int index, int requestedPoints ) {
+        ArrayList t = new ArrayList();
+        for ( int i = index - requestedPoints / 2; t.size() <= requestedPoints && i < index + requestedPoints / 2 + 1; i++ )
+        {
+            if ( i >= 0 && i < getSampleCount() ) {
+                t.add( getData( i ) );
+            }
+        }
+        return (TimeData[]) t.toArray( new TimeData[0] );
     }
 
     public TimeData getRecentData( int index ) {
@@ -105,4 +124,62 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         }
         return sum / count;
     }
+
+    public int getIndexForTime( double time ) {
+        double closestTime = Double.POSITIVE_INFINITY;
+        int index = -1;
+        for ( int i = 0; i < getSampleCount(); i++ ) {
+            if ( index == -1 || Math.abs( getData( i ).getTime() - time ) < Math.abs( closestTime - time ) ) {
+                closestTime = getData( i ).getTime();
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public void setTimeData( int index, double time, double value ) {
+        series.removeValue( index );
+        series.insertValue( index, time, value );
+    }
+
+    public int[] getIndicesForTimeInterval( double t0, double t1 ) {
+        if ( t1 < t0 ) {
+            return getIndicesForTimeInterval( t1, t0 );
+        }
+        ArrayList times = new ArrayList();
+        for ( int i = 0; i < getSampleCount(); i++ ) {
+            final double v = getData( i ).getTime();
+            if ( v >= t0 && v <= t1 ) {
+                times.add( new Integer( i ) );
+            }
+        }
+        int[] k = new int[times.size()];
+        for ( int i = 0; i < k.length; i++ ) {
+            k[i] = ( (Integer) times.get( i ) ).intValue();
+        }
+        return k;
+    }
+
+    public void removeAll( int[] indices ) {
+        for ( int i = 0; i < indices.length; i++ ) {
+            series.removeValue( indices[i] );
+        }
+    }
+
+    public ITemporalVariable getDerivative() {
+        final DefaultTemporalVariable derivative = new DefaultTemporalVariable();
+        addListener( new ITemporalVariable.ListenerAdapter() {
+            public void dataAdded( TimeData data ) {
+                double velocityWindow = 5;
+                TimeData a = MotionMath.getDerivative( MotionMath.smooth( getRecentSeries( (int) Math.min( velocityWindow, getSampleCount() ) ), 1 ) );
+                derivative.addValue( a );
+            }
+
+            public void dataCleared() {
+                derivative.clear();
+            }
+        } );
+        return derivative;
+    }
+
 }

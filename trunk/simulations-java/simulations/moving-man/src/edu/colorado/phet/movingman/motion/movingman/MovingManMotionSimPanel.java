@@ -5,19 +5,23 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.motion.MotionMath;
 import edu.colorado.phet.common.motion.graphs.GraphSetModel;
 import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.motion.graphs.GraphSuite;
 import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.movingman.MMUtil;
 import edu.colorado.phet.movingman.motion.AbstractMotionSimPanel;
-import edu.colorado.phet.movingman.motion.MovingManResources;
 import edu.colorado.phet.movingman.motion.MotionVectorNode;
+import edu.colorado.phet.movingman.motion.MovingManResources;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -53,7 +57,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         PNode vectorLayer = new PNode();
         movingManNode.addChild( vectorLayer );
 
-        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.velocity"), MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
+        velocityVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.velocity" ), MMUtil.transparify( Color.red, 128 ), new BasicStroke( 0.03f ), Color.black, -0.5 );
         velocityVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter velocityVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -64,7 +68,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         motionModel.getVVariable().addListener( velocityVectorUpdate );
         vectorLayer.addChild( velocityVector );
 
-        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.acceleration"), MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
+        accelVector = new MotionVectorNode( new PhetDefaultFont( 14, true ), MovingManResources.getString( "variables.acceleration" ), MMUtil.transparify( Color.green, 128 ), new BasicStroke( 0.03f ), Color.black, 0.0 );
         accelVector.setVisible( true );
         final ITemporalVariable.ListenerAdapter accelVectorUpdate = new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
@@ -78,6 +82,33 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
         final MovingManGraph xGraph = getXGraph( motionModel );
         final MovingManGraph vGraph = getVGraph( motionModel );
         final MovingManGraph aGraph = getAGraph( motionModel );
+
+        xGraph.getJFreeChartNode().addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+//                ControlGraphSeries x = xGraph.getControlGraphSeries( 0 );
+//                ControlGraphSeries v = vGraph.getControlGraphSeries( 0 );
+//                ControlGraphSeries a = aGraph.getControlGraphSeries( 0 );
+//                v.getTemporalVariable().clear();
+//                a.getTemporalVariable().clear();
+                ITemporalVariable x = motionModel.getXVariable();
+                ITemporalVariable v = motionModel.getVVariable();
+                v.clear();
+                ITemporalVariable a = motionModel.getAVariable();
+                a.clear();
+                for ( int i = 0; i < x.getSampleCount(); i++ ) {
+//                    System.out.println( "i="+i+", samplecount="+x.getSampleCount() );
+                    final TimeData[] datas = x.getData( i, 3 );
+                    if ( datas.length >= 2 ) {
+                        TimeData d = MotionMath.getDerivative( datas );
+                        v.addValue( d.getValue(), d.getTime() );
+                    }
+                }
+
+                vGraph.forceUpdateAll();
+                aGraph.forceUpdateAll();
+            }
+        } );
+
 
         motionModel.addListener( new MovingManMotionModel.Adapter() {
             public void updateStrategyChanged() {
@@ -138,7 +169,7 @@ public class MovingManMotionSimPanel extends AbstractMotionSimPanel {
             text.setFont( new PhetDefaultFont( 16, true ) );
             motionModel.getTimeVariable().addListener( new ITemporalVariable.ListenerAdapter() {
                 public void valueChanged() {
-                    text.setText( decimalFormat.format( motionModel.getTime() ) + " "+MovingManResources.getString( "units.seconds"));
+                    text.setText( decimalFormat.format( motionModel.getTime() ) + " " + MovingManResources.getString( "units.seconds" ) );
                 }
             } );
             addChild( text );

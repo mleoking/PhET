@@ -1,6 +1,7 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
@@ -23,6 +24,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Author: Sam Reid
@@ -43,6 +46,48 @@ public class MovingManGraph extends MotionControlGraph {
         getJFreeChartNode().getChart().getXYPlot().setBackgroundPaint( MotionProjectLookAndFeel.CHART_BACKGROUND_COLOR );
         DynamicJFreeChartNode dj = (DynamicJFreeChartNode) getJFreeChartNode();
         dj.updateAll();
+        addInputEventListener( new PBasicInputEventHandler() {
+            public Point2D lastPlotPoint;
+
+            public void mousePressed( PInputEvent event ) {
+                try {
+                    lastPlotPoint = getJFreeChartNode().nodeToPlot( event.getPositionRelativeTo( getJFreeChartNode() ) );
+                }
+                catch( Exception e ) {
+
+                }
+            }
+
+            public void mouseDragged( PInputEvent event ) {
+                try {
+                    Point2D plotPT = getJFreeChartNode().nodeToPlot( event.getPositionRelativeTo( getJFreeChartNode() ) );
+//                System.out.println( "plotPT = " + plotPT );
+                    int index = series.getTemporalVariable().getIndexForTime( plotPT.getX() );
+//                System.out.println( "index = " + index );
+
+                    //remove other intervening points
+                    int[] indices = series.getTemporalVariable().getIndicesForTimeInterval( lastPlotPoint.getX(), plotPT.getX() );
+//                series.getTemporalVariable().removeAll( indices );
+
+                    for ( int i = 0; i < indices.length; i++ ) {
+                        series.getTemporalVariable().setTimeData( indices[i], series.getTemporalVariable().getData( index ).getTime(), plotPT.getY() );
+                    }
+
+                    //update other series
+                    forceUpdateAll();
+//                series.getTemporalVariable().getData( index ).setValue()
+                    lastPlotPoint = plotPT;
+                }
+                catch( Exception e ) {
+
+                }
+            }
+        } );
+    }
+
+    public void forceUpdateAll() {
+        super.rebuildSeries();
+        super.forceUpdateAll();
     }
 
     public static JFreeChart createMovingManJFreeChart( int verticalTickUnit ) {
