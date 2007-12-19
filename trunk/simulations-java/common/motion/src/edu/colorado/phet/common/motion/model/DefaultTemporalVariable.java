@@ -182,4 +182,26 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         return derivative;
     }
 
+    public ITemporalVariable getIntegral() {
+        final DefaultTemporalVariable integral = new DefaultTemporalVariable();
+        addListener( new ITemporalVariable.ListenerAdapter() {
+            public void dataAdded( TimeData data ) {
+                double dt = 0;
+                if ( getSampleCount() > 1 ) {
+                    dt = getRecentData( 0 ).getTime() - getRecentData( 1 ).getTime();
+                }
+                else if ( getSampleCount() == 1 ) {
+                    dt = getRecentData( 0 ).getTime();
+                }
+                TimeData newValue = new TimeData( integral.getValue() + getValue() * dt, data.getTime() );
+                integral.addValue( newValue );
+            }
+
+            public void dataCleared() {
+                integral.clear();
+            }
+        } );
+        return integral;
+    }
+
 }

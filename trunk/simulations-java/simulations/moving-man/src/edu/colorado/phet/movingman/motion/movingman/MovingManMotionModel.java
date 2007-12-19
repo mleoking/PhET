@@ -1,6 +1,10 @@
 package edu.colorado.phet.movingman.motion.movingman;
 
 import bsh.Interpreter;
+
+import java.awt.*;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.model.*;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -8,44 +12,41 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.movingman.misc.ExpressionFrame;
 import edu.colorado.phet.movingman.motion.MovingManResources;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 /**
  * Created by: Sam
  * Dec 4, 2007 at 3:37:57 PM
  */
 public class MovingManMotionModel extends MotionModel implements UpdateableObject, IMovingManModel, IMotionBody, UpdateStrategy.DefaultUpdateStrategy.Listener {
-     /*
+    /*
 
-      X.long-label=
-      X.short-label=
-      X.color=
+     X.long-label=
+     X.short-label=
+     X.color=
 
-      x.isEqualTo(TemporalVariable.clamp(v.integrate().plus(x.lastValue(), 0, 12345));
+     x.isEqualTo(TemporalVariable.clamp(v.integrate().plus(x.lastValue(), 0, 12345));
 
-      v.isEqualTo(x.derivative()).and(a.integrate().plus(v.lastValue()));
+     v.isEqualTo(x.derivative()).and(a.integrate().plus(v.lastValue()));
 
-      a.isEqualTo(v.derivative());
+     a.isEqualTo(v.derivative());
 
-      Graph g = new Graph(new TemporalVariable[]{x, v, a});
+     Graph g = new Graph(new TemporalVariable[]{x, v, a});
 
-      g.setAdjustableVariable(x);
+     g.setAdjustableVariable(x);
 
-      mu.isEqualTo(TemporalVariable.if(v.isZero()), MU_STATIC).and(TemporalVariable.if(v.isNonZero(), MU_DYNAMIC);
-
-
+     mu.isEqualTo(TemporalVariable.if(v.isZero()), MU_STATIC).and(TemporalVariable.if(v.isNonZero(), MU_DYNAMIC);
 
 
-     */
 
-    private ITemporalVariable x = new DefaultTemporalVariable();
-    private ITemporalVariable v = new DefaultTemporalVariable();
-    private ITemporalVariable a = new DefaultTemporalVariable();
 
-    private ControlGraphSeries xSeries = new ControlGraphSeries( MovingManResources.getString( "variables.position"), Color.blue, MovingManResources.getString( "variables.position.abbreviation"), MovingManResources.getString( "units.meters.abbreviation" ), new BasicStroke( 2 ), null, x, true );
-    private ControlGraphSeries vSeries = new ControlGraphSeries( MovingManResources.getString( "variables.velocity"), Color.red, MovingManResources.getString( "variables.velocity.abbreviation"), MovingManResources.getString( "units.velocity.abbreviation" ), new BasicStroke( 2 ), null, v, true );
-    private ControlGraphSeries aSeries = new ControlGraphSeries( MovingManResources.getString( "variables.acceleration"), Color.green, MovingManResources.getString( "variables.acceleration.abbreviation"), MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
+    */
+
+    private ITemporalVariable x;// = new DefaultTemporalVariable();
+    private ITemporalVariable v;// = new DefaultTemporalVariable();
+    private ITemporalVariable a;// = new DefaultTemporalVariable();
+
+    private ControlGraphSeries xSeries;
+    private ControlGraphSeries vSeries;
+    private ControlGraphSeries aSeries;
 
     public static final int MAX_T = 20;
 
@@ -69,14 +70,28 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         positionDriven.addListener( this );
         velocityDriven.addListener( this );
         accelDriven.addListener( this );
+
+//        x = new DefaultTemporalVariable();
+//        v = x.getDerivative();
+//        a = v.getDerivative();
+        v = new DefaultTemporalVariable();
+        a = v.getDerivative();
+        x = v.getIntegral();
+
         addTemporalVariables( new ITemporalVariable[]{x, v, a} );
+
+        xSeries = new ControlGraphSeries( MovingManResources.getString( "variables.position" ), Color.blue, MovingManResources.getString( "variables.position.abbreviation" ), MovingManResources.getString( "units.meters.abbreviation" ), new BasicStroke( 2 ), null, x, true );
+        vSeries = new ControlGraphSeries( MovingManResources.getString( "variables.velocity" ), Color.red, MovingManResources.getString( "variables.velocity.abbreviation" ), MovingManResources.getString( "units.velocity.abbreviation" ), new BasicStroke( 2 ), null, v, true );
+        aSeries = new ControlGraphSeries( MovingManResources.getString( "variables.acceleration" ), Color.green, MovingManResources.getString( "variables.acceleration.abbreviation" ), MovingManResources.getString( "units.acceleration.abbreviation" ), new BasicStroke( 2 ), null, a, true );
 //        v=x.getDerivative();
     }
 
     public void stepInTime( double dt ) {
         lastPlaybackTime = Double.NaN;
         super.stepInTime( dt );
-        updateStrategy.update( this, dt, super.getTime() );
+//        x.addValue( x.getValue(), getTime() );
+        v.addValue( v.getValue(), getTime() );
+//        updateStrategy.update( this, dt, super.getTime() );
     }
 
     public void clear() {
