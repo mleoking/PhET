@@ -46,7 +46,7 @@ public class DeveloperMenu extends JMenu {
         viewportDemo.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 JFrame frame = new TestViewport.TestFrame();
-                frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+                frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                 frame.setSize( new Dimension( 640, 480 ) );
                 frame.show();
             }
