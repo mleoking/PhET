@@ -152,8 +152,11 @@
 	<classpathentry kind="lib" path="build-tools/proguard3.8/lib/proguard.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="/jfreechart/lib/jfreechart-1.0.5.jar" sourcepath="/jfreechart/source.zip"/>
 	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.5.jar"/>
 	<classpathentry kind="lib" path="build-tools/jsch/jsch-0.1.36.jar"/>
+	<classpathentry kind="lib" path="contrib/piccolo-sax/piccolo-sax.jar"/>
+	<classpathentry kind="lib" path="contrib/svgsalamander/svgSalamander-tiny.jar"/>
+	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/jfreechart-1.0.5.jar"/>
+	<classpathentry kind="lib" path="build-tools/apache-ant-1.7.0/lib/ant-junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
