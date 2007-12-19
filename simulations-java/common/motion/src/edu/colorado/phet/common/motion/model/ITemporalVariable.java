@@ -44,6 +44,8 @@ public interface ITemporalVariable extends IVariable {
 
     ITemporalVariable getDerivative();
 
+    ITemporalVariable getIntegral();
+
     public static interface Listener extends IVariable.Listener {
         void dataAdded( TimeData data );
 
