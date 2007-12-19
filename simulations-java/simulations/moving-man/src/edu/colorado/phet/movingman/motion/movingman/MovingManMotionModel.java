@@ -53,9 +53,26 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
     private double min = -10;
     private double max = 10;
 
+
     private UpdateStrategy.PositionDriven positionDriven = new UpdateStrategy.PositionDriven( min, max );
     private UpdateStrategy.VelocityDriven velocityDriven = new UpdateStrategy.VelocityDriven( min, max );
     private UpdateStrategy.AccelerationDriven accelDriven = new UpdateStrategy.AccelerationDriven( min, max );
+
+//    private UpdateStrategy positionDriven = new UpdateStrategy() {
+//        public void update( IMotionBody motionBody, double dt, double time ) {
+//            x.stepInTime( dt );
+//        }
+//    };
+//    private UpdateStrategy velocityDriven = new UpdateStrategy() {
+//        public void update( IMotionBody motionBody, double dt, double time ) {
+//            v.stepInTime( dt );
+//        }
+//    };
+//    private UpdateStrategy accelDriven = new UpdateStrategy() {
+//        public void update( IMotionBody motionBody, double dt, double time ) {
+//            a.stepInTime( dt );
+//        }
+//    };
 
     private UpdateStrategy updateStrategy = positionDriven;
     private ArrayList listeners = new ArrayList();
@@ -74,9 +91,9 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
 //        x = new DefaultTemporalVariable();
 //        v = x.getDerivative();
 //        a = v.getDerivative();
+        x = new DefaultTemporalVariable();
         v = new DefaultTemporalVariable();
-        a = v.getDerivative();
-        x = v.getIntegral();
+        a = new DefaultTemporalVariable();
 
         addTemporalVariables( new ITemporalVariable[]{x, v, a} );
 
@@ -90,8 +107,8 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         lastPlaybackTime = Double.NaN;
         super.stepInTime( dt );
 //        x.addValue( x.getValue(), getTime() );
-        v.addValue( v.getValue(), getTime() );
-//        updateStrategy.update( this, dt, super.getTime() );
+//        v.addValue( v.getValue(), getTime() );
+        updateStrategy.update( this, dt, super.getTime() );
     }
 
     public void clear() {
@@ -293,12 +310,12 @@ public class MovingManMotionModel extends MotionModel implements UpdateableObjec
         this.boundaryOpen = boundaryOpen;
         min = boundaryOpen ? Double.NEGATIVE_INFINITY : -10;
         max = boundaryOpen ? Double.POSITIVE_INFINITY : +10;
-        positionDriven.setMin( min );
-        positionDriven.setMax( max );
-        velocityDriven.setMin( min );
-        velocityDriven.setMax( max );
-        accelDriven.setMin( min );
-        accelDriven.setMax( max );
+//        positionDriven.setMin( min );
+//        positionDriven.setMax( max );
+//        velocityDriven.setMin( min );
+//        velocityDriven.setMax( max );
+//        accelDriven.setMin( min );
+//        accelDriven.setMax( max );
         notifyBoundaryChanged();
     }
 

@@ -204,4 +204,11 @@ public class DefaultTemporalVariable implements ITemporalVariable {
         return integral;
     }
 
+    public void stepInTime( double dt ) {
+        addValue( getValue(), getLastTime() + dt );
+    }
+
+    public double getLastTime() {
+        return getSampleCount() == 0 ? 0 : getRecentData( 0 ).getTime();
+    }
 }
