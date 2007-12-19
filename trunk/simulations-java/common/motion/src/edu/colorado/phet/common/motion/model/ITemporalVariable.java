@@ -46,6 +46,8 @@ public interface ITemporalVariable extends IVariable {
 
     ITemporalVariable getIntegral();
 
+    void stepInTime( double dt );
+
     public static interface Listener extends IVariable.Listener {
         void dataAdded( TimeData data );
 
