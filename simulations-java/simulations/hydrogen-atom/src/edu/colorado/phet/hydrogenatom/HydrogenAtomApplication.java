@@ -34,12 +34,12 @@ import edu.colorado.phet.hydrogenatom.module.HAModule;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendDialog;
 
 /**
- * HAApplication
+ * HydrogenAtomApplication
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAApplication extends PhetApplication {
+public class HydrogenAtomApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -56,7 +56,7 @@ public class HAApplication extends PhetApplication {
     /**
      * Sole constructor.
      */
-    public HAApplication( PhetApplicationConfig config )
+    public HydrogenAtomApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -204,7 +204,7 @@ public class HAApplication extends PhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, HAConstants.FRAME_SETUP, HAResources.getResourceLoader() );
 
                 // Create the application.
-                HAApplication app = new HAApplication( config );
+                HydrogenAtomApplication app = new HydrogenAtomApplication( config );
 
                 // Start the application.
                 app.startApplication();
