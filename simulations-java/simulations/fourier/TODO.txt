@@ -5,11 +5,11 @@
 IN PROGRESS:
 
 HIGH PRIORITY:
-- bug in 3.0: after you pause the clock, animation moves another tick
+- (Unfuddle #87) bug in 3.0: after you pause the clock, animation moves another tick
 
 MEDIUM PRIORITY:
 - Reset button doesn't reset the sound volume in Discrete module
-- hide the "Cheat" panel whenever we start a new game
+- (Unfuddle #86) hide the "Cheat" panel whenever we start a new game
 - wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
 - bug: anti-aliasing of plots gets turned off
 - bug: D2C amplitudes graph draws on top of tools (Mac only)
@@ -20,9 +20,9 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - in game, Help item for amplitude sliders doesn't always point to a slider
 - in game, Help item for amplitude text fields doesn't always point to a text field
-- Save doesn't warn you about overwriting files under JNLP
+- (Unfuddle #85) Save doesn't warn you about overwriting files under JNLP
 - remove the vertical bit of space between views
-- why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
+- (Unfuddle #84) why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
 - wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
 - wiggle me uses the module's clock, so it stops moving when clock is paused
 - FourierSumPlot should be an observer of its FourierSeries (sync issues with parent Chart!)
