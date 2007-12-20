@@ -13,11 +13,11 @@ import edu.colorado.phet.rutherfordscattering.module.PlumPuddingAtomModule;
 import edu.colorado.phet.rutherfordscattering.module.RutherfordAtomModule;
 
 /**
- * RSApplication is the main class for this simulation.
+ * RutherfordScatteringApplication is the main class for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RSApplication extends PhetApplication {
+public class RutherfordScatteringApplication extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -26,7 +26,7 @@ public class RSApplication extends PhetApplication {
     /**
      * Sole constructor.
      */
-    public RSApplication( PhetApplicationConfig config ) {
+    public RutherfordScatteringApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -83,7 +83,7 @@ public class RSApplication extends PhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, RSConstants.FRAME_SETUP, RSResources.getResourceLoader() );
 
                 // Create the application.
-                RSApplication app = new RSApplication( config );
+                RutherfordScatteringApplication app = new RutherfordScatteringApplication( config );
 
                 // Start the application.
                 app.startApplication();

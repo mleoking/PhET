@@ -41,7 +41,7 @@ import edu.colorado.phet.quantumtunneling.persistence.QTGlobalConfig;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class QTApplication extends NonPiccoloPhetApplication {
+public class QuantumTunnelingApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -70,7 +70,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
      *
      * @param args command line arguments
      */
-    public QTApplication( PhetApplicationConfig config )
+    public QuantumTunnelingApplication( PhetApplicationConfig config )
     {
         super( config );
         initModules();
@@ -249,7 +249,7 @@ public class QTApplication extends NonPiccoloPhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, QTConstants.FRAME_SETUP,  QTResources.getResourceLoader() );
 
                 // Create the application.
-                QTApplication app = new QTApplication( config );
+                QuantumTunnelingApplication app = new QuantumTunnelingApplication( config );
 
                 // Start the application.
                 app.startApplication();

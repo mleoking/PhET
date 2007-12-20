@@ -27,12 +27,12 @@ import edu.colorado.phet.opticalquantumcontrol.module.OQCModule;
 
 
 /**
- * OQCApplication is the main application.
+ * OpticalQuantumControlApplication is the main application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class OQCApplication extends NonPiccoloPhetApplication {
+public class OpticalQuantumControlApplication extends NonPiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -48,7 +48,7 @@ public class OQCApplication extends NonPiccoloPhetApplication {
     /**
      * Sole constructor.
      */
-    public OQCApplication( PhetApplicationConfig config ) {
+    public OpticalQuantumControlApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -132,7 +132,7 @@ public class OQCApplication extends NonPiccoloPhetApplication {
                 PhetApplicationConfig config = new PhetApplicationConfig( args, OQCConstants.FRAME_SETUP, OQCResources.getResourceLoader() );
 
                 // Create the application.
-                OQCApplication app = new OQCApplication( config );
+                OpticalQuantumControlApplication app = new OpticalQuantumControlApplication( config );
 
                 // Start the application.
                 app.startApplication();
