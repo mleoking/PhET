@@ -7,7 +7,7 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- (Unfuddle #81) on startup, charts are blank for a couple of seconds (Java 1.6 on Windows XP)
+- [81] on startup, charts are blank for a couple of seconds (Java 1.6 on Windows XP)
 
 LOW PRIORITY:
 - add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
