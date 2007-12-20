@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>admin/referring-statistics.php</string>
+	<string>admin/sim-utils.php</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -16,7 +16,7 @@
 			<key>filename</key>
 			<string>index.php</string>
 			<key>lastUsed</key>
-			<date>2007-12-05T21:07:47Z</date>
+			<date>2007-12-06T20:32:04Z</date>
 		</dict>
 		<dict>
 			<key>filename</key>
@@ -384,9 +384,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>7</integer>
+				<integer>5</integer>
 				<key>line</key>
-				<integer>10</integer>
+				<integer>18</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -479,33 +479,61 @@
 			<key>firstVisibleLine</key>
 			<integer>43</integer>
 		</dict>
+		<key>admin/referring-page-tracker.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>33</integer>
+				<key>line</key>
+				<integer>8</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>admin/referring-statistics.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>11</integer>
+				<integer>8</integer>
 				<key>line</key>
-				<integer>70</integer>
+				<integer>68</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>39</integer>
+			<integer>44</integer>
+		</dict>
+		<key>admin/sim-utils.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>15</integer>
+				<key>line</key>
+				<integer>30</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>21</integer>
 		</dict>
 		<key>admin/site-utils.php</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>73</integer>
+				<integer>28</integer>
 				<key>line</key>
-				<integer>194</integer>
+				<integer>156</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>153</integer>
+			<integer>141</integer>
 		</dict>
 		<key>admin/sys-utils.php</key>
 		<dict>
@@ -570,14 +598,30 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>3</integer>
+				<integer>62</integer>
 				<key>line</key>
-				<integer>106</integer>
+				<integer>42</integer>
 			</dict>
+			<key>columnSelection</key>
+			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>85</integer>
+			<integer>20</integer>
+			<key>selectFrom</key>
+			<dict>
+				<key>column</key>
+				<integer>42</integer>
+				<key>line</key>
+				<integer>42</integer>
+			</dict>
+			<key>selectTo</key>
+			<dict>
+				<key>column</key>
+				<integer>62</integer>
+				<key>line</key>
+				<integer>42</integer>
+			</dict>
 		</dict>
 		<key>admin/xml_parser.php</key>
 		<dict>
@@ -614,7 +658,21 @@
 				<key>column</key>
 				<integer>0</integer>
 				<key>line</key>
-				<integer>11</integer>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
+		<key>contribute/translate.php</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>80</integer>
+				<key>line</key>
+				<integer>24</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -628,12 +686,12 @@
 				<key>column</key>
 				<integer>16</integer>
 				<key>line</key>
-				<integer>994</integer>
+				<integer>1479</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>980</integer>
+			<integer>1448</integer>
 		</dict>
 		<key>get_phet/simlauncher.php</key>
 		<dict>
@@ -654,30 +712,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>88</integer>
+				<integer>37</integer>
 				<key>line</key>
-				<integer>99</integer>
+				<integer>209</integer>
 			</dict>
-			<key>columnSelection</key>
-			<false/>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>86</integer>
-			<key>selectFrom</key>
-			<dict>
-				<key>column</key>
-				<integer>7</integer>
-				<key>line</key>
-				<integer>99</integer>
-			</dict>
-			<key>selectTo</key>
-			<dict>
-				<key>column</key>
-				<integer>88</integer>
-				<key>line</key>
-				<integer>99</integer>
-			</dict>
+			<integer>188</integer>
 		</dict>
 		<key>js/form-validation.js</key>
 		<dict>
@@ -740,14 +782,14 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>54</integer>
+				<integer>38</integer>
 				<key>line</key>
-				<integer>49</integer>
+				<integer>94</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
 			<key>firstVisibleLine</key>
-			<integer>23</integer>
+			<integer>87</integer>
 		</dict>
 		<key>sponsors/index.php</key>
 		<dict>
@@ -853,15 +895,20 @@
 	<key>openDocuments</key>
 	<array>
 		<string>index.php</string>
-		<string>about/news.php</string>
-		<string>admin/manage-contributors.php</string>
+		<string>admin/site-utils.php</string>
+		<string>contribute/translate.php</string>
+		<string>admin/sim-utils.php</string>
+		<string>contribute/index.php</string>
+		<string>simulations/translations.php</string>
 		<string>admin/global.php</string>
 		<string>admin/referring-statistics.php</string>
-		<string>admin/db-utils.php</string>
+		<string>admin/referring-page-tracker.php</string>
+		<string>css/main.css</string>
+		<string>admin/view-statistics.php</string>
 	</array>
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{40, 280}, {895, 656}}</string>
+	<string>{{10, 148}, {767, 656}}</string>
 </dict>
 </plist>
