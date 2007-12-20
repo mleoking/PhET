@@ -663,10 +663,16 @@
         return $category['cat_id'];
     }
     
-    function sim_get_all_sim_names() {
+    function sim_get_all_sim_names($real_only = false) {
         $simulations = array();
+
+		$condition = '';
+		
+		if ($real_only) {
+			$condition = "WHERE `sim_is_real`='1'";
+		}
         
-        $simulation_rows = db_exec_query("SELECT * FROM `simulation` ORDER BY `sim_sorting_name` ");
+        $simulation_rows = db_exec_query("SELECT * FROM `simulation` $condition ORDER BY `sim_sorting_name` ");
         
         while($simulation = mysql_fetch_assoc($simulation_rows)) {
             $sim_id   = $simulation['sim_id'];

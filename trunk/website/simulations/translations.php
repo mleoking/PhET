@@ -65,7 +65,7 @@ EOT;
 		
 		$row_count = 0;
 				
-		foreach (sim_get_all_sim_names() as $sim_name) {
+		foreach (sim_get_all_sim_names(true) as $sim_name) {
 			if (!isset($sim_to_translations[$sim_name])) {
 				$map = array();
 			}
