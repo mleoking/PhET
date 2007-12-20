@@ -5,10 +5,10 @@
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- (Unfuddle #82) adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
+- [82] adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
 
 LOW PRIORITY:
-- (Unfuddle #83) document units for E-field in javadoc for Laser.getElectricFieldX et. al.
+- [83] document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
 ********* version 2.00.00 (18753)
