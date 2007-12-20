@@ -5,6 +5,7 @@ import edu.colorado.phet.statesofmatter.StatesOfMatterConfig;
 import junit.framework.TestCase;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Collection;
 
@@ -30,11 +31,11 @@ public class ZRectangularParticleContainerTester extends TestCase {
     public void testThatShapeBoundsContainsNorthWallBounds() {
         PiccoloTestingUtils.contains(bounds(), north().getBounds());
     }
-    
+
     public void testThatShapeBoundsContainsSouthWallBounds() {
         PiccoloTestingUtils.contains(bounds(), south().getBounds());
     }
-    
+
     public void testThatShapeBoundsContainsWestWallBounds() {
         PiccoloTestingUtils.contains(bounds(), north().getBounds());
     }
@@ -63,7 +64,7 @@ public class ZRectangularParticleContainerTester extends TestCase {
         Collection allWalls = container.getAllWalls();
 
         assertEquals(4, allWalls.size());
-        
+
         assertTrue(allWalls.contains(north()));
         assertTrue(allWalls.contains(south()));
         assertTrue(allWalls.contains(east()));
@@ -84,6 +85,41 @@ public class ZRectangularParticleContainerTester extends TestCase {
 
     public void testIdentityOfEastWallDoesNotChange() {
         assertSame(east(), east());
+    }
+
+    public void testCanGetCenterOfRotation() {
+        assertNotNull(container.getCenterOfRotation());
+    }
+
+    public void testInitialCenterOfRotationIsBottomMidPoint() {
+        assertEquals(new Point2D.Double(container.getSouthWall().getBounds().getCenterX(), container.getSouthWall().getY1()), container.getCenterOfRotation());
+    }
+
+    public void testCanSetCenterOfRotation() {
+        Point2D.Double r = new Point2D.Double(Math.random(), Math.random());
+
+        container.setCenterOfRotation(r);
+
+        assertEquals(r, container.getCenterOfRotation());
+    }
+
+    public void testCanGetRotation() {
+        container.setRotation(Math.PI / 2);
+
+        assertEquals(Math.PI / 2, container.getRotation(), 1.0E-10);
+    }
+
+    public void testCanRotateContainer() {
+        container.setRotation(-Math.PI / 2);
+
+        assertTrue(boundsOf(north()).getCenterX() < boundsOf(south()).getCenterX());
+        assertTrue(boundsOf(east()).getCenterY()  < boundsOf(west()).getCenterY());
+    }
+
+    public void testThatRotationIsNotCommulative() {
+        container.setRotation(-Math.PI / 2);
+
+        testCanRotateContainer();
     }
 
     private Rectangle2D bounds() {
@@ -108,5 +144,9 @@ public class ZRectangularParticleContainerTester extends TestCase {
 
     private ParticleContainerWall west() {
         return container.getWestWall();
+    }
+
+    private Rectangle2D boundsOf(ParticleContainerWall wall) {
+        return wall.getBounds2D();
     }
 }
