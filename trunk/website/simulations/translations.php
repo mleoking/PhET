@@ -12,8 +12,12 @@
 	
 	function print_translations() {
 		print "<h1>Translated Sims</h1>";
-
-		flush();
+		
+		print <<<EOT
+			<p>
+				<a href="../contribute/translate.php">Create a New Translation!</a>
+			</p>
+EOT;
 
 		$sim_to_translations = sim_get_all_translated_language_names();
 		 		
