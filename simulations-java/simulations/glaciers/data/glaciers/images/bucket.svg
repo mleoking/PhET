@@ -9,14 +9,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="25.357952"
+   height="32.572021"
    id="svg4932"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/archie/Glacier_Sim/design_document/v3/graphic elements"
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
    sodipodi:docname="bucket.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs4934">
     <linearGradient
@@ -83,15 +84,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="105.38167"
-     inkscape:cy="998.00466"
+     inkscape:zoom="10.48923"
+     inkscape:cx="12.678976"
+     inkscape:cy="18.018482"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="827"
-     inkscape:window-height="548"
-     inkscape:window-x="607"
-     inkscape:window-y="277" />
+     inkscape:window-height="581"
+     inkscape:window-x="132"
+     inkscape:window-y="38" />
   <metadata
      id="metadata4937">
     <rdf:RDF>
@@ -106,7 +107,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-8.1235141,-10.128853)">
     <path
        sodipodi:type="arc"
        style="opacity:0.98000004;fill:url(#linearGradient4977);fill-opacity:1;stroke:#000000;stroke-width:0.6420089;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"

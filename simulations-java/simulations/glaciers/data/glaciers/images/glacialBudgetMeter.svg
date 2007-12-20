@@ -8,14 +8,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="47.200001"
+   height="28.226748"
    id="svg4810"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/archie"
-   sodipodi:docname="meter.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
+   sodipodi:docname="glacialBudgetMeter.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs4812" />
   <sodipodi:namedview
@@ -28,15 +29,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="57.386522"
-     inkscape:cy="1008.7312"
+     inkscape:zoom="13.391554"
+     inkscape:cx="23.6"
+     inkscape:cy="14.113374"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="748"
-     inkscape:window-height="535"
-     inkscape:window-x="1966"
-     inkscape:window-y="412" />
+     inkscape:window-height="581"
+     inkscape:window-x="239"
+     inkscape:window-y="137" />
   <metadata
      id="metadata4815">
     <rdf:RDF>
@@ -51,7 +52,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-6.0162,-5.59217)">
     <g
        style="display:inline"
        id="g9065"

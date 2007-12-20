@@ -8,14 +8,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="22.236832"
+   height="42.978661"
    id="svg4979"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/archie/Desktop"
-   sodipodi:docname="thickness_tool.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
+   sodipodi:docname="iceThicknessTool.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs4981" />
   <sodipodi:namedview
@@ -28,14 +29,14 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.9195959"
-     inkscape:cx="53.291031"
-     inkscape:cy="1015.0586"
+     inkscape:zoom="9.7360396"
+     inkscape:cx="11.118416"
+     inkscape:cy="14.630378"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="748"
      inkscape:window-height="755"
-     inkscape:window-x="1713"
+     inkscape:window-x="692"
      inkscape:window-y="15" />
   <metadata
      id="metadata4984">
@@ -51,7 +52,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-10.310154,-3.4335351)">
     <path
        id="rect2208"
        d="M 29.66621,59.6301 C 30.65175,59.6301 31.44746,57.14267 31.44746,54.03635 C 31.44746,52.11049 31.13286,50.42004 30.66621,49.41135 C 31.31725,49.07483 31.74699,48.42024 31.72871,47.66135 C 31.7028,46.58553 30.78477,45.73019 29.66621,45.7551 L 29.57246,45.7551 C 28.48817,45.82629 27.64104,46.7101 27.66621,47.7551 C 27.683,48.45236 28.08502,49.04841 28.66621,49.3801 C 28.19315,50.38576 27.88496,52.09492 27.88496,54.03635 C 27.88496,57.14266 28.68067,59.63009 29.66621,59.6301 z "
