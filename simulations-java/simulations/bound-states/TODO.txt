@@ -7,13 +7,13 @@ IN PROGRESS:
 HIGH PRIORITY:
 
 MEDIUM PRIORITY:
-- in "Many Wells", set #wells=1, separation handles should not be shown (fix in BSSquareDragManager, BSCoulomb1DDragManager - observe potential)
-- in Many Wells panel, with Coulomb well, set #wells=1, press "Configure Potential" button, dialog is empty, nothing to configure
+- (Unfuddle #75) in "Many Wells", set #wells=1, separation handles should not be shown (fix in BSSquareDragManager, BSCoulomb1DDragManager - observe potential)
+- (Unfuddle #76) in Many Wells panel, with Coulomb well, set #wells=1, press "Configure Potential" button, dialog is empty, nothing to configure
 
 LOW PRIORITY:
-- zoom level is not remembered when switching between potential types in Many module
+- (Unfuddle #77) zoom level is not remembered when switching between potential types in Many module
 - in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
-- DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
+- (Unfuddle #78) DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
 DONE:
