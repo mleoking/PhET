@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: edu.colorado.phet.hydrogenatom.HAApplication
+Main-Class: edu.colorado.phet.hydrogenatom.HydrogenAtomApplication

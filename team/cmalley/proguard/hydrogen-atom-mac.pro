@@ -13,7 +13,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.hydrogenatom.HAApplication {
+-keepclasseswithmembers public class edu.colorado.phet.hydrogenatom.HydrogenAtomApplication {
     public static void main(java.lang.String[]);
 }
 

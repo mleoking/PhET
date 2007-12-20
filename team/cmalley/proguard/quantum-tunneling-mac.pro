@@ -17,7 +17,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.quantumtunneling.QTApplication {
+-keepclasseswithmembers public class edu.colorado.phet.quantumtunneling.QuantumTunnelingApplication {
     public static void main(java.lang.String[]);
 }
 

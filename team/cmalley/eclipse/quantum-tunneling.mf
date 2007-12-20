@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: edu.colorado.phet.quantumtunneling.QTApplication
+Main-Class: edu.colorado.phet.quantumtunneling.QuantumTunnelingApplication

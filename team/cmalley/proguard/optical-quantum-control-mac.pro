@@ -13,7 +13,7 @@
 
 
 # Keep - Applications. Keep all application classes that have a main method.
--keepclasseswithmembers public class edu.colorado.phet.opticalquantumcontrol.OQCApplication {
+-keepclasseswithmembers public class edu.colorado.phet.opticalquantumcontrol.OpticalQuantumControlApplication {
     public static void main(java.lang.String[]);
 }
 
