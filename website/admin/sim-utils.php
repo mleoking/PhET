@@ -22,6 +22,7 @@
         );
 
 	$LANGUAGE_CODE_TO_LANGUAGE_NAME = array(
+		"es" => "Spanish",		
 	    "aa" => "Afar",
 		"ab" => "Abkhazian",
 		"ae" => "Avestan",
@@ -61,7 +62,6 @@
 		"el" => "Greek",
 		"en" => "English",
 		"eo" => "Esperanto",
-		"es" => "Spanish",
 		"et" => "Estonian",
 		"eu" => "Basque",
 		"fa" => "Persian",
