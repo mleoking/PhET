@@ -8,14 +8,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="11.073089"
+   height="49.748634"
    id="svg4903"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/archie/Glacier_Sim/design_document/v3/graphic elements"
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
    sodipodi:docname="thermometer.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs4905" />
   <sodipodi:namedview
@@ -28,15 +29,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.35"
-     inkscape:cx="375"
-     inkscape:cy="520"
+     inkscape:zoom="7.5981984"
+     inkscape:cx="5.5365442"
+     inkscape:cy="24.874317"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g17830"
      inkscape:window-width="827"
-     inkscape:window-height="548"
-     inkscape:window-x="607"
-     inkscape:window-y="277" />
+     inkscape:window-height="581"
+     inkscape:window-x="196"
+     inkscape:window-y="82" />
   <metadata
      id="metadata4908">
     <rdf:RDF>
@@ -51,11 +52,12 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-89.34119,-64.06426)">
     <g
        style="opacity:0.98000004;display:inline"
        id="g17830"
-       transform="matrix(2.3772705,0,0,2.3772705,-2001.8929,-759.16458)"
+       transform="matrix(2.0792077,-1.1525235,1.1525235,2.0792077,-2150.4873,363.41819)"
        inkscape:export-filename="/home/archie/GlacierSim/presentation_figs/view_thickness.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">

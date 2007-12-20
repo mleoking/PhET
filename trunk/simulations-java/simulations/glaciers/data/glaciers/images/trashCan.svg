@@ -8,14 +8,15 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="33.625107"
+   height="47.426529"
    id="svg4992"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/home/archie/Glacier_Sim/design_document/v3/graphic elements"
-   sodipodi:docname="trash.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
+   sodipodi:docname="trashCan.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs4994" />
   <sodipodi:namedview
@@ -28,15 +29,15 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="46.514691"
-     inkscape:cy="1023.991"
+     inkscape:zoom="7.9702228"
+     inkscape:cx="16.812553"
+     inkscape:cy="23.713265"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="827"
-     inkscape:window-height="548"
-     inkscape:window-x="607"
-     inkscape:window-y="277" />
+     inkscape:window-height="581"
+     inkscape:window-x="153"
+     inkscape:window-y="85" />
   <metadata
      id="metadata4997">
     <rdf:RDF>
@@ -51,7 +52,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-7.4311043,-4.1017003)">
     <g
        style="display:inline"
        id="g27954"
