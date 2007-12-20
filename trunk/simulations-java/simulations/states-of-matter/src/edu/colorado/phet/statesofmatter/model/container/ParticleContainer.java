@@ -1,6 +1,7 @@
 package edu.colorado.phet.statesofmatter.model.container;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.Collection;
 
 public interface ParticleContainer {
@@ -20,4 +21,7 @@ public interface ParticleContainer {
 
     double getRotation();
 
+    Point2D.Double getCenterOfRotation();
+
+    void setCenterOfRotation(Point2D.Double center);
 }

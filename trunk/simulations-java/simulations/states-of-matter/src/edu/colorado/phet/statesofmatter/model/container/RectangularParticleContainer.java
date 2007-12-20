@@ -1,10 +1,12 @@
 package edu.colorado.phet.statesofmatter.model.container;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 public class RectangularParticleContainer extends AbstractParticleContainer {
     private final Rectangle2D.Double originalShape;
@@ -53,14 +55,18 @@ public class RectangularParticleContainer extends AbstractParticleContainer {
         return Arrays.asList(new ParticleContainerWall[]{getNorthWall(), getWestWall(), getSouthWall(), getEastWall()});
     }
 
-    private Point2D getOriginOfRotation() {
-        return new Point2D.Double(originalShape.getCenterX(), originalShape.getMaxY());
-    }
-
     protected void rotateImpl(double rotation) {
-//        Point2D original = new Point2D.Double(x, y);
-//        AffineTransform at = getRotateInstance(theta, 200.0, 200.0);
-//        Point2D rotated = at.transform(original, null);
+        northWall = eastWall = southWall = westWall = null;
+        
+        AffineTransform at = AffineTransform.getRotateInstance(getRotation(), getCenterOfRotation().getX(), getCenterOfRotation().getX());
 
+        for (Iterator iterator = getAllWalls().iterator(); iterator.hasNext();) {
+            ParticleContainerWall wall = (ParticleContainerWall)iterator.next();
+
+            Point2D p1 = at.transform(wall.getP1(), null);
+            Point2D p2 = at.transform(wall.getP2(), null);
+
+            wall.setLine(p1, p2);
+        }
     }
 }
