@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-Main-Class: edu.colorado.phet.rutherfordscattering.RSApplication
+Main-Class: edu.colorado.phet.rutherfordscattering.RutherfordScatteringApplication
