@@ -26,10 +26,7 @@ public class ImportTranslations {
     }
 
     public static void main( String[] args ) throws IOException {
-        new ImportTranslations( new File( args[0] ), "#Yianis Katsenos\n" +
-                                                     "#Physicist M.Sc.\n" +
-                                                     "#R.A. Computer Technology Institute\n" +
-                                                     "#Patras - GREECE" ).importTranslations( new File( args[1] ) );
+        new ImportTranslations( new File( args[0] )).importTranslations( new File( args[1] ) );
     }
 
     private void importTranslations( File dir ) throws IOException {
