@@ -76,7 +76,7 @@ public class SVGNode extends PhetPNode {
         icon.setAntiAlias(true);
         icon.setPreferredSize(new Dimension(pixelWidth, pixelHeight));
 
-        bufferedImage = new BufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_RGB);
+        bufferedImage = new BufferedImage(pixelWidth, pixelHeight, BufferedImage.TYPE_INT_ARGB );
 
         icon.paintIcon(null, bufferedImage.getGraphics(), 0, 0);
     }
