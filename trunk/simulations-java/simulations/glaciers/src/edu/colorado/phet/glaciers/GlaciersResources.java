@@ -3,13 +3,14 @@
 package edu.colorado.phet.glaciers;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * GlaciersResources is a wrapper around the PhET resource loader.
@@ -47,6 +48,17 @@ public class GlaciersResources {
     
     public static final Icon getIcon( String name ) {
         return new ImageIcon( getImage( name ) );
+    }
+    
+    public static final InputStream getResourceAsStream( String name ) {
+        InputStream s = null;
+        try {
+            s = RESOURCES.getResourceAsStream( name );
+        }
+        catch ( IOException e ) {
+            System.err.println( "failed to get InputStream for resource named " + name );
+        }
+        return s;
     }
     
     public static final String getCommonString( String name ) {
