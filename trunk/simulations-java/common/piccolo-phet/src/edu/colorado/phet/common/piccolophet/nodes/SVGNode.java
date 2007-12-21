@@ -96,7 +96,7 @@ public class SVGNode extends PhetPNode {
         if (desiredWidth > 0 && desiredHeight > 0) {
             if (bufferedImage == null || desiredWidth != bufferedImage.getWidth() || desiredHeight != bufferedImage.getHeight()) {
                 try {
-                    System.out.println("Rerendering SVG: desiredWidth = " + desiredWidth + ", desiredHeight = " + desiredHeight);
+                    System.out.println("SVGNode.paint: rebuffering SVG at " + desiredWidth + "x" + desiredHeight);
 
                     convertSVGToImage(desiredWidth, desiredHeight);
                 }
