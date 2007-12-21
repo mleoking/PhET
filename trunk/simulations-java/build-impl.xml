@@ -97,7 +97,7 @@ Developer Notes:
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 	
     <!--Cleans deploy directories of jar and jnlp files-->
-    <target name="clean-all" depends="_init,_list-sims">
+    <target name="_clean-all" depends="_init,_list-sims">
         <delete file="${phet.src.distribution}"/>
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name" inheritall="true"/>
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
@@ -248,7 +248,7 @@ Developer Notes:
     </target>
 
     <!--Builds jars and jnlp files for all phet simulations-->
-    <target name="build-all" depends="_init,clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
+    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
 
     <!--Builds the jar file for the simulation specified as property "sim.name"-->
     <target name="build-jar" depends="_init,_verify-sim-name-specified">
@@ -373,7 +373,7 @@ Developer Notes:
     </target>
 
     <!-- To Do: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
-    <target name="build-source-distribution" depends="_init,clean-all" >
+    <target name="build-source-distribution" depends="_init,_clean-all" >
         <zip destfile="${phet.src.distribution}" basedir="${basedir}"
                 excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
                 **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
@@ -392,7 +392,7 @@ Developer Notes:
         </copy>
     </target>
 
-    <target name="_build-translatable-distribution" depends="_init,clean-all,_list-sims">
+    <target name="_build-translatable-distribution" depends="_init,_clean-all,_list-sims">
         <delete dir="${ant-output}/translation"/>
         <copy file="${basedir}/docs/translation-readme.txt" tofile="${ant-output}/translation/readme.txt"/>
         <copy file="${basedir}/phet-license.txt" todir="${ant-output}/translation/"/>
@@ -567,11 +567,11 @@ Developer Notes:
         </antcall>
     </target>
 
-    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
+    <target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, _clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
     </target>
 
-    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
+    <target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, _clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
         <foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
     </target>
 
