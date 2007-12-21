@@ -52,13 +52,6 @@ Developer Notes:
         <phet-build-gui/>
     </target>
 
-    <!--Cleans deploy directories of jar and jnlp files-->
-    <target name="clean-all" depends="_init,_list-sims">
-        <delete file="${phet.src.distribution}"/>
-        <foreach list="${phet.simlist}" target="clean-sim" param="sim.name" inheritall="true"/>
-        <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
-    </target>
-
         <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
     <target name="display-stats" depends="_init">
         <phet-display-stats/>
