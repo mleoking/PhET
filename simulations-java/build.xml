@@ -8,7 +8,8 @@ Developer Notes:
     * build-and-deploy-dev: builds and deploys development version, updating dev and revision numbers
     * build-and-deploy-prod: builds and deploys development and production versions, updating dev, minor, and revision numbers
     * build-and-deploy-prod-no-change: builds and deploys production version, updating revision number but nothing else
-
+    * launch-sim: builds and launches a JAR file for a sim and language selected from lists
+    
 -->
 <project name="PhET Master Build Script" default="launch-sim" basedir=".">
     <!--Import implementations and additional tasks-->
