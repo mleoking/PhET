@@ -17,6 +17,7 @@ LOW PRIORITY:
 
 
 DONE:
+12/21/07 - delete BSLauncher and associated localized strings, replaced by phetcommon FlavorLauncher
 12/4/07 - rename main classes to be consistent with flavor names
 11/12/07 - fix property names for Spanish translation of covalent-bonds and band-structure flavors
 11/9/07 - move about.credits property to localization file
