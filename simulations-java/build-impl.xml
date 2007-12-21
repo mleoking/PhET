@@ -652,6 +652,8 @@ Developer Notes:
              basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
     </target>
 
+    <target name="build-all-flavor-jars-for-sim" depends="_verify-sim-name-specified,build-jar,_build-all-flavor-jars-for-sim"/>
+
     <target name="_build-all-flavor-jars-for-sim" depends="_init">
         <!--ToDo: handle flavor/sim name clash better than this.-->
     	<var name="jar-all-file" value="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
