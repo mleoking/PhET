@@ -46,6 +46,8 @@ Developer Notes:
         </antcall>
     </target>
 
+    <target name="clean-all" depends="_clean-all"/>
+
     <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod" />
 
     <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
