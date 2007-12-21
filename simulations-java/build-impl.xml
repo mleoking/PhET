@@ -10,7 +10,7 @@ Developer Notes:
 2. The main tasks you need are defined in build.xml (which calls the implementations in this file)
 
 -->
-<project name="PhET Master Build Script" default="launch-sim" basedir=".">
+<project name="PhET Master Build Script, additional tasks" basedir=".">
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
       The supported options are:
@@ -95,8 +95,14 @@ Developer Notes:
 
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
-
-
+	
+    <!--Cleans deploy directories of jar and jnlp files-->
+    <target name="clean-all" depends="_init,_list-sims">
+        <delete file="${phet.src.distribution}"/>
+        <foreach list="${phet.simlist}" target="clean-sim" param="sim.name" inheritall="true"/>
+        <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
+    </target>
+        	
     <target name="_clean-phet-build">
         <delete dir="${phetbuild-classes-dir}"/>
     </target>
@@ -899,4 +905,5 @@ Developer Notes:
     <target name="check-translations" depends="_init">
         <check-translations/>
     </target>
+
 </project>
