@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.module.basic;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.IOException;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -13,7 +14,14 @@ import edu.colorado.phet.glaciers.control.ToolboxControlPanel;
 import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxControlPanelListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Thermometer;
-import edu.colorado.phet.glaciers.view.*;
+import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
+import edu.colorado.phet.glaciers.view.BoreholeDrillNode;
+import edu.colorado.phet.glaciers.view.GlacialBudgetMeterNode;
+import edu.colorado.phet.glaciers.view.IceThicknessToolNode;
+import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
+import edu.colorado.phet.glaciers.view.PenguinNode;
+import edu.colorado.phet.glaciers.view.ThermometerNode;
+import edu.colorado.phet.glaciers.view.TracerFlagNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -68,7 +76,13 @@ public class BasicCanvas extends PhetPCanvas {
             penguinDragBoundsNode.setStroke( null );
             _rootNode.addChild( penguinDragBoundsNode );
 
-            _penguinNode = new PenguinNode( penguinDragBoundsNode );
+            try {
+                _penguinNode = new PenguinNode( this, penguinDragBoundsNode );
+            }
+            catch ( IOException e ) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             _rootNode.addChild( _penguinNode );
             PBounds bb = _birdsEyeViewNode.getFullBoundsReference();
             double x = bb.getX() + ( bb.getWidth() / 2 );
