@@ -20,20 +20,19 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * TestViewport tests viewing one model with two difference canvases.
+ * TestViewport tests viewing one model and one scenegraph with two different canvases.
  * The top canvas is a birds-eye view, with a draggable viewport.
  * The bottom canvas is a zoomed in view.
- * The position and size of the viewport determines what is visible 
- * in the zoomed view.
+ * The position and size of the viewport determines what is visible in the zoomed view.
  * 
  * TODO:
  * - set magnification power for bottom view instead of scale=1
- * - use same scenegraph with both canvases
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -108,7 +107,7 @@ public class TestViewport extends JFrame {
         }
     }
     
-    /* Model contains a random collection of squares */
+    /* A collection of squares wth random colors and positions */
     private static class TestModel {
         
         private final ArrayList _squares;
@@ -172,22 +171,34 @@ public class TestViewport extends JFrame {
         }
     }
     
+    /* layer that contains a collection of square nodes */
+    private static class TestLayer extends PLayer {
+        
+        public TestLayer( TestModel model ) {
+            super();
+            
+            Square[] squares = model.getSquares();
+            for ( int i = 0; i < squares.length; i++ ) {
+                SquareNode node = new SquareNode( squares[i] );
+                addChild( node );
+            }
+        }
+    }
+    
     /* Canvas, contains a visual representation of the specified model, at the specified scale. */
     private static class TestCanvas extends PCanvas {
         
-        public TestCanvas( TestModel model, double scale ) {
+        public TestCanvas( PLayer layer, double scale ) {
             super();
+            
+            getCamera().addLayer( layer );
             getCamera().setViewScale( scale );
             
             setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
             removeInputEventListener( getZoomEventHandler() );
             removeInputEventListener( getPanEventHandler() );
             
-            Square[] squares = model.getSquares();
-            for ( int i = 0; i < squares.length; i++ ) {
-                SquareNode node = new SquareNode( squares[i] );
-                getLayer().addChild( node );
-            }
+
         }
     }
     
@@ -290,7 +301,7 @@ public class TestViewport extends JFrame {
     }
     
     /* 
-     * Main window, creates one model with two views.
+     * Main window, creates one model and one scenegraph, viewed by 2 different cameras.
      * The top view has a draggable viewport control that determines what is shown in the bottom view. 
      */
     public static class TestFrame extends JFrame {
@@ -302,10 +313,12 @@ public class TestViewport extends JFrame {
             super();
 
             TestModel model = new TestModel();
+            
+            TestLayer sharedLayer = new TestLayer( model );
 
             double topScale = TOP_VIEW_HEIGHT / (double)WORLD_SIZE.height;
-            TestCanvas topCanvas = new TestCanvas( model, topScale );
-            _bottomCanvas = new TestCanvas( model, 1 );
+            TestCanvas topCanvas = new TestCanvas( sharedLayer, topScale );
+            _bottomCanvas = new TestCanvas( sharedLayer, 1 );
 
             // viewport in the top view determines what is shown in the bottom view
             _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) );
