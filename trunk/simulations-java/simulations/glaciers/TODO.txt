@@ -37,7 +37,6 @@ CLEANUP:
 - disable all debug output
 - optimize memory management by reusing mutable objects
 
-
 DONE:
 12/24/07 - test app to demonstrate sharing of a layer between 2 canvases
 12/20/07 - convert PenguinNode to be a test case for SVGNode
