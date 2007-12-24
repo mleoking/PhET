@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.test;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Shape;
@@ -14,8 +15,8 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PCanvas;
@@ -32,8 +33,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * 
  * TODO:
  * - use same scenegraph with both canvases
- * - keep height of top view constant
- * - redraw artifacts when squares are dragged
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -44,6 +43,8 @@ public class TestViewport extends JFrame {
     
     /* squares will be distributed in the bounds of the world */
     private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 );
+    
+    private static final int TOP_VIEW_HEIGHT = 200; // pixels
     
     /* Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
@@ -301,8 +302,9 @@ public class TestViewport extends JFrame {
 
             TestModel model = new TestModel();
 
-            TestCanvas topCanvas = new TestCanvas( model, 0.25 /* scale */);
-            _bottomCanvas = new TestCanvas( model, 1 /* scale */);
+            double topScale = TOP_VIEW_HEIGHT / (double)WORLD_SIZE.height;
+            TestCanvas topCanvas = new TestCanvas( model, topScale );
+            _bottomCanvas = new TestCanvas( model, 1 );
 
             // viewport in the top view determines what is shown in the bottom view
             _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) );
@@ -321,16 +323,14 @@ public class TestViewport extends JFrame {
                 }
             } );
 
-            //XXX topCanvas is not visible, zero size?
-            //        JPanel panel = new JPanel( new BorderLayout() );
-            //        panel.add( topCanvas, BorderLayout.NORTH );
-            //        panel.add( bottomCanvas, BorderLayout.CENTER );
-            //        getContentPane().add( panel );
-
-            Box box = new Box( BoxLayout.Y_AXIS );
-            box.add( topCanvas );
-            box.add( _bottomCanvas );
-            getContentPane().add( box );
+            // Constrain height of top view, bottom view grows to fill height
+            JPanel topPanel = new JPanel( new BorderLayout() );
+            topPanel.add( Box.createVerticalStrut( TOP_VIEW_HEIGHT ), BorderLayout.WEST );
+            topPanel.add( topCanvas, BorderLayout.CENTER );
+            JPanel panel = new JPanel( new BorderLayout() );
+            panel.add( topPanel, BorderLayout.NORTH );
+            panel.add( _bottomCanvas, BorderLayout.CENTER );
+            getContentPane().add( panel );
 
             handleBottomCanvasResized();
             handleViewportBoundsChanged();
