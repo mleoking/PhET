@@ -32,6 +32,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * in the zoomed view.
  * 
  * TODO:
+ * - set magnification power for bottom view instead of scale=1
  * - use same scenegraph with both canvases
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
