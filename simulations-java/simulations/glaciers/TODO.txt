@@ -39,6 +39,7 @@ CLEANUP:
 
 
 DONE:
+12/24/07 - test app to demonstrate sharing of a layer between 2 canvases
 12/20/07 - convert PenguinNode to be a test case for SVGNode
 12/20/07 - extract missing SVG files from Archie's mockup, crop document size of other SVG images to fit
 12/20/07 - check in Archie's SVG mockup of the user interface
