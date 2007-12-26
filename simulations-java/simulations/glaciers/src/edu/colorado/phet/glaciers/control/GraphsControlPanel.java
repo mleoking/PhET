@@ -4,15 +4,15 @@ package edu.colorado.phet.glaciers.control;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -31,14 +31,7 @@ public class GraphsControlPanel extends JPanel {
     private static final Color TITLE_COLOR = Color.WHITE;
     private static final Color CONTROL_COLOR = Color.WHITE;
     
-    private JRadioButton _noGraphRadioButton;
-    private JRadioButton _glacierLengthVerusTimeRadioButton;
-    private JRadioButton _equilibriumLineAltitudeVersusTimeRadioButton;
-    private JRadioButton _accumulationVersusAltitudeRadioButton;
-    private JRadioButton _ablationVersusAltitudeRadioButton;
-    private JRadioButton _massBalanceVersusAltitudeRadioButton;
-    private JRadioButton _temperatureVersusAltitudeRadioButton;
-    private JRadioButton _valleyFloorVersusAltitudeRadioButton;
+    private JComboBox _comboBox;
     
     private ArrayList _listeners;
     
@@ -55,102 +48,75 @@ public class GraphsControlPanel extends JPanel {
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
         setBorder( compoundBorder );
         
-        ActionListener actionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifySelectionChanged();
-            }
+        Object[] items = {
+                GlaciersStrings.RADIO_BUTTON_NO_GRAPH,
+                GlaciersStrings.RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME,
+                GlaciersStrings.RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME,
+                GlaciersStrings.RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE,
+                GlaciersStrings.RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE,
+                GlaciersStrings.RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE,
+                GlaciersStrings.RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE,
+                GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE
         };
         
-        _noGraphRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_NO_GRAPH, controlFont, CONTROL_COLOR );
-        _noGraphRadioButton.addActionListener( actionListener );
-        
-        _glacierLengthVerusTimeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME, controlFont, CONTROL_COLOR );
-        _glacierLengthVerusTimeRadioButton.addActionListener( actionListener );
-        
-        _equilibriumLineAltitudeVersusTimeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME, controlFont, CONTROL_COLOR );
-        _equilibriumLineAltitudeVersusTimeRadioButton.addActionListener( actionListener );
-        
-        _accumulationVersusAltitudeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE, controlFont, CONTROL_COLOR );
-        _accumulationVersusAltitudeRadioButton.addActionListener( actionListener );
-        
-        _ablationVersusAltitudeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE, controlFont, CONTROL_COLOR );
-        _ablationVersusAltitudeRadioButton.addActionListener( actionListener );
-        
-        _massBalanceVersusAltitudeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE, controlFont, CONTROL_COLOR );
-        _massBalanceVersusAltitudeRadioButton.addActionListener( actionListener );
-        
-        _temperatureVersusAltitudeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE, controlFont, CONTROL_COLOR );
-        _temperatureVersusAltitudeRadioButton.addActionListener( actionListener );
-        
-        _valleyFloorVersusAltitudeRadioButton = createRadioButton( GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE, controlFont, CONTROL_COLOR );
-        _valleyFloorVersusAltitudeRadioButton.addActionListener( actionListener );
-        
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add( _noGraphRadioButton );
-        buttonGroup.add( _glacierLengthVerusTimeRadioButton );
-        buttonGroup.add( _equilibriumLineAltitudeVersusTimeRadioButton );
-        buttonGroup.add( _accumulationVersusAltitudeRadioButton );
-        buttonGroup.add( _ablationVersusAltitudeRadioButton );
-        buttonGroup.add( _massBalanceVersusAltitudeRadioButton );
-        buttonGroup.add( _temperatureVersusAltitudeRadioButton );
-        buttonGroup.add( _valleyFloorVersusAltitudeRadioButton );
+        _comboBox = new JComboBox( items );
+        _comboBox.setFont( controlFont );
+        _comboBox.setOpaque( false );
+        _comboBox.addItemListener( new ItemListener() {
+            public void itemStateChanged( ItemEvent e ) {
+                if ( e.getStateChange() == ItemEvent.SELECTED ) {
+                    notifySelectionChanged();
+                }
+            }
+        });
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( _noGraphRadioButton, row++, column );
-        layout.addComponent( _glacierLengthVerusTimeRadioButton, row++, column );
-        layout.addComponent( _equilibriumLineAltitudeVersusTimeRadioButton, row++, column );
-        layout.addComponent( _accumulationVersusAltitudeRadioButton, row++, column );
-        layout.addComponent( _ablationVersusAltitudeRadioButton, row++, column );
-        layout.addComponent( _massBalanceVersusAltitudeRadioButton, row++, column );
-        layout.addComponent( _temperatureVersusAltitudeRadioButton, row++, column );
-        layout.addComponent( _valleyFloorVersusAltitudeRadioButton, row++, column );
+        layout.addComponent( _comboBox, row++, column );
         
-        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null, false );
-        
+        Class[] excludedClasses = { JComboBox.class };
+        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
+
         // default state
-        _noGraphRadioButton.setSelected( true );
+        _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
     }
     
-    private JRadioButton createRadioButton( String label, Font font, Color foreground ) {
-        JRadioButton radioButton = new JRadioButton( label );
-        radioButton.setFont( font );
-        radioButton.setForeground( foreground );
-        return radioButton;
+    public void setNoGraphSelected() {
+        _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
     }
     
     public boolean isNoGraphSelected() {
-        return _noGraphRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
     }
     
     public boolean isGlacierLengthVerusTimeSelected() {
-        return _glacierLengthVerusTimeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME );
     }
     
     public boolean isEquilibriumLineAltitudeVersusTimeSelected() {
-        return _equilibriumLineAltitudeVersusTimeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME );
     }
     
     public boolean isAccumulationVersusAltitudeSelected() {
-        return _accumulationVersusAltitudeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE );
     }
     
     public boolean isAblationVersusAltitudeSelected() {
-        return _ablationVersusAltitudeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE );
     }
     
     public boolean isMassBalanceVersusAltitudeSelected() {
-        return _massBalanceVersusAltitudeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE );
     }
     
     public boolean isTemperatureVersusAltitudeSelected() {
-        return _temperatureVersusAltitudeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE );
     }
     
     public boolean isValleyFloorVersusAltitudeSelected() {
-        return _valleyFloorVersusAltitudeRadioButton.isSelected();
+        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE );
     }
     
     /**
