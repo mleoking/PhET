@@ -30,9 +30,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * The top canvas is a birds-eye view, with a draggable viewport.
  * The bottom canvas is a zoomed in view.
  * The position and size of the viewport determines what is visible in the zoomed view.
- * 
- * TODO:
- * - set magnification power for bottom view instead of scale=1
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -42,9 +39,10 @@ public class TestViewport extends JFrame {
     private static final int NUMBER_OF_SQUARES = 100;
     
     /* squares will be distributed in the bounds of the world */
-    private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 );
+    private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 ); // model distance units
     
     private static final int TOP_VIEW_HEIGHT = 200; // pixels
+    private static final double BOTTOM_VIEW_MAGNIFICATION = 5; // 5x
     
     /* Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
@@ -107,7 +105,7 @@ public class TestViewport extends JFrame {
         }
     }
     
-    /* A collection of squares wth random colors and positions */
+    /* A collection of squares with random colors and positions */
     private static class TestModel {
         
         private final ArrayList _squares;
@@ -306,7 +304,7 @@ public class TestViewport extends JFrame {
      */
     public static class TestFrame extends JFrame {
 
-        private TestCanvas _bottomCanvas;
+        private TestCanvas _topCanvas, _bottomCanvas;
         private Viewport _viewport;
         
         public TestFrame() {
@@ -317,13 +315,15 @@ public class TestViewport extends JFrame {
             TestLayer sharedLayer = new TestLayer( model );
 
             double topScale = TOP_VIEW_HEIGHT / (double)WORLD_SIZE.height;
-            TestCanvas topCanvas = new TestCanvas( sharedLayer, topScale );
-            _bottomCanvas = new TestCanvas( sharedLayer, 1 );
+            _topCanvas = new TestCanvas( sharedLayer, topScale );
+            _bottomCanvas = new TestCanvas( sharedLayer, BOTTOM_VIEW_MAGNIFICATION * topScale );
+            
+            System.out.println( "topScale=" + _topCanvas.getCamera().getViewScale() + " bottomScale=" + _bottomCanvas.getCamera().getViewScale() );//XXX
 
             // viewport in the top view determines what is shown in the bottom view
             _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) );
             ViewportNode viewportNode = new ViewportNode( _viewport );
-            topCanvas.getLayer().addChild( viewportNode );
+            _topCanvas.getLayer().addChild( viewportNode );
 
             _bottomCanvas.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
@@ -340,7 +340,7 @@ public class TestViewport extends JFrame {
             // Constrain height of top view, bottom view grows to fill height
             JPanel topPanel = new JPanel( new BorderLayout() );
             topPanel.add( Box.createVerticalStrut( TOP_VIEW_HEIGHT ), BorderLayout.WEST );
-            topPanel.add( topCanvas, BorderLayout.CENTER );
+            topPanel.add( _topCanvas, BorderLayout.CENTER );
             JPanel panel = new JPanel( new BorderLayout() );
             panel.add( topPanel, BorderLayout.NORTH );
             panel.add( _bottomCanvas, BorderLayout.CENTER );
@@ -357,15 +357,16 @@ public class TestViewport extends JFrame {
             Rectangle2D viewportBounds = _viewport.getBounds();
             double x = viewportBounds.getX();
             double y = viewportBounds.getY();
-            double w = scale * canvasBounds.getWidth();
-            double h = scale * canvasBounds.getHeight();
+            double w = canvasBounds.getWidth() / scale;
+            double h = canvasBounds.getHeight() / scale;
             _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
         }
 
         /* when the viewport is moved, translate the bottom view's camera */
         private void handleViewportBoundsChanged() {
             Rectangle2D viewportBounds = _viewport.getBounds();
-            _bottomCanvas.getCamera().setViewOffset( -viewportBounds.getX(), -viewportBounds.getY() );
+            double scale = _bottomCanvas.getCamera().getViewScale();
+            _bottomCanvas.getCamera().setViewOffset( -viewportBounds.getX() * scale, -viewportBounds.getY() * scale );
         }
     }
     
