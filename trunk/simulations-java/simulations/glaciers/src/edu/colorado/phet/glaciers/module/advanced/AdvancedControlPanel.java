@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.control.AdvancedClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
+import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -33,6 +34,7 @@ public class AdvancedControlPanel extends JPanel {
         
         ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
         AdvancedClimateControlPanel climateControlPanel = new AdvancedClimateControlPanel( TITLE_FONT, CONTROL_FONT );
+        GraphsControlPanel graphsControlPanel = new GraphsControlPanel(TITLE_FONT, CONTROL_FONT );
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
         MiscControlPanel miscControlPanel = new MiscControlPanel();
         
@@ -46,6 +48,7 @@ public class AdvancedControlPanel extends JPanel {
         column = 0;
         topLayout.addFilledComponent( viewControlPanel, row, column++, GridBagConstraints.VERTICAL );
         topLayout.addFilledComponent( climateControlPanel, row, column++, GridBagConstraints.VERTICAL  );
+        topLayout.addFilledComponent( graphsControlPanel, row, column++, GridBagConstraints.VERTICAL  );
         
         JPanel bottomPanel = new JPanel();
         EasyGridBagLayout bottomLayout = new EasyGridBagLayout( bottomPanel );
@@ -65,7 +68,7 @@ public class AdvancedControlPanel extends JPanel {
         thisLayout.addComponent( topPanel, row++, column );
         thisLayout.addComponent( bottomPanel, row++, column );
         
-        Class[] excludedClasses = { ViewControlPanel.class, AdvancedClimateControlPanel.class, JTextComponent.class };
+        Class[] excludedClasses = { ViewControlPanel.class, AdvancedClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
 }
