@@ -37,6 +37,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - in TestViewport, set magnification power for bottom view instead of using scale=1
 12/24/07 - test app to demonstrate sharing of a layer between 2 canvases
 12/20/07 - convert PenguinNode to be a test case for SVGNode
 12/20/07 - extract missing SVG files from Archie's mockup, crop document size of other SVG images to fit
