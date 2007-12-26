@@ -8,9 +8,8 @@ ISSUES:
 - move trash can out of toolbox?
 
 HIGH PRIORITY:
-- create control panel for graphs
 - create graphs
-- design needed for advance climate controls
+- design needed for advanced climate controls
 - forward toolbox drag events to newly-created model elements
 - remove tools by dragging them back to the toolbox or to the trash can
 - add controller package
