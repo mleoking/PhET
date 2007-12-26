@@ -104,7 +104,7 @@ public class ToolboxNode extends PNode {
         {
             _thermometer = new ToolNode( GlaciersImages.TOOLBOX_THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER );
             _glacialBudgetMeter = new ToolNode( GlaciersImages.TOOLBOX_GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER );
-            _tracerFlag = new ToolNode( GlaciersImages.TOOLBOX_TRACER_FLAG, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER );
+            _tracerFlag = new ToolNode( GlaciersImages.TOOLBOX_TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG );
             _iceThicknessTool = new ToolNode( GlaciersImages.TOOLBOX_ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL );
             _boreholeDrill = new ToolNode( GlaciersImages.TOOLBOX_BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL );
             _trashCan = new ToolNode( GlaciersImages.TOOLBOX_TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN, false );
