@@ -33,6 +33,14 @@ public class GlaciersStrings {
     public static final String RADIO_BUTTON_SNOWFALL_AND_TEMPERATURE = GlaciersResources.getString( "radioButton.snowfallAndTemperature" );
     public static final String RADIO_BUTTON_CLIMATE_PRESETS = GlaciersResources.getString( "radioButton.climatePresets" );
     public static final String RADIO_BUTTON_MASS_BALANCE = GlaciersResources.getString( "radioButton.massBalance" );
+    public static final String RADIO_BUTTON_NO_GRAPH = GlaciersResources.getString( "radioButton.noGraph" );
+    public static final String RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME = GlaciersResources.getString( "radioButton.glacierLengthVersusTime" );
+    public static final String RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME = GlaciersResources.getString( "radioButton.equilibriumLineAltitudeVersusTime" );
+    public static final String RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.accumulationVersusAltitude" );
+    public static final String RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.ablationVersusAltitude" );
+    public static final String RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.massBalanceVersusAltitude" );
+    public static final String RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.temperatureVersusAltitude" );
+    public static final String RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.valleyFloorVersusAltitude" );
     public static final String SLIDER_CLOCK_SLOW = GlaciersResources.getString( "slider.clock.slow" );
     public static final String SLIDER_CLOCK_FAST = GlaciersResources.getString( "slider.clock.fast" );
     public static final String SLIDER_SNOWFALL = GlaciersResources.getString( "slider.snowfall" );
@@ -51,6 +59,7 @@ public class GlaciersStrings {
     public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );
+    public static final String TITLE_GRAPHS = GlaciersResources.getString( "title.graphs" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW = GlaciersResources.getString( "title.view" );
     public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
