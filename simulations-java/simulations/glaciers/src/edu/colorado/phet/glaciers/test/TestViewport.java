@@ -35,14 +35,17 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class TestViewport extends JFrame {
     
+    /* squares will be distributed in the bounds of the world, in model distance units */
+    private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 );
+    
+    /* height of top canvas will be constrained to this many pixels */
+    private static final int TOP_VIEW_HEIGHT = 200;
+    
+    /* objects on bottom canvas will appear to be this many times larger than objects on top canvas */
+    private static final double BOTTOM_VIEW_MAGNIFICATION = 5;
+    
     private static final Dimension DEFAULT_SQUARE_SIZE = new Dimension( 100, 100 );
     private static final int NUMBER_OF_SQUARES = 100;
-    
-    /* squares will be distributed in the bounds of the world */
-    private static final Dimension WORLD_SIZE = new Dimension( 6000, 2000 ); // model distance units
-    
-    private static final int TOP_VIEW_HEIGHT = 200; // pixels
-    private static final double BOTTOM_VIEW_MAGNIFICATION = 5; // 5x
     
     /* Implement this interface to be notified of changes to a square. */
     private interface SquareListener {
@@ -183,7 +186,7 @@ public class TestViewport extends JFrame {
         }
     }
     
-    /* Canvas, contains a visual representation of the specified model, at the specified scale. */
+    /* Canvas, draws a specified layer, at the specified scale. */
     private static class TestCanvas extends PCanvas {
         
         public TestCanvas( PLayer layer, double scale ) {
@@ -256,7 +259,7 @@ public class TestViewport extends JFrame {
             _viewport = viewport;
             
             setPaint( null );
-            setStroke( new BasicStroke( 6f ) );
+            setStroke( new BasicStroke( 20f ) );
             setStrokePaint( Color.RED );
             
             _viewport.addListener( new ViewportListener() {
@@ -299,8 +302,9 @@ public class TestViewport extends JFrame {
     }
     
     /* 
-     * Main window, creates one model and one scenegraph, viewed by 2 different cameras.
-     * The top view has a draggable viewport control that determines what is shown in the bottom view. 
+     * Main window, creates one model and one scenegraph, viewed by 2 different canvases.
+     * The canvases share a common layer, and have different view scales applied to their cameras.
+     * The top canvas has a draggable viewport control that determines what is shown in the bottom canvas. 
      */
     public static class TestFrame extends JFrame {
 
@@ -314,14 +318,16 @@ public class TestViewport extends JFrame {
             
             TestLayer sharedLayer = new TestLayer( model );
 
+            // top canvas, with camera view scale set to fit entire world
             double topScale = TOP_VIEW_HEIGHT / (double)WORLD_SIZE.height;
             _topCanvas = new TestCanvas( sharedLayer, topScale );
-            _bottomCanvas = new TestCanvas( sharedLayer, BOTTOM_VIEW_MAGNIFICATION * topScale );
             
-            System.out.println( "topScale=" + _topCanvas.getCamera().getViewScale() + " bottomScale=" + _bottomCanvas.getCamera().getViewScale() );//XXX
-
-            // viewport in the top view determines what is shown in the bottom view
-            _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) );
+            // bottom canvas, with magnification applied
+            double bottomScale = BOTTOM_VIEW_MAGNIFICATION * topScale;
+            _bottomCanvas = new TestCanvas( sharedLayer, bottomScale );
+            
+            // viewport in the top canvas determines what is shown in the bottom canvas
+            _viewport = new Viewport( new Rectangle2D.Double( 50, 50, 1, 1 ) ); // don't care about initial width & height, they will be adjusted
             ViewportNode viewportNode = new ViewportNode( _viewport );
             _topCanvas.getLayer().addChild( viewportNode );
 
@@ -337,7 +343,7 @@ public class TestViewport extends JFrame {
                 }
             } );
 
-            // Constrain height of top view, bottom view grows to fill height
+            // Constrain height of top canvas, bottom canvas grows to fill height
             JPanel topPanel = new JPanel( new BorderLayout() );
             topPanel.add( Box.createVerticalStrut( TOP_VIEW_HEIGHT ), BorderLayout.WEST );
             topPanel.add( _topCanvas, BorderLayout.CENTER );
@@ -346,6 +352,7 @@ public class TestViewport extends JFrame {
             panel.add( _bottomCanvas, BorderLayout.CENTER );
             getContentPane().add( panel );
 
+            // initialize
             handleBottomCanvasResized();
             handleViewportBoundsChanged();
         }
