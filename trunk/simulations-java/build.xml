@@ -27,38 +27,44 @@ Developer Notes:
         </antcall>
     </target>
 
-        <!--Builds jars and jnlp files for all phet simulations-->
+    <!--Builds jars and jnlp files for all phet simulations-->
     <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
 
     <target name="build-and-deploy-prod"
-        depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
+            depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
         <!--note: the implementation currently posts PROD then DEV, since deploy.to.dev is currently unsettable, and used for JNLP construction-->
 
         <!-- Deploy development version -->
         <antcall target="build-jnlp"> <!-- Rebuild JNLP since codebase is different-->
-            <param name="deploy.to.dev"         value="true"/>
+            <param name="deploy.to.dev" value="true"/>
         </antcall>
         <antcall target="_deploy">
-            <param name="deploy.to.dev"         value="true"/>
-            <param name="sim.server.url"        value="${dev.server.url}"/>
-            <param name="sim.server.path"       value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}" />
-            <param name="sim.deploy.dir"        value="${dev.server.path}${sim.name}/${sim.version}" />
-            <param name="ssh-host"              value="${dev.server.name}"/>
+            <param name="deploy.to.dev" value="true"/>
+            <param name="sim.server.url" value="${dev.server.url}"/>
+            <param name="sim.server.path" value="${dev.server.path}"/>
+            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}"/>
+            <param name="sim.deploy.dir" value="${dev.server.path}${sim.name}/${sim.version}"/>
+            <param name="ssh-host" value="${dev.server.name}"/>
         </antcall>
     </target>
 
     <target name="clean-all" depends="_clean-all"/>
 
-    <target name="build-and-deploy-prod-no-change" depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod" />
+    <target name="build-and-deploy-prod-no-change"
+            depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod"/>
 
     <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
         <phet-build-gui/>
     </target>
 
-        <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
+    <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
     <target name="display-stats" depends="_init">
         <phet-display-stats/>
+    </target>
+
+    <!--Builds a JAR containing all PhET Java simulations.-->
+    <target name="build-all-sim-jar" depends="_init">
+        <phet-build-all-sim-jar/>
     </target>
 </project>
