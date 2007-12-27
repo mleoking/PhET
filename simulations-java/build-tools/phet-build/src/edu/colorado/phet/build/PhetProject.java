@@ -492,7 +492,7 @@ public class PhetProject {
 
 
     private static boolean isSimulation( File simulation ) {
-        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" );
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" )&&new File(simulation,simulation.getName()+"-build.properties").exists();
     }
 
     public static PhetProject[] getAllProjects( File baseDir ) {
