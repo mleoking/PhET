@@ -11,7 +11,6 @@ import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;

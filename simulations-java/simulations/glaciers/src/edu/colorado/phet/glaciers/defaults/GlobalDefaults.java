@@ -2,11 +2,7 @@
 
 package edu.colorado.phet.glaciers.defaults;
 
-import java.awt.Point;
-
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.glaciers.GlaciersResources;
 
 
 /**

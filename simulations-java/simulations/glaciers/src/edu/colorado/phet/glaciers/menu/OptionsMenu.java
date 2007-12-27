@@ -4,7 +4,6 @@ package edu.colorado.phet.glaciers.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.glaciers.GlaciersResources;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
