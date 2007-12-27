@@ -16,10 +16,10 @@ ACCOMPLISHMENTS:
 WHAT'S NEXT:
 
   - continue work on Glaciers, see:
-    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO-glaciers.txt?view=markup
   
   - continue work on Translation Utility, see:
-    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO.txt?view=markup
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO-translation-utility.txt?view=markup
   
 ISSUES:
 
