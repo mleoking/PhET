@@ -2,16 +2,26 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.BoreholeDrillIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.GlacialBudgetMeterIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.IceThicknessToolIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ThermometerIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TracerFlagIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TrashCanIconNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -27,14 +37,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ToolboxNode extends PNode {
     
     // spacing properties
-    private static final int VERTICAL_LABEL_SPACING = 2; // vertical space between a tool's icon and label
     private static final int HORIZONTAL_TOOL_SPACING = 15; // horizontal space between tools
     private static final int BACKGROUND_MARGIN = 5; // margin between the background and the tools
     private static final int TAB_MARGIN = 5; // margin between the tab and its title text
-    
-    // tool properties
-    private static final Font TOOL_LABEL_FONT = new PhetDefaultFont( 12 );
-    private static final Color TOOL_LABEL_COLOR = Color.BLACK;
     
     // background properties
     private static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY; // toolbox background
@@ -50,48 +55,15 @@ public class ToolboxNode extends PNode {
     private static final Stroke TAB_STROKE = BACKGROUND_STROKE;
     private static final double TAB_CORNER_RADIUS = BACKGROUND_CORNER_RADIUS;
     
-    /**
-     * ToolNode is a tool in the toolbox.
-     */
-    private class ToolNode extends PNode {
-        
-        public ToolNode( Image image, String name ) {
-            this( image, name, true /* isDraggable */ );
-        }
-        
-        public ToolNode( Image image, String name, boolean isDraggable ) {
-            super();
-            
-            PImage imageNode = new PImage( image );
-            addChild( imageNode );
-            
-            HTMLNode labelNode = new HTMLNode( name );
-            labelNode.setFont( TOOL_LABEL_FONT );
-            labelNode.setHTMLColor( TOOL_LABEL_COLOR );
-            addChild( labelNode );
-            
-            if ( imageNode.getWidth() > labelNode.getWidth() ) {
-                imageNode.setOffset( 0, 0 );
-                labelNode.setOffset( imageNode.getX() + ( imageNode.getWidth() - labelNode.getWidth() ) / 2, imageNode.getY() + imageNode.getHeight() + VERTICAL_LABEL_SPACING );
-            }
-            else {
-                labelNode.setOffset( 0, imageNode.getY() + imageNode.getHeight() + VERTICAL_LABEL_SPACING );
-                imageNode.setOffset( labelNode.getX() + ( labelNode.getWidth() - imageNode.getWidth() ) / 2, 0 );
-            }
-            
-            if ( isDraggable ) {
-                addInputEventListener( new CursorHandler() );
-            }
-        }
-    }
-    
     // tools in the toolbox
-    private ToolNode _thermometer;
-    private ToolNode _glacialBudgetMeter;
-    private ToolNode _tracerFlag;
-    private ToolNode _iceThicknessTool;
-    private ToolNode _boreholeDrill;
-    private ToolNode _trashCan;
+    private AbstractToolIconNode _thermometer;
+    private AbstractToolIconNode _glacialBudgetMeter;
+    private AbstractToolIconNode _tracerFlag;
+    private AbstractToolIconNode _iceThicknessTool;
+    private AbstractToolIconNode _boreholeDrill;
+    private AbstractToolIconNode _trashCan;
+    
+    private ArrayList _listeners;
     
     /**
      * Constructor.
@@ -99,16 +71,49 @@ public class ToolboxNode extends PNode {
     public ToolboxNode() {
         super();
         
+        _listeners = new ArrayList();
+        
         // create tools, under a common parent
         PNode toolsParent = new PNode();
         {
-            _thermometer = new ToolNode( GlaciersImages.TOOLBOX_THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER );
-            _glacialBudgetMeter = new ToolNode( GlaciersImages.TOOLBOX_GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER );
-            _tracerFlag = new ToolNode( GlaciersImages.TOOLBOX_TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG );
-            _iceThicknessTool = new ToolNode( GlaciersImages.TOOLBOX_ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL );
-            _boreholeDrill = new ToolNode( GlaciersImages.TOOLBOX_BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL );
-            _trashCan = new ToolNode( GlaciersImages.TOOLBOX_TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN, false );
+            _thermometer = new ThermometerIconNode();
+            _thermometer.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    notifyAddThermometer( event.getCanvasPosition() );
+                }
+            } );
             
+            _glacialBudgetMeter = new GlacialBudgetMeterIconNode();
+            _glacialBudgetMeter.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    notifyAddGlacialBudgetMeter( event.getCanvasPosition() );
+                }
+            } );
+            
+            _tracerFlag = new TracerFlagIconNode();
+            _tracerFlag.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    notifyAddTraceFlag( event.getCanvasPosition() );
+                }
+            } );
+            
+            _iceThicknessTool = new IceThicknessToolIconNode();
+            _iceThicknessTool.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    notifyAddIceThicknessTool( event.getCanvasPosition() );
+                }
+            } );
+            
+            _boreholeDrill = new BoreholeDrillIconNode();
+            _boreholeDrill.addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    notifyAddBoreholeDrill( event.getCanvasPosition() );
+                }
+            } );
+            
+            _trashCan = new TrashCanIconNode();
+            //XXX add interactivity to trash can
+
             toolsParent.addChild( _thermometer );
             toolsParent.addChild( _glacialBudgetMeter );
             toolsParent.addChild( _tracerFlag );
@@ -196,27 +201,65 @@ public class ToolboxNode extends PNode {
         tabNode.setChildrenPickable( false );
     }
     
-    public PNode getThermometer() {
-        return _thermometer;
+    /**
+     * Interface implemented by all listeners who are interested in events related to this control panel.
+     */
+    public static interface ToolboxListener {
+        public void addThermometer( Point2D atCanvasPosition );
+        public void addGlacialBudgetMeter( Point2D atCanvasPosition );
+        public void addTracerFlag( Point2D atCanvasPosition );
+        public void addIceThicknessTool( Point2D atCanvasPosition );
+        public void addBoreholeDrill( Point2D atCanvasPosition );
     }
     
-    public PNode getGlacialBudgetMeter() {
-        return _glacialBudgetMeter;
-    }
-
-    public PNode getTracerFlag() {
-        return _tracerFlag;
-    }
-    
-    public PNode getIceThicknessTool() {
-        return _iceThicknessTool;
+    public static class ToolboxAdapter implements ToolboxListener {
+        public void addThermometer( Point2D atCanvasPosition ) {};
+        public void addGlacialBudgetMeter( Point2D atCanvasPosition ) {};
+        public void addTracerFlag( Point2D atCanvasPosition ) {};
+        public void addIceThicknessTool( Point2D atCanvasPosition ) {};
+        public void addBoreholeDrill( Point2D atCanvasPosition ) {};
     }
     
-    public PNode getBoreholeDrill() {
-        return _boreholeDrill;
+    public void addListener( ToolboxListener listener ) {
+        _listeners.add( listener );
     }
     
-    public PNode getTrashCan() {
-        return _trashCan;
+    public void removeListener( ToolboxListener listener ) {
+        _listeners.remove( listener );
+    }
+    
+    private void notifyAddThermometer( Point2D atCanvasPosition ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolboxListener) i.next() ).addThermometer( atCanvasPosition );
+        }
+    }
+    
+    private void notifyAddGlacialBudgetMeter( Point2D atCanvasPosition ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolboxListener) i.next() ).addGlacialBudgetMeter( atCanvasPosition );
+        }
+    }
+    
+    private void notifyAddTraceFlag( Point2D atCanvasPosition ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolboxListener) i.next() ).addTracerFlag( atCanvasPosition );
+        }
+    }
+    
+    private void notifyAddIceThicknessTool( Point2D atCanvasPosition ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolboxListener) i.next() ).addIceThicknessTool( atCanvasPosition );
+        }
+    }
+    
+    private void notifyAddBoreholeDrill( Point2D atCanvasPosition ) {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ToolboxListener) i.next() ).addBoreholeDrill( atCanvasPosition );
+        }
     }
 }

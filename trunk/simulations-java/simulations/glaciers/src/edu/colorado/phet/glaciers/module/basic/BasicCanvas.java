@@ -10,8 +10,8 @@ import java.io.IOException;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.control.ToolboxControlPanel;
-import edu.colorado.phet.glaciers.control.ToolboxControlPanel.ToolboxControlPanelListener;
+import edu.colorado.phet.glaciers.control.ToolboxNode;
+import edu.colorado.phet.glaciers.control.ToolboxNode.ToolboxListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Thermometer;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
@@ -46,7 +46,7 @@ public class BasicCanvas extends PhetPCanvas {
     private BirdsEyeViewNode _birdsEyeViewNode;
     private PenguinNode _penguinNode;
     private MagnifiedViewNode _magnifiedViewNode;
-    private ToolboxControlPanel _toolboxControlPanel;
+    private ToolboxNode _toolboxNode;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -105,11 +105,11 @@ public class BasicCanvas extends PhetPCanvas {
         }
         
         // Toolbox
-        _toolboxControlPanel = new ToolboxControlPanel();
-        _rootNode.addChild( _toolboxControlPanel );
+        _toolboxNode = new ToolboxNode();
+        _rootNode.addChild( _toolboxNode );
         
         //XXX testing, this all needs to go elsewhere
-        _toolboxControlPanel.addListener( new ToolboxControlPanelListener() {
+        _toolboxNode.addListener( new ToolboxListener() {
             public void addThermometer( Point2D atCanvasPosition ) {
                 Thermometer thermometer = new Thermometer( 0, atCanvasPosition );
                 ThermometerNode node = new ThermometerNode( thermometer );
@@ -137,7 +137,7 @@ public class BasicCanvas extends PhetPCanvas {
     private void addToolNode( PNode node, Point2D atCanvasPosition ) {
         _rootNode.addChild( node );
         double x = atCanvasPosition.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
-        double y = _toolboxControlPanel.getFullBoundsReference().getMinY() - node.getFullBoundsReference().getHeight() - 5;
+        double y = _toolboxNode.getFullBoundsReference().getMinY() - node.getFullBoundsReference().getHeight() - 5;
         node.setOffset( x, y );
         node.addInputEventListener( new CursorHandler() );
         node.addInputEventListener( new PDragEventHandler() );
@@ -170,6 +170,6 @@ public class BasicCanvas extends PhetPCanvas {
         }
         
         // Toolbox at the bottom of the play area
-        _toolboxControlPanel.setOffset( 20, screenSize.getHeight() - _toolboxControlPanel.getFullBoundsReference().getHeight() - 5 );
+        _toolboxNode.setOffset( 20, screenSize.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5 );
     }
 }

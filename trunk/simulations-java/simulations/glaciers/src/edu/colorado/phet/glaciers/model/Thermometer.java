@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 
-public class Thermometer extends Movable implements ModelElement {
+public class Thermometer extends Movable implements Tool, ModelElement {
     
     private double _temperature; // units=Celcius
     private ArrayList _listeners;

@@ -36,6 +36,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - simplify toolbox
 12/26/07 - convert graph control to combo box, radio button took up too much space
 12/26/07 - create graphs control panel, start with radio buttons as requested
 12/26/07 - in TestViewport, set magnification power for bottom view instead of using scale=1
