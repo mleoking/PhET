@@ -19,7 +19,6 @@ import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * ThermometerNode is the visual representation of a thermometer.

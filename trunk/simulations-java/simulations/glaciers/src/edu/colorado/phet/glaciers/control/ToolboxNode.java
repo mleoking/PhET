@@ -73,42 +73,47 @@ public class ToolboxNode extends PNode {
         // create tools, under a common parent
         PNode toolsParent = new PNode();
         {
-            AbstractToolIconNode thermometer = new ThermometerIconNode();
-            thermometer.addInputEventListener( new PBasicInputEventHandler() {
+            final AbstractToolIconNode thermometerIconNode = new ThermometerIconNode();
+            thermometerIconNode.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     Thermometer tool = new Thermometer( event.getCanvasPosition() );
+                    thermometerIconNode.setDragTool( tool );
                     notifyAddTool( tool );
                 }
             } );
             
-            AbstractToolIconNode glacialBudgetMeter = new GlacialBudgetMeterIconNode();
-            glacialBudgetMeter.addInputEventListener( new PBasicInputEventHandler() {
+            final AbstractToolIconNode glacialBudgetMeterIconNode = new GlacialBudgetMeterIconNode();
+            glacialBudgetMeterIconNode.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     GlacialBudgetMeter tool = new GlacialBudgetMeter( event.getCanvasPosition() );
+                    glacialBudgetMeterIconNode.setDragTool( tool );
                     notifyAddTool( tool );
                 }
             } );
             
-            AbstractToolIconNode tracerFlag = new TracerFlagIconNode();
-            tracerFlag.addInputEventListener( new PBasicInputEventHandler() {
+            final AbstractToolIconNode tracerFlagIconNode = new TracerFlagIconNode();
+            tracerFlagIconNode.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     TracerFlag tool = new TracerFlag( event.getCanvasPosition() );
+                    tracerFlagIconNode.setDragTool( tool );
                     notifyAddTool( tool );
                 }
             } );
             
-            AbstractToolIconNode iceThicknessTool = new IceThicknessToolIconNode();
-            iceThicknessTool.addInputEventListener( new PBasicInputEventHandler() {
+            final AbstractToolIconNode iceThicknessToolIconNode = new IceThicknessToolIconNode();
+            iceThicknessToolIconNode.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     IceThicknessTool tool = new IceThicknessTool( event.getCanvasPosition() );
+                    iceThicknessToolIconNode.setDragTool( tool );
                     notifyAddTool( tool );
                 }
             } );
             
-            AbstractToolIconNode boreholeDrill = new BoreholeDrillIconNode();
-            boreholeDrill.addInputEventListener( new PBasicInputEventHandler() {
+            final AbstractToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
+            boreholeDrillIconNode.addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     BoreholeDrill tool = new BoreholeDrill( event.getCanvasPosition() );
+                    boreholeDrillIconNode.setDragTool( tool );
                     notifyAddTool( tool );
                 }
             } );
@@ -116,36 +121,36 @@ public class ToolboxNode extends PNode {
             AbstractToolIconNode trashCan = new TrashCanIconNode();
             //XXX add interactivity to trash can
 
-            toolsParent.addChild( thermometer );
-            toolsParent.addChild( glacialBudgetMeter );
-            toolsParent.addChild( tracerFlag );
-            toolsParent.addChild( iceThicknessTool );
-            toolsParent.addChild( boreholeDrill );
+            toolsParent.addChild( thermometerIconNode );
+            toolsParent.addChild( glacialBudgetMeterIconNode );
+            toolsParent.addChild( tracerFlagIconNode );
+            toolsParent.addChild( iceThicknessToolIconNode );
+            toolsParent.addChild( boreholeDrillIconNode );
             toolsParent.addChild( trashCan );
             final double maxToolHeight = toolsParent.getFullBoundsReference().getHeight();
             
             // arrange tools in the toolbox from left to right, vertically centered
             double x = 0;
-            double y = ( maxToolHeight - thermometer.getFullBoundsReference().getHeight() ) / 2;
-            thermometer.setOffset( x, y );
+            double y = ( maxToolHeight - thermometerIconNode.getFullBoundsReference().getHeight() ) / 2;
+            thermometerIconNode.setOffset( x, y );
             
-            x = thermometer.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - glacialBudgetMeter.getFullBoundsReference().getHeight() ) / 2;
-            glacialBudgetMeter.setOffset( x, y );
+            x = thermometerIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            y = ( maxToolHeight - glacialBudgetMeterIconNode.getFullBoundsReference().getHeight() ) / 2;
+            glacialBudgetMeterIconNode.setOffset( x, y );
             
-            x = glacialBudgetMeter.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - tracerFlag.getFullBoundsReference().getHeight() ) / 2;
-            tracerFlag.setOffset( x, y );
+            x = glacialBudgetMeterIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            y = ( maxToolHeight - tracerFlagIconNode.getFullBoundsReference().getHeight() ) / 2;
+            tracerFlagIconNode.setOffset( x, y );
             
-            x = tracerFlag.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - iceThicknessTool.getFullBoundsReference().getHeight() ) / 2;
-            iceThicknessTool.setOffset( x, y );
+            x = tracerFlagIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            y = ( maxToolHeight - iceThicknessToolIconNode.getFullBoundsReference().getHeight() ) / 2;
+            iceThicknessToolIconNode.setOffset( x, y );
             
-            x = iceThicknessTool.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - boreholeDrill.getFullBoundsReference().getHeight() ) / 2;
-            boreholeDrill.setOffset( x, y );
+            x = iceThicknessToolIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            y = ( maxToolHeight - boreholeDrillIconNode.getFullBoundsReference().getHeight() ) / 2;
+            boreholeDrillIconNode.setOffset( x, y );
             
-            x = boreholeDrill.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            x = boreholeDrillIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
             y = ( maxToolHeight - trashCan.getFullBoundsReference().getHeight() ) / 2;
             trashCan.setOffset( x, y );
         }
