@@ -10,7 +10,6 @@ ISSUES:
 HIGH PRIORITY:
 - create graphs
 - design needed for advanced climate controls
-- forward toolbox drag events to newly-created model elements
 - remove tools by dragging them back to the toolbox or to the trash can
 - add controller package
 - separate out controllers for toolbox and ThermometerNode
@@ -36,6 +35,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - forward toolbox drag events to newly-created model elements
 12/26/07 - rewrite model/view hierarchy for toolbox tools
 12/26/07 - simplify toolbox
 12/26/07 - convert graph control to combo box, radio button took up too much space
