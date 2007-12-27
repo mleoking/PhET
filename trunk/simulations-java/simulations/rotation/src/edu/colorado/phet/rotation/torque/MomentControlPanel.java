@@ -12,7 +12,7 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
  */
 public class MomentControlPanel extends FullTorqueControlPanel {
     public MomentControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
-        super( rulerNode, rotationGraphSet, graphSetModel, torqueModule, vectorViewModel );
+        super( rulerNode, torqueModule, vectorViewModel );
     }
 
     protected TorqueSlider[] getSliders( AbstractTorqueModule torqueModule, RotationPlatform rp ) {
