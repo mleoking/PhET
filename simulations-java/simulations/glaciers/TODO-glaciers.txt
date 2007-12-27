@@ -5,28 +5,35 @@
 ISSUES:
 - toolbox allows creating multiple borehole drills
 - borehole drill in different than the other things in the toolbox, all others are measurement devices
+- will it be confusing that borehole drill disappears when it is released?
 - move trash can out of toolbox?
+- design for advanced climate controls has usability problems
+- how does the "steady state" button work in the context of advanced climate controls?
+- do graphs have zoom buttons, or do they autoscale? (issue for x & y axes)
+- do graphs record data only while open, or are they always recording?
+- how do we keep a thermometer from being dropped on the ice?
+- does the ice thickness tool have to change size of calipers?
 
 HIGH PRIORITY:
-- constrain viewport dragging to horizontal
-- add penguin to viewport control
+- constrain viewport dragging to be horizontal
+- use penguin for viewport control, put dashed vertical lines L&R of penguin to denote viewport bounds
 - create graphs
-- design needed for advanced climate controls
+- redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
-- add controller package
-- separate out controllers for toolbox and ThermometerNode
-- implement all controls shown in design doc
 - prototype drawing the valley, mountains and glacier
-- implement panel for advance climate controls
-- implement panel for graphs
+- implement glacier model
 
 MEDIUM PRIORITY:
 - ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
 - set foreground color of ticks & labels on BasicClimateControl sliders
+- fix layout issues with various control panels
+- make viewport automatically follow terminus whenever terminus is in the viewport
+- add left and right arrows to zoom view, secondary viewport control
+- tile the right edge of the valley, so that it can be exteneded when window is resized
 
 LOW PRIORITY:
-- control panels in all panels should be the same height
+- control panels in all modules should be the same height
 
 COMMON CODE:
 
