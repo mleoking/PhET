@@ -1,4 +1,6 @@
 
+boreholeDrill.svg
+
 bucket.svg source=PhET author=Archie Paulson
 
 glacialBudgetMeter.svg source=PhET author=Archie Paulson
@@ -8,6 +10,8 @@ iceThicknessTool.svg source=http://openclipart.org author=?  license=http://crea
 penguin.svg source=http://openclipart.org author=jesusfreak210  license=http://creativecommons.org:81/licenses/publicdomain/
 
 thermometer.svg source=PhET author=Archie Paulson
+
+tracerFlag.svg source=PHET author=Archie Paulson
 
 trashCan.svg source=http://openclipart.org author=?  license=http://creativecommons.org:81/licenses/publicdomain/
 
