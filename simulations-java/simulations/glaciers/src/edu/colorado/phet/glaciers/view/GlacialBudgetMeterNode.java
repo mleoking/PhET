@@ -13,5 +13,6 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         super( glacialBudgetMeter );
         PImage imageNode = new PImage( GlaciersImages.GLACIAL_BUDGET_METER );
         addChild( imageNode );
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() ); // lower center
     }
 }

@@ -13,5 +13,6 @@ public class BoreholeDrillNode extends AbstractToolNode {
         super( boreholeDrill );
         PImage imageNode = new PImage( GlaciersImages.BOREHOLE_DRILL );
         addChild( imageNode );
+        imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left
     }
 }
