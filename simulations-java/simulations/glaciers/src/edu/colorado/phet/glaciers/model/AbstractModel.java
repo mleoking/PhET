@@ -45,7 +45,7 @@ public abstract class AbstractModel extends ClockAdapter {
         return _clock;
     }
     
-    protected void addModelElement( ModelElement element ) {
+    public void addModelElement( ModelElement element ) {
         _modelElements.add( element );
     }
     
