@@ -21,6 +21,7 @@ HIGH PRIORITY:
 - implement panel for graphs
 
 MEDIUM PRIORITY:
+- ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
 - set foreground color of ticks & labels on BasicClimateControl sliders
 
@@ -36,6 +37,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/27/07 - add penguin, constrain dragging (not connected to viewport)
+12/27/07 - convert penguin back to PImage
 12/27/07 - increase size of valley image so that zoomed view scale~1
 12/27/07 - integrate TestViewport example into sim's PlayArea
 12/26/07 - set approximate registration points for each tool node
