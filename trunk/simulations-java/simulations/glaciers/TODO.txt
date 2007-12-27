@@ -35,6 +35,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - add toolbox to Advanced panel
+12/26/07 - refactor toolbox icons hierarchy
 12/26/07 - organize imports
 12/26/07 - refactor responsibility for creating tool-related model elements
 12/26/07 - forward toolbox drag events to newly-created model elements

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ToolIconListener;
+import edu.colorado.phet.glaciers.control.ToolIconNode.ToolIconListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
