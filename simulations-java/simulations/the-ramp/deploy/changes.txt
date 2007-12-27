@@ -1,1 +1,0 @@
-7-16-2007: Each module is given its own clock instead of sharing a reference.
