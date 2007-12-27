@@ -1,9 +1,0 @@
-
-Here's my process for building and publishing a simulation:
-
-1. note the SVN revision number of the repository
-2. edit the version properties in data/simname/simname.properties
-3. run the eclipse/*.jardesc file from Eclipse to create the unprocessed JAR
-4. run the proguard/*.pro file from ProGuard to create the processed JAR
-5. scp the processed JAR to spot.colorado.edu
-6. move the processed JAR to the proper subdirectory in spot:/htdocs/physics/phet/dev/
