@@ -12,13 +12,12 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.BoreholeDrillIconNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.GlacialBudgetMeterIconNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.IceThicknessToolIconNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ThermometerIconNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ToolIconListener;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TracerFlagIconNode;
-import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TrashCanIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.BoreholeDrillIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.GlacialBudgetMeterIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.IceThicknessToolIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.ThermometerIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.ToolIconListener;
+import edu.colorado.phet.glaciers.control.ToolIconNode.TracerFlagIconNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -53,7 +52,7 @@ public class ToolboxNode extends PNode {
     private static final Stroke TAB_STROKE = BACKGROUND_STROKE;
     private static final double TAB_CORNER_RADIUS = BACKGROUND_CORNER_RADIUS;
     
-    private ArrayList _toolIconNodes;
+    private ArrayList _toolIconNodes; // array of ToolIconNode
     
     /**
      * Constructor.
@@ -66,24 +65,25 @@ public class ToolboxNode extends PNode {
         // create tools, under a common parent
         PNode toolsParent = new PNode();
         {
-            AbstractToolIconNode thermometerIconNode = new ThermometerIconNode();
+            ToolIconNode thermometerIconNode = new ThermometerIconNode();
             _toolIconNodes.add( thermometerIconNode );
-            AbstractToolIconNode glacialBudgetMeterIconNode = new GlacialBudgetMeterIconNode();
+            ToolIconNode glacialBudgetMeterIconNode = new GlacialBudgetMeterIconNode();
             _toolIconNodes.add( glacialBudgetMeterIconNode );
-            AbstractToolIconNode tracerFlagIconNode = new TracerFlagIconNode();
+            ToolIconNode tracerFlagIconNode = new TracerFlagIconNode();
             _toolIconNodes.add( tracerFlagIconNode );
-            AbstractToolIconNode iceThicknessToolIconNode = new IceThicknessToolIconNode();
+            ToolIconNode iceThicknessToolIconNode = new IceThicknessToolIconNode();
             _toolIconNodes.add( iceThicknessToolIconNode );
-            AbstractToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
+            ToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
             _toolIconNodes.add( boreholeDrillIconNode );
-            AbstractToolIconNode trashCan = new TrashCanIconNode();
+            
+            IconNode trashCanIconNode = new TrashCanNode();
 
             toolsParent.addChild( thermometerIconNode );
             toolsParent.addChild( glacialBudgetMeterIconNode );
             toolsParent.addChild( tracerFlagIconNode );
             toolsParent.addChild( iceThicknessToolIconNode );
             toolsParent.addChild( boreholeDrillIconNode );
-            toolsParent.addChild( trashCan );
+            toolsParent.addChild( trashCanIconNode );
             final double maxToolHeight = toolsParent.getFullBoundsReference().getHeight();
             
             // arrange tools in the toolbox from left to right, vertically centered
@@ -108,8 +108,8 @@ public class ToolboxNode extends PNode {
             boreholeDrillIconNode.setOffset( x, y );
             
             x = boreholeDrillIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
-            y = ( maxToolHeight - trashCan.getFullBoundsReference().getHeight() ) / 2;
-            trashCan.setOffset( x, y );
+            y = ( maxToolHeight - trashCanIconNode.getFullBoundsReference().getHeight() ) / 2;
+            trashCanIconNode.setOffset( x, y );
         }
         
         // create the background
@@ -168,14 +168,14 @@ public class ToolboxNode extends PNode {
     public void addListener( ToolIconListener listener ) {
         Iterator i = _toolIconNodes.iterator();
         while ( i.hasNext() ) {
-            ((AbstractToolIconNode)i.next()).addListener( listener );
+            ((ToolIconNode)i.next()).addListener( listener );
         }
     }
     
     public void removeListener( ToolIconListener listener ) {
         Iterator i = _toolIconNodes.iterator();
         while ( i.hasNext() ) {
-            ((AbstractToolIconNode)i.next()).addListener( listener );
+            ((ToolIconNode)i.next()).addListener( listener );
         }
     }
 }
