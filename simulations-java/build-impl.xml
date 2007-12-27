@@ -247,9 +247,6 @@ Developer Notes:
         <delete file="${sim.flavor.jnlp}"/>
     </target>
 
-    <!--Builds jars and jnlp files for all phet simulations-->
-    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
-
     <!--Builds the jar file for the simulation specified as property "sim.name"-->
     <target name="build-jar" depends="_init,_verify-sim-name-specified">
         <phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>

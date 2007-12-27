@@ -27,6 +27,9 @@ Developer Notes:
         </antcall>
     </target>
 
+        <!--Builds jars and jnlp files for all phet simulations-->
+    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
+
     <target name="build-and-deploy-prod"
         depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
