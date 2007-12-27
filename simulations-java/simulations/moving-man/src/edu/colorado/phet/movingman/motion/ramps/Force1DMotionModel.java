@@ -41,11 +41,11 @@ public class Force1DMotionModel extends MotionModel implements UpdateableObject,
 //            }
 //        } );
         availableObjects = new Force1DObjectConfig[]{
-                new Force1DObjectConfig( "forces-1d/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
-                new Force1DObjectConfig( "forces-1d/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
-                new Force1DObjectConfig( "forces-1d/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
-                new Force1DObjectConfig( "forces-1d/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
-                new Force1DObjectConfig( "forces-1d/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
+                new Force1DObjectConfig( "/simulations/moving-man/data/moving-man/images/cabinet.gif", SimStrings.get( "Force1DModule.fileCabinet" ), 0.8, 200, 0.3, 0.2 ),
+                new Force1DObjectConfig( "/simulations/moving-man/data/moving-man/images/fridge.gif", SimStrings.get( "Force1DModule.refrigerator" ), 0.35, 400, 0.7, 0.5 ),
+                new Force1DObjectConfig( "/simulations/moving-man/data/moving-man/images/phetbook.gif", SimStrings.get( "Force1DModule.textbook" ), 0.8, 10, 0.3, 0.25 ),
+                new Force1DObjectConfig( "/simulations/moving-man/data/moving-man/images/crate.gif", SimStrings.get( "Force1DModule.crate" ), 0.8, 300, 0.2, 0.2 ),
+                new Force1DObjectConfig( "/simulations/moving-man/data/moving-man/images/ollie.gif", SimStrings.get( "Force1DModule.sleepyDog" ), 0.5, 25, 0.1, 0.1 ),
         };
         currentObject = availableObjects[0];
     }
