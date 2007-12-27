@@ -11,8 +11,9 @@ ISSUES:
 - how does the "steady state" button work in the context of advanced climate controls?
 - do graphs have zoom buttons, or do they autoscale? (issue for x & y axes)
 - do graphs record data only while open, or are they always recording?
-- how do we keep a thermometer from being dropped on the ice?
-- does the ice thickness tool have to change size of calipers?
+- how do we constrain tools that can only be dropped on (or off) the ice?
+- what happens to an ice-specific (or atmosphere-specific) tool when the ice disappears (or appears) at its location?
+- do tools need an origin indicator?
 
 HIGH PRIORITY:
 - constrain viewport dragging to be horizontal
@@ -22,8 +23,12 @@ HIGH PRIORITY:
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
 - implement glacier model
+- add digital readout to glacial budget meter
+- add readout and variable caliper size to ice measuring tool
 
 MEDIUM PRIORITY:
+- add round ball to bottom of trace flag's pole
+- replace barrel of tracer flags with a single tracer flag in toolbox
 - ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
 - set foreground color of ticks & labels on BasicClimateControl sliders
