@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Weekly Status Report
+
+PERIOD: Dec 19-26, 2007 (Wed-Wed)
+
+ACCOMPLISHMENTS:
+
+  Glaciers:
+  - prototype coordinate mapping issues for birds-eye and zoomed views
+  - model and view components for all tools in the Toolbox
+  - dragging a tool out of the Toolbox creates corresponding model & view components
+  - Graphs control panel (radio buttons vs. combo box)
+  
+  Translation Utility:
+  - various development discussions
+  - various emails with Ruwang Sung (Chinese translator)
+  - investigate report that IE7 renames translation-utility.jar when downloaded from PhET website
+  
+  Commmon:
+  - experiment with SVGNode (vector graphics for Piccolo), minor changes and discussion
+  
+  Misc:
+  - create Unfuddle tickets for all issues related to my sims, phetcommon and piccolo-phet
+  - Unfuddle message management, create reports, install Mac Dashboard widget
+  - fix various naming conventions for my sims, related to the build process
+  - build process questions for Sam
+  - remove my personal build files, switch to PhET build process
+  - download and install InkScape to open & edit Archie's SVG files
+
+WHAT'S NEXT:
+
+  - continue work on Glaciers, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO.txt?view=markup
+  
+  - continue work on Translation Utility, see:
+    http://phet.svn.sourceforge.net/viewvc/phet/trunk/translation-utility/TODO.txt?view=markup
+    
+  - SVG support?
+  
+ISSUES:
+
+  - none
+  
+DATES UNAVAILABLE:
+
+  December 31
+  January 1,21
+  February 4,5
+  March 17,18,24-28
+  
+--
