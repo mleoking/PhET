@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 /**

@@ -2,9 +2,6 @@
 
 package edu.colorado.phet.glaciers.persistence;
 
-import java.awt.Dimension;
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 
