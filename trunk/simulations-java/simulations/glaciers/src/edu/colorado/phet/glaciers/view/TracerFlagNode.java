@@ -13,5 +13,6 @@ public class TracerFlagNode extends AbstractToolNode {
         super( tracerFlag );
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );
         addChild( imageNode );
+        imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner
     }
 }

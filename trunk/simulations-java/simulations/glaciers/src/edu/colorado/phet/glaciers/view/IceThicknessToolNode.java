@@ -13,5 +13,6 @@ public class IceThicknessToolNode extends AbstractToolNode {
         super( iceThicknessTool );
         PImage imageNode = new PImage( GlaciersImages.ICE_THICKNESS_TOOL );
         addChild( imageNode );
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth(), -imageNode.getFullBoundsReference().getHeight() ); // lower right
     }
 }

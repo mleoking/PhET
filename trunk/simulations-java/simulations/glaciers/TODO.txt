@@ -10,12 +10,11 @@ ISSUES:
 HIGH PRIORITY:
 - create graphs
 - design needed for advanced climate controls
-- remove tools by dragging them back to the toolbox or to the trash can
+- remove tools by dragging them back to the trash can (or toolbox?)
 - add controller package
 - separate out controllers for toolbox and ThermometerNode
-- create and continue dragging tool when you click on an icon in the toolbox
 - implement all controls shown in design doc
-- prototype the top and middle views
+- prototype drawing the valley, mountains and glacier
 - implement panel for advance climate controls
 - implement panel for graphs
 
@@ -35,6 +34,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - set approximate registration points for each tool node
 12/26/07 - add toolbox to Advanced panel
 12/26/07 - refactor toolbox icons hierarchy
 12/26/07 - organize imports
