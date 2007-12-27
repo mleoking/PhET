@@ -9,7 +9,6 @@ TODO:
 - replace quantum-tunneling's SliderControl with a LinearSliderControl extension
 - migrate Complex and MutableComplex to phetcommon
 - migrate ColorIntensitySlider to phetcommon
-- investigate Subversive plugin for Eclispe SVN integration
 
 DONE:
 
