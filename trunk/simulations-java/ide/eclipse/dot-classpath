@@ -26,7 +26,6 @@
 	<classpathentry kind="src" path="contrib/Jama-1.0.2"/>
 	<classpathentry kind="src" path="contrib/piccolo/src"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo/extras"/>
-	<classpathentry kind="src" path="simulations/all-sims/src"/>
 	<classpathentry kind="src" path="simulations/balloons/src"/>
 	<classpathentry kind="src" path="simulations/balloons/data"/>
 	<classpathentry kind="src" path="simulations/battery-voltage/src"/>
@@ -60,9 +59,6 @@
 	<classpathentry kind="src" path="simulations/faraday/data"/>
 	<classpathentry kind="src" path="simulations/fluorescent-lights/src"/>
 	<classpathentry kind="src" path="simulations/fluorescent-lights/data"/>
-	<classpathentry kind="src" path="simulations/forces-1d/src"/>
-	<classpathentry kind="src" path="simulations/forces-1d/data"/>
-	<classpathentry kind="src" path="simulations/forces-1d/phetcommon/src"/>
 	<classpathentry kind="src" path="simulations/fourier/src"/>
 	<classpathentry kind="src" path="simulations/fourier/data"/>
 	<classpathentry kind="src" path="simulations/glaciers/src"/>
@@ -131,8 +127,6 @@
 	<classpathentry kind="src" path="simulations/sound/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/src"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/data"/>
-	<classpathentry kind="src" path="simulations/the-ramp/src"/>
-	<classpathentry kind="src" path="simulations/the-ramp/data"/>
 	<classpathentry kind="src" path="simulations/travoltage/src"/>
 	<classpathentry kind="src" path="simulations/travoltage/data"/>
 	<classpathentry kind="src" path="simulations/waveinterference/src"/>
