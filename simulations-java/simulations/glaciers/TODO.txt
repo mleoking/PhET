@@ -8,6 +8,9 @@ ISSUES:
 - move trash can out of toolbox?
 
 HIGH PRIORITY:
+- increase size of valley image so that zoomed view scale~1
+- constrain viewport dragging to horizontal
+- add penguin to viewport control
 - create graphs
 - design needed for advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -34,6 +37,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/27/07 - integrate TestViewport example into sim's PlayArea
 12/26/07 - set approximate registration points for each tool node
 12/26/07 - add toolbox to Advanced panel
 12/26/07 - refactor toolbox icons hierarchy
