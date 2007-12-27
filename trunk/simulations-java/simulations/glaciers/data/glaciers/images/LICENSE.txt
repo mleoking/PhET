@@ -1,5 +1,6 @@
+License information for image files 
 
-boreholeDrill.svg
+boreholeDrill.svg source=? author=? license=?
 
 bucket.svg source=PhET author=Archie Paulson
 
