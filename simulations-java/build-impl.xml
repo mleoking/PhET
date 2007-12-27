@@ -211,10 +211,6 @@ Developer Notes:
         <build-intellij-idea-file/>
     </target>
 
-<target name="build-all-sim-jar" depends="_init">
-<phet-build-all-sim-jar/>
-</target>
-
     <!--This internal task puts a comma delimited list of all phet simulations into property phet.simlist-->
     <target name="_list-sims">
         <phet-list-sims property="phet.simlist"/>
