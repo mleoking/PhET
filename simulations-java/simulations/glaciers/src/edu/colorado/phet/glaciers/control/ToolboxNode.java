@@ -16,17 +16,10 @@ import edu.colorado.phet.glaciers.control.AbstractToolIconNode.BoreholeDrillIcon
 import edu.colorado.phet.glaciers.control.AbstractToolIconNode.GlacialBudgetMeterIconNode;
 import edu.colorado.phet.glaciers.control.AbstractToolIconNode.IceThicknessToolIconNode;
 import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ThermometerIconNode;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ToolIconListener;
 import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TracerFlagIconNode;
 import edu.colorado.phet.glaciers.control.AbstractToolIconNode.TrashCanIconNode;
-import edu.colorado.phet.glaciers.model.BoreholeDrill;
-import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
-import edu.colorado.phet.glaciers.model.IceThicknessTool;
-import edu.colorado.phet.glaciers.model.Thermometer;
-import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.TracerFlag;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -60,7 +53,7 @@ public class ToolboxNode extends PNode {
     private static final Stroke TAB_STROKE = BACKGROUND_STROKE;
     private static final double TAB_CORNER_RADIUS = BACKGROUND_CORNER_RADIUS;
     
-    private ArrayList _listeners;
+    private ArrayList _toolIconNodes;
     
     /**
      * Constructor.
@@ -68,58 +61,22 @@ public class ToolboxNode extends PNode {
     public ToolboxNode() {
         super();
         
-        _listeners = new ArrayList();
+        _toolIconNodes = new ArrayList();
         
         // create tools, under a common parent
         PNode toolsParent = new PNode();
         {
-            final AbstractToolIconNode thermometerIconNode = new ThermometerIconNode();
-            thermometerIconNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    Thermometer tool = new Thermometer( event.getCanvasPosition() );
-                    thermometerIconNode.setDragTool( tool );
-                    notifyAddTool( tool );
-                }
-            } );
-            
-            final AbstractToolIconNode glacialBudgetMeterIconNode = new GlacialBudgetMeterIconNode();
-            glacialBudgetMeterIconNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    GlacialBudgetMeter tool = new GlacialBudgetMeter( event.getCanvasPosition() );
-                    glacialBudgetMeterIconNode.setDragTool( tool );
-                    notifyAddTool( tool );
-                }
-            } );
-            
-            final AbstractToolIconNode tracerFlagIconNode = new TracerFlagIconNode();
-            tracerFlagIconNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    TracerFlag tool = new TracerFlag( event.getCanvasPosition() );
-                    tracerFlagIconNode.setDragTool( tool );
-                    notifyAddTool( tool );
-                }
-            } );
-            
-            final AbstractToolIconNode iceThicknessToolIconNode = new IceThicknessToolIconNode();
-            iceThicknessToolIconNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    IceThicknessTool tool = new IceThicknessTool( event.getCanvasPosition() );
-                    iceThicknessToolIconNode.setDragTool( tool );
-                    notifyAddTool( tool );
-                }
-            } );
-            
-            final AbstractToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
-            boreholeDrillIconNode.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    BoreholeDrill tool = new BoreholeDrill( event.getCanvasPosition() );
-                    boreholeDrillIconNode.setDragTool( tool );
-                    notifyAddTool( tool );
-                }
-            } );
-            
+            AbstractToolIconNode thermometerIconNode = new ThermometerIconNode();
+            _toolIconNodes.add( thermometerIconNode );
+            AbstractToolIconNode glacialBudgetMeterIconNode = new GlacialBudgetMeterIconNode();
+            _toolIconNodes.add( glacialBudgetMeterIconNode );
+            AbstractToolIconNode tracerFlagIconNode = new TracerFlagIconNode();
+            _toolIconNodes.add( tracerFlagIconNode );
+            AbstractToolIconNode iceThicknessToolIconNode = new IceThicknessToolIconNode();
+            _toolIconNodes.add( iceThicknessToolIconNode );
+            AbstractToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
+            _toolIconNodes.add( boreholeDrillIconNode );
             AbstractToolIconNode trashCan = new TrashCanIconNode();
-            //XXX add interactivity to trash can
 
             toolsParent.addChild( thermometerIconNode );
             toolsParent.addChild( glacialBudgetMeterIconNode );
@@ -208,25 +165,17 @@ public class ToolboxNode extends PNode {
         tabNode.setChildrenPickable( false );
     }
     
-    /**
-     * Interface implemented by all listeners who are interested in events related to this control panel.
-     */
-    public static interface ToolboxListener {
-        public void addTool( AbstractTool tool );
-    }
-    
-    public void addListener( ToolboxListener listener ) {
-        _listeners.add( listener );
-    }
-    
-    public void removeListener( ToolboxListener listener ) {
-        _listeners.remove( listener );
-    }
-    
-    private void notifyAddTool( AbstractTool tool ) {
-        Iterator i = _listeners.iterator();
+    public void addListener( ToolIconListener listener ) {
+        Iterator i = _toolIconNodes.iterator();
         while ( i.hasNext() ) {
-            ( (ToolboxListener) i.next() ).addTool( tool );
+            ((AbstractToolIconNode)i.next()).addListener( listener );
+        }
+    }
+    
+    public void removeListener( ToolIconListener listener ) {
+        Iterator i = _toolIconNodes.iterator();
+        while ( i.hasNext() ) {
+            ((AbstractToolIconNode)i.next()).addListener( listener );
         }
     }
 }

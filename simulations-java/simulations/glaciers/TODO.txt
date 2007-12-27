@@ -35,6 +35,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+12/26/07 - refactor responsibility for creating tool-related model elements
 12/26/07 - forward toolbox drag events to newly-created model elements
 12/26/07 - rewrite model/view hierarchy for toolbox tools
 12/26/07 - simplify toolbox

@@ -13,7 +13,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * AbstractToolNode
+ * AbstractToolNode is the base class for all tool nodes.
+ * As this node is dragged, the position of its corresponding tool model element is updated.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
