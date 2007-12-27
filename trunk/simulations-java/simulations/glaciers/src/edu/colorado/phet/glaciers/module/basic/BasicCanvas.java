@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
@@ -13,15 +12,11 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.control.ToolboxNode.ToolboxListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
-import edu.colorado.phet.glaciers.model.Thermometer;
+import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
-import edu.colorado.phet.glaciers.view.BoreholeDrillNode;
-import edu.colorado.phet.glaciers.view.GlacialBudgetMeterNode;
-import edu.colorado.phet.glaciers.view.IceThicknessToolNode;
 import edu.colorado.phet.glaciers.view.MagnifiedViewNode;
 import edu.colorado.phet.glaciers.view.PenguinNode;
-import edu.colorado.phet.glaciers.view.ThermometerNode;
-import edu.colorado.phet.glaciers.view.TracerFlagNode;
+import edu.colorado.phet.glaciers.view.ToolNodeFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -107,40 +102,15 @@ public class BasicCanvas extends PhetPCanvas {
         // Toolbox
         _toolboxNode = new ToolboxNode();
         _rootNode.addChild( _toolboxNode );
-        
-        //XXX testing, this all needs to go elsewhere
         _toolboxNode.addListener( new ToolboxListener() {
-            public void addThermometer( Point2D atCanvasPosition ) {
-                Thermometer thermometer = new Thermometer( 0, atCanvasPosition );
-                ThermometerNode node = new ThermometerNode( thermometer );
+            public void addTool( AbstractTool tool ) {
+                PNode node = ToolNodeFactory.createNode( tool );
+                node.addInputEventListener( new CursorHandler() );
+                node.addInputEventListener( new PDragEventHandler() );
                 _rootNode.addChild( node );
-            }
-            public void addGlacialBudgetMeter( Point2D atCanvasPosition ) {
-                addToolNode( new GlacialBudgetMeterNode(), atCanvasPosition );
-            }
-            public void addTracerFlag( Point2D atCanvasPosition ) {
-                addToolNode( new TracerFlagNode(), atCanvasPosition );
-            }
-            public void addIceThicknessTool( Point2D atCanvasPosition ) {
-                addToolNode( new IceThicknessToolNode(), atCanvasPosition );
-            }
-            public void addBoreholeDrill( Point2D atCanvasPosition ) {
-                addToolNode( new BoreholeDrillNode(), atCanvasPosition );
+                _model.addModelElement( tool );
             }
         });
-    }
-    
-    /*
-     * Adds a tool to the canvas, positioned directly above the toolbox 
-     * and horizontally aligned with the tool that was clicked in the toolbox.
-     */
-    private void addToolNode( PNode node, Point2D atCanvasPosition ) {
-        _rootNode.addChild( node );
-        double x = atCanvasPosition.getX() - ( node.getFullBoundsReference().getWidth() / 2 );
-        double y = _toolboxNode.getFullBoundsReference().getMinY() - node.getFullBoundsReference().getHeight() - 5;
-        node.setOffset( x, y );
-        node.addInputEventListener( new CursorHandler() );
-        node.addInputEventListener( new PDragEventHandler() );
     }
     
     //----------------------------------------------------------------------------

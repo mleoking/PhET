@@ -5,15 +5,17 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
-
-public class Thermometer extends Movable implements Tool, ModelElement {
+public class Thermometer extends AbstractTool {
     
     private double _temperature; // units=Celcius
     private ArrayList _listeners;
     
-    public Thermometer( double temperature, Point2D position ) {
+    public Thermometer( Point2D position ) {
+        this( position, 0 );
+    }
+    
+    public Thermometer( Point2D position, double temperature ) {
         super( position );
         _temperature = temperature;
         _listeners = new ArrayList();
