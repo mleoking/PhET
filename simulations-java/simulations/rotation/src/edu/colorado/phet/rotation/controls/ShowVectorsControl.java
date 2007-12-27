@@ -9,6 +9,7 @@ import javax.swing.*;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.view.RotationColorScheme;
 import edu.colorado.phet.rotation.view.RotationLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -16,22 +17,22 @@ import edu.colorado.phet.rotation.view.RotationLookAndFeel;
  * Time: 10:10:46 PM
  */
 
-public class ShowVectorsControl extends JPanel {
+public class ShowVectorsControl extends VerticalLayoutPanel {
     private VectorViewModel vectorViewModel;
+//    private GridBagConstraints gridBagConstraints;
 
     public ShowVectorsControl( final VectorViewModel vectorViewModel ) {
         this.vectorViewModel = vectorViewModel;
-        setLayout( new GridBagLayout() );
 
-        GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        final JCheckBox velocityCheckBox = new JCheckBox( RotationStrings.getString( "variable.velocity" ), vectorViewModel.isVelocityVisible() );
+//        gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
+        final JCheckBox velocityCheckBox = new JCheckBox( RotationStrings.getString( "show" )+" "+RotationStrings.getString( "variable.velocity" )+" "+RotationStrings.getString( "vector" ), vectorViewModel.isVelocityVisible() );
         velocityCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setVelocityVisible( velocityCheckBox.isSelected() );
             }
         } );
 
-        final JCheckBox accelerationCheckBox = new JCheckBox( RotationStrings.getString( "variable.acceleration" ), vectorViewModel.isAccelerationVisible() );
+        final JCheckBox accelerationCheckBox = new JCheckBox( RotationStrings.getString( "show" )+" "+RotationStrings.getString( "variable.acceleration" )+" "+RotationStrings.getString( "vector" ), vectorViewModel.isAccelerationVisible() );
         accelerationCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 vectorViewModel.setAccelerationVisible( accelerationCheckBox.isSelected() );
@@ -45,16 +46,21 @@ public class ShowVectorsControl extends JPanel {
             }
         } );
 
-        JLabel showVectorLabel = new JLabel( RotationStrings.getString( "controls.show.vectors" ) );
-        showVectorLabel.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
-        velocityCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+//        JLabel showVectorLabel = new JLabel( RotationStrings.getString( "controls.show.vectors" ) );
+//        showVectorLabel.setFont( RotationLookAndFeel.getControlPanelTitleFont() );
+//        velocityCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
         velocityCheckBox.setForeground( RotationColorScheme.VELOCITY_COLOR );
-
-        accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
         accelerationCheckBox.setForeground( RotationColorScheme.ACCELERATION_COLOR );
 
-        add( showVectorLabel, gridBagConstraints );
-        add( velocityCheckBox, gridBagConstraints );
-        add( accelerationCheckBox, gridBagConstraints );
+//        accelerationCheckBox.setFont( RotationLookAndFeel.getCheckBoxFont() );
+        
+
+//        add( showVectorLabel, gridBagConstraints );
+        add( velocityCheckBox );
+        add( accelerationCheckBox );
     }
+
+//    public void add( JComponent compononent ) {
+//        add( compononent, gridBagConstraints );
+//    }
 }

@@ -12,27 +12,9 @@ import edu.colorado.phet.rotation.controls.ShowVectorsControl;
  */
 public class TorqueIntroControlPanel extends JPanel {
     public TorqueIntroControlPanel( final TorqueIntroModule torqueModule ) {
-
         JPanel checkBoxPanel = new VerticalLayoutPanel();
-//        final JCheckBox showNonTangentialForces = new JCheckBox( "Allow non-tangential forces", torqueModule.getTorqueModel().isAllowNonTangentialForces() );
-//        showNonTangentialForces.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                torqueModule.getTorqueModel().setAllowNonTangentialForces( showNonTangentialForces.isSelected() );
-//            }
-//        } );
-//        checkBoxPanel.add( showNonTangentialForces );
-
-//        final JCheckBox showComponents = new JCheckBox( "Show Components", torqueModule.getTorqueModel().isShowComponents() );
-//        showComponents.addActionListener( new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
-//            }
-//        } );
-//        checkBoxPanel.add( showComponents );
-        checkBoxPanel.add( new ResetButton( torqueModule ) );
-//        checkBoxPanel.add( new RulerButton( rulerNode ) );
         checkBoxPanel.add( new ShowVectorsControl( torqueModule.getVectorViewModel() ) );
-//        add( checkBoxPanel, getConstraints( 0, 1, 1 ) );
+        checkBoxPanel.add( new ResetButton( torqueModule ) );
         add( checkBoxPanel );
     }
 }

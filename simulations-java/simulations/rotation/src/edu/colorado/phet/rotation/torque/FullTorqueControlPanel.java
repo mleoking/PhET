@@ -29,11 +29,10 @@ import edu.colorado.phet.rotation.model.RotationPlatform;
 public class FullTorqueControlPanel extends VerticalLayoutPanel {
     private AbstractTorqueModule torqueModule;
     public static final int MIN_BRAKE = 0;
-//    public static final int MAX_BRAKE = 3;
     public static final int MAX_BRAKE = 10;
     private JPanel leftPanel;
 
-    public FullTorqueControlPanel( RulerNode rulerNode, GraphSuiteSet rotationGraphSet, GraphSetModel graphSetModel, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
+    public FullTorqueControlPanel( RulerNode rulerNode, final AbstractTorqueModule torqueModule, VectorViewModel vectorViewModel ) {
         this.torqueModule = torqueModule;
 
         setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "controls" ) ) );
@@ -48,10 +47,10 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
             sliderPanel.add( sliders[i] );
         }
         add( sliderPanel );
-        add( Box.createRigidArea( new Dimension( 10,10 ) ) );
+        add( Box.createRigidArea( new Dimension( 10, 10 ) ) );
         HorizontalLayoutPanel controls = new HorizontalLayoutPanel();
 
-        JPanel rightPanel = new VerticalLayoutPanel();
+//        JPanel rightPanel = new VerticalLayoutPanel();
         leftPanel = new VerticalLayoutPanel();
         final JCheckBox showNonTangentialForces = new JCheckBox( RotationStrings.getString( "controls.allow.non.tangential.forces" ), torqueModule.getTorqueModel().isAllowNonTangentialForces() );
         showNonTangentialForces.addActionListener( new ActionListener() {
@@ -59,7 +58,7 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
                 torqueModule.getTorqueModel().setAllowNonTangentialForces( showNonTangentialForces.isSelected() );
             }
         } );
-        rightPanel.add( showNonTangentialForces );
+//        rightPanel.add( showNonTangentialForces );
 
         final JCheckBox showComponents = new JCheckBox( RotationStrings.getString( "controls.show.components" ), torqueModule.getTorqueModel().isShowComponents() );
         showComponents.addActionListener( new ActionListener() {
@@ -67,13 +66,18 @@ public class FullTorqueControlPanel extends VerticalLayoutPanel {
                 torqueModule.getTorqueModel().setShowComponents( showComponents.isSelected() );
             }
         } );
-        rightPanel.add( showComponents );
-        rightPanel.add( new ResetButton( torqueModule ) );
+//        rightPanel.add( showComponents );
+//        rightPanel.add( new ResetButton( torqueModule ) );
         leftPanel.add( new RulerButton( rulerNode ) );
-        leftPanel.add( new ShowVectorsControl( vectorViewModel ) );
+        final ShowVectorsControl showVectorsControl = new ShowVectorsControl( vectorViewModel );
+        leftPanel.add( showVectorsControl );
+        leftPanel.add( showComponents );
+        leftPanel.add( showNonTangentialForces );
+        leftPanel.add( new ResetButton( torqueModule ) );
+
         controls.add( leftPanel );
         add( Box.createRigidArea( new Dimension( 30, 30 ) ) );
-        controls.add( rightPanel );
+//        controls.add( rightPanel );
 
         add( controls );
 //        addGraphSelectionControl( rotationGraphSet, graphSetModel );
