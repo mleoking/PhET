@@ -7,9 +7,9 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 
-public class BirdsEyeViewNode extends PhetPNode {
+public class ValleyNode extends PhetPNode {
 
-    public BirdsEyeViewNode() {
+    public ValleyNode() {
         super();
         PImage imageNode = new PImage( GlaciersImages.VALLEY );
         addChild( imageNode );

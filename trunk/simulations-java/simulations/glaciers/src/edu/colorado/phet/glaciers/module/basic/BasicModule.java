@@ -4,12 +4,15 @@ package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Frame;
 
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
+import edu.colorado.phet.glaciers.view.PlayArea;
 
 /**
  * BasicModule is the "Basic" module.
@@ -23,8 +26,6 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private BasicModel _model;
-    private BasicCanvas _canvas;
-    private BasicControlPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,13 +39,13 @@ public class BasicModule extends PiccoloModule {
         GlaciersClock clock = (GlaciersClock) getClock();
         _model = new BasicModel( clock );
 
-        // Canvas
-        _canvas = new BasicCanvas( _model );
-        setSimulationPanel( _canvas );
+        // Play Area
+        JPanel playArea = new PlayArea( _model );
+        setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
-        _bottomPanel = new BasicControlPanel( clock );
-        setClockControlPanel( _bottomPanel );
+        JPanel controlPanel = new BasicControlPanel( clock );
+        setClockControlPanel( controlPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -53,18 +54,6 @@ public class BasicModule extends PiccoloModule {
 
         // Set initial state
         reset();
-    }
-
-    //----------------------------------------------------------------------------
-    // Mutators and accessors
-    //----------------------------------------------------------------------------
-
-    public BasicModel getBasicModel() {
-        return _model;
-    }
-
-    public BasicCanvas getBasicCanvas() {
-        return _canvas;
     }
 
     //----------------------------------------------------------------------------
@@ -97,7 +86,6 @@ public class BasicModule extends PiccoloModule {
     public BasicConfig save() {
 
         BasicConfig config = new BasicConfig();
-        BasicModel model = getBasicModel();
 
         // Module
         config.setActive( isActive() );
@@ -105,7 +93,7 @@ public class BasicModule extends PiccoloModule {
         // Model
         {
             // Clock
-            GlaciersClock clock = model.getClock();
+            GlaciersClock clock = _model.getClock();
             config.setClockDt( clock.getDt() );
             config.setClockRunning( getClockRunningWhenActive() );
         }
@@ -120,8 +108,6 @@ public class BasicModule extends PiccoloModule {
 
     public void load( BasicConfig config ) {
 
-        BasicModel model = getBasicModel();
-
         // Module
         if ( config.isActive() ) {
             GlaciersApplication.instance().setActiveModule( this );
@@ -130,7 +116,7 @@ public class BasicModule extends PiccoloModule {
         // Model
         {
             // Clock
-            GlaciersClock clock = model.getClock();
+            GlaciersClock clock = _model.getClock();
             clock.setDt( config.getClockDt() );
             setClockRunningWhenActive( config.isClockRunning() );
         }

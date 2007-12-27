@@ -4,12 +4,16 @@ package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Frame;
 
+import javax.swing.JPanel;
+
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.module.basic.BasicControlPanel;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
+import edu.colorado.phet.glaciers.view.PlayArea;
 
 /**
  * AdvancedModule is the "Advanced" module.
@@ -23,8 +27,6 @@ public class AdvancedModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private AdvancedModel _model;
-    private AdvancedCanvas _canvas;
-    private AdvancedControlPanel _bottomPanel;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -38,13 +40,13 @@ public class AdvancedModule extends PiccoloModule {
         GlaciersClock clock = (GlaciersClock) getClock();
         _model = new AdvancedModel( clock );
 
-        // Canvas
-        _canvas = new AdvancedCanvas( _model );
-        setSimulationPanel( _canvas );
+        // Play Area
+        JPanel playArea = new PlayArea( _model );
+        setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
-        _bottomPanel = new AdvancedControlPanel( clock );
-        setClockControlPanel( _bottomPanel );
+        JPanel controlPanel = new BasicControlPanel( clock );
+        setClockControlPanel( controlPanel );
 
         // Help
         if ( hasHelp() ) {
@@ -53,18 +55,6 @@ public class AdvancedModule extends PiccoloModule {
 
         // Set initial state
         reset();
-    }
-
-    //----------------------------------------------------------------------------
-    // Mutators and accessors
-    //----------------------------------------------------------------------------
-
-    public AdvancedModel getAdvancedModel() {
-        return _model;
-    }
-
-    public AdvancedCanvas getAdvancedCanvas() {
-        return _canvas;
     }
 
     //----------------------------------------------------------------------------
@@ -97,7 +87,6 @@ public class AdvancedModule extends PiccoloModule {
     public AdvancedConfig save() {
 
         AdvancedConfig config = new AdvancedConfig();
-        AdvancedModel model = getAdvancedModel();
 
         // Module
         config.setActive( isActive() );
@@ -105,7 +94,7 @@ public class AdvancedModule extends PiccoloModule {
         // Model
         {
             // Clock
-            GlaciersClock clock = model.getClock();
+            GlaciersClock clock = _model.getClock();
             config.setClockDt( clock.getDt() );
             config.setClockRunning( getClockRunningWhenActive() );
         }
@@ -120,8 +109,6 @@ public class AdvancedModule extends PiccoloModule {
 
     public void load( AdvancedConfig config ) {
 
-        AdvancedModel model = getAdvancedModel();
-
         // Module
         if ( config.isActive() ) {
             GlaciersApplication.instance().setActiveModule( this );
@@ -130,7 +117,7 @@ public class AdvancedModule extends PiccoloModule {
         // Model
         {
             // Clock
-            GlaciersClock clock = model.getClock();
+            GlaciersClock clock = _model.getClock();
             clock.setDt( config.getClockDt() );
             setClockRunningWhenActive( config.isClockRunning() );
         }
