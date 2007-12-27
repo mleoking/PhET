@@ -24,6 +24,8 @@ import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * PlayArea
@@ -45,6 +47,8 @@ public class PlayArea extends JPanel {
     
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
+    private PNode _penguinNode;
+    private PPath _penguinDragBoundsNode;
 
     public PlayArea( AbstractModel model ) {
         super();
@@ -55,6 +59,11 @@ public class PlayArea extends JPanel {
         _topCanvas = new PhetPCanvas();
         _topCanvas.setBackground( CANVAS_BACKGROUND );
         _topCanvas.getCamera().setViewScale( TOP_SCALE );
+        _topCanvas.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                handleTopCanvasResized();
+            }
+        } );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) TOP_PANEL_HEIGHT ), BorderLayout.WEST );
         topPanel.add( _topCanvas, BorderLayout.CENTER );
@@ -113,6 +122,18 @@ public class PlayArea extends JPanel {
             }
         });
         
+        
+        // Penguin
+        {
+            _penguinDragBoundsNode = new PPath();
+            _penguinDragBoundsNode.setStroke( null );
+            _viewportLayer.addChild( _penguinDragBoundsNode );
+
+            _penguinNode = new PenguinNode( _penguinDragBoundsNode );
+            _viewportLayer.addChild( _penguinNode );
+            _penguinNode.setOffset( 100, 0 );
+        }
+        
         // initialize
         handleBottomCanvasResized();
         handleViewportBoundsChanged();
@@ -120,10 +141,12 @@ public class PlayArea extends JPanel {
     
     public void addToTop( PLayer layer ) {
         _topCanvas.getCamera().addLayer( layer );
+        _topCanvas.getRoot().addChild( layer );
     }
     
     public void addToBottom( PLayer layer ) {
         _bottomCanvas.getCamera().addLayer( layer );
+        _bottomCanvas.getRoot().addChild( layer );
     }
     
     public void addToTopAndBottom( PLayer layer ) {
@@ -143,6 +166,19 @@ public class PlayArea extends JPanel {
         
         // move the toolbox
         updateToolboxPosition();
+    }
+    
+    /*
+     * When the top canvas is resized...
+     */
+    private void handleTopCanvasResized() {
+        // resize the penguin's drag bounds
+        double topWidth = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
+        double topHeight = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
+        PBounds pb = _penguinNode.getFullBoundsReference();
+        Rectangle2D r = new Rectangle2D.Double( 0, topHeight - pb.getHeight(), topWidth, pb.getHeight() );
+        _penguinDragBoundsNode.setPathTo( r );
+        _penguinNode.setOffset( _penguinNode.getOffset().getX(), r.getY() ); //XXX
     }
     
     /* 

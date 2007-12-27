@@ -14,8 +14,8 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
-   sodipodi:docbase="/Users/johnolsen/Desktop"
-   sodipodi:docname="jesusfreak210_Penguin.svg"
+   sodipodi:docbase="/Users/cmalley/phet-workspace/simulations-java/simulations/glaciers/data/glaciers/images"
+   sodipodi:docname="penguin.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
   <defs
@@ -351,13 +351,13 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="372.5"
-     inkscape:cy="650.33837"
+     inkscape:cy="381.85451"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="1264"
      inkscape:window-height="734"
-     inkscape:window-x="0"
-     inkscape:window-y="22" />
+     inkscape:window-x="20"
+     inkscape:window-y="20" />
   <metadata
      id="metadata7">
     <rdf:RDF>
