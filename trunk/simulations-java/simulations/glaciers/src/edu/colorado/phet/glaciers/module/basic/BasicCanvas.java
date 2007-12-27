@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
-import edu.colorado.phet.glaciers.control.ToolboxNode.ToolboxListener;
+import edu.colorado.phet.glaciers.control.AbstractToolIconNode.ToolIconListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.view.BirdsEyeViewNode;
@@ -102,7 +102,7 @@ public class BasicCanvas extends PhetPCanvas {
         // Toolbox
         _toolboxNode = new ToolboxNode();
         _rootNode.addChild( _toolboxNode );
-        _toolboxNode.addListener( new ToolboxListener() {
+        _toolboxNode.addListener( new ToolIconListener() {
             public void addTool( AbstractTool tool ) {
                 PNode node = ToolNodeFactory.createNode( tool );
                 node.addInputEventListener( new CursorHandler() );
