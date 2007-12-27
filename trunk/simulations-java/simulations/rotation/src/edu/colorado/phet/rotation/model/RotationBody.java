@@ -163,7 +163,7 @@ public class RotationBody {
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
-        if ( this.rotationPlatform != null ) {
+        if ( this.rotationPlatform != null &&rotationPlatform!=this.rotationPlatform) {
             this.rotationPlatform.removeListener( listener );
         }
         if ( !isOnPlatform( rotationPlatform ) ) {
