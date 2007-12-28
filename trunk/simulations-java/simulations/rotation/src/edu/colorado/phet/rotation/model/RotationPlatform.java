@@ -80,19 +80,50 @@ public class RotationPlatform extends MotionBody {
         super.setPosition( angle );
     }
 
-    public void setRadius( double radius ) {
+    public void setRadius( final double radius ) {
         if ( this.radius != radius ) {
-            this.radius = radius;
+            changeValueConserveMomentum( new Setter() {
+                public void setValue() {
+                    RotationPlatform.this.radius = radius;
+                }
+            } );
             notifyRadiusChanged();
         }
     }
 
-    public void setInnerRadius( double innerRadius ) {
+    public static interface Setter {
+        void setValue();
+    }
+
+    public void setInnerRadius( final double innerRadius ) {
         if ( this.innerRadius != innerRadius ) {
-            this.innerRadius = innerRadius;
+            changeValueConserveMomentum( new Setter() {
+                public void setValue() {
+                    RotationPlatform.this.innerRadius = innerRadius;
+                }
+            } );
             notifyInnerRadiusChanged();
         }
     }
+
+    private void changeValueConserveMomentum( Setter setter ) {
+        double momentum = getAngularMomentum();
+        setter.setValue();
+        setVelocityForAngMom( momentum );
+    }
+
+    private void setVelocityForAngMom( double momentum ) {
+        setVelocity( momentum / getMomentOfInertia() );
+    }
+
+    private double getAngularMomentum() {
+        return getMomentOfInertia() * getVelocity();
+    }
+
+//    public void stepInTime( double time, double dt ) {
+//        super.stepInTime( time, dt );
+//        System.out.println( "getAngularMomentum() = " + getAngularMomentum() + ", I=" + getMomentOfInertia() + ", omega=" + getVelocity() );
+//    }
 
     private void notifyInnerRadiusChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
@@ -112,9 +143,13 @@ public class RotationPlatform extends MotionBody {
         return mass;
     }
 
-    public void setMass( double mass ) {
+    public void setMass( final double mass ) {
         if ( this.mass != mass ) {
-            this.mass = mass;
+            changeValueConserveMomentum( new Setter() {
+                public void setValue() {
+                    RotationPlatform.this.mass = mass;
+                }
+            } );
             notifyMassChanged();
         }
     }
