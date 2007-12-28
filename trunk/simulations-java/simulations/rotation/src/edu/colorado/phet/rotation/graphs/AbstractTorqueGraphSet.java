@@ -2,6 +2,8 @@ package edu.colorado.phet.rotation.graphs;
 
 import java.awt.*;
 
+import javax.swing.*;
+
 import org.jfree.data.Range;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.dynamic.DynamicJFreeChartNode;
@@ -9,6 +11,7 @@ import edu.colorado.phet.common.motion.graphs.ControlGraph;
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.JFreeChartSliderNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.rotation.RotationStrings;
 import edu.colorado.phet.rotation.model.AngleUnitModel;
@@ -89,9 +92,17 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         torqueGraph.addSeries( brakeTorqueSeries );
         ControlGraphSeries netTorqueSeries = new ControlGraphSeries( NET_TORQUE, Color.black, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), NET, tm.getNetTorque(), false );
         torqueGraph.addSeries( netTorqueSeries );
-        torqueGraph.addControl( new SeriesJCheckBox( brakeTorqueSeries ) );
-        torqueGraph.addControl( new SeriesJCheckBox( netTorqueSeries ) );
+        torqueGraph.addControl( new SeriesSelectionPanel( new ControlGraphSeries[]{brakeTorqueSeries, netTorqueSeries} ) );
         return torqueGraph;
+    }
+
+    public static class SeriesSelectionPanel extends VerticalLayoutPanel {
+        public SeriesSelectionPanel( ControlGraphSeries[] series ) {
+            setBorder( BorderFactory.createTitledBorder( RotationStrings.getString( "series.selection.title" )) );
+            for ( int i = 0; i < series.length; i++ ) {
+                add( new SeriesJCheckBox( series[i] ) );
+            }
+        }
     }
 
     protected RotationMinimizableControlGraph createRadiusGraph() {
@@ -105,8 +116,8 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
                 return new Range( 0, range.getUpperBound() );
             }
 
-            protected JFreeChartSliderNode createSliderNode( PNode thumb,Color color ) {
-                return new JFreeChartSliderNodeForRadius( getDynamicJFreeChartNode(), thumb == null ? new PPath() : thumb ,color);//todo: better support for non-controllable graphs
+            protected JFreeChartSliderNode createSliderNode( PNode thumb, Color color ) {
+                return new JFreeChartSliderNodeForRadius( getDynamicJFreeChartNode(), thumb == null ? new PPath() : thumb, color );//todo: better support for non-controllable graphs
             }
 
             protected void handleValueChanged() {
@@ -139,14 +150,15 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         ControlGraphSeries netForceSeries = new ControlGraphSeries( NET_FORCE, Color.black, F, N, new BasicStroke( 2 ), NET, tm.getNetForce(), false );
         forceGraph.getControlGraph().addSeries( netForceSeries );
 
-        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );
-        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( netForceSeries ) );
+        forceGraph.getControlGraph().addControl( new SeriesSelectionPanel( new ControlGraphSeries[]{brakeForceSeries, netForceSeries} ) );
+//        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( brakeForceSeries ) );
+//        forceGraph.getControlGraph().addControl( new SeriesJCheckBox( netForceSeries ) );
         return forceGraph;
     }
 
     private class JFreeChartSliderNodeForRadius extends JFreeChartSliderNode {
-        public JFreeChartSliderNodeForRadius( DynamicJFreeChartNode dynamicJFreeChartNode, PNode pNode,Color highlightColor ) {
-            super( dynamicJFreeChartNode, pNode,highlightColor );
+        public JFreeChartSliderNodeForRadius( DynamicJFreeChartNode dynamicJFreeChartNode, PNode pNode, Color highlightColor ) {
+            super( dynamicJFreeChartNode, pNode, highlightColor );
         }
 
         protected double getMaxRangeValue() {
