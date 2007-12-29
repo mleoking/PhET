@@ -54,7 +54,7 @@ public class RotationBody {
 
     //angle of the bug relative to the platform, used when updating position on the platform 
     private double relAngleOnPlatform = 0.0;
-    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0;
+    private static final double FLY_OFF_SPEED_THRESHOLD = 21.0 * 3;
 
     /**
      * @noinspection HardCodedStringLiteral
