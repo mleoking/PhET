@@ -20,19 +20,19 @@ public class TorqueSimulationPanel extends AbstractRotationSimulationPanel {
         super( torqueModule, parentFrame );
     }
 
-    private void addClearTorqueButton( final AbstractTorqueModule torqueModule ) {
-        final PSwing clearTorqueButton = new PSwing( new JButton( "Clear Torque" ) );
-        torqueModule.getTorqueModel().addListener( new TorqueModel.Adapter() {
-            public void appliedForceChanged() {
-                clearTorqueButton.setVisible( torqueModule.getTorqueModel().getAppliedForceMagnitude() > 0 );
-            }
-        } );
-        addScreenChild( clearTorqueButton );
-        Point2D d = torqueModule.getTorqueModel().getRotationPlatform().getCenter();
-        Point2D loc = new Point2D.Double( d.getX(), d.getY() );
-        getPhetRootNode().worldToScreen( loc );
-        clearTorqueButton.setOffset( loc );
-    }
+//    private void addClearTorqueButton( final AbstractTorqueModule torqueModule ) {
+//        final PSwing clearTorqueButton = new PSwing( new JButton( "Clear Torque" ) );
+//        torqueModule.getTorqueModel().addListener( new TorqueModel.Adapter() {
+//            public void appliedForceChanged() {
+//                clearTorqueButton.setVisible( torqueModule.getTorqueModel().getAppliedForceMagnitude() > 0 );
+//            }
+//        } );
+//        addScreenChild( clearTorqueButton );
+//        Point2D d = torqueModule.getTorqueModel().getRotationPlatform().getCenter();
+//        Point2D loc = new Point2D.Double( d.getX(), d.getY() );
+//        getPhetRootNode().worldToScreen( loc );
+//        clearTorqueButton.setOffset( loc );
+//    }
 
     protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
         return new TorqueControlPanel( rulerNode, getRotationGraphSet(), getGraphSetModel(), (AbstractTorqueModule) getAbstractRotationModule(), getVectorViewModel() );//todo: better typing

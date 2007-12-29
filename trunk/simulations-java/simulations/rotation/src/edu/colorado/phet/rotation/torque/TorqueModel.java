@@ -276,7 +276,10 @@ public class TorqueModel extends RotationModel {
     }
 
     public void setAppliedForceFromRadius( double radius ) {
-        setAppliedForce( radius, getAppliedForceMagnitude() );
+        if ( radius == 0 ) {
+            radius = 1E-6;//workaround for not representing force as magnitude + direction and application point
+        }
+        setAppliedForce( radius, appliedForceObject.getSignedForce( getPlatformCenter() ) );
     }
 
     public void setAppliedForceRadius( double r ) {
