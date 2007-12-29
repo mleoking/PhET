@@ -18,4 +18,9 @@ public class LinearSlider extends AbstractSlider {
     public LinearSlider( double min, double max, int resolution ) {
         super( new LinearMappingStrategy( min, max, 0, resolution ) );
     }
+
+    public LinearSlider( double min, double max, double value, int resolution ) {
+        super( new LinearMappingStrategy( min, max, 0, resolution ) );
+        setModelValue( value );
+    }
 }
