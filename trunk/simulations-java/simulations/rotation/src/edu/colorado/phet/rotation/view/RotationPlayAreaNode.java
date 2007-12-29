@@ -3,7 +3,11 @@ package edu.colorado.phet.rotation.view;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -53,6 +57,11 @@ public class RotationPlayAreaNode extends PNode {
     public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
         rotationPlatformNode = createRotationPlatformNode( rotationModel.getRotationPlatform() );
+        new Timer(30,new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                System.out.println( "rotationPlatformNode.getGlobalFullBounds() = " + rotationPlatformNode.getGlobalFullBounds() );
+            }
+        } ).start();
 //        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
         rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, RotationStrings.getString( "units.m" ), 4, 14 );
