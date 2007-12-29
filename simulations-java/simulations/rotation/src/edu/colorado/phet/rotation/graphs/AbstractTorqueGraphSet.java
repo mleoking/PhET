@@ -49,9 +49,9 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
     private final String F = RotationStrings.getString( "variable.f" );
     private final String N = RotationStrings.getString( "units.n" );
     private final String MOM_INERTIA_UNITS = RotationStrings.getString( "units.kg.m.2" );
-    private final String TORQUE_UNITS = RotationStrings.getString( "units.n.m" );
+    private final String TORQUE_UNITS = RotationStrings.getString( "units.n.mm" );
     private final String RADIUS_VARNAME = RotationStrings.getString( "variable.r" );
-    private final String RADIUS_UNITS = RotationStrings.getString( "units.m" );
+    private final String RADIUS_UNITS = RotationStrings.getString( "units.mm" );
     private final String FORCE = RotationStrings.getString( "variable.force" );
 
     public AbstractTorqueGraphSet( PhetPCanvas pSwingCanvas, final TorqueModel tm, AngleUnitModel angleUnitModel ) {
@@ -77,15 +77,15 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         return new RotationMinimizableControlGraph( MOMENT_OF_INERTIA_VARNAME, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( MOMENT_OF_INERTIA, Color.green, MOMENT_OF_INERTIA_VARNAME, MOM_INERTIA_UNITS, new BasicStroke( 2 ), null, tm.getMomentOfInertiaTimeSeries() ),
-                MOMENT_OF_INERTIA_VARNAME, MOMENT_OF_INERTIA, UNITS_GENERIC, -5, 5,
+                MOMENT_OF_INERTIA_VARNAME, MOMENT_OF_INERTIA, MOM_INERTIA_UNITS, -5, 5,
                 false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
     }
 
     protected RotationMinimizableControlGraph createTorqueGraph() {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         RotationMinimizableControlGraph torqueGraph = new RotationMinimizableControlGraph( UnicodeUtil.TAU, new RotationGraph(
-                pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, UNITS_GENERIC, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries() ),
-                UnicodeUtil.TAU, TORQUE, UNITS_GENERIC, -10, 10,
+                pSwingCanvas, new ControlGraphSeries( APPLIED_TORQUE, Color.blue, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 4 ), APPLIED, tm.getAppliedTorqueTimeSeries() ),
+                UnicodeUtil.TAU, TORQUE, TORQUE_UNITS, -10, 10,
                 false, tm.getTimeSeriesModel(), null, RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
 
         ControlGraphSeries brakeTorqueSeries = new ControlGraphSeries( BRAKE_TORQUE, Color.red, UnicodeUtil.TAU, TORQUE_UNITS, new BasicStroke( 2 ), BRAKE, tm.getBrakeTorque(), false );
@@ -137,7 +137,7 @@ public class AbstractTorqueGraphSet extends AbstractRotationGraphSet {
         PhetPCanvas pSwingCanvas = super.getCanvas();
         final RotationMinimizableControlGraph forceGraph = new RotationMinimizableControlGraph( F, new RotationGraph(
                 pSwingCanvas, new ControlGraphSeries( APPLIED_FORCE, Color.blue, F, N, new BasicStroke( 4 ), APPLIED, tm.getAppliedForceVariable(), true ),
-                F, FORCE, UNITS_GENERIC, -2.5, 2.5,
+                F, FORCE, N, -2.5, 2.5,
                 true, tm.getTimeSeriesModel(), tm.getForceDriven(), RotationModel.MAX_TIME, tm.getRotationPlatform() ) );
         forceGraph.getControlGraph().addListener( new ControlGraph.Adapter() {
             public void valueChanged( double value ) {
