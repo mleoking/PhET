@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -35,15 +37,15 @@ public class PlatformNode2 extends PNode {
     public PlatformNode2( RotationPlatform platform ) {
         addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
-//        for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
-//            for ( int layer = 3; layer >=0 ; layer-- ) {
-//                final double startAngle = quadrant * Math.PI * 2 / 4;
-//                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer, layer + 1 );
-//                addSegment( segment );
-//            }
-//        }
-        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3 );
-        addSegment( segment );
+        for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
+            for ( int layer = 3; layer >= 0; layer-- ) {
+                final double startAngle = quadrant * Math.PI * 2 / 4;
+                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3 );
+                addSegment( segment );
+            }
+        }
+//        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
+//        addSegment( segment );
         platform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
                 update();
@@ -80,27 +82,41 @@ public class PlatformNode2 extends PNode {
         private double innerRadius;
         private double outerRadius;
         private PhetPPath body;
+        private PhetPPath outerEdge;
+        private PhetPPath innerEdge;
+        private double edgeDX;
+        private double edgeDY;
 
-        public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius ) {
+        public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY ) {
+            this.edgeDX = edgeDX;
+            this.edgeDY = edgeDY;
             this.startAngle = startAngle + 0.1;
             this.endAngle = endAngle - 0.1;
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
-            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), Color.blue, new BasicStroke( 0.05f ), Color.green );
+
+            outerEdge = new PhetPPath( Color.red );
+            addChild( outerEdge );
+
+            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), Color.blue, new BasicStroke( 0.03f ), Color.black );
             addChild( body );
+
+
         }
 
         public void update() {
             GeneralPath path = new GeneralPath();
             final double extent = ( endAngle - startAngle ) * 360 / 2 / Math.PI;
-            Arc2D.Double outerArc = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI, extent, Arc2D.Double.OPEN );
-            Arc2D.Double innerArc = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent, -extent, Arc2D.Double.OPEN );
+            Arc2D.Double outerArc = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI+platform.getPosition(), extent, Arc2D.Double.OPEN );
+            Arc2D.Double innerArc = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent+platform.getPosition(), -extent, Arc2D.Double.OPEN );
             path.moveTo( (float) outerArc.getStartPoint().getX(), (float) outerArc.getStartPoint().getY() );
             path.append( outerArc, true );
             path.append( innerArc, true );
-
             path.closePath();
             body.setPathTo( path );
+
+            Shape p2 = path.createTransformedShape( AffineTransform.getTranslateInstance( edgeDX, edgeDY ) );
+            outerEdge.setPathTo( p2 );
         }
     }
 
@@ -124,13 +140,22 @@ public class PlatformNode2 extends PNode {
             panel.setZoomEventHandler( new PZoomEventHandler() );
             panel.setPanEventHandler( new PPanEventHandler() );
 //            panel.getPhetRootNode().scaleWorldAboutPoint( 100, new Point2D.Double( ) );
-            final PlatformNode2 node2 = new PlatformNode2( new RotationPlatform() );
+            final RotationPlatform rotationPlatform = new RotationPlatform();
+            final PlatformNode2 node2 = new PlatformNode2( rotationPlatform );
             panel.getLayer().addChild( node2 );
 //            panel.getCamera().animateViewToPanToBounds( node2.getGlobalFullBounds(), 1000 );
 //            panel.getCamera().animateViewToCenterBounds( node2.getGlobalFullBounds(), true, 1000 );
 
             setSimulationPanel( panel );
             updateTx();
+            rotationPlatform.setVelocity( 1.0 / Math.PI / 2.0 );
+            rotationPlatform.setVelocityDriven();
+            getClock().addClockListener( new ClockAdapter() {
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                    System.out.println( "rotationPlatform.getPosition() = " + rotationPlatform.getPosition() );
+                    rotationPlatform.stepInTime( clockEvent.getSimulationTime(), clockEvent.getSimulationTimeChange() );
+                }
+            } );
         }
 
         private void updateTx() {
