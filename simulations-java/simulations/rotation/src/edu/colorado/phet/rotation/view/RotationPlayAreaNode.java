@@ -48,20 +48,16 @@ public class RotationPlayAreaNode extends PNode {
         public void mouseDragged( PInputEvent event ) {
             rotationModel.startRecording();
         }
-//
-//            public void mousePressed( PInputEvent event ) {
-//                super.mousePressed( event );
-//            }
     };
 
-    public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectiorViewModel, AngleUnitModel angleUnitModel ) {
+    public RotationPlayAreaNode( final RotationModel rotationModel, VectorViewModel vectorViewModel, AngleUnitModel angleUnitModel ) {
         this.rotationModel = rotationModel;
         rotationPlatformNode = createRotationPlatformNode( rotationModel.getRotationPlatform() );
-        new Timer(30,new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "rotationPlatformNode.getGlobalFullBounds() = " + rotationPlatformNode.getGlobalFullBounds() );
-            }
-        } ).start();
+//        new Timer(30,new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "rotationPlatformNode.getGlobalFullBounds() = " + rotationPlatformNode.getGlobalFullBounds() );
+//            }
+//        } ).start();
 //        rotationPlatformNode = new BufferedRotationPlatformNode( rotationModel.getRotationPlatform() );
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
         rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, RotationStrings.getString( "units.m" ), 4, 14 );
@@ -75,7 +71,7 @@ public class RotationPlayAreaNode extends PNode {
             addRotationBodyNode( rotationModel.getRotationBody( i ) );
         }
         for ( int i = 0; i < rotationModel.getNumRotationBodies(); i++ ) {
-            addVectorNode( rotationModel.getRotationBody( i ), vectiorViewModel );
+            addVectorNode( rotationModel.getRotationBody( i ), vectorViewModel );
         }
         circularMotionNode = new CircleNode( rotationModel );
         circularMotionNode.setVisible( false );
