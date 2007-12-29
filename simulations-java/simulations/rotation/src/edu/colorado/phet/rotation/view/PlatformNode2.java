@@ -92,13 +92,23 @@ public class PlatformNode2 extends PNode {
                 else if ( layer == 3 ) {
                     color = quadrant % 2 == 0 ? new Color( 255, 215, 215 ) : new Color( 255, 240, 240 );
                 }
-                Range segmentRange = new Range( layer, layer + 1 );
+                double innerRadius = layer + LAYER_INSET;
+                double outerRadius = layer + 1 - LAYER_INSET;
+                Range segmentRange = new Range( innerRadius, outerRadius );
                 Range platformRange = new Range( platform.getInnerRadius(), platform.getRadius() );
                 final boolean b = segmentRange.overlaps( platformRange );
                 System.out.println( "q=" + quadrant + ", layer=" + layer + ", b = " + b );
                 if ( b ) {
+//                    outerRadius = Math.max( platform.getRadius(), outerRadius );
+//                    innerRadius = Math.max( platform.getInnerRadius(), innerRadius );
+                    if ( platform.getRadius() < outerRadius ) {
+                        outerRadius = platform.getRadius();
+                    }
+                    if (platform.getInnerRadius()>innerRadius){
+                        innerRadius=platform.getInnerRadius();
+                    }
                     PlatformSegment segment = new PlatformSegment( startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET,
-                                                                   layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true, color );
+                                                                   innerRadius, outerRadius, -0.3, -0.3, true, color );
                     addSegment( segment );
                 }
             }
