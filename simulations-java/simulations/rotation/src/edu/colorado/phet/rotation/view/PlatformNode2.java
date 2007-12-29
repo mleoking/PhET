@@ -6,7 +6,6 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -15,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -47,8 +47,10 @@ public class PlatformNode2 extends PNode {
 //        addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
         updateSegments();
+
         addChild( innerEdgeLayer );
         addChild( outerEdgeLayer );
+
         addChild( foreground );
 //        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
 //        addSegment( segment );
@@ -66,12 +68,23 @@ public class PlatformNode2 extends PNode {
                 updateSegments();
             }
         } );
+        platform.addListener( new RotationPlatform.Adapter() {
+            public void massChanged() {
+                updateSegments();
+            }
+        } );
 
         update();
     }
 
     private void updateSegments() {
         clearSegments();
+
+        final double MAX_THICKNESS = 0.4;
+        Function.LinearFunction linearFunction = new Function.LinearFunction( RotationPlatform.MIN_MASS, RotationPlatform.MAX_MASS, 0, MAX_THICKNESS );
+        double dy = linearFunction.evaluate( platform.getMass() );
+
+
         for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
 //            for ( int layer = 3; layer >= 0; layer-- ) {
             for ( int layer = 0; layer <= 3; layer++ ) {
@@ -111,7 +124,7 @@ public class PlatformNode2 extends PNode {
                         innerRadius = platform.getInnerRadius();
                     }
                     PlatformSegment segment = new PlatformSegment( startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET,
-                                                                   innerRadius, outerRadius, -0.3, -0.3, outerRadius == platform.getRadius(), innerRadius == platform.getInnerRadius(), color );
+                                                                   innerRadius, outerRadius, -dy, -dy, outerRadius == platform.getRadius(), innerRadius == platform.getInnerRadius(), color );
                     addSegment( segment );
                 }
             }
@@ -216,7 +229,7 @@ public class PlatformNode2 extends PNode {
             }
 
 //            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
-            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), color, new BasicStroke( 0.03f ), Color.black );
+            body = new PhetPPath( color, new BasicStroke( 0.03f ), Color.black );
             addChild( body );
         }
 
@@ -301,6 +314,15 @@ public class PlatformNode2 extends PNode {
                 slider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         rotationPlatform.setInnerRadius( slider.getModelValue() );
+                    }
+                } );
+                getControlPanel().addControlFullWidth( slider );
+            }
+            {
+                final LinearSlider slider = new LinearSlider( 0, 0.25, rotationPlatform.getMass(), 1000 );
+                slider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        rotationPlatform.setMass( slider.getModelValue() );
                     }
                 } );
                 getControlPanel().addControlFullWidth( slider );
