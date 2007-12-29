@@ -12,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -56,7 +57,7 @@ public class PlatformNode2 extends PNode {
 //        addSegment( segment );
         platform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
-                update();
+                updateAngle();
             }
         } );
         platform.addListener( new RotationPlatform.Adapter() {
@@ -74,10 +75,10 @@ public class PlatformNode2 extends PNode {
             }
         } );
 
-        update();
+        updateAngle();
     }
 
-    private void updateSegments() {
+    protected void updateSegments() {
         clearSegments();
 
         final double MAX_THICKNESS = 0.4;
@@ -184,10 +185,10 @@ public class PlatformNode2 extends PNode {
         foreground.addChild( segment.body );
     }
 
-    private void update() {
+    protected void updateAngle() {
         for ( int i = 0; i < segments.size(); i++ ) {
             PlatformSegment platformSegment = (PlatformSegment) segments.get( i );
-            platformSegment.update();
+            platformSegment.updateAngle();
         }
     }
 
@@ -233,18 +234,22 @@ public class PlatformNode2 extends PNode {
             addChild( body );
         }
 
-        public void update() {
+        public void updateAngle() {
 
             final double extent = ( endAngle - startAngle ) * 360 / 2 / Math.PI;
-            Arc2D.Double outerArc = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
-            Arc2D.Double outerArcRev = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition() + extent, -extent, Arc2D.Double.OPEN );
-            Arc2D.Double innerArc = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platform.getPosition(), -extent, Arc2D.Double.OPEN );
-            Arc2D.Double innerArcRev = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
+//            final double platformAngle = platform.getPosition() * 360 / Math.PI / 2;
+            final double platformAngle = -platform.getPosition() * 360 / Math.PI / 2;
+            final double angle1 = startAngle * 360 / 2 / Math.PI + platformAngle;
+//            System.out.println( "platform.getPosition() = " + platform.getPosition() + ", angle=" + angle1 );
+            Arc2D.Double outerArc = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, angle1, extent, Arc2D.Double.OPEN );
+            Arc2D.Double outerArcRev = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, angle1 + extent, -extent, Arc2D.Double.OPEN );
+            Arc2D.Double innerArc = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platformAngle, -extent, Arc2D.Double.OPEN );
+            Arc2D.Double innerArcRev = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, angle1, extent, Arc2D.Double.OPEN );
             GeneralPath path = toPathSegment( outerArc, innerArc );
             body.setPathTo( path );
 
-            Arc2D.Double outerArcDepth = new Arc2D.Double( -outerRadius + edgeDX, -outerRadius + edgeDY, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
-            Arc2D.Double innerArcDepth = new Arc2D.Double( -innerRadius + edgeDX, -innerRadius + edgeDY, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platform.getPosition(), -extent, Arc2D.Double.OPEN );
+            Arc2D.Double outerArcDepth = new Arc2D.Double( -outerRadius + edgeDX, -outerRadius + edgeDY, outerRadius * 2, outerRadius * 2, angle1, extent, Arc2D.Double.OPEN );
+            Arc2D.Double innerArcDepth = new Arc2D.Double( -innerRadius + edgeDX, -innerRadius + edgeDY, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platformAngle, -extent, Arc2D.Double.OPEN );
 
 //            Shape p2 = path.createTransformedShape( AffineTransform.getTranslateInstance( edgeDX, edgeDY ) );
 //            bottomPanel.setPathTo( toPathSegment( outerArcDepth, innerArcDepth ) );
@@ -323,6 +328,19 @@ public class PlatformNode2 extends PNode {
                 slider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         rotationPlatform.setMass( slider.getModelValue() );
+                    }
+                } );
+                getControlPanel().addControlFullWidth( slider );
+            }
+            {
+                final LinearSlider slider = new LinearSlider( 0, Math.PI*2, rotationPlatform.getPosition(), 1000 );
+                slider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven() );
+                        final double value = slider.getModelValue();
+                        System.out.println( "value = " + value );
+                        rotationPlatform.setPosition( value );
+
                     }
                 } );
                 getControlPanel().addControlFullWidth( slider );
