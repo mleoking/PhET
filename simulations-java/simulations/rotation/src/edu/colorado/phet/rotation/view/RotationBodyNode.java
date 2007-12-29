@@ -57,9 +57,12 @@ public class RotationBodyNode extends PhetPNode {
 
             public void mouseDragged( PInputEvent event ) {
                 PDimension d = event.getDeltaRelativeTo( RotationBodyNode.this.getParent() );
+                Point2D origPT = rotationBody.getPosition();
                 rotationBody.translate( d.width, d.height );
-                if ( rotationBody.isConstrained() && !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
-                    rotationBody.translate( -d.width, -d.height );
+                if ( model.platformContains( origPT.getX(), origPT.getY() ) ) {
+                    if ( rotationBody.isConstrained() && !model.platformContains( rotationBody.getX(), rotationBody.getY() ) ) {
+                        rotationBody.translate( -d.width, -d.height );
+                    }
                 }
             }
 
