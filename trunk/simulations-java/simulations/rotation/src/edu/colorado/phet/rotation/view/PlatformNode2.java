@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PPanEventHandler;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Created by: Sam
@@ -165,6 +166,7 @@ public class PlatformNode2 extends PNode {
         public TestModule( String name, IClock clock ) {
             super( name, clock );
             panel = new PCanvas();
+            panel.setDefaultRenderQuality( PPaintContext.LOW_QUALITY_RENDERING );
             panel.addComponentListener( new ComponentAdapter() {
                 public void componentResized( ComponentEvent e ) {
                     updateTx();
