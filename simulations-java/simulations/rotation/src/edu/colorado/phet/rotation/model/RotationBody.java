@@ -95,6 +95,14 @@ public class RotationBody {
         orientation = new RotationTemporalVariable();
     }
 
+    public void clearVelocityAndAcceleration() {
+        getVx().setValue( 0 );
+        getVy().setValue( 0 );
+        getAccelX().setValue( 0 );
+        getAccelY().setValue( 0 );
+        getAccelMagnitude().setValue( 0 );
+    }
+
     interface DoubleComparator {
         boolean compare( double a, double b );
     }
@@ -163,7 +171,7 @@ public class RotationBody {
     }
 
     public void setOnPlatform( RotationPlatform rotationPlatform ) {
-        if ( this.rotationPlatform != null &&rotationPlatform!=this.rotationPlatform) {
+        if ( this.rotationPlatform != null && rotationPlatform != this.rotationPlatform ) {
             this.rotationPlatform.removeListener( listener );
         }
         if ( !isOnPlatform( rotationPlatform ) ) {

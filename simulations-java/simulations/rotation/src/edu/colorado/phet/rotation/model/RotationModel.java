@@ -46,6 +46,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     private void resetBody2( RotationBody body ) {
+        body.clearVelocityAndAcceleration();
         body.setPosition( rotationPlatform.getCenter().getX() - rotationPlatform.getRadius() * Math.sqrt( 2 ) / 2.0,
                           rotationPlatform.getCenter().getY() - rotationPlatform.getRadius() );
         body.setOffPlatform();
@@ -53,6 +54,7 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
     }
 
     private void resetBody1( RotationBody body ) {
+        body.clearVelocityAndAcceleration();
         body.setPosition( rotationPlatform.getCenter().getX() + rotationPlatform.getRadius() / 2,
                           rotationPlatform.getCenter().getY() );
         body.setOnPlatform( rotationPlatform );
