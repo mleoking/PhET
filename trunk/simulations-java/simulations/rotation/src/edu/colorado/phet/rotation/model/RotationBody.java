@@ -758,6 +758,17 @@ public class RotationBody {
         }
 
         public void stepInTime( double time, double dt ) {
+            double r = 4.5;
+            if ( getPosition().distance( 0, 0 ) > r ) {
+                velocity = new Vector2D.Double( 0, 0 );
+                //scurry back to near the platform if offscreen?
+
+                Vector2D.Double vec = new Vector2D.Double( xBody.getPosition(), yBody.getPosition() );
+                AbstractVector2D a = vec.getInstanceOfMagnitude( r );
+                xBody.setPosition( a.getX() );
+                yBody.setPosition( a.getY() );
+            }
+
             xBody.addPositionData( xBody.getPosition() + velocity.getX() * dt, time );
             yBody.addPositionData( yBody.getPosition() + velocity.getY() * dt, time );
 
@@ -770,6 +781,7 @@ public class RotationBody {
             angle.addValue( getUserSetAngle(), time );
             angularVelocity.addValue( 0, time );
             angularAccel.addValue( 0, time );
+
         }
     }
 }
