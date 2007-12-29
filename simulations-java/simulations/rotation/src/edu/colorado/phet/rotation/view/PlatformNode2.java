@@ -38,9 +38,10 @@ public class PlatformNode2 extends PNode {
         addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
         for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
-            for ( int layer = 3; layer >= 0; layer-- ) {
+            for ( int layer = 3; layer >= 1; layer-- ) {
                 final double startAngle = quadrant * Math.PI * 2 / 4;
-                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3 );
+//                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
+                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, true );
                 addSegment( segment );
             }
         }
@@ -86,8 +87,9 @@ public class PlatformNode2 extends PNode {
         private PhetPPath northPanel;
         private double edgeDX;
         private double edgeDY;
+        private PhetPPath southPanel;
 
-        public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY ) {
+        public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showEdge ) {
             this.edgeDX = edgeDX;
             this.edgeDY = edgeDY;
             this.startAngle = startAngle + 0.1;
@@ -99,9 +101,13 @@ public class PlatformNode2 extends PNode {
             addChild( bottomPanel );
 
             northPanel = new PhetPPath( Color.magenta );
-            addChild( northPanel );
+            southPanel = new PhetPPath( Color.cyan );
+            if ( showEdge ) {
+                addChild( northPanel );
+                addChild( southPanel );
+            }
 
-            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f,0,1f,0.5f), new BasicStroke( 0.03f ), Color.black );
+            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
             addChild( body );
 
 
@@ -111,11 +117,11 @@ public class PlatformNode2 extends PNode {
 
             final double extent = ( endAngle - startAngle ) * 360 / 2 / Math.PI;
             Arc2D.Double outerArc = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
-            Arc2D.Double outerArcRev = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition()+extent, -extent, Arc2D.Double.OPEN );
+            Arc2D.Double outerArcRev = new Arc2D.Double( -outerRadius, -outerRadius, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition() + extent, -extent, Arc2D.Double.OPEN );
             Arc2D.Double innerArc = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platform.getPosition(), -extent, Arc2D.Double.OPEN );
+            Arc2D.Double innerArcRev = new Arc2D.Double( -innerRadius, -innerRadius, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
             GeneralPath path = toPathSegment( outerArc, innerArc );
             body.setPathTo( path );
-
 
             Arc2D.Double outerArcDepth = new Arc2D.Double( -outerRadius + edgeDX, -outerRadius + edgeDY, outerRadius * 2, outerRadius * 2, startAngle * 360 / 2 / Math.PI + platform.getPosition(), extent, Arc2D.Double.OPEN );
             Arc2D.Double innerArcDepth = new Arc2D.Double( -innerRadius + edgeDX, -innerRadius + edgeDY, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platform.getPosition(), -extent, Arc2D.Double.OPEN );
@@ -123,7 +129,7 @@ public class PlatformNode2 extends PNode {
 //            Shape p2 = path.createTransformedShape( AffineTransform.getTranslateInstance( edgeDX, edgeDY ) );
             bottomPanel.setPathTo( toPathSegment( outerArcDepth, innerArcDepth ) );
             northPanel.setPathTo( toPathSegment( outerArcRev, outerArcDepth ) );
-
+            southPanel.setPathTo( toPathSegment( innerArcRev, innerArcDepth ) );
         }
 
         private GeneralPath toPathSegment( Arc2D.Double outerArc, Arc2D.Double innerArc ) {
@@ -164,7 +170,7 @@ public class PlatformNode2 extends PNode {
 
             setSimulationPanel( panel );
             updateTx();
-            rotationPlatform.setVelocity( 1.0 / Math.PI / 2.0 );
+            rotationPlatform.setVelocity( 1.0 / Math.PI / 2.0 * 3 );
             rotationPlatform.setVelocityDriven();
             getClock().addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
