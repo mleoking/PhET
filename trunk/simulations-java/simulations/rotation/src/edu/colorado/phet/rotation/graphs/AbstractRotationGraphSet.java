@@ -32,7 +32,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
     private static final String ANG_VEL_UNITS_DEG = RotationStrings.ANG_VEL_DEG_ABBR;
     private static final String ANG_ACC_UNITS_RAD = RotationStrings.ANG_ACC_ABBR;
     private static final String ANG_ACC_UNITS_DEG = RotationStrings.ANG_ACC_DEG_ABBR;
-    private static final String POSITION_UNITS = RotationStrings.METERS_ABBR;
+    private static final String POSITION_UNITS = RotationStrings.MM_ABBR;
     private static final String VELOCITY_UNITS = RotationStrings.VELOCITY_ABBR;
     private static final String ACCEL_UNITS = RotationStrings.ACCEL_ABBR;
 
@@ -67,7 +67,7 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
 
     protected RotationMinimizableControlGraph createAGraph() {
         RotationMinimizableControlGraph aGraph = new RotationMinimizableControlGraph( RotationStrings.ACCELERATION_ABBR, new RotationGraph(
-                pSwingCanvas, null, RotationStrings.twoChar( "ax"), RotationStrings.ACCELERATION, ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
+                pSwingCanvas, null, RotationStrings.twoChar( "ax" ), RotationStrings.ACCELERATION, ACCEL_UNITS, -1 / 0.03 / 0.03 * 3.0 / 200.0, 1 / 0.03 / 0.03 * 3.0 / 200.0,
                 false, model.getTimeSeriesModel(), null, RotationModel.MAX_TIME, null ) );
 
         aGraph.addSeriesPair( RotationStrings.abs( RotationStrings.ACCELERATION ),
@@ -75,12 +75,12 @@ public abstract class AbstractRotationGraphSet extends GraphSuiteSet {
                               new ControlGraphSeries( RotationStrings.abs( RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AM_COLOR ), RotationStrings.ACCELERATION_ABBR, ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelMagnitude() ),
                               b0, b1 );
         aGraph.addSeriesPair( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ),
-                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ), RotationColorScheme.AX_COLOR, RotationStrings.twoChar( "ax"), ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
-                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AX_COLOR ), RotationStrings.twoChar( "ax"), ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX() ),
+                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ), RotationColorScheme.AX_COLOR, RotationStrings.twoChar( "ax" ), ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelX() ),
+                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AX_COLOR ), RotationStrings.twoChar( "ax" ), ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelX() ),
                               b0, b1, false );
         aGraph.addSeriesPair( RotationStrings.formatForChart( RotationStrings.Y, RotationStrings.ACCELERATION ),
-                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ), RotationColorScheme.AY_COLOR, RotationStrings.twoChar( "ay"), ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY() ),
-                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AY_COLOR ), RotationStrings.twoChar( "ay"), ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY() ),
+                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ), RotationColorScheme.AY_COLOR, RotationStrings.twoChar( "ay" ), ACCEL_UNITS, body0Stroke, CHARACTER_LADY, b0.getAccelY() ),
+                              new ControlGraphSeries( RotationStrings.formatForChart( RotationStrings.X, RotationStrings.ACCELERATION ) + "(2)", darken( RotationColorScheme.AY_COLOR ), RotationStrings.twoChar( "ay" ), ACCEL_UNITS, body1Stroke, CHARACTER_BEETLE, b1.getAccelY() ),
                               b0, b1, false );
         return aGraph;
     }
