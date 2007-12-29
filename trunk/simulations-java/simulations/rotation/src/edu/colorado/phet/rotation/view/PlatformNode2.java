@@ -33,6 +33,8 @@ import edu.umd.cs.piccolo.event.PZoomEventHandler;
 public class PlatformNode2 extends PNode {
     private RotationPlatform platform;
     private ArrayList segments = new ArrayList();
+    private PNode background = new PNode();
+    private PNode foreground = new PNode();
 
     public PlatformNode2( RotationPlatform platform ) {
         addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
@@ -41,12 +43,15 @@ public class PlatformNode2 extends PNode {
             for ( int layer = 3; layer >= 1; layer-- ) {
                 final double startAngle = quadrant * Math.PI * 2 / 4;
 //                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
-//                final double LAYER_INSET = 0.1;
-                final double LAYER_INSET = 0.0;
-                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true );
+                final double LAYER_INSET = 0.1;
+                final double ANGLE_INSET = 0.1;
+//                final double LAYER_INSET = 0.0;
+                PlatformSegment segment = new PlatformSegment( this, startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET, layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true );
                 addSegment( segment );
             }
         }
+        addChild( background );
+        addChild( foreground );
 //        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
 //        addSegment( segment );
         platform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
@@ -69,7 +74,12 @@ public class PlatformNode2 extends PNode {
 
     private void addSegment( PlatformSegment segment ) {
         segments.add( segment );
-        addChild( segment );
+        background.addChild( segment.bottomPanel );
+        background.addChild( segment.northPanel );
+        background.addChild( segment.southPanel );
+
+        foreground.addChild( segment.body );
+//        addChild( segment );
     }
 
     private void update() {
