@@ -39,14 +39,16 @@ import edu.umd.cs.piccolo.util.PPaintContext;
 public class PlatformNode2 extends PNode {
     private RotationPlatform platform;
     private ArrayList segments = new ArrayList();
-    private PNode background = new PNode();
+    private PNode outerEdgeLayer = new PNode();
+    private PNode innerEdgeLayer = new PNode();
     private PNode foreground = new PNode();
 
     public PlatformNode2( RotationPlatform platform ) {
 //        addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
         updateSegments();
-        addChild( background );
+        addChild( innerEdgeLayer );
+        addChild( outerEdgeLayer );
         addChild( foreground );
 //        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
 //        addSegment( segment );
@@ -71,7 +73,8 @@ public class PlatformNode2 extends PNode {
     private void updateSegments() {
         clearSegments();
         for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
-            for ( int layer = 3; layer >= 0; layer-- ) {
+//            for ( int layer = 3; layer >= 0; layer-- ) {
+            for ( int layer = 0; layer <= 3; layer++ ) {
                 final double startAngle = quadrant * Math.PI * 2 / 4;
 //                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
 
@@ -101,14 +104,14 @@ public class PlatformNode2 extends PNode {
                 if ( b ) {
 //                    outerRadius = Math.max( platform.getRadius(), outerRadius );
 //                    innerRadius = Math.max( platform.getInnerRadius(), innerRadius );
-                    if ( platform.getRadius() < outerRadius ) {
+                    if ( platform.getRadius() <= outerRadius ) {
                         outerRadius = platform.getRadius();
                     }
-                    if (platform.getInnerRadius()>innerRadius){
-                        innerRadius=platform.getInnerRadius();
+                    if ( platform.getInnerRadius() >= innerRadius ) {
+                        innerRadius = platform.getInnerRadius();
                     }
                     PlatformSegment segment = new PlatformSegment( startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET,
-                                                                   innerRadius, outerRadius, -0.3, -0.3, true, color );
+                                                                   innerRadius, outerRadius, -0.3, -0.3, outerRadius == platform.getRadius(), innerRadius == platform.getInnerRadius(), color );
                     addSegment( segment );
                 }
             }
@@ -146,19 +149,26 @@ public class PlatformNode2 extends PNode {
 
     private void removeSegment( PlatformSegment segment ) {
         segments.remove( segment );
-        background.removeChild( segment.northPanel );
-        background.removeChild( segment.southPanel );
+        if ( segment.showOuterEdge ) {
+            outerEdgeLayer.removeChild( segment.northPanel );
+        }
+        if ( segment.showInnerEdge ) {
+            innerEdgeLayer.removeChild( segment.southPanel );
+        }
         foreground.removeChild( segment.body );
     }
 
     private void addSegment( PlatformSegment segment ) {
         segments.add( segment );
 //        background.addChild( segment.bottomPanel );
-        background.addChild( segment.northPanel );
-        background.addChild( segment.southPanel );
+        if ( segment.showOuterEdge ) {
+            outerEdgeLayer.addChild( segment.northPanel );
+        }
+        if ( segment.showInnerEdge ) {
+            innerEdgeLayer.addChild( segment.southPanel );
+        }
 
         foreground.addChild( segment.body );
-//        addChild( segment );
     }
 
     private void update() {
@@ -179,22 +189,29 @@ public class PlatformNode2 extends PNode {
         private double edgeDX;
         private double edgeDY;
         private PhetPPath southPanel;
+        private boolean showOuterEdge;
+        private boolean showInnerEdge;
 
-        public PlatformSegment( double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showEdge, Color color ) {
+        public PlatformSegment( double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showOuterEdge, boolean showInnerEdge, Color color ) {
             this.edgeDX = edgeDX;
             this.edgeDY = edgeDY;
             this.startAngle = startAngle;// + 0.1;
             this.endAngle = endAngle;// - 0.1;
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
+            this.showOuterEdge = showOuterEdge;
+            this.showInnerEdge = showInnerEdge;
 
 //            bottomPanel = new PhetPPath( Color.red );
 //            addChild( bottomPanel );
 
             northPanel = new PhetPPath( color.darker(), new BasicStroke( 0.03f ), Color.black );
             southPanel = new PhetPPath( color.darker(), new BasicStroke( 0.03f ), Color.black );
-            if ( showEdge ) {
+            if ( showOuterEdge ) {
                 addChild( northPanel );
+
+            }
+            if ( showInnerEdge ) {
                 addChild( southPanel );
             }
 
