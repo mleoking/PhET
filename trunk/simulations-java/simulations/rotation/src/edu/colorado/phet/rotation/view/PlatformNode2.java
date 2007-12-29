@@ -41,7 +41,9 @@ public class PlatformNode2 extends PNode {
             for ( int layer = 3; layer >= 1; layer-- ) {
                 final double startAngle = quadrant * Math.PI * 2 / 4;
 //                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
-                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, true );
+//                final double LAYER_INSET = 0.1;
+                final double LAYER_INSET = 0.0;
+                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true );
                 addSegment( segment );
             }
         }
@@ -92,25 +94,24 @@ public class PlatformNode2 extends PNode {
         public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showEdge ) {
             this.edgeDX = edgeDX;
             this.edgeDY = edgeDY;
-            this.startAngle = startAngle + 0.1;
-            this.endAngle = endAngle - 0.1;
+            this.startAngle = startAngle;// + 0.1;
+            this.endAngle = endAngle;// - 0.1;
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
 
             bottomPanel = new PhetPPath( Color.red );
             addChild( bottomPanel );
 
-            northPanel = new PhetPPath( Color.magenta );
-            southPanel = new PhetPPath( Color.cyan );
+            northPanel = new PhetPPath( Color.magenta, new BasicStroke( 0.03f ), Color.black );
+            southPanel = new PhetPPath( Color.cyan, new BasicStroke( 0.03f ), Color.black );
             if ( showEdge ) {
                 addChild( northPanel );
                 addChild( southPanel );
             }
 
-            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
+//            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
+            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), Color.blue, new BasicStroke( 0.03f ), Color.black );
             addChild( body );
-
-
         }
 
         public void update() {
