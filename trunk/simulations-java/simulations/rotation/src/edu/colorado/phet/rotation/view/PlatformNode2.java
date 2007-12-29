@@ -9,6 +9,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -17,6 +20,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearSlider;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -38,19 +43,9 @@ public class PlatformNode2 extends PNode {
     private PNode foreground = new PNode();
 
     public PlatformNode2( RotationPlatform platform ) {
-        addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
+//        addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
-        for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
-            for ( int layer = 3; layer >= 1; layer-- ) {
-                final double startAngle = quadrant * Math.PI * 2 / 4;
-//                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
-                final double LAYER_INSET = 0.1;
-                final double ANGLE_INSET = 0.1;
-//                final double LAYER_INSET = 0.0;
-                PlatformSegment segment = new PlatformSegment( this, startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET, layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true );
-                addSegment( segment );
-            }
-        }
+        updateSegments();
         addChild( background );
         addChild( foreground );
 //        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
@@ -62,20 +57,93 @@ public class PlatformNode2 extends PNode {
         } );
         platform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
-                update();
+                updateSegments();
             }
 
             public void innerRadiusChanged() {
-                update();
+                updateSegments();
             }
         } );
 
         update();
     }
 
+    private void updateSegments() {
+        clearSegments();
+        for ( int quadrant = 0; quadrant < 4; quadrant++ ) {
+            for ( int layer = 3; layer >= 0; layer-- ) {
+                final double startAngle = quadrant * Math.PI * 2 / 4;
+//                PlatformSegment segment = new PlatformSegment( this, startAngle, startAngle + Math.PI / 2, layer + 0.1, layer + 1 - 0.1, -0.3, -0.3, layer == 3 );
+
+//                final double LAYER_INSET = 0.1;
+//                final double ANGLE_INSET = 0.1;
+                final double LAYER_INSET = 0.0;
+                final double ANGLE_INSET = 0.0;
+                Color color = Color.blue;
+                if ( layer == 0 ) {
+                    color = quadrant % 2 == 0 ? Color.lightGray : Color.white;
+                }
+                else if ( layer == 1 ) {
+                    color = quadrant % 2 == 0 ? new Color( 215, 215, 255 ) : new Color( 240, 240, 255 );
+                }
+                else if ( layer == 2 ) {
+                    color = quadrant % 2 == 0 ? new Color( 140, 255, 140 ) : new Color( 200, 255, 200 );
+                }
+                else if ( layer == 3 ) {
+                    color = quadrant % 2 == 0 ? new Color( 255, 215, 215 ) : new Color( 255, 240, 240 );
+                }
+                Range segmentRange = new Range( layer, layer + 1 );
+                Range platformRange = new Range( platform.getInnerRadius(), platform.getRadius() );
+                final boolean b = segmentRange.overlaps( platformRange );
+                System.out.println( "q=" + quadrant + ", layer=" + layer + ", b = " + b );
+                if ( b ) {
+                    PlatformSegment segment = new PlatformSegment( startAngle + ANGLE_INSET, startAngle + Math.PI / 2 - ANGLE_INSET,
+                                                                   layer + LAYER_INSET, layer + 1 - LAYER_INSET, -0.3, -0.3, true, color );
+                    addSegment( segment );
+                }
+            }
+        }
+    }
+
+    static class Range {
+        double min;
+        double max;
+
+        Range( double min, double max ) {
+            this.min = min;
+            this.max = max;
+        }
+
+        public boolean overlaps( Range b ) {
+            return this.containsEndpoint( b ) || b.containsEndpoint( this );
+        }
+
+        private boolean containsEndpoint( Range b ) {
+            return containsEndpoint( b.min ) || containsEndpoint( b.max );
+        }
+
+        private boolean containsEndpoint( double v ) {
+            return v >= min && v <= max;
+        }
+    }
+
+    private void clearSegments() {
+        while ( segments.size() > 0 ) {
+            PlatformSegment platformSegment = (PlatformSegment) segments.get( 0 );
+            removeSegment( platformSegment );
+        }
+    }
+
+    private void removeSegment( PlatformSegment segment ) {
+        segments.remove( segment );
+        background.removeChild( segment.northPanel );
+        background.removeChild( segment.southPanel );
+        foreground.removeChild( segment.body );
+    }
+
     private void addSegment( PlatformSegment segment ) {
         segments.add( segment );
-        background.addChild( segment.bottomPanel );
+//        background.addChild( segment.bottomPanel );
         background.addChild( segment.northPanel );
         background.addChild( segment.southPanel );
 
@@ -96,13 +164,13 @@ public class PlatformNode2 extends PNode {
         private double innerRadius;
         private double outerRadius;
         private PhetPPath body;
-        private PhetPPath bottomPanel;
+        //        private PhetPPath bottomPanel;
         private PhetPPath northPanel;
         private double edgeDX;
         private double edgeDY;
         private PhetPPath southPanel;
 
-        public PlatformSegment( PlatformNode2 platformNode2, double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showEdge ) {
+        public PlatformSegment( double startAngle, double endAngle, double innerRadius, double outerRadius, double edgeDX, double edgeDY, boolean showEdge, Color color ) {
             this.edgeDX = edgeDX;
             this.edgeDY = edgeDY;
             this.startAngle = startAngle;// + 0.1;
@@ -110,18 +178,18 @@ public class PlatformNode2 extends PNode {
             this.innerRadius = innerRadius;
             this.outerRadius = outerRadius;
 
-            bottomPanel = new PhetPPath( Color.red );
-            addChild( bottomPanel );
+//            bottomPanel = new PhetPPath( Color.red );
+//            addChild( bottomPanel );
 
-            northPanel = new PhetPPath( Color.magenta, new BasicStroke( 0.03f ), Color.black );
-            southPanel = new PhetPPath( Color.cyan, new BasicStroke( 0.03f ), Color.black );
+            northPanel = new PhetPPath( color.darker(), new BasicStroke( 0.03f ), Color.black );
+            southPanel = new PhetPPath( color.darker(), new BasicStroke( 0.03f ), Color.black );
             if ( showEdge ) {
                 addChild( northPanel );
                 addChild( southPanel );
             }
 
 //            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
-            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), Color.blue, new BasicStroke( 0.03f ), Color.black );
+            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), color, new BasicStroke( 0.03f ), Color.black );
             addChild( body );
         }
 
@@ -139,7 +207,7 @@ public class PlatformNode2 extends PNode {
             Arc2D.Double innerArcDepth = new Arc2D.Double( -innerRadius + edgeDX, -innerRadius + edgeDY, innerRadius * 2, innerRadius * 2, startAngle * 360 / 2 / Math.PI + extent + platform.getPosition(), -extent, Arc2D.Double.OPEN );
 
 //            Shape p2 = path.createTransformedShape( AffineTransform.getTranslateInstance( edgeDX, edgeDY ) );
-            bottomPanel.setPathTo( toPathSegment( outerArcDepth, innerArcDepth ) );
+//            bottomPanel.setPathTo( toPathSegment( outerArcDepth, innerArcDepth ) );
             northPanel.setPathTo( toPathSegment( outerArcRev, outerArcDepth ) );
             southPanel.setPathTo( toPathSegment( innerArcRev, innerArcDepth ) );
         }
@@ -191,6 +259,25 @@ public class PlatformNode2 extends PNode {
                     rotationPlatform.stepInTime( clockEvent.getSimulationTime(), clockEvent.getSimulationTimeChange() );
                 }
             } );
+            setControlPanel( new ControlPanel() );
+            {
+                final LinearSlider slider = new LinearSlider( 0, 4, 4, 1000 );
+                slider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        rotationPlatform.setRadius( slider.getModelValue() );
+                    }
+                } );
+                getControlPanel().addControlFullWidth( slider );
+            }
+            {
+                final LinearSlider slider = new LinearSlider( 0, 4, 0, 1000 );
+                slider.addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        rotationPlatform.setInnerRadius( slider.getModelValue() );
+                    }
+                } );
+                getControlPanel().addControlFullWidth( slider );
+            }
         }
 
         private void updateTx() {
