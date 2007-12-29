@@ -3,19 +3,20 @@ package edu.colorado.phet.rotation.view;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.GeneralPath;
+import java.awt.geom.*;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
+import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -43,9 +44,9 @@ public class PlatformNode2 extends PNode {
     private PNode outerEdgeLayer = new PNode();
     private PNode innerEdgeLayer = new PNode();
     private PNode foreground = new PNode();
+    private PhetPPath decorationLayer;
 
     public PlatformNode2( RotationPlatform platform ) {
-//        addChild( new PhetPPath( new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 ), Color.red ) );
         this.platform = platform;
         updateSegments();
 
@@ -53,8 +54,7 @@ public class PlatformNode2 extends PNode {
         addChild( outerEdgeLayer );
 
         addChild( foreground );
-//        PlatformSegment segment = new PlatformSegment( this, 0, 0 + Math.PI / 2, 2, 3, -0.3, -0.3 );
-//        addSegment( segment );
+        addChild( new DecorationLayer( platform ) );
         platform.getPositionVariable().addListener( new ITemporalVariable.ListenerAdapter() {
             public void valueChanged() {
                 updateAngle();
@@ -63,15 +63,18 @@ public class PlatformNode2 extends PNode {
         platform.addListener( new RotationPlatform.Adapter() {
             public void radiusChanged() {
                 updateSegments();
+                updateAngle();
             }
 
             public void innerRadiusChanged() {
                 updateSegments();
+                updateAngle();
             }
         } );
         platform.addListener( new RotationPlatform.Adapter() {
             public void massChanged() {
                 updateSegments();
+                updateAngle();
             }
         } );
 
@@ -114,7 +117,7 @@ public class PlatformNode2 extends PNode {
                 Range segmentRange = new Range( innerRadius, outerRadius );
                 Range platformRange = new Range( platform.getInnerRadius(), platform.getRadius() );
                 final boolean b = segmentRange.overlaps( platformRange );
-                System.out.println( "q=" + quadrant + ", layer=" + layer + ", b = " + b );
+//                System.out.println( "q=" + quadrant + ", layer=" + layer + ", b = " + b );
                 if ( b ) {
 //                    outerRadius = Math.max( platform.getRadius(), outerRadius );
 //                    innerRadius = Math.max( platform.getInnerRadius(), innerRadius );
@@ -170,6 +173,13 @@ public class PlatformNode2 extends PNode {
             innerEdgeLayer.removeChild( segment.southPanel );
         }
         foreground.removeChild( segment.body );
+    }
+
+    public void fullPaint( PPaintContext paintContext ) {
+//        Object a = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+//        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        super.fullPaint( paintContext );
+//        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, a );
     }
 
     private void addSegment( PlatformSegment segment ) {
@@ -230,7 +240,9 @@ public class PlatformNode2 extends PNode {
             }
 
 //            body = new PhetPPath( new Rectangle2D.Double( innerRadius, 0, 1, 1 ), new Color( 0f, 0, 1f, 0.5f ), new BasicStroke( 0.03f ), Color.black );
-            body = new PhetPPath( color, new BasicStroke( 0.03f ), Color.black );
+
+//            body = new PhetPPath( color, new BasicStroke( 0.03f ), Color.black );
+            body = new PhetPPath( color );
             addChild( body );
         }
 
@@ -333,7 +345,7 @@ public class PlatformNode2 extends PNode {
                 getControlPanel().addControlFullWidth( slider );
             }
             {
-                final LinearSlider slider = new LinearSlider( 0, Math.PI*2, rotationPlatform.getPosition(), 1000 );
+                final LinearSlider slider = new LinearSlider( 0, Math.PI * 2, rotationPlatform.getPosition(), 1000 );
                 slider.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         rotationPlatform.setUpdateStrategy( new UpdateStrategy.PositionDriven() );
@@ -351,6 +363,55 @@ public class PlatformNode2 extends PNode {
             panel.getCamera().setViewTransform( new AffineTransform() );
             panel.getCamera().translateView( panel.getWidth() / 2, panel.getHeight() / 2 );
             panel.getCamera().scaleView( 50 );
+        }
+    }
+
+    private static class DecorationLayer extends PNode {
+        private RotationPlatform platform;
+        private PhetPPath outerRim;
+        private PhetPPath innerRim;
+
+        private PhetPPath angleZero;
+
+        public DecorationLayer( RotationPlatform platform ) {
+            this.platform = platform;
+
+            outerRim = new PhetPPath( new BasicStroke( 0.04f ), Color.black );
+            addChild( outerRim );
+
+            innerRim = new PhetPPath( new BasicStroke( 0.04f ), Color.black );
+            addChild( innerRim );
+
+            angleZero = new PhetPPath( new BasicStroke( 0.04f ), Color.gray );
+            addChild( angleZero );
+
+            platform.getPositionVariable().addListener( new IVariable.Listener() {
+                public void valueChanged() {
+                    update();
+                }
+            } );
+            platform.addListener( new RotationPlatform.Adapter() {
+                public void radiusChanged() {
+                    update();
+                }
+
+                public void innerRadiusChanged() {
+                    update();
+                }
+            } );
+            update();
+        }
+
+        private void update() {
+            outerRim.setPathTo( new Ellipse2D.Double( -platform.getRadius(), -platform.getRadius(), platform.getRadius() * 2, platform.getRadius() * 2 ) );
+            innerRim.setVisible( platform.getInnerRadius() > 0 && platform.getRadius() != platform.getInnerRadius() );
+            innerRim.setPathTo( new Ellipse2D.Double( -platform.getInnerRadius(), -platform.getInnerRadius(), platform.getInnerRadius() * 2, platform.getInnerRadius() * 2 ) );
+
+            double angle=platform.getPosition();
+            AbstractVector2D a=Vector2D.Double.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
+            AbstractVector2D b=Vector2D.Double.parseAngleAndMagnitude( platform.getRadius(), angle );
+
+            angleZero.setPathTo( new Line2D.Double( a.toPoint2D(),b.toPoint2D()) );
         }
     }
 }
