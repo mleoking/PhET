@@ -16,6 +16,7 @@ public class RotationStrings {
     public static final String ACCELERATION_ABBR = RotationStrings.getString( "variable.a" );
     public static final String SEC_ABBR = RotationStrings.getString( "units.s" );
     public static final String METERS_ABBR = RotationStrings.getString( "units.m" );
+    public static final String MM_ABBR = RotationStrings.getString( "units.mm" );
 
     public static final String X = RotationStrings.getString( "variable.x" );
     public static final String Y = RotationStrings.getString( "variable.y" );
@@ -70,4 +71,5 @@ public class RotationStrings {
         }
         throw new RuntimeException( "unknown character" );
     }
+
 }
