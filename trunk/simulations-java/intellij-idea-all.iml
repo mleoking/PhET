@@ -39,8 +39,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/faraday/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/fluorescent-lights/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations/forces-1d/phetcommon/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations/forces-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/glaciers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/greenhouse/phetcommon/src" isTestSource="false" />
@@ -76,7 +74,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/states-of-matter/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/waveinterference/src" isTestSource="false" />
     </content>
@@ -84,7 +81,6 @@
       <sourceFolder url="file://$MODULE_DIR$/../team/unfuddle/src" isTestSource="false" />
     </content>
     <content url="file://$MODULE_DIR$/../translation-utility">
-      <sourceFolder url="file://$MODULE_DIR$/../translation-utility/contrib/google-translate-api/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../translation-utility/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
