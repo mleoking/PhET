@@ -1,23 +1,23 @@
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.*;
-import java.util.Arrays;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.Arrays;
 
 import javax.swing.*;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfWriter;
+import com.lowagie.text.pdf.DefaultFontMapper;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.DefaultFontMapper;
+import com.lowagie.text.pdf.PdfWriter;
 
 /**
  * Created by: Sam
@@ -46,7 +46,7 @@ public class PDFHandler {
         Timer timer = new Timer( 100, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Frame[] f = JFrame.getFrames();
-                System.out.println( "f.length = " + f.length );
+//                System.out.println( "f.length = " + f.length );
                 for ( int i = 0; i < f.length; i++ ) {
                     final Frame frame = f[i];
                     if ( !Arrays.asList( frame.getKeyListeners() ).contains( listener ) ) {
@@ -60,12 +60,12 @@ public class PDFHandler {
                                     printFrame( frame );
                                 }
 
-                                private void printFrame( Frame frame) {
-                                    int width=frame.getWidth();
-                                    int height=frame.getHeight();
+                                private void printFrame( Frame frame ) {
+                                    int width = frame.getWidth();
+                                    int height = frame.getHeight();
 
-                                    File filename=new File( "C:\\Users\\Sam\\Desktop\\phet_pdf_"+System.currentTimeMillis()+".pdf");
-                                    System.out.println( "saving to: filename = " + filename );
+                                    File filename = new File( "phet_screenshot_" + System.currentTimeMillis() + ".pdf" );
+                                    System.out.println( "saving to: filename = " + filename.getAbsolutePath() );
                                     // step 1
                                     Document document = new Document( new com.lowagie.text.Rectangle( width, height ) );
                                     try {
