@@ -5,7 +5,6 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
-import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.view.FullRepaintCanvas;
 import edu.colorado.phet.rotation.view.RotationPlayAreaNode;
@@ -53,7 +52,4 @@ public class AbstractIntroSimulationPanel extends FullRepaintCanvas {
         return rotationPlatform;
     }
 
-    protected JComponent createControlPanel( RulerNode rulerNode, JFrame parentFrame ) {
-        return new JPanel();
-    }
 }

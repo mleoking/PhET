@@ -3,14 +3,8 @@ package edu.colorado.phet.rotation.view;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-import javax.swing.*;
-
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.RotationStrings;
@@ -62,6 +56,8 @@ public class RotationPlayAreaNode extends PNode {
         originNode = new RotationOriginNode( rotationModel.getRotationPlatform(), angleUnitModel );
         rulerNode = new RotationRulerNode( rotationModel.getRotationPlatform().getRadius() * 2, 50 * SCALE, new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8"}, RotationStrings.getString( "units.mm" ), 4, 14 );
         rulerNode.setTransform( AffineTransform.getScaleInstance( 1, -1 ) );
+//        rulerNode.setOffset( -RotationPlatform.DEFAULT_OUTER_RADIUS, 0 );
+        rulerNode.setOffset( -rulerNode.getFullBounds().getWidth() / 2, 0 );
         rulerNode.setVisible( false );
 
         addChild( rotationPlatformNode );
