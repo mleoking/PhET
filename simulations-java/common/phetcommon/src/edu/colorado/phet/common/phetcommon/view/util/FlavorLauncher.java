@@ -268,7 +268,9 @@ public class FlavorLauncher extends JFrame {
             prop.load( resource.openStream() );
         }
         else {//fallback plan in case not running in a JAR file
-            prop.load( new FileInputStream( new File( "flavors.properties" ) ) );
+            final File file = new File( "flavors.properties" );
+            System.out.println( "Attempting to load properties from: "+file.getAbsolutePath() );
+            prop.load( new FileInputStream( file ) );
         }
 
         SimulationInfo[] info = getSimInfo( prop );
