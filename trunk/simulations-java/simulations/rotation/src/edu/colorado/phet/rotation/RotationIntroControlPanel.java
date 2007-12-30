@@ -38,7 +38,11 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createAngleSlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) );
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( -Math.PI * 2 * 2 ), radiansToDegrees( Math.PI * 2 * 2 ), 0.0, RotationStrings.getString( "variable.angle" ), "0.00", RotationStrings.getString( "units.degrees" ) ){
+            protected boolean isValueInRange( double value ) {
+                return true;
+            }
+        };
         linearSlider.getTextField().setColumns( "1000.00".length());
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
@@ -61,7 +65,11 @@ public class RotationIntroControlPanel extends VerticalLayoutPanel {
     }
 
     private LinearValueControl createVelocitySlider( final RotationIntroModule introModule ) {
-        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( AbstractRotationGraphSet.MIN_ANG_VEL), radiansToDegrees( AbstractRotationGraphSet.MAX_ANG_VEL), 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", RotationStrings.getString( "units.degrees")+"/"+ RotationStrings.getString( "units.s"));
+        final LinearValueControl linearSlider = new LinearValueControl( radiansToDegrees( AbstractRotationGraphSet.MIN_ANG_VEL), radiansToDegrees( AbstractRotationGraphSet.MAX_ANG_VEL), 0.0, RotationStrings.getString( "variable.angular.velocity" ), "0.00", RotationStrings.getString( "units.degrees")+"/"+ RotationStrings.getString( "units.s")){
+            protected boolean isValueInRange( double value ) {
+                return true;
+            }
+        };
         linearSlider.getTextField().setColumns( "1000.00".length());
         linearSlider.setSignifyOutOfBounds( false );
         final ChangeListener listener = new ChangeListener() {
