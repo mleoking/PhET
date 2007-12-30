@@ -206,7 +206,7 @@ public abstract class AbstractValueControl extends JPanel {
      * @param notify
      */
     private void setValue( double value, boolean notify ) {
-        if ( value >= getMinimum() && value <= getMaximum() ) {
+        if ( isValueInRange( value ) ) {
             _value = value;
             updateView();
             if ( notify ) {
@@ -220,6 +220,10 @@ public abstract class AbstractValueControl extends JPanel {
             }
             updateView(); // revert
         }
+    }
+
+    protected boolean isValueInRange( double value ) {
+        return value >= getMinimum() && value <= getMaximum();
     }
 
     /**
