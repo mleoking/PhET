@@ -70,9 +70,11 @@ public class TimeSeriesModel extends ClockAdapter {
         if ( requestedTime > getRecordTime() ) {
             requestedTime = getRecordTime();
         }
-        if ( requestedTime >= 0 && requestedTime <= getRecordTime() && numPlaybackStates() > 0 ) {
+        if ( requestedTime >= 0 && requestedTime <= getRecordTime() ) {
             playback.setTime( requestedTime );
-            recordableModel.setState( series.getTimeStateValue( requestedTime ) );
+            if ( numPlaybackStates() > 0 ) {
+                recordableModel.setState( series.getTimeStateValue( requestedTime ) );
+            }
         }
     }
 
@@ -221,6 +223,7 @@ public class TimeSeriesModel extends ClockAdapter {
             record.reset();
             recordableModel.clear();
             setPaused( true );
+            setPlaybackTime( 0.0 );
             notifyDataSeriesChanged();
             notifyDataSeriesCleared();
         }
