@@ -2,13 +2,20 @@ package edu.colorado.phet.rotation.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.ClockProfiler;
+import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.rotation.AbstractRotationModule;
+import edu.colorado.phet.rotation.RotationApplication;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Author: Sam Reid
@@ -18,7 +25,7 @@ public class RotationDevMenu extends JMenu {
     private NonPiccoloPhetApplication rotationApplication;
     private AbstractRotationModule rotationModule;
 
-    public RotationDevMenu( final NonPiccoloPhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
+    public RotationDevMenu( final PhetApplication rotationApplication, final AbstractRotationModule rotationModule ) {
         super( "Options" );
         this.rotationApplication = rotationApplication;
         this.rotationModule = rotationModule;
@@ -69,6 +76,35 @@ public class RotationDevMenu extends JMenu {
             }
         } );
         add( profiler );
+
+        addSeparator();
+        final JCheckBoxMenuItem lowQualityRender = new JCheckBoxMenuItem( "Low Quality" );
+        lowQualityRender.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                for ( int i = 0; i < rotationApplication.numModules(); i++ ) {
+                    Module module = rotationApplication.moduleAt( i );
+                    try {
+                        Method m = module.getClass().getMethod( "getSimulationPanel", new Class[0] );
+                        Object sp = m.invoke( module, new Object[0] );
+                        if ( sp instanceof PCanvas ) {
+                            PCanvas pc = (PCanvas) sp;
+                            pc.setDefaultRenderQuality( lowQualityRender.isSelected() ? PPaintContext.LOW_QUALITY_RENDERING : PPaintContext.HIGH_QUALITY_RENDERING );
+                        }
+                    }
+                    catch( NoSuchMethodException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( InvocationTargetException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( IllegalAccessException e1 ) {
+                        e1.printStackTrace();
+                    }
+
+                }
+            }
+        } );
+        add(lowQualityRender);
     }
 
     private PNode getCircleNode() {
