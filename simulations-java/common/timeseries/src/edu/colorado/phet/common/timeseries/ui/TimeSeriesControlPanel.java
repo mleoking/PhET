@@ -48,7 +48,6 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
 
-
         add( timeSpeedSlider );
 
         recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{"Go!", "Stop"},
