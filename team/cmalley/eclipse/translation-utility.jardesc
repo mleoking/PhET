@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="/Volumes/files/phet-workspace/jars/translation-utility.jar"/>
+    <jar path="/Users/cmalley/phet-workspace/jars/translation-utility.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/cmalley/eclipse/translation-utility.jardesc" useSourceFolders="false" buildIfNeeded="true"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="true" saveManifest="false" generateManifest="false" manifestLocation="/cmalley/eclipse/translation-utility.mf">
         <sealing sealJar="false">
