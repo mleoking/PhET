@@ -1,5 +1,5 @@
--injars /Volumes/files/phet-workspace/jars/translation-utility.jar
--outjars /Volumes/files/phet-workspace/jars/translation-utility-proguard.jar
+-injars /Users/cmalley/phet-workspace/jars/translation-utility.jar
+-outjars /Users/cmalley/phet-workspace/jars/translation-utility-proguard.jar
 
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/classes.jar
 -libraryjars /System/Library/Frameworks/JavaVM.framework/Versions/1.4.2/Classes/ui.jar
