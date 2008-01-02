@@ -36,6 +36,7 @@ LOW PRIORITY:
 - [109] text that is manually-selected while Find dialog is open will stay selected when selection changes via Find
 
 
+
 DONE:
 ********* version 0.01.00 (?)
 1/2/08 - switch new language codes (he,yi,id) to old language codes (iw,ji,in) because java.util.Locale does this mapping
