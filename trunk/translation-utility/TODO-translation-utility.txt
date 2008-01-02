@@ -38,7 +38,7 @@ LOW PRIORITY:
 
 
 DONE:
-********* version 0.01.00 (?)
+********* version 0.01.00 (19216)
 1/2/08 - switch new language codes (he,yi,id) to old language codes (iw,ji,in) because java.util.Locale does this mapping
 ********* version 0.00.11 (19013)
 12/13/07 - add hand cursor to help buttons on initial dialog
