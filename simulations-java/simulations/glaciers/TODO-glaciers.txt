@@ -16,7 +16,7 @@ ISSUES:
 - do tools need an origin indicator?
 
 HIGH PRIORITY:
-- fix initial position of borehole drill when it's dragged out of toolbox
+- if PlayArea.TOP_SCALE is changed to 0.25, viewport is in a bad initial state
 - create graphs
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
