@@ -15,4 +15,6 @@ public class ValleyNode extends PComposite {
         addChild( imageNode );
         setPickable( false );
     }
+    
+    public void cleanup() {}
 }

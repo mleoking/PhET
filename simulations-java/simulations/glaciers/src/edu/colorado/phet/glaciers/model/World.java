@@ -25,6 +25,8 @@ public class World {
         _listeners = new ArrayList();
     }
     
+    public void cleanup() {}
+    
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
             System.out.println( "World.setBounds bounds=" + bounds );//XXX

@@ -60,6 +60,8 @@ public class PenguinNode extends PImage {
         } );
     }
     
+    public void cleanup() {}
+    
     /*
      * Keeps the penguin centered in the viewport.
      */

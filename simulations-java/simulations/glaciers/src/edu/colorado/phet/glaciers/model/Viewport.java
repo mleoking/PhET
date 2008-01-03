@@ -29,6 +29,8 @@ public class Viewport {
         _listeners = new ArrayList();
     }
     
+    public void cleanup() {}
+    
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
             _bounds.setRect( bounds );

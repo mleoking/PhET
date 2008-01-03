@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Thermometer;
-import edu.colorado.phet.glaciers.model.Thermometer.ThermometerAdapter;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -72,7 +71,7 @@ public class ThermometerNode extends AbstractToolNode {
         y = imageNode.getFullBoundsReference().getY() + ( imageNode.getFullBoundsReference().getHeight() / 2 );
         _textBackgroundNode.setOffset( x, y );
         
-        _thermometerListener = new ThermometerAdapter() {
+        _thermometerListener = new ThermometerListener() {
             public void temperatureChanged() {
                 updateTemperature();
             }

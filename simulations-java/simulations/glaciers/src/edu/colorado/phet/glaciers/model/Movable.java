@@ -29,6 +29,8 @@ public abstract class Movable {
         _listeners = new ArrayList();
     }
     
+    public void cleanup() {}
+    
     public void setPosition( Point2D position ) {
         setPosition( position.getX(), position.getY() );
     }

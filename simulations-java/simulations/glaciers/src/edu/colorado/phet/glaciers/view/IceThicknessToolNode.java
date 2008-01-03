@@ -15,4 +15,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth(), -imageNode.getFullBoundsReference().getHeight() ); // lower right
     }
+    
+    public void cleanup() {
+        super.cleanup();
+    }
 }
