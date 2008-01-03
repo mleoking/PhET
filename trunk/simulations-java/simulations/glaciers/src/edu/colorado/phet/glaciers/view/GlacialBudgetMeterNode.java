@@ -5,10 +5,12 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -23,6 +25,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class GlacialBudgetMeterNode extends AbstractToolNode {
 
     private static final Font FONT = new PhetDefaultFont( 10 );
+    private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
+    private static final DecimalFormat ACCUMULATION_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat ABLATION_FORMAT = new DecimalFormat( "0.0" );
+    private static final DecimalFormat GLACIAL_BUDGET_FORMAT = new DecimalFormat( "0.0" );
     
     private GlacialBudgetMeter _glacialBudgetMeter;
     private GlacialBudgetMeterListener _glacialBudgetMeterListener;
@@ -67,7 +73,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         
         JPanel displayPanel = new JPanel();
         displayPanel.setBackground( Color.WHITE );
-        displayPanel.setBorder( BorderFactory.createLineBorder( Color.BLACK, 2 ) );
+        displayPanel.setBorder( BORDER );
         EasyGridBagLayout layout = new EasyGridBagLayout( displayPanel );
         displayPanel.setLayout( layout );
         int row = 0;
@@ -100,14 +106,20 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     }
     
     private void updateAccumulation() {
-        _accumulationValue.setText( _glacialBudgetMeter.getAccumulation() + " " + GlaciersStrings.UNITS_ACCUMULATION );
+        double value = _glacialBudgetMeter.getAccumulation();
+        String text = ACCUMULATION_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ACCUMULATION;
+        _accumulationValue.setText( text );
     }
     
     private void updateAblation() {
-        _ablationValue.setText( _glacialBudgetMeter.getAblation() + " " + GlaciersStrings.UNITS_ABLATION );
+        double value = _glacialBudgetMeter.getAblation();
+        String text = ABLATION_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ABLATION;
+        _ablationValue.setText( text );
     }
     
     private void updateGlacialBudget() {
-        _glacialBudgetValue.setText( _glacialBudgetMeter.getGlacialBudget() + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET );
+        double value = _glacialBudgetMeter.getGlacialBudget();
+        String text = GLACIAL_BUDGET_FORMAT.format( value )  + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET;
+        _glacialBudgetValue.setText( text );
     }
 }

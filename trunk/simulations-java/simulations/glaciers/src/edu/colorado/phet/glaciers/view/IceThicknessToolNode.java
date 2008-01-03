@@ -4,10 +4,12 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
@@ -21,6 +23,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class IceThicknessToolNode extends AbstractToolNode {
     
     private static final Font FONT = new PhetDefaultFont( 10 );
+    private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
+    private static final DecimalFormat ICE_THICKNESS_FORMAT = new DecimalFormat( "0" );
     
     private IceThicknessTool _iceThicknessTool;
     private IceThicknessToolListener _iceThicknessToolListener;
@@ -44,7 +48,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
         _iceThicknessLabel = new JLabel();
         _iceThicknessLabel.setFont( FONT );
         JPanel panel = new JPanel();
-        panel.setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
+        panel.setBorder( BORDER );
         panel.add( _iceThicknessLabel );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
@@ -59,6 +63,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     }
     
     private void updateThickness() {
-        _iceThicknessLabel.setText( _iceThicknessTool.getThickness() + " " + GlaciersStrings.UNITS_ICE_THICKNESS );
+        double value = _iceThicknessTool.getThickness();
+        String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
+        _iceThicknessLabel.setText( text );
     }
 }
