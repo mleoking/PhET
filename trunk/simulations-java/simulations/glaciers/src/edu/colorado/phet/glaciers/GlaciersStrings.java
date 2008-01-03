@@ -23,6 +23,9 @@ public class GlaciersStrings {
     public static final String CHECK_BOX_SNOWFALL = GlaciersResources.getString( "checkBox.snowfall" );
     public static final String CHECK_BOX_COORDINATES = GlaciersResources.getString( "checkBox.coordinates" );
     public static final String CHECK_BOX_AGE_OF_ICE = GlaciersResources.getString( "checkBox.ageOfIce" );
+    public static final String LABEL_ACCUMULATION = GlaciersResources.getString( "label.accumulation" );
+    public static final String LABEL_ABLATION = GlaciersResources.getString( "label.ablation" );
+    public static final String LABEL_GLACIAL_BUDGET = GlaciersResources.getString( "label.glacialBudget" );
     public static final String MENU_FILE_LOAD = GlaciersResources.getString( "menu.file.load" );
     public static final char MENU_FILE_LOAD_MNEMONIC = GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' );
     public static final String MENU_FILE_SAVE = GlaciersResources.getString( "menu.file.save" );
@@ -62,6 +65,9 @@ public class GlaciersStrings {
     public static final String TITLE_GRAPHS = GlaciersResources.getString( "title.graphs" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW = GlaciersResources.getString( "title.view" );
+    public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
+    public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );
+    public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
     public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
     
