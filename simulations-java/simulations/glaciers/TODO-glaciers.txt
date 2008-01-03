@@ -47,6 +47,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/3/08 - add value display to ice thickness tool
+1/3/07 - sketch out model of ice thickness tool
 1/3/08 - add position listeners to thermometer and glacial budget meter
 1/3/08 - add cleanup methods to model and view elements
 1/3/08 - add digital readout to glacial budget meter

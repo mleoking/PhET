@@ -60,10 +60,10 @@ public class Thermometer extends AbstractTool {
     }
     
     private void handlePositionChange() {
-        //XXX recalculate the temperature, call setTemperature
+        //XXX recalculate temperature, call setTemperature
     }
 
     public void stepInTime( double dt ) {
-        // TODO update temperature as glacier evolves
+        //XXX recalculate temperature, call setTemperature
     }
 }

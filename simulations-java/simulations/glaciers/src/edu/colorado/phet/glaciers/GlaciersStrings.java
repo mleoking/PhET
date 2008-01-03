@@ -68,6 +68,7 @@ public class GlaciersStrings {
     public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
     public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );
     public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
+    public static final String UNITS_ICE_THICKNESS = GlaciersResources.getString( "units.iceThickness" );
     public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
     
