@@ -32,7 +32,6 @@ public class Viewport {
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
             _bounds.setRect( bounds );
-            System.out.println( "Viewport.setBounds bounds=" + bounds );//XXX
             notifyBoundsChanged();
         }
     }
