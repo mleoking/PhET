@@ -47,6 +47,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/2/08 - keep viewport in bounds when width of main window is reduced
 1/2/08 - constrain viewport dragging to be horizontal
 1/2/08 - use penguin for viewport control, put dashed vertical lines L&R of penguin to denote viewport bounds
 1/2/08 - resize world based on size of top canvas
