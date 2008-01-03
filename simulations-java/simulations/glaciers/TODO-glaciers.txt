@@ -16,8 +16,6 @@ ISSUES:
 - do tools need an origin indicator?
 
 HIGH PRIORITY:
-- constrain viewport dragging to be horizontal
-- use penguin for viewport control, put dashed vertical lines L&R of penguin to denote viewport bounds
 - create graphs
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -49,6 +47,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/2/08 - constrain viewport dragging to be horizontal
+1/2/08 - use penguin for viewport control, put dashed vertical lines L&R of penguin to denote viewport bounds
+1/2/08 - resize world based on size of top canvas
 12/27/07 - add penguin, constrain dragging (not connected to viewport)
 12/27/07 - convert penguin back to PImage
 12/27/07 - increase size of valley image so that zoomed view scale~1
