@@ -16,6 +16,7 @@ ISSUES:
 - do tools need an origin indicator?
 
 HIGH PRIORITY:
+- fix initial position of borehole drill when it's dragged out of toolbox
 - create graphs
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
