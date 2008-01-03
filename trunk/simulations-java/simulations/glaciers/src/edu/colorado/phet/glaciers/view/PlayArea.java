@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */ 
+/* Copyright 2007-2008, University of Colorado */ 
 
 package edu.colorado.phet.glaciers.view;
 
@@ -20,12 +20,11 @@ import edu.colorado.phet.glaciers.control.ToolIconNode.ToolIconListener;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Viewport;
+import edu.colorado.phet.glaciers.model.World;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * PlayArea
@@ -40,20 +39,30 @@ public class PlayArea extends JPanel {
     private static final Color CANVAS_BACKGROUND = new Color( 180, 158, 134 ); // tan, should match the ground color in the valley image
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
+    // Model
     private AbstractModel _model;
-    
+    private World _world;
     private Viewport _viewport;
-    private PhetPCanvas _topCanvas, _bottomCanvas;
     
+    // View
+    private PhetPCanvas _topCanvas, _bottomCanvas;
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
-    private PPath _penguinDragBoundsNode;
 
     public PlayArea( AbstractModel model ) {
         super();
         
         _model = model;
+        
+        _world = new World(); // bounds will be set when top canvas is resized
+        
+        _viewport = new Viewport( _world ); // bounds will be set when bottom canvas is resized
+        _viewport.addListener( new ViewportListener() {
+            public void boundsChanged() {
+                handleViewportBoundsChanged();
+            }
+        });
         
         // top canvas shows "birds-eye" view, has a fixed height
         _topCanvas = new PhetPCanvas();
@@ -91,17 +100,11 @@ public class PlayArea extends JPanel {
         _viewportLayer = new PLayer();
         addToTopAndBottom( _valleyLayer );
         addToTopAndBottom( _glacierLayer );
-        addToTopAndBottom( _toolsLayer );
         addToBottom( _toolboxLayer );
+        addToTopAndBottom( _toolsLayer );
         addToTop( _viewportLayer );
         
         // viewport in the top canvas determines what is shown in the bottom canvas
-        _viewport = new Viewport( new Rectangle2D.Double( 0, 0, 1, 1 ) ); // don't care about initial width & height, they will be adjusted
-        _viewport.addListener( new ViewportListener() {
-            public void boundsChanged() {
-                handleViewportBoundsChanged();
-            }
-        });
         ViewportNode viewportNode = new ViewportNode( _viewport, VIEWPORT_STROKE_WIDTH );
         _viewportLayer.addChild( viewportNode );
         
@@ -125,11 +128,7 @@ public class PlayArea extends JPanel {
         
         // Penguin
         {
-            _penguinDragBoundsNode = new PPath();
-            _penguinDragBoundsNode.setStroke( null );
-            _viewportLayer.addChild( _penguinDragBoundsNode );
-
-            _penguinNode = new PenguinNode( _penguinDragBoundsNode );
+            _penguinNode = new PenguinNode( _world, _viewport );
             _viewportLayer.addChild( _penguinNode );
             _penguinNode.setOffset( 100, 0 );
         }
@@ -172,13 +171,28 @@ public class PlayArea extends JPanel {
      * When the top canvas is resized...
      */
     private void handleTopCanvasResized() {
-        // resize the penguin's drag bounds
-        double topWidth = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
-        double topHeight = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
-        PBounds pb = _penguinNode.getFullBoundsReference();
-        Rectangle2D r = new Rectangle2D.Double( 0, topHeight - pb.getHeight(), topWidth, pb.getHeight() );
-        _penguinDragBoundsNode.setPathTo( r );
-        _penguinNode.setOffset( _penguinNode.getOffset().getX(), r.getY() ); //XXX
+        
+        Dimension2D screenSize = _topCanvas.getScreenSize();
+        if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
+            // canvas hasn't been sized, blow off layout
+            return;
+        }
+        else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+            System.out.println( "PlayArea.handleTopCanvasResized screenSize=" + screenSize );//XXX
+        }
+        
+        // set the world's bounds
+        double w = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
+        double h = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
+        _world.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
+        
+        // move the viewport inside the world's bounds
+        Rectangle2D wb = _world.getBoundsReference();
+        Rectangle2D vb = _viewport.getBoundsReference();
+        if ( !wb.contains( vb ) ) {
+            double dx = wb.getMaxX() - vb.getMaxX();
+//            _viewport.translate( dx, 0 );
+        }
     }
     
     /* 
@@ -192,7 +206,7 @@ public class PlayArea extends JPanel {
             return;
         }
         else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PhysicsCanvas.updateLayout screenSize=" + screenSize );//XXX
+            System.out.println( "PlayArea.handleBottomCanvasResized screenSize=" + screenSize );//XXX
         }
         
         // resize the viewport
