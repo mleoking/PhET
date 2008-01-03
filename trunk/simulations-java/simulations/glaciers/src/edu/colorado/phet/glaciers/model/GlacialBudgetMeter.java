@@ -69,6 +69,12 @@ public class GlacialBudgetMeter extends AbstractTool {
         recalculateValues();
     }
     
+    private void recalculateValues() {
+        //XXX recalculate accumulation, call setAccumulation
+        //XXX recalculate ablation, call setAblation
+        //XXX recalculate glacialBudeget, call setGlacialBudget
+    }
+    
     public interface GlacialBudgetMeterListener {
         public void accumulationChanged();
         public void ablationChanged();
@@ -91,10 +97,6 @@ public class GlacialBudgetMeter extends AbstractTool {
     
     private void handlePositionChange() {
         recalculateValues();
-    }
-    
-    private void recalculateValues() {
-        //XXX calculate new values and call setters
     }
 
     private void notifyAccumulationChanged() {
