@@ -26,8 +26,6 @@ HIGH PRIORITY:
 - add readout and variable caliper size to ice measuring tool
 
 MEDIUM PRIORITY:
-- add round ball to bottom of trace flag's pole
-- replace barrel of tracer flags with a single tracer flag in toolbox
 - ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
 - set foreground color of ticks & labels on BasicClimateControl sliders
@@ -48,6 +46,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/3/08 - add round ball to bottom of trace flag's pole
+1/3/08 - replace barrel of tracer flags with a single tracer flag in toolbox
 1/2/08 - move resize listener to PlayArea panel to fix sequencing problem with setting of world and viewport bounds
 1/2/08 - keep viewport in bounds when width of main window is reduced
 1/2/08 - constrain viewport dragging to be horizontal
