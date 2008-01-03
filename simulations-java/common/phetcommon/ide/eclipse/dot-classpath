@@ -3,8 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/junit-3.8.1/junit.jar"/>
-	<classpathentry kind="lib" path="/jmock/jmock-1.1.0.jar"/>
-	<classpathentry kind="lib" path="/javaws-1_2-dev/jnlp.jar"/>
+	<classpathentry kind="lib" path="/simulations-java/contrib/jmock/jmock-1.1.0.jar"/>
+	<classpathentry kind="lib" path="/simulations-java/contrib/javaws-1_2-dev/jnlp.jar"/>
+	<classpathentry kind="lib" path="/simulations-java/contrib/junit-3.8.1/junit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
