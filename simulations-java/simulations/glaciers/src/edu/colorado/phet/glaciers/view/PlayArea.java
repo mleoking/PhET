@@ -57,7 +57,7 @@ public class PlayArea extends JPanel {
         
         _world = new World(); // bounds will be set when top canvas is resized
         
-        _viewport = new Viewport( _world ); // bounds will be set when bottom canvas is resized
+        _viewport = new Viewport(); // bounds will be set when bottom canvas is resized
         _viewport.addListener( new ViewportListener() {
             public void boundsChanged() {
                 handleViewportBoundsChanged();
@@ -68,11 +68,6 @@ public class PlayArea extends JPanel {
         _topCanvas = new PhetPCanvas();
         _topCanvas.setBackground( CANVAS_BACKGROUND );
         _topCanvas.getCamera().setViewScale( TOP_SCALE );
-        _topCanvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                handleTopCanvasResized();
-            }
-        } );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) TOP_PANEL_HEIGHT ), BorderLayout.WEST );
         topPanel.add( _topCanvas, BorderLayout.CENTER );
@@ -81,16 +76,16 @@ public class PlayArea extends JPanel {
         _bottomCanvas = new PhetPCanvas();
         _bottomCanvas.setBackground( CANVAS_BACKGROUND );
         _bottomCanvas.getCamera().setViewScale( BOTTOM_SCALE );
-        _bottomCanvas.addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                handleBottomCanvasResized();
-            }
-        } );
         
         // Layout
         setLayout( new BorderLayout() );
         add( topPanel, BorderLayout.NORTH );
         add( _bottomCanvas, BorderLayout.CENTER );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                handlePlayAreaResized();
+            }
+        });
         
         // Layers, back to front
         _valleyLayer = new PLayer();
@@ -134,7 +129,7 @@ public class PlayArea extends JPanel {
         }
         
         // initialize
-        handleBottomCanvasResized();
+        handlePlayAreaResized();
         handleViewportBoundsChanged();
     }
     
@@ -168,9 +163,9 @@ public class PlayArea extends JPanel {
     }
     
     /*
-     * When the top canvas is resized...
+     * When the play area is resized...
      */
-    private void handleTopCanvasResized() {
+    private void handlePlayAreaResized() {
         
         Dimension2D screenSize = _topCanvas.getScreenSize();
         if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
@@ -182,49 +177,38 @@ public class PlayArea extends JPanel {
         }
         
         // set the world's bounds
-        double w = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
-        double h = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
-        _world.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
+        {
+            double w = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
+            double h = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
+            _world.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
+        }
+        
+        // set the viewport's bounds
+        {
+            Rectangle2D canvasBounds = _bottomCanvas.getBounds();
+            double scale = _bottomCanvas.getCamera().getViewScale();
+            Rectangle2D viewportBounds = _viewport.getBounds();
+            double x = viewportBounds.getX();
+            double y = viewportBounds.getY();
+            double w = canvasBounds.getWidth() / scale;
+            double h = canvasBounds.getHeight() / scale;
+            _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
+        }
         
         // keep the viewport inside the world's bounds
         Rectangle2D wb = _world.getBoundsReference();
         Rectangle2D vb = _viewport.getBoundsReference();
         if ( !wb.contains( vb ) ) {
-            double dx = wb.getMaxX() - vb.getMaxX();
+            double dx = wb.getMaxX() - vb.getMaxX(); // viewport only moves horizontally
             _viewport.translate( dx, 0 );
         }
-    }
-    
-    /* 
-     * When the bottom canvas is resized...
-     */
-    private void handleBottomCanvasResized() {
-        
-        Dimension2D screenSize = _bottomCanvas.getScreenSize();
-        if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-        else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PlayArea.handleBottomCanvasResized screenSize=" + screenSize );//XXX
-        }
-        
-        // resize the viewport
-        Rectangle2D canvasBounds = _bottomCanvas.getBounds();
-        double scale = _bottomCanvas.getCamera().getViewScale();
-        Rectangle2D viewportBounds = _viewport.getBounds();
-        double x = viewportBounds.getX();
-        double y = viewportBounds.getY();
-        double w = canvasBounds.getWidth() / scale;
-        double h = canvasBounds.getHeight() / scale;
-        _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
         
         // move the toolbox
         updateToolboxPosition();
     }
     
     /*
-     * Moves toolbox to lower-left corner of bottom canvas
+     * Moves the toolbox to lower-left corner of the bottom canvas
      */
     private void updateToolboxPosition() {
         Rectangle2D viewportBounds = _viewport.getBounds();

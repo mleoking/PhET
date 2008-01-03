@@ -5,8 +5,6 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.glaciers.model.World.WorldListener;
-
 /**
  *  Viewport describes a portion of the World that is visible. 
  *  
@@ -19,25 +17,20 @@ public class Viewport {
         public void boundsChanged();
     }
     
-    private World _world;
     private Rectangle2D _bounds;
     private ArrayList _listeners;
     
-    public Viewport( World world ) {
-        this( world, new Rectangle2D.Double() );
+    public Viewport() {
+        this( new Rectangle2D.Double() );
     }
     
-    public Viewport( World world, Rectangle2D bounds ) {
-        _world = world;
+    public Viewport( Rectangle2D bounds ) {
         _bounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
         _listeners = new ArrayList();
     }
     
     public void setBounds( Rectangle2D bounds ) {
-        if ( !_world.contains( bounds ) ) {
-            System.err.println( "Viewport.setBounds: ignoring bounds, they are outside the world, bounds=" + bounds + " world=" + _world.getBoundsReference() );
-        }
-        else if ( !bounds.equals( _bounds ) ) {
+        if ( !bounds.equals( _bounds ) ) {
             _bounds.setRect( bounds );
             System.out.println( "Viewport.setBounds bounds=" + bounds );//XXX
             notifyBoundsChanged();
