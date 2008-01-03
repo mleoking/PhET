@@ -186,12 +186,12 @@ public class PlayArea extends JPanel {
         double h = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
         _world.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
         
-        // move the viewport inside the world's bounds
+        // keep the viewport inside the world's bounds
         Rectangle2D wb = _world.getBoundsReference();
         Rectangle2D vb = _viewport.getBoundsReference();
         if ( !wb.contains( vb ) ) {
             double dx = wb.getMaxX() - vb.getMaxX();
-//            _viewport.translate( dx, 0 );
+            _viewport.translate( dx, 0 );
         }
     }
     

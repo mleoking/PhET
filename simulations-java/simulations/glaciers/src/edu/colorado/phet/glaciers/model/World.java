@@ -27,8 +27,8 @@ public class World {
     
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
-            _bounds.setRect( bounds );
             System.out.println( "World.setBounds bounds=" + bounds );//XXX
+            _bounds.setRect( bounds );
             notifyBoundsChanged();
         }
     }

@@ -52,6 +52,10 @@ public class Viewport {
         return _bounds;
     }
     
+    public void translate( double dx, double dy ) {
+        setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
+    }
+    
     public void addListener( ViewportListener listener ) {
         _listeners.add( listener );
     }
