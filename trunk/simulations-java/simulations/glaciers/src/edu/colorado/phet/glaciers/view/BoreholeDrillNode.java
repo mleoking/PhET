@@ -15,4 +15,8 @@ public class BoreholeDrillNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left
     }
+    
+    public void cleanup() {
+        super.cleanup();
+    }
 }

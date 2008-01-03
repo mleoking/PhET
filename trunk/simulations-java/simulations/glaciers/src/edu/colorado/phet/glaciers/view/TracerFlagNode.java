@@ -15,4 +15,8 @@ public class TracerFlagNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner
     }
+    
+    public void cleanup() {
+        super.cleanup();
+    }
 }

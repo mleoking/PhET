@@ -41,6 +41,8 @@ public class ViewportNode extends PPath {
         updateRectangle();
     }
     
+    public void cleanup() {}
+    
     private void updateRectangle() {
         Rectangle2D viewportBounds = _viewport.getBounds();
         _rectangle.setRect(  0, 0, viewportBounds.getWidth(), viewportBounds.getHeight() );

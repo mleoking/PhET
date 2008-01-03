@@ -9,6 +9,10 @@ public class BoreholeDrill extends AbstractTool {
         super( position );
     }
     
+    public void cleanup() {
+        super.cleanup();
+    }
+    
     public void stepInTime( double dt ) {
         // TODO Auto-generated method stub
         

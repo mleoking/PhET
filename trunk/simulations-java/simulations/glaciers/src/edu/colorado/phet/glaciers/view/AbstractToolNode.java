@@ -21,20 +21,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class AbstractToolNode extends PComposite {
     
     private AbstractTool _tool;
-    private MovableListener _listener;
+    private MovableListener _movableListener;
     
     public AbstractToolNode( AbstractTool tool ) {
         super();
         
         _tool = tool;
         
-        _listener = new MovableAdapter() {
+        _movableListener = new MovableAdapter() {
             public void positionChanged() {
                 updatePosition();
             }
         };
         
-        _tool.addListener( _listener );
+        _tool.addListener( _movableListener );
         
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
@@ -58,7 +58,7 @@ public abstract class AbstractToolNode extends PComposite {
     }
     
     public void cleanup() {
-        _tool.removeListener( _listener );
+        _tool.removeListener( _movableListener );
     }
     
     protected void updatePosition() {

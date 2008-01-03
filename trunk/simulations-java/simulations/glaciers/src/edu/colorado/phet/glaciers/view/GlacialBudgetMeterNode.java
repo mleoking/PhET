@@ -36,8 +36,14 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         
         _glacialBudgetMeter = glacialBudgetMeter;
         _glacialBudgetMeterListener = new GlacialBudgetMeterListener() {
-            public void valuesChanged() {
-                updateValues();
+            public void accumulationChanged() {
+                updateAccumulation();
+            }
+            public void ablationChanged() {
+                updateAblation();
+            }
+            public void glacialBudgetChanged() {
+                updateGlacialBudget();
             }
         };
         _glacialBudgetMeter.addListener( _glacialBudgetMeterListener );
@@ -83,7 +89,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         panelNode.setOffset( xOffset, yOffset );
         
         // initial state
-        updateValues();
+        updateAccumulation();
+        updateAblation();
+        updateGlacialBudget();
     }
     
     public void cleanup() {
@@ -91,9 +99,15 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         super.cleanup();
     }
     
-    private void updateValues() {
+    private void updateAccumulation() {
         _accumulationValue.setText( _glacialBudgetMeter.getAccumulation() + " " + GlaciersStrings.UNITS_ACCUMULATION );
+    }
+    
+    private void updateAblation() {
         _ablationValue.setText( _glacialBudgetMeter.getAblation() + " " + GlaciersStrings.UNITS_ABLATION );
+    }
+    
+    private void updateGlacialBudget() {
         _glacialBudgetValue.setText( _glacialBudgetMeter.getGlacialBudget() + " " + GlaciersStrings.UNITS_GLACIAL_BUDGET );
     }
 }

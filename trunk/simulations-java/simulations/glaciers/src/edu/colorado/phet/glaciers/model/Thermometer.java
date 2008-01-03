@@ -19,46 +19,48 @@ public class Thermometer extends AbstractTool {
         super( position );
         _temperature = temperature;
         _listeners = new ArrayList();
+        addListener( new MovableAdapter() {
+            public void positionChanged() {
+                handlePositionChange();
+            }
+        });
     }
     
-    public void setTemperature( double temperature ) {
-        if ( temperature != _temperature ) {
-            _temperature = temperature;
-            notifyTemperatureChanged();
-        }
+    public void cleanup() {
+        super.cleanup();
     }
     
     public double getTemperature() {
         return _temperature;
     }
     
-    public interface ThermometerListener extends MovableListener {
-        public void temperatureChanged();
+    private void setTemperature( double temperature ) {
+        if ( temperature != _temperature ) {
+            _temperature = temperature;
+            notifyTemperatureChanged();
+        }
     }
-
-    public static class ThermometerAdapter extends MovableAdapter implements ThermometerListener {
-        public void temperatureChanged() {}
+    
+    public interface ThermometerListener {
+        public void temperatureChanged();
     }
 
     public void addListener( ThermometerListener listener ) {
         _listeners.add( listener );
-        super.addListener( listener );
     }
 
     public void removeListener( ThermometerListener listener ) {
         _listeners.remove( listener );
-        super.removeListener( listener );
     }
     
-    public void removeAllListeners() {
-        _listeners.clear();
-        super.removeAllListeners();
-    }
-
     private void notifyTemperatureChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (MovableListener) _listeners.get( i ) ).positionChanged();
+            ( (ThermometerListener) _listeners.get( i ) ).temperatureChanged();
         }
+    }
+    
+    private void handlePositionChange() {
+        //XXX recalculate the temperature, call setTemperature
     }
 
     public void stepInTime( double dt ) {
