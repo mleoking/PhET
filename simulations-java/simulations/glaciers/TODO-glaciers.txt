@@ -2,7 +2,7 @@
 "To Do" list for "Glaciers" simulation
 ================================================================================
 
-ISSUES:
+DESIGN ISSUES:
 - toolbox allows creating multiple borehole drills
 - borehole drill in different than the other things in the toolbox, all others are measurement devices
 - will it be confusing that borehole drill disappears when it is released?
@@ -16,8 +16,14 @@ ISSUES:
 - do tools need an origin indicator?
 - layering order of tools and toolbox
 
+IMPLEMENTATION ISSUES:
+- how to handle compressed vertical scale in context of shared PLayers?
+- do we need a model-view transform?
+
 HIGH PRIORITY:
 - if PlayArea.TOP_SCALE is changed to 0.25, viewport is in a bad initial state
+- why is viewport all the way to the right and stuck when run from sandbox?
+- implement glacier model as described in Archie's model document
 - create graphs
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
