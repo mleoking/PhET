@@ -11,6 +11,7 @@ LOW PRIORITY:
 - [83] document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
+1/4/08 - delete OTLauncher, obsolete
 ********* version 2.00.00 (18753)
 11/14/07 - organize imports
 11/9/07 - move about.credits property to localization file
