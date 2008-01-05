@@ -13,11 +13,11 @@ public class Glacier implements ModelElement {
     
     public void cleanup() {}
     
-    public double getIceThickness( double x ) {
+    public double getIceThickness( double x, double t ) {
         return 0; //XXX
     }
     
-    public double getIceVelocity( Point2D position ) {
+    public double getIceVelocity( double x, double z, double t ) {
         return 0; //XXX
     }
     
@@ -30,7 +30,7 @@ public class Glacier implements ModelElement {
     }
     
     public double getGlacialBudget( double x ) {
-        return 0; //XXX
+        return getAccumulation( x ) - getAblation( x );
     }
 
     public void stepInTime( double dt ) {
