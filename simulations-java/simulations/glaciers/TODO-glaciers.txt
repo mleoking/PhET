@@ -21,6 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
 - if PlayArea.TOP_SCALE is changed to 0.25, viewport is in a bad initial state
 - why is viewport all the way to the right and stuck when run from sandbox?
 - implement glacier model as described in Archie's model document
@@ -29,9 +30,10 @@ HIGH PRIORITY:
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
 - implement glacier model
-- add variable caliper size to ice measuring tool
 
 MEDIUM PRIORITY:
+- get actual function that describes temperature as a function of altitude
+- get actual function that describes precipiation as a function of altitude
 - tools should not be draggable in top canvas
 - ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
@@ -40,6 +42,7 @@ MEDIUM PRIORITY:
 - make viewport automatically follow terminus whenever terminus is in the viewport
 - add left and right arrows to zoom view, secondary viewport control
 - tile the right edge of the valley, so that it can be exteneded when window is resized
+- add variable caliper size to ice measuring tool
 
 LOW PRIORITY:
 - control panels in all modules should be the same height
@@ -53,6 +56,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/4/07 - flesh out basic Climate model
 1/3/08 - quick pass at glacier and atmosphere models
 1/3/08 - add value formatters to tools
 1/3/08 - simplify value display on thermometer node
