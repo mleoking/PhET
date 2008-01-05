@@ -17,6 +17,10 @@ public class Climate implements ModelElement {
     private double _referencePrecipitation; // meters per years
     private ArrayList _listeners;
     
+    public Climate() {
+        this( 0 ); // reference altitude is sea level
+    }
+    
     public Climate( double referenceAltitude ) {
         _referenceAltitude = referenceAltitude;
         _referenceTemperature = 20;
