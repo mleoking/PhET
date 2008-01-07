@@ -44,7 +44,7 @@ public class DetectorGraphic extends PNode implements SimpleObserver {
 
     static RoundGradientPaint[] gradientPaints = new RoundGradientPaint[256];
 
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 16 );
     private Paint detectorPaint;
     private PPath displayPNode;
     private Detector detector;

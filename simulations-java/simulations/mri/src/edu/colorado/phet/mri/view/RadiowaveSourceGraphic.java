@@ -47,7 +47,7 @@ public class RadiowaveSourceGraphic extends PNode {
 
     private double SQUIGGLE_LENGTH_CALIBRATION_FACTOR = 1.21E8 * 2.45 * .7; // for scale = 0.4
 
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 16 );
     private double panelDepth = 93;
     private EnergySquiggle energySquiggle;
     private MriModel model;
