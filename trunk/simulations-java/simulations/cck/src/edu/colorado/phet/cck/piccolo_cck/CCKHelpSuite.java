@@ -32,7 +32,7 @@ public class CCKHelpSuite extends PhetPNode {
         motionHelpBalloon = new MotionHelpBalloon( cckSimulationPanel, CCKStrings.getString( "CCK3Module.GrabAWire" ) );
         motionHelpBalloon.setArrowVisible( true );
         motionHelpBalloon.setBalloonVisible( true );
-        motionHelpBalloon.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+        motionHelpBalloon.setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
         motionHelpBalloon.setArrowTailPosition( MotionHelpBalloon.RIGHT_CENTER );
         addChild( motionHelpBalloon );
         cckSimulationPanel.addMouseListener( new MouseAdapter() {

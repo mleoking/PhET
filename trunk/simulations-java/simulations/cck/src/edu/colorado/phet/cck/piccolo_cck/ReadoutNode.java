@@ -32,7 +32,7 @@ public class ReadoutNode extends PhetPNode {
     protected DecimalFormat formatter;
     private PPath linePNode;
 
-    static Font font = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    static Font font = new PhetDefaultFont( Font.BOLD, 16 );
 
     public ReadoutNode( ICCKModule module, Branch branch, JComponent panel, DecimalFormat formatter ) {
         this.module = module;

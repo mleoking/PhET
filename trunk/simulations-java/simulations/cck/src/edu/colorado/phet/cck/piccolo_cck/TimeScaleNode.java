@@ -29,7 +29,7 @@ public class TimeScaleNode extends PhetPNode {
             }
         } );
         shadowPText = new ShadowPText( "Hello!" );
-        shadowPText.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 ) );
+        shadowPText.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
         shadowPText.setTextPaint( Color.red );
         shadowPText.setShadowColor( Color.black );
         shadowPText.setShadowOffset( 1, 1 );

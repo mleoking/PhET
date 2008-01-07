@@ -531,7 +531,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.setNumMajorTicks( 5 );
             resistivitySlider.setNumMinorTicksPerMajorTick( 5 );
 
-            Font labelFont = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
+            Font labelFont = new PhetDefaultFont( Font.PLAIN, 10 );
             JLabel lowLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.AlmostNoneLabel" ) );
             lowLabel.setFont( labelFont );
             JLabel highLabel = new JLabel( CCKResources.getString( "CCK3ControlPanel.LotsLabel" ) );

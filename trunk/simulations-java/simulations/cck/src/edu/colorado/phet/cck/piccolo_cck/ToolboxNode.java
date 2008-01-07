@@ -124,7 +124,7 @@ public class ToolboxNode extends PhetPNode {
             this.scale = scale;
             label = new PText( name );
             label.setFont( createFont() );
-//            label.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
+//            label.setFont( new PhetDefaultFont( Font.BOLD, 12 ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
@@ -163,10 +163,10 @@ public class ToolboxNode extends PhetPNode {
 
         private Font createFont() {
             if (Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
-                return new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 16 );
+                return new PhetDefaultFont( Font.PLAIN, 16 );
             }
             else {
-                return new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+                return new PhetDefaultFont( Font.PLAIN, 12 );
             }
         }
 

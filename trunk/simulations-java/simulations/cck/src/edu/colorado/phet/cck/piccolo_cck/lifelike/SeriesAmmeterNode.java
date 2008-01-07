@@ -33,7 +33,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private ICCKModule module;
     private static final double SCALE = 1.0 / 60.0;
     private Stroke stroke = new BasicStroke( (float)( 5 * SCALE ) );
-    private Font font = new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 17 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
     private String fixedMessage;
