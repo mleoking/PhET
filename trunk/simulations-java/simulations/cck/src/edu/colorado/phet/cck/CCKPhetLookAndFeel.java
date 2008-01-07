@@ -19,9 +19,9 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
         setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
         setBackgroundColor( cckBackground );
         if( PhetDefaultFont.isJapaneseLocale() ) {
-            setFont( PhetDefaultFont.getPreferredJAFont().deriveFont( 14f ) );
-            setTitledBorderFont( PhetDefaultFont.getPreferredJAFont().deriveFont( Font.BOLD, 12f ) );
-            setTabFont( PhetDefaultFont.getPreferredJAFont().deriveFont( Font.BOLD, 14 ) );
+            setFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( 14f ) );
+            setTitledBorderFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.BOLD, 12f ) );
+            setTabFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.BOLD, 14 ) );
         }
     }
 

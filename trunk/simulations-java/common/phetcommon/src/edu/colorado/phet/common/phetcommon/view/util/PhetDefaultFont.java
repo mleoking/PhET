@@ -23,17 +23,20 @@ public class PhetDefaultFont extends Font {
     private static Font getReferenceFont() {
         Font referenceFont = new JLabel().getFont();
 
-        if (isJapaneseLocale()) {
-            referenceFont = getPreferredJAFont();
+        if ( isJapaneseLocale() ) {
+            referenceFont = getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} );
         }
-        
+        else if ( isLocale( "ar" ) ) {
+            referenceFont = getPreferredFont(new String[]{"Lucida Sans"} );
+        }
+
         return referenceFont;
     }
 
     private static String getPreferredFontName( String fontName ) {
         String[] names = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 
-        if (isJapaneseLocale()) {
+        if (isJapaneseLocale()||isLocale( "ar" )) {
              return REFERENCE_FONT.getFontName();
         }
         else if ( !Arrays.asList( names ).contains( fontName ) ) {
@@ -110,10 +113,9 @@ public class PhetDefaultFont extends Font {
         return getReferenceFont().getSize();
     }
 
-    public static Font getPreferredJAFont() {
+    public static Font getPreferredFont( String[] preferredJAFonts ) {
         float defaultSize = new JLabel().getFont().getSize();
 
-        String[] preferredJAFonts = new String[]{"MS Mincho", "MS Gothic", "Osaka"};
         for ( int i = 0; i < preferredJAFonts.length; i++ ) {
             String preferredJAFont = preferredJAFonts[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
@@ -129,6 +131,10 @@ public class PhetDefaultFont extends Font {
     }
 
     public static boolean isJapaneseLocale() {
-        return PhetResources.readLocale().getLanguage().equalsIgnoreCase( "ja" );
+        return isLocale( "ja" );
+    }
+
+    public static boolean isLocale(String locale){
+        return PhetResources.readLocale().getLanguage().equalsIgnoreCase( locale );
     }
 }
