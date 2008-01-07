@@ -250,8 +250,7 @@ public class JFontChooser extends JDialog {
 
     private Font getCurrentFont() {
         if( fontList == null || cbBold == null || cbItalic == null || sizeList == null || sizeList.getSelectedValue() == null ) {
-            return new Font(
-                    PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+            return new PhetDefaultFont( Font.PLAIN, 12 );
         }
         String fontFamily = (String)fontList.getSelectedValue();
         int fontSize = Integer.parseInt( (String)sizeList.getSelectedValue() );

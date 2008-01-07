@@ -32,7 +32,7 @@ public class FireButton extends JButton {
 
         super( QWIStrings.getString( "gun.fire" ) );
         this.fireParticle = fireParticle;
-        setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+        setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
         setForeground( Color.red );
         setMargin( new Insets( 2, 2, 2, 2 ) );
         setVerticalTextPosition( AbstractButton.BOTTOM );

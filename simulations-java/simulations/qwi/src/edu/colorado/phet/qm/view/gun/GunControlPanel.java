@@ -37,7 +37,7 @@ public class GunControlPanel extends VerticalLayoutPanel {
         };
         titleLabel.setForeground( Color.white );
         titleLabel.setOpaque( false );
-        titleLabel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        titleLabel.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         add( titleLabel );
     }
 

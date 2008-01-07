@@ -18,7 +18,7 @@ import java.util.Hashtable;
  */
 
 public abstract class ConstrainedSliderControl extends VerticalLayoutPanel {
-    private Font titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
+    private Font titleFont = new PhetDefaultFont( Font.BOLD, 12 );
     private JSlider slider;
 //    private ConstrainedSliderControl.TextReadout textReadout;
 

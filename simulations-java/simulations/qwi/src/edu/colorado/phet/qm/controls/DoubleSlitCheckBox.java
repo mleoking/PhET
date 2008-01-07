@@ -21,7 +21,7 @@ public class DoubleSlitCheckBox extends JCheckBox {
 
     public DoubleSlitCheckBox( final QWIModel QWIModel ) {
         super( QWIStrings.getString( "double.slit" ), QWIModel.isDoubleSlitEnabled() );
-        setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 22 ) );
+        setFont( new PhetDefaultFont( Font.BOLD, 22 ) );
 
         this.QWIModel = QWIModel;
 

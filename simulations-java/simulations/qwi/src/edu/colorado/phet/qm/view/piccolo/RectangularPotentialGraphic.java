@@ -32,7 +32,7 @@ public class RectangularPotentialGraphic extends RectangleGraphic {
         this.potential = potential;
 
         potDisplay = new PText( "" );
-        potDisplay.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        potDisplay.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         potDisplay.setTextPaint( Color.blue );
         potDisplay.setPickable( false );
         potDisplay.setChildrenPickable( false );
