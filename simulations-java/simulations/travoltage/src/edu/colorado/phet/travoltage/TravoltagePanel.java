@@ -36,7 +36,7 @@ public class TravoltagePanel extends PhetPCanvas {
         motionHelpBalloon = new MotionHelpBalloon( this, SimStrings.getInstance().getString( "html.rub.the.foot.br.on.the.carpet.html" ) );
 //        motionHelpBalloon = new MotionHelpBalloon( this, "<html>Move the leg<br>and arm.</html>" );
         motionHelpBalloon.setBalloonVisible( true );
-        motionHelpBalloon.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        motionHelpBalloon.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         getLayer().addChild( motionHelpBalloon );
         addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
