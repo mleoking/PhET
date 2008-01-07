@@ -69,7 +69,7 @@ public class PhetLookAndFeel extends MetalLookAndFeel {
         ColorUIResource background = new ColorUIResource( backgroundColor );
         ColorUIResource foreground = new ColorUIResource( foregroundColor );
         FontUIResource fontResource = new FontUIResource( font );
-        FontUIResource borderFont = new FontUIResource( new Font( PhetDefaultFont.LUCIDA_SANS, Font.ITALIC, font.getSize() ) );
+        FontUIResource borderFont = new FontUIResource( new PhetDefaultFont( Font.ITALIC, font.getSize() ) );
 
         InsetsUIResource insets = new InsetsUIResource( 2, 2, 2, 2 );
         ArrayList def = new ArrayList();

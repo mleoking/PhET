@@ -1,10 +1,35 @@
 package edu.colorado.phet.bernoulli;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+
 import edu.colorado.phet.bernoulli.common.FakeClock;
 import edu.colorado.phet.bernoulli.common.RepaintManager;
 import edu.colorado.phet.bernoulli.meter.Barometer;
 import edu.colorado.phet.bernoulli.meter.BarometerView;
-import edu.colorado.phet.bernoulli.pump.*;
+import edu.colorado.phet.bernoulli.pump.AutoPump;
+import edu.colorado.phet.bernoulli.pump.Piston;
+import edu.colorado.phet.bernoulli.pump.PistonGraphic;
+import edu.colorado.phet.bernoulli.pump.Pump;
+import edu.colorado.phet.bernoulli.pump.PumpControlPanel;
+import edu.colorado.phet.bernoulli.pump.RectangleGraphic;
 import edu.colorado.phet.bernoulli.tube.Tube;
 import edu.colorado.phet.bernoulli.tube.TubeGraphic;
 import edu.colorado.phet.bernoulli.valves.VerticalValveGraphic;
@@ -32,16 +57,6 @@ import edu.colorado.phet.common.bernoulli.view.graphics.Graphic;
 import edu.colorado.phet.common.bernoulli.view.util.framesetup.FrameSetup;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -279,7 +294,7 @@ public class BernoulliApplication extends Module {
 
         // Make the button that turns the pump on and off
         final JButton jb = new JButton( BernoulliResources.getString( "on" ) );
-        jb.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        jb.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if( jb.getText().equals( BernoulliResources.getString( "on" ) ) ) {
