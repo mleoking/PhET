@@ -228,7 +228,7 @@ public class EnergyTimePlot {
 
         public ReadoutTextNode( Color color ) {
             text = new ShadowPText( " " );
-            text.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+            text.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
             text.setTextPaint( color );
             text.setShadowColor( Color.black );
             background = new PhetPPath( text.getFullBounds(), EnergyLookAndFeel.getLegendBackground() );//todo: is this partial transparency a performance problem?

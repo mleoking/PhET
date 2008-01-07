@@ -77,7 +77,7 @@ public class SplineToolboxNode extends PNode {
         boundGraphic.setPaint( Color.yellow );
         addChild( boundGraphic );
         textGraphic = new PText( EnergySkateParkStrings.getString( "controls.add-track" ) );
-        textGraphic.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        textGraphic.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         textGraphic.setOffset( boundGraphic.getFullBounds().getX() + 5, boundGraphic.getFullBounds().getY() + 2 );
         addChild( textGraphic );
         addChild( this.draggableIcon );
