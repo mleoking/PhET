@@ -326,7 +326,7 @@ public class AlphaDecayModule extends ProfiledNucleusModule implements DecayList
         public void clockTicked( ClockEvent clockEvent ) {
             if( System.currentTimeMillis() - startTime >= delay ) {
                 if( !displayed ) {
-                    Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 24 );
+                    Font font = new PhetDefaultFont( Font.BOLD, 24 );
                     wiggleMe = new PhetTextGraphic2( getPhysicalPanel(),
                                                      font,
                                                      SimStrings.getInstance().getString( "AlphaDecayControlPanel.DecayMessage" ),
