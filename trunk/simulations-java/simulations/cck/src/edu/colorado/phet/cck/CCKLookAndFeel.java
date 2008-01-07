@@ -42,11 +42,6 @@ public class CCKLookAndFeel {
 //            System.out.println( "Chose font for width between 1024" );
         }
         font = uifont;
-
-        if( PhetDefaultFont.isJapaneseLocale() ) {
-            font = PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.PLAIN, uifont.getSize2D() );
-        }
-
     }
 
 }
