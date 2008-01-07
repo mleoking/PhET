@@ -14,6 +14,10 @@ package edu.colorado.phet.common.phetcommon.application;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.font.FontRenderContext;
+import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
@@ -22,6 +26,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -52,7 +57,7 @@ public class AWTSplashWindow extends Window {
     private boolean done = false; // flag that tells the animation thread to stop
     private Panel panel; // panel that contains all the UI components
     private AnimationComponent animationComponent;
-    private Label textComponent;
+    private Component textComponent;
 
     /**
      * Constructor.
@@ -80,7 +85,8 @@ public class AWTSplashWindow extends Window {
                 drawBorder( this, g );
             }
         };
-        textComponent = new Label( labelString );
+//        textComponent = new Label( labelString );
+        textComponent = new ImageComponent( createLabelImage( labelString, defaultBackground, Color.black ) );
         animationComponent = new AnimationComponent();
 
         // Panel to hold all of the components
@@ -127,6 +133,25 @@ public class AWTSplashWindow extends Window {
         invalidate();
         pack();
         SwingUtils.centerWindowOnScreen( this );
+    }
+
+    /*Creates an image used to render the text "TITLE is starting up"
+     * This workaround is necessary because peered AWT components can only use logical fonts.
+     */
+    private Image createLabelImage( String labelString, Color background, Color foreground ) {
+        PhetDefaultFont font = new PhetDefaultFont( 13, true );
+        final TextLayout textLayout = new TextLayout( labelString, font, new FontRenderContext( new AffineTransform(), true, false ) );
+        Rectangle2D bounds = textLayout.getBounds();
+        BufferedImage bufferedImage = new BufferedImage( (int) Math.ceil( bounds.getWidth() ), (int) Math.ceil( bounds.getHeight() ), BufferedImage.TYPE_INT_RGB );
+
+        Graphics2D g2 = bufferedImage.createGraphics();
+        g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
+        g2.setColor( background );
+        g2.fillRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
+        g2.setColor( foreground );
+        g2.setFont( font );
+        textLayout.draw( g2, 0, textLayout.getAscent() - textLayout.getDescent() - textLayout.getLeading() );
+        return bufferedImage;
     }
 
     /*
