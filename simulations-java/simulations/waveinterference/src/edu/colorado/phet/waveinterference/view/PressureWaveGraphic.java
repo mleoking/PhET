@@ -267,7 +267,7 @@ public class PressureWaveGraphic extends PNode {
 
         public MarkedParticle( BufferedImage newImage, int i, int j ) {
             super( newImage, i, j );
-            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 22 );
+            Font font = new PhetDefaultFont( Font.BOLD, 22 );
             FontRenderContext fontRenderContext = new FontRenderContext( new AffineTransform(), true, false );
             GlyphVector glyphVector = font.createGlyphVector( fontRenderContext, "X" );
             Shape shape = glyphVector.getOutline();
