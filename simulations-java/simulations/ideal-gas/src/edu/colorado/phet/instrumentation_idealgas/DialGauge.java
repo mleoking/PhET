@@ -36,7 +36,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
     //-----------------------------------------------------------------
     // Class data
     //-----------------------------------------------------------------
-    private static Font s_defaultFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 8 );
+    private static Font s_defaultFont = new PhetDefaultFont( Font.BOLD, 8 );
     private static NumberFormat s_defaultFormatter = new DecimalFormat( "#0.0" );
 
     private ScalarObservable dataSource;

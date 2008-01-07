@@ -29,9 +29,6 @@ public class IdealGasConfig {
                                              + "<br>the model of gasses.</html>";
 //    public static final String VERSION = "3.05";
 
-    // Location of localized strings
-    public static final String localizedStringsPath = "localization/IdealGasStrings";
-
     // Global control parameters
     public static boolean REGION_TEST;
     public static boolean HEAT_ONLY_FROM_FLOOR;

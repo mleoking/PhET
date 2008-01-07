@@ -60,7 +60,6 @@ IdealGasConfig.FRAME_SETUP );
                     e.printStackTrace();
                 }
 
-                SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
                 new DiffusionApplication( args ).startApplication();
             }
         } );

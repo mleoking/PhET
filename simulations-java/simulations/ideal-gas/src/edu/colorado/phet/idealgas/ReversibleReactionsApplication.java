@@ -66,7 +66,6 @@ IdealGasConfig.FRAME_SETUP );
                     e.printStackTrace();
                 }
 
-                SimStrings.getInstance().addStrings( IdealGasConfig.localizedStringsPath );
                 ReversibleReactionsApplication reversibleReactionsApplication = new ReversibleReactionsApplication( args );
                 reversibleReactionsApplication.startApplication();
 //        reversibleReactionsApplication.wallsModule.pumpGasMolecules( 1, HeavySpecies.class );

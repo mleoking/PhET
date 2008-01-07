@@ -199,7 +199,7 @@ public class EnergyHistogramDialog extends JDialog {
         lightSpeedLabel = new JLabel( speedDetailsLegends[1] );
 
         // Upper histogram
-        outOfRangeIndicatorFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 30 );
+        outOfRangeIndicatorFont = new PhetDefaultFont( Font.BOLD, 30 );
 
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = defaultInsets;

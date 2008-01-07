@@ -88,7 +88,6 @@ IdealGasConfig.FRAME_SETUP );
                 catch( UnsupportedLookAndFeelException e ) {
                     e.printStackTrace();
                 }
-                SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
                 new GasPropertiesApplication( args );
             }
         } );

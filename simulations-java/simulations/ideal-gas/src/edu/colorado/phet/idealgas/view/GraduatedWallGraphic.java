@@ -29,7 +29,7 @@ public class GraduatedWallGraphic extends WallGraphic {
     private Color backgroundColor = new Color( 230, 230, 40 );
     private Stroke minorTickStroke = new BasicStroke( 1f );
     private Stroke majorTickStroke = new BasicStroke( 1f );
-    private Font graduationFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
+    private Font graduationFont = new PhetDefaultFont( Font.PLAIN, 10 );
     private Wall wall;
 
     public GraduatedWallGraphic( Wall wall, Component component, Paint fill, Paint borderPaint, int translationDirection ) {

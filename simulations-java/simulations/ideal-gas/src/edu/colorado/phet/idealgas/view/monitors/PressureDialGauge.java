@@ -28,7 +28,7 @@ public class PressureDialGauge extends PhetShapeGraphic {
     private DialGauge pressureGauge;
     private Point2D.Double center;
     private Rectangle2D.Double stem;
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 10 );
     private DecimalFormat numberFormat;
 
     private long updatePeriod = 200;
