@@ -104,8 +104,8 @@ public class GreenhouseApplication extends PhetApplication {
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
         phetLookAndFeel.setBackgroundColor( GreenhouseConfig.PANEL_BACKGROUND_COLOR );
         phetLookAndFeel.setForegroundColor( Color.black );
-        phetLookAndFeel.setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ) );
-        phetLookAndFeel.setTitledBorderFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 ) );
+        phetLookAndFeel.setFont( new PhetDefaultFont( Font.PLAIN, 14 ) );
+        phetLookAndFeel.setTitledBorderFont( new PhetDefaultFont( Font.PLAIN, 12 ) );
         phetLookAndFeel.initLookAndFeel();
     }
 
