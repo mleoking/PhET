@@ -27,7 +27,7 @@ public class PhetDefaultFont extends Font {
             referenceFont = getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} );
         }
         else if ( isLocale( "ar" ) ) {
-            referenceFont = getPreferredFont(new String[]{"Lucida Sans"} );
+            referenceFont = getPreferredFont(new String[]{"Lucida Sans Regular"} );
         }
 
         return referenceFont;
@@ -119,9 +119,12 @@ public class PhetDefaultFont extends Font {
         for ( int i = 0; i < preferredJAFonts.length; i++ ) {
             String preferredJAFont = preferredJAFonts[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
+//            System.out.println( "fonts = " + fonts );
             for ( int k = 0; k < fonts.size(); k++ ) {
                 Font o = (Font) fonts.get( k );
-                if ( o.getName().equals( preferredJAFont ) ) {
+                if ( o.getName().equals( preferredJAFont )
+//                     ||o.getFamily(  ).equals( preferredJAFont )
+                        ) {
                     System.out.println( "Chose Font: " + o );
                     return o.deriveFont(defaultSize);
                 }
