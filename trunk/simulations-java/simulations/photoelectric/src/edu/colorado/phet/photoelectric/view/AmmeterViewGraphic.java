@@ -28,7 +28,7 @@ import java.text.DecimalFormat;
  */
 public class AmmeterViewGraphic extends CompositePhetGraphic {
 
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 14 );
     private PhetShapeGraphic background1;
     private PhetShapeGraphic background2;
     private PhetTextGraphic currentLabel;

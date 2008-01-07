@@ -26,7 +26,7 @@ import java.text.DecimalFormat;
  */
 public class AmmeterViewTextGraphic extends PhetTextGraphic {
 
-    static private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 6 );
+    static private Font font = new PhetDefaultFont( Font.PLAIN, 6 );
     private PhetTextGraphic currentLabel;
     private PhetTextGraphic currentTF;
     private DecimalFormat format = new DecimalFormat( "#0.0000" );
