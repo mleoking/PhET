@@ -20,7 +20,7 @@ public class BalloonHelpPainter implements Painter {
     }
 
     public void paint( Graphics2D g ) {
-        g.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        g.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         g.setColor( Color.blue );
         String rubTheBalloon = BalloonsResources.getString( "rub.the.balloon" );
 

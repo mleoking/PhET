@@ -1,16 +1,24 @@
 package edu.colorado.phet.balloons;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.UIDefaults;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
-import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 public class PhetLookAndFeel extends MetalLookAndFeel {
     private static Font font;
@@ -29,9 +37,9 @@ public class PhetLookAndFeel extends MetalLookAndFeel {
     }
 
     static {
-        Font font1280 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
-        Font font1040 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
-        Font font800 = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+        Font font1280 = new PhetDefaultFont( Font.PLAIN, 13 );
+        Font font1040 = new PhetDefaultFont( Font.PLAIN, 12 );
+        Font font800 = new PhetDefaultFont( Font.PLAIN, 12 );
 
         Font uifont = font1040;
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
