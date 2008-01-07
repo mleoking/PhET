@@ -30,7 +30,7 @@ public class ThisSideUpGraphic extends PhetPNode {
         arrowNode.setStrokePaint( Color.black );
         addChild( arrowNode );
 
-        textNode.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 24 ) );
+        textNode.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
         arrowNode.setOffset( textNode.getFullBounds().getWidth() + arrowNode.getFullBounds().getWidth() / 2, textNode.getFullBounds().getHeight() / 2 + arrowNode.getFullBounds().getHeight() / 2 );
         origHeight = getFullBounds().getHeight();
     }

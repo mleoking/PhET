@@ -49,7 +49,7 @@ public class TestPSwingBounds extends Module {
         System.out.println( "Made module..." );
         PhetLookAndFeel.setLookAndFeel();
         PhetLookAndFeel phetLookAndFeel = new PhetLookAndFeel();
-        phetLookAndFeel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 ) );
+        phetLookAndFeel.setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
         phetLookAndFeel.apply();
 //        ModuleApplication moduleApplication = new ModuleApplication();
         NonPiccoloPhetApplication phetApplication = new NonPiccoloPhetApplication( args, "", "", "" );
