@@ -454,11 +454,11 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
     private JPanel makeFilePanel() {
         final JButton save = new JButton( CCKResources.getString( "CCK3ControlPanel.SaveButton" ) );
-        new Timer( 30,new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                System.out.println( "save.getFont() = " + save.getFont() );
-            }
-        } ).start();
+//        new Timer( 30,new ActionListener() {
+//            public void actionPerformed( ActionEvent e ) {
+//                System.out.println( "save.getFont() = " + save.getFont() );
+//            }
+//        } ).start();
 
         save.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
