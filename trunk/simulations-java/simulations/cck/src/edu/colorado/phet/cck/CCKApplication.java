@@ -92,7 +92,9 @@ public class CCKApplication extends PhetApplication {
     }
 
     public static void main( final String[] args ) throws InvocationTargetException, InterruptedException {
-        Locale.setDefault( new Locale( "ar" ) );
+//        Locale.setDefault( new Locale( "ar" ) );
+//        Locale.setDefault( new Locale( "ja" ) );
+//        Locale.setDefault( new Locale( "ja" ) );
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 new CCKPhetLookAndFeel().initLookAndFeel();
