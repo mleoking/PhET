@@ -19,7 +19,7 @@ public class EnergySkateParkLookAndFeel extends PhetLookAndFeel {
     public EnergySkateParkLookAndFeel() {
         setBackgroundColor( backgroundColor );
         setTextFieldBackgroundColor( Color.white );
-        setTabFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+        setTabFont( new PhetDefaultFont( Font.BOLD, 18 ) );
     }
 
     protected String getLookAndFeelClassName() {

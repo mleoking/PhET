@@ -63,7 +63,7 @@ public class BarGraph extends PNode {
     }
 
     protected Font getTitleFont() {
-        return new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
+        return new PhetDefaultFont( Font.BOLD, 18 );
     }
 
     public static class Variable {
@@ -125,7 +125,7 @@ public class BarGraph extends PNode {
             int x = (int)( i * sep + dw );
             final BarGraphic2D barGraphic = new BarGraphic2D( variable.getName(), scale,
                                                               variable.getValue(), x, (int)barWidth,
-                                                              (int)barChartHeight, variable.getColor(), new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+                                                              (int)barChartHeight, variable.getColor(), new PhetDefaultFont( Font.BOLD, 14 ) );
             addBarGraphic( barGraphic );
         }
         frontLayer.addChild( titleNode );

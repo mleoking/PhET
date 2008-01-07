@@ -36,7 +36,7 @@ public class PauseIndicatorNode extends PNode {
         ShadowPText text = new ShadowPText( EnergySkateParkStrings.getString( "message.paused" ) );
         addChild( text );
         text.setOffset( im.getFullBounds().getMaxX() + 5, 0 );
-        text.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 ) );
+        text.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
         text.setTextPaint( Color.red );
         text.setShadowColor( Color.black );
         module.getTimeSeriesModel().addListener( new TimeSeriesModel.Adapter() {
