@@ -44,7 +44,7 @@ public class CCKLookAndFeel {
         font = uifont;
 
         if( PhetDefaultFont.isJapaneseLocale() ) {
-            font = PhetDefaultFont.getPreferredJAFont().deriveFont( Font.PLAIN, uifont.getSize2D() );
+            font = PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.PLAIN, uifont.getSize2D() );
         }
 
     }
