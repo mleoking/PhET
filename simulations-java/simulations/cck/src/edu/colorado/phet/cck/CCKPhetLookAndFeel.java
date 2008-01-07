@@ -16,7 +16,7 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
     private static Color cckBackground = new Color( 200, 240, 200 );  // light green
 
     public CCKPhetLookAndFeel() {
-        setFont( new PhetDefaultFont( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 ) );
+        setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
         setBackgroundColor( cckBackground );
         if( PhetDefaultFont.isJapaneseLocale() ) {
             setFont( PhetDefaultFont.getPreferredJAFont().deriveFont( 14f ) );
