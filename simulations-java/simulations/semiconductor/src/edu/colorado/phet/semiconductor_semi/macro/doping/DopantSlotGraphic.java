@@ -19,7 +19,7 @@ public class DopantSlotGraphic implements Graphic {
     private Shape shape;
     //    private String name;
     private TexturePaint texture;
-    static final Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
+    static final Font font = new PhetDefaultFont( Font.BOLD, 18 );
 
     public DopantSlotGraphic( Shape shape, DopantType type ) throws IOException {
         this.shape = shape;

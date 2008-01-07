@@ -62,7 +62,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
             }
         } );
         Border init = BorderFactory.createLineBorder( Color.blue, 2 );
-        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+        Font font = new PhetDefaultFont( Font.BOLD, 16 );
         Border bo = BorderFactory.createTitledBorder( init, SimStrings.get( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
@@ -102,7 +102,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
     }
 
     private void addText( String s, CompositeInteractiveGraphic graphic, PhetVector cell, ModelViewTransform2D transform ) {
-        final TextGraphic pText = new TextGraphic( 100, 100, new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 ), Color.black, s );
+        final TextGraphic pText = new TextGraphic( 100, 100, new PhetDefaultFont( Font.PLAIN, 14 ), Color.black, s );
         ViewChangeListener vcl = new ViewChangeListener() {
             public void viewCoordinateChanged( int x, int y ) {
                 pText.setPosition( x - 25, y - 23 );

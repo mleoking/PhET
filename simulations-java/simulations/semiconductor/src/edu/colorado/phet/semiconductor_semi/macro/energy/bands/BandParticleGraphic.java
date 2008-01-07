@@ -34,7 +34,7 @@ public class BandParticleGraphic extends TransformGraphic {
         } );
     }
 
-    static Font exclaimFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.ITALIC, 18 );
+    static Font exclaimFont = new PhetDefaultFont( Font.ITALIC, 18 );
 
     public void paint( Graphics2D graphics2D ) {
         PhetVector modelLoc = bandParticle.getPosition();

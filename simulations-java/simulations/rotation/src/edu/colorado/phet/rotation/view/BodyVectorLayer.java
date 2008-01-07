@@ -84,7 +84,7 @@ public class BodyVectorLayer extends PNode {
             arrowNode = new PhetPPath( color, getStroke(), getStrokePaint() );
             addChild( arrowNode );
             labelNode = new ShadowPText( label );
-            labelNode.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+            labelNode.setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
             labelNode.setTextPaint( color );
             addChild( labelNode );
         }

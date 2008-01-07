@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 public class ElectricFieldGraphic extends TransformGraphic {
     private String name;
     private ElectricField field;
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 14 );
 
     public ElectricFieldGraphic( String name, ElectricField field, ModelViewTransform2D transform ) {
         super( transform );

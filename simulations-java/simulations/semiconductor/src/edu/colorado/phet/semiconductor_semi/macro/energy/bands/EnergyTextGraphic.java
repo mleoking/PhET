@@ -32,7 +32,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         super( transform );
         this.loc = loc;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
-        font = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
+        font = new PhetDefaultFont( Font.PLAIN, 36 );
         smallFont = new Font( "Dialog", 0, 18 );
     }
 
