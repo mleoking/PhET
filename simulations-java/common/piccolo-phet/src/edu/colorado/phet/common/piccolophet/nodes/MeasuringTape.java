@@ -2,14 +2,23 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -205,7 +214,7 @@ public class MeasuringTape extends PhetPNode {
         public ReadoutGraphic( String units ) {
             this.units = units;
             phetShadowTextGraphic = new PText( "" );
-            phetShadowTextGraphic.setFont( new Font( "Lucida Sans", Font.BOLD, 14 ) );
+            phetShadowTextGraphic.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
             BoundGraphic boundGraphic = new BoundGraphic( phetShadowTextGraphic, 2, 2 );

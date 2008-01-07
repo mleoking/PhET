@@ -53,6 +53,7 @@ PHETCOMMON:
 - feature: make "has clock control" a per-Module property
 
 DONE:
+1/7/08 - replace "Lucida Sans" with PhetDefaultFont in HelpBubble
 11/9/07 - move about.credits property to localization file
 10/9/07 - migrate "Reset All" and "set minimum width" features to phetcommon ControlPanel
 10/9/07 - switch persistence to phetcommon's XMLPersistenceManager

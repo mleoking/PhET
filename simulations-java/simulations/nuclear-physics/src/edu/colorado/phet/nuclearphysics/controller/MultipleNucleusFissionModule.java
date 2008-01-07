@@ -6,26 +6,42 @@
  */
 package edu.colorado.phet.nuclearphysics.controller;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
-import edu.colorado.phet.nuclearphysics.model.*;
-import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
-import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
-import edu.colorado.phet.nuclearphysics.view.LegendPanel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.nuclearphysics.model.Containment;
+import edu.colorado.phet.nuclearphysics.model.FissionProducts;
+import edu.colorado.phet.nuclearphysics.model.Neutron;
+import edu.colorado.phet.nuclearphysics.model.NuclearPhysicsModel;
+import edu.colorado.phet.nuclearphysics.model.Nucleus;
+import edu.colorado.phet.nuclearphysics.model.Uranium235;
+import edu.colorado.phet.nuclearphysics.model.Uranium238;
+import edu.colorado.phet.nuclearphysics.view.ContainmentGraphic;
+import edu.colorado.phet.nuclearphysics.view.ExplodingContainmentGraphic;
+import edu.colorado.phet.nuclearphysics.view.LegendPanel;
 
 /**
  * Presents a number of U235 and U238 nuclei, and an optional containment vessel, and a gun that fires a
@@ -199,7 +215,7 @@ public class MultipleNucleusFissionModule extends ChainReactionModule implements
                 getClock().addClockListener( ige );
 
                 // Display a message
-                Font font = new Font( "Lucida sans", Font.ITALIC, 72 );
+                Font font = new PhetDefaultFont( Font.ITALIC, 72 );
                 atomicBombTextGraphic = new PhetTextGraphic2( getPhysicalPanel(), font, "You have made an atomic bomb", Color.red );
                 getPhysicalPanel().addGraphic( atomicBombTextGraphic );
                 getApparatusPanel().getFontMetrics( font );

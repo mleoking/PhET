@@ -11,12 +11,35 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.util.EventObject;
 
-import javax.swing.*;
+import javax.swing.AbstractButton;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JSlider;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -28,6 +51,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -136,7 +160,7 @@ public class TestGlassPaneCanvas extends NonPiccoloPhetApplication {
 
             // Pop-up menu attached to right mouse button
             HTMLNode html = new HTMLNode( "To access a pop-up menu,<br>click anywhere on the canvas<br>with the right mouse button</html>" );
-            html.setFont( new Font( "Lucida Sans", Font.PLAIN, 18 ) );
+            html.setFont( new PhetDefaultFont( Font.PLAIN, 18 ) );
             html.setOffset( 300, 100 );
             canvas.getLayer().addChild( html );
             final JPopupMenu popupMenu = new JPopupMenu();

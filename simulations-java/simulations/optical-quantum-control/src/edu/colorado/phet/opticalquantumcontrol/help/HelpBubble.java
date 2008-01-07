@@ -11,11 +11,22 @@
 
 package edu.colorado.phet.opticalquantumcontrol.help;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphicListener;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
  * HelpBubble puts some text in a bubble, with an optional arrow.
@@ -71,7 +82,7 @@ public class HelpBubble extends CompositePhetGraphic implements PhetGraphicListe
     private static final Stroke ARROW_STROKE = new BasicStroke( 1f );
 
     // Text parameters
-    private static final Font TEXT_FONT = new Font( "Lucida Sans", Font.PLAIN, 14 );
+    private static final Font TEXT_FONT = new PhetDefaultFont( Font.PLAIN, 14 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final int TEXT_MARGIN = 4; // pixels
     

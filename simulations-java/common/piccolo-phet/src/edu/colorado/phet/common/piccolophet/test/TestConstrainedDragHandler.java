@@ -11,14 +11,28 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.WindowConstants;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -63,7 +77,7 @@ public class TestConstrainedDragHandler extends JFrame {
         PhetPCanvas canvas = new PhetPCanvas( new Dimension( 500, 500 ) );
 
         PText instructionsNode = new PText( "Drag the red circle" );
-        instructionsNode.setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+        instructionsNode.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
         instructionsNode.setTextPaint( Color.RED );
         canvas.addScreenChild( instructionsNode );
         instructionsNode.setOffset( 50, 20 );

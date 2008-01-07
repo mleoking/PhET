@@ -1,6 +1,14 @@
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.io.IOException;
@@ -11,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -77,7 +86,7 @@ public class TestPhetTextGraphic2 {
 
             // Title
             PhetTextGraphic2 title = new PhetTextGraphic2( apparatusPanel );
-            title.setFont( new Font( "Lucida Sans", Font.PLAIN, 24 ) );
+            title.setFont( new PhetDefaultFont( Font.PLAIN, 24 ) );
             title.setColor( Color.YELLOW );
             title.setText( "PhetTextGraphic2: test of bounds, justifications, and registration points" );
             title.setLocation( 50, 50 );
@@ -85,7 +94,7 @@ public class TestPhetTextGraphic2 {
 
             // A bunch of PhetTextGraphic2s
 
-            Font font = new Font( "Lucida Sans", Font.PLAIN, 18 );
+            Font font = new PhetDefaultFont( Font.PLAIN, 18 );
             Color color = Color.LIGHT_GRAY;
 
             {

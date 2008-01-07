@@ -11,10 +11,17 @@
 
 package edu.colorado.phet.opticalquantumcontrol.help;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
 
 import javax.swing.JDialog;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
@@ -95,7 +102,7 @@ public class ExplanationDialog extends JDialog {
         int fontSize = OQCResources.EXPLANATION_FONT_SIZE;
         HTMLGraphic text = new HTMLGraphic( apparatusPanel );
         text.setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        text.setFont( new Font( "Lucida Sans", Font.PLAIN, fontSize ) );
+        text.setFont( new PhetDefaultFont( Font.PLAIN, fontSize ) );
         text.setColor( TEXT_COLOR );
         text.setHTML( OQCResources.EXPLANATION_TEXT );
         

@@ -10,8 +10,19 @@
  */
 package edu.colorado.phet.molecularreactions.view;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
-import edu.colorado.phet.molecularreactions.model.*;
+import edu.colorado.phet.molecularreactions.model.EnergyProfile;
+import edu.colorado.phet.molecularreactions.model.MRModel;
+import edu.colorado.phet.molecularreactions.model.MoleculeA;
+import edu.colorado.phet.molecularreactions.model.MoleculeAB;
+import edu.colorado.phet.molecularreactions.model.MoleculeBC;
+import edu.colorado.phet.molecularreactions.model.MoleculeC;
 import edu.colorado.phet.molecularreactions.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.molecularreactions.model.reactions.Reaction;
 import edu.colorado.phet.molecularreactions.view.icons.MoleculeIcon;
@@ -19,9 +30,6 @@ import edu.colorado.phet.molecularreactions.view.icons.ReactionArrowNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * ReactionGraphic
@@ -51,7 +59,7 @@ public class ReactionGraphic extends RegisterablePNode implements MRModel.ModelL
             PNode arrowNode = new ReactionArrowNode( arrowColor );
 
 
-            Font font = new Font( "Lucida sans", Font.BOLD, 18 );
+            Font font = new PhetDefaultFont( Font.BOLD, 18 );
             PText plusA = new PText( "+" );
             plusA.setTextPaint( arrowColor );
             plusA.setFont( font );

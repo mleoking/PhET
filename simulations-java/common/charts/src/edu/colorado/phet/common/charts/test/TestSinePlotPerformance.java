@@ -1,12 +1,25 @@
 package edu.colorado.phet.common.charts.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSlider;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
@@ -24,6 +37,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -48,7 +62,7 @@ public class TestSinePlotPerformance {
     private static final Range2D CHART_RANGE = new Range2D( -0.5, -1, 0.5, 1 ); // xMin, yMin, xMax, yMax
     private static final Dimension CHART_SIZE = new Dimension( 650, 160 );
     private static final Point CHART_LOCATION = new Point( 50, 200 );
-    private static final String CHART_FONT_NAME = "Lucida Sans";
+    private static final String CHART_FONT_NAME = PhetDefaultFont.getDefaultFontName();
 
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;

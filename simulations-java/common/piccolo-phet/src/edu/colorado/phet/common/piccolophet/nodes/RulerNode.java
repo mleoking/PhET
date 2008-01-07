@@ -30,9 +30,14 @@
  */
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -64,7 +69,7 @@ public class RulerNode extends PhetPNode {
 
     // Defaults
     private static final int DEFAULT_INSET_WIDTH = 14;
-    private static final String DEFAULT_FONT_NAME = "Lucida Sans";
+    private static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
     private static final int DEFAULT_FONT_STYLE = Font.PLAIN;
     private static final double DEFAULT_MAJOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.40;
     private static final double DEFAULT_MINOR_TICK_HEIGHT_TO_RULER_HEIGHT_RATIO = 0.20;

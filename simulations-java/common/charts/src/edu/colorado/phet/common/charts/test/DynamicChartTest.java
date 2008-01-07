@@ -6,17 +6,27 @@
  */
 package edu.colorado.phet.common.charts.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
-import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.DataSetGraphic;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.charts.ScatterPlot;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -52,7 +62,7 @@ public class DynamicChartTest {
         chart.getVerticalGridlines().setMajorTickSpacing( 3 );
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.gray );
 
-        chart.getXAxis().setMajorTickFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+        chart.getXAxis().setMajorTickFont( new PhetDefaultFont( Font.BOLD, 16 ) );
         chart.getXAxis().setMajorTicksVisible( true );
         chart.getXAxis().setMinorTicksVisible( false );
         chart.getXAxis().setMinorTickSpacing( .5 );

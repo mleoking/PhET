@@ -10,25 +10,37 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.collision_idealgas.VerticalBarrier;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.PChemModel;
+import edu.colorado.phet.idealgas.model.ParticleCounter;
+import edu.colorado.phet.idealgas.model.Pump;
+import edu.colorado.phet.idealgas.model.SimulationClock;
 import edu.colorado.phet.idealgas.view.Box2DGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
-
-import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * AdvancedModule
@@ -44,7 +56,7 @@ abstract public class AdvancedModule extends IdealGasModule {
     //    public static final Color COLOR_B = new Color( 200, 100, 0 );
     public static final Color COLOR_A = new Color( 0, 150, 0 );
 
-    private static Font readoutFont = new Font( "Lucida sans", Font.BOLD, 12 );
+    private static Font readoutFont = new PhetDefaultFont( Font.BOLD, 12 );
     protected VerticalBarrier verticalWall;
     private ParticleCounter leftRegionParticleCounter;
     private ParticleCounter rightRegionParticleCounter;
@@ -237,7 +249,7 @@ abstract public class AdvancedModule extends IdealGasModule {
 
         public void update() {
             int size = Math.max( 12, particleCounter.getCnt() );
-            Font font = new Font( "Lucida sans", Font.BOLD, size );
+            Font font = new PhetDefaultFont( Font.BOLD, size );
             this.setFont( font );
         }
     }

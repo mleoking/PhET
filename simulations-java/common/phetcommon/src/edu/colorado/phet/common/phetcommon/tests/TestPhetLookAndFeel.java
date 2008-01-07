@@ -1,14 +1,16 @@
 /*  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * User: Sam Reid
@@ -27,7 +29,7 @@ public class TestPhetLookAndFeel extends NonPiccoloPhetApplication {
         public TestPhetLookAndFeelExample() {
             setBackgroundColor( Color.blue );
             setForegroundColor( Color.white );
-            setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+            setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
         }
     }
 

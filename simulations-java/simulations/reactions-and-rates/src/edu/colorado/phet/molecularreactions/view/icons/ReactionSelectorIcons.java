@@ -10,6 +10,15 @@
  */
 package edu.colorado.phet.molecularreactions.view.icons;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.ImageIcon;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.molecularreactions.model.EnergyProfile;
 import edu.colorado.phet.molecularreactions.model.MoleculeA;
 import edu.colorado.phet.molecularreactions.model.MoleculeBC;
@@ -17,11 +26,6 @@ import edu.colorado.phet.molecularreactions.model.reactions.Profiles;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * ReactionSelectorIcons
@@ -80,7 +84,7 @@ public class ReactionSelectorIcons {
 
     private static Image createImage( EnergyProfile profile ) {
         setMoleculeImages( profile );
-        Font font = new Font( "Lucida sans", Font.BOLD, 18 );
+        Font font = new PhetDefaultFont( Font.BOLD, 18 );
         PText plusA = new PText( "+" );
         plusA.setTextPaint( Color.black );
         plusA.setFont( font );
