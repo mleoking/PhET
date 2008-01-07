@@ -443,7 +443,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         };
         jta.setEditable( false );
 
-        jta.setFont( new PhetDefaultFont( "Courier New", Font.BOLD, 18 ) );
+        jta.setFont( new Font( "Courier New", Font.BOLD, 18 ) );
 
         readoutFrame.setContentPane( new JScrollPane( jta ) );
         readoutFrame.pack();
