@@ -97,7 +97,6 @@ IdealGasConfig.FRAME_SETUP );
                     e.printStackTrace();
                 }
 
-                SimStrings.getInstance().init( args, IdealGasConfig.localizedStringsPath );
                 new BalloonsAndBuoyancyApplication( args ).startApplication();
             }
         } );
