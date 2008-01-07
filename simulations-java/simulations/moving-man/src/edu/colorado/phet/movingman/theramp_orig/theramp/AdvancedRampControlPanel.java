@@ -240,7 +240,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
                 checkBox.setBackground( unit.getColor() );
                 checkBox.setForeground( Color.black );
-                checkBox.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+                checkBox.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
                 super.addFullWidth( checkBox );
                 checkBox.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

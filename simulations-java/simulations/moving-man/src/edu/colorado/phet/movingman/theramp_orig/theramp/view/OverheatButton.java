@@ -33,7 +33,7 @@ public class OverheatButton extends PNode {
         this.rampPanel = rampPanel;
         ShadowHTMLNode shadowHTMLNode = new ShadowHTMLNode( TheRampStrings.getString( "message.overheated" ) );
         shadowHTMLNode.setColor( Color.red );
-        shadowHTMLNode.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        shadowHTMLNode.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         addChild( shadowHTMLNode );
         JButton overheat = new JButton( TheRampStrings.getString( "controls.cool-ramp" ) );
         overheat.setFont( RampFontSet.getFontSet().getNormalButtonFont() );

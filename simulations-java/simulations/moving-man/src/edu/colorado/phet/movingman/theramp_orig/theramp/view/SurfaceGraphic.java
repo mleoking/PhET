@@ -92,7 +92,7 @@ public class SurfaceGraphic extends PNode {
         heightExtentGraphic.setPaint( null );
         addChild( heightExtentGraphic );
 
-//        heightReadoutGraphic = new PText( rampPanel, new Font( PhetDefaultFont.LUCIDA_SANS, 0, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
+//        heightReadoutGraphic = new PText( rampPanel, new PhetDefaultFont( Font.PLAIN, 14 ), "h=0.0 m", Color.black, 1, 1, Color.gray );
         heightReadoutGraphic = new PText( TheRampStrings.getString( "indicator.height-zero" ) );
         heightReadoutGraphic.setFont( new PhetDefaultFont( 18, true ) );
         heightReadoutGraphic.setPaint( SkyGraphic.lightBlue );

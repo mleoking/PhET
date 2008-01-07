@@ -34,7 +34,7 @@ public class RampControlPanel extends ControlPanel {
         super( rampModule );
         this.rampModule = rampModule;
         JButton jb = new JButton( TheRampStrings.getString( "controls.reset" ) );
-        jb.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+        jb.setFont( new PhetDefaultFont( Font.BOLD, 18 ) );
 
         jb.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

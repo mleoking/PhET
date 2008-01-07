@@ -22,7 +22,7 @@ import edu.colorado.phet.movingman.motion.ramps.Force1DObjectConfig;
  */
 
 public class ObjectComboBox extends JComboBox {
-    private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
+    private static Font font = new PhetDefaultFont( Font.BOLD, 10 );
 
     public ObjectComboBox( final Force1DApplication module, final Force1DObjectConfig[] imageElements ) {
         super( toLabelArray( imageElements ) );
@@ -64,8 +64,6 @@ public class ObjectComboBox extends JComboBox {
             setOpaque( true );
             setHorizontalAlignment( CENTER );
             setVerticalAlignment( CENTER );
-
-//            setFont( new Font( PhetDefaultFont.LUCIDA_SANS,Font.BOLD, 10) );
         }
 
         public Component getListCellRendererComponent( JList list,

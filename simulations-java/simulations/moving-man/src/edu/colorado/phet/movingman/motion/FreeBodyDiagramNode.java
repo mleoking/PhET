@@ -178,7 +178,7 @@ public class FreeBodyDiagramNode extends PNode {
             shapeGraphic.setPaint( color );
             shapeGraphic.setStrokePaint( Color.black );
             addChild( shapeGraphic );
-            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+            Font font = new PhetDefaultFont( Font.BOLD, 16 );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
             setVector( vector );

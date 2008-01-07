@@ -65,7 +65,7 @@ public class HelpItem3 extends CompositePhetGraphic implements HelpTargetListene
         this.arrowDX = arrowDX;
         this.arrowDY = arrowDY;
         this.text = text;
-        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 18 );
+        Font font = new PhetDefaultFont( Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 

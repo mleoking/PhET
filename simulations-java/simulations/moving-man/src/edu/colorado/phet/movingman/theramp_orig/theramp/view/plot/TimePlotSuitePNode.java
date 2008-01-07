@@ -612,7 +612,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         NumberAxis yAxis = new NumberAxis( title );
         yAxis.setAutoRange( false );
         yAxis.setRange( range.getMinY(), range.getMaxY() );
-        yAxis.setLabelFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 11 ) );
+        yAxis.setLabelFont( new PhetDefaultFont( Font.PLAIN, 11 ) );
         plot.setRangeAxis( yAxis );
 
         plot.setDomainCrosshairVisible( true );

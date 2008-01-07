@@ -216,7 +216,7 @@ public class Force1dControlPanel extends IForceControl {
                 super.paintComponent( g );
             }
         };
-        horizLabel.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 ) );
+        horizLabel.setFont( new PhetDefaultFont( Font.PLAIN, 10 ) );
         Dimension pre = horizLabel.getPreferredSize();
         horizLabel.setPreferredSize( new Dimension( pre.width, pre.height + 5 ) );
         return horizLabel;

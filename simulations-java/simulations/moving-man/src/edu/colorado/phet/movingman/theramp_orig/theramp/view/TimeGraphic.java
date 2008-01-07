@@ -23,7 +23,7 @@ public class TimeGraphic extends PNode implements ModelElement {
 
     public TimeGraphic( TimeSeriesModel clock ) {
         this.timeModel = clock;
-//        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 22 );
+//        Font font = new PhetDefaultFont( Font.BOLD, 22 );
         phetTextGraphic = new PText( "" );
         phetTextGraphic.setFont( RampFontSet.getFontSet().getTimeReadoutFont() );
         addChild( phetTextGraphic );

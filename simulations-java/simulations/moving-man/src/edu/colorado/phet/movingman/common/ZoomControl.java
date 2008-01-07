@@ -14,7 +14,6 @@ package edu.colorado.phet.movingman.common;
 import edu.colorado.phet.common_movingman.view.ApparatusPanel;
 import edu.colorado.phet.common_movingman.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common_movingman.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
@@ -44,6 +43,17 @@ public class ZoomControl extends GraphicLayerSet {
 
     private static final Point IN_LOCATION = new Point( 31, 13 );
     private static final Point OUT_LOCATION = new Point( 3, 13 );
+    
+    public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+    public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
+
+    private static final String IMAGES_DIRECTORY = "moving-man/images/zoom/";
+    public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
+    public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
+    public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
+    public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
+    public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
+    public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -65,22 +75,22 @@ public class ZoomControl extends GraphicLayerSet {
 
         PhetImageGraphic background;
         if( orientation == HORIZONTAL ) {
-            background = new PhetImageGraphic( component, FourierConstants.ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
+            background = new PhetImageGraphic( component, ZOOM_BACKGROUND_HORIZONTAL_IMAGE );
         }
         else {
-            background = new PhetImageGraphic( component, FourierConstants.ZOOM_BACKGROUND_VERTICAL_IMAGE );
+            background = new PhetImageGraphic( component, ZOOM_BACKGROUND_VERTICAL_IMAGE );
         }
         addGraphic( background );
 
-        _inButton = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_IMAGE );
-        _inButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_IN_BUTTON_PRESSED_IMAGE );
+        _inButton = new PhetImageGraphic( component, ZOOM_IN_BUTTON_IMAGE );
+        _inButtonPressed = new PhetImageGraphic( component, ZOOM_IN_BUTTON_PRESSED_IMAGE );
         _inButton.setLocation( IN_LOCATION );
         _inButtonPressed.setLocation( IN_LOCATION );
         addGraphic( _inButton );
         addGraphic( _inButtonPressed );
 
-        _outButton = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_IMAGE );
-        _outButtonPressed = new PhetImageGraphic( component, FourierConstants.ZOOM_OUT_BUTTON_PRESSED_IMAGE );
+        _outButton = new PhetImageGraphic( component, ZOOM_OUT_BUTTON_IMAGE );
+        _outButtonPressed = new PhetImageGraphic( component, ZOOM_OUT_BUTTON_PRESSED_IMAGE );
         _outButton.setLocation( OUT_LOCATION );
         _outButtonPressed.setLocation( OUT_LOCATION );
         addGraphic( _outButton );
@@ -264,9 +274,8 @@ public class ZoomControl extends GraphicLayerSet {
                 _inPressed = false;
                 if( _inButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
-                    getComponent().setCursor( FourierConstants.WAIT_CURSOR );
+                    getComponent().setCursor( WAIT_CURSOR );
                     // Handle the event
-                    int zoomType;
                     if( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_IN );
                     }
@@ -274,7 +283,7 @@ public class ZoomControl extends GraphicLayerSet {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_IN );
                     }
                     // Restore the cursor
-                    getComponent().setCursor( FourierConstants.DEFAULT_CURSOR );
+                    getComponent().setCursor( DEFAULT_CURSOR );
                 }
             }
             else if( _outPressed ) {
@@ -282,7 +291,7 @@ public class ZoomControl extends GraphicLayerSet {
                 _outPressed = false;
                 if( _outButtonPressed.getBounds().contains( event.getPoint() ) ) {
                     // Set the wait cursor
-                    getComponent().setCursor( FourierConstants.WAIT_CURSOR );
+                    getComponent().setCursor( WAIT_CURSOR );
                     // Handle the event
                     if( _orientation == HORIZONTAL ) {
                         fireZoomEvent( ZoomEvent.HORIZONTAL_ZOOM_OUT );
@@ -291,103 +300,10 @@ public class ZoomControl extends GraphicLayerSet {
                         fireZoomEvent( ZoomEvent.VERTICAL_ZOOM_OUT );
                     }
                     // Restore the cursor
-                    getComponent().setCursor( FourierConstants.DEFAULT_CURSOR );
+                    getComponent().setCursor( DEFAULT_CURSOR );
                 }
             }
         }
-    }
-
-    /**
-     * FourierConstants constains various constants.
-     * Modify these at your peril ;-)
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Revision$
-     */
-    public static class FourierConstants {
-
-        /* Not intended for instantiation. */
-        private FourierConstants() {
-        }
-
-        //----------------------------------------------------------------------------
-        // Debugging switches
-        //----------------------------------------------------------------------------
-
-        public static final boolean ANIMATION_ENABLED = true;
-
-        //----------------------------------------------------------------------------
-        // Application
-        //----------------------------------------------------------------------------
-
-        public static final int APP_FRAME_WIDTH = 1024;
-        public static final int APP_FRAME_HEIGHT = 768;
-
-        //----------------------------------------------------------------------------
-        // Localization
-        //----------------------------------------------------------------------------
-
-        public static final String LOCALIZATION_BUNDLE_BASENAME = "localization/FourierStrings";
-
-        //----------------------------------------------------------------------------
-        // Clock
-        //----------------------------------------------------------------------------
-
-        public static final double CLOCK_STEP = 1;
-        private static final int CLOCK_FRAME_RATE = 25;  // frames per second
-        public static final int CLOCK_DELAY = ( 1000 / FourierConstants.CLOCK_FRAME_RATE ); // milliseconds
-        public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
-        public static final boolean CLOCK_ENABLE_CONTROLS = true;
-
-        //----------------------------------------------------------------------------
-        // Fonts
-        //----------------------------------------------------------------------------
-
-        public static final String FONT_NAME = PhetDefaultFont.LUCIDA_SANS;
-
-        //----------------------------------------------------------------------------
-        // Harmonics
-        //----------------------------------------------------------------------------
-
-        public static final int MIN_HARMONICS = 1;
-        public static final int MAX_HARMONICS = 11;
-        public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
-
-        /**
-         * Arbitrary value for the length (L) of the fundamental harmonic
-         */
-        public static final double L = 1.0;
-
-        //----------------------------------------------------------------------------
-        // Animation
-        //----------------------------------------------------------------------------
-
-        public static final double ANIMATION_STEPS_PER_CYCLE = 50;
-
-        //----------------------------------------------------------------------------
-        // Charts
-        //----------------------------------------------------------------------------
-
-        public static final double AUTOSCALE_PERCENTAGE = 1.05;
-
-        //----------------------------------------------------------------------------
-        // Cursors
-        //----------------------------------------------------------------------------
-
-        public static final Cursor DEFAULT_CURSOR = Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-        public static final Cursor WAIT_CURSOR = Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR );
-
-        //----------------------------------------------------------------------------
-        // Images
-        //----------------------------------------------------------------------------
-
-        private static final String IMAGES_DIRECTORY = "moving-man/images/zoom/";
-        public static final String ZOOM_BACKGROUND_HORIZONTAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundHorizontal.png";
-        public static final String ZOOM_BACKGROUND_VERTICAL_IMAGE = IMAGES_DIRECTORY + "zoomBackgroundVertical.png";
-        public static final String ZOOM_IN_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomInButton.png";
-        public static final String ZOOM_IN_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomInButtonPressed.png";
-        public static final String ZOOM_OUT_BUTTON_IMAGE = IMAGES_DIRECTORY + "zoomOutButton.png";
-        public static final String ZOOM_OUT_BUTTON_PRESSED_IMAGE = IMAGES_DIRECTORY + "zoomOutButtonPressed.png";
     }
 
     public static void main( String[] args ) {
