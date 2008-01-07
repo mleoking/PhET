@@ -25,7 +25,6 @@ public class TUResources {
     private static final PhetApplicationConfig CONFIG = new PhetApplicationConfig( null /* args */, new FrameSetup.NoOp(), RESOURCES );
 
     private static final String COMMON_PROJECTS_SEPARATOR = ",";
-    private static final String PREFERRED_FONTS_SEPARATOR = ",";
     private static final String LANGUAGE_CODES_SEPARATOR = ",";
     
     /* not intended for instantiation */
@@ -116,13 +115,7 @@ public class TUResources {
      * @return String[], possibly null
      */
     public static String[] getPreferredFontNames( String languageCode ) {
-        String[] names = null;
-        String key = "fonts." + languageCode; // eg, fonts.ja
-        String allNames = CONFIG.getProjectProperty( key );
-        if ( allNames != null ) {
-            names = allNames.split( PREFERRED_FONTS_SEPARATOR );
-        }
-        return names;
+        return PhetCommonResources.getPreferredFontNames( languageCode );
     }
     
     public static String[] getLanguageCodes() {
