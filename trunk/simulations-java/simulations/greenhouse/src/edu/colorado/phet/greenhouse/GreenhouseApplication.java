@@ -64,7 +64,7 @@ public class GreenhouseApplication extends PhetApplication {
                 initLookAndFeel();
 
                 JFrame window = new JFrame();
-                AWTSplashWindow splashWindow = new AWTSplashWindow( window, PhetDefaultFont.isJapaneseLocale() ? "Greenhouse Application" : SimStrings.get( "GreenHouseApplication.title" ) );
+                AWTSplashWindow splashWindow = new AWTSplashWindow( window, SimStrings.get( "GreenHouseApplication.title" ) );
                 splashWindow.show();
 
                 BaseGreenhouseModule greenhouseModule = new GreenhouseModule();
