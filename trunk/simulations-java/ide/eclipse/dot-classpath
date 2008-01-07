@@ -115,6 +115,8 @@
 	<classpathentry kind="src" path="simulations/rotation/data"/>
 	<classpathentry kind="src" path="simulations/rutherford-scattering/src"/>
 	<classpathentry kind="src" path="simulations/rutherford-scattering/data"/>
+	<classpathentry kind="src" path="simulations/self-driven-particle-model/src"/>
+	<classpathentry kind="src" path="simulations/self-driven-particle-model/data"/>
 	<classpathentry kind="src" path="simulations/semiconductor/src"/>
 	<classpathentry kind="src" path="simulations/semiconductor/data"/>
 	<classpathentry kind="src" path="simulations/signal-circuit/src"/>
