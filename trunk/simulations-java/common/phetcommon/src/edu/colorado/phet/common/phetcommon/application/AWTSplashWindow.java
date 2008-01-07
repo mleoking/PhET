@@ -46,11 +46,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  */
 public class AWTSplashWindow extends Window {
 
-    private static Color defaultBackground = Color.white;
-
-    public static void setDefaultBackground( Color color ) {
-        AWTSplashWindow.defaultBackground = color;
-    }
+    private Color backgroundColor = Color.white;
 
     private static final String LOGO_RESOURCE_NAME = PhetLookAndFeel.PHET_LOGO_120x50;
 
@@ -86,7 +82,7 @@ public class AWTSplashWindow extends Window {
             }
         };
 //        textComponent = new Label( labelString );
-        textComponent = new ImageComponent( createLabelImage( labelString, defaultBackground, Color.black ) );
+        textComponent = new ImageComponent( createLabelImage( labelString, backgroundColor, Color.black ) );
         animationComponent = new AnimationComponent();
 
         // Panel to hold all of the components
@@ -128,7 +124,7 @@ public class AWTSplashWindow extends Window {
         startPaintThread( panel );
 
         // Set the background color
-        setBackground( defaultBackground );
+        setBackground( backgroundColor );
 
         invalidate();
         pack();

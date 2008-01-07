@@ -94,7 +94,6 @@ public class NuclearPhysicsApplication extends PhetApplication {
 //        phetLookAndFeel.setBackgroundColor( new Color( 203, 224, 249) );
         phetLookAndFeel.initLookAndFeel();
 
-        AWTSplashWindow.setDefaultBackground( backgroundColor );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new NuclearPhysicsApplication( args ).startApplication();
