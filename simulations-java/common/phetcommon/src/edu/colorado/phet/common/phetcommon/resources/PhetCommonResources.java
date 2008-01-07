@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.common.phetcommon.resources;
 
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * PhetCommonResources is a singleton that provides access to phetcommon's JAR resources.
  */
@@ -18,6 +21,9 @@ public class PhetCommonResources {
     public static final String IMAGE_STEP_FORWARD = "clock/StepForward24.gif";
     public static final String IMAGE_STOP = "clock/Stop24.gif";
     public static final String IMAGE_CLOCK = "clock/clock.png";
+    
+    // preferred physical font names for various ISO language codes
+    private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
 
     private static PhetResources INSTANCE = PhetResources.forProject( "phetcommon" );
 
@@ -27,5 +33,27 @@ public class PhetCommonResources {
 
     public static PhetResources getInstance() {
         return INSTANCE;
+    }
+    
+    /**
+     * Reads a list of preferred physical font names from the phetcommon-fonts.properties resource.
+     * Returns the names as an array.
+     * If no preferred fonts are specified, null is returned.
+     */
+    public static String[] getPreferredFontNames( String languageCode ) {
+        String[] names = null;
+        Properties fontProperties = new Properties();
+        try {
+            fontProperties.load( PhetCommonResources.getInstance().getResourceAsStream( PREFERRED_FONTS_RESOURCE ) );
+            String key = "preferredFonts." + languageCode; // eg, preferredFonts.ja
+            String allNames = fontProperties.getProperty( key );
+            if ( allNames != null ) {
+                names = allNames.split( "," ); // comma separated, no whitespace
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        return names;
     }
 }
