@@ -2,12 +2,17 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-
-import java.awt.*;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import javax.swing.*;
+import java.util.Properties;
+
+import javax.swing.JLabel;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
  * PhetDefaultFont provides an interface for instantiating the default font used in PhET simulations.
@@ -15,9 +20,7 @@ import javax.swing.*;
 public class PhetDefaultFont extends Font {
     
     // preferred physical font names for various ISO language codes
-    //TODO: read these from a properties file
-    private static final String[] JA_PREFERRED_FONTS = { "MS Mincho", "MS Gothic", "Osaka" }; // Japanese
-    private static final String[] AR_PREFERRED_FONTS = { "Lucida Sans Regular" }; // Arabic
+    private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
     
     // we'll use this font if we have no font preference, or if no preferred font is installed
     private static final Font FALLBACK_FONT = new JLabel().getFont();
@@ -105,13 +108,9 @@ public class PhetDefaultFont extends Font {
     private static Font createDefaultFont() {
 
         Font defaultFont = FALLBACK_FONT;
-
-        //TODO: read the list of preferred fonts for a local from a properties file
-        if ( isLocale( "ja" ) ) {
-            defaultFont = getPreferredFont( JA_PREFERRED_FONTS, FALLBACK_FONT );
-        }
-        else if ( isLocale( "ar" ) ) {
-            defaultFont = getPreferredFont( AR_PREFERRED_FONTS, FALLBACK_FONT );
+        String[] preferredFonts = getPreferredFontNames( PhetResources.readLocale().getLanguage().toLowerCase() );
+        if ( preferredFonts != null ) {
+            defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
         }
 
 //        System.out.println( "PhetDefaultFont.createDefaultFont defaultFont=" + defaultFont.toString() );
@@ -141,11 +140,26 @@ public class PhetDefaultFont extends Font {
 
         return preferredFont;
     }
-
+    
     /*
-     * Determines if the locale matches a specified language code.
+     * Reads a list of preferred physical font names from the phetcommon-fonts.properties resource.
+     * Returns the names as an array.
+     * If no preferred fonts are specified, null is returned.
      */
-    private static boolean isLocale( String language ) {
-        return PhetResources.readLocale().getLanguage().equalsIgnoreCase( language );
+    public static String[] getPreferredFontNames( String languageCode ) {
+        String[] names = null;
+        Properties fontProperties = new Properties();
+        try {
+            fontProperties.load( PhetCommonResources.getInstance().getResourceAsStream( PREFERRED_FONTS_RESOURCE ) );
+            String key = "preferredFonts." + languageCode; // eg, preferredFonts.ja
+            String allNames = fontProperties.getProperty( key );
+            if ( allNames != null ) {
+                names = allNames.split( "," );
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+        return names;
     }
 }
