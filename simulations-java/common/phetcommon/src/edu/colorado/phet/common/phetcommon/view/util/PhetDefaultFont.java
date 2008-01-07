@@ -114,7 +114,7 @@ public class PhetDefaultFont extends Font {
             defaultFont = getPreferredFont( AR_PREFERRED_FONTS, FALLBACK_FONT );
         }
 
-        System.out.println( "PhetDefaultFont.createDefaultFont defaultFont=" + defaultFont.toString() );
+//        System.out.println( "PhetDefaultFont.createDefaultFont defaultFont=" + defaultFont.toString() );
         return defaultFont;
     }
     
@@ -130,7 +130,7 @@ public class PhetDefaultFont extends Font {
         for ( int i = 0; i < preferredFontNames.length; i++ ) {
             String preferredFontName = preferredFontNames[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
-            System.out.println( "PhetDefaultFonts.getPreferredFont fonts=" + fonts );
+//            System.out.println( "PhetDefaultFonts.getPreferredFont fonts=" + fonts );
             for ( int k = 0; k < fonts.size(); k++ ) {
                 Font o = (Font) fonts.get( k );
                 if ( o.getName().equals( preferredFontName ) ) {
