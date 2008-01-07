@@ -48,7 +48,7 @@ public class ThermometerGraphic extends PNode {
 
     private Ellipse2D.Double bulb;
     private NumberFormat formatter = new DecimalFormat( "#0" );
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 10 );
     private float columnStrokeWidth = 1.5f;
     private BasicStroke columnStroke = new BasicStroke( columnStrokeWidth );
     private Color rectColor = Color.yellow;
