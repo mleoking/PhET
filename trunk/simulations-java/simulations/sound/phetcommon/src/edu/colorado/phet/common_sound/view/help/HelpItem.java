@@ -38,7 +38,7 @@ public class HelpItem extends PhetGraphic {
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
-    public final static Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    public final static Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 16 );
 
     private static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );

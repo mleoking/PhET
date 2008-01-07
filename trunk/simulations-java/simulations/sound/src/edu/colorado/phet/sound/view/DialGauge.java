@@ -93,7 +93,7 @@ public class DialGauge extends CompositePhetGraphic implements ScalarObserver {
 
     private class FaceGraphic extends PhetShapeGraphic {
         private Rectangle2D.Double tickMark;
-        private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 8 );
+        private Font font = new PhetDefaultFont( Font.BOLD, 8 );
 
         FaceGraphic() {
             super( component, null, Color.white, new BasicStroke( 5 ), new Color( 80, 80, 40 ) );
