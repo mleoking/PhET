@@ -198,7 +198,7 @@ public class PowerMeterGraphic extends GraphicLayerSet {
 
             // Text annotations
             String lasingStr = SimStrings.getInstance().getString( "PowerMeter.Lasing" );
-            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
+            Font font = new PhetDefaultFont( Font.BOLD, 12 );
             PhetTextGraphic lasingAnnotation = new PhetTextGraphic();
             lasingAnnotation.setComponent( component );
             lasingAnnotation.setFont( font );
