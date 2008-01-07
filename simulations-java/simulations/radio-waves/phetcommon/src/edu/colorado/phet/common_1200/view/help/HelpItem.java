@@ -27,7 +27,7 @@ public class HelpItem implements Graphic {
     ArrayList shadowTextGraphics = new ArrayList();
     int horizontalAlignment;
     int verticalAlignment;
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+    private Font font = new PhetDefaultFont( Font.BOLD, 16 );
     private String text;
     private Point2D.Double location;
     private Color shadowColor;
