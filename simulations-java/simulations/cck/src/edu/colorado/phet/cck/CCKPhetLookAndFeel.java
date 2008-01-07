@@ -16,13 +16,10 @@ public class CCKPhetLookAndFeel extends PhetLookAndFeel {
     private static Color cckBackground = new Color( 200, 240, 200 );  // light green
 
     public CCKPhetLookAndFeel() {
-        setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
         setBackgroundColor( cckBackground );
-        if( PhetDefaultFont.isJapaneseLocale() ) {
-            setFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( 14f ) );
-            setTitledBorderFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.BOLD, 12f ) );
-            setTabFont( PhetDefaultFont.getPreferredFont( new String[]{"MS Mincho", "MS Gothic", "Osaka"} ).deriveFont( Font.BOLD, 14 ) );
-        }
+        setFont( new PhetDefaultFont( Font.BOLD, 13 ) );
+        setTitledBorderFont( new PhetDefaultFont( Font.BOLD, 12 ) );
+        setTabFont( new PhetDefaultFont( Font.BOLD, 14 ) );
     }
 
     protected String getLookAndFeelClassName() {
