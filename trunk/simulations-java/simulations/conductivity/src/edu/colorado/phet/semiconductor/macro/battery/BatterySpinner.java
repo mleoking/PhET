@@ -55,7 +55,7 @@ public class BatterySpinner {
         }
 
         TitledBorder titledborder = BorderFactory.createTitledBorder( SimStrings.get( "BatterySpinner.BorderTitle" ) );
-        titledborder.setTitleFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
+        titledborder.setTitleFont( new PhetDefaultFont( Font.BOLD, 12 ) );
         spinner.setBorder( titledborder );
         spinner.setPreferredSize( new Dimension( 150, spinner.getPreferredSize().height ) );
         spinner.addChangeListener( new ChangeListener() {

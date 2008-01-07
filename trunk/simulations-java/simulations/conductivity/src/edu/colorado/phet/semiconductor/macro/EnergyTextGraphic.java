@@ -23,8 +23,8 @@ public class EnergyTextGraphic extends TransformGraphic {
         super( modelviewtransform2d );
         loc = phetvector;
         text = SimStrings.get( "EnergyTextGraphic.EnergyText" );
-        font = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
-        smallFont = new Font( "Dialog", 0, 18 );
+        font = new PhetDefaultFont( Font.PLAIN, 36 );
+        smallFont = new PhetDefaultFont( Font.PLAIN, 18 );
     }
 
     public void paint( Graphics2D graphics2d ) {
