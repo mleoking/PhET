@@ -21,8 +21,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class ObjectSelectionPanel extends JPanel {
-    private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
-    private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
+    private Font selectedFont = new PhetDefaultFont( Font.BOLD, 13 );
+    private Font normalFont = new PhetDefaultFont( Font.PLAIN, 13 );
 
     public static interface Listener {
         void objectChanged( Force1DObjectConfig imageElement );

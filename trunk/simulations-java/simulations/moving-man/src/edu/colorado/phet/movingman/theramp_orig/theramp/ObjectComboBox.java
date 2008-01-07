@@ -23,7 +23,6 @@ import java.text.MessageFormat;
 
 public class ObjectComboBox extends JComboBox {
     private AdvancedRampControlPanel controlPanel;
-//    private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
 
     public ObjectComboBox( final RampObject[] rampObjects, final AdvancedRampControlPanel controlPanel ) {
         super( toLabelArray( rampObjects, controlPanel ) );

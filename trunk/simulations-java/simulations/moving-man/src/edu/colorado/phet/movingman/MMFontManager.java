@@ -76,33 +76,33 @@ public class MMFontManager {
 
     static class Large extends MMFontSet {
         public Large() {
-            axisFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
-            titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
-            readoutFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 22 );
-            wiggleMeFont = new Font( "Sans Serif", Font.BOLD, 16 );
-            controlButtonFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 14 );
-            textBoxFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 11 );
-            chartButtonFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
-            timeLabelFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
-            timeFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
-            walkwayFont = new Font( "dialog", 0, 20 );
-            verticalTitleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+            axisFont = new PhetDefaultFont( Font.BOLD, 14 );
+            titleFont = new PhetDefaultFont( Font.BOLD, 12 );
+            readoutFont = new PhetDefaultFont( Font.BOLD, 22 );
+            wiggleMeFont = new PhetDefaultFont( Font.BOLD, 16 );
+            controlButtonFont = new PhetDefaultFont( Font.PLAIN, 14 );
+            textBoxFont = new PhetDefaultFont( Font.BOLD, 11 );
+            chartButtonFont = new PhetDefaultFont( Font.BOLD, 14 );
+            timeLabelFont = new PhetDefaultFont( Font.BOLD, 14 );
+            timeFont = new PhetDefaultFont( Font.PLAIN, 36 );
+            walkwayFont = new Font( "dialog", Font.PLAIN, 20 );
+            verticalTitleFont = new PhetDefaultFont( Font.BOLD, 16 );
         }
     }
 
     static class Medium extends MMFontSet {
         public Medium() {
-            axisFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
-            titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
-            readoutFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
-            wiggleMeFont = new Font( "Sans Serif", Font.BOLD, 16 );
-            controlButtonFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 10 );
-            textBoxFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
-            chartButtonFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
-            timeLabelFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
-            timeFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 36 );
-            walkwayFont = new Font( "dialog", 0, 20 );
-            verticalTitleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 );
+            axisFont = new PhetDefaultFont( Font.BOLD, 14 );
+            titleFont = new PhetDefaultFont( Font.BOLD, 10 );
+            readoutFont = new PhetDefaultFont( Font.BOLD, 16 );
+            wiggleMeFont = new PhetDefaultFont( Font.BOLD, 16 );
+            controlButtonFont = new PhetDefaultFont( Font.PLAIN, 10 );
+            textBoxFont = new PhetDefaultFont( Font.BOLD, 10 );
+            chartButtonFont = new PhetDefaultFont( Font.BOLD, 10 );
+            timeLabelFont = new PhetDefaultFont( Font.BOLD, 12 );
+            timeFont = new PhetDefaultFont( Font.PLAIN, 36 );
+            walkwayFont = new Font( "dialog", Font.PLAIN, 20 );
+            verticalTitleFont = new PhetDefaultFont( Font.BOLD, 12 );
         }
     }
 

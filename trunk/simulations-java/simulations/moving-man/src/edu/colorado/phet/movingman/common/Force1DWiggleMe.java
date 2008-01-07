@@ -39,7 +39,7 @@ public class Force1DWiggleMe extends CompositePhetGraphic {
     }
 
     public Force1DWiggleMe( final Component component, AbstractClock clock, String text, Target t ) {
-        this( component, clock, text, t, new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 20 ), 1, 1 );
+        this( component, clock, text, t, new PhetDefaultFont( Font.BOLD, 20 ), 1, 1 );
     }
 
     public Force1DWiggleMe( final Component component, AbstractClock clock, String text, Target t, Font font, int dx, int dy ) {

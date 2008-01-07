@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 public abstract class AbstractTicks extends AbstractGrid {
     private int tickHeight = 6;
     private NumberFormat format = new DecimalFormat( "#.#" );
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 12 );
+    private Font font = new PhetDefaultFont( Font.PLAIN, 12 );
     private FontMetrics fontMetrics;
     private boolean showLabels = true;
 

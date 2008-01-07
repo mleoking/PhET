@@ -974,7 +974,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
-            Font borderFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 12 );
+            Font borderFont = new PhetDefaultFont( Font.PLAIN, 12 );
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {
@@ -1176,7 +1176,7 @@ public class PlotDevice extends GraphicLayerSet {
     }
 
     public static class ChartButton extends JButton {
-        private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();//new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
+        private static Font font = PlotDeviceFontManager.getFontSet().getChartButtonFont();
 
         public ChartButton( String label ) throws IOException {
 //            super( label, new ImageIcon( ImageLoader.loadBufferedImage( "forces-1d/images/arrow-right.gif" ) ) );

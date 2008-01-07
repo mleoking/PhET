@@ -32,7 +32,7 @@ public class AngleGraphic extends PNode {
 //        phetShapeGraphic = new PhetShapeGraphic( getComponent(), null, new BasicStroke( 2 ), Color.black );
         label = new HTMLNode( "test" );
         label.setFont( new PhetDefaultFont( 14 ) );
-//        label = new ShadowHTMLGraphic( getComponent(), "test", new Font( PhetDefaultFont.LUCIDA_SANS, 0, 14 ), Color.black, 1, 1, Color.gray );
+//        label = new ShadowHTMLGraphic( getComponent(), "test", new PhetDefaultFont( Font.PLAIN, 14 ), Color.black, 1, 1, Color.gray );
         addChild( phetShapeGraphic );
         addChild( label );
         update();

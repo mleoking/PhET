@@ -64,7 +64,7 @@ public class FreeBodyDiagramPanel {
         };
         fbdWiggleMe = new WiggleMe( fbdPanel, module.getClock(), SimStrings.get( "FreeBodyDiagramPanel.clickHelp" ), target );
         fbdWiggleMe.setArrowColor( new Color( 0, 30, 240, 128 ) );
-        fbdWiggleMe.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        fbdWiggleMe.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         fbdWiggleMe.setArrow( 0, 40 );
         fbdWiggleMe.setAmplitude( 10 );
         fbdWiggleMe.setFrequency( 5.0 );

@@ -33,7 +33,6 @@ public class ForceArrowGraphic extends PNode {
     private AbstractArrowSet.ForceComponent forceComponent;
     private HTMLNode textGraphic;
     private PPath shapeGraphic;
-    //    private final Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
     private final Font font = RampFontSet.getFontSet().getForceArrowLabelFont();
     private Arrow lastArrow;
     private BlockGraphic blockGraphic;

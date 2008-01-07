@@ -104,7 +104,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
         private ForceComponent forceComponent;
         PhetShadowTextGraphic textGraphic;
         PhetShapeGraphic shapeGraphic;
-        final Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
+        final Font font = new PhetDefaultFont( Font.BOLD, 13 );
         private Arrow lastArrow;
 
         public ForceArrowGraphic( Component component, String name, Color color, int dy, ForceComponent forceComponent ) {

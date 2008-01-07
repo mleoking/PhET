@@ -179,7 +179,7 @@ public class WalkwayGraphic extends CompositePhetGraphic {
         private String text;
         private int y = 134;
         private PhetShapeGraphic shapeGraphic;
-        private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+        private Font font = new PhetDefaultFont( Font.BOLD, 16 );
         private PhetTextGraphic textGraphic;
 
         public TickGraphic( Component component ) {
