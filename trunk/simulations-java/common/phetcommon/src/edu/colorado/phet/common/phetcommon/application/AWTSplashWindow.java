@@ -132,14 +132,14 @@ public class AWTSplashWindow extends Window {
         SwingUtils.centerWindowOnScreen( this );
     }
 
-    /*Creates an image used to render the text "TITLE is starting up"
+    /* Creates an image used to render the text "TITLE is starting up"
      * This workaround is necessary because peered AWT components can only use logical fonts.
      */
     private Image createLabelImage( String labelString, Color background, Color foreground ) {
-        PhetDefaultFont font = new PhetDefaultFont( 13, true );
+        PhetDefaultFont font = new PhetDefaultFont( 13, false );
         final TextLayout textLayout = new TextLayout( labelString, font, new FontRenderContext( new AffineTransform(), true, false ) );
         Rectangle2D bounds = textLayout.getBounds();
-        BufferedImage bufferedImage = new BufferedImage( (int) Math.ceil( bounds.getWidth() ), (int) Math.ceil( bounds.getHeight() ), BufferedImage.TYPE_INT_RGB );
+        BufferedImage bufferedImage = new BufferedImage( (int) Math.ceil( bounds.getWidth() ) + 2, (int) Math.ceil( bounds.getHeight() ) + 2, BufferedImage.TYPE_INT_RGB );
 
         Graphics2D g2 = bufferedImage.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
@@ -147,7 +147,7 @@ public class AWTSplashWindow extends Window {
         g2.fillRect( 0, 0, bufferedImage.getWidth(), bufferedImage.getHeight() );
         g2.setColor( foreground );
         g2.setFont( font );
-        textLayout.draw( g2, 0, textLayout.getAscent() - textLayout.getDescent() - textLayout.getLeading() );
+        textLayout.draw( g2, 0, textLayout.getAscent() - textLayout.getDescent() - textLayout.getLeading() + 1 );
         return bufferedImage;
     }
 
