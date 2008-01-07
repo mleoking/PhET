@@ -39,7 +39,7 @@ public class DetectorGraphic extends RectangleGraphic {
 
         darkGreen = new Color( 50, 230, 75 );
         probDisplay = new PText();
-        probDisplay.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        probDisplay.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         probDisplay.setTextPaint( darkGreen );
         probDisplay.setPickable( false );
         probDisplay.setChildrenPickable( false );

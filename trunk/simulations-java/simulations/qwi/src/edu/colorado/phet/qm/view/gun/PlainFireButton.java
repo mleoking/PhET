@@ -41,7 +41,7 @@ public class PlainFireButton extends PNode {
         text = new ShadowPText( QWIStrings.getString( "gun.FIRE" ) );
         text.setShadowOffset( 1, 1 );
         text.setShadowColor( Color.black );
-        text.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ) );
+        text.setFont( new PhetDefaultFont( Font.BOLD, 12 ) );
         text.setTextPaint( Color.red );
         try {
             outIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" );

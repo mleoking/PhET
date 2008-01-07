@@ -66,7 +66,7 @@ public class DetectorSheetPNode extends PhetPNode {
         recreateImage();
 //        title.setShadowColor( Color.black );
         title.setTextPaint( Color.black );
-        title.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        title.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         screenGraphic = new ScreenGraphic( bufferedImage );
 
         setBrightness( 0.2 );
@@ -87,7 +87,7 @@ public class DetectorSheetPNode extends PhetPNode {
         detectorSheetControlPanelPNode = new PSwing( new ShinyPanel( detectorSheetControlPanel ) );
 //        detectorSheetControlPanelPNode = new PSwing( schrodingerPanel,  detectorSheetControlPanel  );
 
-//        FontSetter.setFont( new Font( PhetDefaultFont.LUCIDA_SANS,Font.PLAIN, 8 ),detectorSheetControlPanel );
+//        FontSetter.setFont( new PhetDefaultFont( Font.PLAIN, 8 ),detectorSheetControlPanel );
 //        detectorSheetControlPanelPNode = new PhetPNode( new PPath( new Ellipse2D.Double( 50, 50, 50, 50 ) ) );
 
         PropertyChangeListener changeListener = new PropertyChangeListener() {

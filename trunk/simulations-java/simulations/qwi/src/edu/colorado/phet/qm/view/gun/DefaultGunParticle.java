@@ -41,7 +41,7 @@ public class DefaultGunParticle extends GunParticle {
 
     private void createControls() {
         velocitySlider = new JSlider( JSlider.HORIZONTAL, 0, 1000, 1000 / 2 );
-        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), QWIStrings.getString( "gun.velocity" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 12 ), Color.white ) {
+        TitledBorder titledBorder = new TitledBorder( new LineBorder( Color.white, 1, true ), QWIStrings.getString( "gun.velocity" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new PhetDefaultFont( Font.BOLD, 12 ), Color.white ) {
             public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
                 Graphics2D g2 = (Graphics2D)g;
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
