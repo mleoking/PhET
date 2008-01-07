@@ -53,7 +53,8 @@ public class AWTSplashWindow extends Window {
     private boolean done = false; // flag that tells the animation thread to stop
     private Panel panel; // panel that contains all the UI components
     private AnimationComponent animationComponent;
-    private Component textComponent;
+    private ImageComponent textComponent;
+    private String labelString;
 
     /**
      * Constructor.
@@ -73,7 +74,7 @@ public class AWTSplashWindow extends Window {
 
         // UI components
         String message = PhetCommonResources.getInstance().getLocalizedString( "PhetApplication.StartupDialog.message" );
-        String labelString = MessageFormat.format( message, new Object[]{title} );
+        labelString = MessageFormat.format( message, new Object[]{title} );
         BufferedImage image = getLogoImage();
         Component imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {
@@ -171,9 +172,11 @@ public class AWTSplashWindow extends Window {
      * @param color
      */
     public void setBackground( Color color ) {
+        this.backgroundColor=color;
         super.setBackground( color );
         panel.setBackground( color );
         textComponent.setBackground( color );
+        textComponent.setImage(createLabelImage( labelString, backgroundColor, Color.black ));
     }
 
     /*
@@ -274,6 +277,10 @@ public class AWTSplashWindow extends Window {
         public void paint( Graphics g ) {
             super.paint( g );
             g.drawImage( image, 0, 0, this );
+        }
+
+        public void setImage( Image labelImage ) {
+            this.image = labelImage;
         }
     }
 
