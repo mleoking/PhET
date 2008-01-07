@@ -136,7 +136,7 @@ public class IntensityReader extends PhetPNode {
             textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
             addChild( textBackground );
             readout = new PText( WIStrings.getString( "readout.value-unknown" ) );
-            readout.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+            readout.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
             readout.setTextPaint( Color.blue );
             addChild( readout );
         }

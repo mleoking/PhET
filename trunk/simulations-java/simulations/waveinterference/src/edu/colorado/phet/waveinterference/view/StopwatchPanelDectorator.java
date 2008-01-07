@@ -28,7 +28,7 @@ public class StopwatchPanelDectorator extends VerticalLayoutPanel {
         stopwatchPanel.setScaleFactor( timeScale );
         stopwatchPanel.setTimeUnits( timeUnits );
         add( stopwatchPanel );
-        label.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+        label.setFont( new PhetDefaultFont( Font.BOLD, 14 ) );
         label.setBackground( stopwatchPanel.getBackground() );
         label.setOpaque( true );
     }
