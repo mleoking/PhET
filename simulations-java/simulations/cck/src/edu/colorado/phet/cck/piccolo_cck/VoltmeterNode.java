@@ -94,7 +94,7 @@ public class VoltmeterNode extends PhetPNode {
             } );
             addChild( PImageFactory.create( "cck/images/vm3.gif" ) );
             textNode = new PText();
-            textNode.setFont( new Font( "Dialog", Font.PLAIN, 20 ) );
+            textNode.setFont( new PhetDefaultFont( Font.PLAIN, 20 ) );
             textNode.setOffset( 15, 20 );
             addChild( textNode );
             addInputEventListener( new PBasicInputEventHandler() {
