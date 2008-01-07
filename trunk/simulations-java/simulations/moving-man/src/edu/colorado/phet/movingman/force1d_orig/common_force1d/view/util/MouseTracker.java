@@ -10,10 +10,19 @@
  */
 package edu.colorado.phet.movingman.force1d_orig.common_force1d.view.util;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.ApparatusPanel2;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.phetgraphics.CompositePhetGraphic;
 import edu.colorado.phet.movingman.force1d_orig.common_force1d.view.phetgraphics.PhetGraphic;
@@ -36,7 +45,7 @@ public class MouseTracker extends CompositePhetGraphic implements MouseMotionLis
         component.addMouseMotionListener( this );
         component.addChangeListener( this );
 
-        readout = new PhetTextGraphic( component, new Font( "Lucida sans", Font.PLAIN, 10 ),
+        readout = new PhetTextGraphic( component, new PhetDefaultFont( Font.PLAIN, 10 ),
                                        "", Color.black );
         this.addGraphic( readout );
         this.addGraphic( new CrosshairGraphic( component ) );

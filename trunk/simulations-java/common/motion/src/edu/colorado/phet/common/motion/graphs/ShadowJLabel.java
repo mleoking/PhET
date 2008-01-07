@@ -1,9 +1,13 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PCanvas;
 
@@ -26,7 +30,7 @@ public class ShadowJLabel extends PCanvas {
 
     public static void main( String[] args ) {
         JFrame frame = new JFrame();
-        ShadowJLabel contentPane = new ShadowJLabel( "" + '\u03B8', Color.blue, new Font( "Lucida Sans", Font.BOLD, 24 ) );
+        ShadowJLabel contentPane = new ShadowJLabel( "" + '\u03B8', Color.blue, new PhetDefaultFont( Font.BOLD, 24 ) );
         frame.setContentPane( contentPane );
         frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

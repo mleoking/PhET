@@ -22,6 +22,7 @@ PHETCOMMON:
 
 
 DONE:
+1/7/08 - replace "Lucida Sans" with PhetDefaultFont
 11/9/07 - move about.credits property to localization file
 8/27/07 - replace "Lucida Sans" with PhetDefaultFont.getDefaultFontName()
 ********* version 1.01.00 (17033)

@@ -10,23 +10,46 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.HeadlessException;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetMultiLineTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.RepaintDebugGraphic;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 
 /**
@@ -50,7 +73,7 @@ public class TestPhetGraphics extends JFrame {
         TestPhetGraphicSource[] graphics = new TestPhetGraphicSource[]{
                 new TestPhetGraphicSource() {
                     public PhetGraphic createGraphic( ApparatusPanel panel ) {
-                        return new PhetTextGraphic( panel, new Font( "Lucida Sans", Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
+                        return new PhetTextGraphic( panel, new PhetDefaultFont( Font.BOLD, 24 ), "PhetGraphic Test", Color.blue, 100, 100 );
                     }
                 },
                 new TestPhetGraphicSource() {
@@ -78,7 +101,7 @@ public class TestPhetGraphics extends JFrame {
                         CompositePhetGraphic cpg = new CompositePhetGraphic( panel );
                         cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 130, 30, 30, 30 ), Color.red ) );
                         cpg.addGraphic( new PhetShapeGraphic( panel, new Ellipse2D.Double( 160, 30, 30, 30 ), Color.blue ) );
-                        cpg.addGraphic( new PhetShadowTextGraphic( panel, new Font( "Lucida Sans", 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
+                        cpg.addGraphic( new PhetShadowTextGraphic( panel, new PhetDefaultFont( 0, 12 ), "compositegraphic", Color.white, 1, 1, Color.black ) );
                         return cpg;
                     }
                 },
@@ -86,7 +109,7 @@ public class TestPhetGraphics extends JFrame {
                     public PhetGraphic createGraphic( ApparatusPanel panel ) {
 //                    Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 4, new float[]{6, 6}, 0 );
                         Stroke stroke = new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 2 );//, new float[]{6, 6}, 0 );
-                        final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new Font( "Lucida Sans", Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
+                        final OutlineTextGraphic g = new OutlineTextGraphic( panel, "Outline Text", new PhetDefaultFont( Font.ITALIC, 68 ), 0, 0, Color.yellow, stroke, Color.black );
                         g.setBorderPaint( new GradientPaint( 0, 0, Color.red, 300, 300, Color.blue ) );
                         return g;
                     }

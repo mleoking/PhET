@@ -10,7 +10,14 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * PhetTextGraphic is a graphic that draws single-line text.
@@ -37,7 +44,7 @@ public class PhetTextGraphic2 extends PhetGraphic {
     public static final int CENTER = 9;
 
     // Defaults
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
     private static final String DEFAULT_TEXT = "";
     private static final Color DEFAULT_COLOR = Color.BLACK;
     private static final int DEFAULT_JUSTIFICATION = NONE;

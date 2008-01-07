@@ -34,7 +34,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * public TestPhetLookAndFeelExample() {
  * setBackgroundColor( Color.blue );
  * setForegroundColor( Color.white );
- * setFont( new Font( "Lucida Sans", Font.BOLD, 24 ) );
+ * setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
  * }
  * }
  * </code>

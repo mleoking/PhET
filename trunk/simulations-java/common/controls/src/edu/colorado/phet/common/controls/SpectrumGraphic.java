@@ -10,10 +10,19 @@
  */
 package edu.colorado.phet.common.controls;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 
 /**
  * SpectrumGraphic
@@ -22,7 +31,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
  * @version $Revision$
  */
 public class SpectrumGraphic extends CompositePhetGraphic {
-    public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
+    public static final Font DEFAULT_CONTROL_FONT = new PhetDefaultFont( Font.BOLD, 10 );
     //    private static Color invisibleColor = new Color( 0, 0, 0 );
     private static Color invisibleColor = new Color( 64, 64, 64 );
 

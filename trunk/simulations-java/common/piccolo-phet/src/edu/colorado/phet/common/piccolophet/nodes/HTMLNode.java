@@ -11,12 +11,16 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
@@ -32,7 +36,7 @@ public class HTMLNode extends PNode {
     // Class data
     //----------------------------------------------------------------------------
 
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 12 );
     private static final Color DEFAULT_HTML_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------

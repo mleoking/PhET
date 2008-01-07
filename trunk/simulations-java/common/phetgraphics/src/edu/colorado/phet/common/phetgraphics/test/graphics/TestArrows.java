@@ -6,16 +6,19 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationEvent;
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
@@ -73,7 +76,7 @@ public class TestArrows {
             }
         } );
 
-        Font font = new Font( "Lucida Sans", Font.BOLD, 24 );
+        Font font = new PhetDefaultFont( Font.BOLD, 24 );
         PhetTextGraphic textGraphic = new PhetTextGraphic( p, font, "Hello PhET", Color.blue, 200, 100 );
         compositeGraphic.addGraphic( textGraphic, 10 );
         compositeGraphic.addGraphic( shapeGraphic, 30 );

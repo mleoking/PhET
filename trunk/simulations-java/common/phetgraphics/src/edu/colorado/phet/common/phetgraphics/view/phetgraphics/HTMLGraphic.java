@@ -1,11 +1,19 @@
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * Class for rendering HTML Text.
@@ -13,7 +21,7 @@ import javax.swing.text.View;
 public class HTMLGraphic extends CompositePhetGraphic {
 
     private static final Color DEFAULT_COLOR = Color.BLACK;
-    private static final Font DEFAULT_FONT = new Font( "Lucida Sans", Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new PhetDefaultFont( Font.PLAIN, 12 );
 
     private String html;
     private Font font;

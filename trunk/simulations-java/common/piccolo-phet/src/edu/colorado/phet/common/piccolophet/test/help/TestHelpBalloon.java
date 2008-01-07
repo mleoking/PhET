@@ -11,14 +11,25 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -30,6 +41,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -118,7 +130,7 @@ public class TestHelpBalloon extends NonPiccoloPhetApplication {
             pathNode.setOffset( 0, 0 );
 
             PText textNode = new PText( "Drag me" );
-            textNode.setFont( new Font( "Lucida Sans", Font.BOLD, 16 ) );
+            textNode.setFont( new PhetDefaultFont( Font.BOLD, 16 ) );
             textNode.setTextPaint( Color.BLACK );
             textNode.setOffset( pathNode.getWidth() / 2 - textNode.getWidth() / 2, pathNode.getHeight() / 2 - textNode.getHeight() / 2 );
 
@@ -164,7 +176,7 @@ public class TestHelpBalloon extends NonPiccoloPhetApplication {
                 fontSizeSlider.addChangeListener( new ChangeListener() {
 
                     public void stateChanged( ChangeEvent e ) {
-                        Font font = new Font( "Lucida Sans", Font.PLAIN, fontSizeSlider.getValue() );
+                        Font font = new PhetDefaultFont( Font.PLAIN, fontSizeSlider.getValue() );
                         _helpBalloon.setFont( font );
                     }
                 } );

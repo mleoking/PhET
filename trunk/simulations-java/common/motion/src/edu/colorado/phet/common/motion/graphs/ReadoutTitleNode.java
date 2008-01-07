@@ -80,7 +80,6 @@ public class ReadoutTitleNode extends PNode {
     }
 
     private Font getTitleFont() {
-//        return new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, isLowRes() ? 12 : 14 );
         return new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, isLowRes() ? 12 : 14 );
     }
 

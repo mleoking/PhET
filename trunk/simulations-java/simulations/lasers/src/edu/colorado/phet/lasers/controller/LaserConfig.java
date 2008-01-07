@@ -10,8 +10,10 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.Font;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 public class LaserConfig {
 
@@ -89,6 +91,6 @@ public class LaserConfig {
     public static final double CONTROL_LAYER = 1E2;
 
     // Fonts
-    public static final Font DEFAULT_CONTROL_FONT = new Font( "Lucida sans", Font.BOLD, 10 );
+    public static final Font DEFAULT_CONTROL_FONT = new PhetDefaultFont( Font.BOLD, 10 );
 
 }

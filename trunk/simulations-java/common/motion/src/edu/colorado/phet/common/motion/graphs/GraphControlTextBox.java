@@ -1,6 +1,7 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -8,10 +9,14 @@ import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * Author: Sam Reid
@@ -24,7 +29,7 @@ public class GraphControlTextBox extends JPanel {
 
     public GraphControlTextBox( ControlGraphSeries series ) {
         this.series = series;
-        Font labelFont = new Font( "Lucida Sans", Font.PLAIN, 18 );//Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
+        Font labelFont = new PhetDefaultFont( Font.PLAIN, 18 );//Java 1.6 renders THETA as an empty box with Lucida Sans BOLD
         add( new ShadowJLabel( series.getAbbr(), series.getColor(), labelFont ) );
 
         JLabel equalsSign = new JLabel( " =" );

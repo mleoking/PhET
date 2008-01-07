@@ -10,14 +10,40 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.AWTException;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -25,6 +51,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
@@ -39,7 +66,7 @@ public class ModelSlider extends JPanel {
     private JSlider slider;
     private ModelViewTransform1D modelViewTransform;
     private String units;
-    private Font titleFont = new Font( "Lucida Sans", Font.BOLD, 12 );
+    private Font titleFont = new PhetDefaultFont( Font.BOLD, 12 );
     private NumberFormat textFieldFormat;
     // Format for the numbers that appear below the JSlider
     private NumberFormat sliderLabelFormat;
@@ -236,7 +263,7 @@ public class ModelSlider extends JPanel {
     private void relabelSlider() {
         int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        Font labelFont = new Font( "Lucida Sans", 0, 10 );
+        Font labelFont = new PhetDefaultFont( 0, 10 );
         Hashtable table = new Hashtable();
         for ( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = modelViewTransform.viewToModel( value );

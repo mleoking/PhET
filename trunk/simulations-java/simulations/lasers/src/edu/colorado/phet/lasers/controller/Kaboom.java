@@ -10,13 +10,15 @@
  */
 package edu.colorado.phet.lasers.controller;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -24,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSequence;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
@@ -116,7 +119,7 @@ public class Kaboom implements ModelElement {
 
         // Add the message to the user
         labelMessage = new JLabel( SimStrings.getInstance().getString( "Kaboom.message" ) );
-        labelMessage.setFont( new Font( "Lucida sans", Font.BOLD, 24 ) );
+        labelMessage.setFont( new PhetDefaultFont( Font.BOLD, 24 ) );
         labelMessage.setForeground( Color.red );
         labelMessage.setLocation( -20, 10 );
         panel.add( labelMessage );

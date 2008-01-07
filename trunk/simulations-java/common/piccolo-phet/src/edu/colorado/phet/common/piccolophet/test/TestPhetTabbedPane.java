@@ -10,16 +10,23 @@
  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane;
 
 /**
@@ -48,7 +55,7 @@ public class TestPhetTabbedPane {
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 System.out.println( "slider.getValue() = " + slider.getValue() );
-                phetTabbedPane.setTabFont( new Font( "Lucida Sans", Font.BOLD, slider.getValue() ) );
+                phetTabbedPane.setTabFont( new PhetDefaultFont( Font.BOLD, slider.getValue() ) );
             }
         } );
 //        phetTabbedPane.addTab( "<html>Font<br>Size</html>", slider );

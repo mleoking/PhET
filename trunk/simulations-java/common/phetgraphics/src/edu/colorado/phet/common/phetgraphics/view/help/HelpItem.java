@@ -10,11 +10,18 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.help;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShadowTextGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -37,7 +44,7 @@ public class HelpItem extends PhetGraphic {
     public final static int LEFT = 3;
     public final static int CENTER = 4;
     public final static int RIGHT = 5;
-    public final static Font DEFAULT_FONT = new Font( "Lucida Sans", Font.BOLD, 16 );
+    public final static Font DEFAULT_FONT = new PhetDefaultFont( Font.BOLD, 16 );
 
     private static String[] tokenizeString( String inputText ) {
         StringTokenizer st = new StringTokenizer( inputText, "\n" );

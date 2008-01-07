@@ -1,12 +1,19 @@
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.motion.util.GraphicsUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
 /**
  * User: Sam Reid
@@ -20,7 +27,7 @@ public class GraphSelectionControl extends JPanel {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         JLabel label = new JLabel( "Show graphs:" );
-        label.setFont( new Font( "Lucida Sans", Font.PLAIN, 16 ) );
+        label.setFont( new PhetDefaultFont( Font.PLAIN, 16 ) );
         add( label, gridBagConstraints );
         for ( int i = 0; i < graphSuiteSet.getNumGraphSuites(); i++ ) {
             add( new GraphSuiteRadioButton( graphSetModel, graphSuiteSet.getGraphSuite( i ) ), gridBagConstraints );
@@ -35,7 +42,7 @@ public class GraphSelectionControl extends JPanel {
             super( graphSuite.getLabel(), graphSetModel.getGraphSuite() == graphSuite );
             this.graphSetPanel = graphSetModel;
             this.graphSuite = graphSuite;
-            setFont( new Font( "Lucida Sans", Font.PLAIN, 16 ) );
+            setFont( new PhetDefaultFont( Font.PLAIN, 16 ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     graphSetModel.setGraphSuite( graphSuite );

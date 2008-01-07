@@ -1,10 +1,13 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -24,7 +27,7 @@ public class TestPiccoloRendering {
         pCanvas.setPanEventHandler( null );
 
         final PText pText = new PText( "Testing Piccolo Rendering" );
-        pText.setFont( new Font( "Lucida Sans", Font.BOLD, 32 ) );
+        pText.setFont( new PhetDefaultFont( Font.BOLD, 32 ) );
         pText.setOffset( 22.96045684814453, 19.954608917236328 );
         pCanvas.getLayer().addChild( pText );
 

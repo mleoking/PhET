@@ -10,10 +10,14 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -37,7 +41,7 @@ public class TestTextGraphic {
         PhetShapeGraphic phetShapeGraphic = new PhetShapeGraphic( apparatusPanel, new Rectangle( 98, 98, 4, 4 ), Color.red );
         apparatusPanel.addGraphic( phetShapeGraphic );
 
-        PhetTextGraphic textGraphic = new PhetTextGraphic( apparatusPanel, new Font( "Lucida Sans", Font.BOLD, 24 ), "Test PhET Text & graphics", Color.blue, 0, 0 );
+        PhetTextGraphic textGraphic = new PhetTextGraphic( apparatusPanel, new PhetDefaultFont( Font.BOLD, 24 ), "Test PhET Text & graphics", Color.blue, 0, 0 );
         apparatusPanel.addGraphic( textGraphic );
         textGraphic.setLocation( 100, 100 );
 
