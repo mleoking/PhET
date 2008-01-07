@@ -4,10 +4,8 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Properties;
 
 import javax.swing.JLabel;
 
@@ -18,9 +16,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * PhetDefaultFont provides an interface for instantiating the default font used in PhET simulations.
  */
 public class PhetDefaultFont extends Font {
-    
-    // preferred physical font names for various ISO language codes
-    private static final String PREFERRED_FONTS_RESOURCE = "localization/phetcommon-fonts.properties";
     
     // we'll use this font if we have no font preference, or if no preferred font is installed
     private static final Font FALLBACK_FONT = new JLabel().getFont();
@@ -108,7 +103,8 @@ public class PhetDefaultFont extends Font {
     private static Font createDefaultFont() {
 
         Font defaultFont = FALLBACK_FONT;
-        String[] preferredFonts = getPreferredFontNames( PhetResources.readLocale().getLanguage().toLowerCase() );
+        String languageCode = PhetResources.readLocale().getLanguage().toLowerCase();
+        String[] preferredFonts = PhetCommonResources.getPreferredFontNames( languageCode );
         if ( preferredFonts != null ) {
             defaultFont = getPreferredFont( preferredFonts, FALLBACK_FONT );
         }
@@ -124,42 +120,24 @@ public class PhetDefaultFont extends Font {
      */
     private static Font getPreferredFont( String[] preferredFontNames, Font defaultFont ) {
         
-        Font preferredFont = defaultFont;
+        Font preferredFont = null;
 
-        for ( int i = 0; i < preferredFontNames.length; i++ ) {
+        for ( int i = 0; preferredFont == null && i < preferredFontNames.length; i++ ) {
             String preferredFontName = preferredFontNames[i];
             ArrayList fonts = new ArrayList( Arrays.asList( GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts() ) );
 //            System.out.println( "PhetDefaultFonts.getPreferredFont fonts=" + fonts );
-            for ( int k = 0; k < fonts.size(); k++ ) {
+            for ( int k = 0; preferredFont == null && k < fonts.size(); k++ ) {
                 Font o = (Font) fonts.get( k );
                 if ( o.getName().equals( preferredFontName ) ) {
-                    preferredFont = o.deriveFont( preferredFont.getSize() );
+                    preferredFont = o.deriveFont( defaultFont.getSize() );
                 }
             }
         }
+        
+        if ( preferredFont == null ) {
+            preferredFont = defaultFont;
+        }
 
         return preferredFont;
-    }
-    
-    /*
-     * Reads a list of preferred physical font names from the phetcommon-fonts.properties resource.
-     * Returns the names as an array.
-     * If no preferred fonts are specified, null is returned.
-     */
-    public static String[] getPreferredFontNames( String languageCode ) {
-        String[] names = null;
-        Properties fontProperties = new Properties();
-        try {
-            fontProperties.load( PhetCommonResources.getInstance().getResourceAsStream( PREFERRED_FONTS_RESOURCE ) );
-            String key = "preferredFonts." + languageCode; // eg, preferredFonts.ja
-            String allNames = fontProperties.getProperty( key );
-            if ( allNames != null ) {
-                names = allNames.split( "," );
-            }
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-        return names;
     }
 }
