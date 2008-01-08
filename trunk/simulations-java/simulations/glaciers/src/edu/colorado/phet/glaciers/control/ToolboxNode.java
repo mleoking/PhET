@@ -13,6 +13,7 @@ import java.util.Iterator;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.BoreholeDrillIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.GPSIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.GlacialBudgetMeterIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.IceThicknessToolIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.ThermometerIconNode;
@@ -75,6 +76,8 @@ public class ToolboxNode extends PNode {
             _toolIconNodes.add( iceThicknessToolIconNode );
             ToolIconNode boreholeDrillIconNode = new BoreholeDrillIconNode();
             _toolIconNodes.add( boreholeDrillIconNode );
+            ToolIconNode gpsIconNode = new GPSIconNode();
+            _toolIconNodes.add( gpsIconNode );
             
             IconNode trashCanIconNode = new TrashCanNode();
 
@@ -83,6 +86,7 @@ public class ToolboxNode extends PNode {
             toolsParent.addChild( tracerFlagIconNode );
             toolsParent.addChild( iceThicknessToolIconNode );
             toolsParent.addChild( boreholeDrillIconNode );
+            toolsParent.addChild( gpsIconNode );
             toolsParent.addChild( trashCanIconNode );
             final double maxToolHeight = toolsParent.getFullBoundsReference().getHeight();
             
@@ -106,8 +110,12 @@ public class ToolboxNode extends PNode {
             x = iceThicknessToolIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
             y = ( maxToolHeight - boreholeDrillIconNode.getFullBoundsReference().getHeight() ) / 2;
             boreholeDrillIconNode.setOffset( x, y );
-            
+           
             x = boreholeDrillIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
+            y = ( maxToolHeight - gpsIconNode.getFullBoundsReference().getHeight() ) / 2;
+            gpsIconNode.setOffset( x, y );
+            
+            x = gpsIconNode.getFullBoundsReference().getMaxX() + HORIZONTAL_TOOL_SPACING;
             y = ( maxToolHeight - trashCanIconNode.getFullBoundsReference().getHeight() ) / 2;
             trashCanIconNode.setOffset( x, y );
         }
