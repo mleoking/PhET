@@ -36,7 +36,7 @@ public abstract class Movable {
     }
     
     public void setPosition( double x, double y ) {
-        if ( x != getX() && y != getY() ) {
+        if ( x != getX() || y != getY() ) {
             _position.setLocation( x, y );
             notifyPositionChanged();
         }
