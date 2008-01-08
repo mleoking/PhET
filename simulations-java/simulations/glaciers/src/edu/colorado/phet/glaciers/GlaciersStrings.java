@@ -57,7 +57,7 @@ public class GlaciersStrings {
     public static final String TOOLBOX_TRACER_FLAG = GlaciersResources.getString( "toolbox.tracerFlag" );
     public static final String TOOLBOX_ICE_THICKNESS_TOOL = GlaciersResources.getString( "toolbox.iceThicknessTool" );
     public static final String TOOLBOX_BOREHOLD_DRILL = GlaciersResources.getString( "toolbox.boreholeDrill" );
-    public static final String TOOLBOX_GPS = GlaciersResources.getString( "toolbox.gps" );
+    public static final String TOOLBOX_GPS_RECEIVER = GlaciersResources.getString( "toolbox.gpsReceiver" );
     public static final String TOOLBOX_TRASH_CAN = GlaciersResources.getString( "toolbox.trashCan" );
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
     public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );

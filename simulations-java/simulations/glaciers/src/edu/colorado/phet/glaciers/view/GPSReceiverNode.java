@@ -12,25 +12,25 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.glaciers.model.GPS;
+import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 
-public class GPSNode extends AbstractToolNode {
+public class GPSReceiverNode extends AbstractToolNode {
 
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat COORDINATE_FORMAT = new DecimalFormat( "0" );
     private static final float TRIANGLE_SIZE = 10f;
     
-    private GPS _gps;
+    private GPSReceiver _gps;
     private MovableListener _movableListener;
     private JLabel _coordinatesLabel;
     
-    public GPSNode( GPS gps ) {
+    public GPSReceiverNode( GPSReceiver gps ) {
         super( gps );
         
         _gps = gps;

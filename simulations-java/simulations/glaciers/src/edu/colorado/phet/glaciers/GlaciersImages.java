@@ -21,7 +21,7 @@ public class GlaciersImages {
     public static final BufferedImage THERMOMETER = GlaciersResources.getImage( "thermometer.png" );
     public static final BufferedImage TOOLBOX_BOREHOLE_DRILL = GlaciersResources.getImage( "toolbox-boreholeDrill.png" );
     public static final BufferedImage TOOLBOX_GLACIAL_BUDGET_METER = GlaciersResources.getImage( "toolbox-glacialBudgetMeter.png" );
-    public static final BufferedImage TOOLBOX_GPS = GlaciersResources.getImage( "toolbox-gps.png" );
+    public static final BufferedImage TOOLBOX_GPS_RECEIVER = GlaciersResources.getImage( "toolbox-gpsReceiver.png" );
     public static final BufferedImage TOOLBOX_ICE_THICKNESS_TOOL = GlaciersResources.getImage( "toolbox-iceThicknessTool.png" );
     public static final BufferedImage TOOLBOX_THERMOMETER = GlaciersResources.getImage( "toolbox-thermometer.png" );
     public static final BufferedImage TOOLBOX_TRACER_FLAG = GlaciersResources.getImage( "toolbox-tracerFlag.png" );

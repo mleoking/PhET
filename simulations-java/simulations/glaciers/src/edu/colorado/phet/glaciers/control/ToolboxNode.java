@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.BoreholeDrillIconNode;
-import edu.colorado.phet.glaciers.control.ToolIconNode.GPSIconNode;
+import edu.colorado.phet.glaciers.control.ToolIconNode.GPSReceiverIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.GlacialBudgetMeterIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.IceThicknessToolIconNode;
 import edu.colorado.phet.glaciers.control.ToolIconNode.ThermometerIconNode;
@@ -73,7 +73,7 @@ public class ToolboxNode extends PNode {
             _iconNodes.add( new IceThicknessToolIconNode() );
             _iconNodes.add( new BoreholeDrillIconNode() );
             if ( GlaciersApplication.isDeveloperControlsEnabled() ) {
-                _iconNodes.add( new GPSIconNode() );
+                _iconNodes.add( new GPSReceiverIconNode() );
             }
             _iconNodes.add( new TrashCanNode() );
             layoutIcons( _iconNodes, iconsParentNode );
