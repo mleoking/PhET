@@ -12,6 +12,7 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
+import edu.colorado.phet.glaciers.model.GPS;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
 import edu.colorado.phet.glaciers.model.Thermometer;
@@ -70,6 +71,16 @@ public abstract class ToolIconNode extends IconNode {
         
         protected AbstractTool createTool( Point2D position ) {
             return new BoreholeDrill( position );
+        }
+    }
+    
+    public static class GPSIconNode extends ToolIconNode {
+        public GPSIconNode() {
+            super( GlaciersImages.TOOLBOX_GPS, GlaciersStrings.TOOLBOX_GPS );
+        }
+        
+        protected AbstractTool createTool( Point2D position ) {
+            return new GPS( position );
         }
     }
     
