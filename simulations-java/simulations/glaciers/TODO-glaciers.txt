@@ -56,6 +56,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/8/07 - bugfix in Movable.setPosition(double,double), if expression should use "or"
 1/8/07 - add GPS tool, for development testing
 1/4/07 - add stubs to Glacier model for all required methods
 1/4/07 - use sea level as default reference altitude for Climate

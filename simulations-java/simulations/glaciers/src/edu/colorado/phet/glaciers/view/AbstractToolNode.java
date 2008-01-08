@@ -50,7 +50,7 @@ public abstract class AbstractToolNode extends PComposite {
             protected void drag( PInputEvent event ) {
                 double x = event.getPosition().getX() - _xOffset;
                 double y = event.getPosition().getY() - _yOffset;
-                _tool.setPosition( new Point2D.Double( x, y ) );
+                _tool.setPosition( x, y );
             }
         } );
 
