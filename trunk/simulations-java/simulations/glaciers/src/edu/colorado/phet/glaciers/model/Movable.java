@@ -43,7 +43,7 @@ public abstract class Movable {
     }
     
     public void translate( double dx, double dy ) {
-        if ( dx != 0 && dy != 0 ) {
+        if ( dx != 0 || dy != 0 ) {
             setPosition( getX() + dx, getY() + dy );
         }
     }
