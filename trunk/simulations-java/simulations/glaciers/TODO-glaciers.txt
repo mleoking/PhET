@@ -56,6 +56,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/8/07 - generalize layout of icons in toolbox
+1/8/07 - show/hide GPS tool based on whether developer controls are enabled
 1/8/07 - bugfix in Movable.setPosition(double,double), if expression should use "or"
 1/8/07 - add GPS tool, for development testing
 1/4/07 - add stubs to Glacier model for all required methods
