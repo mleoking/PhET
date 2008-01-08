@@ -2,7 +2,7 @@ package edu.colorado.phet.glaciers.view;
 
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
-import edu.colorado.phet.glaciers.model.GPS;
+import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
 import edu.colorado.phet.glaciers.model.Thermometer;
@@ -32,8 +32,8 @@ public class ToolNodeFactory {
         else if ( tool instanceof BoreholeDrill ) {
             node = new BoreholeDrillNode( (BoreholeDrill)tool );
         }
-        else if ( tool instanceof GPS ) {
-            node = new GPSNode( (GPS)tool );
+        else if ( tool instanceof GPSReceiver ) {
+            node = new GPSReceiverNode( (GPSReceiver)tool );
         }
         else {
             throw new UnsupportedOperationException( "no node for tool type " + tool.getClass() );

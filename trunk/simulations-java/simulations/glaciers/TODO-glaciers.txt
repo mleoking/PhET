@@ -56,14 +56,15 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-1/8/07 - generalize layout of icons in toolbox
-1/8/07 - show/hide GPS tool based on whether developer controls are enabled
-1/8/07 - bugfix in Movable.setPosition(double,double), if expression should use "or"
-1/8/07 - add GPS tool, for development testing
-1/4/07 - add stubs to Glacier model for all required methods
-1/4/07 - use sea level as default reference altitude for Climate
-1/4/07 - flesh out basic Climate model
-1/4/07 - add ModelViewTransform class (adapted from optical-tweezers)
+1/8/08 - fix terminology: GPS -> GPS Receiver
+1/8/08 - generalize layout of icons in toolbox
+1/8/08 - show/hide GPS tool based on whether developer controls are enabled
+1/8/08 - bugfix in Movable.setPosition(double,double), if expression should use "or"
+1/8/08 - add GPS tool, for development testing
+1/4/08 - add stubs to Glacier model for all required methods
+1/4/08 - use sea level as default reference altitude for Climate
+1/4/08 - flesh out basic Climate model
+1/4/08 - add ModelViewTransform class (adapted from optical-tweezers)
 1/3/08 - quick pass at glacier and atmosphere models
 1/3/08 - add value formatters to tools
 1/3/08 - simplify value display on thermometer node
