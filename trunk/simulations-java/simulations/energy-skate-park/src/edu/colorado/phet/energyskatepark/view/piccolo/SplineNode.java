@@ -352,7 +352,6 @@ public class SplineNode extends PNode {
 
     class ControlCirclePopupMenu extends JPopupMenu {
         public ControlCirclePopupMenu( final int index ) {
-            super( EnergySkateParkStrings.getString( "controls.circle-popup-menu" ) );
             JMenuItem delete = new JMenuItem( EnergySkateParkStrings.getString( "controls.delete-point" ) );
             delete.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
