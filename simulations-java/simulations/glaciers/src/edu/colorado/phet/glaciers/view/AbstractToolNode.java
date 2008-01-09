@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
@@ -19,12 +21,18 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class AbstractToolNode extends PComposite {
     
     private AbstractTool _tool;
+    private ModelViewTransform _mvt;
     private MovableListener _movableListener;
+    private Point2D _pModel, _pView; // reusable points
     
-    public AbstractToolNode( AbstractTool tool ) {
+    public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt ) {
         super();
         
+        _pModel = new Point2D.Double();
+        _pView = new Point2D.Double();
+        
         _tool = tool;
+        _mvt = mvt;
         
         _movableListener = new MovableAdapter() {
             public void positionChanged() {
@@ -37,18 +45,20 @@ public abstract class AbstractToolNode extends PComposite {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
             
-            private double _xOffset, _yOffset;
+            private double _xOffset, _yOffset; // distance between mouse press and model origin, in view coordinates
             
             protected void startDrag( PInputEvent event ) {
-                _xOffset = event.getPosition().getX() - _tool.getPosition().getX();
-                _yOffset = event.getPosition().getY() - _tool.getPosition().getY();
+                _mvt.modelToView( _tool.getPosition(), _pView );
+                _xOffset = event.getPosition().getX() - _pView.getX();
+                _yOffset = event.getPosition().getY() - _pView.getY();
                 super.startDrag( event );
             }
 
             protected void drag( PInputEvent event ) {
                 double x = event.getPosition().getX() - _xOffset;
                 double y = event.getPosition().getY() - _yOffset;
-                _tool.setPosition( x, y );
+                _mvt.viewToModel( x, y, _pModel );
+                _tool.setPosition( _pModel );
             }
         } );
 
@@ -57,6 +67,10 @@ public abstract class AbstractToolNode extends PComposite {
     
     public void cleanup() {
         _tool.removeMovableListener( _movableListener );
+    }
+    
+    protected ModelViewTransform getModelViewTransform() {
+        return _mvt;
     }
     
     protected void updatePosition() {

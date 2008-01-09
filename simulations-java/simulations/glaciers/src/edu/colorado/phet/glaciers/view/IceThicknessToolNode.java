@@ -30,8 +30,8 @@ public class IceThicknessToolNode extends AbstractToolNode {
     private IceThicknessToolListener _iceThicknessToolListener;
     private JLabel _iceThicknessLabel;
 
-    public IceThicknessToolNode( IceThicknessTool iceThicknessTool ) {
-        super( iceThicknessTool );
+    public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt ) {
+        super( iceThicknessTool, mvt );
         
         _iceThicknessTool = iceThicknessTool;
         _iceThicknessToolListener = new IceThicknessToolListener() {

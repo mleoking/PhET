@@ -1,6 +1,6 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.model;
+package edu.colorado.phet.glaciers.view;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -78,8 +78,8 @@ public class ModelViewTransform {
         return modelToView( pModel, null );
     }
     
-    public Point2D modelToView( double x, double y ) {
-        return modelToView( new Point2D.Double( x, y ) );
+    public Point2D modelToView( double xModel, double yModel ) {
+        return modelToView( new Point2D.Double( xModel, yModel ) );
     }
     
     /**
@@ -93,14 +93,18 @@ public class ModelViewTransform {
         return _modelToViewTransform.transform( pModel, pView );
     }
     
+    public Point2D modelToView( double xModel, double yModel, Point2D pView ) {
+        return modelToView( new Point2D.Double( xModel, yModel ), pView );
+    }
+    
     /**
      * Maps a distance from model to view coordinates.
      * 
      * @param distance distance in model coordinates
      * @return distance in view coordinates
      */
-    public double modelToView( double distance ) {
-        _pModelDistance.setLocation( distance, 0 );
+    public double modelToView( double distanceModel ) {
+        _pModelDistance.setLocation( distanceModel, 0 );
         modelToView( _pModelDistance, _pViewDistance );
         return _pViewDistance.getX();
     }
@@ -119,8 +123,8 @@ public class ModelViewTransform {
         return viewToModel( pView, null );
     }
     
-    public Point2D viewToModel( double x, double y ) {
-        return viewToModel( new Point2D.Double( x, y ) );
+    public Point2D viewToModel( double xView, double yView ) {
+        return viewToModel( new Point2D.Double( xView, yView ) );
     }
     
     /**
@@ -134,14 +138,18 @@ public class ModelViewTransform {
         return _viewToModelTransform.transform( pView, pModel );
     }
     
+    public Point2D viewToModel( double xView, double yView, Point2D pModel ) {
+        return viewToModel( new Point2D.Double( xView, yView ), pModel );
+    }
+    
     /**
      * Maps a distance from view to model coordinates.
      * 
      * @param distance distance in view coordinates
      * @return distance in model coordinates
      */
-    public double viewToModel( double distance ) {
-        _pViewDistance.setLocation( distance, 0 );
+    public double viewToModel( double distanceView ) {
+        _pViewDistance.setLocation( distanceView, 0 );
         viewToModel( _pViewDistance, _pModelDistance );
         return _pModelDistance.getX();
     }

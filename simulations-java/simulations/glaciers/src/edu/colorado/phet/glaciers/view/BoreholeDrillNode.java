@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class BoreholeDrillNode extends AbstractToolNode {
 
-    public BoreholeDrillNode( BoreholeDrill boreholeDrill ) {
-        super( boreholeDrill );
+    public BoreholeDrillNode( BoreholeDrill boreholeDrill, ModelViewTransform mvt ) {
+        super( boreholeDrill, mvt );
         PImage imageNode = new PImage( GlaciersImages.BOREHOLE_DRILL );
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left

@@ -9,8 +9,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 public class TracerFlagNode extends AbstractToolNode {
 
-    public TracerFlagNode( TracerFlag tracerFlag ) {
-        super( tracerFlag );
+    public TracerFlagNode( TracerFlag tracerFlag, ModelViewTransform mvt ) {
+        super( tracerFlag, mvt );
         PImage imageNode = new PImage( GlaciersImages.TRACER_FLAG );
         addChild( imageNode );
         imageNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() ); // lower left corner

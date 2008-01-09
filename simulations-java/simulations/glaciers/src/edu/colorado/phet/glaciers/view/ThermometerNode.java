@@ -35,8 +35,8 @@ public class ThermometerNode extends AbstractToolNode {
     private ThermometerListener _thermometerListener;
     private JLabel _temperatureLabel;
     
-    public ThermometerNode( Thermometer thermometer ) {
-        super( thermometer );
+    public ThermometerNode( Thermometer thermometer, ModelViewTransform mvt ) {
+        super( thermometer, mvt );
         
         _thermometer = thermometer;
         _thermometerListener = new ThermometerListener() {
