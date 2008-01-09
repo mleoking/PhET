@@ -21,6 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- bounds of viewports are messed up when window is resized, not being translated by MVT
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
 - implement glacier model as described in Archie's model document
 - create graphs
@@ -54,6 +55,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - add named viewports, for debugging
+1/9/08 - clean up ViewportListener interface
 1/9/08 - add MVT to toolbox
 1/9/08 - fix problems with viewport constrains when resizing main frame, should only consider left and right edges of viewport
 1/9/08 - make it easier to drag viewport fully left or right

@@ -13,14 +13,16 @@ import java.util.ArrayList;
  */
 public class Viewport {
     
+    private String _id;
     private Rectangle2D _bounds;
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of ViewportListener
     
-    public Viewport() {
-        this( new Rectangle2D.Double() );
+    public Viewport( String id ) {
+        this( id, new Rectangle2D.Double() );
     }
     
-    public Viewport( Rectangle2D bounds ) {
+    public Viewport( String id, Rectangle2D bounds ) {
+        _id = id;
         _bounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
         _listeners = new ArrayList();
     }
@@ -29,6 +31,7 @@ public class Viewport {
     
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
+            System.out.println( "Viewport.setBounds id=" + _id + " bounds=" + bounds );//XXX
             _bounds.setRect( bounds );
             notifyBoundsChanged();
         }
@@ -53,11 +56,11 @@ public class Viewport {
         public void boundsChanged();
     }
     
-    public void addListener( ViewportListener listener ) {
+    public void addViewportListener( ViewportListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( ViewportListener listener ) {
+    public void removeViewportListener( ViewportListener listener ) {
         _listeners.remove( listener );
     }
     
