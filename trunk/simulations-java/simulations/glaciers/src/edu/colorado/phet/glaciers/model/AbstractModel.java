@@ -22,7 +22,6 @@ public abstract class AbstractModel implements IToolProducer {
     private final Valley _valley;
     private final Glacier _glacier;
     private final Climate _climate;
-    private final ModelViewTransform _modelViewTransform;
     private final ArrayList _tools; // array of AbstractTool
     private final ArrayList _toolProducerListeners;
     
@@ -30,7 +29,7 @@ public abstract class AbstractModel implements IToolProducer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate, ModelViewTransform modelViewTransform ) {
+    public AbstractModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate ) {
         super();
         _clock = clock;
         _valley = valley;
@@ -38,7 +37,6 @@ public abstract class AbstractModel implements IToolProducer {
         _clock.addClockListener( glacier );
         _climate = climate;
         _clock.addClockListener( climate );
-        _modelViewTransform = modelViewTransform;
         _tools = new ArrayList();
         _toolProducerListeners = new ArrayList();
     }
@@ -61,10 +59,6 @@ public abstract class AbstractModel implements IToolProducer {
     
     public Climate getClimate() {
         return _climate;
-    }
-    
-    public ModelViewTransform getModelViewTransform() {
-        return _modelViewTransform;
     }
     
     //----------------------------------------------------------------------------

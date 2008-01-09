@@ -22,7 +22,6 @@ IMPLEMENTATION ISSUES:
 
 HIGH PRIORITY:
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
-- ModelViewTransform should be part of view; model shouldn't know about it
 - if PlayArea.TOP_SCALE is changed to 0.25, viewport is in a bad initial state
 - why is viewport all the way to the right and stuck when run from sandbox?
 - implement glacier model as described in Archie's model document
@@ -57,6 +56,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - add identity model-view transform
+1/9/08 - move ModelViewTransform to view package, model shouldn't know about it
 1/9/08 - clean up add/remove listener interfaces
 1/9/08 - use one viewport model for both birds-eye and zoomed views
 1/9/08 - move Viewport to view package, it's not part of the physical model

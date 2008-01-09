@@ -54,16 +54,19 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
-
+    private ModelViewTransform _mvt;
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlayArea( AbstractModel model ) {
+    public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
+        
+        _mvt = mvt;
         
         // viewports
         _birdsEyeViewport = new Viewport(); // bounds will be set when top canvas is resized
@@ -243,7 +246,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * @param tool
      */
     public void toolAdded( AbstractTool tool ) {
-        PNode node = ToolNodeFactory.createNode( tool );
+        PNode node = ToolNodeFactory.createNode( tool, _mvt );
         _toolsLayer.addChild( node );
         _toolsMap.put( tool, node );
     }

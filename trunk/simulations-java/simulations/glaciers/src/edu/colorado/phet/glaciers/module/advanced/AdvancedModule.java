@@ -12,6 +12,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
 import edu.colorado.phet.glaciers.model.*;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.PlayArea;
 
 /**
@@ -40,11 +41,11 @@ public class AdvancedModule extends PiccoloModule {
         Valley valley = new Valley();
         Glacier glacier = new Glacier();
         Climate climate = new Climate();
-        ModelViewTransform modelViewTransform = new ModelViewTransform();
-        _model = new AdvancedModel( clock,valley, glacier, climate, modelViewTransform );
+        _model = new AdvancedModel( clock,valley, glacier, climate );
 
         // Play Area
-        JPanel playArea = new PlayArea( _model );
+        ModelViewTransform mvt = new ModelViewTransform();
+        JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go

@@ -30,8 +30,8 @@ public class GPSReceiverNode extends AbstractToolNode {
     private MovableListener _movableListener;
     private JLabel _coordinatesLabel;
     
-    public GPSReceiverNode( GPSReceiver gps ) {
-        super( gps );
+    public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt ) {
+        super( gps, mvt );
         
         _gps = gps;
         _movableListener = new MovableAdapter() {
@@ -53,6 +53,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         pathNode.setOffset( 0, 0 );
         
         _coordinatesLabel = new JLabel( "(x,z)" );
+        _coordinatesLabel.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBackground( Color.WHITE );
         panel.setBorder( BORDER );

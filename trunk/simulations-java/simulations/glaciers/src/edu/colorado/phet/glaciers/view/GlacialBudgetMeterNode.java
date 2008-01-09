@@ -37,8 +37,8 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     private JLabel _ablationValue;
     private JLabel _glacialBudgetValue;
     
-    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter ) {
-        super( glacialBudgetMeter );
+    public GlacialBudgetMeterNode( GlacialBudgetMeter glacialBudgetMeter, ModelViewTransform mvt ) {
+        super( glacialBudgetMeter, mvt );
         
         _glacialBudgetMeter = glacialBudgetMeter;
         _glacialBudgetMeterListener = new GlacialBudgetMeterListener() {

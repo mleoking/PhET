@@ -19,8 +19,8 @@ public class BasicModel extends AbstractModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate, ModelViewTransform modelViewTransform ) {
-        super( clock, valley, glacier, climate, modelViewTransform );
+    public BasicModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate ) {
+        super( clock, valley, glacier, climate );
     }
     
     //----------------------------------------------------------------------------
