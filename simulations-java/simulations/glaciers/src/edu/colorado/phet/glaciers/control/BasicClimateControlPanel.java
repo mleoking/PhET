@@ -33,7 +33,7 @@ public class BasicClimateControlPanel extends JPanel {
     private LinearValueControl _snowfallControl;
     private LinearValueControl _temperatureControl;
     
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of BasicClimateControlPanelListener
     
     public BasicClimateControlPanel( Font titleFont, Font controlFont, DoubleRange snowfallRange, DoubleRange temperatureRange ) {
         super();
@@ -145,7 +145,7 @@ public class BasicClimateControlPanel extends JPanel {
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
-    public static interface BasicClimateControlPanelListener {
+    public interface BasicClimateControlPanelListener {
         public void snowfallChanged( double snowfall );
         public void temperatureChanged( double temperature );
     }
@@ -155,11 +155,11 @@ public class BasicClimateControlPanel extends JPanel {
         public void temperatureChanged( double temperature ) {};
     }
     
-    public void addListener( BasicClimateControlPanelListener listener ) {
+    public void addBasicClimateControlPanelListener( BasicClimateControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( BasicClimateControlPanelListener listener ) {
+    public void removeBasicClimateControlPanelListener( BasicClimateControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
@@ -167,10 +167,7 @@ public class BasicClimateControlPanel extends JPanel {
         double value = getSnowfall();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof BasicClimateControlPanelListener ) {
-                ( (BasicClimateControlPanelListener) o ).snowfallChanged( value );
-            }
+            ( (BasicClimateControlPanelListener) i.next() ).snowfallChanged( value );
         }
     }
     
@@ -178,10 +175,7 @@ public class BasicClimateControlPanel extends JPanel {
         double value = getTemperature();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof BasicClimateControlPanelListener ) {
-                ( (BasicClimateControlPanelListener) o ).temperatureChanged( value );
-            }
+            ( (BasicClimateControlPanelListener) i.next() ).temperatureChanged( value );
         }
     }
 }

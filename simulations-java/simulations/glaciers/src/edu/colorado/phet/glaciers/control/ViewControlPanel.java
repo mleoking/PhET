@@ -37,7 +37,7 @@ public class ViewControlPanel extends JPanel {
     private JCheckBox _coordinatesCheckBox;
     private JCheckBox _ageOfIceCheckBox;
     
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of ViewControlPanelListener
     
     public ViewControlPanel( Font titleFont, Font controlFont ) {
         super();
@@ -154,7 +154,7 @@ public class ViewControlPanel extends JPanel {
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
-    public static interface ViewControlPanelListener {
+    public interface ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b );
         public void iceFlowChanged( boolean b );
         public void snowfallChanged( boolean b );
@@ -170,11 +170,11 @@ public class ViewControlPanel extends JPanel {
         public void ageOfIceChanged( boolean b ) {};
     }
     
-    public void addListener( ViewControlPanelListener listener ) {
+    public void addViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( ViewControlPanelListener listener ) {
+    public void removeViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
@@ -182,21 +182,15 @@ public class ViewControlPanel extends JPanel {
         boolean b = isEquilibriumSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ViewControlPanelListener ) {
-                ( (ViewControlPanelListener) o ).equilibriumLineChanged( b );
-            }
+            ( (ViewControlPanelListener) i.next() ).equilibriumLineChanged( b );
         }
     }
-    
+
     private void notifyIceFlowChanged() {
         boolean b = isIceFlowSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ViewControlPanelListener ) {
-                ( (ViewControlPanelListener) o ).iceFlowChanged( b );
-            }
+            ( (ViewControlPanelListener) i.next() ).iceFlowChanged( b );
         }
     }
     
@@ -204,32 +198,23 @@ public class ViewControlPanel extends JPanel {
         boolean b = isSnowfallSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ViewControlPanelListener ) {
-                ( (ViewControlPanelListener) o ).snowfallChanged( b );
-            }
+            ( (ViewControlPanelListener) i.next() ).snowfallChanged( b );
         }
     }
-    
+
     private void notifyCoordinatesChanged() {
         boolean b = isCoordinatesSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ViewControlPanelListener ) {
-                ( (ViewControlPanelListener) o ).coordinatesChanged( b );
-            }
+            ( (ViewControlPanelListener) i.next() ).coordinatesChanged( b );
         }
     }
-    
+
     private void notifyAgeOfIceChanged() {
         boolean b = isAgeOfIceSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ViewControlPanelListener ) {
-                ( (ViewControlPanelListener) o ).ageOfIceChanged( b );
-            }
+            ( (ViewControlPanelListener) i.next() ).ageOfIceChanged( b );
         }
     }
 }

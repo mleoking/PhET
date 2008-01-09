@@ -4,7 +4,6 @@ package edu.colorado.phet.glaciers.control;
 
 import java.awt.Image;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersImages;
