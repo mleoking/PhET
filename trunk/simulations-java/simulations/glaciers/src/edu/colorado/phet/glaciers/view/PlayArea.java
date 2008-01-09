@@ -18,10 +18,8 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.Viewport;
-import edu.colorado.phet.glaciers.model.World;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
-import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 
@@ -40,11 +38,11 @@ public class PlayArea extends JPanel {
     
     // Model
     private AbstractModel _model;
-    private World _world;
-    private Viewport _viewport;
+    private Viewport _birdsEyeViewport;
+    private Viewport _zoomedViewport;
     
     // View
-    private PhetPCanvas _topCanvas, _bottomCanvas;
+    private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
@@ -55,32 +53,32 @@ public class PlayArea extends JPanel {
         
         _model = model;
         
-        _world = new World(); // bounds will be set when top canvas is resized
+        _birdsEyeViewport = new Viewport(); // bounds will be set when top canvas is resized
         
-        _viewport = new Viewport(); // bounds will be set when bottom canvas is resized
-        _viewport.addListener( new ViewportListener() {
+        _zoomedViewport = new Viewport(); // bounds will be set when bottom canvas is resized
+        _zoomedViewport.addListener( new ViewportListener() {
             public void boundsChanged() {
                 handleViewportBoundsChanged();
             }
         });
         
         // top canvas shows "birds-eye" view, has a fixed height
-        _topCanvas = new PhetPCanvas();
-        _topCanvas.setBackground( CANVAS_BACKGROUND );
-        _topCanvas.getCamera().setViewScale( TOP_SCALE );
+        _birdsEyeCanvas = new PhetPCanvas();
+        _birdsEyeCanvas.setBackground( CANVAS_BACKGROUND );
+        _birdsEyeCanvas.getCamera().setViewScale( TOP_SCALE );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) TOP_PANEL_HEIGHT ), BorderLayout.WEST );
-        topPanel.add( _topCanvas, BorderLayout.CENTER );
+        topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
         
         // bottom canvas shows "zoomed" view
-        _bottomCanvas = new PhetPCanvas();
-        _bottomCanvas.setBackground( CANVAS_BACKGROUND );
-        _bottomCanvas.getCamera().setViewScale( BOTTOM_SCALE );
+        _zoomedCanvas = new PhetPCanvas();
+        _zoomedCanvas.setBackground( CANVAS_BACKGROUND );
+        _zoomedCanvas.getCamera().setViewScale( BOTTOM_SCALE );
         
         // Layout
         setLayout( new BorderLayout() );
         add( topPanel, BorderLayout.NORTH );
-        add( _bottomCanvas, BorderLayout.CENTER );
+        add( _zoomedCanvas, BorderLayout.CENTER );
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 handlePlayAreaResized();
@@ -100,7 +98,7 @@ public class PlayArea extends JPanel {
         addToTop( _viewportLayer );
         
         // viewport in the top canvas determines what is shown in the bottom canvas
-        ViewportNode viewportNode = new ViewportNode( _viewport, VIEWPORT_STROKE_WIDTH );
+        ViewportNode viewportNode = new ViewportNode( _zoomedViewport, VIEWPORT_STROKE_WIDTH );
         _viewportLayer.addChild( viewportNode );
         
         // Valley
@@ -128,7 +126,7 @@ public class PlayArea extends JPanel {
         
         // Penguin
         {
-            _penguinNode = new PenguinNode( _world, _viewport );
+            _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport );
             _viewportLayer.addChild( _penguinNode );
             _penguinNode.setOffset( 100, 0 );
         }
@@ -139,13 +137,13 @@ public class PlayArea extends JPanel {
     }
     
     public void addToTop( PLayer layer ) {
-        _topCanvas.getCamera().addLayer( layer );
-        _topCanvas.getRoot().addChild( layer );
+        _birdsEyeCanvas.getCamera().addLayer( layer );
+        _birdsEyeCanvas.getRoot().addChild( layer );
     }
     
     public void addToBottom( PLayer layer ) {
-        _bottomCanvas.getCamera().addLayer( layer );
-        _bottomCanvas.getRoot().addChild( layer );
+        _zoomedCanvas.getCamera().addLayer( layer );
+        _zoomedCanvas.getRoot().addChild( layer );
     }
     
     public void addToTopAndBottom( PLayer layer ) {
@@ -159,9 +157,9 @@ public class PlayArea extends JPanel {
     private void handleViewportBoundsChanged() {
         
         // translate the bottom canvas' camera
-        Rectangle2D viewportBounds = _viewport.getBounds();
-        double scale = _bottomCanvas.getCamera().getViewScale();
-        _bottomCanvas.getCamera().setViewOffset( -viewportBounds.getX() * scale, -viewportBounds.getY() * scale );
+        Rectangle2D viewportBounds = _zoomedViewport.getBounds();
+        double scale = _zoomedCanvas.getCamera().getViewScale();
+        _zoomedCanvas.getCamera().setViewOffset( -viewportBounds.getX() * scale, -viewportBounds.getY() * scale );
         
         // move the toolbox
         updateToolboxPosition();
@@ -172,7 +170,7 @@ public class PlayArea extends JPanel {
      */
     private void handlePlayAreaResized() {
         
-        Dimension2D screenSize = _topCanvas.getScreenSize();
+        Dimension2D screenSize = _birdsEyeCanvas.getScreenSize();
         if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -181,31 +179,31 @@ public class PlayArea extends JPanel {
             System.out.println( "PlayArea.handleTopCanvasResized screenSize=" + screenSize );//XXX
         }
         
-        // set the world's bounds
+        // set the bounds of the birds-eye viewport, based on the screen size
         {
-            double w = _topCanvas.getScreenSize().getWidth() / _topCanvas.getCamera().getViewScale();
-            double h = _topCanvas.getScreenSize().getHeight() / _topCanvas.getCamera().getViewScale();
-            _world.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
+            double w = _birdsEyeCanvas.getScreenSize().getWidth() / _birdsEyeCanvas.getCamera().getViewScale();
+            double h = _birdsEyeCanvas.getScreenSize().getHeight() / _birdsEyeCanvas.getCamera().getViewScale();
+            _birdsEyeViewport.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
         }
         
-        // set the viewport's bounds
+        // set the bounds of the zoomed viewport, based on the size of the zoomed canvas
         {
-            Rectangle2D canvasBounds = _bottomCanvas.getBounds();
-            double scale = _bottomCanvas.getCamera().getViewScale();
-            Rectangle2D viewportBounds = _viewport.getBounds();
+            Rectangle2D canvasBounds = _zoomedCanvas.getBounds();
+            double scale = _zoomedCanvas.getCamera().getViewScale();
+            Rectangle2D viewportBounds = _zoomedViewport.getBounds();
             double x = viewportBounds.getX();
             double y = viewportBounds.getY();
             double w = canvasBounds.getWidth() / scale;
             double h = canvasBounds.getHeight() / scale;
-            _viewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
+            _zoomedViewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
         }
         
-        // keep the viewport inside the world's bounds
-        Rectangle2D wb = _world.getBoundsReference();
-        Rectangle2D vb = _viewport.getBoundsReference();
+        // keep the viewport inside the birds-eye view's bounds
+        Rectangle2D wb = _birdsEyeViewport.getBoundsReference();
+        Rectangle2D vb = _zoomedViewport.getBoundsReference();
         if ( !wb.contains( vb ) ) {
             double dx = wb.getMaxX() - vb.getMaxX(); // viewport only moves horizontally
-            _viewport.translate( dx, 0 );
+            _zoomedViewport.translate( dx, 0 );
         }
         
         // move the toolbox
@@ -216,7 +214,7 @@ public class PlayArea extends JPanel {
      * Moves the toolbox to lower-left corner of the bottom canvas
      */
     private void updateToolboxPosition() {
-        Rectangle2D viewportBounds = _viewport.getBounds();
+        Rectangle2D viewportBounds = _zoomedViewport.getBounds();
         double xOffset = viewportBounds.getX() + 5;
         double yOffset = viewportBounds.getY() + viewportBounds.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );

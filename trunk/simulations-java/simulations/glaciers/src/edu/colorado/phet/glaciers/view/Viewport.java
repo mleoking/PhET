@@ -1,27 +1,27 @@
-/* Copyright 2008, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.model;
+package edu.colorado.phet.glaciers.view;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
- * World describes general characteristics of the world.
- *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ *  Viewport describes the portion of the scene that's visible through the viewport,
+ *  and displayed in the "zoomed" view. 
+ *  
+ *  @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class World {
+public class Viewport {
     
     private Rectangle2D _bounds;
     private ArrayList _listeners;
-
-    public World() {
+    
+    public Viewport() {
         this( new Rectangle2D.Double() );
     }
     
-    public World( Rectangle2D bounds ) {
-        _bounds = new Rectangle2D.Double();
-        _bounds.setRect( bounds );
+    public Viewport( Rectangle2D bounds ) {
+        _bounds = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
         _listeners = new ArrayList();
     }
     
@@ -29,7 +29,6 @@ public class World {
     
     public void setBounds( Rectangle2D bounds ) {
         if ( !bounds.equals( _bounds ) ) {
-            System.out.println( "World.setBounds bounds=" + bounds );//XXX
             _bounds.setRect( bounds );
             notifyBoundsChanged();
         }
@@ -43,27 +42,34 @@ public class World {
         return _bounds;
     }
     
+    public void translate( double dx, double dy ) {
+        if ( dx !=0 || dy != 0 ) {
+            setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
+        }
+    }
+    
     public boolean contains( Rectangle2D r ) {
         return _bounds.contains( r );
     }
     
-    public interface WorldListener {
+    /* Implement this interface to be notified of changes to a viewport. */
+    public interface ViewportListener {
         public void boundsChanged();
     }
     
-    public void addListener( WorldListener listener ) {
+    public void addListener( ViewportListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( WorldListener listener ) {
+    public void removeListener( ViewportListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifyBoundsChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             Object listener = _listeners.get( i );
-            if ( listener instanceof WorldListener ) {
-                ( (WorldListener) listener ).boundsChanged();
+            if ( listener instanceof ViewportListener ) {
+                ( (ViewportListener) listener ).boundsChanged();
             }
         }
     }
