@@ -24,7 +24,7 @@ public interface IToolProducer {
         public void toolRemoved( AbstractTool tool );
     }
     
-    public void addListener( ToolProducerListener listener );
+    public void addToolProducerListener( ToolProducerListener listener );
     
-    public void removeListener( ToolProducerListener listener );
+    public void removeToolProducerListener( ToolProducerListener listener );
 }
