@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -56,12 +57,20 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
+    private Point2D _pModel, _pView; // reusable points
+    private Rectangle2D _rModel, _rView; // reusable rectangles
+    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
+        
+        _pModel = new Point2D.Double();
+        _pView = new Point2D.Double();
+        _rModel = new Rectangle2D.Double();
+        _rView = new Rectangle2D.Double();
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
@@ -117,8 +126,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _viewportLayer.addChild( viewportNode );
         
         // Valley
-        PNode valleyNode = new ValleyNode();
+        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt );
         _valleyLayer.addChild( valleyNode );
+        
+        // Glacier
+        PNode glacierNode = new GlacierNode( _model.getGlacier(), _mvt );
+        _glacierLayer.addChild( glacierNode );
         
         // Toolbox
         _toolsMap = new HashMap();
@@ -128,7 +141,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport );
         _viewportLayer.addChild( _penguinNode );
-        _penguinNode.setOffset( 100, 0 );
 
         // initialize
         handlePlayAreaResized();
@@ -140,7 +152,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     //----------------------------------------------------------------------------
-    // Management of layers, viewports and layout
+    // Layer management
     //----------------------------------------------------------------------------
     
     /*
@@ -166,6 +178,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         addToBirdsEyeView( layer );
         addToZoomedView( layer );
     }
+    
+    //----------------------------------------------------------------------------
+    // Viewport and layout management
+    //----------------------------------------------------------------------------
     
     /*
      * When the zoomed viewport changes...
@@ -199,7 +215,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         {
             double w = _birdsEyeCanvas.getScreenSize().getWidth() / _birdsEyeCanvas.getCamera().getViewScale();
             double h = _birdsEyeCanvas.getScreenSize().getHeight() / _birdsEyeCanvas.getCamera().getViewScale();
-            _birdsEyeViewport.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
+            _rView.setRect( 0, 0, w, h );
+            _mvt.viewToModel( _rView, _rModel ); // convert from view to model coordinates
+            _birdsEyeViewport.setBounds( _rModel );
         }
         
         // set the dimensions of the zoomed viewport, based on the size of the zoomed canvas
@@ -211,7 +229,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double y = viewportBounds.getY();
             double w = canvasBounds.getWidth() / scale;
             double h = canvasBounds.getHeight() / scale;
-            _zoomedViewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
+            _rView.setRect( x, y, w, h );
+            _mvt.viewToModel( _rView, _rModel ); // convert from view to model coordinates
+            _zoomedViewport.setBounds( _rModel );
         }
         
         // keep the zoomed viewport inside the birds-eye view's bounds
@@ -230,9 +250,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * Moves the toolbox to the lower-left corner of the zoomed view
      */
     private void updateToolboxPosition() {
-        Rectangle2D viewportBounds = _zoomedViewport.getBounds();
-        double xOffset = viewportBounds.getX() + 5;
-        double yOffset = viewportBounds.getY() + viewportBounds.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        _mvt.modelToView( rModel, _rView ); // convert from view to model coordinates
+        double xOffset = _rView.getX() + 5;
+        double yOffset = _rView.getY() + _rView.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );
     }
     
@@ -252,7 +273,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
 
     /**
-     * When a tool is removed from the mode, remove its corresponding node.
+     * When a tool is removed from the model, remove its corresponding node.
      * 
      * @param tool
      */
