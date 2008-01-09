@@ -28,54 +28,66 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PlayArea extends JPanel {
+public class PlayArea extends JPanel implements ToolProducerListener {
     
-    private static final double TOP_PANEL_HEIGHT = 75; // height of top panel will be constrained to this many pixels
-    private static final double TOP_SCALE = 0.2;
-    private static final double BOTTOM_SCALE = 1;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double BIRDS_EYE_VIEW_HEIGHT = 75; // pixels, height of top panel will be constrained to this many pixels
+    private static final double BIRDS_EYE_VIEW_SCALE = 0.2;
+    private static final double ZOOMED_VIEW_SCALE = 1;
     private static final Color CANVAS_BACKGROUND = new Color( 180, 158, 134 ); // tan, should match the ground color in the valley image
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     // Model
     private AbstractModel _model;
-    private Viewport _birdsEyeViewport;
-    private Viewport _zoomedViewport;
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
+    private Viewport _birdsEyeViewport, _zoomedViewport;
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
-    private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode
+    private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public PlayArea( AbstractModel model ) {
         super();
         
         _model = model;
+        _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
         
+        // viewports
         _birdsEyeViewport = new Viewport(); // bounds will be set when top canvas is resized
-        
         _zoomedViewport = new Viewport(); // bounds will be set when bottom canvas is resized
         _zoomedViewport.addListener( new ViewportListener() {
             public void boundsChanged() {
-                handleViewportBoundsChanged();
+                handleZoomedViewportChanged();
             }
         });
         
-        // top canvas shows "birds-eye" view, has a fixed height
+        // "birds-eye" view, has a fixed height
         _birdsEyeCanvas = new PhetPCanvas();
         _birdsEyeCanvas.setBackground( CANVAS_BACKGROUND );
-        _birdsEyeCanvas.getCamera().setViewScale( TOP_SCALE );
+        _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_VIEW_SCALE );
         JPanel topPanel = new JPanel( new BorderLayout() );
-        topPanel.add( Box.createVerticalStrut( (int) TOP_PANEL_HEIGHT ), BorderLayout.WEST );
+        topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
         topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
         
-        // bottom canvas shows "zoomed" view
+        // "zoomed" view
         _zoomedCanvas = new PhetPCanvas();
         _zoomedCanvas.setBackground( CANVAS_BACKGROUND );
-        _zoomedCanvas.getCamera().setViewScale( BOTTOM_SCALE );
+        _zoomedCanvas.getCamera().setViewScale( ZOOMED_VIEW_SCALE );
         
-        // Layout
+        // Layout, birds-eye view above zoomed view, zoomed view grows/shrinks to fit
         setLayout( new BorderLayout() );
         add( topPanel, BorderLayout.NORTH );
         add( _zoomedCanvas, BorderLayout.CENTER );
@@ -91,13 +103,13 @@ public class PlayArea extends JPanel {
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
-        addToTopAndBottom( _valleyLayer );
-        addToTopAndBottom( _glacierLayer );
-        addToBottom( _toolboxLayer );
-        addToTopAndBottom( _toolsLayer );
-        addToTop( _viewportLayer );
+        addToBothViews( _valleyLayer );
+        addToBothViews( _glacierLayer );
+        addToZoomedView( _toolboxLayer );
+        addToBothViews( _toolsLayer );
+        addToBirdsEyeView( _viewportLayer );
         
-        // viewport in the top canvas determines what is shown in the bottom canvas
+        // viewport in the birds-eye view indicates what is shown in zoomed view
         ViewportNode viewportNode = new ViewportNode( _zoomedViewport, VIEWPORT_STROKE_WIDTH );
         _viewportLayer.addChild( viewportNode );
         
@@ -109,54 +121,55 @@ public class PlayArea extends JPanel {
         _toolsMap = new HashMap();
         _toolboxNode = new ToolboxNode( _model );
         _toolboxLayer.addChild( _toolboxNode );
-        _model.addListener( new ToolProducerListener() {
-            
-            public void toolAdded( AbstractTool tool ) {
-                PNode node = ToolNodeFactory.createNode( tool );
-                _toolsLayer.addChild( node );
-                _toolsMap.put( tool, node );
-            }
+        
+        // Penguin is the control for moving the zoomed viewport
+        _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport );
+        _viewportLayer.addChild( _penguinNode );
+        _penguinNode.setOffset( 100, 0 );
 
-            public void toolRemoved( AbstractTool tool ) {
-                AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
-                _toolsLayer.removeChild( toolNode );
-                _toolsMap.remove( tool );
-            }
-        });
-        
-        // Penguin
-        {
-            _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport );
-            _viewportLayer.addChild( _penguinNode );
-            _penguinNode.setOffset( 100, 0 );
-        }
-        
         // initialize
         handlePlayAreaResized();
-        handleViewportBoundsChanged();
+        handleZoomedViewportChanged();
     }
     
-    public void addToTop( PLayer layer ) {
+    public void cleanup() {
+        _model.removeToolProducerListener( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Management of layers, viewports and layout
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Adds layer to the birds-eye view.
+     */
+    private void addToBirdsEyeView( PLayer layer ) {
         _birdsEyeCanvas.getCamera().addLayer( layer );
         _birdsEyeCanvas.getRoot().addChild( layer );
     }
     
-    public void addToBottom( PLayer layer ) {
+    /*
+     * Adds a layer to the zoomed view.
+     */
+    private void addToZoomedView( PLayer layer ) {
         _zoomedCanvas.getCamera().addLayer( layer );
         _zoomedCanvas.getRoot().addChild( layer );
     }
     
-    public void addToTopAndBottom( PLayer layer ) {
-        addToTop( layer );
-        addToBottom( layer );
+    /*
+     * Adds a layer to both the birds-eye and zoomed views.
+     */
+    private void addToBothViews( PLayer layer ) {
+        addToBirdsEyeView( layer );
+        addToZoomedView( layer );
     }
     
     /*
-     * When the viewport bounds change, translate the camera.
+     * When the zoomed viewport changes...
      */
-    private void handleViewportBoundsChanged() {
+    private void handleZoomedViewportChanged() {
         
-        // translate the bottom canvas' camera
+        // translate the zoomed view's camera
         Rectangle2D viewportBounds = _zoomedViewport.getBounds();
         double scale = _zoomedCanvas.getCamera().getViewScale();
         _zoomedCanvas.getCamera().setViewOffset( -viewportBounds.getX() * scale, -viewportBounds.getY() * scale );
@@ -179,14 +192,14 @@ public class PlayArea extends JPanel {
             System.out.println( "PlayArea.handleTopCanvasResized screenSize=" + screenSize );//XXX
         }
         
-        // set the bounds of the birds-eye viewport, based on the screen size
+        // set the dimensions of the birds-eye viewport, based on the screen size
         {
             double w = _birdsEyeCanvas.getScreenSize().getWidth() / _birdsEyeCanvas.getCamera().getViewScale();
             double h = _birdsEyeCanvas.getScreenSize().getHeight() / _birdsEyeCanvas.getCamera().getViewScale();
             _birdsEyeViewport.setBounds( new Rectangle2D.Double( 0, 0, w, h ) );
         }
         
-        // set the bounds of the zoomed viewport, based on the size of the zoomed canvas
+        // set the dimensions of the zoomed viewport, based on the size of the zoomed canvas
         {
             Rectangle2D canvasBounds = _zoomedCanvas.getBounds();
             double scale = _zoomedCanvas.getCamera().getViewScale();
@@ -198,11 +211,11 @@ public class PlayArea extends JPanel {
             _zoomedViewport.setBounds( new Rectangle2D.Double( x, y, w, h ) );
         }
         
-        // keep the viewport inside the birds-eye view's bounds
-        Rectangle2D wb = _birdsEyeViewport.getBoundsReference();
-        Rectangle2D vb = _zoomedViewport.getBoundsReference();
-        if ( !wb.contains( vb ) ) {
-            double dx = wb.getMaxX() - vb.getMaxX(); // viewport only moves horizontally
+        // keep the zoomed viewport inside the birds-eye view's bounds
+        Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
+        Rectangle2D zb = _zoomedViewport.getBoundsReference();
+        if ( !bb.contains( zb ) ) {
+            double dx = bb.getMaxX() - zb.getMaxX(); // viewport only moves horizontally
             _zoomedViewport.translate( dx, 0 );
         }
         
@@ -211,12 +224,38 @@ public class PlayArea extends JPanel {
     }
     
     /*
-     * Moves the toolbox to lower-left corner of the bottom canvas
+     * Moves the toolbox to the lower-left corner of the zoomed view
      */
     private void updateToolboxPosition() {
         Rectangle2D viewportBounds = _zoomedViewport.getBounds();
         double xOffset = viewportBounds.getX() + 5;
         double yOffset = viewportBounds.getY() + viewportBounds.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );
+    }
+    
+    //----------------------------------------------------------------------------
+    // ToolProducerListener implementation
+    //----------------------------------------------------------------------------
+    
+    /**
+     * When a tool is added to the model, create a node for it.
+     * 
+     * @param tool
+     */
+    public void toolAdded( AbstractTool tool ) {
+        PNode node = ToolNodeFactory.createNode( tool );
+        _toolsLayer.addChild( node );
+        _toolsMap.put( tool, node );
+    }
+
+    /**
+     * When a tool is removed from the mode, remove its corresponding node.
+     * 
+     * @param tool
+     */
+    public void toolRemoved( AbstractTool tool ) {
+        AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
+        _toolsLayer.removeChild( toolNode );
+        _toolsMap.remove( tool );
     }
 }

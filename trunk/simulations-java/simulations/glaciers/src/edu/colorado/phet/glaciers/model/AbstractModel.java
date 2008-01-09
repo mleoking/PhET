@@ -111,11 +111,11 @@ public abstract class AbstractModel implements IToolProducer {
         removeTool( tool );
     }
     
-    public void addListener( ToolProducerListener listener ) {
+    public void addToolProducerListener( ToolProducerListener listener ) {
         _toolProducerListeners.add( listener );
     }
     
-    public void removeListener( ToolProducerListener listener ) {
+    public void removeToolProducerListener( ToolProducerListener listener ) {
         _toolProducerListeners.remove( listener );
     }
     
