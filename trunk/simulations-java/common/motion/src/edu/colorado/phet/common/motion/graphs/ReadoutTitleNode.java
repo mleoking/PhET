@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -22,7 +23,7 @@ public class ReadoutTitleNode extends PNode {
     //8-13-2007: Rotation sim's performance has 50% memory allocation and 30% processor usage in HTMLNode.update
     //Therefore, we just set the HTMLNode once, and update the text in piccolo without swing 
     private ShadowHTMLNode titleNode;
-    private ITextNode valueNode;
+    private ShadowPText valueNode;
     private ShadowHTMLNode unitsNode;
 
     private ControlGraphSeries series;
@@ -88,7 +89,8 @@ public class ReadoutTitleNode extends PNode {
         titleNode.setFont( getTitleFont() );
         titleNode.setColor( series.getColor() );
 
-        valueNode = new OutlinePText( new PhetPPath( series.getColor(), new BasicStroke( 1.2f ), Color.black ), "0.00", new PhetDefaultFont(), new FontRenderContext( new AffineTransform(), true, false ) );
+//        valueNode = new OutlinePText( new PhetPPath( series.getColor(), new BasicStroke( 1.2f ), Color.black ), "0.00", new PhetDefaultFont(), new FontRenderContext( new AffineTransform(), true, false ) );
+        valueNode = new ShadowPText();
         valueNode.setFont( getTitleFont() );
         valueNode.setTextPaint( series.getColor() );
 
