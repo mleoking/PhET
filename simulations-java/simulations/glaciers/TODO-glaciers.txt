@@ -59,6 +59,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - implement Valley elevation and width functions
 1/8/08 - change strategy for adding/removing nodes, IToolProducer
 1/8/08 - organize imports
 1/8/08 - switch from ModelElement to ClockListener interface, because model is based on current time, not dt
