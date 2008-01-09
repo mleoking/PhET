@@ -129,11 +129,9 @@ public class ReadoutTitleNode extends PNode {
             titleNode.setHtml( series.getAbbr() + "= " );
         }
 
-//        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
-//        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, ((PNode)valueNode).getHeight()*2 );
-//        System.out.println( "((PNode)valueNode).getHeight()*2  = " + ( (PNode) valueNode ).getFullBounds().getHeight() );
-//        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, 100);
-        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, ( (PNode) valueNode ).getFullBounds().getHeight()*1.5);
+        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
+        
+//        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, ( (PNode) valueNode ).getFullBounds().getHeight()*1.5);
         updateText();
     }
 
