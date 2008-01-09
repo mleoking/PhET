@@ -242,12 +242,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             _zoomedViewport.setBounds( _rModel );
         }
         
-        // keep the zoomed viewport inside the birds-eye view's bounds
+        // keep the left & right edges of the zoomed viewport inside the birds-eye view's bounds
         Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
         Rectangle2D zb = _zoomedViewport.getBoundsReference();
-        if ( !bb.contains( zb ) ) {
-            double dx = bb.getMaxX() - zb.getMaxX(); // viewport only moves horizontally
+        if ( zb.getX() < bb.getX() ) {
+            double dx = bb.getX() - zb.getX();
             _zoomedViewport.translate( dx, 0 );
+        }
+        else if ( zb.getMaxX() > bb.getMaxX() ) {
+            double dx = zb.getMaxX() - bb.getMaxX();
+            _zoomedViewport.translate( -dx, 0 );
         }
         
         // move the toolbox

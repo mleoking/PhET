@@ -48,10 +48,6 @@ public class Viewport {
         }
     }
     
-    public boolean contains( Rectangle2D r ) {
-        return _bounds.contains( r );
-    }
-    
     /* Implement this interface to be notified of changes to a viewport. */
     public interface ViewportListener {
         public void boundsChanged();

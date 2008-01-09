@@ -21,10 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- scale PenguinNode to ensure that it is shorter than the birds-eye view; make it 75% of birds-eye height
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
-- if PlayArea.BIRDS_EYE_VIEW_SCALE is changed to 0.25, viewport is in a bad initial state
-- why is viewport all the way to the right and stuck when run from sandbox?
 - implement glacier model as described in Archie's model document
 - create graphs
 - redesign advanced climate controls
@@ -57,7 +54,11 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - fix problems with viewport constrains when resizing main frame, should only consider left and right edges of viewport
+1/9/08 - make it easier to drag viewport fully left or right
 1/9/08 - add MVT to PenguinNode and ViewportNode
+1/9/08 - scale PenguinNode to ensure that it is shorter than the birds-eye view; make it 75% of birds-eye height
+1/9/08 - handle PenguinNode yOffset in PlayArea.handlePlayAreaResized
 1/9/08 - bugfix: create tool using event.getPosition, not event.getCanvasPosition
 1/9/08 - add GlacierNode, currently empty
 1/9/08 - use model-view transform in management of viewports

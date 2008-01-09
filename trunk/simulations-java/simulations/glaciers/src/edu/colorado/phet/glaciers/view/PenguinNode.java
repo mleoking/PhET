@@ -17,7 +17,7 @@ public class PenguinNode extends PImage {
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
     private ModelViewTransform _mvt;
-    private Rectangle2D _rView; // reusable rectangle
+    private Rectangle2D _rModel, _rView; // reusable rectangles
 
     public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         super( GlaciersImages.PENGUIN );
@@ -33,6 +33,7 @@ public class PenguinNode extends PImage {
         
         _mvt = mvt;
         
+        _rModel = new Rectangle2D.Double();
         _rView = new Rectangle2D.Double();
         
         addInputEventListener( new CursorHandler() );
@@ -49,16 +50,23 @@ public class PenguinNode extends PImage {
             }
 
             /*
-             * Constrain dragging to horizontal, update the viewport, keep viewport within the world's bounds.
+             * Constrain dragging to horizontal, update the viewport, 
+             * keep left and right edges of of zoomed viewport within the birds-eye viewport.
              */
             protected void drag( PInputEvent event ) {
                 Rectangle2D rModel = _zoomedViewport.getBoundsReference();
                 _mvt.modelToView( rModel, _rView );
-                double x = event.getPosition().getX() - _xOffset;
-                _rView.setRect( x, _rView.getY(), _rView.getWidth(), _rView.getHeight() );
-                if ( _birdsEyeViewport.contains( _rView ) ) {
-                    _zoomedViewport.setBounds( _rView );
+                double xView = event.getPosition().getX() - _xOffset;
+                _rView.setRect( xView, _rView.getY(), _rView.getWidth(), _rView.getHeight() );
+                _mvt.viewToModel( _rView, _rModel );
+                Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
+                if ( _rModel.getX() < bb.getX() ) {
+                    _rModel.setRect( bb.getX(), _rModel.getY(), _rModel.getWidth(), _rModel.getHeight() );
                 }
+                else if ( _rModel.getMaxX() > bb.getMaxX() ) {
+                    _rModel.setRect( bb.getMaxX() - _rModel.getWidth(), _rModel.getY(), _rModel.getWidth(), _rModel.getHeight() );
+                }
+                _zoomedViewport.setBounds( _rModel );
             }
         } );
     }
