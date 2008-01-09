@@ -16,21 +16,25 @@ public abstract class AbstractModel {
     //----------------------------------------------------------------------------
     
     private final GlaciersClock _clock;
+    private final Valley _valley;
     private final Glacier _glacier;
     private final Climate _climate;
+    private final ModelViewTransform _modelViewTransform;
     private final ArrayList _tools; // array of AbstractTool
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractModel( GlaciersClock clock, Glacier glacier, Climate climate ) {
+    public AbstractModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate, ModelViewTransform modelViewTransform ) {
         super();
         _clock = clock;
+        _valley = valley;
         _glacier = glacier;
         _clock.addClockListener( glacier );
         _climate = climate;
         _clock.addClockListener( climate );
+        _modelViewTransform = modelViewTransform;
         _tools = new ArrayList();
     }
     
@@ -42,12 +46,20 @@ public abstract class AbstractModel {
         return _clock;
     }
     
+    public Valley getValley() {
+        return _valley;
+    }
+    
     public Glacier getGlacier() {
         return _glacier;
     }
     
     public Climate getClimate() {
         return _climate;
+    }
+    
+    public ModelViewTransform getModelViewTransform() {
+        return _modelViewTransform;
     }
     
     public void addTool( AbstractTool tool ) {
