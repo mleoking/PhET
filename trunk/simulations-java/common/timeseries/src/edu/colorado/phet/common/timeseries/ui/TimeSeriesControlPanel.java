@@ -162,14 +162,20 @@ public class TimeSeriesControlPanel extends JPanel {
                 updateRewindButtonEnabled();
             }
         } );
-        JButton clearButton = new JButton( "Clear", new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
+        JButton clearButton = new JButton( TimeseriesResources.getString( "clear" ), new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_STOP ) ) );
         clearButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                timeSeriesModel.clear();
+                if ( confirmClear() ) {
+                    timeSeriesModel.clear();
+                }
             }
         } );
         add( clearButton );
         updateRecordButton();
+    }
+
+    private boolean confirmClear() {
+        return JOptionPane.showConfirmDialog( this, TimeseriesResources.getString("confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
     }
 
     public static interface Listener {
