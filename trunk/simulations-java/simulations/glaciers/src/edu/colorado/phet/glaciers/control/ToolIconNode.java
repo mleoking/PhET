@@ -86,7 +86,7 @@ public abstract class ToolIconNode extends IconNode {
 
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
-                _tool = createTool( event.getCanvasPosition() );
+                _tool = createTool( event.getPosition() );
             }
         } );
         

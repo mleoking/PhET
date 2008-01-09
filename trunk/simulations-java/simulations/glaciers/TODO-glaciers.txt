@@ -56,6 +56,10 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - bugfix: create tool using event.getPosition, not event.getCanvasPosition
+1/9/08 - add GlacierNode, currently empty
+1/9/08 - use model-view transform in management of viewports
+1/9/08 - add model-view transform to nodes
 1/9/08 - add identity model-view transform
 1/9/08 - move ModelViewTransform to view package, model shouldn't know about it
 1/9/08 - clean up add/remove listener interfaces

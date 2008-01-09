@@ -74,6 +74,7 @@ public abstract class AbstractToolNode extends PComposite {
     }
     
     protected void updatePosition() {
-        setOffset( _tool.getPositionReference() );
+        _mvt.modelToView( _tool.getPositionReference(), _pView );
+        setOffset( _pView );
     }
 }
