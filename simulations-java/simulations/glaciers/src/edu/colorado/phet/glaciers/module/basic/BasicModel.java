@@ -6,6 +6,8 @@ import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.model.ModelViewTransform;
+import edu.colorado.phet.glaciers.model.Valley;
 
 /**
  * BasicModel is the model for BasicModule.
@@ -22,8 +24,8 @@ public class BasicModel extends AbstractModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicModel( GlaciersClock clock, Glacier glacier, Climate climate ) {
-        super( clock, glacier, climate );
+    public BasicModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate, ModelViewTransform modelViewTransform ) {
+        super( clock, valley, glacier, climate, modelViewTransform );
     }
     
     //----------------------------------------------------------------------------

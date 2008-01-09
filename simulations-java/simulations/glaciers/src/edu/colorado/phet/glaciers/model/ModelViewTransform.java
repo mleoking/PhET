@@ -26,6 +26,13 @@ public class ModelViewTransform {
     //----------------------------------------------------------------------------
     
     /**
+     * Constructor with unity scale and no offset.
+     */
+    public ModelViewTransform() {
+        this( 1, 1, 0, 0 );
+    }
+    
+    /**
      * Constructor.
      * 
      * @param xScale x scale for mapping from model to view
