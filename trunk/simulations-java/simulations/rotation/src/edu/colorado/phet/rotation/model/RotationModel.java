@@ -30,7 +30,9 @@ public class RotationModel extends MotionModel implements RotationBodyNode.Rotat
         rotationPlatform = new RotationPlatform();
 
         addRotationBody( new RotationBody( "ladybug.gif", true ) );
-        addRotationBody( new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" ) );
+        final RotationBody beetle = new RotationBody( "valessiobrito_Bug_Buddy_Vec.png" );
+        beetle.setDisplayGraph( false );
+        addRotationBody( beetle );
 
         //add dummy bodies for memory profiling
 //        for (int i=0;i<100;i++){
