@@ -44,7 +44,7 @@ public class BasicModule extends PiccoloModule {
         _model = new BasicModel( clock, valley, glacier, climate );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform();
+        ModelViewTransform mvt = new ModelViewTransform( 1, 1, 500, 0 );
         JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 

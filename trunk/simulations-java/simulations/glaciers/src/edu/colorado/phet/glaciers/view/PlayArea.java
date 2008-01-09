@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -57,7 +56,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
-    private Point2D _pModel, _pView; // reusable points
     private Rectangle2D _rModel, _rView; // reusable rectangles
     
     //----------------------------------------------------------------------------
@@ -67,8 +65,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
         
-        _pModel = new Point2D.Double();
-        _pView = new Point2D.Double();
         _rModel = new Rectangle2D.Double();
         _rView = new Rectangle2D.Double();
         
@@ -135,7 +131,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // Toolbox
         _toolsMap = new HashMap();
-        _toolboxNode = new ToolboxNode( _model );
+        _toolboxNode = new ToolboxNode( _model, _mvt );
         _toolboxLayer.addChild( _toolboxNode );
         
         // Penguin is the control for moving the zoomed viewport
@@ -189,9 +185,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private void handleZoomedViewportChanged() {
         
         // translate the zoomed view's camera
-        Rectangle2D viewportBounds = _zoomedViewport.getBoundsReference();
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        _mvt.modelToView(  rModel, _rView );
         double scale = _zoomedCanvas.getCamera().getViewScale();
-        _zoomedCanvas.getCamera().setViewOffset( -viewportBounds.getX() * scale, -viewportBounds.getY() * scale );
+        _zoomedCanvas.getCamera().setViewOffset( -_rView.getX() * scale, -_rView.getY() * scale );
         
         // move the toolbox
         updateToolboxPosition();

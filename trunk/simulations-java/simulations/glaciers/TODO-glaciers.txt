@@ -54,6 +54,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - add MVT to toolbox
 1/9/08 - fix problems with viewport constrains when resizing main frame, should only consider left and right edges of viewport
 1/9/08 - make it easier to drag viewport fully left or right
 1/9/08 - add MVT to PenguinNode and ViewportNode

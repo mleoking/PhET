@@ -15,6 +15,7 @@ import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.*;
 import edu.colorado.phet.glaciers.model.IToolProducer;
+import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -54,7 +55,7 @@ public class ToolboxNode extends PNode {
     /**
      * Constructor.
      */
-    public ToolboxNode( IToolProducer toolProducer ) {
+    public ToolboxNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
         super();
         
         _iconNodes = new ArrayList();
@@ -62,13 +63,13 @@ public class ToolboxNode extends PNode {
         // create icons, under a common parent
         PNode iconsParentNode = new PNode();
         {
-            _iconNodes.add( new ThermometerIconNode( toolProducer ) );
-            _iconNodes.add( new GlacialBudgetMeterIconNode( toolProducer ) );
-            _iconNodes.add( new TracerFlagIconNode( toolProducer ) );
-            _iconNodes.add( new IceThicknessToolIconNode( toolProducer ) );
-            _iconNodes.add( new BoreholeDrillIconNode( toolProducer ) );
+            _iconNodes.add( new ThermometerIconNode( toolProducer, mvt ) );
+            _iconNodes.add( new GlacialBudgetMeterIconNode( toolProducer, mvt ) );
+            _iconNodes.add( new TracerFlagIconNode( toolProducer, mvt ) );
+            _iconNodes.add( new IceThicknessToolIconNode( toolProducer, mvt ) );
+            _iconNodes.add( new BoreholeDrillIconNode( toolProducer, mvt ) );
             if ( GlaciersApplication.isDeveloperControlsEnabled() ) {
-                _iconNodes.add( new GPSReceiverIconNode( toolProducer ) );
+                _iconNodes.add( new GPSReceiverIconNode( toolProducer, mvt ) );
             }
             _iconNodes.add( new TrashCanNode() );
             layoutIcons( _iconNodes, iconsParentNode );
