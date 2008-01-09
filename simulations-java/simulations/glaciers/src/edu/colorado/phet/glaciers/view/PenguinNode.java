@@ -16,8 +16,10 @@ public class PenguinNode extends PImage {
     
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
+    private ModelViewTransform _mvt;
+    private Rectangle2D _rView; // reusable rectangle
 
-    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport ) {
+    public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         super( GlaciersImages.PENGUIN );
         
         _birdsEyeViewport = birdsEyeViewport;
@@ -29,6 +31,10 @@ public class PenguinNode extends PImage {
             }
         });
         
+        _mvt = mvt;
+        
+        _rView = new Rectangle2D.Double();
+        
         addInputEventListener( new CursorHandler() );
         
         addInputEventListener( new PDragEventHandler() {
@@ -36,8 +42,9 @@ public class PenguinNode extends PImage {
             private double _xOffset;
 
             protected void startDrag( PInputEvent event ) {
-                Rectangle2D viewportBounds = _zoomedViewport.getBounds();
-                _xOffset = event.getPosition().getX() - viewportBounds.getX();
+                Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+                _mvt.modelToView( rModel, _rView );
+                _xOffset = event.getPosition().getX() - _rView.getX();
                 super.startDrag( event );
             }
 
@@ -45,14 +52,12 @@ public class PenguinNode extends PImage {
              * Constrain dragging to horizontal, update the viewport, keep viewport within the world's bounds.
              */
             protected void drag( PInputEvent event ) {
-                Rectangle2D viewportBounds = _zoomedViewport.getBounds();
+                Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+                _mvt.modelToView( rModel, _rView );
                 double x = event.getPosition().getX() - _xOffset;
-                double y = viewportBounds.getY();
-                double w = viewportBounds.getWidth();
-                double h = viewportBounds.getHeight();
-                Rectangle2D newViewportBounds = new Rectangle2D.Double( x, y, w, h );
-                if ( _birdsEyeViewport.contains( newViewportBounds ) ) {
-                    _zoomedViewport.setBounds( newViewportBounds );
+                _rView.setRect( x, _rView.getY(), _rView.getWidth(), _rView.getHeight() );
+                if ( _birdsEyeViewport.contains( _rView ) ) {
+                    _zoomedViewport.setBounds( _rView );
                 }
             }
         } );
@@ -64,10 +69,9 @@ public class PenguinNode extends PImage {
      * Keeps the penguin centered in the viewport.
      */
     private void updatePosition() {
-        Rectangle2D worldBounds = _birdsEyeViewport.getBounds();
-        Rectangle2D viewportBounds = _zoomedViewport.getBounds();
-        double xOffset = viewportBounds.getCenterX() - getFullBoundsReference().getWidth()/2;
-        double yOffset = worldBounds.getY() + worldBounds.getHeight() - getFullBoundsReference().getHeight();
-        setOffset( xOffset, yOffset );
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        _mvt.modelToView( rModel, _rView );
+        double xOffset = _rView.getCenterX() - getFullBoundsReference().getWidth()/2;
+        setOffset( xOffset, getYOffset() );
     }
 }
