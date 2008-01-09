@@ -32,7 +32,7 @@ public abstract class AbstractToolNode extends PComposite {
             }
         };
         
-        _tool.addListener( _movableListener );
+        _tool.addMovableListener( _movableListener );
         
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
@@ -56,7 +56,7 @@ public abstract class AbstractToolNode extends PComposite {
     }
     
     public void cleanup() {
-        _tool.removeListener( _movableListener );
+        _tool.removeMovableListener( _movableListener );
     }
     
     protected void updatePosition() {

@@ -52,7 +52,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
                 updateGlacialBudget();
             }
         };
-        _glacialBudgetMeter.addListener( _glacialBudgetMeterListener );
+        _glacialBudgetMeter.addGlacialBudgetMeterListener( _glacialBudgetMeterListener );
         
         PImage imageNode = new PImage( GlaciersImages.GLACIAL_BUDGET_METER );
         addChild( imageNode );
@@ -101,7 +101,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     }
     
     public void cleanup() {
-        _glacialBudgetMeter.removeListener( _glacialBudgetMeterListener );
+        _glacialBudgetMeter.removeGlacialBudgetMeterListener( _glacialBudgetMeterListener );
         super.cleanup();
     }
     

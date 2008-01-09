@@ -39,7 +39,7 @@ public class IceThicknessToolNode extends AbstractToolNode {
                 updateThickness();
             }
         };
-        _iceThicknessTool.addListener( _iceThicknessToolListener );
+        _iceThicknessTool.addIceThicknessToolListener( _iceThicknessToolListener );
         
         PImage imageNode = new PImage( GlaciersImages.ICE_THICKNESS_TOOL );
         addChild( imageNode );

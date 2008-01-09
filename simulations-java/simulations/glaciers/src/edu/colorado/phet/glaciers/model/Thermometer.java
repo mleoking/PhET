@@ -10,7 +10,7 @@ public class Thermometer extends AbstractTool {
     
     private Climate _climate;
     private double _temperature; // units=Celcius
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of ThermometerListener
     
     public Thermometer( Point2D position, Climate climate ) {
         this( position, 0 );
@@ -55,11 +55,11 @@ public class Thermometer extends AbstractTool {
         public void temperatureChanged();
     }
 
-    public void addListener( ThermometerListener listener ) {
+    public void addThermometerListener( ThermometerListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( ThermometerListener listener ) {
+    public void removeThermometerListener( ThermometerListener listener ) {
         _listeners.remove( listener );
     }
     
