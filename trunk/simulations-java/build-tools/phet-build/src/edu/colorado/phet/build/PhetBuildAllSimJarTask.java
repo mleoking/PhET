@@ -10,6 +10,15 @@ import org.apache.tools.ant.taskdefs.Echo;
  * Aug 24, 2007, 6:47:30 PM
  */
 public class PhetBuildAllSimJarTask extends PhetAllSimTask {
+    private boolean shrink = true;
+
+    public boolean getShrink() {
+        return shrink;
+    }
+
+    public void setShrink( boolean shrink ) {
+        this.shrink = shrink;
+    }
 
     public void execute() throws BuildException {
         String[] sims = PhetProject.getSimNames( getBaseDir() );
@@ -55,6 +64,7 @@ public class PhetBuildAllSimJarTask extends PhetAllSimTask {
 
         PhetBuildTask buildTask = new PhetBuildTask();
         buildTask.setProject( "all-sims" );
+        buildTask.setShrink( shrink );
         runTask( buildTask );
     }
 
