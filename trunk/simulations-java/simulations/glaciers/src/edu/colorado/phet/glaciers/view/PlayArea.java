@@ -116,7 +116,7 @@ public class PlayArea extends JPanel {
                 node.addInputEventListener( new CursorHandler() );
                 node.addInputEventListener( new PDragEventHandler() );
                 _toolsLayer.addChild( node );
-                _model.addModelElement( tool );
+                _model.addTool( tool );
             }
         });
         

@@ -3,6 +3,8 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import edu.colorado.phet.glaciers.model.AbstractModel;
+import edu.colorado.phet.glaciers.model.Climate;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
@@ -20,8 +22,8 @@ public class BasicModel extends AbstractModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicModel( GlaciersClock clock ) {
-        super( clock );
+    public BasicModel( GlaciersClock clock, Glacier glacier, Climate climate ) {
+        super( clock, glacier, climate );
     }
     
     //----------------------------------------------------------------------------

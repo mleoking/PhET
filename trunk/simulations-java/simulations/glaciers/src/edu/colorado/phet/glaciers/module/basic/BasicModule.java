@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
+import edu.colorado.phet.glaciers.model.Climate;
+import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
 import edu.colorado.phet.glaciers.view.PlayArea;
@@ -37,7 +39,9 @@ public class BasicModule extends PiccoloModule {
 
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
-        _model = new BasicModel( clock );
+        Glacier glacier = new Glacier();
+        Climate climate = new Climate();
+        _model = new BasicModel( clock, glacier, climate );
 
         // Play Area
         JPanel playArea = new PlayArea( _model );

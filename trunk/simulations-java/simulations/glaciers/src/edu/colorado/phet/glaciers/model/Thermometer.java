@@ -19,11 +19,6 @@ public class Thermometer extends AbstractTool {
         super( position );
         _temperature = temperature;
         _listeners = new ArrayList();
-        addListener( new MovableAdapter() {
-            public void positionChanged() {
-                handlePositionChange();
-            }
-        });
     }
     
     public void cleanup() {
@@ -39,6 +34,14 @@ public class Thermometer extends AbstractTool {
             _temperature = temperature;
             notifyTemperatureChanged();
         }
+    }
+    
+    protected void handlePositionChanged() {
+        //XXX recalculate temperature, call setTemperature
+    }
+
+    protected void handleClockTimeChanged() {
+        //XXX recalculate temperature, call setTemperature
     }
     
     public interface ThermometerListener {
@@ -57,13 +60,5 @@ public class Thermometer extends AbstractTool {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             ( (ThermometerListener) _listeners.get( i ) ).temperatureChanged();
         }
-    }
-    
-    private void handlePositionChange() {
-        //XXX recalculate temperature, call setTemperature
-    }
-
-    public void stepInTime( double dt ) {
-        //XXX recalculate temperature, call setTemperature
     }
 }

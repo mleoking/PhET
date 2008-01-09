@@ -12,11 +12,6 @@ import java.util.ArrayList;
  */
 public class Viewport {
     
-    /* Implement this interface to be notified of changes to a viewport. */
-    public interface ViewportListener {
-        public void boundsChanged();
-    }
-    
     private Rectangle2D _bounds;
     private ArrayList _listeners;
     
@@ -47,7 +42,14 @@ public class Viewport {
     }
     
     public void translate( double dx, double dy ) {
-        setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
+        if ( dx !=0 || dy != 0 ) {
+            setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
+        }
+    }
+    
+    /* Implement this interface to be notified of changes to a viewport. */
+    public interface ViewportListener {
+        public void boundsChanged();
     }
     
     public void addListener( ViewportListener listener ) {

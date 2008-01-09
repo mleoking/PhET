@@ -5,8 +5,6 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
-
 
 public class GlacialBudgetMeter extends AbstractTool {
     
@@ -21,11 +19,6 @@ public class GlacialBudgetMeter extends AbstractTool {
         _ablation = 0;
         _glacialBudget = 0;
         _listeners = new ArrayList();
-        addListener( new MovableAdapter() {
-            public void positionChanged() {
-                handlePositionChange();
-            }
-        });
     }
     
     public void cleanup() {
@@ -65,7 +58,11 @@ public class GlacialBudgetMeter extends AbstractTool {
         }
     }
     
-    public void stepInTime( double dt ) {
+    protected void handlePositionChanged() {
+        recalculateValues();
+    }
+    
+    protected void handleClockTimeChanged() {
         recalculateValues();
     }
     
@@ -93,10 +90,6 @@ public class GlacialBudgetMeter extends AbstractTool {
 
     public void removeListener( GlacialBudgetMeterListener listener ) {
         _listeners.remove( listener );
-    }
-    
-    private void handlePositionChange() {
-        recalculateValues();
     }
 
     private void notifyAccumulationChanged() {

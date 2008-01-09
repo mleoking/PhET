@@ -56,6 +56,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/8/08 - switch from ModelElement to ClockListener interface, because model is based on current time, not dt
 1/8/08 - fix terminology: GPS -> GPS Receiver
 1/8/08 - generalize layout of icons in toolbox
 1/8/08 - show/hide GPS tool based on whether developer controls are enabled

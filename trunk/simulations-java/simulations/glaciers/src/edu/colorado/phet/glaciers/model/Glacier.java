@@ -3,10 +3,11 @@
 package edu.colorado.phet.glaciers.model;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 
-public class Glacier implements ModelElement {
+public class Glacier extends ClockAdapter {
     
     private static final double HEAD_X_COORDINATE = 0;
     
@@ -52,7 +53,7 @@ public class Glacier implements ModelElement {
         return 0; //XXX
     }
 
-    public void stepInTime( double dt ) {
+    public void simulationTimeChanged( ClockEvent event ) {
         //XXX
     }
 }

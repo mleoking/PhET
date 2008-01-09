@@ -4,10 +4,11 @@ package edu.colorado.phet.glaciers.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 
-public class Climate implements ModelElement {
+public class Climate extends ClockAdapter {
     
     private static final double DELTA_TEMPERATURE = -6.6E-3; // degrees C per meter
     private static final double DELTA_PRECIPITATION = 2; // (meters per year) per meter
@@ -67,7 +68,7 @@ public class Climate implements ModelElement {
         return _referencePrecipitation + ( ( altitude - _referenceAltitude ) * DELTA_PRECIPITATION );
     }
 
-    public void stepInTime( double dt ) {
+    public void simulationTimeChanged( ClockEvent event ) {
         // do nothing
     }
     
