@@ -8,13 +8,15 @@ import java.util.ArrayList;
 
 public class GlacialBudgetMeter extends AbstractTool {
     
+    private Glacier _glacier;
     private double _accumulation;
     private double _ablation;
     private double _glacialBudget;
     private ArrayList _listeners;
 
-    public GlacialBudgetMeter( Point2D position ) {
+    public GlacialBudgetMeter( Point2D position, Glacier glacier ) {
         super( position );
+        _glacier = glacier;
         _accumulation = 0;
         _ablation = 0;
         _glacialBudget = 0;
@@ -67,9 +69,10 @@ public class GlacialBudgetMeter extends AbstractTool {
     }
     
     private void recalculateValues() {
-        //XXX recalculate accumulation, call setAccumulation
-        //XXX recalculate ablation, call setAblation
-        //XXX recalculate glacialBudeget, call setGlacialBudget
+        final double x = getX();
+        setAccumulation( _glacier.getAccumulation( x ) );
+        setAblation( _glacier.getAblation( x ) );
+        setGlacialBudget( _glacier.getGlacialBudget( x ) );
     }
     
     public interface GlacialBudgetMeterListener {

@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 public class IceThicknessTool extends AbstractTool {
     
+    private Glacier _glacier;
     private double _thickness;
     private ArrayList _listeners;
 
-    public IceThicknessTool( Point2D position ) {
+    public IceThicknessTool( Point2D position, Glacier glacier ) {
         super( position );
+        _glacier = glacier;
         _listeners = new ArrayList();
     }
     
@@ -40,10 +42,9 @@ public class IceThicknessTool extends AbstractTool {
     }
     
     private void updateThickness() {
-        double x = getX();
-        double t = getCurrentTime();
-        //XXX double thickness = _glacier.getIceThickness( x, t );
-        //XXX setThickness( thickness );
+        final double x = getX();
+        final double t = getCurrentTime();
+        setThickness( _glacier.getIceThickness( x, t ) );
     }
     
     public interface IceThicknessToolListener {

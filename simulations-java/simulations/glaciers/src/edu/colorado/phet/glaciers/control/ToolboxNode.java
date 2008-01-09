@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ToolIconNode.*;
+import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,12 +49,12 @@ public class ToolboxNode extends PNode {
     private static final Stroke TAB_STROKE = BACKGROUND_STROKE;
     private static final double TAB_CORNER_RADIUS = BACKGROUND_CORNER_RADIUS;
     
-    private ArrayList _iconNodes; // array of IconNode
+    private final ArrayList _iconNodes; // array of IconNode
     
     /**
      * Constructor.
      */
-    public ToolboxNode() {
+    public ToolboxNode( IToolProducer toolProducer ) {
         super();
         
         _iconNodes = new ArrayList();
@@ -61,13 +62,13 @@ public class ToolboxNode extends PNode {
         // create icons, under a common parent
         PNode iconsParentNode = new PNode();
         {
-            _iconNodes.add( new ThermometerIconNode() );
-            _iconNodes.add( new GlacialBudgetMeterIconNode() );
-            _iconNodes.add( new TracerFlagIconNode() );
-            _iconNodes.add( new IceThicknessToolIconNode() );
-            _iconNodes.add( new BoreholeDrillIconNode() );
+            _iconNodes.add( new ThermometerIconNode( toolProducer ) );
+            _iconNodes.add( new GlacialBudgetMeterIconNode( toolProducer ) );
+            _iconNodes.add( new TracerFlagIconNode( toolProducer ) );
+            _iconNodes.add( new IceThicknessToolIconNode( toolProducer ) );
+            _iconNodes.add( new BoreholeDrillIconNode( toolProducer ) );
             if ( GlaciersApplication.isDeveloperControlsEnabled() ) {
-                _iconNodes.add( new GPSReceiverIconNode() );
+                _iconNodes.add( new GPSReceiverIconNode( toolProducer ) );
             }
             _iconNodes.add( new TrashCanNode() );
             layoutIcons( _iconNodes, iconsParentNode );
@@ -152,26 +153,6 @@ public class ToolboxNode extends PNode {
             }
             currentNode.setOffset( x, y );
             previousNode = currentNode;
-        }
-    }
-    
-    public void addListener( ToolIconListener listener ) {
-        Iterator i = _iconNodes.iterator();
-        while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ToolIconNode ) {
-                ( (ToolIconNode) o ).addListener( listener );
-            }
-        }
-    }
-
-    public void removeListener( ToolIconListener listener ) {
-        Iterator i = _iconNodes.iterator();
-        while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof ToolIconNode ) {
-                ( (ToolIconNode) o ).removeListener( listener );
-            }
         }
     }
 }
