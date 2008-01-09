@@ -19,15 +19,11 @@ public class ViewportNode extends PPath {
     private static final Color STROKE_COLOR = Color.BLACK;
     
     private Viewport _viewport;
-    private Rectangle2D _rectangle;
+    private ModelViewTransform _mvt;
+    private Rectangle2D _rView; // reusable rectangle
     
-    public ViewportNode( Viewport viewport, float strokeWidth ) {
+    public ViewportNode( Viewport viewport, float strokeWidth, ModelViewTransform mvt ) {
         super();
-        
-        setPaint( null );
-        final float dashSpacing = 4 * strokeWidth;
-        setStroke( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { dashSpacing, dashSpacing }, 0 ) ); // dashed line
-        setStrokePaint( STROKE_COLOR );
         
         _viewport = viewport;
         _viewport.addListener( new ViewportListener() {
@@ -36,17 +32,23 @@ public class ViewportNode extends PPath {
             }
         });
         
-        _rectangle = new Rectangle2D.Double();
+        _mvt = mvt;
+        
+        setPaint( null );
+        final float dashSpacing = 4 * strokeWidth;
+        setStroke( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { dashSpacing, dashSpacing }, 0 ) ); // dashed line
+        setStrokePaint( STROKE_COLOR );
+        
+        _rView = new Rectangle2D.Double();
         updateRectangle();
     }
     
     public void cleanup() {}
     
     private void updateRectangle() {
-        Rectangle2D viewportBounds = _viewport.getBounds();
-        _rectangle.setRect(  0, 0, viewportBounds.getWidth(), viewportBounds.getHeight() );
-        setPathTo( _rectangle );
-        setOffset( viewportBounds.getX(), viewportBounds.getY() );
+        Rectangle2D rModel = _viewport.getBoundsReference();
+        _mvt.modelToView( rModel, _rView );
+        setPathTo( _rView );
     }
 
 }
