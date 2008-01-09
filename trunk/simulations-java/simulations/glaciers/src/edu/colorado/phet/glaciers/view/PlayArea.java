@@ -8,23 +8,22 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
-import edu.colorado.phet.glaciers.control.ToolIconNode.ToolIconListener;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.World;
+import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
 
 /**
  * PlayArea
@@ -49,6 +48,7 @@ public class PlayArea extends JPanel {
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
+    private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode
 
     public PlayArea( AbstractModel model ) {
         super();
@@ -108,18 +108,23 @@ public class PlayArea extends JPanel {
         _valleyLayer.addChild( valleyNode );
         
         // Toolbox
-        _toolboxNode = new ToolboxNode();
+        _toolsMap = new HashMap();
+        _toolboxNode = new ToolboxNode( _model );
         _toolboxLayer.addChild( _toolboxNode );
-        _toolboxNode.addListener( new ToolIconListener() {
-            public void addTool( AbstractTool tool ) {
+        _model.addListener( new ToolProducerListener() {
+            
+            public void toolAdded( AbstractTool tool ) {
                 PNode node = ToolNodeFactory.createNode( tool );
-                node.addInputEventListener( new CursorHandler() );
-                node.addInputEventListener( new PDragEventHandler() );
                 _toolsLayer.addChild( node );
-                _model.addTool( tool );
+                _toolsMap.put( tool, node );
+            }
+
+            public void toolRemoved( AbstractTool tool ) {
+                AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
+                _toolsLayer.removeChild( toolNode );
+                _toolsMap.remove( tool );
             }
         });
-        
         
         // Penguin
         {

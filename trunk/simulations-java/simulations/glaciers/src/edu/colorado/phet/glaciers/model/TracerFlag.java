@@ -5,8 +5,11 @@ import java.awt.geom.Point2D;
 
 public class TracerFlag extends AbstractTool {
 
-    public TracerFlag( Point2D position ) {
+    private Glacier _glacier;
+    
+    public TracerFlag( Point2D position, Glacier glacier ) {
         super( position );
+        _glacier = glacier;
     }
     
     public void cleanup() {

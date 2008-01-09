@@ -8,11 +8,13 @@ import java.util.ArrayList;
 
 public class Thermometer extends AbstractTool {
     
+    private Climate _climate;
     private double _temperature; // units=Celcius
     private ArrayList _listeners;
     
-    public Thermometer( Point2D position ) {
+    public Thermometer( Point2D position, Climate climate ) {
         this( position, 0 );
+        _climate = climate;
     }
     
     public Thermometer( Point2D position, double temperature ) {
@@ -37,11 +39,16 @@ public class Thermometer extends AbstractTool {
     }
     
     protected void handlePositionChanged() {
-        //XXX recalculate temperature, call setTemperature
+        updateTemperature();
     }
 
     protected void handleClockTimeChanged() {
-        //XXX recalculate temperature, call setTemperature
+        updateTemperature();
+    }
+    
+    private void updateTemperature() {
+        final double altitude = getY();
+        setTemperature( _climate.getTemperature( altitude ) );
     }
     
     public interface ThermometerListener {
