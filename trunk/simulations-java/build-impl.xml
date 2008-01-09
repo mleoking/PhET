@@ -95,14 +95,14 @@ Developer Notes:
 
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
-	
+
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="_clean-all" depends="_init,_list-sims">
         <delete file="${phet.src.distribution}"/>
         <foreach list="${phet.simlist}" target="clean-sim" param="sim.name" inheritall="true"/>
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
-        	
+
     <target name="_clean-phet-build">
         <delete dir="${phetbuild-classes-dir}"/>
     </target>
@@ -899,4 +899,29 @@ Developer Notes:
         <check-translations/>
     </target>
 
+    <property name="test.reports" value="deploy/reports"/>
+    <property name="build" value="ant_output/projects/all-sims/jars/all-sims"/>
+    <target name="test-html" depends="_init">
+        <!--<phet-build-all-sim-jar shrink="false"/>-->
+        <!--Unzip the jar with all source-->
+        <delete dir="${test.reports}" verbose="true"/>
+        <mkdir dir="${test.reports}"/>
+        <junit fork="yes" printsummary="no" haltonfailure="no" timeout="10000">
+            <batchtest fork="yes" todir="${test.reports}">
+                <fileset dir="${build}">
+                    <include name="**/Z*Tester.class"/>
+                    <!--<include name="**/*.class"/>-->
+                </fileset>
+            </batchtest>
+            <formatter type="xml"/>
+            <classpath path="${build}"/>
+        </junit>
+
+        <junitreport todir="${test.reports}">
+            <fileset dir="${test.reports}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report todir="${test.reports}"/>
+        </junitreport>
+    </target>
 </project>
