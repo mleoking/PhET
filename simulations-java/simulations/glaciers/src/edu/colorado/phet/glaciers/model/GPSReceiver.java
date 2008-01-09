@@ -9,7 +9,11 @@ public class GPSReceiver extends AbstractTool  {
         super( position );
     }
 
-    public void stepInTime( double dt ) {
-        // do nothing
+    protected void handlePositionChanged() {
+        //XXX
+    }
+    
+    protected void handleClockTimeChanged() {
+        //XXX
     }
 }

@@ -3,37 +3,33 @@
 package edu.colorado.phet.glaciers.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * AbstractModel is the base class for all models.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractModel extends ClockAdapter {
+public abstract class AbstractModel {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private final GlaciersClock _clock;
-    private final ArrayList _modelElements; // array of ModelElement
+    private final ArrayList _tools; // array of AbstractTool
+    private Glacier _glacier;
+    private Climate _climate;
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractModel( GlaciersClock clock ) {
+    public AbstractModel( GlaciersClock clock, Glacier glacier, Climate climate ) {
         super();
-        
         _clock = clock;
-        _clock.addClockListener( this );
-        
-        _modelElements = new ArrayList();
+        setGlacier( glacier );
+        setClimate( climate );
+        _tools = new ArrayList();
     }
     
     //----------------------------------------------------------------------------
@@ -44,25 +40,43 @@ public abstract class AbstractModel extends ClockAdapter {
         return _clock;
     }
     
-    public void addModelElement( ModelElement element ) {
-        _modelElements.add( element );
+    public void setGlacier( Glacier glacier ) {
+        if ( _glacier != null ) {
+            _clock.removeClockListener( _glacier );
+            _glacier = null;
+        }
+        if ( glacier != _glacier ) {
+            _glacier = glacier;
+            _clock.addClockListener( _glacier );
+        }
     }
     
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
+    public Glacier getGlacier() {
+        return _glacier;
+    }
     
-    /**
-     * When the clock ticks, call stepInTime for each model element.
-     * 
-     * @param event
-     */
-    public void clockTicked( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-        Iterator i = _modelElements.iterator();
-        while ( i.hasNext() ) {
-            ModelElement modelElement = (ModelElement) i.next();
-            modelElement.stepInTime( dt );
+    public void setClimate( Climate climate ) {
+        if ( _climate != null ) {
+            _clock.removeClockListener( _climate );
+            _climate = null;
         }
+        if ( climate != _climate ) {
+            _climate = climate;
+            _clock.addClockListener( _climate );
+        }
+    }
+    
+    public Climate getClimate() {
+        return _climate;
+    }
+    
+    public void addTool( AbstractTool tool ) {
+        _tools.add( tool );
+        _clock.addClockListener( tool );
+    }
+    
+    public void removeTool( AbstractTool tool ) {
+        _tools.remove( tool );
+        _clock.removeClockListener( tool );
     }
 }

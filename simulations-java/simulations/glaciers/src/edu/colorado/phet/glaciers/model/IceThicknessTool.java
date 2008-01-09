@@ -5,6 +5,8 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+
 
 public class IceThicknessTool extends AbstractTool {
     
@@ -14,11 +16,6 @@ public class IceThicknessTool extends AbstractTool {
     public IceThicknessTool( Point2D position ) {
         super( position );
         _listeners = new ArrayList();
-        addListener( new MovableAdapter() {
-            public void positionChanged() {
-                handlePositionChange();
-            }
-        } );
     }
     
     public void cleanup() {
@@ -36,12 +33,19 @@ public class IceThicknessTool extends AbstractTool {
         }
     }
     
-    public void stepInTime( double dt ) {
-        //XXX recalculate thickness, call setThickness
+    protected void handlePositionChanged() {
+        updateThickness();
     }
     
-    private void handlePositionChange() {
-        //XXX recalculate thickness, call setThickness
+    protected void handleClockTimeChanged() {
+        updateThickness();
+    }
+    
+    private void updateThickness() {
+        double x = getX();
+        double t = getCurrentTime();
+        //XXX double thickness = _glacier.getIceThickness( x, t );
+        //XXX setThickness( thickness );
     }
     
     public interface IceThicknessToolListener {
