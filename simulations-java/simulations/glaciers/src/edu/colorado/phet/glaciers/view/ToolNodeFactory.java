@@ -1,12 +1,6 @@
 package edu.colorado.phet.glaciers.view;
 
-import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.BoreholeDrill;
-import edu.colorado.phet.glaciers.model.GPSReceiver;
-import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
-import edu.colorado.phet.glaciers.model.IceThicknessTool;
-import edu.colorado.phet.glaciers.model.Thermometer;
-import edu.colorado.phet.glaciers.model.TracerFlag;
+import edu.colorado.phet.glaciers.model.*;
 import edu.umd.cs.piccolo.PNode;
 
 

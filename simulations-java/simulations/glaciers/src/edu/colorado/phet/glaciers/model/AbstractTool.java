@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
-import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 
 /**
  * AbstractTool is the base class for all tools in the toolbox.
