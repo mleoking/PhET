@@ -67,24 +67,6 @@ public abstract class AbstractModel implements IToolProducer {
         return _modelViewTransform;
     }
     
-    private void addTool( AbstractTool tool ) {
-        if ( _tools.contains( tool ) ) {
-            throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
-        }
-        _tools.add( tool );
-        _clock.addClockListener( tool );
-        notifyToolAdded( tool );
-    }
-    
-    private void removeTool( AbstractTool tool ) {
-        if ( !_tools.contains( tool ) ) {
-            throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
-        }
-        _clock.removeClockListener( tool );
-        _tools.remove( tool );
-        notifyToolRemoved( tool );
-    }
-    
     //----------------------------------------------------------------------------
     // IToolProducer
     //----------------------------------------------------------------------------
@@ -135,6 +117,24 @@ public abstract class AbstractModel implements IToolProducer {
     
     public void removeListener( ToolProducerListener listener ) {
         _toolProducerListeners.remove( listener );
+    }
+    
+    private void addTool( AbstractTool tool ) {
+        if ( _tools.contains( tool ) ) {
+            throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
+        }
+        _tools.add( tool );
+        _clock.addClockListener( tool );
+        notifyToolAdded( tool );
+    }
+    
+    private void removeTool( AbstractTool tool ) {
+        if ( !_tools.contains( tool ) ) {
+            throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
+        }
+        _clock.removeClockListener( tool );
+        _tools.remove( tool );
+        notifyToolRemoved( tool );
     }
     
     private void notifyToolAdded( AbstractTool tool ) {
