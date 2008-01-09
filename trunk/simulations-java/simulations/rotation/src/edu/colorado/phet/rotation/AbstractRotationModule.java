@@ -106,16 +106,23 @@ public abstract class AbstractRotationModule extends PiccoloModule {
     }
 
     public void reset() {
-        super.reset();
-        rotationModel.resetAll();
-        rotationSimulationPanel.resetAll();
-        vectorViewModel.resetAll();
-        if ( getClock() instanceof ConstantDtClock ) {
-            ConstantDtClock constantDtClock = (ConstantDtClock) getClock();
-            constantDtClock.setDt( RotationClock.DEFAULT_CLOCK_DT );
+        if ( confirmReset() ) {
+            super.reset();
+            rotationModel.resetAll();
+            rotationSimulationPanel.resetAll();
+            vectorViewModel.resetAll();
+            if ( getClock() instanceof ConstantDtClock ) {
+                ConstantDtClock constantDtClock = (ConstantDtClock) getClock();
+                constantDtClock.setDt( RotationClock.DEFAULT_CLOCK_DT );
+            }
+            DefaultTimeSeries.verifySeriesCleared();
+            rotationModel.getTimeSeriesModel().setPaused( true );
         }
-        DefaultTimeSeries.verifySeriesCleared();
-        rotationModel.getTimeSeriesModel().setPaused( true );
+    }
+
+    private boolean confirmReset() {
+        int val=JOptionPane.showConfirmDialog( rotationSimulationPanel, "Are you sure you want to reset?" );
+        return val==JOptionPane.OK_OPTION;
     }
 
     public VectorViewModel getVectorViewModel() {
