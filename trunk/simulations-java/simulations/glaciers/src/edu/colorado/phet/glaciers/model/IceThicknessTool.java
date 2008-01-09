@@ -5,8 +5,6 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
 
 public class IceThicknessTool extends AbstractTool {
     

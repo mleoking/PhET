@@ -21,6 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- change strategy for creating tools, some of them need to be initialized with more than position
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
 - Viewport and World should be part of view, they have nothing to do with the model
 - World is actually the bounds of the top canvas, in model coordinates; make it part of top canvas
@@ -59,6 +60,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/8/08 - organize imports
 1/8/08 - switch from ModelElement to ClockListener interface, because model is based on current time, not dt
 1/8/08 - fix terminology: GPS -> GPS Receiver
 1/8/08 - generalize layout of icons in toolbox
