@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.model;
 
@@ -16,9 +16,9 @@ public abstract class AbstractModel {
     //----------------------------------------------------------------------------
     
     private final GlaciersClock _clock;
+    private final Glacier _glacier;
+    private final Climate _climate;
     private final ArrayList _tools; // array of AbstractTool
-    private Glacier _glacier;
-    private Climate _climate;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,8 +27,10 @@ public abstract class AbstractModel {
     public AbstractModel( GlaciersClock clock, Glacier glacier, Climate climate ) {
         super();
         _clock = clock;
-        setGlacier( glacier );
-        setClimate( climate );
+        _glacier = glacier;
+        _clock.addClockListener( glacier );
+        _climate = climate;
+        _clock.addClockListener( climate );
         _tools = new ArrayList();
     }
     
@@ -40,30 +42,8 @@ public abstract class AbstractModel {
         return _clock;
     }
     
-    public void setGlacier( Glacier glacier ) {
-        if ( _glacier != null ) {
-            _clock.removeClockListener( _glacier );
-            _glacier = null;
-        }
-        if ( glacier != _glacier ) {
-            _glacier = glacier;
-            _clock.addClockListener( _glacier );
-        }
-    }
-    
     public Glacier getGlacier() {
         return _glacier;
-    }
-    
-    public void setClimate( Climate climate ) {
-        if ( _climate != null ) {
-            _clock.removeClockListener( _climate );
-            _climate = null;
-        }
-        if ( climate != _climate ) {
-            _climate = climate;
-            _clock.addClockListener( _climate );
-        }
     }
     
     public Climate getClimate() {
@@ -76,7 +56,7 @@ public abstract class AbstractModel {
     }
     
     public void removeTool( AbstractTool tool ) {
-        _tools.remove( tool );
         _clock.removeClockListener( tool );
+        _tools.remove( tool );
     }
 }
