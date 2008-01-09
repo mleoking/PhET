@@ -14,9 +14,9 @@ import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -176,10 +176,10 @@ public class PlatformNode2 extends PNode {
     }
 
     public void fullPaint( PPaintContext paintContext ) {
-//        Object a = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_ANTIALIASING );
-//        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        Object a = paintContext.getGraphics().getRenderingHint( RenderingHints.KEY_ANTIALIASING );
+        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         super.fullPaint( paintContext );
-//        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, a );
+        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_ANTIALIASING, a == null ? RenderingHints.VALUE_ANTIALIAS_DEFAULT : a );
     }
 
     private void addSegment( PlatformSegment segment ) {
@@ -407,11 +407,11 @@ public class PlatformNode2 extends PNode {
             innerRim.setVisible( platform.getInnerRadius() > 0 && platform.getRadius() != platform.getInnerRadius() );
             innerRim.setPathTo( new Ellipse2D.Double( -platform.getInnerRadius(), -platform.getInnerRadius(), platform.getInnerRadius() * 2, platform.getInnerRadius() * 2 ) );
 
-            double angle=platform.getPosition();
-            AbstractVector2D a=Vector2D.Double.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
-            AbstractVector2D b=Vector2D.Double.parseAngleAndMagnitude( platform.getRadius(), angle );
+            double angle = platform.getPosition();
+            AbstractVector2D a = Vector2D.Double.parseAngleAndMagnitude( platform.getInnerRadius(), angle );
+            AbstractVector2D b = Vector2D.Double.parseAngleAndMagnitude( platform.getRadius(), angle );
 
-            angleZero.setPathTo( new Line2D.Double( a.toPoint2D(),b.toPoint2D()) );
+            angleZero.setPathTo( new Line2D.Double( a.toPoint2D(), b.toPoint2D() ) );
         }
     }
 }

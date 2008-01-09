@@ -6,8 +6,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.motion.graphs.*;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -140,7 +141,56 @@ public abstract class AbstractRotationSimulationPanel extends BufferedPhetPCanva
                 timeSeriesGraphSetNode.forceRelayout();
             }
         } );
+
+        //hack
+        addGraphicsRepaintRectangleWorkaround();
     }
+
+    private void addGraphicsRepaintRectangleWorkaround() {
+        rotationModule.getClock().addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                AbstractRotationSimulationPanel.this.superPaintImmediately();
+            }
+        } );
+        new Timer( 30, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( rotationModule.getClock().isPaused() ) {
+                    AbstractRotationSimulationPanel.this.superPaintImmediately();
+                }
+            }
+        } ).start();
+    }
+
+    boolean okToPaint = false;
+
+    public void superPaintImmediately() {
+        okToPaint = true;
+        super.paintImmediately( 0, 0, getWidth(), getHeight() );
+        okToPaint = false;
+    }
+
+    public void paintComponent( Graphics g ) {
+        super.paintComponent( g );
+    }
+
+    public void paintImmediately() {
+        if ( okToPaint ) {
+            super.paintImmediately();
+        }
+    }
+
+    public void paintImmediately( int x, int y, int w, int h ) {
+        if ( okToPaint ) {
+            super.paintImmediately( x, y, w, h );
+        }
+    }
+
+    public void paintImmediately( Rectangle r ) {
+        if ( okToPaint ) {
+            super.paintImmediately( r );
+        }
+    }
+
 
     public void resetAll() {
         rotationGraphSet.resetAll();
