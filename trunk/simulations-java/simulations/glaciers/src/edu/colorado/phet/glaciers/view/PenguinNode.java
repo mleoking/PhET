@@ -25,7 +25,7 @@ public class PenguinNode extends PImage {
         _birdsEyeViewport = birdsEyeViewport;
         
         _zoomedViewport = zoomedViewport;
-        _zoomedViewport.addListener( new ViewportListener() {
+        _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 updatePosition();
             }

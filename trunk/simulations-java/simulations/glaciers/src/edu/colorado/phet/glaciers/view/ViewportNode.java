@@ -26,7 +26,7 @@ public class ViewportNode extends PPath {
         super();
         
         _viewport = viewport;
-        _viewport.addListener( new ViewportListener() {
+        _viewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 updateRectangle();
             }

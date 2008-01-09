@@ -74,9 +74,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _mvt = mvt;
         
         // viewports
-        _birdsEyeViewport = new Viewport(); // bounds will be set when top canvas is resized
-        _zoomedViewport = new Viewport(); // bounds will be set when bottom canvas is resized
-        _zoomedViewport.addListener( new ViewportListener() {
+        _birdsEyeViewport = new Viewport( "birdsEyeViewport" ); // bounds will be set when top canvas is resized
+        _zoomedViewport = new Viewport( "zoomViewport" ); // bounds will be set when bottom canvas is resized
+        _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleZoomedViewportChanged();
             }
