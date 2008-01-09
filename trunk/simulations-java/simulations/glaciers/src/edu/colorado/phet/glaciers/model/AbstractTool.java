@@ -18,7 +18,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
     public AbstractTool( Point2D position ) {
         super( position );
         _currentTime = 0;
-        addListener( new MovableAdapter() {
+        addMovableListener( new MovableAdapter() {
             public void positionChanged() {
                 handlePositionChanged();
             }

@@ -23,8 +23,7 @@ package edu.colorado.phet.glaciers.model;
  */
 public class Valley {
 
-    public Valley() {
-    }
+    public Valley() {}
     
     /**
      * Gets the elevation at a position along the valley floor.

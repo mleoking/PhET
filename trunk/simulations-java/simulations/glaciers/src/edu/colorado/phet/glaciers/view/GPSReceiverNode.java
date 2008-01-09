@@ -39,7 +39,7 @@ public class GPSReceiverNode extends AbstractToolNode {
                 updateCoordinates();
             }
         };
-        _gps.addListener( _movableListener );
+        _gps.addMovableListener( _movableListener );
         
         GeneralPath trianglePath = new GeneralPath();
         trianglePath.moveTo( 0f, 0f );
@@ -66,7 +66,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     }
     
     public void cleanup() {
-        _gps.removeListener( _movableListener );
+        _gps.removeMovableListener( _movableListener );
         super.cleanup();
     }
     

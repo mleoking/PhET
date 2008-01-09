@@ -16,10 +16,10 @@ public class ModelViewTransform {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private AffineTransform _modelToViewTransform;
-    private AffineTransform _viewToModelTransform;
+    private final AffineTransform _modelToViewTransform;
+    private final AffineTransform _viewToModelTransform;
     
-    private Point2D _pModelDistance, _pViewDistance; // reusable points for transforming distances
+    private final Point2D _pModelDistance, _pViewDistance; // reusable points for transforming distances
     
     //----------------------------------------------------------------------------
     // Constructors

@@ -12,7 +12,7 @@ public class GlacialBudgetMeter extends AbstractTool {
     private double _accumulation;
     private double _ablation;
     private double _glacialBudget;
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of GlacialBudgetMeterListener
 
     public GlacialBudgetMeter( Point2D position, Glacier glacier ) {
         super( position );
@@ -87,11 +87,11 @@ public class GlacialBudgetMeter extends AbstractTool {
         public void glacialBudgetChanged() {};
     }
 
-    public void addListener( GlacialBudgetMeterListener listener ) {
+    public void addGlacialBudgetMeterListener( GlacialBudgetMeterListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( GlacialBudgetMeterListener listener ) {
+    public void removeGlacialBudgetMeterListener( GlacialBudgetMeterListener listener ) {
         _listeners.remove( listener );
     }
 

@@ -44,7 +44,7 @@ public class ThermometerNode extends AbstractToolNode {
                 updateTemperature();
             }
         };
-        _thermometer.addListener( _thermometerListener );
+        _thermometer.addThermometerListener( _thermometerListener );
         
         PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
         addChild( imageNode );
@@ -65,7 +65,7 @@ public class ThermometerNode extends AbstractToolNode {
     }
     
     public void cleanup() {
-        _thermometer.removeListener( _thermometerListener );
+        _thermometer.removeThermometerListener( _thermometerListener );
         super.cleanup();
     }
     

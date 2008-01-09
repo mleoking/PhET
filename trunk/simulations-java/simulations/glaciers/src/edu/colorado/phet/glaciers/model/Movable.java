@@ -13,7 +13,7 @@ public abstract class Movable {
 
     private Point2D _position;
     private double _orientation;
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of MovableListener
     
     public Movable() {
         this( DEFAULT_POSITION, DEFAULT_ORIENTATION );
@@ -81,18 +81,14 @@ public abstract class Movable {
         public void orientationChanged() {}
     }
 
-    public void addListener( MovableListener listener ) {
+    public void addMovableListener( MovableListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( MovableListener listener ) {
+    public void removeMovableListener( MovableListener listener ) {
         _listeners.remove( listener );
     }
     
-    public void removeAllListeners() {
-        _listeners.clear();
-    }
-
     private void notifyPositionChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             ( (MovableListener) _listeners.get( i ) ).positionChanged();

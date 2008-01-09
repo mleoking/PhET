@@ -10,7 +10,7 @@ public class IceThicknessTool extends AbstractTool {
     
     private Glacier _glacier;
     private double _thickness;
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of IceThicknessToolListener
 
     public IceThicknessTool( Point2D position, Glacier glacier ) {
         super( position );
@@ -51,11 +51,11 @@ public class IceThicknessTool extends AbstractTool {
         public void thicknessChanged();
     }
     
-    public void addListener( IceThicknessToolListener listener ) {
+    public void addIceThicknessToolListener( IceThicknessToolListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( IceThicknessToolListener listener ) {
+    public void removeIceThicknessToolListener( IceThicknessToolListener listener ) {
         _listeners.remove( listener );
     }
     

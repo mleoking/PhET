@@ -16,7 +16,7 @@ public class Climate extends ClockAdapter {
     private final double _referenceAltitude; // meters
     private double _referenceTemperature; // degrees C
     private double _referencePrecipitation; // meters per years
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of ClimateListener
     
     public Climate() {
         this( 0 ); // reference altitude is sea level
@@ -82,11 +82,11 @@ public class Climate extends ClockAdapter {
         public void referencePrecipitationChanged() {};
     }
     
-    public void addListener( ClimateListener listener ) {
+    public void addClimateListener( ClimateListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( ClimateListener listener ) {
+    public void removeClimateListener( ClimateListener listener ) {
         _listeners.remove( listener );
     }
     
