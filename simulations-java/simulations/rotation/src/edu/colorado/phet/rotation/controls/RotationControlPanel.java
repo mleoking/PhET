@@ -44,11 +44,28 @@ public class RotationControlPanel extends HorizontalLayoutPanel implements Reset
                 beetle.setDisplayGraph( beetleGraph.isSelected() );
             }
         } );
+        beetle.addListener( new RotationBody.Adapter() {
+            public void displayGraphChanged() {
+                beetleGraph.setSelected( beetle.getDisplayGraph() );
+            }
+        } );
+        beetle.addListener( new RotationBody.Adapter() {
+            public void platformStateChanged() {
+                if ( beetle.isOnPlatform() ) {
+                    beetle.setDisplayGraph( true );
+                }
+            }
+        } );
 
         final JCheckBox ladybugGraph = new JCheckBox( RotationStrings.getString( "controls.show.ladybug.graph" ), ladybug.getDisplayGraph() );
         ladybugGraph.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ladybug.setDisplayGraph( ladybugGraph.isSelected() );
+            }
+        } );
+        ladybug.addListener( new RotationBody.Adapter() {
+            public void displayGraphChanged() {
+                ladybugGraph.setSelected( ladybug.getDisplayGraph() );
             }
         } );
 

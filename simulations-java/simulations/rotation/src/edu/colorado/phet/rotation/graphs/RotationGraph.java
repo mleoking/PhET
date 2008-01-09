@@ -196,7 +196,8 @@ public class RotationGraph extends MotionControlGraph {
 
         private void updateVisibility() {
             a.setVisible( visible && body0.getDisplayGraph() );
-            b.setVisible( visible && body1.isOnPlatform() && body1.getDisplayGraph() );
+//            b.setVisible( visible && body1.isOnPlatform() && body1.getDisplayGraph() );
+            b.setVisible( visible && body1.getDisplayGraph() );
         }
 
         public String getName() {
