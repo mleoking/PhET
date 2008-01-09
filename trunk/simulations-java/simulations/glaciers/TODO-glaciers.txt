@@ -22,8 +22,6 @@ IMPLEMENTATION ISSUES:
 
 HIGH PRIORITY:
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
-- Viewport and World should be part of view, they have nothing to do with the model
-- World is actually the bounds of the top canvas, in model coordinates; make it part of top canvas
 - ModelViewTransform should be part of view; model shouldn't know about it
 - if PlayArea.TOP_SCALE is changed to 0.25, viewport is in a bad initial state
 - why is viewport all the way to the right and stuck when run from sandbox?
