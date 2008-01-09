@@ -24,7 +24,7 @@ public class MiscControlPanel extends JPanel {
     private JButton _resetAllButton;
     private JButton _helpButton;
     
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of MiscControlPanelListener
     
     public MiscControlPanel() {
         super();
@@ -63,7 +63,7 @@ public class MiscControlPanel extends JPanel {
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
-    public static interface MiscControlPanelListener {
+    public interface MiscControlPanelListener {
         public void equilibriumButtonPressed();
         public void resetAllButtonPressed();
         public void helpButtonPressed();
@@ -75,41 +75,32 @@ public class MiscControlPanel extends JPanel {
         public void helpButtonPressed() {};
     }
     
-    public void addListener( MiscControlPanelListener listener ) {
+    public void addMiscControlPanelListener( MiscControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( MiscControlPanelListener listener ) {
+    public void removeMiscControlPanelListener( MiscControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifyEquilibriumButtonPressed() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof MiscControlPanelListener ) {
-                ( (MiscControlPanelListener) o ).equilibriumButtonPressed();
-            }
+            ( (MiscControlPanelListener) i.next() ).equilibriumButtonPressed();
         }
     }
-    
+
     private void notifyResetAllButtonPressed() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof MiscControlPanelListener ) {
-                ( (MiscControlPanelListener) o ).resetAllButtonPressed();
-            }
+            ( (MiscControlPanelListener) i.next() ).resetAllButtonPressed();
         }
     }
     
     private void notifyHelpButtonPressed() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof MiscControlPanelListener ) {
-                ( (MiscControlPanelListener) o ).helpButtonPressed();
-            }
+            ( (MiscControlPanelListener) i.next() ).helpButtonPressed();
         }
     }
 }

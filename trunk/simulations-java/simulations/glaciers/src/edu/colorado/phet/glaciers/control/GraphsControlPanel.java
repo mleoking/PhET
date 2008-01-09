@@ -32,7 +32,7 @@ public class GraphsControlPanel extends JPanel {
     
     private JComboBox _comboBox;
     
-    private ArrayList _listeners;
+    private ArrayList _listeners; // list of GraphsControlPanelListener
     
     public GraphsControlPanel( Font titleFont, Font controlFont ) {
         super();
@@ -121,7 +121,7 @@ public class GraphsControlPanel extends JPanel {
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
-    public static interface GraphsControlPanelListener {
+    public interface GraphsControlPanelListener {
         public void selectionChanged();
     }
     
@@ -129,21 +129,18 @@ public class GraphsControlPanel extends JPanel {
         public void selectionChanged() {}
     }
     
-    public void addListener( GraphsControlPanelListener listener ) {
+    public void addGraphsControlPanelListener( GraphsControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeListener( GraphsControlPanelListener listener ) {
+    public void removeGraphsControlPanelListener( GraphsControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
     private void notifySelectionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            Object o = i.next();
-            if ( o instanceof GraphsControlPanelListener ) {
-                ( (GraphsControlPanelListener) o ).selectionChanged();
-            }
+            ( (GraphsControlPanelListener) i.next() ).selectionChanged();
         }
     }
 }
