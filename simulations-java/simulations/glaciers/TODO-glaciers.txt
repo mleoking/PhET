@@ -59,6 +59,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/9/08 - use one viewport model for both birds-eye and zoomed views
+1/9/08 - move Viewport to view package, it's not part of the physical model
 1/9/08 - implement Valley elevation and width functions
 1/8/08 - change strategy for adding/removing nodes, IToolProducer
 1/8/08 - organize imports

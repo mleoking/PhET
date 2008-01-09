@@ -6,8 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.glaciers.model.Viewport;
-import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
