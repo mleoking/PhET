@@ -21,7 +21,7 @@ public class EditSkaterPanel extends AdvancedPanel {
     private EnergySkateParkModule module;
 
     public EditSkaterPanel( final EnergySkateParkModule module ) {
-        super( EnergySkateParkStrings.getString( "controls.edit-skater" ), EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) );
+        super( EnergySkateParkStrings.getString( "controls.edit-skater" )+" >>", EnergySkateParkStrings.getString( "controls.hide-skater-properties" ) +" <<");
         this.module = module;
         final EnergySkateParkSlider restitution = new EnergySkateParkSlider( EnergySkateParkStrings.getString( "controls.bounciness" ), "", 0, 1.0, 1.0 );
         restitution.setModelTicks( new double[]{0, 0.5, 1} );
