@@ -221,12 +221,12 @@ public class EnergySkateParkControlPanel extends ControlPanel {
 //        }
 //    }
 
-    private String getReturnString( String x, String y ) {
-        String template = EnergySkateParkStrings.getString( "controls.return-character" );
-        template = template.replaceFirst( "@X", x );
-        template = template.replaceFirst( "@Y", y );
-        return template;
-    }
+//    private String getReturnString( String x, String y ) {
+//        String template = EnergySkateParkStrings.getString( "controls.return-character" );
+//        template = template.replaceFirst( "@X", x );
+//        template = template.replaceFirst( "@Y", y );
+//        return template;
+//    }
 
     private PNode getMeasuringTapeNode( EnergySkateParkModule module ) {
         return module.getEnergySkateParkSimulationPanel().getRootNode().getMeasuringTapeNode();
