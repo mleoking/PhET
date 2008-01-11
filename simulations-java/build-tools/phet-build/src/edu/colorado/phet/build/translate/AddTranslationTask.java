@@ -45,13 +45,15 @@ public class AddTranslationTask {
 
         //Download all flavor JAR files for this project
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            downloadFlavorJAR( phetProject, phetProject.getFlavors()[i] );
+            downloadFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName() );
         }
+        downloadFlavorJAR( phetProject, phetProject.getName() );//also download the webstart JAR
 
         //Update all flavor JAR files
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            updateFlavorJAR( phetProject, phetProject.getFlavors()[i], language );
+            updateFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), language );
         }
+        updateFlavorJAR( phetProject,phetProject.getName(),language );//also update the webstart JAR
 
         //create a JNLP file for each flavor
         PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
@@ -59,9 +61,10 @@ public class AddTranslationTask {
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-                deployFlavorJAR( phetProject, phetProject.getFlavors()[i], user, password );
+                deployFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), user, password );
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
             }
+            deployFlavorJAR( phetProject,phetProject.getName(), user, password );//also deploy the updated webstart JAR
         }
 
         //poke the website to make sure it regenerates pages with the new info
@@ -74,12 +77,11 @@ public class AddTranslationTask {
      * JAR just contains a single new file.
      *
      * @param phetProject
-     * @param phetProjectFlavor
      */
-    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String language ) throws IOException {
+    private void updateFlavorJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
         //create a backup copy of the JAR
         //todo: should we make a long-term backup?  This file will be deleted when temp dir is cleared on the next run.
-        FileUtils.copyTo( getFlavorJARTempFile( phetProject, phetProjectFlavor ), getFlavorJARTempBackupFile( phetProject, phetProjectFlavor ) );
+        FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
 
         //TODO: check that no files will be overwritten?
 
@@ -88,7 +90,7 @@ public class AddTranslationTask {
         //Run the JAR update command
         String sim = phetProject.getName();
         String pathSep = File.separator;
-        String command = "jar.exe uf " + phetProjectFlavor.getFlavorName() + ".jar" +
+        String command = "jar.exe uf " + flavor + ".jar" +
                          " -C " + getProjectDataDir( phetProject ) + " " + sim + pathSep + "localization" + pathSep + sim + "-strings_" + language + ".properties";
         System.out.println( "Running: " + command );
         Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
@@ -104,12 +106,11 @@ public class AddTranslationTask {
      * Uploads the new JAR file to tigercat.
      *
      * @param phetProject
-     * @param phetProjectFlavor
      */
-    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String user, String password ) {
-        final String filename = getRemoteDirectory( phetProject ) + phetProjectFlavor.getFlavorName() + ".jar";
+    private void deployFlavorJAR( PhetProject phetProject, String flavor, String user, String password ) {
+        final String filename = getRemoteDirectory( phetProject ) + flavor + ".jar";
         try {
-            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, phetProjectFlavor ), user, "tigercat.colorado.edu", filename, password );
+            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, flavor ), user, "tigercat.colorado.edu", filename, password );
         }
         catch( JSchException e ) {
             e.printStackTrace();
@@ -147,22 +148,22 @@ public class AddTranslationTask {
         return dir;
     }
 
-    private void downloadFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) throws FileNotFoundException {
-        String url = phetProject.getDeployedFlavorJarURL( phetProjectFlavor.getFlavorName() );
-        FileDownload.download( url, getFlavorJARTempFile( phetProject, phetProjectFlavor ) );
-        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, phetProjectFlavor ) );
+    private void downloadFlavorJAR( PhetProject phetProject, String flavor ) throws FileNotFoundException {
+        String url = phetProject.getDeployedFlavorJarURL( flavor );
+        FileDownload.download( url, getFlavorJARTempFile( phetProject, flavor ) );
+        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, flavor ) );
     }
 
-    private File getFlavorJARTempBackupFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
-        return getFlavorJARTempFile( phetProject, phetProjectFlavor, "_backup.jar" );
+    private File getFlavorJARTempBackupFile( PhetProject phetProject, String flavorname ) {
+        return getFlavorJARTempFile( phetProject, flavorname, "_backup.jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
-        return getFlavorJARTempFile( phetProject, phetProjectFlavor, ".jar" );
+    private File getFlavorJARTempFile( PhetProject phetProject, String flavorname ) {
+        return getFlavorJARTempFile( phetProject, flavorname, ".jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String suffix ) {
-        return new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + suffix );
+    private File getFlavorJARTempFile( PhetProject phetProject, String flavorname, String suffix ) {
+        return new File( getTempProjectDir( phetProject ), flavorname + suffix );
     }
 
     public static void main( String[] args ) throws Exception {
