@@ -8,12 +8,4 @@ public class GPSReceiver extends AbstractTool  {
     public GPSReceiver( Point2D position ) {
         super( position );
     }
-
-    protected void handlePositionChanged() {
-        //XXX
-    }
-    
-    protected void handleClockTimeChanged() {
-        //XXX
-    }
 }

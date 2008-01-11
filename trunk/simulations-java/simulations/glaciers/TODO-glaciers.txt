@@ -55,6 +55,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/10/08 - add default implementations for AbstractTool.handlePositionChanged and handleTimeChanged
 1/9/08 - add named viewports, for debugging
 1/9/08 - clean up ViewportListener interface
 1/9/08 - add MVT to toolbox

@@ -25,13 +25,23 @@ public abstract class AbstractTool extends Movable implements ClockListener {
         });
     }
     
+    public double getElevation() {
+        return getY();
+    }
+    
     protected double getCurrentTime() {
         return _currentTime;
     }
     
-    protected abstract void handlePositionChanged();
+    /**
+     * Subclasses should override this if they care about position changes.
+     */
+    protected void handlePositionChanged() {};
     
-    protected abstract void handleClockTimeChanged();
+    /**
+     * Subclasses should override this if they care about time changes.
+     */
+    protected void handleTimeChanged() {};
     
     public void clockPaused( ClockEvent clockEvent ) {}
 
@@ -41,7 +51,7 @@ public abstract class AbstractTool extends Movable implements ClockListener {
 
     public void simulationTimeChanged( ClockEvent clockEvent ) {
         _currentTime = clockEvent.getSimulationTime();
-        handleClockTimeChanged();
+        handleTimeChanged();
     }
 
     public void simulationTimeReset( ClockEvent clockEvent ) {}

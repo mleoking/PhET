@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -11,8 +14,11 @@ public class Glacier extends ClockAdapter {
     
     private static final double HEAD_X_COORDINATE = 0;
     
+    private final ArrayList _listeners; // list of GlacierListener
+    
     public Glacier() {
-        //XXX
+        super();
+        _listeners = new ArrayList();
     }
     
     public void cleanup() {}
@@ -55,5 +61,31 @@ public class Glacier extends ClockAdapter {
 
     public void simulationTimeChanged( ClockEvent event ) {
         //XXX
+    }
+    
+    public interface GlacierListener {
+        //XXX what goes here?...
+        public void somethingChanged();//XXX
+    }
+    
+    public static class GlacierAdapter implements GlacierListener {
+        //XXX default implementation goes here
+        public void somethingChanged() {}; //XXX
+    }
+    
+    public void addGlacierListener( GlacierListener listener ) {
+        _listeners.add( listener );
+    }
+    
+    public void removeGlacierListener( GlacierListener listener ) {
+        _listeners.remove( listener );
+    }
+    
+    //XXX this is just an example...
+    private void notifySomethingChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( ( GlacierListener ) i.next() ).somethingChanged();
+        }
     }
 }

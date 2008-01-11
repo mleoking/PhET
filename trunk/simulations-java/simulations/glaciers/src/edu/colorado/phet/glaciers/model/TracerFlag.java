@@ -15,12 +15,9 @@ public class TracerFlag extends AbstractTool {
     public void cleanup() {
         super.cleanup();
     }
-    
-    protected void handlePositionChanged() {
-        //XXX
-    }
 
-    protected void handleClockTimeChanged() {
+    //XXX should this be replaced with a GlacierListener?
+    protected void handleTimeChanged() {
         //XXX calculate new position, call setPosition
     }
 
