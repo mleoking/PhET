@@ -9,6 +9,8 @@ import edu.colorado.phet.build.PhetBuildJnlpTask;
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
 
+import com.jcraft.jsch.JSchException;
+
 /**
  * Created by: Sam
  * Jan 11, 2008 at 11:36:47 AM
@@ -16,7 +18,7 @@ import edu.colorado.phet.build.PhetProjectFlavor;
 public class AddTranslationTask {
     private File basedir;
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
-    private boolean deployEnabled = false;
+    private boolean deployEnabled = true;
 
     public AddTranslationTask( File basedir ) {
         this.basedir = basedir;
@@ -31,7 +33,7 @@ public class AddTranslationTask {
      * @param language
      * @throws IOException
      */
-    private void addTranslation( String simulation, String language ) throws Exception {
+    private void addTranslation( String simulation, String language, String user, String password ) throws Exception {
         PhetProject phetProject = new PhetProject( basedir, simulation );
 
         //Clear the temp directory for this simulation
@@ -53,7 +55,7 @@ public class AddTranslationTask {
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-                deployFlavorJAR( phetProject, phetProject.getFlavors()[i] );
+                deployFlavorJAR( phetProject, phetProject.getFlavors()[i], user );
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i] );
             }
         }
@@ -69,6 +71,7 @@ public class AddTranslationTask {
      */
     private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String language ) throws IOException {
         //create a backup copy of the JAR
+        //todo: should we make a long-term backup?  This file will be deleted when temp dir is cleared on the next run.
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, phetProjectFlavor ), getFlavorJARTempBackupFile( phetProject, phetProjectFlavor ) );
 
         //TODO: check that no files will be overwritten?
@@ -96,7 +99,18 @@ public class AddTranslationTask {
      * @param phetProject
      * @param phetProjectFlavor
      */
-    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String user ) {
+//        final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + phetProjectFlavor.getFlavorName() + ".jar";
+        final String filename = "/home/tigercat/phet/reids/testfile.jar";
+        try {
+            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, phetProjectFlavor ), user, "tigercat.colorado.edu", filename );
+        }
+        catch( JSchException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
     }
 
     private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
@@ -128,6 +142,6 @@ public class AddTranslationTask {
 
     public static void main( String[] args ) throws Exception {
         File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
-        new AddTranslationTask( basedir ).addTranslation( "cck", "nl" );
+        new AddTranslationTask( basedir ).addTranslation( "cck", "nl", "reids", "" );
     }
 }
