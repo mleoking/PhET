@@ -173,7 +173,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _viewportLayer.addChild( _penguinNode );
 
         // initialize
-        handlePlayAreaResized();
         handleZoomedViewportChanged();
     }
     
@@ -218,22 +217,30 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      */
     private void handlePlayAreaResized() {
         
-        Dimension2D screenSize = _birdsEyeCanvas.getScreenSize();
-        if ( screenSize.getWidth() <= 0 || screenSize.getHeight() <= 0 ) {
+        // verify that both canvases have non-zero dimensions
+        Rectangle2D bb = _birdsEyeCanvas.getBounds();
+        Rectangle2D zb = _zoomedCanvas.getBounds();
+        if ( bb.getWidth() <= 0 || bb.getHeight() <= 0 || zb.getWidth() <= 0 || zb.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
+            System.err.println( "PlayArea.handlePlayAreaResized should not have been called yet!" );
             return;
         }
-        else if ( GlaciersConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
-            System.out.println( "PlayArea.handleTopCanvasResized screenSize=" + screenSize );//XXX
+        
+        // set the bounds of the birds-eye viewport, based on the birds-eye canvas size
+        {
+            double scale = _birdsEyeCanvas.getCamera().getViewScale();
+            _rView.setRect( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
+            _mvt.viewToModel( _rView, _rModel );
+            _birdsEyeViewport.setBounds( _rModel );
         }
         
-        // set the dimensions of the birds-eye viewport, based on the screen size
+        // set the dimensions of the zoomed viewport, based on the zoomed canvas size
         {
-            double w = _birdsEyeCanvas.getScreenSize().getWidth() / _birdsEyeCanvas.getCamera().getViewScale();
-            double h = _birdsEyeCanvas.getScreenSize().getHeight() / _birdsEyeCanvas.getCamera().getViewScale();
-            _rView.setRect( 0, 0, w, h );
-            _mvt.viewToModel( _rView, _rModel ); // convert from view to model coordinates
-            _birdsEyeViewport.setBounds( _rModel );
+            double scale = _zoomedCanvas.getCamera().getViewScale();
+            double w = _mvt.viewToModel( zb.getWidth() / scale );
+            double h = _mvt.viewToModel( zb.getHeight() / scale );
+            _zoomedViewport.setSize( w, h );
+            constrainZoomedViewport();
         }
         
         // make sure the penguin is aligned with bottom of birds-eye viewport, and shorter than the birds-eye viewport
@@ -243,17 +250,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double yScale = ( 0.8 * _birdsEyeViewport.getBoundsReference().getHeight() ) / _penguinNode.getFullBoundsReference().getHeight();
             _penguinNode.scale( yScale );
         }
-        
-        // set the dimensions of the zoomed viewport, based on the size of the zoomed canvas
-        {
-            Rectangle2D canvasBounds = _zoomedCanvas.getBounds();
-            double scale = _zoomedCanvas.getCamera().getViewScale();
-            double wModel = _mvt.viewToModel( canvasBounds.getWidth() / scale );
-            double hModel = _mvt.viewToModel( canvasBounds.getHeight() / scale );
-            _zoomedViewport.setSize( wModel, hModel );
-        }
-        
-        // keep the left & right edges of the zoomed viewport inside the birds-eye view's bounds
+    }
+    
+    /* 
+     * Keeps the left & right edges of the zoomed viewport inside the birds-eye view's bounds.
+     */
+    private void constrainZoomedViewport() {
         Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
         Rectangle2D zb = _zoomedViewport.getBoundsReference();
         if ( zb.getX() < bb.getX() ) {
