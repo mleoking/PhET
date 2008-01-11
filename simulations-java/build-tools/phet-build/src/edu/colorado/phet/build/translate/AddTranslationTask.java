@@ -168,8 +168,9 @@ public class AddTranslationTask {
             new AddTranslationTask( basedir ).addTranslation( args[0], args[1], args[2], args[3] );
         }
         else {
-            new AddTranslationTask( basedir ).addTranslation( prompt("Sim"), prompt("Language"), prompt("username"), prompt("password") );
+            new AddTranslationTask( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
         }
+        System.exit( 0 );//daemon thread running?
     }
 
     private static String prompt( String title ) {
