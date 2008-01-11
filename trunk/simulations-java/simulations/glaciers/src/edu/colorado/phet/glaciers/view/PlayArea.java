@@ -248,14 +248,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         {
             Rectangle2D canvasBounds = _zoomedCanvas.getBounds();
             double scale = _zoomedCanvas.getCamera().getViewScale();
-            Rectangle2D viewportBounds = _zoomedViewport.getBoundsReference();
-            double x = viewportBounds.getX();
-            double y = viewportBounds.getY();
-            double w = canvasBounds.getWidth() / scale;
-            double h = canvasBounds.getHeight() / scale;
-            _rView.setRect( x, y, w, h );
-            _mvt.viewToModel( _rView, _rModel ); // convert from view to model coordinates
-            _zoomedViewport.setBounds( _rModel );
+            double wModel = _mvt.viewToModel( canvasBounds.getWidth() / scale );
+            double hModel = _mvt.viewToModel( canvasBounds.getHeight() / scale );
+            _zoomedViewport.setSize( wModel, hModel );
         }
         
         // keep the left & right edges of the zoomed viewport inside the birds-eye view's bounds
