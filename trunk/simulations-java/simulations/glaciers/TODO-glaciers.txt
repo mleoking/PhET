@@ -21,6 +21,9 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- add penguin model element
+- zoomed viewport is set incorrectly when resizing the main frame; it's set twice for every birds-eye viewport change
+- instead of having PenguinNode know about birds-eye viewport, set its drag bounds when the birds-eye viewport changes
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
 - implement glacier model as described in Archie's model document
 - create graphs
@@ -54,6 +57,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/11/08 - move Viewport to model package, since it's in model coordinates
 1/11/08 - use ComponentListener + AncestorListener for handling play area resize, this fixes problems with viewport transforms
 1/10/08 - add default implementations for AbstractTool.handlePositionChanged and handleTimeChanged
 1/9/08 - add named viewports, for debugging
