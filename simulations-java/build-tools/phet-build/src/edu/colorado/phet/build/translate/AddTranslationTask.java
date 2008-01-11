@@ -43,7 +43,7 @@ public class AddTranslationTask {
 
         //Update all flavor JAR files
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            updateFlavorJAR( phetProject, phetProject.getFlavors()[i] );
+            updateFlavorJAR( phetProject, phetProject.getFlavors()[i], language );
         }
 
         if ( deployEnabled ) {//Can disable for local testing
@@ -55,15 +55,6 @@ public class AddTranslationTask {
     }
 
     /**
-     * Uploads the new JAR file to tigercat.
-     *
-     * @param phetProject
-     * @param phetProjectFlavor
-     */
-    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
-    }
-
-    /**
      * Creates a backup of the file, then integrates the specified sim translation file and all common translation files, if they exist.
      * This also tests for errors: it does not overwrite existing files, and it verifies afterwards that the
      * JAR just contains a single new file.
@@ -71,8 +62,32 @@ public class AddTranslationTask {
      * @param phetProject
      * @param phetProjectFlavor
      */
-    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) throws IOException {
+    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String language ) throws IOException {
+        //create a backup copy of the JAR
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, phetProjectFlavor ), getFlavorJARTempBackupFile( phetProject, phetProjectFlavor ) );
+
+        //Run the JAR update command
+        String sim = phetProject.getName();
+        String pathSep = File.separator;
+        String command = "jar.exe uf " + phetProjectFlavor.getFlavorName() + ".jar" +
+                         " -C " + getProjectDataDir( phetProject ) + " " + sim + pathSep + "localization" + pathSep + sim + "-strings_" + language + ".properties";
+        System.out.println( "Running: " + command );
+        Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
+
+
+    }
+
+    private File getProjectDataDir( PhetProject phetProject ) {
+        return new File( phetProject.getProjectDir(), "data" );
+    }
+
+    /**
+     * Uploads the new JAR file to tigercat.
+     *
+     * @param phetProject
+     * @param phetProjectFlavor
+     */
+    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
