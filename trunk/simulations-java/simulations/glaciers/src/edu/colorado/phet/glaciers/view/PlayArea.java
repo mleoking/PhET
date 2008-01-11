@@ -12,6 +12,8 @@ import java.util.HashMap;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.glaciers.GlaciersConstants;
@@ -55,6 +57,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private PNode _penguinNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
+    private boolean _layoutDirty;
     
     private Rectangle2D _rModel, _rView; // reusable rectangles
     
@@ -74,8 +77,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _mvt = mvt;
         
         // viewports
-        _birdsEyeViewport = new Viewport( "birdsEyeViewport" ); // bounds will be set when top canvas is resized
-        _zoomedViewport = new Viewport( "zoomViewport" ); // bounds will be set when bottom canvas is resized
+        _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when top canvas is resized
+        _zoomedViewport = new Viewport( "zoomed" ); // bounds will be set when bottom canvas is resized
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleZoomedViewportChanged();
@@ -99,11 +102,42 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         setLayout( new BorderLayout() );
         add( topPanel, BorderLayout.NORTH );
         add( _zoomedCanvas, BorderLayout.CENTER );
-        addComponentListener( new ComponentAdapter() {
-            public void componentResized( ComponentEvent e ) {
-                handlePlayAreaResized();
-            }
-        });
+        
+        // update layout when the play area is resized
+        {
+            _layoutDirty = true;
+            
+            addComponentListener( new ComponentAdapter() {
+
+                // if the play area is resized while visible, handle the resize.
+                // otherwise, mark the layout as dirty.
+                public void componentResized( ComponentEvent e ) {
+                    if ( e.getComponent().isShowing() ) {
+                        handlePlayAreaResized();
+                        _layoutDirty = false;
+                    }
+                    else {
+                        _layoutDirty = true;
+                    }
+                }
+            } );
+            
+            addAncestorListener( new AncestorListener() {
+
+                // called when the source or one of its ancestors is make visible either
+                // by setVisible(true) being called or by its being added to the component hierarchy
+                public void ancestorAdded( AncestorEvent e ) {
+                    if ( _layoutDirty && e.getComponent().isShowing() ) {
+                        handlePlayAreaResized();
+                        _layoutDirty = false;
+                    }
+                }
+
+                public void ancestorMoved( AncestorEvent event ) {}
+
+                public void ancestorRemoved( AncestorEvent event ) {}
+            } );
+        }
         
         // Layers, back to front
         _valleyLayer = new PLayer();
