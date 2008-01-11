@@ -107,7 +107,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
             PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
             phetBuildJnlpTask.setFlavor( project.getFlavorNames()[i] );
-            phetBuildJnlpTask.setDeployUrl( "http://phet.colorado.edu/simulations/" + project.getName() );
+            phetBuildJnlpTask.setDeployUrl( "http://phet.colorado.edu/sims/" + project.getName() );
             phetBuildJnlpTask.setLocale( language );
             phetBuildJnlpTask.executeImpl( project );
         }
