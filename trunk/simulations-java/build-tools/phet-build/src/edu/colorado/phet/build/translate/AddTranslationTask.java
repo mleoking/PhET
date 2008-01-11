@@ -15,13 +15,26 @@ import edu.colorado.phet.build.PhetProjectFlavor;
 public class AddTranslationTask {
     private File basedir;
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
+    private boolean deployEnabled = false;
 
     public AddTranslationTask( File basedir ) {
         this.basedir = basedir;
     }
 
+    /**
+     * This method is performed phase-wise (i.e. download all, then update all, then deploy all)
+     * instead of (download #1, then update #1 then deploy #1) in order to make it easy to disable a single phase
+     * and to facilitate batch deploy.
+     *
+     * @param simulation
+     * @param language
+     * @throws IOException
+     */
     private void addTranslation( String simulation, String language ) throws IOException {
         PhetProject phetProject = new PhetProject( basedir, simulation );
+
+        //Clear the temp directory for this simulation
+        FileUtils.delete( getTempProjectDir( phetProject ), true );
 
         //Download all flavor JAR files for this project
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
@@ -30,8 +43,36 @@ public class AddTranslationTask {
 
         //Update all flavor JAR files
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-//            updateFlavorJAR();
+            updateFlavorJAR( phetProject, phetProject.getFlavors()[i] );
         }
+
+        if ( deployEnabled ) {//Can disable for local testing
+            //Deploy updated flavor JAR files
+            for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
+                deployFlavorJAR( phetProject, phetProject.getFlavors()[i] );
+            }
+        }
+    }
+
+    /**
+     * Uploads the new JAR file to tigercat.
+     *
+     * @param phetProject
+     * @param phetProjectFlavor
+     */
+    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+    }
+
+    /**
+     * Creates a backup of the file, then integrates the specified sim translation file and all common translation files, if they exist.
+     * This also tests for errors: it does not overwrite existing files, and it verifies afterwards that the
+     * JAR just contains a single new file.
+     *
+     * @param phetProject
+     * @param phetProjectFlavor
+     */
+    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
@@ -42,11 +83,13 @@ public class AddTranslationTask {
 
     private void downloadFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) throws FileNotFoundException {
         String url = phetProject.getDeployedFlavorJarURL( phetProjectFlavor.getFlavorName() );
-        FileDownload.download( url, new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + ".jar" ) );
+        final File dest = new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + ".jar" );
+        FileDownload.download( url, dest );
+        System.out.println( "dest = " + dest );
     }
 
     public static void main( String[] args ) throws IOException {
-        File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java" );
+        File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
         new AddTranslationTask( basedir ).addTranslation( "cck", "nl" );
     }
 }
