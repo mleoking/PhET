@@ -21,11 +21,11 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- zoomed viewport is larger than what's shown in the zoomed view
+- code block in PlayArea.handlePlayAreaResize that handles penguin y-alignment & scale needs to use MVT
 - MVT y-coordinate translation has problems
 - haven't tested positive scaling of MVT
 - haven't tested negative scaling (reflection) of MVT
-- code block in PlayArea.handlePlayAreaResize that handles penguin y-alignment & scale needs to use MVT
-- zoomed viewport is larger than what's shown in the zoomed view
 - MVT methods that operate on Rectangles don't work right with negative scale factors, rectangles end up with negative width &| height
 - instead of having PenguinNode know about birds-eye viewport, set its drag bounds when the birds-eye viewport changes
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
