@@ -61,7 +61,7 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         ArrayList args = new ArrayList( Arrays.asList( flavor.getArgs() ) );
 
         //optionally add a -dev parameter if this simulation is deployed to dev directory 
-        String property = getOwningTarget().getProject().getProperty( "deploy.to.dev" );
+        String property = getOwningTarget()!=null?getOwningTarget().getProject().getProperty( "deploy.to.dev" ):null;
         if ( property != null && property.equalsIgnoreCase( "true" ) ) {
             args.add( "-dev" );
         }
@@ -101,6 +101,16 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         this.deployUrl = deployUrl;
 
         echo( "Setting deploy URL to " + deployUrl );
+    }
+
+    public static void buildJNLPForSimAndLanguage( PhetProject project, String language ) throws Exception {
+        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+            PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
+            phetBuildJnlpTask.setFlavor( project.getFlavorNames()[i] );
+            phetBuildJnlpTask.setDeployUrl( "http://phet-web.colorado.edu/simulations/" + project.getName() );
+            phetBuildJnlpTask.setLocale( language );
+            phetBuildJnlpTask.executeImpl( project );
+        }
     }
 
     public static void main( String[] args ) throws Exception {
