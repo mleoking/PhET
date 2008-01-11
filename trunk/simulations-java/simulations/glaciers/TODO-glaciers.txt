@@ -33,6 +33,7 @@ HIGH PRIORITY:
 - implement glacier model
 
 MEDIUM PRIORITY:
+- is order of transforms correct in MVT constructor?
 - get actual function that describes temperature as a function of altitude
 - get actual function that describes precipiation as a function of altitude
 - tools should not be draggable in top canvas
@@ -57,6 +58,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/11/08 - change signature of MVT constructor to make it clearer
 1/11/08 - move Viewport to model package, since it's in model coordinates
 1/11/08 - use ComponentListener + AncestorListener for handling play area resize, this fixes problems with viewport transforms
 1/10/08 - add default implementations for AbstractTool.handlePositionChanged and handleTimeChanged
