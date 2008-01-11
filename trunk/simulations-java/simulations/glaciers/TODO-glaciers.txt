@@ -21,8 +21,12 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- add penguin model element
-- zoomed viewport is set incorrectly when resizing the main frame; it's set twice for every birds-eye viewport change
+- MVT y-coordinate translation has problems
+- haven't tested positive scaling of MVT
+- haven't tested negative scaling (reflection) of MVT
+- code block in PlayArea.handlePlayAreaResize that handles penguin y-alignment & scale needs to use MVT
+- zoomed viewport is larger than what's shown in the zoomed view
+- MVT methods that operate on Rectangles don't work right with negative scale factors, rectangles end up with negative width &| height
 - instead of having PenguinNode know about birds-eye viewport, set its drag bounds when the birds-eye viewport changes
 - create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
 - implement glacier model as described in Archie's model document
@@ -58,6 +62,11 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/11/08 - fix misc stuff in PlayArea viewport management to handle MVT x-coordinate translation 
+1/11/08 - bail on PlayArea.handlePlayAreaResize if the canvases don't have non-zero sizes
+1/11/08 - make MVT distance transforms require positive values
+1/11/08 - add convenience setters and getters to Viewport
+1/11/08 - bugfix in MVT.viewToModel(double distance), need to know the offset between model and view origins
 1/11/08 - change signature of MVT constructor to make it clearer
 1/11/08 - move Viewport to model package, since it's in model coordinates
 1/11/08 - use ComponentListener + AncestorListener for handling play area resize, this fixes problems with viewport transforms

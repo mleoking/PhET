@@ -32,7 +32,7 @@ public class BasicModule extends PiccoloModule {
     
     private static final double VIEW_X_SCALE = 1.0;
     private static final double VIEW_Y_SCALE = 1.0;
-    private static final Point2D VIEW_ORIGIN = new Point2D.Double( 0, 0 );
+    private static final Point2D VIEW_ORIGIN = new Point2D.Double( 500, 0 );
     
     //----------------------------------------------------------------------------
     // Instance data

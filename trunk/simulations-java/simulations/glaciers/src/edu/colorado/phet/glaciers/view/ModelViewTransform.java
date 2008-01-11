@@ -110,15 +110,18 @@ public class ModelViewTransform {
     }
     
     /**
-     * Maps a distance from model to view coordinates.
+     * Maps an absolute distance from model to view coordinates.
      * 
      * @param distance distance in model coordinates
      * @return distance in view coordinates
      */
     public double modelToView( double distanceModel ) {
+        if ( distanceModel < 0 ) {
+            throw new IllegalArgumentException( "distance must be positive: " + distanceModel );
+        }
         _pModel.setLocation( distanceModel, 0 );
         modelToView( _pModel, _pView );
-        return _pView.getX();
+        return Math.abs( _pView.getX() );
     }
     
     /**
@@ -183,9 +186,12 @@ public class ModelViewTransform {
      * @return distance in model coordinates
      */
     public double viewToModel( double distanceView ) {
+        if ( distanceView < 0 ) {
+            throw new IllegalArgumentException( "distance must be positive: " + distanceView );
+        }
         _pView.setLocation( _viewOrigin.getX() + distanceView, 0 );
         viewToModel( _pView, _pModel );
-        return _pModel.getX();
+        return Math.abs( _pModel.getX() );
     }
     
     /**
