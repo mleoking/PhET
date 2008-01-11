@@ -46,7 +46,7 @@ public class AddTranslationTask {
             updateFlavorJAR( phetProject, phetProject.getFlavors()[i], language );
         }
 
-        //TODO: create and deploy JNLP files for each flavor
+        //TODO: create and deploy a JNLP file for each flavor
 
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
