@@ -63,6 +63,9 @@ public class AddTranslationTask {
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
             }
         }
+
+        //poke the website to make sure it regenerates pages with the new info
+        FileDownload.download( "http://phet.colorado.edu/new/admin/test.php", getTempProjectDir( phetProject ) );
     }
 
     /**
