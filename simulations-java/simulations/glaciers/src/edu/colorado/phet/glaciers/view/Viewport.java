@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *  Viewport describes the portion of the scene that's visible through the viewport,
@@ -65,11 +66,9 @@ public class Viewport {
     }
     
     private void notifyBoundsChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            Object listener = _listeners.get( i );
-            if ( listener instanceof ViewportListener ) {
-                ( (ViewportListener) listener ).boundsChanged();
-            }
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ViewportListener) i.next() ).boundsChanged();
         }
     }
 }
