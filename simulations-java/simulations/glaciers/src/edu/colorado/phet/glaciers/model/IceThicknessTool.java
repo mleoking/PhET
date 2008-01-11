@@ -37,14 +37,16 @@ public class IceThicknessTool extends AbstractTool {
         updateThickness();
     }
     
-    protected void handleClockTimeChanged() {
+    //XXX should this be replaced with a GlacierListener?
+    protected void handleTimeChanged() {
         updateThickness();
     }
     
     private void updateThickness() {
         final double x = getX();
         final double t = getCurrentTime();
-        setThickness( _glacier.getIceThickness( x, t ) );
+        final double thickness = _glacier.getIceThickness( x, t );
+        setThickness( thickness );
     }
     
     public interface IceThicknessToolListener {

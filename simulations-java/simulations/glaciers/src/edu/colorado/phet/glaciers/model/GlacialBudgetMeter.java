@@ -61,14 +61,15 @@ public class GlacialBudgetMeter extends AbstractTool {
     }
     
     protected void handlePositionChanged() {
-        recalculateValues();
+        updateAllValues();
     }
     
-    protected void handleClockTimeChanged() {
-        recalculateValues();
+    //XXX should this be replaced with a GlacierListener?
+    protected void handleTimeChanged() {
+        updateAllValues();
     }
     
-    private void recalculateValues() {
+    private void updateAllValues() {
         final double x = getX();
         setAccumulation( _glacier.getAccumulation( x ) );
         setAblation( _glacier.getAblation( x ) );

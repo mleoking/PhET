@@ -15,13 +15,4 @@ public class BoreholeDrill extends AbstractTool {
     public void cleanup() {
         super.cleanup();
     }
-    
-    protected void handlePositionChanged() {
-        //XXX
-    }
-    
-    protected void handleClockTimeChanged() {
-        //XXX
-    }
-
 }
