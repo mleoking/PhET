@@ -71,8 +71,8 @@ public class AddTranslationTask {
      * @param phetProject
      * @param phetProjectFlavor
      */
-    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
-
+    private void updateFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) throws IOException {
+        FileUtils.copyTo( getFlavorJARTempFile( phetProject, phetProjectFlavor ), getFlavorJARTempBackupFile( phetProject, phetProjectFlavor ) );
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
@@ -83,9 +83,20 @@ public class AddTranslationTask {
 
     private void downloadFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) throws FileNotFoundException {
         String url = phetProject.getDeployedFlavorJarURL( phetProjectFlavor.getFlavorName() );
-        final File dest = new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + ".jar" );
-        FileDownload.download( url, dest );
-        System.out.println( "dest = " + dest );
+        FileDownload.download( url, getFlavorJARTempFile( phetProject, phetProjectFlavor ) );
+        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, phetProjectFlavor ) );
+    }
+
+    private File getFlavorJARTempBackupFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+        return getFlavorJARTempFile( phetProject, phetProjectFlavor, "_backup.jar" );
+    }
+
+    private File getFlavorJARTempFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+        return getFlavorJARTempFile( phetProject, phetProjectFlavor, ".jar" );
+    }
+
+    private File getFlavorJARTempFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String suffix ) {
+        return new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + suffix );
     }
 
     public static void main( String[] args ) throws IOException {
