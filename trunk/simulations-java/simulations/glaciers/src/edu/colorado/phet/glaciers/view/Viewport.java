@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.model;
+package edu.colorado.phet.glaciers.view;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
