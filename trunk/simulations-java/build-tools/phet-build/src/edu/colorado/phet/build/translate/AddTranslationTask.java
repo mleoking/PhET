@@ -53,7 +53,7 @@ public class AddTranslationTask {
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
             updateFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), language );
         }
-        updateFlavorJAR( phetProject,phetProject.getName(),language );//also update the webstart JAR
+        updateFlavorJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
 
         //create a JNLP file for each flavor
         PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
@@ -64,7 +64,7 @@ public class AddTranslationTask {
                 deployFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), user, password );
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
             }
-            deployFlavorJAR( phetProject,phetProject.getName(), user, password );//also deploy the updated webstart JAR
+            deployFlavorJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
         }
 
         //poke the website to make sure it regenerates pages with the new info
@@ -166,6 +166,10 @@ public class AddTranslationTask {
         return new File( getTempProjectDir( phetProject ), flavorname + suffix );
     }
 
+    private static String prompt( String title ) {
+        return JOptionPane.showInputDialog( title );
+    }
+
     public static void main( String[] args ) throws Exception {
         File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
         if ( args.length == 4 ) {
@@ -177,7 +181,4 @@ public class AddTranslationTask {
         System.exit( 0 );//daemon thread running?
     }
 
-    private static String prompt( String title ) {
-        return JOptionPane.showInputDialog( title );
-    }
 }
