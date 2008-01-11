@@ -20,8 +20,9 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
+import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
-import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 
@@ -214,21 +215,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     //----------------------------------------------------------------------------
     
     /*
-     * When the zoomed viewport changes...
-     */
-    private void handleZoomedViewportChanged() {
-        
-        // translate the zoomed view's camera
-        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        _mvt.modelToView(  rModel, _rView );
-        double scale = _zoomedCanvas.getCamera().getViewScale();
-        _zoomedCanvas.getCamera().setViewOffset( -_rView.getX() * scale, -_rView.getY() * scale );
-        
-        // move the toolbox
-        updateToolboxPosition();
-    }
-    
-    /*
      * When the play area is resized...
      */
     private void handlePlayAreaResized() {
@@ -284,6 +270,18 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double dx = zb.getMaxX() - bb.getMaxX();
             _zoomedViewport.translate( -dx, 0 );
         }
+    }
+    
+    /*
+     * When the zoomed viewport changes...
+     */
+    private void handleZoomedViewportChanged() {
+        
+        // translate the zoomed view's camera
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        _mvt.modelToView(  rModel, _rView );
+        double scale = _zoomedCanvas.getCamera().getViewScale();
+        _zoomedCanvas.getCamera().setViewOffset( -_rView.getX() * scale, -_rView.getY() * scale );
         
         // move the toolbox
         updateToolboxPosition();
