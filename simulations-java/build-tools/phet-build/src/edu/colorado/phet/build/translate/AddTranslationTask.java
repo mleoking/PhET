@@ -65,7 +65,7 @@ public class AddTranslationTask {
         }
 
         //poke the website to make sure it regenerates pages with the new info
-        FileDownload.download( "http://phet.colorado.edu/new/admin/test.php", getTempProjectDir( phetProject ) );
+        FileDownload.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
     }
 
     /**
