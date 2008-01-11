@@ -107,29 +107,10 @@ public class PhetBuildJnlpTask extends AbstractPhetBuildTask {
         for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
             PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
             phetBuildJnlpTask.setFlavor( project.getFlavorNames()[i] );
-            phetBuildJnlpTask.setDeployUrl( "http://phet-web.colorado.edu/simulations/" + project.getName() );
+            phetBuildJnlpTask.setDeployUrl( "http://phet.colorado.edu/simulations/" + project.getName() );
             phetBuildJnlpTask.setLocale( language );
             phetBuildJnlpTask.executeImpl( project );
         }
     }
 
-    public static void main( String[] args ) throws Exception {
-        System.out.println( new File( "." ).getAbsolutePath() );
-
-        PhetProject phetProject = new PhetProject( new File( "C:\\phet\\subversion\\trunk\\simulations-java\\simulations\\ideal-gas" ) );
-
-
-        String[] idealGasFlavors = phetProject.getFlavorNames();
-        for ( int i = 0; i < idealGasFlavors.length; i++ ) {
-            PhetBuildJnlpTask phetBuildJnlpTask = new PhetBuildJnlpTask();
-//        phetBuildJnlpTask.setFlavor( "cck-ac" );
-//        phetBuildJnlpTask.setLocale( "fr" );
-            phetBuildJnlpTask.setFlavor( idealGasFlavors[i] );
-            phetBuildJnlpTask.setDeployUrl( "http://phet-web.colorado.edu/simulations/gasses-buoyancy" );
-            phetBuildJnlpTask.executeImpl( phetProject );
-
-            phetBuildJnlpTask.setLocale( "es" );
-            phetBuildJnlpTask.executeImpl( phetProject );
-        }
-    }
 }
