@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Frame;
+import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
@@ -10,7 +11,10 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
-import edu.colorado.phet.glaciers.model.*;
+import edu.colorado.phet.glaciers.model.Climate;
+import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.persistence.BasicConfig;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.PlayArea;
@@ -22,6 +26,14 @@ import edu.colorado.phet.glaciers.view.PlayArea;
  */
 public class BasicModule extends PiccoloModule {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double VIEW_X_SCALE = 1.0;
+    private static final double VIEW_Y_SCALE = 1.0;
+    private static final Point2D VIEW_ORIGIN = new Point2D.Double( 0, 0 );
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -44,7 +56,7 @@ public class BasicModule extends PiccoloModule {
         _model = new BasicModel( clock, valley, glacier, climate );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform( 1, 1, 500, 0 );
+        ModelViewTransform mvt = new ModelViewTransform( VIEW_X_SCALE, VIEW_Y_SCALE, VIEW_ORIGIN );
         JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 

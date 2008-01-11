@@ -27,39 +27,47 @@ public class ModelViewTransform {
     //----------------------------------------------------------------------------
     
     /**
-     * Constructor with unity scale and no offset.
+     * Constructor with model and view having the same scale and origin.
      */
     public ModelViewTransform() {
-        this( 1, 1, 0, 0 );
+        this( 1, 1, new Point2D.Double( 0, 0 ) );
+    }
+    
+    /**
+     * Constructor with model and view having different scales, but same origin.
+     * 
+     * @param viewXScale x scale for mapping from model to view
+     * @param viewYScale y scale for mapping from model to view
+     */
+    public ModelViewTransform( double viewXScale, double viewYScale ) {
+        this( viewXScale, viewYScale, new Point2D.Double( 0, 0 ) );
+    }
+    
+    /**
+     * Constructor with model and view having same scales, but different origin.
+     * 
+     * @param viewOrigin point in the view that corresponds to the model's origin
+     */
+    public ModelViewTransform( Point2D viewOrigin ) {
+        this( 1, 1, viewOrigin );
     }
     
     /**
      * Constructor.
      * 
-     * @param xScale x scale for mapping from model to view
-     * @param yScale y scale for mapping from model to view
+     * @param viewXScale x scale for mapping from model to view
+     * @param viewYScale y scale for mapping from model to view
+     * @param viewOrigin point in the view that corresponds to the model's origin
      */
-    public ModelViewTransform( double xScale, double yScale ) {
-        this( xScale, yScale, 0, 0 );
-    }
-    
-    /**
-     * Constructor.
-     * 
-     * @param xScale x scale for mapping from model to view
-     * @param yScale y scale for mapping from model to view
-     * @param xOffset x offset for mapping from model to view
-     * @param yOffset y offset for mapping from model to view
-     */
-    public ModelViewTransform( double xScale, double yScale, double xOffset, double yOffset ) {
+    public ModelViewTransform( double viewXScale, double viewYScale, Point2D viewOrigin ) {
         
         _modelToViewTransform = new AffineTransform();
-        _modelToViewTransform.scale( xScale, yScale );
-        _modelToViewTransform.translate( xOffset, yOffset );
+        _modelToViewTransform.scale( viewXScale, viewYScale );
+        _modelToViewTransform.translate( viewOrigin.getX(), viewOrigin.getY() );
         
         _viewToModelTransform = new AffineTransform();
-        _viewToModelTransform.translate( -xOffset, -yOffset );
-        _viewToModelTransform.scale( 1d/xScale, 1d/yScale );
+        _viewToModelTransform.translate( -viewOrigin.getX(), -viewOrigin.getY() );
+        _viewToModelTransform.scale( 1d/viewXScale, 1d/viewYScale );
         
         _pModel = new Point2D.Double();
         _pView = new Point2D.Double();
