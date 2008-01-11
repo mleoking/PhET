@@ -30,7 +30,7 @@ public class AddTranslationTask {
 
         //Update all flavor JAR files
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            updateFlavorJAR();
+//            updateFlavorJAR();
         }
     }
 
