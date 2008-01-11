@@ -55,7 +55,7 @@ public class AddTranslationTask {
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-                deployFlavorJAR( phetProject, phetProject.getFlavors()[i], user );
+                deployFlavorJAR( phetProject, phetProject.getFlavors()[i], user, password );
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i] );
             }
         }
@@ -99,11 +99,11 @@ public class AddTranslationTask {
      * @param phetProject
      * @param phetProjectFlavor
      */
-    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String user ) {
+    private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String user, String password ) {
 //        final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + phetProjectFlavor.getFlavorName() + ".jar";
-        final String filename = "/home/tigercat/phet/reids/testfile.jar";
+        final String filename = "/home/tigercat/phet/reids/testfile" + System.currentTimeMillis() + ".jar";
         try {
-            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, phetProjectFlavor ), user, "tigercat.colorado.edu", filename );
+            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, phetProjectFlavor ), user, "tigercat.colorado.edu", filename, password );
         }
         catch( JSchException e ) {
             e.printStackTrace();
