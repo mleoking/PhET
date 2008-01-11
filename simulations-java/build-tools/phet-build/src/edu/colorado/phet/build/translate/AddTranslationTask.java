@@ -46,6 +46,8 @@ public class AddTranslationTask {
             updateFlavorJAR( phetProject, phetProject.getFlavors()[i], language );
         }
 
+        //TODO: create and deploy JNLP files for each flavor
+
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
@@ -66,6 +68,10 @@ public class AddTranslationTask {
         //create a backup copy of the JAR
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, phetProjectFlavor ), getFlavorJARTempBackupFile( phetProject, phetProjectFlavor ) );
 
+        //TODO: check that no files will be overwritten?
+
+        //TODO: update with common localization files as well (for dependencies only)
+
         //Run the JAR update command
         String sim = phetProject.getName();
         String pathSep = File.separator;
@@ -74,7 +80,7 @@ public class AddTranslationTask {
         System.out.println( "Running: " + command );
         Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
 
-
+        //TODO: Verify that new JAR contains the single desired file
     }
 
     private File getProjectDataDir( PhetProject phetProject ) {
