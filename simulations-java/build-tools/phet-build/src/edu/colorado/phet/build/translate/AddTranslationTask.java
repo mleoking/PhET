@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.*;
+
 import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetBuildJnlpTask;
 import edu.colorado.phet.build.PhetProject;
@@ -17,8 +19,10 @@ import com.jcraft.jsch.JSchException;
  */
 public class AddTranslationTask {
     private File basedir;
-    public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
     private boolean deployEnabled = true;
+
+    public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
+
 
     public AddTranslationTask( File basedir ) {
         this.basedir = basedir;
@@ -56,7 +60,7 @@ public class AddTranslationTask {
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
                 deployFlavorJAR( phetProject, phetProject.getFlavors()[i], user, password );
-                deployJNLPFile( phetProject, phetProject.getFlavors()[i] );
+                deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
             }
         }
     }
@@ -100,8 +104,7 @@ public class AddTranslationTask {
      * @param phetProjectFlavor
      */
     private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String user, String password ) {
-//        final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + phetProjectFlavor.getFlavorName() + ".jar";
-        final String filename = "/home/tigercat/phet/reids/testfile" + System.currentTimeMillis() + ".jar";
+        final String filename = getRemoteDirectory( phetProject ) + phetProjectFlavor.getFlavorName() + ".jar";
         try {
             ScpTo.uploadFile( getFlavorJARTempFile( phetProject, phetProjectFlavor ), user, "tigercat.colorado.edu", filename, password );
         }
@@ -113,7 +116,26 @@ public class AddTranslationTask {
         }
     }
 
-    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale, String user, String password ) {
+        String filename = getRemoteDirectory( phetProject ) + phetProjectFlavor.getFlavorName() + "_" + locale + ".jnlp";
+        try {
+            ScpTo.uploadFile( getJNLPFile( phetProject, phetProjectFlavor, locale ), user, "tigercat.colorado.edu", filename, password );
+        }
+        catch( JSchException e ) {
+            e.printStackTrace();
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    private File getJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor, String locale ) {
+        return new File( phetProject.getDefaultDeployDir(), phetProjectFlavor.getFlavorName() + "_" + locale + ".jnlp" );
+    }
+
+    private String getRemoteDirectory( PhetProject phetProject ) {
+        return "/home/tigercat/phet/reids/";
+//        return "/web/htdocs/phet/sims/" + phetProject.getName() + "/";
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
@@ -142,6 +164,15 @@ public class AddTranslationTask {
 
     public static void main( String[] args ) throws Exception {
         File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
-        new AddTranslationTask( basedir ).addTranslation( "cck", "nl", "reids", "" );
+        if ( args.length == 4 ) {
+            new AddTranslationTask( basedir ).addTranslation( args[0], args[1], args[2], args[3] );
+        }
+        else {
+            new AddTranslationTask( basedir ).addTranslation( prompt("Sim"), prompt("Language"), prompt("username"), prompt("password") );
+        }
+    }
+
+    private static String prompt( String title ) {
+        return JOptionPane.showInputDialog( title );
     }
 }
