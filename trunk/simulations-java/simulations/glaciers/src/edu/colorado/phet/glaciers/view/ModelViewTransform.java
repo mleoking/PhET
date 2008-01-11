@@ -17,6 +17,10 @@ public class ModelViewTransform {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private final double _viewXScale;
+    private final double _viewYScale;
+    private final Point2D.Double _viewOrigin;
+    
     private final AffineTransform _modelToViewTransform;
     private final AffineTransform _viewToModelTransform;
     
@@ -60,6 +64,10 @@ public class ModelViewTransform {
      * @param viewOrigin point in the view that corresponds to the model's origin
      */
     public ModelViewTransform( double viewXScale, double viewYScale, Point2D viewOrigin ) {
+        
+        _viewXScale = viewXScale;
+        _viewYScale = viewYScale;
+        _viewOrigin = new Point2D.Double( viewOrigin.getX(), viewOrigin.getY() );
         
         _modelToViewTransform = new AffineTransform();
         _modelToViewTransform.scale( viewXScale, viewYScale );
@@ -175,7 +183,7 @@ public class ModelViewTransform {
      * @return distance in model coordinates
      */
     public double viewToModel( double distanceView ) {
-        _pView.setLocation( distanceView, 0 );
+        _pView.setLocation( _viewOrigin.getX() + distanceView, 0 );
         viewToModel( _pView, _pModel );
         return _pModel.getX();
     }
