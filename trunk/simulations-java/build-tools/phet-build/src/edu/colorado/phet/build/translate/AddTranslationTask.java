@@ -134,8 +134,8 @@ public class AddTranslationTask {
     }
 
     private String getRemoteDirectory( PhetProject phetProject ) {
-        return "/home/tigercat/phet/reids/";
-//        return "/web/htdocs/phet/sims/" + phetProject.getName() + "/";
+//        return "/home/tigercat/phet/reids/";
+        return "/web/htdocs/phet/sims/" + phetProject.getName() + "/";
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
