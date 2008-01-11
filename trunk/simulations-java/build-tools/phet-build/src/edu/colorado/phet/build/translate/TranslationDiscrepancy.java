@@ -80,7 +80,7 @@ public class TranslationDiscrepancy {
         final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar";
         try {
             System.out.println( "Uploading: " + filename );
-            ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename );
+            ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename, null );
         }
         catch( Exception e ) {
             System.out.println( "Error in upload: " + e );
