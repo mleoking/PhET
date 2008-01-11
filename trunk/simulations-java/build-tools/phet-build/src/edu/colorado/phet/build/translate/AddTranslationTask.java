@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import edu.colorado.phet.build.FileUtils;
+import edu.colorado.phet.build.PhetBuildJnlpTask;
 import edu.colorado.phet.build.PhetProject;
 import edu.colorado.phet.build.PhetProjectFlavor;
 
@@ -30,7 +31,7 @@ public class AddTranslationTask {
      * @param language
      * @throws IOException
      */
-    private void addTranslation( String simulation, String language ) throws IOException {
+    private void addTranslation( String simulation, String language ) throws Exception {
         PhetProject phetProject = new PhetProject( basedir, simulation );
 
         //Clear the temp directory for this simulation
@@ -46,12 +47,14 @@ public class AddTranslationTask {
             updateFlavorJAR( phetProject, phetProject.getFlavors()[i], language );
         }
 
-        //TODO: create and deploy a JNLP file for each flavor
+        //create a JNLP file for each flavor
+        PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
 
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
                 deployFlavorJAR( phetProject, phetProject.getFlavors()[i] );
+                deployJNLPFile( phetProject, phetProject.getFlavors()[i] );
             }
         }
     }
@@ -80,7 +83,7 @@ public class AddTranslationTask {
         System.out.println( "Running: " + command );
         Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
 
-        //TODO: Verify that new JAR contains the single desired file
+        //TODO: Verify that new JAR is the same as the old JAR with the addition of the new file
     }
 
     private File getProjectDataDir( PhetProject phetProject ) {
@@ -94,6 +97,9 @@ public class AddTranslationTask {
      * @param phetProjectFlavor
      */
     private void deployFlavorJAR( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
+    }
+
+    private void deployJNLPFile( PhetProject phetProject, PhetProjectFlavor phetProjectFlavor ) {
     }
 
     private File getTempProjectDir( PhetProject phetProject ) {
@@ -120,7 +126,7 @@ public class AddTranslationTask {
         return new File( getTempProjectDir( phetProject ), phetProjectFlavor.getFlavorName() + suffix );
     }
 
-    public static void main( String[] args ) throws IOException {
+    public static void main( String[] args ) throws Exception {
         File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
         new AddTranslationTask( basedir ).addTranslation( "cck", "nl" );
     }
