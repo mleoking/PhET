@@ -30,12 +30,16 @@ public class Viewport {
     
     public void cleanup() {}
     
-    public void setBounds( Rectangle2D bounds ) {
-        if ( !bounds.equals( _bounds ) ) {
-            System.out.println( "Viewport.setBounds id=" + _id + " bounds=" + bounds );//XXX
-            _bounds.setRect( bounds );
+    public void setBounds( double x, double y, double w, double h ) {
+        if ( x != _bounds.getX() || y != _bounds.getY() || w != _bounds.getWidth() || h != _bounds.getHeight() ) {
+            System.out.println( "Viewport.setBounds id=" + _id + " x=" + x + " y=" + y + " w=" + w + " h=" + h );//XXX
+            _bounds.setRect( x, y, w, h );
             notifyBoundsChanged();
         }
+    }
+    
+    public void setBounds( Rectangle2D bounds ) {
+        setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
     }
     
     public Rectangle2D getBounds() {
@@ -46,8 +50,32 @@ public class Viewport {
         return _bounds;
     }
     
+    public double getX() {
+        return _bounds.getX();
+    }
+    
+    public double getY() {
+        return _bounds.getY();
+    }
+    
+    public double getWidth() {
+        return _bounds.getWidth();
+    }
+    
+    public double getHeight() {
+        return _bounds.getHeight();
+    }
+    
+    public void setSize( double w, double h ) {
+        if ( w != _bounds.getWidth() || h != _bounds.getHeight() ) {
+            System.out.println( "Viewport.setSize id=" + _id + " w=" + w + " h=" + h );//XXX
+            setBounds( _bounds.getX(), _bounds.getY(), w, h );
+        }
+    }
+    
     public void translate( double dx, double dy ) {
         if ( dx !=0 || dy != 0 ) {
+            System.out.println( "Viewport.translate id=" + _id + " dx=" + dx + " dy=" + dy );//XXX
             setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
         }
     }
