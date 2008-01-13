@@ -67,4 +67,9 @@ Developer Notes:
     <target name="build-all-sim-jar" depends="_init">
         <phet-build-all-sim-jar/>
     </target>
+
+    <!--Adds a new translation to all deployed JARs for a sim-->
+    <target name="add-translation" depends="_init,_verify-sim-name-specified">
+        <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
+    </target>
 </project>

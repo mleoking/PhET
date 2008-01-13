@@ -904,10 +904,6 @@ Developer Notes:
         <check-translations/>
     </target>
 
-    <target name="add-translation" depends="_init,_verify-sim-name-specified">
-        <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
-    </target>
-
     <property name="test.reports" value="deploy/reports"/>
     <property name="build" value="ant_output/projects/all-sims/jars/all-sims"/>
     <target name="test-html" depends="_init">
