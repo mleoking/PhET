@@ -51,7 +51,10 @@ public class AddTranslationCommand {
         //Clear the temp directory for this simulation
         FileUtils.delete( getTempProjectDir( phetProject ), true );
 
-        //TODO: check for existence of localization file for project, throw exception if doesn't exist
+        //check for existence of localization file for project, throw exception if doesn't exist
+        if ( !phetProject.getLocalizationFile( language ).exists() ) {
+            throw new RuntimeException( "localization file doesn't exist for sim: "+phetProject.getName()+", lang="+language);
+        }
 
         // Get flavors once, reuse in each iteration
         PhetProjectFlavor[] flavors = phetProject.getFlavors();
