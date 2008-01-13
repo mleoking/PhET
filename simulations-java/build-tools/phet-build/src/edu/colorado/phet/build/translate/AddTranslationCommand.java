@@ -89,19 +89,19 @@ public class AddTranslationCommand {
      *
      * @param phetProject
      */
-    private void updateJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
+    private void updateJAR( PhetProject phetProject, String jarBaseName, String language ) throws IOException {
 
         //todo: may later want to add a build-simulation-by-svn-number to handle revert
 
         //create a backup copy of the JAR
-        FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
+        FileUtils.copyTo( getJARTempFile( phetProject, jarBaseName ), getJARBackupFile( phetProject, jarBaseName ) );
 
         //add localization files for each subproject, including the simulation project itself
         for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
 
             //check existence of localization file for dependency before calling updateJARForDependency
             if ( phetProject.getAllDependencies()[i].getLocalizationFile( language ).exists() ) {
-                updateJAR( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
+                updateJAR( phetProject, jarBaseName, language, phetProject.getAllDependencies()[i] );
             }
             else {
                 System.out.println( "Simulation: " + phetProject.getName() + " depends on " + phetProject.getAllDependencies()[i].getName() + ", which does not contain a translation to: " + language );
@@ -115,15 +115,15 @@ public class AddTranslationCommand {
      * JAR just contains a single new file.
      *
      * @param sim
-     * @param flavor
+     * @param jarBaseName
      * @param language
      * @param dependency
      * @throws IOException
      */
-    private void updateJAR( PhetProject sim, String flavor, String language, PhetProject dependency ) throws IOException {
+    private void updateJAR( PhetProject sim, String jarBaseName, String language, PhetProject dependency ) throws IOException {
         //Run the JAR update command
 
-        String command = "jar uf " + flavor + ".jar" +
+        String command = "jar uf " + jarBaseName + ".jar" +
                          " -C " + getProjectDataDir( dependency ) + " " + getLocalizationFilePathInDataDirectory( dependency, language );
         System.out.println( "Running: " + command + ", in directory: " + getTempProjectDir( sim ) );
         Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( sim ) );
@@ -154,10 +154,10 @@ public class AddTranslationCommand {
      *
      * @param phetProject
      */
-    private void deployJAR( PhetProject phetProject, String jarname, String user, String password ) {
-        final String filename = getRemoteDirectory( phetProject ) + jarname + ".jar";
+    private void deployJAR( PhetProject phetProject, String jarBaseName, String user, String password ) {
+        final String filename = getRemoteDirectory( phetProject ) + jarBaseName + ".jar";
         try {
-            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, jarname ), user, "tigercat.colorado.edu", filename, password );
+            ScpTo.uploadFile( getJARTempFile( phetProject, jarBaseName ), user, "tigercat.colorado.edu", filename, password );
         }
         catch( JSchException e ) {
             e.printStackTrace();
@@ -195,22 +195,22 @@ public class AddTranslationCommand {
         return dir;
     }
 
-    private void downloadJAR( PhetProject phetProject, String jarname ) throws FileNotFoundException {
-        String url = phetProject.getDeployedFlavorJarURL( jarname );
-        FileDownload.download( url, getFlavorJARTempFile( phetProject, jarname ) );
-        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, jarname ) );
+    private void downloadJAR( PhetProject phetProject, String jarBaseName ) throws FileNotFoundException {
+        String url = phetProject.getDeployedFlavorJarURL( jarBaseName );
+        FileDownload.download( url, getJARTempFile( phetProject, jarBaseName ) );
+        System.out.println( "dest = " + getJARTempFile( phetProject, jarBaseName ) );
     }
 
-    private File getFlavorJARTempBackupFile( PhetProject phetProject, String jarname ) {
-        return getFlavorJARTempFile( phetProject, jarname, "_backup.jar" );
+    private File getJARBackupFile( PhetProject phetProject, String jarBaseName ) {
+        return getJARTempFile( phetProject, jarBaseName, "_backup.jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, String jarname ) {
-        return getFlavorJARTempFile( phetProject, jarname, ".jar" );
+    private File getJARTempFile( PhetProject phetProject, String jarBaseName ) {
+        return getJARTempFile( phetProject, jarBaseName, ".jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, String jarname, String suffix ) {
-        return new File( getTempProjectDir( phetProject ), jarname + suffix );
+    private File getJARTempFile( PhetProject phetProject, String jarBaseName, String suffix ) {
+        return new File( getTempProjectDir( phetProject ), jarBaseName + suffix );
     }
 
     public static String prompt( String title ) {
