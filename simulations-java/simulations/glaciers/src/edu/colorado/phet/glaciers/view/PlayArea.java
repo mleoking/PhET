@@ -55,7 +55,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private PNode _penguinNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
-    private boolean _layoutDirty;
     
     private Rectangle2D _rModel, _rView; // reusable rectangles
     
@@ -210,9 +209,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // make sure the penguin is aligned with bottom of birds-eye viewport, and shorter than the birds-eye viewport
         {
-            double yOffset = _birdsEyeViewport.getBoundsReference().getMaxY() - _penguinNode.getFullBoundsReference().getHeight();
+            double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _penguinNode.getFullBoundsReference().getHeight();
             _penguinNode.setOffset( _penguinNode.getXOffset(), yOffset );
-            double yScale = ( 0.8 * _birdsEyeViewport.getBoundsReference().getHeight() ) / _penguinNode.getFullBoundsReference().getHeight();
+            double yScale = 0.8 * _mvt.modelToView( _birdsEyeViewport.getBoundsReference().getHeight() ) / _penguinNode.getFullBoundsReference().getHeight();
             _penguinNode.scale( yScale );
         }
     }

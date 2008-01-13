@@ -21,7 +21,6 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- code block in PlayArea.handlePlayAreaResize that handles penguin y-alignment & scale needs to use MVT
 - MVT y-coordinate translation has problems
 - haven't tested positive scaling of MVT
 - haven't tested negative scaling (reflection) of MVT
@@ -61,6 +60,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/08 - use MVT to set penguin y-alignment & scale
+1/13/08 - bugfix in MVT method for transforming distance
 1/13/08 - bugfix in MVT methods that transform rectangles, previous version didn't handle translation and negative scaling
 1/13/08 - refactor PlayArea's resize responsibility to PlayAreaResizeListener
 1/11/08 - fix misc stuff in PlayArea viewport management to handle MVT x-coordinate translation 

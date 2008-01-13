@@ -119,7 +119,7 @@ public class ModelViewTransform {
         if ( distanceModel < 0 ) {
             throw new IllegalArgumentException( "distance must be positive: " + distanceModel );
         }
-        _pModel.setLocation( distanceModel, 0 );
+        _pModel.setLocation( distanceModel - _viewOrigin.getX(), 0 );
         modelToView( _pModel, _pView );
         return Math.abs( _pView.getX() );
     }
