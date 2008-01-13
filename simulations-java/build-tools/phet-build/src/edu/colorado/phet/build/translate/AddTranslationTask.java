@@ -47,15 +47,15 @@ public class AddTranslationTask {
 
         //Download all flavor JAR files for this project
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            downloadFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName() );
+            downloadJAR( phetProject, phetProject.getFlavors()[i].getFlavorName() );
         }
-        downloadFlavorJAR( phetProject, phetProject.getName() );//also download the webstart JAR
+        downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
 
         //Update all flavor JAR files
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            updateFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), language );
+            updateJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), language );
         }
-        updateFlavorJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
+        updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
 
         //create a JNLP file for each flavor
         PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
@@ -63,10 +63,10 @@ public class AddTranslationTask {
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
             for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-                deployFlavorJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), user, password );
+                deployJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), user, password );
                 deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
             }
-            deployFlavorJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
+            deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
         }
 
         //poke the website to make sure it regenerates pages with the new info
@@ -80,7 +80,7 @@ public class AddTranslationTask {
      *
      * @param phetProject
      */
-    private void updateFlavorJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
+    private void updateJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
         //create a backup copy of the JAR
         //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
@@ -116,7 +116,7 @@ public class AddTranslationTask {
      *
      * @param phetProject
      */
-    private void deployFlavorJAR( PhetProject phetProject, String flavor, String user, String password ) {
+    private void deployJAR( PhetProject phetProject, String flavor, String user, String password ) {
         final String filename = getRemoteDirectory( phetProject ) + flavor + ".jar";
         try {
             ScpTo.uploadFile( getFlavorJARTempFile( phetProject, flavor ), user, "tigercat.colorado.edu", filename, password );
@@ -157,7 +157,7 @@ public class AddTranslationTask {
         return dir;
     }
 
-    private void downloadFlavorJAR( PhetProject phetProject, String flavor ) throws FileNotFoundException {
+    private void downloadJAR( PhetProject phetProject, String flavor ) throws FileNotFoundException {
         String url = phetProject.getDeployedFlavorJarURL( flavor );
         FileDownload.download( url, getFlavorJARTempFile( phetProject, flavor ) );
         System.out.println( "dest = " + getFlavorJARTempFile( phetProject, flavor ) );
