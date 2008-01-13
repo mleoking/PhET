@@ -84,6 +84,8 @@ public class AddTranslationTask {
         //create a backup copy of the JAR
         //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
+
+        //add localization files for each subproject, including the simulation project itself
         for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
             updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
         }
