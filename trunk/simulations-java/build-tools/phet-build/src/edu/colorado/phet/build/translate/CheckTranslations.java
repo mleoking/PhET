@@ -50,7 +50,7 @@ public class CheckTranslations {
         String webLocation = phetProject.getDeployedFlavorJarURL( flavor );
         final File fileName = new File( LOCAL_ROOT_DIR, flavor + ".jar" );
         try {
-            FileDownload.download( webLocation, fileName );
+            FileUtils.download( webLocation, fileName );
             return checkTranslations( phetProject, fileName, flavor );
         }
         catch( FileNotFoundException fnfe ) {

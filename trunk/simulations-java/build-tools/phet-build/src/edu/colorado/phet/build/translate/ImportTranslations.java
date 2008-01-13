@@ -8,8 +8,9 @@ import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
 /**
- * Created by: Sam
- * Dec 17, 2007 at 10:06:25 PM
+ * Still under development.
+ * <p/>
+ * Utility to take many translations from a single directory and move them into the repository.
  */
 public class ImportTranslations {
     private File basedir;
@@ -26,7 +27,7 @@ public class ImportTranslations {
     }
 
     public static void main( String[] args ) throws IOException {
-        new ImportTranslations( new File( args[0] )).importTranslations( new File( args[1] ) );
+        new ImportTranslations( new File( args[0] ) ).importTranslations( new File( args[1] ) );
     }
 
     private void importTranslations( File dir ) throws IOException {

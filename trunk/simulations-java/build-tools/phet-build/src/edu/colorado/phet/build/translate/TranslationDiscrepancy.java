@@ -10,8 +10,11 @@ import java.util.regex.Pattern;
 import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetProject;
 
-import com.jcraft.jsch.JSchException;
-
+/**
+ * Under development and untested.
+ *
+ * Utility to determine the discrepancy between a set of deployed localizations (files and keys) and local (repository) localizations.
+ */
 public class TranslationDiscrepancy {
     private final Set extraLocal;
     private final Set extraRemote;
@@ -58,36 +61,11 @@ public class TranslationDiscrepancy {
     public void resolve( File resolveJAR, String username, boolean addNewOnly ) throws IOException {
         if ( !extraLocal.isEmpty() || !extraRemote.isEmpty() ) {
             File jarFile = downloadJAR();
-//            System.out.println( "Downloaded Jar file: " + jarFile.getAbsolutePath() );
             boolean changed = synchronizeStrings( jarFile, resolveJAR, addNewOnly );
-
-            try {
-                if ( changed ) {
-                    uploadJAR( resolveJAR, username );
-                }
-            }
-            catch( JSchException e ) {
-                e.printStackTrace();
-            }
         }
         else {
             System.out.println( "no resolution needed for: " + phetProject.getName() + ": " + flavor );
         }
-    }
-
-    private void uploadJAR( File resolveJAR, String username ) throws JSchException, IOException {
-//        System.out.println( "should have uploaded resolvejar=" + resolveJAR.getAbsolutePath() );
-        final String filename = "/web/htdocs/phet/sims/" + phetProject.getName() + "/" + flavor + ".jar";
-        try {
-            System.out.println( "Uploading: " + filename );
-            ScpTo.uploadFile( resolveJAR, username, "tigercat.colorado.edu", filename, null );
-        }
-        catch( Exception e ) {
-            System.out.println( "Error in upload: " + e );
-            e.printStackTrace();
-            System.out.println( "continuing..." );
-        }
-
     }
 
     private boolean synchronizeStrings( File jarFile, File resolveJAR, final boolean addNewOnly ) throws IOException {
@@ -111,12 +89,6 @@ public class TranslationDiscrepancy {
         for ( int i = 0; i < locales.length; i++ ) {
             File source = phetProject.getTranslationFile( locales[i] );
             validateKeySet( locales[i], jarFile, source );
-            File target = new File( localizationDir, source.getName() );
-            if ( ( addNewOnly && !target.exists() ) || !addNewOnly ) {
-                FileUtils.copyAndClose( new FileInputStream( source ), new FileOutputStream( target ), false );
-                System.out.println( "Added new file: " + target.getAbsolutePath() );
-                changed = true;
-            }
         }
 
         FileUtils.jar( tempUnzipDir, resolveJAR );
@@ -149,15 +121,10 @@ public class TranslationDiscrepancy {
         Properties newProperties = new Properties();
         newProperties.load( new FileInputStream( newPropertiesFile ) );
 
-//        final boolean b = newProperties.keySet().containsAll( oldProperties.keySet() );
-//        if (!b){
         HashSet set = new HashSet( oldProperties.keySet() );
         set.removeAll( newProperties.keySet() );
 
         return set;
-//            System.out.println( "missing = " + set );
-//        }
-//        return b;
     }
 
     private File downloadJAR() throws IOException {
@@ -166,7 +133,7 @@ public class TranslationDiscrepancy {
 //        File jarFile = File.createTempFile( flavor, ".jar" );
         File jarFile = new File( CheckTranslations.TRANSLATIONS_TEMP_DIR, flavor + ".jar" );
 
-        FileDownload.download( deployUrl, jarFile );
+        FileUtils.download( deployUrl, jarFile );
         return jarFile;
     }
 

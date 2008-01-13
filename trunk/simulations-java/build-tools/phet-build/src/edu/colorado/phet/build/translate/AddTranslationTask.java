@@ -20,7 +20,7 @@ public class AddTranslationTask extends AbstractPhetTask {
     public void execute() throws BuildException {
         super.execute();
         try {
-            new AddTranslationCommand( getBaseDir(), deployEnabled ).addTranslation( promptIfNecessary( "simulation", simulation ),
+            new AddTranslation( getBaseDir(), deployEnabled ).addTranslation( promptIfNecessary( "simulation", simulation ),
                                                                                      promptIfNecessary( "language", language ),
                                                                                      promptIfNecessary( "username", username ),
                                                                                      promptIfNecessary( "password", password ) );
