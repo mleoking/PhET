@@ -85,8 +85,6 @@ public class AddTranslationTask {
         //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
 
-        //TODO: update with common localization files as well (for dependencies only)
-
         //Run the JAR update command
         String sim = phetProject.getName();
         String pathSep = File.separator;
