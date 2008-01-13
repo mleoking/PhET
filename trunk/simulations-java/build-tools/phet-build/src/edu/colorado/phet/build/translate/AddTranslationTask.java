@@ -84,8 +84,10 @@ public class AddTranslationTask {
      * @param phetProject
      */
     private void updateJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
+
+        //todo: may later want to add a build-simulation-by-svn-number to handle revert
+
         //create a backup copy of the JAR
-        //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
 
         //add localization files for each subproject, including the simulation project itself
@@ -200,7 +202,7 @@ public class AddTranslationTask {
 
     public static void main( String[] args ) throws Exception {
         File basedir = new File( args[0] );
-        if ( args.length == 4 ) {
+        if ( args.length == 5 ) {
             new AddTranslationTask( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
         }
         else {
