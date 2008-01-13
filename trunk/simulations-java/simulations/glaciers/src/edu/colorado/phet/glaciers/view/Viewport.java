@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.glaciers.view;
 
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -66,18 +67,20 @@ public class Viewport {
         return _bounds.getHeight();
     }
     
-    public void setSize( double w, double h ) {
-        if ( w != _bounds.getWidth() || h != _bounds.getHeight() ) {
-            System.out.println( "Viewport.setSize id=" + _id + " w=" + w + " h=" + h );//XXX
-            setBounds( _bounds.getX(), _bounds.getY(), w, h );
-        }
+    public void setPosition( Point2D position ) {
+        setPosition( position.getX(), position.getY() );
+    }
+    
+    public void setPosition( double x, double y ) {
+        setBounds( x, y, _bounds.getWidth(), _bounds.getHeight() );
     }
     
     public void translate( double dx, double dy ) {
-        if ( dx !=0 || dy != 0 ) {
-            System.out.println( "Viewport.translate id=" + _id + " dx=" + dx + " dy=" + dy );//XXX
-            setBounds( new Rectangle2D.Double( _bounds.getX() + dx, _bounds.getY() + dy, _bounds.getWidth(), _bounds.getHeight() ) );
-        }
+        setPosition( _bounds.getX() + dx, _bounds.getY() + dy );
+    }
+    
+    public void setSize( double w, double h ) {
+        setBounds( _bounds.getX(), _bounds.getY(), w, h );
     }
     
     /* Implement this interface to be notified of changes to a viewport. */
