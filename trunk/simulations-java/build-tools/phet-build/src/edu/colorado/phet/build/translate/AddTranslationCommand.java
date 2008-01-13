@@ -85,9 +85,7 @@ public class AddTranslationCommand {
     }
 
     /**
-     * Creates a backup of the file, then integrates the specified sim translation file and all common translation files, if they exist.
-     * This also tests for errors: it does not overwrite existing files, and it verifies afterwards that the
-     * JAR just contains a single new file.
+     * Creates a backup of the file, then iterates over all subprojects (including the sim itself) to update the jar
      *
      * @param phetProject
      */
@@ -103,7 +101,7 @@ public class AddTranslationCommand {
 
             //check existence of localization file for dependency before calling updateJARForDependency
             if ( phetProject.getAllDependencies()[i].getLocalizationFile( language ).exists() ) {
-                updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
+                updateJAR( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
             }
             else {
                 System.out.println( "Simulation: " + phetProject.getName() + " depends on " + phetProject.getAllDependencies()[i].getName() + ", which does not contain a translation to: " + language );
@@ -111,12 +109,23 @@ public class AddTranslationCommand {
         }
     }
 
-    private void updateJARForDependency( PhetProject sim, String flavor, String language, PhetProject dependency ) throws IOException {
+    /**
+     * integrates the specified sim translation file and all common translation files, if they exist.
+     * This also tests for errors: it does not overwrite existing files, and it verifies afterwards that the
+     * JAR just contains a single new file.
+     *
+     * @param sim
+     * @param flavor
+     * @param language
+     * @param dependency
+     * @throws IOException
+     */
+    private void updateJAR( PhetProject sim, String flavor, String language, PhetProject dependency ) throws IOException {
         //Run the JAR update command
 
         String command = "jar uf " + flavor + ".jar" +
                          " -C " + getProjectDataDir( dependency ) + " " + getLocalizationFilePathInDataDirectory( dependency, language );
-        System.out.println( "Running: " + command );
+        System.out.println( "Running: " + command + ", in directory: " + getTempProjectDir( sim ) );
         Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( sim ) );
         try {
             int val = p.waitFor();
@@ -137,7 +146,7 @@ public class AddTranslationCommand {
     }
 
     private File getProjectDataDir( PhetProject phetProject ) {
-        return new File( phetProject.getProjectDir(), "data" );
+        return new File( phetProject.getProjectDir(), "data" ).getAbsoluteFile();
     }
 
     /**
