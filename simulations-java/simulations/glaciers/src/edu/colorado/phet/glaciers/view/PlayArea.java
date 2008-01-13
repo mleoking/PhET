@@ -76,6 +76,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // viewports
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when top canvas is resized
         _zoomedViewport = new Viewport( "zoomed" ); // bounds will be set when bottom canvas is resized
+        _zoomedViewport.setPosition( _mvt.viewToModel( 0, 0 ) ); //XXX initial position at upper left of birds-eye view
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleZoomedViewportChanged();
@@ -198,12 +199,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             _birdsEyeViewport.setBounds( _rModel );
         }
         
-        // set the bounds of the zoomed viewport, based on the zoomed canvas size
+        // set the size of the zoomed viewport, based on the zoomed canvas size
         {
             double scale = _zoomedCanvas.getCamera().getViewScale();
             _rView.setRect( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
             _mvt.viewToModel( _rView, _rModel );
-            _zoomedViewport.setBounds( _rModel );
+            _zoomedViewport.setSize( _rModel.getWidth(), _rModel.getHeight() );
             constrainZoomedViewport();
         }
         
