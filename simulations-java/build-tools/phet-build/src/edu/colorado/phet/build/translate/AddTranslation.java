@@ -17,17 +17,17 @@ import com.jcraft.jsch.JSchException;
  * Created by: Sam
  * Jan 11, 2008 at 11:36:47 AM
  */
-public class AddTranslationCommand {
+public class AddTranslation {
     private File basedir;
     private boolean deployEnabled = true;
 
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
 
-    public AddTranslationCommand( File basedir ) {
+    public AddTranslation( File basedir ) {
         this( basedir, true );
     }
 
-    public AddTranslationCommand( File basedir, boolean deployEnabled ) {
+    public AddTranslation( File basedir, boolean deployEnabled ) {
         this.basedir = basedir;
         this.deployEnabled = deployEnabled;
     }
@@ -84,7 +84,7 @@ public class AddTranslationCommand {
         }
 
         //poke the website to make sure it regenerates pages with the new info
-        FileDownload.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
+        FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
     }
 
     /**
@@ -200,7 +200,7 @@ public class AddTranslationCommand {
 
     private void downloadJAR( PhetProject phetProject, String jarBaseName ) throws FileNotFoundException {
         String url = phetProject.getDeployedFlavorJarURL( jarBaseName );
-        FileDownload.download( url, getJARTempFile( phetProject, jarBaseName ) );
+        FileUtils.download( url, getJARTempFile( phetProject, jarBaseName ) );
         System.out.println( "dest = " + getJARTempFile( phetProject, jarBaseName ) );
     }
 
@@ -223,10 +223,10 @@ public class AddTranslationCommand {
     public static void main( String[] args ) throws Exception {
         File basedir = new File( args[0] );
         if ( args.length == 5 ) {
-            new AddTranslationCommand( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
+            new AddTranslation( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
         }
         else {
-            new AddTranslationCommand( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
+            new AddTranslation( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
         }
         System.exit( 0 );//daemon thread running?
     }
