@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -16,7 +15,6 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
@@ -104,40 +102,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         add( _zoomedCanvas, BorderLayout.CENTER );
         
         // update layout when the play area is resized
-        {
-            _layoutDirty = true;
-            
-            addComponentListener( new ComponentAdapter() {
-
-                // if the play area is resized while visible, handle the resize.
-                // otherwise, mark the layout as dirty.
-                public void componentResized( ComponentEvent e ) {
-                    if ( e.getComponent().isShowing() ) {
-                        handlePlayAreaResized();
-                        _layoutDirty = false;
-                    }
-                    else {
-                        _layoutDirty = true;
-                    }
-                }
-            } );
-            
-            addAncestorListener( new AncestorListener() {
-
-                // called when the source or one of its ancestors is make visible either
-                // by setVisible(true) being called or by its being added to the component hierarchy
-                public void ancestorAdded( AncestorEvent e ) {
-                    if ( _layoutDirty && e.getComponent().isShowing() ) {
-                        handlePlayAreaResized();
-                        _layoutDirty = false;
-                    }
-                }
-
-                public void ancestorMoved( AncestorEvent event ) {}
-
-                public void ancestorRemoved( AncestorEvent event ) {}
-            } );
-        }
+        PlayAreaResizeListener resizeListener = new PlayAreaResizeListener( this );
+        this.addComponentListener( resizeListener );
+        this.addAncestorListener( resizeListener );
         
         // Layers, back to front
         _valleyLayer = new PLayer();
@@ -213,18 +180,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     //----------------------------------------------------------------------------
     
     /*
-     * When the play area is resized...
+     * Updates the layout of the play area when it is resized or made visible.
      */
-    private void handlePlayAreaResized() {
+    private void updateLayout() {
         
-        // verify that both canvases have non-zero dimensions
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         Rectangle2D zb = _zoomedCanvas.getBounds();
-        if ( bb.getWidth() <= 0 || bb.getHeight() <= 0 || zb.getWidth() <= 0 || zb.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            System.err.println( "PlayArea.handlePlayAreaResized should not have been called yet!" );
-            return;
-        }
+        
+        // programming error if either canvas has empty bounds
+        assert( !bb.isEmpty() );
+        assert( !zb.isEmpty() );
         
         // set the bounds of the birds-eye viewport, based on the birds-eye canvas size
         {
@@ -245,7 +210,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // make sure the penguin is aligned with bottom of birds-eye viewport, and shorter than the birds-eye viewport
         {
-            double yOffset = _birdsEyeViewport.getBoundsReference().getY() + _birdsEyeViewport.getBoundsReference().getHeight() - _penguinNode.getFullBoundsReference().getHeight();
+            double yOffset = _birdsEyeViewport.getBoundsReference().getMaxY() - _penguinNode.getFullBoundsReference().getHeight();
             _penguinNode.setOffset( _penguinNode.getXOffset(), yOffset );
             double yScale = ( 0.8 * _birdsEyeViewport.getBoundsReference().getHeight() ) / _penguinNode.getFullBoundsReference().getHeight();
             _penguinNode.scale( yScale );
@@ -318,5 +283,49 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         AbstractToolNode toolNode = (AbstractToolNode)_toolsMap.get( tool );
         _toolsLayer.removeChild( toolNode );
         _toolsMap.remove( tool );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Inner classes
+    //----------------------------------------------------------------------------
+    
+    /*
+     * 
+     */
+    private static class PlayAreaResizeListener extends ComponentAdapter implements AncestorListener {
+
+        private PlayArea _playArea;
+        private boolean _layoutDirty;
+
+        public PlayAreaResizeListener( PlayArea playArea ) {
+            _playArea = playArea;
+            _layoutDirty = true;
+        }
+
+        // If the play area is resized while visible, update the layout.
+        // Otherwise, mark the layout as dirty and wait for it to become visible.
+        public void componentResized( ComponentEvent e ) {
+            if ( _playArea.isShowing() ) {
+                _playArea.updateLayout();
+                _layoutDirty = false;
+            }
+            else {
+                _layoutDirty = true;
+            }
+        }
+
+        // Called when the play area or one of its ancestors is make visible, either
+        // by setVisible(true) being called or by its being added to the component hierarchy.
+        // If the layout is dirty when this happens, update the layout.
+        public void ancestorAdded( AncestorEvent e ) {
+            if ( _layoutDirty && _playArea.isShowing() ) {
+                _playArea.updateLayout();
+                _layoutDirty = false;
+            }
+        }
+
+        public void ancestorMoved( AncestorEvent event ) {}
+
+        public void ancestorRemoved( AncestorEvent event ) {}
     }
 }

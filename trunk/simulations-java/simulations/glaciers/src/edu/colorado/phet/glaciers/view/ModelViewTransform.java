@@ -133,16 +133,21 @@ public class ModelViewTransform {
      * @return
      */
     public Rectangle2D modelToView( Rectangle2D rModel, Rectangle2D rView ) {
-        // position
+        // transform upper-left corner
         _pModel.setLocation( rModel.getX(), rModel.getY() );
         modelToView( _pModel, _pView );
-        double x = _pView.getX();
-        double y = _pView.getY();
-        // dimensions
-        _pModel.setLocation( rModel.getWidth(), rModel.getHeight() );
+        final double x1 = _pView.getX();
+        final double y1 = _pView.getY();
+        // transform lower-right corner
+        _pModel.setLocation( rModel.getMaxX(), rModel.getMaxY() );
         modelToView( _pModel, _pView );
-        double w = _pView.getX();
-        double h = _pView.getY();
+        final double x2 = _pView.getX();
+        final double y2 = _pView.getY();
+        // new non-empty rectangle
+        final double x = ( x1 < x2 ) ? x1 : x2;
+        final double y = ( y1 < y2 ) ? y1 : y2;
+        final double w = Math.abs( x1 - x2 );
+        final double h = Math.abs( y1 - y2 );
         // return value
         if ( rView == null ) {
             rView = new Rectangle2D.Double();
@@ -203,16 +208,21 @@ public class ModelViewTransform {
      * @return
      */
     public Rectangle2D viewToModel( Rectangle2D rView, Rectangle2D rModel ) {
-        // position
+        // transform upper-left corner
         _pView.setLocation( rView.getX(), rView.getY() );
         viewToModel( _pView, _pModel );
-        double x = _pModel.getX();
-        double y = _pModel.getY();
-        // dimensions
-        _pView.setLocation( rView.getWidth(), rView.getHeight() );
+        final double x1 = _pModel.getX();
+        final double y1 = _pModel.getY();
+        // transform lower-right corner
+        _pView.setLocation( rView.getMaxX(), rView.getMaxY() );
         viewToModel( _pView, _pModel );
-        double w = _pModel.getX();
-        double h = _pModel.getY();
+        final double x2 = _pModel.getX();
+        final double y2 = _pModel.getY();
+        // new non-empty rectangle
+        final double x = ( x1 < x2 ) ? x1 : x2;
+        final double y = ( y1 < y2 ) ? y1 : y2;
+        final double w = Math.abs( x1 - x2 );
+        final double h = Math.abs( y1 - y2 );
         // return value
         if ( rModel == null ) {
             rModel = new Rectangle2D.Double();
