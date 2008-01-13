@@ -21,7 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- MVT y-coordinate translation has problems
+- resizing window snaps zoomed report to far left
 - haven't tested positive scaling of MVT
 - haven't tested negative scaling (reflection) of MVT
 - haven't tested with different view scales for each canvas' camera (PlayArea.BIRDS_EYE_VIEW_SCALE and ZOOMED_VIEW_SCALE)
@@ -60,6 +60,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/07 - bugfix in setting zoomed viewport bounds in PlayArea.updateLayout, handle y translation in MVT
 1/13/08 - use MVT to set penguin y-alignment & scale
 1/13/08 - bugfix in MVT method for transforming distance
 1/13/08 - bugfix in MVT methods that transform rectangles, previous version didn't handle translation and negative scaling

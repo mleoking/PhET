@@ -198,12 +198,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             _birdsEyeViewport.setBounds( _rModel );
         }
         
-        // set the dimensions of the zoomed viewport, based on the zoomed canvas size
+        // set the bounds of the zoomed viewport, based on the zoomed canvas size
         {
             double scale = _zoomedCanvas.getCamera().getViewScale();
-            double w = _mvt.viewToModel( zb.getWidth() / scale );
-            double h = _mvt.viewToModel( zb.getHeight() / scale );
-            _zoomedViewport.setSize( w, h );
+            _rView.setRect( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
+            _mvt.viewToModel( _rView, _rModel );
+            _zoomedViewport.setBounds( _rModel );
             constrainZoomedViewport();
         }
         
