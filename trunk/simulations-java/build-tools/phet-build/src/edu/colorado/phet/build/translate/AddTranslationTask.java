@@ -47,7 +47,7 @@ public class AddTranslationTask {
 
         // Get flavors once, reuse in each iteration
         PhetProjectFlavor[] flavors = phetProject.getFlavors();
-        
+
         //Download all flavor JAR files for this project
         for ( int i = 0; i < flavors.length; i++ ) {
             downloadJAR( phetProject, flavors[i].getFlavorName() );
@@ -90,16 +90,22 @@ public class AddTranslationTask {
 
         //add localization files for each subproject, including the simulation project itself
         for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
-            //TODO check existence of localization file for dependency before calling updateJARForDependency
-            updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
+
+            //check existence of localization file for dependency before calling updateJARForDependency
+            if ( phetProject.getAllDependencies()[i].getLocalizationFile( language ).exists() ) {
+                updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
+            }
+            else {
+                System.out.println( "Simulation: " + phetProject.getName() + " depends on " + phetProject.getAllDependencies()[i].getName() + ", which does not contain a translation to: " + language );
+            }
         }
     }
 
     private void updateJARForDependency( PhetProject sim, String flavor, String language, PhetProject dependency ) throws IOException {
         //Run the JAR update command
-        String pathSep = File.separator;
+
         String command = "jar uf " + flavor + ".jar" +
-                         " -C " + getProjectDataDir( dependency ) + " " + dependency.getName() + pathSep + "localization" + pathSep + dependency.getName() + "-strings_" + language + ".properties";
+                         " -C " + getProjectDataDir( dependency ) + " " + getLocalizationFilePathInDataDirectory( dependency, language );
         System.out.println( "Running: " + command );
         Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( sim ) );
         try {
@@ -113,6 +119,11 @@ public class AddTranslationTask {
             e.printStackTrace();
         }
         //TODO: Verify that new JAR is the same as the old JAR with the addition of the new file
+    }
+
+    private String getLocalizationFilePathInDataDirectory( PhetProject dependency, String language ) {
+        String pathSep = File.separator;
+        return dependency.getName() + pathSep + "localization" + pathSep + dependency.getName() + "-strings_" + language + ".properties";
     }
 
     private File getProjectDataDir( PhetProject phetProject ) {
