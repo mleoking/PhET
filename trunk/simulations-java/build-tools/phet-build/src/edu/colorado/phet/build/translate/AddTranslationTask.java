@@ -43,17 +43,20 @@ public class AddTranslationTask {
         //Clear the temp directory for this simulation
         FileUtils.delete( getTempProjectDir( phetProject ), true );
 
-        //TODO: check for existence of localization file
+        //TODO: check for existence of localization file for project, throw exception if doesn't exist
 
+        // Get flavors once, reuse in each iteration
+        PhetProjectFlavor[] flavors = phetProject.getFlavors();
+        
         //Download all flavor JAR files for this project
-        for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            downloadJAR( phetProject, phetProject.getFlavors()[i].getFlavorName() );
+        for ( int i = 0; i < flavors.length; i++ ) {
+            downloadJAR( phetProject, flavors[i].getFlavorName() );
         }
         downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
 
         //Update all flavor JAR files
-        for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-            updateJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), language );
+        for ( int i = 0; i < flavors.length; i++ ) {
+            updateJAR( phetProject, flavors[i].getFlavorName(), language );
         }
         updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
 
@@ -62,9 +65,9 @@ public class AddTranslationTask {
 
         if ( deployEnabled ) {//Can disable for local testing
             //Deploy updated flavor JAR files
-            for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
-                deployJAR( phetProject, phetProject.getFlavors()[i].getFlavorName(), user, password );
-                deployJNLPFile( phetProject, phetProject.getFlavors()[i], language, user, password );
+            for ( int i = 0; i < flavors.length; i++ ) {
+                deployJAR( phetProject, flavors[i].getFlavorName(), user, password );
+                deployJNLPFile( phetProject, flavors[i], language, user, password );
             }
             deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
         }
@@ -87,6 +90,7 @@ public class AddTranslationTask {
 
         //add localization files for each subproject, including the simulation project itself
         for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
+            //TODO check existence of localization file for dependency before calling updateJARForDependency
             updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
         }
     }
