@@ -17,14 +17,13 @@ import com.jcraft.jsch.JSchException;
  * Created by: Sam
  * Jan 11, 2008 at 11:36:47 AM
  */
-public class AddTranslationTask {
+public class AddTranslationCommand {
     private File basedir;
     private boolean deployEnabled = true;
 
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
 
-
-    public AddTranslationTask( File basedir ) {
+    public AddTranslationCommand( File basedir ) {
         this.basedir = basedir;
     }
 
@@ -38,7 +37,7 @@ public class AddTranslationTask {
      * @throws IOException
      */
     private void addTranslation( String simulation, String language, String user, String password ) throws Exception {
-        PhetProject phetProject = new PhetProject( new File( "simulations" ), simulation );
+        PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
 
         //Clear the temp directory for this simulation
         FileUtils.delete( getTempProjectDir( phetProject ), true );
@@ -203,10 +202,10 @@ public class AddTranslationTask {
     public static void main( String[] args ) throws Exception {
         File basedir = new File( args[0] );
         if ( args.length == 5 ) {
-            new AddTranslationTask( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
+            new AddTranslationCommand( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
         }
         else {
-            new AddTranslationTask( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
+            new AddTranslationCommand( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
         }
         System.exit( 0 );//daemon thread running?
     }
