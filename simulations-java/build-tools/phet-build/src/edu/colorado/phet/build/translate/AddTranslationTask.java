@@ -84,14 +84,18 @@ public class AddTranslationTask {
         //create a backup copy of the JAR
         //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
+        for ( int i = 0; i < phetProject.getAllDependencies().length; i++ ) {
+            updateJARForDependency( phetProject, flavor, language, phetProject.getAllDependencies()[i] );
+        }
+    }
 
+    private void updateJARForDependency( PhetProject sim, String flavor, String language, PhetProject dependency ) throws IOException {
         //Run the JAR update command
-        String sim = phetProject.getName();
         String pathSep = File.separator;
         String command = "jar uf " + flavor + ".jar" +
-                         " -C " + getProjectDataDir( phetProject ) + " " + sim + pathSep + "localization" + pathSep + sim + "-strings_" + language + ".properties";
+                         " -C " + getProjectDataDir( dependency ) + " " + dependency.getName() + pathSep + "localization" + pathSep + dependency.getName() + "-strings_" + language + ".properties";
         System.out.println( "Running: " + command );
-        Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
+        Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( sim ) );
         try {
             int val = p.waitFor();
             if ( val != 0 ) {
