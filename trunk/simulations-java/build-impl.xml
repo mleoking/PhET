@@ -10,7 +10,7 @@ Developer Notes:
 2. The main tasks you need are defined in build.xml (which calls the implementations in this file)
 
 -->
-<project name="PhET Master Build Script, additional tasks" basedir=".">
+<project name="PhET Build Implementation" basedir=".">
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
       The supported options are:
@@ -67,6 +67,7 @@ Developer Notes:
     <property name="create-installer-build-file-classname"       value="edu.colorado.phet.build.installer.InstallerBuildfileCreatorTask"/>
     <property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
     <property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
+    <property name="add-translation-classname"          value="edu.colorado.phet.build.translate.AddTranslationTask" />
 
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
 
@@ -191,6 +192,10 @@ Developer Notes:
         <taskdef name="check-translations"
                  classname="${check-translations-classname}"
                  classpath="${phetbuild-classpath}"/>
+
+        <taskdef name="add-translation"
+            classname="${add-translation-classname}"
+            classpath="${phetbuild-classpath}"/>
 
         <typedef
                 name="fileexists"
@@ -897,6 +902,10 @@ Developer Notes:
 
     <target name="check-translations" depends="_init">
         <check-translations/>
+    </target>
+
+    <target name="add-translation" depends="_init,_verify-sim-name-specified">
+        <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
     </target>
 
     <property name="test.reports" value="deploy/reports"/>

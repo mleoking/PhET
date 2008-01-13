@@ -24,7 +24,16 @@ public class AddTranslationCommand {
     public static File TRANSLATIONS_TEMP_DIR = new File( FileUtils.getTmpDir(), "phet-translations-temp" );
 
     public AddTranslationCommand( File basedir ) {
+        this( basedir, true );
+    }
+
+    public AddTranslationCommand( File basedir, boolean deployEnabled ) {
         this.basedir = basedir;
+        this.deployEnabled = deployEnabled;
+    }
+
+    public void setDeployEnabled( boolean deployEnabled ) {
+        this.deployEnabled = deployEnabled;
     }
 
     /**
@@ -36,7 +45,7 @@ public class AddTranslationCommand {
      * @param language
      * @throws IOException
      */
-    private void addTranslation( String simulation, String language, String user, String password ) throws Exception {
+    public void addTranslation( String simulation, String language, String user, String password ) throws Exception {
         PhetProject phetProject = new PhetProject( new File( basedir, "simulations" ), simulation );
 
         //Clear the temp directory for this simulation
@@ -195,7 +204,7 @@ public class AddTranslationCommand {
         return new File( getTempProjectDir( phetProject ), flavorname + suffix );
     }
 
-    private static String prompt( String title ) {
+    public static String prompt( String title ) {
         return JOptionPane.showInputDialog( title );
     }
 
