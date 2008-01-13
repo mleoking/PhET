@@ -145,10 +145,10 @@ public class AddTranslationCommand {
      *
      * @param phetProject
      */
-    private void deployJAR( PhetProject phetProject, String flavor, String user, String password ) {
-        final String filename = getRemoteDirectory( phetProject ) + flavor + ".jar";
+    private void deployJAR( PhetProject phetProject, String jarname, String user, String password ) {
+        final String filename = getRemoteDirectory( phetProject ) + jarname + ".jar";
         try {
-            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, flavor ), user, "tigercat.colorado.edu", filename, password );
+            ScpTo.uploadFile( getFlavorJARTempFile( phetProject, jarname ), user, "tigercat.colorado.edu", filename, password );
         }
         catch( JSchException e ) {
             e.printStackTrace();
@@ -186,22 +186,22 @@ public class AddTranslationCommand {
         return dir;
     }
 
-    private void downloadJAR( PhetProject phetProject, String flavor ) throws FileNotFoundException {
-        String url = phetProject.getDeployedFlavorJarURL( flavor );
-        FileDownload.download( url, getFlavorJARTempFile( phetProject, flavor ) );
-        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, flavor ) );
+    private void downloadJAR( PhetProject phetProject, String jarname ) throws FileNotFoundException {
+        String url = phetProject.getDeployedFlavorJarURL( jarname );
+        FileDownload.download( url, getFlavorJARTempFile( phetProject, jarname ) );
+        System.out.println( "dest = " + getFlavorJARTempFile( phetProject, jarname ) );
     }
 
-    private File getFlavorJARTempBackupFile( PhetProject phetProject, String flavorname ) {
-        return getFlavorJARTempFile( phetProject, flavorname, "_backup.jar" );
+    private File getFlavorJARTempBackupFile( PhetProject phetProject, String jarname ) {
+        return getFlavorJARTempFile( phetProject, jarname, "_backup.jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, String flavorname ) {
-        return getFlavorJARTempFile( phetProject, flavorname, ".jar" );
+    private File getFlavorJARTempFile( PhetProject phetProject, String jarname ) {
+        return getFlavorJARTempFile( phetProject, jarname, ".jar" );
     }
 
-    private File getFlavorJARTempFile( PhetProject phetProject, String flavorname, String suffix ) {
-        return new File( getTempProjectDir( phetProject ), flavorname + suffix );
+    private File getFlavorJARTempFile( PhetProject phetProject, String jarname, String suffix ) {
+        return new File( getTempProjectDir( phetProject ), jarname + suffix );
     }
 
     public static String prompt( String title ) {
