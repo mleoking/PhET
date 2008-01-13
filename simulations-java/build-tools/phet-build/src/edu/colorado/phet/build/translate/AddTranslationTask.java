@@ -38,10 +38,12 @@ public class AddTranslationTask {
      * @throws IOException
      */
     private void addTranslation( String simulation, String language, String user, String password ) throws Exception {
-        PhetProject phetProject = new PhetProject( basedir, simulation );
+        PhetProject phetProject = new PhetProject( new File( "simulations" ), simulation );
 
         //Clear the temp directory for this simulation
         FileUtils.delete( getTempProjectDir( phetProject ), true );
+
+        //TODO: check for existence of localization file
 
         //Download all flavor JAR files for this project
         for ( int i = 0; i < phetProject.getFlavors().length; i++ ) {
@@ -80,21 +82,28 @@ public class AddTranslationTask {
      */
     private void updateFlavorJAR( PhetProject phetProject, String flavor, String language ) throws IOException {
         //create a backup copy of the JAR
-        //todo: should we make a long-term backup?  This file will be deleted when temp dir is cleared on the next run.
+        //todo: may later want to add a build-simulation-by-svn-number
         FileUtils.copyTo( getFlavorJARTempFile( phetProject, flavor ), getFlavorJARTempBackupFile( phetProject, flavor ) );
-
-        //TODO: check that no files will be overwritten?
 
         //TODO: update with common localization files as well (for dependencies only)
 
         //Run the JAR update command
         String sim = phetProject.getName();
         String pathSep = File.separator;
-        String command = "jar.exe uf " + flavor + ".jar" +
+        String command = "jar uf " + flavor + ".jar" +
                          " -C " + getProjectDataDir( phetProject ) + " " + sim + pathSep + "localization" + pathSep + sim + "-strings_" + language + ".properties";
         System.out.println( "Running: " + command );
-        Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
-
+        Process p = Runtime.getRuntime().exec( command, new String[]{}, getTempProjectDir( phetProject ) );
+        try {
+            int val = p.waitFor();
+            if ( val != 0 ) {
+                //TODO: what if JAR fails?
+                throw new RuntimeException( "Exec failed: " + command );
+            }
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
         //TODO: Verify that new JAR is the same as the old JAR with the addition of the new file
     }
 
@@ -171,9 +180,9 @@ public class AddTranslationTask {
     }
 
     public static void main( String[] args ) throws Exception {
-        File basedir = new File( "C:\\reid\\phet\\svn\\trunk\\simulations-java\\simulations" );
+        File basedir = new File( args[0] );
         if ( args.length == 4 ) {
-            new AddTranslationTask( basedir ).addTranslation( args[0], args[1], args[2], args[3] );
+            new AddTranslationTask( basedir ).addTranslation( args[1], args[2], args[3], args[4] );
         }
         else {
             new AddTranslationTask( basedir ).addTranslation( prompt( "sim-name (e.g. cck)" ), prompt( "Language (e.g. es)" ), prompt( "username" ), prompt( "password" ) );
