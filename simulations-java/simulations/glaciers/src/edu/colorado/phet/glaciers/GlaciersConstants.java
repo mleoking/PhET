@@ -71,10 +71,10 @@ public class GlaciersConstants {
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
     
     // color below ground level
-    public static final Color UNDERGROUND_COLOR = new Color( 180, 158, 134 ); // tan
+    public static final Color UNDERGROUND_COLOR =  new Color( 180, 158, 134 ); // tan
     
     // color of the Piccolo canvases
-    public static final Color BIRDS_EYE_CANVAS_COLOR = UNDERGROUND_COLOR;
-    public static final Color ZOOMED_CANVAS_COLOR = UNDERGROUND_COLOR;
+    public static final Color BIRDS_EYE_CANVAS_COLOR = Color.WHITE; //UNDERGROUND_COLOR;
+    public static final Color ZOOMED_CANVAS_COLOR = Color.WHITE; //UNDERGROUND_COLOR;
 
 }
