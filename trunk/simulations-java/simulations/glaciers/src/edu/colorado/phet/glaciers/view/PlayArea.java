@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
@@ -41,6 +42,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
+    // camera offset
+    private static final Point2D BIRDS_EYE_CAMERA_OFFSET = new Point2D.Double( 0, 0 );
+    
     // width of the stroke used to display the zoomed viewport, in view coordinates
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
@@ -67,6 +71,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
         
+        assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
+        
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
         
@@ -86,6 +92,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _birdsEyeCanvas = new PhetPCanvas();
         _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
         _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
+        _birdsEyeCanvas.getCamera().setOffset( BIRDS_EYE_CAMERA_OFFSET );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
         topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
@@ -94,6 +101,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _zoomedCanvas = new PhetPCanvas();
         _zoomedCanvas.setBackground( GlaciersConstants.ZOOMED_CANVAS_COLOR );
         _zoomedCanvas.getCamera().setViewScale( ZOOMED_CAMERA_VIEW_SCALE );
+        // zoomed camera offset will be set based on viewport position
         
         // Layout, birds-eye view above zoomed view, zoomed view grows/shrinks to fit
         setLayout( new BorderLayout() );
@@ -137,9 +145,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt );
         _viewportLayer.addChild( _penguinNode );
-
-        // initialize
-        handleZoomedViewportChanged();
     }
     
     public void cleanup() {
@@ -185,16 +190,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
 
         // set the bounds of the birds-eye viewport, based on the birds-eye canvas size
         updateBirdsEyeViewportBounds();
-
+        
         // set the size of the zoomed viewport, based on the zoomed canvas size
         updateZoomedViewportBounds();
 
         // keep the zoomed viewport inside the birds-eye viewport
         constrainZoomedViewport();
-
-        // make sure the penguin is aligned with bottom of birds-eye viewport, and scaled to fit
-        scalePenguinToZoomedViewport();
-        centerPenguinInZoomedViewport();
     }
     
     /*
@@ -204,7 +205,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         assert ( !bb.isEmpty() );
         double scale = _birdsEyeCanvas.getCamera().getViewScale();
-        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale ) );
+        Point2D offset = _birdsEyeCanvas.getCamera().getOffset();
+        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( offset.getX(), offset.getY(), bb.getWidth() / scale, bb.getHeight() / scale ) );
         _birdsEyeViewport.setBounds( rModel );
     }
     
@@ -233,33 +235,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double dx = zb.getMaxX() - bb.getMaxX();
             _zoomedViewport.translate( -dx, 0 );
         }
-    }
-    
-    /*
-     * Centers the penguin in the zoomed viewport.
-     */
-    private void centerPenguinInZoomedViewport() {
-        double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _penguinNode.getFullBoundsReference().getHeight();
-        _penguinNode.setOffset( _penguinNode.getXOffset(), yOffset );
-    }
-    
-    /*
-     * Scales the penguin to fit into the birds-eye viewport.
-     */
-    private void scalePenguinToZoomedViewport() {
-        final double portionOfViewportToFill = 0.8; // percent of birds-eye view height to be filled by the penguin
-        double desiredHeight = portionOfViewportToFill * _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getHeight() ).getY();
-        double penguinHeight = _penguinNode.getFullBoundsReference().getHeight();
-        double yScale = 1;
-        if ( penguinHeight > desiredHeight ) {
-            // scale the penguin down
-            yScale = 1 - ( penguinHeight - desiredHeight ) / penguinHeight;
-        }
-        else {
-            // scale the penguin up
-            yScale = 1 + ( desiredHeight - penguinHeight ) / desiredHeight;
-        }
-        _penguinNode.setScale( yScale );
     }
     
     /*
