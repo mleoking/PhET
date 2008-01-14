@@ -21,6 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- move Viewport to model package
 - fix negative scaling (reflection) of MVT
 - test flip+scale+translate of both axes
 - implement glacier model as described in Archie's model document
@@ -56,6 +57,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/08 - fix bug in penguin scaling
+1/13/08 - add tracer flag at valley's high point, for debugging camera offset and MVT scaling
 1/13/08 - add offset to birds-eye camera, use to compute birds-eye viewport
 1/13/08 - move responsibility to penguin to handle its own layout (scale & offset)
 1/13/08 - organize imports
