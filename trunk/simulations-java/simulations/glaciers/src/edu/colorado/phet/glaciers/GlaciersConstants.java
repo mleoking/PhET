@@ -64,12 +64,17 @@ public class GlaciersConstants {
     // Paints
     //----------------------------------------------------------------------------
     
-    // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = Color.BLACK;
-    
     // Generic transparent color
-    public static final Color COLOR_TRANSPARENT = new Color( 0f, 0f, 0f, 0f );
+    public static final Color TRANSPARENT_COLOR = new Color( 0f, 0f, 0f, 0f );
     
     // Default color for module tabs
     public static final Color SELECTED_TAB_COLOR = Color.ORANGE;
+    
+    // color below ground level
+    public static final Color UNDERGROUND_COLOR = new Color( 180, 158, 134 ); // tan
+    
+    // color of the Piccolo canvases
+    public static final Color BIRDS_EYE_CANVAS_COLOR = UNDERGROUND_COLOR;
+    public static final Color ZOOMED_CANVAS_COLOR = UNDERGROUND_COLOR;
+
 }
