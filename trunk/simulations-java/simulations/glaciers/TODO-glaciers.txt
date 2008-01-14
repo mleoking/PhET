@@ -21,10 +21,8 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- haven't tested negative scaling (reflection) of MVT
-- haven't tested with different view scales for each canvas' camera (PlayArea.BIRDS_EYE_VIEW_SCALE and ZOOMED_VIEW_SCALE)
-- instead of having PenguinNode know about birds-eye viewport, set its drag bounds when the birds-eye viewport changes
-- create something like ModelViewTransform( 1, -0.5, 50, 4000 ) to translate x axis, flip+scale+translate y axis
+- fix negative scaling (reflection) of MVT
+- test flip+scale+translate of both axes
 - implement glacier model as described in Archie's model document
 - create graphs
 - redesign advanced climate controls
