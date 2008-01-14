@@ -20,8 +20,9 @@ import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.TracerFlag;
+import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
-import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 

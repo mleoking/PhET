@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.glaciers.view;
+package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- *  Viewport describes the portion of the scene that's visible through the viewport,
- *  and displayed in the "zoomed" view. 
+ *  Viewport describes a rectangular portion of the model that is visible. 
  *  
  *  @author Chris Malley (cmalley@pixelzoom.com)
  */
