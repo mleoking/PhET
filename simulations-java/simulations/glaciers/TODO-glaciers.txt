@@ -21,7 +21,8 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- move Viewport to model package
+- when setting birds-eye camera offset !=0, zoomed viewport doesn't stay at top of birds-eye viewport
+- set MVT so that "high point" tracer flag visible and +y is up
 - fix negative scaling (reflection) of MVT
 - test flip+scale+translate of both axes
 - implement glacier model as described in Archie's model document
@@ -57,6 +58,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/08 - move Viewport to model package because it uses model coordinates
 1/13/08 - fix bug in penguin scaling
 1/13/08 - add tracer flag at valley's high point, for debugging camera offset and MVT scaling
 1/13/08 - add offset to birds-eye camera, use to compute birds-eye viewport

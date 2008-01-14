@@ -6,7 +6,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.glaciers.GlaciersImages;
-import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
+import edu.colorado.phet.glaciers.model.Viewport;
+import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
