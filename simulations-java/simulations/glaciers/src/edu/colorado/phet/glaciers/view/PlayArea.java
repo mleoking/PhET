@@ -19,6 +19,7 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
+import edu.colorado.phet.glaciers.model.TracerFlag;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.view.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.PLayer;
@@ -146,6 +147,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt );
         _viewportLayer.addChild( _penguinNode );
+        
+        //XXX debug: put a tracer flag at the Valley's high point
+        double x = 0;
+        double y = _model.getValley().getElevation( x );
+        Point2D highPoint =  new Point2D.Double( x, y );
+        System.out.println( "PlayArea placed flag at " + highPoint );//XXX
+        TracerFlag flag = new TracerFlag( highPoint, _model.getGlacier() );
+        toolAdded( flag );
     }
     
     public void cleanup() {
