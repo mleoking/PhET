@@ -20,7 +20,6 @@ public class ViewportNode extends PPath {
     
     private Viewport _viewport;
     private ModelViewTransform _mvt;
-    private Rectangle2D _rView; // reusable rectangle
     
     public ViewportNode( Viewport viewport, float strokeWidth, ModelViewTransform mvt ) {
         super();
@@ -39,7 +38,6 @@ public class ViewportNode extends PPath {
         setStroke( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { dashSpacing, dashSpacing }, 0 ) ); // dashed line
         setStrokePaint( STROKE_COLOR );
         
-        _rView = new Rectangle2D.Double();
         updateRectangle();
     }
     
@@ -47,8 +45,8 @@ public class ViewportNode extends PPath {
     
     private void updateRectangle() {
         Rectangle2D rModel = _viewport.getBoundsReference();
-        _mvt.modelToView( rModel, _rView );
-        setPathTo( _rView );
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        setPathTo( rView );
     }
 
 }
