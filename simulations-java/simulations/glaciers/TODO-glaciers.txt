@@ -58,6 +58,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/14/08 - JUnit test case for ModelViewTransform
 1/13/08 - move Viewport to model package because it uses model coordinates
 1/13/08 - fix bug in penguin scaling
 1/13/08 - add tracer flag at valley's high point, for debugging camera offset and MVT scaling
