@@ -183,42 +183,47 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * Updates the layout of the play area when it is resized or made visible.
      */
     private void updateLayout() {
-        
-        Rectangle2D bb = _birdsEyeCanvas.getBounds();
-        Rectangle2D zb = _zoomedCanvas.getBounds();
-        
-        // programming error if either canvas has empty bounds
-        assert( !bb.isEmpty() );
-        assert( !zb.isEmpty() );
-        
+
         // set the bounds of the birds-eye viewport, based on the birds-eye canvas size
-        {
-            double scale = _birdsEyeCanvas.getCamera().getViewScale();
-            _rView.setRect( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
-            _mvt.viewToModel( _rView, _rModel );
-            _birdsEyeViewport.setBounds( _rModel );
-        }
-        
+        updateBirdsEyeViewportBounds();
+
         // set the size of the zoomed viewport, based on the zoomed canvas size
-        {
-            double scale = _zoomedCanvas.getCamera().getViewScale();
-            _rView.setRect( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
-            _mvt.viewToModel( _rView, _rModel );
-            _zoomedViewport.setSize( _rModel.getWidth(), _rModel.getHeight() );
-            constrainZoomedViewport();
-        }
-        
-        // make sure the penguin is aligned with bottom of birds-eye viewport, and shorter than the birds-eye viewport
-        {
-            double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _penguinNode.getFullBoundsReference().getHeight();
-            _penguinNode.setOffset( _penguinNode.getXOffset(), yOffset );
-            double yScale = 0.8 * _mvt.modelToView( _birdsEyeViewport.getBoundsReference().getHeight() ) / _penguinNode.getFullBoundsReference().getHeight();
-            _penguinNode.scale( yScale );
-        }
+        updateZoomedViewportBounds();
+
+        // keep the zoomed viewport inside the birds-eye viewport
+        constrainZoomedViewport();
+
+        // make sure the penguin is aligned with bottom of birds-eye viewport, and scaled to fit
+        scalePenguinToZoomedViewport();
+        centerPenguinInZoomedViewport();
+    }
+    
+    /*
+     * Updates the bounds of the birds-eye viewport, based on the size of the birds-eye canvas.
+     */
+    private void updateBirdsEyeViewportBounds() {
+        Rectangle2D bb = _birdsEyeCanvas.getBounds();
+        assert ( !bb.isEmpty() );
+        double scale = _birdsEyeCanvas.getCamera().getViewScale();
+        _rView.setRect( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
+        _mvt.viewToModel( _rView, _rModel );
+        _birdsEyeViewport.setBounds( _rModel );
+    }
+    
+    /*
+     * Updates the bounds of the zoomed viewport based on the size of the zoomed canvas.
+     */
+    private void updateZoomedViewportBounds() {
+        Rectangle2D zb = _zoomedCanvas.getBounds();
+        assert ( !zb.isEmpty() );
+        double scale = _zoomedCanvas.getCamera().getViewScale();
+        _rView.setRect( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
+        _mvt.viewToModel( _rView, _rModel );
+        _zoomedViewport.setSize( _rModel.getWidth(), _rModel.getHeight() );
     }
     
     /* 
-     * Keeps the left & right edges of the zoomed viewport inside the birds-eye view's bounds.
+     * Keeps the left & right edges of the zoomed viewport inside the birds-eye viewport.
      */
     private void constrainZoomedViewport() {
         Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
@@ -231,6 +236,33 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double dx = zb.getMaxX() - bb.getMaxX();
             _zoomedViewport.translate( -dx, 0 );
         }
+    }
+    
+    /*
+     * Centers the penguin in the zoomed viewport.
+     */
+    private void centerPenguinInZoomedViewport() {
+        double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _penguinNode.getFullBoundsReference().getHeight();
+        _penguinNode.setOffset( _penguinNode.getXOffset(), yOffset );
+    }
+    
+    /*
+     * Scales the penguin to fit into the birds-eye viewport.
+     */
+    private void scalePenguinToZoomedViewport() {
+        final double portionOfViewportToFill = 0.8; // percent of birds-eye view height to be filled by the penguin
+        double desiredHeight = portionOfViewportToFill * _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getHeight() ).getY();
+        double penguinHeight = _penguinNode.getFullBoundsReference().getHeight();
+        double yScale = 1;
+        if ( penguinHeight > desiredHeight ) {
+            // scale the penguin down
+            yScale = 1 - ( penguinHeight - desiredHeight ) / penguinHeight;
+        }
+        else {
+            // scale the penguin up
+            yScale = 1 + ( desiredHeight - penguinHeight ) / desiredHeight;
+        }
+        _penguinNode.setScale( yScale );
     }
     
     /*
@@ -290,7 +322,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     //----------------------------------------------------------------------------
     
     /*
-     * 
+     * PlayAreaResizeListener listens for size or visibility changes to the play area.
      */
     private static class PlayAreaResizeListener extends ComponentAdapter implements AncestorListener {
 

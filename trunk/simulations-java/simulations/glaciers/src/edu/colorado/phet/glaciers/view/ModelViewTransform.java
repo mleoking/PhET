@@ -110,21 +110,6 @@ public class ModelViewTransform {
     }
     
     /**
-     * Maps an absolute distance from model to view coordinates.
-     * 
-     * @param distance distance in model coordinates
-     * @return distance in view coordinates
-     */
-    public double modelToView( double distanceModel ) {
-        if ( distanceModel < 0 ) {
-            throw new IllegalArgumentException( "distance must be positive: " + distanceModel );
-        }
-        _pModel.setLocation( distanceModel - _viewOrigin.getX(), 0 );
-        modelToView( _pModel, _pView );
-        return Math.abs( _pView.getX() );
-    }
-    
-    /**
      * Maps a rectangle from model to view coordinates.
      * If rView is not null, the result is returned in rView.
      * 
@@ -182,21 +167,6 @@ public class ModelViewTransform {
     
     public Point2D viewToModel( double xView, double yView, Point2D pModel ) {
         return viewToModel( new Point2D.Double( xView, yView ), pModel );
-    }
-    
-    /**
-     * Maps a distance from view to model coordinates.
-     * 
-     * @param distance distance in view coordinates
-     * @return distance in model coordinates
-     */
-    public double viewToModel( double distanceView ) {
-        if ( distanceView < 0 ) {
-            throw new IllegalArgumentException( "distance must be positive: " + distanceView );
-        }
-        _pView.setLocation( _viewOrigin.getX() + distanceView, 0 );
-        viewToModel( _pView, _pModel );
-        return Math.abs( _pModel.getX() );
     }
     
     /**
