@@ -22,11 +22,16 @@ public class PenguinNode extends PImage {
         super( GlaciersImages.PENGUIN );
         
         _birdsEyeViewport = birdsEyeViewport;
+        _birdsEyeViewport.addViewportListener( new ViewportListener() {
+            public void boundsChanged() {
+                updateScale();
+                updateOffset();
+            }
+        });
         
         _zoomedViewport = zoomedViewport;
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
-                updateScale(); // scale before offset!
                 updateOffset();
             }
         });
@@ -85,18 +90,21 @@ public class PenguinNode extends PImage {
      * Scales the penguin to fit into the birds-eye viewport.
      */
     private void updateScale() {
-        final double portionOfViewportToFill = 0.8; // percent of birds-eye view height to be filled by the penguin
-        double desiredHeight = portionOfViewportToFill * _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getHeight() ).getY();
+        setScale( 1 );
+        final double portionOfViewportToFill = 0.75; // percent of birds-eye view height to be filled by the penguin
+        double desiredHeight = portionOfViewportToFill * ( _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getY() ).getY() );
         double penguinHeight = getFullBoundsReference().getHeight();
         double yScale = 1;
         if ( penguinHeight > desiredHeight ) {
             // scale the penguin down
             yScale = 1 - ( penguinHeight - desiredHeight ) / penguinHeight;
+            System.out.println( "scaling penguin down " + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
         }
         else {
             // scale the penguin up
             yScale = 1 + ( desiredHeight - penguinHeight ) / desiredHeight;
+            System.out.println( "scaling penguin up " + yScale );//XXX
         }
-        scale( yScale );
+        setScale( yScale );
     }
 }
