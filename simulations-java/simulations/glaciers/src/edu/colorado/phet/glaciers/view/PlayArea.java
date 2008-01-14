@@ -60,17 +60,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
-    private Rectangle2D _rModel, _rView; // reusable rectangles
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
     public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
         super();
-        
-        _rModel = new Rectangle2D.Double();
-        _rView = new Rectangle2D.Double();
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
@@ -209,9 +204,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         assert ( !bb.isEmpty() );
         double scale = _birdsEyeCanvas.getCamera().getViewScale();
-        _rView.setRect( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale );
-        _mvt.viewToModel( _rView, _rModel );
-        _birdsEyeViewport.setBounds( _rModel );
+        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( 0, 0, bb.getWidth() / scale, bb.getHeight() / scale ) );
+        _birdsEyeViewport.setBounds( rModel );
     }
     
     /*
@@ -221,9 +215,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D zb = _zoomedCanvas.getBounds();
         assert ( !zb.isEmpty() );
         double scale = _zoomedCanvas.getCamera().getViewScale();
-        _rView.setRect( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
-        _mvt.viewToModel( _rView, _rModel );
-        _zoomedViewport.setSize( _rModel.getWidth(), _rModel.getHeight() );
+        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale ) );
+        _zoomedViewport.setSize( rModel.getWidth(), rModel.getHeight() );
     }
     
     /* 
@@ -276,9 +269,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // translate the zoomed view's camera
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        _mvt.modelToView(  rModel, _rView );
+        Rectangle2D rView = _mvt.modelToView( rModel );
         double scale = _zoomedCanvas.getCamera().getViewScale();
-        _zoomedCanvas.getCamera().setViewOffset( -_rView.getX() * scale, -_rView.getY() * scale );
+        _zoomedCanvas.getCamera().setViewOffset( -rView.getX() * scale, -rView.getY() * scale );
         
         // move the toolbox
         updateToolboxPosition();
@@ -289,9 +282,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      */
     private void updateToolboxPosition() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        _mvt.modelToView( rModel, _rView ); // convert from view to model coordinates
-        double xOffset = _rView.getX() + 5;
-        double yOffset = _rView.getY() + _rView.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        double xOffset = rView.getX() + 5;
+        double yOffset = rView.getY() + rView.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );
     }
     
@@ -326,7 +319,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     //----------------------------------------------------------------------------
     
     /*
-     * PlayAreaResizeListener listens for size or visibility changes to the play area.
+     * PlayAreaResizeListener listens for size and visibility changes to the play area.
      */
     private static class PlayAreaResizeListener extends ComponentAdapter implements AncestorListener {
 

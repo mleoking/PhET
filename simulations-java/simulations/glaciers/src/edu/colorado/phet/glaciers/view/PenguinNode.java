@@ -17,7 +17,6 @@ public class PenguinNode extends PImage {
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
     private ModelViewTransform _mvt;
-    private Rectangle2D _rModel, _rView; // reusable rectangles
 
     public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         super( GlaciersImages.PENGUIN );
@@ -33,9 +32,6 @@ public class PenguinNode extends PImage {
         
         _mvt = mvt;
         
-        _rModel = new Rectangle2D.Double();
-        _rView = new Rectangle2D.Double();
-        
         addInputEventListener( new CursorHandler() );
         
         addInputEventListener( new PDragEventHandler() {
@@ -44,8 +40,8 @@ public class PenguinNode extends PImage {
 
             protected void startDrag( PInputEvent event ) {
                 Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-                _mvt.modelToView( rModel, _rView );
-                _xOffset = event.getPosition().getX() - _rView.getX();
+                Rectangle2D rView = _mvt.modelToView( rModel  );
+                _xOffset = event.getPosition().getX() - rView.getX();
                 super.startDrag( event );
             }
 
@@ -55,18 +51,18 @@ public class PenguinNode extends PImage {
              */
             protected void drag( PInputEvent event ) {
                 Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-                _mvt.modelToView( rModel, _rView );
+                Rectangle2D rView = _mvt.modelToView( rModel );
                 double xView = event.getPosition().getX() - _xOffset;
-                _rView.setRect( xView, _rView.getY(), _rView.getWidth(), _rView.getHeight() );
-                _mvt.viewToModel( _rView, _rModel );
+                rView.setRect( xView, rView.getY(), rView.getWidth(), rView.getHeight() );
+                rModel = _mvt.viewToModel( rView );
                 Rectangle2D bb = _birdsEyeViewport.getBoundsReference();
-                if ( _rModel.getX() < bb.getX() ) {
-                    _rModel.setRect( bb.getX(), _rModel.getY(), _rModel.getWidth(), _rModel.getHeight() );
+                if ( rModel.getX() < bb.getX() ) {
+                    rModel.setRect( bb.getX(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
                 }
-                else if ( _rModel.getMaxX() > bb.getMaxX() ) {
-                    _rModel.setRect( bb.getMaxX() - _rModel.getWidth(), _rModel.getY(), _rModel.getWidth(), _rModel.getHeight() );
+                else if ( rModel.getMaxX() > bb.getMaxX() ) {
+                    rModel.setRect( bb.getMaxX() - rModel.getWidth(), rModel.getY(), rModel.getWidth(), rModel.getHeight() );
                 }
-                _zoomedViewport.setBounds( _rModel );
+                _zoomedViewport.setBounds( rModel );
             }
         } );
     }
@@ -78,8 +74,8 @@ public class PenguinNode extends PImage {
      */
     private void updatePosition() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
-        _mvt.modelToView( rModel, _rView );
-        double xOffset = _rView.getCenterX() - getFullBoundsReference().getWidth()/2;
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        double xOffset = rView.getCenterX() - ( getFullBoundsReference().getWidth() / 2 );
         setOffset( xOffset, getYOffset() );
     }
 }

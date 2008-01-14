@@ -20,8 +20,6 @@ public class ModelViewTransform {
     private final AffineTransform _modelToViewTransform;
     private final AffineTransform _viewToModelTransform;
     
-    private final Point2D _pModel, _pView; // reusable points
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -43,9 +41,6 @@ public class ModelViewTransform {
         _viewToModelTransform = new AffineTransform();
         _viewToModelTransform.translate( -xOffset, -yOffset );
         _viewToModelTransform.scale( 1d / xScale, 1d / yScale );
-        
-        _pModel = new Point2D.Double();
-        _pView = new Point2D.Double();
     }
     
     //----------------------------------------------------------------------------
@@ -68,44 +63,22 @@ public class ModelViewTransform {
         return modelToView( pModel, null );
     }
     
-    public Point2D modelToView( double xModel, double yModel ) {
-        return modelToView( xModel, yModel, null );
-    }
-    
     public Point2D modelToView( double xModel, double yModel, Point2D pView ) {
         return modelToView( new Point2D.Double( xModel, yModel ), pView );
     }
     
+    public Point2D modelToView( double xModel, double yModel ) {
+        return modelToView( xModel, yModel, null );
+    }
+    
     /**
      * Maps a rectangle from model to view coordinates.
-     * If rView is not null, the result is returned in rView.
      * 
      * @param rModel
-     * @param rView
-     * @return
+     * @return Rectangle2D in view coordinates
      */
-    public Rectangle2D modelToView( Rectangle2D rModel, Rectangle2D rView ) {
-        // transform upper-left corner
-        _pModel.setLocation( rModel.getX(), rModel.getY() );
-        modelToView( _pModel, _pView );
-        final double x1 = _pView.getX();
-        final double y1 = _pView.getY();
-        // transform lower-right corner
-        _pModel.setLocation( rModel.getMaxX(), rModel.getMaxY() );
-        modelToView( _pModel, _pView );
-        final double x2 = _pView.getX();
-        final double y2 = _pView.getY();
-        // new non-empty rectangle
-        final double x = ( x1 < x2 ) ? x1 : x2;
-        final double y = ( y1 < y2 ) ? y1 : y2;
-        final double w = Math.abs( x1 - x2 );
-        final double h = Math.abs( y1 - y2 );
-        // return value
-        if ( rView == null ) {
-            rView = new Rectangle2D.Double();
-        }
-        rView.setRect( x, y, w, h  );
-        return rView;
+    public Rectangle2D modelToView( Rectangle2D rModel ) {
+        return _modelToViewTransform.createTransformedShape( rModel ).getBounds2D();
     }
     
     //----------------------------------------------------------------------------
@@ -128,43 +101,21 @@ public class ModelViewTransform {
         return viewToModel( pView, null );
     }
     
-    public Point2D viewToModel( double xView, double yView ) {
-        return viewToModel( new Point2D.Double( xView, yView ) );
-    }
-    
     public Point2D viewToModel( double xView, double yView, Point2D pModel ) {
         return viewToModel( new Point2D.Double( xView, yView ), pModel );
     }
     
+    public Point2D viewToModel( double xView, double yView ) {
+        return viewToModel( new Point2D.Double( xView, yView ) );
+    }
+    
     /**
      * Maps a rectangle from view to model to coordinates.
-     * If rModel is not null, the result is returned in rModel.
      * 
-     * @param rModel
      * @param rView
-     * @return
+     * @param Rectangle2D in model coordinates
      */
-    public Rectangle2D viewToModel( Rectangle2D rView, Rectangle2D rModel ) {
-        // transform upper-left corner
-        _pView.setLocation( rView.getX(), rView.getY() );
-        viewToModel( _pView, _pModel );
-        final double x1 = _pModel.getX();
-        final double y1 = _pModel.getY();
-        // transform lower-right corner
-        _pView.setLocation( rView.getMaxX(), rView.getMaxY() );
-        viewToModel( _pView, _pModel );
-        final double x2 = _pModel.getX();
-        final double y2 = _pModel.getY();
-        // new non-empty rectangle
-        final double x = ( x1 < x2 ) ? x1 : x2;
-        final double y = ( y1 < y2 ) ? y1 : y2;
-        final double w = Math.abs( x1 - x2 );
-        final double h = Math.abs( y1 - y2 );
-        // return value
-        if ( rModel == null ) {
-            rModel = new Rectangle2D.Double();
-        }
-        rModel.setRect( x, y, w, h  );
-        return rModel;
+    public Rectangle2D viewToModel( Rectangle2D rView ) {
+        return _viewToModelTransform.createTransformedShape( rView ).getBounds2D();
     }
 }
