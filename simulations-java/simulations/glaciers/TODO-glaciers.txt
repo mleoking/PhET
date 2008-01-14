@@ -58,6 +58,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/08 - organize imports
 1/13/08 - major simplification of MVT rectangle transforms at the expense of memory allocation
 1/13/08 - fix penguin scaling and layout to handle MVT y translation
 1/13/08 - refactor PlayArea.updateLayout, break into smaller methods

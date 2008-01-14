@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Frame;
-import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
