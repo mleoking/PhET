@@ -33,7 +33,7 @@ public class BasicModule extends PiccoloModule {
     private static final double MVT_X_SCALE = 1; // scale x by this amount when going from model to view
     private static final double MVT_Y_SCALE = 1; // scale y by this amount when going from model to view
     private static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
-    private static final double MVT_Y_OFFSET = 0; // translate x by this amount when going from model to view
+    private static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
     
     //----------------------------------------------------------------------------
     // Instance data
