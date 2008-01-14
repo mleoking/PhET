@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +14,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
@@ -34,10 +34,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double BIRDS_EYE_VIEW_HEIGHT = 75; // pixels, height of top panel will be constrained to this many pixels
-    private static final double BIRDS_EYE_VIEW_SCALE = 0.2;
-    private static final double ZOOMED_VIEW_SCALE = 1;
-    private static final Color CANVAS_BACKGROUND = new Color( 180, 158, 134 ); // tan, should match the ground color in the valley image
+    // constant height of the birds-eye view, in pixels
+    private static final double BIRDS_EYE_VIEW_HEIGHT = 75;
+    
+    // camera view scales
+    private static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
+    private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
+    
+    // width of the stroke used to display the zoomed viewport, in view coordinates
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
     //----------------------------------------------------------------------------
@@ -85,16 +89,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // "birds-eye" view, has a fixed height
         _birdsEyeCanvas = new PhetPCanvas();
-        _birdsEyeCanvas.setBackground( CANVAS_BACKGROUND );
-        _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_VIEW_SCALE );
+        _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
+        _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
         topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
         
         // "zoomed" view
         _zoomedCanvas = new PhetPCanvas();
-        _zoomedCanvas.setBackground( CANVAS_BACKGROUND );
-        _zoomedCanvas.getCamera().setViewScale( ZOOMED_VIEW_SCALE );
+        _zoomedCanvas.setBackground( GlaciersConstants.ZOOMED_CANVAS_COLOR );
+        _zoomedCanvas.getCamera().setViewScale( ZOOMED_CAMERA_VIEW_SCALE );
         
         // Layout, birds-eye view above zoomed view, zoomed view grows/shrinks to fit
         setLayout( new BorderLayout() );

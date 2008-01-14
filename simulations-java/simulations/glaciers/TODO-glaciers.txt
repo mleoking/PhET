@@ -21,7 +21,6 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- haven't tested positive scaling of MVT
 - haven't tested negative scaling (reflection) of MVT
 - haven't tested with different view scales for each canvas' camera (PlayArea.BIRDS_EYE_VIEW_SCALE and ZOOMED_VIEW_SCALE)
 - instead of having PenguinNode know about birds-eye viewport, set its drag bounds when the birds-eye viewport changes
