@@ -30,9 +30,11 @@ public class BasicModule extends PiccoloModule {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double VIEW_X_SCALE = 0.5;
-    private static final double VIEW_Y_SCALE = 0.1;
-    private static final Point2D VIEW_ORIGIN = new Point2D.Double( 500, 0 );
+    // ModelViewTransform (MVT) parameters
+    private static final double MVT_X_SCALE = 0.5; // scale x by this amount when going from model to view
+    private static final double MVT_Y_SCALE = 0.1; // scale y by this amount when going from model to view
+    private static final double MVT_X_OFFSET = 500; // translate x by this amount when going from model to view
+    private static final double MVT_Y_OFFSET = 0; // translate x by this amount when going from model to view
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -56,7 +58,7 @@ public class BasicModule extends PiccoloModule {
         _model = new BasicModel( clock, valley, glacier, climate );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform( VIEW_X_SCALE, VIEW_Y_SCALE, VIEW_ORIGIN );
+        ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET );
         JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 
