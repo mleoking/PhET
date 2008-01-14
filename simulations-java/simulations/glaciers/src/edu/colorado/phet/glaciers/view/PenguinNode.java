@@ -26,7 +26,8 @@ public class PenguinNode extends PImage {
         _zoomedViewport = zoomedViewport;
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
-                updatePosition();
+                updateScale(); // scale before offset!
+                updateOffset();
             }
         });
         
@@ -70,12 +71,32 @@ public class PenguinNode extends PImage {
     public void cleanup() {}
     
     /*
-     * Keeps the penguin horizontally centered in the viewport.
+     * Centered at the bottom of the birds-eye viewport.
      */
-    private void updatePosition() {
+    private void updateOffset() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
         double xOffset = rView.getCenterX() - ( getFullBoundsReference().getWidth() / 2 );
-        setOffset( xOffset, getYOffset() );
+        double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - getFullBoundsReference().getHeight();
+        setOffset( xOffset, yOffset );
+    }
+    
+    /*
+     * Scales the penguin to fit into the birds-eye viewport.
+     */
+    private void updateScale() {
+        final double portionOfViewportToFill = 0.8; // percent of birds-eye view height to be filled by the penguin
+        double desiredHeight = portionOfViewportToFill * _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getHeight() ).getY();
+        double penguinHeight = getFullBoundsReference().getHeight();
+        double yScale = 1;
+        if ( penguinHeight > desiredHeight ) {
+            // scale the penguin down
+            yScale = 1 - ( penguinHeight - desiredHeight ) / penguinHeight;
+        }
+        else {
+            // scale the penguin up
+            yScale = 1 + ( desiredHeight - penguinHeight ) / desiredHeight;
+        }
+        scale( yScale );
     }
 }

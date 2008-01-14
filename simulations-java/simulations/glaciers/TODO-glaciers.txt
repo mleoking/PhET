@@ -58,6 +58,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/13/08 - add offset to birds-eye camera, use to compute birds-eye viewport
+1/13/08 - move responsibility to penguin to handle its own layout (scale & offset)
 1/13/08 - organize imports
 1/13/08 - major simplification of MVT rectangle transforms at the expense of memory allocation
 1/13/08 - fix penguin scaling and layout to handle MVT y translation
