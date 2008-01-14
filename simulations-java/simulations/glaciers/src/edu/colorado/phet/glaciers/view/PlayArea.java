@@ -43,7 +43,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
     // camera offset
-    private static final Point2D BIRDS_EYE_CAMERA_OFFSET = new Point2D.Double( 0, 0 );
+    private static final double BIRDS_EYE_CAMERA_X_OFFSET = 0;
+    private static final double BIRDS_EYE_CAMERA_Y_OFFSET = 0;
     
     // width of the stroke used to display the zoomed viewport, in view coordinates
     private static final float VIEWPORT_STROKE_WIDTH = 4;
@@ -92,7 +93,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _birdsEyeCanvas = new PhetPCanvas();
         _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
         _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
-        _birdsEyeCanvas.getCamera().setOffset( BIRDS_EYE_CAMERA_OFFSET );
+        _birdsEyeCanvas.getCamera().setOffset( BIRDS_EYE_CAMERA_X_OFFSET, BIRDS_EYE_CAMERA_Y_OFFSET );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
         topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
