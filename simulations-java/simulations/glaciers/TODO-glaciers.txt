@@ -21,24 +21,18 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- when setting birds-eye camera offset !=0, zoomed viewport doesn't stay at top of birds-eye viewport
-- set MVT so that "high point" tracer flag visible and +y is up
-- fix negative scaling (reflection) of MVT
-- test flip+scale+translate of both axes
-- implement glacier model as described in Archie's model document
-- create graphs
+- in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
 - implement glacier model
 
 MEDIUM PRIORITY:
+- create graphs
 - add unit tests for MVT "flip sign" feature
-- is order of transforms correct in MVT constructor?
 - get actual function that describes temperature as a function of altitude
 - get actual function that describes precipiation as a function of altitude
 - tools should not be draggable in top canvas
-- ensure the viewport control remains visible when window is resized
 - fancy animation when a tool is dropped in the trash
 - set foreground color of ticks & labels on BasicClimateControl sliders
 - fix layout issues with various control panels
@@ -59,6 +53,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/14/07 - disable debug output for viewports and cameras
 1/14/08 - scale x axis in MVT so that we can fit 80 meters in the birds-eye view window at 1024x768
 1/14/08 - scale y axis in MVT so that we can fit 4100 meters of elevation in the zoomed view window at 1024x768
 1/14/08 - flip sign of y axis in MVT so that model has +y up
