@@ -83,7 +83,7 @@ public class PenguinNode extends PImage {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
         double xOffset = rView.getCenterX() - ( getFullBoundsReference().getWidth() / 2 );
-        double yOffset = _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - getFullBoundsReference().getHeight();
+        double yOffset = _mvt.modelToView( _birdsEyeViewport.getBoundsReference() ).getMaxY() - getFullBoundsReference().getHeight();
         setOffset( xOffset, yOffset );
     }
     
@@ -93,7 +93,7 @@ public class PenguinNode extends PImage {
     private void updateScale() {
         setScale( 1 );
         final double portionOfViewportToFill = 0.75; // percent of birds-eye view height to be filled by the penguin
-        double desiredHeight = portionOfViewportToFill * ( _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getMaxY() ).getY() - _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getY() ).getY() );
+        double desiredHeight = portionOfViewportToFill * ( _mvt.modelToView( _birdsEyeViewport.getBoundsReference() ).getMaxY() - _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getY() ).getY() );
         double penguinHeight = getFullBoundsReference().getHeight();
         double yScale = 1;
         if ( penguinHeight > desiredHeight ) {
