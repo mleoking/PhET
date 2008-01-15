@@ -93,18 +93,16 @@ public class PenguinNode extends PImage {
     private void updateScale() {
         setScale( 1 );
         final double portionOfViewportToFill = 0.75; // percent of birds-eye view height to be filled by the penguin
-        double desiredHeight = portionOfViewportToFill * ( _mvt.modelToView( _birdsEyeViewport.getBoundsReference() ).getMaxY() - _mvt.modelToView( 0, _birdsEyeViewport.getBoundsReference().getY() ).getY() );
+        double desiredHeight = portionOfViewportToFill * _mvt.modelToView( _birdsEyeViewport.getBoundsReference() ).getHeight();
         double penguinHeight = getFullBoundsReference().getHeight();
         double yScale = 1;
         if ( penguinHeight > desiredHeight ) {
             // scale the penguin down
-            yScale = 1 - ( penguinHeight - desiredHeight ) / penguinHeight;
-            System.out.println( "scaling penguin down " + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
+            yScale = 1 - ( ( penguinHeight - desiredHeight ) / penguinHeight );
         }
         else {
             // scale the penguin up
-            yScale = 1 + ( desiredHeight - penguinHeight ) / desiredHeight;
-            System.out.println( "scaling penguin up " + yScale );//XXX
+            yScale = 1 + ( ( desiredHeight - penguinHeight ) / desiredHeight );
         }
         setScale( yScale );
     }
