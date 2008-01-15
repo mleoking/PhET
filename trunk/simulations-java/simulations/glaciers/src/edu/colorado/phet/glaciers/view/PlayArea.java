@@ -44,10 +44,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
-    // camera offset
-    private static final double BIRDS_EYE_CAMERA_X_OFFSET = 0;
-    private static final double BIRDS_EYE_CAMERA_Y_OFFSET = 0;
-    
     // width of the stroke used to display the zoomed viewport, in view coordinates
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
@@ -57,15 +53,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // Model
     private AbstractModel _model;
+    private Viewport _birdsEyeViewport, _zoomedViewport;
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private Viewport _birdsEyeViewport, _zoomedViewport;
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
+    private Point2D _birdsEyeCameraViewOffset; // store this because there's no way to get it from the PCamera
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -75,6 +72,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
+        assert( BIRDS_EYE_CAMERA_VIEW_SCALE > 0 );
+        assert( ZOOMED_CAMERA_VIEW_SCALE > 0 );
         
         _model = model;
         _model.addToolProducerListener( this ); // manage nodes when tools are added/removed
@@ -83,8 +82,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // viewports
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when top canvas is resized
+        _birdsEyeViewport.addViewportListener( new ViewportListener() {
+            public void boundsChanged() {
+                handleBirdsEyeViewportChanged();
+            }
+        });
         _zoomedViewport = new Viewport( "zoomed" ); // bounds will be set when bottom canvas is resized
-        _zoomedViewport.setPosition( _mvt.viewToModel( 0, 0 ) ); //XXX initial position at upper left of birds-eye view
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleZoomedViewportChanged();
@@ -95,7 +98,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _birdsEyeCanvas = new PhetPCanvas();
         _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
         _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
-        _birdsEyeCanvas.getCamera().setOffset( BIRDS_EYE_CAMERA_X_OFFSET, BIRDS_EYE_CAMERA_Y_OFFSET );
         JPanel topPanel = new JPanel( new BorderLayout() );
         topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
         topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
@@ -153,9 +155,21 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         double x = 0;
         double y = _model.getValley().getElevation( x );
         Point2D highPoint =  new Point2D.Double( x, y );
-        System.out.println( "PlayArea placed flag at " + highPoint );//XXX
+        System.out.println( "PlayArea.init, placed flag at " + highPoint );//XXX
         TracerFlag flag = new TracerFlag( highPoint, _model.getGlacier() );
         toolAdded( flag );
+        
+        // birds-eye camera offset
+        final double upperLeftX = highPoint.getX() - 50;
+        final double upperLeftY = highPoint.getY() + 50;
+        Point2D pModel = new Point2D.Double( upperLeftX, upperLeftY );
+        Point2D pView = _mvt.modelToView( pModel );
+        _birdsEyeCameraViewOffset = new Point2D.Double( pView.getX(), pView.getY() );
+        System.out.println( "PlayArea.init birdsEyeCameraViewOffset=" + _birdsEyeCameraViewOffset );//XXX
+        _birdsEyeCanvas.getCamera().setViewOffset( _birdsEyeCameraViewOffset.getX(), _birdsEyeCameraViewOffset.getY() );
+        
+        // zoomed viewport at upper left of birds-eye viewport
+        _zoomedViewport.setPosition( upperLeftX, upperLeftY );
     }
     
     public void cleanup() {
@@ -207,6 +221,11 @@ public class PlayArea extends JPanel implements ToolProducerListener {
 
         // keep the zoomed viewport inside the birds-eye viewport
         constrainZoomedViewport();
+        
+        System.out.println( "PlayArea.updateLayout birdsEyeViewport.bounds   =" + _birdsEyeViewport.getBoundsReference() );//XXX
+        System.out.println( "PlayArea.updateLayout birdsEyeCamera.viewBounds =" + _birdsEyeCanvas.getCamera().getViewBounds() );//XXX
+        System.out.println( "PlayArea.updateLayout zoomedViewport.bounds     =" + _zoomedViewport.getBoundsReference() );//XXX
+        System.out.println( "PlayArea.updateLayout zoomedCamera.viewBounds   =" + _zoomedCanvas.getCamera().getViewBounds() );//XXX
     }
     
     /*
@@ -216,8 +235,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D bb = _birdsEyeCanvas.getBounds();
         assert ( !bb.isEmpty() );
         double scale = _birdsEyeCanvas.getCamera().getViewScale();
-        Point2D offset = _birdsEyeCanvas.getCamera().getOffset();
-        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( offset.getX(), offset.getY(), bb.getWidth() / scale, bb.getHeight() / scale ) );
+        Rectangle2D rView = new Rectangle2D.Double( _birdsEyeCameraViewOffset.getX(), _birdsEyeCameraViewOffset.getY(), bb.getWidth() / scale, bb.getHeight() / scale );
+        Rectangle2D rModel = _mvt.viewToModel( rView );
         _birdsEyeViewport.setBounds( rModel );
     }
     
@@ -228,8 +247,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D zb = _zoomedCanvas.getBounds();
         assert ( !zb.isEmpty() );
         double scale = _zoomedCanvas.getCamera().getViewScale();
-        Rectangle2D rModel = _mvt.viewToModel( new Rectangle2D.Double( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale ) );
-        _zoomedViewport.setSize( rModel.getWidth(), rModel.getHeight() );
+        Rectangle2D rView = new Rectangle2D.Double( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
+        Rectangle2D rModel = _mvt.viewToModel( rView );
+        rModel.setRect( _zoomedViewport.getX(), _birdsEyeViewport.getY(), rModel.getWidth(), rModel.getHeight() );
+        _zoomedViewport.setBounds( rModel );
     }
     
     /* 
@@ -246,6 +267,18 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             double dx = zb.getMaxX() - bb.getMaxX();
             _zoomedViewport.translate( -dx, 0 );
         }
+    }
+    
+    /* 
+     * When the birds-eye viewport changes...
+     */
+    private void handleBirdsEyeViewportChanged() {
+        
+        // translate the birds-eye view's camera
+        Rectangle2D rModel = _birdsEyeViewport.getBoundsReference();
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        double scale = _birdsEyeCanvas.getCamera().getViewScale();
+        _birdsEyeCanvas.getCamera().setViewOffset( -rView.getX() * scale, -rView.getY() * scale );
     }
     
     /*

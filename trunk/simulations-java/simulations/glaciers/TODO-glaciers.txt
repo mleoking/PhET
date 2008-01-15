@@ -33,6 +33,7 @@ HIGH PRIORITY:
 - implement glacier model
 
 MEDIUM PRIORITY:
+- add unit tests for MVT "flip sign" feature
 - is order of transforms correct in MVT constructor?
 - get actual function that describes temperature as a function of altitude
 - get actual function that describes precipiation as a function of altitude
@@ -58,6 +59,13 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/14/08 - flip sign of y axis in MVT so that model has +y up
+1/14/08 - add "flip sign" option to MVT, reflection via negative scaling turned out to be problematic
+1/14/08 - add listener that adjusts birds-eye view camera when birds-eye viewport changes
+1/14/08 - dynamically compute translation of birds-eye view camera
+1/14/08 - place ValleyNode at x=0, y=Valley.getElevation(0)
+1/14/08 - bugfix in scale/offset of PenguinNode, improper use of mvt results in upside-down penguin when yscale=-1
+1/14/08 - verified that order of transforms is correct in MVT constructor
 1/14/08 - JUnit test case for ModelViewTransform
 1/13/08 - move Viewport to model package because it uses model coordinates
 1/13/08 - fix bug in penguin scaling

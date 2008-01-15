@@ -32,8 +32,10 @@ public class BasicModule extends PiccoloModule {
     // ModelViewTransform (MVT) parameters
     private static final double MVT_X_SCALE = 1; // scale x by this amount when going from model to view
     private static final double MVT_Y_SCALE = 1; // scale y by this amount when going from model to view
-    private static final double MVT_X_OFFSET = 100; // translate x by this amount when going from model to view
-    private static final double MVT_Y_OFFSET = 100; // translate y by this amount when going from model to view
+    private static final double MVT_X_OFFSET = 0; // translate x by this amount when going from model to view
+    private static final double MVT_Y_OFFSET = 0; // translate y by this amount when going from model to view
+    private static final boolean MVT_FLIP_SIGN_X = false;
+    private static final boolean MVT_FLIP_SIGN_Y = true;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -57,7 +59,7 @@ public class BasicModule extends PiccoloModule {
         _model = new BasicModel( clock, valley, glacier, climate );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET );
+        ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
         JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 
