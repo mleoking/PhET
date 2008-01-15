@@ -24,10 +24,18 @@ import edu.colorado.phet.glaciers.test.TestViewport;
  */
 public class DeveloperMenu extends JMenu {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private GlaciersApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public DeveloperMenu( GlaciersApplication app ) {
         super( "Developer" );
 
@@ -52,6 +60,10 @@ public class DeveloperMenu extends JMenu {
             }
         } );
     }
+    
+    //----------------------------------------------------------------------------
+    // Event handlers
+    //----------------------------------------------------------------------------
 
     private void handleDeveloperControls() {
         if ( _developerControlsItem.isSelected() ) {

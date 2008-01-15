@@ -42,16 +42,8 @@ public class GlaciersConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final String DEFAULT_FONT_NAME = PhetDefaultFont.getDefaultFontName();
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-    
-    public static final Font CONTROL_PANEL_TITLE_FONT = new Font( GlaciersConstants.DEFAULT_FONT_NAME, Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new Font( GlaciersConstants.DEFAULT_FONT_NAME, Font.PLAIN, 12 );
-    
-    public static final Font PLAY_AREA_TITLE_FONT = new Font( GlaciersConstants.DEFAULT_FONT_NAME, Font.BOLD, 16 );
-    public static final Font PLAY_AREA_CONTROL_FONT = new Font( GlaciersConstants.DEFAULT_FONT_NAME, Font.PLAIN, 16 );
+    public static final Font CONTROL_PANEL_TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
+    public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetDefaultFont();
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -76,5 +68,11 @@ public class GlaciersConstants {
     // color of the Piccolo canvases
     public static final Color BIRDS_EYE_CANVAS_COLOR = Color.WHITE; //UNDERGROUND_COLOR;
     public static final Color ZOOMED_CANVAS_COLOR = Color.WHITE; //UNDERGROUND_COLOR;
+    
+    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 180, 158, 134 ); // tan
+    
+    public static final Color INNER_PANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
+    public static final Color INNER_PANEL_TITLE_COLOR = Color.WHITE;
+    public static final Color INNER_PANEL_CONTROL_COLOR = Color.WHITE;
 
 }

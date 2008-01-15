@@ -31,6 +31,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ToolboxNode extends PNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     // spacing properties
     private static final int HORIZONTAL_ICON_SPACING = 15; // horizontal space between icons
     private static final int BACKGROUND_MARGIN = 5; // margin between the background and the icons
@@ -50,7 +54,15 @@ public class ToolboxNode extends PNode {
     private static final Stroke TAB_STROKE = BACKGROUND_STROKE;
     private static final double TAB_CORNER_RADIUS = BACKGROUND_CORNER_RADIUS;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ArrayList _iconNodes; // array of IconNode
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.

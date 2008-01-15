@@ -21,6 +21,7 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- in ToolIconNode, do everything with one PInputEventListener, using mousePressed/mouseDragged/mouseReleased
 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -53,6 +54,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - clean up and javadoc before moving to next phase of development
 1/15/07 - add unit tests for MVT "flip sign" feature
 1/14/07 - disable debug output for viewports and cameras
 1/14/08 - scale x axis in MVT so that we can fit 80 meters in the birds-eye view window at 1024x768

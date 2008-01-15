@@ -20,11 +20,19 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class MiscControlPanel extends JPanel {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private JButton _equilibriumButton;
     private JButton _resetAllButton;
     private JButton _helpButton;
     
     private ArrayList _listeners; // list of MiscControlPanelListener
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public MiscControlPanel() {
         super();
@@ -60,6 +68,10 @@ public class MiscControlPanel extends JPanel {
         layout.addComponent( _helpButton, 0, column++ );
     }
     
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
@@ -82,6 +94,10 @@ public class MiscControlPanel extends JPanel {
     public void removeMiscControlPanelListener( MiscControlPanelListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
     
     private void notifyEquilibriumButtonPressed() {
         Iterator i = _listeners.iterator();

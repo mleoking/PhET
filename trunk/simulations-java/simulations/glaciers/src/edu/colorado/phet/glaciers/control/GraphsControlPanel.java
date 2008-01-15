@@ -17,6 +17,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
@@ -26,22 +27,35 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class GraphsControlPanel extends JPanel {
 
-    private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
-    private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Color CONTROL_COLOR = Color.WHITE;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
+    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
+    private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private JComboBox _comboBox;
     
     private ArrayList _listeners; // list of GraphsControlPanelListener
     
-    public GraphsControlPanel( Font titleFont, Font controlFont ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public GraphsControlPanel() {
         super();
         
         _listeners = new ArrayList();
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_GRAPHS );
-        titledBorder.setTitleFont( titleFont );
+        titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
@@ -59,7 +73,7 @@ public class GraphsControlPanel extends JPanel {
         };
         
         _comboBox = new JComboBox( items );
-        _comboBox.setFont( controlFont );
+        _comboBox.setFont( CONTROL_FONT );
         _comboBox.setOpaque( false );
         _comboBox.addItemListener( new ItemListener() {
             public void itemStateChanged( ItemEvent e ) {
@@ -81,6 +95,10 @@ public class GraphsControlPanel extends JPanel {
         // default state
         _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setNoGraphSelected() {
         _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
@@ -118,6 +136,10 @@ public class GraphsControlPanel extends JPanel {
         return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE );
     }
     
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
@@ -136,6 +158,10 @@ public class GraphsControlPanel extends JPanel {
     public void removeGraphsControlPanelListener( GraphsControlPanelListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
     
     private void notifySelectionChanged() {
         Iterator i = _listeners.iterator();

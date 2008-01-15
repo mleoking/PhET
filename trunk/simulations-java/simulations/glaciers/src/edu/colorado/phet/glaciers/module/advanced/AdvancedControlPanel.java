@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 
 import javax.swing.Box;
@@ -13,24 +12,22 @@ import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.*;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 
 public class AdvancedControlPanel extends JPanel {
     
-    private static final Color BACKGROUND_COLOR = new Color( 180, 158, 134 ); // tan
-    private static final Font TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
-    private static final Font CONTROL_FONT = new PhetDefaultFont();
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.CONTROL_PANEL_BACKGROUND_COLOR;
 
     public AdvancedControlPanel( GlaciersClock clock ) {
         super();
         
-        ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
-        AdvancedClimateControlPanel climateControlPanel = new AdvancedClimateControlPanel( TITLE_FONT, CONTROL_FONT );
-        GraphsControlPanel graphsControlPanel = new GraphsControlPanel(TITLE_FONT, CONTROL_FONT );
+        ViewControlPanel viewControlPanel = new ViewControlPanel();
+        AdvancedClimateControlPanel climateControlPanel = new AdvancedClimateControlPanel();
+        GraphsControlPanel graphsControlPanel = new GraphsControlPanel();
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
         MiscControlPanel miscControlPanel = new MiscControlPanel();
         
