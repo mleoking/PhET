@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
@@ -26,16 +27,30 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class BasicClimateControlPanel extends JPanel {
 
-    private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
-    private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Color CONTROL_COLOR = Color.WHITE;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
+    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
+    private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
+    private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
+
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private LinearValueControl _snowfallControl;
     private LinearValueControl _temperatureControl;
     
     private ArrayList _listeners; // list of BasicClimateControlPanelListener
     
-    public BasicClimateControlPanel( Font titleFont, Font controlFont, DoubleRange snowfallRange, DoubleRange temperatureRange ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public BasicClimateControlPanel( DoubleRange snowfallRange, DoubleRange temperatureRange ) {
         super();
         
         _listeners = new ArrayList();
@@ -43,12 +58,12 @@ public class BasicClimateControlPanel extends JPanel {
         // snowfall
         JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
         snowfallLabel.setForeground( CONTROL_COLOR );
-        snowfallLabel.setFont( controlFont );
+        snowfallLabel.setFont( CONTROL_FONT );
         {
             double min = snowfallRange.getMin();
             double max = snowfallRange.getMax();
             _snowfallControl = new LinearValueControl( min, max, "", "", "", new SliderOnlyLayoutStrategy() );
-            _snowfallControl.setFont( controlFont );
+            _snowfallControl.setFont( CONTROL_FONT );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     notifySnowfallChanged();
@@ -68,19 +83,19 @@ public class BasicClimateControlPanel extends JPanel {
                 Object o = e.nextElement();
                 if ( o instanceof JComponent )
                     ( (JComponent) o ).setForeground( CONTROL_COLOR );
-                    ( (JComponent) o ).setFont( controlFont );
+                    ( (JComponent) o ).setFont( CONTROL_FONT );
             }
         }
         
         // temperature
         JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
         temperatureLabel.setForeground( CONTROL_COLOR );
-        temperatureLabel.setFont( controlFont );
+        temperatureLabel.setFont( CONTROL_FONT );
         {
             double min = temperatureRange.getMin();
             double max = temperatureRange.getMax();
             _temperatureControl = new LinearValueControl( min, max, "", "", "", new SliderOnlyLayoutStrategy() );
-            _temperatureControl.setFont( controlFont );
+            _temperatureControl.setFont( CONTROL_FONT );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     notifyTemperatureChanged();
@@ -100,13 +115,13 @@ public class BasicClimateControlPanel extends JPanel {
                 Object o = e.nextElement();
                 if ( o instanceof JComponent )
                     ( (JComponent) o ).setForeground( CONTROL_COLOR );
-                    ( (JComponent) o ).setFont( controlFont );
+                    ( (JComponent) o ).setFont( CONTROL_FONT );
             }
         }
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
-        titledBorder.setTitleFont( titleFont );
+        titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
@@ -126,6 +141,10 @@ public class BasicClimateControlPanel extends JPanel {
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public double getSnowfall() {
         return _snowfallControl.getValue();
     }
@@ -141,6 +160,10 @@ public class BasicClimateControlPanel extends JPanel {
     public void setTemperture( double temperature ) {
         _temperatureControl.setValue( temperature );
     }
+    
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
     
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
@@ -162,6 +185,10 @@ public class BasicClimateControlPanel extends JPanel {
     public void removeBasicClimateControlPanelListener( BasicClimateControlPanelListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
     
     private void notifySnowfallChanged() {
         double value = getSnowfall();

@@ -13,6 +13,7 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
@@ -22,27 +23,41 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class AdvancedClimateControlPanel extends JPanel {
 
-    private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
-    private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Color CONTROL_COLOR = Color.WHITE;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
+    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
+    private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
+    private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
+
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private JRadioButton _snowfallAndTemperatureRadioButton;
     private JRadioButton _climatePresetsRadioButton;
     private JRadioButton _massBalanceRadioButton;
     
-    public AdvancedClimateControlPanel( Font titleFont, Font controlFont ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public AdvancedClimateControlPanel() {
         super();
         
         _snowfallAndTemperatureRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_SNOWFALL_AND_TEMPERATURE );
-        _snowfallAndTemperatureRadioButton.setFont( controlFont );
+        _snowfallAndTemperatureRadioButton.setFont( CONTROL_FONT );
         _snowfallAndTemperatureRadioButton.setForeground( CONTROL_COLOR );
         
         _climatePresetsRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_CLIMATE_PRESETS );
-        _climatePresetsRadioButton.setFont( controlFont );
+        _climatePresetsRadioButton.setFont( CONTROL_FONT );
         _climatePresetsRadioButton.setForeground( CONTROL_COLOR );
         
         _massBalanceRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_MASS_BALANCE );
-        _massBalanceRadioButton.setFont( controlFont );
+        _massBalanceRadioButton.setFont( CONTROL_FONT );
         _massBalanceRadioButton.setForeground( CONTROL_COLOR );
         
         ButtonGroup buttonGroup = new ButtonGroup();
@@ -52,7 +67,7 @@ public class AdvancedClimateControlPanel extends JPanel {
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
-        titledBorder.setTitleFont( titleFont );
+        titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
@@ -94,4 +109,16 @@ public class AdvancedClimateControlPanel extends JPanel {
         
         _snowfallAndTemperatureRadioButton.setSelected( true );//XXX
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
 }

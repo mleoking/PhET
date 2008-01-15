@@ -6,7 +6,7 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
- * TrashCanNode
+ * TrashCanNode is the trash can icon that appears in the toolbox.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

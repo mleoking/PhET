@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 
 import javax.swing.Box;
@@ -13,8 +12,8 @@ import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.BasicClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
@@ -25,15 +24,13 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 public class BasicControlPanel extends JPanel {
     
-    private static final Color BACKGROUND_COLOR = new Color( 180, 158, 134 ); // tan
-    private static final Font TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
-    private static final Font CONTROL_FONT = new PhetDefaultFont();
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.CONTROL_PANEL_BACKGROUND_COLOR;
 
     public BasicControlPanel( GlaciersClock clock ) {
         super();
         
-        ViewControlPanel viewControlPanel = new ViewControlPanel( TITLE_FONT, CONTROL_FONT );
-        BasicClimateControlPanel climateControlPanel = new BasicClimateControlPanel( TITLE_FONT, CONTROL_FONT, BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE );
+        ViewControlPanel viewControlPanel = new ViewControlPanel();
+        BasicClimateControlPanel climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE );
         GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
         MiscControlPanel miscControlPanel = new MiscControlPanel();
         

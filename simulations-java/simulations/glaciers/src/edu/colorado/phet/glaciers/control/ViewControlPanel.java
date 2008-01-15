@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
@@ -27,10 +28,20 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class ViewControlPanel extends JPanel {
     
-    private static final Color BACKGROUND_COLOR = new Color( 82, 126, 90 ); // green
-    private static final Color TITLE_COLOR = Color.WHITE;
-    private static final Color CONTROL_COLOR = Color.WHITE;
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
+    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
+    private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
+    private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private JCheckBox _equilibriumLineCheckBox;
     private JCheckBox _iceFlowCheckBox;
     private JCheckBox _snowfallCheckBox;
@@ -39,13 +50,17 @@ public class ViewControlPanel extends JPanel {
     
     private ArrayList _listeners; // list of ViewControlPanelListener
     
-    public ViewControlPanel( Font titleFont, Font controlFont ) {
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
+    public ViewControlPanel() {
         super();
         
         _listeners = new ArrayList();
         
         _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
-        _equilibriumLineCheckBox.setFont( controlFont );
+        _equilibriumLineCheckBox.setFont( CONTROL_FONT );
         _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
         _equilibriumLineCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -54,7 +69,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         _iceFlowCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ICE_FLOW );
-        _iceFlowCheckBox.setFont( controlFont );
+        _iceFlowCheckBox.setFont( CONTROL_FONT );
         _iceFlowCheckBox.setForeground( CONTROL_COLOR );
         _iceFlowCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -63,7 +78,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         _snowfallCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_SNOWFALL );
-        _snowfallCheckBox.setFont( controlFont );
+        _snowfallCheckBox.setFont( CONTROL_FONT );
         _snowfallCheckBox.setForeground( CONTROL_COLOR );
         _snowfallCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -72,7 +87,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         _coordinatesCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_COORDINATES );
-        _coordinatesCheckBox.setFont( controlFont );
+        _coordinatesCheckBox.setFont( CONTROL_FONT );
         _coordinatesCheckBox.setForeground( CONTROL_COLOR );
         _coordinatesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -81,7 +96,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         _ageOfIceCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_AGE_OF_ICE );
-        _ageOfIceCheckBox.setFont( controlFont );
+        _ageOfIceCheckBox.setFont( CONTROL_FONT );
         _ageOfIceCheckBox.setForeground( CONTROL_COLOR );
         _ageOfIceCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -91,7 +106,7 @@ public class ViewControlPanel extends JPanel {
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW );
-        titledBorder.setTitleFont( titleFont );
+        titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
@@ -110,6 +125,10 @@ public class ViewControlPanel extends JPanel {
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setEquilibriumLineSelected( boolean b ) {
         _equilibriumLineCheckBox.setSelected( b );
@@ -151,6 +170,10 @@ public class ViewControlPanel extends JPanel {
         return _ageOfIceCheckBox.isSelected();
     }
     
+    //----------------------------------------------------------------------------
+    // Listener
+    //----------------------------------------------------------------------------
+    
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
@@ -177,6 +200,10 @@ public class ViewControlPanel extends JPanel {
     public void removeViewControlPanelListener( ViewControlPanelListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
     
     private void notifyEquilibriumLineChanged() {
         boolean b = isEquilibriumSelected();
