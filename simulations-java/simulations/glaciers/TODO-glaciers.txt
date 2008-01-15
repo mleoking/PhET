@@ -59,6 +59,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/14/08 - scale x axis in MVT so that we can fit 80 meters in the birds-eye view window at 1024x768
+1/14/08 - scale y axis in MVT so that we can fit 4100 meters of elevation in the zoomed view window at 1024x768
 1/14/08 - flip sign of y axis in MVT so that model has +y up
 1/14/08 - add "flip sign" option to MVT, reflection via negative scaling turned out to be problematic
 1/14/08 - add listener that adjusts birds-eye view camera when birds-eye viewport changes
