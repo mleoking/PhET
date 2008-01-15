@@ -47,7 +47,7 @@ public class AdvancedModule extends PiccoloModule {
         _model = new AdvancedModel( clock,valley, glacier, climate );
 
         // Play Area
-        ModelViewTransform mvt = new ModelViewTransform( 1, 1, 0, 0 ); //XXX
+        ModelViewTransform mvt = new ModelViewTransform(); //XXX identity
         JPanel playArea = new PlayArea( _model, mvt );
         setSimulationPanel( playArea );
 
