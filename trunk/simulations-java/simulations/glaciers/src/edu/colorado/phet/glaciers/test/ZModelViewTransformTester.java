@@ -24,6 +24,7 @@ public class ZModelViewTransformTester extends TestCase {
     private ModelViewTransform _mvtNegativeScale; // negative scaling
     private ModelViewTransform _mvtPositiveTranslation; // positive translation
     private ModelViewTransform _mvtNegativeTranslation; // negative translation
+    private ModelViewTransform _mvtReflection; // reflection transform
     private ModelViewTransform _mvtCombination;
     
     //----------------------------------------------------------------------------
@@ -36,6 +37,7 @@ public class ZModelViewTransformTester extends TestCase {
         _mvtNegativeScale = new ModelViewTransform( -2, -3, 0, 0 );
         _mvtPositiveTranslation = new ModelViewTransform( 1, 1, 10, 20 );
         _mvtNegativeTranslation = new ModelViewTransform( 1, 1, -10, -20 );
+        _mvtReflection = new ModelViewTransform( 1, -1, 0, 0 );
         _mvtCombination = new ModelViewTransform( 2, -3, 10, 20 );
     }
     
@@ -192,6 +194,38 @@ public class ZModelViewTransformTester extends TestCase {
         Rectangle2D rView = new Rectangle2D.Double( 90, 180, 300, 400 );
         Rectangle2D rModel = _mvtNegativeTranslation.viewToModel( rView );
         Rectangle2D rCorrect = new Rectangle2D.Double( 100, 200, 300, 400 ); // 10.,20
+        assertTrue( rModel.equals( rCorrect ) );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Reflection about Y axis
+    //----------------------------------------------------------------------------
+    
+    public void testReflection_ModelToView_Point() {
+        Point2D pModel = new Point2D.Double( 10, 20 );
+        Point2D pView = _mvtReflection.modelToView( pModel );
+        Point2D pCorrect = new Point2D.Double( 10, -20 ); // 1,-1,0,0
+        assertTrue( pView.equals( pCorrect ) );
+    }
+    
+    public void testReflection_ModelToView_Rectangle() {
+        Rectangle2D rModel = new Rectangle2D.Double( 0, 0, 100, 200 );
+        Rectangle2D rView = _mvtReflection.modelToView( rModel );
+        Rectangle2D rCorrect = new Rectangle2D.Double( 0, -200, 100, 200 ); // 1,-1,0,0
+        assertTrue( rView.equals( rCorrect ) );
+    }
+    
+    public void testReflection_ViewToModel_Point() {
+        Point2D pView = new Point2D.Double( 10, -20 );
+        Point2D pModel = _mvtReflection.viewToModel( pView );
+        Point2D pCorrect = new Point2D.Double( 10, 20 ); // 1,-1,0,0
+        assertTrue( pModel.equals( pCorrect ) );
+    }
+    
+    public void testReflection_ViewToModel_Rectangle() {
+        Rectangle2D rView = new Rectangle2D.Double( 0, -200, 100, 200 );
+        Rectangle2D rModel = _mvtReflection.viewToModel( rView );
+        Rectangle2D rCorrect = new Rectangle2D.Double( 0, 0, 100, 200 ); // 1,-1,0,0
         assertTrue( rModel.equals( rCorrect ) );
     }
     
