@@ -99,10 +99,12 @@ public class PenguinNode extends PImage {
         if ( penguinHeight > desiredHeight ) {
             // scale the penguin down
             yScale = 1 - ( ( penguinHeight - desiredHeight ) / penguinHeight );
+//            System.out.println( "PenguinNode.updateScale, scaling penguin down yScale=" + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
         }
         else {
             // scale the penguin up
             yScale = 1 + ( ( desiredHeight - penguinHeight ) / desiredHeight );
+//            System.out.println( "PenguinNode.updateScale, scaling penguin up yScale=" + yScale + " ph=" + penguinHeight + " dh=" + desiredHeight );//XXX
         }
         setScale( yScale );
     }
