@@ -53,6 +53,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - add unit tests for MVT "flip sign" feature
 1/14/07 - disable debug output for viewports and cameras
 1/14/08 - scale x axis in MVT so that we can fit 80 meters in the birds-eye view window at 1024x768
 1/14/08 - scale y axis in MVT so that we can fit 4100 meters of elevation in the zoomed view window at 1024x768

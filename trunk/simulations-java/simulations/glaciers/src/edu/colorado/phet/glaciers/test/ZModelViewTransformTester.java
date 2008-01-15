@@ -25,6 +25,7 @@ public class ZModelViewTransformTester extends TestCase {
     private ModelViewTransform _mvtPositiveTranslation; // positive translation
     private ModelViewTransform _mvtNegativeTranslation; // negative translation
     private ModelViewTransform _mvtReflection; // reflection transform
+    private ModelViewTransform _mvtFlipSign; // flip sign of x,y coordinates
     private ModelViewTransform _mvtCombination;
     
     //----------------------------------------------------------------------------
@@ -38,6 +39,7 @@ public class ZModelViewTransformTester extends TestCase {
         _mvtPositiveTranslation = new ModelViewTransform( 1, 1, 10, 20 );
         _mvtNegativeTranslation = new ModelViewTransform( 1, 1, -10, -20 );
         _mvtReflection = new ModelViewTransform( 1, -1, 0, 0 );
+        _mvtFlipSign = new ModelViewTransform( 1, 1, 10, 20, true, true );
         _mvtCombination = new ModelViewTransform( 2, -3, 10, 20 );
     }
     
@@ -226,6 +228,38 @@ public class ZModelViewTransformTester extends TestCase {
         Rectangle2D rView = new Rectangle2D.Double( 0, -200, 100, 200 );
         Rectangle2D rModel = _mvtReflection.viewToModel( rView );
         Rectangle2D rCorrect = new Rectangle2D.Double( 0, 0, 100, 200 ); // 1,-1,0,0
+        assertTrue( rModel.equals( rCorrect ) );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Flip sign of x,y coordinates
+    //----------------------------------------------------------------------------
+    
+    public void testFlipSign_ModelToView_Point() {
+        Point2D pModel = new Point2D.Double( 10, 20 );
+        Point2D pView = _mvtFlipSign.modelToView( pModel );
+        Point2D pCorrect = new Point2D.Double( -20, -40 ); // 10,20,true,true
+        assertTrue( pView.equals( pCorrect ) );
+    }
+    
+    public void testFlipSign_ModelToView_Rectangle() {
+        Rectangle2D rModel = new Rectangle2D.Double( 100, 200, 300, 400 );
+        Rectangle2D rView = _mvtFlipSign.modelToView( rModel );
+        Rectangle2D rCorrect = new Rectangle2D.Double( -110, -220, 300, 400 ); // 10,20,true,true
+        assertTrue( rView.equals( rCorrect ) );
+    }
+    
+    public void testFlipSign_ViewToModel_Point() {
+        Point2D pView = new Point2D.Double( -20, -40 );
+        Point2D pModel = _mvtFlipSign.viewToModel( pView );
+        Point2D pCorrect = new Point2D.Double( 30, 60 ); // -10,-20,true,true
+        assertTrue( pModel.equals( pCorrect ) );
+    }
+    
+    public void testFlipSign_ViewToModel_Rectangle() {
+        Rectangle2D rView = new Rectangle2D.Double( -110, -220, 300, 400 );
+        Rectangle2D rModel = _mvtFlipSign.viewToModel( rView );
+        Rectangle2D rCorrect = new Rectangle2D.Double( 120, 240, 300, 400 ); // -10,-20,true,true
         assertTrue( rModel.equals( rCorrect ) );
     }
     
