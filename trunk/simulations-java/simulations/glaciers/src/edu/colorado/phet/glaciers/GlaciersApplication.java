@@ -99,8 +99,8 @@ public class GlaciersApplication extends PhetApplication {
         _basicModule = new BasicModule( parentFrame );
         addModule( _basicModule );
 
-        _advancedModule = new AdvancedModule( parentFrame );
-        addModule( _advancedModule );
+//        _advancedModule = new AdvancedModule( parentFrame );
+//        addModule( _advancedModule );
     }
 
     /*
