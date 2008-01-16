@@ -3,14 +3,17 @@
 package edu.colorado.phet.glaciers.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
@@ -60,6 +63,13 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // width of the stroke used to display the zoomed viewport, in view coordinates
     private static final float VIEWPORT_STROKE_WIDTH = 4;
     
+    private static final int VERTICAL_CANVAS_SPACING = 4;
+    private static final int BORDER_WIDTH = 5;
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.CONTROL_PANEL_BACKGROUND_COLOR;
+    private static final Border CANVAS_BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
+    private static final Border PLAY_AREA_BORDER = BorderFactory.createLineBorder( BACKGROUND_COLOR, BORDER_WIDTH );
+
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -93,13 +103,15 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         _mvt = mvt;
         
-        // viewports
+        // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when top canvas is resized
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
             }
         });
+        
+        // zoomed viewport
         _zoomedViewport = new Viewport( "zoomed" ); // bounds will be set when bottom canvas is resized
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
@@ -107,24 +119,44 @@ public class PlayArea extends JPanel implements ToolProducerListener {
             }
         });
         
-        // "birds-eye" view, has a fixed height
+        // birds-eye view
         _birdsEyeCanvas = new PhetPCanvas();
+        _birdsEyeCanvas.setBorder( null ); // no border on the canvas, because we use canvas bounds in calculations
         _birdsEyeCanvas.setBackground( GlaciersConstants.BIRDS_EYE_CANVAS_COLOR );
         _birdsEyeCanvas.getCamera().setViewScale( BIRDS_EYE_CAMERA_VIEW_SCALE );
-        JPanel topPanel = new JPanel( new BorderLayout() );
-        topPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
-        topPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
         
-        // "zoomed" view
+        // zoomed view
         _zoomedCanvas = new PhetPCanvas();
+        _zoomedCanvas.setBorder( null ); // no border on the canvas, because we use canvas bounds in calculations
         _zoomedCanvas.setBackground( GlaciersConstants.ZOOMED_CANVAS_COLOR );
         _zoomedCanvas.getCamera().setViewScale( ZOOMED_CAMERA_VIEW_SCALE );
         // zoomed camera offset will be set based on viewport position
-        
-        // Layout, birds-eye view above zoomed view, zoomed view grows/shrinks to fit
-        setLayout( new BorderLayout() );
-        add( topPanel, BorderLayout.NORTH );
-        add( _zoomedCanvas, BorderLayout.CENTER );
+
+        // Layout the panel
+        {
+            // put a border around the birds-eye canvas, and constrain its height
+            JPanel birdsEyeWrapperPanel = new JPanel( new BorderLayout() );
+            birdsEyeWrapperPanel.add( Box.createVerticalStrut( (int) BIRDS_EYE_VIEW_HEIGHT ), BorderLayout.WEST ); // fixed height
+            birdsEyeWrapperPanel.add( _birdsEyeCanvas, BorderLayout.CENTER );
+            birdsEyeWrapperPanel.setBorder( CANVAS_BORDER );
+
+            // add a vertical spacer below the birds-eye cANVAS
+            JPanel topPanel = new JPanel( new BorderLayout() );
+            topPanel.setBackground( BACKGROUND_COLOR );
+            topPanel.add( birdsEyeWrapperPanel, BorderLayout.CENTER );
+            topPanel.add( Box.createVerticalStrut( VERTICAL_CANVAS_SPACING ), BorderLayout.SOUTH );
+
+            // put a border around birds-eye canvas
+            JPanel bottomPanel = new JPanel( new BorderLayout() );
+            bottomPanel.add( _zoomedCanvas, BorderLayout.CENTER );
+            bottomPanel.setBorder( CANVAS_BORDER );
+
+            // birds-eye view above zoomed view, make the zoomed canvas fill all available space
+            setBorder( PLAY_AREA_BORDER );
+            setLayout( new BorderLayout() );
+            add( topPanel, BorderLayout.NORTH );
+            add( bottomPanel, BorderLayout.CENTER );
+        }
         
         // update layout when the play area is resized
         PlayAreaResizeListener resizeListener = new PlayAreaResizeListener( this );
@@ -179,7 +211,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Point2D pView = _mvt.modelToView( pModel );
         _birdsEyeCameraViewOffset = new Point2D.Double( pView.getX(), pView.getY() );
         System.out.println( "PlayArea.init birdsEyeCameraViewOffset=" + _birdsEyeCameraViewOffset );//XXX
-        _birdsEyeCanvas.getCamera().setViewOffset( _birdsEyeCameraViewOffset.getX(), _birdsEyeCameraViewOffset.getY() );
         
         // zoomed viewport at upper left of birds-eye viewport
         _zoomedViewport.setPosition( upperLeftX, upperLeftY );
