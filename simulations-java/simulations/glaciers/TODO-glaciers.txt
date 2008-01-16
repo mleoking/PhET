@@ -41,6 +41,7 @@ MEDIUM PRIORITY:
 - add left and right arrows to zoom view, secondary viewport control
 - tile the right edge of the valley, so that it can be exteneded when window is resized
 - add variable caliper size to ice measuring tool
+- is unconstrained dragging of tools OK? (set in ToolNodeFactory)
 
 LOW PRIORITY:
 - control panels in all modules should be the same height

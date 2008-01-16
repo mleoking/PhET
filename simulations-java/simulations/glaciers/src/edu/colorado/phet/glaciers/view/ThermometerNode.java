@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.view;
 
@@ -21,19 +21,30 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * ThermometerNode is the visual representation of a thermometer.
- * It's origin is at the bottom center.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ThermometerNode extends AbstractToolNode {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat TEMPERATURE_FORMAT = new DecimalFormat( "0.0" );
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Thermometer _thermometer;
     private ThermometerListener _thermometerListener;
-    private JLabel _temperatureLabel;
+    private JLabel _temperatureDisplay;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ThermometerNode( Thermometer thermometer, ModelViewTransform mvt ) {
         super( thermometer, mvt );
@@ -48,13 +59,13 @@ public class ThermometerNode extends AbstractToolNode {
         
         PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
         addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() );
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() ); // bottom center
         
-        _temperatureLabel = new JLabel();
-        _temperatureLabel.setFont( FONT );
+        _temperatureDisplay = new JLabel();
+        _temperatureDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBorder( BORDER );
-        panel.add( _temperatureLabel );
+        panel.add( _temperatureDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
         panelNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() / 2 );
@@ -69,9 +80,16 @@ public class ThermometerNode extends AbstractToolNode {
         super.cleanup();
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the temperature display to match the model.
+     */
     private void updateTemperature() {
         double value = _thermometer.getTemperature();
         String text = TEMPERATURE_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_TEMPERATURE;
-        _temperatureLabel.setText( text );
+        _temperatureDisplay.setText( text );
     }
 }

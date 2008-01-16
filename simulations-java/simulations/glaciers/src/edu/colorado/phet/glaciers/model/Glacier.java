@@ -9,12 +9,28 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
-
+/**
+ * Glacier is the model of the glacier.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class Glacier extends ClockAdapter {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final double HEAD_X_COORDINATE = 0;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private final ArrayList _listeners; // list of GlacierListener
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public Glacier() {
         super();
@@ -22,6 +38,10 @@ public class Glacier extends ClockAdapter {
     }
     
     public void cleanup() {}
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public double getHeadPosition( ) {
         return HEAD_X_COORDINATE; //XXX
@@ -59,9 +79,17 @@ public class Glacier extends ClockAdapter {
         return 0; //XXX
     }
 
+    //----------------------------------------------------------------------------
+    // ClockAdapter overrides
+    //----------------------------------------------------------------------------
+    
     public void simulationTimeChanged( ClockEvent event ) {
         //XXX
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface GlacierListener {
         //XXX what goes here?...
@@ -80,6 +108,10 @@ public class Glacier extends ClockAdapter {
     public void removeGlacierListener( GlacierListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification of changes
+    //----------------------------------------------------------------------------
     
     //XXX this is just an example...
     private void notifySomethingChanged() {

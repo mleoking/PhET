@@ -1,19 +1,35 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-
+/**
+ * Movable is the model of a movable object, having position and orientation.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public abstract class Movable {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Point2D DEFAULT_POSITION = new Point2D.Double( 0, 0 );
     private static final double DEFAULT_ORIENTATION = 0;
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Point2D _position;
     private double _orientation;
     private ArrayList _listeners; // list of MovableListener
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public Movable() {
         this( DEFAULT_POSITION, DEFAULT_ORIENTATION );
@@ -30,6 +46,10 @@ public abstract class Movable {
     }
     
     public void cleanup() {}
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public void setPosition( Point2D position ) {
         setPosition( position.getX(), position.getY() );
@@ -71,6 +91,10 @@ public abstract class Movable {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
     public interface MovableListener {
         public void positionChanged();
         public void orientationChanged();
@@ -88,6 +112,10 @@ public abstract class Movable {
     public void removeMovableListener( MovableListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification of changes
+    //----------------------------------------------------------------------------
     
     private void notifyPositionChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {

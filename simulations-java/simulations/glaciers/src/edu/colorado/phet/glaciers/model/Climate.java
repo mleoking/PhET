@@ -7,16 +7,32 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
-
+/**
+ * Climate is the model of climate.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class Climate extends ClockAdapter {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final double DELTA_TEMPERATURE = -6.6E-3; // degrees C per meter
     private static final double DELTA_PRECIPITATION = 2; // (meters per year) per meter
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final double _referenceAltitude; // meters
     private double _referenceTemperature; // degrees C
     private double _referencePrecipitation; // meters per years
     private ArrayList _listeners; // list of ClimateListener
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public Climate() {
         this( 0 ); // reference altitude is sea level
@@ -30,6 +46,10 @@ public class Climate extends ClockAdapter {
     }
     
     public void cleanup() {}
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public double getReferenceAltitude() {
         return _referenceAltitude;
@@ -68,9 +88,17 @@ public class Climate extends ClockAdapter {
         return _referencePrecipitation + ( ( altitude - _referenceAltitude ) * DELTA_PRECIPITATION );
     }
 
+    //----------------------------------------------------------------------------
+    // ClockAdapter overrides
+    //----------------------------------------------------------------------------
+    
     public void simulationTimeChanged( ClockEvent event ) {
         // do nothing
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface ClimateListener {
         public void referenceTemperatureChanged();
@@ -89,6 +117,10 @@ public class Climate extends ClockAdapter {
     public void removeClimateListener( ClimateListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification of changes
+    //----------------------------------------------------------------------------
     
     private void notifyReferenceTemperatureChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {

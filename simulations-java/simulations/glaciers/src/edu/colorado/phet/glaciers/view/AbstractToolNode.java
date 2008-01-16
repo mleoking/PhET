@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.view;
 
@@ -14,16 +14,24 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * AbstractToolNode is the base class for all tool nodes.
- * As this node is dragged, the position of its corresponding tool model element is updated.
+ * Base functionality includes updating the tool's position as the node is dragged.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractToolNode extends PComposite {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private AbstractTool _tool;
     private ModelViewTransform _mvt;
     private MovableListener _movableListener;
     private Point2D _pModel, _pView; // reusable points
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public AbstractToolNode( AbstractTool tool, ModelViewTransform mvt ) {
         super();
@@ -69,10 +77,16 @@ public abstract class AbstractToolNode extends PComposite {
         _tool.removeMovableListener( _movableListener );
     }
     
+    /*
+     * Provides access to the model-view transform for subclasses.
+     */
     protected ModelViewTransform getModelViewTransform() {
         return _mvt;
     }
     
+    /*
+     * Updates the node's position to match the tool.
+     */
     protected void updatePosition() {
         _mvt.modelToView( _tool.getPositionReference(), _pView );
         setOffset( _pView );

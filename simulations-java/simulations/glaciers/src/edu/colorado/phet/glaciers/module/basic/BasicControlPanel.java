@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.module.basic;
 
@@ -21,11 +21,23 @@ import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
-
+/**
+ * BasicControlPanel is the control panel for BasicModule.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BasicControlPanel extends JPanel {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Color BACKGROUND_COLOR = GlaciersConstants.CONTROL_PANEL_BACKGROUND_COLOR;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public BasicControlPanel( GlaciersClock clock ) {
         super();
         

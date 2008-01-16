@@ -5,8 +5,17 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-
+/**
+ * GlacialBudgetMeter is the model of a glacial budget meter.
+ * The meter displays the accumulation, ablation and glacial budget at a point on the glacier.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GlacialBudgetMeter extends AbstractTool {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private Glacier _glacier;
     private double _accumulation;
@@ -14,6 +23,10 @@ public class GlacialBudgetMeter extends AbstractTool {
     private double _glacialBudget;
     private ArrayList _listeners; // list of GlacialBudgetMeterListener
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public GlacialBudgetMeter( Point2D position, Glacier glacier ) {
         super( position );
         _glacier = glacier;
@@ -26,6 +39,10 @@ public class GlacialBudgetMeter extends AbstractTool {
     public void cleanup() {
         super.cleanup();
     }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
     
     public double getAccumulation() {
         return _accumulation;
@@ -60,6 +77,10 @@ public class GlacialBudgetMeter extends AbstractTool {
         }
     }
     
+    //----------------------------------------------------------------------------
+    // AbstractTool overrides
+    //----------------------------------------------------------------------------
+    
     protected void handlePositionChanged() {
         updateAllValues();
     }
@@ -75,6 +96,10 @@ public class GlacialBudgetMeter extends AbstractTool {
         setAblation( _glacier.getAblation( x ) );
         setGlacialBudget( _glacier.getGlacialBudget( x ) );
     }
+    
+    //----------------------------------------------------------------------------
+    // Listener interface
+    //----------------------------------------------------------------------------
     
     public interface GlacialBudgetMeterListener {
         public void accumulationChanged();
@@ -96,6 +121,10 @@ public class GlacialBudgetMeter extends AbstractTool {
         _listeners.remove( listener );
     }
 
+    //----------------------------------------------------------------------------
+    // Notification of changes
+    //----------------------------------------------------------------------------
+    
     private void notifyAccumulationChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             ( (GlacialBudgetMeterListener) _listeners.get( i ) ).accumulationChanged();

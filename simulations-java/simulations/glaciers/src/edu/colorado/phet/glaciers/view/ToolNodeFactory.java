@@ -1,3 +1,5 @@
+/* Copyright 2007-2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.view;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -5,12 +7,23 @@ import edu.colorado.phet.glaciers.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 
-
+/**
+ * ToolNodeFactory uses the Factory design pattern to create tool nodes.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ToolNodeFactory {
 
     /* not intended for instantiation */
     private ToolNodeFactory() {}
     
+    /**
+     * Creates a tool node for a specified tool.
+     * 
+     * @param tool
+     * @param mvt
+     * @return
+     */
     public static PNode createNode( AbstractTool tool, ModelViewTransform mvt ) {
         PNode node = null;
         if ( tool instanceof Thermometer ) {
@@ -36,7 +49,7 @@ public class ToolNodeFactory {
         }
         
         node.addInputEventListener( new CursorHandler() );
-        node.addInputEventListener( new PDragEventHandler() ); //XXX unconstrained dragging
+        node.addInputEventListener( new PDragEventHandler() ); //XXX is unconstrained dragging OK?
         
         return node;
     }
