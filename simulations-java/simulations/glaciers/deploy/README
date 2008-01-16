@@ -1,0 +1,35 @@
+<html>
+<p>
+<big><big><b>
+Glaciers, version 0.00.01
+</b></big></big>
+<p>
+English: <a href="glaciers.jnlp">Glaciers</a>
+<p>
+Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
+</ul>
+<p>
+<p>
+<b>What's new:</b>
+<p>
+<ul>
+<li>XXX
+</ul>
+<p>
+<b>Know issues:</b>
+<p>
+<ul>
+<li>XXX
+</ul>
+<p>
+<b>Not implemented:</b>
+<ul>
+<li>XXX
+</ul>
+<p>
+<b>Remaining work:</b>
+<p>
+<ul>
+<li>see the <a href="http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO-glaciers.txt?view=markup">"to do" list</a>
+</ul>
+</html>
