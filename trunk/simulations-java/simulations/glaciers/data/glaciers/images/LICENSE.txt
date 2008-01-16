@@ -4,6 +4,8 @@ boreholeDrill.svg source=? author=? license=?
 
 bucket.svg source=PhET author=Archie Paulson
 
+dirt-texture.png source=http://ozviz.wasp.uwa.edu.au/~pbourke/texture_colour/dirt/ license=?
+
 glacialBudgetMeter.svg source=PhET author=Archie Paulson
 
 iceThicknessTool.svg source=http://openclipart.org author=?  license=http://creativecommons.org:81/licenses/publicdomain/

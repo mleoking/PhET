@@ -16,6 +16,7 @@ public class GlaciersImages {
     private GlaciersImages() {}
     
     public static final BufferedImage BOREHOLE_DRILL = GlaciersResources.getImage( "boreholeDrill.png" );
+    public static final BufferedImage DIRT_TEXTURE = GlaciersResources.getImage( "dirt-texture.png" );
     public static final BufferedImage GLACIAL_BUDGET_METER = GlaciersResources.getImage( "glacialBudgetMeter.png" );
     public static final BufferedImage ICE_THICKNESS_TOOL = GlaciersResources.getImage( "iceThicknessTool.png" );
     public static final BufferedImage THERMOMETER = GlaciersResources.getImage( "thermometer.png" );

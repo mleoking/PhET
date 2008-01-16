@@ -2,11 +2,13 @@
 
 package edu.colorado.phet.glaciers.view;
 
-import java.awt.BasicStroke;
+import java.awt.TexturePaint;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -46,10 +48,12 @@ public class ValleyNode extends PComposite {
         _valley = valley;
         _mvt = mvt;
         
+        TexturePaint paint = new TexturePaint( GlaciersImages.DIRT_TEXTURE, new Rectangle2D.Double( 0, 0, 100, 100 ) );
+        
         GeneralPath path = createValleyFloorPath( X_MIN, X_MAX, DX );
         PPath pathNode = new PPath( path );
         pathNode.setStroke( null );
-        pathNode.setPaint( GlaciersConstants.UNDERGROUND_COLOR );
+        pathNode.setPaint( paint );
         addChild( pathNode );
     }
     
