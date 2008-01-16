@@ -15,6 +15,7 @@ DESIGN ISSUES:
 - what happens to an ice-specific (or atmosphere-specific) tool when the ice disappears (or appears) at its location?
 - do tools need an origin indicator?
 - layering order of tools and toolbox
+- how does "show coordinates" work for a valley contour that is not linear?
 
 IMPLEMENTATION ISSUES:
 - how to handle compressed vertical scale in context of shared PLayers?
@@ -66,6 +67,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.01
 1/16/08 - wire up basic climate controls (temperature and snowfall)
 1/16/08 - use one set of images for tools and their icons in the toolbox
 1/15/08 - add README file to deploy directory
