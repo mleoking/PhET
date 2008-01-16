@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers.model;
 
+import java.awt.geom.Point2D;
+
 /**
  * Valley is the model of the valley where the glacier forms.
  * For the purposes of this simulation, the valley is a static entity that does not change over time.
@@ -55,5 +57,14 @@ public class Valley {
     public double getWidth( double x ) {
         final double term = ( x - 5e3 ) / 2e3;
         return 1e3 + ( 5e3 * Math.exp( -( term * term ) ) );
+    }
+    
+    /**
+     * Gets the point of highest elevation in the valley.
+     * 
+     * @return highest point (x,elevation) in meters
+     */
+    public Point2D getHighestPoint() {
+        return new Point2D.Double( 0, getElevation( 0 ) );
     }
 }

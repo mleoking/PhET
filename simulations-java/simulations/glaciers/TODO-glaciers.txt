@@ -55,8 +55,13 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - clean up initialization of viewport positions
+1/15/07 - eliminate need to store birds-eye camera view offset
+1/15/07 - specify zoomed viewport stroke width in pixels, transform to canvas view coordinates for setting actual stroke width
+1/15/07 - add Valley.getHighestPoint
 1/15/07 - improve layout and borders in play area
 1/15/07 - remove default border that comes with PhetPCanvas, it affects canvas bounds, which we're using for viewport calculations
+1/15/07 - change control panel background color to pale green
 1/15/07 - in ToolIconNode use PDragEventHandler for all phases of drag sequence
 1/15/07 - clean up and javadoc before moving to next phase of development
 1/15/07 - add unit tests for MVT "flip sign" feature
