@@ -21,7 +21,6 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 - redesign advanced climate controls
 - use one set of images for tools and their icons in the toolbox
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -32,19 +31,22 @@ MEDIUM PRIORITY:
 - create graphs
 - add unit tests for MVT "flip sign" feature
 - get actual function that describes temperature as a function of altitude
-- get actual function that describes precipiation as a function of altitude
-- tools should not be draggable in top canvas
+- get actual function that describes precipitation as a function of altitude
+- should tools be draggable in top canvas?
 - fancy animation when a tool is dropped in the trash
-- set foreground color of ticks & labels on BasicClimateControl sliders
 - fix layout issues with various control panels
 - make viewport automatically follow terminus whenever terminus is in the viewport
 - add left and right arrows to zoom view, secondary viewport control
-- tile the right edge of the valley, so that it can be exteneded when window is resized
+- tile the right edge of the valley, so that it can be extended when window is resized?
+- simply show end of the world at the right edge of the valley?
 - add variable caliper size to ice measuring tool
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
+- make the zoomed viewport's vertical position follow the contour of the valley
 
 LOW PRIORITY:
+- change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
+- set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
 
 COMMON CODE:
 
@@ -55,6 +57,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
+1/15/07 - remove debug tracer flag that was placed at valley's highest point
+1/15/07 - specify birds-eye viewport's position as an offset from the valley's highest point
 1/15/07 - clean up initialization of viewport positions
 1/15/07 - eliminate need to store birds-eye camera view offset
 1/15/07 - specify zoomed viewport stroke width in pixels, transform to canvas view coordinates for setting actual stroke width
