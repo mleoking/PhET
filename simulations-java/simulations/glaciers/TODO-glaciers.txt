@@ -3,6 +3,7 @@
 ================================================================================
 
 DESIGN ISSUES:
+- adding zoom buttons to either view would be nontrivial (if they are ever desired)
 - toolbox allows creating multiple borehole drills
 - borehole drill in different than the other things in the toolbox, all others are measurement devices
 - will it be confusing that borehole drill disappears when it is released?
@@ -22,6 +23,9 @@ IMPLEMENTATION ISSUES:
 
 HIGH PRIORITY:
 - is valley shape correct? I don't see the extreme dip that I was expecting at the glacier's head.
+- adjust MVT and/or camera scaling to increase magnification of zoomed view
+- apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
+- make the zoomed viewport's vertical position follow the contour of the valley
 - antialiasing of valley path 
 - redesign advanced climate controls
 - use one set of images for tools and their icons in the toolbox
@@ -43,7 +47,6 @@ MEDIUM PRIORITY:
 - simply show end of the world at the right edge of the valley?
 - add variable caliper size to ice measuring tool
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
-- make the zoomed viewport's vertical position follow the contour of the valley
 
 LOW PRIORITY:
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
