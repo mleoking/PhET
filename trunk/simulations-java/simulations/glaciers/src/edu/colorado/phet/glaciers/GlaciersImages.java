@@ -29,5 +29,5 @@ public class GlaciersImages {
     public static final BufferedImage TOOLBOX_TRASH_CAN = GlaciersResources.getImage( "toolbox-trashCan.png" );
     public static final BufferedImage TRACER_FLAG = GlaciersResources.getImage( "tracerFlag.png" );
     public static final BufferedImage PENGUIN = GlaciersResources.getImage( "penguin.png" );
-    public static final BufferedImage VALLEY = GlaciersResources.getImage( "valley.png" );
+    public static final BufferedImage VALLEY = GlaciersResources.getImage( "valley.png" );//XXX not used!
 }
