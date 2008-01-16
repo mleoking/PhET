@@ -48,8 +48,8 @@ public class ValleyNode extends PComposite {
         
         GeneralPath path = createValleyFloorPath( X_MIN, X_MAX, DX );
         PPath pathNode = new PPath( path );
-        pathNode.setStroke( new BasicStroke( 4f ) );
-        pathNode.setStrokePaint( GlaciersConstants.UNDERGROUND_COLOR );
+        pathNode.setStroke( null );
+        pathNode.setPaint( GlaciersConstants.UNDERGROUND_COLOR );
         addChild( pathNode );
     }
     
@@ -75,6 +75,7 @@ public class ValleyNode extends PComposite {
         Point2D pView = new Point2D.Double();
         double x = xMin;
         double elevation = 0;
+        double finalElevation = 0;
         
         while ( x <= xMax ) {
             elevation = _valley.getElevation( x );
@@ -87,7 +88,13 @@ public class ValleyNode extends PComposite {
                 path.lineTo( (float) pView.getX(), (float) pView.getY() );
             }
             x += dx;
+            finalElevation = elevation;
         }
+        pModel.setLocation( 0, finalElevation );
+        pView = _mvt.modelToView( pModel, pView );
+        path.lineTo( (float) pView.getX(), (float) pView.getY() );
+        path.closePath();
+        
         return path;
     }
 }
