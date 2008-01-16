@@ -22,7 +22,6 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.ToolboxNode;
 import edu.colorado.phet.glaciers.model.AbstractModel;
 import edu.colorado.phet.glaciers.model.AbstractTool;
-import edu.colorado.phet.glaciers.model.TracerFlag;
 import edu.colorado.phet.glaciers.model.Viewport;
 import edu.colorado.phet.glaciers.model.IToolProducer.ToolProducerListener;
 import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
@@ -59,6 +58,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // camera view scales
     private static final double BIRDS_EYE_CAMERA_VIEW_SCALE = 0.2;
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
+    
+    // offset of upper-left corner of birds-eye viewport from highest point on the glacier
+    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1000, +1000 ); // meters
     
     // width of the stroke used to display the zoomed viewport, in pixels
     private static final float VIEWPORT_STROKE_WIDTH = 1;
@@ -107,7 +109,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when play area is resized
-        _birdsEyeViewport.setPosition( highestPoint.getX() - 50, highestPoint.getY() + 50 );
+        _birdsEyeViewport.setPosition( highestPoint.getX() + BIRDS_EYE_VIEWPORT_OFFSET.getX(), highestPoint.getY() + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
@@ -200,11 +202,6 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Penguin is the control for moving the zoomed viewport
         _penguinNode = new PenguinNode( _birdsEyeViewport, _zoomedViewport, _mvt );
         _viewportLayer.addChild( _penguinNode );
-        
-        //XXX debug: put a tracer flag at the Valley's high point
-        System.out.println( "PlayArea.init, placed flag at " + highestPoint );//XXX
-        TracerFlag flag = new TracerFlag( highestPoint, _model.getGlacier() );
-        toolAdded( flag );
     }
     
     public void cleanup() {
