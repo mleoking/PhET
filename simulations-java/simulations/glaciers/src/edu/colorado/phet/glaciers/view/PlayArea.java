@@ -63,6 +63,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // width of the stroke used to display the zoomed viewport, in pixels
     private static final float VIEWPORT_STROKE_WIDTH = 1;
     
+    // properties used to layout the canvases in the play area
     private static final int VERTICAL_CANVAS_SPACING = 4;
     private static final int BORDER_WIDTH = 5;
     private static final Color BACKGROUND_COLOR = GlaciersConstants.CONTROL_PANEL_BACKGROUND_COLOR;
