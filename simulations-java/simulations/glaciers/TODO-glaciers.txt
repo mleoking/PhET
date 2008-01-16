@@ -26,13 +26,15 @@ HIGH PRIORITY:
 - adjust MVT and/or camera scaling to increase magnification of zoomed view
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - make the zoomed viewport's vertical position follow the contour of the valley
-- antialiasing of valley path 
-- redesign advanced climate controls
+- antialiasing of valley path
+- create a basic climate control that includes presets and mass balance 
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
 - implement glacier model
 
 MEDIUM PRIORITY:
+- redesign advanced climate controls
+- wire up Reset All button
 - create graphs
 - add unit tests for MVT "flip sign" feature
 - get actual function that describes temperature as a function of altitude
@@ -48,9 +50,11 @@ MEDIUM PRIORITY:
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
 
 LOW PRIORITY:
+- wire up Help button
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
 - set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
+- why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
 
 COMMON CODE:
@@ -62,24 +66,25 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-1/16/07 - use one set of images for tools and their icons in the toolbox
-1/15/07 - add README file to deploy directory
-1/15/07 - use dirt texture map to fill shape of valley floor
-1/15/07 - render valley contour as a filled shape instead of a line
-1/15/07 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
-1/15/07 - remove debug tracer flag that was placed at valley's highest point
-1/15/07 - specify birds-eye viewport's position as an offset from the valley's highest point
-1/15/07 - clean up initialization of viewport positions
-1/15/07 - eliminate need to store birds-eye camera view offset
-1/15/07 - specify zoomed viewport stroke width in pixels, transform to canvas view coordinates for setting actual stroke width
-1/15/07 - add Valley.getHighestPoint
-1/15/07 - improve layout and borders in play area
-1/15/07 - remove default border that comes with PhetPCanvas, it affects canvas bounds, which we're using for viewport calculations
-1/15/07 - change control panel background color to pale green
-1/15/07 - in ToolIconNode use PDragEventHandler for all phases of drag sequence
-1/15/07 - clean up and javadoc before moving to next phase of development
-1/15/07 - add unit tests for MVT "flip sign" feature
-1/14/07 - disable debug output for viewports and cameras
+1/16/08 - wire up basic climate controls (temperature and snowfall)
+1/16/08 - use one set of images for tools and their icons in the toolbox
+1/15/08 - add README file to deploy directory
+1/15/08 - use dirt texture map to fill shape of valley floor
+1/15/08 - render valley contour as a filled shape instead of a line
+1/15/08 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
+1/15/08 - remove debug tracer flag that was placed at valley's highest point
+1/15/08 - specify birds-eye viewport's position as an offset from the valley's highest point
+1/15/08 - clean up initialization of viewport positions
+1/15/08 - eliminate need to store birds-eye camera view offset
+1/15/08 - specify zoomed viewport stroke width in pixels, transform to canvas view coordinates for setting actual stroke width
+1/15/08 - add Valley.getHighestPoint
+1/15/08 - improve layout and borders in play area
+1/15/08 - remove default border that comes with PhetPCanvas, it affects canvas bounds, which we're using for viewport calculations
+1/15/08 - change control panel background color to pale green
+1/15/08 - in ToolIconNode use PDragEventHandler for all phases of drag sequence
+1/15/08 - clean up and javadoc before moving to next phase of development
+1/15/08 - add unit tests for MVT "flip sign" feature
+1/14/08 - disable debug output for viewports and cameras
 1/14/08 - scale x axis in MVT so that we can fit 80 meters in the birds-eye view window at 1024x768
 1/14/08 - scale y axis in MVT so that we can fit 4100 meters of elevation in the zoomed view window at 1024x768
 1/14/08 - flip sign of y axis in MVT so that model has +y up

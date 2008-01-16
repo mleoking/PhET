@@ -64,7 +64,7 @@ public class BasicModule extends PiccoloModule {
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
-        JPanel controlPanel = new BasicControlPanel( clock );
+        JPanel controlPanel = new BasicControlPanel( _model );
         setClockControlPanel( controlPanel );
 
         // Help
