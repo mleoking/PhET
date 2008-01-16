@@ -60,7 +60,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private static final double ZOOMED_CAMERA_VIEW_SCALE = 1;
     
     // offset of upper-left corner of birds-eye viewport from highest point on the glacier
-    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -1000, +1000 ); // meters
+    private static final Point2D BIRDS_EYE_VIEWPORT_OFFSET = new Point2D.Double( -500, +1000 ); // meters
     
     // width of the stroke used to display the zoomed viewport, in pixels
     private static final float VIEWPORT_STROKE_WIDTH = 1;
