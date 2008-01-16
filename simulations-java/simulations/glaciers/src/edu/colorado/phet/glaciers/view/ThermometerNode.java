@@ -68,7 +68,7 @@ public class ThermometerNode extends AbstractToolNode {
         panel.add( _temperatureDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
-        panelNode.setOffset( 0, -imageNode.getFullBoundsReference().getHeight() / 2 );
+        panelNode.setOffset( 0, -( 0.75 * imageNode.getFullBoundsReference().getHeight() ) );
         
         // initial state
         updatePosition();

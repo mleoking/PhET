@@ -12,6 +12,6 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  */
 public class TrashCanNode extends IconNode {
     public TrashCanNode() {
-        super( GlaciersImages.TOOLBOX_TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN );
+        super( GlaciersImages.TRASH_CAN, GlaciersStrings.TOOLBOX_TRASH_CAN );
     }
 }
