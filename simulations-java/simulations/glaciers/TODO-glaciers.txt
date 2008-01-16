@@ -21,6 +21,8 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
+- is valley shape correct? I don't see the extreme dip that I was expecting at the glacier's head.
+- antialiasing of valley path 
 - redesign advanced climate controls
 - use one set of images for tools and their icons in the toolbox
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -57,6 +59,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - render valley contour as a filled shape instead of a line
 1/15/07 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 1/15/07 - remove debug tracer flag that was placed at valley's highest point
 1/15/07 - specify birds-eye viewport's position as an offset from the valley's highest point
