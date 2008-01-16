@@ -11,7 +11,6 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -57,30 +56,28 @@ public abstract class ToolIconNode extends IconNode {
 
         addInputEventListener( new CursorHandler() );
 
-        addInputEventListener( new PBasicInputEventHandler() {
-            /*
-             * When the mouse is pressed, create a new tool.
-             */
-            public void mousePressed( PInputEvent event ) {
-                _mvt.viewToModel( event.getPosition(), _pModel );
-                _tool = createTool( _pModel );
-            }
-        } );
-        
         addInputEventListener( new PDragEventHandler() {
 
+            /* When the drag starts, create the new tool. */
+            protected void startDrag( PInputEvent event ) {
+                _mvt.viewToModel( event.getPosition(), _pModel );
+                _tool = createTool( _pModel );
+                super.startDrag( event );
+            }
+            
+            /* During the drag, set the position of the new tool. */ 
             protected void drag( PInputEvent event ) {
-                /*
-                 * When the mouse is dragged, set the position of the new tool.
-                 */
+
                 if ( _tool != null ) {
                     _mvt.viewToModel( event.getPosition(), _pModel );
                     _tool.setPosition( _pModel );
                 }
             }
 
+            /* When the drag ends, we release control of the tool. */
             protected void endDrag( PInputEvent event ) {
-                _tool = null; // control of tool ends when mouse is released
+                _tool = null;
+                super.endDrag( event );
             }
         } );
     }

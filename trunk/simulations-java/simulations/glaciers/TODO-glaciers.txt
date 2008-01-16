@@ -21,7 +21,6 @@ IMPLEMENTATION ISSUES:
 - do we need a model-view transform?
 
 HIGH PRIORITY:
-- in ToolIconNode, do everything with one PInputEventListener, using mousePressed/mouseDragged/mouseReleased
 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 - redesign advanced climate controls
 - remove tools by dragging them back to the trash can (or toolbox?)
@@ -41,7 +40,7 @@ MEDIUM PRIORITY:
 - add left and right arrows to zoom view, secondary viewport control
 - tile the right edge of the valley, so that it can be exteneded when window is resized
 - add variable caliper size to ice measuring tool
-- is unconstrained dragging of tools OK? (set in ToolNodeFactory)
+- dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
 
 LOW PRIORITY:
 - control panels in all modules should be the same height
@@ -55,6 +54,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - in ToolIconNode use PDragEventHandler for all phases of drag sequence
 1/15/07 - clean up and javadoc before moving to next phase of development
 1/15/07 - add unit tests for MVT "flip sign" feature
 1/14/07 - disable debug output for viewports and cameras
