@@ -48,9 +48,6 @@ public class ToolNodeFactory {
             throw new UnsupportedOperationException( "no node for tool type " + tool.getClass() );
         }
         
-        node.addInputEventListener( new CursorHandler() );
-        node.addInputEventListener( new PDragEventHandler() ); //XXX is unconstrained dragging OK?
-        
         return node;
     }
 }
