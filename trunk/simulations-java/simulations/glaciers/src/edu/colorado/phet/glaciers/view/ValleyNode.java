@@ -9,11 +9,23 @@ import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * ValleyNode is the visual representation of a valley.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ValleyNode extends PComposite {
 
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private Valley _valley;
     private ModelViewTransform _mvt;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ValleyNode( Valley valley, ModelViewTransform mvt ) {
         super();

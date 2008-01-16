@@ -27,7 +27,20 @@ import edu.umd.cs.piccolo.PLayer;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * PlayArea
+ * PlayArea is the area of the application that constains the birds-eye and zoomed views
+ * of the world.  
+ * <p>
+ * The birds-eye view appears at the top of the play area, and shows a tiny
+ * overview picture of the world. A viewport shown in the birds-eye view indicates the 
+ * portion of the world shown in the zoomed view. A penguin image can be dragged 
+ * horizontally to move the zoomed viewport.
+ * <p>
+ * The zoomed view appears below the birds-eye view, and displays a zoomed-in 
+ * view of a portion of the world.
+ * <p>
+ * The two views are implemented as separate Piccolo canvases.  The canvases
+ * share common layers, and their cameras are manipulated (scales and translated)
+ * to display the appropriate portions of the world.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

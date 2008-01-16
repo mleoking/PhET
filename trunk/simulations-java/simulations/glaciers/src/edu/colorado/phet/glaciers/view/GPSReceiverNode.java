@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
@@ -18,17 +20,34 @@ import edu.colorado.phet.glaciers.model.Movable.MovableListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * GPSReceiverNode is the visual representation of a GPS receiver.
+ * This node is primarily for use during development as a debugging tool.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class GPSReceiverNode extends AbstractToolNode {
 
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat COORDINATE_FORMAT = new DecimalFormat( "0" );
     private static final float TRIANGLE_SIZE = 10f;
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private GPSReceiver _gps;
     private MovableListener _movableListener;
-    private JLabel _coordinatesLabel;
+    private JLabel _coordinatesDisplay;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public GPSReceiverNode( GPSReceiver gps, ModelViewTransform mvt ) {
         super( gps, mvt );
@@ -41,6 +60,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         };
         _gps.addMovableListener( _movableListener );
         
+        // arrow that points to the left
         GeneralPath trianglePath = new GeneralPath();
         trianglePath.moveTo( 0f, 0f );
         trianglePath.lineTo( TRIANGLE_SIZE, -TRIANGLE_SIZE / 2 );
@@ -52,12 +72,13 @@ public class GPSReceiverNode extends AbstractToolNode {
         addChild( pathNode );
         pathNode.setOffset( 0, 0 );
         
-        _coordinatesLabel = new JLabel( "(x,z)" );
-        _coordinatesLabel.setFont( FONT );
+        // display to the right of arrow, vertically centered
+        _coordinatesDisplay = new JLabel( "(x,z)" );
+        _coordinatesDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBackground( Color.WHITE );
         panel.setBorder( BORDER );
-        panel.add( _coordinatesLabel );
+        panel.add( _coordinatesDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
         panelNode.setOffset( pathNode.getFullBounds().getWidth(), -panelNode.getFullBounds().getHeight() / 2 );
@@ -71,9 +92,16 @@ public class GPSReceiverNode extends AbstractToolNode {
         super.cleanup();
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the displayed coordinates to match the model.
+     */
     private void updateCoordinates() {
         Point2D p = _gps.getPositionReference();
-        String s = "(" + COORDINATE_FORMAT.format( p.getX() ) + "," + COORDINATE_FORMAT.format( p.getY() ) + ")";
-        _coordinatesLabel.setText( s );
+        String s = "(" + COORDINATE_FORMAT.format( p.getX() ) + "," + COORDINATE_FORMAT.format( p.getY() ) + ")"; // (x,z)
+        _coordinatesDisplay.setText( s );
     }
 }

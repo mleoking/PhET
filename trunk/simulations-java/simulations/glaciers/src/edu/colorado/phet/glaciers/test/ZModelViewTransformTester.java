@@ -1,3 +1,5 @@
+/* Copyright 2007-2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.test;
 
 import java.awt.geom.Point2D;

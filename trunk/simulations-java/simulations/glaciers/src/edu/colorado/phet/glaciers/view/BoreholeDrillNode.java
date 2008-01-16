@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.view;
 
@@ -6,7 +6,11 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.BoreholeDrill;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-
+/**
+ * BoreholeDrillNode is the visual representation of a borehole drill.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class BoreholeDrillNode extends AbstractToolNode {
 
     public BoreholeDrillNode( BoreholeDrill boreholeDrill, ModelViewTransform mvt ) {

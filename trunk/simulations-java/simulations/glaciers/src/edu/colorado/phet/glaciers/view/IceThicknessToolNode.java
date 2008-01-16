@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.glaciers.view;
 
@@ -19,17 +19,33 @@ import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListene
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
+/**
+ * IceThicknessToolNode is the visual representation of an ice thickness tool.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class IceThicknessToolNode extends AbstractToolNode {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat ICE_THICKNESS_FORMAT = new DecimalFormat( "0" );
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private IceThicknessTool _iceThicknessTool;
     private IceThicknessToolListener _iceThicknessToolListener;
-    private JLabel _iceThicknessLabel;
+    private JLabel _iceThicknessDisplay;
 
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public IceThicknessToolNode( IceThicknessTool iceThicknessTool, ModelViewTransform mvt ) {
         super( iceThicknessTool, mvt );
         
@@ -45,11 +61,11 @@ public class IceThicknessToolNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth(), -imageNode.getFullBoundsReference().getHeight() ); // lower right
         
-        _iceThicknessLabel = new JLabel();
-        _iceThicknessLabel.setFont( FONT );
+        _iceThicknessDisplay = new JLabel();
+        _iceThicknessDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBorder( BORDER );
-        panel.add( _iceThicknessLabel );
+        panel.add( _iceThicknessDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
         panelNode.setOffset( imageNode.getFullBoundsReference().getMaxX() + 2, imageNode.getFullBoundsReference().getMinY() );
@@ -62,9 +78,18 @@ public class IceThicknessToolNode extends AbstractToolNode {
         super.cleanup();
     }
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the ice thickness display to match the model.
+     */
     private void updateThickness() {
         double value = _iceThicknessTool.getThickness();
         String text = ICE_THICKNESS_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_ICE_THICKNESS;
-        _iceThicknessLabel.setText( text );
+        _iceThicknessDisplay.setText( text );
+        
+        //TODO: open/close the calipers to match the ice thickness, align with ice
     }
 }

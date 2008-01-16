@@ -11,16 +11,28 @@ import edu.colorado.phet.glaciers.model.Viewport.ViewportListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * ViewportNode is a view of a viewport.
+ * ViewportNode is the visual representation of a viewport.
  * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ViewportNode extends PPath {
     
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
     private static final Color STROKE_COLOR = Color.BLACK;
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private Viewport _viewport;
     private ModelViewTransform _mvt;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     public ViewportNode( Viewport viewport, float strokeWidth, ModelViewTransform mvt ) {
         super();
@@ -44,6 +56,13 @@ public class ViewportNode extends PPath {
     
     public void cleanup() {}
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
+    /*
+     * Updates the rectangle to match the viewport bounds.
+     */
     private void updateRectangle() {
         Rectangle2D rModel = _viewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );

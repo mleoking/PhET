@@ -12,13 +12,29 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-
+/**
+ * PenguinNode is a node used to control the horizontal position of the zoomed viewport.
+ * A penguin image is displayed, and can be dragged horizontally.
+ * The location of the node is used to adjust the center of the zoomed viewport.
+ * Horizontal dragging is limited such that the left and right edges of the zoomed viewport are
+ * always within the birds-eye viewport.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PenguinNode extends PImage {
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private Viewport _birdsEyeViewport;
     private Viewport _zoomedViewport;
     private ModelViewTransform _mvt;
-
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public PenguinNode( Viewport birdsEyeViewport, Viewport zoomedViewport, ModelViewTransform mvt ) {
         super( GlaciersImages.PENGUIN );
         
@@ -76,8 +92,12 @@ public class PenguinNode extends PImage {
     
     public void cleanup() {}
     
+    //----------------------------------------------------------------------------
+    // Updaters
+    //----------------------------------------------------------------------------
+    
     /*
-     * Centered at the bottom of the birds-eye viewport.
+     * Centers the penguin at the bottom of the birds-eye viewport.
      */
     private void updateOffset() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();

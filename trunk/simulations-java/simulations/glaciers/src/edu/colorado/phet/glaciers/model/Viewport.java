@@ -14,12 +14,20 @@ import java.util.Iterator;
  */
 public class Viewport {
     
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
+    
     private String _id;
     private Rectangle2D _bounds;
     private ArrayList _listeners; // list of ViewportListener
     
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
+    
     public Viewport( String id ) {
-        this( id, new Rectangle2D.Double() );
+        this( id, new Rectangle2D.Double( 0, 0, 0, 0 ) );
     }
     
     public Viewport( String id, Rectangle2D bounds ) {
@@ -30,10 +38,14 @@ public class Viewport {
     
     public void cleanup() {}
     
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
     public void setBounds( double x, double y, double w, double h ) {
         if ( x != _bounds.getX() || y != _bounds.getY() || w != _bounds.getWidth() || h != _bounds.getHeight() ) {
-//            System.out.println( "Viewport.setBounds id=" + _id + " x=" + x + " y=" + y + " w=" + w + " h=" + h );//XXX
             _bounds.setRect( x, y, w, h );
+//            System.out.println( "Viewport.setBounds id=" + _id + " bounds=" + _bounds.toString() );//XXX
             notifyBoundsChanged();
         }
     }
@@ -82,6 +94,14 @@ public class Viewport {
         setBounds( _bounds.getX(), _bounds.getY(), w, h );
     }
     
+    public String toString() {
+        return getClass().getName() + "[id=" + _id + ",bounds=" + _bounds.toString() + "]";
+    }
+    
+    //----------------------------------------------------------------------------
+    // Listeners
+    //----------------------------------------------------------------------------
+    
     /* Implement this interface to be notified of changes to a viewport. */
     public interface ViewportListener {
         public void boundsChanged();
@@ -94,6 +114,10 @@ public class Viewport {
     public void removeViewportListener( ViewportListener listener ) {
         _listeners.remove( listener );
     }
+    
+    //----------------------------------------------------------------------------
+    // Notification of changes
+    //----------------------------------------------------------------------------
     
     private void notifyBoundsChanged() {
         Iterator i = _listeners.iterator();
