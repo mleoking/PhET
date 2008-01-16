@@ -62,6 +62,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/15/07 - use dirt texture map to fill shape of valley floor
 1/15/07 - render valley contour as a filled shape instead of a line
 1/15/07 - in ValleyNode, replace image with a GeneralPath that draws the shape of the valley floor
 1/15/07 - remove debug tracer flag that was placed at valley's highest point
