@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -103,5 +105,19 @@ public class GPSReceiverNode extends AbstractToolNode {
         Point2D p = _gps.getPositionReference();
         String s = "(" + COORDINATE_FORMAT.format( p.getX() ) + "," + COORDINATE_FORMAT.format( p.getY() ) + ")"; // (x,z)
         _coordinatesDisplay.setText( s );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Utilities
+    //----------------------------------------------------------------------------
+    
+    /**
+     * Creates a sample image of this node type, for use as an icon.
+     */
+    public static Image createImage() {
+        GPSReceiver gpsReceiver = new GPSReceiver( new Point2D.Double( 0, 0 ) );
+        ModelViewTransform mvt = new ModelViewTransform(); // identity transform
+        PNode node = new GPSReceiverNode( gpsReceiver, mvt );
+        return node.toImage();
     }
 }

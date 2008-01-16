@@ -3,7 +3,6 @@
 ================================================================================
 
 DESIGN ISSUES:
-- adding zoom buttons to either view would be nontrivial (if they are ever desired)
 - toolbox allows creating multiple borehole drills
 - borehole drill in different than the other things in the toolbox, all others are measurement devices
 - will it be confusing that borehole drill disappears when it is released?
@@ -19,7 +18,8 @@ DESIGN ISSUES:
 
 IMPLEMENTATION ISSUES:
 - how to handle compressed vertical scale in context of shared PLayers?
-- do we need a model-view transform?
+- adding zoom buttons to either view would be nontrivial (if they are ever desired)
+- LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
 - is valley shape correct? I don't see the extreme dip that I was expecting at the glacier's head.
@@ -28,7 +28,6 @@ HIGH PRIORITY:
 - make the zoomed viewport's vertical position follow the contour of the valley
 - antialiasing of valley path 
 - redesign advanced climate controls
-- use one set of images for tools and their icons in the toolbox
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
 - implement glacier model
@@ -52,6 +51,7 @@ LOW PRIORITY:
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
 - set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
+- rotate some of the tool icons to reduce height of toolbox?
 
 COMMON CODE:
 
@@ -62,6 +62,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/16/07 - use one set of images for tools and their icons in the toolbox
 1/15/07 - add README file to deploy directory
 1/15/07 - use dirt texture map to fill shape of valley floor
 1/15/07 - render valley contour as a filled shape instead of a line

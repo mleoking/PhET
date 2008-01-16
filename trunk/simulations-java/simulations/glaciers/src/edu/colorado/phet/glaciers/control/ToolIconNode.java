@@ -10,6 +10,7 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.AbstractTool;
 import edu.colorado.phet.glaciers.model.IToolProducer;
+import edu.colorado.phet.glaciers.view.GPSReceiverNode;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -107,7 +108,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class ThermometerIconNode extends ToolIconNode {
         
         public ThermometerIconNode( IToolProducer toolProducer, ModelViewTransform mvt ) {
-            super( GlaciersImages.TOOLBOX_THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER, toolProducer, mvt );
+            super( GlaciersImages.THERMOMETER, GlaciersStrings.TOOLBOX_THERMOMETER, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
@@ -121,7 +122,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class GlacialBudgetMeterIconNode extends ToolIconNode {
         
         public GlacialBudgetMeterIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TOOLBOX_GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolProducer, mvt );
+            super( GlaciersImages.GLACIAL_BUDGET_METER, GlaciersStrings.TOOLBOX_GLACIAL_BUDGET_METER, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
@@ -135,7 +136,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class TracerFlagIconNode extends ToolIconNode {
         
         public TracerFlagIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TOOLBOX_TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG, toolProducer, mvt );
+            super( GlaciersImages.TRACER_FLAG, GlaciersStrings.TOOLBOX_TRACER_FLAG, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
@@ -149,7 +150,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class IceThicknessToolIconNode extends ToolIconNode {
         
         public IceThicknessToolIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TOOLBOX_ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolProducer, mvt );
+            super( GlaciersImages.ICE_THICKNESS_TOOL, GlaciersStrings.TOOLBOX_ICE_THICKNESS_TOOL, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
@@ -163,7 +164,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class BoreholeDrillIconNode extends ToolIconNode {
         
         public BoreholeDrillIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TOOLBOX_BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL, toolProducer, mvt );
+            super( GlaciersImages.BOREHOLE_DRILL, GlaciersStrings.TOOLBOX_BOREHOLD_DRILL, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
@@ -177,7 +178,7 @@ public abstract class ToolIconNode extends IconNode {
     public static class GPSReceiverIconNode extends ToolIconNode {
         
         public GPSReceiverIconNode( IToolProducer toolProducer, ModelViewTransform mvt  ) {
-            super( GlaciersImages.TOOLBOX_GPS_RECEIVER, GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolProducer, mvt );
+            super( GPSReceiverNode.createImage(), GlaciersStrings.TOOLBOX_GPS_RECEIVER, toolProducer, mvt );
         }
         
         public AbstractTool createTool( Point2D position ) {
