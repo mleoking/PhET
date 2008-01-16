@@ -31,6 +31,7 @@ public class Thermometer extends AbstractTool {
     
     public Thermometer( Point2D position, Climate climate ) {
         super( position );
+        
         _climate = climate;
         _climateListener = new ClimateAdapter() {
             public void referenceTemperatureChanged() {
@@ -38,6 +39,8 @@ public class Thermometer extends AbstractTool {
             }
         };
         _climate.addClimateListener( _climateListener );
+        
+        _listeners = new ArrayList();
     }
     
     public void cleanup() {
