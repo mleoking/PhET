@@ -67,7 +67,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.01 (?)
+******** 0.00.01 (19431)
 1/16/08 - wire up basic climate controls (temperature and snowfall)
 1/16/08 - use one set of images for tools and their icons in the toolbox
 1/15/08 - add README file to deploy directory
