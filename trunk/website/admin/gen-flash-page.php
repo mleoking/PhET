@@ -271,7 +271,7 @@ print <<<EOT
 		<div id="flashcontent">
 			<strong>You need to upgrade your Flash Player</strong>
 
-			<p>Please visit <a href="http://www.adobe.com/shockwave/download">Adobe's Flash download area</a> to upgrade your Flash Player to version 8 or later.</p>
+			<p>Please visit <a href="http://www.adobe.com/products/flashplayer/" target="Adobe Flash Player">Adobe's Flash download area</a> to upgrade your Flash Player to version 8 or later.</p>
 		</div>
 
 		<script type="text/javascript">
