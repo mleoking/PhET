@@ -407,15 +407,15 @@ Developer Notes:
                 </and>
             </not>
             <then>
-                <echo message="Gathering username and password from user"/>
+                <echo message="Requestion login info for Development Host"/>
 
                 <!-- If the username and password are not set, get them now: -->
-                <antform title="Deployment Host Login" width="550" height="300">
-                    <label>Please enter your username and password that you use to login to the deployment DEV host machine.
+                <antform title="Devolopment Host Login" width="550" height="300">
+                    <label>Please enter your username and password for the host used to deploy development versions of simulations.
                     </label>
 
-                    <textProperty label="Username:" property="deploy.dev.username" required="true" focus="true"/>
-                    <textProperty label="Password:" property="deploy.dev.password" required="true" password="true"/>
+                    <textProperty label="Username:" property="deploy.dev.username" columns="25" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.dev.password" columns="25" required="true" password="true"/>
                 </antform>
             </then>
         </if>
@@ -430,15 +430,15 @@ Developer Notes:
                 </and>
             </not>
             <then>
-                <echo message="Gathering username and password from user"/>
+                <echo message="Requesting login info for Production Host"/>
 
                 <!-- If the username and password are not set, get them now: -->
-                <antform title="Deployment Host Login" width="550" height="300">
-                    <label>Please enter your username and password that you use to login to the deployment PROD host machine.
+                <antform title="Production Host Login" width="550" height="300">
+                    <label>Please enter your username and password for the host used to deploy production versions of simulations.
                     </label>
 
-                    <textProperty label="Username:" property="deploy.prod.username" required="true" focus="true"/>
-                    <textProperty label="Password:" property="deploy.prod.password" required="true" password="true"/>
+                    <textProperty label="Username:" property="deploy.prod.username" columns="25" required="true" focus="true"/>
+                    <textProperty label="Password:" property="deploy.prod.password" columns="25" required="true" password="true"/>
                 </antform>
             </then>
         </if>
@@ -450,9 +450,8 @@ Developer Notes:
                 <isset property="sim.name"/>
             </not>
             <then>
-                <antform title="Enter Simulation Name" width="750" height="300">
-                    <label>Please enter the name of the simulation with which to perform the operation. This is the name
-                        of the Subversion folder that the simulation is stored in.
+                <antform title="Simulation Name" width="750" height="300">
+                    <label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.
                     </label>
                     <textProperty label="Simulation Name: " property="sim.name" required="true"
                                   tooltip="The simulation name" focus="true"/>
@@ -797,9 +796,9 @@ Developer Notes:
                 <isset property="sim.locale"/>
             </not>
             <then>
-                <antform title="Deployment Host Login" width="550" height="300">
+                <antform title="Language Code" width="550" height="300">
                     <label>Please enter the language code to be added.</label>
-                    <textProperty label="language code (e.g. fr):" property="sim.locale" required="true"
+                    <textProperty label="language code (e.g. fr):" columns="10" property="sim.locale" required="true"
                                   focus="true"/>
                 </antform>
             </then>
