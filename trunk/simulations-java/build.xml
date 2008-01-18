@@ -5,11 +5,11 @@
 
   This Ant buildfile is specific to building PhET simulations, in particular 
   building JAR and JNLP files. To make this buildfile easier to read, only the 
-  primary tasks that support day-to-day operations are included herein.
+  primary targets that support day-to-day operations are included herein.
   
   Secondary targets and supporting information can be found in build-ancillary.xml.
 
-  The most common tasks are:
+  The most common targets are:
 
     * launch-sim: [default target]
           starts a GUI that allows you to select a simulation and language, 
