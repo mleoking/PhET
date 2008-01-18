@@ -1,0 +1,18 @@
+<!--
+  
+    PhET experimental buildfile
+   
+    This Ant buildfile contains experimental build task, which are not part of the production build process.
+   
+-->
+<project name="PhET experimental buildfile" default="_identify-experimental" basedir=".">
+
+    <!-- imports ancillary build information -->
+    <import file="build-ancillary.xml"/>
+
+	<!-- default target, identifies the purpose of this buildfile -->
+	<target name="_identify-experimental">
+		<echo>This is the PhET experimental buildfile.</echo>
+	</target>
+
+</project>
