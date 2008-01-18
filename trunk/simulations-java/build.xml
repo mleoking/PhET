@@ -15,6 +15,10 @@
           starts a GUI that allows you to select a simulation and language, 
           then builds and runs it.
           
+    * build-jar:
+          builds the JAR file for the simulation specified by property "sim.name".
+          The JAR will appear in the sim's deploy directory.
+          
     * build-and-deploy-dev: 
           builds and deploys to the development server, updating dev and 
           SVN revision numbers
