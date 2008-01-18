@@ -10,17 +10,73 @@
 -->
 <project name="PhET experimental buildfile" default="_identify-experimental" basedir=".">
 
-    <!-- imports ancillary build information -->
-    <import file="build-ancillary.xml"/>
+	<!-- imports ancillary build information -->
+	<import file="build-ancillary.xml"/>
 
 	<!-- default target, identifies the purpose of this buildfile -->
 	<target name="_identify-experimental">
 		<echo>This is the PhET experimental buildfile.</echo>
 	</target>
-	
-    <!-- PLEASE DOCUMENT ME -->
-    <target name="display-stats" depends="_init">
-        <phet-display-stats/>
-    </target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="display-stats" depends="_init">
+		<phet-display-stats/>
+	</target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="test-imageio" depends="_init">
+		<imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
+                 outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
+                 outputwidth="64"
+                 outputheight="64"/>
+	</target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="_test_string_append">
+		<var name="flavor.jar.list" value=""/>
+		<foreach list="band-structure, covalent-bonds, bound-states" target="_add-flavor-to-path" param="sim.flavor" inheritall="true"
+	                 inheritrefs="true"/>
+		<echo message="var.list is now ${flavor.jar.list}"/>
+	</target>
+
+	<!--a test target for checking whether VPN+tigercat+maverick are working -->
+	<target name="_test-maverick-tigercat" depends="_read-username-and-password-prod">
+		<echo file="maverick-test-file.txt" message="test text"/>
+		<maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
+	                      version="2">
+			<sftp action="put" remotedir="/web/htdocs/phet/temp" verbose="true">
+				<fileset dir=".">
+					<include name="*maverick-test-file.txt"/>
+				</fileset>
+			</sftp>
+		</maverick-ssh>
+	</target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<property name="test.reports" value="deploy/reports"/>
+	<property name="build" value="ant_output/projects/all-sims/jars/all-sims"/>
+	<target name="test-html" depends="_init">
+		<!--<phet-build-all-sim-jar shrink="false"/>-->
+		<!--Unzip the jar with all source-->
+		<delete dir="${test.reports}" verbose="true"/>
+		<mkdir dir="${test.reports}"/>
+		<junit fork="yes" printsummary="no" haltonfailure="no" timeout="10000">
+			<batchtest fork="yes" todir="${test.reports}">
+				<fileset dir="${build}">
+					<include name="**/Z*Tester.class"/>
+					<!--<include name="**/*.class"/>-->
+				</fileset>
+			</batchtest>
+			<formatter type="xml"/>
+			<classpath path="${build}"/>
+		</junit>
+
+		<junitreport todir="${test.reports}">
+			<fileset dir="${test.reports}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report todir="${test.reports}"/>
+		</junitreport>
+	</target>
 
 </project>
