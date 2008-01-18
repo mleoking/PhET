@@ -21,10 +21,12 @@
 	<!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
       The supported options are:
-    username
-    password
-    ssh-host
-    browser
+        deploy.dev.username
+        deploy.dev.password
+
+        deploy.prod.username
+        deploy.prod.password
+        browser
 
     Local property loading is done first to allow property overwriting.
     -->
