@@ -18,6 +18,7 @@ import edu.umd.cs.piccolox.pswing.PSwingRepaintManager;
  * PhET's Rotation simulation.
  *
  * @author Sam Reid
+ * test comment
  */
 
 public class RotationApplication extends PhetApplication {
