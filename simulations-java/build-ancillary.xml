@@ -30,26 +30,26 @@
 	<!-- structure of the PhET codebase.-->
 	<property name="build-tools" value="build-tools"/>
 	<property name="simulations-directory"          value="${basedir}/simulations"/>
-	<property name="dir.build-tools"                value="${basedir}/build-tools/"/>
+	<property name="dir.build-tools"                value="${basedir}/build-tools"/>
 
 	<!-- server names -->
 	<property name="dev.server.name"    value="spot.colorado.edu"/>
 	<property name="prod.server.name"   value="tigercat.colorado.edu"/>
 
 	<!-- deploy output -->
-	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/"/>
-	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev/"/>
-	<property name="prod.server.path"   value="/web/htdocs/phet/sims/"/>
-	<property name="prod.server.url"    value="http://phet.colorado.edu/sims/"/>
+	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
+	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev"/>
+	<property name="prod.server.path"   value="/web/htdocs/phet/sims"/>
+	<property name="prod.server.url"    value="http://phet.colorado.edu/sims"/>
 
 	<!-- structure of the codebase for PhET's custom Ant task -->
 	<property name="ant-output"             location="ant_output"/>
 	<property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
-	<property name="proguard.jar"           location="${dir.build-tools}proguard3.8/lib/proguard.jar"/>
-	<property name="jsch.jar"               location="${dir.build-tools}jsch/jsch-0.1.36.jar"/>
-	<property name="apache.commons.lang.jar" location="${dir.build-tools}commons-lang-2.3/commons-lang-2.3.jar"/>
-	<property name="phetbuild-src"          location="${dir.build-tools}phet-build/src"/>
-	<property name="imageio-src"            location="${dir.build-tools}image4j/src" />
+	<property name="proguard.jar"           location="${dir.build-tools}/proguard3.8/lib/proguard.jar"/>
+	<property name="jsch.jar"               location="${dir.build-tools}/jsch/jsch-0.1.36.jar"/>
+	<property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang-2.3/commons-lang-2.3.jar"/>
+	<property name="phetbuild-src"          location="${dir.build-tools}/phet-build/src"/>
+	<property name="imageio-src"            location="${dir.build-tools}/image4j/src" />
 
 	<property name="phet.version"           value=""/>
 	<property name="phet.src.distribution"  value="${basedir}/deploy/phet-src.zip"/>
@@ -75,9 +75,9 @@
 	<property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
 
 	<!-- Support jars -->
-	<property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar"/>
-	<property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar"/>
-	<property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar"/>
+	<property name="jar.ant-contrib"    value="${dir.build-tools}/ant-contrib/ant-contrib-1.0b3.jar"/>
+	<property name="jar.junit"          value="${dir.build-tools}/junit3.8.2/junit.jar"/>
+	<property name="jar.antform"        value="${dir.build-tools}/antform-bin-2.0beta2/lib/antform.jar"/>
 
 	<!-- Subversion (SVN) configuration -->
 	<property name="svn.executable" value="svn" />
@@ -120,13 +120,13 @@
 		<foreach list="${phet.simlist}" target="build-jnlp" param="sim.name" inheritall="true"/>
 	</target>
 	
-	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, _clean-all, _list-sims" description="Builds and deploys all sims to the development server.">
+	<!-- builds and deploys all sims to the development server -->
+	<target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
 	</target>
 
-	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, _clean-all, _list-sims" description="Builds and deploys all sims to the production server.">
+	<!-- builds and deploys all sims to the production server -->
+	<target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
 	</target>
 	
@@ -194,7 +194,7 @@
 			</then>
 		</if>
 
-		<var name="deployurl" value="${sim.server.url}${sim.name}/${sim.version}" />
+		<var name="deployurl" value="${sim.server.url}/${sim.name}/${sim.version}" />
 
 		<foreach list="${sim.flavors}" target="_build-jnlp" param="sim.flavor" inheritall="true" inheritrefs="true" />
 	</target>
@@ -352,10 +352,10 @@
 			<isset property="deploy.to.dev"/>
 
 			<then>
-				<var name="codebase.url" value="${sim.server.url}${sim.name}/${sim.version}"/>
+				<var name="codebase.url" value="${sim.server.url}/${sim.name}/${sim.version}"/>
 			</then>
 			<else>
-				<var name="codebase.url" value="${sim.server.url}${sim.name}"/>
+				<var name="codebase.url" value="${sim.server.url}/${sim.name}"/>
 			</else>
 		</if>
 		<echo message="building JNLP, deploy.to.dev=${deploy.to.dev}, codebase=${codebase.url}"/>
@@ -557,7 +557,7 @@
 			<param name="sim.server.url"        value="${prod.server.url}"/>
 			<param name="sim.server.path"       value="${prod.server.path}"/>
 			<param name="sim.deploy.dir.parent" value="${prod.server.path}" />
-			<param name="sim.deploy.dir"        value="${prod.server.path}${sim.name}" />
+			<param name="sim.deploy.dir"        value="${prod.server.path}/${sim.name}" />
 			<param name="ssh-host"              value="${prod.server.name}"/>
 		</antcall>
 	</target>

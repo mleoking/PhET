@@ -56,8 +56,8 @@
             <param name="deploy.to.dev" value="true"/>
             <param name="sim.server.url" value="${dev.server.url}"/>
             <param name="sim.server.path" value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}"/>
-            <param name="sim.deploy.dir" value="${dev.server.path}${sim.name}/${sim.version}"/>
+            <param name="sim.deploy.dir.parent" value="${dev.server.path}/${sim.name}"/>
+            <param name="sim.deploy.dir" value="${dev.server.path}/${sim.name}/${sim.version}"/>
             <param name="ssh-host" value="${dev.server.name}"/>
         </antcall>
     </target>
@@ -76,8 +76,8 @@
             <param name="deploy.to.dev" value="true"/>
             <param name="sim.server.url" value="${dev.server.url}"/>
             <param name="sim.server.path" value="${dev.server.path}"/>
-            <param name="sim.deploy.dir.parent" value="${dev.server.path}${sim.name}"/>
-            <param name="sim.deploy.dir" value="${dev.server.path}${sim.name}/${sim.version}"/>
+            <param name="sim.deploy.dir.parent" value="${dev.server.path}/${sim.name}"/>
+            <param name="sim.deploy.dir" value="${dev.server.path}/${sim.name}/${sim.version}"/>
             <param name="ssh-host" value="${dev.server.name}"/>
         </antcall>
     </target>
