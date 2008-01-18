@@ -1,19 +1,32 @@
 <!--
 
-This build file is specific to building phet simulation files, in particular building jars and jnlp files.
+  PhET primary buildfile
 
-Developer Notes:
-    The main tasks you need are as follows:
+  This Ant buildfile is specific to building PhET simulations, in particular building JAR and JNLP files.
+  To make this buildfile easier to read, only the primary tasks that support day-to-day operations are
+  included herein.
+  
+  Secondary targets and supporting information can be found in build-ancillary.xml.
 
-    * build-and-deploy-dev: builds and deploys development version, updating dev and revision numbers
-    * build-and-deploy-prod: builds and deploys development and production versions, updating dev, minor, and revision numbers
-    * build-and-deploy-prod-no-change: builds and deploys production version, updating revision number but nothing else
-    * launch-sim: builds and launches a JAR file for a sim and language selected from lists
+  The most common tasks are:
+
+    * launch-sim: [default target]
+          starts a GUI that allows you to select a simulation and language, then builds and runs it.
+          
+    * build-and-deploy-dev: 
+          builds and deploys to the development server, updating dev and SVN revision numbers
+          
+    * build-and-deploy-prod: 
+          builds and deploys to the development and production server, updating minor, dev, and SVN revision numbers
+          
+    * build-and-deploy-prod-no-change: 
+          builds and deploys to the production server, updating SVN revision number but nothing else
     
 -->
-<project name="PhET Master Build Script" default="launch-sim" basedir=".">
-    <!--Import implementations and additional tasks-->
-    <import file="build-impl.xml"/>
+<project name="PhET primary buildfile" default="launch-sim" basedir=".">
+	
+    <!-- imports ancillary build information -->
+    <import file="build-ancillary.xml"/>
 
     <target name="build-and-deploy-dev"
             depends="_init, _read-username-and-password-dev, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">

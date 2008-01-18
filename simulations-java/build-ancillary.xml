@@ -1,16 +1,17 @@
 <!--
 
-This build file is specific to building phet simulation files, in particular building jars and jnlp files.
-PhET-team specific tasks are located in an auxiliary build file.
-
-Developer Notes:
-
-1. Ignore any task prefixed with an underscore.
-
-2. The main tasks you need are defined in build.xml (which calls the implementations in this file)
-
+    PhET ancillary buildfile
+    
+    This Ant buildfile contains information that is ancillary to the production build process.
+    Targets herein are a mixture of secondary targets and targets that are not intended to 
+    be called directly.  By convention, targets that are no intended to be called directly
+    are prefixed with an underscore.
+    
+    The primary targets can be found in build.xml, which imports this buildfile. 
+    
 -->
-<project name="PhET Build Implementation" basedir=".">
+<project name="PhET ancillary buildfile" default="_identify-ancillary" basedir=".">
+	
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
       The supported options are:
@@ -104,6 +105,15 @@ Developer Notes:
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
 
+    <!-- ============================================================================= -->
+    <!-- Targets                                                                       -->
+    <!-- ============================================================================= -->
+
+	<!-- default target, identifies the purpose of this buildfile -->
+    <target name="_identify-ancillary">
+        <echo>This is the PhET ancillary buildfile.</echo>
+    </target>
+    	
     <target name="_clean-phet-build">
         <delete dir="${phetbuild-classes-dir}"/>
     </target>
@@ -203,6 +213,7 @@ Developer Notes:
                 classpath="${phetbuild-classpath}"/>
 
     </target>
+	
     <target name="test-imageio" depends="_init">
         <imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
                  outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
