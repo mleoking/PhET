@@ -18,12 +18,12 @@
 		<echo>This is the PhET experimental buildfile.</echo>
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="display-stats" depends="_init">
 		<phet-display-stats/>
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="test-imageio" depends="_init">
 		<imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
                  outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"
@@ -31,7 +31,7 @@
                  outputheight="64"/>
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_test_string_append">
 		<var name="flavor.jar.list" value=""/>
 		<foreach list="band-structure, covalent-bonds, bound-states" target="_add-flavor-to-path" param="sim.flavor" inheritall="true"
@@ -52,7 +52,7 @@
 		</maverick-ssh>
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<property name="run-junit-tests.reports" value="deploy/reports"/>
 	<property name="run-junit-tests.build" value="ant_output/projects/all-sims/jars/all-sims"/>
 	<target name="run-junit-tests" depends="_init">
@@ -165,7 +165,7 @@
 		<!-- Perform post-processing on Mac installer file (zip) -->
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-installer" depends="_init, _verify-sim-name-specified, build-jar">
 		<!-- add the java auto-detect:
 	        On Windows: if no java is available, and the JRE is bundled, must be installed -->
@@ -174,12 +174,12 @@
 		<foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor" inheritall="true"/>
 	</target>
 
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-all-sim-installers" depends="_init, _list-sims" description="Builds all single-sim installers.">
 		<foreach list="${phet.simlist}" target="build-installer" param="sim.name" inheritall="true"/>
 	</target>
 	
-	<!-- PLEASE DOCUMENT ME -->
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="check-translations" depends="_init">
 		<check-translations/>
 	</target>

@@ -22,6 +22,17 @@
     * build-and-deploy-prod: 
           builds and deploys to the development and production server, 
           updating minor, dev, and SVN revision numbers
+          
+  You may configure the build process by specifying properties in file local.properties.
+  The properties that may be safely specified are listed below.
+
+    * sim.name - name of the SVN folder that contains a collection of related sims
+    * sim.locale - ISO language code
+    * deploy.dev.username - username for the development server
+    * deploy.dev.password - password for the development server
+    * deploy.prod.username - username for the production server
+    * deploy.prod.password - password for the production server
+    * browser - pathname of a web browser
 
 ================================================================================  
 -->
