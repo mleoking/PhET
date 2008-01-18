@@ -295,6 +295,7 @@
     </target>
 
     <!-- *************************************BEGIN BUILD NUMBERS************************************* -->
+	
     <target name="_inc-sim-dev-version-number" description="Increments the development version number"  depends="_define-sim-properties-file">
         <echo message="Incrementing the simulation development version number in property file ${file.project.properties}" />
 
@@ -434,7 +435,7 @@
         </if>
     </target>
 
-        <target name="_read-username-and-password-prod">
+    <target name="_read-username-and-password-prod">
         <if>
             <not>
                 <and>
@@ -552,7 +553,7 @@
     </target>
 
 
-<!--shows the browser for the last dev-deployed sim (if any)-->
+    <!--shows the browser for the last dev-deployed sim (if any)-->
     <target name="show-browser-dev" depends="_init, _define-sim-version">
         <if>
             <isset property="browser"/>
@@ -865,12 +866,14 @@
             </sftp>
         </maverick-ssh>
     </target>
+	
     <!--<target name="_add-flavor-to-path">-->
         <!--<var name="temp-flavor-list" value="${flavor.jar.list}" unset="true"/>-->
         <!--<var name="flavor.jar.list" unset="true"/>-->
         <!--<var name="flavor.jar.list" value="${temp-flavor-list}, ${sim.flavor}"/>-->
         <!--<echo message="added flavor to the list: ${sim.flavor} :::: now the list is ${flavor.jar.list}"/>-->
     <!--</target>-->
+	
     <target name="_add_translation_to_jar">
         <echo message="iterating, jar.name=${sim.flavor}"/>
         <tstamp>
