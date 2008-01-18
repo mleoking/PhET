@@ -14,5 +14,10 @@
 	<target name="_identify-experimental">
 		<echo>This is the PhET experimental buildfile.</echo>
 	</target>
+	
+    <!-- PLEASE DOCUMENT ME -->
+    <target name="display-stats" depends="_init">
+        <phet-display-stats/>
+    </target>
 
 </project>
