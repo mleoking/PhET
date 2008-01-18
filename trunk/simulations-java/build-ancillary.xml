@@ -112,7 +112,7 @@
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-all-jars" depends="_init, _list-sims">
-		<foreach list="${phet.simlist}" target="build-jar" param="sim.name" inheritall="true"/>
+		<foreach list="${phet.simlist}" target="_build-jar" param="sim.name" inheritall="true"/>
 	</target>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
@@ -131,7 +131,7 @@
 	</target>
 	
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-all-flavor-jars-for-sim" depends="_verify-sim-name-specified,build-jar,_build-all-flavor-jars-for-sim"/>
+	<target name="build-all-flavor-jars-for-sim" depends="_verify-sim-name-specified,_build-jar,_build-all-flavor-jars-for-sim"/>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-all-flavor-jars" depends="_init,_list-sims">
@@ -223,8 +223,8 @@
 		<echo>This is the PhET ancillary buildfile.</echo>
 	</target>
 	
-	<!-- builds the jar file for the simulation specified as property "sim.name" -->
-	<target name="build-jar" depends="_init,_verify-sim-name-specified">
+	<!-- builds the JAR file for the simulation specified as property "sim.name" -->
+	<target name="_build-jar" depends="_init,_verify-sim-name-specified">
 		<phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
 	</target>
 
@@ -509,7 +509,7 @@
 	</target>
 
 	<!-- This task builds and deploys; assumes all required properties have been previously defined -->
-	<target name="_build-and-deploy" depends="build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
+	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
 	<target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
             depends="_init, _verify-sim-name-specified, _define-sim-properties-file, _define-sim-version">

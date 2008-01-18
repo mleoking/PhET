@@ -46,6 +46,9 @@
         <phet-build-gui/>
     </target>
 	
+	<!-- builds the JAR file for the simulation specified by property "sim.name" -->
+	<target name="build-jar" depends="_build-jar"/>
+		
 	<!-- builds and deploys to the development server, updating dev and SVN revision numbers -->
     <target name="build-and-deploy-dev"
             depends="_init, _read-username-and-password-dev, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
