@@ -1,9 +1,12 @@
 <!--
+================================================================================ 
   
     PhET experimental buildfile
    
-    This Ant buildfile contains experimental build task, which are not part of the production build process.
+    This Ant buildfile contains experimental build task, which are not part 
+    of the production build process.
    
+================================================================================ 
 -->
 <project name="PhET experimental buildfile" default="_identify-experimental" basedir=".">
 
