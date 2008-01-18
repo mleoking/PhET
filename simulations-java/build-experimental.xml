@@ -80,6 +80,9 @@
 	</target>
 
 	<!-- Assume sim.name and sim.flavor defined -->
+	<property name="bitrock.bin.dir"            value="${dir.build-tools}bitrock/bin/" />
+	<property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
+	<property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
 	<target name="_run-bitrock-installer-builder">
 		<!-- Create the directory where the buildfile & installers will be placed -->
 		<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
@@ -129,6 +132,10 @@
 	<target name="_build-installer-for-flavor">
 		<!-- Generate a Windows ico from the simulation screenshot -->
 
+		<typedef
+                name="fileexists"
+                classname="${phet-file-exists-classname}"
+                classpath="${phetbuild-classpath}"/>
 		<var name="flavor.screenshot.file" value="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"/>
 		<if>
 			<fileexists file="${flavor.screenshot.file}"/>
@@ -175,6 +182,12 @@
 	<!-- PLEASE DOCUMENT ME -->
 	<target name="check-translations" depends="_init">
 		<check-translations/>
+	</target>
+	
+	<!-- tester for PhetListLocalesTask -->
+	<target name="list-locales" depends="_init">
+		<phet-list-locales property="locale-list" project="balloons"/>
+		<echo message="locales: ${locale-list}"/>
 	</target>
 
 </project>
