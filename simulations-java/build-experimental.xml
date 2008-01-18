@@ -53,30 +53,128 @@
 	</target>
 
 	<!-- PLEASE DOCUMENT ME -->
-	<property name="test.reports" value="deploy/reports"/>
-	<property name="build" value="ant_output/projects/all-sims/jars/all-sims"/>
-	<target name="test-html" depends="_init">
+	<property name="run-junit-tests.reports" value="deploy/reports"/>
+	<property name="run-junit-tests.build" value="ant_output/projects/all-sims/jars/all-sims"/>
+	<target name="run-junit-tests" depends="_init">
 		<!--<phet-build-all-sim-jar shrink="false"/>-->
 		<!--Unzip the jar with all source-->
-		<delete dir="${test.reports}" verbose="true"/>
-		<mkdir dir="${test.reports}"/>
+		<delete dir="${run-junit-tests.reports}" verbose="true"/>
+		<mkdir dir="${run-junit-tests.reports}"/>
 		<junit fork="yes" printsummary="no" haltonfailure="no" timeout="10000">
-			<batchtest fork="yes" todir="${test.reports}">
-				<fileset dir="${build}">
+			<batchtest fork="yes" todir="${run-junit-tests.reports}">
+				<fileset dir="${run-junit-tests.build}">
 					<include name="**/Z*Tester.class"/>
 					<!--<include name="**/*.class"/>-->
 				</fileset>
 			</batchtest>
 			<formatter type="xml"/>
-			<classpath path="${build}"/>
+			<classpath path="${run-junit-tests.build}"/>
 		</junit>
 
-		<junitreport todir="${test.reports}">
-			<fileset dir="${test.reports}">
+		<junitreport todir="${run-junit-tests.reports}">
+			<fileset dir="${run-junit-tests.reports}">
 				<include name="TEST-*.xml"/>
 			</fileset>
-			<report todir="${test.reports}"/>
+			<report todir="${run-junit-tests.reports}"/>
 		</junitreport>
+	</target>
+
+	<!-- Assume sim.name and sim.flavor defined -->
+	<target name="_run-bitrock-installer-builder">
+		<!-- Create the directory where the buildfile & installers will be placed -->
+		<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
+		<var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
+
+		<mkdir dir="${sim.installer.dir}" />
+
+		<echo message="${os.name}"/>
+		<var name="bitrock.exe" value="${bitrock.bin.dir}Builder.app/Contents/MacOS/installbuilder">
+		</var>
+		<if>
+			<equals arg1="${os.name}" arg2="Windows NT (unknown)">
+			</equals>
+			<then>
+				<var name="bitrock.exe" value="${bitrock.bin.dir}builder.exe">
+				</var>
+			</then>
+		</if>
+		<echo message="set installer exe to: ${bitrock.exe}"/>
+		<!-- Copy the template buildfile to the right location -->
+
+		<create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
+
+		<!-- Build the installers for this simulation/flavor: -->
+		<exec executable="${bitrock.exe}">
+			<arg value="build" />
+			<arg value="${sim.installer.buildfile}" />
+			<arg value="osx"/>
+		</exec>
+		<exec executable="${bitrock.exe}">
+			<arg value="build" />
+			<arg value="${sim.installer.buildfile}" />
+			<arg value="windows"/>
+		</exec>
+		<exec executable="${bitrock.exe}">
+			<arg value="build" />
+			<arg value="${sim.installer.buildfile}" />
+			<arg value="linux"/>
+		</exec>
+		<!-- Build Windows installer bundled with JRE-->
+		<!-- copy the installers from bitrock to ${sim.installer.dir} -->
+
+	</target>
+
+	<!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
+	<!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
+	<target name="_build-installer-for-flavor">
+		<!-- Generate a Windows ico from the simulation screenshot -->
+
+		<var name="flavor.screenshot.file" value="simulations/${sim.name}/deploy/${sim.flavor}-screenshot.png"/>
+		<if>
+			<fileexists file="${flavor.screenshot.file}"/>
+			<then>
+			</then>
+			<else>
+				<var name="flavor.screenshot.file" value="build-tools/phet-build/installer-data/phet-logo.png"/>
+			</else>
+		</if>
+		<echo message="using image file: ${flavor.screenshot.file}"/>
+		<imageio inputfile="${flavor.screenshot.file}"
+	                 outputfile="${ant-output}/projects/${sim.name}/${sim.flavor}.ico"
+	                 outputwidth="64"
+	                 outputheight="64"/>
+
+		<!-- Generate a Linux png from the simulation screenshot
+	        Work on linux icon is postponed since there is no direct support for command line args in shortcuts.-->
+
+
+		<!-- Perform a replacement on the installer builder template XML file -->
+
+
+		<!-- Execute the installer builder for each platform -->
+		<antcall target="_run-bitrock-installer-builder" />
+
+
+		<!-- Perform post-processing on Mac installer file (zip) -->
+	</target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="build-installer" depends="_init, _verify-sim-name-specified, build-jar">
+		<!-- add the java auto-detect:
+	        On Windows: if no java is available, and the JRE is bundled, must be installed -->
+		<phet-list-flavors property="sim.flavors" project="${sim.name}"/>
+
+		<foreach list="${sim.flavors}" target="_build-installer-for-flavor" param="sim.flavor" inheritall="true"/>
+	</target>
+
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="build-all-sim-installers" depends="_init, _list-sims" description="Builds all single-sim installers.">
+		<foreach list="${phet.simlist}" target="build-installer" param="sim.name" inheritall="true"/>
+	</target>
+	
+	<!-- PLEASE DOCUMENT ME -->
+	<target name="check-translations" depends="_init">
+		<check-translations/>
 	</target>
 
 </project>
