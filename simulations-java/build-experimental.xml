@@ -80,13 +80,13 @@
 	</target>
 
 	<!-- Assume sim.name and sim.flavor defined -->
-	<property name="bitrock.bin.dir"            value="${dir.build-tools}bitrock/bin/" />
-	<property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects/" />
+	<property name="bitrock.bin.dir"            value="${dir.build-tools}bitrock/bin" />
+	<property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects" />
 	<property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
 	<target name="_run-bitrock-installer-builder">
 		<!-- Create the directory where the buildfile & installers will be placed -->
-		<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}${sim.name}/${sim.flavor}/installer/" />
-		<var name="sim.installer.buildfile" value="${sim.installer.dir}${sim.flavor}-installer-buildfile.xml" />
+		<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}/${sim.name}/${sim.flavor}/installer/" />
+		<var name="sim.installer.buildfile" value="${sim.installer.dir}/${sim.flavor}-installer-buildfile.xml" />
 
 		<mkdir dir="${sim.installer.dir}" />
 
@@ -127,7 +127,7 @@
 
 	</target>
 
-	<!-- todo: make sure this build-jar is only called once, in the case of multiple flavors -->
+	<!-- todo: make sure this _build-jar is only called once, in the case of multiple flavors -->
 	<!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
 	<target name="_build-installer-for-flavor">
 		<!-- Generate a Windows ico from the simulation screenshot -->
@@ -166,7 +166,7 @@
 	</target>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-installer" depends="_init, _verify-sim-name-specified, build-jar">
+	<target name="build-installer" depends="_init, _verify-sim-name-specified, _build-jar">
 		<!-- add the java auto-detect:
 	        On Windows: if no java is available, and the JRE is bundled, must be installed -->
 		<phet-list-flavors property="sim.flavors" project="${sim.name}"/>
