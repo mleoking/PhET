@@ -1,4 +1,5 @@
-<!--
+<!-- 
+================================================================================
 
     PhET ancillary buildfile
     
@@ -9,8 +10,13 @@
     
     The primary targets can be found in build.xml, which imports this buildfile. 
     
+================================================================================
 -->
 <project name="PhET ancillary buildfile" default="_identify-ancillary" basedir=".">
+
+    <!-- =================================================================== -->
+    <!-- Properties                                                          -->
+    <!-- =================================================================== -->
 	
     <!--
     The local.properties file encodes platform-specific and user-specific defaults for deployment and testing.
@@ -85,6 +91,10 @@
     <!-- Subversion configuration -->
     <property name="svn.executable" value="svn" />
 
+    <!-- =================================================================== -->
+    <!-- Taskdefs                                                            -->
+    <!-- =================================================================== -->
+    	
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
         <classpath>
@@ -105,9 +115,9 @@
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
 
-    <!-- ============================================================================= -->
-    <!-- Targets                                                                       -->
-    <!-- ============================================================================= -->
+    <!-- =================================================================== -->
+    <!-- Targets                                                             -->
+    <!-- =================================================================== -->
 
 	<!-- default target, identifies the purpose of this buildfile -->
     <target name="_identify-ancillary">
@@ -144,7 +154,6 @@
             </then>
         </if>
     </target>
-
 
     <target name="_declare-phet-build-tasks" depends="_build-phet-build">
         <taskdef name="phet-build"
