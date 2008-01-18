@@ -18,9 +18,6 @@
           
     * build-and-deploy-prod: 
           builds and deploys to the development and production server, updating minor, dev, and SVN revision numbers
-          
-    * build-and-deploy-prod-no-change: 
-          builds and deploys to the production server, updating SVN revision number but nothing else
     
 -->
 <project name="PhET primary buildfile" default="launch-sim" basedir=".">
