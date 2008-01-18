@@ -108,6 +108,15 @@
     <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"
              classpath="${build-tools}/maverick/lib/maverick-ant.jar"/>
 
+    <!-- =================================================================== -->
+    <!-- Targets                                                             -->
+    <!-- =================================================================== -->
+    	
+	<!-- default target, identifies the purpose of this buildfile -->
+    <target name="_identify-ancillary">
+        <echo>This is the PhET ancillary buildfile.</echo>
+    </target>
+    	
     <!--Cleans deploy directories of jar and jnlp files-->
     <target name="_clean-all" depends="_init,_list-sims">
         <delete file="${phet.src.distribution}"/>
@@ -115,15 +124,6 @@
         <!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
     </target>
 
-    <!-- =================================================================== -->
-    <!-- Targets                                                             -->
-    <!-- =================================================================== -->
-
-	<!-- default target, identifies the purpose of this buildfile -->
-    <target name="_identify-ancillary">
-        <echo>This is the PhET ancillary buildfile.</echo>
-    </target>
-    	
     <target name="_clean-phet-build">
         <delete dir="${phetbuild-classes-dir}"/>
     </target>
