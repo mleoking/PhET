@@ -25,9 +25,15 @@
 -->
 <project name="PhET primary buildfile" default="launch-sim" basedir=".">
 	
-    <!-- imports ancillary build information -->
+    <!-- imports ancillary build information required by these targets -->
     <import file="build-ancillary.xml"/>
 
+	<!-- starts a GUI that allows you to select a simulation and language, then builds and runs it. -->
+    <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
+        <phet-build-gui/>
+    </target>
+	
+	<!-- builds and deploys to the development server, updating dev and SVN revision numbers -->
     <target name="build-and-deploy-dev"
             depends="_init, _read-username-and-password-dev, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
         <antcall target="_build-and-deploy">
@@ -40,9 +46,7 @@
         </antcall>
     </target>
 
-    <!--Builds jars and jnlp files for all phet simulations-->
-    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
-
+	<!-- builds and deploys to the development and production server, updating minor, dev, and SVN revision numbers. -->
     <target name="build-and-deploy-prod"
             depends="_init, _read-username-and-password-dev, _read-username-and-password-prod, _reset-sim-dev-version-number, _inc-sim-minor-version-number, _build-and-deploy-only-prod">
 
@@ -61,28 +65,25 @@
             <param name="ssh-host" value="${dev.server.name}"/>
         </antcall>
     </target>
-
-    <target name="clean-all" depends="_clean-all"/>
-
+	
+	<!-- builds and deploys to the production server, updating SVN revision number but nothing else -->
     <target name="build-and-deploy-prod-no-change"
             depends="_init, _read-username-and-password-prod, _build-and-deploy-only-prod"/>
+	
+    <!-- builds JAR and JNLP files for all PhET simulations -->
+    <target name="build-all" depends="_init,_clean-all,_list-sims,build-all-jars,build-all-jnlp"/>
 
-    <target name="launch-sim" depends="_init" description="Builds and Launches the specified sim">
-        <phet-build-gui/>
-    </target>
-
-    <!--These tasks are still under consideration, and may be changed, moved or deleted.-->
-    <target name="display-stats" depends="_init">
-        <phet-display-stats/>
-    </target>
-
-    <!--Builds a JAR containing all PhET Java simulations.-->
+    <!-- builds a single JAR containing all PhET Java simulations.-->
     <target name="build-all-sim-jar" depends="_init">
         <phet-build-all-sim-jar/>
     </target>
+	
+	<!-- cleans all deploy directories of JAR and JNLP files -->
+    <target name="clean-all" depends="_clean-all"/>
 
-    <!--Adds a translation to all deployed JARs for a sim (for the sim itself and all subproject dependencies).-->
+    <!-- adds a translation to all deployed JARs for a sim (for the sim itself and all subproject dependencies).-->
     <target name="add-translation" depends="_init,_verify-sim-name-specified">
         <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
     </target>
+	
 </project>
