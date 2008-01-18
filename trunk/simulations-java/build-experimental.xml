@@ -40,7 +40,7 @@
 	</target>
 
 	<!--a test target for checking whether VPN+tigercat+maverick are working -->
-	<target name="_test-maverick-tigercat" depends="_read-username-and-password-prod">
+	<target name="_test-maverick-tigercat" depends="_prompt-for-prod-login">
 		<echo file="maverick-test-file.txt" message="test text"/>
 		<maverick-ssh host="${prod.server.name}" username="${deploy.prod.username}" password="${deploy.prod.password}"
 	                      version="2">
@@ -166,7 +166,7 @@
 	</target>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-installer" depends="_init, _verify-sim-name-specified, _build-jar">
+	<target name="build-installer" depends="_init, _prompt-for-sim-name, _build-jar">
 		<!-- add the java auto-detect:
 	        On Windows: if no java is available, and the JRE is bundled, must be installed -->
 		<phet-list-flavors property="sim.flavors" project="${sim.name}"/>
