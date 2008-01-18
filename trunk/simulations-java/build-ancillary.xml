@@ -512,6 +512,7 @@
 	<!-- This task builds and deploys; assumes all required properties have been previously defined -->
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
             depends="_init, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
 
