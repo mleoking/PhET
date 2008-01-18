@@ -98,7 +98,7 @@
 
 	<!--
 	   TODO:
-	   Some parts of the build process rely of Maverick for ssh.
+	   Some parts of the build process rely on Maverick for ssh.
 	   But their license is restrictive; for example, we don't have source code access.
 	   So new parts of the build process use JSch from JCraft.
 	   In the future, we should probably switch to JSch exclusively.
@@ -121,17 +121,17 @@
 	</target>
 	
 	<!-- builds and deploys all sims to the development server -->
-	<target name="build-and-deploy-all-dev" depends="_init, _read-username-and-password-dev, _clean-all, _list-sims">
+	<target name="build-and-deploy-all-dev" depends="_init, _prompt-for-dev-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
 	</target>
 
 	<!-- builds and deploys all sims to the production server -->
-	<target name="build-and-deploy-all-prod" depends="_init, _read-username-and-password-prod, _clean-all, _list-sims">
+	<target name="build-and-deploy-all-prod" depends="_init, _prompt-for-prod-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
 	</target>
 	
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-all-flavor-jars-for-sim" depends="_verify-sim-name-specified,_build-jar,_build-all-flavor-jars-for-sim"/>
+	<target name="build-all-flavor-jars-for-sim" depends="_prompt-for-sim-name,_build-jar,_build-all-flavor-jars-for-sim"/>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-all-flavor-jars" depends="_init,_list-sims">
@@ -139,7 +139,7 @@
 	</target>
 
 	<!-- cleans a single simulation's jar, jnlp and exe files in the deploy directory -->
-	<target name="clean-sim" depends="_init, _verify-sim-name-specified">
+	<target name="clean-sim" depends="_init, _prompt-for-sim-name">
 		<!--Delete the simulation jar file.-->
 		<delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.jar"/>
 		<delete dir="${simulations-directory}/${sim.name}/deploy/" includes="**/*.exe"/>
@@ -224,7 +224,7 @@
 	</target>
 	
 	<!-- builds the JAR file for the simulation specified as property "sim.name" -->
-	<target name="_build-jar" depends="_init,_verify-sim-name-specified">
+	<target name="_build-jar" depends="_init,_prompt-for-sim-name">
 		<phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
 	</target>
 
@@ -235,10 +235,12 @@
 		<!--<delete dir="${ant-output}" excludes="${phetbuild-classes}"/>-->
 	</target>
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_clean-phet-build">
 		<delete dir="${phetbuild-classes-dir}"/>
 	</target>
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_compile-phet-build">
 		<mkdir dir="${phetbuild-classes-dir}"/>
 
@@ -407,11 +409,12 @@
 		</if>
 	</target>
 
-	<target name="_define-sim-properties-file" depends="_verify-sim-name-specified" description="Creates a property whose value is equal to the name of the simulation properties file.">
+	<target name="_define-sim-properties-file" depends="_prompt-for-sim-name" description="Creates a property whose value is equal to the name of the simulation properties file.">
 		<var name="file.project.properties" value="${simulations-directory}/${sim.name}/data/${sim.name}/${sim.name}.properties"/>
 	</target>
 
-	<target name="_read-username-and-password-dev">
+	<!-- prompts for development server login info -->
+	<target name="_prompt-for-dev-login">
 		<if>
 			<not>
 				<and>
@@ -420,13 +423,10 @@
 				</and>
 			</not>
 			<then>
-				<echo message="Requestion login info for Development Host"/>
-
-				<!-- If the username and password are not set, get them now: -->
-				<antform title="Devolopment Host Login" width="550" height="300">
-					<label>Please enter your username and password for the host used to deploy development versions of simulations.
-                    </label>
-
+				<!-- If the username and password are not set, get them now. -->
+				<echo message="Requesting login info for Development server"/>
+				<antform title="Devolopment Server Login" width="550" height="300">
+					<label>Please enter your username and password for the server used to deploy development versions of simulations.</label>
 					<textProperty label="Username:" property="deploy.dev.username" columns="25" required="true" focus="true"/>
 					<textProperty label="Password:" property="deploy.dev.password" columns="25" required="true" password="true"/>
 				</antform>
@@ -434,7 +434,8 @@
 		</if>
 	</target>
 
-	<target name="_read-username-and-password-prod">
+	<!-- prompts for production server login info -->
+	<target name="_prompt-for-prod-login">
 		<if>
 			<not>
 				<and>
@@ -443,13 +444,10 @@
 				</and>
 			</not>
 			<then>
-				<echo message="Requesting login info for Production Host"/>
-
-				<!-- If the username and password are not set, get them now: -->
-				<antform title="Production Host Login" width="550" height="300">
-					<label>Please enter your username and password for the host used to deploy production versions of simulations.
-                    </label>
-
+				<!-- If the username and password are not set, get them now. -->
+				<echo message="Requesting login info for Production server"/>
+				<antform title="Production Server Login" width="550" height="300">
+					<label>Please enter your username and password for the server used to deploy production versions of simulations.</label>
 					<textProperty label="Username:" property="deploy.prod.username" columns="25" required="true" focus="true"/>
 					<textProperty label="Password:" property="deploy.prod.password" columns="25" required="true" password="true"/>
 				</antform>
@@ -457,22 +455,25 @@
 		</if>
 	</target>
 
-	<target name="_verify-sim-name-specified" description="Verifies that the simulation name has been specified">
+	<!-- prompts for sim.name -->
+	<target name="_prompt-for-sim-name">
 		<if>
 			<not>
 				<isset property="sim.name"/>
 			</not>
 			<then>
+				<!-- If sim.name not set, get it now. -->
+				<echo message="Requesting sim.name"/>
 				<antform title="Simulation Name" width="750" height="300">
 					<label>Please enter the name of the simulation with which to perform the operation. This is the name of the Subversion folder that the simulation is stored in.
                     </label>
-					<textProperty label="Simulation Name: " property="sim.name" required="true"
-                                  tooltip="The simulation name" focus="true"/>
+					<textProperty label="Simulation Name: " property="sim.name" required="true" focus="true"/>
 				</antform>
 			</then>
 		</if>
 	</target>
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_deploy">
 		<if>
 			<isset property="deploy.to.dev"/>
@@ -512,7 +513,7 @@
 	<target name="_build-and-deploy" depends="_build-jar, build-jnlp, _build-all-flavor-jars-for-sim, _deploy" />
 
 	<target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
-            depends="_init, _verify-sim-name-specified, _define-sim-properties-file, _define-sim-version">
+            depends="_init, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
 
 		<phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true"/>
 
@@ -551,8 +552,8 @@
 		</exec>
 	</target>
 
+	<!-- Deploy production version -->
 	<target name="_build-and-deploy-only-prod" depends="_generate-svn-revision-number, _define-sim-version">
-		<!-- Deploy production version -->
 		<antcall target="_build-and-deploy">
 			<param name="sim.server.url"        value="${prod.server.url}"/>
 			<param name="sim.server.path"       value="${prod.server.path}"/>
@@ -562,6 +563,7 @@
 		</antcall>
 	</target>
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_build-jar-for-flavor">
 		<copy file="simulations/${sim.name}/deploy/${sim.name}_all.jar"
               tofile="simulations/${sim.name}/deploy/${sim.flavor}.jar"/>
@@ -572,6 +574,7 @@
              basedir="${ant-output}/projects/${sim.name}/launchable-jars/" update="true"/>
 	</target>
 
+	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_build-all-flavor-jars-for-sim" depends="_init">
 		<!--ToDo: handle flavor/sim name clash better than this.-->
 		<var name="jar-all-file" value="simulations/${sim.name}/deploy/${sim.name}_all.jar"/>
