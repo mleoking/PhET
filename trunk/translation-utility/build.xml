@@ -1,0 +1,16 @@
+<!--
+================================================================================ 
+
+    Buildfile for PhET Translation Utility
+    
+================================================================================ 
+-->
+<project name="PhET Translation Utility" default="under-construction" basedir=".">
+	
+	<target name="under-construction">
+		<echo>Buildfile is under construction - check back later.</echo>
+		<echo>In the meantime, please build and deploy manually.</echo>
+		<echo>See translation-utility-build.properties for a list of dependencies</echo>
+	</target>
+	
+</project>
