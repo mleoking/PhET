@@ -7,6 +7,12 @@
 -->
 <project name="PhET Translation Utility" default="under-construction" basedir=".">
 	
+	<!-- where it lives on developement and production servers -->
+	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
+	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev"/>
+	<property name="prod.server.path"   value="/web/htdocs/phet/new/contribute"/>
+	<property name="prod.server.url"    value="http://phet.colorado.edu/new/contribute"/>
+
 	<target name="under-construction">
 		<echo>Buildfile is under construction - check back later.</echo>
 		<echo>In the meantime, please build and deploy manually.</echo>
