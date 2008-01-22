@@ -131,15 +131,19 @@ public class ViewControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public void setEquilibriumLineSelected( boolean b ) {
-        _equilibriumLineCheckBox.setSelected( b );
+        if ( b != isEquilibriumLineSelected() ) {
+            _equilibriumLineCheckBox.setSelected( b );
+        }
     }
     
-    public boolean isEquilibriumSelected() {
+    public boolean isEquilibriumLineSelected() {
         return _equilibriumLineCheckBox.isSelected();
     }
     
     public void setIceFlowSelected( boolean b ) {
-        _iceFlowCheckBox.setSelected( b );
+        if ( b != isIceFlowSelected() ) {
+            _iceFlowCheckBox.setSelected( b );
+        }
     }
     
     public boolean isIceFlowSelected() {
@@ -147,7 +151,9 @@ public class ViewControlPanel extends JPanel {
     }
     
     public void setSnowfallSelected( boolean b ) {
-        _snowfallCheckBox.setSelected( b );
+        if ( b != isSnowfallSelected() ) {
+            _snowfallCheckBox.setSelected( b );
+        }
     }
     
     public boolean isSnowfallSelected() {
@@ -155,7 +161,9 @@ public class ViewControlPanel extends JPanel {
     }
     
     public void setCoordinatesSelected( boolean b ) {
-        _coordinatesCheckBox.setSelected( b );
+        if ( b != isCoordinatesSelected() ) {
+            _coordinatesCheckBox.setSelected( b );
+        }
     }
     
     public boolean isCoordinatesSelected() {
@@ -163,7 +171,9 @@ public class ViewControlPanel extends JPanel {
     }
     
     public void setAgeOfIceSelected( boolean b ) {
-        _ageOfIceCheckBox.setSelected( b );
+        if ( b != isAgeOfIceSelected() ) {
+            _ageOfIceCheckBox.setSelected( b );
+        }
     }
     
     public boolean isAgeOfIceSelected() {
@@ -206,7 +216,7 @@ public class ViewControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private void notifyEquilibriumLineChanged() {
-        boolean b = isEquilibriumSelected();
+        boolean b = isEquilibriumLineSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ViewControlPanelListener) i.next() ).equilibriumLineChanged( b );
