@@ -23,11 +23,9 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
-- is valley shape correct? I don't see the extreme dip that I was expecting at the glacier's head.
-- adjust MVT and/or camera scaling to increase magnification of zoomed view
+- adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - make the zoomed viewport's vertical position follow the contour of the valley
-- antialiasing of valley path
 - create a basic climate control that includes presets and mass balance 
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
@@ -57,6 +55,7 @@ LOW PRIORITY:
 - set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
+- antialiasing of valley path
 
 COMMON CODE:
 
@@ -67,6 +66,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/22/08 - moved controller responsibilities for "Basic" module to BasicController
 ******** 0.00.01 (19431)
 1/16/08 - wire up basic climate controls (temperature and snowfall)
 1/16/08 - use one set of images for tools and their icons in the toolbox
