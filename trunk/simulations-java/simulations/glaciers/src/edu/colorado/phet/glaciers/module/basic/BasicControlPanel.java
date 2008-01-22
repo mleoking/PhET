@@ -18,9 +18,8 @@ import edu.colorado.phet.glaciers.control.BasicClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
-import edu.colorado.phet.glaciers.control.BasicClimateControlPanel.BasicClimateControlPanelListener;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
-import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
  * BasicControlPanel is the control panel for BasicModule.
@@ -39,8 +38,6 @@ public class BasicControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private BasicModel _model;
-    
     private ViewControlPanel _viewControlPanel;
     private BasicClimateControlPanel _climateControlPanel;
     private GlaciersClockControlPanel _clockControlPanel;
@@ -50,14 +47,12 @@ public class BasicControlPanel extends JPanel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public BasicControlPanel( BasicModel model ) {
+    public BasicControlPanel( GlaciersClock clock ) {
         super();
-        
-        _model = model;
         
         _viewControlPanel = new ViewControlPanel();
         _climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE );
-        _clockControlPanel = new GlaciersClockControlPanel( model.getClock() );
+        _clockControlPanel = new GlaciersClockControlPanel( clock );
         _miscControlPanel = new MiscControlPanel();
         
         int row;
@@ -91,31 +86,21 @@ public class BasicControlPanel extends JPanel {
         
         Class[] excludedClasses = { ViewControlPanel.class, BasicClimateControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
-        
-        // Initialization
-        _climateControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
-        _climateControlPanel.setTemperture( _model.getClimate().getReferenceTemperature() );
-        
-        // Listeners
-        _climateControlPanel.addBasicClimateControlPanelListener( new BasicClimateControlPanelListener() {
-
-            public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setReferencePrecipitation( snowfall );
-            }
-
-            public void temperatureChanged( double temperature ) {
-                _model.getClimate().setReferenceTemperature( temperature );
-            }
-        });
-        _model.getClimate().addClimateListener( new ClimateListener() {
-
-            public void referencePrecipitationChanged() {
-                _climateControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
-            }
-
-            public void referenceTemperatureChanged() {
-                _climateControlPanel.setTemperture( _model.getClimate().getReferenceTemperature() );
-            }
-        } );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public ViewControlPanel getViewControlPanel() {
+        return _viewControlPanel;
+    }
+    
+    public BasicClimateControlPanel getClimateControlPanel() {
+        return _climateControlPanel;
+    }
+    
+    public MiscControlPanel getMiscControlPanel() {
+        return _miscControlPanel;
     }
 }
