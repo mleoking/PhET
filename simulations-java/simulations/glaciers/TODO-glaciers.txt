@@ -23,6 +23,8 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
+- add range constants for mass balance controls
+- add MassBalanceControlPanel to basic climate controls
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - make the zoomed viewport's vertical position follow the contour of the valley
@@ -32,6 +34,7 @@ HIGH PRIORITY:
 - implement glacier model
 
 MEDIUM PRIORITY:
+- move DoubleSpinner to phetcommon
 - redesign advanced climate controls
 - wire up Reset All button
 - create graphs
@@ -49,6 +52,7 @@ MEDIUM PRIORITY:
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
 
 LOW PRIORITY:
+- add rounded borders to control sub-panels
 - wire up Help button
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
@@ -66,6 +70,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/22/08 - create MassBalanceControlPanel for controlling mass-balance model of climate
+1/22/08 - pull SnowfallAndTemperatureControlPanel out of climate control panel
+1/22/08 - grab DoubleSpinner from bound-states, refine
 1/22/08 - moved controller responsibilities for "Basic" module to BasicController
 ******** 0.00.01 (19431)
 1/16/08 - wire up basic climate controls (temperature and snowfall)

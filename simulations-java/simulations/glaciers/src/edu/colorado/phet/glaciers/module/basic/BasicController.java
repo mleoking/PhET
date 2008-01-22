@@ -1,7 +1,7 @@
 package edu.colorado.phet.glaciers.module.basic;
 
-import edu.colorado.phet.glaciers.control.BasicClimateControlPanel;
-import edu.colorado.phet.glaciers.control.BasicClimateControlPanel.BasicClimateControlPanelListener;
+import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel;
+import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel.SnowfallAndTemperatureControlPanelListener;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
@@ -21,8 +21,8 @@ public class BasicController {
         _controlPanel = controlPanel;
         
         // Update the climate model when the climate controls are changed.
-        final BasicClimateControlPanel climateControlPanel = controlPanel.getClimateControlPanel();
-        climateControlPanel.addBasicClimateControlPanelListener( new BasicClimateControlPanelListener() {
+        final SnowfallAndTemperatureControlPanel snowfallAndTemperatureControlPanel = controlPanel.getClimateControlPanel().getSnowfallAndTemperatureControlPanel();
+        snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
             public void snowfallChanged( double snowfall ) {
                 _model.getClimate().setReferencePrecipitation( snowfall );
@@ -37,17 +37,17 @@ public class BasicController {
         _model.getClimate().addClimateListener( new ClimateListener() {
 
             public void referencePrecipitationChanged() {
-                climateControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
+                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
             }
 
             public void referenceTemperatureChanged() {
-                climateControlPanel.setTemperture( _model.getClimate().getReferenceTemperature() );
+                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getReferenceTemperature() );
             }
         } );
         
         // Initialization
-        climateControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
-        climateControlPanel.setTemperture( _model.getClimate().getReferenceTemperature() );
+        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
+        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getReferenceTemperature() );
     }
 
 }
