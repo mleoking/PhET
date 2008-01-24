@@ -55,6 +55,7 @@ MEDIUM PRIORITY:
 - tile the right edge of the valley, so that it can be extended when window is resized?
 - simply show end of the world at the right edge of the valley?
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
+- PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 
 LOW PRIORITY:
 - add variable caliper size to ice measuring tool
