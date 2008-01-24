@@ -78,7 +78,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.02 ()
+******** 0.00.02 (19477)
 1/23/08 - make the zoomed viewport's vertical position follow the contour of the valley
 1/23/08 - extend Valley shape down to sea level
 1/23/08 - add Graphs control panel to "Basic" module, so that we can test graphs during development of basic model
