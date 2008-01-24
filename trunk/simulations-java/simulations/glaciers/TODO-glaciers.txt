@@ -2,6 +2,17 @@
 "To Do" list for "Glaciers" simulation
 ================================================================================
 
+MISSING INFO:
+- ice thickness model
+- ice flow (velocity vector) model
+- accumulation & ablation models
+- temperature range & default
+- snowfall range, default & units
+- equilibrium line altitude range & default
+- mass balance slope range & default
+- maximum mass balance range & default
+- mappings between 2 types of climate controls
+
 DESIGN ISSUES:
 - toolbox allows creating multiple borehole drills
 - borehole drill in different than the other things in the toolbox, all others are measurement devices
@@ -26,17 +37,15 @@ HIGH PRIORITY:
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - make the zoomed viewport's vertical position follow the contour of the valley
-- create a basic climate control that includes presets and mass balance 
 - remove tools by dragging them back to the trash can (or toolbox?)
 - prototype drawing the valley, mountains and glacier
-- implement glacier model
+- implement glacier model & view
 
 MEDIUM PRIORITY:
 - move DoubleSpinner to phetcommon
 - redesign advanced climate controls
 - wire up Reset All button
 - create graphs
-- add unit tests for MVT "flip sign" feature
 - get actual function that describes temperature as a function of altitude
 - get actual function that describes precipitation as a function of altitude
 - should tools be draggable in top canvas?
@@ -46,10 +55,11 @@ MEDIUM PRIORITY:
 - add left and right arrows to zoom view, secondary viewport control
 - tile the right edge of the valley, so that it can be extended when window is resized?
 - simply show end of the world at the right edge of the valley?
-- add variable caliper size to ice measuring tool
 - dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
 
 LOW PRIORITY:
+- add variable caliper size to ice measuring tool
+- make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
 - wire up Help button
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
@@ -68,6 +78,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/23/08 - add Graphs control panel to "Basic" module, so that we can test graphs during development of basic model
 1/23/08 - stub out most of "Advanced" module, it will come later after some redesign
 1/23/08 - delete AdvanceClimateControlPanel, this needs to be redesigned
 1/23/08 - add MassBalanceControlPanel to basic climate controls

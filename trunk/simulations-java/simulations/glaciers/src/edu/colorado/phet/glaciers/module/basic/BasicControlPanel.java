@@ -14,10 +14,7 @@ import javax.swing.text.JTextComponent;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.control.BasicClimateControlPanel;
-import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
-import edu.colorado.phet.glaciers.control.MiscControlPanel;
-import edu.colorado.phet.glaciers.control.ViewControlPanel;
+import edu.colorado.phet.glaciers.control.*;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -40,6 +37,7 @@ public class BasicControlPanel extends JPanel {
     
     private ViewControlPanel _viewControlPanel;
     private BasicClimateControlPanel _climateControlPanel;
+    private GraphsControlPanel _graphsControlPanel;
     private GlaciersClockControlPanel _clockControlPanel;
     private MiscControlPanel _miscControlPanel;
     
@@ -53,6 +51,8 @@ public class BasicControlPanel extends JPanel {
         _viewControlPanel = new ViewControlPanel();
         _climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE,
                 BasicDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE, BasicDefaults.MASS_BALANCE_SLOPE_RANGE, BasicDefaults.MAXIMUM_MASS_BALANCE_RANGE );
+        
+        _graphsControlPanel = new GraphsControlPanel();
         _clockControlPanel = new GlaciersClockControlPanel( clock );
         _miscControlPanel = new MiscControlPanel();
         
@@ -66,6 +66,7 @@ public class BasicControlPanel extends JPanel {
         column = 0;
         topLayout.addFilledComponent( _viewControlPanel, row, column++, GridBagConstraints.VERTICAL );
         topLayout.addFilledComponent( _climateControlPanel, row, column++, GridBagConstraints.VERTICAL  );
+        topLayout.addFilledComponent( _graphsControlPanel, row, column++, GridBagConstraints.VERTICAL  );
         
         JPanel bottomPanel = new JPanel();
         EasyGridBagLayout bottomLayout = new EasyGridBagLayout( bottomPanel );
@@ -85,7 +86,7 @@ public class BasicControlPanel extends JPanel {
         thisLayout.addComponent( topPanel, row++, column );
         thisLayout.addComponent( bottomPanel, row++, column );
         
-        Class[] excludedClasses = { ViewControlPanel.class, BasicClimateControlPanel.class, JTextComponent.class };
+        Class[] excludedClasses = { ViewControlPanel.class, BasicClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
