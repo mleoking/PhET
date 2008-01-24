@@ -7,7 +7,6 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.model.Valley;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -81,6 +80,7 @@ public class ValleyNode extends PComposite {
         double elevation = 0;
         double finalElevation = 0;
         
+        // approximate the valley floor, from left to right
         while ( x <= xMax ) {
             elevation = _valley.getElevation( x );
             pModel.setLocation( x, elevation );
@@ -94,9 +94,18 @@ public class ValleyNode extends PComposite {
             x += dx;
             finalElevation = elevation;
         }
-        pModel.setLocation( 0, finalElevation );
+        
+        // vertical line down to sea level at x=end
+        pModel.setLocation( x - dx, 0 );
         pView = _mvt.modelToView( pModel, pView );
         path.lineTo( (float) pView.getX(), (float) pView.getY() );
+        
+        // horizontal line to sea level at x=start
+        pModel.setLocation( 0, 0 );
+        pView = _mvt.modelToView( pModel, pView );
+        path.lineTo( (float) pView.getX(), (float) pView.getY() );
+        
+        // close the path
         path.closePath();
         
         return path;
