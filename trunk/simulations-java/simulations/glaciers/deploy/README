@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.01
+Glaciers, version 0.00.02
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,18 +13,28 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>XXX
+<li>zoomed viewport stay vertically centered on valley floor
+<li>added Mass Balance climate controls
+<li>added Graph controls, for testing purposes
+<li>
 </ul>
 <p>
 <b>Know issues:</b>
 <p>
 <ul>
-<li>XXX
+<li>Most things don't do anything interesting because the model is very incomplete.
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>XXX
+<li>Lots of things are not implemented. Here are some of them:
+<li>Once created, tools cannot be dragged deleted (no trash can feature).
+<li>Perspective view is not implemented; both views show a side view of the scene.
+<li>There is no model for the glacier, so no glacier will form, and the tools that are related to ice (ice thickness tool, glacial budget meter) will do nothing.
+<li>There is no model for the climate, so temperature is inaccurate, and there is no snowfall.
+<li>There is no model for the mountain range, so you won't see mountains.
+<li>There are no left/right arrows in the zoomed view for moving the viewport.
+<li>Advanced panel is hidden; what you see is the Basic panel.
 </ul>
 <p>
 <b>Remaining work:</b>
