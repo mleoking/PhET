@@ -19,11 +19,6 @@
 	</target>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="display-stats" depends="_init">
-		<phet-display-stats/>
-	</target>
-
-	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="test-imageio" depends="_init">
 		<imageio inputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.jpg"
                  outputfile="/Users/jdegoes/Documents/dev/simulations-java/simulations/balloons/screenshot.png"

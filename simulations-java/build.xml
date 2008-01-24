@@ -111,4 +111,9 @@
         <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
     </target>
 	
+	<!-- displays statistics for each project (name, flavors, languages, etc) -->
+	<target name="display-stats" depends="_init">
+		<phet-display-stats/>
+	</target>
+	
 </project>
