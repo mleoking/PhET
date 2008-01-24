@@ -68,6 +68,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/23/08 - stub out most of "Advanced" module, it will come later after some redesign
+1/23/08 - delete AdvanceClimateControlPanel, this needs to be redesigned
 1/23/08 - add MassBalanceControlPanel to basic climate controls
 1/23/08 - add range constants for mass balance controls
 1/22/08 - create MassBalanceControlPanel for controlling mass-balance model of climate
