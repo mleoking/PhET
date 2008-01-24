@@ -27,5 +27,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
     
     // Climate
     public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 100, 0 ); //XXX units?
-    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 0, 100, 0 );  //XXX units?
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 0, 100, 0 );  // degrees C
+    public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 4000, 0 ); // meters
+    public static final DoubleRange MASS_BALANCE_SLOPE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX units?
+    public static final DoubleRange MAXIMUM_MASS_BALANCE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX units?
 }

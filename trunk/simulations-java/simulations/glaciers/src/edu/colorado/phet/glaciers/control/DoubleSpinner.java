@@ -25,6 +25,7 @@ public class DoubleSpinner extends JPanel {
 
         // Spinner 
         _spinner = new JSpinner();
+        add( _spinner );
         
         // model
         SpinnerNumberModel model = new SpinnerNumberModel( value, min, max, step );
