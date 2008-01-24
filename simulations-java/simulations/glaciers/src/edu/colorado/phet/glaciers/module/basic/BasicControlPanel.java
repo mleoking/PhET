@@ -51,7 +51,8 @@ public class BasicControlPanel extends JPanel {
         super();
         
         _viewControlPanel = new ViewControlPanel();
-        _climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE );
+        _climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE,
+                BasicDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE, BasicDefaults.MASS_BALANCE_SLOPE_RANGE, BasicDefaults.MAXIMUM_MASS_BALANCE_RANGE );
         _clockControlPanel = new GlaciersClockControlPanel( clock );
         _miscControlPanel = new MiscControlPanel();
         

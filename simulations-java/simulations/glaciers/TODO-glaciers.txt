@@ -23,8 +23,6 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
-- add range constants for mass balance controls
-- add MassBalanceControlPanel to basic climate controls
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - make the zoomed viewport's vertical position follow the contour of the valley
@@ -70,6 +68,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/23/08 - add MassBalanceControlPanel to basic climate controls
+1/23/08 - add range constants for mass balance controls
 1/22/08 - create MassBalanceControlPanel for controlling mass-balance model of climate
 1/22/08 - pull SnowfallAndTemperatureControlPanel out of climate control panel
 1/22/08 - grab DoubleSpinner from bound-states, refine
