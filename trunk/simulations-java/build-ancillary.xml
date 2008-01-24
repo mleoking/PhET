@@ -454,6 +454,27 @@
 			</then>
 		</if>
 	</target>
+	
+	<!-- prompts for SVN server login info -->
+	<target name="_prompt-for-svn-login">
+		<if>
+			<not>
+				<and>
+					<isset property="svn.username"/>
+					<isset property="svn.password"/>
+				</and>
+			</not>
+			<then>
+				<!-- If the username and password are not set, get them now. -->
+				<echo message="Requesting login info for SVN server"/>
+				<antform title="SVN Server Login" width="550" height="300">
+					<label>Please enter your username and password for the SVN server.</label>
+					<textProperty label="Username:" property="svn.username" columns="25" required="true" focus="true"/>
+					<textProperty label="Password:" property="svn.password" columns="25" required="true" password="true"/>
+				</antform>
+			</then>
+		</if>
+	</target>
 
 	<!-- prompts for sim.name -->
 	<target name="_prompt-for-sim-name">
@@ -514,7 +535,7 @@
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_generate-svn-revision-number" description="Task to update, commit, and update the sim being deployed along with all its dependencies"
-            depends="_init, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
+            depends="_init, _prompt-for-svn-login, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
 
 		<phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true"/>
 
@@ -549,7 +570,7 @@
 		<echo message="Committing ${sim.name} ${sim.version}" />
 
 		<exec executable="svn">
-			<arg line="commit --message &quot;${sim.name}: Deployed version ${sim.version}&quot; ${phet.dependslist}" />
+			<arg line="commit --username ${svn.username} --password ${svn.password} --message &quot;${sim.name}: Deployed version ${sim.version}&quot; ${phet.dependslist}" />
 		</exec>
 	</target>
 
