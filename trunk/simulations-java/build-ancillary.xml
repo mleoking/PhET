@@ -17,12 +17,12 @@
 	<!-- =================================================================== -->
 	<!-- Public properties                                                   -->
 	<!-- =================================================================== -->
-	
+
 	<!-- Load user-specified properties from this file. -->
 	<!-- Do this first to allow overrides -->
 	<!-- See build.xml for documentation of specific properties. -->
 	<property file="local.properties"/>
-	
+
 	<!-- =================================================================== -->
 	<!-- Private properties, do NOT change or override these                 -->
 	<!-- =================================================================== -->
@@ -119,7 +119,7 @@
 	<target name="build-all-jnlp" depends="_init, _list-sims">
 		<foreach list="${phet.simlist}" target="build-jnlp" param="sim.name" inheritall="true"/>
 	</target>
-	
+
 	<!-- builds and deploys all sims to the development server -->
 	<target name="build-and-deploy-all-dev" depends="_init, _prompt-for-dev-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
@@ -129,7 +129,7 @@
 	<target name="build-and-deploy-all-prod" depends="_init, _prompt-for-prod-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
 	</target>
-	
+
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="build-all-flavor-jars-for-sim" depends="_prompt-for-sim-name,_build-jar,_build-all-flavor-jars-for-sim"/>
 
@@ -222,7 +222,7 @@
 	<target name="_identify-ancillary">
 		<echo>This is the PhET ancillary buildfile.</echo>
 	</target>
-	
+
 	<!-- builds the JAR file for the simulation specified as property "sim.name" -->
 	<target name="_build-jar" depends="_init,_prompt-for-sim-name">
 		<phet-build project="${sim.name}" destfile="deploy/${sim.name}.jar"/>
@@ -584,6 +584,36 @@
 		<foreach list="${sim.flavors}" target="_build-jar-for-flavor" param="sim.flavor" inheritall="true"/>
 		<!--remove [sim.name]_all.jar files from build process-->
 		<delete file="${jar-all-file}"/>
+	</target>
+
+	<!-- fails if the working copy is not synchronized with the SVN repository -->
+	<target name="_fail_if_working_copy_is_not_synchronized" depends="_init">
+		
+		<!-- if sim.name is set, check only its dependencies. otherwise check the entire working copy -->
+		<if>
+			<isset property="sim.name"/>
+			<then>
+				<phet-list-depends project="${sim.name}" property="phet.dependslist" commandlineformat="true" />
+			</then>
+		    <else>
+		    	<property name="phet.dependslist" value="."/>
+			</else>
+		</if>
+
+		<!-- check the working copy's status -->
+		<exec executable="svn" outputproperty="svn.output" failonerror="true">
+			<arg line="status ${phet.dependslist}" />
+		</exec>
+
+		<!-- fail if svn returned anything -->
+		<if>
+			<not>
+				<equals arg1="${svn.output}" arg2="" />
+			</not>
+			<then>
+				<fail message="Your working copy is out of sync with the SVN repository: ${svn.output}" />
+			</then>
+		</if>
 	</target>
 
 </project>
