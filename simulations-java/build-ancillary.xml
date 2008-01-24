@@ -608,7 +608,7 @@
 	</target>
 
 	<!-- fails if the working copy is not synchronized with the SVN repository -->
-	<target name="_fail_if_working_copy_is_not_synchronized" depends="_init">
+	<target name="_fail-if-working-copy-is-not-synchronized" depends="_init">
 		
 		<!-- if sim.name is set, check only its dependencies. otherwise check the entire working copy -->
 		<if>
