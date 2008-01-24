@@ -121,6 +121,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _zoomedViewport.setPosition( _birdsEyeViewport.getX(), _birdsEyeViewport.getY() ); // upper-left of birds-eye viewport
         _zoomedViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
+                verticallyAlignZoomedViewport();
                 handleZoomedViewportChanged();
             }
         });
@@ -280,9 +281,22 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         Rectangle2D zb = _zoomedCanvas.getBounds();
         assert ( !zb.isEmpty() );
         double scale = _zoomedCanvas.getCamera().getViewScale();
-        Rectangle2D rView = new Rectangle2D.Double( 0, 0, zb.getWidth() / scale, zb.getHeight() / scale );
+        Rectangle2D rView = _mvt.modelToView( _zoomedViewport.getBoundsReference() );
+        rView.setRect( rView.getX(), rView.getY(), zb.getWidth() / scale, zb.getHeight() / scale );
         Rectangle2D rModel = _mvt.viewToModel( rView );
-        rModel.setRect( _zoomedViewport.getX(), _birdsEyeViewport.getY(), rModel.getWidth(), rModel.getHeight() );
+        _zoomedViewport.setBounds( rModel );
+    }
+    
+    /*
+     * Vertically aligns the zoomed viewport.
+     * Keeps the glacier vertically centered in the viewport.
+     */
+    private void verticallyAlignZoomedViewport() {
+        Rectangle2D rModel = _zoomedViewport.getBounds();
+        double centerX = rModel.getCenterX();
+        double elevation = _model.getValley().getElevation( centerX );
+        double newY = elevation + ( 0.55 * rModel.getHeight() );
+        rModel.setRect( rModel.getX(), newY, rModel.getWidth(), rModel.getHeight() );
         _zoomedViewport.setBounds( rModel );
     }
     
