@@ -30,6 +30,7 @@ public class AdvancedModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private AdvancedModel _model;
+    private AdvancedController _controller;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -44,7 +45,7 @@ public class AdvancedModule extends PiccoloModule {
         Valley valley = new Valley();
         Glacier glacier = new Glacier();
         Climate climate = new Climate();
-        _model = new AdvancedModel( clock,valley, glacier, climate );
+        _model = new AdvancedModel( clock, valley, glacier, climate );
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform(); //XXX identity
@@ -52,9 +53,12 @@ public class AdvancedModule extends PiccoloModule {
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
-        JPanel controlPanel = new AdvancedControlPanel( clock );
+        AdvancedControlPanel controlPanel = new AdvancedControlPanel( clock );
         setClockControlPanel( controlPanel );
 
+        // Controller
+        _controller = new AdvancedController( _model, controlPanel );
+        
         // Help
         if ( hasHelp() ) {
             //XXX add help items

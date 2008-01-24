@@ -37,43 +37,6 @@ public class AdvancedControlPanel extends JPanel {
     public AdvancedControlPanel( GlaciersClock clock ) {
         super();
         
-        ViewControlPanel viewControlPanel = new ViewControlPanel();
-        AdvancedClimateControlPanel climateControlPanel = new AdvancedClimateControlPanel();
-        GraphsControlPanel graphsControlPanel = new GraphsControlPanel();
-        GlaciersClockControlPanel clockControlPanel = new GlaciersClockControlPanel( clock );
-        MiscControlPanel miscControlPanel = new MiscControlPanel();
-        
-        int row;
-        int column;
-        
-        JPanel topPanel = new JPanel();
-        EasyGridBagLayout topLayout = new EasyGridBagLayout( topPanel );
-        topPanel.setLayout( topLayout  );
-        row = 0;
-        column = 0;
-        topLayout.addFilledComponent( viewControlPanel, row, column++, GridBagConstraints.VERTICAL );
-        topLayout.addFilledComponent( climateControlPanel, row, column++, GridBagConstraints.VERTICAL  );
-        topLayout.addFilledComponent( graphsControlPanel, row, column++, GridBagConstraints.VERTICAL  );
-        
-        JPanel bottomPanel = new JPanel();
-        EasyGridBagLayout bottomLayout = new EasyGridBagLayout( bottomPanel );
-        bottomPanel.setLayout( bottomLayout );
-        row = 0;
-        column = 0;
-        bottomLayout.addAnchoredComponent( clockControlPanel, row, column++, GridBagConstraints.WEST );
-        bottomLayout.addComponent( Box.createHorizontalStrut( 10 ), row, column++ );
-        bottomLayout.addFilledComponent( new JSeparator( SwingConstants.VERTICAL ), row, column++, GridBagConstraints.VERTICAL );
-        bottomLayout.addComponent( Box.createHorizontalStrut( 10 ), row, column++ );
-        bottomLayout.addAnchoredComponent( miscControlPanel, row, column++, GridBagConstraints.EAST );
-        
-        EasyGridBagLayout thisLayout = new EasyGridBagLayout( this );
-        setLayout( thisLayout );
-        row = 0;
-        column = 0;
-        thisLayout.addComponent( topPanel, row++, column );
-        thisLayout.addComponent( bottomPanel, row++, column );
-        
-        Class[] excludedClasses = { ViewControlPanel.class, AdvancedClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
-        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
+        //XXX fill this in, it will be a variation of BasicControlPanel
     }
 }

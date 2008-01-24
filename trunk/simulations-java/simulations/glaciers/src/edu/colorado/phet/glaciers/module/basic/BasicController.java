@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.module.basic;
 
 import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel;
