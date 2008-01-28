@@ -107,7 +107,7 @@
     <target name="clean-all" depends="_clean-all"/>
 
     <!-- adds a translation to all deployed JARs for a sim (for the sim itself and all subproject dependencies).-->
-    <target name="add-translation" depends="_init,_prompt-for-sim-name">
+    <target name="add-translation" depends="_init">
         <add-translation simulation="${sim.name}" language="${language}" username="${deploy.prod.username}" password="${deploy.prod.password}"/>
     </target>
 	
