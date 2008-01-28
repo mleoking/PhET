@@ -46,6 +46,10 @@ public class PhetProject {
         return new File( getDefaultDeployDir(), getName() + ".jar" );
     }
 
+    public File getDefaultDeployFlavorJar(String flavor){
+        return new File( getDefaultDeployDir(), flavor + ".jar" );  
+    }
+
     public File getProjectDir() {
         return projectDir;
     }
