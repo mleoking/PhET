@@ -2,6 +2,7 @@ package edu.colorado.phet.build;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import org.apache.tools.ant.BuildException;
 
@@ -47,19 +48,34 @@ public class DeployLatest extends PhetAllSimTask {
         super.execute();
         try {
             PhetProject[] p = PhetProject.getAllProjects( getBaseDir() );
-            deployAllSimList( p );
-//            p = new PhetProject[]{p[0]};//for testing
             for ( int i = 0; i < p.length; i++ ) {
                 String[] f = p[i].getFlavorNames();
                 for ( int j = 0; j < f.length; j++ ) {
-                    final File flavorJAR = p[i].getDefaultDeployFlavorJar( f[i] );
+                    final File flavorJAR = p[i].getDefaultDeployFlavorJar( f[j] );
                     ScpTo.uploadFile( flavorJAR, user, host, DIR + flavorJAR.getName(), password );
                 }
             }
+            deployAllSimList( p );
+            deployLog( p );
         }
         catch( Exception e ) {
             throw new BuildException( e );
         }
+    }
+
+    private void deployLog( PhetProject[] p ) throws IOException, JSchException {
+        String log = new Date() + "\n" + countFlavors( p ) + " sims (flavors) deployed";
+        final File outputFile = new File( getBaseDir(), "/deploy/log.txt" );
+        FileUtils.writeString( outputFile, log );
+        ScpTo.uploadFile( outputFile, user, host, DIR + outputFile.getName(), password );
+    }
+
+    private int countFlavors( PhetProject[] p ) {
+        int count = 0;
+        for ( int i = 0; i < p.length; i++ ) {
+            count += p[i].getFlavors().length;
+        }
+        return count;
     }
 
     private void deployAllSimList( PhetProject[] p ) throws IOException, JSchException {
