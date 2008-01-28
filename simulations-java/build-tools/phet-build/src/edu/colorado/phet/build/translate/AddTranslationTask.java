@@ -13,6 +13,9 @@ import edu.colorado.phet.build.AbstractPhetTask;
  * Jan 13, 2008 at 2:26:00 PM
  */
 public class AddTranslationTask extends AbstractPhetTask {
+    
+    private static final String DIALOG_TITLE = "Add Translation task";
+    
     private String simulationList;
     private String languageCode;
     private String username;
@@ -22,10 +25,10 @@ public class AddTranslationTask extends AbstractPhetTask {
     public void execute() throws BuildException {
         super.execute();
         try {
-            final String simulationList = promptIfNecessary( "simulation(s)", this.simulationList );
-            final String languageCode = promptIfNecessary( "language", this.languageCode );
-            final String username = promptIfNecessary( "username", this.username );
-            final String password = promptIfNecessary( "password", this.password );
+            final String simulationList = promptIfNecessary( "Simulations (separate with spaces)", this.simulationList );
+            final String languageCode = promptIfNecessary( "Language code:", this.languageCode );
+            final String username = promptIfNecessary( "Production Server username:", this.username );
+            final String password = promptIfNecessary( "Production Server password:", this.password );
             StringTokenizer st = new StringTokenizer( simulationList, " " );
             while ( st.hasMoreTokens() ) {
                 new AddTranslation( getBaseDir(), deployEnabled ).addTranslation( st.nextToken(),
@@ -39,10 +42,15 @@ public class AddTranslationTask extends AbstractPhetTask {
         }
     }
 
-    private String promptIfNecessary( String variableName, String variableValue ) {
-        return variableValue == null || variableValue.trim().length() == 0 || variableValue.startsWith( "${"  ) ?
-               JOptionPane.showInputDialog( "Enter the " + variableName + ":" )
-               : variableValue;
+    private String promptIfNecessary( String prompt, String defaultValue ) {
+        String returnValue = null;
+        if ( defaultValue == null || defaultValue.trim().length() == 0 || defaultValue.startsWith( "${"  ) ) {
+            returnValue = JOptionPane.showInputDialog( null, prompt, DIALOG_TITLE, JOptionPane.QUESTION_MESSAGE );
+        }
+        else {
+            returnValue = defaultValue;
+        }
+        return returnValue;
     }
 
     public void setDeployEnabled( boolean deployEnabled ) {
