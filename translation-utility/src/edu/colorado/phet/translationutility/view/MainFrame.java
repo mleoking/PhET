@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.translationutility.view;
 
@@ -285,7 +285,7 @@ public class MainFrame extends JFrame implements ToolBarListener, FindListener {
                 }
             } );
             SwingUtils.centerDialogInParent( _findDialog );
-            _findDialog.show();
+            _findDialog.setVisible( true );
         }
     }
 
