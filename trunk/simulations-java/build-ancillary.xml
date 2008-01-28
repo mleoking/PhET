@@ -71,8 +71,9 @@
 	<property name="build-intellij-idea-file-classname"          value="edu.colorado.phet.build.GenerateIntelliJProjectFile" />
 	<property name="check-translations-classname"          value="edu.colorado.phet.build.translate.CheckTranslationsTask" />
 	<property name="add-translation-classname"          value="edu.colorado.phet.build.translate.AddTranslationTask" />
+    <property name="deploy-latest-classname"          value="edu.colorado.phet.build.DeployLatest" />
 
-	<property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
+    <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
 
 	<!-- Support jars -->
 	<property name="jar.ant-contrib"    value="${dir.build-tools}/ant-contrib/ant-contrib-1.0b3.jar"/>
@@ -331,7 +332,11 @@
             classname="${add-translation-classname}"
             classpath="${phetbuild-classpath}"/>
 
-	</target>
+        <taskdef name="deploy-latest"
+                 classname="${deploy-latest-classname}"
+                 classpath="${phetbuild-classpath}"/>
+
+    </target>
 
 	<!-- TODO: PLEASE DOCUMENT ME -->
 	<target name="_init" depends="_declare-phet-build-tasks"/>
@@ -625,6 +630,10 @@
 				<fail message="Your working copy is out of sync with the SVN repository: ${svn.output}" />
 			</then>
 		</if>
+	</target>
+
+    <target name="deploy-latest" depends="_init,_clean-all,build-all-flavor-jars">
+		<deploy-latest user="${deploy.dev.username}" password="${deploy.dev.password}" host="${dev.server.name}"/>
 	</target>
 
 </project>
