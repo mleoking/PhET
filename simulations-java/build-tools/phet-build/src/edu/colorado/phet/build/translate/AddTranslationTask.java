@@ -39,10 +39,10 @@ public class AddTranslationTask extends AbstractPhetTask {
         }
     }
 
-    private String promptIfNecessary( String variableName, String simulation ) {
-        return simulation == null || simulation.trim().length() == 0 || simulation.startsWith( "${"  ) ?
+    private String promptIfNecessary( String variableName, String variableValue ) {
+        return variableValue == null || variableValue.trim().length() == 0 || variableValue.startsWith( "${"  ) ?
                JOptionPane.showInputDialog( "Enter the " + variableName )
-               : simulation;
+               : variableValue;
     }
 
     public void setDeployEnabled( boolean deployEnabled ) {
