@@ -14,7 +14,7 @@ import edu.colorado.phet.build.AbstractPhetTask;
  */
 public class AddTranslationTask extends AbstractPhetTask {
     private String simulationList;
-    private String language;
+    private String languageCode;
     private String username;
     private String password;
     private boolean deployEnabled = true;
@@ -22,11 +22,11 @@ public class AddTranslationTask extends AbstractPhetTask {
     public void execute() throws BuildException {
         super.execute();
         try {
-            final String simulation1 = promptIfNecessary( "simulation", simulationList );
-            final String languageCode = promptIfNecessary( "language", language );
+            final String simulationList = promptIfNecessary( "simulation(s)", this.simulationList );
+            final String languageCode = promptIfNecessary( "language", this.languageCode );
             final String username = promptIfNecessary( "username", this.username );
             final String password = promptIfNecessary( "password", this.password );
-            StringTokenizer st = new StringTokenizer( simulation1, " " );
+            StringTokenizer st = new StringTokenizer( simulationList, " " );
             while ( st.hasMoreTokens() ) {
                 new AddTranslation( getBaseDir(), deployEnabled ).addTranslation( st.nextToken(),
                                                                                   languageCode,
@@ -41,7 +41,7 @@ public class AddTranslationTask extends AbstractPhetTask {
 
     private String promptIfNecessary( String variableName, String variableValue ) {
         return variableValue == null || variableValue.trim().length() == 0 || variableValue.startsWith( "${"  ) ?
-               JOptionPane.showInputDialog( "Enter the " + variableName )
+               JOptionPane.showInputDialog( "Enter the " + variableName + ":" )
                : variableValue;
     }
 
@@ -50,12 +50,12 @@ public class AddTranslationTask extends AbstractPhetTask {
     }
     
     //todo: handle simulation list more elegantly
-    public void setSimulation( String simulation ) {
-        this.simulationList = simulation;
+    public void setSimulation( String simulationList ) {
+        this.simulationList = simulationList;
     }
 
     public void setLanguage( String language ) {
-        this.language = language;
+        this.languageCode = language;
     }
 
     public void setUsername( String username ) {
