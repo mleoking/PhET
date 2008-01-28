@@ -121,12 +121,12 @@
 	</target>
 
 	<!-- builds and deploys all sims to the development server -->
-	<target name="build-and-deploy-all-dev" depends="_init, _prompt-for-dev-login, _clean-all, _list-sims">
+	<target name="build-and-deploy-all-dev" depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-dev" param="sim.name" inheritall="true"/>
 	</target>
 
 	<!-- builds and deploys all sims to the production server -->
-	<target name="build-and-deploy-all-prod" depends="_init, _prompt-for-prod-login, _clean-all, _list-sims">
+	<target name="build-and-deploy-all-prod" depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-prod-login, _clean-all, _list-sims">
 		<foreach list="${phet.simlist}" target="build-and-deploy-prod-no-change" param="sim.name" inheritall="true"/>
 	</target>
 
@@ -201,7 +201,7 @@
 
 	<!-- TODO: make local files (local.properties, open_cmd.bat, etc) start with '.' for filtering in this task.-->
 	<!-- TODO: PLEASE DOCUMENT ME -->
-	<target name="build-source-distribution" depends="_init,_clean-all">
+	<target name="build-source-distribution" depends="_init,_fail-if-working-copy-is-not-synchronized,_clean-all">
 		<zip destfile="${phet.src.distribution}" basedir="${basedir}" excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
 	                **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
 	                **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
