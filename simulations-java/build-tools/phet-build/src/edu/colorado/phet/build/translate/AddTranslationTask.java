@@ -40,7 +40,8 @@ public class AddTranslationTask extends AbstractPhetTask {
     }
 
     private String promptIfNecessary( String variableName, String simulation ) {
-        return simulation == null || simulation.trim().length() == 0 || simulation.equals( "${" + variableName + "}" ) ?
+        System.out.println( "simulation = " + simulation );
+        return simulation == null || simulation.trim().length() == 0 || simulation.startsWith( "${"  ) ?
                JOptionPane.showInputDialog( "Enter the " + variableName )
                : simulation;
     }
