@@ -45,7 +45,7 @@ public class TestTextSelection extends JFrame {
     public static final void main( String[] args ) {
         JFrame frame = new TestTextSelection();
         SwingUtils.centerWindowOnScreen( frame );
-        frame.show();
+        frame.setVisible( true );
     }
 
 }

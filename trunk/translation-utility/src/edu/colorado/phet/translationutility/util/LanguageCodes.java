@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.translationutility.util;
 
-import java.util.Set;
 import java.util.TreeMap;
 
 import edu.colorado.phet.translationutility.TUResources;

@@ -32,7 +32,7 @@ public class TranslationUtility extends JFrame {
         // prompt the user for initialization info
         InitializationDialog initDialog = new InitializationDialog( title );
         SwingUtils.centerWindowOnScreen( initDialog );
-        initDialog.show();
+        initDialog.setVisible( true );
         if ( !initDialog.isContinue() ) {
             System.exit( 0 );
         }
@@ -42,6 +42,6 @@ public class TranslationUtility extends JFrame {
         // open the primary user interface
         JFrame mainFrame = new MainFrame( title, jarFileName, SOURCE_LANGUAGE_CODE, targetLanguageCode );
         mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        mainFrame.show();
+        mainFrame.setVisible( true );
     }
 }

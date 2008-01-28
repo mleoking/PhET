@@ -37,7 +37,7 @@ public class TestUnicodeEscapes {
         JFrame f = new JFrame();
         f.setContentPane( te );
         f.pack();
-        f.show();
+        f.setVisible( true );
 
         final Properties properties = new Properties();
         properties.put( "key", text );

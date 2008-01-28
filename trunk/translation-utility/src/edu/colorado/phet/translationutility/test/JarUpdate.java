@@ -6,7 +6,6 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
-import java.util.jar.Manifest;
 
 /**
  * Example from
@@ -54,7 +53,6 @@ public class JarUpdate {
         boolean jarUpdated = false;
         try {
             // Create a temp jar file with no manifest. (The manifest will be copied when the entries are copied.)
-            Manifest jarManifest = jar.getManifest();
             JarOutputStream tempJar = new JarOutputStream( new FileOutputStream( tempJarFile ) );
 
             // Allocate a buffer for reading entry data.
