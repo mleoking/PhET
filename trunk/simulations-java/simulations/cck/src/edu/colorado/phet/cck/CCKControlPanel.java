@@ -487,9 +487,22 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
                 if( needsClearing ) {
-                    int answer = JOptionPane.showConfirmDialog( module.getSimulationPanel(),
-                                                                CCKResources.getString( "CCK3ControlPanel.DeleteConfirm" ) );
-                    if( answer == JOptionPane.OK_OPTION ) {
+       			Object[] options = {CCKResources.getString("NewCCK3ControlPanel.Yes"),
+       					CCKResources.getString("NewCCK3ControlPanel.No"),
+       					CCKResources.getString("NewCCK3ControlPanel.Cancel")};
+
+                	
+                    int answer = JOptionPane.showOptionDialog(module.getSimulationPanel(),
+                    		CCKResources.getString("CCK3ControlPanel.DeleteConfirm"),
+                    		CCKResources.getString("NewCCK3ControlPanel.DeleteConfirmTitle"),
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+            				null,
+            				options,
+            				options[2]);
+ 
+                    	
+                    if( answer == JOptionPane.YES_OPTION ) {
                         module.clear();
                     }
                 }
