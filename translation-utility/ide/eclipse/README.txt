@@ -1,6 +1,6 @@
 --
 
-These Eclipse files may or may not be specific to Chris Malley's development environment.
+These files are useful for setting up Eclipse.
 
 About the files...
 
