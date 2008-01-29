@@ -149,7 +149,7 @@
 	<classpathentry kind="lib" path="contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="contrib/junit-3.8.1/junit.jar"/>
 	<classpathentry kind="lib" path="contrib/nanoxml/nanoxml-2.2.1.jar"/>
-	<classpathentry kind="lib" path="build-tools/proguard3.8/lib/proguard.jar"/>
+	<classpathentry kind="lib" path="build-tools/proguard4.1/lib/proguard.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j-1.4.jar"/>
