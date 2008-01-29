@@ -75,7 +75,7 @@ public class AdvancedModule extends PiccoloModule {
     /**
      * Resets the module.
      */
-    public void reset() {
+    public void resetAll() {
 
         // Model
         {

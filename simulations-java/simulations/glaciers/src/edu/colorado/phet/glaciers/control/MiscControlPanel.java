@@ -2,14 +2,21 @@
 
 package edu.colorado.phet.glaciers.control;
 
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.DialogUtils;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
@@ -49,13 +56,25 @@ public class MiscControlPanel extends JPanel {
         _resetAllButton = new JButton( GlaciersStrings.BUTTON_RESET_ALL );
         _resetAllButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                notifyResetAllButtonPressed();
+                Frame frame = NonPiccoloPhetApplication.instance().getPhetFrame();
+                String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
+                int option = DialogUtils.showConfirmDialog( frame, message, JOptionPane.YES_NO_OPTION );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    notifyResetAllButtonPressed();
+                }
             }
         });
         
-        _helpButton = new JButton( GlaciersStrings.BUTTON_HELP );
+        _helpButton = new JButton();
+        // set button to maximum width
+        _helpButton.setText( GlaciersStrings.BUTTON_HIDE_HELP );
+        double hideWidth = _helpButton.getPreferredSize().getWidth();
+        _helpButton.setText( GlaciersStrings.BUTTON_SHOW_HELP );
+        double showWidth = _helpButton.getPreferredSize().getWidth();
+        _helpButton.setPreferredSize( new Dimension( (int) Math.max( hideWidth, showWidth ), (int) _helpButton.getPreferredSize().getHeight() ) );
         _helpButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                setHelpEnabled( !isHelpEnabled() );
                 notifyHelpButtonPressed();
             }
         });
@@ -69,6 +88,39 @@ public class MiscControlPanel extends JPanel {
     }
     
     //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setHelpEnabled( boolean enabled ) {
+        _helpButton.setText( enabled ? GlaciersStrings.BUTTON_HIDE_HELP : GlaciersStrings.BUTTON_SHOW_HELP );
+    }
+    
+    public boolean isHelpEnabled() {
+        return _helpButton.getText().equals( GlaciersStrings.BUTTON_HIDE_HELP );
+    }
+    
+    /**
+     *  For attaching Help items.
+     */
+    public JComponent getEquilibriumButton() {
+        return _equilibriumButton;
+    }
+    
+    /**
+     *  For attaching Help items.
+     */
+    public JComponent getResetAllButton() {
+        return _resetAllButton;
+    }
+    
+    /**
+     *  For attaching Help items.
+     */
+    public JComponent getHelpButton() {
+        return _helpButton;
+    }
+    
+    //----------------------------------------------------------------------------
     // Listeners
     //----------------------------------------------------------------------------
     
@@ -78,13 +130,13 @@ public class MiscControlPanel extends JPanel {
     public interface MiscControlPanelListener {
         public void equilibriumButtonPressed();
         public void resetAllButtonPressed();
-        public void helpButtonPressed();
+        public void setHelpEnabled( boolean enabled );
     }
     
     public static class MiscControlPanelAdapter implements MiscControlPanelListener {
         public void equilibriumButtonPressed() {};
         public void resetAllButtonPressed() {};
-        public void helpButtonPressed() {};
+        public void setHelpEnabled( boolean enabled ) {};
     }
     
     public void addMiscControlPanelListener( MiscControlPanelListener listener ) {
@@ -114,9 +166,10 @@ public class MiscControlPanel extends JPanel {
     }
     
     private void notifyHelpButtonPressed() {
+        boolean enabled =  isHelpEnabled();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (MiscControlPanelListener) i.next() ).helpButtonPressed();
+            ( (MiscControlPanelListener) i.next() ).setHelpEnabled( enabled );
         }
     }
 }

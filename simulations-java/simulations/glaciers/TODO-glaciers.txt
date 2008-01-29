@@ -41,9 +41,9 @@ HIGH PRIORITY:
 - implement glacier model & view
 
 MEDIUM PRIORITY:
+- refactor common module functionality into a base class
 - move DoubleSpinner to phetcommon
 - redesign advanced climate controls
-- wire up Reset All button
 - create graphs
 - get actual function that describes temperature as a function of altitude
 - get actual function that describes precipitation as a function of altitude
@@ -61,7 +61,6 @@ LOW PRIORITY:
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
-- wire up Help button
 - change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
 - set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
@@ -78,6 +77,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/28/08 - wire up custom "Reset All" button
+1/28/08 - wire up custom help button, make it work with Help menu item
+1/28/08 - disable standard module HelpPane (we are using our own reset button)
 ******** 0.00.02 (19477)
 1/23/08 - make the zoomed viewport's vertical position follow the contour of the valley
 1/23/08 - extend Valley shape down to sea level
