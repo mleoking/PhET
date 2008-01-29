@@ -5,18 +5,117 @@
     
 ================================================================================ 
 -->
-<project name="PhET Translation Utility" default="under-construction" basedir=".">
-	
-	<!-- where it lives on developement and production servers -->
-	<property name="dev.server.path"    value="/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev"/>
-	<property name="dev.server.url"     value="http://www.colorado.edu/physics/phet/dev"/>
-	<property name="prod.server.path"   value="/web/htdocs/phet/new/contribute"/>
-	<property name="prod.server.url"    value="http://phet.colorado.edu/new/contribute"/>
+<project name="PhET Translation Utility" default="build-jar" basedir=".">
 
-	<target name="under-construction">
-		<echo>Buildfile is under construction - check back later.</echo>
-		<echo>In the meantime, please build and deploy manually.</echo>
-		<echo>See translation-utility-build.properties for a list of dependencies</echo>
+	<!-- =================================================================== -->
+	<!-- Public properties                                                   -->
+	<!-- =================================================================== -->
+	
+	
+	<!-- =================================================================== -->
+	<!-- Private properties                                                  -->
+	<!-- =================================================================== -->
+		
+	<!-- directories where we create things -->
+	<property name="dir.output" location="${basedir}/build-output"/>
+	<property name="dir.output.classes" location="${dir.output}/classes"/>
+	<property name="dir.deploy" location="${basedir}/deploy"/>
+	
+	<!-- directories that contains source, libs, etc. -->
+	<property name="dir.simulations-java" location="${basedir}/../simulations-java"/>
+	<property name="dir.build-tools" location="${dir.simulations-java}/build-tools"/>
+	<property name="dir.common" location="${dir.simulations-java}/common"/>
+	<property name="dir.contrib" location="${dir.simulations-java}/contrib"/>
+	<property name="dir.simulations" location="${dir.simulations-java}/simulations"/>
+	<property name="dir.phetcommon" location="${dir.common}/phetcommon"/>
+	<property name="dir.proguard" location="${dir.build-tools}/proguard4.1"/>
+
+	<!-- files -->
+	<property name="file.manifest" location="${dir.output.classes}/MANIFEST.MF"/>
+
+	<!-- JAR files -->
+	<property name="proguard.jar" location="${dir.proguard}/lib/proguard.jar"/>
+	<property name="jmock.jar" location="${dir.contrib}/jmock/jmock-1.1.0.jar"/>
+	<property name="jnlp.jar" location="${dir.contrib}/javaws-1_2-dev/jnlp.jar"/>
+	<property name="junit.jar" location="${dir.contrib}/junit-3.8.1/junit.jar"/>
+	
+	<!-- miscellaneous -->
+	<property name="output.jar.name" value="translation-utility.jar"/>
+	<property name="main.class" value="edu.colorado.phet.translationutility.TranslationUtility"/>
+	
+	
+	<!-- =================================================================== -->
+	<!-- Tasks                                                               -->
+	<!-- =================================================================== -->
+	
+	<!-- tell Ant about ProGuard task -->
+	<taskdef resource="proguard/ant/task.properties" classpath="${proguard.jar}" />
+	
+	
+	<!-- =================================================================== -->
+	<!-- Targets                                                             -->
+	<!-- =================================================================== -->
+		
+	<!-- builds a deployable JAR file, shrunk using ProGuard -->
+	<target name="build-jar" depends="clean">
+		
+		<!-- prepare the output directory -->
+		<mkdir dir="${dir.output.classes}"/>
+		
+		<!-- compile Java source files -->
+		<javac source="1.4" destdir="${dir.output.classes}" classpath="${jmock.jar};${jnlp.jar};${junit.jar}">
+			<src path="${basedir}/src"/>
+			<src path="${dir.phetcommon}/src"/>
+		</javac>
+		
+		<!-- copy resources (localization files, images, etc) to output directory -->
+		<copy todir="${dir.output.classes}">
+			<fileset dir="${basedir}/data"/>
+			<fileset dir="${dir.phetcommon}/data"/>
+		</copy>
+		
+		<!-- create manifest -->
+		<echo message="Manifest-Version: 1.0" file="${file.manifest}"/>
+		<echo message="${line.separator}" append="true" file="${file.manifest}"/>
+		<echo message="Main-Class: ${main.class}" append="true" file="${file.manifest}"/>
+		<echo message="${line.separator}" append="true" file="${file.manifest}"/>
+		
+		<!-- build the JAR -->
+		<jar destfile="${dir.output}/${output.jar.name}" basedir="${dir.output.classes}" manifest="${file.manifest}"/>
+		
+		<!-- ProGuard JRE runtime libs are platform specific -->
+		<condition property="proguard.java.classpath" value="${java.home}/lib/rt.jar">
+			<not><os family="mac"/></not>
+		</condition>
+		<condition property="proguard.java.classpath" value="${java.home}/../Classes/classes.jar${path.separator}${java.home}/../Classes/ui.jar">
+			<os family="mac"/>
+		</condition>
+		<echo message="${proguard.java.classpath}"/>
+		
+		<!-- shrink the JAR with ProGuard -->
+		<proguard verbose="true" 
+			      obfuscate="false" 
+			      optimize="false" 
+			      ignorewarnings="true" 
+			      warn="false"
+			      skipnonpubliclibraryclasses="false"
+			      skipnonpubliclibraryclassmembers="false">
+			<!-- inputs, outputs, libraries -->
+			<injar file="${dir.output}/${output.jar.name}" />
+			<outjar file="${dir.deploy}/${output.jar.name}" />
+			<libraryjar path="${proguard.java.classpath}" />
+		    <!-- preserve main class -->
+		    <keepclasseswithmembers name="${main.class}">
+		      <method access="public static" type="void" name="main" parameters="java.lang.String[]" />
+		    </keepclasseswithmembers>
+		</proguard>
+		
 	</target>
 	
+	<!-- cleans up anything that was created by build-jar -->
+	<target name="clean">
+		<delete dir="${dir.output}"/>
+		<delete file="${dir.deploy}/${output.jar.name}"/>
+	</target>
+
 </project>
