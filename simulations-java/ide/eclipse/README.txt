@@ -1,6 +1,6 @@
 --
 
-These Eclipse files may or may not be specific to Chris Malley's development environment.
+These files are useful for setting up Eclipse.
 
 About the files...
 
@@ -13,5 +13,13 @@ org.eclipse.jdt.core.prefs -
 Copy this file to the .settings directory of your project.
 For example, if you created a project named foo, then you would:
 cp foo/ide/eclipse/org.eclipse.jdt.core.prefs foo/.settings/org.eclipse.jdt.core.prefs
+
+phet-code-format.xml -
+Java code format conventions for PhET software.
+In Eclipse 3.3, import this file from Eclipse>Preferences>Java>Code Style>Formatter.
+
+phet-code-templates.xml -
+Java code templates for PhET software.
+In Eclipse 3.3, import this file from Eclipse>Preferences>Java>Code Style>Code Templates.
 
 --
