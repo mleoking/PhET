@@ -21,7 +21,7 @@
 	<property name="dir.output.classes" location="${dir.output}/classes"/>
 	<property name="dir.deploy" location="${basedir}/deploy"/>
 	
-	<!-- directories that contains source, libs, etc. -->
+	<!-- directories that contain source, libs, etc. -->
 	<property name="dir.simulations-java" location="${basedir}/../simulations-java"/>
 	<property name="dir.build-tools" location="${dir.simulations-java}/build-tools"/>
 	<property name="dir.common" location="${dir.simulations-java}/common"/>
