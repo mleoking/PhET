@@ -45,7 +45,7 @@
 	<!-- structure of the codebase for PhET's custom Ant task -->
 	<property name="ant-output"             location="ant_output"/>
 	<property name="phetbuild-classes-dir"  location="${ant-output}/phetbuild/classes"/>
-	<property name="proguard.jar"           location="${dir.build-tools}/proguard3.8/lib/proguard.jar"/>
+	<property name="proguard.jar"           location="${dir.build-tools}/proguard4.1/lib/proguard.jar"/>
 	<property name="jsch.jar"               location="${dir.build-tools}/jsch/jsch-0.1.36.jar"/>
 	<property name="apache.commons.lang.jar" location="${dir.build-tools}/commons-lang-2.3/commons-lang-2.3.jar"/>
 	<property name="phetbuild-src"          location="${dir.build-tools}/phet-build/src"/>
@@ -205,7 +205,7 @@
 	<target name="build-source-distribution" depends="_init,_fail-if-working-copy-is-not-synchronized,_clean-all">
 		<zip destfile="${phet.src.distribution}" basedir="${basedir}" excludes="local.properties, open_cmd.bat, build-old.xml, **/deploy/*.jar, **/deploy/*.jnlp, ant_output/, deploy/,
 	                **/ant-contrib/docs/, **/antform-bin-2.0beta2/doc/, **/apache-ant-1.7.0/docs/, **/junit3.8.2/doc/, **/junit3.8.2/javadoc/,
-	                **/proguard3.8/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
+	                **/proguard4.1/docs, **/retroweaver-2.0/, **/retroweaver-test/, **/JSci/documentation/, **/JSci/examples/,
 	                **/liquidlnf-2.9.1-src/, **/oyoaha/">
 		</zip>
 	</target>
