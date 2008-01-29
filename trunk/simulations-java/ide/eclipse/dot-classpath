@@ -153,6 +153,6 @@
 	<classpathentry kind="lib" path="contrib/svgsalamander/svgSalamander-tiny.jar"/>
 	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/jfreechart-1.0.5.jar"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant-1.7.0/lib/ant-junit.jar"/>
-	<classpathentry kind="lib" path="build-tools/proguard4.1/lib/proguard.jar"/>
+	<classpathentry kind="lib" path="build-tools/proguard4.1/lib/proguard.jar" sourcepath="build-tools/proguard4.1/proguard-src.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
