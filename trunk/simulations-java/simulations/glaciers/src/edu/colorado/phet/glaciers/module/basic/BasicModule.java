@@ -6,9 +6,13 @@ import java.awt.Frame;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
+import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -42,6 +46,7 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private BasicModel _model;
+    private BasicControlPanel _controlPanel;
     private BasicController _controller;
 
     //----------------------------------------------------------------------------
@@ -65,17 +70,32 @@ public class BasicModule extends PiccoloModule {
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
-        BasicControlPanel controlPanel = new BasicControlPanel( clock );
-        setClockControlPanel( controlPanel );
+        _controlPanel = new BasicControlPanel( clock );
+        setClockControlPanel( _controlPanel );
+        _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
+            public void resetAllButtonPressed() {
+                resetAll();
+            }
+            public void setHelpEnabled( boolean enabled ) {
+                System.out.println( "BasicModule.setHelpEnabled " + enabled );
+                BasicModule.this.setHelpEnabled( enabled );
+            }
+        });
         
         // Controller
-        _controller = new BasicController( _model, controlPanel );
+        _controller = new BasicController( _model, _controlPanel );
 
         // Help
         if ( hasHelp() ) {
+            setHelpPanel( null ); // get rid of the standard Help panel, we're using our own help button
+            
             //XXX add help items
+            HelpPane helpPane = getDefaultHelpPane();
+            HelpBalloon equilibriumButtonHelp = new HelpBalloon( helpPane, GlaciersStrings.HELP_EQUILIBRIUM_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
+            helpPane.add( equilibriumButtonHelp );
+            equilibriumButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getEquilibriumButton() );
         }
-
+        
         // Set initial state
         reset();
     }
@@ -85,15 +105,34 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     /**
+     * 
+     */
+    public boolean hasHelp() {
+        return true;
+    }
+    
+    /**
+     * 
+     */
+    public void setHelpEnabled( boolean enabled ) {
+        super.setHelpEnabled( enabled );
+        _controlPanel.getMiscControlPanel().setHelpEnabled( enabled );
+        GlaciersApplication.instance().getPhetFrame().getHelpMenu().setHelpSelected( enabled );
+    }
+    
+    /**
      * Resets the module.
      */
-    public void reset() {
+    public void resetAll() {
+        
+        System.out.println( "BasicModule.resetAll" );//XXX
 
         // Model
         {
             // Clock
             GlaciersClock clock = _model.getClock();
             clock.setDt( BasicDefaults.CLOCK_DT_RANGE.getDefault() );
+            clock.resetSimulationTime();
             setClockRunningWhenActive( BasicDefaults.CLOCK_RUNNING );
         }
 

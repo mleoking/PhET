@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.glaciers;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 /**
  * GlaciersStrings is a collection of localized strings used by this simulation.
  * All strings are loaded statically so that we can easily test for missing strings on start up.
@@ -24,6 +26,8 @@ public class GlaciersStrings {
     public static final String CHECK_BOX_SNOWFALL = GlaciersResources.getString( "checkBox.snowfall" );
     public static final String CHECK_BOX_COORDINATES = GlaciersResources.getString( "checkBox.coordinates" );
     public static final String CHECK_BOX_AGE_OF_ICE = GlaciersResources.getString( "checkBox.ageOfIce" );
+    
+    public static final String HELP_EQUILIBRIUM_BUTTON = GlaciersResources.getString( "help.equilibriumButton" );
     
     public static final String LABEL_ACCUMULATION = GlaciersResources.getString( "label.accumulation" );
     public static final String LABEL_ABLATION = GlaciersResources.getString( "label.ablation" );
@@ -93,5 +97,6 @@ public class GlaciersStrings {
     //----------------------------------------------------------------------------
 
     public static final String BUTTON_RESET_ALL = GlaciersResources.getCommonString( "ControlPanel.button.resetAll" );
-    public static final String BUTTON_HELP = GlaciersResources.getCommonString( "Common.HelpPanel.ShowHelp" );
+    public static final String BUTTON_SHOW_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.ShowHelp" );
+    public static final String BUTTON_HIDE_HELP = PhetCommonResources.getInstance().getLocalizedString( "Common.HelpPanel.HideHelp" );
 }
