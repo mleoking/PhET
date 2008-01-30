@@ -74,54 +74,6 @@
 		</junitreport>
 	</target>
 
-	<!-- Assume sim.name and sim.flavor defined -->
-	<property name="bitrock.bin.dir"            value="${dir.build-tools}bitrock/bin" />
-	<property name="bitrock.sim.buildfile.dir"  value="${ant-output}/projects" />
-	<property name="bitrock.buildfile.template" value="${dir.build-tools}phet-build/templates/bitrock-installer-template.xml" />
-	<target name="_run-bitrock-installer-builder">
-		<!-- Create the directory where the buildfile & installers will be placed -->
-		<var name="sim.installer.dir"       value="${bitrock.sim.buildfile.dir}/${sim.name}/${sim.flavor}/installer/" />
-		<var name="sim.installer.buildfile" value="${sim.installer.dir}/${sim.flavor}-installer-buildfile.xml" />
-
-		<mkdir dir="${sim.installer.dir}" />
-
-		<echo message="${os.name}"/>
-		<var name="bitrock.exe" value="${bitrock.bin.dir}Builder.app/Contents/MacOS/installbuilder">
-		</var>
-		<if>
-			<equals arg1="${os.name}" arg2="Windows NT (unknown)">
-			</equals>
-			<then>
-				<var name="bitrock.exe" value="${bitrock.bin.dir}builder.exe">
-				</var>
-			</then>
-		</if>
-		<echo message="set installer exe to: ${bitrock.exe}"/>
-		<!-- Copy the template buildfile to the right location -->
-
-		<create-installer-build-file inputFile="${bitrock.buildfile.template}" outputfile="${sim.installer.buildfile}" project="${sim.name}" flavor="${sim.flavor}"/>
-
-		<!-- Build the installers for this simulation/flavor: -->
-		<exec executable="${bitrock.exe}">
-			<arg value="build" />
-			<arg value="${sim.installer.buildfile}" />
-			<arg value="osx"/>
-		</exec>
-		<exec executable="${bitrock.exe}">
-			<arg value="build" />
-			<arg value="${sim.installer.buildfile}" />
-			<arg value="windows"/>
-		</exec>
-		<exec executable="${bitrock.exe}">
-			<arg value="build" />
-			<arg value="${sim.installer.buildfile}" />
-			<arg value="linux"/>
-		</exec>
-		<!-- Build Windows installer bundled with JRE-->
-		<!-- copy the installers from bitrock to ${sim.installer.dir} -->
-
-	</target>
-
 	<!-- todo: make sure this _build-jar is only called once, in the case of multiple flavors -->
 	<!-- todo: copy the jar file to the correct name, i.e. FLAVORDIR.jar -->
 	<target name="_build-installer-for-flavor">
