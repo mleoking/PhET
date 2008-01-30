@@ -28,16 +28,16 @@
 	<property name="dir.contrib" location="${dir.simulations-java}/contrib"/>
 	<property name="dir.simulations" location="${dir.simulations-java}/simulations"/>
 	<property name="dir.phetcommon" location="${dir.common}/phetcommon"/>
-	<property name="dir.proguard" location="${dir.build-tools}/proguard4.1"/>
+	<property name="dir.proguard" location="${dir.build-tools}/proguard"/>
 
 	<!-- files -->
 	<property name="file.manifest" location="${dir.output.classes}/MANIFEST.MF"/>
 
 	<!-- JAR files -->
 	<property name="proguard.jar" location="${dir.proguard}/lib/proguard.jar"/>
-	<property name="jmock.jar" location="${dir.contrib}/jmock/jmock-1.1.0.jar"/>
-	<property name="jnlp.jar" location="${dir.contrib}/javaws-1_2-dev/jnlp.jar"/>
-	<property name="junit.jar" location="${dir.contrib}/junit-3.8.1/junit.jar"/>
+	<property name="jmock.jar" location="${dir.contrib}/jmock/jmock.jar"/>
+	<property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
+	<property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
 	
 	<!-- miscellaneous -->
 	<property name="output.jar.name" value="translation-utility.jar"/>
