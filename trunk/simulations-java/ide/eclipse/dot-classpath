@@ -22,8 +22,8 @@
 	<classpathentry kind="src" path="common/timeseries/data"/>
 	<classpathentry excluding="Changes.html|CodeMap.html|License.txt|Manifest.console|Manifest.interp|README.txt" kind="src" path="contrib/beanshell/src"/>
 	<classpathentry kind="src" path="contrib/beanshell/asm/src"/>
-	<classpathentry kind="src" path="contrib/jade/jade_0.6.1_a"/>
-	<classpathentry kind="src" path="contrib/Jama-1.0.2"/>
+	<classpathentry kind="src" path="contrib/jade/src"/>
+	<classpathentry kind="src" path="contrib/Jama/src"/>
 	<classpathentry kind="src" path="contrib/piccolo/src"/>
 	<classpathentry excluding="edu/umd/cs/piccolox/swt/" kind="src" path="contrib/piccolo/extras"/>
 	<classpathentry kind="src" path="simulations/balloons/src"/>
