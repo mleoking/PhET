@@ -6,7 +6,6 @@ import java.awt.Frame;
 
 import javax.swing.JPanel;
 
-import edu.colorado.phet.boundstates.BSResources;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
