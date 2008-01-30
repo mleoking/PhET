@@ -22,7 +22,7 @@ In order to use the new build process, define a 'build.properties' file in the s
 project.name=Reactions &amp; Rates
 project.mainclass=edu.colorado.phet.molecularreactions.MRApplication
 project.description=What makes a reaction happen? Find out what affects the rate of a reaction. Do experiments, collect data, and then calculate rate coefficients. Play with different reactions, concentrations, and energy.
-project.depends.lib=lib/commons-collections-3.2.jar : charts : collision : jfreechart-phet : mechanics : phetgraphics : piccolo : piccolo-phet : phetcommon
+project.depends.lib=lib/commons-collections.jar : charts : collision : jfreechart-phet : mechanics : phetgraphics : piccolo : piccolo-phet : phetcommon
 project.depends.source=src
 project.depends.data=data
 project.screenshot=screenshot.jpg
