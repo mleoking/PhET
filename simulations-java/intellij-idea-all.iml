@@ -16,10 +16,10 @@
       <sourceFolder url="file://$MODULE_DIR$/common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/common/timeseries/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/contrib/Jama-1.0.2" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contrib/Jama/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/beanshell/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/contrib/jade/jade_0.6.1_a" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/contrib/jade/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/extras" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/contrib/piccolo/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/balloons/src" isTestSource="false" />
