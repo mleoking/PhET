@@ -954,7 +954,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/proguard4.1/lib/proguardgui.jar!/" />
+          <root url="jar://$MODULE_DIR$/build-tools/proguard/lib/proguardgui.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -999,7 +999,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/proguard4.1/lib/proguard.jar!/" />
+          <root url="jar://$MODULE_DIR$/build-tools/proguard/lib/proguard.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
