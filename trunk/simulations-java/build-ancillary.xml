@@ -77,7 +77,7 @@
     <property name="imageio-classname"              value="net.sf.image4j.util.ImageIOTask"/>
 
 	<!-- Support jars -->
-	<property name="jar.ant-contrib"    value="${dir.build-tools}/ant-contrib/ant-contrib-1.0b3.jar"/>
+	<property name="jar.ant-contrib"    value="${dir.build-tools}/ant-contrib/ant-contrib.jar"/>
 	<property name="jar.antform"        value="${dir.build-tools}/antform/lib/antform.jar"/>
 	<property name="jar.junit"          value="${dir.contrib}/junit/junit.jar"/>
 

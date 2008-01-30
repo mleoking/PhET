@@ -137,21 +137,21 @@
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant.jar"/>
 	<classpathentry kind="lib" path="contrib/commons-collections/commons-collections.jar"/>
 	<classpathentry kind="lib" path="build-tools/commons-lang/commons-lang.jar"/>
-	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/gnujaxp.jar"/>
-	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/jcommon-1.0.9.jar"/>
+	<classpathentry kind="lib" path="contrib/jfreechart/lib/gnujaxp.jar"/>
+	<classpathentry kind="lib" path="contrib/jfreechart/lib/jcommon.jar"/>
 	<classpathentry kind="lib" path="contrib/jdom/jdom.jar"/>
 	<classpathentry kind="lib" path="contrib/jmock/jmock.jar"/>
 	<classpathentry kind="lib" path="contrib/javaws/jnlp.jar"/>
 	<classpathentry kind="lib" path="contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="contrib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="contrib/nanoxml/nanoxml.jar"/>
-	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/servlet.jar"/>
+	<classpathentry kind="lib" path="contrib/jfreechart/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/beanshell/lib/servlet.jar"/>
 	<classpathentry kind="lib" path="contrib/uispec4j/uispec4j.jar"/>
 	<classpathentry kind="lib" path="build-tools/jsch/jsch.jar"/>
 	<classpathentry kind="lib" path="contrib/piccolo-sax/piccolo-sax.jar"/>
 	<classpathentry kind="lib" path="contrib/svgsalamander/svgSalamander-tiny.jar"/>
-	<classpathentry kind="lib" path="contrib/jfreechart-1.0.5/lib/jfreechart-1.0.5.jar"/>
+	<classpathentry kind="lib" path="contrib/jfreechart/lib/jfreechart.jar" sourcepath="contrib/jfreechart/jfreechart-src.zip"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant-junit.jar"/>
 	<classpathentry kind="lib" path="build-tools/proguard/lib/proguard.jar" sourcepath="build-tools/proguard/proguard-src.zip"/>
 	<classpathentry kind="output" path="bin"/>

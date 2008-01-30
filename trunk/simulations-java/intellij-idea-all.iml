@@ -97,7 +97,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/contrib/jfreechart-1.0.5/lib/jcommon-1.0.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/contrib/jfreechart/lib/jcommon.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -133,11 +133,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/contrib/jfreechart-1.0.5/lib/jfreechart-1.0.5.jar!/" />
+          <root url="jar://$MODULE_DIR$/contrib/jfreechart/lib/jfreechart.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/contrib/jfreechart-1.0.5/source.zip!/" />
+          <root url="jar://$MODULE_DIR$/contrib/jfreechart/jfreechart-src.zip!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -792,7 +792,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/ant-contrib/ant-contrib-1.0b3.jar!/" />
+          <root url="jar://$MODULE_DIR$/build-tools/ant-contrib/ant-contrib.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1188,7 +1188,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/contrib/itext/iText-2.0.7-b.jar!/" />
+          <root url="jar://$MODULE_DIR$/contrib/itext/iText.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
