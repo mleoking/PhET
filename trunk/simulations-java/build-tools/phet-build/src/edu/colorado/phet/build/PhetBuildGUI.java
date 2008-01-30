@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
@@ -74,13 +75,13 @@ public class PhetBuildGUI extends AbstractPhetTask {
         contentPane.setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( GridBagConstraints.RELATIVE, 0, 1, 1, 1, 1, GridBagConstraints.NORTH, GridBagConstraints.VERTICAL, new Insets( 2, 2, 2, 2 ), 0, 0 );
         JScrollPane simListPane = new JScrollPane( simList );
-        simListPane.setBorder( BorderFactory.createTitledBorder( "Simulation" ) );
+        simListPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
         contentPane.add( simListPane, gridBagConstraints );
 //        contentPane.add( new JScrollPane( flavorList ), gridBagConstraints );
 
         JScrollPane localeScrollPane = new JScrollPane( localeList );
         localeScrollPane.setPreferredSize( new Dimension( 100, 50 ) );
-        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Country Code" ) );
+        localeScrollPane.setBorder( BorderFactory.createTitledBorder( "Languages" ) );
 //        gridBagConstraints.fill=GridBagConstraints.NONE;
         contentPane.add( localeScrollPane, gridBagConstraints );
 
@@ -122,6 +123,9 @@ public class PhetBuildGUI extends AbstractPhetTask {
 //        frame.setSize( frame.getWidth() + 100, frame.getHeight() + 100 );
     }
 
+    /*
+     * Creates a sorted list of simulations.
+     */
     private Simulation[] listSimulations() {
         String[] simNames = toArray( getProperty( new PhetListSimTask() ) );
         ArrayList simulations = new ArrayList();
@@ -133,10 +137,11 @@ public class PhetBuildGUI extends AbstractPhetTask {
                 simulations.add( new Simulation( simName, flavor ) );
             }
         }
+        Collections.sort( simulations );
         return (Simulation[]) simulations.toArray( new Simulation[0] );
     }
 
-    private static class Simulation {
+    private static class Simulation implements Comparable {
         private String simName;
         private String flavorName;
 
@@ -155,6 +160,10 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
         public String toString() {
             return flavorName;//+" flavor!";
+        }
+
+        public int compareTo( Object o ) {
+            return toString().compareTo( ((Simulation)o).toString() );
         }
     }
 
@@ -188,10 +197,14 @@ public class PhetBuildGUI extends AbstractPhetTask {
 
     private void run() {
         final JDialog dialog = new JDialog( frame, "Building Sim" );
-        JLabel pane = new JLabel( "Building " + getSelectedSimulation() + ". Please wait..." );
-        pane.setOpaque( true );
-        dialog.setContentPane( pane );
+        JLabel label = new JLabel( "Building " + getSelectedSimulation() + ", please wait..." );
+        label.setOpaque( true );
+        JPanel panel = new JPanel();
+        panel.setBorder( BorderFactory.createEmptyBorder( 4, 4, 4, 4 ) );
+        panel.add( label );
+        dialog.setContentPane( panel );
         dialog.pack();
+        dialog.setResizable( false );
         dialog.setLocation( frame.getX() + frame.getWidth() / 2 - dialog.getWidth() / 2, frame.getY() + frame.getHeight() / 2 - dialog.getHeight() / 2 );
         dialog.setVisible( true );
         Thread thread = new Thread( new Runnable() {
