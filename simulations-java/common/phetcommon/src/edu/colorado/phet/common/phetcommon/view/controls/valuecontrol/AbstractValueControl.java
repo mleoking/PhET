@@ -216,7 +216,8 @@ public abstract class AbstractValueControl extends JPanel {
         else {
             if ( _signifyOutOfBounds ) {
                 Toolkit.getDefaultToolkit().beep();
-                System.out.println( getClass().getName() + ".setValue: invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value );
+                String message = getClass().getName() + ".setValue: ignoring invalid value for slider labeled \"" + _valueLabel.getText() + "\", " + "range is " + getMinimum() + " to " + getMaximum() + ", tried to set " + value;
+                new IllegalArgumentException( message ).printStackTrace();
             }
             updateView(); // revert
         }
