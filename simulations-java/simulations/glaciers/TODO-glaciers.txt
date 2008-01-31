@@ -77,6 +77,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/30/08 - update glacial budget meter when position, snowfall or temperature is changed
+1/30/08 - add glacial budget (mass balance) to climate model
+1/30/08 - add temperature, snowfall, accumulation and ablation to climate model
 1/28/08 - wire up custom "Reset All" button
 1/28/08 - wire up custom help button, make it work with Help menu item
 1/28/08 - disable standard module HelpPane (we are using our own reset button)

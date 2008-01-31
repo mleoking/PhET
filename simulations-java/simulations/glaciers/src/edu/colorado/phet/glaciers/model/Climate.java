@@ -100,6 +100,20 @@ public class Climate extends ClockAdapter {
         return ablation;
     }
     
+    public double getGlacialBudget( double elevation ) {
+        return getAccumulation( elevation ) - getAblation( elevation );
+    }
+    
+    /**
+     * Gets the mass balance, which is synonymous with glacial budget.
+     * 
+     * @param elevation elevation in meters
+     * @return
+     */
+    public double getMassBalance( double elevation ) {
+        return getGlacialBudget( elevation );
+    }
+    
     //----------------------------------------------------------------------------
     // ClockAdapter overrides
     //----------------------------------------------------------------------------
