@@ -85,6 +85,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
+    private EquilibriumLineNode _equilibriumLineNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
@@ -92,7 +93,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlayArea( AbstractModel model, ModelViewTransform mvt ) {
+    public PlayArea( AbstractModel model, ModelViewTransform mvt, double valleyMaxX ) {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
@@ -188,12 +189,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _viewportLayer.addChild( viewportNode );
         
         // Valley
-        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt );
+        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt, valleyMaxX );
         _valleyLayer.addChild( valleyNode );
         
         // Glacier
         PNode glacierNode = new GlacierNode( _model.getGlacier(), _mvt );
         _glacierLayer.addChild( glacierNode );
+        
+        // Equilibrium line
+        _equilibriumLineNode = new EquilibriumLineNode( _model.getEquilibriumLine(), _mvt );
+        _glacierLayer.addChild( _equilibriumLineNode );
         
         // Toolbox
         _toolsMap = new HashMap();
@@ -207,6 +212,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     public void cleanup() {
         _model.removeToolProducerListener( this );
+    }
+    
+    //----------------------------------------------------------------------------
+    // Setters and getters
+    //----------------------------------------------------------------------------
+    
+    public void setEquilibriumLineVisible( boolean visible ) {
+        _equilibriumLineNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------

@@ -19,9 +19,7 @@ public abstract class AbstractModel implements IToolProducer {
     //----------------------------------------------------------------------------
     
     private final GlaciersClock _clock;
-    private final Valley _valley;
     private final Glacier _glacier;
-    private final Climate _climate;
     private final ArrayList _tools; // array of AbstractTool
     private final ArrayList _toolProducerListeners;
     
@@ -29,14 +27,11 @@ public abstract class AbstractModel implements IToolProducer {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AbstractModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate ) {
+    public AbstractModel( GlaciersClock clock, Glacier glacier ) {
         super();
         _clock = clock;
-        _valley = valley;
         _glacier = glacier;
         _clock.addClockListener( glacier );
-        _climate = climate;
-        _clock.addClockListener( climate );
         _tools = new ArrayList();
         _toolProducerListeners = new ArrayList();
     }
@@ -49,16 +44,20 @@ public abstract class AbstractModel implements IToolProducer {
         return _clock;
     }
     
-    public Valley getValley() {
-        return _valley;
-    }
-    
     public Glacier getGlacier() {
         return _glacier;
     }
     
+    public Valley getValley() {
+        return _glacier.getValley();
+    }
+    
     public Climate getClimate() {
-        return _climate;
+        return _glacier.getClimate();
+    }
+    
+    public EquilibriumLine getEquilibriumLine() {
+        return _glacier.getEquilibriumLine();
     }
     
     //----------------------------------------------------------------------------
@@ -66,13 +65,13 @@ public abstract class AbstractModel implements IToolProducer {
     //----------------------------------------------------------------------------
     
     public BoreholeDrill addBoreholeDrill( Point2D position ) {
-        BoreholeDrill tool = new BoreholeDrill( position, _glacier );
+        BoreholeDrill tool = new BoreholeDrill( position, getGlacier() );
         addTool( tool );
         return tool;
     }
     
     public GlacialBudgetMeter addGlacialBudgetMeter( Point2D position ) {
-        GlacialBudgetMeter tool = new GlacialBudgetMeter( position, _valley, _climate );
+        GlacialBudgetMeter tool = new GlacialBudgetMeter( position, getValley(), getClimate() );
         addTool( tool );
         return tool;
     }
@@ -84,19 +83,19 @@ public abstract class AbstractModel implements IToolProducer {
     }
     
     public IceThicknessTool addIceThicknessTool( Point2D position ) {
-        IceThicknessTool tool = new IceThicknessTool( position, _glacier );
+        IceThicknessTool tool = new IceThicknessTool( position, getGlacier() );
         addTool( tool );
         return tool;
     }
     
     public Thermometer addThermometer( Point2D position ) {
-        Thermometer tool = new Thermometer( position, _climate );
+        Thermometer tool = new Thermometer( position, getClimate() );
         addTool( tool );
         return tool;
     }
     
     public TracerFlag addTracerFlag( Point2D position ) {
-        TracerFlag tool = new TracerFlag( position, _glacier );
+        TracerFlag tool = new TracerFlag( position, getGlacier() );
         addTool( tool );
         return tool;
     }

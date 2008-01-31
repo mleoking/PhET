@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.glaciers.defaults;
 
-import java.awt.Dimension;
-
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -25,8 +23,8 @@ public class AdvancedDefaults {
     public static final DoubleRange CLOCK_DT_RANGE = GlobalDefaults.CLOCK_DT_RANGE;
     public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
-    // World dimensions
-    public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );
+    // Valley 
+    public static final double VALLEY_X_MAX = GlobalDefaults.VALLEY_X_MAX;
     
     // Climate
     public static final DoubleRange SNOWFALL_LAPSE_RATE_RANGE = GlobalDefaults.SNOWFALL_LAPSE_RATE_RANGE;
