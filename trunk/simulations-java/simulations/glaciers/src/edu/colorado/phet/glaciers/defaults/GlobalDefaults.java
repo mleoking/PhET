@@ -32,7 +32,7 @@ import edu.colorado.phet.glaciers.model.Climate;
     
     // Climate
     public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 1E-4, 1E-3, 5E-4 ); // accumulation per meter above sea level (meters/year/meter)
-    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, Climate.getTemperatureModernTimes() );  // temperature at sea level (degrees C)
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, Climate.getModernTemperature() );  // temperature at sea level (degrees C)
     
     //XXX ???
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 4000, 0 ); //XXX ??? (meters)
