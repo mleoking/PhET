@@ -81,6 +81,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.03 (?)
 1/30/08 - wire up visibility control to equilibrium line node
 1/30/08 - add equilibrium line model and temporary view
 1/30/08 - update glacial budget meter when position, snowfall or temperature is changed
