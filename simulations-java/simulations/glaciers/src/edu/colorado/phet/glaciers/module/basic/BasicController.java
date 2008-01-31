@@ -41,11 +41,11 @@ public class BasicController {
         snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
             public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setSnowfallLapseRate( snowfall );
+                _model.getClimate().setSnowfall( snowfall );
             }
 
             public void temperatureChanged( double temperature ) {
-                _model.getClimate().setTemperatureOffset( temperature );
+                _model.getClimate().setTemperature( temperature );
             }
         });
         
@@ -53,18 +53,18 @@ public class BasicController {
         _model.getClimate().addClimateListener( new ClimateListener() {
 
             public void snowfallChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallLapseRate() );
+                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
             }
 
             public void temperatureChanged() {
-                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperatureOffset() );
+                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
             }
         } );
         
         // Initialization
         _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallLapseRate() );
-        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperatureOffset() );
+        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
     }
 
 }

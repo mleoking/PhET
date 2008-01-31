@@ -81,6 +81,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/31/08 - adjust climate model to work with absolute temperature, versus temperature offset from modern times
+1/31/08 - change temperature control to set temperature, not temperature offset from modern times
+1/31/08 - rename "snowfall lapse rate" to "snowfall", document
 1/31/08 - tweak equilibrium line model, allow equilibrium line to be at x < 0
 1/31/08 - place minX/maxX limitations on ValleyNode
 1/31/08 - remove minX/maxX from Valley model, it has no limitations

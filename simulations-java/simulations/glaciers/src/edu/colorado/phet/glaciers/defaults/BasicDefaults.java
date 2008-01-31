@@ -28,8 +28,8 @@ public class BasicDefaults {
     public static final double VALLEY_X_MAX = GlobalDefaults.VALLEY_X_MAX;
     
     // Climate
-    public static final DoubleRange SNOWFALL_LAPSE_RATE_RANGE = GlobalDefaults.SNOWFALL_LAPSE_RATE_RANGE;
-    public static final DoubleRange TEMPERATURE_OFFSET_RANGE = GlobalDefaults.TEMPERATURE_OFFSET_RANGE;
+    public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE;
+    public static final DoubleRange TEMPERATURE_RANGE = GlobalDefaults.TEMPERATURE_RANGE;
     
     //XXX ???
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = GlobalDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE;
