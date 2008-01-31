@@ -43,13 +43,13 @@ public class AdvancedModule extends PiccoloModule {
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
-        Glacier glacier = new Glacier();
         Climate climate = new Climate( AdvancedDefaults.TEMPERATURE_OFFSET_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_LAPSE_RATE_RANGE.getDefault());
-        _model = new AdvancedModel( clock, valley, glacier, climate );
+        Glacier glacier = new Glacier( valley, climate );
+        _model = new AdvancedModel( clock, glacier );
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform(); //XXX identity
-        JPanel playArea = new PlayArea( _model, mvt );
+        PlayArea playArea = new PlayArea( _model, mvt, AdvancedDefaults.VALLEY_X_MAX );
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go
@@ -57,7 +57,7 @@ public class AdvancedModule extends PiccoloModule {
         setClockControlPanel( controlPanel );
 
         // Controller
-        _controller = new AdvancedController( _model, controlPanel );
+        _controller = new AdvancedController( _model, playArea, controlPanel );
         
         // Help
         if ( hasHelp() ) {

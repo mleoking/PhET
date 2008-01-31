@@ -26,23 +26,43 @@ public class Glacier extends ClockAdapter {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private Valley _valley;
+    private Climate _climate;
+    private EquilibriumLine _equilibriumLine;
     private final ArrayList _listeners; // list of GlacierListener
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Glacier() {
+    public Glacier( Valley valley, Climate climate ) {
         super();
+        _valley = valley;
+        _climate = climate;
+        _equilibriumLine = new EquilibriumLine( valley, climate );
         _listeners = new ArrayList();
     }
     
-    public void cleanup() {}
+    public void cleanup() {
+        _equilibriumLine.cleanup();
+    }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    public Valley getValley() {
+        return _valley;
+    }
+    
+    public Climate getClimate() {
+        return _climate;
+    }
+    
+    public EquilibriumLine getEquilibriumLine() {
+        return _equilibriumLine;
+    }
+
     public double getHeadPosition( ) {
         return HEAD_X_COORDINATE; //XXX
     }

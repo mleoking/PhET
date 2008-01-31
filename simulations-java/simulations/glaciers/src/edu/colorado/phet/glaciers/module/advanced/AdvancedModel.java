@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.glaciers.module.advanced;
 
-import edu.colorado.phet.glaciers.model.*;
+import edu.colorado.phet.glaciers.model.AbstractModel;
+import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
  * AdvancedModel is the model for AdvancedModule.
@@ -19,8 +21,8 @@ public class AdvancedModel extends AbstractModel {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public AdvancedModel( GlaciersClock clock, Valley valley, Glacier glacier, Climate climate ) {
-        super( clock, valley, glacier, climate );
+    public AdvancedModel( GlaciersClock clock, Glacier glacier ) {
+        super( clock, glacier );
     }
     
     //----------------------------------------------------------------------------

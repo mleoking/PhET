@@ -23,8 +23,6 @@ public class ValleyNode extends PComposite {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double X_MIN = 0; // meters
-    private static final double X_MAX = 80000; // meters
     private static final double DX = 100; // meters
     
     //----------------------------------------------------------------------------
@@ -38,7 +36,7 @@ public class ValleyNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ValleyNode( Valley valley, ModelViewTransform mvt ) {
+    public ValleyNode( Valley valley, ModelViewTransform mvt, double maxX ) {
         super();
         
         setPickable( false );
@@ -49,7 +47,7 @@ public class ValleyNode extends PComposite {
         
         TexturePaint paint = new TexturePaint( GlaciersImages.DIRT_TEXTURE, new Rectangle2D.Double( 0, 0, 100, 100 ) );
         
-        GeneralPath path = createValleyFloorPath( X_MIN, X_MAX, DX );
+        GeneralPath path = createValleyFloorPath( _valley.getMinX(), maxX, DX );
         PPath pathNode = new PPath( path );
         pathNode.setStroke( null );
         pathNode.setPaint( paint );
@@ -78,7 +76,6 @@ public class ValleyNode extends PComposite {
         Point2D pView = new Point2D.Double();
         double x = xMin;
         double elevation = 0;
-        double finalElevation = 0;
         
         // approximate the valley floor, from left to right
         while ( x <= xMax ) {
@@ -92,7 +89,6 @@ public class ValleyNode extends PComposite {
                 path.lineTo( (float) pView.getX(), (float) pView.getY() );
             }
             x += dx;
-            finalElevation = elevation;
         }
         
         // vertical line down to sea level at x=end

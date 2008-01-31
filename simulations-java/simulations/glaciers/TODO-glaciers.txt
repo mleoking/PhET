@@ -58,6 +58,7 @@ MEDIUM PRIORITY:
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 
 LOW PRIORITY:
+- avoid showing -0 in thermometer, glacial budget meter, etc.
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
@@ -77,6 +78,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/30/08 - wire up visibility control to equilibrium line node
+1/30/08 - add equilibrium line model and temporary view
 1/30/08 - update glacial budget meter when position, snowfall or temperature is changed
 1/30/08 - add glacial budget (mass balance) to climate model
 1/30/08 - add temperature, snowfall, accumulation and ablation to climate model

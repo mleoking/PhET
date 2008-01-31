@@ -4,15 +4,12 @@ package edu.colorado.phet.glaciers.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-
 /**
  * Climate is the model of climate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Climate extends ClockAdapter {
+public class Climate {
     
     //----------------------------------------------------------------------------
     // Class data
@@ -112,14 +109,6 @@ public class Climate extends ClockAdapter {
      */
     public double getMassBalance( double elevation ) {
         return getGlacialBudget( elevation );
-    }
-    
-    //----------------------------------------------------------------------------
-    // ClockAdapter overrides
-    //----------------------------------------------------------------------------
-    
-    public void simulationTimeChanged( ClockEvent event ) {
-        // do nothing
     }
     
     //----------------------------------------------------------------------------

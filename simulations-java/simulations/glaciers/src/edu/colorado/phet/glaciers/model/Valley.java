@@ -26,6 +26,12 @@ import java.awt.geom.Point2D;
 public class Valley {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double MIN_X = 0; // meters, model is invalid for values less than this
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -34,6 +40,10 @@ public class Valley {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    public double getMinX() {
+        return MIN_X;
+    }
     
     /**
      * Gets the elevation at a position along the valley floor.
