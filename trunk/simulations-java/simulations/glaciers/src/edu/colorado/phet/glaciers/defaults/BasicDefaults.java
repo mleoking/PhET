@@ -29,8 +29,8 @@ public class BasicDefaults {
     public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );
 
     // Climate
-    public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE;
-    public static final DoubleRange TEMPERATURE_RANGE = GlobalDefaults.TEMPERATURE_RANGE;
+    public static final DoubleRange SNOWFALL_LAPSE_RATE_RANGE = GlobalDefaults.SNOWFALL_LAPSE_RATE_RANGE;
+    public static final DoubleRange TEMPERATURE_OFFSET_RANGE = GlobalDefaults.TEMPERATURE_OFFSET_RANGE;
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = GlobalDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE;
     public static final DoubleRange MASS_BALANCE_SLOPE_RANGE = GlobalDefaults.MASS_BALANCE_SLOPE_RANGE;
     public static final DoubleRange MAXIMUM_MASS_BALANCE_RANGE = GlobalDefaults.MAXIMUM_MASS_BALANCE_RANGE;

@@ -18,30 +18,31 @@ public class Climate extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DELTA_TEMPERATURE = -6.6E-3; // degrees C per meter
-    private static final double DELTA_PRECIPITATION = 2; // (meters per year) per meter
+    private static final double TEMPERATURE_MODERN_TIMES = 20; // sea level temperature in modern times, degrees C
     
+    private static final double ACCUMULATION_MIN = 0.0; // minimum accumulation, meters/year
+    private static final double ACCUMULATION_MAX = 2.0; // maximum accumulation, meters/year
+    
+    private static final double ABLATION_MODERN_TIMES = 45.0; // meters/year of ablation when temperature is TEMPERATURE_MODERN_TIMES at sea level
+    private static final double ABLATION_VERSUS_ELEVATION = -0.011; // meters/year of ablation per meter of elevation increase
+    private static final double ABLATION_VERSUS_TEMPERATURE_OFFSET = 1.3; // meters/year of ablation per degree C offset from TEMPERATURE_MODERN_TIMES
+    private static final double ABLATION_MIN = 0.0; // minimum ablation, meters/year
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final double _referenceAltitude; // meters
-    private double _referenceTemperature; // degrees C
-    private double _referencePrecipitation; // meters per years
+    private double _temperatureOffset; // offset from temperature of modern times, degrees C
+    private double _snowfallLapseRate; // meters/year of accumulation per meter of elevation increase
     private ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Climate() {
-        this( 0 ); // reference altitude is sea level
-    }
-    
-    public Climate( double referenceAltitude ) {
-        _referenceAltitude = referenceAltitude;
-        _referenceTemperature = 20;
-        _referencePrecipitation = 0;
+    public Climate( double temperatureOffset, double snowfallLapseRate ) {
+        _temperatureOffset = temperatureOffset;
+        _snowfallLapseRate = snowfallLapseRate;
         _listeners = new ArrayList();
     }
     
@@ -51,43 +52,54 @@ public class Climate extends ClockAdapter {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public double getReferenceAltitude() {
-        return _referenceAltitude;
-    }
-    
-    public void setReferenceTemperature( double referenceTemperature ) {
-        if ( referenceTemperature != _referenceTemperature ) {
-            _referenceTemperature = referenceTemperature;
-            notifyReferenceTemperatureChanged();
+    public void setTemperatureOffset( double temperatureOffset ) {
+        if ( temperatureOffset != _temperatureOffset ) {
+            _temperatureOffset = temperatureOffset;
+            notifyTemperatureChanged();
         }
     }
     
-    public double getReferenceTemperature() {
-        return _referenceTemperature;
+    public double getTemperatureOffset() {
+        return _temperatureOffset;
     }
     
-    public void setReferencePrecipitation( double referencePrecipitation ) {
-        if ( referencePrecipitation < 0 ) {
-            throw new IllegalArgumentException( "referencePrecipition must be > 0: " + referencePrecipitation );
+    public void setSnowfallLapseRate( double snowfallLapseRate ) {
+        if ( snowfallLapseRate < 0 ) {
+            throw new IllegalArgumentException( "snowfallLapseRate must be > 0: " + snowfallLapseRate );
         }
-        if ( referencePrecipitation != _referencePrecipitation ) {
-            _referencePrecipitation = referencePrecipitation;
-            notifyReferencePrecipitationChanged();
+        if ( snowfallLapseRate != _snowfallLapseRate ) {
+            _snowfallLapseRate = snowfallLapseRate;
+            notifySnowfallChanged();
         }
     }
     
-    public double getReferencePrecipition() {
-        return _referencePrecipitation;
+    public double getSnowfallLapseRate() {
+        return _snowfallLapseRate;
     }
     
-    public double getTemperature( double altitude ) {
-        return _referenceTemperature + ( ( altitude - _referenceAltitude ) * DELTA_TEMPERATURE );
+    public double getTemperature( double elevation ) {
+        return TEMPERATURE_MODERN_TIMES + _temperatureOffset - ( 6.5 * elevation / 1E3 );
     }
     
-    public double getPrecipitation( double altitude ) {
-        return _referencePrecipitation + ( ( altitude - _referenceAltitude ) * DELTA_PRECIPITATION );
+    public double getAccumulation( double elevation ) {
+        double accumulation = elevation * _snowfallLapseRate;
+        if ( accumulation > ACCUMULATION_MAX ) {
+            accumulation = ACCUMULATION_MAX;
+        }
+        else if ( accumulation < ACCUMULATION_MIN ) {
+            accumulation = ACCUMULATION_MIN;
+        }
+        return accumulation;
     }
 
+    public double getAblation( double elevation ) {
+        double ablation = ABLATION_MODERN_TIMES + ( ABLATION_VERSUS_ELEVATION * elevation ) + ( ABLATION_VERSUS_TEMPERATURE_OFFSET * _temperatureOffset );
+        if ( ablation < ABLATION_MIN ) {
+            ablation = ABLATION_MIN;
+        }
+        return ablation;
+    }
+    
     //----------------------------------------------------------------------------
     // ClockAdapter overrides
     //----------------------------------------------------------------------------
@@ -101,13 +113,13 @@ public class Climate extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public interface ClimateListener {
-        public void referenceTemperatureChanged();
-        public void referencePrecipitationChanged();
+        public void temperatureChanged();
+        public void snowfallChanged();
     }
     
     public static class ClimateAdapter implements ClimateListener {
-        public void referenceTemperatureChanged() {};
-        public void referencePrecipitationChanged() {};
+        public void temperatureChanged() {};
+        public void snowfallChanged() {};
     }
     
     public void addClimateListener( ClimateListener listener ) {
@@ -122,20 +134,20 @@ public class Climate extends ClockAdapter {
     // Notification of changes
     //----------------------------------------------------------------------------
     
-    private void notifyReferenceTemperatureChanged() {
+    private void notifyTemperatureChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             Object listener = _listeners.get( i );
             if ( listener instanceof ClimateListener ) {
-                ( (ClimateListener) listener ).referenceTemperatureChanged();
+                ( (ClimateListener) listener ).temperatureChanged();
             }
         }
     }
     
-    private void notifyReferencePrecipitationChanged() {
+    private void notifySnowfallChanged() {
         for ( int i = 0; i < _listeners.size(); i++ ) {
             Object listener = _listeners.get( i );
             if ( listener instanceof ClimateListener ) {
-                ( (ClimateListener) listener ).referencePrecipitationChanged();
+                ( (ClimateListener) listener ).snowfallChanged();
             }
         }
     }

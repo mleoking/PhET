@@ -29,6 +29,6 @@ public class AdvancedDefaults {
     public static final Dimension WORLD_SIZE = new Dimension( 1500, 1500 );
     
     // Climate
-    public static final DoubleRange SNOWFALL_RANGE = GlobalDefaults.SNOWFALL_RANGE;
-    public static final DoubleRange TEMPERATURE_RANGE = GlobalDefaults.TEMPERATURE_RANGE;
+    public static final DoubleRange SNOWFALL_LAPSE_RATE_RANGE = GlobalDefaults.SNOWFALL_LAPSE_RATE_RANGE;
+    public static final DoubleRange TEMPERATURE_OFFSET_RANGE = GlobalDefaults.TEMPERATURE_OFFSET_RANGE;
 }

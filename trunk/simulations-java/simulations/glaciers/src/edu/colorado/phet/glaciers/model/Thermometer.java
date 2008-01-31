@@ -34,7 +34,7 @@ public class Thermometer extends AbstractTool {
         
         _climate = climate;
         _climateListener = new ClimateAdapter() {
-            public void referenceTemperatureChanged() {
+            public void temperatureChanged() {
                 updateTemperature();
             }
         };

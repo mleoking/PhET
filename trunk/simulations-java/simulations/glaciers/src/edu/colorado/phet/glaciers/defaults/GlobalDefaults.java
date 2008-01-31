@@ -26,8 +26,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 100, 1 ); // years
     
     // Climate
-    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 100, 0 ); //XXX units?
-    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 0, 100, 0 );  // degrees C
+    public static final DoubleRange SNOWFALL_LAPSE_RATE_RANGE = new DoubleRange( 1E-4, 1E-3, 5E-4 ); // meters/year of accumulation per meter of elevation
+    public static final DoubleRange TEMPERATURE_OFFSET_RANGE = new DoubleRange( -15, 10, 0 );  // temperature offset from "modern times" temperature
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 4000, 0 ); // meters
     public static final DoubleRange MASS_BALANCE_SLOPE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX units?
     public static final DoubleRange MAXIMUM_MASS_BALANCE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX units?
