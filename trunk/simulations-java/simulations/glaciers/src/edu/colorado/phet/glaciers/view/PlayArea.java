@@ -93,7 +93,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public PlayArea( AbstractModel model, ModelViewTransform mvt, double valleyMaxX ) {
+    public PlayArea( AbstractModel model, ModelViewTransform mvt, double valleyMinX, double valleyMaxX ) {
         super();
         
         assert( ZOOMED_CAMERA_VIEW_SCALE >= BIRDS_EYE_CAMERA_VIEW_SCALE );
@@ -105,12 +105,12 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         _mvt = mvt;
         
-        // high point of the valley
-        Point2D highestPoint = _model.getValley().getHighestPoint();
+        // elevation left edge of valley
+        double elevationAtMinX = _model.getValley().getElevation( valleyMinX );
         
         // birds-eye viewport
         _birdsEyeViewport = new Viewport( "birds-eye" ); // bounds will be set when play area is resized
-        _birdsEyeViewport.setPosition( highestPoint.getX() + BIRDS_EYE_VIEWPORT_OFFSET.getX(), highestPoint.getY() + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
+        _birdsEyeViewport.setPosition( valleyMinX + BIRDS_EYE_VIEWPORT_OFFSET.getX(), elevationAtMinX + BIRDS_EYE_VIEWPORT_OFFSET.getY() );
         _birdsEyeViewport.addViewportListener( new ViewportListener() {
             public void boundsChanged() {
                 handleBirdsEyeViewportChanged();
@@ -189,7 +189,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _viewportLayer.addChild( viewportNode );
         
         // Valley
-        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt, valleyMaxX );
+        PNode valleyNode = new ValleyNode( _model.getValley(), _mvt, valleyMinX, valleyMaxX );
         _valleyLayer.addChild( valleyNode );
         
         // Glacier

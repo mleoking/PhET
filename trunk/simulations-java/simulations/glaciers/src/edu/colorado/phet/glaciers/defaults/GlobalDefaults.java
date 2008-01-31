@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
     public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 1, 100, 1 ); // years
     
     // Valley 
+    public static final double VALLEY_X_MIN = 0; // meters
     public static final double VALLEY_X_MAX = 80000; // meters
     
     // Climate

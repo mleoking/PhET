@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -32,6 +33,7 @@ public class EquilibriumLineNode extends PhetPNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String DISPLAY_FORMAT = "(x,z)=({0},{1})";
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat COORDINATE_FORMAT = new DecimalFormat( "0" );
@@ -75,7 +77,7 @@ public class EquilibriumLineNode extends PhetPNode {
         addChild( pathNode );
         
         // (x,z) display above the line
-        _coordinatesDisplay = new JLabel( "(x,z)" );
+        _coordinatesDisplay = new JLabel( DISPLAY_FORMAT );
         _coordinatesDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBackground( Color.WHITE );
@@ -106,7 +108,8 @@ public class EquilibriumLineNode extends PhetPNode {
         setOffset( _pView );
         
         // update the coordinates display
-        String s = "(" + COORDINATE_FORMAT.format( pModel.getX() ) + "," + COORDINATE_FORMAT.format( pModel.getY() ) + ")"; // (x,z)
+        Object[] args = { COORDINATE_FORMAT.format( pModel.getX() ), COORDINATE_FORMAT.format( pModel.getY() ) };
+        String s = MessageFormat.format( DISPLAY_FORMAT, args );
         _coordinatesDisplay.setText( s );
     }
 }

@@ -26,12 +26,6 @@ import java.awt.geom.Point2D;
 public class Valley {
 
     //----------------------------------------------------------------------------
-    // Class data
-    //----------------------------------------------------------------------------
-    
-    private static final double MIN_X = 0; // meters, model is invalid for values less than this
-    
-    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -40,10 +34,6 @@ public class Valley {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
-    public double getMinX() {
-        return MIN_X;
-    }
     
     /**
      * Gets the elevation at a position along the valley floor.
@@ -67,14 +57,5 @@ public class Valley {
     public double getWidth( double x ) {
         final double term = ( x - 5e3 ) / 2e3;
         return 1e3 + ( 5e3 * Math.exp( -( term * term ) ) );
-    }
-    
-    /**
-     * Gets the point of highest elevation in the valley.
-     * 
-     * @return highest point (x,elevation) in meters
-     */
-    public Point2D getHighestPoint() {
-        return new Point2D.Double( 0, getElevation( 0 ) );
     }
 }
