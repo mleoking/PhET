@@ -63,18 +63,6 @@ public class Glacier extends ClockAdapter {
         return new Vector2D.Double( 0, 0 ); //XXX
     }
     
-    public double getAccumulation( double x ) {
-        return 0; //XXX
-    }
-    
-    public double getAblation( double x ) {
-        return 0; //XXX
-    }
-    
-    public double getGlacialBudget( double x ) {
-        return getAccumulation( x ) - getAblation( x );
-    }
-    
     public double getAgeOfIce( double x, double altitude ) {
         return 0; //XXX
     }

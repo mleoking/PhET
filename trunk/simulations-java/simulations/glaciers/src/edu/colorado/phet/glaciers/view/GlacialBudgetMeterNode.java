@@ -91,17 +91,18 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         displayPanel.setBackground( Color.WHITE );
         displayPanel.setBorder( BORDER );
         EasyGridBagLayout layout = new EasyGridBagLayout( displayPanel );
+        layout.setAnchor( GridBagConstraints.EAST );
         displayPanel.setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addAnchoredComponent( accumulationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _accumulationDisplay, row++, column, GridBagConstraints.WEST );
+        layout.addComponent( accumulationLabel, row, column++ );
+        layout.addComponent( _accumulationDisplay, row++, column++ );
         column = 0;
-        layout.addAnchoredComponent( ablationLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _ablationDisplay, row++, column, GridBagConstraints.WEST );
+        layout.addComponent( ablationLabel, row, column++ );
+        layout.addComponent( _ablationDisplay, row++, column++ );
         column = 0;
-        layout.addAnchoredComponent( glacialBudgetLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _glacialBudgetDisplay, row++, column, GridBagConstraints.WEST );
+        layout.addComponent( glacialBudgetLabel, row, column++ );
+        layout.addComponent( _glacialBudgetDisplay, row++, column++ );
         
         PSwing panelNode = new PSwing( displayPanel );
         addChild( panelNode );

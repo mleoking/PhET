@@ -5,6 +5,9 @@ package edu.colorado.phet.glaciers.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
+import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
+
 /**
  * GlacialBudgetMeter is the model of a glacial budget meter.
  * The meter displays the accumulation, ablation and glacial budget at a point on the glacier.
@@ -17,7 +20,9 @@ public class GlacialBudgetMeter extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Glacier _glacier;
+    private Valley _valley;
+    private Climate _climate;
+    private ClimateListener _climateListener;
     private double _accumulation;
     private double _ablation;
     private double _glacialBudget;
@@ -27,9 +32,23 @@ public class GlacialBudgetMeter extends AbstractTool {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeter( Point2D position, Glacier glacier ) {
+    public GlacialBudgetMeter( Point2D position, Valley valley, Climate climate ) {
         super( position );
-        _glacier = glacier;
+        
+        _valley = valley;
+        
+        _climate = climate;
+        _climateListener = new ClimateListener() {
+            public void temperatureChanged() {
+                updateAllValues();
+            }
+
+            public void snowfallChanged() {
+                updateAllValues();
+            }
+        };
+        _climate.addClimateListener( _climateListener );
+        
         _accumulation = 0;
         _ablation = 0;
         _glacialBudget = 0;
@@ -85,16 +104,11 @@ public class GlacialBudgetMeter extends AbstractTool {
         updateAllValues();
     }
     
-    //XXX should this be replaced with a GlacierListener?
-    protected void handleTimeChanged() {
-        updateAllValues();
-    }
-    
     private void updateAllValues() {
-        final double x = getX();
-        setAccumulation( _glacier.getAccumulation( x ) );
-        setAblation( _glacier.getAblation( x ) );
-        setGlacialBudget( _glacier.getGlacialBudget( x ) );
+        final double elevation = _valley.getElevation( getX() );
+        setAccumulation( _climate.getAccumulation( elevation ) );
+        setAblation( _climate.getAblation( elevation ) );
+        setGlacialBudget( _climate.getGlacialBudget( elevation ) );
     }
     
     //----------------------------------------------------------------------------
