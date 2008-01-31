@@ -543,12 +543,12 @@
 	<target name="_generate-svn-revision-number" depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-svn-login, _prompt-for-sim-name, _define-sim-properties-file, _define-sim-version">
 
 		<!-- request the current SVN revision number -->
-		<exec executable="svn" outputproperty="svn.output">
+		<exec executable="svn" outputproperty="svn.status.output">
 			<arg line="status -u" />
 		</exec>
 
 		<!-- parse the SVN revision number -->
-		<propertyregex property="number.subversion.revision" override="true" input="${svn.output}" regexp="revision: *(\d+)"
+		<propertyregex property="number.subversion.revision" override="true" input="${svn.status.output}" regexp="revision:  *(\d+)"
             select="\1" casesensitive="false" />
 		<echo message="Current revision number is ${number.subversion.revision}" />
 		
