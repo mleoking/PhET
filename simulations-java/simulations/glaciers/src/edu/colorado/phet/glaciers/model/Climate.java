@@ -16,12 +16,12 @@ public class Climate {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double TEMPERATURE_MODERN_TIMES = 20; // temperature at sea level in modern times (degrees C)
+    private static final double TEMPERATURE_MODERN = 20; // temperature at sea level in modern times (degrees C)
     
     private static final double ACCUMULATION_MIN = 0.0; // minimum accumulation (meters/year)
     private static final double ACCUMULATION_MAX = 2.0; // maximum accumulation (meters/year)
     
-    private static final double ABLATION_MODERN_TIMES = 45.0; // ablation at sea level in modern times (meters/year)
+    private static final double ABLATION_MODERN = 45.0; // ablation at sea level in modern times (meters/year)
     private static final double ABLATION_VERSUS_TEMPERATURE_OFFSET = 1.3; // ablation per degree C offset from TEMPERATURE_MODERN_TIMES (meters/year)
     private static final double ABLATION_VERSUS_ELEVATION = -0.011; // ablation per meter of elevation increase (meters/year/meter)
     private static final double ABLATION_MIN = 0.0; // minimum ablation (meters/year)
@@ -109,8 +109,8 @@ public class Climate {
      * 
      * @return degrees C
      */
-    public static double getTemperatureModernTimes() {
-        return TEMPERATURE_MODERN_TIMES;
+    public static double getModernTemperature() {
+        return TEMPERATURE_MODERN;
     }
     
     /**
@@ -147,8 +147,8 @@ public class Climate {
      * @return meters/year
      */
     public double getAblation( double elevation ) {
-        double temperatureOffsetFromModernTimes = _temperature - TEMPERATURE_MODERN_TIMES;
-        double ablation = ABLATION_MODERN_TIMES + ( ABLATION_VERSUS_TEMPERATURE_OFFSET * temperatureOffsetFromModernTimes ) + ( ABLATION_VERSUS_ELEVATION * elevation ) ;
+        double temperatureOffsetFromModernTimes = _temperature - TEMPERATURE_MODERN;
+        double ablation = ABLATION_MODERN + ( ABLATION_VERSUS_TEMPERATURE_OFFSET * temperatureOffsetFromModernTimes ) + ( ABLATION_VERSUS_ELEVATION * elevation ) ;
         if ( ablation < ABLATION_MIN ) {
             ablation = ABLATION_MIN;
         }
