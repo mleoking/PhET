@@ -27,29 +27,29 @@ public class BasicController {
         snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
             public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setReferencePrecipitation( snowfall );
+                _model.getClimate().setSnowfallLapseRate( snowfall );
             }
 
             public void temperatureChanged( double temperature ) {
-                _model.getClimate().setReferenceTemperature( temperature );
+                _model.getClimate().setTemperatureOffset( temperature );
             }
         });
         
         // Update the climate controls when the climate model is changed.
         _model.getClimate().addClimateListener( new ClimateListener() {
 
-            public void referencePrecipitationChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
+            public void snowfallChanged() {
+                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallLapseRate() );
             }
 
-            public void referenceTemperatureChanged() {
-                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getReferenceTemperature() );
+            public void temperatureChanged() {
+                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperatureOffset() );
             }
         } );
         
         // Initialization
-        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getReferencePrecipition() );
-        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getReferenceTemperature() );
+        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallLapseRate() );
+        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperatureOffset() );
     }
 
 }
