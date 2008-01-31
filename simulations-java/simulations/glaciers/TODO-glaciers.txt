@@ -81,6 +81,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/31/08 - tweak equilibrium line model, allow equilibrium line to be at x < 0
+1/31/08 - place minX/maxX limitations on ValleyNode
+1/31/08 - remove minX/maxX from Valley model, it has no limitations
 ******** 0.00.03 (19554)
 1/30/08 - wire up visibility control to equilibrium line node
 1/30/08 - add equilibrium line model and temporary view

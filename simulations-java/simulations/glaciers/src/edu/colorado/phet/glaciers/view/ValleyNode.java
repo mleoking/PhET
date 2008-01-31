@@ -36,7 +36,7 @@ public class ValleyNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ValleyNode( Valley valley, ModelViewTransform mvt, double maxX ) {
+    public ValleyNode( Valley valley, ModelViewTransform mvt, double minX, double maxX ) {
         super();
         
         setPickable( false );
@@ -47,7 +47,7 @@ public class ValleyNode extends PComposite {
         
         TexturePaint paint = new TexturePaint( GlaciersImages.DIRT_TEXTURE, new Rectangle2D.Double( 0, 0, 100, 100 ) );
         
-        GeneralPath path = createValleyFloorPath( _valley.getMinX(), maxX, DX );
+        GeneralPath path = createValleyFloorPath( minX, maxX, DX );
         PPath pathNode = new PPath( path );
         pathNode.setStroke( null );
         pathNode.setPaint( paint );
@@ -61,28 +61,28 @@ public class ValleyNode extends PComposite {
      * The parameters are specified in model coordinates.
      * The returned path is in view coordinates.
      * 
-     * @param xMin starting x coordinate (meters)
-     * @param xMax ending x coordinate (meters)
+     * @param minX starting x coordinate (meters)
+     * @param maxX ending x coordinate (meters)
      * @param dx interval between x samples (meters)
      * @return GeneralPath path in view coordinates
      */
-    private GeneralPath createValleyFloorPath( final double xMin, final double xMax, final double dx ) {
+    private GeneralPath createValleyFloorPath( final double minX, final double maxX, final double dx ) {
         
-        assert( xMin < xMax );
+        assert( minX < maxX );
         assert( dx > 0 );
         
         GeneralPath path = new GeneralPath();
         Point2D pModel = new Point2D.Double();
         Point2D pView = new Point2D.Double();
-        double x = xMin;
+        double x = minX;
         double elevation = 0;
         
         // approximate the valley floor, from left to right
-        while ( x <= xMax ) {
+        while ( x <= maxX ) {
             elevation = _valley.getElevation( x );
             pModel.setLocation( x, elevation );
             pView = _mvt.modelToView( pModel, pView );
-            if ( x == xMin ) {
+            if ( x == minX ) {
                 path.moveTo( (float) pView.getX(), (float) pView.getY() );
             }
             else {

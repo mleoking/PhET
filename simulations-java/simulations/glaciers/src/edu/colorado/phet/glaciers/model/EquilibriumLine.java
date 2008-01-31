@@ -95,7 +95,7 @@ public class EquilibriumLine {
     //----------------------------------------------------------------------------
     
     private void updatePosition() {
-        double x = _valley.getMinX();
+        double x = 0;
         double elevation = _valley.getElevation( x );
         double glacialBudget = _climate.getGlacialBudget( elevation );
         double newGlacialBudget = 0;
@@ -109,20 +109,15 @@ public class EquilibriumLine {
             if ( ( dx > 0 && newGlacialBudget < 0 && newGlacialBudget < glacialBudget ) || 
                  ( dx < 0 && newGlacialBudget > 0 && newGlacialBudget > glacialBudget ) ) {
                 dx = -( dx / 2. );
-                if ( dx < 0 && Math.abs( dx ) > x ) {
-                    dx = -( x / 2 );
-                }
             }
             glacialBudget = newGlacialBudget;
             
-            //XXX this happens regularly with our snowfall and temperature ranges!
-            if ( x < _valley.getMinX() || x > 1E20 /* insanely far down the valley */ ) {
-                System.err.println( "model is out of control, x=" + x );
+            if ( x < -1E20 || x > 1E20 ) {
+                System.err.println( "EquilibriumLine.updatePosition, x is way outside our range of interest, x=: " + x );
                 break;
             }
         }
         setPosition( x, elevation );
-        System.out.println( "EquilibriumLine.updatePosition position=" + getPositionReference() + " glacialBudget=" + glacialBudget );//XXX
     }
     
     //----------------------------------------------------------------------------

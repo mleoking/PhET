@@ -65,7 +65,7 @@ public class BasicModule extends PiccoloModule {
 
         // Play Area
         ModelViewTransform mvt = new ModelViewTransform( MVT_X_SCALE, MVT_Y_SCALE, MVT_X_OFFSET, MVT_Y_OFFSET, MVT_FLIP_SIGN_X, MVT_FLIP_SIGN_Y );
-        PlayArea playArea = new PlayArea( _model, mvt, BasicDefaults.VALLEY_X_MAX );
+        PlayArea playArea = new PlayArea( _model, mvt, BasicDefaults.VALLEY_X_MIN, BasicDefaults.VALLEY_X_MAX );
         setSimulationPanel( playArea );
 
         // Bottom panel goes when clock controls normally go

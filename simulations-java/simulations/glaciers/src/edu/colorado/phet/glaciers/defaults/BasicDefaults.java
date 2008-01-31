@@ -24,6 +24,7 @@ public class BasicDefaults {
     public static final GlaciersClock CLOCK = new GlaciersClock( CLOCK_FRAME_RATE, CLOCK_DT_RANGE );
     
     // Valley 
+    public static final double VALLEY_X_MIN = GlobalDefaults.VALLEY_X_MIN;
     public static final double VALLEY_X_MAX = GlobalDefaults.VALLEY_X_MAX;
     
     // Climate

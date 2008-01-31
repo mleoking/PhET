@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -34,6 +35,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final String DISPLAY_FORMAT = "(x,z)=({0},{1})";
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final DecimalFormat COORDINATE_FORMAT = new DecimalFormat( "0" );
@@ -75,7 +77,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         pathNode.setOffset( 0, 0 );
         
         // display to the right of arrow, vertically centered
-        _coordinatesDisplay = new JLabel( "(x,z)" );
+        _coordinatesDisplay = new JLabel( DISPLAY_FORMAT );
         _coordinatesDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBackground( Color.WHITE );
@@ -102,8 +104,9 @@ public class GPSReceiverNode extends AbstractToolNode {
      * Updates the displayed coordinates to match the model.
      */
     private void updateCoordinates() {
-        Point2D p = _gps.getPositionReference();
-        String s = "(" + COORDINATE_FORMAT.format( p.getX() ) + "," + COORDINATE_FORMAT.format( p.getY() ) + ")"; // (x,z)
+        Point2D pModel = _gps.getPositionReference();
+        Object[] args = { COORDINATE_FORMAT.format( pModel.getX() ), COORDINATE_FORMAT.format( pModel.getY() ) };
+        String s = MessageFormat.format( DISPLAY_FORMAT, args );
         _coordinatesDisplay.setText( s );
     }
     
