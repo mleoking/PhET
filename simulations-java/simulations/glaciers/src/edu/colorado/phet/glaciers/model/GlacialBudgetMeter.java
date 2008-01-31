@@ -4,8 +4,8 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
@@ -140,20 +140,23 @@ public class GlacialBudgetMeter extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private void notifyAccumulationChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (GlacialBudgetMeterListener) _listeners.get( i ) ).accumulationChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GlacialBudgetMeterListener) i.next() ).accumulationChanged();
         }
     }
     
     private void notifyAblationChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (GlacialBudgetMeterListener) _listeners.get( i ) ).ablationChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GlacialBudgetMeterListener) i.next() ).ablationChanged();
         }
     }
     
     private void notifyGlacialBudgetChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (GlacialBudgetMeterListener) _listeners.get( i ) ).glacialBudgetChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GlacialBudgetMeterListener) i.next() ).glacialBudgetChanged();
         }
     }
 }

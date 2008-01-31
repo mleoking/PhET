@@ -3,6 +3,7 @@
 package edu.colorado.phet.glaciers.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Climate is the model of climate.
@@ -37,18 +38,32 @@ public class Climate {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param temperature temperature at sea level (degrees C)
+     * @param snowfall accumulation per meter above sea level (meters/year/meter)
+     */
     public Climate( double temperture, double snowfall ) {
         _temperature = temperture;
         _snowfall = snowfall;
         _listeners = new ArrayList();
     }
     
+    /**
+     * Call this before releasing all references to this object.
+     */
     public void cleanup() {}
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the temperature at sea level.
+     * 
+     * @param temperature degrees C
+     */
     public void setTemperature( double temperture ) {
         if ( temperture != _temperature ) {
             _temperature = temperture;
@@ -56,10 +71,20 @@ public class Climate {
         }
     }
     
+    /**
+     * Gets the temperature at sea level.
+     * 
+     * @return degrees C
+     */
     public double getTemperature() {
         return _temperature;
     }
     
+    /**
+     * Sets the snowfall, the accumulation per meter above sea level.
+     * 
+     * @param snowfall meters/year/meter
+     */
     public void setSnowfall( double snowfall ) {
         if ( snowfall < 0 ) {
             throw new IllegalArgumentException( "snowfall must be > 0: " + snowfall );
@@ -70,14 +95,40 @@ public class Climate {
         }
     }
     
+    /**
+     * Gets the snowfall, the accumulation per meter above sea level.
+     * 
+     * @return meters/year/meter
+     */
     public double getSnowfall() {
         return _snowfall;
     }
     
+    /**
+     * Gets the temperature at sea level in modern times.
+     * 
+     * @return degrees C
+     */
+    public static double getTemperatureModernTimes() {
+        return TEMPERATURE_MODERN_TIMES;
+    }
+    
+    /**
+     * Gets the temperature at a specified elevation above sea level.
+     * 
+     * @param elevation meters
+     * @return degrees C
+     */
     public double getTemperature( double elevation ) {
         return _temperature - ( 6.5 * elevation / 1E3 );
     }
     
+    /**
+     * Gets the accumulation at a specified elevation above sea level
+     * 
+     * @param elevation meters
+     * @return meters/year
+     */
     public double getAccumulation( double elevation ) {
         double accumulation = elevation * _snowfall;
         if ( accumulation > ACCUMULATION_MAX ) {
@@ -89,6 +140,12 @@ public class Climate {
         return accumulation;
     }
 
+    /**
+     * Gets the ablation at a specified elevation above sea level.
+     * 
+     * @param elevation meters
+     * @return meters/year
+     */
     public double getAblation( double elevation ) {
         double temperatureOffsetFromModernTimes = _temperature - TEMPERATURE_MODERN_TIMES;
         double ablation = ABLATION_MODERN_TIMES + ( ABLATION_VERSUS_TEMPERATURE_OFFSET * temperatureOffsetFromModernTimes ) + ( ABLATION_VERSUS_ELEVATION * elevation ) ;
@@ -99,13 +156,14 @@ public class Climate {
     }
     
     /**
-     * Gets the glacial budget, which is the difference between accumulation and ablation.
+     * Gets the glacial budget at a specified elevation above sea level.
+     * Glacial budget is the difference between accumulation and ablation.
      * A positive value indicates a surplus, and the glacier grows.
      * A negative value indicates a shortage, and the glacier shrinks.
      * A zero value indicates equilibrium.
      * 
-     * @param elevation
-     * @return
+     * @param elevation meters
+     * @return meters/year
      */
     public double getGlacialBudget( double elevation ) {
         return getAccumulation( elevation ) - getAblation( elevation );
@@ -114,8 +172,8 @@ public class Climate {
     /**
      * Gets the mass balance, which is synonymous with glacial budget.
      * 
-     * @param elevation elevation in meters
-     * @return
+     * @param elevation meters
+     * @return meters/year
      */
     public double getMassBalance( double elevation ) {
         return getGlacialBudget( elevation );
@@ -148,20 +206,16 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private void notifyTemperatureChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            Object listener = _listeners.get( i );
-            if ( listener instanceof ClimateListener ) {
-                ( (ClimateListener) listener ).temperatureChanged();
-            }
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ClimateListener) i.next() ).temperatureChanged();
         }
     }
     
     private void notifySnowfallChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            Object listener = _listeners.get( i );
-            if ( listener instanceof ClimateListener ) {
-                ( (ClimateListener) listener ).snowfallChanged();
-            }
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ClimateListener) i.next() ).snowfallChanged();
         }
     }
 }
