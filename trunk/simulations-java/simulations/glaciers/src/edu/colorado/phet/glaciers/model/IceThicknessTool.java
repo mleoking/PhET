@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * IceThicknessTool is the model of an ice thickness tool.
@@ -91,8 +92,9 @@ public class IceThicknessTool extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private void notifyThicknessChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (IceThicknessToolListener) _listeners.get( i ) ).thicknessChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (IceThicknessToolListener) i.next() ).thicknessChanged();    
         }
     }
 }

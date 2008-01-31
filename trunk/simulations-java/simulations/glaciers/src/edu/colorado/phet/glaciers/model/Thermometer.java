@@ -4,6 +4,7 @@ package edu.colorado.phet.glaciers.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
@@ -98,8 +99,9 @@ public class Thermometer extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private void notifyTemperatureChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (ThermometerListener) _listeners.get( i ) ).temperatureChanged();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ThermometerListener) i.next() ).temperatureChanged();
         }
     }
 }

@@ -81,6 +81,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/31/08 - standardize on using iterators for listener lists
+1/31/08 - javadoc Climate model
+1/31/08 - add Climate.getTemperatureModernTimes for setting the default temperature
 1/31/08 - adjust climate model to work with absolute temperature, versus temperature offset from modern times
 1/31/08 - change temperature control to set temperature, not temperature offset from modern times
 1/31/08 - rename "snowfall lapse rate" to "snowfall", document
