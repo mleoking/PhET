@@ -41,6 +41,9 @@ HIGH PRIORITY:
 - implement glacier model & view
 
 MEDIUM PRIORITY:
+- make Reset All reset model to initial state
+- make Reset All reset all view-only control to their initial state
+- make Reset All delete all tools
 - refactor common module functionality into a base class
 - move DoubleSpinner to phetcommon
 - redesign advanced climate controls
