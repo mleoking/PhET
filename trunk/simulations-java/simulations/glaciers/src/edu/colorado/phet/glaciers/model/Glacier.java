@@ -22,7 +22,7 @@ public class Glacier extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DX = 10; // distance between x-axis sample points (meters)
+    private static final double DX = 100; // distance between x-axis sample points (meters)
     
     private static final double X0 = 0; // x coordinate where the glacier starts (meters) DO NOT CHANGE!!
     private static final double MAX_LENGTH = 80000; // maximum length (meters)
@@ -159,6 +159,15 @@ public class Glacier extends ClockAdapter {
      */
     public static double getMaxTerminusX() {
         return X0 + MAX_LENGTH;
+    }
+    
+    /**
+     * Gets the spacing used between x-axis sample points.
+     * 
+     * @return meters
+     */
+    public static double getDx() {
+        return DX;
     }
     
     /**

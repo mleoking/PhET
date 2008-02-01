@@ -75,6 +75,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/1/08 - added glacier ice view, but disabled because model calculations are prohibitively expensive
 2/1/08 - use steady-state methods for ice thickness and velocity to test immediate effect of climate change
 2/1/08 - add ice velocity model, use speed for velocity magnitude, use valley floor slope for direction
 2/1/08 - change ice velocity model functions to ice *speed*
