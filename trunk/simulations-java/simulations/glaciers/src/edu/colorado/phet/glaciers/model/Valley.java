@@ -53,4 +53,32 @@ public class Valley {
         final double term = ( x - 5e3 ) / 2e3;
         return 1e3 + ( 5e3 * Math.exp( -( term * term ) ) );
     }
+    
+    /**
+     * Gets the direction (angle) between two points on the valley floor.
+     * 
+     * @param x1 meters
+     * @param x2 meters
+     * @return radians
+     */
+    public double getDirection( double x1, double x2 ) {
+        final double m = getSlope( x1, x2 );
+        return Math.atan( m );
+    }
+    
+    /*
+     * Gets the slope between 2 points on the valley floor.
+     * 
+     * @param x1 meters
+     * @param x2 meters
+     * @return slope
+     */
+    private double getSlope( final double x1, final double x2 ) {
+        if ( x1 == x2 ) {
+            throw new IllegalArgumentException( "x1 and x2 must be different values" );
+        }
+        final double elevation1 = getElevation( x1 );
+        final double elevation2 = getElevation( x2 );
+        return ( elevation1 - elevation2 ) / ( x1 - x2 );
+    }
 }
