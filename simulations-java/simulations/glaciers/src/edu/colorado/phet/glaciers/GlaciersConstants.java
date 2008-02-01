@@ -66,8 +66,8 @@ public class GlaciersConstants {
     public static final Color UNDERGROUND_COLOR = new Color( 180, 158, 134 ); // tan
     
     // color of the Piccolo canvases
-    public static final Color BIRDS_EYE_CANVAS_COLOR = Color.WHITE;
-    public static final Color ZOOMED_CANVAS_COLOR = Color.WHITE;
+    public static final Color BIRDS_EYE_CANVAS_COLOR = new Color( 99, 173, 255 );
+    public static final Color ZOOMED_CANVAS_COLOR = BIRDS_EYE_CANVAS_COLOR;
     
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 219, 255, 224 ); // pale green
     
