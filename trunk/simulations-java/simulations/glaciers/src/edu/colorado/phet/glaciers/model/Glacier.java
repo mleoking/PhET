@@ -194,7 +194,7 @@ public class Glacier extends ClockAdapter {
     private double getSteadyStateIceThickness( double x ) {
         double length = getLength();
         double iceVolumeFlux = getIceVolumeFlux( x );
-        double maxIceVolumeFlux = getIceVolumeFlux( getX0() + ( length / 2 ) );
+        double maxIceVolumeFlux = getIceVolumeFlux( getX0() + ( length / 2 ) ); // max flux is about half-way down the glacier
         return MAX_ICE_THICKNESS * ( iceVolumeFlux / maxIceVolumeFlux ) * ( length / MAX_LENGTH );
     }
 
