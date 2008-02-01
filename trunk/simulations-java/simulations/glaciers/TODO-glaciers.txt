@@ -3,15 +3,8 @@
 ================================================================================
 
 MISSING INFO:
-- ice thickness model
-- ice flow (velocity vector) model
-- accumulation & ablation models
-- temperature range & default
-- snowfall range, default & units
-- equilibrium line altitude range & default
-- mass balance slope range & default
-- maximum mass balance range & default
-- mappings between 2 types of climate controls
+- ranges & default values for the "mass balance" climate controls
+- mappings between "snowfall & temperature" and "mass balance" climate controls
 
 DESIGN ISSUES:
 - toolbox allows creating multiple borehole drills
