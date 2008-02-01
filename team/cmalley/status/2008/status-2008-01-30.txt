@@ -46,7 +46,7 @@ WHAT'S NEXT:
   
 ISSUES:
 
-  - Glaciers: need model details ASAP
+  - none
   
 DATES UNAVAILABLE:
 
