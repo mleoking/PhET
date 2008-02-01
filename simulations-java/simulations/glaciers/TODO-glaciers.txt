@@ -27,34 +27,33 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
+- visualization of ice thickness
+- visualization of ice velocity thickness
+- implement time-scaling portion of glacier model
+- equilibrium line visualization: draw a horizontal line from equilibrium line position, thru ice cross-section to where it intersects glacier surface
+
+MEDIUM PRIORITY:
+- add pseudo-3D perpective
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - remove tools by dragging them back to the trash can (or toolbox?)
-- prototype drawing the valley, mountains and glacier
-- implement glacier model & view
-
-MEDIUM PRIORITY:
 - if tools turn out to not need time (t), remove it from base class
 - make Reset All reset model to initial state
 - make Reset All reset all view-only control to their initial state
 - make Reset All delete all tools
 - refactor common module functionality into a base class
-- move DoubleSpinner to phetcommon
 - redesign advanced climate controls
 - create graphs
-- get actual function that describes temperature as a function of altitude
-- get actual function that describes precipitation as a function of altitude
-- should tools be draggable in top canvas?
+- contrain tools to dragging in birds-eye bounds
 - fancy animation when a tool is dropped in the trash
 - fix layout issues with various control panels
 - make viewport automatically follow terminus whenever terminus is in the viewport
 - add left and right arrows to zoom view, secondary viewport control
-- tile the right edge of the valley, so that it can be extended when window is resized?
-- simply show end of the world at the right edge of the valley?
-- dragging of tools (by ToolIconNode or AbstractToolNode) is unconstrained. OK? Or should it be constrained to birds-eye viewport?
+- what to do at right edge of the world?
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 
 LOW PRIORITY:
+- draw mountains
 - avoid showing -0 in thermometer, glacial budget meter, etc.
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
@@ -65,6 +64,7 @@ LOW PRIORITY:
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
 - antialiasing of valley path
+- move DoubleSpinner to phetcommon
 
 COMMON CODE:
 
@@ -75,6 +75,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/1/08 - use steady-state methods for ice thickness and velocity to test immediate effect of climate change
+2/1/08 - add ice velocity model, use speed for velocity magnitude, use valley floor slope for direction
+2/1/08 - change ice velocity model functions to ice *speed*
 1/31/08 - change canvas background color to "sky blue", so that white glacier will be visible
 1/31/08 - shorten visible name of ice thickness tool
 1/31/08 - javadoc EquilibriumLine
