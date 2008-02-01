@@ -37,6 +37,12 @@ public class EquilibriumLine {
     // Constructors
     //----------------------------------------------------------------------------
     
+    /**
+     * Constructor.
+     * 
+     * @param valley
+     * @param climate
+     */
     public EquilibriumLine( Valley valley, Climate climate ) {
         super();
         
@@ -60,6 +66,9 @@ public class EquilibriumLine {
         updatePosition();
     }
     
+    /**
+     * Call this method before releasing all references to this object.
+     */
     public void cleanup() {
         _climate.removeClimateListener( _climateListener );
     }
@@ -68,25 +77,54 @@ public class EquilibriumLine {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    /*
+     * Sets the position of the equilibrium line to some point on the valley floor.
+     * 
+     * @param x
+     * @param elevation
+     */
     private void setPosition( double x, double elevation ) {
+        assert( elevation == _valley.getElevation( x ) );
         if ( x != _position.getX() || elevation != _position.getY() ) {
             _position.setLocation( x, elevation );
             notifyPositionChanged();
         }
     }
     
+    /**
+     * Gets the position of the equilibrium line.
+     * This is a point on the valley floor.
+     * This method allocates a Point2D object.
+     * 
+     * @return Point2D copy
+     */
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
     }
     
+    /**
+     * Same a getPosition, but returns a reference to the object's Point2D.
+     * 
+     * @return Point2D reference
+     */
     public Point2D getPositionReference() {
         return _position;
     }
     
+    /**
+     * Gets the x coordinate of the equilibrium line.
+     * 
+     * @return meters
+     */
     public double getX() {
         return _position.getX();
     }
     
+    /**
+     * Gets the elevation above sea level of the equilibrium line.
+     * 
+     * @return meters
+     */
     public double getElevation() {
         return _position.getY();
     }
@@ -95,6 +133,11 @@ public class EquilibriumLine {
     // Updaters
     //----------------------------------------------------------------------------
     
+    /*
+     * Updates the position by searching for the x coordinate where glacial budget = 0.
+     * This uses a "divide and conquer" algorithm, gradually decreasing the sign and 
+     * magnitude of dx until we find a glacial budget that is close enough to 0.
+     */
     private void updatePosition() {
         double x = 0;
         double elevation = _valley.getElevation( x );
