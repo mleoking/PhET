@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.glaciers.model;
 
-import java.awt.geom.Point2D;
 
 /**
  * Valley is the model of the valley where the glacier forms.
@@ -10,16 +9,13 @@ import java.awt.geom.Point2D;
  * <p>
  * The coordinate system is:
  * <ul>
- * <li>x : position down the valley floor (meters)
+ * <li>x : position downvalley (meters)
  * <li>y : width across the valley floor (meters)
- * <li>z: elevation above sea level (meters)
+ * <li>z : elevation above sea level (meters)
  * </ul>
  * <p>
- * "Down the valley" indicates increasing x and decreasing z.
- * "Up the valley" indicates decreasing x and increasing z.
- * <p>
- * x=0 is at the point of highest elevation (maximum z), and
- * is the point where the glacier begins to form.
+ * Downvalley indicates increasing x and decreasing z.
+ * Upvalley indicates decreasing x and increasing z.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,7 +33,7 @@ public class Valley {
     
     /**
      * Gets the elevation at a position along the valley floor.
-     * Slope starts off steep, then levels out as we go down the valley.
+     * Slope starts off steep, then levels out as we go downvalley.
      * 
      * @param x position (meters)
      * @return elevation (meters)
@@ -48,8 +44,7 @@ public class Valley {
     
     /**
      * Gets the width at a position along the valley floor.
-     * Width is largest at the highest points of the valley, 
-     * then tapers down to constant further down the valley.
+     * Width is largest upvalley, then tapers down to constant further downvalley.
      * 
      * @param x position (meters)
      * @return width (meters)
