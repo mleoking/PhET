@@ -27,7 +27,8 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
-- visualization of ice thickness
+- reorganize model so that it keeps a cached grid of ice thickness and ice speed values
+- enable code to display ice visualization in GlacierNode.updateIce
 - visualization of ice velocity thickness
 - implement time-scaling portion of glacier model
 - equilibrium line visualization: draw a horizontal line from equilibrium line position, thru ice cross-section to where it intersects glacier surface
