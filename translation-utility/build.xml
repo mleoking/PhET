@@ -90,7 +90,6 @@
 		<condition property="proguard.java.classpath" value="${java.home}/../Classes/classes.jar${path.separator}${java.home}/../Classes/ui.jar">
 			<os family="mac"/>
 		</condition>
-		<echo message="${proguard.java.classpath}"/>
 		
 		<!-- shrink the JAR with ProGuard -->
 		<proguard verbose="true" 
