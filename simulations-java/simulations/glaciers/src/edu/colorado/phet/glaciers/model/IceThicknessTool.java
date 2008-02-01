@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
+
 /**
  * IceThicknessTool is the model of an ice thickness tool.
  * It measures the thickness of ice at a position along the glacier.
@@ -19,6 +22,7 @@ public class IceThicknessTool extends AbstractTool {
     //----------------------------------------------------------------------------
     
     private Glacier _glacier;
+    private GlacierListener _glacierListener;
     private double _thickness;
     private ArrayList _listeners; // list of IceThicknessToolListener
 
@@ -28,11 +32,20 @@ public class IceThicknessTool extends AbstractTool {
     
     public IceThicknessTool( Point2D position, Glacier glacier ) {
         super( position );
+        
         _glacier = glacier;
+        _glacierListener = new GlacierAdapter() {
+            public void iceThicknessChanged() {
+                updateThickness();
+            }
+        };
+        _glacier.addGlacierListener( _glacierListener );
+        
         _listeners = new ArrayList();
     }
     
     public void cleanup() {
+        _glacier.removeGlacierListener( _glacierListener );
         super.cleanup();
     }
     
@@ -59,15 +72,9 @@ public class IceThicknessTool extends AbstractTool {
         updateThickness();
     }
     
-    //XXX should this be replaced with a GlacierListener?
-    protected void handleTimeChanged() {
-        updateThickness();
-    }
-    
     private void updateThickness() {
         final double x = getX();
-        final double t = getCurrentTime();
-        final double thickness = _glacier.getIceThickness( x, t );
+        final double thickness = _glacier.getIceThickness( x );
         setThickness( thickness );
     }
     

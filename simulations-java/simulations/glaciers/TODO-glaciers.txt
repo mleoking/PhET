@@ -41,6 +41,7 @@ HIGH PRIORITY:
 - implement glacier model & view
 
 MEDIUM PRIORITY:
+- if tools turn out to not need time (t), remove it from base class
 - make Reset All reset model to initial state
 - make Reset All reset all view-only control to their initial state
 - make Reset All delete all tools
@@ -81,6 +82,10 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/31/08 - javadoc EquilibriumLine
+1/31/08 - create EquilibriumLine outside of Glacier
+1/31/08 - make IceThicknessTool a GlacierListener, interested in ice thickness changes
+1/31/08 - add ice volume flux, length, terminus, and ice thickness steady state to glacier model
 1/31/08 - standardize on using iterators for listener lists
 1/31/08 - javadoc Climate model
 1/31/08 - add Climate.getTemperatureModernTimes for setting the default temperature
