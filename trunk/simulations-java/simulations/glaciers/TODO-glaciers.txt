@@ -75,6 +75,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+1/31/08 - change canvas background color to "sky blue", so that white glacier will be visible
 1/31/08 - shorten visible name of ice thickness tool
 1/31/08 - javadoc EquilibriumLine
 1/31/08 - create EquilibriumLine outside of Glacier
