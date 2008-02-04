@@ -76,7 +76,7 @@ public class FileUtils {
         }
     }
 
-    private static String replaceAll( String body, String find, String replacement ) {
+    public static String replaceAll( String body, String find, String replacement ) {
         boolean changed;
 
         do {
