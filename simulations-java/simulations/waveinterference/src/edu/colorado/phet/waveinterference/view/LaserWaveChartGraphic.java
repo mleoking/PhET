@@ -1,14 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -45,10 +45,10 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
 
     protected void updateLocation() {
         super.updateLocation();
-        if( vectorView != null ) {
+        if ( vectorView != null ) {
             vectorView.setOffset( getPathLocation() );
         }
-        if( laserWaveChartControl != null ) {
+        if ( laserWaveChartControl != null ) {
             laserWaveChartControl.setOffset( getjFreeChartNode().getFullBounds().getMaxX(), getjFreeChartNode().getFullBounds().getCenterY() - laserWaveChartControl.getFullBounds().getHeight() / 2 );
         }
     }
@@ -63,7 +63,7 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
     }
 
     private void updateVectorView() {
-        if( vectorView != null ) {
+        if ( vectorView != null ) {
             vectorView.update();
         }
     }
@@ -98,13 +98,13 @@ public class LaserWaveChartGraphic extends WaveChartGraphic {
             Point2D[] pts = readValues();
 //            int stride=1;//original
             int stride = 3;
-            for( int i = 0; i < pts.length; i += stride ) {
+            for ( int i = 0; i < pts.length; i += stride ) {
                 Point2D pt = pts[i];
-                addArrow( (float)pt.getX(), (float)pt.getY() );
+                addArrow( (float) pt.getX(), (float) pt.getY() );
 //                if( i == pts.length / (4*3) ) {
-                if( indicateOneBlackVector ) {
-                    if( i == pts.length / 4 ) {
-                        PPath path = (PPath)getChildrenReference().get( getChildrenReference().size() - 1 );
+                if ( indicateOneBlackVector ) {
+                    if ( i == pts.length / 4 ) {
+                        PPath path = (PPath) getChildrenReference().get( getChildrenReference().size() - 1 );
                         path.setPaint( Color.black );
                     }
                 }

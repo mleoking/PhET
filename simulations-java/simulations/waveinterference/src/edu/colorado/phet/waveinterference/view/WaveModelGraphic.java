@@ -1,18 +1,18 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PPaintContext;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * User: Sam Reid
@@ -88,10 +88,10 @@ public class WaveModelGraphic extends PNode {
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         g.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );
         super.fullPaint( paintContext );
-        if( origAnt == null ) {
+        if ( origAnt == null ) {
             origAnt = RenderingHints.VALUE_ANTIALIAS_DEFAULT;
         }
-        if( origInt == null ) {
+        if ( origInt == null ) {
             origInt = RenderingHints.VALUE_INTERPOLATION_BICUBIC;
         }
         g.setRenderingHint( RenderingHints.KEY_ANTIALIASING, origAnt );
@@ -103,15 +103,15 @@ public class WaveModelGraphic extends PNode {
         colorGridNode.setGridDimensions( waveModel.getWidth(), waveModel.getHeight() );
         colorGridNode.paint( colorMap );
         repaint();
-        if( !origGridDim.equals( colorGridNode.getGridDimensions() ) ) {
+        if ( !origGridDim.equals( colorGridNode.getGridDimensions() ) ) {
             notifyMappingChanged();
         }
         notifyColorChanged();
     }
 
     private void notifyColorChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.colorMapChanged();
         }
     }
@@ -144,7 +144,7 @@ public class WaveModelGraphic extends PNode {
         ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, waveModel.getWidth(), waveModel.getHeight() ),
                                                                               new Rectangle2D.Double( 0, 0, getFullBounds().getWidth(), getFullBounds().getHeight() ) );
         Point2D val = modelViewTransform2D.viewToModel( localLocation );
-        return new Point( (int)val.getX(), (int)val.getY() );
+        return new Point( (int) val.getX(), (int) val.getY() );
     }
 
     public Dimension getCellDimensions() {

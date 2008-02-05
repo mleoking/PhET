@@ -10,11 +10,11 @@ import java.awt.geom.Point2D;
  * Time: 5:12:40 PM
  */
 
-public abstract class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas implements Maximizable{
-    private boolean waveMaximized =false;
+public abstract class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas implements Maximizable {
+    private boolean waveMaximized = false;
 
     public void paintComponent( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR );//todo is this to avoid performance problems in 1.5?
         super.paintComponent( g );
     }
@@ -35,6 +35,6 @@ public abstract class WaveInterferenceCanvas extends DoubleBufferedPhetPCanvas i
     protected abstract void updateWaveSize();
 
     public boolean isWaveMaximized() {
-        return waveMaximized; 
+        return waveMaximized;
     }
 }

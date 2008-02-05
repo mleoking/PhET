@@ -1,7 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.util.WIStrings;
+import java.awt.*;
+
+import javax.swing.*;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartFrame;
 import org.jfree.chart.JFreeChart;
@@ -11,8 +14,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import javax.swing.*;
-import java.awt.*;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid
@@ -25,7 +27,7 @@ public class JFreeChartIcon {
 
     public JFreeChartIcon() {
         XYSeries series = new XYSeries( "" );
-        for( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
             series.add( i, Math.sin( i / 10.0 ) );
         }
         dataset = new XYSeriesCollection( series );

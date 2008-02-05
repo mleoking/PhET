@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

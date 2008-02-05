@@ -24,7 +24,7 @@ public class EBFieldGraphic extends WaveSideView {
     }
 
     public void update() {
-        if( eFieldGraphic != null && bFieldGraphic != null ) {
+        if ( eFieldGraphic != null && bFieldGraphic != null ) {
             eFieldGraphic.update();
             bFieldGraphic.update();
         }

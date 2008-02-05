@@ -30,9 +30,9 @@ public class Lattice2D {
     public double getAverageValue( int x, int y, int windowWidth ) {
         double sum = 0;
         int count = 0;
-        for( int i = x - windowWidth; i <= x + windowWidth; i++ ) {
-            for( int j = y - windowWidth; j <= y + windowWidth; j++ ) {
-                if( containsLocation( i, j ) ) {
+        for ( int i = x - windowWidth; i <= x + windowWidth; i++ ) {
+            for ( int j = y - windowWidth; j <= y + windowWidth; j++ ) {
+                if ( containsLocation( i, j ) ) {
                     sum += getValue( i, j );
                     count++;
                 }
@@ -52,9 +52,9 @@ public class Lattice2D {
     }
 
     public void scale( float scale ) {
-        if( scale != 1.0 ) {
-            for( int i = 0; i < getWidth(); i++ ) {
-                for( int j = 0; j < getHeight(); j++ ) {
+        if ( scale != 1.0 ) {
+            for ( int i = 0; i < getWidth(); i++ ) {
+                for ( int j = 0; j < getHeight(); j++ ) {
                     wavefunction[i][j] *= scale;
                 }
             }
@@ -69,8 +69,8 @@ public class Lattice2D {
         dest.setSize( getWidth(), getHeight() );
         int width = getWidth();
         int height = getHeight();//for speed
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
+        for ( int i = 0; i < width; i++ ) {
+            for ( int j = 0; j < height; j++ ) {
                 dest.wavefunction[i][j] = wavefunction[i][j];
             }
         }
@@ -93,15 +93,15 @@ public class Lattice2D {
     }
 
     public void clear() {
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
+        for ( int i = 0; i < getWidth(); i++ ) {
+            for ( int j = 0; j < getHeight(); j++ ) {
                 setValue( i, j, 0 );
             }
         }
     }
 
     public void setSize( int width, int height ) {
-        if( getWidth() != width || getHeight() != height ) {
+        if ( getWidth() != width || getHeight() != height ) {
             wavefunction = new float[width][height];
             clear();
         }
@@ -109,8 +109,8 @@ public class Lattice2D {
 
     public Lattice2D copy() {
         float[][] copy = new float[getWidth()][getHeight()];
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int j = 0; j < getHeight(); j++ ) {
+        for ( int i = 0; i < getWidth(); i++ ) {
+            for ( int j = 0; j < getHeight(); j++ ) {
                 copy[i][j] = getValue( i, j );
             }
         }
@@ -122,9 +122,9 @@ public class Lattice2D {
     }
 
     public void add( Lattice2D w ) {
-        if( w.getWidth() == getWidth() && w.getHeight() == getHeight() ) {
-            for( int i = 0; i < getWidth(); i++ ) {
-                for( int k = 0; k < getHeight(); k++ ) {
+        if ( w.getWidth() == getWidth() && w.getHeight() == getHeight() ) {
+            for ( int i = 0; i < getWidth(); i++ ) {
+                for ( int k = 0; k < getHeight(); k++ ) {
                     wavefunction[i][k] += w.getValue( i, k );
                 }
             }
@@ -148,15 +148,15 @@ public class Lattice2D {
     }
 
     public void printWaveToScreen( DecimalFormat formatter ) {
-        for( int k = 0; k < getHeight(); k++ ) {
-            for( int i = 0; i < getWidth(); i++ ) {
+        for ( int k = 0; k < getHeight(); k++ ) {
+            for ( int i = 0; i < getWidth(); i++ ) {
                 float val = getValue( i, k );
                 String s = formatter.format( val );
-                if( s.equals( formatter.format( -0.000000001 ) ) ) {
+                if ( s.equals( formatter.format( -0.000000001 ) ) ) {
                     s = formatter.format( 0 );
                 }
                 String spaces = "  ";
-                if( s.startsWith( "-" ) ) {
+                if ( s.startsWith( "-" ) ) {
                     spaces = " ";
                 }
                 System.out.print( spaces + s );

@@ -74,8 +74,8 @@ public class WaveModel {
     }
 
     private void notifySizeChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.sizeChanged();
         }
     }
@@ -93,8 +93,8 @@ public class WaveModel {
     }
 
     public void setSourceValue( int i, int j, float value ) {
-        lattice.setValue( i, j, (float)value );
-        classicalWavePropagator.setBoundaryCondition( i, j, (float)value );
+        lattice.setValue( i, j, (float) value );
+        classicalWavePropagator.setBoundaryCondition( i, j, (float) value );
     }
 
     public int getWidth() {

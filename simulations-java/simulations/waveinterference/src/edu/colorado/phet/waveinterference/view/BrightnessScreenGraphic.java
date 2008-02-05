@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -26,7 +26,7 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
 
     public void update() {
         removeAllStripes();
-        for( int j = 0; j < getWaveModel().getHeight(); j++ ) {
+        for ( int j = 0; j < getWaveModel().getHeight(); j++ ) {
             PPath path = new PPath() {
                 protected void paint( PPaintContext paintContext ) {
                     paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED );
@@ -56,8 +56,8 @@ public class BrightnessScreenGraphic extends AbstractScreenGraphic {
     }
 
     private void removeAllStripes() {
-        while( stripes.size() > 0 ) {
-            removeStripe( (PPath)stripes.get( 0 ) );
+        while ( stripes.size() > 0 ) {
+            removeStripe( (PPath) stripes.get( 0 ) );
         }
     }
 

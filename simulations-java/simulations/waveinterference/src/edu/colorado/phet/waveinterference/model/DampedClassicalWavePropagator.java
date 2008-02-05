@@ -55,28 +55,28 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         //copy to large lattice
-        if( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() ) {
+        if ( largeLattice == null || largeLattice.getWidth() != w.getWidth() || largeLattice.getHeight() != w.getHeight() ) {
             largeLattice = new Lattice2D( w.getWidth() + dampX * 2, w.getHeight() + dampY * 2 );
         }
-        for( int i = 0; i < w.getWidth(); i++ ) {
-            for( int k = 0; k < w.getHeight(); k++ ) {
+        for ( int i = 0; i < w.getWidth(); i++ ) {
+            for ( int k = 0; k < w.getHeight(); k++ ) {
                 largeLattice.setValue( i + dampX, k + dampY, w.getValue( i, k ) );
             }
         }
         super.propagate( largeLattice );
-        for( int i = 0; i < 1; i++ ) {
+        for ( int i = 0; i < 1; i++ ) {
             dampScale( largeLattice );
         }
-        for( int i = 0; i < w.getWidth(); i++ ) {
-            for( int k = 0; k < w.getHeight(); k++ ) {
+        for ( int i = 0; i < w.getWidth(); i++ ) {
+            for ( int k = 0; k < w.getHeight(); k++ ) {
                 w.setValue( i, k, largeLattice.getValue( i + dampX, k + dampY ) );//+dampX*2,k+dampY*2) );
             }
         }
     }
 
     private void dampVertical( Lattice2D lattice, int origin, int sign, int numDampPts ) {
-        for( int j = 0; j < lattice.getHeight(); j++ ) {
-            for( int step = 0; step < numDampPts; step++ ) {
+        for ( int j = 0; j < lattice.getHeight(); j++ ) {
+            for ( int step = 0; step < numDampPts; step++ ) {
                 int distFromDampBoundary = numDampPts - step;
                 float damp = getDamp( distFromDampBoundary );
                 int i = origin + step * sign;
@@ -101,8 +101,8 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 //    }
 
     private void dampHorizontal( Lattice2D lattice, int origin, int sign, int numDampPts ) {
-        for( int i = 0; i < lattice.getWidth(); i++ ) {
-            for( int step = 0; step < numDampPts; step++ ) {
+        for ( int i = 0; i < lattice.getWidth(); i++ ) {
+            for ( int step = 0; step < numDampPts; step++ ) {
                 int distFromDampBoundary = numDampPts - step;
                 float damp = getDamp( distFromDampBoundary );
                 int j = origin + step * sign;
@@ -137,7 +137,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
 //    double[]dampCoefficients=new double[]{0.999,0.999,0.998,0.995,0.99,0.9,0.8};
 
     private float getDamp( int depthInDampRegion ) {
-        return (float)( 1 - depthInDampRegion * 0.0001 );
+        return (float) ( 1 - depthInDampRegion * 0.0001 );
     }
 
     double[] dampCoefficients = new double[]{0.999, 0.999, 0.998, 0.995, 0.99, 0.95, 0.9, 0.8, 0.7, 0.5, 0.25, 0.2};

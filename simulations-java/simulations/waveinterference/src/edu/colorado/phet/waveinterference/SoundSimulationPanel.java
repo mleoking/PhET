@@ -1,6 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -10,13 +18,6 @@ import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * User: Sam Reid
@@ -152,7 +153,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
                                   getLatticeScreenCoordinates().getScreenRect().getCenterY() - pSwing.getFullBounds().getHeight() / 2 );
             }
         } );
-        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ));
+        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ) );
     }
 
     private void updateRotationGlyphColor() {
@@ -166,7 +167,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "getLayer().getScale() = " + getLayer().getScale() );
                 System.out.println( "getLayer().getGlobalScale() = " + getLayer().getGlobalScale() );
-                if( pressureWaveGraphic.numParticles() > 0 ) {
+                if ( pressureWaveGraphic.numParticles() > 0 ) {
                     PressureWaveGraphic.Particle p = pressureWaveGraphic.getParticle( 0 );
                     System.out.println( "p.getScale() = " + p.getScale() );
                     System.out.println( "p.getGlobalScale() = " + p.getGlobalScale() );
@@ -177,7 +178,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     private void angleChanged() {
-        if( rotationWaveGraphic.isTopView() ) {
+        if ( rotationWaveGraphic.isTopView() ) {
             slitPotentialGraphic.setVisible( true );
             setAsymmetricFeaturesEnabled( true );
         }
@@ -196,11 +197,11 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     protected void updateWaveSize() {
-        if( getHeight() > 0 ) {
+        if ( getHeight() > 0 ) {
             double insetTop = super.getWaveModelGraphicOffset().getY();
-            double insetBottom = super.isWaveMaximized()?5:waveChartGraphic.getChartHeight();
+            double insetBottom = super.isWaveMaximized() ? 5 : waveChartGraphic.getChartHeight();
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
-            int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+            int pixelsPerCell = (int) ( availableHeight / getWaveModel().getHeight() );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
         }
     }

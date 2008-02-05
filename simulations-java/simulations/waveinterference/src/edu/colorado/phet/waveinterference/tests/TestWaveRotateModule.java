@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.waveinterference.view.*;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid
@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
  */
 public class TestWaveRotateModule extends BasicWaveTestModule {
 //    private WaveSideView waveSideView;
-//    private WaveModelGraphic waveModelGraphic;
+    //    private WaveModelGraphic waveModelGraphic;
     //    private RotationGlyph rotationGlyph;
     private RotationWaveGraphic rotationWaveGraphic;
 
@@ -35,7 +35,7 @@ public class TestWaveRotateModule extends BasicWaveTestModule {
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveSideView.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dim = (int)cellDim.getValue();
+                int dim = (int) cellDim.getValue();
                 waveSideView.setSpaceBetweenCells( dim );
                 waveModelGraphic.setCellDimensions( dim, dim );
             }

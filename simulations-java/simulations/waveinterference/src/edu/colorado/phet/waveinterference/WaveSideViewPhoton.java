@@ -24,7 +24,7 @@ public class WaveSideViewPhoton extends WaveSideView {
 
     public void update() {
         super.update();
-        if( vectorViewGraphic != null ) {
+        if ( vectorViewGraphic != null ) {
             vectorViewGraphic.update();
         }
     }

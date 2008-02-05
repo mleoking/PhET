@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-
-import java.awt.*;
 
 /**
  * Colors the wave area black if the wave hasn't propagated there yet.
@@ -39,7 +39,7 @@ public class PhotonEmissionColorMap implements ColorMap, Resettable {
         //todo ensure wavefunction is the correct size (could have been resized).
         float value = lattice.getLattice().getValue( i, k );
         float epsilon = 0.025f;
-        if( Math.abs( value ) < epsilon && !inited[i][k] ) {
+        if ( Math.abs( value ) < epsilon && !inited[i][k] ) {
             return Color.black;
         }
         else {
@@ -65,8 +65,8 @@ public class PhotonEmissionColorMap implements ColorMap, Resettable {
     }
 
     public void reset() {
-        for( int i = 0; i < getWidth(); i++ ) {
-            for( int k = 0; k < getHeight(); k++ ) {
+        for ( int i = 0; i < getWidth(); i++ ) {
+            for ( int k = 0; k < getHeight(); k++ ) {
                 setDark( i, k );
             }
         }

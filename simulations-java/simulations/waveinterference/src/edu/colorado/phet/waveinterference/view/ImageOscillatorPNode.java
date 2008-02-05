@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

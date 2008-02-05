@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.waveinterference.view.*;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class TestFaucetModule extends BasicWaveTestModule {
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dim = (int)cellDim.getValue();
+                int dim = (int) cellDim.getValue();
                 waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );

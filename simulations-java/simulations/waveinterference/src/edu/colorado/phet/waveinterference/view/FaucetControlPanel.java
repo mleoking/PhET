@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid

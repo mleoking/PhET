@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -128,8 +128,8 @@ public class WaveInterferenceModel implements ModelElement {
     }
 
     protected void notifySymmetryChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.symmetryChanged();
         }
     }

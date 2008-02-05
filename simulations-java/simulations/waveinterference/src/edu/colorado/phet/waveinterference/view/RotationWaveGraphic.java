@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -58,11 +58,11 @@ public class RotationWaveGraphic extends PNode {
     }
 
     public void setViewAngle( double value ) {
-        if( this.rotation != value ) {
+        if ( this.rotation != value ) {
             this.rotation = value;
             updateGraphics();
-            for( int i = 0; i < listeners.size(); i++ ) {
-                RotationWaveGraphic.Listener listener = (RotationWaveGraphic.Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                RotationWaveGraphic.Listener listener = (RotationWaveGraphic.Listener) listeners.get( i );
                 listener.rotationChanged();
             }
         }
@@ -78,10 +78,10 @@ public class RotationWaveGraphic extends PNode {
 
     protected void updateGraphics() {
         updateRotationGlyph( rotation );
-        if( isTopView() ) {
+        if ( isTopView() ) {
             showTopView();
         }
-        else if( isSideView() ) {
+        else if ( isSideView() ) {
             showSideView();
         }
         else {

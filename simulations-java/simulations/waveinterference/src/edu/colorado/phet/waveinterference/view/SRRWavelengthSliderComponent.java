@@ -1,10 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.umd.cs.piccolo.PCanvas;
+import java.awt.*;
 
 import javax.swing.event.ChangeListener;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.PCanvas;
 
 /**
  * User: Sam Reid
@@ -23,7 +24,7 @@ public class SRRWavelengthSliderComponent extends PCanvas {
         this.wavelengthSliderGraphic = wavelengthSliderGraphic;
         getLayer().addChild( wavelengthSliderGraphic );
         setBounds( 0, 0, 400, 400 );
-        setPreferredSize( new Dimension( (int)wavelengthSliderGraphic.getFullBounds().getWidth(), (int)wavelengthSliderGraphic.getFullBounds().getHeight() ) );
+        setPreferredSize( new Dimension( (int) wavelengthSliderGraphic.getFullBounds().getWidth(), (int) wavelengthSliderGraphic.getFullBounds().getHeight() ) );
         setPanEventHandler( null );
         setZoomEventHandler( null );
         setOpaque( false );

@@ -1,12 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.colorado.phet.waveinterference.view.VerticalLayoutPanelWithDisable;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.colorado.phet.waveinterference.view.VerticalLayoutPanelWithDisable;
 
 /**
  * User: Sam Reid

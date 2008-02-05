@@ -34,7 +34,7 @@ public class VerticalSingleSlit extends VerticalBarrier {
         this.slit = new Rectangle( x, topBar.x + topBar.width, thickness, slitSize );
 
         CompositePotential compositePotential = new CompositePotential();
-        if( super.getInverse() ) {
+        if ( super.getInverse() ) {
             compositePotential.addPotential( new BarrierPotential( slit, potential ) );
         }
         else {
@@ -51,13 +51,13 @@ public class VerticalSingleSlit extends VerticalBarrier {
 
     public Rectangle[] getRectangleBarriers() {
         ArrayList r = new ArrayList();
-        if( getInverse() ) {
+        if ( getInverse() ) {
             r.add( slit );
         }
         else {
             r.add( topBar );
             r.add( bottomBar );
         }
-        return (Rectangle[])r.toArray( new Rectangle[0] );
+        return (Rectangle[]) r.toArray( new Rectangle[0] );
     }
 }

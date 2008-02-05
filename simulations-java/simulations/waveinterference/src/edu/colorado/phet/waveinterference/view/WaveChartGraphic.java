@@ -1,11 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -13,11 +14,11 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -45,7 +46,7 @@ public class WaveChartGraphic extends PNode {
         jFreeChart.getXYPlot().getRangeAxis().setRange( -1.0, 1.0 );
         jFreeChartNode = new JFreeChartNode( jFreeChart, true );
 //        jFreeChartNode.setBounds( 0, 0, 500, 200 );
-        jFreeChartNode.setBounds( 0, 0, 500, 185);
+        jFreeChartNode.setBounds( 0, 0, 500, 185 );
 
 //        String hello = MessageFormat.format( SimStrings.get( "hello.0" ), new Object[]{units} );
 //        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
@@ -107,7 +108,7 @@ public class WaveChartGraphic extends PNode {
 
     private void synchronizeWidth() {
         double diff = getDesiredDataWidth() - getActualDataWidth();
-        changeDataWidth( (int)diff );
+        changeDataWidth( (int) diff );
     }
 
     private void changeDataWidth( int increase ) {
@@ -133,11 +134,11 @@ public class WaveChartGraphic extends PNode {
     public void updateChart() {
         GeneralPath generalPath = new GeneralPath();
         Point2D[] pts = readValues();//todo this just assumes the chart transform matches perfectly
-        if( pts.length > 0 ) {
-            generalPath.moveTo( (float)pts[0].getX(), (float)pts[0].getY() );//todo crop to fit inside data area.
+        if ( pts.length > 0 ) {
+            generalPath.moveTo( (float) pts[0].getX(), (float) pts[0].getY() );//todo crop to fit inside data area.
         }
-        for( int i = 1; i < pts.length; i++ ) {
-            generalPath.lineTo( (float)pts[i].getX(), (float)pts[i].getY() );
+        for ( int i = 1; i < pts.length; i++ ) {
+            generalPath.lineTo( (float) pts[i].getX(), (float) pts[i].getY() );
         }
         path.setPathTo( generalPath );
         path.setOffset( getPathLocation() );

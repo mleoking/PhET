@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -61,9 +61,9 @@ public class MultiOscillator {
     private void update() {
         secondaryOscillator.setEnabled( twoSources );
         secondary.setVisible( twoSources );
-        if( twoSources ) {
-            primaryOscillator.setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 - spacing ) );
-            secondaryOscillator.setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 + spacing ) );
+        if ( twoSources ) {
+            primaryOscillator.setLocation( oscillatorX, (int) ( waveModel.getHeight() / 2 - spacing ) );
+            secondaryOscillator.setLocation( oscillatorX, (int) ( waveModel.getHeight() / 2 + spacing ) );
         }
         else {
             primaryOscillator.setLocation( oscillatorX, waveModel.getHeight() / 2 );
@@ -101,8 +101,8 @@ public class MultiOscillator {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.multiOscillatorChanged();
         }
     }

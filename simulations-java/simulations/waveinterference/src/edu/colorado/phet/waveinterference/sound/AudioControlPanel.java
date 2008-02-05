@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.waveinterference.sound;
 
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid
@@ -83,15 +84,15 @@ public class AudioControlPanel extends JPanel {
     }
 
     private void notifyAmplitudeChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.amplitudeChanged();
         }
     }
 
     private void notifyEnableStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.audioEnabledChanged();
         }
     }
@@ -109,7 +110,7 @@ public class AudioControlPanel extends JPanel {
     }
 
     public void updateVolume( double amplitude ) {
-        _soundSlider.setValue( (int)( amplitude * 100.0 ) );
+        _soundSlider.setValue( (int) ( amplitude * 100.0 ) );
     }
 
     public static interface Listener {

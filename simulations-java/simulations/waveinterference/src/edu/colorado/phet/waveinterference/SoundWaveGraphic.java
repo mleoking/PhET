@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.umd.cs.piccolo.PNode;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -58,8 +58,8 @@ public class SoundWaveGraphic extends PNode {
     }
 
     private void notifyViewChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.viewChanged();
         }
     }
@@ -67,7 +67,7 @@ public class SoundWaveGraphic extends PNode {
     private void updateView() {
         pressureWaveGraphic.setVisible( particlesVisible );
         waveModelGraphic.setVisible( grayscaleVisible );
-        int imageHeight = (int)( particleSize * MAX_PARTICLE_SIZE );
+        int imageHeight = (int) ( particleSize * MAX_PARTICLE_SIZE );
         pressureWaveGraphic.setParticleImageSize( Math.max( 1, imageHeight ) );
     }
 
@@ -109,8 +109,8 @@ public class SoundWaveGraphic extends PNode {
     }
 
     private void notifyViewTypeChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.viewTypeChanged();
         }
     }

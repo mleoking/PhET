@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -17,7 +17,7 @@ public class ResizeHandler {
     private static ResizeHandler instance;
 
     public static ResizeHandler getInstance() {
-        if( instance == null ) {
+        if ( instance == null ) {
             instance = new ResizeHandler();
         }
         return instance;
@@ -37,7 +37,7 @@ public class ResizeHandler {
     }
 
     private void updateLaserControlPSwingScale( PSwingCanvas lightSimulationPanel, PNode laserControlPSwing, double scale ) {
-        if( lightSimulationPanel.getWidth() < 900 ) {
+        if ( lightSimulationPanel.getWidth() < 900 ) {
             laserControlPSwing.setScale( scale );
         }
         else {

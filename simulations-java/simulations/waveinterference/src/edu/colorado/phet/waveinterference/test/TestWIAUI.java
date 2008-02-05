@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.test;
 
-import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.waveinterference.*;
-
 import javax.swing.*;
 import javax.swing.plaf.ComponentUI;
+
+import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.waveinterference.*;
 
 /**
  * User: Sam Reid
@@ -23,8 +23,8 @@ public class TestWIAUI extends NonPiccoloPhetApplication {
         addModule( new SoundModule() );
         addModule( new LightModule() );
         getPhetFrame().addMenu( new WaveInterferenceMenu() );
-        if( getModules().length > 1 ) {
-            for( int i = 0; i < getModules().length; i++ ) {
+        if ( getModules().length > 1 ) {
+            for ( int i = 0; i < getModules().length; i++ ) {
                 getModule( i ).setLogoPanelVisible( false );
             }
         }

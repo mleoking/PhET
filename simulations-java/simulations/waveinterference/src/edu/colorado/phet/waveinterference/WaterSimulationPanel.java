@@ -12,7 +12,6 @@ import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * User: Sam Reid
@@ -37,7 +36,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
     private WaveChartGraphic waveChartGraphic;
     private CrossSectionGraphic crossSectionGraphic;
     private WaveInterferenceScreenUnits screenUnits;
-//    private boolean maximized = false;
+    //    private boolean maximized = false;
     private WaveModelGraphic waveModelGraphic;
 //    private ThisSideUpGraphic thisSideUpGraphic;
 
@@ -120,7 +119,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
         addScreenChild( thisSideUpWrapper );
 
-        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ));
+        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ) );
     }
 
 
@@ -137,7 +136,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
 //            System.out.println( "<WaterSimulationPanel.updateWaveSize>" );
             double insetTop = super.getWaveModelGraphicOffset().getY();
 //            System.out.println( "insetTop = " + insetTop );
-            double insetBottom = isWaveMaximized()? 5 : waveChartGraphic.getChartHeight();
+            double insetBottom = isWaveMaximized() ? 5 : waveChartGraphic.getChartHeight();
 //            double insetBottom = 30;
 //            if (waveChartGraphic.getFullBounds().getHeight()>300){
 //                System.out.println( "WaterSimulationPanel.updateWaveSize" );

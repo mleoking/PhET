@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class BasicWaveTestControlPanel extends ControlPanel {
         final ModelSlider latticeWidth = new ModelSlider( "Lattice Width", "cells", 10, 300, testWaveModule.getLattice().getWidth() );
         latticeWidth.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int width = (int)latticeWidth.getValue();
+                int width = (int) latticeWidth.getValue();
                 testWaveModule.setLatticeSize( width, testWaveModule.getLattice().getHeight() );
             }
         } );
@@ -37,7 +37,7 @@ public class BasicWaveTestControlPanel extends ControlPanel {
         final ModelSlider latticeHeight = new ModelSlider( "Lattice Height", "cells", 10, 300, testWaveModule.getLattice().getWidth() );
         latticeHeight.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int height = (int)latticeHeight.getValue();
+                int height = (int) latticeHeight.getValue();
                 testWaveModule.setLatticeSize( testWaveModule.getLattice().getWidth(), height );
             }
         } );

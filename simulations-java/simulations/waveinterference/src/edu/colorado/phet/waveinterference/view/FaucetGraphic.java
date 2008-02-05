@@ -1,6 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -13,12 +19,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -136,8 +136,8 @@ public class FaucetGraphic extends PhetPNode {
     }
 
     public void step() {
-        if( isEnabled() ) {
-            if( isRightBeforeReleaseTime( lastTime ) && isRightAfterReleaseTime( oscillator.getTime() ) ) {
+        if ( isEnabled() ) {
+            if ( isRightBeforeReleaseTime( lastTime ) && isRightAfterReleaseTime( oscillator.getTime() ) ) {
                 addDrop();
             }
         }
@@ -147,7 +147,7 @@ public class FaucetGraphic extends PhetPNode {
 
     private boolean isRightAfterReleaseTime( double time ) {
         double releaseTime = getNearestReleaseTime( time );
-        if( time >= releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
+        if ( time >= releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
             return true;
         }
         return false;
@@ -155,7 +155,7 @@ public class FaucetGraphic extends PhetPNode {
 
     private boolean isRightBeforeReleaseTime( double time ) {
         double releaseTime = getNearestReleaseTime( time );
-        if( time < releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
+        if ( time < releaseTime && Math.abs( releaseTime - time ) < oscillator.getPeriod() / 4 ) {
             return true;
         }
         return false;
@@ -163,17 +163,17 @@ public class FaucetGraphic extends PhetPNode {
 
     private double getNearestReleaseTime( double time ) {
         double nReal = time / oscillator.getPeriod() - 0.25 + getTimeToHitTarget() / oscillator.getPeriod();
-        int n = (int)Math.round( nReal );
+        int n = (int) Math.round( nReal );
         return oscillator.getPeriod() / 4 - getTimeToHitTarget() + n * oscillator.getPeriod();
     }
 
     private void updateDrops() {
-        for( int i = 0; i < drops.size(); i++ ) {
-            WaterDropGraphic waterDropGraphic = (WaterDropGraphic)drops.get( i );
+        for ( int i = 0; i < drops.size(); i++ ) {
+            WaterDropGraphic waterDropGraphic = (WaterDropGraphic) drops.get( i );
             waterDropGraphic.update( oscillator.getTime() - lastTime );
-            if( waterDropGraphic.readyToRemove() ) {
+            if ( waterDropGraphic.readyToRemove() ) {
 //                System.out.println( "FaucetGraphic.updateDrops" );
-                removeDrop( (WaterDropGraphic)drops.get( i ) );
+                removeDrop( (WaterDropGraphic) drops.get( i ) );
                 i--;
 
                 //consider this a collision for purposes of starting waves.
@@ -228,11 +228,11 @@ public class FaucetGraphic extends PhetPNode {
 
     public void setEnabled( boolean selected ) {
         this.enabled = selected;
-        if( !enabled && drops.size() == 0 ) {
+        if ( !enabled && drops.size() == 0 ) {
             oscillator.setEnabled( false );
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.enabledStateChanged();
         }
     }
@@ -254,8 +254,8 @@ public class FaucetGraphic extends PhetPNode {
     }
 
     public void reset() {
-        while( drops.size() > 0 ) {
-            removeDrop( (WaterDropGraphic)drops.get( 0 ) );
+        while ( drops.size() > 0 ) {
+            removeDrop( (WaterDropGraphic) drops.get( 0 ) );
         }
     }
 
@@ -277,7 +277,7 @@ public class FaucetGraphic extends PhetPNode {
             double scale = amplitude;
             try {
                 BufferedImage origImage = ImageLoader.loadBufferedImage( "waveinterference/images/raindrop1.png" );
-                image = new PImage( BufferedImageUtils.rescaleXMaintainAspectRatio( origImage, (int)Math.max( scale * origImage.getWidth(), 1 ) ) );
+                image = new PImage( BufferedImageUtils.rescaleXMaintainAspectRatio( origImage, (int) Math.max( scale * origImage.getWidth(), 1 ) ) );
             }
             catch( IOException e ) {
                 e.printStackTrace();
@@ -294,20 +294,20 @@ public class FaucetGraphic extends PhetPNode {
         public void fullPaint( PPaintContext paintContext ) {
             Shape origClip = paintContext.getLocalClip();
             //todo: works under a variety of conditions, not fully tested
-            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
+            Rectangle rect = new Rectangle( 0, 0, (int) getFullBounds().getWidth(), (int) ( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
             localToParent( rect );
-            if( clip ) {
+            if ( clip ) {
                 paintContext.pushClip( rect );
             }
             super.fullPaint( paintContext );
-            if( clip ) {
+            if ( clip ) {
                 paintContext.popClip( origClip );
             }
         }
 
         //todo works under a variety of conditions, not fully tested.
         public boolean readyToRemove() {
-            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
+            Rectangle rect = new Rectangle( 0, 0, (int) getFullBounds().getWidth(), (int) ( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() / 2 ) );
 //            Rectangle rect = new Rectangle( 0, 0, (int)getFullBounds().getWidth(), (int)( getFullBounds().getHeight() / 2 - getOffset().getY() + getDistanceFromParentOriginToOscillatorY() - image.getFullBounds().getHeight() ) );
             localToParent( rect );
             PBounds bounds = getFullBounds();

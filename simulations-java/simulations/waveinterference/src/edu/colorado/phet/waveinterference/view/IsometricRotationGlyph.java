@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

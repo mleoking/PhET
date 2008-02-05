@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Hashtable;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -82,7 +83,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         slitWidthSlider.setBorder( null );
         slitWidthSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                slitPotential.setSlitWidth( (int)slitWidthSlider.getValue() );
+                slitPotential.setSlitWidth( (int) slitWidthSlider.getValue() );
             }
         } );
         add( slitWidthSlider );
@@ -93,7 +94,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         slitLocationSlider.setBorder( null );
         slitLocationSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                slitPotential.setLocation( (int)slitLocationSlider.getValue() );
+                slitPotential.setLocation( (int) slitLocationSlider.getValue() );
             }
         } );
         add( slitLocationSlider );
@@ -104,7 +105,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         slitSeparation.setBorder( null );
         slitSeparation.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                slitPotential.setSlitSeparation( (int)slitSeparation.getValue() );
+                slitPotential.setSlitSeparation( (int) slitSeparation.getValue() );
             }
         } );
         add( slitSeparation );
@@ -116,10 +117,10 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
                 slitWidthSlider.setValue( slitPotential.getSlitWidth() );
                 slitLocationSlider.setValue( slitPotential.getLocation() );
                 enableCheckBox.setSelected( slitPotential.isEnabled() );
-                if( !slitPotential.isEnabled() ) {
+                if ( !slitPotential.isEnabled() ) {
                     noBarrier.setSelected( true );
                 }
-                else if( slitPotential.isOneSlit() ) {
+                else if ( slitPotential.isOneSlit() ) {
                     oneSlit.setSelected( true );
                 }
                 else {

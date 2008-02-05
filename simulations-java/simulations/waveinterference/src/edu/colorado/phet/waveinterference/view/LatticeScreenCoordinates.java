@@ -35,8 +35,8 @@ public abstract class LatticeScreenCoordinates {
     }
 
     public void notifyMappingChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.mappingChanged();
         }
     }

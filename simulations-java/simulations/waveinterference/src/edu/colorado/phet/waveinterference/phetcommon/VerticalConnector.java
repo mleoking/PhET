@@ -1,14 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.phetcommon;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid

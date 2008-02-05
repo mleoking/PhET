@@ -41,13 +41,14 @@
 
 package edu.colorado.phet.waveinterference.sound;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * FourierOscillator produces the data stream that represents a Fourier series.
@@ -102,7 +103,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         assert ( streamLength > 0 || streamLength == AudioSystem.NOT_SPECIFIED );
 
         // generateData() requires 16-bit little endian
-        if( audioFormat.getSampleSizeInBits() != 16 || audioFormat.isBigEndian() ) {
+        if ( audioFormat.getSampleSizeInBits() != 16 || audioFormat.isBigEndian() ) {
             throw new IllegalStateException( "audio format must be 16-bit little endian" );
         }
 
@@ -160,7 +161,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * @param volume 0.0 (full off) to 1.0 (full on)
      */
     public void setVolume( float volume ) {
-        if( volume != _volume ) {
+        if ( volume != _volume ) {
             _volume = volume;
             update();
         }
@@ -190,36 +191,36 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
 
     private void generateData() {
         // Max value we can represent with the sample size (assuming signed values).
-        final float maxSampleValue = (float)Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
+        final float maxSampleValue = (float) Math.pow( 2, getFormat().getSampleSizeInBits() - 1 ) - 1;
 
         // Amplitude is based on the max sample value and max number of harmonics.
-        final float amplitude = (float)( _volume * maxSampleValue / 1 );
+        final float amplitude = (float) ( _volume * maxSampleValue / 1 );
 
         // Generate the audio data
         int maxGeneratedValue = 0;
         byte[] localBuffer = new byte[_bufferLength];
-        for( int frame = 0; frame < _periodLengthInFrames; frame++ ) {
+        for ( int frame = 0; frame < _periodLengthInFrames; frame++ ) {
 
             // The relative position inside the period of the waveform. 0.0 = beginning, 1.0 = end
-            final float periodPosition = (float)frame / (float)_periodLengthInFrames;
+            final float periodPosition = (float) frame / (float) _periodLengthInFrames;
 
             float fValue = getFourierSum( periodPosition );
             final int nValue = Math.round( fValue * amplitude );
             final int baseAddr = ( frame ) * getFormat().getFrameSize();
 
             // This is for 16 bit stereo, little endian.
-            localBuffer[baseAddr + 0] = (byte)( nValue & 0xFF );
-            localBuffer[baseAddr + 1] = (byte)( ( nValue >>> 8 ) & 0xFF );
-            localBuffer[baseAddr + 2] = (byte)( nValue & 0xFF );
-            localBuffer[baseAddr + 3] = (byte)( ( nValue >>> 8 ) & 0xFF );
+            localBuffer[baseAddr + 0] = (byte) ( nValue & 0xFF );
+            localBuffer[baseAddr + 1] = (byte) ( ( nValue >>> 8 ) & 0xFF );
+            localBuffer[baseAddr + 2] = (byte) ( nValue & 0xFF );
+            localBuffer[baseAddr + 3] = (byte) ( ( nValue >>> 8 ) & 0xFF );
 
-            if( nValue > maxGeneratedValue ) {
+            if ( nValue > maxGeneratedValue ) {
                 maxGeneratedValue = nValue;
             }
         }
 
         // Check to see if we're clipping.
-        if( maxGeneratedValue > maxSampleValue ) {
+        if ( maxGeneratedValue > maxSampleValue ) {
             System.out.println( "WARNING: audio data exceeds the sample size! " + maxGeneratedValue + " > " + maxSampleValue );
         }
 
@@ -240,7 +241,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
         double amplitude = 1;
         double radiansPerPeriod = ( 0 + 1 ) * 2.0 * Math.PI;
         double angle = periodPosition * radiansPerPeriod;
-        return (float)( amplitude * Math.sin( angle ) );
+        return (float) ( amplitude * Math.sin( angle ) );
     }
 
     /*
@@ -263,7 +264,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      * The data is not updated while the oscillator is disabled.
      */
     public void update() {
-        if( getFrequency() > 0 ) {
+        if ( getFrequency() > 0 ) {
             _periodLengthInFrames = Math.round( getFormat().getFrameRate() / getFrequency() );
             _bufferLength = _periodLengthInFrames * getFormat().getFrameSize();
             _buffer = new byte[_bufferLength];
@@ -273,7 +274,7 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
             _remainingFrames = _streamLength;
             _bufferIndex = 0;
             _enabled = true;
-            if( _enabled ) {
+            if ( _enabled ) {
                 generateData();
             }
         }
@@ -298,12 +299,12 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      */
     public int available() {
         int nAvailable = 0;
-        if( _remainingFrames == AudioSystem.NOT_SPECIFIED ) {
+        if ( _remainingFrames == AudioSystem.NOT_SPECIFIED ) {
             nAvailable = Integer.MAX_VALUE;
         }
         else {
             long lBytesAvailable = _remainingFrames * getFormat().getFrameSize();
-            nAvailable = (int)Math.min( lBytesAvailable, (long)Integer.MAX_VALUE );
+            nAvailable = (int) Math.min( lBytesAvailable, (long) Integer.MAX_VALUE );
         }
         return nAvailable;
     }
@@ -339,12 +340,12 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
      */
     public synchronized int read( byte[] abData, int nOffset, int nLength ) throws IOException {
 //        System.out.println( "nLength = " + nLength );
-        if( nLength % getFormat().getFrameSize() != 0 ) {
+        if ( nLength % getFormat().getFrameSize() != 0 ) {
             throw new IOException( "length must be an integer multiple of frame size" );
         }
         int nConstrainedLength = Math.min( available(), nLength );
         int nRemainingLength = nConstrainedLength;
-        while( nRemainingLength > 0 ) {
+        while ( nRemainingLength > 0 ) {
             int nNumBytesToCopyNow = _buffer.length - _bufferIndex;
             nNumBytesToCopyNow = Math.min( nNumBytesToCopyNow, nRemainingLength );
             System.arraycopy( _buffer, _bufferIndex, abData, nOffset, nNumBytesToCopyNow );
@@ -353,18 +354,18 @@ public class FourierOscillator extends AudioInputStream implements SimpleObserve
             _bufferIndex = ( _bufferIndex + nNumBytesToCopyNow ) % _buffer.length;
         }
         int nFramesRead = nConstrainedLength / getFormat().getFrameSize();
-        if( _remainingFrames != AudioSystem.NOT_SPECIFIED ) {
+        if ( _remainingFrames != AudioSystem.NOT_SPECIFIED ) {
             _remainingFrames -= nFramesRead;
         }
         int nReturn = nConstrainedLength;
-        if( _remainingFrames == 0 ) {
+        if ( _remainingFrames == 0 ) {
             nReturn = -1;
         }
         return nReturn;
     }
 
     public void setFrequency( double value ) {
-        this.frequency = (float)value;
+        this.frequency = (float) value;
         update();
     }
 }

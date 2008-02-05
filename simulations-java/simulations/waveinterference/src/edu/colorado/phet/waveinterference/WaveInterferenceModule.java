@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -17,7 +17,7 @@ public class WaveInterferenceModule extends PiccoloModule {
 
     public WaveInterferenceModule( String title ) {
         super( title, new WaveInterferenceClock() );
-        PhetPCanvas phetPCanvas = new WaveInterferenceCanvas(){
+        PhetPCanvas phetPCanvas = new WaveInterferenceCanvas() {
             protected void updateWaveSize() {
             }
         };
@@ -29,10 +29,10 @@ public class WaveInterferenceModule extends PiccoloModule {
         getClock().pause();
         //see PhetFrameWorkaround; joptionpane doesn't paint when sim is running.
         int result = JOptionPane.showConfirmDialog( getSimulationPanel(), WIStrings.getString( "messages.confirm-reset" ) );
-        if( result == JOptionPane.OK_OPTION ) {
+        if ( result == JOptionPane.OK_OPTION ) {
             resetAll();
         }
-        if( paused ) {
+        if ( paused ) {
             getClock().pause();
         }
         else {

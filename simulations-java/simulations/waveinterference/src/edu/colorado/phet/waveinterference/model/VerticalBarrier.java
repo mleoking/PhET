@@ -54,12 +54,12 @@ public abstract class VerticalBarrier implements Potential {
     public abstract Rectangle[] getSlitAreas();
 
     protected int round( double v ) {
-        return (int)v;
+        return (int) v;
     }
 
     protected void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            VerticalBarrier.Listener listener = (VerticalBarrier.Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            VerticalBarrier.Listener listener = (VerticalBarrier.Listener) listeners.get( i );
             listener.slitChanged();
         }
     }

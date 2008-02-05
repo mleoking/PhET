@@ -20,7 +20,7 @@ public class SubLattice2D extends Lattice2D {
     }
 
     public int getWidth() {
-        if( region != null ) {
+        if ( region != null ) {
             return region.width;
         }
         else {
@@ -29,7 +29,7 @@ public class SubLattice2D extends Lattice2D {
     }
 
     public int getHeight() {
-        if( region != null ) {
+        if ( region != null ) {
             return region.height;
         }
         else {
@@ -41,7 +41,7 @@ public class SubLattice2D extends Lattice2D {
         int x = i + region.x;
         int y = j + region.y;
 
-        if( parent.containsLocation( x, y ) ) {
+        if ( parent.containsLocation( x, y ) ) {
             return parent.getValue( i + region.x, j + region.y );
         }
         else {

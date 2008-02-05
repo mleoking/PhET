@@ -1,10 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.umd.cs.piccolo.PNode;
+import java.awt.*;
+import java.io.IOException;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -14,8 +13,10 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
-import java.io.IOException;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -43,7 +44,7 @@ public class StripChartJFCNode extends PNode {
         addChild( jFreeChartNode );
         jFreeChartNode.setBounds( 0, 0, width, height );
 
-        jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float)jFreeChartNode.getFullBounds().getWidth(), (float)jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
+        jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float) jFreeChartNode.getFullBounds().getWidth(), (float) jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
         try {
             jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "waveinterference/images/wood.jpg" ) );
         }
@@ -64,7 +65,7 @@ public class StripChartJFCNode extends PNode {
                 false               // generate URLs?
         );
 
-        XYPlot plot = (XYPlot)chart.getPlot();
+        XYPlot plot = (XYPlot) chart.getPlot();
         plot.getRangeAxis().setTickLabelsVisible( false );
         plot.getRangeAxis().setAutoRange( false );
         plot.getRangeAxis().setRange( -1, 1 );
@@ -76,12 +77,12 @@ public class StripChartJFCNode extends PNode {
     }
 
     public void addValue( double x, double y ) {
-        if( enabled ) {
+        if ( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
 //            series.add( x, y, series.getItemCount() < 100 );
 //            System.out.println( "x = " + x + ", y=" + y + ", dom=" + jFreeChart.getXYPlot().getDomainAxis().getRange() + ", ran=" + jFreeChart.getXYPlot().getRangeAxis().getRange() );
             series.add( x, y, series.getItemCount() < 100 );
-            if( series.getItemCount() < 10 ) {
+            if ( series.getItemCount() < 10 ) {
                 double x0 = series.getX( 0 ).doubleValue();
                 double dx = x - x0;
                 double projectedMax = dx * 100 / ( series.getItemCount() - 1 ) + x0;
@@ -89,10 +90,10 @@ public class StripChartJFCNode extends PNode {
 //                jFreeChart.getXYPlot().getRangeAxis().setRange( -1,1);
 //                jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
             }
-            else if( series.getItemCount() == 100 ) {
+            else if ( series.getItemCount() == 100 ) {
                 jFreeChart.getXYPlot().getDomainAxis().setAutoRange( true );
             }
-            if( series.getItemCount() > 100 ) {
+            if ( series.getItemCount() > 100 ) {
                 series.remove( 0 );
             }
         }

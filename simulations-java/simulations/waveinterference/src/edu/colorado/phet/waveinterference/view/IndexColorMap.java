@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
-
 import java.awt.*;
+
+import edu.colorado.phet.waveinterference.model.Lattice2D;
 
 /**
  * User: Sam Reid
@@ -55,8 +55,8 @@ public class IndexColorMap implements ColorMap {
         g = color.getGreen() / 255.0f;
         b = color.getBlue() / 255.0f;
         colors = new Color[NUM_COLORS];
-        for( int i = 0; i < colors.length - 1; i++ ) {
-            float value = i / ( (float)colors.length );
+        for ( int i = 0; i < colors.length - 1; i++ ) {
+            float value = i / ( (float) colors.length );
             colors[i] = new Color( r * value, g * value, b * value );
         }
         float value = 1;
@@ -65,7 +65,7 @@ public class IndexColorMap implements ColorMap {
 
     public Color getColor( int i, int k ) {
         double value = waveValueReader.getValue( lattice, i, k );
-        int key = (int)( value * ( colors.length - 1 ) );
+        int key = (int) ( value * ( colors.length - 1 ) );
         return colors[key];
     }
 

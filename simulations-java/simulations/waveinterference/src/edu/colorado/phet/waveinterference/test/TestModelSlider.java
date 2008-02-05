@@ -1,13 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.test;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid

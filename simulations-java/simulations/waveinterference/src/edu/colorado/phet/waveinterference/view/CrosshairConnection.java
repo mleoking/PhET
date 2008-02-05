@@ -1,17 +1,17 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -42,18 +42,18 @@ public class CrosshairConnection extends PhetPNode {
     }
 
     private PNode getDestination() {
-        return (PNode)intensityReader.getCrosshairGraphic();
+        return (PNode) intensityReader.getCrosshairGraphic();
     }
 
     private PNode getSource() {
-        return (PNode)intensityReader.getStripChartJFCNode();
+        return (PNode) intensityReader.getStripChartJFCNode();
     }
 
     private void update() {
         Point2D srcLoc = new Point2D.Double( getSource().getFullBounds().getMaxX(), getSource().getFullBounds().getCenterY() );
         Point2D dstLoc = new Point2D.Double( getDestination().getFullBounds().getMinX(), getDestination().getFullBounds().getCenterY() );
         double dist = srcLoc.distance( dstLoc );
-        if( dist > 0 ) {
+        if ( dist > 0 ) {
             DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
             AbstractVector2D parallel = new Vector2D.Double( srcLoc, dstLoc ).getNormalizedInstance();
             AbstractVector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
@@ -71,10 +71,10 @@ public class CrosshairConnection extends PhetPNode {
 
     private void curveToDst( DoubleGeneralPath path, AbstractVector2D par, AbstractVector2D perp, double segmentLength ) {
         double pegDist = segmentLength;
-        if( pegDist < 7 ) {
+        if ( pegDist < 7 ) {
             pegDist = 7;
         }
-        if( pegDist > 20 ) {
+        if ( pegDist > 20 ) {
             pegDist = 20;
         }
         double width = 15;

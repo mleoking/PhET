@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -36,7 +36,7 @@ public class FaucetDragHandler extends PDragEventHandler {
     }
 
     protected void drag( PInputEvent event ) {
-        if( origPosition == null || origOscLoc == null ) {
+        if ( origPosition == null || origOscLoc == null ) {
             startDrag( event );
         }
         Point offset = getOscillatorDragOffset( event );
@@ -48,8 +48,8 @@ public class FaucetDragHandler extends PDragEventHandler {
     }
 
     private Point getOscillatorDragOffset( PInputEvent event ) {
-        int dx = (int)latticeScreenCoordinates.toLatticeCoordinatesDifferentialX( event.getPosition().getX() - origPosition.getX() );
-        int dy = (int)latticeScreenCoordinates.toLatticeCoordinatesDifferentialY( event.getPosition().getY() - origPosition.getY() );
+        int dx = (int) latticeScreenCoordinates.toLatticeCoordinatesDifferentialX( event.getPosition().getX() - origPosition.getX() );
+        int dy = (int) latticeScreenCoordinates.toLatticeCoordinatesDifferentialY( event.getPosition().getY() - origPosition.getY() );
         return new Point( dx, dy );
     }
 

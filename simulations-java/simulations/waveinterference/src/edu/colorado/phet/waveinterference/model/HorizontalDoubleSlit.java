@@ -63,7 +63,7 @@ public class HorizontalDoubleSlit implements Potential {
         this.leftSlit = new Rectangle( leftBar.x + leftBar.width, y, slitSize, height );
         this.rightSlit = new Rectangle( midBar.x + midBar.width, y, slitSize, height );
         CompositePotential compositePotential = new CompositePotential();
-        if( inverse ) {
+        if ( inverse ) {
             compositePotential.addPotential( new BarrierPotential( leftSlit, potential ) );
             compositePotential.addPotential( new BarrierPotential( rightSlit, potential ) );
         }
@@ -77,12 +77,12 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     private int round( double v ) {
-        return (int)v;
+        return (int) v;
     }
 
     private void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.slitChanged();
         }
     }

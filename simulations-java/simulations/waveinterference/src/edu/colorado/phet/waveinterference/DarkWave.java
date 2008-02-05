@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.waveinterference.model.*;
 import edu.colorado.phet.waveinterference.view.MultiOscillator;
 import edu.colorado.phet.waveinterference.view.PhotonEmissionColorMap;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -67,17 +67,17 @@ public class DarkWave {
     }
 
     private void maybeFireDarkWave() {
-        if( multiOscillator.isOneSource() ) {
-            if( !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
+        if ( multiOscillator.isOneSource() ) {
+            if ( !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
             }
         }
         else {//2 source
-            if( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() ) {
+            if ( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
             }
             else
-            if( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
+            if ( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getSecondaryOscillator() );
             }
         }
@@ -89,8 +89,8 @@ public class DarkWave {
     }
 
     private void fireDarkWave( Oscillator oscillator ) {
-        if( getWaveModelGraphic().getColorMap() instanceof PhotonEmissionColorMap ) {
-            PhotonEmissionColorMap colorMap = (PhotonEmissionColorMap)getWaveModelGraphic().getColorMap();
+        if ( getWaveModelGraphic().getColorMap() instanceof PhotonEmissionColorMap ) {
+            PhotonEmissionColorMap colorMap = (PhotonEmissionColorMap) getWaveModelGraphic().getColorMap();
             darkWaves.add( new DarkPropagator( oscillator, colorMap, getLightModule().getWaveModel() ) );
         }
     }
@@ -98,8 +98,8 @@ public class DarkWave {
     ArrayList darkWaves = new ArrayList();
 
     public void reset() {
-        while( darkWaves.size() > 0 ) {
-            DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( 0 );
+        while ( darkWaves.size() > 0 ) {
+            DarkPropagator darkPropagator = (DarkPropagator) darkWaves.get( 0 );
             darkWaves.remove( darkPropagator );
         }
     }
@@ -116,8 +116,8 @@ public class DarkWave {
             this.colorMap = colorMap;
 
             ClassicalWavePropagator classicalWavePropagator = waveModel.getClassicalWavePropagator();
-            if( classicalWavePropagator instanceof DampedClassicalWavePropagator ) {
-                dampedClassicalWavePropagator = (DampedClassicalWavePropagator)classicalWavePropagator;
+            if ( classicalWavePropagator instanceof DampedClassicalWavePropagator ) {
+                dampedClassicalWavePropagator = (DampedClassicalWavePropagator) classicalWavePropagator;
 
             }
             this.tmpWaveModel = new WaveModel( dampedClassicalWavePropagator.getLargeLattice().getWidth(), dampedClassicalWavePropagator.getLargeLattice().getHeight() );
@@ -125,19 +125,19 @@ public class DarkWave {
 
         public void update() {
             //todo this is an awkward dependency on details of damped wave propagator.
-            tmpWaveModel.setSourceValue( source.getCenterX() + dampedClassicalWavePropagator.getDampX(), source.getCenterY() + dampedClassicalWavePropagator.getDampY(), (float)( 10 * Math.sin( numSteps / 10.0 ) ) );
+            tmpWaveModel.setSourceValue( source.getCenterX() + dampedClassicalWavePropagator.getDampX(), source.getCenterY() + dampedClassicalWavePropagator.getDampY(), (float) ( 10 * Math.sin( numSteps / 10.0 ) ) );
             tmpWaveModel.propagate();
             numSteps++;
 
             Lattice2D largeLattice = tmpWaveModel.getLattice();
-            for( int i = 0; i < largeLattice.getWidth(); i++ ) {
-                for( int k = 0; k < largeLattice.getHeight(); k++ ) {
+            for ( int i = 0; i < largeLattice.getWidth(); i++ ) {
+                for ( int k = 0; k < largeLattice.getHeight(); k++ ) {
                     int i2 = i - dampedClassicalWavePropagator.getDampX();
                     int k2 = k - dampedClassicalWavePropagator.getDampY();
-                    if(
+                    if (
                             isWavefront( i, k ) ) {
                         dampedClassicalWavePropagator.clearOffscreenLatticeValue( i, k );
-                        if( i2 >= 0 && i2 < colorMap.getWidth() && k2 >= 0 && k2 < colorMap.getHeight() ) {
+                        if ( i2 >= 0 && i2 < colorMap.getWidth() && k2 >= 0 && k2 < colorMap.getHeight() ) {
                             colorMap.setDark( i2, k2 );
                         }
                     }
@@ -149,17 +149,17 @@ public class DarkWave {
             int num = 0;
             int den = 0;
             int a = 1;
-            for( int m = -a; m <= a; m++ ) {
-                for( int n = -a; n <= a; n++ ) {
-                    if( tmpWaveModel.containsLocation( i + m, k + n ) ) {
-                        if( Math.abs( tmpWaveModel.getValue( i + m, k + n ) ) > 1E-6 ) {
+            for ( int m = -a; m <= a; m++ ) {
+                for ( int n = -a; n <= a; n++ ) {
+                    if ( tmpWaveModel.containsLocation( i + m, k + n ) ) {
+                        if ( Math.abs( tmpWaveModel.getValue( i + m, k + n ) ) > 1E-6 ) {
                             num++;
                         }
                         den++;
                     }
                 }
             }
-            double fraction = ( (double)num ) / den;
+            double fraction = ( (double) num ) / den;
             return fraction > 0 && fraction < 1;
         }
 
@@ -173,13 +173,13 @@ public class DarkWave {
     }
 
     public void update() {
-        for( int i = 0; i < darkWaves.size(); i++ ) {
-            DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( i );
+        for ( int i = 0; i < darkWaves.size(); i++ ) {
+            DarkPropagator darkPropagator = (DarkPropagator) darkWaves.get( i );
             darkPropagator.update();
         }
-        for( int i = 0; i < darkWaves.size(); i++ ) {
-            DarkPropagator darkPropagator = (DarkPropagator)darkWaves.get( i );
-            if( darkPropagator.isFinished() ) {
+        for ( int i = 0; i < darkWaves.size(); i++ ) {
+            DarkPropagator darkPropagator = (DarkPropagator) darkWaves.get( i );
+            if ( darkPropagator.isFinished() ) {
                 darkWaves.remove( darkPropagator );
                 i--;
             }

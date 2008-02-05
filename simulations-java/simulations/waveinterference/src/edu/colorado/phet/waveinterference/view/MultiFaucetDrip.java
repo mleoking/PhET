@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -56,8 +56,8 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     }
 
     public void notifySpacingChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.spacingChanged();
         }
     }
@@ -82,8 +82,8 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     }
 
     private void notifyDropCountChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.dropCountChanged();
         }
     }
@@ -91,14 +91,14 @@ public class MultiFaucetDrip {//todo should this extend pnode, with primary & se
     private void update() {
         secondary.setEnabled( twoDrips );
         secondary.setVisible( twoDrips );
-        if( twoDrips ) {
-            primary.getOscillator().setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 - spacing ) );
-            secondary.getOscillator().setLocation( oscillatorX, (int)( waveModel.getHeight() / 2 + spacing ) );
+        if ( twoDrips ) {
+            primary.getOscillator().setLocation( oscillatorX, (int) ( waveModel.getHeight() / 2 - spacing ) );
+            secondary.getOscillator().setLocation( oscillatorX, (int) ( waveModel.getHeight() / 2 + spacing ) );
         }
         else {
             primary.getOscillator().setLocation( oscillatorX, waveModel.getHeight() / 2 );
         }
-        if( twoDrips ) {
+        if ( twoDrips ) {
             primary.setVerticalDrag();
             secondary.setVerticalDrag();
         }

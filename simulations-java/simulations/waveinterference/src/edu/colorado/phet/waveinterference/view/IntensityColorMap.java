@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.WaveModel;
-
 import java.awt.*;
 import java.util.ArrayList;
+
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 /**
  * User: Sam Reid
@@ -40,15 +40,15 @@ public class IntensityColorMap implements ColorMap {
     }
 
     public Color getColor( int i, int k ) {
-        if( history[i][k] == null ) {
+        if ( history[i][k] == null ) {
             update();
         }
 
         ColorVector colorVector = new ColorVector( 0, 0, 0 );
-        for( int j = 0; j < history[i][k].size(); j++ ) {
-            colorVector = colorVector.add( new ColorVector( (Color)history[i][k].get( j ) ) );
+        for ( int j = 0; j < history[i][k].size(); j++ ) {
+            colorVector = colorVector.add( new ColorVector( (Color) history[i][k].get( j ) ) );
         }
-        colorVector = colorVector.scale( (float)( intensityScale / history[i][k].size() ) );
+        colorVector = colorVector.scale( (float) ( intensityScale / history[i][k].size() ) );
         return colorVector.toColor();
     }
 
@@ -65,14 +65,14 @@ public class IntensityColorMap implements ColorMap {
     }
 
     public void update() {
-        for( int i = 0; i < waveModel.getWidth(); i++ ) {
-            for( int k = 0; k < waveModel.getHeight(); k++ ) {
-                if( history[i][k] == null ) {
+        for ( int i = 0; i < waveModel.getWidth(); i++ ) {
+            for ( int k = 0; k < waveModel.getHeight(); k++ ) {
+                if ( history[i][k] == null ) {
                     history[i][k] = new ArrayList();
                 }
                 Color c = colorMap.getColor( i, k );
                 history[i][k].add( c );
-                if( history[i][k].size() > maxHistory ) {
+                if ( history[i][k].size() > maxHistory ) {
                     history[i][k].remove( 0 );
                 }
             }

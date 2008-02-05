@@ -1,6 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -12,11 +17,6 @@ import edu.colorado.phet.waveinterference.tests.ExpandableScreenChartGraphic;
 import edu.colorado.phet.waveinterference.tests.ExpandableWaveChart;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
-
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -165,7 +165,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         ThisSideUpWrapper thisSideUpWrapper = new ThisSideUpWrapper( rotationGlyph, getLatticeScreenCoordinates(), getLattice() );
         addScreenChild( thisSideUpWrapper );
 
-        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ));
+        addScreenChild( new WaveSizeButtonPSwing( rotationWaveGraphic, this ) );
     }
 
     private WaveInterferenceModel getWaveInterferenceModel() {
@@ -177,11 +177,11 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     }
 
     protected void updateWaveSize() {
-        if( getHeight() > 0 ) {
+        if ( getHeight() > 0 ) {
             double insetTop = super.getWaveModelGraphicOffset().getY();
-            double insetBottom = isWaveMaximized()?10:waveChartGraphic.getChartHeight();
+            double insetBottom = isWaveMaximized() ? 10 : waveChartGraphic.getChartHeight();
             double availableHeight = getLayoutHeight() - insetTop - insetBottom;
-            int pixelsPerCell = (int)( availableHeight / getWaveModel().getHeight() );
+            int pixelsPerCell = (int) ( availableHeight / getWaveModel().getHeight() );
             waveModelGraphic.setCellDimensions( pixelsPerCell, pixelsPerCell );
         }
     }
@@ -193,13 +193,13 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private void colorChanged() {
         waveSideView.setStrokeColor( waveModelGraphic.getColorMap().getRootColor() );
         rotationGlyph.setTopColor( waveModelGraphic.getColorMap().getRootColor().darker() );
-        if( expandableWaveChart != null ) {
+        if ( expandableWaveChart != null ) {
             expandableWaveChart.setColor( waveModelGraphic.getColorMap().getRootColor() );
         }
     }
 
     private void angleChanged() {
-        if( rotationWaveGraphic.isTopView() ) {
+        if ( rotationWaveGraphic.isTopView() ) {
             slitPotentialGraphic.setVisible( true );
             setAsymmetricFeaturesEnabled( true );
         }
@@ -278,8 +278,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         multiOscillator.reset();
         measurementToolSet.reset();
         darkWave.reset();
-        if( waveModelGraphic.getColorMap() instanceof Resettable ) {
-            ( (Resettable)waveModelGraphic.getColorMap() ).reset();
+        if ( waveModelGraphic.getColorMap() instanceof Resettable ) {
+            ( (Resettable) waveModelGraphic.getColorMap() ).reset();
         }
         expandableScreenChartGraphic.reset();
         playAreaReducedScreenControlPanel.reset();

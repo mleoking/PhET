@@ -16,7 +16,7 @@ public class SlitPotential implements Potential {
     private int slitWidth = 10;
     private int slitSeparation = 12;
     private int thickness = 2;
-//    private int thickness = 1;
+    //    private int thickness = 1;
     private double potentialValue = 100;
     private int location;
     private boolean oneSlit = true;
@@ -25,7 +25,7 @@ public class SlitPotential implements Potential {
 
     private SlitPotential( WaveModel waveModel, boolean init ) {
         this.waveModel = waveModel;
-        location = (int)( waveModel.getWidth() * 0.75 );
+        location = (int) ( waveModel.getWidth() * 0.75 );
     }
 
     public SlitPotential( WaveModel waveModel ) {
@@ -55,7 +55,7 @@ public class SlitPotential implements Potential {
         setEnabled( prototype.enabled );
         setSlitWidth( prototype.slitWidth );
         setLocation( prototype.location );
-        if( prototype.oneSlit ) {
+        if ( prototype.oneSlit ) {
             setOneSlit();
         }
         else {
@@ -69,10 +69,10 @@ public class SlitPotential implements Potential {
     }
 
     private void update() {
-        if( !enabled ) {
+        if ( !enabled ) {
             potential = new ConstantPotential();
         }
-        else if( oneSlit ) {
+        else if ( oneSlit ) {
             this.potential = new VerticalSingleSlit( waveModel.getWidth(), waveModel.getHeight(), location, thickness, slitWidth, slitSeparation, potentialValue );
         }
         else {
@@ -82,8 +82,8 @@ public class SlitPotential implements Potential {
     }
 
     private void notifySlitsChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.slitsChanged();
         }
     }
@@ -93,7 +93,7 @@ public class SlitPotential implements Potential {
     }
 
     public void setEnabled( boolean selected ) {
-        if( this.enabled != selected ) {
+        if ( this.enabled != selected ) {
             this.enabled = selected;
             update();
         }
@@ -141,11 +141,11 @@ public class SlitPotential implements Potential {
     }
 
     public Rectangle[] getBarrierRectangles() {
-        if( potential instanceof ConstantPotential ) {
+        if ( potential instanceof ConstantPotential ) {
             return new Rectangle[0];
         }
-        else if( potential instanceof VerticalBarrier ) {
-            return ( (VerticalBarrier)potential ).getRectangleBarriers();
+        else if ( potential instanceof VerticalBarrier ) {
+            return ( (VerticalBarrier) potential ).getRectangleBarriers();
         }
         else {
             System.err.println( "Unknown type for barriers: " + potential.getClass() );

@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.*;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -54,7 +54,7 @@ public class TestSlitsAndScreen extends TestTopView {
 
     protected void setColorMap( ColorMap colorMap ) {
         getWaveModelGraphic().setColorMap( colorMap );
-        if( screenGraphic != null ) {
+        if ( screenGraphic != null ) {
             screenGraphic.setColorMap( colorMap );
         }
     }

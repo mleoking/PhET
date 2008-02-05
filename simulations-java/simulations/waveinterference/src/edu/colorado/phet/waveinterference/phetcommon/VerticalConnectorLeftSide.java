@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.phetcommon;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid

@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -49,7 +49,7 @@ public class AbstractScreenGraphic extends PNode {
     private void updateBounds() {
         Point2D topRight = latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, 0 );
         Point2D bottomRight = latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, waveModel.getHeight() );
-        float latticeGraphicHeight = (float)( bottomRight.getY() - topRight.getY() );
+        float latticeGraphicHeight = (float) ( bottomRight.getY() - topRight.getY() );
         path.reset();
         path.moveTo( 0, 0 );
         path.lineTo( dx, -dy );
@@ -75,18 +75,18 @@ public class AbstractScreenGraphic extends PNode {
     }
 
     public float getYValue( int latticeY ) {
-        return (float)latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, latticeY ).getY() - getOffsetY();
+        return (float) latticeScreenCoordinates.toScreenCoordinates( waveModel.getWidth() + 1, latticeY ).getY() - getOffsetY();
     }
 
     private float getOffsetY() {
-        return (float)latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY();
+        return (float) latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY();
     }
 
     public void setColorMap( ColorMap colorMap ) {
     }
 
     private float computeCellHeight() {
-        return (float)( latticeScreenCoordinates.toScreenCoordinates( 0, 1 ).getY() - latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY() );
+        return (float) ( latticeScreenCoordinates.toScreenCoordinates( 0, 1 ).getY() - latticeScreenCoordinates.toScreenCoordinates( 0, 0 ).getY() );
     }
 
     public float getCellHeight() {

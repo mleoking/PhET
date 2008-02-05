@@ -1,6 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
@@ -8,10 +12,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -69,7 +69,7 @@ public class SlitPotentialGraphic extends PhetPNode {
 //                System.out.println( "dx = " + dx );
                 double latticeDX = latticeScreenCoordinates.toLatticeCoordinatesDifferentialX( dx );
 //                System.out.println( "latticeDX = " + latticeDX );
-                slitPotential.setLocation( (int)( origLocation + latticeDX ) );
+                slitPotential.setLocation( (int) ( origLocation + latticeDX ) );
             }
         };
         addInputEventListener( dragHandler );
@@ -81,11 +81,11 @@ public class SlitPotentialGraphic extends PhetPNode {
 
     public void update() {
         removeAllChildren();
-        if( topViewBarrierVisibility.isTopVisible() ) {
+        if ( topViewBarrierVisibility.isTopVisible() ) {
             Rectangle[] r = slitPotential.getBarrierRectangles();
-            for( int i = 0; i < r.length; i++ ) {
+            for ( int i = 0; i < r.length; i++ ) {
                 Rectangle rectangle = r[i];
-                if( !rectangle.isEmpty() ) {
+                if ( !rectangle.isEmpty() ) {
                     addChild( toShape( latticeScreenCoordinates.toScreenRect( rectangle ) ) );
                 }
             }

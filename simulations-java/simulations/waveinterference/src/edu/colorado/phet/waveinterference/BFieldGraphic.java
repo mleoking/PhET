@@ -1,14 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -29,7 +29,7 @@ public class BFieldGraphic extends AbstractVectorViewGraphic {
         Arrow arrow = new Arrow( new Point2D.Double( x, 0 ), new Point2D.Double( dst.getX(), dst.getY() ), 8, 8, 4, 0.5, true );
         PPath arrowPath = new PPath( arrow.getShape() );
         addChild( arrowPath );
-        if( y > 0 ) {
+        if ( y > 0 ) {
             arrowPath.setPaint( Color.white );
         }
     }
