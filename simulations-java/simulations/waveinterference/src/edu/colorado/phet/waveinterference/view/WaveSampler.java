@@ -14,7 +14,7 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
  */
 
 public class WaveSampler {
-    WaveModel waveModel;
+    private WaveModel waveModel;
     private double distBetweenPoints;
     private double amplitudeScale;
 
@@ -25,12 +25,11 @@ public class WaveSampler {
     }
 
     //todo is this expensive?
-    public Point2D[] readValues() {
+    public Point2D[] readValues( int crossSectionY ) {
         Lattice2D lattice2D = getLattice();
-        int yValue = getYValue();
         ArrayList pts = new ArrayList();
         for ( int i = 0; i < lattice2D.getWidth(); i++ ) {
-            float y = getY( i, yValue );
+            float y = getY( i, crossSectionY );
             float x = getX( i );
             pts.add( new Point2D.Float( x, y ) );
         }
@@ -39,10 +38,6 @@ public class WaveSampler {
 
     private Lattice2D getLattice() {
         return waveModel.getLattice();
-    }
-
-    protected int getYValue() {
-        return getLattice().getHeight() / 2;
     }
 
     protected float getX( int i ) {

@@ -136,16 +136,16 @@ public class ScreenChartGraphic extends PhetPNode {
         }
     }
 
-    private void fillPath( GeneralPath generalPath ) {
-        double dx = latticeScreenCoordinates.getCellWidth();
-        Point2D[] pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
-        if ( pts.length > 0 ) {
-            generalPath.moveTo( (float) pts[0].getY(), (float) pts[pts.length - 1].getX() );
-        }
-        for ( int i = 1; i < pts.length; i++ ) {
-            generalPath.lineTo( (float) pts[i].getY(), (float) pts[pts.length - 1 - i].getX() );
-        }
-    }
+//    private void fillPath( GeneralPath generalPath ) {
+//        double dx = latticeScreenCoordinates.getCellWidth();
+//        Point2D[] pts = new WaveSampler( waveModel, -60, dx ).readValues( crossSectionY );//todo this just assumes the chart transform matches perfectly
+//        if ( pts.length > 0 ) {
+//            generalPath.moveTo( (float) pts[0].getY(), (float) pts[pts.length - 1].getX() );
+//        }
+//        for ( int i = 1; i < pts.length; i++ ) {
+//            generalPath.lineTo( (float) pts[i].getY(), (float) pts[pts.length - 1 - i].getX() );
+//        }
+//    }
 
     public void setCurveColor( Color color ) {
         path.setStrokePaint( color );
