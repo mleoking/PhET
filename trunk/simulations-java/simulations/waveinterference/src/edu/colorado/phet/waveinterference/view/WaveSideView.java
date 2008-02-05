@@ -76,9 +76,8 @@ public class WaveSideView extends AbstractWaveSideView {
     }
 
     protected Point2D[] readValues() {
-        return waveSampler.readValues();
+        return waveSampler.readValues( getYValue() );
     }
-
 
     public double getDistBetweenCells() {
         return distBetweenPoints;
@@ -94,6 +93,6 @@ public class WaveSideView extends AbstractWaveSideView {
     }
 
     public int getYValue() {
-        return waveSampler.getYValue();
+        return latticeScreenCoordinates.getGridSize().height/2;
     }
 }

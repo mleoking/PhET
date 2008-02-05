@@ -94,6 +94,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection(waveChartGraphic) );
         addScreenChild( crossSectionGraphic );
         addScreenChild( measurementToolSet );
         addScreenChild( intensityReaderSet );

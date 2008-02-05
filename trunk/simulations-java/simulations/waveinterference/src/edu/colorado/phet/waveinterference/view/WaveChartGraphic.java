@@ -34,6 +34,7 @@ public class WaveChartGraphic extends PNode {
     private JFreeChartNode jFreeChartNode;
     private PPath path;
     private boolean colorized = true;
+    private int crossSectionY;
 
     public WaveChartGraphic( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor strokeColor, String distanceUnits, double minX, double maxX ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -53,6 +54,7 @@ public class WaveChartGraphic extends PNode {
         setHorizontalLabel( MessageFormat.format( WIStrings.getString( "controls.position" ), new Object[]{distanceUnits} ) );
         setHorizontalRange( minX, maxX );
 
+        crossSectionY = latticeScreenCoordinates.getGridSize().height / 2;
         jFreeChartNode.updateChartRenderingInfo();
         path = new PPath();
         path.setStroke( new BasicStroke( 3 ) );
@@ -151,7 +153,7 @@ public class WaveChartGraphic extends PNode {
     }
 
     protected Point2D[] readValues() {
-        return new WaveSampler( waveModel, -60, latticeScreenCoordinates.getCellWidth() ).readValues();
+        return new WaveSampler( waveModel, -60, latticeScreenCoordinates.getCellWidth() ).readValues(crossSectionY);
     }
 
     public void setCurveColor( Color color ) {
@@ -190,5 +192,9 @@ public class WaveChartGraphic extends PNode {
     public void setColorized( boolean colorized ) {
         this.colorized = colorized;
         updateColor();
+    }
+
+    public void setCrossSectionYValue( int crossSectionY ) {
+        this.crossSectionY = crossSectionY;
     }
 }
