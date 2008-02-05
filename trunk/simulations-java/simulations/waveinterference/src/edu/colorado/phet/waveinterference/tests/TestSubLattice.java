@@ -1,6 +1,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -10,8 +12,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.SubLattice2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

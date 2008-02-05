@@ -1,11 +1,11 @@
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
 
 /**
  * User: Sam Reid

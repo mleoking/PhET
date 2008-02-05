@@ -1,13 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid

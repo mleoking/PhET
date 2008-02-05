@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 /**
  * User: Sam Reid
@@ -29,12 +29,12 @@ public class WaveSampler {
         Lattice2D lattice2D = getLattice();
         int yValue = getYValue();
         ArrayList pts = new ArrayList();
-        for( int i = 0; i < lattice2D.getWidth(); i++ ) {
+        for ( int i = 0; i < lattice2D.getWidth(); i++ ) {
             float y = getY( i, yValue );
             float x = getX( i );
             pts.add( new Point2D.Float( x, y ) );
         }
-        return (Point2D[])pts.toArray( new Point2D.Float[0] );
+        return (Point2D[]) pts.toArray( new Point2D.Float[0] );
     }
 
     private Lattice2D getLattice() {
@@ -46,16 +46,16 @@ public class WaveSampler {
     }
 
     protected float getX( int i ) {
-        return (float)( i * distBetweenPoints );
+        return (float) ( i * distBetweenPoints );
     }
 
     protected float getY( int index, int yValue ) {
-        if( index >= 1 && index < getLattice().getWidth() - 1 ) {
+        if ( index >= 1 && index < getLattice().getWidth() - 1 ) {
             double sum = getVerticalSlice( index, yValue ) + getVerticalSlice( index - 1, yValue ) + getVerticalSlice( index + 1, yValue );
-            return (float)( sum / 3 );
+            return (float) ( sum / 3 );
         }
         else {
-            return (float)getVerticalSlice( index, yValue );
+            return (float) getVerticalSlice( index, yValue );
         }
     }
 
@@ -65,7 +65,7 @@ public class WaveSampler {
     }
 
     private float getYORIG( int i, int yValue ) {
-        return (float)( getLattice().getValue( i, yValue ) * amplitudeScale );
+        return (float) ( getLattice().getValue( i, yValue ) * amplitudeScale );
     }
 
     public void setDistanceBetweenCells( double distBetweenPoints ) {

@@ -18,15 +18,15 @@ public class PrecomputedPotential implements Potential {
 
     protected void update( int width, int height ) {
         potentialValues = new double[width][height];
-        for( int i = 0; i < width; i++ ) {
-            for( int j = 0; j < height; j++ ) {
+        for ( int i = 0; i < width; i++ ) {
+            for ( int j = 0; j < height; j++ ) {
                 potentialValues[i][j] = potential.getPotential( i, j, 0 );
             }
         }
     }
 
     public double getPotential( int x, int y, int timestep ) {
-        if( x < 0 || x >= potentialValues.length || y < 0 || y >= potentialValues[0].length ) {
+        if ( x < 0 || x >= potentialValues.length || y < 0 || y >= potentialValues[0].length ) {
             return 0;
         }
         return potentialValues[x][y];

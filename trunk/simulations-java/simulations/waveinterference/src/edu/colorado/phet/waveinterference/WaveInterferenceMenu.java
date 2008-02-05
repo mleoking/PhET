@@ -1,12 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.tests.RunAllTests;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.waveinterference.tests.RunAllTests;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid

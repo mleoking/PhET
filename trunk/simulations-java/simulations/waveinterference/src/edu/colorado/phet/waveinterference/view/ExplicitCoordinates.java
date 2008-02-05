@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-
 import java.awt.*;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 /**
  * User: Sam Reid
@@ -44,7 +44,7 @@ public class ExplicitCoordinates extends LatticeScreenCoordinates {
 
     public Point toLatticeCoordinates( double x, double y ) {
         Point2D fp = toLatticeCoordinatesFP( x, y );
-        return new Point( (int)fp.getX(), (int)fp.getY() );
+        return new Point( (int) fp.getX(), (int) fp.getY() );
     }
 
     protected Dimension getGridSize() {

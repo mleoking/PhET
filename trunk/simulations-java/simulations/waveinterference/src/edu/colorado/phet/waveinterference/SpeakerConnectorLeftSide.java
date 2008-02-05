@@ -1,12 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
 import edu.colorado.phet.waveinterference.view.ImageOscillatorPNode;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -30,7 +30,7 @@ public class SpeakerConnectorLeftSide extends VerticalConnector {
      * @param r2c
      */
     protected void updateShape( Point2D r1c, Point2D r2c ) {
-        if( dst != null ) {
+        if ( dst != null ) {
             double yMin = Math.min( r1c.getY(), r2c.getY() );
             double yMax = Math.max( r1c.getY(), r2c.getY() );
             double height = yMax - yMin;

@@ -1,6 +1,16 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -11,15 +21,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -45,7 +46,7 @@ public class SRRWavelengthSlider extends PNode {
         final BufferedImage image = new BufferedImage( width, height, BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
         linearFunction = new Function.LinearFunction( 0, image.getWidth(), minWavelength, maxWavelength );
-        for( int i = 0; i < image.getWidth(); i++ ) {
+        for ( int i = 0; i < image.getWidth(); i++ ) {
             double wavelength = linearFunction.evaluate( i );
             VisibleColor visibleColor = new VisibleColor( wavelength );
             g2.setColor( visibleColor );
@@ -64,7 +65,7 @@ public class SRRWavelengthSlider extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 super.mouseDragged( event );
                 Point2D pt = event.getPositionRelativeTo( SRRWavelengthSlider.this );
-                double newX = (int)MathUtil.clamp( 0, pt.getX(), image.getWidth() );
+                double newX = (int) MathUtil.clamp( 0, pt.getX(), image.getWidth() );
                 spectrumSliderKnob.setOffset( new Point2D.Double( newX, image.getHeight() + getTextOffsetY() ) );
                 dragPointChanged();
             }
@@ -102,8 +103,8 @@ public class SRRWavelengthSlider extends PNode {
         double wavelength = getWavelength();
         spectrumSliderKnob.setPaint( new VisibleColor( wavelength ) );
         ChangeEvent e = new ChangeEvent( this );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener) listeners.get( i );
             changeListener.stateChanged( e );
         }
     }
@@ -111,12 +112,12 @@ public class SRRWavelengthSlider extends PNode {
     public void setSelectedWavelength( double wavelength ) {
         double x = linearFunction.createInverse().evaluate( wavelength );
 //        System.out.println( "wavelength = " + wavelength +", x="+x);
-        if( !MathUtil.isApproxEqual( x, spectrumSliderKnob.getOffset().getX(), 10E-4 ) ) {
+        if ( !MathUtil.isApproxEqual( x, spectrumSliderKnob.getOffset().getX(), 10E-4 ) ) {
             spectrumSliderKnob.setOffset( x, spectrumSliderKnob.getOffset().getY() );
             spectrumSliderKnob.setPaint( new VisibleColor( wavelength ) );
             ChangeEvent e = new ChangeEvent( this );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                ChangeListener changeListener = (ChangeListener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                ChangeListener changeListener = (ChangeListener) listeners.get( i );
                 changeListener.stateChanged( e );
             }
             repaint();

@@ -36,7 +36,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
 
         topBar = new Rectangle( x, 0, thickness, round( topSlitCenter - slitSize / 2.0 ) );
         midBar = new Rectangle( x, round( topSlitCenter + slitSize / 2.0 ), thickness, slitSeparation - slitSize );
-        if( midBar.getHeight() < 0 ) {
+        if ( midBar.getHeight() < 0 ) {
             midBar.setSize( midBar.width, 0 );
         }
 
@@ -49,7 +49,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
         this.bottomSlit = new Rectangle( x, midBar.x + midBar.width, thickness, slitSize );
 
         CompositePotential compositePotential = new CompositePotential();
-        if( super.getInverse() ) {
+        if ( super.getInverse() ) {
             compositePotential.addPotential( new BarrierPotential( topSlit, potential ) );
             compositePotential.addPotential( new BarrierPotential( bottomSlit, potential ) );
         }
@@ -69,7 +69,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
 
     public Rectangle[] getRectangleBarriers() {
         ArrayList r = new ArrayList();
-        if( getInverse() ) {
+        if ( getInverse() ) {
             r.add( topSlit );
             r.add( bottomSlit );
         }
@@ -78,6 +78,6 @@ public class VerticalDoubleSlit extends VerticalBarrier {
             r.add( midBar );
             r.add( bottomBar );
         }
-        return (Rectangle[])r.toArray( new Rectangle[0] );
+        return (Rectangle[]) r.toArray( new Rectangle[0] );
     }
 }

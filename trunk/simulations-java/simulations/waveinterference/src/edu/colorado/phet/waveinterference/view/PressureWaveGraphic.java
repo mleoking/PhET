@@ -1,16 +1,6 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.waveinterference.model.Lattice2D;
-import edu.colorado.phet.waveinterference.model.SlitPotential;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
@@ -22,6 +12,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.SlitPotential;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -72,9 +72,9 @@ public class PressureWaveGraphic extends PNode {
             e.printStackTrace();
         }
         int MOD = 3;
-        for( int i = 0; i < lattice.getWidth(); i++ ) {
-            for( int j = 0; j < lattice.getHeight(); j++ ) {
-                if( i % MOD == 0 && j % MOD == 0 ) {
+        for ( int i = 0; i < lattice.getWidth(); i++ ) {
+            for ( int j = 0; j < lattice.getHeight(); j++ ) {
+                if ( i % MOD == 0 && j % MOD == 0 ) {
                     Particle particle = isMarked( i, j ) ? new MarkedParticle( blueImage, i, j ) : new Particle( blueImage, i, j );
                     addParticle( particle );
                 }
@@ -100,14 +100,14 @@ public class PressureWaveGraphic extends PNode {
     }
 
     public Particle getParticle( int i ) {
-        return (Particle)particles.get( i );
+        return (Particle) particles.get( i );
     }
 
     //set particles whose origin is on top of the barrier to be invisible.
     private void doSlitsChanged() {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
-            if( barrierCoversParticle( particle ) ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
+            if ( barrierCoversParticle( particle ) ) {
                 particle.setVisible( false );
             }
             else {
@@ -129,7 +129,7 @@ public class PressureWaveGraphic extends PNode {
 
     //this implementation of isPink sets just the center graphic to be pink.
     private boolean isPinkForCenter( int i, int j ) {
-        if( !pinked && i >= lattice.getWidth() / 2 && j >= lattice.getHeight() / 2 ) {
+        if ( !pinked && i >= lattice.getWidth() / 2 && j >= lattice.getHeight() / 2 ) {
             pinked = true;
             return true;
         }
@@ -141,7 +141,7 @@ public class PressureWaveGraphic extends PNode {
     private void updateBounds() {
         Point2D point = latticeScreenCoordinates.toScreenCoordinates( 0, 0 );
         setOffset( point.getX() + dx, point.getY() + dy );//todo accounts for rotation graphic
-        int spacingBetweenCells = (int)latticeScreenCoordinates.getCellWidth();
+        int spacingBetweenCells = (int) latticeScreenCoordinates.getCellWidth();
         setSpaceBetweenCells( spacingBetweenCells );
         background.setPathTo( new Rectangle2D.Double( 0, 0, latticeScreenCoordinates.getScreenRect().getWidth(), latticeScreenCoordinates.getScreenRect().getHeight() ) );
 //        for( int i = 0; i < particles.size(); i++ ) {
@@ -155,13 +155,13 @@ public class PressureWaveGraphic extends PNode {
         super.removeAllChildren();
         addChild( background );
         Collections.shuffle( all );
-        for( int i = 0; i < all.size(); i++ ) {
-            Particle particle = (Particle)all.get( i );
+        for ( int i = 0; i < all.size(); i++ ) {
+            Particle particle = (Particle) all.get( i );
             addChild( particle );
         }
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
-            if( particle instanceof MarkedParticle ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
+            if ( particle instanceof MarkedParticle ) {
                 removeChild( particle );
                 addChild( particle );
             }
@@ -171,9 +171,9 @@ public class PressureWaveGraphic extends PNode {
     public void setParticleImageSize( int height ) {
         BufferedImage newBlue = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, height );
         BufferedImage newPink = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, height );
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
-            if( particle.getImage() == blueImage ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
+            if ( particle.getImage() == blueImage ) {
                 particle.setImage( newBlue );
             }
             else {
@@ -235,13 +235,13 @@ public class PressureWaveGraphic extends PNode {
     }
 
     public void reset() {
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             particle.reset();
         }
         setMarkersVisible( true );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.markerVisibilityChanged();
         }
     }
@@ -252,10 +252,10 @@ public class PressureWaveGraphic extends PNode {
 
     public void setMarkersVisible( boolean markersVisible ) {
         this.markersVisible = markersVisible;
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
-            if( particle instanceof MarkedParticle ) {
-                MarkedParticle mp = (MarkedParticle)particle;
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
+            if ( particle instanceof MarkedParticle ) {
+                MarkedParticle mp = (MarkedParticle) particle;
                 mp.updateMarkVisible();
             }
         }
@@ -361,14 +361,14 @@ public class PressureWaveGraphic extends PNode {
             //look near to x,y (but don't stray from homeX and homeY)
             SearchResult searchResult = searchForTarget();
             Point bestPoint = searchResult.getLocation();
-            if( bestPoint != null ) {
+            if ( bestPoint != null ) {
                 //step towards the peak
                 double prefX = bestPoint.x * spacingBetweenCells;
                 double prefY = bestPoint.y * spacingBetweenCells;
                 Vector2D.Double vec = new Vector2D.Double( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
                 double accelScale = 1.0;
                 double frictionScale = 1.0;
-                if( Math.abs( searchResult.getPressure() ) < 0.01 ) {
+                if ( Math.abs( searchResult.getPressure() ) < 0.01 ) {
                     prefX = homeX * spacingBetweenCells;
                     prefY = homeY * spacingBetweenCells;
                     vec.rotate( random.nextDouble() * Math.PI * 2 );
@@ -390,11 +390,11 @@ public class PressureWaveGraphic extends PNode {
             double bestValue = Double.POSITIVE_INFINITY;
             int windowSize = 8;
             Point bestPoint = null;
-            for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
-                for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
-                    if( inBounds( homeX + i, homeY + j ) ) {
+            for ( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
+                for ( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
+                    if ( inBounds( homeX + i, homeY + j ) ) {
                         //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
-                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) < bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
+                        if ( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) < bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
                             bestPoint = new Point( homeX + i, homeY + j );
                             bestValue = lattice.getValue( homeX + i, homeY + j );
                         }
@@ -408,11 +408,11 @@ public class PressureWaveGraphic extends PNode {
             double bestValue = Double.NEGATIVE_INFINITY;
             int windowSize = 8;
             Point bestPoint = null;
-            for( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
-                for( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
-                    if( inBounds( homeX + i, homeY + j ) ) {
+            for ( int i = -windowSize / 2; i <= windowSize / 2; i++ ) {
+                for ( int j = -windowSize / 2; j <= windowSize / 2; j++ ) {
+                    if ( inBounds( homeX + i, homeY + j ) ) {
                         //                        if( bestPoint == null || (( lattice.getValue( homeX + i, homeY + j ) > bestValue ) && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) < 5 ))
-                        if( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
+                        if ( bestPoint == null || ( lattice.getValue( homeX + i, homeY + j ) > bestValue && new Point( homeX + i, homeY + j ).distance( homeX, homeY ) <= windowSize / 2 ) ) {
                             bestPoint = new Point( homeX + i, homeY + j );
                             bestValue = lattice.getValue( homeX + i, homeY + j );
                         }
@@ -440,22 +440,22 @@ public class PressureWaveGraphic extends PNode {
 //        }
 
         private void accelerateToTarget( Vector2D.Double vec, double accelScale, double frictionScale ) {
-            if( vec.getMagnitude() >= 1.2 ) {
+            if ( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 double finalAcceleration = acceleration * accelScale;
                 vec.scale( finalAcceleration );
 
                 velocity = velocity.add( vec );
-                if( velocity.getX() > maxVelocity ) {
+                if ( velocity.getX() > maxVelocity ) {
                     velocity.setX( maxVelocity );
                 }
-                if( velocity.getY() > maxVelocity ) {
+                if ( velocity.getY() > maxVelocity ) {
                     velocity.setY( maxVelocity );
                 }
-                if( velocity.getX() < -maxVelocity ) {
+                if ( velocity.getX() < -maxVelocity ) {
                     velocity.setX( -maxVelocity );
                 }
-                if( velocity.getY() < -maxVelocity ) {
+                if ( velocity.getY() < -maxVelocity ) {
                     velocity.setY( -maxVelocity );
                 }
                 velocity.scale( friction * frictionScale );//friction
@@ -479,7 +479,7 @@ public class PressureWaveGraphic extends PNode {
         }
 
         private void stepToTarget( Vector2D.Double vec ) {
-            if( vec.getMagnitude() >= 1.2 ) {
+            if ( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( speed );
 //                System.out.println( "vec = " + vec );
@@ -503,8 +503,8 @@ public class PressureWaveGraphic extends PNode {
 
     public void update() {
         //each particle moves toward high wave values near it's neighborhood.
-        for( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = (Particle)particles.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = (Particle) particles.get( i );
             particle.update();
         }
     }

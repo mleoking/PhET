@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid

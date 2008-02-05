@@ -1,18 +1,19 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.waveinterference.model.Oscillator;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid
@@ -85,14 +86,14 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
 
     private void updateSpacingReadout() {//todo this model is a bit ugly, but works correctly.
         ArrayList sav = new ArrayList();
-        while( spacingSlider.numChangeListeners() > 0 ) {
+        while ( spacingSlider.numChangeListeners() > 0 ) {
             ChangeListener c = spacingSlider.getChangeListener( 0 );
             spacingSlider.removeChangeListener( c );
             sav.add( c );
         }
         spacingSlider.setValue( getDistanceBetweenOscillators() / 2 );
-        for( int i = 0; i < sav.size(); i++ ) {
-            ChangeListener changeListener = (ChangeListener)sav.get( i );
+        for ( int i = 0; i < sav.size(); i++ ) {
+            ChangeListener changeListener = (ChangeListener) sav.get( i );
             spacingSlider.addChangeListener( changeListener );
         }
     }

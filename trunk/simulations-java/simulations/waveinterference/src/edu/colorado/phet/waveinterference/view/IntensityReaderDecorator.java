@@ -1,17 +1,6 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,6 +12,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -45,7 +46,7 @@ public class IntensityReaderDecorator extends PhetPNode {
         JButton close = null;
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" );
-            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int)( image.getHeight() * 0.6 ) );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int) ( image.getHeight() * 0.6 ) );
             close = new JButton( new ImageIcon( image ) );
             close.setOpaque( false );
             close.addActionListener( new ActionListener() {
@@ -104,8 +105,8 @@ public class IntensityReaderDecorator extends PhetPNode {
     }
 
     private void doDelete() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.deleted();
         }
     }

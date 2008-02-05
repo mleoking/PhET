@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -28,8 +28,8 @@ public class WaveInterferenceApplication extends PhetApplication {
         addModule( lightModule );
         menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
         getPhetFrame().addMenu( menu );
-        if( getModules().length > 1 ) {
-            for( int i = 0; i < getModules().length; i++ ) {
+        if ( getModules().length > 1 ) {
+            for ( int i = 0; i < getModules().length; i++ ) {
                 getModule( i ).setLogoPanelVisible( false );
             }
         }

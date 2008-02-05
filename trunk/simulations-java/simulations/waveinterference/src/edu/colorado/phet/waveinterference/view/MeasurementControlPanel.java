@@ -1,16 +1,17 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.waveinterference.phetcommon.IconComponent;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid

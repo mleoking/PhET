@@ -1,11 +1,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.model.Oscillator;
-import edu.colorado.phet.waveinterference.sound.FourierSoundPlayer;
+import java.util.ArrayList;
 
 import javax.sound.sampled.LineUnavailableException;
-import java.util.ArrayList;
+
+import edu.colorado.phet.waveinterference.model.Oscillator;
+import edu.colorado.phet.waveinterference.sound.FourierSoundPlayer;
 
 /**
  * User: Sam Reid
@@ -49,12 +50,12 @@ public class SoundModuleAudio {
     }
 
     private void updateAmplitude() {
-        if( fourierSoundPlayer != null ) {
+        if ( fourierSoundPlayer != null ) {
 //            System.out.println( "getPrimaryAmplitude() = " + getPrimaryAmplitude() );
-            fourierSoundPlayer.setVolume( Math.min( 1.0f, (float)volume * getPrimaryAmplitude() ) );
+            fourierSoundPlayer.setVolume( Math.min( 1.0f, (float) volume * getPrimaryAmplitude() ) );
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.volumeChanged();
         }
     }
@@ -69,11 +70,11 @@ public class SoundModuleAudio {
     }
 
     public void setAudioEnabled( boolean audioEnabled ) {
-        if( fourierSoundPlayer != null ) {
+        if ( fourierSoundPlayer != null ) {
             fourierSoundPlayer.setSoundEnabled( audioEnabled && isPrimaryOscillatorEnabled() );
         }
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.audioEnabledChanged();
         }
     }
@@ -100,7 +101,7 @@ public class SoundModuleAudio {
     }
 
     private float getPrimaryAmplitude() {
-        return (float)waveInterferenceModel.getPrimaryOscillator().getAmplitude();//todo normalize this by the max
+        return (float) waveInterferenceModel.getPrimaryOscillator().getAmplitude();//todo normalize this by the max
     }
 
     public void setActive( boolean active ) {

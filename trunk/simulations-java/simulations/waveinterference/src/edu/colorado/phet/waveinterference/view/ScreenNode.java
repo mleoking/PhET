@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.WaveModel;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -79,10 +79,10 @@ public class ScreenNode extends PhetPNode {
 
     public void updateScreen() {
         intensityColorMap.update();
-        if( curveScreenGraphic.getVisible() ) {
+        if ( curveScreenGraphic.getVisible() ) {
             curveScreenGraphic.update();
         }
-        else if( brightnessScreenGraphic.getVisible() ) {
+        else if ( brightnessScreenGraphic.getVisible() ) {
             brightnessScreenGraphic.update();
         }
     }
@@ -112,8 +112,8 @@ public class ScreenNode extends PhetPNode {
     }
 
     public void notifyEnabledStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.enabledStateChanged();
         }
     }

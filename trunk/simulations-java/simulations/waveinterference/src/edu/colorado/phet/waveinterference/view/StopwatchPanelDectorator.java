@@ -1,15 +1,16 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
-import edu.colorado.phet.waveinterference.util.WIStrings;
+import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
+
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.clock.StopwatchPanel;
+import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid

@@ -1,16 +1,16 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.PressureWaveGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -34,7 +34,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dim = (int)cellDim.getValue();
+                int dim = (int) cellDim.getValue();
                 pressureWaveGraphic.setSpaceBetweenCells( dim );
                 waveModelGraphic.setCellDimensions( dim, dim );
             }
@@ -48,7 +48,7 @@ public class TestPressureWaveModule extends BasicWaveTestModule {
         final ModelSlider imageSize = new ModelSlider( "Particle Size", "pixels", 1, 36, pressureWaveGraphic.getImageSize() );
         imageSize.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                pressureWaveGraphic.setParticleImageSize( (int)imageSize.getValue() );
+                pressureWaveGraphic.setParticleImageSize( (int) imageSize.getValue() );
             }
         } );
         final ModelSlider acceleration = new ModelSlider( "Particle Acceleration", "", 0, 10, pressureWaveGraphic.getParticleAcceleration() );

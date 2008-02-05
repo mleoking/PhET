@@ -1,5 +1,8 @@
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -8,9 +11,6 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -36,7 +36,7 @@ public class ThisSideUpGraphic extends PhetPNode {
     }
 
     public void setAngle( double angle ) {
-        if( angle > 0 ) {
+        if ( angle > 0 ) {
             setVisible( true );
             Function.LinearFunction linearFunction = new Function.LinearFunction( 0, Math.PI / 2, 0, 1 );
             double newSY = linearFunction.evaluate( angle );

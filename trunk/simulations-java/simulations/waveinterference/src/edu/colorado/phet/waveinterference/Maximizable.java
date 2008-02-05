@@ -7,5 +7,5 @@ package edu.colorado.phet.waveinterference;
  * Time: 9:43:15 PM
  */
 public interface Maximizable {
-    public void setWaveMaximized(boolean maximized);
+    public void setWaveMaximized( boolean maximized );
 }

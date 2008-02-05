@@ -16,7 +16,7 @@ public class ClassicalWavePropagator {
 
     public void propagate( Lattice2D w ) {
         float neigh = 0.0f;
-        if( last == null || last2 == null || !w.getSize().equals( last.getSize() ) || !w.getSize().equals( last2.getSize() ) ) {
+        if ( last == null || last2 == null || !w.getSize().equals( last.getSize() ) || !w.getSize().equals( last2.getSize() ) ) {
             last = w.copy();
             last2 = w.copy();
             return;
@@ -25,10 +25,10 @@ public class ClassicalWavePropagator {
         float cSquared = c * c;
         int width = w.getWidth() - 1;
         int height = w.getHeight() - 1;
-        for( int i = 1; i < width; i++ ) {
-            for( int j = 1; j < height; j++ ) {
+        for ( int i = 1; i < width; i++ ) {
+            for ( int j = 1; j < height; j++ ) {
                 //todo, use knowledge of the potential barrier geometry for iteration here
-                if( potential.getPotential( i, j, 0 ) != 0 ) {
+                if ( potential.getPotential( i, j, 0 ) != 0 ) {
                     w.setValue( i, j, 0 );
                 }
                 else {
@@ -52,9 +52,9 @@ public class ClassicalWavePropagator {
 
     private void clearPotential( Lattice2D last ) {
         //todo iterate over the wave, and where the potential is nonzero, set the lattice value to 0. (18% application in one run)
-        for( int i = 0; i < last.getWidth(); i++ ) {
-            for( int j = 0; j < last.getHeight(); j++ ) {
-                if( potential.getPotential( i, j, 0 ) != 0.0 ) {
+        for ( int i = 0; i < last.getWidth(); i++ ) {
+            for ( int j = 0; j < last.getHeight(); j++ ) {
+                if ( potential.getPotential( i, j, 0 ) != 0.0 ) {
                     last.setValue( i, j, 0.0f );
                 }
             }
@@ -62,31 +62,31 @@ public class ClassicalWavePropagator {
     }
 
     private void dampHorizontal( Lattice2D lattice2D, int j, int dj ) {
-        for( int i = 0; i < lattice2D.getWidth(); i++ ) {
+        for ( int i = 0; i < lattice2D.getWidth(); i++ ) {
             lattice2D.setValue( i, j, last2.getValue( i, j + dj ) );
         }
     }
 
     private void dampVertical( Lattice2D lattice2D, int i, int di ) {
-        for( int j = 0; j < lattice2D.getHeight(); j++ ) {
+        for ( int j = 0; j < lattice2D.getHeight(); j++ ) {
             lattice2D.setValue( i, j, last2.getValue( i + di, j ) );
         }
     }
 
     public void setBoundaryCondition( int i, int k, float value ) {
-        if( last != null ) {
+        if ( last != null ) {
             last.setValue( i, k, value );
         }
-        if( last2 != null ) {
+        if ( last2 != null ) {
             last2.setValue( i, k, value );
         }
     }
 
     public void scale( float scale ) {
-        if( last2 != null ) {
+        if ( last2 != null ) {
             last2.scale( scale );
         }
-        if( last != null ) {
+        if ( last != null ) {
             last.scale( scale );
         }
     }
@@ -100,10 +100,10 @@ public class ClassicalWavePropagator {
     }
 
     public void setSize( int width, int height ) {
-        if( last != null ) {
+        if ( last != null ) {
             last.setSize( width, height );
         }
-        if( last2 != null ) {
+        if ( last2 != null ) {
             last2.setSize( width, height );
         }
     }
@@ -113,10 +113,10 @@ public class ClassicalWavePropagator {
     }
 
     public void clear() {
-        if( last != null ) {
+        if ( last != null ) {
             last.clear();
         }
-        if( last2 != null ) {
+        if ( last2 != null ) {
             last2.clear();
         }
     }

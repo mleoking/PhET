@@ -24,8 +24,8 @@ public class MutableColor {
 
     public void setColor( Color color ) {
         this.color = color;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.colorChanged();
         }
     }

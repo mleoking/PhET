@@ -1,15 +1,15 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.waveinterference.phetcommon.VerticalConnector;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -46,7 +46,7 @@ public class FaucetConnector extends VerticalConnector {
 
     protected void updateShape( Point2D r1c, Point2D r2c ) {
 
-        if( faucetControlPanelPNode != null ) {
+        if ( faucetControlPanelPNode != null ) {
 //            System.out.println( "faucetControlPanelPNode.getFullBounds() = " + faucetGraphic.getFullBounds() );
             double yMin = Math.min( r1c.getY(), r2c.getY() );
             double yMax = Math.max( r1c.getY(), r2c.getY() );

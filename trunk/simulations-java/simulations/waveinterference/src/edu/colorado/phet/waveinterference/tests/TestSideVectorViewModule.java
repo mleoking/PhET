@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.EBFieldGraphic;
 import edu.colorado.phet.waveinterference.view.ExplicitCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveSideView;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid

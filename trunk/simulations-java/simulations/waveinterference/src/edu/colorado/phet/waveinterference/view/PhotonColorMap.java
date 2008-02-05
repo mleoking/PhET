@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
-
 import java.awt.*;
+
+import edu.colorado.phet.waveinterference.model.Lattice2D;
 
 /**
  * User: Sam Reid
@@ -31,14 +31,14 @@ public class PhotonColorMap implements ColorMap {
     public Color getColor( int i, int k ) {
 
         float value = lattice.getValue( i, k );
-        if( value > 0 ) {
-            if( value > 1 ) {
+        if ( value > 0 ) {
+            if ( value > 1 ) {
                 value = 1;
             }
             return rootColor.add( positiveColor.scale( value ) ).toColor();
         }
-        else if( value <= 0 ) {
-            if( value <= -1 ) {
+        else if ( value <= 0 ) {
+            if ( value <= -1 ) {
                 value = -1;
             }
             return rootColor.add( negativeColor.scale( -value ) ).toColor();

@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.umd.cs.piccolo.nodes.PPath;
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -13,10 +13,11 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -87,7 +88,7 @@ public class ScreenChartGraphic extends PhetPNode {
 
     private void synchronizeHeight() {
         double diff = getDesiredDataHeight() - getActualDataHeight();
-        changeDataHeight( (int)diff );
+        changeDataHeight( (int) diff );
     }
 
     private void changeDataHeight( int increase ) {
@@ -129,20 +130,20 @@ public class ScreenChartGraphic extends PhetPNode {
     }
 
     private void fillPath2( GeneralPath generalPath ) {
-        generalPath.moveTo( (float)colorToMagnitude( brightnessScreenGraphic.getColor( 0 ) ), (float)( latticeScreenCoordinates.getCellWidth() * 0 ) );
-        for( int j = 1; j < waveModel.getHeight(); j++ ) {
-            generalPath.lineTo( (float)colorToMagnitude( brightnessScreenGraphic.getColor( j ) ), (float)( latticeScreenCoordinates.getCellWidth() * j ) );
+        generalPath.moveTo( (float) colorToMagnitude( brightnessScreenGraphic.getColor( 0 ) ), (float) ( latticeScreenCoordinates.getCellWidth() * 0 ) );
+        for ( int j = 1; j < waveModel.getHeight(); j++ ) {
+            generalPath.lineTo( (float) colorToMagnitude( brightnessScreenGraphic.getColor( j ) ), (float) ( latticeScreenCoordinates.getCellWidth() * j ) );
         }
     }
 
     private void fillPath( GeneralPath generalPath ) {
         double dx = latticeScreenCoordinates.getCellWidth();
         Point2D[] pts = new WaveSampler( waveModel, -60, dx ).readValues();//todo this just assumes the chart transform matches perfectly
-        if( pts.length > 0 ) {
-            generalPath.moveTo( (float)pts[0].getY(), (float)pts[pts.length - 1].getX() );
+        if ( pts.length > 0 ) {
+            generalPath.moveTo( (float) pts[0].getY(), (float) pts[pts.length - 1].getX() );
         }
-        for( int i = 1; i < pts.length; i++ ) {
-            generalPath.lineTo( (float)pts[i].getY(), (float)pts[pts.length - 1 - i].getX() );
+        for ( int i = 1; i < pts.length; i++ ) {
+            generalPath.lineTo( (float) pts[i].getY(), (float) pts[pts.length - 1 - i].getX() );
         }
     }
 

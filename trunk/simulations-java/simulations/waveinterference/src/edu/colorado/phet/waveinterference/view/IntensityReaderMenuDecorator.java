@@ -1,6 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -8,13 +16,6 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
 
 /**
  * Decorates with buttons and controls.
@@ -69,7 +70,7 @@ public class IntensityReaderMenuDecorator extends PNode {
             }
 
             public void mouseReleased( MouseEvent e ) {
-                if( lastMovePoint != null ) {
+                if ( lastMovePoint != null ) {
                     jPopupMenu.show( pSwingCanvas, lastMovePoint.x, lastMovePoint.y );
                 }
             }
@@ -85,8 +86,8 @@ public class IntensityReaderMenuDecorator extends PNode {
     }
 
     private void doDelete() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            IntensityReaderMenuDecorator.Listener listener = (IntensityReaderMenuDecorator.Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            IntensityReaderMenuDecorator.Listener listener = (IntensityReaderMenuDecorator.Listener) listeners.get( i );
             listener.deleted();
         }
     }

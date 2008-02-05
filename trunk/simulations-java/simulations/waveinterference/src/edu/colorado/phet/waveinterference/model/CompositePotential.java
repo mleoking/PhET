@@ -18,8 +18,8 @@ public class CompositePotential implements Potential {
 
     public double getPotential( int x, int y, int timestep ) {
         double sum = 0;
-        for( int i = 0; i < p.size(); i++ ) {
-            Potential a = (Potential)p.get( i );
+        for ( int i = 0; i < p.size(); i++ ) {
+            Potential a = (Potential) p.get( i );
             sum += a.getPotential( x, y, timestep );
         }
         return sum;
@@ -38,6 +38,6 @@ public class CompositePotential implements Potential {
     }
 
     public Potential potentialAt( int i ) {
-        return (Potential)p.get( i );
+        return (Potential) p.get( i );
     }
 }

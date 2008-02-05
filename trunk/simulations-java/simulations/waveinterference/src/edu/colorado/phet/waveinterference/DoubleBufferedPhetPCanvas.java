@@ -1,10 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * User: Sam Reid
@@ -37,8 +37,8 @@ public class DoubleBufferedPhetPCanvas extends PhetPCanvas {
     }
 
     private void synchronizeImage() {
-        if( buffer == null || buffer.getWidth() != getWidth() || buffer.getHeight() != getHeight() ) {
-            if( System.getProperty( "os.name" ).toLowerCase().indexOf( "OS X" ) >= 0 ) {
+        if ( buffer == null || buffer.getWidth() != getWidth() || buffer.getHeight() != getHeight() ) {
+            if ( System.getProperty( "os.name" ).toLowerCase().indexOf( "OS X" ) >= 0 ) {
                 buffer = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB );
             }
             else {

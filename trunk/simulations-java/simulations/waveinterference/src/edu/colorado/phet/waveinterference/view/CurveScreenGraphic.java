@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -45,7 +45,7 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
     public void update() {
         axis.setPathTo( new Line2D.Double( 0, getYValue( 0 ), 0, getYValue( getWaveModel().getHeight() ) ) );
         path.reset();
-        for( int j = 0; j < getWaveModel().getHeight(); j++ ) {
+        for ( int j = 0; j < getWaveModel().getHeight(); j++ ) {
             float y = getYValue( j );
 //            double waveValue = getWaveModel().getValue( getWaveModel().getWidth() - 1, j );
             double waveValue = getWaveModel().getAverageValue( getWaveModel().getWidth() - 1, j, 2 );
@@ -54,18 +54,18 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
             vec.normalize();
 
             vec.scale( waveValue * intensityScale );
-            if( vec.getMagnitude() > mag ) {
+            if ( vec.getMagnitude() > mag ) {
                 vec = new Vector2D.Double( getDx(), -getDy() );
-                if( waveValue < 0 ) {
+                if ( waveValue < 0 ) {
                     vec.scale( -1 );
                 }
             }
             Point2D result = vec.getDestination( new Point2D.Double( 0, y ) );
-            if( j == 0 ) {
-                path.moveTo( (float)result.getX(), (float)result.getY() );
+            if ( j == 0 ) {
+                path.moveTo( (float) result.getX(), (float) result.getY() );
             }
             else {
-                path.lineTo( (float)result.getX(), (float)result.getY() );
+                path.lineTo( (float) result.getX(), (float) result.getY() );
             }
         }
         path.setOffset( 0, super.getCellHeight() / 2.0 );

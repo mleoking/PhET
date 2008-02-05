@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.waveinterference.WaveIntereferenceLookAndFeel;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid

@@ -1,6 +1,16 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.util.WIStrings;
@@ -10,15 +20,6 @@ import edu.colorado.phet.waveinterference.view.WaveChartGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -91,7 +92,7 @@ public class ExpandableWaveChart extends PNode {
 
     private void update() {
         removeAllChildren();
-        if( expanded ) {
+        if ( expanded ) {
             addChild( waveChartGraphic );
             addChild( collapsePSwing );
             updateChart();
@@ -113,7 +114,7 @@ public class ExpandableWaveChart extends PNode {
     }
 
     public void updateChart() {
-        if( waveChartGraphic.getVisible() ) {
+        if ( waveChartGraphic.getVisible() ) {
             waveChartGraphic.updateChart();
         }
     }
@@ -135,8 +136,8 @@ public class ExpandableWaveChart extends PNode {
     }
 
     public void notifyExpansionStateChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.expansionStateChanged();
         }
     }

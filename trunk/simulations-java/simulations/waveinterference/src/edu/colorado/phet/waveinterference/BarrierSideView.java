@@ -1,16 +1,16 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.SlitPotentialGraphic;
 import edu.colorado.phet.waveinterference.view.WaveSideViewFull;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -34,7 +34,7 @@ public class BarrierSideView extends SlitPotentialGraphic {
     }
 
     public void update() {
-        if( waveSideView == null ) {
+        if ( waveSideView == null ) {
             return;
         }
         setVisible( waveSideView.getVisible() );
@@ -43,9 +43,9 @@ public class BarrierSideView extends SlitPotentialGraphic {
 
         removeAllChildren();
         Rectangle[] r = getSlitPotential().getBarrierRectangles();
-        for( int i = 0; i < r.length; i++ ) {
+        for ( int i = 0; i < r.length; i++ ) {
             Rectangle rectangle = r[i];
-            if( !rectangle.isEmpty() ) {
+            if ( !rectangle.isEmpty() ) {
                 Rectangle2D screenRect = getLatticeScreenCoordinates().toScreenRect( rectangle );
                 screenRect = new Rectangle2D.Double( screenRect.getX(), getBarrierY(), screenRect.getWidth(), getBarrierHeight() );
                 addChild( super.toShape( screenRect ) );

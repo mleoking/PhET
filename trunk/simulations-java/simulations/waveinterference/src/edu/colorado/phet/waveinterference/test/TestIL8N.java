@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.test;
 
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-
 import java.text.MessageFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 /**
  * User: Sam Reid

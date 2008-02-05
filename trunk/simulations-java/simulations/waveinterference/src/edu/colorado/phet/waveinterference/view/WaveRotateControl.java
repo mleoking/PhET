@@ -1,14 +1,15 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.waveinterference.util.WIStrings;
+import java.util.Hashtable;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.util.Hashtable;
+
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.waveinterference.util.WIStrings;
 
 /**
  * User: Sam Reid
@@ -34,11 +35,11 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
 
         rotate.getSlider().addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                if( !rotate.getSlider().getValueIsAdjusting() ) {
+                if ( !rotate.getSlider().getValueIsAdjusting() ) {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
                             double halfway = ( rotate.getMaximumModelValue() + rotate.getMinimumModelValue() ) / 2;
-                            if( rotate.getValue() < halfway ) {
+                            if ( rotate.getValue() < halfway ) {
                                 rotate.setValue( rotate.getMinimumModelValue() );
                             }
                             else {

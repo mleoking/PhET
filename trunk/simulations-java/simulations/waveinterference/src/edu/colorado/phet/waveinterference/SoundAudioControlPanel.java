@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import edu.colorado.phet.waveinterference.sound.AudioControlPanel;
-
 import javax.swing.*;
+
+import edu.colorado.phet.waveinterference.sound.AudioControlPanel;
 
 /**
  * User: Sam Reid

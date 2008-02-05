@@ -37,13 +37,13 @@ public class Oscillator {
 
     public void setTime( double t ) {
         this.time = t;
-        if( isEnabled() ) {
+        if ( isEnabled() ) {
             double value = getValue();
-            for( int i = x - oscillatorRadius; i <= x + oscillatorRadius; i++ ) {
-                for( int j = y - oscillatorRadius; j <= y + oscillatorRadius; j++ ) {
-                    if( Math.sqrt( ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) ) < oscillatorRadius ) {
-                        if( waveModel.containsLocation( i, j ) ) {
-                            waveModel.setSourceValue( i, j, (float)value );
+            for ( int i = x - oscillatorRadius; i <= x + oscillatorRadius; i++ ) {
+                for ( int j = y - oscillatorRadius; j <= y + oscillatorRadius; j++ ) {
+                    if ( Math.sqrt( ( i - x ) * ( i - x ) + ( j - y ) * ( j - y ) ) < oscillatorRadius ) {
+                        if ( waveModel.containsLocation( i, j ) ) {
+                            waveModel.setSourceValue( i, j, (float) value );
                         }
                     }
                 }
@@ -78,8 +78,8 @@ public class Oscillator {
     public void setLocation( int x, int y ) {
         this.x = x;
         this.y = y;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.locationChanged();
         }
     }
@@ -90,8 +90,8 @@ public class Oscillator {
 
     public void setFrequency( double value ) {
         this.period = 1.0 / value;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.frequencyChanged();
         }
     }
@@ -102,8 +102,8 @@ public class Oscillator {
 
     public void setAmplitude( double amplitude ) {
         this.amplitude = amplitude;
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.amplitudeChanged();
         }
     }
@@ -129,10 +129,10 @@ public class Oscillator {
     }
 
     public void setEnabled( boolean selected ) {
-        if( !this.enabled == selected ) {
+        if ( !this.enabled == selected ) {
             this.enabled = selected;
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.enabledStateChanged();
             }
         }

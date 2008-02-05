@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import javax.swing.*;
 import java.awt.*;
+
+import javax.swing.*;
 
 /**
  * User: Sam Reid

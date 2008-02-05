@@ -1,14 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class TestStripChartModule extends BasicWaveTestModule {
         final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, waveModelGraphic.getCellDimensions().width );
         cellDim.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int dim = (int)cellDim.getValue();
+                int dim = (int) cellDim.getValue();
                 waveModelGraphic.setCellDimensions( dim, dim );
             }
         } );

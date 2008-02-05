@@ -1,10 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.phetcommon;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
-import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
 public class IconComponent extends HorizontalLayoutPanel {
     public IconComponent( JComponent component, BufferedImage image ) {
         add( component );
-        if( image != null ) {
+        if ( image != null ) {
             add( new JLabel( new ImageIcon( image ) ) );
         }
     }

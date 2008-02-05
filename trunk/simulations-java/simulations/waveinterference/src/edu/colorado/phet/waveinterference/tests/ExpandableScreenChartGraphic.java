@@ -1,6 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.util.WIStrings;
@@ -8,13 +16,6 @@ import edu.colorado.phet.waveinterference.view.ScreenChartGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -69,7 +70,7 @@ public class ExpandableScreenChartGraphic extends PNode {
     }
 
     private void update() {
-        if( expanded ) {
+        if ( expanded ) {
             expandNode.setVisible( false );
             screenChart.setVisible( true );
             closeNode.setVisible( true );
@@ -91,7 +92,7 @@ public class ExpandableScreenChartGraphic extends PNode {
     }
 
     public void updateChart() {
-        if( screenChart.getVisible() ) {
+        if ( screenChart.getVisible() ) {
             screenChart.updateChart();
         }
     }

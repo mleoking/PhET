@@ -1,6 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -10,9 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid

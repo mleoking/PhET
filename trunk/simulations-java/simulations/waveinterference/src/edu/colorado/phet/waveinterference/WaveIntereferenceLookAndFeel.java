@@ -1,11 +1,10 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -22,7 +21,4 @@ public class WaveIntereferenceLookAndFeel extends PhetLookAndFeel {
         updateDefaults();//todo is this necessary?
     }
 
-    protected String getLookAndFeelClassName() {
-        return UIManager.getSystemLookAndFeelClassName();
-    }
 }

@@ -11,15 +11,16 @@
 
 package edu.colorado.phet.waveinterference.sound;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import java.io.IOException;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 
 
 /**
@@ -101,7 +102,7 @@ public class FourierSoundPlayer implements Runnable {
         AudioFormat audioFormat = new AudioFormat( ENCODING, SAMPLE_RATE, SAMPLE_SIZE, CHANNELS, FRAME_SIZE, FRAME_RATE, false );
         _oscillator = new FourierOscillator( DEFAULT_VOLUME, audioFormat, STREAM_LENGTH );
         DataLine.Info info = new DataLine.Info( SourceDataLine.class, audioFormat );
-        _sourceDataLine = (SourceDataLine)AudioSystem.getLine( info );
+        _sourceDataLine = (SourceDataLine) AudioSystem.getLine( info );
         _sourceDataLine.open( audioFormat, DEVICE_BUFFER_SIZE );
     }
 
@@ -120,8 +121,8 @@ public class FourierSoundPlayer implements Runnable {
 
         //in the original way of doing this, after manually changing frequency, there would be 15+ threads
         //alive that were not yet exited from processing, and performance degraded substantially.
-        if( enabled ) {
-            if( soundThread == null ) {
+        if ( enabled ) {
+            if ( soundThread == null ) {
                 soundThread = new Thread( this );
                 soundThread.start();
             }
@@ -180,8 +181,8 @@ public class FourierSoundPlayer implements Runnable {
 //        System.out.println( "FourierSoundPlayer.run begins" );//XXX
         byte[] buffer = new byte[TRANSFER_BUFFER_SIZE];
 //        System.out.println( "TRANSFER_BUFFER_SIZE = " + TRANSFER_BUFFER_SIZE );
-        while( true ) {
-            if( _soundEnabled && active ) {
+        while ( true ) {
+            if ( _soundEnabled && active ) {
                 try {
                     int nRead = _oscillator.read( buffer );
                     int nWritten = _sourceDataLine.write( buffer, 0, nRead );
@@ -239,9 +240,9 @@ public class FourierSoundPlayer implements Runnable {
         control.setVisible( true );
         Thread stress = new Thread( new Runnable() {
             public void run() {
-                while( true ) {
+                while ( true ) {
                     String str = "aaeou".toUpperCase();
-                    if( str.equals( "hello" ) ) {
+                    if ( str.equals( "hello" ) ) {
                         System.out.println( "str = " + str );
                     }
                 }

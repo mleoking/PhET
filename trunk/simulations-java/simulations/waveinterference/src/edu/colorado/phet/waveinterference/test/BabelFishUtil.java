@@ -27,7 +27,7 @@ public class BabelFishUtil {
         BufferedWriter writer = new BufferedWriter( new FileWriter( dst ) );
         String line = bufferedReader.readLine();
         StringTokenizer stringTokenizer = new StringTokenizer( babelFileLine, "?" );
-        while( line != null ) {
+        while ( line != null ) {
             String key = line.substring( 0, line.indexOf( '=' ) ).trim();
 //            line=line.replaceAll( "¿","");
 //            line = line.replace( '¿', ' ' ).trim();
@@ -52,7 +52,7 @@ public class BabelFishUtil {
         BufferedReader bufferedReader = new BufferedReader( new FileReader( source ) );
         BufferedWriter writer = new BufferedWriter( new FileWriter( dst ) );
         String line = bufferedReader.readLine();
-        while( line != null ) {
+        while ( line != null ) {
             line = line.substring( line.indexOf( '=' ) + 1 ).trim();
 //            String SEP_TOKEN = "!";
 //            sep = System.getProperty( "line.separator" );

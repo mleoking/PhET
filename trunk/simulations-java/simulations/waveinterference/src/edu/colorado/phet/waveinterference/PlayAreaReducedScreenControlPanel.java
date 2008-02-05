@@ -1,6 +1,14 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -8,13 +16,6 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.ScreenNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -56,7 +57,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
         try {
 //            closeButton = new JButton( "Hide Screen", new ImageIcon( ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" ) ) );
             BufferedImage image = ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" );
-            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int)( image.getHeight() * 0.75 ) );
+            image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int) ( image.getHeight() * 0.75 ) );
             closeButton = new JButton( new ImageIcon( image ) );
             closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );
             closeButton.addActionListener( new ActionListener() {

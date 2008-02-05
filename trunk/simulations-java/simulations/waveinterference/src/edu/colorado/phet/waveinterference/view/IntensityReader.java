@@ -1,12 +1,15 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
+import java.awt.*;
+import java.awt.geom.*;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -16,9 +19,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-import java.awt.*;
-import java.awt.geom.*;
 
 /**
  * User: Sam Reid
@@ -79,7 +79,7 @@ public class IntensityReader extends PhetPNode {
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( !detached ) {
+            if ( !detached ) {
                 crosshairGraphic.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }
@@ -94,7 +94,7 @@ public class IntensityReader extends PhetPNode {
     }
 
     public void update() {
-        if( constrainedToMidline ) {
+        if ( constrainedToMidline ) {
             Point2D pt = new Point2D.Double( crosshairGraphic.getGlobalTranslation().getX(), latticeScreenCoordinates.getScreenRect().getY() + latticeScreenCoordinates.getScreenRect().getHeight() / 2 );
             detachCrosshair();
             crosshairGraphic.setGlobalTranslation( pt );
@@ -103,7 +103,7 @@ public class IntensityReader extends PhetPNode {
         Point2D location = crosshairGraphic.getGlobalTranslation();
         location.setLocation( location.getX() + 1, location.getY() + 1 );//todo this line seems necessary because we are off somewhere by 1 pixel
         Point cellLocation = latticeScreenCoordinates.toLatticeCoordinates( location.getX(), location.getY() );
-        if( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
+        if ( waveModel.containsLocation( cellLocation.x, cellLocation.y ) ) {
             double value = waveModel.getAverageValue( cellLocation.x, cellLocation.y, 1 );
             textReadout.setText( WIStrings.getString( "controls.magnitude" ) + new DefaultDecimalFormat( "0.00" ).format( value ) );
             stripChartJFCNode.addValue( clock.getSimulationTime(), value );
@@ -215,14 +215,14 @@ public class IntensityReader extends PhetPNode {
 
     private void crosshairDropped( PInputEvent event ) {
         double threshold = 30;
-        if( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
-            && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
+        if ( MathUtil.isApproxEqual( getDisplacement().getX(), originalDisplacement.getX(), threshold )
+             && MathUtil.isApproxEqual( getDisplacement().getY(), originalDisplacement.getY(), threshold ) ) {
             attachCrosshair();
         }
     }
 
     private void attachCrosshair() {
-        if( allowAttachment ) {
+        if ( allowAttachment ) {
             detached = false;
             crosshairGraphic.setOffset( stripChartJFCNode.getFullBounds().getCenterX() + originalDisplacement.getX() - crosshairGraphic.getFullBounds().getWidth() / 2,
                                         stripChartJFCNode.getFullBounds().getCenterY() + originalDisplacement.getY() );

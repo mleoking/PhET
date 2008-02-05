@@ -1,6 +1,9 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.view.LaserControlPanel;
@@ -8,9 +11,6 @@ import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid

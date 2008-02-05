@@ -12,9 +12,9 @@ import java.awt.*;
 public class WISwingUtil {
     public static void setChildrenEnabled( Component component, boolean enabled ) {
 //        component.setEnabled( enabled );
-        if( component instanceof Container ) {
-            Container container = (Container)component;
-            for( int i = 0; i < container.getComponentCount(); i++ ) {
+        if ( component instanceof Container ) {
+            Container container = (Container) component;
+            for ( int i = 0; i < container.getComponentCount(); i++ ) {
                 Component c = container.getComponent( i );
                 c.setEnabled( enabled );
                 setChildrenEnabled( c, enabled );

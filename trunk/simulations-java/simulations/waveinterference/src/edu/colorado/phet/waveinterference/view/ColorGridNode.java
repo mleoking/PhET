@@ -1,9 +1,9 @@
 package edu.colorado.phet.waveinterference.view;
 
-import edu.umd.cs.piccolo.nodes.PImage;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Created by IntelliJ IDEA.

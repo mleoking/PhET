@@ -19,7 +19,7 @@ public class BarrierPotential implements Potential {
     }
 
     public double getPotential( int x, int y, int timestep ) {
-        if( rectangle.contains( x, y ) ) {
+        if ( rectangle.contains( x, y ) ) {
             return value;
         }
         else {

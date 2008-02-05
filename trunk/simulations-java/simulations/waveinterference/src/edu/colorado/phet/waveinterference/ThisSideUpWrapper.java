@@ -1,11 +1,11 @@
 package edu.colorado.phet.waveinterference;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.waveinterference.model.Lattice2D;
 import edu.colorado.phet.waveinterference.view.LatticeScreenCoordinates;
 import edu.colorado.phet.waveinterference.view.RotationGlyph;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

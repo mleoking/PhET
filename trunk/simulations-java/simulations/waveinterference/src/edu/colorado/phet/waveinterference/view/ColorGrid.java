@@ -30,10 +30,10 @@ public class ColorGrid {
     private void createImage() {
         int imageWidth = nx * getCellWidth();
         int imageHeight = ny * getCellHeight();
-        if( imageWidth <= 0 ) {
+        if ( imageWidth <= 0 ) {
             imageWidth = 1;
         }
-        if( imageHeight <= 0 ) {
+        if ( imageHeight <= 0 ) {
             imageHeight = 1;
         }
 //        System.out.println( "<<create image>>w= " + imageWidth + ", h=" + imageHeight );
@@ -53,8 +53,8 @@ public class ColorGrid {
         int blockWidth = getCellWidth();
         int blockHeight = getCellHeight();
 
-        for( int i = 0; i < nx; i++ ) {
-            for( int k = 0; k < ny; k++ ) {
+        for ( int i = 0; i < nx; i++ ) {
+            for ( int k = 0; k < ny; k++ ) {
                 Paint p = colorMap.getColor( i, k );
                 g2.setPaint( p );
                 g2.fillRect( i * blockWidth, k * blockHeight, blockWidth, blockHeight );
@@ -102,7 +102,7 @@ public class ColorGrid {
     }
 
     public void setModelSize( int nx, int ny ) {
-        if( this.nx != nx || this.ny != ny ) {
+        if ( this.nx != nx || this.ny != ny ) {
             this.nx = nx;
             this.ny = ny;
             createImage();
@@ -111,7 +111,7 @@ public class ColorGrid {
     }
 
     public void setNx( int nx ) {
-        if( this.nx != nx ) {
+        if ( this.nx != nx ) {
             this.nx = nx;
             createImage();
             notifyListeners();
@@ -119,7 +119,7 @@ public class ColorGrid {
     }
 
     public void setNy( int ny ) {
-        if( this.ny != ny ) {
+        if ( this.ny != ny ) {
             this.ny = ny;
             createImage();
             notifyListeners();
@@ -127,7 +127,7 @@ public class ColorGrid {
     }
 
     public void setCellDimensions( int cellWidth, int cellHeight ) {
-        if( this.cellWidth != cellWidth || this.cellHeight != cellHeight ) {
+        if ( this.cellWidth != cellWidth || this.cellHeight != cellHeight ) {
             this.cellWidth = cellWidth;
             this.cellHeight = cellHeight;
             createImage();
@@ -136,8 +136,8 @@ public class ColorGrid {
     }
 
     private void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.update();
         }
     }

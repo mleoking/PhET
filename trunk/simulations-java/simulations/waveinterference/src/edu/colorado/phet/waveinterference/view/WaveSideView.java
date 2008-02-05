@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.waveinterference.model.Lattice2D;
-import edu.colorado.phet.waveinterference.model.WaveModel;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.waveinterference.model.Lattice2D;
+import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,7 @@ public class WaveSideView extends AbstractWaveSideView {
     private Lattice2D lattice2D;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private double distBetweenPoints = 5;
-//    private double amplitudeScale = -150;
+    //    private double amplitudeScale = -150;
     //    private double amplitudeScale = -150/2.0;
     private double amplitudeScale = -150 / 1.8;
     private WaveSampler waveSampler;
@@ -66,10 +66,10 @@ public class WaveSideView extends AbstractWaveSideView {
     protected GeneralPath getWavePath() {
         GeneralPath generalpath = new GeneralPath();
         Point2D[] samples = readValues();
-        if( samples.length > 0 ) {
-            generalpath.moveTo( (float)samples[0].getX(), (float)samples[0].getY() );
-            for( int i = 1; i < samples.length; i++ ) {
-                generalpath.lineTo( (float)samples[i].getX(), (float)samples[i].getY() );
+        if ( samples.length > 0 ) {
+            generalpath.moveTo( (float) samples[0].getX(), (float) samples[0].getY() );
+            for ( int i = 1; i < samples.length; i++ ) {
+                generalpath.lineTo( (float) samples[i].getX(), (float) samples[i].getY() );
             }
         }
         return generalpath;

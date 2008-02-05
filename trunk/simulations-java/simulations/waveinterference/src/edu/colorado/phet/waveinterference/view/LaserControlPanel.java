@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
-import edu.colorado.phet.waveinterference.model.Oscillator;
-
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
+import edu.colorado.phet.waveinterference.model.Oscillator;
 
 /**
  * User: Sam Reid
