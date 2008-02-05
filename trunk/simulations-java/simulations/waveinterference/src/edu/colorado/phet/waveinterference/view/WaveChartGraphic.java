@@ -196,5 +196,6 @@ public class WaveChartGraphic extends PNode {
 
     public void setCrossSectionYValue( int crossSectionY ) {
         this.crossSectionY = crossSectionY;
+        updateChart();
     }
 }
