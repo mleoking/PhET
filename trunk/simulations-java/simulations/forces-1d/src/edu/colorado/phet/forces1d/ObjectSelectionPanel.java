@@ -22,8 +22,8 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
  */
 
 public class ObjectSelectionPanel extends JPanel {
-    private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
-    private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
+    private Font selectedFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 13 );
+    private Font normalFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 13 );
 
     public ObjectSelectionPanel( final Force1dObject[] imageElements, final SimpleControlPanel simpleControlPanel ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );

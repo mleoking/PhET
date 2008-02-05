@@ -973,7 +973,7 @@ public class PlotDevice extends GraphicLayerSet {
 
         public TypingTextField( int columns, final PlotDevice plotDevice, PlotDeviceModel module ) {
             super( columns );
-            Font borderFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 12 );
+            Font borderFont = new Font( PhetDefaultFont.getDefaultFontName(), 0, 12 );
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createEtchedBorder(), SimStrings.get( "PlotDevice.appliedForce" ), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, borderFont, plotDevice.color ) );
             this.plotDevice = plotDevice;
             this.addMouseListener( new MouseAdapter() {

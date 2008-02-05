@@ -31,7 +31,7 @@ public class PhetButton extends CompositePhetGraphic {
     private Color clickColor = Color.gray;
     private Color borderColor = Color.black;
     private Stroke borderStroke = new BasicStroke( 2.0f );
-    private Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 );
+    private Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 18 );
 
     public PhetButton( Component component, String text ) {
         super( component );

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 public class HTMLGraphic extends CompositePhetGraphic {
 
     private static final Color DEFAULT_COLOR = Color.BLACK;
-    private static final Font DEFAULT_FONT = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+    private static final Font DEFAULT_FONT = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 12 );
 
     private String html;
     private Font font;

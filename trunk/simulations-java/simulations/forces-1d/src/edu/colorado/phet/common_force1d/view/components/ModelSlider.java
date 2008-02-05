@@ -91,7 +91,7 @@ public class ModelSlider extends JPanel {
         createSlider();
 
         titleLabel = new JLabel( title );
-        Font titleFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
+        Font titleFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 );
         titleLabel.setFont( titleFont );
 
         unitsReadout = new JTextField( " " + this.units );
@@ -158,7 +158,7 @@ public class ModelSlider extends JPanel {
     private void relabelSlider() {
         int dMajor = SLIDER_MAX / ( numMajorTicks - 1 );
         int dMinor = SLIDER_MAX / ( numMinorTicks - 1 );
-        Font labelFont = new Font( PhetDefaultFont.LUCIDA_SANS, 0, 10 );
+        Font labelFont = new Font( PhetDefaultFont.getDefaultFontName(), 0, 10 );
         Hashtable table = new Hashtable();
         for ( int value = 0; value <= SLIDER_MAX; value += dMajor ) {
             double modelValue = modelViewTransform.viewToModel( value );

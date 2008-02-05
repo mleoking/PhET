@@ -170,7 +170,7 @@ new Rectangle2D.Double( 0, -appliedForceRange, model.getPlotDeviceModel().getMax
             public void wallForceChanged() {
             }
         } );
-        Font checkBoxFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 13 );
+        Font checkBoxFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 13 );
         String stf = SimStrings.get( "Force1DPanel.showFTotalHTML" );
 //        final JCheckBox showNetForce = new JCheckBox( "Show Total Force", true );
         final JCheckBox showNetForce = new JCheckBox( stf, true );
