@@ -22,8 +22,8 @@ import java.text.MessageFormat;
 
 public class ObjectSelectionPanel extends JPanel {
 
-    private Font selectedFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
-    private Font normalFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 12 );
+    private Font selectedFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 );
+    private Font normalFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 12 );
 
     public ObjectSelectionPanel( final RampModule rampModule, final RampObject[] imageElements ) {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );

@@ -86,7 +86,7 @@ public class TimeSeriesPNode {
     }
 
     public static Font createDefaultFont() {
-        return new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 13 );
+        return new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 13 );
     }
 
     void updateReadout() {
