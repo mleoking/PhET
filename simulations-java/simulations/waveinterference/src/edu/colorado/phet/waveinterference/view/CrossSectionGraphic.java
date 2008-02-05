@@ -27,7 +27,7 @@ public class CrossSectionGraphic extends PhetPNode {
     public static final BasicStroke STROKE = new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{10, 5}, 0 );
     private int modelY = 30;
 
-    public CrossSectionGraphic( WaveModel waveModel, final LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public CrossSectionGraphic( final WaveModel waveModel, final LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.waveModel = waveModel;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         this.path = new PPath();
@@ -56,6 +56,12 @@ public class CrossSectionGraphic extends PhetPNode {
                 double dy = pos.getY() - dragStartPt.getY();
                 double latticeDX = latticeScreenCoordinates.toLatticeCoordinatesDifferentialY( dy );
                 modelY = (int) ( origLocation + latticeDX );
+                if ( modelY < 0 ) {
+                    modelY = 0;
+                }
+                if ( modelY > waveModel.getHeight() - 1 ) {
+                    modelY = waveModel.getHeight() - 1;
+                }
                 update();
                 notifyListeners();
             }
@@ -75,6 +81,7 @@ public class CrossSectionGraphic extends PhetPNode {
     }
 
     public void notifyListeners() {
+//        System.out.println( "CrossSectionGraphic.notifyListeners, modely=" + modelY );
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).changed( modelY );
         }

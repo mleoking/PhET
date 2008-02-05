@@ -55,8 +55,14 @@ public class WaveSampler {
     }
 
     private double getVerticalSlice( int index, int yValue ) {
-        double sum = getYORIG( index, yValue + 1 ) + getYORIG( index, yValue - 1 ) + getYORIG( index, yValue );
-        return sum / 3;
+        if ( yValue >= 1 && yValue < getLattice().getHeight() - 1 ) {
+            double sum = getYORIG( index, yValue + 1 ) + getYORIG( index, yValue - 1 ) + getYORIG( index, yValue );
+            return sum / 3;
+        }
+        else {
+            return getYORIG( index, yValue );
+        }
+
     }
 
     private float getYORIG( int i, int yValue ) {
