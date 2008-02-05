@@ -32,6 +32,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/color-vision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/conductivity/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/conductivity/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/curve-fitting/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/distance-ladder/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/distance-ladder/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/efield/src" isTestSource="false" />
@@ -74,6 +75,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/sound/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/states-of-matter/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/travoltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/waveinterference/src" isTestSource="false" />
     </content>
@@ -1189,6 +1191,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/contrib/itext/iText.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations/curve-fitting/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
