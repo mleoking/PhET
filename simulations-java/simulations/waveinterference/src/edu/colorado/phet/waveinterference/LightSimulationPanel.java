@@ -114,7 +114,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         waveChartGraphic = new LaserWaveChartGraphic( this, WIStrings.getString( "light.electric-field" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( waveModelGraphic.getColorMap().getRootColor() ),
                                                       getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
 
-        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        expandableWaveChart = new ExpandableWaveChart( waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );

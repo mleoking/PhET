@@ -31,7 +31,7 @@ public class TestExpandableChart extends TestTopView {
         MutableColorChooser mutableColorChooser = new MutableColorChooser( waterColor );
         getControlPanel().addControlFullWidth( mutableColorChooser );
 
-        expandableWaveChart = new ExpandableWaveChart( getPhetPCanvas(), waveChartGraphic, getLatticeScreenCoordinates() );
+        expandableWaveChart = new ExpandableWaveChart( waveChartGraphic, getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( expandableWaveChart );
     }
 

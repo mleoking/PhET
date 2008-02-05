@@ -19,7 +19,6 @@ import edu.colorado.phet.waveinterference.view.MutableColor;
 import edu.colorado.phet.waveinterference.view.WaveChartGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -35,11 +34,11 @@ public class ExpandableWaveChart extends PNode {
     private ArrayList listeners = new ArrayList();
     private LatticeScreenCoordinates latticeScreenCoordinates;
 
-    public ExpandableWaveChart( PSwingCanvas pSwingCanvas, String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor color, String distanceUnits, double minX, double maxX ) {
-        this( pSwingCanvas, new WaveChartGraphic( title, latticeScreenCoordinates, waveModel, color, distanceUnits, minX, maxX ), latticeScreenCoordinates );
+    public ExpandableWaveChart( String title, LatticeScreenCoordinates latticeScreenCoordinates, WaveModel waveModel, MutableColor color, String distanceUnits, double minX, double maxX ) {
+        this( new WaveChartGraphic( title, latticeScreenCoordinates, waveModel, color, distanceUnits, minX, maxX ), latticeScreenCoordinates );
     }
 
-    public ExpandableWaveChart( PSwingCanvas pSwingCanvas, WaveChartGraphic waveChartGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public ExpandableWaveChart( WaveChartGraphic waveChartGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         JButton expand = new JButton( WIStrings.getString( "chart.show-graph" ) );
         expand.addActionListener( new ActionListener() {
@@ -50,15 +49,15 @@ public class ExpandableWaveChart extends PNode {
         JButton collapse = null;
         try {
             collapse = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" ) ) );
+            collapse.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    setExpanded( false );
+                }
+            } );
         }
         catch( IOException e ) {
             e.printStackTrace();
         }
-        collapse.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                setExpanded( false );
-            }
-        } );
         addChild( waveChartGraphic );
         expandPSwing = new PSwing( expand );
         collapsePSwing = new PSwing( collapse );
@@ -137,8 +136,7 @@ public class ExpandableWaveChart extends PNode {
 
     public void notifyExpansionStateChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener) listeners.get( i );
-            listener.expansionStateChanged();
+            ( (Listener) listeners.get( i ) ).expansionStateChanged();
         }
     }
 }

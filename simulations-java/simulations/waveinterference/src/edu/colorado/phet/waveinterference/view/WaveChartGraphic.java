@@ -160,9 +160,7 @@ public class WaveChartGraphic extends PNode {
     }
 
     protected void updateColor() {
-
         path.setStrokePaint( colorized ? strokeColor.getColor() : Color.black );
-//        setCurveColor( strokeColor.getColor() );
     }
 
     public double getChartHeight() {
