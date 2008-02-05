@@ -103,7 +103,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( 0, verticalConnector );
 
         waveChartGraphic = new WaveChartGraphic( WIStrings.getString( "readout.pressure" ), getLatticeScreenCoordinates(), getWaveModel(), new MutableColor( Color.black ), getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
-        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        expandableWaveChart = new ExpandableWaveChart( waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );

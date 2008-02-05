@@ -90,7 +90,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( 0, faucetConnector );
 
         waveChartGraphic = new WaveChartGraphic( WIStrings.getString( "water.level" ), getLatticeScreenCoordinates(), getWaveModel(), waterColor, getWaveInterferenceModel().getDistanceUnits(), 0, getWaveInterferenceModel().getPhysicalWidth() );
-        expandableWaveChart = new ExpandableWaveChart( this, waveChartGraphic, getLatticeScreenCoordinates() );
+        expandableWaveChart = new ExpandableWaveChart( waveChartGraphic, getLatticeScreenCoordinates() );
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
