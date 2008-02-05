@@ -57,7 +57,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         //setCursorHand();
         label = new PText( TheRampStrings.getString( "indicator.height-unknown" ) );
         addChild( label );
-        label.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 18 ) );
+        label.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 18 ) );
 //        label.setLocation( 10, -label.getHeight() - 4 );
 //        label.setLocation( 10, 0);//-label.getHeight() - 4 );
 //        label.setLocation( 10, (int)( label.getHeight()*.075 ) );//-label.getHeight() - 4 );

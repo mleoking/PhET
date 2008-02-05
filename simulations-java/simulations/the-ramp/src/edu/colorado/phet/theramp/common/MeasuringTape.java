@@ -182,7 +182,7 @@ public class MeasuringTape extends PNode {
         public ReadoutGraphic( String units ) {
             this.units = units;
             phetShadowTextGraphic = new PText( "" );
-            phetShadowTextGraphic.setFont( new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 ) );
+            phetShadowTextGraphic.setFont( new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 14 ) );
             phetShadowTextGraphic.setTextPaint( Color.black );
 
             BoundGraphic boundGraphic = new BoundGraphic( phetShadowTextGraphic, 2, 2 );

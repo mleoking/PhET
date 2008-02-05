@@ -192,7 +192,7 @@ public class FreeBodyDiagram extends PNode {
 //            shapeGraphic.setStrokePaint( RampUtil.transparify( Color.black, 150 ) );
             shapeGraphic.setStrokePaint( Color.black );
             addChild( shapeGraphic );
-            Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 16 );
+            Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 16 );
 //            textGraphic = new PhetShadowTextGraphic( component, name, font, 0, 0, color, 1, 1, Color.black );
             textGraphic = new HTMLNode( name, font, color );
             addChild( textGraphic );
