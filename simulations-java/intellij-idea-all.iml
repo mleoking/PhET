@@ -40,6 +40,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/faraday/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/fluorescent-lights/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/forces-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/glaciers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/greenhouse/phetcommon/src" isTestSource="false" />

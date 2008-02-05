@@ -100,8 +100,8 @@ public class PhetLookAndFeel {
      */
     private void setDefaults() {
         int fontSize = getFontSizeForScreen();
-        font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, fontSize );
-        titledBorderFont = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, fontSize );
+        font = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, fontSize );
+        titledBorderFont = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, fontSize );
         foregroundColor = Color.BLACK;
         backgroundColor = new Color( 200, 240, 200 );  // light green
         textFieldBackgroundColor = Color.WHITE;

@@ -23,7 +23,7 @@ import edu.colorado.phet.forces1d.model.Force1dObject;
 
 public class ObjectComboBox extends JComboBox {
     private Force1dControlPanel controlPanel;
-    private static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 10 );
+    private static Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.BOLD, 10 );
 
     public ObjectComboBox( final Force1DApplication module, final Force1dObject[] imageElements, final Force1dControlPanel controlPanel ) {
         super( toLabelArray( imageElements, controlPanel ) );

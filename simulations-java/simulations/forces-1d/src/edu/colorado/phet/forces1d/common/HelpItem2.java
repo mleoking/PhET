@@ -35,7 +35,7 @@ public class HelpItem2 extends CompositePhetGraphic {
     public HelpItem2( Component component, String text ) {
         super( component );
         this.text = text;
-        Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.PLAIN, 18 );
+        Font font = new Font( PhetDefaultFont.getDefaultFontName(), Font.PLAIN, 18 );
 
         shadowHTMLGraphic = new ShadowHTMLGraphic( component, text, font, textColor, 1, 1, shadowColor );
 
