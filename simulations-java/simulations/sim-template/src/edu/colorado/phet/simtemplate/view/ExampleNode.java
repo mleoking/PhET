@@ -4,7 +4,6 @@ package edu.colorado.phet.simtemplate.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -37,7 +36,7 @@ public class ExampleNode extends PPath implements ExampleModelElementListener {
         super();
         
         _modelElement = modelElement;
-        _modelElement.addListener( this );
+        _modelElement.addExampleModelElementListener( this );
         
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
@@ -54,32 +53,25 @@ public class ExampleNode extends PPath implements ExampleModelElementListener {
             }
         } );
         
-        sizeChanged();
+        updateSize();
         positionChanged();
         orientationChanged();
     }
     
     public void cleanup() {
-        _modelElement.removeListener( this );
+        _modelElement.removeExampleModelElementListener( this );
     }
     
     //----------------------------------------------------------------------------
     // Model changes
     //----------------------------------------------------------------------------
 
-    public void sizeChanged() {
-        // pointer with origin at geometric center
-        Dimension size = _modelElement.getSize();
-        final float w = (float) size.getWidth();
-        final float h = (float) size.getHeight();
-        GeneralPath path = new GeneralPath();
-        path.moveTo( w / 2, 0 );
-        path.lineTo( w / 4, h / 2 );
-        path.lineTo( -w / 2, h / 2 );
-        path.lineTo( -w / 2, -h / 2 );
-        path.lineTo( w / 4, -h / 2 );
-        path.closePath();
-        setPathTo( path );
+    public void widthChanged() {
+        updateSize();
+    }
+    
+    public void heightChanged() {
+        updateSize();
     }
 
     public void positionChanged() {
@@ -88,6 +80,20 @@ public class ExampleNode extends PPath implements ExampleModelElementListener {
 
     public void orientationChanged() {
         setRotation( _modelElement.getOrientation() );
+    }
+    
+    private void updateSize() {
+        // pointer with origin at geometric center
+        final float w = (float) _modelElement.getWidth();
+        final float h = (float) _modelElement.getHeight();
+        GeneralPath path = new GeneralPath();
+        path.moveTo( w / 2, 0 );
+        path.lineTo( w / 4, h / 2 );
+        path.lineTo( -w / 2, h / 2 );
+        path.lineTo( -w / 2, -h / 2 );
+        path.lineTo( w / 4, -h / 2 );
+        path.closePath();
+        setPathTo( path );
     }
 
 }

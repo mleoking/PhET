@@ -45,6 +45,8 @@
 	<classpathentry kind="src" path="simulations/conductivity/data"/>
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/src"/>
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/data"/>
+	<classpathentry kind="src" path="simulations/curve-fitting/src"/>
+	<classpathentry kind="src" path="simulations/curve-fitting/data"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/src"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/data"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/phetcommon/src"/>
@@ -59,6 +61,8 @@
 	<classpathentry kind="src" path="simulations/faraday/data"/>
 	<classpathentry kind="src" path="simulations/fluorescent-lights/src"/>
 	<classpathentry kind="src" path="simulations/fluorescent-lights/data"/>
+	<classpathentry kind="src" path="simulations/forces-1d/src"/>
+	<classpathentry kind="src" path="simulations/forces-1d/data"/>
 	<classpathentry kind="src" path="simulations/fourier/src"/>
 	<classpathentry kind="src" path="simulations/fourier/data"/>
 	<classpathentry kind="src" path="simulations/glaciers/src"/>
@@ -121,6 +125,8 @@
 	<classpathentry kind="src" path="simulations/semiconductor/data"/>
 	<classpathentry kind="src" path="simulations/signal-circuit/src"/>
 	<classpathentry kind="src" path="simulations/signal-circuit/data"/>
+	<classpathentry kind="src" path="simulations/sim-template/src"/>
+	<classpathentry kind="src" path="simulations/sim-template/data"/>
 	<classpathentry kind="src" path="simulations/soluble-salts/src"/>
 	<classpathentry kind="src" path="simulations/soluble-salts/data"/>
 	<classpathentry kind="src" path="simulations/sound/src"/>
@@ -129,6 +135,8 @@
 	<classpathentry kind="src" path="simulations/sound/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/src"/>
 	<classpathentry kind="src" path="simulations/states-of-matter/data"/>
+	<classpathentry kind="src" path="simulations/the-ramp/src"/>
+	<classpathentry kind="src" path="simulations/the-ramp/data"/>
 	<classpathentry kind="src" path="simulations/travoltage/src"/>
 	<classpathentry kind="src" path="simulations/travoltage/data"/>
 	<classpathentry kind="src" path="simulations/waveinterference/src"/>

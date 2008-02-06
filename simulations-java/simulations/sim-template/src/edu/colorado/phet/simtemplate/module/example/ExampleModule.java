@@ -1,14 +1,14 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.simtemplate.module.example;
 
-import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.simtemplate.TemplateApplication;
-import edu.colorado.phet.simtemplate.TemplateResources;
+import edu.colorado.phet.simtemplate.TemplateStrings;
+import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
 import edu.colorado.phet.simtemplate.model.TemplateClock;
@@ -35,7 +35,7 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( TemplateResources.getString( "title.exampleModule" ), ExampleDefaults.CLOCK );
+        super( TemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
 
         // Model
         TemplateClock clock = (TemplateClock) getClock();
@@ -48,13 +48,16 @@ public class ExampleModule extends PiccoloModule {
         // Control Panel
         _controlPanel = new ExampleControlPanel( this, parentFrame );
         setControlPanel( _controlPanel );
-
+        
         // Clock controls
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (TemplateClock) getClock() );
-        _clockControlPanel.setUnits( TemplateResources.getString( "units.time" ) );
+        _clockControlPanel.setUnits( TemplateStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
+        // Controller
+        ExampleController controller = new ExampleController( _model, _controlPanel );
+        
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -62,18 +65,6 @@ public class ExampleModule extends PiccoloModule {
 
         // Set initial state
         reset();
-    }
-
-    //----------------------------------------------------------------------------
-    // Mutators and accessors
-    //----------------------------------------------------------------------------
-
-    public ExampleModel getExampleModel() {
-        return _model;
-    }
-
-    public ExampleCanvas getExampleCanvas() {
-        return _canvas;
     }
 
     //----------------------------------------------------------------------------
@@ -85,24 +76,24 @@ public class ExampleModule extends PiccoloModule {
      */
     public void reset() {
 
-        // Model
-        {
-            // Clock
-            TemplateClock clock = _model.getClock();
-            clock.setDt( ExampleDefaults.CLOCK_DT );
-            setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
-            
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-            exampleModelElement.setSize( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_SIZE );
-            exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-            exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        }
+        // Clock
+        TemplateClock clock = _model.getClock();
+        clock.setDt( ExampleDefaults.CLOCK_DT );
+        setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
-        // Control panel settings that are view-related
-        {
-            //XXX
-        }
+        // ExampleModelElement
+        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        exampleModelElement.setWidth( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_WIDTH );
+        exampleModelElement.setHeight( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_HEIGHT );
+        exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
+        exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
+
+        // Control panel settings
+        ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
+        subPanel.setWidthValue( exampleModelElement.getWidth() );
+        subPanel.setHeightValue( exampleModelElement.getHeight() );
+        subPanel.setPosition( exampleModelElement.getPositionReference() );
+        subPanel.setOrientationValue( exampleModelElement.getOrientation() );
     }
     
     //----------------------------------------------------------------------------
@@ -112,7 +103,6 @@ public class ExampleModule extends PiccoloModule {
     public ExampleConfig save() {
 
         ExampleConfig config = new ExampleConfig();
-        ExampleModel model = getExampleModel();
 
         // Module
         config.setActive( isActive() );
@@ -120,14 +110,14 @@ public class ExampleModule extends PiccoloModule {
         // Model
         {
             // Clock
-            TemplateClock clock = model.getClock();
+            TemplateClock clock = _model.getClock();
             config.setClockDt( clock.getDt() );
             config.setClockRunning( getClockRunningWhenActive() );
 
             // ExampleModelElement
-            ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            config.setExampleModelElementWidth( exampleModelElement.getSizeReference().getWidth() );
-            config.setExampleModelElementHeight( exampleModelElement.getSizeReference().getHeight() );
+            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+            config.setExampleModelElementWidth( exampleModelElement.getWidth() );
+            config.setExampleModelElementHeight( exampleModelElement.getHeight() );
             config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
             config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
         }
@@ -142,8 +132,6 @@ public class ExampleModule extends PiccoloModule {
 
     public void load( ExampleConfig config ) {
 
-        ExampleModel model = getExampleModel();
-
         // Module
         if ( config.isActive() ) {
             TemplateApplication.instance().setActiveModule( this );
@@ -152,13 +140,14 @@ public class ExampleModule extends PiccoloModule {
         // Model
         {
             // Clock
-            TemplateClock clock = model.getClock();
+            TemplateClock clock = _model.getClock();
             clock.setDt( config.getClockDt() );
             setClockRunningWhenActive( config.isClockRunning() );
 
             // ExampleModelElement
-            ExampleModelElement exampleModelElement = model.getExampleModelElement();
-            exampleModelElement.setSize( new Dimension( (int) config.getExampleModelElementWidth(), (int) config.getExampleModelElementHeight() ) );
+            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+            exampleModelElement.setWidth( config.getExampleModelElementWidth() );
+            exampleModelElement.setHeight( config.getExampleModelElementHeight() );
             exampleModelElement.setPosition( config.getExampleModelElementPosition() );
             exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
         }

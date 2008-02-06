@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.simtemplate.defaults;
 
@@ -29,7 +29,8 @@ public class ExampleDefaults {
     public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
     
     // ExampleModelElement
-    public static final Dimension EXAMPLE_MODEL_ELEMENT_SIZE = new Dimension( 200, 100 ); // meters
+    public static final double EXAMPLE_MODEL_ELEMENT_WIDTH = 200; // meters
+    public static final double EXAMPLE_MODEL_ELEMENT_HEIGHT = 100; // meters
     public static final Point2D EXAMPLE_MODEL_ELEMENT_POSITION = new Point2D.Double( 400, 400 );
     public static final double EXAMPLE_MODEL_ELEMENT_ORIENTATION = 0; // radians
 
