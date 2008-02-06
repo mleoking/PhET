@@ -13,7 +13,7 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  */
 
 public class FaucetOnOffControl extends PNode {
-    public FaucetOnOffControl( PSwingCanvas pSwingCanvas, FaucetGraphic faucetGraphic ) {
+    public FaucetOnOffControl( FaucetGraphic faucetGraphic ) {
         FaucetOnOffControlPanel oscillatorOnOffControlPanel = new FaucetOnOffControlPanel( faucetGraphic );
         PSwing pSwing = new PSwing( new ShinyPanel( oscillatorOnOffControlPanel ) );
         addChild( pSwing );

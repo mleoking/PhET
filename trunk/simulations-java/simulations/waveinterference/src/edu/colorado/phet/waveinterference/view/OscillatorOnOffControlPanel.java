@@ -20,6 +20,7 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
     private Oscillator oscillator;
     private JRadioButton onRadioButton;
     private JRadioButton offRadioButton;
+    private PulseButton pulseButton;
 
     public OscillatorOnOffControlPanel( final Oscillator oscillator ) {
         this.oscillator = oscillator;
@@ -28,6 +29,7 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
         onRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 oscillator.setEnabled( onRadioButton.isSelected() );
+                updatePulseEnabled();
             }
         } );
         buttonGroup.add( onRadioButton );
@@ -37,6 +39,7 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
         offRadioButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 oscillator.setEnabled( !offRadioButton.isSelected() );
+                updatePulseEnabled();
             }
         } );
 
@@ -48,6 +51,14 @@ public class OscillatorOnOffControlPanel extends VerticalLayoutPanel {
 
         buttonGroup.add( offRadioButton );
         add( offRadioButton );
+
+        pulseButton = new PulseButton( oscillator );
+        add( pulseButton );
+        updatePulseEnabled();
+    }
+
+    private void updatePulseEnabled() {
+//        pulse.setEnabled( offRadioButton.isSelected() );
     }
 
     private void updateState() {

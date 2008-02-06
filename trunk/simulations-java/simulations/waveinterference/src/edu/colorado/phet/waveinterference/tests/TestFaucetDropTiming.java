@@ -5,7 +5,6 @@ import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.colorado.phet.waveinterference.view.FaucetGraphic;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -20,7 +19,7 @@ public class TestFaucetDropTiming {
         WaveModelGraphic waveModelGraphic = new WaveModelGraphic( waveModel );
         Oscillator oscillator = new Oscillator( waveModel );
         oscillator.setPeriod( 2 );
-        FaucetGraphic faucetGraphic = new FaucetGraphic( new PSwingCanvas(), waveModel, oscillator, waveModelGraphic.getLatticeScreenCoordinates() );
+        FaucetGraphic faucetGraphic = new FaucetGraphic( waveModel, oscillator, waveModelGraphic.getLatticeScreenCoordinates() );
         FaucetGraphic.debugNearestTime( faucetGraphic, 31.2 );
     }
 }

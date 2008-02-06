@@ -84,10 +84,10 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         addScreenChild( rotationWaveGraphic );
 
-        primaryLaserGraphic = new LightSourceGraphic( this, lightModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
+        primaryLaserGraphic = new LightSourceGraphic( lightModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryLaserGraphic );
 
-        secondaryLaserGraphic = new LightSourceGraphic( this, lightModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
+        secondaryLaserGraphic = new LightSourceGraphic( lightModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( secondaryLaserGraphic );
 
         slitPotentialGraphic = new SlitPotentialGraphic( lightModule.getSlitPotential(), getLatticeScreenCoordinates() );

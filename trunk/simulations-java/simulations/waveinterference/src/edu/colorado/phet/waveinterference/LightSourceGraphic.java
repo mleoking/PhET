@@ -3,7 +3,6 @@ package edu.colorado.phet.waveinterference;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.colorado.phet.waveinterference.view.ImageOscillatorPNode;
@@ -19,9 +18,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 public class LightSourceGraphic extends ImageOscillatorPNode {
 
-    public LightSourceGraphic( PhetPCanvas phetPCanvas, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public LightSourceGraphic( Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
         super( oscillator, latticeScreenCoordinates, "waveinterference/images/spotlight_3d.png" );
         JComponent control = ( new OscillatorOnOffControlPanel( oscillator ) );
-        addChild( new PSwing( new ShinyPanel( control ) ) );
+        final PSwing swing = new PSwing( new ShinyPanel( control ) );
+        swing.translate( 0, -50 );
+        addChild( swing );
+
     }
 }

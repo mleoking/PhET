@@ -44,11 +44,11 @@ public class FaucetGraphic extends PhetPNode {
     private VerticalFaucetDragHandler verticalDragHandler;
     private CursorHandler cursorHandler;
 
-    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        this( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
+    public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
+        this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
     }
 
-    public FaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, final Oscillator oscillator, final LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
+    public FaucetGraphic( WaveModel waveModel, final Oscillator oscillator, final LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
         this.waveModel = waveModel;
         this.oscillator = oscillator;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -70,7 +70,7 @@ public class FaucetGraphic extends PhetPNode {
                 updateLocation();
             }
         } );
-        FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( pSwingCanvas, this );
+        FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( this );
         addChild( faucetOnOffButton );
 
         horizontalDragHandler = new HorizontalFaucetDragHandler( this );

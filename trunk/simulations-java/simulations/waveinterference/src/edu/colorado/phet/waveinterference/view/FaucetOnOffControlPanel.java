@@ -20,6 +20,7 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
     private FaucetGraphic faucetGraphic;
     private JRadioButton onRadioButton;
     private JRadioButton offRadioButton;
+    private PulseButton pulseButton;
 
     public FaucetOnOffControlPanel( final FaucetGraphic faucetGraphic ) {
         this.faucetGraphic = faucetGraphic;
@@ -54,7 +55,8 @@ public class FaucetOnOffControlPanel extends HorizontalLayoutPanel {
             }
         } );
         updateState();
-//        setBorder( BorderFactory.createTitledBorder( BorderFactory.createLineBorder( Color.blue, 2 ), "Faucet" ) );
+        pulseButton = new PulseButton( faucetGraphic.getOscillator() );
+        add( pulseButton );
     }
 
     private void updateState() {
