@@ -7,85 +7,35 @@ import java.awt.Color;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement.ExampleModelElementListener;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * ExampleNode is the visual representation of an ExampleModelElement.
+ * Note that the node has no knowledge of any model elements.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleNode extends PPath implements ExampleModelElementListener {
-    
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-    
-    private ExampleModelElement _modelElement;
+public class ExampleNode extends PPath {
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleNode( ExampleModelElement modelElement ) {
+    public ExampleNode() {
         super();
-        
-        _modelElement = modelElement;
-        _modelElement.addExampleModelElementListener( this );
-        
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setPaint( Color.ORANGE );
-        
-        addInputEventListener( new CursorHandler() );
-
-        addInputEventListener( new PBasicInputEventHandler() {
-            public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( ExampleNode.this.getParent() );
-                Point2D p = _modelElement.getPosition();
-                Point2D pNew = new Point2D.Double( p.getX() + delta.getWidth(), p.getY() + delta.getHeight() );
-                _modelElement.setPosition( pNew );
-            }
-        } );
-        
-        updateSize();
-        positionChanged();
-        orientationChanged();
-    }
-    
-    public void cleanup() {
-        _modelElement.removeExampleModelElementListener( this );
     }
     
     //----------------------------------------------------------------------------
-    // Model changes
+    // Setters and getters
     //----------------------------------------------------------------------------
 
-    public void widthChanged() {
-        updateSize();
-    }
-    
-    public void heightChanged() {
-        updateSize();
-    }
-
-    public void positionChanged() {
-        setOffset( _modelElement.getPositionReference() );
-    }
-
-    public void orientationChanged() {
-        setRotation( _modelElement.getOrientation() );
-    }
-    
-    private void updateSize() {
+    public void setSize( double width, double height ) {
         // pointer with origin at geometric center
-        final float w = (float) _modelElement.getWidth();
-        final float h = (float) _modelElement.getHeight();
+        final float w = (float) width;
+        final float h = (float) height;
         GeneralPath path = new GeneralPath();
         path.moveTo( w / 2, 0 );
         path.lineTo( w / 4, h / 2 );
@@ -95,5 +45,12 @@ public class ExampleNode extends PPath implements ExampleModelElementListener {
         path.closePath();
         setPathTo( path );
     }
+    
+    public void setPosition( Point2D position ) {
+        setOffset( position );
+    }
 
+    public void setOrientation( double orientation ) {
+        setRotation( orientation );
+    }
 }

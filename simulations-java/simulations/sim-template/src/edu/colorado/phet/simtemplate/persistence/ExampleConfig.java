@@ -26,7 +26,6 @@ public class ExampleConfig implements IProguardKeepClass {
     private double _clockDt;
     
     // Model
-    private double _exampleModelElementWidth, _exampleModelElementHeight;
     private double _exampleModelElementPositionX, _exampleModelElementPositionY;
     private double _exampleModelElementOrientation;
     
@@ -71,29 +70,6 @@ public class ExampleConfig implements IProguardKeepClass {
         _clockDt = clockDt;
     }
 
-
-    
-    public double getExampleModelElementHeight() {
-        return _exampleModelElementHeight;
-    }
-
-    
-    public void setExampleModelElementHeight( double exampleModelElementHeight ) {
-        _exampleModelElementHeight = exampleModelElementHeight;
-    }
-
-    
-    public double getExampleModelElementWidth() {
-        return _exampleModelElementWidth;
-    }
-
-    
-    public void setExampleModelElementWidth( double exampleModelElementWidth ) {
-        _exampleModelElementWidth = exampleModelElementWidth;
-    }
-
-
-    
     public double getExampleModelElementPositionX() {
         return _exampleModelElementPositionX;
     }

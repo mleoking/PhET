@@ -13,6 +13,7 @@ import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
 import edu.colorado.phet.simtemplate.model.TemplateClock;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
+import edu.colorado.phet.simtemplate.view.ExampleNode;
 
 /**
  * ExampleModule is the "Example" module.
@@ -56,7 +57,7 @@ public class ExampleModule extends PiccoloModule {
         setClockControlPanel( _clockControlPanel );
 
         // Controller
-        ExampleController controller = new ExampleController( _model, _controlPanel );
+        ExampleController controller = new ExampleController( _model, _canvas, _controlPanel );
         
         // Help
         if ( hasHelp() ) {
@@ -83,17 +84,19 @@ public class ExampleModule extends PiccoloModule {
 
         // ExampleModelElement
         ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setWidth( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_WIDTH );
-        exampleModelElement.setHeight( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_HEIGHT );
         exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
         exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
+        
+        // ExampleNode
+        ExampleNode exampleNode = _canvas.getExampleNode();
+        exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
+        exampleNode.setPosition( exampleModelElement.getPosition() );
+        exampleNode.setOrientation( exampleModelElement.getOrientation() );
 
         // Control panel settings
         ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
-        subPanel.setWidthValue( exampleModelElement.getWidth() );
-        subPanel.setHeightValue( exampleModelElement.getHeight() );
         subPanel.setPosition( exampleModelElement.getPositionReference() );
-        subPanel.setOrientationValue( exampleModelElement.getOrientation() );
+        subPanel.setOrientation( exampleModelElement.getOrientation() );
     }
     
     //----------------------------------------------------------------------------
@@ -107,25 +110,18 @@ public class ExampleModule extends PiccoloModule {
         // Module
         config.setActive( isActive() );
 
-        // Model
-        {
-            // Clock
-            TemplateClock clock = _model.getClock();
-            config.setClockDt( clock.getDt() );
-            config.setClockRunning( getClockRunningWhenActive() );
+        // Clock
+        TemplateClock clock = _model.getClock();
+        config.setClockDt( clock.getDt() );
+        config.setClockRunning( getClockRunningWhenActive() );
 
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-            config.setExampleModelElementWidth( exampleModelElement.getWidth() );
-            config.setExampleModelElementHeight( exampleModelElement.getHeight() );
-            config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
-            config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
-        }
+        // ExampleModelElement
+        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
+        config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
 
-        // Control panel settings that are view-related
-        {
-            //XXX
-        }
+        // Control panel settings that are specific to the view
+        //XXX
         
         return config;
     }
@@ -137,24 +133,17 @@ public class ExampleModule extends PiccoloModule {
             TemplateApplication.instance().setActiveModule( this );
         }
 
-        // Model
-        {
-            // Clock
-            TemplateClock clock = _model.getClock();
-            clock.setDt( config.getClockDt() );
-            setClockRunningWhenActive( config.isClockRunning() );
+        // Clock
+        TemplateClock clock = _model.getClock();
+        clock.setDt( config.getClockDt() );
+        setClockRunningWhenActive( config.isClockRunning() );
 
-            // ExampleModelElement
-            ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-            exampleModelElement.setWidth( config.getExampleModelElementWidth() );
-            exampleModelElement.setHeight( config.getExampleModelElementHeight() );
-            exampleModelElement.setPosition( config.getExampleModelElementPosition() );
-            exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
-        }
+        // ExampleModelElement
+        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
+        exampleModelElement.setPosition( config.getExampleModelElementPosition() );
+        exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
 
-        // Control panel settings that are view-related
-        {
-            //XXX
-        }
+        // Control panel settings that are specific to the view
+        //XXX
     }
 }

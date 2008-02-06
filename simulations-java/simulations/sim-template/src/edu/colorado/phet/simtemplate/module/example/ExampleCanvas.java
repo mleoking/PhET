@@ -43,7 +43,7 @@ public class ExampleCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
         
-        _exampleNode = new ExampleNode( _model.getExampleModelElement() );
+        _exampleNode = new ExampleNode();
         _rootNode.addChild( _exampleNode );
     }
     
