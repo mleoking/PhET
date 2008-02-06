@@ -60,7 +60,7 @@
 		
 	<!-- builds and deploys to the development server, updating dev and SVN revision numbers -->
     <target name="build-and-deploy-dev"
-            depends="_init, _clean-all, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
+            depends="_init, _fail-if-working-copy-is-not-synchronized, _prompt-for-dev-login, _inc-sim-dev-version-number, _generate-svn-revision-number, _define-sim-version">
         <antcall target="_build-and-deploy">
             <param name="deploy.to.dev" value="true"/>
             <param name="sim.server.url" value="${dev.server.url}"/>
