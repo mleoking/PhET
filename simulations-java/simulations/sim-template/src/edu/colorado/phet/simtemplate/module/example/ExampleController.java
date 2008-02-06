@@ -15,9 +15,10 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * ExampleController handles the wiring up of listeners between model and view.
- * Note that in a production simulation, you may want to have multiple controller that 
- * handle the wiring of chunks of the sim.
+ * ExampleController is the controller for ExampleModule.
+ * It handles the wiring up of listeners.
+ * Note that in a production simulation, you may want to have multiple controllers,
+ * with each one handling the wiring of a smaller chunk of the simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -49,7 +50,7 @@ public class ExampleController {
         });
         
         /*
-         * When the node is dragged, update the model.
+         * When the node is dragged, update the model element.
          */
         node.addInputEventListener( new CursorHandler() );
         node.addInputEventListener( new PBasicInputEventHandler() {
@@ -62,7 +63,7 @@ public class ExampleController {
         } );
         
         /*
-         * When the controls are changed, update the model.
+         * When the controls are changed, update the model element.
          */
         subPanel.addExampleSubPanelListener( new ExampleSubPanelListener() {
 
