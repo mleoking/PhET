@@ -55,6 +55,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations/moving-man/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/mri/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations/mvc-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/nuclear-physics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/ohm-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations/optical-quantum-control/src" isTestSource="false" />
@@ -1201,6 +1202,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations/curve-fitting/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations/mvc-example/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
