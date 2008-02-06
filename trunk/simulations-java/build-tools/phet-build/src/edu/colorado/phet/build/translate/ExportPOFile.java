@@ -26,7 +26,7 @@ public class ExportPOFile {
         for ( Iterator iterator = keySet.iterator(); iterator.hasNext(); ) {
             String key = (String) iterator.next();
             String value = properties.getProperty( key );
-            value=value.replaceAll( "\n","\\n" );
+            value = value.replaceAll( "\n", "\\n" );
             String entry = getEntry( key, value );
             bufferedWriter.write( entry );
             bufferedWriter.newLine();
@@ -35,6 +35,6 @@ public class ExportPOFile {
     }
 
     private static String getEntry( String key, String value ) {
-        return "\n# key" + key + "\nmsgid " + value + "\nmsgstr " + value;
+        return "\n# " + value + "\nmsgid " + key + "\nmsgstr " + value;
     }
 }
