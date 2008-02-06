@@ -21,7 +21,7 @@ public class ExampleModelElement extends ClockAdapter {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private double _width, _height;
+    private final double _width, _height; // immutable
     private Point2D _position;
     private double _orientation;
     
@@ -48,24 +48,9 @@ public class ExampleModelElement extends ClockAdapter {
         return _width;
     }
     
-    public void setWidth( double width ) {
-        if ( width != _width ) {
-            _width = width;
-            notifyWidthChanged();
-        }
-    }
-    
     public double getHeight() {
         return _height;
     }
-    
-    public void setHeight( double height ) {
-        if ( height != _height ) {
-            _height = height;
-            notifyHeightChanged();
-        }
-    }
-
     
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
@@ -97,20 +82,6 @@ public class ExampleModelElement extends ClockAdapter {
     // Notification
     //----------------------------------------------------------------------------
 
-    private void notifyWidthChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ExampleModelElementListener) i.next() ).widthChanged();
-        }
-    }
-    
-    private void notifyHeightChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ExampleModelElementListener) i.next() ).heightChanged();
-        }
-    }
-    
     private void notifyPositionChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
@@ -130,15 +101,11 @@ public class ExampleModelElement extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public interface ExampleModelElementListener {
-        public void widthChanged();
-        public void heightChanged();
         public void positionChanged();
         public void orientationChanged();
     }
 
     public static class ExampleModelElementAdapter implements ExampleModelElementListener {
-        public void widthChanged() {};
-        public void heightChanged() {};
         public void positionChanged() {}
         public void orientationChanged() {}
     }
