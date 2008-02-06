@@ -21,7 +21,7 @@ public class TestSideViewWaterDrops extends TestTopView {
         getPhetPCanvas().addScreenChild( waveSideView );
         waveSideView.setOffset( 0, 400 );
 
-        faucetGraphic = new FaucetGraphic( getPhetPCanvas(), getWaveModel(), getOscillator(), getLatticeScreenCoordinates() );
+        faucetGraphic = new FaucetGraphic( getWaveModel(), getOscillator(), getLatticeScreenCoordinates() );
         getPhetPCanvas().addScreenChild( faucetGraphic );
     }
 

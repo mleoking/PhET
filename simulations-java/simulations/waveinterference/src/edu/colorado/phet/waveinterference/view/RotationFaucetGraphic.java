@@ -15,7 +15,7 @@ public class RotationFaucetGraphic extends FaucetGraphic {
     private RotationWaveGraphic rotationWaveGraphic;
 
     public RotationFaucetGraphic( PSwingCanvas pSwingCanvas, WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates, RotationWaveGraphic rotationWaveGraphic ) {
-        super( pSwingCanvas, waveModel, oscillator, latticeScreenCoordinates );
+        super( waveModel, oscillator, latticeScreenCoordinates );
         this.rotationWaveGraphic = rotationWaveGraphic;
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {

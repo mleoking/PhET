@@ -21,6 +21,8 @@ public class Oscillator {
     private boolean enabled = true;
     private ArrayList listeners = new ArrayList();
     private Oscillator prototype;
+    private boolean pulseEnabled = false;
+    private double phase = 0.0;
 
     private Oscillator( WaveModel waveModel, boolean prototype ) {
         this( waveModel );
@@ -49,14 +51,30 @@ public class Oscillator {
                 }
             }
         }
+        if ( pulseEnabled && getCosArg() + phase >= Math.PI * 2 ) {
+            pulseEnabled = false;
+            setEnabled( false );
+        }
+    }
+
+    public void firePulse() {
+        if ( !pulseEnabled ) {
+            setEnabled( true );
+            this.phase = -getCosArg() + Math.PI / 2;//start at wave value=0
+            pulseEnabled = true;
+        }
     }
 
     public double getValue() {
-        return evaluate( time );
+        return amplitude * Math.cos( getCosArg() + phase );
+    }
+
+    private double getCosArg() {
+        return 2 * Math.PI * getFrequency() * time;
     }
 
     public double getVelocity() {
-        return evaluateVelocity( time );
+        return amplitude * Math.sin( getCosArg() + phase ) * 2 * Math.PI * getFrequency();
     }
 
     public int getRadius() {
@@ -118,14 +136,6 @@ public class Oscillator {
 
     public double getTime() {
         return time;
-    }
-
-    public double evaluate( double tEval ) {
-        return amplitude * Math.cos( 2 * Math.PI * getFrequency() * tEval );
-    }
-
-    public double evaluateVelocity( double tEval ) {
-        return amplitude * Math.sin( 2 * Math.PI * getFrequency() * tEval ) * 2 * Math.PI * getFrequency();
     }
 
     public void setEnabled( boolean selected ) {
