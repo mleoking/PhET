@@ -1,4 +1,4 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.simtemplate.module.example;
 
@@ -6,8 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.simtemplate.TemplateResources;
-import edu.colorado.phet.simtemplate.control.ExampleModelElementControlPanel;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
+import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.
@@ -20,7 +19,7 @@ public class ExampleControlPanel extends ControlPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ExampleModelElementControlPanel _exampleModelElementControlPanel;
+    private ExampleSubPanel _exampleSubPanel;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -40,12 +39,11 @@ public class ExampleControlPanel extends ControlPanel {
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
-        ExampleModelElement exampleModelElement = module.getExampleModel().getExampleModelElement();
-        _exampleModelElementControlPanel = new ExampleModelElementControlPanel( exampleModelElement );
+        _exampleSubPanel = new ExampleSubPanel();
         
         // Layout
         {
-            addControlFullWidth( _exampleModelElementControlPanel );
+            addControlFullWidth( _exampleSubPanel );
             addSeparator();
             addResetAllButton( module );
         }
@@ -63,8 +61,8 @@ public class ExampleControlPanel extends ControlPanel {
     // Access to subpanels
     //----------------------------------------------------------------------------
     
-    public ExampleModelElementControlPanel getExampleModelElementControlPanel() {
-        return _exampleModelElementControlPanel;
+    public ExampleSubPanel getExampleSubPanel() {
+        return _exampleSubPanel;
     }
 
 }

@@ -1,25 +1,27 @@
-/* Copyright 2007, University of Colorado */
+/* Copyright 2007-2008, University of Colorado */
 
 package edu.colorado.phet.simtemplate.model;
 
-import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * ExampleModelElement is an example model element.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ExampleModelElement implements ModelElement {
+public class ExampleModelElement extends ClockAdapter {
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final Dimension _size;
+    private double _width, _height;
     private Point2D _position;
     private double _orientation;
     
@@ -29,9 +31,10 @@ public class ExampleModelElement implements ModelElement {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleModelElement( Dimension size, Point2D position, double orientation ) {
+    public ExampleModelElement( double width, double height, Point2D position, double orientation ) {
         super();
-        _size = new Dimension( size );
+        _width = width;
+        _height = height;
         _position = new Point2D.Double( position.getX(), position.getY() );
         _orientation = orientation;
         _listeners = new ArrayList();
@@ -40,28 +43,29 @@ public class ExampleModelElement implements ModelElement {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+
+    public double getWidth() {
+        return _width;
+    }
     
-    public void setSize( Dimension size ) {
-        if ( !size.equals( _size ) ) {
-            _size.setSize( size );
-            notifySizeChanged();
+    public void setWidth( double width ) {
+        if ( width != _width ) {
+            _width = width;
+            notifyWidthChanged();
         }
     }
     
-    public Dimension getSize() {
-        return new Dimension( _size );
+    public double getHeight() {
+        return _height;
     }
     
-    public Dimension getSizeReference() {
-        return _size;
-    }
-    
-    public void setPosition( Point2D position ) {
-        if ( !position.equals( _position ) ) {
-            _position.setLocation( position );
-            notifyPositionChanged();
+    public void setHeight( double height ) {
+        if ( height != _height ) {
+            _height = height;
+            notifyHeightChanged();
         }
     }
+
     
     public Point2D getPosition() {
         return new Point2D.Double( _position.getX(), _position.getY() );
@@ -71,10 +75,10 @@ public class ExampleModelElement implements ModelElement {
         return _position;
     }
     
-    public void setOrientation( double orientation ) {
-        if ( orientation != _orientation) {
-            _orientation = orientation;
-            notifyOrientationChanged();
+    public void setPosition( Point2D position ) {
+        if ( !position.equals( _position ) ) {
+            _position.setLocation( position );
+            notifyPositionChanged();
         }
     }
     
@@ -82,59 +86,82 @@ public class ExampleModelElement implements ModelElement {
         return _orientation;
     }
     
+    public void setOrientation( double orientation ) {
+        if ( orientation != _orientation) {
+            _orientation = orientation;
+            notifyOrientationChanged();
+        }
+    }
+    
+    //----------------------------------------------------------------------------
+    // Notification
+    //----------------------------------------------------------------------------
+
+    private void notifyWidthChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ExampleModelElementListener) i.next() ).widthChanged();
+        }
+    }
+    
+    private void notifyHeightChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ExampleModelElementListener) i.next() ).heightChanged();
+        }
+    }
+    
+    private void notifyPositionChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ExampleModelElementListener) i.next() ).positionChanged();
+        }
+    }
+    
+    private void notifyOrientationChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ExampleModelElementListener) i.next() ).orientationChanged();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
     
     public interface ExampleModelElementListener {
-        public void sizeChanged();
+        public void widthChanged();
+        public void heightChanged();
         public void positionChanged();
         public void orientationChanged();
     }
 
     public static class ExampleModelElementAdapter implements ExampleModelElementListener {
-        public void orientationChanged() {}
+        public void widthChanged() {};
+        public void heightChanged() {};
         public void positionChanged() {}
-        public void sizeChanged() {}
-
+        public void orientationChanged() {}
     }
 
-    public void addListener( ExampleModelElementListener listener ) {
+    public void addExampleModelElementListener( ExampleModelElementListener listener ) {
         _listeners.add( listener );
     }
 
-    public void removeListener( ExampleModelElementListener listener ) {
+    public void removeExampleModelElementListener( ExampleModelElementListener listener ) {
         _listeners.remove( listener );
     }
-
-    private void notifySizeChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (ExampleModelElementListener) _listeners.get( i ) ).sizeChanged();
-        }
-    }
-    
-    private void notifyPositionChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (ExampleModelElementListener) _listeners.get( i ) ).positionChanged();
-        }
-    }
-    
-    private void notifyOrientationChanged() {
-        for ( int i = 0; i < _listeners.size(); i++ ) {
-            ( (ExampleModelElementListener) _listeners.get( i ) ).orientationChanged();
-        }
-    }
     
     //----------------------------------------------------------------------------
-    // ModelElement implementation
+    // ClockAdapter overrides
     //----------------------------------------------------------------------------
     
-    /**
-     * Updates the model each time the clock ticks.
-     * 
-     * @param dt
-     */
-    public void stepInTime( double dt ) {
-        // do nothing
+    public void simulationTimeChanged( ClockEvent event ) {
+        // move 1 unit of distance in the direction that we're pointing
+        double distance = 1;
+        double dx = PolarCartesianConverter.getX( distance, _orientation );
+        double dy = PolarCartesianConverter.getY( distance, _orientation );
+        Point2D p = getPositionReference();
+        Point2D pNew = new Point2D.Double( p.getX() + dx, p.getY() + dy );
+        setPosition( pNew );
     }
 }
