@@ -45,7 +45,7 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
             super( "Add Wall Potential" );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    waveInterferenceModel.getWallPotentialGraphic().addPotential( new WallPotential( new Point( 10, 10 ), new Point( 50, 50 ) ) );
+                    waveInterferenceModel.getWallPotentialGraphic().addPotential( new WallPotential( new Point( 10, 10 ), new Point( 50, 50 ) ,waveInterferenceModel.getWaveModel()) );
                 }
             } );
         }
