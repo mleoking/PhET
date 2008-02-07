@@ -101,7 +101,7 @@ public class GlacierNode extends PComposite {
                 _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
         }
-        System.out.println( "GlacierNode.updateIceThickness create ice-rock boundary" );//XXX
+        System.out.println( "GlacierNode.updateIceThickness created ice-rock boundary" );//XXX
         
         // move upvalley, draw ice-air boundary
         double iceSurface = 0;
@@ -112,7 +112,7 @@ public class GlacierNode extends PComposite {
             _mvt.modelToView( _pModel, _pView );
             _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
         }
-        System.out.println( "GlacierNode.updateIceThickness create ice-air boundary" );//XXX
+        System.out.println( "GlacierNode.updateIceThickness created ice-air boundary" );//XXX
         
         // close the path
         _icePath.closePath();
