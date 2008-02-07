@@ -21,7 +21,6 @@ public class ShinyPanel extends JPanel {
     private Color shadedGray;
 
     public ShinyPanel( JComponent component ) {
-//        this( component, new Color( 192, 192, 192 ), new Color( 228, 228, 228 ) );
         this( component, new Color( 80, 80, 80 ), new Color( 20, 20, 20 ) );
     }
 
@@ -32,44 +31,20 @@ public class ShinyPanel extends JPanel {
         add( component, BorderLayout.CENTER );
         setOpaque( this, false );
         setBorder( new ShinyBorder() );
-//        addComponentListener( new ComponentListener() {
-//            public void componentHidden( ComponentEvent e ) {
-//            }
-//
-//            public void componentMoved( ComponentEvent e ) {
-//            }
-//
-//            public void componentResized( ComponentEvent e ) {
-//                setOpaque( ShinyPanel.this, false );
-//            }
-//
-//            public void componentShown( ComponentEvent e ) {
-//                setOpaque( ShinyPanel.this, false );
-//            }
-//        } );
-//        addPropertyChangeListener( "background", new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                setOpaque( ShinyPanel.this, false );
-//            }
-//        } );
-//        Timer timer=new Timer( 30,new ActionListener() {
-//            public void actionPerformed( ActionEvent e ) {
-//                setOpaque( ShinyPanel.this,false );
-//            }
-//        } );
-//        timer.start();
     }
 
     private void setOpaque( JComponent container, boolean b ) {
-        container.setOpaque( b );
-        container.setBackground( new Color( 255, 255, 255, 0 ) );
-        container.setForeground( Color.white );
-//
-//        container.addPropertyChangeListener( "background", new PropertyChangeListener() {
-//            public void propertyChange( PropertyChangeEvent evt ) {
-//                setOpaque( ShinyPanel.this, false );
-//            }
-//        } );
+
+        if ( container instanceof JButton ) {
+            container.setForeground( Color.black );
+            container.setBackground( Color.white );
+//            container.setOpaque( b);
+        }
+        else {
+            container.setOpaque( b );
+            container.setBackground( new Color( 255, 255, 255, 0 ) );
+            container.setForeground( Color.white );
+        }
 
         for ( int i = 0; i < container.getComponentCount(); i++ ) {
             Component child = container.getComponent( i );
@@ -80,12 +55,6 @@ public class ShinyPanel extends JPanel {
     }
 
     protected void paintComponent( Graphics g ) {
-//        Color lightGray = new Color( 192, 192, 192 );
-//        Color shadedGray = new Color( 228, 228, 228 );
-
-//        Color lightGray = Color.gray;
-//        Color shadedGray = Color.lightGray;
-
         GradientPaint gradientPaint = new GradientPaint( 0, 0, lightGray, getWidth(), getHeight(), shadedGray, true );
         Graphics2D g2 = (Graphics2D) g;
         g2.setPaint( gradientPaint );
