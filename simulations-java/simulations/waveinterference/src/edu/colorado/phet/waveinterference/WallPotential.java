@@ -5,6 +5,7 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.waveinterference.model.Potential;
+import edu.colorado.phet.waveinterference.model.WaveModel;
 
 /**
  * Created by: Sam
@@ -13,12 +14,14 @@ import edu.colorado.phet.waveinterference.model.Potential;
 public class WallPotential implements Potential {
     private Point srcPoint;
     private Point dstPoint;
+    private WaveModel waveModel;
     private int thickness = 3;
     private Shape shape;
 
-    public WallPotential( Point srcPoint, Point dstPoint ) {
+    public WallPotential( Point srcPoint, Point dstPoint, WaveModel waveModel ) {
         this.srcPoint = srcPoint;
         this.dstPoint = dstPoint;
+        this.waveModel = waveModel;
         update();
     }
 
@@ -50,7 +53,7 @@ public class WallPotential implements Potential {
     }
 
     public double getPotential( int i, int j, int time ) {
-        return shape.contains( i, j ) ? 100 : 0;
+        return waveModel.containsLocation( i, j ) && shape.contains( i, j ) ? 100 : 0;
     }
 
     public Point getSource() {
