@@ -66,7 +66,7 @@ public class CrossSectionGraphic extends PhetPNode {
                 notifyListeners();
             }
         };
-        addInputEventListener( dragHandler );
+//        addInputEventListener( dragHandler );
         addInputEventListener( new CursorHandler() );
     }
 
