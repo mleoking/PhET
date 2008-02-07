@@ -35,7 +35,8 @@ public class WaveInterferenceModel implements ModelElement {
         primaryOscillator = new Oscillator( waveModel );
         secondaryOscillator = new Oscillator( waveModel );
         initSecondaryOscillator();
-        waveModel.setPotential( slitPotential );
+//        waveModel.setPotential( slitPotential );
+        waveModel.setPotential( new TestTrianglePotential() );
         slitPotential.addListener( new SlitPotential.Listener() {
             public void slitsChanged() {
                 notifySymmetryChanged();
