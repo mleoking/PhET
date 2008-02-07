@@ -114,7 +114,7 @@ public class SlitPotential implements Potential {
         update();
     }
 
-    public double getSlitWidth() {
+    public int getSlitWidth() {
         return slitWidth;
     }
 
