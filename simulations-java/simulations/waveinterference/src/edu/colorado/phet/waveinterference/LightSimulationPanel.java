@@ -118,6 +118,11 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( expandableWaveChart );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                crossSectionGraphic.setVisible( rotationWaveGraphic.isTopView() );
+            }
+        } );
         crossSectionGraphic.addListener( new UpdateWaveChartCrossSection(waveChartGraphic) );
         addScreenChild( crossSectionGraphic );
 

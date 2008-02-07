@@ -107,7 +107,12 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
-        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection(waveChartGraphic) );
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                crossSectionGraphic.setVisible( rotationWaveGraphic.isTopView() );
+            }
+        } );
+        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection( waveChartGraphic ) );
         soundWaveGraphic.addListener( new SoundWaveGraphic.Listener() {
             public void viewChanged() {
                 crossSectionGraphic.setColor( soundWaveGraphic.isParticleVisible() ? Color.white : Color.black );
