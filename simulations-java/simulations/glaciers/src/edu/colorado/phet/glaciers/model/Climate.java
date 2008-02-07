@@ -64,9 +64,10 @@ public class Climate {
      * 
      * @param temperature degrees C
      */
-    public void setTemperature( double temperture ) {
-        if ( temperture != _temperature ) {
-            _temperature = temperture;
+    public void setTemperature( double temperature ) {
+        if ( temperature != _temperature ) {
+            System.out.println( "Climate.setTemperature " + temperature );//XXX
+            _temperature = temperature;
             notifyTemperatureChanged();
         }
     }
@@ -87,9 +88,10 @@ public class Climate {
      */
     public void setSnowfall( double snowfall ) {
         if ( snowfall < 0 ) {
-            throw new IllegalArgumentException( "snowfall must be > 0: " + snowfall );
+            throw new IllegalArgumentException( "snowfall must be >= 0: " + snowfall );
         }
         if ( snowfall != _snowfall ) {
+            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
             _snowfall = snowfall;
             notifySnowfallChanged();
         }
