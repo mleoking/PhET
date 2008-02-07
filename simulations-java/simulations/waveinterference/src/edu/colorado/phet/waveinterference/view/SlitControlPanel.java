@@ -3,6 +3,7 @@ package edu.colorado.phet.waveinterference.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -14,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.util.WIStrings;
+import edu.colorado.phet.waveinterference.WallPotential;
+import edu.colorado.phet.waveinterference.WaveInterferenceModel;
 
 /**
  * User: Sam Reid
@@ -27,10 +30,12 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
     private ModelSlider slitWidthSlider;
     private ModelSlider slitLocationSlider;
     private WaveInterferenceScreenUnits units;
+    private WaveInterferenceModel model;
     private JCheckBox enableCheckBox;
 
-    public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits ) {
+    public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits) {
         this.units = waveInterferenceScreenUnits;
+        this.model = model;
         setBorder( BorderFactory.createEtchedBorder() );
         this.slitPotential = slitPotential;
         HorizontalLayoutPanel topPanel = new HorizontalLayoutPanel();
@@ -129,6 +134,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
                 updateUIToReflectSlitEnabled( slitPotential.isEnabled() );
             }
         } );
+        setFillNone();
     }
 
     private Hashtable toHashtable( int[] doubles ) {
@@ -155,5 +161,4 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         updateUIToReflectSlitEnabled( slitPotential.isEnabled() );
         updateSeparationCheckbox();
     }
-
 }

@@ -60,7 +60,9 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
 
         addScreenChild( new BarrierSideView( waterModule.getSlitPotential(), getLatticeScreenCoordinates(), waveSideView ) );//not a part of the wavesideview so coordinates will be easier, and z-order will be easier
+
         addScreenChild( rotationWaveGraphic );
+        addScreenChild( new CompositeWallPotentialGraphic( this, waterModule.getWallPotentialGraphic(), getLatticeScreenCoordinates() ) );
         rotationWaveGraphic.setPickable( false );
         rotationWaveGraphic.setChildrenPickable( false );
 
@@ -94,7 +96,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( expandableWaveChart );
 
         crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );
-        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection(waveChartGraphic) );
+        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection( waveChartGraphic ) );
         addScreenChild( crossSectionGraphic );
         addScreenChild( measurementToolSet );
         addScreenChild( intensityReaderSet );
