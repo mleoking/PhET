@@ -42,8 +42,11 @@ public abstract class LatticeScreenCoordinates {
     }
 
     public double getCellWidth() {
-//        return toLatticeCoordinates( 1,0).getX()-toLatticeCoordinates( 0,0).getX();
         return toScreenCoordinates( 1, 0 ).getX() - toScreenCoordinates( 0, 0 ).getX();
+    }
+
+    public double toScreenCoordinatesDifferentialX(int dx){
+        return toScreenCoordinates( dx,0 ).getX()-toScreenCoordinates( 0,0 ).getX();
     }
 
     public double toLatticeCoordinatesDifferentialX( double dx ) {

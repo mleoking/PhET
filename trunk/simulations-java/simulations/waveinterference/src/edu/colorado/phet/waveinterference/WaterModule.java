@@ -4,6 +4,7 @@ package edu.colorado.phet.waveinterference;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
+import edu.colorado.phet.waveinterference.model.CompositePotential;
 import edu.colorado.phet.waveinterference.tests.ModuleApplication;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
@@ -21,6 +22,10 @@ public class WaterModule extends WaveInterferenceModule {
 
     public WaveInterferenceScreenUnits getScreenUnits() {
         return waterSimulationPanel.getScreenUnits();
+    }
+
+    public CompositePotential getWallPotentialGraphic() {
+        return waveInterferenceModel.getWallPotentialGraphic();
     }
 
     static class WaterModel extends WaveInterferenceModel {

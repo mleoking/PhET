@@ -1,9 +1,11 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.waveinterference.model.CompositePotential;
 import edu.colorado.phet.waveinterference.model.Oscillator;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.model.WaveModel;
@@ -17,6 +19,8 @@ import edu.colorado.phet.waveinterference.model.WaveModel;
 public class WaveInterferenceModel implements ModelElement {
     private WaveModel waveModel;
     private SlitPotential slitPotential;
+    private CompositePotential compositePotential = new CompositePotential();
+    private CompositePotential wallPotentials = new CompositePotential();
     private Oscillator primaryOscillator;
     private Oscillator secondaryOscillator;
 
@@ -35,8 +39,10 @@ public class WaveInterferenceModel implements ModelElement {
         primaryOscillator = new Oscillator( waveModel );
         secondaryOscillator = new Oscillator( waveModel );
         initSecondaryOscillator();
-//        waveModel.setPotential( slitPotential );
-        waveModel.setPotential( new TestTrianglePotential() );
+        waveModel.setPotential( compositePotential );
+        compositePotential.addPotential( wallPotentials );
+        
+        compositePotential.addPotential( slitPotential );
         slitPotential.addListener( new SlitPotential.Listener() {
             public void slitsChanged() {
                 notifySymmetryChanged();
@@ -118,6 +124,10 @@ public class WaveInterferenceModel implements ModelElement {
     public void setInitialConditions() {
         primaryOscillator.saveState();
         secondaryOscillator.saveState();
+    }
+
+    public CompositePotential getWallPotentialGraphic() {
+        return wallPotentials;
     }
 
     public static interface Listener {

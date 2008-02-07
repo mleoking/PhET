@@ -3,6 +3,8 @@ package edu.colorado.phet.waveinterference.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.waveinterference.WallPotential;
+
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005
@@ -14,6 +16,7 @@ public class CompositePotential implements Potential {
 
     public void addPotential( Potential potential ) {
         p.add( potential );
+        notifyPotentialAdded();
     }
 
     public double getPotential( int x, int y, int timestep ) {
@@ -31,13 +34,38 @@ public class CompositePotential implements Potential {
 
     public void removePotential( Potential potential ) {
         p.remove( potential );
+        notifyPotentialRemoved();
     }
 
     public int numPotentials() {
         return p.size();
     }
 
-    public Potential potentialAt( int i ) {
+    public Potential getPotential( int i ) {
         return (Potential) p.get( i );
+    }
+
+    public static interface Listener {
+        void potentialAdded();
+
+        void potentialRemoved();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyPotentialRemoved() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).potentialRemoved();
+        }
+    }
+
+    public void notifyPotentialAdded() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).potentialAdded();
+        }
     }
 }

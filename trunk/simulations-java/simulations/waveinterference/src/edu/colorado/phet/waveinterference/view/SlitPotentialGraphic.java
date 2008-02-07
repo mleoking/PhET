@@ -26,6 +26,9 @@ public class SlitPotentialGraphic extends PhetPNode {
     private SlitPotential slitPotential;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private PDragEventHandler horizontalDragHandler;
+    public static final Color BARRIER_FILL = new Color( 241, 216, 148 );
+    public static final Stroke BARRIER_STROKE = new BasicStroke( 2 );
+    public static final Paint BARRIER_STROKE_PAINT = Color.black;
 
     //todo remove assumption that all bars are distinct.
     public SlitPotentialGraphic( final SlitPotential slitPotential, final LatticeScreenCoordinates latticeScreenCoordinates ) {
@@ -160,9 +163,9 @@ public class SlitPotentialGraphic extends PhetPNode {
 
     public PNode toShape( Rectangle2D screenRect ) {
         PPath path = new PPath( screenRect );
-        path.setPaint( new Color( 241, 216, 148 ) );
-        path.setStroke( new BasicStroke( 2 ) );
-        path.setStrokePaint( Color.black );
+        path.setPaint( BARRIER_FILL );
+        path.setStroke( BARRIER_STROKE );
+        path.setStrokePaint( BARRIER_STROKE_PAINT );
         path.addInputEventListener( horizontalDragHandler );
         path.addInputEventListener( new CursorHandler() );
         return path;
