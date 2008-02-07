@@ -31,6 +31,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_ICE_THICKNESS = 500; // maximum ice thickness (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
+    private static final double MIN_TIMESCALE = 20; //XXX ?
+    private static final double MAX_TIMESCALE = 50; //XXX ?
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -318,6 +320,27 @@ public class Glacier extends ClockAdapter {
             }
         }
         return ( sum / samples );
+    }
+    
+    //----------------------------------------------------------------------------
+    //  Timescale model
+    //----------------------------------------------------------------------------
+    
+    /* 
+     * Gets the climate change timescale for a specified ELA (equilibrium line altitude).
+     * 
+     * @param ela equilibrium line altitude (meters)
+     * @return timescale (units?)
+     */
+    private static double getClimateChangeTimescale( double ela ) {
+        double timescale = ( ( -37.5 / 300 ) * ela ) + 484.6;
+        if ( timescale < MIN_TIMESCALE ) {
+            timescale = MIN_TIMESCALE;
+        }
+        else if ( timescale > MAX_TIMESCALE ) {
+            timescale = MAX_TIMESCALE;
+        }
+        return timescale;
     }
     
     //----------------------------------------------------------------------------
