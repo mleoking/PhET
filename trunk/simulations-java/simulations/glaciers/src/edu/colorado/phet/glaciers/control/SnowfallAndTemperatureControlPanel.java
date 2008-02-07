@@ -31,6 +31,8 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = false;
+    
     private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
 
@@ -63,7 +65,9 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             _snowfallControl.setFont( CONTROL_FONT );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
-                    notifySnowfallChanged();
+                    if ( UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
+                        notifySnowfallChanged();
+                    }
                 }
             } );
             
@@ -95,7 +99,9 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             _temperatureControl.setFont( CONTROL_FONT );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
-                    notifyTemperatureChanged();
+                    if ( UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
+                        notifyTemperatureChanged();
+                    }
                 }
             } );
             
