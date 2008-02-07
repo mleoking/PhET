@@ -22,7 +22,7 @@ public class LightSourceGraphic extends ImageOscillatorPNode {
         super( oscillator, latticeScreenCoordinates, "waveinterference/images/spotlight_3d.png" );
         JComponent control = ( new OscillatorOnOffControlPanel( oscillator ) );
         final PSwing swing = new PSwing( new ShinyPanel( control ) );
-        swing.translate( 0, -50 );
+//        swing.translate( 0, -50 );
         addChild( swing );
 
     }
