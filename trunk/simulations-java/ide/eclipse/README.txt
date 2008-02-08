@@ -1,25 +1,25 @@
 --
 
-These files are useful for setting up Eclipse.
+After checking out simulations-java, these files can be used to quickly configure Eclipse.
 
-About the files...
+If you use Eclipse to alter these files, please copy the changed files
+to this directory, so that other developers can take advantage of your work.
 
-dot-classpath - 
-Copy this to .classpath at the top level of your project.
-For example, if you created a project named foo, then you would:
-cp foo/ide/eclipse/dot-classpath foo/.classpath
+Follow these steps:
 
-org.eclipse.jdt.core.prefs -
-Copy this file to the .settings directory of your project.
-For example, if you created a project named foo, then you would:
-cp foo/ide/eclipse/org.eclipse.jdt.core.prefs foo/.settings/org.eclipse.jdt.core.prefs
+(1) copy dot-classpath to simulations-java/.classpath
 
-phet-code-format.xml -
-Java code format conventions for PhET software.
-In Eclipse 3.3, import this file from Eclipse>Preferences>Java>Code Style>Formatter.
+(2) copy org.eclipse.jdt.core.prefs to simulations-java/settings/org.eclipse.jdt.core.prefs
 
-phet-code-templates.xml -
-Java code templates for PhET software.
-In Eclipse 3.3, import this file from Eclipse>Preferences>Java>Code Style>Code Templates.
+(3) Import the PhET code format conventions.
+In Eclipse 3.3, got to Eclipse>Preferences>Java>Code Style>Formatter, then import phet-code-format.xml.
+
+(4) Import the PhET code templates.
+In Eclipse 3.3, got to Eclipse>Preferences>Java>Code Style>Code Templates, then import phet-code-templates.xml.
+
+(5) Select simulations-java in the Package Explorer view, then refresh by pressing F5 or choose File>Refresh.
+This tells Eclipse that files have been changed outside of Eclipse.
+
+
 
 --
