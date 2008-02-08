@@ -25,6 +25,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -110,11 +111,12 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
         if ( orientation == RIGHT_FACING ) {
             AffineTransform atx = AffineTransform.getScaleInstance( -1, 1 );
             atx.translate( -bImg.getWidth( null ), 0 );
-            AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
+//            AffineTransformOp atxOp = new AffineTransformOp( atx, AffineTransformOp.TYPE_BILINEAR );
             waterGraphicLocation = new Point2D.Double( getRegistrationPoint().getX(),
                                                        getRegistrationPoint().getY() );
             waterGraphicLocation = atx.transform( waterGraphicLocation, null );
-            bImg = atxOp.filter( bImg, null );
+//            bImg = atxOp.filter( bImg, null );
+            bImg= BufferedImageUtils.flipX( bImg );
             setRegistrationPoint( bImg.getWidth() - getRegistrationPoint().getX(),
                                   getRegistrationPoint().getY() );
         }
