@@ -22,14 +22,13 @@ import javax.swing.*;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * edu.colorado.phet.molecularreactions.MRApplication
  *
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class MRApplication extends PhetApplication {
+public class ReactionsAndRatesApplication extends PhetApplication {
 
-    public MRApplication( PhetApplicationConfig config ) {
+    public ReactionsAndRatesApplication( PhetApplicationConfig config ) {
         super( config );
 
         addModule( new SimpleModule() );
@@ -50,7 +49,7 @@ public class MRApplication extends PhetApplication {
 
                 FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
                 PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
-                MRApplication application = new MRApplication( config );
+                ReactionsAndRatesApplication application = new ReactionsAndRatesApplication( config );
 
                 // Let 'er rip
                 application.startApplication();
