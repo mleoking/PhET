@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.movingman.ArrowPanel;
+import edu.colorado.phet.movingman.MovingManApplication;
 import edu.colorado.phet.movingman.motion.AbstractMotionModule;
 import edu.colorado.phet.movingman.motion.MovingManResources;
 
@@ -16,8 +17,8 @@ import edu.colorado.phet.movingman.motion.MovingManResources;
 public class MovingManMotionModule extends AbstractMotionModule implements ArrowPanel.IArrowPanelModule, OptionsMenu.MovingManOptions {
     private MovingManMotionModel movingManMotionModel;
     private MovingManMotionSimPanel movingManMotionSimPanel;
-    public static double MIN_DT = MovingManMotionApplication.FRAME_DELAY_SEC / 2;
-    public static double MAX_DT = MovingManMotionApplication.FRAME_DELAY_SEC * 2;
+    public static double MIN_DT = MovingManApplication.FRAME_DELAY_SEC / 2;
+    public static double MAX_DT = MovingManApplication.FRAME_DELAY_SEC * 2;
 
     public MovingManMotionModule( ConstantDtClock clock ) {
         super( MovingManResources.getString( "moving-man.name"), clock );
