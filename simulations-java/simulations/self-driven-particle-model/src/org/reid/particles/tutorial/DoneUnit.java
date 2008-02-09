@@ -1,6 +1,8 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial;
 
+import org.reid.particles.SelfDrivenParticleModelApplication;
+
 /**
  * User: Sam Reid
  * Date: Aug 25, 2005

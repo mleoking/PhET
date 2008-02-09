@@ -4,6 +4,8 @@ package org.reid.particles.tutorial;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.reid.particles.SelfDrivenParticleModelApplication;
+
 /**
  * User: Sam Reid
  * Date: Aug 22, 2005

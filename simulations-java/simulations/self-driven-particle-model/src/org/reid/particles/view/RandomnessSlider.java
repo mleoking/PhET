@@ -4,9 +4,10 @@ package org.reid.particles.view;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.umd.cs.piccolo.event.PZoomEventHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import org.reid.particles.SelfDrivenParticleModelApplication;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
-import org.reid.particles.tutorial.SelfDrivenParticleModelApplication;
 import org.reid.particles.tutorial.unit1.Unit1;
 
 import javax.swing.*;

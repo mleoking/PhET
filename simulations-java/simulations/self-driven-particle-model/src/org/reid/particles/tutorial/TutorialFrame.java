@@ -3,6 +3,8 @@ package org.reid.particles.tutorial;
 
 import javax.swing.*;
 
+import org.reid.particles.SelfDrivenParticleModelApplication;
+
 /**
  * User: Sam Reid
  * Date: Aug 22, 2005
