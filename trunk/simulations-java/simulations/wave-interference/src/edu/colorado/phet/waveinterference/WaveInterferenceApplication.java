@@ -16,11 +16,11 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
  */
 
 public class WaveInterferenceApplication extends PhetApplication {
-    private static String VERSION = PhetApplicationConfig.getVersion( "waveinterference" ).formatForTitleBar();
-    private static final String LOCALIZATION_BUNDLE_BASENAME = "waveinterference/localization/waveinterference-strings";
+    private static String VERSION = PhetApplicationConfig.getVersion( "wave-interference" ).formatForTitleBar();
+    private static final String LOCALIZATION_BUNDLE_BASENAME = "wave-interference/localization/wave-interference-strings";
 
     public WaveInterferenceApplication( String[] args ) {
-        super( args, WIStrings.getString( "waveinterference.name" ), WIStrings.getString( "waveinterference.description" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
+        super( args, WIStrings.getString( "wave-interference.name" ), WIStrings.getString( "wave-interference.description" ), VERSION, new FrameSetup.MaxExtent( new FrameSetup.CenteredWithInsets( 50, 50 ) ) );
         WaveInterferenceMenu menu = new WaveInterferenceMenu();
         addModule( new WaterModule() );
         addModule( new SoundModule() );

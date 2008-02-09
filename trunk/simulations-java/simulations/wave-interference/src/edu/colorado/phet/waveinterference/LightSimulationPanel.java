@@ -103,7 +103,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
 
         VerticalConnector verticalConnector = new VerticalConnector( laserControlPanelPNode, primaryLaserGraphic );
         try {
-            verticalConnector.setTexture( ImageLoader.loadBufferedImage( "waveinterference/images/silverwire.png" ) );
+            verticalConnector.setTexture( ImageLoader.loadBufferedImage( "wave-interference/images/silverwire.png" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

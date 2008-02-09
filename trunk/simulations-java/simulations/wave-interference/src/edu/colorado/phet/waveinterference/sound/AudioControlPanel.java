@@ -24,7 +24,7 @@ import edu.colorado.phet.waveinterference.util.WIStrings;
 public class AudioControlPanel extends JPanel {
     private JSlider _soundSlider;
     private JCheckBox _soundCheckBox;
-    public static final String IMAGES_DIRECTORY = "waveinterference/images/";
+    public static final String IMAGES_DIRECTORY = "wave-interference/images/";
     public static final String SOUND_MAX_IMAGE = IMAGES_DIRECTORY + "soundMax.png";
     public static final String SOUND_MIN_IMAGE = IMAGES_DIRECTORY + "soundMin.png";
     public static final Insets DEFAULT_INSETS = new Insets( 0, 0, 0, 0 );

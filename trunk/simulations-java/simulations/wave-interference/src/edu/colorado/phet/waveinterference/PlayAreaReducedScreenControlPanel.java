@@ -55,8 +55,8 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
 
         JButton closeButton = null;
         try {
-//            closeButton = new JButton( "Hide Screen", new ImageIcon( ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" ) ) );
-            BufferedImage image = ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" );
+//            closeButton = new JButton( "Hide Screen", new ImageIcon( ImageLoader.loadBufferedImage( "wave-interference/images/x-20.png" ) ) );
+            BufferedImage image = ImageLoader.loadBufferedImage( "wave-interference/images/x-20.png" );
             image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, (int) ( image.getHeight() * 0.75 ) );
             closeButton = new JButton( new ImageIcon( image ) );
             closeButton.setMargin( new Insets( 2, 2, 2, 2 ) );
