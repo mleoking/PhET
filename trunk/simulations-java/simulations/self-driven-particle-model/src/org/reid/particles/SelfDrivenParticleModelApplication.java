@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
-package org.reid.particles.tutorial;
+package org.reid.particles;
 
+import org.reid.particles.tutorial.*;
 import org.reid.particles.tutorial.unit1.IntroductionUnit;
 
 import javax.swing.*;

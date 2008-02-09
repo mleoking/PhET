@@ -4,6 +4,8 @@ package org.reid.particles.tutorial;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import org.reid.particles.SelfDrivenParticleModelApplication;
 import org.reid.particles.model.Particle;
 import org.reid.particles.model.ParticleModel;
 import org.reid.particles.view.*;

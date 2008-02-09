@@ -1,10 +1,10 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit2;
 
+import org.reid.particles.SelfDrivenParticleModelApplication;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.PButton;
 import org.reid.particles.tutorial.Page;
-import org.reid.particles.tutorial.SelfDrivenParticleModelApplication;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

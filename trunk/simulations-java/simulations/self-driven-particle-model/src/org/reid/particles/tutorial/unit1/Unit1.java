@@ -1,6 +1,7 @@
 /* Copyright 2004, Sam Reid */
 package org.reid.particles.tutorial.unit1;
 
+import org.reid.particles.SelfDrivenParticleModelApplication;
 import org.reid.particles.tutorial.*;
 
 /**

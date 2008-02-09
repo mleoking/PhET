@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import org.reid.particles.SelfDrivenParticleModelApplication;
 import org.reid.particles.util.JSAudioPlayer;
 
 import java.awt.event.ComponentEvent;
