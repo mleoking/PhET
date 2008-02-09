@@ -139,8 +139,8 @@
 	<classpathentry kind="src" path="simulations/the-ramp/data"/>
 	<classpathentry kind="src" path="simulations/travoltage/src"/>
 	<classpathentry kind="src" path="simulations/travoltage/data"/>
-	<classpathentry kind="src" path="simulations/waveinterference/src"/>
-	<classpathentry kind="src" path="simulations/waveinterference/data"/>
+	<classpathentry kind="src" path="simulations/wave-interference/src"/>
+	<classpathentry kind="src" path="simulations/wave-interference/data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="build-tools/apache-ant/lib/ant.jar"/>
 	<classpathentry kind="lib" path="contrib/commons-collections/commons-collections.jar"/>
