@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.modules.single;
+package edu.colorado.phet.quantumwaveinterference.modules.single;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;

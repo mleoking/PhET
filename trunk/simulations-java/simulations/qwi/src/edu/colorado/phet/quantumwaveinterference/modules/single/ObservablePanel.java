@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.qm.modules.single;
+package edu.colorado.phet.quantumwaveinterference.modules.single;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.view.QWIPanel;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

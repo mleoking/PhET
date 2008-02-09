@@ -1,13 +1,13 @@
 /*  */
-package edu.colorado.phet.qm.modules.single;
+package edu.colorado.phet.quantumwaveinterference.modules.single;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.controls.*;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.model.Detector;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.controls.*;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.model.Detector;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

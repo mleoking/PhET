@@ -1,11 +1,11 @@
 /*  */
-package edu.colorado.phet.qm.modules.single;
+package edu.colorado.phet.quantumwaveinterference.modules.single;
 
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.gun.SingleParticleGunNode;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
+import edu.colorado.phet.quantumwaveinterference.view.gun.SingleParticleGunNode;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.IntensityManager;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

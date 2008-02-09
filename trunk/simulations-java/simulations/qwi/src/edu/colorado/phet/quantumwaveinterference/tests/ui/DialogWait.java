@@ -1,4 +1,4 @@
-package edu.colorado.phet.qm.tests.ui;
+package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

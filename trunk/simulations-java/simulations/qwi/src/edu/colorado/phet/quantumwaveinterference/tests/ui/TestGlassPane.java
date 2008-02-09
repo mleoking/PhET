@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.qm.tests.ui;
+package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;

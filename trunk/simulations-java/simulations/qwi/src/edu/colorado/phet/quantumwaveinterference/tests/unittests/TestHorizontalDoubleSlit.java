@@ -1,6 +1,6 @@
-package edu.colorado.phet.qm.tests.unittests;
+package edu.colorado.phet.quantumwaveinterference.tests.unittests;
 
-import edu.colorado.phet.qm.model.potentials.HorizontalDoubleSlit;
+import edu.colorado.phet.quantumwaveinterference.model.potentials.HorizontalDoubleSlit;
 import junit.framework.TestCase;
 
 import java.awt.*;
