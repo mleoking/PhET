@@ -91,7 +91,7 @@ public class SchrodingerRulerGraphic extends PhetPNode {
     private JButton createRotateButton() {
         JButton rotate = null;
         try {
-            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "qwi/images/rot.jpg" ) ) );
+            rotate = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "quantum-wave-interference/images/rot.jpg" ) ) );
             rotate.setMargin( new Insets( 1, 1, 1, 1 ) );
         }
         catch( IOException e ) {

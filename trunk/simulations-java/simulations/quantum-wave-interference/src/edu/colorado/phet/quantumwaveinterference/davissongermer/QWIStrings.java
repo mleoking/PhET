@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
  */
 
 public class QWIStrings {
-    private static String bundleName = "qwi/localization/qwi-strings";
+    private static String bundleName = "quantum-wave-interference/localization/quantum-wave-interference-strings";
 
     public static String getString( String s ) {
         return SimStrings.getInstance().getString( s );

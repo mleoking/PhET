@@ -169,14 +169,14 @@ public class DefaultGunParticle extends GunParticle {
     }
 
     public static DefaultGunParticle createElectron( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.electrons" ), "qwi/images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.electrons" ), "quantum-wave-interference/images/electron-thumb.jpg", new ParticleUnits.ElectronUnits() );
     }
 
     public static DefaultGunParticle createHelium( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.helium-atoms" ), "qwi/images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.helium-atoms" ), "quantum-wave-interference/images/atom-thumb.jpg", new ParticleUnits.HeliumUnits() );
     }
 
     public static DefaultGunParticle createNeutron( AbstractGunNode gun ) {
-        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.neutrons" ), "qwi/images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
+        return new DefaultGunParticle( gun, QWIStrings.getString( "particles.neutrons" ), "quantum-wave-interference/images/neutron-thumb.gif", new ParticleUnits.NeutronUnits() );
     }
 }

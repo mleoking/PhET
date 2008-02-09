@@ -27,11 +27,11 @@ public class MandelGunSet extends IntensityGunNode {
 
     public MandelGunSet( MandelSchrodingerPanel mandelSchrodingerPanel ) {
         super( mandelSchrodingerPanel );
-        leftGun = new MandelGun( "qwi/images/mandel-gun.gif", mandelSchrodingerPanel );
+        leftGun = new MandelGun( "quantum-wave-interference/images/mandel-gun.gif", mandelSchrodingerPanel );
         leftGun.setControlsOffset( -leftGun.getGunControlPanelPSwing().getFullBounds().getWidth() + 50, 0 );
         leftGun.setControlBackgroundColor( BlueGunDetails.gunBackgroundColor );
         leftGun.translateOnGunControls( 0, 5 );
-        rightGun = new MandelGun( "qwi/images/gun2-ii.gif", mandelSchrodingerPanel );
+        rightGun = new MandelGun( "quantum-wave-interference/images/gun2-ii.gif", mandelSchrodingerPanel );
         rightGun.setControlsOffset( rightGun.getGunImageGraphic().getFullBounds().getWidth(), 0 );
         rightGun.setControlBackgroundColor( PinkGunDetails.backgroundColor );
         rightGun.translateOnGunControls( 10, 5 );
@@ -102,7 +102,7 @@ public class MandelGunSet extends IntensityGunNode {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "qwi/images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
         photonMandelBeam = new PhotonMandelBeam( this, photon );
 
         final IntensityBeam[] beams = new IntensityBeam[]{photonMandelBeam};

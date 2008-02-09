@@ -38,7 +38,7 @@ public class QuantumWaveInterferenceApplication extends PhetApplication {
     public MandelModule mandelModule;
 
     public QuantumWaveInterferenceApplication( String[] args ) {
-        super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
+        super( args, QWIStrings.getString( "quantum-wave-interference.name" ), QWIStrings.getString( "quantum-wave-interference.description" ),
                getQWIVersion(), new QWIFrameSetup() );
         setTabbedPaneType( new TabbedPaneType() {
             public ITabbedModulePane createTabbedPane() {
@@ -92,7 +92,7 @@ public class QuantumWaveInterferenceApplication extends PhetApplication {
     }
 
     public static String getQWIVersion() {
-        return PhetApplicationConfig.getVersion( "qwi" ).formatForTitleBar();
+        return PhetApplicationConfig.getVersion( "quantum-wave-interference" ).formatForTitleBar();
     }
 
     private QWIModule getActiveSchrodingerModule() {
