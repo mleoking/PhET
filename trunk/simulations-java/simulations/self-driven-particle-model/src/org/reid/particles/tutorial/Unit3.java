@@ -10,9 +10,9 @@ package org.reid.particles.tutorial;
 
 public class Unit3 implements AbstractUnit {
     private PageMaker[] pageMakers;
-    private SelfDrivenParticleApplication tutorialApplication;
+    private SelfDrivenParticleModelApplication tutorialApplication;
 
-    public Unit3( SelfDrivenParticleApplication tutorialApplication ) {
+    public Unit3( SelfDrivenParticleModelApplication tutorialApplication ) {
         this.tutorialApplication = tutorialApplication;
     }
 

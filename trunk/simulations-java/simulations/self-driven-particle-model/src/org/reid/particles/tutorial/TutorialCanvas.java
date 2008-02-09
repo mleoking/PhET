@@ -60,11 +60,11 @@ public class TutorialCanvas extends PSwingCanvas {
         backgroundNode.setOffset( ( getWidth() - backgroundNode.getWidth() ) / 2, ( getHeight() - backgroundNode.getHeight() ) / 2 );
     }
 
-    public void start( SelfDrivenParticleApplication tutorialApplication ) {
+    public void start( SelfDrivenParticleModelApplication tutorialApplication ) {
         tutorialApplication.setContentPane( this );
     }
 
-    public void teardown( SelfDrivenParticleApplication tutorialApplication ) {
+    public void teardown( SelfDrivenParticleModelApplication tutorialApplication ) {
 //        tutorialApplication.setContentPane( null );
     }
 

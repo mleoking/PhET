@@ -4,7 +4,7 @@ package org.reid.particles.tutorial.unit2;
 import org.reid.particles.tutorial.BasicTutorialCanvas;
 import org.reid.particles.tutorial.PButton;
 import org.reid.particles.tutorial.Page;
-import org.reid.particles.tutorial.SelfDrivenParticleApplication;
+import org.reid.particles.tutorial.SelfDrivenParticleModelApplication;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,9 +18,9 @@ import java.awt.event.ActionListener;
 
 public class FinishedUnit2 extends Page {
     private PButton nextUnit;
-    private SelfDrivenParticleApplication tutorialApplication;
+    private SelfDrivenParticleModelApplication tutorialApplication;
 
-    public FinishedUnit2( BasicTutorialCanvas page, SelfDrivenParticleApplication tutorialApplication ) {
+    public FinishedUnit2( BasicTutorialCanvas page, SelfDrivenParticleModelApplication tutorialApplication ) {
         super( page );
         this.tutorialApplication = tutorialApplication;
         setText( "Well Done.  You have computed the critical point and critical exponent " +

@@ -9,7 +9,7 @@ package org.reid.particles.tutorial;
  */
 
 public class DoneUnit extends Unit {
-    public DoneUnit( SelfDrivenParticleApplication tutorialApplication ) {
+    public DoneUnit( SelfDrivenParticleModelApplication tutorialApplication ) {
         super();
     }
 }
