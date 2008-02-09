@@ -5,7 +5,7 @@ package edu.colorado.phet.reactionsandrates.view.energy;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.piccolophet.services.PNodeShowHideControl;
-import edu.colorado.phet.reactionsandrates.MRApplication;
+import edu.colorado.phet.reactionsandrates.ReactionsAndRatesApplication;
 import edu.colorado.phet.reactionsandrates.MRConfig;
 import edu.colorado.phet.reactionsandrates.model.MRModel;
 import edu.colorado.phet.reactionsandrates.modules.MRModule;
@@ -271,7 +271,7 @@ public class EnergyView extends PNode implements Resetable {
     public static void main( String[] args ) {
         FrameSetup frameSetup = new FrameSetup.CenteredWithSize( 1000, 700 );
         PhetApplicationConfig config = new PhetApplicationConfig( args, frameSetup, MRConfig.RESOURCES );
-        MRApplication mr = new MRApplication( config );
+        ReactionsAndRatesApplication mr = new ReactionsAndRatesApplication( config );
 
         mr.startApplication();
 
