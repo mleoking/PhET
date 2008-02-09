@@ -52,7 +52,7 @@ public class CheckNamingConventions {
 
         String correctClassName = "edu.colorado.phet." + project.getPackageName() + "." + s + "Application";
         if ( !className.equals( correctClassName ) ) {
-            System.out.println( "Wrong class name expected: " + correctClassName + ", found: " + className );
+            System.out.println( "Wrong class name. expected: " + correctClassName + ", found: " + className );
         }
     }
 
