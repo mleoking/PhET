@@ -69,7 +69,7 @@ public class PlateGraphic extends CompositePhetGraphic implements HeatingElement
         super( component );
 
         try {
-            image = ImageLoader.loadBufferedImage( "fluorescent-lights/images/electrode-2.png" );
+            image = ImageLoader.loadBufferedImage( "discharge-lamps/images/electrode-2.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();

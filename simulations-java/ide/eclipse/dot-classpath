@@ -47,6 +47,8 @@
 	<classpathentry kind="src" path="simulations/conductivity/phetcommon/data"/>
 	<classpathentry kind="src" path="simulations/curve-fitting/src"/>
 	<classpathentry kind="src" path="simulations/curve-fitting/data"/>
+	<classpathentry kind="src" path="simulations/discharge-lamps/src"/>
+	<classpathentry kind="src" path="simulations/discharge-lamps/data"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/src"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/data"/>
 	<classpathentry kind="src" path="simulations/distance-ladder/phetcommon/src"/>
@@ -59,8 +61,6 @@
 	<classpathentry kind="src" path="simulations/energy-skate-park/data"/>
 	<classpathentry kind="src" path="simulations/faraday/src"/>
 	<classpathentry kind="src" path="simulations/faraday/data"/>
-	<classpathentry kind="src" path="simulations/fluorescent-lights/src"/>
-	<classpathentry kind="src" path="simulations/fluorescent-lights/data"/>
 	<classpathentry kind="src" path="simulations/forces-1d/src"/>
 	<classpathentry kind="src" path="simulations/forces-1d/data"/>
 	<classpathentry kind="src" path="simulations/fourier/src"/>

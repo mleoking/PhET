@@ -35,7 +35,7 @@ public class TransitionPropertiesTest {
         private DischargeLampAtom atom;
 
         protected void setUp() throws Exception {
-            SimStrings.setStrings( "fluorescent-lights/localization/fluorescent-lights-strings" );
+            SimStrings.setStrings( "discharge-lamps/localization/discharge-lamps-strings" );
             properties = new HydrogenProperties();
             model = new LaserModel( 1.0 );
             atom = new DischargeLampAtom( model, properties, properties.getEnergyEmissionStrategy() );
