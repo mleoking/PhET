@@ -2,7 +2,7 @@ package edu.colorado.phet.quantumwaveinterference.persistence;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
 import edu.colorado.phet.quantumwaveinterference.model.FractionalDoubleSlit;
@@ -255,7 +255,7 @@ public class QWIState implements Serializable, IProguardKeepClass {
     }
 
     public static void main( String[] args ) throws Exception {
-        QWIApplication app = new QWIApplication( args );
+        QuantumWaveInterferenceApplication app = new QuantumWaveInterferenceApplication( args );
         PersistenceManager persistenceManager = new PersistenceManager( new JButton() );
         QWIModule qwiModule = new SingleParticleModule( app, new SwingClock( 30, 1 ) );
 //        schrodingerModule

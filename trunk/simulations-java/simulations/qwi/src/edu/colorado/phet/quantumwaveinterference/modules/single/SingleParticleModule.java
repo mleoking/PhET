@@ -4,7 +4,7 @@ package edu.colorado.phet.quantumwaveinterference.modules.single;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
@@ -23,7 +23,7 @@ public class SingleParticleModule extends QWIModule {
     public SingleParticleSchrodingerPanel schrodingerSchrodingerPanel;
     int count;
 
-    public SingleParticleModule( QWIApplication application, IClock clock ) {
+    public SingleParticleModule( QuantumWaveInterferenceApplication application, IClock clock ) {
         super( QWIStrings.getString( "module.single-particles" ), application, clock );
         setQWIModel( new QWIModel() );
         schrodingerSchrodingerPanel = new SingleParticleSchrodingerPanel( this );

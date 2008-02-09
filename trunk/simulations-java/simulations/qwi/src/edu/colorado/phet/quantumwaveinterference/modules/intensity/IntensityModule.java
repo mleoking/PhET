@@ -3,7 +3,7 @@ package edu.colorado.phet.quantumwaveinterference.modules.intensity;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import edu.colorado.phet.quantumwaveinterference.model.Detector;
@@ -32,7 +32,7 @@ public class IntensityModule extends QWIModule {
     private boolean rightDetectorShouldBeEnabled = false;
     private boolean leftDetectorShouldBeEnabled = false;
 
-    public IntensityModule( QWIApplication app, IClock clock ) {
+    public IntensityModule( QuantumWaveInterferenceApplication app, IClock clock ) {
         this( QWIStrings.getString( "module.high-intensity" ), app, clock );
     }
 

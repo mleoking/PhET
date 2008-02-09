@@ -1,7 +1,7 @@
 package edu.colorado.phet.quantumwaveinterference.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
-import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
 import junit.framework.TestCase;
 
@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 public class TestQWIPersistence extends TestCase {
     public void testQWIPersistenceEmptyState() throws PersistenceUtil.CopyFailedException {
         QWIStrings.init( new String[0] );
-        QWIApplication qwiApplication = new QWIApplication( new String[0] );
+        QuantumWaveInterferenceApplication qwiApplication = new QuantumWaveInterferenceApplication( new String[0] );
         QWIState state = new QWIState( qwiApplication.getIntensityModule() );
         QWIState copy = (QWIState)PersistenceUtil.copy( state );
         System.out.println( "copy = " + copy );

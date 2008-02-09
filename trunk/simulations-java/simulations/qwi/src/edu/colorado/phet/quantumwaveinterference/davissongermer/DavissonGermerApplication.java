@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIFrameSetup;
 import edu.colorado.phet.quantumwaveinterference.QWIPhetLookAndFeel;
 
@@ -29,7 +29,7 @@ public class DavissonGermerApplication extends PhetApplication {
     public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "davisson-germer.description" ), new Object[0] );
 
     public DavissonGermerApplication( String[] args ) {
-        super( args, TITLE, DESCRIPTION, QWIApplication.getQWIVersion(), new QWIFrameSetup() );
+        super( args, TITLE, DESCRIPTION, QuantumWaveInterferenceApplication.getQWIVersion(), new QWIFrameSetup() );
         addModule( new DGModule( this, createClock() ) );
     }
 
