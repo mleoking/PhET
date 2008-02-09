@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.qm.tests.ui;
+package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;

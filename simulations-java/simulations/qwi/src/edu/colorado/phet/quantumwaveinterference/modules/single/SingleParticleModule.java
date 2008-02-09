@@ -1,17 +1,17 @@
 /*  */
-package edu.colorado.phet.qm.modules.single;
+package edu.colorado.phet.quantumwaveinterference.modules.single;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.WaveModel;
-import edu.colorado.phet.qm.view.gun.AbstractGunNode;
-import edu.colorado.phet.qm.view.gun.SingleParticleGunNode;
-import edu.colorado.phet.qm.view.piccolo.detectorscreen.IntensityManager;
+import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
+import edu.colorado.phet.quantumwaveinterference.model.WaveModel;
+import edu.colorado.phet.quantumwaveinterference.view.gun.AbstractGunNode;
+import edu.colorado.phet.quantumwaveinterference.view.gun.SingleParticleGunNode;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.detectorscreen.IntensityManager;
 
 /**
  * User: Sam Reid

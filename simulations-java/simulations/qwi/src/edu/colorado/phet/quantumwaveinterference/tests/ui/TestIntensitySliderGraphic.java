@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.qm.tests.ui;
+package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 
 /**

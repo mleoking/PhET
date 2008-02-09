@@ -9,7 +9,7 @@
  * Date modified : $Date$
  */
 
-package edu.colorado.phet.qm.tests.ui;
+package edu.colorado.phet.quantumwaveinterference.tests.ui;
 
 import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
 import edu.colorado.phet.common.phetcommon.application.Module;
