@@ -1,0 +1,14 @@
+package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
+
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
+
+import java.util.ArrayList;
+
+/**
+ * User: Sam Reid
+ * Date: Sep 27, 2006
+ * Time: 9:06:29 AM
+ */
+public interface VoltageDifference {
+    public double getVoltage( ArrayList visited, Junction at, Junction target, double volts );
+}
