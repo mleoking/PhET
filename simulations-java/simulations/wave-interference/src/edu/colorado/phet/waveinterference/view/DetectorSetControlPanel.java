@@ -46,7 +46,7 @@ public class DetectorSetControlPanel extends VerticalLayoutPanel {
 
     private BufferedImage getDetectorImage() {
         try {
-            return ImageLoader.loadBufferedImage( "waveinterference/images/detector-thumb.gif" );
+            return ImageLoader.loadBufferedImage( "wave-interference/images/detector-thumb.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

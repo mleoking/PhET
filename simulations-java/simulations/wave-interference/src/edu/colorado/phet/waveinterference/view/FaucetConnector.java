@@ -36,7 +36,7 @@ public class FaucetConnector extends VerticalConnector {
         faucetControlPanelPNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
         faucetControlPanelPNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
         try {
-            setTexture( ImageLoader.loadBufferedImage( "waveinterference/images/silverwire.png" ) );
+            setTexture( ImageLoader.loadBufferedImage( "wave-interference/images/silverwire.png" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

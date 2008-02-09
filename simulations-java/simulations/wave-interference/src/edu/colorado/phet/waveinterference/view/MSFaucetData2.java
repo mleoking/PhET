@@ -10,7 +10,7 @@ package edu.colorado.phet.waveinterference.view;
 public class MSFaucetData2 extends FaucetData {
 
     public MSFaucetData2() {
-        super( "waveinterference/images/faucet2.gif", 1115 / 1217.0, 330 / 890.0 );
+        super( "wave-interference/images/faucet2.gif", 1115 / 1217.0, 330 / 890.0 );
     }
 
 }
