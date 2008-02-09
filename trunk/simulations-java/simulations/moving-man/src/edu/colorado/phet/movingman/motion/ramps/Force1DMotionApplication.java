@@ -8,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.movingman.MovingManApplication;
+import edu.colorado.phet.movingman.MovingManApplicationORIG;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
-import edu.colorado.phet.movingman.motion.movingman.MovingManMotionApplication;
+import edu.colorado.phet.movingman.MovingManApplication;
 
 /**
  * Created by: Sam
@@ -19,7 +19,7 @@ import edu.colorado.phet.movingman.motion.movingman.MovingManMotionApplication;
 public class Force1DMotionApplication extends PhetApplication {
     public Force1DMotionApplication( String[] args ) {
         super( new PhetApplicationConfig( args, new FrameSetup.TopCenter( 1024, 768 ), PhetResources.forProject( "moving-man" ), "mm-ramps" ) );
-        addModule( new Force1DMotionModule( new ConstantDtClock( (int) MovingManMotionApplication.FRAME_DELAY_MILLIS, MovingManMotionApplication.FRAME_DELAY_SEC ) ) );
+        addModule( new Force1DMotionModule( new ConstantDtClock( (int) MovingManApplication.FRAME_DELAY_MILLIS, MovingManApplication.FRAME_DELAY_SEC ) ) );
     }
 
     public static void main( final String[] args ) {
@@ -28,7 +28,7 @@ public class Force1DMotionApplication extends PhetApplication {
                 SimStrings.getInstance().init( args, "forces-1d/localization/forces-1d-strings" );//todo: replace with resource loader
                 SimStrings.getInstance().init( args, "the-ramp/localization/the-ramp-strings" );//todo: replace with resource loader
                 MotionProjectLookAndFeel.init();
-                SimStrings.getInstance().addStrings( MovingManApplication.localizedStringsPath );
+                SimStrings.getInstance().addStrings( MovingManApplicationORIG.localizedStringsPath );
                 new Force1DMotionApplication( args ).startApplication();
             }
         } );
