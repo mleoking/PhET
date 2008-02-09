@@ -11,9 +11,9 @@ import javax.swing.*;
  */
 
 public class TutorialFrame extends JFrame {
-    private SelfDrivenParticleApplication tutorialApplication;
+    private SelfDrivenParticleModelApplication tutorialApplication;
 
-    public TutorialFrame( SelfDrivenParticleApplication tutorialApplication ) {
+    public TutorialFrame( SelfDrivenParticleModelApplication tutorialApplication ) {
         super( "The Self-Driven Particle Model" );
         this.tutorialApplication = tutorialApplication;
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

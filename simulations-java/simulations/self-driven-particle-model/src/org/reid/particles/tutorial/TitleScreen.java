@@ -26,20 +26,20 @@ import java.io.IOException;
  */
 
 public class TitleScreen extends PSwingCanvas {
-    private SelfDrivenParticleApplication tutorialApplication;
+    private SelfDrivenParticleModelApplication tutorialApplication;
     private PSwing startButton;
     private PImage titleImage;
     private static final String simName = "self-driven-particle-model";
     private PSwing aboutSwing;
 
-    public TitleScreen( final SelfDrivenParticleApplication tutorialApplication ) {
+    public TitleScreen( final SelfDrivenParticleModelApplication tutorialApplication ) {
         this.tutorialApplication = tutorialApplication;
         setBackground( Color.lightGray );
         setPanEventHandler( null );
         setZoomEventHandler( null );
         try {
             BufferedImage image = ImageLoader.loadBufferedImage( "self-driven-particle-model/images/title-page3.jpg" );
-            if( SelfDrivenParticleApplication.isLowResolution() ) {
+            if( SelfDrivenParticleModelApplication.isLowResolution() ) {
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, tutorialApplication.getTutorialFrame().getHeight() - 30 );
             }
             titleImage = new PImage( image );
