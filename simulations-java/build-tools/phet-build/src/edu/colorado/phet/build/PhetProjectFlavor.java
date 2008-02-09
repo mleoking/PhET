@@ -50,4 +50,18 @@ public class PhetProjectFlavor {
     public String toString() {
         return "" + title + ": description=" + description + ", mainclass=" + mainclass + ", args=" + Arrays.asList( args ) + ", screenshot=" + screenshot;
     }
+
+    public String getJavaStyleName() {
+        //delete hyphens and camel-case
+        String name = upperCaseFirst( getFlavorName() );
+        while ( name.indexOf( '-' ) >= 0 ) {
+            int index = name.indexOf( '-' );
+            name = name.substring( 0, index ) + upperCaseFirst( name.substring( index + 1 ) );
+        }
+        return name;
+    }
+
+    private String upperCaseFirst( String s ) {
+        return s.substring( 0, 1 ).toUpperCase() + s.substring( 1 );
+    }
 }
