@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.qm.model.potentials;
+package edu.colorado.phet.quantumwaveinterference.model.potentials;
 
-import edu.colorado.phet.qm.model.Potential;
-import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.RectangularObject;
+import edu.colorado.phet.quantumwaveinterference.model.Potential;
+import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
+import edu.colorado.phet.quantumwaveinterference.model.RectangularObject;
 
 /**
  * User: Sam Reid

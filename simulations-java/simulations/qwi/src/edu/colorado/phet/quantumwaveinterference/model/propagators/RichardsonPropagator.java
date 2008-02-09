@@ -1,11 +1,11 @@
-package edu.colorado.phet.qm.model.propagators;
+package edu.colorado.phet.quantumwaveinterference.model.propagators;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.model.Potential;
-import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.model.Potential;
+import edu.colorado.phet.quantumwaveinterference.model.Propagator;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
