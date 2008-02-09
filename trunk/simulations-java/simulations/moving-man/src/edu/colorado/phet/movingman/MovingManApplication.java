@@ -2,16 +2,13 @@ package edu.colorado.phet.movingman;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.graphs.GraphSetNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.movingman.MovingManApplicationORIG;
 import edu.colorado.phet.movingman.motion.MotionProjectLookAndFeel;
-import edu.colorado.phet.movingman.motion.movingman.MovingManNode;
 import edu.colorado.phet.movingman.motion.movingman.MovingManMotionModule;
 import edu.colorado.phet.movingman.motion.movingman.OptionsMenu;
 
@@ -20,8 +17,6 @@ import edu.colorado.phet.movingman.motion.movingman.OptionsMenu;
  * May 23, 2007, 1:38:34 AM
  */
 public class MovingManApplication extends PhetApplication {
-    private GraphSetNode graphSetNode;
-    private MovingManNode movingManNode;
     public static final double FRAME_RATE_HZ = 20;//20fps
     public static final double FRAME_DELAY_SEC = 1.0 / FRAME_RATE_HZ;//DT
     public static final double FRAME_DELAY_MILLIS = 1000 * FRAME_DELAY_SEC;
