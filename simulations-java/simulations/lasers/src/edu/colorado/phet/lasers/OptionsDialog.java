@@ -19,9 +19,9 @@ import java.awt.event.ActionListener;
  * Aug 29, 2007, 7:21:38 PM
  */
 public class OptionsDialog extends JDialog {
-    private LaserApplication laserApplication;
+    private LasersApplication laserApplication;
 
-    public OptionsDialog( final LaserApplication laserApplication ) {
+    public OptionsDialog( final LasersApplication laserApplication ) {
         super( laserApplication.getPhetFrame(), "View Options", false );
         VerticalLayoutPanel pane = new VerticalLayoutPanel();
         pane.setFillNone();

@@ -25,7 +25,7 @@ import edu.colorado.phet.lasers.model.atom.LaserAtom;
 import edu.colorado.phet.lasers.model.atom.ThreeLevelElementProperties;
 import edu.colorado.phet.lasers.model.atom.TwoLevelElementProperties;
 import edu.colorado.phet.lasers.view.LampGraphic;
-import edu.colorado.phet.lasers.LaserApplication;
+import edu.colorado.phet.lasers.LasersApplication;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -53,7 +53,7 @@ public class MultipleAtomModule extends BaseLaserModule {
      */
     public MultipleAtomModule( IClock clock ) {
 //        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock ,Photon.DEFAULT_SPEED );
-        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock ,Photon.DEFAULT_SPEED* LaserApplication.MULTI_ATOM_MODULE_SPEED );
+        super( SimStrings.getInstance().getString( "ModuleTitle.MultipleAtomModule" ), clock ,Photon.DEFAULT_SPEED* LasersApplication.MULTI_ATOM_MODULE_SPEED );
 
         // Set the size of the cavity
         Tube cavity = getCavity();

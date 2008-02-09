@@ -5,7 +5,7 @@ package edu.colorado.phet.mvcexample.control;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.mvcexample.MVCApplication;
+import edu.colorado.phet.mvcexample.MVCExampleApplication;
 import edu.colorado.phet.mvcexample.model.CModelElement;
 import edu.colorado.phet.mvcexample.model.CModelElement.CModelElementListener;
 
@@ -20,7 +20,7 @@ public class CControlPanel extends PointerControlPanel implements CModelElementL
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String TITLE = MVCApplication.RESOURCE_LOADER.getLocalizedString( "CControlPanel.title" );
+    private static final String TITLE = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "CControlPanel.title" );
     
     //----------------------------------------------------------------------------
     // Instance data

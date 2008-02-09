@@ -51,8 +51,11 @@ public class CheckNamingConventions {
         final String s = phetProjectFlavor.getJavaStyleName();
 
         String correctClassName = "edu.colorado.phet." + project.getPackageName() + "." + s + "Application";
-        if ( !className.equals( correctClassName ) ) {
+        if ( !className.equalsIgnoreCase( correctClassName ) ) {
             System.out.println( "Wrong class name. expected: " + correctClassName + ", found: " + className );
+        }
+        else if ( !className.equals( correctClassName ) ) {
+            System.out.println( "Class name had case mismatch. expected: " + correctClassName + ", found: " + className );
         }
     }
 

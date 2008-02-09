@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.simtemplate.TemplateApplication;
+import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.
@@ -23,11 +23,11 @@ import edu.colorado.phet.simtemplate.TemplateApplication;
  */
 public class DeveloperMenu extends JMenu implements ActionListener {
 
-    private TemplateApplication _app;
+    private SimTemplateApplication _app;
     private JCheckBoxMenuItem _developerControlsItem;
     private JDialog _developerControlsDialog;
 
-    public DeveloperMenu( TemplateApplication app ) {
+    public DeveloperMenu( SimTemplateApplication app ) {
         super( "Developer" );
 
         _app = app;

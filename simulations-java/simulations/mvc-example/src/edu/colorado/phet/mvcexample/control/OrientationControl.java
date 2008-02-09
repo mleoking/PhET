@@ -3,7 +3,7 @@
 package edu.colorado.phet.mvcexample.control;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.mvcexample.MVCApplication;
+import edu.colorado.phet.mvcexample.MVCExampleApplication;
 
 /**
  * OrientationControl is a control for orientation, in degrees.
@@ -14,9 +14,9 @@ public class OrientationControl extends LinearValueControl {
 
     private static final double MIN = 0;
     private static final double MAX = 360;
-    private static final String LABEL = MVCApplication.RESOURCE_LOADER.getLocalizedString( "OrientationControl.label" );
+    private static final String LABEL = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "OrientationControl.label" );
     private static final String VALUE_PATTERN = "##0";
-    private static final String UNITS = MVCApplication.RESOURCE_LOADER.getLocalizedString( "OrientationControl.units" );
+    private static final String UNITS = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "OrientationControl.units" );
     
     public OrientationControl() {
         super( MIN, MAX, LABEL, VALUE_PATTERN, UNITS );

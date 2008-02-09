@@ -3,7 +3,7 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.*;
 
 import edu.colorado.phet.common_force1d.view.ApparatusPanel;
-import edu.colorado.phet.forces1d.Force1DApplication;
+import edu.colorado.phet.forces1d.Forces1DApplication;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
 
 /**
@@ -12,10 +12,10 @@ import edu.colorado.phet.forces1d.common.plotdevice.PlotDeviceView;
  * Time: 8:32:03 PM
  */
 public class Force1DPlotDeviceView implements PlotDeviceView {
-    private Force1DApplication module;
+    private Forces1DApplication module;
     private Force1DPanel force1DPanel;
 
-    public Force1DPlotDeviceView( Force1DApplication module, Force1DPanel force1DPanel ) {
+    public Force1DPlotDeviceView( Forces1DApplication module, Force1DPanel force1DPanel ) {
         this.module = module;
         this.force1DPanel = force1DPanel;
     }

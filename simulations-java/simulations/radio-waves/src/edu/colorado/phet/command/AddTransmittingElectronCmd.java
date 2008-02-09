@@ -7,8 +7,8 @@
 package edu.colorado.phet.command;
 
 import edu.colorado.phet.common_1200.model.Command;
-import edu.colorado.phet.emf.model.Electron;
-import edu.colorado.phet.emf.model.EmfModel;
+import edu.colorado.phet.radiowaves.model.Electron;
+import edu.colorado.phet.radiowaves.model.EmfModel;
 
 public class AddTransmittingElectronCmd implements Command {
 
