@@ -8,7 +8,7 @@ import java.util.Observer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.mvcexample.MVCApplication;
+import edu.colorado.phet.mvcexample.MVCExampleApplication;
 import edu.colorado.phet.mvcexample.model.AModelElement;
 
 /**
@@ -22,7 +22,7 @@ public class AControlPanel extends PointerControlPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final String TITLE = MVCApplication.RESOURCE_LOADER.getLocalizedString( "AControlPanel.title" );
+    private static final String TITLE = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "AControlPanel.title" );
     
     //----------------------------------------------------------------------------
     // Instance data

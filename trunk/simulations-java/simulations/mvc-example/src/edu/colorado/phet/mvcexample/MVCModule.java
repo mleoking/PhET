@@ -31,7 +31,7 @@ public class MVCModule extends Module {
 
     private static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
     
-    private static final String TITLE = MVCApplication.RESOURCE_LOADER.getLocalizedString( "MVCModule.title" );
+    private static final String TITLE = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "MVCModule.title" );
     
     //----------------------------------------------------------------------------
     // Instance data

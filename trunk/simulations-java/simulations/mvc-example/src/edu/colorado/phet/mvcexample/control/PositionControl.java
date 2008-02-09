@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.mvcexample.MVCApplication;
+import edu.colorado.phet.mvcexample.MVCExampleApplication;
 
 /**
  * PositionControl is a control that displays (but does not edit) position.
@@ -16,7 +16,7 @@ import edu.colorado.phet.mvcexample.MVCApplication;
  */
 public class PositionControl extends JPanel {
     
-    private static final String LABEL = MVCApplication.RESOURCE_LOADER.getLocalizedString( "PositionControl.label" );
+    private static final String LABEL = MVCExampleApplication.RESOURCE_LOADER.getLocalizedString( "PositionControl.label" );
 
     private JLabel _label;
     

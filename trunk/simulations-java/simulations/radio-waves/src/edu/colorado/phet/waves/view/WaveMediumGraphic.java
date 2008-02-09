@@ -12,8 +12,8 @@ package edu.colorado.phet.waves.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common_1200.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.emf.EmfConfig;
-import edu.colorado.phet.emf.model.Electron;
+import edu.colorado.phet.radiowaves.EmfConfig;
+import edu.colorado.phet.radiowaves.model.Electron;
 
 import java.awt.*;
 import java.awt.geom.Line2D;

@@ -6,7 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.simtemplate.TemplateApplication;
+import edu.colorado.phet.simtemplate.SimTemplateApplication;
 import edu.colorado.phet.simtemplate.TemplateStrings;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
@@ -130,7 +130,7 @@ public class ExampleModule extends PiccoloModule {
 
         // Module
         if ( config.isActive() ) {
-            TemplateApplication.instance().setActiveModule( this );
+            SimTemplateApplication.instance().setActiveModule( this );
         }
 
         // Clock
