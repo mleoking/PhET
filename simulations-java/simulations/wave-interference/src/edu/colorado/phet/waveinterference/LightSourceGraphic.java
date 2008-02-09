@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class LightSourceGraphic extends ImageOscillatorPNode {
 
     public LightSourceGraphic( Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        super( oscillator, latticeScreenCoordinates, "waveinterference/images/spotlight_3d.png" );
+        super( oscillator, latticeScreenCoordinates, "wave-interference/images/spotlight_3d.png" );
         JComponent control = ( new OscillatorOnOffControlPanel( oscillator ) );
         final PSwing swing = new PSwing( new ShinyPanel( control ) );
 //        swing.translate( 0, -50 );
