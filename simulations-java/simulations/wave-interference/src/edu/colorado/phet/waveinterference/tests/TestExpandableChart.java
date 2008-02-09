@@ -22,7 +22,7 @@ public class TestExpandableChart extends TestTopView {
 
         final MutableColor waterColor = new MutableColor( new Color( 130, 185, 255 ) );
         getWaveModelGraphic().setColorMap( new IndexColorMap( getLattice(), waterColor ) );
-        WaveChartGraphic waveChartGraphic = new WaveChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor, "units.meters.abbreviation", 0, 125 );
+        WaveChartGraphic waveChartGraphic = new WaveChartGraphic( "Displacement", getWaveModelGraphic().getLatticeScreenCoordinates(), getWaveModel(), waterColor, "units.meters", 0, 125 );
 //        getPhetPCanvas().getLayer().addChild( waveChartGraphic );
 
         final CrossSectionGraphic crossSectionGraphic = new CrossSectionGraphic( getWaveModel(), getLatticeScreenCoordinates() );

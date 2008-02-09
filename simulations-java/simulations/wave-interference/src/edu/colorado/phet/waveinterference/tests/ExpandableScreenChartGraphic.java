@@ -40,7 +40,7 @@ public class ExpandableScreenChartGraphic extends PNode {
         } );
         JButton closeButton = null;
         try {
-            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" ) ) );
+            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "wave-interference/images/x-20.png" ) ) );
             closeButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setExpanded( false );
