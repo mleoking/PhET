@@ -400,7 +400,7 @@ public class DischargeLampModule extends PhetGraphicsModule {
             public void actionPerformed( ActionEvent e ) {
                 if( photoWindow == null ) {
                     try {
-                        BufferedImage bi = ImageLoader.loadBufferedImage( "fluorescent-lights/images/actual-lamps.jpg" );
+                        BufferedImage bi = ImageLoader.loadBufferedImage( "discharge-lamps/images/actual-lamps.jpg" );
                         photoWindow = new PhotoWindow( PhetUtilities.getPhetFrame(), bi );
                     }
                     catch( IOException e1 ) {

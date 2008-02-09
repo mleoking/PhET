@@ -30,7 +30,7 @@ public class DischargeLampsConfig {
     public static String version = "1.03";
 
     // Localization
-    public static final String localizedStringsPath = "fluorescent-lights/localization/fluorescent-lights-strings";
+    public static final String localizedStringsPath = "discharge-lamps/localization/discharge-lamps-strings";
 
     public static final int NUM_ENERGY_LEVELS = 2;
     public static final int MAX_NUM_ENERGY_LEVELS = 6;
@@ -61,7 +61,7 @@ public class DischargeLampsConfig {
                                                                   195 );
 
     // Images
-    public static final String IMAGE_FILE_DIRECTORY = "fluorescent-lights/images/";
+    public static final String IMAGE_FILE_DIRECTORY = "discharge-lamps/images/";
     public static final String ELECTRON_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "electron.gif";
     public static final String HEATING_ELEMENT_FILE_NAME = IMAGE_FILE_DIRECTORY + "coil-2b.png";
     public static final String POSITIVE_CIRCUIT_IMAGE_FILE_NAME = IMAGE_FILE_DIRECTORY + "battery-w-wires-2.png";
