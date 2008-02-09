@@ -1,10 +1,10 @@
-package edu.colorado.phet.qm.model.propagators;
+package edu.colorado.phet.quantumwaveinterference.model.propagators;
 
-import edu.colorado.phet.qm.model.Potential;
-import edu.colorado.phet.qm.model.Propagator;
-import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.Potential;
+import edu.colorado.phet.quantumwaveinterference.model.Propagator;
+import edu.colorado.phet.quantumwaveinterference.model.Wave;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 /* Two-dimensional Time dependent Schrodinger Equation.  */
 /* Use Crank-Nicholson/Cayley algorithm...               */

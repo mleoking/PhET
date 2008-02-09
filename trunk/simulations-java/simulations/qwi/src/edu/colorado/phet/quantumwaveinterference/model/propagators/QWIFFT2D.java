@@ -1,7 +1,7 @@
 /*  */
-package edu.colorado.phet.qm.model.propagators;
+package edu.colorado.phet.quantumwaveinterference.model.propagators;
 
-import edu.colorado.phet.qm.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
 
 /**
  * User: Sam Reid

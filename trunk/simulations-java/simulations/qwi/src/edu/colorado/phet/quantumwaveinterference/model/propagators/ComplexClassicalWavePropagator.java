@@ -1,3 +1,4 @@
+package edu.colorado.phet.quantumwaveinterference.model.propagators;
 ///*  */
 //package edu.colorado.phet.qm.model.propagators;
 //

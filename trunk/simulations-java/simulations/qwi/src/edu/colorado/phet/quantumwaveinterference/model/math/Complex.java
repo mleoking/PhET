@@ -1,5 +1,5 @@
 /*  */
-package edu.colorado.phet.qm.model.math;
+package edu.colorado.phet.quantumwaveinterference.model.math;
 
 /**
  * User: Sam Reid
