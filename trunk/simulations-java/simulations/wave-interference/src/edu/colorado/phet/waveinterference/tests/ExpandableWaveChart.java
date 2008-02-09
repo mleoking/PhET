@@ -48,7 +48,7 @@ public class ExpandableWaveChart extends PNode {
         } );
         JButton collapse = null;
         try {
-            collapse = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "waveinterference/images/x-20.png" ) ) );
+            collapse = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "wave-interference/images/x-20.png" ) ) );
             collapse.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setExpanded( false );
