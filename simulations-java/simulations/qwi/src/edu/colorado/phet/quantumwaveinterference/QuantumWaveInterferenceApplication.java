@@ -31,13 +31,13 @@ import java.io.IOException;
  * Time: 6:48:21 PM
  */
 
-public class QWIApplication extends PhetApplication {
+public class QuantumWaveInterferenceApplication extends PhetApplication {
     //    public static String VERSION = "1.05";
     private IntensityModule intensityModule;
     public SingleParticleModule singleParticleModule;
     public MandelModule mandelModule;
 
-    public QWIApplication( String[] args ) {
+    public QuantumWaveInterferenceApplication( String[] args ) {
         super( args, QWIStrings.getString( "qwi.name" ), QWIStrings.getString( "qwi.description" ),
                getQWIVersion(), new QWIFrameSetup() );
         setTabbedPaneType( new TabbedPaneType() {
@@ -108,7 +108,7 @@ public class QWIApplication extends PhetApplication {
             public void run() {
                 QWIStrings.init( args );
                 new QWIPhetLookAndFeel().initLookAndFeel();
-                final QWIApplication QWIApplication = new QWIApplication( args );
+                final QuantumWaveInterferenceApplication QWIApplication = new QuantumWaveInterferenceApplication( args );
                 QWIApplication.startApplication();
                 if( QWIApplication.intensityModule != null ) {
                     addWiggleMe( QWIApplication );
@@ -130,7 +130,7 @@ public class QWIApplication extends PhetApplication {
         return mandelModule;
     }
 
-    private static void addWiggleMe( final QWIApplication QWIApplication ) {
+    private static void addWiggleMe( final QuantumWaveInterferenceApplication QWIApplication ) {
         final MotionHelpBalloon helpBalloon = new MotionHelpBalloon( QWIApplication.intensityModule.getSchrodingerPanel(), QWIStrings.getString( "qwi.invitation" ) );
         helpBalloon.setTextColor( Color.white );
         helpBalloon.setShadowTextColor( Color.gray );
