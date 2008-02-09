@@ -107,8 +107,8 @@
 	<classpathentry kind="src" path="simulations/photoelectric/data"/>
 	<classpathentry kind="src" path="simulations/quantum-tunneling/src"/>
 	<classpathentry kind="src" path="simulations/quantum-tunneling/data"/>
-	<classpathentry kind="src" path="simulations/qwi/src"/>
-	<classpathentry kind="src" path="simulations/qwi/data"/>
+	<classpathentry kind="src" path="simulations/quantum-wave-interference/src"/>
+	<classpathentry kind="src" path="simulations/quantum-wave-interference/data"/>
 	<classpathentry kind="src" path="simulations/radio-waves/src"/>
 	<classpathentry kind="src" path="simulations/radio-waves/data"/>
 	<classpathentry kind="src" path="simulations/radio-waves/phetcommon/src"/>
