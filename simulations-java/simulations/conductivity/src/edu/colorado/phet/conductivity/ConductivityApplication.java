@@ -2,7 +2,7 @@
 // Jad home page: http://www.kpdus.com/jad.html
 // Decompiler options: packimports(3) 
 
-package edu.colorado.phet.conductivity.macro;
+package edu.colorado.phet.conductivity;
 
 import edu.colorado.phet.common.conductivity.application.Module;
 import edu.colorado.phet.common.conductivity.application.PhetApplication;
@@ -36,6 +36,10 @@ import edu.colorado.phet.conductivity.macro.circuit.MacroCircuit;
 import edu.colorado.phet.conductivity.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.conductivity.macro.particles.WireParticle;
 import edu.colorado.phet.conductivity.macro.particles.WireParticleGraphic;
+import edu.colorado.phet.conductivity.macro.MacroSystem;
+import edu.colorado.phet.conductivity.macro.MacroControlPanel;
+import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
+import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 
 import javax.swing.*;
 import java.awt.*;
