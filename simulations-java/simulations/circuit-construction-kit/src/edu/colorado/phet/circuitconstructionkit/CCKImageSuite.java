@@ -24,11 +24,11 @@ public class CCKImageSuite {
 
     private BufferedImage acImage;
     private BufferedImage inductorImage;
-    private String inductorImageLoc = "circuitconstructionkit/images/inductor2.gif";
-    private String batteryImageLocation = "circuitconstructionkit/images/AA-battery-100.gif";
-    private String resistorImageLocation = "circuitconstructionkit/images/resistor3.gif";
-    private String capImageLoc = "circuitconstructionkit/images/cap5.gif";
-    private String acImageLoc = "circuitconstructionkit/images/ac.gif";
+    private String inductorImageLoc = "circuit-construction-kit/images/inductor2.gif";
+    private String batteryImageLocation = "circuit-construction-kit/images/AA-battery-100.gif";
+    private String resistorImageLocation = "circuit-construction-kit/images/resistor3.gif";
+    private String capImageLoc = "circuit-construction-kit/images/cap5.gif";
+    private String acImageLoc = "circuit-construction-kit/images/ac.gif";
 
     public CCKImageSuite() throws IOException {
         loadImages();
@@ -36,7 +36,7 @@ public class CCKImageSuite {
 
     public BufferedImage getParticleImage() throws IOException {
 //        return imageLoader.loadImage( "cck/images/electron9.gif" );
-        return imageLoader.loadImage( "circuitconstructionkit/images/electron10.png" );
+        return imageLoader.loadImage( "circuit-construction-kit/images/electron10.png" );
 //        return imageLoader.loadImage( "cck/images/electron-2.png" );
     }
 
@@ -56,7 +56,7 @@ public class CCKImageSuite {
 
     public BufferedImage getKnifeHandleImage() {
         try {
-            return imageLoader.loadImage( "circuitconstructionkit/images/handle8.gif" );
+            return imageLoader.loadImage( "circuit-construction-kit/images/handle8.gif" );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );
@@ -65,7 +65,7 @@ public class CCKImageSuite {
 
     public BufferedImage getKnifeBoardImage() {
         try {
-            return imageLoader.loadImage( "circuitconstructionkit/images/knifeBoard.gif" );
+            return imageLoader.loadImage( "circuit-construction-kit/images/knifeBoard.gif" );
         }
         catch( IOException e ) {
             throw new RuntimeException( e );

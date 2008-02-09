@@ -39,8 +39,8 @@ public class VoltmeterNode extends PhetPNode {
     public VoltmeterNode( final VoltmeterModel voltmeterModel ) {
         this.voltmeterModel = voltmeterModel;
         unitImageNode = new UnitNode( voltmeterModel );
-        redProbe = new LeadNode( "circuitconstructionkit/images/probeRed.gif", voltmeterModel.getRedLeadModel() );
-        blackProbe = new LeadNode( "circuitconstructionkit/images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
+        redProbe = new LeadNode( "circuit-construction-kit/images/probeRed.gif", voltmeterModel.getRedLeadModel() );
+        blackProbe = new LeadNode( "circuit-construction-kit/images/probeBlack.gif", voltmeterModel.getBlackLeadModel() );
 
         addChild( unitImageNode );
 
@@ -92,7 +92,7 @@ public class VoltmeterNode extends PhetPNode {
                     update();
                 }
             } );
-            addChild( PImageFactory.create( "circuitconstructionkit/images/vm3.gif" ) );
+            addChild( PImageFactory.create( "circuit-construction-kit/images/vm3.gif" ) );
             textNode = new PText();
             textNode.setFont( new PhetDefaultFont( Font.PLAIN, 20 ) );
             textNode.setOffset( 15, 20 );
