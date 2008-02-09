@@ -105,7 +105,7 @@ public class MacroSystem
     }
 
     private MacroCircuit circuit;
-    ArrayList particles;
+    public ArrayList particles;
     private double minVolts;
     private double maxVolts;
     DefaultBandSet bandSet;

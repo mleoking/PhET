@@ -5,6 +5,7 @@
 package edu.colorado.phet.conductivity.macro;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.conductivity.ConductivityApplication;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;

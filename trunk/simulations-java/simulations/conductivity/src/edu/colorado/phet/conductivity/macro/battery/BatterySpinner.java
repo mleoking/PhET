@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
-import edu.colorado.phet.conductivity.macro.ConductivityApplication;
+import edu.colorado.phet.conductivity.ConductivityApplication;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.battery:
 //            Battery
