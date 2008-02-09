@@ -1,14 +1,14 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -44,7 +44,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
     private RampPhysicalModel lastState;
     private double appliedForceSetValue = 0.0;
-//    private static final double INIT_ANGLE = 0.0;
+    //    private static final double INIT_ANGLE = 0.0;
     //    private static final double INIT_ANGLE = 30 * Math.PI * 2 / 360;
     private static final double INIT_ANGLE = 10.0 * Math.PI * 2 / 360;
 
@@ -98,20 +98,23 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
      * @param dt
      */
     private void newStepCode( double dt ) {
-        if( lastTick != 0.0 ) {
+        if ( lastTick != 0.0 ) {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
 //            RampModel orig = lastState;
             RampPhysicalModel initialState = getState();
 
             setupForces();
-            updateBlock( dt );
+            double acceleration = totalForce.getParallelComponent() / block.getMass();
+            block.setAcceleration( acceleration );
+            originalBlockKE = block.getKineticEnergy();
+            block.stepInTime( this, dt ); //could fire a collision event.
 
-            if( block.getStaticFriction() == 0 && block.getKineticFriction() == 0 ) {
+            if ( block.getStaticFriction() == 0 && block.getKineticFriction() == 0 ) {
                 appliedWork = getTotalEnergy();
                 gravityWork = -getPotentialEnergy();
                 thermalEnergy = initialState.getThermalEnergy();
-                if( block.isJustCollided() ) {
+                if ( block.isJustCollided() ) {
                     thermalEnergy += lastState.getKineticEnergy();
                 }
                 frictiveWork = -thermalEnergy;
@@ -129,28 +132,28 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
 
                 //So height of totalEnergy bar should always be same as height W_app bar
                 double dE = getTotalEnergy() - getAppliedWork();
-                if( Math.abs( dE ) > 1.0E-9 ) {
+                if ( Math.abs( dE ) > 1.0E-9 ) {
                     System.out.println( "dE=" + dE + ", EnergyTotal=" + getTotalEnergy() + ", WorkApplied=" + getAppliedWork() );
                 }
                 //deltaKE = W_net
                 double dK = getBlock().getKineticEnergy() - getTotalWork();
-                if( Math.abs( dK ) > 1.0E-9 ) {
+                if ( Math.abs( dK ) > 1.0E-9 ) {
                     System.out.println( "dK=" + dK + ", Delta KE=" + getBlock().getKineticEnergy() + ", Net Work=" + getTotalWork() );
                 }
             }
 
-            if( block.getKineticEnergy() != lastState.getKineticEnergy() ) {
+            if ( block.getKineticEnergy() != lastState.getKineticEnergy() ) {
                 keObservers.notifyObservers();
             }
 
-            if( getPotentialEnergy() != lastState.getPotentialEnergy() ) {
+            if ( getPotentialEnergy() != lastState.getPotentialEnergy() ) {
                 peObservers.notifyObservers();
             }
         }
         lastTick = currentTimeSeconds();
         lastState = getState();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.stepFinished();
         }
     }
@@ -165,13 +168,6 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         double workDueToRampLift = beforeNewton.getPotentialEnergy() - lastState.getPotentialEnergy();
         double dW = workDueToAppliedForce + workDueToRampLift;
         return dW;
-    }
-
-    private void updateBlock( double dt ) {
-        double acceleration = totalForce.getParallelComponent() / block.getMass();
-        block.setAcceleration( acceleration );
-        originalBlockKE = block.getKineticEnergy();
-        block.stepInTime( this, dt ); //could fire a collision event.
     }
 
     public void setupForces() {
@@ -227,8 +223,8 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     private void notifyAppliedForceChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.appliedForceChanged();
         }
     }
@@ -303,8 +299,8 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     public void setZeroPointY( double zeroPointY ) {
         this.zeroPointY = zeroPointY;
         //TODO updates.
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.zeroPointChanged();
         }
         peObservers.notifyObservers();
@@ -345,7 +341,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public void collided( Surface surface ) {
-        if( block.isFrictionless() ) {
+        if ( block.isFrictionless() ) {
             double changeInEnergy = Math.abs( block.getKineticEnergy() - originalBlockKE );
 
             thermalEnergy += changeInEnergy;
@@ -380,7 +376,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public void setGlobalBlockPosition( double position ) {
-        if( position <= getGround().getLength() ) {
+        if ( position <= getGround().getLength() ) {
             block.setSurface( getGround() );
             block.setPositionInSurface( position );
         }
@@ -411,7 +407,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
     }
 
     public Surface getSurfaceGraphic( double modelLocation ) {
-        if( modelLocation <= ground.getLength() ) {
+        if ( modelLocation <= ground.getLength() ) {
             return ground;
         }
         else {
