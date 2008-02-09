@@ -44,9 +44,9 @@ public class PlainFireButton extends PNode {
         text.setFont( new PhetDefaultFont( Font.BOLD, 12 ) );
         text.setTextPaint( Color.red );
         try {
-            outIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40.gif" );
-            inIcon = ImageLoader.loadBufferedImage( "qwi/images/button-in-40.gif" );
-            grayIcon = ImageLoader.loadBufferedImage( "qwi/images/button-out-40-gray.gif" );
+            outIcon = ImageLoader.loadBufferedImage( "quantum-wave-interference/images/button-out-40.gif" );
+            inIcon = ImageLoader.loadBufferedImage( "quantum-wave-interference/images/button-in-40.gif" );
+            grayIcon = ImageLoader.loadBufferedImage( "quantum-wave-interference/images/button-out-40-gray.gif" );
             icon = new PImage( outIcon );
         }
         catch( IOException e ) {

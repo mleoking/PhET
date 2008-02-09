@@ -127,7 +127,7 @@ public class IntensityGunNode extends AbstractGunNode implements OnOffItem {
     }
 
     protected ImagePComboBox initComboBox() {
-        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "qwi/images/photon-thumb.jpg" );
+        photon = new Photon( this, QWIStrings.getString( "particles.photons" ), "quantum-wave-interference/images/photon-thumb.jpg" );
         IntensityBeam[] mybeams = new IntensityBeam[]{
                 new PhotonBeam( this, photon ),
                 new ParticleBeam( DefaultGunParticle.createElectron( this ) ),

@@ -467,7 +467,7 @@ resolution, and a quarter as many times for high resolution.*/
     }
 
     protected void showZoomOut() {
-        final PImage child = PImageFactory.create( "qwi/images/glassMinus.gif" );
+        final PImage child = PImageFactory.create( "quantum-wave-interference/images/glassMinus.gif" );
         showZoom( child, zoomoutText );
     }
 
@@ -497,7 +497,7 @@ resolution, and a quarter as many times for high resolution.*/
     }
 
     private void showZoomIn() {
-        final PImage child = PImageFactory.create( "qwi/images/glassPlus.gif" );
+        final PImage child = PImageFactory.create( "quantum-wave-interference/images/glassPlus.gif" );
         showZoom( child, zoominText );
     }
 

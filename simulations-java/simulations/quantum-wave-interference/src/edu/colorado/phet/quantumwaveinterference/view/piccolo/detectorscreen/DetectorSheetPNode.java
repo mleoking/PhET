@@ -352,7 +352,7 @@ public class DetectorSheetPNode extends PhetPNode {
             path.setStrokePaint( Color.darkGray );
             addChild( path );
             try {
-                txtr = ImageLoader.loadBufferedImage( "qwi/images/wire.png" );
+                txtr = ImageLoader.loadBufferedImage( "quantum-wave-interference/images/wire.png" );
             }
             catch( IOException e ) {
                 e.printStackTrace();

@@ -61,7 +61,7 @@ public class ClockGraphic extends PNode {
     }
 
     public ClockGraphic() {
-        clockImage = PImageFactory.create( "qwi/images/clock3.png" );
+        clockImage = PImageFactory.create( "quantum-wave-interference/images/clock3.png" );
         addChild( clockImage );
 
         minuteHand = new HandGraphic( 20, 2 );

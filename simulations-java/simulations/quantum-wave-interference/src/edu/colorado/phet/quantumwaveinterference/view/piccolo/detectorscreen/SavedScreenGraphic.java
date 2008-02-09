@@ -49,7 +49,7 @@ public class SavedScreenGraphic extends PNode {
         addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
         try {
-            BufferedImage closeImage = ImageLoader.loadBufferedImage( "qwi/images/x-14.jpg" );
+            BufferedImage closeImage = ImageLoader.loadBufferedImage( "quantum-wave-interference/images/x-14.jpg" );
             JButton closeButton = new JButton( new ImageIcon( closeImage ) );
             closeButton.setMargin( m );
             PSwing button = new PSwing( closeButton );

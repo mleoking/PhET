@@ -19,7 +19,7 @@ public class ImagePotentialGraphic extends RectangularPotentialGraphic {
 
     public ImagePotentialGraphic( QWIPanel component, final RectangularPotential potential ) {
         super( component, potential );
-        image = PImageFactory.create( "qwi/images/atom3.gif" );
+        image = PImageFactory.create( "quantum-wave-interference/images/atom3.gif" );
         addChild( image );
         origWidth = image.getImage().getWidth( null );
         disableCloseGraphic();
