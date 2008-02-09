@@ -19,16 +19,16 @@ import java.text.MessageFormat;
  * Time: 6:48:21 PM
  */
 
-public class DGApplication extends PhetApplication {
+public class DavissonGermerApplication extends PhetApplication {
     //    public static String VERSION = "1.00";
     static {
         QWIStrings.init( new String[]{} );
     }
 
     public static String TITLE = QWIStrings.getString( "davisson.germer.electron.diffraction" );
-    public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "qwi-dg.description" ), new Object[0] );
+    public static String DESCRIPTION = MessageFormat.format( QWIStrings.getString( "davisson-germer.description" ), new Object[0] );
 
-    public DGApplication( String[] args ) {
+    public DavissonGermerApplication( String[] args ) {
         super( args, TITLE, DESCRIPTION, QWIApplication.getQWIVersion(), new QWIFrameSetup() );
         addModule( new DGModule( this, createClock() ) );
     }
@@ -45,7 +45,7 @@ public class DGApplication extends PhetApplication {
 //        PhetLookAndFeel.setLookAndFeel();
 //        new PhetLookAndFeel().apply();
         new QWIPhetLookAndFeel().initLookAndFeel();
-        DGApplication schrodingerApplication = new DGApplication( args );
+        DavissonGermerApplication schrodingerApplication = new DavissonGermerApplication( args );
         schrodingerApplication.startApplication();
 //        System.out.println( "SchrodingerApplication.main" );
     }
