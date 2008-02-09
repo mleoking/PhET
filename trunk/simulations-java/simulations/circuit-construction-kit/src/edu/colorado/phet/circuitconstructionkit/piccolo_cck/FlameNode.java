@@ -21,7 +21,7 @@ public class FlameNode extends PhetPNode {
     public FlameNode( Branch branch ) {
         this.branch = branch;
         try {
-            flameImage = ImageLoader.loadBufferedImage( "circuitconstructionkit/images/flame.gif" );
+            flameImage = ImageLoader.loadBufferedImage( "circuit-construction-kit/images/flame.gif" );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -160,9 +160,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         GridBagConstraints lhs = new GridBagConstraints( 1, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
         GridBagConstraints rhs = new GridBagConstraints( 0, 0, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
 
-        ImageIcon voltIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/dvm-thumb.gif" ) );
-        ImageIcon nonContactAmmIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/va-thumb.gif" ) );
-        ImageIcon ammIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/ammeter60.gif" ) );
+        ImageIcon voltIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/dvm-thumb.gif" ) );
+        ImageIcon nonContactAmmIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/va-thumb.gif" ) );
+        ImageIcon ammIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/ammeter60.gif" ) );
 
         final JCheckBox voltmeter = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.VoltmeterCheckBox" ), false );
         voltmeter.addActionListener( new ActionListener() {
@@ -207,7 +207,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
         if( module.getParameters().getAllowDynamics() ) {
             try {
-                ImageIcon timerIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/stopwatch-thumb.png" ) );
+                ImageIcon timerIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/stopwatch-thumb.png" ) );
                 final JCheckBox timerButton = new JCheckBox( CCKStrings.getString( "stopwatch" ), module.isStopwatchVisible() );
                 timerButton.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -223,7 +223,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
                 e.printStackTrace();
             }
 
-            ImageIcon chartIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/detector-thumb.gif" ) );
+            ImageIcon chartIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
             JButton floatingChartButton = new JButton( CCKStrings.getString( "add.current.chart" ) );
             floatingChartButton.addActionListener( new ActionListener() {
@@ -235,7 +235,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             rhs.gridy++;
             lhs.gridy++;
 
-            ImageIcon voltageIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/detector-thumb.gif" ) );
+            ImageIcon voltageIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/detector-thumb.gif" ) );
             toolPanel.add( new JLabel( chartIcon ), lhs );
             JButton voltageChartButton = new JButton( CCKStrings.getString( "add.voltage" ) );
             voltageChartButton.addActionListener( new ActionListener() {
@@ -393,7 +393,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     public void showHelpImage() {
         final JFrame imageFrame = new JFrame();
         try {
-            BufferedImage image = ImageLoader.loadBufferedImage( "circuitconstructionkit/images/cck-help.gif" );
+            BufferedImage image = ImageLoader.loadBufferedImage( "circuit-construction-kit/images/cck-help.gif" );
 
             JLabel label = new JLabel( new ImageIcon( image ) );
             imageFrame.setContentPane( label );

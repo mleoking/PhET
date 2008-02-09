@@ -25,7 +25,7 @@ public class GrabBagItem {
     private double modelLength;
 
     public GrabBagItem( String imageURLString, String name, double resistance, double modelLength ) {
-        this.imageURL = GrabBagItem.class.getClassLoader().getResource( "circuitconstructionkit/images/grabbag/" + imageURLString );
+        this.imageURL = GrabBagItem.class.getClassLoader().getResource( "circuit-construction-kit/images/grabbag/" + imageURLString );
         this.modelLength = modelLength;
         if( imageURL == null ) {
             throw new RuntimeException( "Null image URL for name=" + name + ", imageURLString=" + imageURLString );

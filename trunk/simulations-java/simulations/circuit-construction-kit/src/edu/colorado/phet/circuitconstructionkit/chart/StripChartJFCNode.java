@@ -47,7 +47,7 @@ public class StripChartJFCNode extends PNode {
 
         jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float)jFreeChartNode.getFullBounds().getWidth(), (float)jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
         try {
-            jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "circuitconstructionkit/images/wood.jpg" ) );
+            jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/wood.jpg" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
