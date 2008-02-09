@@ -1,8 +1,8 @@
 /*  */
-package edu.colorado.phet.qm.model.expectations;
+package edu.colorado.phet.quantumwaveinterference.model.expectations;
 
-import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 
 /**
