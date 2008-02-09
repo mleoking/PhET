@@ -1,13 +1,13 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.phetcommon.ImagePComboBox;
-import edu.colorado.phet.qm.view.gun.IntensityBeam;
-import edu.colorado.phet.qm.view.gun.IntensityGunNode;
-import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
-import edu.colorado.phet.qm.view.piccolo.PinkGunDetails;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
+import edu.colorado.phet.quantumwaveinterference.view.gun.IntensityBeam;
+import edu.colorado.phet.quantumwaveinterference.view.gun.IntensityGunNode;
+import edu.colorado.phet.quantumwaveinterference.view.gun.Photon;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.BlueGunDetails;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.PinkGunDetails;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;

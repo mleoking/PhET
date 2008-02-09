@@ -1,11 +1,11 @@
 /*  */
-package edu.colorado.phet.qm.model.waves;
+package edu.colorado.phet.quantumwaveinterference.model.waves;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.WaveSetup;
-import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.Wave;
+import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 import java.awt.geom.Point2D;
 

@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.QWIScreenNode;
 
 /**
  * User: Sam Reid

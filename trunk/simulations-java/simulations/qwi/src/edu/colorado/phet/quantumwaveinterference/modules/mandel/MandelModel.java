@@ -1,11 +1,11 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.model.*;
-import edu.colorado.phet.qm.model.math.Complex;
-import edu.colorado.phet.qm.model.potentials.ConstantPotential;
-import edu.colorado.phet.qm.model.propagators.NullPropagator;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.model.*;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.potentials.ConstantPotential;
+import edu.colorado.phet.quantumwaveinterference.model.propagators.NullPropagator;
 
 
 /**

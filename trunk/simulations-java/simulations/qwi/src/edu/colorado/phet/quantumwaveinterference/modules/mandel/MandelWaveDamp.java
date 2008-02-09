@@ -1,8 +1,8 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.Wave;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 /**
  * User: Sam Reid

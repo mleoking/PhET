@@ -1,11 +1,11 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.model.CylinderSource;
-import edu.colorado.phet.qm.model.PhotonWave;
-import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.Wave;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.model.CylinderSource;
+import edu.colorado.phet.quantumwaveinterference.model.PhotonWave;
+import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
+import edu.colorado.phet.quantumwaveinterference.model.Wave;
 
 /**
  * User: Sam Reid

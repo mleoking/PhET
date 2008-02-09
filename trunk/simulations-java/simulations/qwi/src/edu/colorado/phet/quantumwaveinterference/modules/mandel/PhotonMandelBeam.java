@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.model.PhotonWave;
-import edu.colorado.phet.qm.view.gun.Photon;
-import edu.colorado.phet.qm.view.gun.PhotonBeam;
+import edu.colorado.phet.quantumwaveinterference.model.PhotonWave;
+import edu.colorado.phet.quantumwaveinterference.view.gun.Photon;
+import edu.colorado.phet.quantumwaveinterference.view.gun.PhotonBeam;
 
 /**
  * User: Sam Reid

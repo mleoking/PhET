@@ -1,15 +1,15 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.modules.intensity.IntensityBeamPanel;
-import edu.colorado.phet.qm.view.colorgrid.ColorMap;
-import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.colormaps.PhotonColorMap;
-import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
-import edu.colorado.phet.qm.view.gun.IntensityGunNode;
-import edu.colorado.phet.qm.view.piccolo.QWIScreenNode;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.modules.intensity.IntensityBeamPanel;
+import edu.colorado.phet.quantumwaveinterference.view.colorgrid.ColorMap;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.PhotonColorMap;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.WaveValueAccessor;
+import edu.colorado.phet.quantumwaveinterference.view.gun.IntensityGunNode;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.QWIScreenNode;
 
 import java.awt.*;
 
