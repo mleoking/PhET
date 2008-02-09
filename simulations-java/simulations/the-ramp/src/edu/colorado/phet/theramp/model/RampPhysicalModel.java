@@ -98,6 +98,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
      * @param dt
      */
     private void newStepCode( double dt ) {
+//        double origTotalEnergy = getTotalEnergy();
         if ( lastTick != 0.0 ) {
             dt = currentTimeSeconds() - lastTick;
             dt = MathUtil.clamp( 1 / 30.0, dt, 1 / 5.0 );
@@ -111,6 +112,15 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
             block.stepInTime( this, dt ); //could fire a collision event.
 
             if ( block.getStaticFriction() == 0 && block.getKineticFriction() == 0 ) {
+//                for ( int i = 0; i < 10; i++ ) {
+//                    if ( Math.abs( block.getVelocity() ) > 1E-2 ) {
+//                        double totalEnergy = getTotalEnergy();
+//                        double dE = totalEnergy - origTotalEnergy;
+//                        double dv = dE / block.getMass() / block.getVelocity();
+//                        block.setVelocity( block.getVelocity() - dv );
+//                    }
+//                }
+
                 appliedWork = getTotalEnergy();
                 gravityWork = -getPotentialEnergy();
                 thermalEnergy = initialState.getThermalEnergy();
