@@ -1,9 +1,9 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.controls.ClearButton;
-import edu.colorado.phet.qm.controls.QWIControlPanel;
-import edu.colorado.phet.qm.controls.ResetButton;
+import edu.colorado.phet.quantumwaveinterference.controls.ClearButton;
+import edu.colorado.phet.quantumwaveinterference.controls.QWIControlPanel;
+import edu.colorado.phet.quantumwaveinterference.controls.ResetButton;
 
 import java.awt.*;
 

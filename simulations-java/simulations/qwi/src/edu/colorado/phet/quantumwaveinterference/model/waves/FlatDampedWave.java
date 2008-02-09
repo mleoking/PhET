@@ -1,8 +1,8 @@
 /*  */
-package edu.colorado.phet.qm.model.waves;
+package edu.colorado.phet.quantumwaveinterference.model.waves;
 
-import edu.colorado.phet.qm.model.Wave;
-import edu.colorado.phet.qm.model.math.Complex;
+import edu.colorado.phet.quantumwaveinterference.model.Wave;
+import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
 
 /**

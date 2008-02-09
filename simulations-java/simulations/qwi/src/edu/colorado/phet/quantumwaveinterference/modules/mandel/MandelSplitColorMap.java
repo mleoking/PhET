@@ -1,10 +1,10 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
-import edu.colorado.phet.qm.model.Wavefunction;
-import edu.colorado.phet.qm.view.colorgrid.ColorMap;
-import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.colormaps.WaveValueAccessor;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
+import edu.colorado.phet.quantumwaveinterference.view.colorgrid.ColorMap;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.WaveValueAccessor;
 
 import java.awt.*;
 

@@ -1,11 +1,11 @@
 /*  */
-package edu.colorado.phet.qm.modules.intensity;
+package edu.colorado.phet.quantumwaveinterference.modules.intensity;
 
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.controls.*;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.util.ComponentCenterer;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.controls.*;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.util.ComponentCenterer;
 
 import java.awt.*;
 

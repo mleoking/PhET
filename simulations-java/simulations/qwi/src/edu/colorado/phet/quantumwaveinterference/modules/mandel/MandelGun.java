@@ -1,17 +1,17 @@
 /*  */
-package edu.colorado.phet.qm.modules.mandel;
+package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ConnectorGraphic;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.qm.controls.IntensitySlider;
-import edu.colorado.phet.qm.controls.SRRWavelengthSlider;
-import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.gun.*;
-import edu.colorado.phet.qm.view.piccolo.BlueGunDetails;
-import edu.colorado.phet.qm.view.piccolo.HorizontalWireConnector;
+import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
+import edu.colorado.phet.quantumwaveinterference.controls.SRRWavelengthSlider;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
+import edu.colorado.phet.quantumwaveinterference.view.gun.*;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.BlueGunDetails;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.HorizontalWireConnector;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;

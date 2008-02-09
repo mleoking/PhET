@@ -1,18 +1,18 @@
 /*  */
-package edu.colorado.phet.qm.modules.intensity;
+package edu.colorado.phet.quantumwaveinterference.modules.intensity;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.qm.QWIApplication;
-import edu.colorado.phet.qm.QWIModule;
-import edu.colorado.phet.qm.davissongermer.QWIStrings;
-import edu.colorado.phet.qm.model.Detector;
-import edu.colorado.phet.qm.model.QWIModel;
-import edu.colorado.phet.qm.model.SplitModel;
-import edu.colorado.phet.qm.view.QWIPanel;
-import edu.colorado.phet.qm.view.colormaps.ColorData;
-import edu.colorado.phet.qm.view.piccolo.DetectorGraphic;
-import edu.colorado.phet.qm.view.piccolo.RestrictedDetectorGraphic;
+import edu.colorado.phet.quantumwaveinterference.QWIApplication;
+import edu.colorado.phet.quantumwaveinterference.QWIModule;
+import edu.colorado.phet.quantumwaveinterference.davissongermer.QWIStrings;
+import edu.colorado.phet.quantumwaveinterference.model.Detector;
+import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
+import edu.colorado.phet.quantumwaveinterference.model.SplitModel;
+import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
+import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.DetectorGraphic;
+import edu.colorado.phet.quantumwaveinterference.view.piccolo.RestrictedDetectorGraphic;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
