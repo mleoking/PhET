@@ -50,7 +50,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         buttonGroup.add( twoDrips );
         add( oneDrip );
         add( twoDrips );
-        spacingSlider = new ModelSlider( WIStrings.getString( "controls.spacing" ), "units.meters.abbreviation", 0, 30, multiOscillator.getSpacing() );
+        spacingSlider = new ModelSlider( WIStrings.getString( "controls.spacing" ), "units.meters", 0, 30, multiOscillator.getSpacing() );
         spacingSlider.setModelLabels( units.toHashtable( new int[]{0, 15, 30}, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );

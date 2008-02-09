@@ -53,7 +53,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
 
     private BufferedImage getClockThumb() {
         try {
-            return ImageLoader.loadBufferedImage( "waveinterference/images/stopwatch-thumb.png" );
+            return ImageLoader.loadBufferedImage( "wave-interference/images/stopwatch-thumb.png" );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -63,7 +63,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
 
     private BufferedImage getTapeIcon() {
         try {
-            return ( ImageLoader.loadBufferedImage( "waveinterference/images/ruler-thumb.png" ) );
+            return ( ImageLoader.loadBufferedImage( "wave-interference/images/ruler-thumb.png" ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
