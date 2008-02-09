@@ -46,8 +46,8 @@ public class PhetProject {
         return new File( getDefaultDeployDir(), getName() + ".jar" );
     }
 
-    public File getDefaultDeployFlavorJar(String flavor){
-        return new File( getDefaultDeployDir(), flavor + ".jar" );  
+    public File getDefaultDeployFlavorJar( String flavor ) {
+        return new File( getDefaultDeployDir(), flavor + ".jar" );
     }
 
     public File getProjectDir() {
@@ -397,18 +397,18 @@ public class PhetProject {
                 title = localizedProperties.getProperty( titleKey );
                 if ( title == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ));
+                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
                     title = englishProperties.getProperty( titleKey );
-                    new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() +", using english").printStackTrace(  );
+                    new RuntimeException( "Missing title for simulation: key=" + titleKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
 
                 }
                 String descriptionKey = flavorName + ".description";
                 description = localizedProperties.getProperty( descriptionKey );
                 if ( description == null ) {
                     Properties englishProperties = new Properties();
-                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ));
-                    description= englishProperties.getProperty( descriptionKey);
-                    new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() +", using english").printStackTrace(  );
+                    englishProperties.load( new FileInputStream( getLocalizationFile( "en" ) ) );
+                    description = englishProperties.getProperty( descriptionKey );
+                    new RuntimeException( "Missing description for simulation: key=" + descriptionKey + ", in file: " + localizationFile.getAbsolutePath() + ", using english" ).printStackTrace();
                 }
             }
             else {
@@ -496,7 +496,7 @@ public class PhetProject {
 
 
     private static boolean isSimulation( File simulation ) {
-        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" )&&new File(simulation,simulation.getName()+"-build.properties").exists();
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && new File( simulation, simulation.getName() + "-build.properties" ).exists();
     }
 
     public static PhetProject[] getAllProjects( File baseDir ) {
@@ -532,5 +532,18 @@ public class PhetProject {
     public File getTranslationFile( Locale locale ) {
         String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
         return new File( projectDir, "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
+    }
+
+    public File getBuildPropertiesFile() {
+        return new File( getProjectDir(), getName() + "-build.properties" );
+    }
+
+    public File getDataDirectory() {
+        return new File( getProjectDir(), "data/" + getName() );
+    }
+
+    public String getPackageName() {
+        String name = getName();//remove hyphens
+        return name.replaceAll( "-", "" );
     }
 }
