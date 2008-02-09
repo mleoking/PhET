@@ -1,0 +1,111 @@
+/**
+ * Class: MicrowaveApplication
+ * Package: edu.colorado.phet.microwave
+ * Author: Another Guy
+ * Date: May 23, 2003
+ */
+package edu.colorado.phet.microwaves;
+
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common_microwaves.application.Module;
+import edu.colorado.phet.common_microwaves.application.PhetApplication;
+import edu.colorado.phet.common_microwaves.view.ApplicationDescriptor;
+import edu.colorado.phet.coreadditions_microwaves.ClientPhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.LecturePhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.MessageFormatter;
+import edu.colorado.phet.coreadditions_microwaves.PhetLookAndFeel;
+import edu.colorado.phet.coreadditions_microwaves.clock.DynamicClockModel;
+import edu.colorado.phet.coreadditions_microwaves.clock.SwingTimerClock;
+import edu.colorado.phet.coreadditions_microwaves.components.PhetFrame;
+
+import javax.swing.*;
+import java.util.logging.Logger;
+
+public class MicrowavesApplication {
+
+
+    //
+    // Static fields and methods
+    //
+    public static double s_speedOfLight = 10;
+
+    public static PhetApplication s_application;
+
+    // Localization
+    public static final String localizedStringsPath = "microwaves/localization/microwaves-strings";
+    private static final String VERSION = PhetApplicationConfig.getVersion( "microwaves" ).formatForTitleBar();
+
+    public static void main( final String[] args ) {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                runApplication( args );
+            }
+        } );
+    }
+
+    private static void runApplication( String[] args ) {
+        SimStrings.getInstance().init( args, localizedStringsPath );
+
+        // Get a logger; the logger is automatically created if
+        // it doesn't already exist
+        Logger logger = Logger.getLogger( "edu.colorado.phet.PhetLogger" );
+
+        // Web Start doesn't seem to let you specify a logging level. It
+        // just logs everything.
+//        ConsoleHandler logHandler = new ConsoleHandler();
+//        logHandler.setLevel( Level.INFO );
+//        logger.setLevel( Level.INFO );
+//        logger.addHandler( logHandler );
+
+        // Log a few message at different severity levels
+        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel();
+
+//        PhetLookAndFeel lookAndFeel = new ClientPhetLookAndFeel( new PhetLookAndFeelSpec() {
+//            public Color background = new Color( 220, 250, 220 );
+//            public Color buttonBackground = new Color( 210, 200, 250 );
+//            public Color controlTextColor = new Color( 20, 0, 80 );
+//        } );
+
+        if( args.length > 0 ) {
+            for( int i = 0; i < args.length; i++ ) {
+                if( args[i].toLowerCase().equals( "-p" ) ) {
+                    lookAndFeel = new LecturePhetLookAndFeel();
+                }
+            }
+        }
+
+        Module oneMoleculesModule = new OneMoleculeModule();
+        Module twoMoleculesModule = new TwoMoleculesModule();
+        Module singleLineOfMoleculesModule = new SingleLineOfMoleculesModuleNoCollisions();
+        Module singleLineOfMoleculesModule2 = new SingleLineOfMoleculesModule2();
+        Module manyMoleculesModule = new ManyMoleculesModule();
+        Module coffeeModule = new CoffeeModule();
+        Module[] modules = new Module[]{
+//            twoMoleculesModule,
+//            singleLineOfMoleculesModule,
+                oneMoleculesModule,
+                singleLineOfMoleculesModule2,
+                manyMoleculesModule,
+                coffeeModule
+        };
+        ApplicationDescriptor appDescriptor = new ApplicationDescriptor(
+                SimStrings.get( "MicrowavesApplication.title" )
+                + " ("
+                + VERSION
+                + ")",
+                MessageFormatter.format( SimStrings.get( "MicrowavesApplication.description" ) ),
+                VERSION, 1024, 768 );
+        s_application = new PhetApplication( appDescriptor, modules,
+                                             new SwingTimerClock( new DynamicClockModel( 20, 50 ) ) );
+        PhetFrame frame = s_application.getApplicationView().getPhetFrame();
+//        frame.addMenu( new ViewMenu() );
+        frame.addMenu( new MicrowaveModule.ControlMenu() );
+        frame.setDefaultLookAndFeelDecorated( true );
+        frame.setIconImage( lookAndFeel.getSmallIconImage() );
+
+//        s_application.startApplication( manyMoleculesModule );
+        s_application.startApplication( singleLineOfMoleculesModule2 );
+    }
+
+}
