@@ -1,17 +1,17 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
 
+import java.text.MessageFormat;
+
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.PhetFrameWorkaround;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
-import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 import edu.colorado.phet.quantumwaveinterference.QWIFrameSetup;
 import edu.colorado.phet.quantumwaveinterference.QWIPhetLookAndFeel;
-
-import java.text.MessageFormat;
+import edu.colorado.phet.quantumwaveinterference.QuantumWaveInterferenceApplication;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,6 @@ import java.text.MessageFormat;
  */
 
 public class DavissonGermerApplication extends PhetApplication {
-    //    public static String VERSION = "1.00";
     static {
         QWIStrings.init( new String[]{} );
     }
@@ -42,12 +41,9 @@ public class DavissonGermerApplication extends PhetApplication {
     }
 
     public static void main( String[] args ) {
-//        PhetLookAndFeel.setLookAndFeel();
-//        new PhetLookAndFeel().apply();
         new QWIPhetLookAndFeel().initLookAndFeel();
         DavissonGermerApplication schrodingerApplication = new DavissonGermerApplication( args );
         schrodingerApplication.startApplication();
-//        System.out.println( "SchrodingerApplication.main" );
     }
 
 }
