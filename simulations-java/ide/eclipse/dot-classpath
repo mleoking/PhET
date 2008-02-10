@@ -35,8 +35,8 @@
 	<classpathentry kind="src" path="simulations/bernoulli/phetcommon/src"/>
 	<classpathentry kind="src" path="simulations/bound-states/src"/>
 	<classpathentry kind="src" path="simulations/bound-states/data"/>
-	<classpathentry kind="src" path="simulations/cck/src"/>
-	<classpathentry kind="src" path="simulations/cck/data"/>
+	<classpathentry kind="src" path="simulations/circuit-construction-kit/src"/>
+	<classpathentry kind="src" path="simulations/circuit-construction-kit/data"/>
 	<classpathentry kind="src" path="simulations/color-vision/src"/>
 	<classpathentry kind="src" path="simulations/color-vision/data"/>
 	<classpathentry kind="src" path="simulations/color-vision/phetcommon/src"/>
