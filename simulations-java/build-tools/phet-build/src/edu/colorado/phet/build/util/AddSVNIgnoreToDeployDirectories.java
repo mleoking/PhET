@@ -28,7 +28,7 @@ public class AddSVNIgnoreToDeployDirectories {
         
         // Verify that the basedir exists
         File baseDir = new File( args[0] );
-        if ( !baseDir.exists() && baseDir.isDirectory() ) {
+        if ( !baseDir.exists() || !baseDir.isDirectory() ) {
             System.out.println( baseDir.getAbsolutePath() + " does not exist or is not a directory" );
         }
 
