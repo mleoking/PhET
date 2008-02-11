@@ -5,8 +5,6 @@ package edu.colorado.phet.glaciers.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
@@ -22,10 +20,12 @@ public class Glacier extends ClockAdapter {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double DX = 100; // distance between x-axis sample points (meters)
-    
     private static final double X0 = 0; // x coordinate where the glacier starts (meters) DO NOT CHANGE!!
     private static final double MAX_LENGTH = 80000; // maximum length (meters)
+    
+    private static final int NUMBER_OF_X_SAMPLES = 1001;
+    private static final double DX = MAX_LENGTH / ( NUMBER_OF_X_SAMPLES - 1 ); // distance between x-axis sample points (meters)
+    
     private static final double MIN_ICE_VOLUME_FLUX = 0; // minimum ice volume flux (meters^2/year)
     private static final double ALMOST_ZERO_ICE_VOLUME_FLUX = 1E-5; // anything <= this value is considered zero
     private static final double MAX_ICE_THICKNESS = 500; // maximum ice thickness (meters)
@@ -43,6 +43,8 @@ public class Glacier extends ClockAdapter {
     private final ClimateListener _climateListener;
     private final EquilibriumLine _equilibriumLine;
     private final ArrayList _listeners; // list of GlacierListener
+    private double _length;
+    private double[] _iceThicknessSamples;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -58,14 +60,12 @@ public class Glacier extends ClockAdapter {
 
             //XXX temporary, to demonstrate immediate changes
             public void snowfallChanged() {
-                notifyIceThicknessChanged();
-                notifyIceVelocityChanged();
+                updateIceThickness();
             }
 
             //XXX temporary, to demonstrate immediate changes
             public void temperatureChanged() {
-                notifyIceThicknessChanged();
-                notifyIceVelocityChanged();
+                updateIceThickness();
             }
         };
         _climate.addClimateListener( _climateListener );
@@ -73,6 +73,11 @@ public class Glacier extends ClockAdapter {
         _equilibriumLine = equilibriumLine;
         
         _listeners = new ArrayList();
+        
+        _length = 0;
+        _iceThicknessSamples = null;
+        
+        updateIceThickness();
     }
     
     public void cleanup() {
@@ -126,13 +131,7 @@ public class Glacier extends ClockAdapter {
      * @return meters
      */
     public double getLength() {
-        double x = X0;
-        double iceVolumeFlux = getIceVolumeFlux( x );
-        while ( iceVolumeFlux > ALMOST_ZERO_ICE_VOLUME_FLUX ) {
-            x += DX;
-            iceVolumeFlux = getIceVolumeFlux( x );
-        }
-        return x - getX0();
+        return _length;
     }
     
     /**
@@ -173,154 +172,202 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the ice thickness at a specified downvalley location.
+     * Gets the ice thickness samples.
+     * Samples were made from X0 to terminusX, at intervals of DX.
+     * Use getX0, getTerminusX, and getDX to interpret these samples.
      * 
-     * @param x meters
-     * @return meters
+     * @return
      */
-    public double getIceThickness( final double x ) {
-        return getSteadyStateIceThickness( x );//XXX for now, use steady state
+    public double[] getIceThicknessSamples() {
+        return _iceThicknessSamples;
     }
     
     /**
-     * Get the ice velocity at a specified location within the ice.
-     * If the location is not within the ice, a zero vector is returned.
+     * Gets the approximate ice thickness at an x coordinate.
+     * The x value specified will fall between 2 ice thickness samples.
+     * Locate the 2 samples, and do a linear interpolation between them 
+     * to determine the approximate ice thickness.
      * 
-     * @param x meters
-     * @param elevation meters
-     * @return Vector2D, components in meters/year
+     * @param x
+     * @return meters
      */
-    public Vector2D getIceVelocity( final double x, final double elevation ) {
-        return getSteadyStateIceVelocity( x, elevation );//XXX for now, use steady state
+    public double getIceThickness( final double x ) {
+        double iceThickness = 0;
+        if ( x >= X0 && x <= getTerminusX() ) {
+            if ( x == getTerminusX() ) {
+                iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
+            }
+            else {
+                double x1 = X0;
+                boolean found = false;
+                for ( int i = 0; found == false && i < _iceThicknessSamples.length - 1; i++ ) {
+                    if ( x >= x1 && x <= x1 + DX ) {
+                        double t1 = _iceThicknessSamples[i];
+                        double t2 = _iceThicknessSamples[i + 1];
+                        iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
+                        found = true;
+                    }
+                    else {
+                        x1 += DX;
+                    }
+                }
+                assert ( found == true );
+            }
+        }
+        assert ( iceThickness >= 0 );
+        return iceThickness;
     }
     
     //----------------------------------------------------------------------------
     // Ice Thickness model
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the steady-state ice thickness at a specified location.
-     * (symbol: h)
-     * 
-     * @param x meters
-     * @returns meters
-     */
-    private double getSteadyStateIceThickness( final double x ) {
-        final double length = getLength();
-        final double q = getIceVolumeFlux( x );
-        final double qMax = getIceVolumeFlux( X0 + ( length / 2 ) ); // max flux is about half-way down the glacier
-        return MAX_ICE_THICKNESS * ( q / qMax ) * ( length / MAX_LENGTH );
-    }
-    
-    /*
-     * Gets the ice volume flux at a specified location.
-     * This is the integral from x0 to x of ( valley width * glacial budget ).
-     * (symbol: q)
-     * 
-     * @param x meters
-     * @return meters^2/year
-     */
-    private double getIceVolumeFlux( final double x ) {
-        double flux = 0;
+    private void updateIceThickness() {
+        
+        final double oldLength = _length;
+        
+        // Compute ice volume flux at x sample points (flux is an integral).
+        ArrayList iceVolumeFluxSamples = new ArrayList();
+        double x = X0;
+        double flux = 0; // integral is accumulated here
+        double maxFlux = 0;
         double valleyWidth = 0;
         double elevation = 0;
         double glacialBudget = 0;
-        for ( double xn = X0; xn <= x; xn += DX ) {
-            valleyWidth = _valley.getWidth( xn );
-            elevation = _valley.getElevation( xn );
+        boolean done = false;
+        while ( !done ) {
+
+            // compute flux
+            valleyWidth = _valley.getWidth( x );
+            elevation = _valley.getElevation( x );
             glacialBudget = _climate.getGlacialBudget( elevation );
             flux += ( valleyWidth * glacialBudget );
+            if ( flux < MIN_ICE_VOLUME_FLUX ) {
+                flux = MIN_ICE_VOLUME_FLUX;
+            }
+            iceVolumeFluxSamples.add( new Double( flux ) );
+
+            // keep track of max flux
+            if ( flux > maxFlux ) {
+                maxFlux = flux;
+            }
+
+            // we're done when flux is zero
+            if ( flux <= ALMOST_ZERO_ICE_VOLUME_FLUX ) {
+                // glacier length
+                _length = x - X0;
+                done = true;
+            }
+            else {
+                // next x value
+                x += DX;
+            }
         }
-        if ( flux < MIN_ICE_VOLUME_FLUX ) {
-            flux = MIN_ICE_VOLUME_FLUX;
+
+        // Compute ice thickness at x sample points.
+        _iceThicknessSamples = new double[iceVolumeFluxSamples.size()];
+        x = X0;
+        for ( int i = 0; i < _iceThicknessSamples.length; i++ ) {
+
+            // steady state thickness
+            flux = ( (Double) iceVolumeFluxSamples.get( i ) ).doubleValue();
+            _iceThicknessSamples[i] = MAX_ICE_THICKNESS * ( flux / maxFlux ) * ( _length / MAX_LENGTH );
+
+            // next x value
+            x += DX;
         }
-        return flux;
+
+        // notification
+        if ( _length != oldLength ) {
+            notifyLengthChanged();
+        }
+        notifyIceThicknessChanged();
     }
     
     //----------------------------------------------------------------------------
     // Ice Velocity model
     //----------------------------------------------------------------------------
     
-    /*
-     * Gets the steady-state ice velocity at a point in the ice.
-     * If the point is outside the ice, a zero vector is returned.
-     * <p>
-     * Magnitude of the velocity vector is determined by the ice speed model herein.
-     * Direction corresponds to the slope of the valley floor.
-     * 
-     * @param x meters
-     * @param elevation meters
-     * @return Vector2D, components in meters/year
-     */
-    private Vector2D getSteadyStateIceVelocity( final double x, final double elevation ) {
-        final double magnitude = getSteadyStateIceSpeed( x, elevation );
-        final double direction = _valley.getDirection( x, x + DX );
-        final double xComponent = PolarCartesianConverter.getX( magnitude, direction );
-        final double yComponent = PolarCartesianConverter.getY( magnitude, direction );
-        return new Vector2D.Double( xComponent, yComponent );
-    }
-    
-    /*
-     * Gets the steady-state ice speed at a point in the ice.
-     * If the point is outside the ice, zero is returned.
-     * 
-     * @param x meters
-     * @param elevation meters
-     * @return meters/year
-     */
-    private double getSteadyStateIceSpeed( final double x, final double elevation ) {
-        double iceSpeed = 0;
-        final double iceThickness = getSteadyStateIceThickness( x );
-        if ( iceThickness > 0 ) {
-            final double valleyElevation = _valley.getElevation( x );
-            final double iceSurfaceElevation = valleyElevation + iceThickness;
-            // if the elevation is in the ice...
-            if ( elevation >= valleyElevation && elevation <= iceSurfaceElevation ) {
-                // zz varies linearly from 0 at the valley floor (rock-ice interface) to 1 at the ice surface (air-ice interface)
-                final double zz = ( elevation - valleyElevation ) / iceThickness;
-                final double u_deform_ave = getVerticallyAveragedDeformationIceSpeed( x );
-                iceSpeed = U_SLIDE + ( u_deform_ave * 5. * ( zz - ( 1.5 * zz * 2 ) + ( zz * 3 ) - ( 0.25 * zz * 4 ) ) );
-            }
-        }
-        return iceSpeed;
-    }
-    
-    /*
-     * Gets the vertically-averaged deformation ice speed.
-     * Speed of ice moving downvalley is affected by vertical deformation,
-     * and this method calculation the deformation contribution.
-     * (symbol: u_deform_ave)
-     * 
-     * @param x meters
-     * @return meters/year
-     */
-    private double getVerticallyAveragedDeformationIceSpeed( final double x ) {
-        final double u0ave = getAverageIceThicknessSquared();
-        final double h = getSteadyStateIceThickness( x );
-        return ( ( h * h ) * U_DEFORM / u0ave );
-    }
-    
-    /*
-     * Gets the average of the square of the ice thickness over the complete length of the glaciers.
-     * Only non-zero thickness value are included in the average.
-     * (symbol: u0ave)
-     * 
-     * @return meters^2
-     */
-    private double getAverageIceThicknessSquared() {
-        double sum = 0;
-        double samples = 0;
-        double h = 0;
-        final double xTerminus = getTerminusX();
-        for ( double x = X0; x <= xTerminus; x += DX ) {
-            h = getSteadyStateIceThickness( x );
-            if ( h > 0 ) {
-                sum += ( h * h );
-                samples++;
-            }
-        }
-        return ( sum / samples );
-    }
+//    /*
+//     * Gets the steady-state ice velocity at a point in the ice.
+//     * If the point is outside the ice, a zero vector is returned.
+//     * <p>
+//     * Magnitude of the velocity vector is determined by the ice speed model herein.
+//     * Direction corresponds to the slope of the valley floor.
+//     * 
+//     * @param x meters
+//     * @param elevation meters
+//     * @return Vector2D, components in meters/year
+//     */
+//    private Vector2D getSteadyStateIceVelocity( final double x, final double elevation ) {
+//        final double magnitude = getSteadyStateIceSpeed( x, elevation );
+//        final double direction = _valley.getDirection( x, x + DX );
+//        final double xComponent = PolarCartesianConverter.getX( magnitude, direction );
+//        final double yComponent = PolarCartesianConverter.getY( magnitude, direction );
+//        return new Vector2D.Double( xComponent, yComponent );
+//    }
+//    
+//    /*
+//     * Gets the steady-state ice speed at a point in the ice.
+//     * If the point is outside the ice, zero is returned.
+//     * 
+//     * @param x meters
+//     * @param elevation meters
+//     * @return meters/year
+//     */
+//    private double getSteadyStateIceSpeed( final double x, final double elevation ) {
+//        double iceSpeed = 0;
+//        final double iceThickness = getSteadyStateIceThickness( x );
+//        if ( iceThickness > 0 ) {
+//            final double valleyElevation = _valley.getElevation( x );
+//            final double iceSurfaceElevation = valleyElevation + iceThickness;
+//            // if the elevation is in the ice...
+//            if ( elevation >= valleyElevation && elevation <= iceSurfaceElevation ) {
+//                // zz varies linearly from 0 at the valley floor (rock-ice interface) to 1 at the ice surface (air-ice interface)
+//                final double zz = ( elevation - valleyElevation ) / iceThickness;
+//                final double u_deform_ave = getVerticallyAveragedDeformationIceSpeed( x );
+//                iceSpeed = U_SLIDE + ( u_deform_ave * 5. * ( zz - ( 1.5 * zz * 2 ) + ( zz * 3 ) - ( 0.25 * zz * 4 ) ) );
+//            }
+//        }
+//        return iceSpeed;
+//    }
+//    
+//    /*
+//     * Gets the vertically-averaged deformation ice speed.
+//     * Speed of ice moving downvalley is affected by vertical deformation,
+//     * and this method calculation the deformation contribution.
+//     * (symbol: u_deform_ave)
+//     * 
+//     * @param x meters
+//     * @return meters/year
+//     */
+//    private double getVerticallyAveragedDeformationIceSpeed( final double x ) {
+//        final double u0ave = getAverageIceThicknessSquared();
+//        final double h = getSteadyStateIceThickness( x );
+//        return ( ( h * h ) * U_DEFORM / u0ave );
+//    }
+//    
+//    /*
+//     * Gets the average of the square of the ice thickness over the complete length of the glaciers.
+//     * Only non-zero thickness value are included in the average.
+//     * (symbol: u0ave)
+//     * 
+//     * @return meters^2
+//     */
+//    private double getAverageIceThicknessSquared() {
+//        double sum = 0;
+//        double samples = 0;
+//        double h = 0;
+//        final double xTerminus = getTerminusX();
+//        for ( double x = X0; x <= xTerminus; x += DX ) {
+//            h = getSteadyStateIceThickness( x );
+//            if ( h > 0 ) {
+//                sum += ( h * h );
+//                samples++;
+//            }
+//        }
+//        return ( sum / samples );
+//    }
     
     //----------------------------------------------------------------------------
     //  Timescale model
@@ -356,11 +403,13 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public interface GlacierListener {
+        public void lengthChanged();
         public void iceThicknessChanged();
         public void iceVelocityChanged();
     }
     
     public static class GlacierAdapter implements GlacierListener {
+        public void lengthChanged() {};
         public void iceThicknessChanged() {};
         public void iceVelocityChanged() {};
     }
@@ -376,6 +425,13 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Notification of changes
     //----------------------------------------------------------------------------
+    
+    private void notifyLengthChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( ( GlacierListener ) i.next() ).lengthChanged();
+        }
+    }
     
     private void notifyIceThicknessChanged() {
         Iterator i = _listeners.iterator();
