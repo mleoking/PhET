@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.03
+Glaciers, version 0.00.04
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,27 +13,23 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>wired up Help button
-<li>wired up Reset All button (currently only resets the clock)
-<li>added temperature, snowfall, accumulation, ablation and glacial budget to climate model
-<li>added model and view of equilibrium line
-<li>wired up "equilibrium line" check box
+<li>allow equilibrium line to be at x < 0
+<li>added ice thickness and ice velocity to glacier model
+<li>added view of ice thickness
+<li>glacier goes immediately to steady-state when climate changes (no time dependence)
+<li>climate is not changed until temperature or snowfall sliders are released
+<li>ice thickness tool display correct thickness value, but calipers aren't resized
+<li>glacial budget meter displays correct values
 <li>
-</ul>
-<p>
-<b>Know issues:</b>
-<p>
-<ul>
-<li>equilibrium line wants to move to x<0 for our range of snowfall and temperature values
-<li>Most things don't do anything interesting because the model is very incomplete.
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
 <li>Lots of things are not implemented. Here are some of them:
+<li>new climate model received on 2/8/08
+<li>no view of ice velocities
 <li>Once created, tools cannot be dragged deleted (no trash can feature).
 <li>Perspective view is not implemented; both views show a side view of the scene.
-<li>There is no model for the glacier, so no glacier will form, and the tools that are related to ice (ice thickness tool, glacial budget meter) will do nothing.
 <li>Snowfall is not visible.
 <li>There is no model for the mountain range, so you won't see mountains.
 <li>There are no left/right arrows in the zoomed view for moving the viewport.
