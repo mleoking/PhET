@@ -73,7 +73,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             
             // Tick labels
             Hashtable labelTable = new Hashtable();
-            labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_SNOWFALL_NONE ) );
+            labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_SNOWFALL_LITTLE ) );
             labelTable.put( new Double( max ), new JLabel( GlaciersStrings.SLIDER_SNOWFALL_LOTS ) );
             _snowfallControl.setTickLabels( labelTable );
             
