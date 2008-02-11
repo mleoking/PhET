@@ -198,20 +198,11 @@ public class Glacier extends ClockAdapter {
                 iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
             }
             else {
-                double x1 = X0;
-                boolean found = false;
-                for ( int i = 0; found == false && i < _iceThicknessSamples.length - 1; i++ ) {
-                    if ( x >= x1 && x <= x1 + DX ) {
-                        double t1 = _iceThicknessSamples[i];
-                        double t2 = _iceThicknessSamples[i + 1];
-                        iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
-                        found = true;
-                    }
-                    else {
-                        x1 += DX;
-                    }
-                }
-                assert ( found == true );
+                int index = (int) ( ( x - X0 ) / DX );
+                double x1 = X0 + ( index * DX );
+                double t1 = _iceThicknessSamples[index];
+                double t2 = _iceThicknessSamples[index + 1];
+                iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
             }
         }
         assert ( iceThickness >= 0 );
