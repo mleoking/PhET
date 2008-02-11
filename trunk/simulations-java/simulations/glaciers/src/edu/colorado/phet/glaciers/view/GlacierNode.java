@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.Valley;
+import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -42,18 +43,9 @@ public class GlacierNode extends PComposite {
         setChildrenPickable( false );
         
         _glacier = glacier;
-        _glacierListener = new GlacierListener() {
-
-            public void lengthChanged() {
-                //XXX
-            }
-            
+        _glacierListener = new GlacierAdapter() {
             public void iceThicknessChanged() {
                 updateIceThickness();
-            }
-
-            public void iceVelocityChanged() {
-                //XXX
             }
         };
         _glacier.addGlacierListener( _glacierListener );
