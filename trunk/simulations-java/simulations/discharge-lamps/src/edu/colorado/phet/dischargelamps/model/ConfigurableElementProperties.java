@@ -12,7 +12,7 @@ package edu.colorado.phet.dischargelamps.model;
 
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.common.quantum.model.AtomicState;
-import edu.colorado.phet.quantum.AtomicStateFactory;
+import edu.colorado.phet.dischargelamps.quantum.AtomicStateFactory;
 
 /**
  * ConfigurableElementProperties

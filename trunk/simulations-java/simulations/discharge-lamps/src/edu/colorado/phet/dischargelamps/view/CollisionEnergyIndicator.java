@@ -23,8 +23,8 @@ import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.SingleAtomModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampAtom;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.quantum.model.Electron;
-import edu.colorado.phet.quantum.model.Plate;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

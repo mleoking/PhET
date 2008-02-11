@@ -36,7 +36,7 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.HydrogenProperties;
 import edu.colorado.phet.lasers.view.EnergyLevelGraphic;
 import edu.colorado.phet.lasers.view.MonitorPanel;
-import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 
 import javax.swing.*;
 import java.awt.*;

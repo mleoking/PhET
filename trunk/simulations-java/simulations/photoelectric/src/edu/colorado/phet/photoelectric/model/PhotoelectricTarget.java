@@ -17,9 +17,9 @@ import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.dischargelamps.model.DischargeLampElementProperties;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.quantum.model.Electron;
-import edu.colorado.phet.quantum.model.ElectronSource;
-import edu.colorado.phet.quantum.model.Plate;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;

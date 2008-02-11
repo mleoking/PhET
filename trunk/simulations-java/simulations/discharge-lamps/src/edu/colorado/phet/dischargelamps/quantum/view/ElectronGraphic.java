@@ -8,13 +8,13 @@
  * Revision : $Revision$
  * Date modified : $Date$
  */
-package edu.colorado.phet.quantum.view;
+package edu.colorado.phet.dischargelamps.quantum.view;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

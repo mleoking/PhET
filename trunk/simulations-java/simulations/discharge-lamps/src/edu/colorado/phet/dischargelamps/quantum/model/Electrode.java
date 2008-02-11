@@ -9,7 +9,7 @@
  * Date modified : $Date: 
  */
 
-package edu.colorado.phet.quantum.model;
+package edu.colorado.phet.dischargelamps.quantum.model;
 
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;

@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.dischargelamps.DischargeLampModule;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.model.ElectronPulser;
-import edu.colorado.phet.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

@@ -19,7 +19,7 @@ import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.dischargelamps.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
