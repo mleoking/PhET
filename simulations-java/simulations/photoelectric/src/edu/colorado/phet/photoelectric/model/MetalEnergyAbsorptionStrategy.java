@@ -13,7 +13,7 @@ package edu.colorado.phet.photoelectric.model;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.dischargelamps.model.EnergyAbsorptionStrategy;
-import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 
 import java.util.Random;
 

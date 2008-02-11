@@ -13,9 +13,9 @@ package edu.colorado.phet.dischargelamps.view;
 
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.quantum.model.Electron;
-import edu.colorado.phet.quantum.model.ElectronSource;
-import edu.colorado.phet.quantum.view.ElectronGraphic;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.view.ElectronGraphic;
 
 /**
  * ElectronGraphicManager

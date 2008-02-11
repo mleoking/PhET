@@ -38,7 +38,7 @@ import edu.colorado.phet.photoelectric.controller.PhotoelectricControlPanel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
 import edu.colorado.phet.photoelectric.model.PhotoelectricTarget;
 import edu.colorado.phet.photoelectric.view.*;
-import edu.colorado.phet.quantum.view.PlateGraphic;
+import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import java.awt.*;

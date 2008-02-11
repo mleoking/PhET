@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.photoelectric.model.PhotoelectricModel;
-import edu.colorado.phet.quantum.view.PlateGraphic;
+import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 
 import java.awt.*;
 import java.util.ArrayList;

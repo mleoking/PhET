@@ -17,7 +17,7 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 
 import java.util.EventListener;
 import java.util.EventObject;

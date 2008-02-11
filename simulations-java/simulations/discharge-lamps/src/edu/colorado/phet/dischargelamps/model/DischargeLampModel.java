@@ -20,7 +20,7 @@ import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
 import edu.colorado.phet.lasers.model.LaserModel;
-import edu.colorado.phet.quantum.model.*;
+import edu.colorado.phet.dischargelamps.quantum.model.*;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

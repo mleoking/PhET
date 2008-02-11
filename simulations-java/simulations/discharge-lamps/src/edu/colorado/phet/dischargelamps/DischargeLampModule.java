@@ -34,9 +34,9 @@ import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 import edu.colorado.phet.lasers.view.PhotonGraphic;
 import edu.colorado.phet.lasers.view.TubeGraphic;
-import edu.colorado.phet.quantum.model.ElectronSource;
-import edu.colorado.phet.quantum.model.Plate;
-import edu.colorado.phet.quantum.view.PlateGraphic;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
+import edu.colorado.phet.dischargelamps.quantum.view.PlateGraphic;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
