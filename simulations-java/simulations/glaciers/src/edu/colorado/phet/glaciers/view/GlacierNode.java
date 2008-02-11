@@ -44,9 +44,12 @@ public class GlacierNode extends PComposite {
         _glacier = glacier;
         _glacierListener = new GlacierListener() {
 
+            public void lengthChanged() {
+                //XXX
+            }
+            
             public void iceThicknessChanged() {
                 updateIceThickness();
-                
             }
 
             public void iceVelocityChanged() {
@@ -76,43 +79,41 @@ public class GlacierNode extends PComposite {
     
     private void updateIceThickness() {
         
-        //XXX disabled, prohibitively expensive, model needs redesign
-        if ( true ) return;
-        
-        final double dx = Glacier.getDx();
         final double x0 = Glacier.getX0();
         final double xTerminus = _glacier.getTerminusX();
+        final double dx = Glacier.getDx();
         Valley valley = _glacier.getValley();
         double elevation = 0;
-        System.out.println( "GlacierNode.updateIceThickness x0=" + x0 + " xTerminus=" + xTerminus + " dx=" + dx );//XXX
         
         // reset the reusable path
         _icePath.reset();
         
-        // move downvalley, draw ice-rock boundary
-        for ( double x = x0; x <= xTerminus; x += dx ) {
+        // move upvalley, draw ice-rock boundary
+        for ( double x = xTerminus; x >= x0; x -= dx ) {
             elevation = valley.getElevation( x );
             _pModel.setLocation( x, elevation );
             _mvt.modelToView( _pModel, _pView );
-            if ( x == x0 ) {
+            if ( x == xTerminus ) {
                 _icePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
             }
             else {
                 _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
         }
-        System.out.println( "GlacierNode.updateIceThickness created ice-rock boundary" );//XXX
         
-        // move upvalley, draw ice-air boundary
+        // move downvalley, draw ice-air boundary
+        double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
+        double thickness = 0;
         double iceSurface = 0;
-        for ( double x = xTerminus; x >= 0; x -= dx ) {
-            System.out.println( "GlacierNode.updateIceThickness calculating iceSurface at x=" + x );//XXX
-            iceSurface = valley.getElevation( x ) + _glacier.getIceThickness( x );
+        double x = x0;
+        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+            thickness = iceThicknessSamples[i];
+            iceSurface = valley.getElevation( x ) + thickness;
             _pModel.setLocation( x, iceSurface );
             _mvt.modelToView( _pModel, _pView );
             _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+            x += dx;
         }
-        System.out.println( "GlacierNode.updateIceThickness created ice-air boundary" );//XXX
         
         // close the path
         _icePath.closePath();
