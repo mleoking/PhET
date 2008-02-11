@@ -77,6 +77,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/11/08 - change min range of snowfall control from "none" to "little"
 ******** 0.00.04 (19749)
 2/11/08 - simplify GlacierListener interface
 2/11/08 - rewrite ice velocity model in terms of new strategy for computing ice thickness
