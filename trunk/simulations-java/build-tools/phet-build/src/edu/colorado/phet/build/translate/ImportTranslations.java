@@ -3,6 +3,7 @@ package edu.colorado.phet.build.translate;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import edu.colorado.phet.build.FileUtils;
 import edu.colorado.phet.build.PhetProject;
@@ -31,14 +32,22 @@ public class ImportTranslations {
     }
 
     private void importTranslations( File dir ) throws IOException {
+        ArrayList simNames=new ArrayList( );
         File[] files = dir.listFiles();
         for ( int i = 0; i < files.length; i++ ) {
             importTranslation( files[i] );
+            simNames.add(getSimName( files[i] ));
         }
+        String s="";
+        for ( int i = 0; i < simNames.size(); i++ ) {
+            String s1 = (String) simNames.get( i );
+            s+=s1+" ";
+        }
+        System.out.println( "added simulations: "+s );
     }
 
     private void importTranslation( File file ) throws IOException {
-        String simname = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
+        String simname = getSimName( file );
         System.out.println( "simname = " + simname );
         try {
             PhetProject phetProject = new PhetProject( new File( basedir + "/simulations", simname ) );
@@ -56,6 +65,11 @@ public class ImportTranslations {
         catch( FileNotFoundException e ) {
             System.out.println( "skipping: " + file.getAbsolutePath() );
         }
+    }
+
+    private String getSimName( File file ) {
+        String simname = file.getName().substring( 0, file.getName().indexOf( "-strings_" ) );
+        return simname;
     }
 
     public void setPrefix( String prefix ) {
