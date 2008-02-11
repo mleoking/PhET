@@ -76,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/11/08 - optimize Glacier.getIceThickness
 2/11/08 - implement Glacier.getIceThickness as a linear interpolation between samples
 2/11/08 - compute and cache ice thickness on a 1D grid
 2/6/08 - update climate only when temperature or snowfall slider is released, continuous update is too expensive
