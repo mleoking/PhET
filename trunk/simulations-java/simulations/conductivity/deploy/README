@@ -8,9 +8,8 @@
 <body>
 <br>
 Click to launch the simulation:
-<p><a href="conductivity.jnlp"><img alt="Screenshot" src="conductivity.gif" style="border: 2px solid ;"></a>
+<p><a href="conductivity.jnlp"><img alt="Screenshot" src="conductivity-screenshot.png" style="border: 2px solid ;"></a>
 </p>
-<a href="../changes.txt">List of Changes (comprehensive)</a><br>
-<a href="../todo.txt">Remaining Work (for latest version)</a><br>
+<a href="changes.txt">List of Changes (comprehensive)</a><br>
 </body>
 </html>
