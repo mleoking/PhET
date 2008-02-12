@@ -1,3 +1,10 @@
+See http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6369517 for "obsolete interface" error
+
+Add setSimulationTimeChange() and other mutators to IClock
+
+See if we need DeveloperControlPanel (or whatever it's called) and the ModelSlider
+that's in coreadditions
+
 - Reset should remove containment vessel
 - Disabling containment vessel should not reset.
 - Set tabs to be same as background.
@@ -50,6 +57,38 @@ Controlled Reaction
 ?	The black looks like it’s the same stuff as the containment vessel.  Should be different if it’s not.
 
 
+- Add limited region fission, with a containment box
+- When a neutron hits a U239 nucleus it should just pass through, not be absorbed
+- For one-nucleus fission: have the nucleus vibrate and neck down before it splits
+
+- Now that I have GraphicsSetups set for individual graphics, add a means to reset them back to \
+what they were before setup() was called.
+- Make sure that the profile graphic is shaded properly.
+- make a Vector2D.Double class
+- complete kinematics for Body
+- fold CubicUtil into MathUtil
+- do away with DecayProducts class???
+
+- tie clock on Alpha Decay panel to simulation clock, not system clock
+- shade the interior of the potential profile
+- make profile be in first quadrant
+- delete DecayProducts from CVS and add AlphaDecayProducts
+- make a Vector2D.Double class
+- complete kinematics for Body
+- fold CubicUtil into MathUtil
+
+- Double daughters in reactor
+- Frame doesn't always come up completely until you resize it
+- Performance is very much frame-size dependent
+- Single fission panel should work differently: Nucleus should jump to higher level instantaneously. The necking should
+vibrate without the CM moving
+- Fission products should have same momentum, not speed
+- "Slow Motion" button
+- Make NucleusGraphic a PhetImageGraphic for performance?
+- percent fisioned text field isn't right while nuclei are being added
+- kabooms need to be on a layer above the containment vessel
+- listeners and leaveSystem() implementations are spread around in odd places
+- is more than one kaboom being made per fission?
 
 ================
 1.08.12
