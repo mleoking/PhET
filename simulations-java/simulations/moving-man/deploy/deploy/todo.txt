@@ -1,5 +1,0 @@
-8-10-2007: Bugfixes for Mac OS X + Java 1.4
-
-7-19-2007:
-a. On the right control panel, if you show more controls, they are grayed out often. The only way to get access is to click on the Force diagram window. The pattern for changing to gray was not obvious to me, and I don't see this on the web version.
-b. The vertical bar on the graphs goes out of site, if you leave the experiment run longer than the window. One time the vertical line was not visible in one graph, but was in the rest. I couldn't reproduce the behavior, but it happened when I reset to defaults.
