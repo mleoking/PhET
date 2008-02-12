@@ -1,0 +1,1 @@
+This directory contains 3rd-party libraries upon which the PhET Simulations depend.

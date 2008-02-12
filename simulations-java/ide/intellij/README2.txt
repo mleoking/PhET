@@ -1,0 +1,1 @@
+This directory contains some IntelliJ project files for PhET simulations.
