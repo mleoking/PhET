@@ -1,3 +1,4 @@
 9-27-2007: Added slider snap-to for static friction requested to be less than kinetic friction
 9-27-2007: Enabled type-in editing during recording
 9-27-2007: Updated About dialog
+3-7-2007: version 1.01.15
