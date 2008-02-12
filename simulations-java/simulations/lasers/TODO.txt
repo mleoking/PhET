@@ -31,6 +31,42 @@ Should we keep or toss TxTranslatable, TxGraphic, TxBoundary, if we keep, can we
 
 Refactor ModelViewTx2D and AffineTxUtil
 
+1. choose 2nd panel then choose 1st panel, then energy level diagram slider erroneously moves up
+	>>Could not reproduce this bug in 4.04.04-4.04.06 in either Java 1.4 or Java 1.6
+
+2. First try to improve performance in 2nd panel, e.g. in case of no photons.  <1hr for analysis
+    >>Nearly all unnecessary computation time is taken up in phetgraphics execution.
+    >>No easy fix for this.  Best long term fix is piccolo.
+
+3. Photons are going behind lamp control, can they go in front?
+    >>Very difficult given the current implementation
+
+5. Illegal argument exception on creating transparent photons
+    >>Couldn't reproduce this
+
+1.  After the laser blows up, the sim is still using most of his processor.  If he hits pause, it goes down to 15% or so.
+Then if he hits play it's back up to 80-100%. So the sim is still running after the laser blows up.
+
+2.  This one is related to Sam's bug that she found and a problem associated with the fact that we don't address the concept that the
+chamber has to be an integral number of wavelengths to work.  So he will get a laser of one color (in photon view)
+and then move the lower energy level.  It quickly builds up photons of the new color and is lasing in the new color
+while there are still a large number of photons of the old color still oscillating and lasing.  See attached screen shot.
+We might want to do something simple like reset when a person moves the lower energy level while lasing.
+
+
+8-24-2007 bug report from McKagan
+Also, I found a bug in Lasers.  It's there in the old version, and no one's ever complained about it before,
+so it's probably not a high priority to fix, but it's worth at least documenting it.  Here's how you reproduce it:
+1. Get it lasing.
+2. Set lower transition from photon view to wave view.  There should be
+  a big wave going.
+3. Move energy level 1 up or down so that it's now lasing in a different color.
+The wave will immediately change color even though most of the photons in the laser are
+still the old color (this is a little weird, but I don't know how else it could behave, so it's probably fine).
+4. Wait a few seconds and then switch back to photon view.  All the photons in the laser
+cavity are gone!  Where did they go?  The wave view
+  and the laser power meter still indicate that they're in there, but you can't see them.
+
 
 =========================================================
 12/16/04
