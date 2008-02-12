@@ -1,3 +1,4 @@
 7-7-2007: Fixed: Show no charges checked and charges remain visible on the balloons
 7-7-2007: Fixed: Show only charge differences.  Combinations of charges still remain, only wall charges disappeared.
 7-7-2007: Fixed: Reset says only reset not reset all.
+8-27-2006: Updated balloon images.
