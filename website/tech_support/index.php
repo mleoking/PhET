@@ -56,11 +56,11 @@
 
             <p><strong>Windows Systems</strong><br />
             Intel Pentium processor<br />
-            Microsoft Windows 98SE/2000/XP<br />
+            Microsoft Windows 98SE/2000/XP/Vista<br />
             256MB RAM minimum<br />
             Approximately 60MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Sun Java 1.4.2_10 or later<br />
+            Sun Java 1.4.2_16 or later<br />
             Macromedia Flash 7 or later<br />
             Microsoft Internet Explorer 6 or later, Firefox 2 or later</p>
 
@@ -70,7 +70,7 @@
             256MB RAM minimum<br />
             Approximately 40 MB available disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Apple Java 1.4.2_09 or later<br />
+            Apple Java 1.4.2_16 or later<br />
             Macromedia Flash 7 or later<br />
             Safari 2 or later, Firefox 2 or later</p>
 
@@ -81,7 +81,7 @@
             256MB RAM minimum<br />
             Approximately 40 MB disk space (for full installation)<br />
             1024x768 screen resolution or better<br />
-            Sun Java 1.4.2_10 or later<br />
+            Sun Java 1.4.2_16 or later<br />
             Macromedia Flash 7 or later<br />
 			Firefox 2 or later<br/></p>
 			            

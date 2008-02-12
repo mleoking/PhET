@@ -305,11 +305,11 @@ EOT;
                 <tbody>
                     <tr>
                         <td>
-                            Microsoft Windows 98SE/2000/XP<br/>
+                            Microsoft Windows 98SE/2000/XP/Vista<br/>
 EOT;
                             
                                 if ($sim_type == '0') { 
-                                    print "Sun Java 1.4.2_10 or later<br/>";
+                                    print "Sun Java 1.4.2_16 or later<br/>";
                                 }
                                 else if ($sim_type == '1') {
                                     print "Macromedia Flash 7 or later<br/>";
@@ -324,7 +324,7 @@ EOT;
 EOT;
 
                             if ($sim_type == '0') {
-                                print "Apple Java 1.4.2_09 or later<br/>";
+                                print "Apple Java 1.4.2_16 or later<br/>";
                             }
                             else if ($sim_type == '1') {
                                 print "Macromedia Flash 7 or later<br/>";
@@ -336,7 +336,7 @@ EOT;
                         <td>            
 EOT;
                             if ($sim_type == '0') {
-                                print "Sun Java 1.4.2_10 or later<br/>";
+                                print "Sun Java 1.4.2_16 or later<br/>";
                             }
                             else if ($sim_type == '1') {
                                 print "Macromedia Flash 7 or later<br/>";
