@@ -1,2 +1,0 @@
-8-24-2007 (Perkins)
-- right now there is no "time-out" period between absorption and re-emission of a radio wave so that one of the spins can look to emit a photon without actually flipping. In the future, I think it would be good to put a delay in there. (Do you guys agree for future?)
