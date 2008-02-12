@@ -27,10 +27,10 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
+- implement new climate model received on 2/8
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity
 - optimization of ice velocity
-- implement new climate model received on 2/8
 - implement time-scaling portion of glacier model
 - equilibrium line visualization: draw a horizontal line from equilibrium line position, thru ice cross-section to where it intersects glacier surface
 
