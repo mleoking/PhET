@@ -28,6 +28,7 @@ IMPLEMENTATION ISSUES:
 
 HIGH PRIORITY:
 - check new climate model doc into SVN
+- change snowfall from a reference elevation to meters/yr/meter above sea level
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity
 - optimization of ice velocity
@@ -77,6 +78,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.05 (?)
 2/13/08 - implement new climate model, as received from Archie on 2/11
 2/11/08 - change min range of snowfall control from "none" to "little"
 ******** 0.00.04 (19749)

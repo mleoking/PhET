@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.04
+Glaciers, version 0.00.05
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,20 +13,13 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>allow equilibrium line to be at x < 0
-<li>added ice thickness and ice velocity to glacier model
-<li>added view of ice thickness
-<li>glacier goes immediately to steady-state when climate changes (no time dependence)
-<li>climate is not changed until temperature or snowfall sliders are released
-<li>ice thickness tool display correct thickness value, but calipers aren't resized
-<li>glacial budget meter displays correct values
+<li>new climate model for snowfall, accumulation and ablation
 <li>
 </ul>
 <p>
 <b>Not implemented:</b>
 <ul>
 <li>Lots of things are not implemented. Here are some of them:
-<li>new climate model received on 2/8/08
 <li>no view of ice velocities
 <li>Once created, tools cannot be dragged deleted (no trash can feature).
 <li>Perspective view is not implemented; both views show a side view of the scene.
