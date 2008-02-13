@@ -39,7 +39,11 @@ public class Valley {
      * @return elevation (meters)
      */
     public double getElevation( final double x ) {
-        return 4e3 - ( x / 30. ) + Math.exp( -( x - 5e3 ) / 1e3 );
+        double elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - 5e3 ) / 1e3 );
+        if ( elevation < 0 ) {
+            elevation = 0;
+        }
+        return elevation;
     }
     
     /**
