@@ -42,10 +42,10 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
 
     private class AddWallPotentialButton extends JButton {
         private AddWallPotentialButton( final WaveInterferenceModel waveInterferenceModel ) {
-            super( "Add Wall Potential" );
+            super( WIStrings.getString( "controls.add-wall" ) );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    waveInterferenceModel.getWallPotentialGraphic().addPotential( new WallPotential( new Point( 10, 10 ), new Point( 50, 50 ) ,waveInterferenceModel.getWaveModel()) );
+                    waveInterferenceModel.getWallPotentialGraphic().addPotential( new WallPotential( new Point( 10, 10 ), new Point( 50, 50 ), waveInterferenceModel.getWaveModel() ) );
                 }
             } );
         }
