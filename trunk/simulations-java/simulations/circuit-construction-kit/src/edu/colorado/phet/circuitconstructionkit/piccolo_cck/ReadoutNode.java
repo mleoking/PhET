@@ -1,5 +1,14 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -10,14 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -69,7 +70,7 @@ public class ReadoutNode extends PhetPNode {
         Shape shape = branch.getShape();
         Point2D pt = new Point2D.Double( shape.getBounds2D().getCenterX() - htmlNode.getFullBounds().getWidth() / 2,
                                          shape.getBounds2D().getY() - htmlNode.getFullBounds().getHeight() );
-        if( isVertical() ) {
+        if ( isVertical() ) {
             pt = new Point2D.Double( shape.getBounds2D().getMaxX(), shape.getBounds2D().getCenterY() - htmlNode.getFullBounds().getHeight() / 2 );
         }
         htmlNode.setOffset( pt );
@@ -77,7 +78,7 @@ public class ReadoutNode extends PhetPNode {
         double distToCenter = pt.distance( ctr );
         linePNode.setVisible( distToCenter > 1.0 );
         Point2D textSource = new Point2D.Double( htmlNode.getFullBounds().getCenterX(), htmlNode.getFullBounds().getMaxY() );
-        if( isVertical() ) {
+        if ( isVertical() ) {
             textSource = new Point2D.Double( htmlNode.getFullBounds().getX(), htmlNode.getFullBounds().getCenterY() );
         }
         linePNode.setPathTo( new Line2D.Double( textSource, ctr ) );
@@ -85,10 +86,10 @@ public class ReadoutNode extends PhetPNode {
 
     private boolean isVertical() {
         double angle = branch.getAngle();
-        while( angle < 0 ) {
+        while ( angle < 0 ) {
             angle += Math.PI * 2;
         }
-        while( angle > Math.PI * 2 ) {
+        while ( angle > Math.PI * 2 ) {
             angle -= Math.PI * 2;
         }
 //        System.out.println( "angle = " + angle );
@@ -100,9 +101,9 @@ public class ReadoutNode extends PhetPNode {
 
     private String toHTML( String[] text ) {
         String html = "<html>";
-        for( int i = 0; i < text.length; i++ ) {
+        for ( int i = 0; i < text.length; i++ ) {
             html += text[i];
-            if( i < text.length - 1 ) {
+            if ( i < text.length - 1 ) {
                 html += "<br>";
             }
         }
@@ -114,19 +115,19 @@ public class ReadoutNode extends PhetPNode {
     }
 
     protected String[] getText() {
-        if( branch instanceof Battery ) {
+        if ( branch instanceof Battery ) {
             return getBatteryText();
         }
-        else if( branch instanceof Capacitor ) {
-            return getCapacitorText( (Capacitor)branch );
+        else if ( branch instanceof Capacitor ) {
+            return getCapacitorText( (Capacitor) branch );
         }
-        else if( branch instanceof Inductor ) {
-            return getInductorText( (Inductor)branch );
+        else if ( branch instanceof Inductor ) {
+            return getInductorText( (Inductor) branch );
         }
         double r = branch.getResistance();
-        if( branch instanceof Switch ) {
-            Switch swit = (Switch)branch;
-            if( !swit.isClosed() ) {
+        if ( branch instanceof Switch ) {
+            Switch swit = (Switch) branch;
+            if ( !swit.isClosed() ) {
                 r = Double.POSITIVE_INFINITY;
             }
         }
@@ -156,16 +157,16 @@ public class ReadoutNode extends PhetPNode {
         String str = "" + vol + " " + CCKResources.getString( "ReadoutGraphic.Volts" );
         ArrayList text = new ArrayList();
         text.add( str );
-        if( internal ) {
+        if ( internal ) {
             String s2 = formatter.format( branch.getResistance() ) + " " + CCKResources.getString( "ReadoutGraphic.Ohms" );
             text.add( s2 );
         }
-        return (String[])text.toArray( new String[0] );
+        return (String[]) text.toArray( new String[0] );
     }
 
     protected String abs( String vol ) {
         StringTokenizer st = new StringTokenizer( vol, ".0" );
-        if( st.hasMoreTokens() && st.nextToken().equals( "-" ) ) {
+        if ( st.hasMoreTokens() && st.nextToken().equals( "-" ) ) {
             return vol.substring( 1 );
         }
         else {

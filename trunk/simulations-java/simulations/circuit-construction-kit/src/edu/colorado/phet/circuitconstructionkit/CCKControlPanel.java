@@ -1,5 +1,21 @@
 package edu.colorado.phet.circuitconstructionkit;
 
+import net.n3.nanoxml.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
+
+import javax.jnlp.*;
+import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.common.AdvancedPanel;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.controls.ResetDynamicsButton;
@@ -17,20 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import net.n3.nanoxml.*;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.DecimalFormat;
-import javax.jnlp.*;
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -59,7 +61,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         } );
         this.module = module;
         JPanel filePanel = makeFilePanel();
-        if( useAdvanced() ) {
+        if ( useAdvanced() ) {
             advancedPanel = new AdvancedControlPanel( module );
         }
 
@@ -97,7 +99,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         changeBunch.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 int IMAX = 200;
-                for( int i = 0; i < IMAX; i++ ) {
+                for ( int i = 0; i < IMAX; i++ ) {
                     System.out.println( "i = " + i + "/" + IMAX );
                     module.setLifelike( !module.isLifelike() );
                 }
@@ -108,7 +110,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         titlePanel.add( logoLabel );
         add( titlePanel );
         add( filePanel );
-        if( module.getParameters().isUseVisualControlPanel() ) {
+        if ( module.getParameters().isUseVisualControlPanel() ) {
             add( visualPanel );
         }
         add( toolPanel );
@@ -117,24 +119,24 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         JButton testLifelikeSchematic = new JButton( "Test Lifelike/Schematic" );
         testLifelikeSchematic.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                for( int i = 0; i < 100; i++ ) {
+                for ( int i = 0; i < 100; i++ ) {
                     module.setLifelike( !module.isLifelike() );
                 }
             }
         } );
-        if( debugging ) {
+        if ( debugging ) {
             add( testLifelikeSchematic );
         }
 
-        if( useAdvanced() ) {
+        if ( useAdvanced() ) {
             add( advancedPanel );
         }
 
-        if( module.getParameters().showGrabBag() ) {
+        if ( module.getParameters().showGrabBag() ) {
             addGrabBag();
         }
 
-        if( module.getParameters().getAllowDynamics() ) {
+        if ( module.getParameters().getAllowDynamics() ) {
             addControl( Box.createVerticalStrut( 7 ) );
             addControl( new ResetDynamicsButton( module ) );
         }
@@ -191,7 +193,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         toolPanel.add( seriesAmmeter, rhs );
         rhs.gridy++;
 
-        if( module.getParameters().useNonContactAmmeter() ) {
+        if ( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( virtualAmmeter, rhs );
             rhs.gridy++;
         }
@@ -200,12 +202,12 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         lhs.gridy++;
         toolPanel.add( new JLabel( ammIcon ), lhs );
         lhs.gridy++;
-        if( module.getParameters().useNonContactAmmeter() ) {
+        if ( module.getParameters().useNonContactAmmeter() ) {
             toolPanel.add( new JLabel( nonContactAmmIcon ), lhs );
             lhs.gridy++;
         }
 
-        if( module.getParameters().getAllowDynamics() ) {
+        if ( module.getParameters().getAllowDynamics() ) {
             try {
                 ImageIcon timerIcon = new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/stopwatch-thumb.png" ) );
                 final JCheckBox timerButton = new JCheckBox( CCKStrings.getString( "stopwatch" ), module.isStopwatchVisible() );
@@ -269,10 +271,10 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
         JPanel visualizationPanel = new VerticalLayoutPanel();
         visualizationPanel.add( lifelike );
-        if( module.getParameters().allowSchematicMode() ) {
+        if ( module.getParameters().allowSchematicMode() ) {
             visualizationPanel.add( schematic );
         }
-        if( module.getParameters().allowShowReadouts() ) {
+        if ( module.getParameters().allowShowReadouts() ) {
             visualizationPanel.add( new ShowReadoutPanel( module ) );
         }
         visualizationPanel.setBorder( new CCKTitledBorder( CCKResources.getString( "CCK3ControlPanel.VisualPanelBorder" ) ) );
@@ -289,13 +291,13 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
         FileContents open = fos.openFileDialog( CCKResources.getString( "CCK3ControlPanel.OpenFileDialog" ),
                                                 new String[]{CCKResources.getString( "CCK3ControlPanel.FileExtension" )} );
-        if( open == null ) {
+        if ( open == null ) {
             return;
         }
         InputStreamReader isr = new InputStreamReader( open.getInputStream() );
         BufferedReader br = new BufferedReader( isr );
         String str = "";
-        while( br.ready() ) {
+        while ( br.ready() ) {
             String read = br.readLine();
             System.out.println( "read = " + read );
             str += read;
@@ -305,9 +307,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         parser.setBuilder( new StdXMLBuilder() );
         parser.setValidator( new NonValidator() );
 
-        IXMLElement parsed = (IXMLElement)parser.parse();
+        IXMLElement parsed = (IXMLElement) parser.parse();
         Circuit circuit = CircuitXML.parseXML( parsed, module.getCircuitChangeListener(), module );
-        if( isOldVersionCCK( str ) ) {
+        if ( isOldVersionCCK( str ) ) {
             flipY( circuit );
             JOptionPane.showMessageDialog( this, "<html>The file you loaded is from an earlier version of this program, <br>and some " +
                                                  "parts of the circuit may be oriented incorrectly.  <br><br>Manually correct any problems, and be sure to save the new circuit.</html>" );
@@ -320,7 +322,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
     }
 
     private void flipY( Circuit circuit ) {
-        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+        for ( int i = 0; i < circuit.numJunctions(); i++ ) {
             Junction j = circuit.junctionAt( i );
             double y = j.getY();
             double offsetFrom5 = y - 5;
@@ -437,7 +439,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         String plainText = je + "\n" + le + "\n" + oh + "\n";
         JTextArea jta = new JTextArea( plainText ) {
             protected void paintComponent( Graphics g ) {
-                ( (Graphics2D)g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+                ( (Graphics2D) g ).setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 super.paintComponent( g );
             }
         };
@@ -486,23 +488,23 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         clear.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean needsClearing = module.getCircuit().numBranches() != 0 || module.getCircuit().numJunctions() != 0;
-                if( needsClearing ) {
-       			Object[] options = {CCKResources.getString("NewCCK3ControlPanel.Yes"),
-       					CCKResources.getString("NewCCK3ControlPanel.No"),
-       					CCKResources.getString("NewCCK3ControlPanel.Cancel")};
+                if ( needsClearing ) {
+                    Object[] options = {CCKResources.getString( "NewCCK3ControlPanel.Yes" ),
+                            CCKResources.getString( "NewCCK3ControlPanel.No" ),
+                            CCKResources.getString( "NewCCK3ControlPanel.Cancel" )};
 
-                	
-                    int answer = JOptionPane.showOptionDialog(module.getSimulationPanel(),
-                    		CCKResources.getString("CCK3ControlPanel.DeleteConfirm"),
-                    		CCKResources.getString("NewCCK3ControlPanel.DeleteConfirmTitle"),
-                            JOptionPane.YES_NO_CANCEL_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-            				null,
-            				options,
-            				options[2]);
- 
-                    	
-                    if( answer == JOptionPane.YES_OPTION ) {
+
+                    int answer = JOptionPane.showOptionDialog( module.getSimulationPanel(),
+                                                               CCKResources.getString( "CCK3ControlPanel.DeleteConfirm" ),
+                                                               CCKResources.getString( "NewCCK3ControlPanel.DeleteConfirmTitle" ),
+                                                               JOptionPane.YES_NO_CANCEL_OPTION,
+                                                               JOptionPane.QUESTION_MESSAGE,
+                                                               null,
+                                                               options,
+                                                               options[2] );
+
+
+                    if ( answer == JOptionPane.YES_OPTION ) {
                         module.clear();
                     }
                 }
@@ -522,7 +524,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
         }
 
         public void paintBorder( Component c, Graphics g, int x, int y, int width, int height ) {
-            Graphics2D g2 = (Graphics2D)g;
+            Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             super.paintBorder( c, g, x, y, width, height );
         }
@@ -564,7 +566,7 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
             resistivitySlider.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     double value = resistivitySlider.getValue();
-                    if( value <= 0 ) {
+                    if ( value <= 0 ) {
                         new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
                     }
                     module.getResistivityManager().setResistivity( value );
@@ -598,9 +600,9 @@ public class CCKControlPanel extends edu.colorado.phet.common.phetcommon.view.Co
 
         /* Shows the advanced controls in a dialog. */
         public void showDialog() {
-            if( dialog == null ) {
+            if ( dialog == null ) {
                 Window parent = SwingUtilities.getWindowAncestor( module.getSimulationPanel() );
-                dialog = new JDialog( (Frame)parent, CCKResources.getString( "CCK3ControlPanel.AdvancedControlsDialog" ) );
+                dialog = new JDialog( (Frame) parent, CCKResources.getString( "CCK3ControlPanel.AdvancedControlsDialog" ) );
                 dialog.setDefaultCloseOperation( JDialog.HIDE_ON_CLOSE );
                 dialog.setModal( false );
                 dialog.setContentPane( this );

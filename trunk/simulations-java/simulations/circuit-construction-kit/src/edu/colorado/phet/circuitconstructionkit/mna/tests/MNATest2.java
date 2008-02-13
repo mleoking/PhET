@@ -2,6 +2,7 @@
 package edu.colorado.phet.circuitconstructionkit.mna.tests;
 
 import Jama.Matrix;
+
 import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 
 /**
@@ -29,10 +30,10 @@ public class MNATest2 {
         MNACircuit.MNASolution mnaSolution = system.getSolution();
         double voltageAtNode0 = mnaSolution.getVoltage( 0 );
         System.out.println( "voltageAtNode0 = " + voltageAtNode0 );
-        for( int i = 0; i < mnaSolution.getNumVoltages(); i++ ) {
+        for ( int i = 0; i < mnaSolution.getNumVoltages(); i++ ) {
             System.out.println( "mnaSolution.getVoltage(" + i + ") = " + mnaSolution.getVoltage( i ) );
         }
-        for( int i = 0; i < mnaSolution.getNumCurrents(); i++ ) {
+        for ( int i = 0; i < mnaSolution.getNumCurrents(); i++ ) {
             System.out.println( "mnaSolution.getCurrent( " + i + ") = " + mnaSolution.getCurrent( i ) );
         }
     }

@@ -1,15 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.phetgraphics;
 
-import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * User: Sam Reid
@@ -86,7 +86,7 @@ public class LightBulbGraphic {
         int numLines = 4;
         double dy = conductor.getHeight() / ( numLines );
         spiralLines = new ArrayList();
-        for( int i = 0; i < numLines; i++ ) {
+        for ( int i = 0; i < numLines; i++ ) {
             double x1 = conductor.getX();
             double y1 = conductor.getY() + i * dy;
             double x2 = conductor.getX() + conductor.getWidth();
@@ -108,8 +108,8 @@ public class LightBulbGraphic {
         g.setColor( brightyColor );
         g.setStroke( brightyStroke );
 
-        for( int i = 0; i < brighties.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)brighties.get( i );
+        for ( int i = 0; i < brighties.size(); i++ ) {
+            Line2D.Double aDouble = (Line2D.Double) brighties.get( i );
             g.draw( aDouble );
         }
 
@@ -124,7 +124,7 @@ public class LightBulbGraphic {
         g.draw( bulb );
 
 //        System.out.println( "intensity = " + intensity );
-        if( intensity > 0 ) {
+        if ( intensity > 0 ) {
             g.setPaint( paint );
             g.fill( bulb );
         }
@@ -140,8 +140,8 @@ public class LightBulbGraphic {
 
         g.setStroke( linestroke );
         g.setColor( Color.black );
-        for( int i = 0; i < spiralLines.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)spiralLines.get( i );
+        for ( int i = 0; i < spiralLines.size(); i++ ) {
+            Line2D.Double aDouble = (Line2D.Double) spiralLines.get( i );
             g.draw( aDouble );
         }
         g.setStroke( origStroke );
@@ -152,18 +152,18 @@ public class LightBulbGraphic {
     }
 
     public void setIntensity( double intensity ) {
-        if( this.intensity == intensity ) {
+        if ( this.intensity == intensity ) {
             return;
         }
         this.intensity = intensity;
 
         Color yellow = Color.yellow;
-        Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
-        Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
+        Color pointColor = new Color( 1, 1, 1.0f, (float) intensity );
+        Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float) intensity );
         paint = new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
 
         int maxBrighties = 40;
-        int numBrighties = (int)( intensity * maxBrighties );
+        int numBrighties = (int) ( intensity * maxBrighties );
         double maxDistance = bulb.getWidth() * 3;
         double distance = intensity * maxDistance;
         double distance0 = Math.max( bulb.getWidth() / 2, bulb.getHeight() / 2 ) * 1.05;
@@ -179,7 +179,7 @@ public class LightBulbGraphic {
         double maxStrokeWidth = 3.5;
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
-        for( int i = 0; i < numBrighties; i++ ) {
+        for ( int i = 0; i < numBrighties; i++ ) {
             AbstractVector2D vec = ImmutableVector2D.Double.parseAngleAndMagnitude( distance0, angle );
             AbstractVector2D vec1 = ImmutableVector2D.Double.parseAngleAndMagnitude( distance + distance0, angle );
 
@@ -191,7 +191,7 @@ public class LightBulbGraphic {
             brighties.add( line );
             angle += dTheta;
         }
-        this.brightyStroke = new BasicStroke( (float)strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        this.brightyStroke = new BasicStroke( (float) strokeWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         this.brightyColor = backgroundColor;
     }
 
@@ -201,8 +201,8 @@ public class LightBulbGraphic {
 
     public Rectangle2D getFullShape() {
         Rectangle2D fullShape = new Rectangle2D.Double( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() );
-        for( int i = 0; i < brighties.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)brighties.get( i );
+        for ( int i = 0; i < brighties.size(); i++ ) {
+            Line2D.Double aDouble = (Line2D.Double) brighties.get( i );
             fullShape = fullShape.createUnion( aDouble.getBounds2D() );
         }
         return fullShape;

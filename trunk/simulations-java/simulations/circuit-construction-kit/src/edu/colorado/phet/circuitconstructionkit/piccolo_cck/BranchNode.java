@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

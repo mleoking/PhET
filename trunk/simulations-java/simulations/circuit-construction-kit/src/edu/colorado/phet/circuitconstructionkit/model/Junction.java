@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import edu.colorado.phet.circuitconstructionkit.common.SimpleObservableDebug;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.circuitconstructionkit.common.SimpleObservableDebug;
 
 /**
  * User: Sam Reid

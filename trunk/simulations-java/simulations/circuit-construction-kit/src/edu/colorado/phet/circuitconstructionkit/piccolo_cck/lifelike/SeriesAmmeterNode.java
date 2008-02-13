@@ -1,5 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
@@ -16,13 +24,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-import javax.swing.*;
-
 /**
  * User: Sam Reid
  * Date: May 29, 2004
@@ -32,7 +33,7 @@ public class SeriesAmmeterNode extends ComponentNode {
     private SeriesAmmeter component;
     private ICCKModule module;
     private static final double SCALE = 1.0 / 60.0;
-    private Stroke stroke = new BasicStroke( (float)( 5 * SCALE ) );
+    private Stroke stroke = new BasicStroke( (float) ( 5 * SCALE ) );
     private Font font = new PhetDefaultFont( Font.BOLD, 17 );
     private Shape shape;
     private String text = CCKResources.getString( "SeriesAmmeterGraphic.Ammeter" );
@@ -77,14 +78,14 @@ public class SeriesAmmeterNode extends ComponentNode {
         addChild( blackGraphic );
         areaGraphic = new PhetPPath( new Area(), Color.black );
         addChild( areaGraphic );
-        for( int i = 0; i < windowGraphics.length; i++ ) {
-            windowGraphics[i] = new PhetPPath( new Area(), new BasicStroke( (float)( 1.2f * SCALE ) ), Color.black );
+        for ( int i = 0; i < windowGraphics.length; i++ ) {
+            windowGraphics[i] = new PhetPPath( new Area(), new BasicStroke( (float) ( 1.2f * SCALE ) ), Color.black );
             addChild( windowGraphics[i] );
         }
         textGraphic = new PText();
         textGraphic.setFont( font );
         textGraphic.setVisible( true );
-        getHighlightNode().setStroke( new BasicStroke( (float)( 3f * SCALE ) ) );
+        getHighlightNode().setStroke( new BasicStroke( (float) ( 3f * SCALE ) ) );
         addChild( textGraphic );
         changed();
         setVisible( true );
@@ -99,7 +100,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         Point2D start = ( component.getStartJunction().getPosition() );
         Point2D end = ( component.getEndJunction().getPosition() );
         this.shape = LineSegment.getSegment( start, end, newHeight );
-        BasicStroke stroke = new BasicStroke( (float)( 12 * SCALE ) );
+        BasicStroke stroke = new BasicStroke( (float) ( 12 * SCALE ) );
         getHighlightNode().setPathTo( stroke.createStrokedShape( shape ) );
         getHighlightNode().setVisible( component.isSelected() );
 
@@ -120,7 +121,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         double x = 0;
         north = north.getInstanceOfMagnitude( windowHeight / 2 ).getScaledInstance( 1 );
 //        ArrayList windows = new ArrayList();
-        for( int i = 0; i < numWindows; i++ ) {
+        for ( int i = 0; i < numWindows; i++ ) {
             x += spacingWidth;
             Point2D a = dir.getInstanceOfMagnitude( x ).getDestination( start );
             a = north.getDestination( a );
@@ -134,7 +135,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         }
 
         Point a = r.getLocation();
-        Point b = new Point( (int)( a.getX() + r.getWidth() ), (int)( a.getY() + r.getHeight() ) );
+        Point b = new Point( (int) ( a.getX() + r.getWidth() ), (int) ( a.getY() + r.getHeight() ) );
         Color startColor = new Color( 255, 230, 250 );
         Color endColor = new Color( 230, 255, 230 );
         areaGraphic.setPaint( new GradientPaint( a, startColor, b, endColor ) );
@@ -144,7 +145,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         textLoc = dir.getInstanceOfMagnitude( 2 * SCALE ).getDestination( textLoc );
 
         String msg = text;
-        if( fixedMessage != null ) {
+        if ( fixedMessage != null ) {
             msg = fixedMessage;
         }
         textGraphic.setTransform( new AffineTransform() );

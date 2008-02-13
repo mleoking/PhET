@@ -28,7 +28,7 @@ public class TestRC_Time {
     }
 
     private void start() {
-        for( int i = 0; i < numSteps; i++ ) {
+        for ( int i = 0; i < numSteps; i++ ) {
             step();
         }
     }
@@ -44,7 +44,7 @@ public class TestRC_Time {
         this.i = solution.getCurrent( 1 );//should be same everywhere
         this.v = solution.getVoltage( 2 ) - solution.getVoltage( 0 );
 
-        if( time == dt ) {
+        if ( time == dt ) {
             i0 = i / Math.exp( -time / ( r2 * c1 ) );//normalize on the first step
         }
 //        System.out.println( "actualCurrent= " + i + ", desiredCurrent=" + getDesiredCurrentExp() );

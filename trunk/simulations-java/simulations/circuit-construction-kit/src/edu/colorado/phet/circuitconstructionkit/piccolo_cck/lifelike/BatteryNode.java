@@ -1,14 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid

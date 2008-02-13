@@ -1,5 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.tests.kirkhoff;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -7,8 +9,6 @@ import edu.colorado.phet.circuitconstructionkit.model.analysis.KirkhoffSolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

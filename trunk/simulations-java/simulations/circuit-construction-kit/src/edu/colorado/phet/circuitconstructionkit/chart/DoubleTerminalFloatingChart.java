@@ -1,15 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.chart;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -56,7 +56,7 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
 
     public void update() {
         super.update();
-        if( leftCrosshairNode != null && valueReader != null ) {
+        if ( leftCrosshairNode != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
             double value = valueReader.getValue( getLeftShape(), getRightShape() );
             double t = CCKTime.getDisplayTime( super.getClock().getSimulationTime() );
@@ -76,7 +76,7 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( leftCrosshairNode.isAttached() ) {
+            if ( leftCrosshairNode.isAttached() ) {
                 leftCrosshairNode.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }

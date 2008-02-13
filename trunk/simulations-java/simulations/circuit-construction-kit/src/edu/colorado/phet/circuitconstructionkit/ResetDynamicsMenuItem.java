@@ -1,11 +1,12 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 
 /**
  * User: Sam Reid

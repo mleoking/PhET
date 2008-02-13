@@ -1,5 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -7,10 +12,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -63,7 +64,7 @@ public abstract class RectangularComponentNode extends ComponentNode {
         double sy = getCircuitComponent().getHeight() / dimension.getHeight();
         double angle = new Vector2D.Double( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
         setTransform( new AffineTransform() );
-        if( Math.abs( sx ) > 1E-4 ) {
+        if ( Math.abs( sx ) > 1E-4 ) {
             setScale( sx );
         }
         setOffset( getBranch().getStartPoint() );
@@ -71,7 +72,7 @@ public abstract class RectangularComponentNode extends ComponentNode {
         translate( 0, -dimension.getHeight() / 2 );
 
         flameNode.setOffset( 0, -flameNode.getFullBounds().getHeight() + dimension.getHeight() / 2 );
-        if( getParent() != null && getParent().getChildrenReference().indexOf( flameNode ) != getParent().getChildrenReference().size() - 1 ) {
+        if ( getParent() != null && getParent().getChildrenReference().indexOf( flameNode ) != getParent().getChildrenReference().size() - 1 ) {
             flameNode.moveToFront();
         }
     }

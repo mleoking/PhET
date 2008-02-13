@@ -1,16 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit.grabbag;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
+
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid
@@ -27,7 +27,7 @@ public class GrabBagItem {
     public GrabBagItem( String imageURLString, String name, double resistance, double modelLength ) {
         this.imageURL = GrabBagItem.class.getClassLoader().getResource( "circuit-construction-kit/images/grabbag/" + imageURLString );
         this.modelLength = modelLength;
-        if( imageURL == null ) {
+        if ( imageURL == null ) {
             throw new RuntimeException( "Null image URL for name=" + name + ", imageURLString=" + imageURLString );
         }
 
@@ -48,7 +48,7 @@ public class GrabBagItem {
     }
 
     public BufferedImage getImage() {
-        if( image == null ) {
+        if ( image == null ) {
             try {
                 image = ImageLoader.loadBufferedImage( imageURL );
             }

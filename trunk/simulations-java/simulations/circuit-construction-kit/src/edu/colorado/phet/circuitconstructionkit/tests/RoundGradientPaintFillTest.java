@@ -1,11 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.tests;
 
-import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
 
 public class RoundGradientPaintFillTest
         extends JFrame {
@@ -19,7 +20,7 @@ public class RoundGradientPaintFillTest
     }
 
     public void paint( Graphics g ) {
-        Graphics2D g2 = (Graphics2D)g;
+        Graphics2D g2 = (Graphics2D) g;
         RoundRectangle2D r = new RoundRectangle2D.Float( 25, 35, 150, 150, 25,
                                                          25 );
         RoundGradientPaint rgp = new RoundGradientPaint( 75, 75, Color.magenta,

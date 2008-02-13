@@ -1,12 +1,13 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import edu.colorado.phet.circuitconstructionkit.ICCKModule;
-import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.ICCKModule;
+import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 
 /**
  * User: Sam Reid

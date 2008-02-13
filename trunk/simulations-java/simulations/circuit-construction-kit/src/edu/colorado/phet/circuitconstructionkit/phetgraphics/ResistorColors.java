@@ -11,10 +11,10 @@ import java.awt.*;
 public class ResistorColors {
     public Color[] to3Colors( int value ) {
         //first 2 digits for value, third digit for scale.
-        if( value < 10 ) {
+        if ( value < 10 ) {
             return new Color[]{Color.black, digitToColor( value ), Color.black, Color.yellow};
         }
-        else if( value < 100 ) {
+        else if ( value < 100 ) {
             int firstdigit = value / 10;
             int seconddig = value % 10;
             return new Color[]{digitToColor( firstdigit ), digitToColor( seconddig ), Color.black, Color.yellow};
@@ -32,10 +32,10 @@ public class ResistorColors {
             double offby = ( value - predicted ) / predicted * 100;
 //            O.d("predicted="+predicted+", actual="+value+", off="+offby);
             Color tolerance = null;
-            if( offby < 5 ) {
+            if ( offby < 5 ) {
                 tolerance = Color.yellow;
             }
-            else if( offby < 20 ) {
+            else if ( offby < 20 ) {
                 tolerance = Color.gray;
             }
             else {
@@ -53,7 +53,7 @@ public class ResistorColors {
 
     public Color digitToColor( int digit ) {
 
-        if( digit < 0 || digit >= 10 ) {
+        if ( digit < 0 || digit >= 10 ) {
             throw new RuntimeException( "Out of range: " + digit );
         }
 

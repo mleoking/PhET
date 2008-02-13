@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -63,7 +63,7 @@ public class Battery extends CircuitComponent {
     }
 
     public void setResistance( double resistance ) {
-        if( resistance < CCKModel.MIN_RESISTANCE ) {
+        if ( resistance < CCKModel.MIN_RESISTANCE ) {
             throw new IllegalArgumentException( "Resistance was les than the min, value=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE );
         }
         super.setResistance( resistance );
@@ -72,7 +72,7 @@ public class Battery extends CircuitComponent {
     public void setInternalResistance( double resistance ) {
 //        setResistance( resistance );
         this.internalResistance = resistance;
-        if( internalResistanceOn ) {
+        if ( internalResistanceOn ) {
             setResistance( resistance );
         }
     }
@@ -83,7 +83,7 @@ public class Battery extends CircuitComponent {
 
     public void setInternalResistanceOn( boolean internalResistanceOn ) {
         this.internalResistanceOn = internalResistanceOn;
-        if( internalResistanceOn ) {
+        if ( internalResistanceOn ) {
             setResistance( internalResistance );
         }
         else {

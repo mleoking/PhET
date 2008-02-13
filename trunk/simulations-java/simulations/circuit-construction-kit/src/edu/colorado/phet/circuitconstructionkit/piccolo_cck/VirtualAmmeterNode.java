@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -12,10 +16,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -99,7 +99,7 @@ public class VirtualAmmeterNode extends PhetPNode {
         localToParent( target );
         //check for intersect with circuit.
         Branch branch = circuit.getBranch( target );
-        if( branch != null ) {
+        if ( branch != null ) {
             double current = branch.getCurrent();
             DecimalFormat df = new DecimalFormat( "0.00" );
             String amps = df.format( Math.abs( current ) );

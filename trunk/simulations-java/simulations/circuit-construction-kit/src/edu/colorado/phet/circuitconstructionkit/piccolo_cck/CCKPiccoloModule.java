@@ -1,5 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.circuitconstructionkit.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.CCKParameters;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
@@ -13,9 +16,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid

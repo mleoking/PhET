@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -52,7 +52,7 @@ public abstract class CircuitComponent extends Branch {
 
     public Shape getShape() {
         Line2D.Double line = new Line2D.Double( getStartPoint(), getEndPoint() );
-        Stroke stroke = new BasicStroke( (float)( height / 2.0 ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+        Stroke stroke = new BasicStroke( (float) ( height / 2.0 ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         return stroke.createStrokedShape( line );
     }
 }

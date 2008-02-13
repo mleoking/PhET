@@ -2,6 +2,7 @@
 package edu.colorado.phet.circuitconstructionkit.mna.tests;
 
 import Jama.Matrix;
+
 import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 
 /**

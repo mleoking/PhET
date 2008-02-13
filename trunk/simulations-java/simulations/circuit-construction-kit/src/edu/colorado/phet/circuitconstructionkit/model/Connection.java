@@ -20,9 +20,9 @@ public abstract class Connection {
         }
 
         public boolean equals( Object o ) {
-            if( o instanceof JunctionConnection ) {
-                JunctionConnection jc = (JunctionConnection)o;
-                if( jc.junction == junction ) {
+            if ( o instanceof JunctionConnection ) {
+                JunctionConnection jc = (JunctionConnection) o;
+                if ( jc.junction == junction ) {
                     return true;
                 }
             }

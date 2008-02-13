@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.CubicCurve2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -13,12 +19,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -75,7 +75,7 @@ public class VoltmeterNode extends PhetPNode {
     static class UnitNode extends PhetPNode {
         private VoltmeterModel voltmeterModel;
         private PText textNode;
-//        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        //        private DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
         private DecimalFormat decimalFormat = new DefaultDecimalFormat( "0.00" );
         private final String UNKNOWN_VOLTS = CCKResources.getString( "VoltmeterGraphic.UnknownVolts" );
 
@@ -109,7 +109,7 @@ public class VoltmeterNode extends PhetPNode {
 
         private void update() {
             setOffset( voltmeterModel.getUnitModel().getLocation() );
-            if( Double.isNaN( voltmeterModel.getVoltage() ) ) {
+            if ( Double.isNaN( voltmeterModel.getVoltage() ) ) {
                 textNode.setText( UNKNOWN_VOLTS );
             }
             else {
@@ -120,7 +120,7 @@ public class VoltmeterNode extends PhetPNode {
 
     private class CableNode extends PhetPNode {
         private PPath path;
-        private final BasicStroke cableStroke = new BasicStroke( (float)( 3 * SCALE ) );
+        private final BasicStroke cableStroke = new BasicStroke( (float) ( 3 * SCALE ) );
         private LeadNode leadNode;
         private VoltmeterModel.UnitModel unitModel;
         private VoltmeterModel.LeadModel leadModel;
@@ -163,7 +163,7 @@ public class VoltmeterNode extends PhetPNode {
             double dy = unitConnectionPt.getY();
             double cx = leadConnectionPt.getX();
             double cy = leadConnectionPt.getY();
-            float dcy = (float)( 100 * SCALE );
+            float dcy = (float) ( 100 * SCALE );
             CubicCurve2D.Double cableCurve = new CubicCurve2D.Double( cx, cy, cx, cy + dcy, ( 2 * dx + cx ) / 3, dy, dx, dy );
             path.setPathTo( cableCurve );
         }

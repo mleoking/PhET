@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -12,11 +18,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid
@@ -63,7 +64,7 @@ public class SwitchNode extends SwitchBodyImageNode {
                 private double origLeverAngle = Double.NaN;
 
                 public void mouseDragged( PInputEvent event ) {
-                    if( Double.isNaN( origGrabAngle ) ) {
+                    if ( Double.isNaN( origGrabAngle ) ) {
                         origGrabAngle = getAngle( event );
                         origLeverAngle = switch_.getHandleAngle();
                     }
@@ -73,19 +74,19 @@ public class SwitchNode extends SwitchBodyImageNode {
                     double angle = getAngle( event );
                     double dTheta = angle - origGrabAngle;
                     double desiredAngle = origLeverAngle + dTheta;
-                    while( desiredAngle < 0 ) {
+                    while ( desiredAngle < 0 ) {
                         desiredAngle += Math.PI * 2;
                     }
-                    while( desiredAngle > Math.PI * 2 ) {
+                    while ( desiredAngle > Math.PI * 2 ) {
                         desiredAngle -= Math.PI * 2;
                     }
-                    if( desiredAngle < Math.PI ) {
+                    if ( desiredAngle < Math.PI ) {
                         desiredAngle = Math.PI;
                     }
-                    else if( desiredAngle > 5 ) {
+                    else if ( desiredAngle > 5 ) {
                         desiredAngle = 5;
                     }
-                    else if( desiredAngle < 0.6 ) {
+                    else if ( desiredAngle < 0.6 ) {
                         desiredAngle = Math.PI;
                     }
 

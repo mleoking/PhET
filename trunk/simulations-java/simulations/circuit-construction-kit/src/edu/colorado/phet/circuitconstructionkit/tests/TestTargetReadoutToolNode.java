@@ -7,13 +7,14 @@ package edu.colorado.phet.circuitconstructionkit.tests;
  *
  */
 
-import edu.colorado.phet.circuitconstructionkit.piccolo_cck.TargetReadoutToolNode;
-import edu.umd.cs.piccolo.PCanvas;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.piccolo_cck.TargetReadoutToolNode;
+import edu.umd.cs.piccolo.PCanvas;
 
 public class TestTargetReadoutToolNode {
     private JFrame frame;

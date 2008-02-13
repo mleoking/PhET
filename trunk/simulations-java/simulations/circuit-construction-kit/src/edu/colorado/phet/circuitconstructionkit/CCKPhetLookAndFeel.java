@@ -1,10 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
-
-import java.awt.*;
-import javax.swing.*;
 
 /**
  * User: Sam Reid

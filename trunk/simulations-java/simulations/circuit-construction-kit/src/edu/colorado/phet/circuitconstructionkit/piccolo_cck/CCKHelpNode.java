@@ -1,5 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
@@ -8,9 +11,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.umd.cs.piccolo.PNode;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -79,7 +79,7 @@ public class CCKHelpNode extends PhetPNode {
 
         private void update() {
             setVisible( cckSimulationPanel.getCircuitNode().getNumBranchNodes() > 0 );
-            if( getVisible() ) {
+            if ( getVisible() ) {
 //                int index = cckSimulationPanel.getCircuitNode().getNumBranchNodes() > 1 ? 1 : 0;
                 int index = 0;
                 final BranchNode branchNode = cckSimulationPanel.getCircuitNode().getBranchNode( index );
@@ -88,8 +88,8 @@ public class CCKHelpNode extends PhetPNode {
         }
 
         private void setFollowedBranch( BranchNode branchNode ) {
-            if( this.followedBranch != branchNode ) {
-                if( this.followedBranch != null ) {
+            if ( this.followedBranch != branchNode ) {
+                if ( this.followedBranch != null ) {
                     followedBranch.removePropertyChangeListener( listener );
                 }
                 this.followedBranch = branchNode;
@@ -131,7 +131,7 @@ public class CCKHelpNode extends PhetPNode {
 
         private void update() {
             setVisible( cckSimulationPanel.getCircuitNode().getNumJunctionNodes() > 0 );
-            if( getVisible() ) {
+            if ( getVisible() ) {
                 int index = 0;
                 final JunctionNode targetNode = cckSimulationPanel.getCircuitNode().getJunctionNode( index );
                 setFollowedJunction( targetNode );
@@ -139,8 +139,8 @@ public class CCKHelpNode extends PhetPNode {
         }
 
         private void setFollowedJunction( JunctionNode targetNode ) {
-            if( followedJunction != targetNode ) {
-                if( followedJunction != null ) {
+            if ( followedJunction != targetNode ) {
+                if ( followedJunction != null ) {
                     followedJunction.removePropertyChangeListener( listener );
                 }
                 this.followedJunction = targetNode;

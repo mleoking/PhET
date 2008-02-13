@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.controls;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-
-import javax.swing.*;
 
 //import com.lowagie.text.DocumentException;
 

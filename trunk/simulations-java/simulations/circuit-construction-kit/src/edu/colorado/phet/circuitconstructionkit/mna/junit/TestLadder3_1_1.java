@@ -1,8 +1,9 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.mna.junit;
 
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 import junit.framework.TestCase;
+
+import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 
 /**
  * User: Sam Reid

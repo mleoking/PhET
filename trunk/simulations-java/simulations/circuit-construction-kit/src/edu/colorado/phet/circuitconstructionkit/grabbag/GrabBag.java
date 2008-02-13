@@ -1,9 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.grabbag;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -64,6 +64,6 @@ Dog = infinite
     }
 
     public GrabBagItem itemAt( int i ) {
-        return (GrabBagItem)items.get( i );
+        return (GrabBagItem) items.get( i );
     }
 }

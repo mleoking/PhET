@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -22,25 +22,25 @@ public class GraphTraversalVoltage implements VoltageDifference {
     public double getVoltage( ArrayList visited, Junction at, Junction target, double volts ) {
 //        System.out.println( "at = " + at + ", target=" + target );
 //        System.out.println( "visited = " + visited );
-        if( at == target ) {
+        if ( at == target ) {
             return volts;
         }
         Branch[] out = circuit.getAdjacentBranches( at );
-        for( int i = 0; i < out.length; i++ ) {
+        for ( int i = 0; i < out.length; i++ ) {
             Branch branch = out[i];
 //            System.out.println( "branch = " + branch );
             Junction opposite = branch.opposite( at );
 //            System.out.println( "opposite = " + opposite );
-            if( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
+            if ( !visited.contains( branch ) ) {  //don't cross the same bridge twice.
                 double dv = 0.0;
-                if( branch instanceof Battery ) {
-                    Battery batt = (Battery)branch;
+                if ( branch instanceof Battery ) {
+                    Battery batt = (Battery) branch;
                     dv = batt.getEffectiveVoltageDrop();//climb
                 }
                 else {
                     dv = -branch.getVoltageDrop();//fall
                 }
-                if( branch.getEndJunction() == opposite ) {
+                if ( branch.getEndJunction() == opposite ) {
                     dv *= 1;
                 }
                 else {
@@ -50,7 +50,7 @@ public class GraphTraversalVoltage implements VoltageDifference {
                 ArrayList copy = new ArrayList( visited );
                 copy.add( branch );
                 double result = getVoltage( copy, opposite, target, volts + dv );
-                if( !Double.isInfinite( result ) ) {
+                if ( !Double.isInfinite( result ) ) {
                     return result;
                 }
             }

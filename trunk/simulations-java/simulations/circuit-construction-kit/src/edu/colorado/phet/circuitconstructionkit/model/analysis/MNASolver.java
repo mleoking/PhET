@@ -1,11 +1,11 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class MNASolver extends CircuitSolver {
 //            return;
 //        }
         MNACircuit mnaCircuit = new MNACircuit();
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             int startJunction = circuit.indexOf( branch.getStartJunction() );
             int endJunction = circuit.indexOf( branch.getEndJunction() );
@@ -36,12 +36,12 @@ public class MNASolver extends CircuitSolver {
         }
         MNACircuit.MNASolution solution = mnaCircuit.getCompanionModel( dt ).getSolution();
 //        System.out.println( "solution = " + solution );
-        if( !solution.isLegalSolution() ) {
+        if ( !solution.isLegalSolution() ) {
             System.out.println( "solution.isLegalSolution() = " + solution.isLegalSolution() );
-            for( int i = 0; i < circuit.numBranches(); i++ ) {
+            for ( int i = 0; i < circuit.numBranches(); i++ ) {
                 Branch branch = circuit.branchAt( i );
                 branch.setCurrent( 0.0 );
-                if( !( branch instanceof Battery ) ) {
+                if ( !( branch instanceof Battery ) ) {
                     branch.setVoltageDrop( 0.0 );
                 }
             }
@@ -55,16 +55,16 @@ public class MNASolver extends CircuitSolver {
 //            System.out.println( "solution.getVoltage( i ) = " + solution.getVoltage( i ) );
 //            circuit.junctionAt( i ).setVoltage( solution.getVoltage( i ) );
 //        }
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             int startJunction = circuit.indexOf( branch.getStartJunction() );
             int endJunction = circuit.indexOf( branch.getEndJunction() );
 //            mnaCircuit.addComponent( toMNAComponent( branch, i, startJunction, endJunction ) );
             double startVoltage = solution.getVoltage( startJunction );
             double endVoltage = solution.getVoltage( endJunction );
-            if( branch instanceof Capacitor ) {
+            if ( branch instanceof Capacitor ) {
                 //we'd like to read the current from the companion model.
-                Capacitor c = (Capacitor)branch;
+                Capacitor c = (Capacitor) branch;
                 branch.setKirkhoffEnabled( false );
                 double origVoltageDrop = branch.getVoltageDrop();
                 branch.setVoltageDrop( endVoltage - startVoltage );
@@ -73,9 +73,9 @@ public class MNASolver extends CircuitSolver {
                 branch.setCurrent( capFudgeFactor * c.getCapacitance() * dv / dt );//todo: linear approx, see if it's good enough
                 branch.setKirkhoffEnabled( true );
             }
-            else if( branch instanceof Inductor ) {
+            else if ( branch instanceof Inductor ) {
                 //we'd like to read the current from the companion model.
-                Inductor L = (Inductor)branch;
+                Inductor L = (Inductor) branch;
                 branch.setKirkhoffEnabled( false );
                 double origCurrent = branch.getCurrent();
                 double origVoltageDrop = branch.getVoltageDrop();
@@ -86,14 +86,14 @@ public class MNASolver extends CircuitSolver {
                 branch.setCurrent( newCurrent );//todo: linear approx, see if it's good enough
                 branch.setKirkhoffEnabled( true );
             }
-            else if( !( branch instanceof Battery ) ) {
+            else if ( !( branch instanceof Battery ) ) {
                 branch.setKirkhoffEnabled( false );
                 branch.setVoltageDrop( endVoltage - startVoltage );
                 branch.setCurrent( branch.getVoltageDrop() / branch.getResistance() );
                 branch.setKirkhoffEnabled( true );
             }
         }
-        for( int i = 0; i < solution.getNumCurrents() && i < getBatteries( circuit ).length; i++ ) {
+        for ( int i = 0; i < solution.getNumCurrents() && i < getBatteries( circuit ).length; i++ ) {
             batteryAt( circuit, i ).setKirkhoffEnabled( false );
             batteryAt( circuit, i ).setCurrent( -solution.getCurrent( i ) );//todo there is a minus sign here
             batteryAt( circuit, i ).setKirkhoffEnabled( true );
@@ -105,9 +105,9 @@ public class MNASolver extends CircuitSolver {
     private void dischargeBogusInductors( Circuit circuit ) {
         matrixTable = new KirkhoffSolver.MatrixTable( circuit );
         //Discharge all inductors not in a loop.
-        for( int i = 0; i < circuit.getInductorCount(); i++ ) {
+        for ( int i = 0; i < circuit.getInductorCount(); i++ ) {
             Inductor inductor = circuit.getInductor( i );
-            if( !isInLoop( circuit, inductor ) ) {
+            if ( !isInLoop( circuit, inductor ) ) {
                 inductor.discharge();
             }
         }
@@ -124,31 +124,31 @@ public class MNASolver extends CircuitSolver {
     private Battery[] getBatteries( Circuit circuit ) {
         ArrayList all = new ArrayList();
         Branch[] branches = circuit.getBranches();
-        for( int i = 0; i < branches.length; i++ ) {
+        for ( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
-            if( branch instanceof Battery ) {
+            if ( branch instanceof Battery ) {
                 all.add( branch );
             }
         }
-        return (Battery[])all.toArray( new Battery[0] );
+        return (Battery[]) all.toArray( new Battery[0] );
     }
 
     private MNACircuit.MNAComponent toMNAComponent( Branch branch, int index, int start, int end ) {
-        if( branch instanceof Battery ) {
+        if ( branch instanceof Battery ) {
             return new MNACircuit.MNAVoltageSource( "v_" + index, start, end, branch.getVoltageDrop() );
         }
-        else if( branch instanceof Capacitor ) {
-            Capacitor c = (Capacitor)branch;
+        else if ( branch instanceof Capacitor ) {
+            Capacitor c = (Capacitor) branch;
             return new MNACircuit.MNACapacitor( "c_" + index, start, end, c.getCapacitance(), -c.getVoltageDrop(), c.getCurrent() / capFudgeFactor );
         }
-        else if( branch instanceof Resistor ) {
+        else if ( branch instanceof Resistor ) {
             return new MNACircuit.MNAResistor( "r_" + index, start, end, branch.getResistance() );
         }
-        else if( branch instanceof Inductor ) {
-            Inductor L = (Inductor)branch;
+        else if ( branch instanceof Inductor ) {
+            Inductor L = (Inductor) branch;
             return new MNACircuit.MNAInductor( "L_" + index, start, end, L.getInductance(), L.getVoltageDrop(), L.getCurrent() );
         }
-        else if( branch instanceof Branch ) {
+        else if ( branch instanceof Branch ) {
             return new MNACircuit.MNAResistor( "r_" + index, start, end, branch.getResistance() );
         }
         throw new RuntimeException( "Component not recognized: " + branch.getClass() );

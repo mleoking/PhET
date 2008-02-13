@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -14,9 +18,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -45,7 +46,7 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setStroke( shapeStroke );
         shapePNode.setPaint( Color.blue );
         highlightPNode = new PPath();
-        highlightPNode.setStroke( new BasicStroke( (float)( 3 / 80.0 ) ) );
+        highlightPNode.setStroke( new BasicStroke( (float) ( 3 / 80.0 ) ) );
         highlightPNode.setStrokePaint( Color.yellow );
 
         highlightPNode.setPickable( false );
@@ -66,7 +67,7 @@ public class JunctionNode extends PhetPNode {
             }
 
             public void mousePressed( PInputEvent event ) {
-                if( event.isControlDown() ) {
+                if ( event.isControlDown() ) {
                     junction.setSelected( !junction.isSelected() );
                 }
                 else {
@@ -105,9 +106,9 @@ public class JunctionNode extends PhetPNode {
     }
 
     private Stroke createStroke( double strokeWidth ) {
-        float scale = (float)80.0;
+        float scale = (float) 80.0;
         float[] dash = new float[]{3 / scale, 6 / scale};
-        return (Stroke)new BasicStroke( (float)strokeWidth, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0 );
+        return (Stroke) new BasicStroke( (float) strokeWidth, BasicStroke.CAP_SQUARE, BasicStroke.CAP_BUTT, 3, dash, 0 );
     }
 
     private void update() {
@@ -117,17 +118,17 @@ public class JunctionNode extends PhetPNode {
         shapePNode.setPaint( isConnectedTo2Wires() ? CCKLookAndFeel.COPPER : new Color( 0, 0, 0, 0 ) );
 
         highlightPNode.setPathTo( junction.createCircle( CCKModel.JUNCTION_RADIUS * 1.6 ) );
-        highlightPNode.setStroke( new BasicStroke( (float)( 3.0 / 80.0 ) ) );
+        highlightPNode.setStroke( new BasicStroke( (float) ( 3.0 / 80.0 ) ) );
         highlightPNode.setVisible( junction.isSelected() );
     }
 
     private boolean isConnectedTo2Wires() {
-        if( !isConnected() ) {
+        if ( !isConnected() ) {
             return false;
         }
         Branch[] n = getCircuit().getAdjacentBranches( junction );
-        for( int i = 0; i < n.length; i++ ) {
-            if( !( n[i] instanceof Wire ) ) {
+        for ( int i = 0; i < n.length; i++ ) {
+            if ( !( n[i] instanceof Wire ) ) {
                 return false;
             }
         }

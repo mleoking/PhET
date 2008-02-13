@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -42,7 +42,7 @@ public class FlameNode extends PhetPNode {
 
     private void update() {
         removeAllChildren();
-        if( branch.isOnFire() ) {
+        if ( branch.isOnFire() ) {
             addChild( new PImage( flameImage ) );
         }
     }

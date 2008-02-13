@@ -1,13 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.ConstantDensityPropagator;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -40,9 +40,9 @@ public class TimeScaleNode extends PhetPNode {
     private void update() {
         ConstantDensityPropagator propagator = model.getParticleSet().getPropagator();
         String percent = propagator.getPercentString();
-        if( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
-            if( cckSimulationPanel.getElectronsVisible() ) {
-                if( percent.equals( "1" ) ) {
+        if ( !percent.equals( propagator.getDecimalFormat().format( 100 ) ) && propagator.getTimeScalingPercentValue() < 95 ) {
+            if ( cckSimulationPanel.getElectronsVisible() ) {
+                if ( percent.equals( "1" ) ) {
                     percent = "< 1";
                 }
                 setText( CCKResources.getString( "ConstantDensityPropagator.SpeedLimitReached1" )

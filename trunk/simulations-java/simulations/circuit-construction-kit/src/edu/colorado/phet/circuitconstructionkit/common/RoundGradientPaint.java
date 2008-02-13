@@ -19,7 +19,7 @@ public class RoundGradientPaint
 
     public RoundGradientPaint( double x, double y, Color pointColor,
                                Point2D radius, Color backgroundColor ) {
-        if( radius.distance( 0, 0 ) <= 0 ) {
+        if ( radius.distance( 0, 0 ) <= 0 ) {
             throw new IllegalArgumentException( "Radius must be greater than 0." );
         }
         mPoint = new Point2D.Double( x, y );
@@ -68,24 +68,24 @@ public class RoundGradientPaint
                     getColorModel().createCompatibleWritableRaster( w, h );
 
             int[] data = new int[w * h * 4];
-            for( int j = 0; j < h; j++ ) {
-                for( int i = 0; i < w; i++ ) {
+            for ( int j = 0; j < h; j++ ) {
+                for ( int i = 0; i < w; i++ ) {
                     double distance = mPoint.distance( x + i, y + j );
                     double radius = mRadius.distance( 0, 0 );
                     double ratio = distance / radius;
-                    if( ratio > 1.0 ) {
+                    if ( ratio > 1.0 ) {
                         ratio = 1.0;
                     }
 
                     int base = ( j * w + i ) * 4;
-                    data[base + 0] = (int)( mC1.getRed() + ratio *
-                                                           ( mC2.getRed() - mC1.getRed() ) );
-                    data[base + 1] = (int)( mC1.getGreen() + ratio *
-                                                             ( mC2.getGreen() - mC1.getGreen() ) );
-                    data[base + 2] = (int)( mC1.getBlue() + ratio *
-                                                            ( mC2.getBlue() - mC1.getBlue() ) );
-                    data[base + 3] = (int)( mC1.getAlpha() + ratio *
-                                                             ( mC2.getAlpha() - mC1.getAlpha() ) );
+                    data[base + 0] = (int) ( mC1.getRed() + ratio *
+                                                            ( mC2.getRed() - mC1.getRed() ) );
+                    data[base + 1] = (int) ( mC1.getGreen() + ratio *
+                                                              ( mC2.getGreen() - mC1.getGreen() ) );
+                    data[base + 2] = (int) ( mC1.getBlue() + ratio *
+                                                             ( mC2.getBlue() - mC1.getBlue() ) );
+                    data[base + 3] = (int) ( mC1.getAlpha() + ratio *
+                                                              ( mC2.getAlpha() - mC1.getAlpha() ) );
                 }
             }
             raster.setPixels( 0, 0, w, h, data );

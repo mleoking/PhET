@@ -1,8 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 
 /**
  * User: Sam Reid

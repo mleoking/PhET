@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid

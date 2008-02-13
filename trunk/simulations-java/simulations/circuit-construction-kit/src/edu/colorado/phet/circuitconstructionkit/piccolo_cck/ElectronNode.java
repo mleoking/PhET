@@ -1,16 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.model.Electron;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -59,7 +59,7 @@ public class ElectronNode extends PhetPNode {
     }
 
     protected void paint( PPaintContext paintContext ) {
-        if( clip != null ) {
+        if ( clip != null ) {
             Shape origClip = paintContext.getGraphics().getClip();
             Area area = new Area( origClip );
             area.subtract( new Area( clip ) );
@@ -68,7 +68,7 @@ public class ElectronNode extends PhetPNode {
     }
 
     protected void paintAfterChildren( PPaintContext paintContext ) {
-        if( clip != null ) {
+        if ( clip != null ) {
             paintContext.popClip( null );
         }
     }

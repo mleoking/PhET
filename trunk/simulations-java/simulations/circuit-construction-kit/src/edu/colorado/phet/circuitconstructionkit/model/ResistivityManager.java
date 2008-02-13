@@ -27,10 +27,10 @@ public class ResistivityManager extends CircuitListenerAdapter {
     }
 
     private void changed() {
-        if( enabled ) {
-            for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+        if ( enabled ) {
+            for ( int i = 0; i < getCircuit().numBranches(); i++ ) {
                 Branch b = getCircuit().branchAt( i );
-                if( b instanceof Wire ) {//make sure it's not a component.
+                if ( b instanceof Wire ) {//make sure it's not a component.
                     double resistance = getResistance( b );
                     b.setResistance( resistance );
                 }
@@ -41,7 +41,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
     private double getResistance( Branch b ) {
         double length = b.getLength();
         double resistance = length * resistivity;
-        if( resistance < CCKModel.MIN_RESISTANCE ) {
+        if ( resistance < CCKModel.MIN_RESISTANCE ) {
             return CCKModel.MIN_RESISTANCE;
         }
         else {
@@ -55,7 +55,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
 
     public void setEnabled( boolean enabled ) {
         this.enabled = enabled;
-        if( enabled ) {
+        if ( enabled ) {
             changed();
         }
     }
@@ -66,7 +66,7 @@ public class ResistivityManager extends CircuitListenerAdapter {
 
     public void setResistivity( double resistivity ) {
         System.out.println( "resistivity = " + resistivity );
-        if( this.resistivity != resistivity ) {
+        if ( this.resistivity != resistivity ) {
             this.resistivity = resistivity;
             changed();
         }

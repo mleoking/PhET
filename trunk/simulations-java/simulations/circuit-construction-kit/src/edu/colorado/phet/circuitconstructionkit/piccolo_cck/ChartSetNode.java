@@ -3,8 +3,8 @@ package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 import edu.colorado.phet.circuitconstructionkit.chart.AbstractFloatingChart;
 import edu.colorado.phet.circuitconstructionkit.chart.CurrentStripChart;
 import edu.colorado.phet.circuitconstructionkit.chart.VoltageStripChart;
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
@@ -28,7 +28,7 @@ public class ChartSetNode extends PhetPNode {
     }
 
     public void addCurrentChart() {
-        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, CCKStrings.getString( "current-y-axis"), clock, getCircuit(), cckSimulationPanel );
+        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, CCKStrings.getString( "current-y-axis" ), clock, getCircuit(), cckSimulationPanel );
         chart.translate( 3 * 70, 3 * 70 );
 
         addChild( chart );

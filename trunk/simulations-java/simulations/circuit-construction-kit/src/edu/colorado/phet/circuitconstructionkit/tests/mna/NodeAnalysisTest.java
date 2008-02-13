@@ -1,13 +1,13 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.tests.mna;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -30,12 +30,12 @@ public class NodeAnalysisTest {
 
     public Junction combine( Circuit circuit, Junction a, Junction b ) {
         Junction replacement = new Junction( 0, 0 );
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch brl = circuit.branchAt( i );
-            if( brl.getStartJunction() == a || brl.getStartJunction() == b ) {
+            if ( brl.getStartJunction() == a || brl.getStartJunction() == b ) {
                 brl.setStartJunction( replacement );
             }
-            if( brl.getEndJunction() == a || brl.getEndJunction() == b ) {
+            if ( brl.getEndJunction() == a || brl.getEndJunction() == b ) {
                 brl.setEndJunction( replacement );
             }
         }

@@ -1,9 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.common;
 
+import java.awt.*;
+
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
-import java.awt.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -42,8 +43,8 @@ public class JPopupMenuRepaintWorkaround extends JPopupMenu {
                     e.printStackTrace();
                 }
                 Window window = SwingUtilities.getWindowAncestor( target );
-                if( window instanceof JFrame ) {
-                    JFrame jeff = (JFrame)window;
+                if ( window instanceof JFrame ) {
+                    JFrame jeff = (JFrame) window;
                     Container jp = jeff.getContentPane();
                     jp.invalidate();
                     jp.validate();

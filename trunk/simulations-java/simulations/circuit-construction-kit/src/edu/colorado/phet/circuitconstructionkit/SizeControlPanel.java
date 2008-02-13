@@ -1,13 +1,14 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * User: Sam Reid
@@ -24,7 +25,7 @@ public class SizeControlPanel extends VerticalLayoutPanel {
         final JSpinner zoom = new JSpinner( new SpinnerNumberModel( 1, .1, 10, .1 ) );
         zoom.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Number value = (Number)zoom.getValue();
+                Number value = (Number) zoom.getValue();
                 double v = value.doubleValue();
                 zoom( v );
             }

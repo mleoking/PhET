@@ -1,15 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -18,7 +19,7 @@ import java.awt.geom.Point2D;
  */
 public class SchematicACNode extends SchematicOscillateNode {
     private PhetPPath shapeGraphic;
-    private float SCALE = (float)( 1.0 / 60.0 );
+    private float SCALE = (float) ( 1.0 / 60.0 );
 
     public SchematicACNode( CCKModel parent, ACVoltageSource circuitComponent, JComponent jComponent, ICCKModule module ) {
         super( parent, circuitComponent, jComponent, module, 0.3 );
@@ -30,14 +31,14 @@ public class SchematicACNode extends SchematicOscillateNode {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( shapeGraphic != null ) {
+        if ( shapeGraphic != null ) {
             shapeGraphic.setVisible( visible );
         }
     }
 
     protected void changed() {
         super.changed();
-        if( shapeGraphic != null ) {
+        if ( shapeGraphic != null ) {
             //draw a circle around the resistor part.
             Point2D catPoint = super.getCatPoint();
             Point2D anoPoint = getAnoPoint();

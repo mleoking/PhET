@@ -1,17 +1,18 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -21,7 +22,7 @@ import java.awt.geom.Point2D;
 public class SchematicInductorNode extends SchematicOscillateNode {
     private PhetPPath leftBranch;
     private PhetPPath rightBranch;
-    private float SCALE = (float)( 1.0 / 60.0 );
+    private float SCALE = (float) ( 1.0 / 60.0 );
 
     public SchematicInductorNode( CCKModel parent, CircuitComponent component, JComponent jComponent, ICCKModule module ) {
         super( parent, component, jComponent, module, 0.3 );
@@ -39,14 +40,14 @@ public class SchematicInductorNode extends SchematicOscillateNode {
 
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if( leftBranch != null ) {
+        if ( leftBranch != null ) {
             leftBranch.setVisible( visible );
         }
     }
 
     protected void changed() {
         super.changed();
-        if( leftBranch != null ) {
+        if ( leftBranch != null ) {
             //draw a circle around the resistor part.
             Point2D catPoint = super.getCatPoint();
             Point2D anoPoint = getAnoPoint();

@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -9,9 +13,6 @@ import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -48,7 +49,7 @@ public class ResistorNode extends ComponentImageNode {
 
     protected void update() {
         super.update();
-        if( colorBandNode != null ) {
+        if ( colorBandNode != null ) {
             colorBandNode.update();
         }
     }
@@ -65,7 +66,7 @@ public class ResistorNode extends ComponentImageNode {
 
         public void update() {
             removeAllChildren();
-            int resistance = (int)resistor.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
+            int resistance = (int) resistor.getResistance();//resistorGraphic.getBranch().getint) ((Resistor) w).getResistance();
             Color[] c = new ResistorColors().to3Colors( resistance );
             int y = 3;
             int width = 5;
@@ -77,7 +78,7 @@ public class ResistorNode extends ComponentImageNode {
             addChild( new PhetPPath( new Rectangle( 25, y, width, height ), c[1] ) );
 
             addChild( new PhetPPath( new Rectangle( 35, y, width, height ), c[2] ) );
-            if( c[3] != null ) {
+            if ( c[3] != null ) {
                 addChild( new PhetPPath( new Rectangle( 55, y, width, height ), c[3] ) );
             }
         }

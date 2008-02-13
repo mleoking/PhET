@@ -1,5 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+import java.awt.geom.Area;
+
 import edu.colorado.phet.circuitconstructionkit.model.CurrentVoltListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Filament;
@@ -9,9 +12,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PPaintContext;
-
-import java.awt.*;
-import java.awt.geom.Area;
 
 /**
  * User: Sam Reid
@@ -57,7 +57,7 @@ public class FilamentNode extends PhetPNode {
 
     private void update() {
         double intensity = totalBulbComponentNode.getBulb().getIntensity();
-        PPath path = new PhetPPath( filament.getPath(), stroke, new Color( (float)( intensity ), (float)( intensity * .4 ), (float)( intensity * .5 ) ) );
+        PPath path = new PhetPPath( filament.getPath(), stroke, new Color( (float) ( intensity ), (float) ( intensity * .4 ), (float) ( intensity * .5 ) ) );
         removeAllChildren();
         addChild( path );
     }

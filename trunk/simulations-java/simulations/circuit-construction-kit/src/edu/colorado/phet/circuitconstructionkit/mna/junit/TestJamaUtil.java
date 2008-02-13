@@ -2,8 +2,9 @@
 package edu.colorado.phet.circuitconstructionkit.mna.junit;
 
 import Jama.Matrix;
-import edu.colorado.phet.circuitconstructionkit.mna.JamaUtil;
 import junit.framework.TestCase;
+
+import edu.colorado.phet.circuitconstructionkit.mna.JamaUtil;
 
 /**
  * User: Sam Reid

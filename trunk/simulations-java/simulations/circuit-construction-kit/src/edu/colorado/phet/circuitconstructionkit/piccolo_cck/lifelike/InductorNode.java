@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentImageNode;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid

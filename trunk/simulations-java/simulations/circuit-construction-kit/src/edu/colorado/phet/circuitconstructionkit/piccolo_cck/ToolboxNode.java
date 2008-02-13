@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
@@ -19,12 +25,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -57,7 +57,7 @@ public class ToolboxNode extends PhetPNode {
         toolboxBounds.setStroke( new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
         toolboxBounds.setPaint( CCKLookAndFeel.toolboxColor );
         addChild( toolboxBounds );
-        if( !getAllowsDynamics() ) {
+        if ( !getAllowsDynamics() ) {
             betweenInset = 40;
         }
         wireMaker = new WireMaker();
@@ -66,7 +66,7 @@ public class ToolboxNode extends PhetPNode {
         addBranchMaker( new BatteryMaker() );
         addBranchMaker( new BulbMaker() );
         addBranchMaker( new SwitchMaker() );
-        if( getAllowsDynamics() ) {
+        if ( getAllowsDynamics() ) {
             addBranchMaker( new ACVoltageMaker() );
             addBranchMaker( new CapacitorMaker() );
             addBranchMaker( new InductorMaker() );
@@ -90,13 +90,13 @@ public class ToolboxNode extends PhetPNode {
     }
 
     private double getYForNextItem( BranchMaker nextItem ) {
-        if( branchMakers.size() == 0 ) {
+        if ( branchMakers.size() == 0 ) {
             return TOP_INSET;
         }
         else {
-            BranchMaker prev = (BranchMaker)branchMakers.get( branchMakers.size() - 1 );
+            BranchMaker prev = (BranchMaker) branchMakers.get( branchMakers.size() - 1 );
             double val = prev.getFullBounds().getMaxY() + betweenInset;
-            if( nextItem.getFullBounds().getMinY() < 0 ) {
+            if ( nextItem.getFullBounds().getMinY() < 0 ) {
                 val -= nextItem.getFullBounds().getMinY();
             }
             return val;
@@ -108,7 +108,7 @@ public class ToolboxNode extends PhetPNode {
     }
 
     public Color getBackgroundColor() {
-        return (Color)toolboxBounds.getPaint();
+        return (Color) toolboxBounds.getPaint();
     }
 
     public void setSeriesAmmeterVisible( boolean selected ) {
@@ -129,7 +129,7 @@ public class ToolboxNode extends PhetPNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     // If we haven't created the branch yet
-                    if( createdBranch == null ) {
+                    if ( createdBranch == null ) {
                         createdBranch = createBranch();
                         // Position the branch so it's centered on the mouse event.
                         setBranchLocationFromEvent( event );
@@ -162,7 +162,7 @@ public class ToolboxNode extends PhetPNode {
         }
 
         private Font createFont() {
-            if (Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
+            if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 ) {
                 return new PhetDefaultFont( Font.PLAIN, 16 );
             }
             else {
@@ -174,7 +174,7 @@ public class ToolboxNode extends PhetPNode {
 //            System.out.println( "ToolboxNode.this.getParent().getParent() = " + ToolboxNode.this.getParent().getParent() );
             Point2D pt = event.getPositionRelativeTo( this );
             this.localToGlobal( pt );
-            CCKPiccoloModule m = (CCKPiccoloModule)module;
+            CCKPiccoloModule m = (CCKPiccoloModule) module;
             m.getCckSimulationPanel().getCircuitNode().globalToLocal( pt );
             return pt;
 //            return event.getPositionRelativeTo( ToolboxNode.this.getParent().getParent() );//todo remove this dependence on parent structure

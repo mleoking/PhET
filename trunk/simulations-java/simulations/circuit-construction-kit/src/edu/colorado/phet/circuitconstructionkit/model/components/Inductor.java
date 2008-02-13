@@ -1,15 +1,15 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid

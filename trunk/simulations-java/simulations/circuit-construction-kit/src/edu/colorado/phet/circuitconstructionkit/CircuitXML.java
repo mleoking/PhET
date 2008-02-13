@@ -1,16 +1,17 @@
 package edu.colorado.phet.circuitconstructionkit;
 
+import net.n3.nanoxml.IXMLElement;
+import net.n3.nanoxml.XMLElement;
+import net.n3.nanoxml.XMLWriter;
+
+import java.io.IOException;
+
 import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-import net.n3.nanoxml.IXMLElement;
-import net.n3.nanoxml.XMLElement;
-import net.n3.nanoxml.XMLWriter;
-
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -22,10 +23,10 @@ public class CircuitXML {
 
     public static Circuit parseXML( IXMLElement xml, CircuitChangeListener kl, ICCKModule module ) {
         Circuit cir = new Circuit( kl );
-        for( int i = 0; i < xml.getChildrenCount(); i++ ) {
+        for ( int i = 0; i < xml.getChildrenCount(); i++ ) {
             IXMLElement child = xml.getChildAtIndex( i );
             //            int index = child.getAttribute( "index", -1 );
-            if( child.getName().equals( "junction" ) ) {
+            if ( child.getName().equals( "junction" ) ) {
                 String xStr = child.getAttribute( "x", "0.0" );
                 String yStr = child.getAttribute( "y", "0.0" );
                 double x = Double.parseDouble( xStr );
@@ -33,7 +34,7 @@ public class CircuitXML {
                 Junction j = new Junction( x, y );
                 cir.addJunction( j );
             }
-            else if( child.getName().equals( "branch" ) ) {
+            else if ( child.getName().equals( "branch" ) ) {
                 int startIndex = child.getAttribute( "startJunction", -1 );
                 int endIndex = child.getAttribute( "endJunction", -1 );
                 Junction startJunction = cir.junctionAt( startIndex ); //this only works if everything stays in order.
@@ -47,20 +48,20 @@ public class CircuitXML {
 
     public static Branch toBranch( ICCKModule module, CircuitChangeListener kl, Junction startJunction, Junction endJunction, IXMLElement xml ) {
         String type = xml.getAttribute( "type", "null" );
-        if( type.equals( Wire.class.getName() ) ) {
+        if ( type.equals( Wire.class.getName() ) ) {
             return new Wire( kl, startJunction, endJunction );
         }
         double length = Double.parseDouble( xml.getAttribute( "length", "-1" ) );
         double height = Double.parseDouble( xml.getAttribute( "height", "-1" ) );
 
-        if( type.equals( Resistor.class.getName() ) ) {
+        if ( type.equals( Resistor.class.getName() ) ) {
             Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
             double val = Double.parseDouble( resVal );
             res.setResistance( val );
             return res;
         }
-        else if( type.equals( ACVoltageSource.class.getName() ) ) {
+        else if ( type.equals( ACVoltageSource.class.getName() ) ) {
             double amplitude = Double.parseDouble( xml.getAttribute( "amplitude", Double.NaN + "" ) );
             double freq = Double.parseDouble( xml.getAttribute( "frequency", Double.NaN + "" ) );
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
@@ -70,14 +71,14 @@ public class CircuitXML {
             voltageSource.setFrequency( freq );
             return voltageSource;
         }
-        else if( type.equals( Capacitor.class.getName() ) ) {
+        else if ( type.equals( Capacitor.class.getName() ) ) {
             Capacitor capacitor = new Capacitor( kl, startJunction, endJunction, length, height );
             capacitor.setVoltageDrop( Double.parseDouble( xml.getAttribute( "voltage", Double.NaN + "" ) ) );
             capacitor.setCurrent( Double.parseDouble( xml.getAttribute( "current", Double.NaN + "" ) ) );
             capacitor.setCapacitance( Double.parseDouble( xml.getAttribute( "capacitance", Double.NaN + "" ) ) );
             return capacitor;
         }
-        else if( type.equals( Battery.class.getName() ) ) {
+        else if ( type.equals( Battery.class.getName() ) ) {
             double internalResistance = Double.parseDouble( xml.getAttribute( "internalResistance", Double.NaN + "" ) );
             Battery batt = new Battery( kl, startJunction, endJunction, length, height, CCKModel.MIN_RESISTANCE, CCKModel.INTERNAL_RESISTANCE_ON );
             batt.setInternalResistance( internalResistance );
@@ -86,12 +87,12 @@ public class CircuitXML {
             batt.setVoltageDrop( val );
             return batt;
         }
-        else if( type.equals( Switch.class.getName() ) ) {
+        else if ( type.equals( Switch.class.getName() ) ) {
             String closedVal = xml.getAttribute( "closed", "false" );
             boolean closed = closedVal != null && closedVal.equals( new Boolean( true ).toString() );
             return new Switch( kl, startJunction, endJunction, closed, length, height );
         }
-        else if( type.equals( Bulb.class.getName() ) ) {
+        else if ( type.equals( Bulb.class.getName() ) ) {
             String widthStr = xml.getAttribute( "width", Double.NaN + "" );
             double width = Double.parseDouble( widthStr );
             boolean schematic = !module.isLifelike();
@@ -104,17 +105,17 @@ public class CircuitXML {
             bulb.setConnectAtLeftXML( connectAtLeft );
             return bulb;
         }
-        else if( type.equals( SeriesAmmeter.class.getName() ) ) {
+        else if ( type.equals( SeriesAmmeter.class.getName() ) ) {
             return new SeriesAmmeter( kl, startJunction, endJunction, length, height );
         }
-        else if( type.equals( GrabBagResistor.class.getName() ) ) {
+        else if ( type.equals( GrabBagResistor.class.getName() ) ) {
             Resistor res = new Resistor( kl, startJunction, endJunction, length, height );
             String resVal = xml.getAttribute( "resistance", Double.NaN + "" );
             double val = Double.parseDouble( resVal );
             res.setResistance( val );
             return res;
         }
-        else if( type.equals( Inductor.class.getName() ) ) {
+        else if ( type.equals( Inductor.class.getName() ) ) {
             Inductor inductor = new Inductor( kl, startJunction, endJunction, length, height );
             inductor.setVoltageDrop( Double.parseDouble( xml.getAttribute( "voltage", Double.NaN + "" ) ) );
             inductor.setCurrent( Double.parseDouble( xml.getAttribute( "current", Double.NaN + "" ) ) );
@@ -126,7 +127,7 @@ public class CircuitXML {
 
     public static XMLElement toXML( Circuit circuit ) {
         XMLElement xe = new XMLElement( "circuit" );
-        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+        for ( int i = 0; i < circuit.numJunctions(); i++ ) {
             Junction j = circuit.junctionAt( i );
             XMLElement junctionElement = new XMLElement( "junction" );
             junctionElement.setAttribute( "index", i + "" );
@@ -134,7 +135,7 @@ public class CircuitXML {
             junctionElement.setAttribute( "y", j.getPosition().getY() + "" );
             xe.addChild( junctionElement );
         }
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             XMLElement branchElement = new XMLElement( "branch" );
             Junction startJ = branch.getStartJunction();
@@ -145,48 +146,48 @@ public class CircuitXML {
             branchElement.setAttribute( "type", branch.getClass().getName() );
             branchElement.setAttribute( "startJunction", startIndex + "" );
             branchElement.setAttribute( "endJunction", endIndex + "" );
-            if( branch instanceof CircuitComponent ) {
-                CircuitComponent cc = (CircuitComponent)branch;
+            if ( branch instanceof CircuitComponent ) {
+                CircuitComponent cc = (CircuitComponent) branch;
                 branchElement.setAttribute( "length", cc.getLength() + "" );
                 branchElement.setAttribute( "height", cc.getHeight() + "" );
             }
-            if( branch instanceof ACVoltageSource ) {
-                ACVoltageSource batt = (ACVoltageSource)branch;
+            if ( branch instanceof ACVoltageSource ) {
+                ACVoltageSource batt = (ACVoltageSource) branch;
                 branchElement.setAttribute( "amplitude", batt.getAmplitude() + "" );
                 branchElement.setAttribute( "frequency", batt.getFrequency() + "" );
                 branchElement.setAttribute( "internalResistance", batt.getInteralResistance() + "" );
             }
-            else if( branch instanceof Battery ) {
-                Battery batt = (Battery)branch;
+            else if ( branch instanceof Battery ) {
+                Battery batt = (Battery) branch;
                 branchElement.setAttribute( "voltage", branch.getVoltageDrop() + "" );
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );
                 branchElement.setAttribute( "internalResistance", batt.getInteralResistance() + "" );
             }
-            else if( branch instanceof Resistor ) {
+            else if ( branch instanceof Resistor ) {
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );
             }
-            else if( branch instanceof Bulb ) {
+            else if ( branch instanceof Bulb ) {
                 branchElement.setAttribute( "resistance", branch.getResistance() + "" );
-                Bulb bulb = (Bulb)branch;
+                Bulb bulb = (Bulb) branch;
                 branchElement.setAttribute( "width", bulb.getWidth() + "" );
                 branchElement.setAttribute( "length", branch.getStartJunction().getDistance( branch.getEndJunction() ) + "" );
                 branchElement.setAttribute( "schematic", bulb.isSchematic() + "" );
                 branchElement.setAttribute( "connectAtLeft", bulb.isConnectAtLeft() + "" );
             }
-            else if( branch instanceof Switch ) {
-                Switch sw = (Switch)branch;
+            else if ( branch instanceof Switch ) {
+                Switch sw = (Switch) branch;
                 branchElement.setAttribute( "closed", sw.isClosed() + "" );
             }
-            else if( branch instanceof SeriesAmmeter ) {
+            else if ( branch instanceof SeriesAmmeter ) {
             }
-            else if( branch instanceof Capacitor ) {
-                Capacitor cap = (Capacitor)branch;
+            else if ( branch instanceof Capacitor ) {
+                Capacitor cap = (Capacitor) branch;
                 branchElement.setAttribute( "capacitance", cap.getCapacitance() + "" );
                 branchElement.setAttribute( "voltage", cap.getVoltageDrop() + "" );
                 branchElement.setAttribute( "current", cap.getCurrent() + "" );
             }
-            else if( branch instanceof Inductor ) {
-                Inductor ind = (Inductor)branch;
+            else if ( branch instanceof Inductor ) {
+                Inductor ind = (Inductor) branch;
                 branchElement.setAttribute( "inductance", ind.getInductance() + "" );
                 branchElement.setAttribute( "voltage", ind.getVoltageDrop() + "" );
                 branchElement.setAttribute( "current", ind.getCurrent() + "" );
