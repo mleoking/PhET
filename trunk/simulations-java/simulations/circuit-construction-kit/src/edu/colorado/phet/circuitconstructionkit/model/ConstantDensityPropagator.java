@@ -1,11 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.FireHandler;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-
 import java.text.DecimalFormat;
 import java.util.*;
+
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * User: Sam Reid
@@ -13,6 +12,7 @@ import java.util.*;
  * Time: 4:01:09 PM
  */
 public class ConstantDensityPropagator implements ModelElement {
+    public static double FIRE_CURRENT = 10;
     private ParticleSet particleSet;
     private Circuit circuit;
     private double speedScale = .01;
@@ -44,7 +44,7 @@ public class ConstantDensityPropagator implements ModelElement {
         //        System.out.println( "maxCurrent = " + maxCurrent );
         double maxVelocity = maxCurrent * speedScale;
         double maxStep = maxVelocity * dt;
-        if( maxStep >= MAX_STEP ) {
+        if ( maxStep >= MAX_STEP ) {
             scale = MAX_STEP / maxStep;
         }
         else {
@@ -54,23 +54,23 @@ public class ConstantDensityPropagator implements ModelElement {
         this.timeScalingPercentValue = smoothData.getAverage();
 
         this.percent = decimalFormat.format( timeScalingPercentValue );
-        if( percent.equals( "0" ) ) {
+        if ( percent.equals( "0" ) ) {
             percent = "1";
         }
         //todo add test for change before notify
         notifyListeners();
-        if( timeScalingPercentValue < 1 ) {
+        if ( timeScalingPercentValue < 1 ) {
         }
-        for( int i = 0; i < particleSet.numParticles(); i++ ) {
+        for ( int i = 0; i < particleSet.numParticles(); i++ ) {
             Electron e = particleSet.particleAt( i );
             propagate( e, dt );
         }
         //maybe this should be done in random order, otherwise we may get artefacts.
 
-        for( int i = 0; i < numEqualize; i++ ) {
+        for ( int i = 0; i < numEqualize; i++ ) {
             equalize( dt );
         }
-        if( cap != 0 ) {
+        if ( cap != 0 ) {
             System.out.println( "cap = " + cap );
         }
     }
@@ -90,15 +90,15 @@ public class ConstantDensityPropagator implements ModelElement {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.timeScaleChanged();
         }
     }
 
     private double getMaxCurrent() {
         double max = 0;
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             double current = circuit.branchAt( i ).getCurrent();
             max = Math.max( max, Math.abs( current ) );
         }
@@ -107,12 +107,12 @@ public class ConstantDensityPropagator implements ModelElement {
 
     private void equalize( double dt ) {
         ArrayList indices = new ArrayList();
-        for( int i = 0; i < particleSet.numParticles(); i++ ) {
+        for ( int i = 0; i < particleSet.numParticles(); i++ ) {
             indices.add( new Integer( i ) );
         }
         Collections.shuffle( indices );
-        for( int i = 0; i < particleSet.numParticles(); i++ ) {
-            Integer index = (Integer)indices.get( i );
+        for ( int i = 0; i < particleSet.numParticles(); i++ ) {
+            Integer index = (Integer) indices.get( i );
             int ind = index.intValue();
             Electron e = particleSet.particleAt( ind );
             equalize( e, dt );
@@ -126,7 +126,7 @@ public class ConstantDensityPropagator implements ModelElement {
         //ELECTRON_DX
         Electron upper = particleSet.getUpperNeighborInBranch( e );
         Electron lower = particleSet.getLowerNeighborInBranch( e );
-        if( upper == null || lower == null ) {
+        if ( upper == null || lower == null ) {
             return;
         }
         double sep = upper.getDistAlongWire() - lower.getDistAlongWire();
@@ -141,22 +141,22 @@ public class ConstantDensityPropagator implements ModelElement {
         double vec = dest - myloc;
         boolean sameDirAsCurrent = vec > 0 && e.getBranch().getCurrent() > 0;
         double correctionSpeed = .055 / numEqualize;
-        if( !sameDirAsCurrent ) {
+        if ( !sameDirAsCurrent ) {
             correctionSpeed = .01 / numEqualize;
         }
         double maxDX = Math.abs( correctionSpeed * dt );
 
-        if( distMoving > highestSoFar ) {//For debugging.
+        if ( distMoving > highestSoFar ) {//For debugging.
             //            System.out.println( "highestSoFar = " + highestSoFar );
             highestSoFar = distMoving;
         }
 
-        if( distMoving > maxDX ) {
+        if ( distMoving > maxDX ) {
             //move in the appropriate direction maxDX
-            if( dest < myloc ) {
+            if ( dest < myloc ) {
                 dest = myloc - maxDX;
             }
-            else if( dest > myloc ) {
+            else if ( dest > myloc ) {
                 dest = myloc + maxDX;
             }
         }
@@ -165,7 +165,7 @@ public class ConstantDensityPropagator implements ModelElement {
         ////        System.out.println( "maxDX = " + maxDX + ", distMoving=" + distMoving + ", newDist=" + newDist );
         //        boolean sameDirAsCurrent = vec > 0 && e.getBranch().getCurrent() > 0;
         //        if( sameDirAsCurrent ) {
-        if( dest >= 0 && dest <= e.getBranch().getLength() ) {
+        if ( dest >= 0 && dest <= e.getBranch().getLength() ) {
             e.setDistAlongWire( dest );
         }
 
@@ -177,7 +177,7 @@ public class ConstantDensityPropagator implements ModelElement {
         double x;
 
         public CircuitLocation( Branch branch, double x ) {
-            if( branch.containsScalarLocation( x ) ) {
+            if ( branch.containsScalarLocation( x ) ) {
                 this.branch = branch;
                 this.x = x;
             }
@@ -201,14 +201,14 @@ public class ConstantDensityPropagator implements ModelElement {
         //            return;
         //        }
         double x = e.getDistAlongWire();
-        if( Double.isNaN( x ) ) {
+        if ( Double.isNaN( x ) ) {
             //TODO fix this
             //            throw new RuntimeException( "X was nan.");
             return;
         }
         double current = e.getBranch().getCurrent();
 
-        if( current == 0 || Math.abs( current ) < MIN_CURRENT ) {
+        if ( current == 0 || Math.abs( current ) < MIN_CURRENT ) {
             return;
         }
 
@@ -225,14 +225,14 @@ public class ConstantDensityPropagator implements ModelElement {
         //        dx = cap( dx, MAX_STEP );
         double newX = x + dx;
         Branch branch = e.getBranch();
-        if( branch.containsScalarLocation( newX ) ) {
+        if ( branch.containsScalarLocation( newX ) ) {
             e.setDistAlongWire( newX );
         }
         else {
             //need a new branch.
             double overshoot = 0;
             boolean under = false;
-            if( newX < 0 ) {
+            if ( newX < 0 ) {
                 overshoot = -newX;
                 under = true;
             }
@@ -240,15 +240,15 @@ public class ConstantDensityPropagator implements ModelElement {
                 overshoot = Math.abs( branch.getLength() - newX );
                 under = false;
             }
-            if( Double.isNaN( overshoot ) ) {  //never happens
+            if ( Double.isNaN( overshoot ) ) {  //never happens
                 throw new RuntimeException( "Overshoot is NaN" );
             }
             //            System.out.println( "overshoot = " + overshoot+", under="+under );
-            if( overshoot < 0 ) { //never happens.
+            if ( overshoot < 0 ) { //never happens.
                 throw new RuntimeException( "Overshoot is <0" );
             }
             CircuitLocation[] loc = getLocations( e, dt, overshoot, under );
-            if( loc.length == 0 ) {
+            if ( loc.length == 0 ) {
                 //                System.out.println( "No outgoing wires for current=" + current );
                 //                new KirkhoffSolver().apply( circuit );
                 //                RuntimeException re = new RuntimeException( "No outgoing wires, current=" + current );
@@ -346,7 +346,7 @@ public class ConstantDensityPropagator implements ModelElement {
 //        }
 
         public double get( Object object ) {
-            Double val = (Double)hashtable.get( object );
+            Double val = (Double) hashtable.get( object );
             return val.doubleValue();
         }
 
@@ -365,11 +365,11 @@ public class ConstantDensityPropagator implements ModelElement {
 
     private CircuitLocation chooseDestinationBranch( CircuitLocation[] loc ) {
         ValueMap vm = new ValueMap();
-        for( int i = 0; i < loc.length; i++ ) {
+        for ( int i = 0; i < loc.length; i++ ) {
             CircuitLocation circuitLocation = loc[i];
             vm.put( circuitLocation, getDensity( circuitLocation ) );
         }
-        return (CircuitLocation)vm.argMin();
+        return (CircuitLocation) vm.argMin();
     }
 
     private double getDensity( CircuitLocation circuitLocation ) {
@@ -380,7 +380,7 @@ public class ConstantDensityPropagator implements ModelElement {
     private CircuitLocation[] getLocations( Electron e, double dt, double overshoot, boolean under ) {
         Branch branch = e.getBranch();
         Junction jroot = null;
-        if( under ) {
+        if ( under ) {
             jroot = branch.getStartJunction();
         }
         else {
@@ -389,39 +389,39 @@ public class ConstantDensityPropagator implements ModelElement {
         Branch[] adj = circuit.getAdjacentBranches( jroot );
         ArrayList all = new ArrayList();
         //keep only those with outgoing current.
-        for( int i = 0; i < adj.length; i++ ) {
+        for ( int i = 0; i < adj.length; i++ ) {
             Branch neighbor = adj[i];
             double current = neighbor.getCurrent();
-            if( current > FireHandler.FIRE_CURRENT ) {
-                current = FireHandler.FIRE_CURRENT;
+            if ( current > FIRE_CURRENT ) {
+                current = FIRE_CURRENT;
             }
-            else if( current < -FireHandler.FIRE_CURRENT ) {
-                current = -FireHandler.FIRE_CURRENT;
+            else if ( current < -FIRE_CURRENT ) {
+                current = -FIRE_CURRENT;
             }
-            if( current > 0 && neighbor.getStartJunction() == jroot ) {//start near the beginning.
+            if ( current > 0 && neighbor.getStartJunction() == jroot ) {//start near the beginning.
                 double distAlongNew = overshoot;
-                if( distAlongNew > neighbor.getLength() ) {
+                if ( distAlongNew > neighbor.getLength() ) {
                     distAlongNew = neighbor.getLength();
                 }
-                else if( distAlongNew < 0 ) {
+                else if ( distAlongNew < 0 ) {
                     distAlongNew = 0;
                 }
                 CircuitLocation cl = new CircuitLocation( neighbor, distAlongNew );
                 all.add( cl );
             }
-            else if( current < 0 && neighbor.getEndJunction() == jroot ) {
+            else if ( current < 0 && neighbor.getEndJunction() == jroot ) {
                 double distAlongNew = neighbor.getLength() - overshoot;
-                if( distAlongNew > neighbor.getLength() ) {
+                if ( distAlongNew > neighbor.getLength() ) {
                     distAlongNew = neighbor.getLength();
                 }
-                else if( distAlongNew < 0 ) {
+                else if ( distAlongNew < 0 ) {
                     distAlongNew = 0;
                 }
                 CircuitLocation cl = new CircuitLocation( neighbor, distAlongNew );
                 all.add( cl );
             }
         }
-        return (CircuitLocation[])all.toArray( new CircuitLocation[0] );
+        return (CircuitLocation[]) all.toArray( new CircuitLocation[0] );
     }
 
     static class SmoothData {
@@ -443,15 +443,15 @@ public class ConstantDensityPropagator implements ModelElement {
 
         public void addData( double d ) {
             data.add( new Double( d ) );
-            while( numDataPoints() > getWindowSize() ) {
+            while ( numDataPoints() > getWindowSize() ) {
                 data.remove( 0 );
             }
         }
 
         public double getAverage() {
             double sum = 0;
-            for( int i = 0; i < data.size(); i++ ) {
-                java.lang.Double aDouble = (java.lang.Double)data.get( i );
+            for ( int i = 0; i < data.size(); i++ ) {
+                java.lang.Double aDouble = (java.lang.Double) data.get( i );
                 sum += aDouble.doubleValue();
             }
             return sum / data.size();
@@ -465,7 +465,7 @@ public class ConstantDensityPropagator implements ModelElement {
         }
 
         private double dataAt( int elm ) {
-            Double d = (Double)data.get( elm );
+            Double d = (Double) data.get( elm );
             return d.doubleValue();
         }
     }
