@@ -78,7 +78,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.05 (?)
+******** 0.00.05 (19804)
 2/13/08 - fix Valley floor model so that elevation is never < 0
 2/13/08 - implement new climate model, as received from Archie on 2/11
 2/11/08 - change min range of snowfall control from "none" to "little"
