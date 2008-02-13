@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.chart;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -43,7 +43,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
 
     public void update() {
         super.update();
-        if( crosshairNode != null && valueReader != null ) {
+        if ( crosshairNode != null && valueReader != null ) {
             Point2D location = getLocation();
             double value = valueReader.getValue( location.getX(), location.getY() );
             double t = CCKTime.getDisplayTime( super.getClock().getSimulationTime() );
@@ -56,7 +56,7 @@ public abstract class SingleTerminalFloatingChart extends AbstractFloatingChart 
     class PairDragHandler extends PDragEventHandler {
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            if( crosshairNode.isAttached() ) {
+            if ( crosshairNode.isAttached() ) {
                 crosshairNode.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }

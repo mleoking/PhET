@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.common.SimpleObservableDebug;
 import edu.colorado.phet.circuitconstructionkit.model.*;
 import edu.colorado.phet.circuitconstructionkit.phetgraphics.CompositeCircuitChangeListener;
@@ -7,10 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -130,13 +130,13 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setResistance( double resistance ) {
-        if( resistance < 0 ) {
+        if ( resistance < 0 ) {
             throw new RuntimeException( "Resistance was < 0, value=" + resistance );
         }
-        if( resistance < CCKModel.MIN_RESISTANCE ) {
+        if ( resistance < CCKModel.MIN_RESISTANCE ) {
             throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE );
         }
-        if( resistance != this.resistance ) {
+        if ( resistance != this.resistance ) {
             this.resistance = resistance;
             notifyObservers();
             fireKirkhoffChange();
@@ -145,11 +145,11 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public void notifyObservers() {
         SimpleObserver[] so = getObservers();
-        for( int i = 0; i < so.length; i++ ) {
+        for ( int i = 0; i < so.length; i++ ) {
             SimpleObserver simpleObserver = so[i];
-            if( simpleObserver instanceof Electron.Observer ) {
-                Electron.Observer e = (Electron.Observer)simpleObserver;
-                if( e.isDeleted() ) {
+            if ( simpleObserver instanceof Electron.Observer ) {
+                Electron.Observer e = (Electron.Observer) simpleObserver;
+                if ( e.isDeleted() ) {
                     removeObserver( simpleObserver );
                 }
             }
@@ -158,26 +158,26 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setCurrent( double current ) {
-        if( this.current != current ) {
+        if ( this.current != current ) {
             this.current = current;
             notifyObservers();
-            for( int i = 0; i < ivListeners.size(); i++ ) {
-                CurrentVoltListener listener = (CurrentVoltListener)ivListeners.get( i );
+            for ( int i = 0; i < ivListeners.size(); i++ ) {
+                CurrentVoltListener listener = (CurrentVoltListener) ivListeners.get( i );
                 listener.currentOrVoltageChanged( this );
             }
         }
         boolean shouldBeOnFire = Math.abs( current ) > 10.0;
-        if( shouldBeOnFire != isOnFire ) {
+        if ( shouldBeOnFire != isOnFire ) {
             this.isOnFire = shouldBeOnFire;
-            if( isOnFire ) {
-                for( int i = 0; i < flameListeners.size(); i++ ) {
-                    FlameListener flameListener = (FlameListener)flameListeners.get( i );
+            if ( isOnFire ) {
+                for ( int i = 0; i < flameListeners.size(); i++ ) {
+                    FlameListener flameListener = (FlameListener) flameListeners.get( i );
                     flameListener.flameFinished();
                 }
             }
             else {
-                for( int i = 0; i < flameListeners.size(); i++ ) {
-                    FlameListener flameListener = (FlameListener)flameListeners.get( i );
+                for ( int i = 0; i < flameListeners.size(); i++ ) {
+                    FlameListener flameListener = (FlameListener) flameListeners.get( i );
                     flameListener.flameStarted();
                 }
             }
@@ -186,18 +186,18 @@ public abstract class Branch extends SimpleObservableDebug {
 
 
     public void setVoltageDrop( double voltageDrop ) {
-        if( this.voltageDrop != voltageDrop ) {
+        if ( this.voltageDrop != voltageDrop ) {
             this.voltageDrop = voltageDrop;
             notifyObservers();
-            for( int i = 0; i < ivListeners.size(); i++ ) {
-                CurrentVoltListener currentVoltListener = (CurrentVoltListener)ivListeners.get( i );
+            for ( int i = 0; i < ivListeners.size(); i++ ) {
+                CurrentVoltListener currentVoltListener = (CurrentVoltListener) ivListeners.get( i );
                 currentVoltListener.currentOrVoltageChanged( this );
             }
         }
     }
 
     public void fireKirkhoffChange() {
-        if( kirkhoffEnabled ) {
+        if ( kirkhoffEnabled ) {
             circuitChangeListeners.circuitChanged();
         }
     }
@@ -239,10 +239,10 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public Junction opposite( Junction a ) {
-        if( startJunction == a ) {
+        if ( startJunction == a ) {
             return endJunction;
         }
-        else if( endJunction == a ) {
+        else if ( endJunction == a ) {
             return startJunction;
         }
         else {
@@ -251,7 +251,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setStartJunction( Junction newJunction ) {
-        if( startJunction != null ) {
+        if ( startJunction != null ) {
             startJunction.removeObserver( so );
         }
         this.startJunction = newJunction;
@@ -264,7 +264,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setEndJunction( Junction newJunction ) {
-        if( endJunction != null ) {
+        if ( endJunction != null ) {
             endJunction.removeObserver( so );
         }
         this.endJunction = newJunction;
@@ -272,10 +272,10 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void replaceJunction( Junction junction, Junction newJ ) {
-        if( junction == startJunction ) {
+        if ( junction == startJunction ) {
             setStartJunction( newJ );
         }
-        else if( junction == endJunction ) {
+        else if ( junction == endJunction ) {
             setEndJunction( newJ );
         }
         else {
@@ -288,7 +288,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public Point2D getPosition( double x ) {
-        if( getLength() == 0 ) {
+        if ( getLength() == 0 ) {
             return getStartJunction().getPosition();
         }
         AbstractVector2D vec = new Vector2D.Double( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
@@ -300,13 +300,13 @@ public abstract class Branch extends SimpleObservableDebug {
         ch += label % 26;
         int val = label / 26;
         String out = "";
-        if( val == 0 ) {
+        if ( val == 0 ) {
             out = "" + ch;
         }
         else {
             out = "" + ch + "_" + val;
         }
-        if( out == null ) {
+        if ( out == null ) {
             throw new RuntimeException( "Null string." );
         }
         return out;
@@ -349,7 +349,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void setEditing( boolean editing ) {
-        if( this.editing != editing ) {
+        if ( this.editing != editing ) {
             this.editing = editing;
             notifyObservers();
         }

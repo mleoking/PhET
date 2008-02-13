@@ -1,12 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
-import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
+import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 
 /**
  * User: Sam Reid
@@ -17,9 +18,9 @@ import java.awt.event.ActionListener;
 public class JunctionNodePopupMenu extends JPopupMenu {
     public JunctionNodePopupMenu( final CCKModel cckModel, final Junction junction ) {
 //        JMenuItem splitItem = new JMenuItem( "Split Junction" );
-        JMenuItem splitItem = new JMenuItem( CCKStrings.getString( "JunctionSplitter.SplitMenuItem"));
+        JMenuItem splitItem = new JMenuItem( CCKStrings.getString( "JunctionSplitter.SplitMenuItem" ) );
         add( splitItem );
-        if( cckModel.getCircuit().getAdjacentBranches( junction ).length <= 1 ) {
+        if ( cckModel.getCircuit().getAdjacentBranches( junction ).length <= 1 ) {
             splitItem.setEnabled( false );
         }
         splitItem.addActionListener( new ActionListener() {

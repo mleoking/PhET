@@ -46,7 +46,7 @@ public class BrowserControl {
         boolean windows = isWindowsPlatform();
         String cmd = null;
         try {
-            if( windows ) {
+            if ( windows ) {
                 // cmd = 'rundll32 url.dll,FileProtocolHandler http://...'
                 cmd = WIN_PATH + " " + WIN_FLAG + " " + url;
                 Process p = Runtime.getRuntime().exec( cmd );
@@ -63,7 +63,7 @@ public class BrowserControl {
                     // wait for exit code -- if it's 0, command worked,
                     // otherwise we need to start the browser up.
                     int exitCode = p.waitFor();
-                    if( exitCode != 0 ) {
+                    if ( exitCode != 0 ) {
                         // Command failed, start up the browser
                         // cmd = 'netscape http://www.javaworld.com'
                         cmd = UNIX_PATH + " " + url;
@@ -92,7 +92,7 @@ public class BrowserControl {
      */
     public static boolean isWindowsPlatform() {
         String os = System.getProperty( "os.name" );
-        if( os != null && os.startsWith( WIN_ID ) ) {
+        if ( os != null && os.startsWith( WIN_ID ) ) {
             return true;
         }
         else {

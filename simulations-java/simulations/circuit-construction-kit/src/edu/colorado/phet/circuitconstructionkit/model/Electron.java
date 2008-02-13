@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
+import java.awt.geom.Point2D;
+import java.util.Arrays;
+
 import edu.colorado.phet.circuitconstructionkit.common.SimpleObservableDebug;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import java.awt.geom.Point2D;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -21,18 +21,18 @@ public class Electron extends SimpleObservableDebug {
     private boolean deleted = false;
 
     public Electron( Branch branch, double distAlongWire ) {
-        if( Double.isNaN( distAlongWire ) ) {
+        if ( Double.isNaN( distAlongWire ) ) {
             throw new RuntimeException( "Dist along wire is NaN." );
         }
         this.branch = branch;
         this.distAlongWire = distAlongWire;
-        if( distAlongWire < 0 || distAlongWire > branch.getLength() ) {
+        if ( distAlongWire < 0 || distAlongWire > branch.getLength() ) {
             throw new RuntimeException( "Electron out of bounds." );
         }
         updatePosition();
         observer = new Observer() {
             public void update() {
-                if( deleted ) {
+                if ( deleted ) {
                     new RuntimeException( "Update called on deleted electron." ).printStackTrace();
                 }
                 updatePosition();
@@ -47,7 +47,7 @@ public class Electron extends SimpleObservableDebug {
 
     public class Observer implements SimpleObserver {
         public void update() {
-            if( deleted ) {
+            if ( deleted ) {
                 new RuntimeException( "Update called on deleted electron." ).printStackTrace();
             }
             updatePosition();
@@ -60,7 +60,7 @@ public class Electron extends SimpleObservableDebug {
 
     private void updatePosition() {
         Point2D pt = branch.getPosition( distAlongWire );
-        if( isNaN( pt ) ) {
+        if ( isNaN( pt ) ) {
             pt = branch.getPosition( distAlongWire );
             throw new RuntimeException( "Point was NaN, pt=" + pt + ", dist=" + distAlongWire + ", wire length=" + branch.getLength() );
         }
@@ -73,11 +73,11 @@ public class Electron extends SimpleObservableDebug {
     }
 
     public void setDistAlongWire( double dist ) {
-        if( Double.isNaN( dist ) ) {
+        if ( Double.isNaN( dist ) ) {
             throw new RuntimeException( "Dist along wire is NaN." );
         }
-        if( getBranch().containsScalarLocation( dist ) ) {
-            if( dist != distAlongWire ) {
+        if ( getBranch().containsScalarLocation( dist ) ) {
+            if ( dist != distAlongWire ) {
                 this.distAlongWire = dist;
                 updatePosition();
             }
@@ -93,17 +93,17 @@ public class Electron extends SimpleObservableDebug {
     }
 
     public Branch getBranch() {
-        if( deleted ) {
+        if ( deleted ) {
             throw new RuntimeException( "Already deleted!" );
         }
         return branch;
     }
 
     public Point2D getPosition() {
-        if( deleted ) {
+        if ( deleted ) {
             throw new RuntimeException( "Already deleted!" );
         }
-        if( Double.isNaN( position.getX() ) || Double.isNaN( position.getY() ) ) {
+        if ( Double.isNaN( position.getX() ) || Double.isNaN( position.getY() ) ) {
             throw new RuntimeException( "Position is NaN." );
         }
         return position;
@@ -118,18 +118,18 @@ public class Electron extends SimpleObservableDebug {
     }
 
     public void setLocation( Branch branch, double x ) {
-        if( Double.isNaN( x ) ) {
+        if ( Double.isNaN( x ) ) {
             throw new RuntimeException( "x was NaN, for electron distance along branch." );
         }
-        else if( !branch.containsScalarLocation( x ) ) {
+        else if ( !branch.containsScalarLocation( x ) ) {
             throw new RuntimeException( "No location in branch." );
         }
-        if( this.branch != branch ) {
+        if ( this.branch != branch ) {
             this.branch = branch;
             this.branch.removeObserver( observer );
             branch.addObserver( observer );
         }
-        if( distAlongWire != x ) {
+        if ( distAlongWire != x ) {
             this.distAlongWire = x;
             updatePosition();
         }

@@ -1,5 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
@@ -15,13 +23,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.*;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -40,11 +41,11 @@ public abstract class ComponentEditor extends JDialog {
     public ComponentEditor( final ICCKModule module, String windowTitle, final CircuitComponent element, Component parent, String name, String units,
                             double min, double max, double startvalue, Circuit circuit ) throws HeadlessException {
         super( getAncestor( parent ), windowTitle, false );
-        if( startvalue > max ) {
+        if ( startvalue > max ) {
             System.out.println( "StartValue exceeded max: " + startvalue + "/" + max );
             startvalue = max;
         }
-        else if( startvalue < min ) {
+        else if ( startvalue < min ) {
             System.out.println( "StartValue too low: " + startvalue + "/" + min );
             startvalue = min;
         }
@@ -68,7 +69,7 @@ public abstract class ComponentEditor extends JDialog {
         done.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 boolean ok = slider.testCommit();
-                if( ok ) {
+                if ( ok ) {
                     setVisible( false );
                 }
             }
@@ -97,7 +98,7 @@ public abstract class ComponentEditor extends JDialog {
         circuitListener = new CircuitListenerAdapter() {
 
             public void branchRemoved( Branch branch ) {
-                if( branch == element ) {
+                if ( branch == element ) {
                     setVisible( false );
                     dispose();
                 }
@@ -125,7 +126,7 @@ public abstract class ComponentEditor extends JDialog {
     public void setVisible( boolean b ) {
         super.setVisible( b );
         //ensure that the editor value is visible.
-        if( b ) {
+        if ( b ) {
             slider.requestSliderFocus();
         }
         validateRepaint();
@@ -141,7 +142,7 @@ public abstract class ComponentEditor extends JDialog {
     protected abstract void doChange( double value );
 
     private static Frame getAncestor( Component parent ) {
-        return (Frame)SwingUtilities.getWindowAncestor( parent );
+        return (Frame) SwingUtilities.getWindowAncestor( parent );
     }
 
     public static class BatteryEditor extends ComponentEditor {
@@ -150,7 +151,7 @@ public abstract class ComponentEditor extends JDialog {
                    CCKResources.getString( "ComponentEditor.BatteryVoltageName" ),
                    CCKResources.getString( "ComponentEditor.BatteryVoltageUnits" ), 0, 100, element.getVoltageDrop(), circuit );
 //                   SimStrings.get( "ComponentEditor.BatteryVoltageUnits" ), 0, element.getVoltageDrop() > 100 ? 100000 : 100, element.getVoltageDrop(), circuit );
-            if( module.getParameters().hugeRangeOnBatteries() ) {
+            if ( module.getParameters().hugeRangeOnBatteries() ) {
                 final JCheckBox hugeRange = new JCheckBox( CCKResources.getString( "ComponentEditor.MoreVoltsCheckBox" ), false );
                 hugeRange.addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -173,7 +174,7 @@ public abstract class ComponentEditor extends JDialog {
         private void setHugeRange( boolean hugeRange ) {
             ModelSlider slider = getSlider();
 //            double origValue = slider.getValue();
-            if( hugeRange ) {
+            if ( hugeRange ) {
                 int max = 100000;
                 slider.setRange( 0, max );
                 slider.setPaintLabels( false );
@@ -208,7 +209,7 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModel.MIN_RESISTANCE ) {
+            if ( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
@@ -225,7 +226,7 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModel.MIN_RESISTANCE ) {
+            if ( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
             super.circuitComponent.setResistance( value );
@@ -245,7 +246,7 @@ public abstract class ComponentEditor extends JDialog {
         }
 
         protected void doChange( double value ) {
-            if( value < CCKModel.MIN_RESISTANCE ) {
+            if ( value < CCKModel.MIN_RESISTANCE ) {
                 value = CCKModel.MIN_RESISTANCE;
             }
 //            super.element.setResistance( value );

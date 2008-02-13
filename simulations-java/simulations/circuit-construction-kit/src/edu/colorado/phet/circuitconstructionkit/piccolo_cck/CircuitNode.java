@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -10,11 +16,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -49,10 +50,10 @@ public class CircuitNode extends PhetPNode {
         clipFactory = new ClipFactory() {//clips are used instead of drawing the component on top of the electron because that obscures the junction graphics
 
             public Shape getClip( ElectronNode electronNode ) {
-                if( !changingLifelike ) {
+                if ( !changingLifelike ) {
                     Branch branch = electronNode.getElectron().getBranch();
                     BranchNode node = getNode( branch );
-                    if( node == null ) {
+                    if ( node == null ) {
                         new RuntimeException( "Null node for branch: " + branch ).printStackTrace();
                         //during the schematic/lifelike switch, this code is called sometimes
                         return null;
@@ -93,16 +94,16 @@ public class CircuitNode extends PhetPNode {
             }
 
             public void junctionRemoved( Junction junction ) {
-                for( int i = 0; i < solderLayer.getChildrenCount(); i++ ) {
-                    SolderNode solderNode = (SolderNode)solderLayer.getChild( i );
-                    if( solderNode.getJunction() == junction ) {
+                for ( int i = 0; i < solderLayer.getChildrenCount(); i++ ) {
+                    SolderNode solderNode = (SolderNode) solderLayer.getChild( i );
+                    if ( solderNode.getJunction() == junction ) {
                         solderLayer.removeChild( solderNode );
                         i = -1;
                     }
                 }
-                for( int i = 0; i < junctionLayer.getChildrenCount(); i++ ) {
-                    JunctionNode junctionNode = (JunctionNode)junctionLayer.getChild( i );
-                    if( junctionNode.getJunction() == junction ) {
+                for ( int i = 0; i < junctionLayer.getChildrenCount(); i++ ) {
+                    JunctionNode junctionNode = (JunctionNode) junctionLayer.getChild( i );
+                    if ( junctionNode.getJunction() == junction ) {
                         removeJunctionGraphic( junctionNode );
                         i = -1;
                     }
@@ -120,9 +121,9 @@ public class CircuitNode extends PhetPNode {
     }
 
     private void removeBranchNode( Branch branch ) {
-        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-            BranchNode branchNode = (BranchNode)branchLayer.getChild( i );
-            if( branchNode.getBranch() == branch ) {
+        for ( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode branchNode = (BranchNode) branchLayer.getChild( i );
+            if ( branchNode.getBranch() == branch ) {
                 removeBranchGraphic( branchNode );
                 i--;
             }
@@ -136,18 +137,18 @@ public class CircuitNode extends PhetPNode {
     }
 
     private void moveSwitchesToFront() {
-        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-            BranchNode pNode = (BranchNode)branchLayer.getChild( i );
-            if( pNode.getBranch() instanceof Switch ) {
+        for ( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode pNode = (BranchNode) branchLayer.getChild( i );
+            if ( pNode.getBranch() instanceof Switch ) {
                 pNode.moveToFront();
             }
         }
     }
 
     private void moveSelectedBranchesToFront() {
-        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-            BranchNode pNode = (BranchNode)branchLayer.getChild( i );
-            if( pNode.getBranch().isSelected() ) {
+        for ( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            BranchNode pNode = (BranchNode) branchLayer.getChild( i );
+            if ( pNode.getBranch().isSelected() ) {
                 pNode.moveToFront();
             }
         }
@@ -163,9 +164,9 @@ public class CircuitNode extends PhetPNode {
     }
 
     private BranchNode getNode( Branch branch ) {
-        for( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
-            if( ( (BranchNode)branchLayer.getChild( i ) ).getBranch() == branch ) {
-                return (BranchNode)branchLayer.getChild( i );
+        for ( int i = 0; i < branchLayer.getChildrenCount(); i++ ) {
+            if ( ( (BranchNode) branchLayer.getChild( i ) ).getBranch() == branch ) {
+                return (BranchNode) branchLayer.getChild( i );
             }
         }
         return null;
@@ -209,7 +210,7 @@ public class CircuitNode extends PhetPNode {
     }
 
     public JunctionNode getJunctionNode( int i ) {
-        return (JunctionNode)junctionLayer.getChild( i );
+        return (JunctionNode) junctionLayer.getChild( i );
     }
 
     public int getNumBranchNodes() {
@@ -217,7 +218,7 @@ public class CircuitNode extends PhetPNode {
     }
 
     public BranchNode getBranchNode( int i ) {
-        return (BranchNode)branchLayer.getChild( i );
+        return (BranchNode) branchLayer.getChild( i );
     }
 
     public boolean isLifelike() {
@@ -229,29 +230,29 @@ public class CircuitNode extends PhetPNode {
         this.branchNodeFactory.setLifelike( lifelike );
         Branch[] orderedList = getBranchOrder();
         removeBranchGraphics();
-        for( int i = 0; i < orderedList.length; i++ ) {
+        for ( int i = 0; i < orderedList.length; i++ ) {
             Branch branch = orderedList[i];
-            if( branch instanceof Wire ) {
-                Wire wire = (Wire)branch;
+            if ( branch instanceof Wire ) {
+                Wire wire = (Wire) branch;
                 wire.setThickness( lifelike ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS );
             }
             addBranchNode( branch );
         }
         changingLifelike = false;
-        for( int i = 0; i < electronLayer.getChildrenCount(); i++ ) {//notify electrons to recompute their clips
-            ElectronNode electronNode = (ElectronNode)electronLayer.getChild( i );
+        for ( int i = 0; i < electronLayer.getChildrenCount(); i++ ) {//notify electrons to recompute their clips
+            ElectronNode electronNode = (ElectronNode) electronLayer.getChild( i );
             electronNode.update();
         }
     }
 
     private void removeBranchGraphics() {
-        while( getNumBranchNodes() > 0 ) {
+        while ( getNumBranchNodes() > 0 ) {
             removeBranchNode( 0 );
         }
     }
 
     private void removeBranchNode( int i ) {
-        BranchNode node = (BranchNode)branchLayer.getChild( i );
+        BranchNode node = (BranchNode) branchLayer.getChild( i );
         node.delete();
         branchLayer.removeChild( i );
         //todo detach listeners.
@@ -259,10 +260,10 @@ public class CircuitNode extends PhetPNode {
 
     private Branch[] getBranchOrder() {//this is a workaround because there is no model-representation for layering.
         ArrayList list = new ArrayList();
-        for( int i = 0; i < getNumBranchNodes(); i++ ) {
+        for ( int i = 0; i < getNumBranchNodes(); i++ ) {
             list.add( getBranchNode( i ).getBranch() );
         }
-        return (Branch[])list.toArray( new Branch[0] );
+        return (Branch[]) list.toArray( new Branch[0] );
     }
 
     public java.awt.geom.AffineTransform getTransformForZoom( double zoom, CCKSimulationPanel panel ) {

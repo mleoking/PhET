@@ -19,16 +19,16 @@ public class ModelViewTx1D {
     public ModelViewTx1D( double modelValue1, double modelValue2, int viewValue1, int viewValue2 ) {
         this.modelMin = modelValue1;
         this.viewMin = viewValue1;
-        m = ( (double)( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
+        m = ( (double) ( viewValue2 - viewValue1 ) ) / ( modelValue2 - modelValue1 );
     }
 
     public double viewToModel( int view ) {
-        double model = modelMin + ( (double)( view - viewMin ) ) / m;
+        double model = modelMin + ( (double) ( view - viewMin ) ) / m;
         return model;
     }
 
     public int modelToViewDifferential( double dx ) {
-        return (int)( m * dx );
+        return (int) ( m * dx );
     }
 
     public double viewToModelDifferential( int dx ) {
@@ -36,7 +36,7 @@ public class ModelViewTx1D {
     }
 
     public int modelToView( double model ) {
-        int view = viewMin + (int)( m * ( model - modelMin ) );
+        int view = viewMin + (int) ( m * ( model - modelMin ) );
         return view;
     }
 }

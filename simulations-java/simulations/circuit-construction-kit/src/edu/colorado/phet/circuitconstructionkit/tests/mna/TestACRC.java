@@ -25,7 +25,7 @@ public class TestACRC extends NodeAnalysisTest {
      */
     private void start() {
         double ds = 0.01;
-        for( double s = 1; s < 100; s += ds ) {
+        for ( double s = 1; s < 100; s += ds ) {
 //            System.out.println( "s = " + s );
             Resistor res = newResistor( 3 );
 //            System.out.println( "res.getResistance() = " + res.getResistance() );
@@ -40,7 +40,7 @@ public class TestACRC extends NodeAnalysisTest {
             Junction j1 = combine( circuit, res.getEndJunction(), bat.getStartJunction() );
             Junction j2 = combine( circuit, bat.getEndJunction(), cap.getStartJunction() );
             Junction j3 = combine( circuit, cap.getEndJunction(), res.getStartJunction() );
-            while( circuit.numJunctions() > 0 ) {
+            while ( circuit.numJunctions() > 0 ) {
                 circuit.removeJunction( circuit.junctionAt( 0 ) );
             }
             circuit.addJunction( j1 );

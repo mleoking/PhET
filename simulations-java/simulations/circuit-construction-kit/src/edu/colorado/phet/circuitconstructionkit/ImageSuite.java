@@ -28,7 +28,7 @@ public class ImageSuite {
     }
 
     public double getBatteryImageAspectRatio() {
-        return ( (double)batteryImage.getWidth() ) / batteryImage.getHeight();
+        return ( (double) batteryImage.getWidth() ) / batteryImage.getHeight();
     }
 
 }

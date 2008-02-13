@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-import edu.colorado.phet.circuitconstructionkit.model.Connection;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
+import edu.colorado.phet.circuitconstructionkit.model.Connection;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 
 /**
  * User: Sam Reid
@@ -23,7 +23,7 @@ public class PiccoloVoltageCalculation {
     }
 
     public double getVoltage( Connection a, Connection b ) {
-        if( a.equals( b ) ) {
+        if ( a.equals( b ) ) {
             return 0;
         }
         else {
@@ -45,14 +45,14 @@ public class PiccoloVoltageCalculation {
 //            System.out.println( "junctionAnswer = " + junctionAnswer );
 //            System.out.println( "junctionAnswer2 = " + junctionAnswer2 );
             double diff = ( junctionAnswer - junctionAnswer2 );
-            if( diff > .0001 && !Double.isInfinite( junctionAnswer ) && !Double.isInfinite( junctionAnswer2 ) ) {
+            if ( diff > .0001 && !Double.isInfinite( junctionAnswer ) && !Double.isInfinite( junctionAnswer2 ) ) {
                 new RuntimeException( "Junction answers inconsistent, ans1=" + junctionAnswer + ", ans2=" + junctionAnswer2 ).printStackTrace();
             }
             double result = Double.POSITIVE_INFINITY;
-            if( !Double.isInfinite( junctionAnswer ) ) {
+            if ( !Double.isInfinite( junctionAnswer ) ) {
                 result = ( junctionAnswer + voltInit );
             }
-            else if( !Double.isInfinite( junctionAnswer2 ) ) {
+            else if ( !Double.isInfinite( junctionAnswer2 ) ) {
                 result = ( junctionAnswer2 + voltInit );
             }
             //            return result;
@@ -64,14 +64,14 @@ public class PiccoloVoltageCalculation {
     public double getVoltage( Shape leftTip, Shape rightTip ) {
         Area tipIntersection = new Area( leftTip );
         tipIntersection.intersect( new Area( rightTip ) );
-        if( !tipIntersection.isEmpty() ) {
+        if ( !tipIntersection.isEmpty() ) {
             return 0;
         }
         else {
             Connection red = detectConnection( leftTip );
             Connection black = detectConnection( rightTip );
 
-            if( red == null || black == null ) {
+            if ( red == null || black == null ) {
                 return Double.NaN;
             }
             else {

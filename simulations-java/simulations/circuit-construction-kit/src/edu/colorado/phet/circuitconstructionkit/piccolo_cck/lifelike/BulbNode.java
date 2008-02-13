@@ -1,5 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.common.RoundGradientPaint;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
@@ -9,13 +16,6 @@ import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -41,7 +41,7 @@ public class BulbNode extends PhetPNode {
     private Stroke baseStroke = new BasicStroke( 1 / 40.0f );
     private Stroke linestroke = new BasicStroke( 1 / 90.0f );
     private boolean showCoverOnly = false;
-    private PhetPPath highlightNode = new PhetPPath( new BasicStroke( (float)( 2.0 / 60.0 ) ), Color.yellow );
+    private PhetPPath highlightNode = new PhetPPath( new BasicStroke( (float) ( 2.0 / 60.0 ) ), Color.yellow );
     private SimpleObserver bulbObserver = new SimpleObserver() {
         public void update() {
             BulbNode.this.update();
@@ -98,7 +98,7 @@ public class BulbNode extends PhetPNode {
         int numLines = 4;
         double dy = conductor.getHeight() / ( numLines );
         spiralLines = new ArrayList();
-        for( int i = 0; i < numLines; i++ ) {
+        for ( int i = 0; i < numLines; i++ ) {
             double x1 = conductor.getX();
             double y1 = conductor.getY() + i * dy;
             double x2 = conductor.getX() + conductor.getWidth();
@@ -116,7 +116,7 @@ public class BulbNode extends PhetPNode {
 
     protected void update() {
         removeAllChildren();
-        if( showCoverOnly ) {
+        if ( showCoverOnly ) {
             updateConductor();
             updateSpiralLines();
         }
@@ -127,7 +127,7 @@ public class BulbNode extends PhetPNode {
             updateInsulator();
             updateConductor();
             updateSpiralLines();
-            if( bulb.isSelected() ) {
+            if ( bulb.isSelected() ) {
                 Rectangle2D rect = bulbShape.getBounds2D().createUnion( tip );
                 rect = RectangleUtils.expand( rect, 2 / 60.0, 2 / 60.0 );
                 highlightNode.setPathTo( rect );
@@ -137,8 +137,8 @@ public class BulbNode extends PhetPNode {
     }
 
     private void updateSpiralLines() {
-        for( int i = 0; i < spiralLines.size(); i++ ) {
-            Line2D.Double aDouble = (Line2D.Double)spiralLines.get( i );
+        for ( int i = 0; i < spiralLines.size(); i++ ) {
+            Line2D.Double aDouble = (Line2D.Double) spiralLines.get( i );
             PPath path = new PhetPPath( aDouble, linestroke, Color.black );
             addChild( path );
         }
@@ -161,10 +161,10 @@ public class BulbNode extends PhetPNode {
     }
 
     private Paint createPaint() {
-        if( intensity > 1E-2 ) {
+        if ( intensity > 1E-2 ) {
             Color yellow = Color.yellow;
-            Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
-            Color pointColor = new Color( 1, 1, 1.0f, (float)intensity );
+            Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float) intensity );
+            Color pointColor = new Color( 1, 1, 1.0f, (float) intensity );
             return new RoundGradientPaint( pin.getX(), pin.getY(), pointColor, rad, backgroundColor );
         }
         else {
@@ -181,8 +181,8 @@ public class BulbNode extends PhetPNode {
     }
 
     private void updateRays() {
-        for( int i = 0; i < brighties.size(); i++ ) {
-            PPath pPath = new PPath( (Shape)brighties.get( i ) );
+        for ( int i = 0; i < brighties.size(); i++ ) {
+            PPath pPath = new PPath( (Shape) brighties.get( i ) );
             pPath.setStrokePaint( brightyColor );
             pPath.setStroke( brightyStroke );
             pPath.setPickable( false );
@@ -198,19 +198,19 @@ public class BulbNode extends PhetPNode {
     }
 
     public void setIntensity( double intensity ) {
-        if( Double.isNaN( intensity ) ) {
+        if ( Double.isNaN( intensity ) ) {
             throw new RuntimeException( "NaN intensity" );
         }
-        if( this.intensity == intensity ) {
+        if ( this.intensity == intensity ) {
             return;
         }
         this.intensity = intensity;
 
         Color yellow = Color.yellow;
-        Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float)intensity );
+        Color backgroundColor = new Color( yellow.getRed() / 255.0f, yellow.getGreen() / 255.0f, yellow.getBlue() / 255.0f, (float) intensity );
 
         int maxBrighties = 40;
-        int numBrighties = (int)( intensity * maxBrighties );
+        int numBrighties = (int) ( intensity * maxBrighties );
         double maxDistance = bulb.getWidth() * 3;
         double distance = intensity * maxDistance;
         double distance0 = Math.max( bulb.getWidth() / 2, bulb.getHeight() / 2 ) * 1.05;
@@ -226,7 +226,7 @@ public class BulbNode extends PhetPNode {
         double maxStrokeWidth = 3.5;
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
-        for( int i = 0; i < numBrighties; i++ ) {
+        for ( int i = 0; i < numBrighties; i++ ) {
             AbstractVector2D vec = ImmutableVector2D.Double.parseAngleAndMagnitude( distance0, angle );
             AbstractVector2D vec1 = ImmutableVector2D.Double.parseAngleAndMagnitude( distance + distance0, angle );
 
@@ -236,7 +236,7 @@ public class BulbNode extends PhetPNode {
             brighties.add( line );
             angle += dTheta;
         }
-        this.brightyStroke = new BasicStroke( (float)strokeWidth / 40.0f * SCALE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
+        this.brightyStroke = new BasicStroke( (float) strokeWidth / 40.0f * SCALE, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
         this.brightyColor = backgroundColor;
         update();
     }

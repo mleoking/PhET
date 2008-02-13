@@ -32,7 +32,7 @@ public class MNACircuit {
 
     public void parseNetList( String[] netlist ) {
         clear();
-        for( int i = 0; i < netlist.length; i++ ) {
+        for ( int i = 0; i < netlist.length; i++ ) {
             String line = netlist[i];
             addComponent( parseLine( line ) );
         }
@@ -44,25 +44,25 @@ public class MNACircuit {
         int start = Integer.parseInt( st.nextToken() );
         int end = Integer.parseInt( st.nextToken() );
         ArrayList details = new ArrayList();
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             details.add( st.nextToken() );
         }
-        String[] detailArray = (String[])details.toArray( new String[0] );
-        if( name.toLowerCase().startsWith( "r" ) ) {
+        String[] detailArray = (String[]) details.toArray( new String[0] );
+        if ( name.toLowerCase().startsWith( "r" ) ) {
             return new MNAResistor( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
-        else if( name.toLowerCase().startsWith( "i" ) ) {
+        else if ( name.toLowerCase().startsWith( "i" ) ) {
             return new MNACurrentSource( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
-        else if( name.toLowerCase().startsWith( "v" ) ) {
+        else if ( name.toLowerCase().startsWith( "v" ) ) {
             return new MNAVoltageSource( name, start, end, Double.parseDouble( detailArray[0] ) );
         }
-        else if( name.toLowerCase().startsWith( "c" ) ) {
+        else if ( name.toLowerCase().startsWith( "c" ) ) {
             double voltage = detailArray.length > 1 ? Double.parseDouble( detailArray[1] ) : 0.0;
             double current = detailArray.length > 2 ? Double.parseDouble( detailArray[2] ) : 0.0;
             return new MNACapacitor( name, start, end, Double.parseDouble( detailArray[0] ), voltage, current );
         }
-        else if( name.toUpperCase().startsWith( "L" ) ) {
+        else if ( name.toUpperCase().startsWith( "L" ) ) {
             double voltage = detailArray.length > 1 ? Double.parseDouble( detailArray[1] ) : 0.0;
             double current = detailArray.length > 2 ? Double.parseDouble( detailArray[2] ) : 0.0;
             return new MNAInductor( name, start, end, Double.parseDouble( detailArray[0] ), voltage, current );
@@ -79,10 +79,10 @@ public class MNACircuit {
     public void parseNetList( String netlist ) {
         StringTokenizer st = new StringTokenizer( netlist, "\n" + System.getProperty( "line.separator" ) );
         ArrayList list = new ArrayList();
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             list.add( st.nextToken() );
         }
-        parseNetList( (String[])list.toArray( new String[0] ) );
+        parseNetList( (String[]) list.toArray( new String[0] ) );
     }
 
     /*
@@ -93,10 +93,10 @@ public class MNACircuit {
         MNACircuit circuit = new MNACircuit();
         int freeIndex = getNodeCount();
         ArrayList companionVoltageSources = new ArrayList();//add them last so they don't interfere with mapping of original batteries
-        for( int i = 0; i < getComponentCount(); i++ ) {
-            if( getComponent( i ) instanceof MNACapacitor ) {
+        for ( int i = 0; i < getComponentCount(); i++ ) {
+            if ( getComponent( i ) instanceof MNACapacitor ) {
                 //Use Thevenin form of Trapezoidal companion model, see [1] p 83
-                MNACapacitor c = (MNACapacitor)getComponent( i );
+                MNACapacitor c = (MNACapacitor) getComponent( i );
                 MNAComponent veq = new MNAVoltageSource( "veq[companion to" + c.getName() + "]", c.getStartJunction(), freeIndex,
                                                          c.getVoltage() + dt / 2 / c.getCapacitance() * c.getCurrent() );
                 MNAComponent req = new MNAResistor( "req[companion to" + c.getName() + "]", freeIndex, c.getEndJunction(),
@@ -106,9 +106,9 @@ public class MNACircuit {
                 companionVoltageSources.add( veq );
                 freeIndex++;
             }
-            else if( getComponent( i ) instanceof MNAInductor ) {
+            else if ( getComponent( i ) instanceof MNAInductor ) {
                 //Use Norton form of Trapezoidal companion model, see [1] p 86
-                MNAInductor L = (MNAInductor)getComponent( i );
+                MNAInductor L = (MNAInductor) getComponent( i );
                 MNAComponent veq = new MNAVoltageSource( "veq[companion to" + L.getName() + "]", L.getStartJunction(), freeIndex,
                                                          L.getVoltage() + 2 * L.getInductance() * L.getCurrent() / dt );
                 MNAComponent req = new MNAResistor( "req[companion to" + L.getName() + "]", freeIndex, L.getEndJunction(),
@@ -119,18 +119,18 @@ public class MNACircuit {
                 freeIndex++;
             }
             else {
-                circuit.addComponent( (MNAComponent)getComponent( i ).clone() );
+                circuit.addComponent( (MNAComponent) getComponent( i ).clone() );
             }
         }
-        for( int i = 0; i < companionVoltageSources.size(); i++ ) {
-            MNAVoltageSource mnaVoltageSource = (MNAVoltageSource)companionVoltageSources.get( i );
+        for ( int i = 0; i < companionVoltageSources.size(); i++ ) {
+            MNAVoltageSource mnaVoltageSource = (MNAVoltageSource) companionVoltageSources.get( i );
             circuit.addComponent( mnaVoltageSource );
         }
         return circuit;
     }
 
     private MNAComponent getComponent( int i ) {
-        return (MNAComponent)components.get( i );
+        return (MNAComponent) components.get( i );
     }
 
     private int getComponentCount() {
@@ -172,7 +172,7 @@ public class MNACircuit {
 
         public Object clone() {
             try {
-                MNAComponent clone = (MNAComponent)super.clone();
+                MNAComponent clone = (MNAComponent) super.clone();
                 clone.name = name;
                 clone.startJunction = startJunction;
                 clone.endJunction = endJunction;
@@ -196,7 +196,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNADynamicComponent dynamicComponent = (MNADynamicComponent)super.clone();
+            MNADynamicComponent dynamicComponent = (MNADynamicComponent) super.clone();
             dynamicComponent.voltage = voltage;
             dynamicComponent.current = current;
             return dynamicComponent;
@@ -232,7 +232,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNACapacitor capacitor = (MNACapacitor)super.clone();
+            MNACapacitor capacitor = (MNACapacitor) super.clone();
             capacitor.capacitance = capacitance;
             return capacitor;
         }
@@ -259,7 +259,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNAInductor inductor = (MNAInductor)super.clone();
+            MNAInductor inductor = (MNAInductor) super.clone();
             inductor.inductance = inductance;
             return inductor;
         }
@@ -291,7 +291,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNAResistor clone = (MNAResistor)super.clone();
+            MNAResistor clone = (MNAResistor) super.clone();
             clone.resistance = resistance;
             return clone;
         }
@@ -319,7 +319,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNACurrentSource clone = (MNACurrentSource)super.clone();
+            MNACurrentSource clone = (MNACurrentSource) super.clone();
             clone.current = current;
             return clone;
         }
@@ -350,7 +350,7 @@ public class MNACircuit {
         }
 
         public Object clone() {
-            MNAVoltageSource clone = (MNAVoltageSource)super.clone();
+            MNAVoltageSource clone = (MNAVoltageSource) super.clone();
             clone.voltage = voltage;
             return clone;
         }
@@ -447,13 +447,13 @@ public class MNACircuit {
             try {
                 Matrix result = reducedAdmittance.solve( reducedSource );
                 Matrix paddedResult = new Matrix( result.getRowDimension() + 1, result.getColumnDimension() );
-                for( int i = 1; i < paddedResult.getRowDimension(); i++ ) {
+                for ( int i = 1; i < paddedResult.getRowDimension(); i++ ) {
                     paddedResult.set( i, 0, result.get( i - 1, 0 ) );//set the 0th node voltage equal to zero
                 }
                 return paddedResult;
             }
             catch( RuntimeException re ) {
-                if( re.getMessage().toLowerCase().indexOf( "singular" ) > 0 ) {
+                if ( re.getMessage().toLowerCase().indexOf( "singular" ) > 0 ) {
                     //ignore
                     //todo: how should error handling work here?
                     return new Matrix( getNumVariables(), 1 );
@@ -504,11 +504,11 @@ public class MNACircuit {
 
         public String toString() {
             ArrayList v = new ArrayList();
-            for( int i = 0; i < getNumVoltages(); i++ ) {
+            for ( int i = 0; i < getNumVoltages(); i++ ) {
                 v.add( new Double( getVoltage( i ) ) );
             }
             ArrayList c = new ArrayList();
-            for( int i = 0; i < getNumCurrents(); i++ ) {
+            for ( int i = 0; i < getNumCurrents(); i++ ) {
                 c.add( new Double( getCurrent( i ) ) );
             }
             return "voltage=" + v.toString() + ", current=" + c.toString();
@@ -518,10 +518,10 @@ public class MNACircuit {
         }
 
         public boolean isLegalSolution() {
-            for( int i = 0; i < solutionMatrix.getRowDimension(); i++ ) {
-                for( int j = 0; j < solutionMatrix.getColumnDimension(); j++ ) {
+            for ( int i = 0; i < solutionMatrix.getRowDimension(); i++ ) {
+                for ( int j = 0; j < solutionMatrix.getColumnDimension(); j++ ) {
                     double value = solutionMatrix.get( i, j );
-                    if( Double.isNaN( value ) || Double.isInfinite( value ) || Math.abs( value ) > 10E10 ) {//this change is recent; if we get more than 1 billion amps, we have a problem (maybe)
+                    if ( Double.isNaN( value ) || Double.isInfinite( value ) || Math.abs( value ) > 10E10 ) {//this change is recent; if we get more than 1 billion amps, we have a problem (maybe)
                         return false;
                     }
                 }
@@ -537,8 +537,8 @@ public class MNACircuit {
     public MNASystem getMNASystem() {
         assert getNodeCount() >= 2;
         MNASystem system = new MNASystem( getNodeCount(), getCurrentVariableCount() );
-        for( int i = 0; i < components.size(); i++ ) {
-            MNAComponent component = (MNAComponent)components.get( i );
+        for ( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent) components.get( i );
             component.stamp( system );
         }
         return system;
@@ -546,8 +546,8 @@ public class MNACircuit {
 
     private int getCurrentVariableCount() {
         int sum = 0;
-        for( int i = 0; i < components.size(); i++ ) {
-            MNAComponent component = (MNAComponent)components.get( i );
+        for ( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent) components.get( i );
             sum += component.getCurrentVariableCount();
         }
         return sum;
@@ -555,8 +555,8 @@ public class MNACircuit {
 
     private int getNodeCount() {
         HashSet hashSet = new HashSet();
-        for( int i = 0; i < components.size(); i++ ) {
-            MNAComponent component = (MNAComponent)components.get( i );
+        for ( int i = 0; i < components.size(); i++ ) {
+            MNAComponent component = (MNAComponent) components.get( i );
             hashSet.add( new Integer( component.getStartJunction() ) );
             hashSet.add( new Integer( component.getEndJunction() ) );
         }

@@ -19,7 +19,7 @@ public class SimpleKeyEvent implements KeyListener {
     }
 
     public void keyReleased( KeyEvent e ) {
-        if( e.getKeyCode() == keycode ) {
+        if ( e.getKeyCode() == keycode ) {
             invoke();
         }
     }

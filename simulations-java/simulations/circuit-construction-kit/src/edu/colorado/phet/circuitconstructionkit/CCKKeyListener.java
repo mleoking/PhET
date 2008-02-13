@@ -1,11 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit;
 
-import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.model.analysis.ModifiedNodalAnalysis_Orig;
 
 /**
  * User: Sam Reid
@@ -20,61 +21,61 @@ public class CCKKeyListener implements KeyListener {
     }
 
     public void keyPressed( KeyEvent e ) {
-        if( e.getKeyCode() == KeyEvent.VK_C ) {
+        if ( e.getKeyCode() == KeyEvent.VK_C ) {
             cck.resetDynamics();
         }
     }
 
     public void keyReleased( KeyEvent e ) {
-        if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
+        if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
             cck.deleteSelectedBranches();
             cck.desolderSelection();
         }
-        else if( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
             cck.selectAll();
         }
-        else if( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_ESCAPE ) {
             boolean orig = cck.isLifelike();
-            for( int i = 0; i < 50; i++ ) {
+            for ( int i = 0; i < 50; i++ ) {
                 cck.setLifelike( !orig );
                 cck.setLifelike( orig );
                 System.out.println( "Lifelike count = " + i );
             }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_SPACE ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_SPACE ) {
             Frame[] win = JFrame.getFrames();
-            for( int i = 0; i < win.length; i++ ) {
+            for ( int i = 0; i < win.length; i++ ) {
                 Frame frame = win[i];
                 frame.repaint();
             }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_T ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_T ) {
             cck.addTestCircuit();
         }
-        else if( e.getKeyCode() == KeyEvent.VK_R ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_R ) {
             cck.clear();
             cck.addTestCircuit();
-            for( int i = 0; i < 500; i++ ) {
+            for ( int i = 0; i < 500; i++ ) {
                 cck.layoutElectrons( cck.getCircuit().getBranches() );
                 System.out.println( "Relayout = " + i );
             }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_SEMICOLON ) {
-            for( int i = 0; i < 50; i++ ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_SEMICOLON ) {
+            for ( int i = 0; i < 50; i++ ) {
                 cck.addTestCircuit();
                 cck.clear();
                 System.out.println( "Num Test Circuits = " + i );
             }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_Z ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_Z ) {
             cck.clear();
             cck.addTestCircuit();
-            for( int i = 0; i < 5000; i++ ) {
+            for ( int i = 0; i < 5000; i++ ) {
                 cck.layoutElectrons( cck.getCircuit().getBranches() );
                 System.out.println( "Relayout = " + i );
             }
         }
-        else if( e.getKeyCode() == KeyEvent.VK_K ) {
+        else if ( e.getKeyCode() == KeyEvent.VK_K ) {
             ModifiedNodalAnalysis_Orig na = new ModifiedNodalAnalysis_Orig();
             na.apply( cck.getCircuit() );
         }

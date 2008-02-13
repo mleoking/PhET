@@ -20,11 +20,11 @@ public class ElectronSetNode extends PNode {
         this.model = model;
         model.getParticleSet().addListener( new ParticleSet.Listener() {
             public void particlesRemoved( Electron[] electrons ) {
-                for( int k = 0; k < electrons.length; k++ ) {
+                for ( int k = 0; k < electrons.length; k++ ) {
                     Electron electron = electrons[k];
-                    for( int i = 0; i < getChildrenCount(); i++ ) {
+                    for ( int i = 0; i < getChildrenCount(); i++ ) {
                         PNode child = getChild( i );
-                        if( child instanceof ElectronNode && ( (ElectronNode)child ).getElectron() == electron ) {
+                        if ( child instanceof ElectronNode && ( (ElectronNode) child ).getElectron() == electron ) {
                             removeChild( child );
                             i--;
                         }

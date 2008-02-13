@@ -1,13 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.chart;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.CCKSimulationPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -32,10 +32,10 @@ public class CurrentStripChart extends SingleTerminalFloatingChart.Piccolo {
         public double getValue( double x, double y ) {
             Point2D target = new Point2D.Double( x, y );
             Branch[] branches = circuit.getBranches();
-            for( int i = 0; i < branches.length; i++ ) {
+            for ( int i = 0; i < branches.length; i++ ) {
                 Branch branch = branches[i];
                 Shape shape = branch.getShape();
-                if( shape.contains( target ) ) {
+                if ( shape.contains( target ) ) {
                     return branch.getCurrent();
                 }
             }

@@ -25,10 +25,10 @@ public class TestLadder3_1_1 {
         MNACircuit circuit = new MNACircuit();
         circuit.parseNetList( netlist );
         MNACircuit.MNASolution solution = circuit.getMNASystem().getSolution();
-        for( int i = 0; i < solution.getNumVoltages(); i++ ) {
+        for ( int i = 0; i < solution.getNumVoltages(); i++ ) {
             System.out.println( "solution.getVoltage( " + i + ") = " + solution.getVoltage( i ) );
         }
-        for( int i = 0; i < solution.getNumCurrents(); i++ ) {
+        for ( int i = 0; i < solution.getNumCurrents(); i++ ) {
             System.out.println( "solution.getCurrent( " + i + ") = " + solution.getCurrent( i ) );
         }
     }

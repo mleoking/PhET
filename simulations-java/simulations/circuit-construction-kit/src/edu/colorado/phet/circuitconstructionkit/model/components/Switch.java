@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -37,9 +37,9 @@ public class Switch extends CircuitComponent {
     }
 
     public void setClosed( boolean closed ) {
-        if( closed != this.closed ) {
+        if ( closed != this.closed ) {
             this.closed = closed;
-            if( closed ) {
+            if ( closed ) {
                 super.setResistance( CCKModel.MIN_RESISTANCE ); //a resistance change fires a kirkhoff update.
             }
             else {
@@ -49,7 +49,7 @@ public class Switch extends CircuitComponent {
     }
 
     public void setHandleAngle( double angle ) {
-        if( angle == Math.PI ) {
+        if ( angle == Math.PI ) {
             setClosed( true );
         }
         else {

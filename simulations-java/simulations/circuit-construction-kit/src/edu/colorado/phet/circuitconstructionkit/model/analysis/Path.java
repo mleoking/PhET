@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Path {
     private ArrayList entries = new ArrayList();
@@ -34,13 +34,13 @@ public class Path {
     }
 
     public PathEntry lastPathEntry() {
-        return (PathEntry)entries.get( entries.size() - 1 );
+        return (PathEntry) entries.get( entries.size() - 1 );
     }
 
     public boolean containsJunction( Junction junction ) {
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
-            if( pathEntry.getBranch().hasJunction( junction ) ) {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
+            if ( pathEntry.getBranch().hasJunction( junction ) ) {
                 return true;
             }
         }
@@ -48,17 +48,17 @@ public class Path {
     }
 
     public boolean equals( Object obj ) {
-        if( !( obj instanceof Path ) ) {
+        if ( !( obj instanceof Path ) ) {
             return false;
         }
-        Path p = (Path)obj;
-        if( p.numPathEntries() != this.numPathEntries() ) {
+        Path p = (Path) obj;
+        if ( p.numPathEntries() != this.numPathEntries() ) {
             return false;
         }
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
-            PathEntry yours = (PathEntry)p.entries.get( i );
-            if( !pathEntry.equals( yours ) ) {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
+            PathEntry yours = (PathEntry) p.entries.get( i );
+            if ( !pathEntry.equals( yours ) ) {
                 return false;
             }
         }
@@ -72,17 +72,17 @@ public class Path {
     public String toString() {
         String str = "";
         str += getStartJunction().getLabel();
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pe = (PathEntry)entries.get( i );
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pe = (PathEntry) entries.get( i );
             str += " <" + pe.getBranch().getName() + "> " + pe.getJunction().getLabel();
         }
         return str;
     }
 
     public boolean containsBranch( Branch out ) {
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
-            if( pathEntry.getBranch() == out ) {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
+            if ( pathEntry.getBranch() == out ) {
                 return true;
             }
         }
@@ -90,17 +90,17 @@ public class Path {
     }
 
     public boolean containsOpenSwitch() {
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
-            if( pathEntry.getBranch() instanceof Switch ) {
-                Switch switchy = (Switch)pathEntry.getBranch();
-                if( !switchy.isClosed() ) {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
+            if ( pathEntry.getBranch() instanceof Switch ) {
+                Switch switchy = (Switch) pathEntry.getBranch();
+                if ( !switchy.isClosed() ) {
                     return true;
                 }
             }
-            if( pathEntry.getBranch() instanceof Resistor ) {//todo workaround since Switch is getting mapped into Resistor somewhere
-                Resistor resistor = (Resistor)pathEntry.getBranch();
-                if( resistor.getResistance() == Switch.OPEN_RESISTANCE ) {
+            if ( pathEntry.getBranch() instanceof Resistor ) {//todo workaround since Switch is getting mapped into Resistor somewhere
+                Resistor resistor = (Resistor) pathEntry.getBranch();
+                if ( resistor.getResistance() == Switch.OPEN_RESISTANCE ) {
                     return true;
                 }
             }
@@ -115,7 +115,7 @@ public class Path {
         public PathEntry( Branch branch, Junction endJunction ) {
             this.branch = branch;
             this.endJunction = endJunction;
-            if( !branch.hasJunction( endJunction ) ) {
+            if ( !branch.hasJunction( endJunction ) ) {
                 throw new RuntimeException( "Branch does not contain junction." );
             }
         }
@@ -129,10 +129,10 @@ public class Path {
         }
 
         public boolean equals( Object obj ) {
-            if( !( obj instanceof PathEntry ) ) {
+            if ( !( obj instanceof PathEntry ) ) {
                 return false;
             }
-            PathEntry pe = (PathEntry)obj;
+            PathEntry pe = (PathEntry) obj;
             return branch.equals( pe.branch ) && endJunction.equals( pe.endJunction );
         }
     }
@@ -140,30 +140,30 @@ public class Path {
     public static Path[] getLoops( Circuit c ) {
         ArrayList all = new ArrayList();
         long time = System.currentTimeMillis();
-        for( int i = 0; i < c.numBranches(); i++ ) {
+        for ( int i = 0; i < c.numBranches(); i++ ) {
             Branch b = c.branchAt( i );
             Path init = new Path( b, b.getStartJunction() );
             addLoops( init, c, all );
         }
         long finalTime = System.currentTimeMillis();
         long dt = finalTime - time;
-        if( dt > 0 ) {
+        if ( dt > 0 ) {
             System.out.println( "Loop computation time=" + dt + ", num loops=" + all.size() );
         }
-        return (Path[])all.toArray( new Path[0] );
+        return (Path[]) all.toArray( new Path[0] );
     }
 
     private static void addLoops( Path init, Circuit c, ArrayList all ) {
         Junction lastPathElement = init.lastJunction();
         Branch[] outs = c.getAdjacentBranches( lastPathElement );
-        for( int i = 0; i < outs.length; i++ ) {
+        for ( int i = 0; i < outs.length; i++ ) {
             Branch out = outs[i];
             Junction opposite = out.opposite( lastPathElement );
-            if( !init.containsBranch( out ) ) {//don't cross the same branch twice.
-                if( init.containsJunction( opposite ) ) {//we found a loop, but we're only returning those that start the path.
-                    if( init.getStartJunction() == opposite ) {
+            if ( !init.containsBranch( out ) ) {//don't cross the same branch twice.
+                if ( init.containsJunction( opposite ) ) {//we found a loop, but we're only returning those that start the path.
+                    if ( init.getStartJunction() == opposite ) {
                         Path newPath = new Path( init, out, opposite );
-                        if( isUniqueLoop( all, newPath ) ) {
+                        if ( isUniqueLoop( all, newPath ) ) {
                             all.add( newPath );
                         }
                     }
@@ -176,9 +176,9 @@ public class Path {
     }
 
     private static boolean isUniqueLoop( ArrayList paths, Path newPath ) {
-        for( int i = 0; i < paths.size(); i++ ) {
-            Path path = (Path)paths.get( i );
-            if( path.loopEquals( newPath ) ) {
+        for ( int i = 0; i < paths.size(); i++ ) {
+            Path path = (Path) paths.get( i );
+            if ( path.loopEquals( newPath ) ) {
                 return false;
             }
         }
@@ -187,19 +187,19 @@ public class Path {
 
     private boolean loopEquals( Path path ) {
 //        System.out.println( "In loopEquals, this=" + this + ", path = " + path );
-        if( equals( path ) ) {
+        if ( equals( path ) ) {
             return true;
         }
         else {
-            if( path.numPathEntries() != numPathEntries() ) {
+            if ( path.numPathEntries() != numPathEntries() ) {
 //                System.out.println( "Wrong number elements, not equal" );
                 return false;
             }
-            else if( loopEqualsSameDir( path ) ) {
+            else if ( loopEqualsSameDir( path ) ) {
 //                System.out.println( "Equal in same direction" );
                 return true;
             }
-            else if( loopEqualsOppositeDir( path ) ) {
+            else if ( loopEqualsOppositeDir( path ) ) {
 //                System.out.println( "Equal in opposite directions." );
                 return true;
             }
@@ -213,8 +213,8 @@ public class Path {
     public ArrayList getJunctionList() {
         ArrayList list = new ArrayList();
         list.add( getStartJunction() );
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
             list.add( pathEntry.getJunction() );
         }
         return list;
@@ -222,8 +222,8 @@ public class Path {
 
     public ArrayList getBranchList() {
         ArrayList list = new ArrayList();
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
             list.add( pathEntry.getBranch() );
         }
         return list;
@@ -237,16 +237,16 @@ public class Path {
         ArrayList myBranches = getBranchList();
         Collections.reverse( myBranches );
         int n = myBranches.size();
-        for( int i = 0; i < n; i++ ) {
+        for ( int i = 0; i < n; i++ ) {
             myBranches.add( myBranches.get( i ) );
         }
         int myIndex = myBranches.indexOf( yourBranches.get( 0 ) );
-        if( myIndex == -1 ) {
+        if ( myIndex == -1 ) {
             return false;
         }
         int yourIndex = 0;
-        while( yourIndex < yourBranches.size() ) {
-            if( myBranches.get( myIndex ) != ( yourBranches.get( yourIndex ) ) ) {
+        while ( yourIndex < yourBranches.size() ) {
+            if ( myBranches.get( myIndex ) != ( yourBranches.get( yourIndex ) ) ) {
                 return false;
             }
 
@@ -259,14 +259,14 @@ public class Path {
     private boolean loopEqualsSameDir( Path path ) {
         int N = path.numPathEntries();
         int dx = indexOf( path.entryAt( 0 ) );
-        if( dx == -1 ) {
+        if ( dx == -1 ) {
             return false;
         }
         int myIndex = dx;
         int yourIndex = 0;
-        while( yourIndex < N ) {
+        while ( yourIndex < N ) {
 //            System.out.println( "myindex=" + myIndex + ", yourIndex = " + yourIndex );
-            if( !entryAt( myIndex ).equals( path.entryAt( yourIndex ) ) ) {
+            if ( !entryAt( myIndex ).equals( path.entryAt( yourIndex ) ) ) {
                 return false;
             }
             myIndex = ( myIndex + 1 ) % N;
@@ -276,9 +276,9 @@ public class Path {
     }
 
     private int indexOf( PathEntry pathEntry ) {
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry entry = (PathEntry)entries.get( i );
-            if( entry.equals( pathEntry ) ) {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry entry = (PathEntry) entries.get( i );
+            if ( entry.equals( pathEntry ) ) {
                 return i;
             }
         }
@@ -286,7 +286,7 @@ public class Path {
     }
 
     private PathEntry entryAt( int i ) {
-        return (PathEntry)entries.get( i );
+        return (PathEntry) entries.get( i );
     }
 
     private int numPathEntries() {
@@ -320,7 +320,7 @@ public class Path {
 
     public DirectedBranch[] getDirectedBranches() {
         DirectedBranch[] out = new DirectedBranch[numPathEntries()];
-        for( int i = 0; i < out.length; i++ ) {
+        for ( int i = 0; i < out.length; i++ ) {
             Branch branch = entryAt( i ).getBranch();
             boolean forward = entryAt( i ).getJunction() == branch.getEndJunction();
             out[i] = new DirectedBranch( branch, forward );
@@ -329,13 +329,13 @@ public class Path {
     }
 
     public boolean containsVoltageSource() {
-        for( int i = 0; i < entries.size(); i++ ) {
-            PathEntry pathEntry = (PathEntry)entries.get( i );
+        for ( int i = 0; i < entries.size(); i++ ) {
+            PathEntry pathEntry = (PathEntry) entries.get( i );
             boolean batt = pathEntry.getBranch() instanceof Battery;
-            if( batt ) {
-                Battery bx = (Battery)pathEntry.getBranch();
+            if ( batt ) {
+                Battery bx = (Battery) pathEntry.getBranch();
                 double voltage = bx.getVoltageDrop();
-                if( voltage != 0 ) {
+                if ( voltage != 0 ) {
                     return true;
                 }
             }

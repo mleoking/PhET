@@ -1,9 +1,9 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.chart;
 
-import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.umd.cs.piccolo.PNode;
+import java.awt.*;
+import java.io.IOException;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -14,8 +14,9 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
-import java.io.IOException;
+import edu.colorado.phet.common.jfreechartphet.piccolo.JFreeChartNode;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * User: Sam Reid
@@ -45,7 +46,7 @@ public class StripChartJFCNode extends PNode {
         addChild( jFreeChartNode );
         jFreeChartNode.setBounds( 0, 0, width, height );
 
-        jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float)jFreeChartNode.getFullBounds().getWidth(), (float)jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
+        jFreeChart.setBorderPaint( new GradientPaint( 0, 0, new Color( 200, 200, 200, 255 ), (float) jFreeChartNode.getFullBounds().getWidth(), (float) jFreeChartNode.getFullBounds().getHeight(), Color.darkGray ) );
         try {
             jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/wood.jpg" ) );
         }
@@ -66,7 +67,7 @@ public class StripChartJFCNode extends PNode {
                 false               // generate URLs?
         );
 
-        XYPlot plot = (XYPlot)chart.getPlot();
+        XYPlot plot = (XYPlot) chart.getPlot();
 //        plot.getRangeAxis().setTickLabelsVisible( true );
         plot.getRangeAxis().setAutoRange( false );
         plot.getRangeAxis().setRange( -3, 3 );
@@ -87,18 +88,18 @@ public class StripChartJFCNode extends PNode {
     }
 
     public void addValue( double x, double y ) {
-        if( Double.isNaN( y ) ) {
+        if ( Double.isNaN( y ) ) {
             y = Double.NaN;
         }
-        if( enabled ) {
+        if ( enabled ) {
             //todo can we temporarily disable render, do both steps as batch?
             series.add( x, y );
             Range r = jFreeChart.getXYPlot().getDomainAxis().getRange();
             Range desiredRange = new Range( getHighestTime() - timeRange, getHighestTime() );
-            if( !r.equals( desiredRange ) ) {
+            if ( !r.equals( desiredRange ) ) {
                 jFreeChart.getXYPlot().getDomainAxis().setRange( desiredRange );
             }
-            while( shouldRemove1stPoint() ) {
+            while ( shouldRemove1stPoint() ) {
                 series.remove( 0 );
             }
         }

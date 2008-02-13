@@ -31,7 +31,7 @@ public class TestLoops3 {
         circuit.addBranch( new Wire( kl, j2, j3 ) );
 
         Path[] p = Path.getLoops( circuit );
-        for( int i = 0; i < p.length; i++ ) {
+        for ( int i = 0; i < p.length; i++ ) {
             Path path = p[i];
             System.out.println( "path = " + path );
         }

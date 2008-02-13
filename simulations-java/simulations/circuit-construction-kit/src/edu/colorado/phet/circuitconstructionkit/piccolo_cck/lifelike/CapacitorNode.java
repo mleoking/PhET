@@ -1,5 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -12,12 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -181,8 +182,8 @@ public class CapacitorNode extends ComponentNode {
     private void updateChargeDisplay() {
         double maxCharge = 1;
         double MAX_NUM_TO_SHOW = 100;
-        int numToShow = (int)Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
-                                       MAX_NUM_TO_SHOW );
+        int numToShow = (int) Math.min( Math.abs( capacitor.getCharge() ) / maxCharge * MAX_NUM_TO_SHOW,
+                                        MAX_NUM_TO_SHOW );
         setNumDisplayedCharges( numToShow );
     }
 
@@ -207,20 +208,20 @@ public class CapacitorNode extends ComponentNode {
         double w = capacitor3DShapeSet.getWidth();
         double L = capacitor3DShapeSet.getLength();
         double alpha = Math.sqrt( numToShow / w / L );
-        int numAcross = (int)( w * alpha );
-        int numDown = (int)( L * alpha );
+        int numAcross = (int) ( w * alpha );
+        int numDown = (int) ( L * alpha );
         double dw = w / numAcross;
         double dL = L / numDown;
         double widthSpanInset = ( dw ) / 2.0;
         double lengthSpanInset = ( dL ) / 2.0;
         double offsetFromCenterW = 0;
         double offsetFromCenterL = 0;
-        if( numAcross == 1 ) {
+        if ( numAcross == 1 ) {
             offsetFromCenterW = 5 * SCALE;
             offsetFromCenterL = 0;
         }
-        for( int i = 0; i < numAcross; i++ ) {
-            for( int j = 0; j < numDown; j++ ) {
+        for ( int i = 0; i < numAcross; i++ ) {
+            for ( int j = 0; j < numDown; j++ ) {
                 double u = -w / 2.0 + i * dw + widthSpanInset + offsetFromCenterW;
                 double v = -L / 2.0 + j * dL + lengthSpanInset + offsetFromCenterL;
                 Point2D loc = capacitor3DShapeSet.getPlate1Location( u, v );

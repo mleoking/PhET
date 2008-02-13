@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -20,34 +20,34 @@ public class CCKPopupMenuFactory {
     }
 
     public JPopupMenu createPopupMenu( Branch branch ) {
-        if( branch instanceof Switch ) {
-            return new ComponentMenu.SwitchMenu( (Switch)branch, module );
+        if ( branch instanceof Switch ) {
+            return new ComponentMenu.SwitchMenu( (Switch) branch, module );
         }
-        else if( branch instanceof SeriesAmmeter ) {
-            return new ComponentMenu.SeriesAmmeterMenu( (SeriesAmmeter)branch, module );
+        else if ( branch instanceof SeriesAmmeter ) {
+            return new ComponentMenu.SeriesAmmeterMenu( (SeriesAmmeter) branch, module );
         }
-        else if( branch instanceof ACVoltageSource ) {
-            return new ComponentMenu.ACVoltageSourceMenu( (Battery)branch, module );
+        else if ( branch instanceof ACVoltageSource ) {
+            return new ComponentMenu.ACVoltageSourceMenu( (Battery) branch, module );
         }
-        else if( branch instanceof Battery ) {
-            return new ComponentMenu.BatteryJMenu( (Battery)branch, module );
+        else if ( branch instanceof Battery ) {
+            return new ComponentMenu.BatteryJMenu( (Battery) branch, module );
         }
-        else if( branch instanceof Bulb ) {
-            return new ComponentMenu.BulbMenu( (Bulb)branch, module );
+        else if ( branch instanceof Bulb ) {
+            return new ComponentMenu.BulbMenu( (Bulb) branch, module );
         }
-        else if( branch instanceof Capacitor ) {
-            return new ComponentMenu.CapacitorMenu( (Capacitor)branch, module );
+        else if ( branch instanceof Capacitor ) {
+            return new ComponentMenu.CapacitorMenu( (Capacitor) branch, module );
         }
-        else if( branch instanceof GrabBagResistor ) {
-            return new ComponentMenu.GrabBagResistorMenu( (GrabBagResistor)branch, module );
+        else if ( branch instanceof GrabBagResistor ) {
+            return new ComponentMenu.GrabBagResistorMenu( (GrabBagResistor) branch, module );
         }
-        else if( branch instanceof Inductor ) {
-            return new ComponentMenu.InductorMenu( (Inductor)branch, module );
+        else if ( branch instanceof Inductor ) {
+            return new ComponentMenu.InductorMenu( (Inductor) branch, module );
         }
-        else if( branch instanceof Resistor ) {
-            return new ComponentMenu.ResistorMenu( (Resistor)branch, module );
+        else if ( branch instanceof Resistor ) {
+            return new ComponentMenu.ResistorMenu( (Resistor) branch, module );
         }
-        else if( branch instanceof Wire ) {
+        else if ( branch instanceof Wire ) {
             return new WirePopupMenu( module.getCCKModel(), branch );
         }
         else {

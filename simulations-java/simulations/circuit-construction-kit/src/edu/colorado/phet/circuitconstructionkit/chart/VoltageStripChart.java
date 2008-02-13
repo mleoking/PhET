@@ -24,7 +24,7 @@ public class VoltageStripChart extends DoubleTerminalFloatingChart.Piccolo {
         }, clock );
         super.setValueReader( new VoltageStripChart.VoltageReader( circuit ) );
         getStripChartJFCNode().setVerticalRange( -20, 20 );
-        getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( CCKStrings.getString( "voltage-y-axis"));
+        getStripChartJFCNode().getXYPlot().getRangeAxis().setLabel( CCKStrings.getString( "voltage-y-axis" ) );
         getLeftCrosshairGraphic().setColor( Color.red );
         getRightCrosshairGraphic().setColor( Color.black );
     }

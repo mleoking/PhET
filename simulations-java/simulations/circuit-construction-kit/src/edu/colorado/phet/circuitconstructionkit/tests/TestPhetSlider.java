@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.tests;
 
-import edu.colorado.phet.circuitconstructionkit.phetgraphics.PhetSlider;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.circuitconstructionkit.phetgraphics.PhetSlider;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * User: Sam Reid

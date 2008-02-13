@@ -24,20 +24,20 @@ public class CCKParameters {
 
     public CCKParameters( ICCKModule module, String[] args ) {
         this.args = args;
-        if( containsArg( "-dynamics" ) ) {
+        if ( containsArg( "-dynamics" ) ) {
             dynamics = true;
         }
-        if( containsArg( "-virtuallab" ) ) {
+        if ( containsArg( "-virtuallab" ) ) {
             virtualLab = true;
         }
-        if( containsArg( "-grabbag" ) ) {
+        if ( containsArg( "-grabbag" ) ) {
             grabBagMode = true;
         }
-        if( containsArg( "-noElectrons" ) ) {
+        if ( containsArg( "-noElectrons" ) ) {
             module.setElectronsVisible( false );
             hideAllElectrons = true;
         }
-        if( containsArg( "-exp1" ) ) {
+        if ( containsArg( "-exp1" ) ) {
             module.setElectronsVisible( true );
             hideAllElectrons = false;
             allowSchematicMode = false;
@@ -48,7 +48,7 @@ public class CCKParameters {
             useAdvancedControlPanel = false;
             useVisualControlPanel = false;
         }
-        else if( containsArg( "-exp2" ) ) {
+        else if ( containsArg( "-exp2" ) ) {
             module.setElectronsVisible( false );
             hideAllElectrons = true;
             allowSchematicMode = false;
@@ -59,12 +59,12 @@ public class CCKParameters {
             useAdvancedControlPanel = false;
             useVisualControlPanel = false;
         }
-        if( virtualLab ) {
+        if ( virtualLab ) {
             allowShowReadouts = false;
             allowSchematicMode = false;
             useNonContactAmmeter = false;
         }
-        if( grabBagMode ) {
+        if ( grabBagMode ) {
             grabBag = true;
             hugeBatteries = true;
             allowPlainResistors = false;

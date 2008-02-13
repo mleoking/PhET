@@ -1,8 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.phetgraphics;
 
-import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 
 /**
  * User: Sam Reid
@@ -21,8 +21,8 @@ public class CompositeCircuitChangeListener implements CircuitChangeListener {
     }
 
     public void circuitChanged() {
-        for( int i = 0; i < list.size(); i++ ) {
-            CircuitChangeListener circuitChangeListener = (CircuitChangeListener)list.get( i );
+        for ( int i = 0; i < list.size(); i++ ) {
+            CircuitChangeListener circuitChangeListener = (CircuitChangeListener) list.get( i );
             circuitChangeListener.circuitChanged();
         }
     }

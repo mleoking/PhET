@@ -1,13 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.*;
 import edu.colorado.phet.circuitconstructionkit.phetgraphics.BulbComponentGraphic;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -80,14 +80,14 @@ public class Bulb extends CircuitComponent {
     }
 
     public Point2D getPosition( double x ) {
-        if( isSchematic ) {
+        if ( isSchematic ) {
             return super.getPosition( x );
         }
-        if( containsScalarLocation( x ) ) {
+        if ( containsScalarLocation( x ) ) {
             return filament.getPosition( x );
         }
         else {
-            if( Double.isNaN( getLength() ) ) {
+            if ( Double.isNaN( getLength() ) ) {
                 throw new RuntimeException( "Length was NaN." );
             }
             //this occurs when dragging the bulb after splitting.  maybe splitting needs to relayout.
@@ -97,14 +97,14 @@ public class Bulb extends CircuitComponent {
     }
 
     public double getLength() {
-        if( isSchematic ) {
+        if ( isSchematic ) {
             return getStartJunction().getPosition().distance( getEndJunction().getPosition() );
         }
         return filament.getLength();
     }
 
     public double getComponentLength() {
-        if( isSchematic ) {
+        if ( isSchematic ) {
             return getLength();
         }
         else {
@@ -113,13 +113,13 @@ public class Bulb extends CircuitComponent {
     }
 
     public void setSchematic( boolean schematic, Circuit circuit ) {
-        if( this.isSchematic == schematic ) {
+        if ( this.isSchematic == schematic ) {
             return;
         }
         this.isSchematic = schematic;
         //move junctions, if necessary.
 //        Vector2D delta = null;
-        if( schematic ) {
+        if ( schematic ) {
             expandToSchematic( this, circuit );
         }
         else {
@@ -132,7 +132,7 @@ public class Bulb extends CircuitComponent {
         AbstractVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
         Point2D dst = vector.getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
-        if( circuit != null ) {
+        if ( circuit != null ) {
             Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );
             BranchSet bs = new BranchSet( circuit, sc );
             bs.addJunction( bulb.getEndJunction() );
@@ -148,7 +148,7 @@ public class Bulb extends CircuitComponent {
         Vector2D vec = new Vector2D.Double( bulb.getStartJunction().getPosition(), bulb.getEndJunction().getPosition() );
         Point2D dst = vec.getInstanceOfMagnitude( CCKModel.SCH_BULB_DIST ).getDestination( bulb.getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( bulb.getEndJunction().getPosition(), dst );
-        if( circuit != null ) {
+        if ( circuit != null ) {
             Branch[] sc = circuit.getStrongConnections( bulb, bulb.getEndJunction() );
             BranchSet bs = new BranchSet( circuit, sc );
             bs.addJunction( bulb.getEndJunction() );
@@ -176,7 +176,7 @@ public class Bulb extends CircuitComponent {
         connectAtLeft = !connectAtLeft;
         filament.setConnectAtRight( connectAtLeft );
         double sign = -1;
-        if( connectAtLeft ) {
+        if ( connectAtLeft ) {
             sign = 1;
         }
         double tilt = BulbComponentGraphic.determineTilt();
@@ -185,7 +185,7 @@ public class Bulb extends CircuitComponent {
         Point2D target = vector.getDestination( getStartJunction().getPosition() );
         Vector2D delta = new Vector2D.Double( getEndJunction().getPosition(), target );
 
-        if( circuit != null ) {
+        if ( circuit != null ) {
             Branch[] sc = circuit.getStrongConnections( this, getEndJunction() );
             BranchSet bs = new BranchSet( circuit, sc );
             bs.addJunction( getEndJunction() );
@@ -197,7 +197,7 @@ public class Bulb extends CircuitComponent {
     public double getIntensity() {
         double power = Math.abs( getCurrent() * getVoltageDrop() );
         double maxPower = 60;
-        if( power > maxPower ) {
+        if ( power > maxPower ) {
             power = maxPower;
         }
         return Math.pow( power / maxPower, 0.354 );

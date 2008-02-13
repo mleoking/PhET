@@ -1,16 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -31,13 +31,13 @@ public class PathBranch extends Branch {
     }
 
     public Shape getShape() {
-        return new BasicStroke( (float)( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
+        return new BasicStroke( (float) ( CCKLookAndFeel.WIRE_THICKNESS * CCKLookAndFeel.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
     }
 
     public GeneralPath getPath() {
         DoubleGeneralPath path = new DoubleGeneralPath( startPoint );
-        for( int i = 0; i < segments.size(); i++ ) {
-            Segment segment = (Segment)segments.get( i );
+        for ( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment) segments.get( i );
             path.lineTo( segment.getEnd() );
         }
         return path.getGeneralPath();
@@ -69,10 +69,10 @@ public class PathBranch extends Branch {
 
     public Location getLocation( double x ) {
         double segStartsAt = 0;
-        for( int i = 0; i < numSegments(); i++ ) {
+        for ( int i = 0; i < numSegments(); i++ ) {
             Segment seg = segmentAt( i );
             double segStopsAt = segStartsAt + seg.getLength();
-            if( x <= segStopsAt ) {
+            if ( x <= segStopsAt ) {
                 return new Location( seg, x - segStartsAt );
             }
             segStartsAt += seg.getLength();
@@ -85,7 +85,7 @@ public class PathBranch extends Branch {
     }
 
     public Segment segmentAt( int i ) {
-        return (Segment)segments.get( i );
+        return (Segment) segments.get( i );
     }
 
     public static class Segment {
@@ -95,10 +95,10 @@ public class PathBranch extends Branch {
         public Segment( Point2D start, Point2D end ) {
             this.start = start;
             this.end = end;
-            if( Double.isNaN( start.getX() ) || Double.isNaN( start.getY() ) ) {
+            if ( Double.isNaN( start.getX() ) || Double.isNaN( start.getY() ) ) {
                 throw new RuntimeException( "Start was NaN: " + start );
             }
-            if( Double.isNaN( end.getX() ) || Double.isNaN( end.getY() ) ) {
+            if ( Double.isNaN( end.getX() ) || Double.isNaN( end.getY() ) ) {
                 throw new RuntimeException( "end was NaN: " + end );
             }
         }
@@ -113,7 +113,7 @@ public class PathBranch extends Branch {
 
         public double getLength() {
             double dist = start.distance( end );
-            if( Double.isNaN( dist ) ) {
+            if ( Double.isNaN( dist ) ) {
                 throw new RuntimeException( " Length was NaN." );
             }
             return dist;
@@ -122,11 +122,11 @@ public class PathBranch extends Branch {
 
     public double getLength() {
         double length = 0;
-        for( int i = 0; i < segments.size(); i++ ) {
-            Segment segment = (Segment)segments.get( i );
+        for ( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment) segments.get( i );
             length += segment.getLength();
         }
-        if( Double.isNaN( length ) ) {
+        if ( Double.isNaN( length ) ) {
             throw new RuntimeException( "Length is NaN" );
         }
         return length;

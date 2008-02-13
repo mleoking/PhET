@@ -1,14 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic.SchematicPlatedNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid

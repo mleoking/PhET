@@ -11,13 +11,14 @@
 package edu.colorado.phet.circuitconstructionkit.common;
 
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 /**
  * Has an expand and collapse button.
@@ -94,8 +95,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         controls.setVisible( true );
         hideButton.setVisible( true );
         validateAll();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.advancedPanelShown( this );
         }
 //        setBorder( BorderFactory.createRaisedBevelBorder() );
@@ -106,9 +107,9 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     private void validateAll() {
         invalidate();
         controls.invalidate();
-        if( getParent() != null ) {
+        if ( getParent() != null ) {
             getParent().invalidate();
-            if( getParent().getParent() != null ) {
+            if ( getParent().getParent() != null ) {
                 getParent().getParent().invalidate();
                 getParent().getParent().validate();
             }
@@ -124,8 +125,8 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         controls.setVisible( false );
         showButton.setVisible( true );
         validateAll();
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.advancedPanelHidden( this );
         }
 //        setBorder( null );

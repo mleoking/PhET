@@ -1,5 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
@@ -7,9 +10,6 @@ import edu.colorado.phet.circuitconstructionkit.phetgraphics.BulbComponentGraphi
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -71,7 +71,7 @@ public class Filament extends PathBranch {
 
     public GeneralPath getPath() {
         DoubleGeneralPath path = new DoubleGeneralPath( segmentAt( 0 ).getStart() );
-        for( int i = 0; i < numSegments(); i++ ) {
+        for ( int i = 0; i < numSegments(); i++ ) {
             Segment seg = segmentAt( i );
             path.lineTo( seg.getEnd() );
         }
@@ -83,27 +83,27 @@ public class Filament extends PathBranch {
     }
 
     public void recompute() {
-        if( tailJunction == null || shellJunction == null ) {
+        if ( tailJunction == null || shellJunction == null ) {
             return;
         }
         double tilt = BulbComponentGraphic.determineTilt();
-        if( !connectAtRight ) {
+        if ( !connectAtRight ) {
             tilt = -tilt;
         }
         northDir = new Vector2D.Double( tailJunction.getPosition(), shellJunction.getPosition() ).getNormalizedInstance();
         northDir = northDir.getRotatedInstance( -tilt );
         eastDir = northDir.getNormalVector().getNormalizedInstance();
-        if( !connectAtRight ) {
+        if ( !connectAtRight ) {
             eastDir = eastDir.getScaledInstance( -1 );
         }
-        if( isNaN( northDir ) || isNaN( eastDir ) ) {
+        if ( isNaN( northDir ) || isNaN( eastDir ) ) {
             System.out.println( "Bulb basis set is not a number." );
             return;
         }
         pin = shellJunction.getPosition();
 
         Point2D pt = getPoint( -resistorWidth / 2, resistorDY );
-        if( Double.isNaN( pt.getX() ) || Double.isNaN( pt.getY() ) ) {
+        if ( Double.isNaN( pt.getX() ) || Double.isNaN( pt.getY() ) ) {
             throw new RuntimeException( "Point was nan: " + pt );
         }
         super.reset( tailJunction.getPosition(), pt );
@@ -115,7 +115,7 @@ public class Filament extends PathBranch {
     public boolean isHiddenBranch( Location loc ) {
         Segment seg = loc.getSegment();
         int index = indexOf( seg );
-        if( index == 0 || index == 1 ) {
+        if ( index == 0 || index == 1 ) {
             return true;
         }
         return false;

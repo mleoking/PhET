@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -22,14 +22,14 @@ public class BranchSet {
     }
 
     public void addJunction( Junction junction ) {
-        if( !junctions.contains( junction ) ) {
+        if ( !junctions.contains( junction ) ) {
             junctions.add( junction );
         }
     }
 
     public void addBranches( Branch[] b ) {
-        for( int i = 0; i < b.length; i++ ) {
-            if( !branches.contains( b[i] ) ) {
+        for ( int i = 0; i < b.length; i++ ) {
+            if ( !branches.contains( b[i] ) ) {
                 branches.add( b[i] );
             }
         }
@@ -41,37 +41,37 @@ public class BranchSet {
     public void translate( AbstractVector2D vector ) {
         ArrayList junctionSet = new ArrayList();
         junctionSet.addAll( junctions );
-        for( int i = 0; i < branches.size(); i++ ) {
-            Branch branch = (Branch)branches.get( i );
-            if( !junctionSet.contains( branch.getStartJunction() ) ) {
+        for ( int i = 0; i < branches.size(); i++ ) {
+            Branch branch = (Branch) branches.get( i );
+            if ( !junctionSet.contains( branch.getStartJunction() ) ) {
                 junctionSet.add( branch.getStartJunction() );
             }
-            if( !junctionSet.contains( branch.getEndJunction() ) ) {
+            if ( !junctionSet.contains( branch.getEndJunction() ) ) {
                 junctionSet.add( branch.getEndJunction() );
             }
         }
         ArrayList branchesToNotify = new ArrayList();
         branchesToNotify.addAll( branches );
-        for( int i = 0; i < junctionSet.size(); i++ ) {
-            Junction junction = (Junction)junctionSet.get( i );
+        for ( int i = 0; i < junctionSet.size(); i++ ) {
+            Junction junction = (Junction) junctionSet.get( i );
             junction.translateNoNotify( vector.getX(), vector.getY() );//can't do one-at-a-time, because intermediate notifications get inconsistent data.
             Branch[] neighbors = circuit.getAdjacentBranches( junction );
-            for( int j = 0; j < neighbors.length; j++ ) {
+            for ( int j = 0; j < neighbors.length; j++ ) {
                 Branch neighbor = neighbors[j];
-                if( !branchesToNotify.contains( neighbor ) ) {
+                if ( !branchesToNotify.contains( neighbor ) ) {
                     branchesToNotify.add( neighbor );
                 }
             }
         }
-        for( int i = 0; i < junctionSet.size(); i++ ) {
-            Junction junction = (Junction)junctionSet.get( i );
+        for ( int i = 0; i < junctionSet.size(); i++ ) {
+            Junction junction = (Junction) junctionSet.get( i );
             junction.notifyChanged();
         }
-        for( int i = 0; i < branchesToNotify.size(); i++ ) {
-            Branch branch = (Branch)branchesToNotify.get( i );
+        for ( int i = 0; i < branchesToNotify.size(); i++ ) {
+            Branch branch = (Branch) branchesToNotify.get( i );
             branch.notifyObservers();
         }
-        Branch[] moved = (Branch[])branchesToNotify.toArray( new Branch[0] );
+        Branch[] moved = (Branch[]) branchesToNotify.toArray( new Branch[0] );
         circuit.fireJunctionsMoved();
         circuit.fireBranchesMoved( moved );
     }
@@ -85,6 +85,6 @@ public class BranchSet {
     }
 
     public Branch[] getBranches() {
-        return (Branch[])branches.toArray( new Branch[0] );
+        return (Branch[]) branches.toArray( new Branch[0] );
     }
 }

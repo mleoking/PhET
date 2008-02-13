@@ -1,8 +1,8 @@
 package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
-import edu.colorado.phet.circuitconstructionkit.model.Circuit;
-
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 
 /**
  * User: Sam Reid
@@ -23,8 +23,8 @@ public abstract class CircuitSolver {
     }
 
     protected void fireCircuitSolved() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            CircuitSolutionListener circuitSolutionListener = (CircuitSolutionListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            CircuitSolutionListener circuitSolutionListener = (CircuitSolutionListener) listeners.get( i );
             circuitSolutionListener.circuitSolverFinished();
         }
     }

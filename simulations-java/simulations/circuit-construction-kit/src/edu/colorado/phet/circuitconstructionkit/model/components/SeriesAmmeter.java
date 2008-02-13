@@ -1,10 +1,10 @@
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

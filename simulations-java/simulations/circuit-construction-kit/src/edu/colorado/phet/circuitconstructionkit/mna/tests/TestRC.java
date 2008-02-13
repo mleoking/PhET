@@ -23,7 +23,7 @@ public class TestRC {
     }
 
     private void start() {
-        for( int i = 0; i < numSteps; i++ ) {
+        for ( int i = 0; i < numSteps; i++ ) {
             step();
         }
     }

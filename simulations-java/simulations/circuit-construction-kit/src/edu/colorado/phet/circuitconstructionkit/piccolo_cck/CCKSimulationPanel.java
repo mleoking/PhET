@@ -1,5 +1,15 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.SimpleKeyEvent;
 import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagButton;
@@ -11,16 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -90,10 +90,10 @@ public class CCKSimulationPanel extends PhetPCanvas {
             }
 
             public void keyReleased( KeyEvent e ) {
-                if( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
+                if ( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
                     module.selectAll();
                 }
-                if( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
+                if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
                     module.desolderSelection();
                     module.deleteSelectedBranches();
                 }
@@ -118,8 +118,8 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private void relayout() {
-        if( getWidth() > 0 ) {
-            if( grabBagPSwing != null ) {
+        if ( getWidth() > 0 ) {
+            if ( grabBagPSwing != null ) {
                 updateButtonLayout();
             }
             updateToolboxLayout();
@@ -147,7 +147,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private void updateTimeScaleNodeLayout() {
         timeScaleNode.setScale( 1.0 );
         double timeScaleGraphicRatio = timeScaleNode.getFullBounds().getWidth() / getWidth();
-        if( timeScaleGraphicRatio > 0.8 ) {
+        if ( timeScaleGraphicRatio > 0.8 ) {
             timeScaleNode.setScale( 0.8 / timeScaleGraphicRatio );
         }
         else {

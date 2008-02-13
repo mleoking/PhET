@@ -1,10 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.common;
 
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import java.awt.*;
 
 import javax.swing.*;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * User: Sam Reid
@@ -32,10 +33,10 @@ public class DynamicPopupMenuHandler extends PBasicInputEventHandler {
     }
 
     private void handlePopup( PInputEvent event ) {
-        if( event.isPopupTrigger() ) {
+        if ( event.isPopupTrigger() ) {
             JPopupMenu popup = popupMenuFactory.createPopupMenu();
-            if( popup != null ) {
-                popup.show( parent, (int)event.getCanvasPosition().getX(), (int)event.getCanvasPosition().getY() );
+            if ( popup != null ) {
+                popup.show( parent, (int) event.getCanvasPosition().getX(), (int) event.getCanvasPosition().getY() );
             }
         }
     }

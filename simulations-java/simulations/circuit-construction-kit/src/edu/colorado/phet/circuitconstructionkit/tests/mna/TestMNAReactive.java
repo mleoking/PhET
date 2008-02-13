@@ -55,7 +55,7 @@ public class TestMNAReactive extends NodeAnalysisTest {
         j1 = combine( circuit, j1, r1.getEndJunction() );
         Junction j2 = combine( circuit, c2.getStartJunction(), r2.getEndJunction() );
         Junction j3 = combine( circuit, bat.getEndJunction(), r2.getStartJunction() );
-        while( circuit.numJunctions() > 0 ) {
+        while ( circuit.numJunctions() > 0 ) {
             circuit.removeJunction( circuit.junctionAt( 0 ) );
         }
         circuit.addJunction( j0 );

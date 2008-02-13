@@ -8,8 +8,9 @@ package edu.colorado.phet.circuitconstructionkit.mna.junit_sim;
  *
  */
 
-import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 import junit.framework.TestCase;
+
+import edu.colorado.phet.circuitconstructionkit.mna.MNACircuit;
 
 /**
  * User: Sam Reid
@@ -33,7 +34,7 @@ public class TestRCCharge extends TestCase {
     }
 
     private void start() {
-        for( int i = 0; i < numSteps; i++ ) {
+        for ( int i = 0; i < numSteps; i++ ) {
             step();
         }
     }
@@ -71,7 +72,7 @@ public class TestRCCharge extends TestCase {
 
     private double getMSE( int numSteps ) {
         double se = 0;
-        for( int i = 0; i < numSteps; i++ ) {
+        for ( int i = 0; i < numSteps; i++ ) {
             step();
             se += squaredError;
         }

@@ -1,5 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
@@ -8,13 +16,6 @@ import edu.colorado.phet.circuitconstructionkit.piccolo_cck.ComponentNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -44,7 +45,7 @@ public class BulbComponentNode extends ComponentNode {
 //        bulbNode.transformBy( AffineTransform.getScaleInstance( 2*SCALE, 2.5*SCALE ) );
         update();
         runParamTest();
-        getHighlightNode().setStroke( new BasicStroke( (float)( 1.0 / 60.0 ) ) );
+        getHighlightNode().setStroke( new BasicStroke( (float) ( 1.0 / 60.0 ) ) );
     }
 
     public void delete() {
@@ -106,7 +107,7 @@ public class BulbComponentNode extends ComponentNode {
 
     private AffineTransform createTransform() {
         double sign = 1;
-        if( !bulb.isConnectAtLeft() ) {
+        if ( !bulb.isConnectAtLeft() ) {
             sign = -1;
         }
         double theta = sign * getTilt();

@@ -1,13 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -34,8 +34,8 @@ public class ReadoutSetNode extends PhetPNode {
     }
 
     private void update() {
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ReadoutNode child = (ReadoutNode)getChild( i );
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ReadoutNode child = (ReadoutNode) getChild( i );
             child.update();
         }
     }
@@ -59,9 +59,9 @@ public class ReadoutSetNode extends PhetPNode {
     }
 
     protected void removeBranchReadout( Branch branch ) {
-        for( int i = 0; i < getChildrenCount(); i++ ) {
-            ReadoutNode child = (ReadoutNode)getChild( i );
-            if( child.getBranch() == branch ) {
+        for ( int i = 0; i < getChildrenCount(); i++ ) {
+            ReadoutNode child = (ReadoutNode) getChild( i );
+            if ( child.getBranch() == branch ) {
                 branch.removeObserver( updater );
                 removeChild( child );
                 i--;

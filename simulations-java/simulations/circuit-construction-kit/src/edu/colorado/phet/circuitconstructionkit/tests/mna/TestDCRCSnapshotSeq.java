@@ -21,7 +21,7 @@ public class TestDCRCSnapshotSeq extends NodeAnalysisTest {
     }
 
     private void start() {
-        for( double s = 1; s < 100; s += 0.01 ) {
+        for ( double s = 1; s < 100; s += 0.01 ) {
             runOnce( s );
         }
     }
@@ -38,7 +38,7 @@ public class TestDCRCSnapshotSeq extends NodeAnalysisTest {
         Junction j1 = combine( circuit, bat.getEndJunction(), res.getStartJunction() );
         Junction j2 = combine( circuit, res.getEndJunction(), cap.getStartJunction() );
         Junction j3 = combine( circuit, cap.getEndJunction(), bat.getStartJunction() );
-        while( circuit.numJunctions() > 0 ) {
+        while ( circuit.numJunctions() > 0 ) {
             circuit.removeJunction( circuit.junctionAt( 0 ) );
         }
         circuit.addJunction( j1 );

@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.colorado.phet.circuitconstructionkit.model.BranchSet;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -10,10 +14,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * User: Sam Reid
@@ -71,17 +71,17 @@ public class CircuitInteractionModel {
         private Circuit.DragMatch endMatch;
 
         public void translate( Branch branch, Point2D dragPt ) {
-            if( !draggingBranch ) {
+            if ( !draggingBranch ) {
                 draggingBranch = true;
                 toStart = new ImmutableVector2D.Double( dragPt, branch.getStartJunction().getPosition() );
                 toEnd = new ImmutableVector2D.Double( dragPt, branch.getEndJunction().getPosition() );
             }
             else {
-                if( branch instanceof CircuitComponent ) {
-                    translateCircuitComponent( (CircuitComponent)branch, dragPt );
+                if ( branch instanceof CircuitComponent ) {
+                    translateCircuitComponent( (CircuitComponent) branch, dragPt );
                 }
-                else if( branch instanceof Wire ) {//branch was just a wire
-                    translateWire( (Wire)branch, dragPt );
+                else if ( branch instanceof Wire ) {//branch was just a wire
+                    translateWire( (Wire) branch, dragPt );
                 }
                 else {
                     throw new RuntimeException( "Unknown wire type: " + branch.getClass() );
@@ -104,17 +104,17 @@ public class CircuitInteractionModel {
             startMatch = getCircuit().getBestDragMatch( startSources, startDX );
             endMatch = getCircuit().getBestDragMatch( endSources, endDX );
 
-            if( endMatch != null && startMatch != null && endMatch.getTarget() == startMatch.getTarget() ) {
+            if ( endMatch != null && startMatch != null && endMatch.getTarget() == startMatch.getTarget() ) {
                 endMatch = null;
             }
-            if( endMatch != null && startMatch != null && wouldCauseOverlap( wire, startMatch, endMatch ) ) {
+            if ( endMatch != null && startMatch != null && wouldCauseOverlap( wire, startMatch, endMatch ) ) {
                 endMatch = null;
             }
 
-            if( startMatch != null && endMatch != null ) {
-                for( int i = 0; i < circuit.numBranches(); i++ ) {
+            if ( startMatch != null && endMatch != null ) {
+                for ( int i = 0; i < circuit.numBranches(); i++ ) {
                     Branch b = circuit.branchAt( i );
-                    if( b.hasJunction( startMatch.getTarget() ) && wire.hasJunction( endMatch.getTarget() ) ) {
+                    if ( b.hasJunction( startMatch.getTarget() ) && wire.hasJunction( endMatch.getTarget() ) ) {
                         startMatch = null;
                         endMatch = null;
                         break;
@@ -131,7 +131,7 @@ public class CircuitInteractionModel {
             list.addAll( Arrays.asList( neighbors ) );
             list.remove( wire.getStartJunction() );
             list.remove( wire.getEndJunction() );
-            if( list.contains( endMatch.getTarget() ) ) {
+            if ( list.contains( endMatch.getTarget() ) ) {
                 return true;
             }
             else {
@@ -140,7 +140,7 @@ public class CircuitInteractionModel {
         }
 
         private void translateCircuitComponent( CircuitComponent cc, Point2D dragPt ) {
-            if( !draggingBranch ) {
+            if ( !draggingBranch ) {
                 draggingBranch = true;
                 Point2D startJ = cc.getStartJunction().getPosition();
                 toStart = new ImmutableVector2D.Double( dragPt, startJ );
@@ -154,8 +154,8 @@ public class CircuitInteractionModel {
         }
 
         public void dropBranch( Branch branch ) {
-            if( branch instanceof CircuitComponent ) {
-                if( branchDragMatch != null ) {
+            if ( branch instanceof CircuitComponent ) {
+                if ( branchDragMatch != null ) {
                     getCircuit().collapseJunctions( branchDragMatch.getSource(), branchDragMatch.getTarget() );
                 }
                 branchDragMatch = null;
@@ -165,10 +165,10 @@ public class CircuitInteractionModel {
             }
             else {
                 draggingBranch = false;
-                if( startMatch != null ) {
+                if ( startMatch != null ) {
                     getCircuit().collapseJunctions( startMatch.getSource(), startMatch.getTarget() );
                 }
-                if( endMatch != null ) {
+                if ( endMatch != null ) {
                     getCircuit().collapseJunctions( endMatch.getSource(), endMatch.getTarget() );
                 }
                 //todo need bumpaway implementation
@@ -201,14 +201,14 @@ public class CircuitInteractionModel {
 
         private Junction[] getSources( Branch[] sc, Junction j ) {
             ArrayList list = new ArrayList( Arrays.asList( Circuit.getJunctions( sc ) ) );
-            if( !list.contains( j ) ) {
+            if ( !list.contains( j ) ) {
                 list.add( j );
             }
-            return (Junction[])list.toArray( new Junction[0] );
+            return (Junction[]) list.toArray( new Junction[0] );
         }
 
         private void apply( Branch[] sc, Vector2D dx, Junction junction, Circuit.DragMatch match ) {
-            if( match == null ) {
+            if ( match == null ) {
                 BranchSet bs = new BranchSet( circuit, sc );
                 bs.addJunction( junction );
                 bs.translate( dx );
@@ -226,8 +226,8 @@ public class CircuitInteractionModel {
         private Circuit.DragMatch junctionDragMatch;
 
         private CircuitComponent getSoleComponent( Junction j ) {
-            if( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent ) {
-                return (CircuitComponent)circuit.getAdjacentBranches( j )[0];
+            if ( circuit.getAdjacentBranches( j ).length == 1 && circuit.getAdjacentBranches( j )[0] instanceof CircuitComponent ) {
+                return (CircuitComponent) circuit.getAdjacentBranches( j )[0];
             }
             else {
                 return null;
@@ -239,7 +239,7 @@ public class CircuitInteractionModel {
         }
 
         private void drag( Junction junction, Point2D target ) {
-            if( getSoleComponent( junction ) != null ) {
+            if ( getSoleComponent( junction ) != null ) {
                 rotateComponent( junction, target );
             }
             else {
@@ -251,14 +251,14 @@ public class CircuitInteractionModel {
             Branch[] sc = circuit.getStrongConnections( junction );
             Junction[] j = Circuit.getJunctions( sc );
             ArrayList ju = new ArrayList( Arrays.asList( j ) );
-            if( !ju.contains( junction ) ) {
+            if ( !ju.contains( junction ) ) {
                 ju.add( junction );
             }
 
-            Junction[] jx = (Junction[])ju.toArray( new Junction[0] );
+            Junction[] jx = (Junction[]) ju.toArray( new Junction[0] );
             Vector2D dx = new Vector2D.Double( junction.getPosition(), target );
             junctionDragMatch = getCircuit().getBestDragMatch( jx, dx );
-            if( junctionDragMatch != null ) {
+            if ( junctionDragMatch != null ) {
                 dx = junctionDragMatch.getVector();
             }
 
@@ -280,7 +280,7 @@ public class CircuitInteractionModel {
         }
 
         public void dropJunction( Junction junction ) {
-            if( junctionDragMatch != null ) {
+            if ( junctionDragMatch != null ) {
                 getCircuit().collapseJunctions( junction, junctionDragMatch.getTarget() );
             }
             junctionDragMatch = null;

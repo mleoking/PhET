@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.DynamicPopupMenuHandler;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -10,9 +14,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -50,21 +51,21 @@ public abstract class ComponentNode extends BranchNode {
             public boolean dragging = false;
 
             public void mouseDragged( PInputEvent event ) {
-                if( event.isLeftMouseButton() ) {
+                if ( event.isLeftMouseButton() ) {
                     dragging = true;
                     circuitInteractionModel.translate( circuitComponent, event.getPositionRelativeTo( ComponentNode.this.getParent() ) );
                 }
             }
 
             public void mouseReleased( PInputEvent event ) {
-                if( event.isLeftMouseButton() && dragging ) {
+                if ( event.isLeftMouseButton() && dragging ) {
                     circuitInteractionModel.dropBranch( circuitComponent );
                     dragging = false;
                 }
             }
 
             public void mousePressed( PInputEvent event ) {
-                if( event.isControlDown() ) {
+                if ( event.isControlDown() ) {
                     circuitComponent.setSelected( !circuitComponent.isSelected() );
                 }
                 else {

@@ -1,12 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.image.BufferedImage;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid

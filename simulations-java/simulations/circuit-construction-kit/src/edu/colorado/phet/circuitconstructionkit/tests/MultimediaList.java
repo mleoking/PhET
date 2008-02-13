@@ -12,7 +12,7 @@ public class MultimediaList {
     public static void main( String[] args ) {
         File dir = new File( "C:\\PhET\\projects\\cck\\data\\images" );
         File[] children = dir.listFiles();
-        for( int i = 0; i < children.length; i++ ) {
+        for ( int i = 0; i < children.length; i++ ) {
             File child = children[i];
             System.out.println( child.getName() );
         }

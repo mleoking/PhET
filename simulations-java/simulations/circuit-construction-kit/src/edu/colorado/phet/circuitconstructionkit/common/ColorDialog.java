@@ -1,13 +1,14 @@
 package edu.colorado.phet.circuitconstructionkit.common;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * User: Sam Reid

@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.circuitconstructionkit.model;
 
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitAnalysisCCKAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolver;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.MNASolver;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * CCKModel
@@ -95,7 +95,7 @@ public class CCKModel {
     public void stepInTime( double dt ) {
 //        dt = 1.0;
         //todo we can no longer have DT dynamic because it destroys smoothness of the plots
-        if( getCircuit().isDynamic() || modelChanged ) {
+        if ( getCircuit().isDynamic() || modelChanged ) {
             getCircuit().stepInTime( dt );
             circuitSolver.apply( getCircuit() );
             modelChanged = false;
@@ -148,21 +148,21 @@ public class CCKModel {
     }
 
     public void setResistivityEnabled( boolean selected ) {
-        if( selected == resistivityManager.isEnabled() ) {
+        if ( selected == resistivityManager.isEnabled() ) {
             return;
         }
         else {
             resistivityManager.setEnabled( selected );
-            if( !selected ) {
+            if ( !selected ) {
                 setWireResistance( MIN_RESISTANCE );
             }
         }
     }
 
     private void setWireResistance( double defaultResistance ) {
-        for( int i = 0; i < getCircuit().numBranches(); i++ ) {
+        for ( int i = 0; i < getCircuit().numBranches(); i++ ) {
             Branch br = getCircuit().branchAt( i );
-            if( br.getClass().equals( Branch.class ) ) {
+            if ( br.getClass().equals( Branch.class ) ) {
                 br.setResistance( defaultResistance );
             }
         }
@@ -185,7 +185,7 @@ public class CCKModel {
     public Junction[] split( Junction junction ) {
         Junction[] newJunctions = circuit.split( junction );
         ArrayList branches = new ArrayList();
-        for( int i = 0; i < newJunctions.length; i++ ) {
+        for ( int i = 0; i < newJunctions.length; i++ ) {
             Junction j = newJunctions[i];
             branches.addAll( Arrays.asList( circuit.getAdjacentBranches( j ) ) );
         }

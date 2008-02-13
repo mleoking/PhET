@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -9,11 +15,6 @@ import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid

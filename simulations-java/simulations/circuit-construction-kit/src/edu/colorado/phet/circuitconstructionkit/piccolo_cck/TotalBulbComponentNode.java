@@ -1,5 +1,9 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -8,9 +12,6 @@ import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.BulbCompone
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike.FilamentNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
-
-import javax.swing.*;
-import java.awt.*;
 
 /*
 To alter the bulb size,

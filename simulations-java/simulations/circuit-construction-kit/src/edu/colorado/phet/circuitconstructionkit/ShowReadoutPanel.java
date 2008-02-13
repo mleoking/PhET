@@ -1,12 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.model.CircuitListenerAdapter;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -69,7 +70,7 @@ public class ShowReadoutPanel extends JPanel {
     }
 
     private void update() {
-        if( module.getCircuit().numBranches() == 0 ) {
+        if ( module.getCircuit().numBranches() == 0 ) {
             showValues.setEnabled( false );
             hideValues.setEnabled( false );
         }

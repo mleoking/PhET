@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -10,11 +16,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -80,11 +81,11 @@ public class SchematicOscillateNode extends ComponentNode {
         double sinDist = length - 2 * length * fracDistToStartSine;
 //        System.out.println( "sinDist = " + sinDist );
         double omega = 2 * Math.PI / ( sinDist );
-        for( double x = 0; x < length; x += dx ) {
+        for ( double x = 0; x < length; x += dx ) {
             double y = getY( x, length, fracDistToStartSine, omega );
             AbstractVector2D v = getVector( x, y );
             Point2D pt = v.getDestination( catPoint );
-            if( x > length * fracDistToStartSine && x < ( length - length * fracDistToStartSine ) ) {
+            if ( x > length * fracDistToStartSine && x < ( length - length * fracDistToStartSine ) ) {
                 path.lineTo( pt );
             }
             else {
@@ -93,7 +94,7 @@ public class SchematicOscillateNode extends ComponentNode {
         }
 
         Shape shape = path.getGeneralPath();
-        BasicStroke stroke = new BasicStroke( (float)resistorThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 );
+        BasicStroke stroke = new BasicStroke( (float) resistorThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 );
 
         Shape sha = stroke.createStrokedShape( shape );
         Area area = new Area( sha );

@@ -1,11 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
  * User: Sam Reid
@@ -37,14 +37,14 @@ public class ParticleSet implements ModelElement {
 
     public void addParticle( Electron e ) {
         particles.add( e );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.particleAdded( e );
         }
     }
 
     public void clear() {
-        Electron[] e = (Electron[])particles.toArray( new Electron[0] );
+        Electron[] e = (Electron[]) particles.toArray( new Electron[0] );
         particles.clear();
         notifyElectronsRemoved( e );
     }
@@ -66,13 +66,13 @@ public class ParticleSet implements ModelElement {
     private Electron[] getParticlesSlowly( Branch branch ) {
 //        new Exception("Debugging calls to getParticles.").printStackTrace( );
         ArrayList all = new ArrayList();
-        for( int i = 0; i < particles.size(); i++ ) {
-            Electron electron = (Electron)particles.get( i );
-            if( electron.getBranch() == branch ) {
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Electron electron = (Electron) particles.get( i );
+            if ( electron.getBranch() == branch ) {
                 all.add( electron );
             }
         }
-        return (Electron[])all.toArray( new Electron[0] );
+        return (Electron[]) all.toArray( new Electron[0] );
     }
 
 
@@ -87,15 +87,15 @@ public class ParticleSet implements ModelElement {
     }
 
     public void notifyElectronsRemoved( Electron[] p ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.particlesRemoved( p );
         }
     }
 
     public Electron[] removeParticles( Branch branch ) {
         Electron[] p = getParticles( branch );
-        for( int i = 0; i < p.length; i++ ) {
+        for ( int i = 0; i < p.length; i++ ) {
             Electron electron = p[i];
             particles.remove( electron );
             electron.delete();
@@ -110,7 +110,7 @@ public class ParticleSet implements ModelElement {
     }
 
     public Electron particleAt( int i ) {
-        return (Electron)particles.get( i );
+        return (Electron) particles.get( i );
     }
 
     public void stepInTime( double dt ) {
@@ -121,10 +121,10 @@ public class ParticleSet implements ModelElement {
     public double distanceToClosestElectron( Branch branch, double x ) {
         Electron[] e = getParticles( branch );
         double bestMatch = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < e.length; i++ ) {
+        for ( int i = 0; i < e.length; i++ ) {
             Electron electron = e[i];
             double dist = Math.abs( x - electron.getDistAlongWire() );
-            if( dist < bestMatch ) {
+            if ( dist < bestMatch ) {
                 bestMatch = dist;
             }
         }
@@ -135,14 +135,14 @@ public class ParticleSet implements ModelElement {
         Electron[] e = getParticles( myelectron.getBranch() );
         Electron upper = null;
         double dist = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < e.length; i++ ) {
+        for ( int i = 0; i < e.length; i++ ) {
             Electron electron = e[i];
-            if( electron != myelectron ) {
+            if ( electron != myelectron ) {
                 double yourDist = electron.getDistAlongWire();
                 double myDist = myelectron.getDistAlongWire();
-                if( yourDist > myDist ) {
+                if ( yourDist > myDist ) {
                     double distance = yourDist - myDist;
-                    if( distance < dist ) {
+                    if ( distance < dist ) {
                         dist = distance;
                         upper = electron;
                     }
@@ -156,14 +156,14 @@ public class ParticleSet implements ModelElement {
         Electron[] e = getParticles( myelectron.getBranch() );
         Electron lower = null;
         double dist = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < e.length; i++ ) {
+        for ( int i = 0; i < e.length; i++ ) {
             Electron electron = e[i];
-            if( electron != myelectron ) {
+            if ( electron != myelectron ) {
                 double yourDist = electron.getDistAlongWire();
                 double myDist = myelectron.getDistAlongWire();
-                if( yourDist < myDist ) {
+                if ( yourDist < myDist ) {
                     double distance = myDist - yourDist;
-                    if( distance < dist ) {
+                    if ( distance < dist ) {
                         dist = distance;
                         lower = electron;
                     }
@@ -194,7 +194,7 @@ public class ParticleSet implements ModelElement {
         }
 
         public Electron[] getParticles( Branch branch ) {
-            Electron[] e = (Electron[])arraytable.get( branch );
+            Electron[] e = (Electron[]) arraytable.get( branch );
             return e;
         }
 
@@ -202,19 +202,19 @@ public class ParticleSet implements ModelElement {
             this.time = ParticleSet.this.time;
             listtable.clear();
             arraytable.clear();
-            for( int i = 0; i < circuit.numBranches(); i++ ) {
+            for ( int i = 0; i < circuit.numBranches(); i++ ) {
                 listtable.put( circuit.branchAt( i ), new ArrayList() );
             }
-            for( int i = 0; i < particles.size(); i++ ) {
-                Electron particle = (Electron)particles.get( i );
+            for ( int i = 0; i < particles.size(); i++ ) {
+                Electron particle = (Electron) particles.get( i );
                 Branch branch = particle.getBranch();
-                ArrayList list = (ArrayList)listtable.get( branch );
+                ArrayList list = (ArrayList) listtable.get( branch );
                 list.add( particle );
             }
             Enumeration k = listtable.keys();
-            while( k.hasMoreElements() ) {
-                Branch branch = (Branch)k.nextElement();
-                ArrayList value = (ArrayList)listtable.get( branch );
+            while ( k.hasMoreElements() ) {
+                Branch branch = (Branch) k.nextElement();
+                ArrayList value = (ArrayList) listtable.get( branch );
                 arraytable.put( branch, value.toArray( new Electron[0] ) );
             }
         }

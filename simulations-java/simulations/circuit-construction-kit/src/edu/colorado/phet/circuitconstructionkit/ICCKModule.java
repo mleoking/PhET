@@ -1,15 +1,16 @@
 package edu.colorado.phet.circuitconstructionkit;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.ResistivityManager;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.piccolo_cck.VoltmeterModel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid

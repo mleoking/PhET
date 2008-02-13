@@ -1,14 +1,14 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
-import edu.colorado.phet.circuitconstructionkit.model.*;
-import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
-import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.circuitconstructionkit.model.*;
+import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
+import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 
 /**
  * User: Sam Reid
@@ -61,14 +61,14 @@ public class VoltmeterModel {
     }
 
     private void testUpdate() {
-        if( visible ) {
+        if ( visible ) {
             updateVoltage();
         }
     }
 
     private void updateVoltage() {
         double voltage = new PiccoloVoltageCalculation( circuit ).getVoltage( redLead.getTipShape(), blackLead.getTipShape() );
-        if( voltage != this.voltage ) {
+        if ( voltage != this.voltage ) {
             this.voltage = voltage;
             notifyListeners();
         }
@@ -98,7 +98,7 @@ public class VoltmeterModel {
 
     public void bodyDragged( double dx, double dy ) {
         unitModel.bodyDragged( dx, dy );
-        if( getLeadsShouldTranslateWithBody() ) {
+        if ( getLeadsShouldTranslateWithBody() ) {
             redLead.translate( dx, dy );
             blackLead.translate( dx, dy );
         }
@@ -107,7 +107,7 @@ public class VoltmeterModel {
     private boolean getLeadsShouldTranslateWithBody() {
         Connection a = redLead.getConnection();
         Connection b = blackLead.getConnection();
-        if( a == null && b == null ) {
+        if ( a == null && b == null ) {
             return true;
         }
         else {
@@ -128,8 +128,8 @@ public class VoltmeterModel {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.voltmeterChanged();
         }
     }
@@ -185,8 +185,8 @@ public class VoltmeterModel {
         }
 
         public void notifyListeners() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.leadModelChanged();
             }
         }
@@ -215,8 +215,8 @@ public class VoltmeterModel {
         }
 
         public void notifyListeners() {
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.unitModelChanged();
             }
         }

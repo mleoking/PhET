@@ -1,5 +1,7 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.lifelike;
 
+import java.awt.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -13,8 +15,6 @@ import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -61,7 +61,7 @@ public class WireNode extends BranchNode {
             }
 
             public void mousePressed( PInputEvent event ) {
-                if( event.isControlDown() ) {
+                if ( event.isControlDown() ) {
                     wire.setSelected( !wire.isSelected() );
                 }
                 else {
@@ -86,7 +86,7 @@ public class WireNode extends BranchNode {
     private void update() {
         wireHighlightPPath.setVisible( wire.isSelected() );
 
-        Shape highlightShape = new BasicStroke( (float)highlightStrokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
+        Shape highlightShape = new BasicStroke( (float) highlightStrokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
         wireHighlightPPath.setPathTo( highlightShape );
 
         wirePPath.setPathTo( wire.getShape() );

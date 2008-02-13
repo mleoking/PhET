@@ -1,5 +1,11 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck.schematic;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.common.LineSegment;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -12,11 +18,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -87,13 +88,13 @@ public class SchematicResistorNode extends ComponentNode {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( catPoint );
         path.lineToRelative( getVector( quarterWavelength, zigHeight ) );
-        for( int i = 0; i < numPeaks - 1; i++ ) {
+        for ( int i = 0; i < numPeaks - 1; i++ ) {
             path.lineToRelative( getVector( halfWavelength, -2 * zigHeight ) );
             path.lineToRelative( getVector( halfWavelength, 2 * zigHeight ) );
         }
         path.lineToRelative( getVector( quarterWavelength, -zigHeight ) );
         Shape shape = path.getGeneralPath();
-        BasicStroke stroke = new BasicStroke( (float)resistorThickness );
+        BasicStroke stroke = new BasicStroke( (float) resistorThickness );
 
         Shape sha = stroke.createStrokedShape( shape );
         Area area = new Area( sha );

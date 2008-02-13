@@ -1,6 +1,13 @@
 package edu.colorado.phet.circuitconstructionkit.model.analysis;
 
 import Jama.Matrix;
+
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
@@ -10,12 +17,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.phetgraphics.CompositeCircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Hashtable;
 
 /**
  * User: Sam Reid
@@ -27,8 +28,8 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 
     public synchronized void apply( final Circuit circuit ) {
         ArrayList strongComponents = getStrongComponents( circuit );
-        for( int i = 0; i < strongComponents.size(); i++ ) {
-            Circuit subCircuit = createSubCircuit( (Branch[])strongComponents.get( i ) );
+        for ( int i = 0; i < strongComponents.size(); i++ ) {
+            Circuit subCircuit = createSubCircuit( (Branch[]) strongComponents.get( i ) );
             solve( subCircuit );
         }
         fireCircuitSolved();
@@ -37,7 +38,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     private Circuit createSubCircuit( Branch[] branchs ) {
         Circuit subCircuit = new Circuit();
         subCircuit.setAllowUserEdits( false );
-        for( int j = 0; j < branchs.length; j++ ) {
+        for ( int j = 0; j < branchs.length; j++ ) {
             Branch branch = branchs[j];
             subCircuit.addBranch( branch );
         }
@@ -46,9 +47,9 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 
     private ArrayList getStrongComponents( Circuit circuit ) {
         ArrayList strongComponents = new ArrayList();
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
-            if( isAssigned( strongComponents, branch ) ) {
+            if ( isAssigned( strongComponents, branch ) ) {
                 //ignore
             }
             else {
@@ -56,7 +57,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
                 strongComponents.add( sc );
             }
         }
-        if( debugging ) {
+        if ( debugging ) {
             debugStrongComponents( strongComponents );
         }
         return strongComponents;
@@ -64,8 +65,8 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 
     private void debugStrongComponents( ArrayList strongComponents ) {
         System.out.println( "strongComponents.size() = " + strongComponents.size() );
-        for( int i = 0; i < strongComponents.size(); i++ ) {
-            Branch[] branchs = (Branch[])strongComponents.get( i );
+        for ( int i = 0; i < strongComponents.size(); i++ ) {
+            Branch[] branchs = (Branch[]) strongComponents.get( i );
             System.out.println( "i=" + i + ", Arrays.asList( branchs ) = " + Arrays.asList( branchs ) );
         }
     }
@@ -74,9 +75,9 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
         EquivalentCircuit equivalentCircuit = getEquivalentCircuit( circuit );
         applyMNA( equivalentCircuit.getCircuit() );
         Enumeration keys = equivalentCircuit.branchMap.keys();
-        while( keys.hasMoreElements() ) {
-            Branch branch = (Branch)keys.nextElement();
-            Branch value = (Branch)equivalentCircuit.branchMap.get( branch );
+        while ( keys.hasMoreElements() ) {
+            Branch branch = (Branch) keys.nextElement();
+            Branch value = (Branch) equivalentCircuit.branchMap.get( branch );
             branch.setKirkhoffEnabled( false );
             branch.setCurrent( value.getCurrent() );
             branch.setVoltageDrop( value.getVoltageDrop() );
@@ -85,11 +86,11 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     }
 
     private boolean isAssigned( ArrayList strongComponents, Branch branch ) {
-        for( int i = 0; i < strongComponents.size(); i++ ) {
-            Branch[] br = (Branch[])strongComponents.get( i );
-            for( int j = 0; j < br.length; j++ ) {
+        for ( int i = 0; i < strongComponents.size(); i++ ) {
+            Branch[] br = (Branch[]) strongComponents.get( i );
+            for ( int j = 0; j < br.length; j++ ) {
                 Branch branch1 = br[j];
-                if( branch1 == branch ) {
+                if ( branch1 == branch ) {
                     return true;
                 }
             }
@@ -138,14 +139,14 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
         EquivalentCircuit equivalentCircuit = new EquivalentCircuit();
 
         Circuit c = new Circuit( new CompositeCircuitChangeListener() );
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
-            if( branch instanceof Battery ) {
-                Battery batt = (Battery)branch;
+            if ( branch instanceof Battery ) {
+                Battery batt = (Battery) branch;
                 Battery idealBattery = new Battery( batt.getVoltageDrop(), 0 );
                 equivalentCircuit.branchMap.put( branch, idealBattery );
                 double internalResistance = CCKModel.MIN_RESISTANCE;
-                if( batt.isInternalResistanceOn() ) {
+                if ( batt.isInternalResistanceOn() ) {
                     internalResistance = batt.getInteralResistance();
                 }
                 InternalResistor fakeResistor = new InternalResistor( internalResistance );
@@ -159,31 +160,31 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
                 c.addBranch( fakeResistor );
             }
         }
-        while( c.numJunctions() > 0 ) {
+        while ( c.numJunctions() > 0 ) {
             c.removeJunction( c.junctionAt( 0 ) );
         }
-        for( int i = 0; i < circuit.numJunctions(); i++ ) {
+        for ( int i = 0; i < circuit.numJunctions(); i++ ) {
             Junction j = circuit.junctionAt( i );
             Branch[] neighbors = circuit.getAdjacentBranches( j );
             Junction jBar = new Junction( 0, 0 );
             //            System.out.println( "Adding junction jbar=" + jBar );
             c.addJunction( jBar );
-            for( int k = 0; k < neighbors.length; k++ ) {
+            for ( int k = 0; k < neighbors.length; k++ ) {
                 Branch neighbor = neighbors[k];
-                Branch neighborBar = (Branch)equivalentCircuit.branchMap.get( neighbor );
-                if( neighbor.getStartJunction() == j ) {
+                Branch neighborBar = (Branch) equivalentCircuit.branchMap.get( neighbor );
+                if ( neighbor.getStartJunction() == j ) {
                     neighborBar.setStartJunction( jBar );
                 }
-                if( neighbor.getEndJunction() == j ) {
+                if ( neighbor.getEndJunction() == j ) {
                     neighborBar.setEndJunction( jBar );
                 }
             }
         }
         //all wired up, now fix the batteries.
         Enumeration en = equivalentCircuit.internalMap.keys();
-        while( en.hasMoreElements() ) {
-            Battery idealBatt = (Battery)en.nextElement();
-            InternalResistor internalResistor = (InternalResistor)equivalentCircuit.internalMap.get( idealBatt );
+        while ( en.hasMoreElements() ) {
+            Battery idealBatt = (Battery) en.nextElement();
+            InternalResistor internalResistor = (InternalResistor) equivalentCircuit.internalMap.get( idealBatt );
             Junction internal = new Junction( 0, 0 );
             Junction start = idealBatt.getStartJunction();
             internalResistor.setStartJunction( start );
@@ -209,7 +210,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 //            }
 //        }
 
-        if( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
+        if ( getBatteries( circuit ).length > 0 && circuit.numJunctions() > 2 ) {
             //1. choose a ground.  
             // Vertex 0 shall be the ground.
 
@@ -241,20 +242,20 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
 
     private void applySolutionToCircuit( Circuit circuit, Matrix x ) {
         int n = circuit.numJunctions() - 1;
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             int startIndex = circuit.indexOf( branch.getStartJunction() );
             int endIndex = circuit.indexOf( branch.getEndJunction() );
             double startVolts = 0;
-            if( startIndex > 0 ) {
+            if ( startIndex > 0 ) {
                 startVolts = x.get( startIndex - 1, 0 );
             }
             double endVolts = 0;
-            if( endIndex > 0 ) {
+            if ( endIndex > 0 ) {
                 endVolts = x.get( endIndex - 1, 0 );
             }
             double dv = endVolts - startVolts;
-            if( branch instanceof Battery ) {
+            if ( branch instanceof Battery ) {
             }
 //            else if( branch instanceof Capacitor ) {
 //                branch.setKirkhoffEnabled( false );
@@ -270,7 +271,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
             }
         }
         Battery[] batt = getBatteries( circuit );
-        for( int i = 0; i < batt.length; i++ ) {
+        for ( int i = 0; i < batt.length; i++ ) {
             Battery battery = batt[i];
             int index = i + n;
             double current = x.get( index, 0 );
@@ -279,11 +280,11 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
     }
 
     private void clear( Circuit circuit ) {
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch branch = circuit.branchAt( i );
             branch.setKirkhoffEnabled( false );
             branch.setCurrent( 0 );
-            if( !( branch instanceof Battery ) ) {
+            if ( !( branch instanceof Battery ) ) {
                 branch.setVoltageDrop( 0.0 );
             }
             branch.setKirkhoffEnabled( true );
@@ -295,7 +296,7 @@ public class ModifiedNodalAnalysis_Orig extends CircuitSolver {
         int n = circuit.numJunctions() - 1;
         int m = getBatteries( circuit ).length;
         Matrix z = new Matrix( m + n, 1 );
-        for( int i = 0; i < batt.length; i++ ) {
+        for ( int i = 0; i < batt.length; i++ ) {
             z.set( i + n, 0, batt[i].getVoltageDrop() );
         }
         return z;
@@ -321,8 +322,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
         //        b.print( 5, 5 );
         Matrix a = new Matrix( m + n, m + n );
 
-        for( int row = 0; row < b.getRowDimension(); row++ ) {
-            for( int col = n; col < a.getColumnDimension(); col++ ) {
+        for ( int row = 0; row < b.getRowDimension(); row++ ) {
+            for ( int col = n; col < a.getColumnDimension(); col++ ) {
                 //                System.out.println( "row = " + row + ", col=" + col );
                 double value = b.get( row, col - n );
                 a.set( row, col, value );
@@ -331,8 +332,8 @@ the D matrix is mxm and is zero if only independent sources are considered.
         a = a.plus( a.transpose() );//b + c
 
         //now add g
-        for( int row = 0; row < g.getRowDimension(); row++ ) {
-            for( int col = 0; col < g.getColumnDimension(); col++ ) {
+        for ( int row = 0; row < g.getRowDimension(); row++ ) {
+            for ( int col = 0; col < g.getColumnDimension(); col++ ) {
                 a.set( row, col, g.get( row, col ) );
             }
         }
@@ -356,14 +357,14 @@ the D matrix is mxm and is zero if only independent sources are considered.
         int m = batteries.length;
         int n = circuit.numJunctions() - 1;
         Matrix b = new Matrix( n, m );
-        for( int i = 0; i < m; i++ ) {
+        for ( int i = 0; i < m; i++ ) {
             Battery battery = batteries[i];
             int startIndex = circuit.indexOf( battery.getStartJunction() );
             int endIndex = circuit.indexOf( battery.getEndJunction() );
-            if( startIndex != 0 ) {
+            if ( startIndex != 0 ) {
                 b.set( startIndex - 1, i, 1 );
             }
-            if( endIndex != 0 ) {
+            if ( endIndex != 0 ) {
                 b.set( endIndex - 1, i, -1 );//may have the sign wrong here
             }
         }
@@ -380,12 +381,12 @@ the D matrix is mxm and is zero if only independent sources are considered.
     private Matrix generateG( Circuit circuit ) {
         int n = circuit.numJunctions() - 1;//0 is the reference voltage.
         Matrix g = new Matrix( n, n );
-        for( int i = 1; i < circuit.numJunctions(); i++ ) {
+        for ( int i = 1; i < circuit.numJunctions(); i++ ) {
             Junction j = circuit.junctionAt( i );
             Branch[] b = circuit.getAdjacentBranches( j );
             double value = 0;
-            for( int k = 0; k < b.length; k++ ) {
-                if( !( b[k] instanceof Battery ) ) {
+            for ( int k = 0; k < b.length; k++ ) {
+                if ( !( b[k] instanceof Battery ) ) {
                     double term = 1.0 / b[k].getResistance();
 //                    if( i == 1 ) {
 //                        System.out.println( "term = " + term );
@@ -395,20 +396,20 @@ the D matrix is mxm and is zero if only independent sources are considered.
             }
             g.set( i - 1, i - 1, value );
         }
-        for( int i = 0; i < circuit.numBranches(); i++ ) {
+        for ( int i = 0; i < circuit.numBranches(); i++ ) {
             Branch b = circuit.branchAt( i );
-            if( !( b instanceof Battery ) ) {
+            if ( !( b instanceof Battery ) ) {
                 Junction start = b.getStartJunction();
                 Junction end = b.getEndJunction();
                 int startIndex = circuit.indexOf( start );
                 int endIndex = circuit.indexOf( end );
-                if( startIndex == -1 ) {
+                if ( startIndex == -1 ) {
                     throw new RuntimeException( "No such junction: " + start );
                 }
-                if( endIndex == -1 ) {
+                if ( endIndex == -1 ) {
                     throw new RuntimeException( "No such junction: " + end );
                 }
-                if( startIndex != 0 && endIndex != 0 ) {
+                if ( startIndex != 0 && endIndex != 0 ) {
                     g.set( startIndex - 1, endIndex - 1, -1.0 / b.getResistance() );
                     g.set( endIndex - 1, startIndex - 1, -1.0 / b.getResistance() );
                 }
@@ -422,12 +423,12 @@ the D matrix is mxm and is zero if only independent sources are considered.
     private Battery[] getBatteries( Circuit circuit ) {
         ArrayList all = new ArrayList();
         Branch[] branches = circuit.getBranches();
-        for( int i = 0; i < branches.length; i++ ) {
+        for ( int i = 0; i < branches.length; i++ ) {
             Branch branch = branches[i];
-            if( branch instanceof Battery ) {
+            if ( branch instanceof Battery ) {
                 all.add( branch );
             }
         }
-        return (Battery[])all.toArray( new Battery[0] );
+        return (Battery[]) all.toArray( new Battery[0] );
     }
 }

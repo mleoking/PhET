@@ -1,12 +1,12 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
-import edu.umd.cs.piccolox.nodes.PComposite;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.Arrays;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Ported from TargetReadoutTool
@@ -91,7 +91,7 @@ public class TargetReadoutToolNode extends PComposite {
     }
 
     public void setText( String[] text ) {
-        if( !Arrays.asList( text ).equals( Arrays.asList( this.text ) ) ) {
+        if ( !Arrays.asList( text ).equals( Arrays.asList( this.text ) ) ) {
             this.text = text;
             update();
         }

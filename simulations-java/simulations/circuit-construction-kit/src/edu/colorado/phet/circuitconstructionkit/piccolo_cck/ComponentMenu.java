@@ -1,22 +1,23 @@
 package edu.colorado.phet.circuitconstructionkit.piccolo_cck;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.*;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.ICCKModule;
 import edu.colorado.phet.circuitconstructionkit.ResetDynamicsMenuItem;
 import edu.colorado.phet.circuitconstructionkit.common.CCKStrings;
 import edu.colorado.phet.circuitconstructionkit.common.JPopupMenuRepaintWorkaround;
 import edu.colorado.phet.circuitconstructionkit.grabbag.GrabBagResistor;
-import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.*;
-
-import javax.swing.*;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     protected ICCKModule module;
@@ -53,8 +54,8 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
                 module.setReadoutVisible( branch, showValue.isSelected() );
             }
         } );
-        if( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
-            if( module.getParameters().allowShowReadouts() ) {
+        if ( branch instanceof CircuitComponent && !( branch instanceof SeriesAmmeter ) && !( branch instanceof Switch ) ) {
+            if ( module.getParameters().allowShowReadouts() ) {
                 menu.add( showValue );
             }
         }
@@ -69,7 +70,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
             }
         } );
         int num = menu.getComponentCount();
-        if( num > 0 ) {
+        if ( num > 0 ) {
             menu.addSeparator();
         }
         menu.add( remove );
@@ -95,10 +96,10 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
     }
 
     public void setVisibilityRequested( boolean b ) {
-        if( branch instanceof GrabBagResistor ) {
+        if ( branch instanceof GrabBagResistor ) {
             return;
         }
-        if( setVisibleItem.isSelected() != b ) {
+        if ( setVisibleItem.isSelected() != b ) {
             setVisibleItem.doClick( 20 );
         }
     }
@@ -110,7 +111,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         public ResistorMenu( Resistor res, ICCKModule module ) {
             super( res, module );
             this.res = res;
-            if( res instanceof GrabBagResistor ) {//todo this should have a separate class, not reuse ResistorMenu
+            if ( res instanceof GrabBagResistor ) {//todo this should have a separate class, not reuse ResistorMenu
                 addRemoveButton( getMenu(), module, res );
             }
             else {
@@ -129,7 +130,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
         public void delete() {
             super.delete();
-            if( editor != null ) {
+            if ( editor != null ) {
                 editor.delete();
             }
         }
@@ -166,7 +167,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
         public void delete() {
             super.delete();
-            if( editor != null ) {
+            if ( editor != null ) {
                 editor.delete();
             }
         }
@@ -199,7 +200,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
 
         public void delete() {
             super.delete();
-            if( editor != null ) {
+            if ( editor != null ) {
                 editor.delete();
             }
         }
@@ -246,13 +247,13 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         private void update() {
-            if( super.module.isLifelike() ) {
+            if ( super.module.isLifelike() ) {
                 flip.setEnabled( true );
             }
             else {
                 flip.setEnabled( false );
             }
-            if( bulb.isConnectAtLeft() ) {
+            if ( bulb.isConnectAtLeft() ) {
                 flip.setText( CCKResources.getString( "CircuitComponentInteractiveGraphic.RightConnectMenuItem" ) );
             }
             else {
@@ -370,7 +371,7 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         public void setVisibilityRequested( boolean b ) {
-            if( getSetVisibleItem().isSelected() != b ) {
+            if ( getSetVisibleItem().isSelected() != b ) {
                 getSetVisibleItem().doClick( 20 );
             }
         }
@@ -394,13 +395,13 @@ public abstract class ComponentMenu extends JPopupMenuRepaintWorkaround {
         }
 
         protected ComponentEditor createVoltageEditor( Battery branch ) {
-            return new ComponentEditor.ACVoltageSourceEditor( getModule(), (ACVoltageSource)branch, getModule().getSimulationPanel(), getModule().getCircuit() );
+            return new ComponentEditor.ACVoltageSourceEditor( getModule(), (ACVoltageSource) branch, getModule().getSimulationPanel(), getModule().getCircuit() );
         }
 
         protected void addOptionalItemsAfterEditor() {
             super.addOptionalItemsAfterEditor();
-            JMenuItem edit = new JMenuItem( CCKStrings.getString( "change-frequency"));
-            final ComponentEditor editor = createFrequencyEditor( (ACVoltageSource)getBattery() );
+            JMenuItem edit = new JMenuItem( CCKStrings.getString( "change-frequency" ) );
+            final ComponentEditor editor = createFrequencyEditor( (ACVoltageSource) getBattery() );
             edit.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     editor.setVisible( true );
