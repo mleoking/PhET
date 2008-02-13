@@ -27,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.PhetApplication;
  */
 
 public class CircuitConstructionKitDCApplication extends PhetApplication {
-    //version is generated automatically (with ant)
     public static final String localizedStringsPath = "circuitconstructionkit/localization/cck-strings";
     private CCKPiccoloModule cckPiccoloModule;
     public static final String AC_OPTION = "-dynamics";
@@ -94,8 +93,7 @@ public class CircuitConstructionKitDCApplication extends PhetApplication {
             public void run() {
                 new CCKPhetLookAndFeel().initLookAndFeel();
                 try {
-                    CircuitConstructionKitDCApplication cckApplication = new CircuitConstructionKitDCApplication( args );
-                    cckApplication.startApplication();
+                    new CircuitConstructionKitDCApplication( args ).startApplication();
                 }
                 catch( IOException e ) {
                     e.printStackTrace();
@@ -103,6 +101,4 @@ public class CircuitConstructionKitDCApplication extends PhetApplication {
             }
         } );
     }
-
-
 }
