@@ -16,22 +16,23 @@ public class Climate {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final double TEMPERATURE_MODERN = 20; // temperature at sea level in modern times (degrees C)
+    private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
+    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // elevation where snowfall is 50% of max in modern times (meters)
     
-    private static final double ACCUMULATION_MIN = 0.0; // minimum accumulation (meters/year)
-    private static final double ACCUMULATION_MAX = 2.0; // maximum accumulation (meters/year)
-    
-    private static final double ABLATION_MODERN = 45.0; // ablation at sea level in modern times (meters/year)
-    private static final double ABLATION_VERSUS_TEMPERATURE_OFFSET = 1.3; // ablation per degree C offset from TEMPERATURE_MODERN_TIMES (meters/year)
-    private static final double ABLATION_VERSUS_ELEVATION = -0.011; // ablation per meter of elevation increase (meters/year/meter)
-    private static final double ABLATION_MIN = 0.0; // minimum ablation (meters/year)
+    private static final double SNOWFALL_MAX = 2.0; // maximum accumulation (meters/year)
+    private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the snow curve transition is (meters)
+     
+    private static final double ABLATION_SCALE_FACTOR = 30;
+    private static final double ABLATION_TEMPERATURE_SCALE_FACTOR = 200;
+    private static final double ABLATION_Z0 = 1300; // min elevation used to scale ablation (meters)
+    private static final double ABLATION_Z1 = 4200; // max elevation used to scale ablation (meters)
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
     private double _temperature; // temperature at sea level (degrees C)
-    private double _snowfall; // accumulation per meter above sea level (meters/year/meter)
+    private double _snowfallReferenceElevation; // the reference elevation where snowfall is 50% of max (meters)
     private ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
@@ -42,11 +43,11 @@ public class Climate {
      * Constructor.
      * 
      * @param temperature temperature at sea level (degrees C)
-     * @param snowfall accumulation per meter above sea level (meters/year/meter)
+     * @param snowfallReferenceElevation the elevation where snowfall is 50% of max (meters)
      */
-    public Climate( double temperture, double snowfall ) {
-        _temperature = temperture;
-        _snowfall = snowfall;
+    public Climate( double temperature, double snowfallReferenceElevation ) {
+        _temperature = temperature;
+        _snowfallReferenceElevation = snowfallReferenceElevation;
         _listeners = new ArrayList();
     }
     
@@ -58,6 +59,24 @@ public class Climate {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
+    
+    /**
+     * Gets the temperature at sea level in modern times.
+     * 
+     * @return degrees C
+     */
+    public static double getModernTemperature() {
+        return MODERN_TEMPERATURE;
+    }
+    
+    /**
+     * Gets the snowfall reference elevation in modern times.
+     * 
+     * @return meters
+     */
+    public static double getModernSnowfallReferenceElevation() {
+        return MODERN_SNOWFALL_REFERENCE_ELEVATION;
+    }
     
     /**
      * Sets the temperature at sea level.
@@ -82,37 +101,25 @@ public class Climate {
     }
     
     /**
-     * Sets the snowfall, the accumulation per meter above sea level.
+     * Sets the elevation where snowfall is 50% of max.
      * 
-     * @param snowfall meters/year/meter
+     * @param snowfallReferenceElevation meters
      */
-    public void setSnowfall( double snowfall ) {
-        if ( snowfall < 0 ) {
-            throw new IllegalArgumentException( "snowfall must be >= 0: " + snowfall );
-        }
-        if ( snowfall != _snowfall ) {
-            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
-            _snowfall = snowfall;
+    public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
+        if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
+            System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
+            _snowfallReferenceElevation = snowfallReferenceElevation;
             notifySnowfallChanged();
         }
     }
     
     /**
-     * Gets the snowfall, the accumulation per meter above sea level.
+     * Gets the elevation where snowfall is 50% of max.
      * 
-     * @return meters/year/meter
+     * @return meters
      */
-    public double getSnowfall() {
-        return _snowfall;
-    }
-    
-    /**
-     * Gets the temperature at sea level in modern times.
-     * 
-     * @return degrees C
-     */
-    public static double getModernTemperature() {
-        return TEMPERATURE_MODERN;
+    public double getSnowfallReferenceElevation() {
+        return _snowfallReferenceElevation;
     }
     
     /**
@@ -122,6 +129,7 @@ public class Climate {
      * @return degrees C
      */
     public double getTemperature( double elevation ) {
+        assert( elevation >= 0 );
         return _temperature - ( 6.5 * elevation / 1E3 );
     }
     
@@ -132,13 +140,9 @@ public class Climate {
      * @return meters/year
      */
     public double getAccumulation( double elevation ) {
-        double accumulation = elevation * _snowfall;
-        if ( accumulation > ACCUMULATION_MAX ) {
-            accumulation = ACCUMULATION_MAX;
-        }
-        else if ( accumulation < ACCUMULATION_MIN ) {
-            accumulation = ACCUMULATION_MIN;
-        }
+        assert( elevation >= 0 );
+        double accumulation = SNOWFALL_MAX * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        assert( accumulation >= 0 );
         return accumulation;
     }
 
@@ -149,11 +153,18 @@ public class Climate {
      * @return meters/year
      */
     public double getAblation( double elevation ) {
-        double temperatureOffsetFromModernTimes = _temperature - TEMPERATURE_MODERN;
-        double ablation = ABLATION_MODERN + ( ABLATION_VERSUS_TEMPERATURE_OFFSET * temperatureOffsetFromModernTimes ) + ( ABLATION_VERSUS_ELEVATION * elevation ) ;
-        if ( ablation < ABLATION_MIN ) {
-            ablation = ABLATION_MIN;
+        assert( elevation >= 0 );
+        double temperatureOffset = _temperature - MODERN_TEMPERATURE;
+        double ablationThresholdElevation = ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) + ABLATION_Z1;
+        double ablation = 0;
+        if ( elevation <= ablationThresholdElevation ) {
+            double term1 = ( elevation - ABLATION_Z0 - ( temperatureOffset * ABLATION_TEMPERATURE_SCALE_FACTOR ) );
+            double term2 = ( ABLATION_Z1 - ABLATION_Z0 ) * 2 / Math.PI;
+            double tmp = ABLATION_SCALE_FACTOR * ( 1. - Math.sin( term1 / term2 ) );  
+            double offset = ( Math.atan( temperatureOffset / 2.5 ) / 3 ) + 0.5;
+            ablation = tmp + offset;
         }
+        assert( ablation >= 0 );
         return ablation;
     }
     
@@ -168,17 +179,8 @@ public class Climate {
      * @return meters/year
      */
     public double getGlacialBudget( double elevation ) {
+        assert( elevation >= 0 );
         return getAccumulation( elevation ) - getAblation( elevation );
-    }
-    
-    /**
-     * Gets the mass balance, which is synonymous with glacial budget.
-     * 
-     * @param elevation meters
-     * @return meters/year
-     */
-    public double getMassBalance( double elevation ) {
-        return getGlacialBudget( elevation );
     }
     
     //----------------------------------------------------------------------------

@@ -138,12 +138,12 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public double getSnowfall() {
-        return _snowfallControl.getValue();
+        return _snowfallControl.getMaximum() - _snowfallControl.getValue(); // value is inverted!
     }
     
     public void setSnowfall( double snowfall ) {
         if ( snowfall != getSnowfall() ) {
-            _snowfallControl.setValue( snowfall );
+            _snowfallControl.setValue( _snowfallControl.getMaximum() - snowfall ); // value is inverted!
         }
     }
     

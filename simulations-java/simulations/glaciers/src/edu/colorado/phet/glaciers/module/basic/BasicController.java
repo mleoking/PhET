@@ -41,7 +41,7 @@ public class BasicController {
         snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
             public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setSnowfall( snowfall );
+                _model.getClimate().setSnowfallReferenceElevation( snowfall );
             }
 
             public void temperatureChanged( double temperature ) {
@@ -53,7 +53,7 @@ public class BasicController {
         _model.getClimate().addClimateListener( new ClimateListener() {
 
             public void snowfallChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallReferenceElevation() );
             }
 
             public void temperatureChanged() {
@@ -63,7 +63,7 @@ public class BasicController {
         
         // Initialization
         _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallReferenceElevation() );
         snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
     }
 

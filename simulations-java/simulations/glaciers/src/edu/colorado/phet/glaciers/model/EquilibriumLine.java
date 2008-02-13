@@ -20,8 +20,9 @@ public class EquilibriumLine {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final double START_DX = 1000; // initial dx when searching for position (meters)
+    private static final double MIN_DX = 1; // small dx when searching for position (meters)
     private static final double ALMOST_ZERO_GLACIAL_BUDGET = 1E-5; // anything <= this value is considered zero
-    private static final double SEARCH_DX = 1000; // meters
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -136,17 +137,25 @@ public class EquilibriumLine {
     /*
      * Updates the position by searching for the x coordinate where glacial budget = 0.
      * This uses a "divide and conquer" algorithm, gradually decreasing the sign and 
-     * magnitude of dx until we find a glacial budget that is close enough to 0.
+     * magnitude of dx until we find a glacial budget that is close enough to 0,
+     * or until dx gets sufficiently small.
      */
     private void updatePosition() {
+
         double x = 0;
         double elevation = _valley.getElevation( x );
         double glacialBudget = _climate.getGlacialBudget( elevation );
         double newGlacialBudget = 0;
-        double dx = SEARCH_DX;
-        while ( Math.abs( glacialBudget ) > ALMOST_ZERO_GLACIAL_BUDGET ) {
+        double dx = START_DX;
+        
+        while ( Math.abs( glacialBudget ) > ALMOST_ZERO_GLACIAL_BUDGET && Math.abs( dx ) >= MIN_DX ) {
             
             x += dx;
+            if ( x < -1E20 || x > 1E20 ) {
+                System.err.println( "EquilibriumLine.updatePosition, x is way outside our range of interest, x=: " + x );
+                break;
+            }
+            
             elevation = _valley.getElevation( x );
             newGlacialBudget = _climate.getGlacialBudget( elevation );
             
@@ -155,12 +164,8 @@ public class EquilibriumLine {
                 dx = -( dx / 2. );
             }
             glacialBudget = newGlacialBudget;
-            
-            if ( x < -1E20 || x > 1E20 ) {
-                System.err.println( "EquilibriumLine.updatePosition, x is way outside our range of interest, x=: " + x );
-                break;
-            }
         }
+        
         setPosition( x, elevation );
     }
     

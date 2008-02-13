@@ -28,7 +28,6 @@ IMPLEMENTATION ISSUES:
 
 HIGH PRIORITY:
 - check new climate model doc into SVN
-- implement new climate model received on 2/8
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity
 - optimization of ice velocity
@@ -78,6 +77,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/13/08 - implement new climate model, as received from Archie on 2/11
 2/11/08 - change min range of snowfall control from "none" to "little"
 ******** 0.00.04 (19749)
 2/11/08 - simplify GlacierListener interface

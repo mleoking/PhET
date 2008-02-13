@@ -31,7 +31,7 @@ import edu.colorado.phet.glaciers.model.Climate;
     public static final double VALLEY_X_MAX = 80000; // meters
     
     // Climate
-    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 1E-4, 1E-3, 5E-4 ); // accumulation per meter above sea level (meters/year/meter)
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 7E3, Climate.getModernSnowfallReferenceElevation() ); // elevation where snowfall is at 50% of max
     public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, Climate.getModernTemperature() );  // temperature at sea level (degrees C)
     
     //XXX ???
