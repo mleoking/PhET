@@ -38,7 +38,7 @@ public class Valley {
      * @param x position (meters)
      * @return elevation (meters)
      */
-    public double getElevation( double x ) {
+    public double getElevation( final double x ) {
         return 4e3 - ( x / 30. ) + Math.exp( -( x - 5e3 ) / 1e3 );
     }
     
@@ -49,7 +49,7 @@ public class Valley {
      * @param x position (meters)
      * @return width (meters)
      */
-    public double getWidth( double x ) {
+    public double getWidth( final double x ) {
         final double term = ( x - 5e3 ) / 2e3;
         return 1e3 + ( 5e3 * Math.exp( -( term * term ) ) );
     }
@@ -61,7 +61,7 @@ public class Valley {
      * @param x2 meters
      * @return radians
      */
-    public double getDirection( double x1, double x2 ) {
+    public double getDirection( final double x1, final double x2 ) {
         final double m = getSlope( x1, x2 );
         return Math.atan( m );
     }

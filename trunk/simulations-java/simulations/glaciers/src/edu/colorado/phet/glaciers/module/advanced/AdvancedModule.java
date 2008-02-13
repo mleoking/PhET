@@ -4,8 +4,6 @@ package edu.colorado.phet.glaciers.module.advanced;
 
 import java.awt.Frame;
 
-import javax.swing.JPanel;
-
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -40,7 +38,7 @@ public class AdvancedModule extends PiccoloModule {
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
-        Climate climate = new Climate( AdvancedDefaults.TEMPERATURE_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_RANGE.getDefault());
+        Climate climate = new Climate( AdvancedDefaults.TEMPERATURE_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_RANGE.getDefault() );
         EquilibriumLine equilibriumLine = new EquilibriumLine( valley, climate );
         Glacier glacier = new Glacier( valley, climate, equilibriumLine );
         _model = new AdvancedModel( clock, glacier );
