@@ -1,6 +1,7 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -20,6 +21,7 @@ public class SpreadsheetPanel extends JPanel {
         data.addListener( new TimesheetData.Listener() {
             public void timeEntryAdded( TimesheetDataEntry e ) {
                 add( new EntryPanel( data, e ), gridBagConstraints );
+                notifyListener();
             }
 
             public void timeChanged() {
@@ -35,5 +37,21 @@ public class SpreadsheetPanel extends JPanel {
                 }
             }
         } );
+    }
+
+    public static interface Listener {
+        void entryPanelAdded();
+    }
+
+    private ArrayList listeners = new ArrayList();
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void notifyListener() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).entryPanelAdded();
+        }
     }
 }

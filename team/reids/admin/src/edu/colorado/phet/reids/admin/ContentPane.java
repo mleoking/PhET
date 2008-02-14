@@ -1,6 +1,8 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
@@ -16,15 +18,9 @@ public class ContentPane extends JPanel {
         setLayout( new BorderLayout() );
         spreadsheetPanel = new SpreadsheetPanel( data );
         scrollPane = new JScrollPane( spreadsheetPanel );
-        data.addListener( new TimesheetData.Listener() {
-            public void timeEntryAdded( TimesheetDataEntry e ) {
+        spreadsheetPanel.addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
                 scrollToBottom();
-            }
-
-            public void timeChanged() {
-            }
-
-            public void timeEntryRemoved( TimesheetDataEntry entry ) {
             }
         } );
         add( scrollPane, BorderLayout.CENTER );
@@ -33,11 +29,6 @@ public class ContentPane extends JPanel {
     }
 
     private void scrollToBottom() {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                //after other listeners
-                scrollPane.getVerticalScrollBar().setValue( scrollPane.getVerticalScrollBar().getMaximum() );
-            }
-        } );
+        scrollPane.getVerticalScrollBar().setValue( scrollPane.getVerticalScrollBar().getMaximum() );
     }
 }

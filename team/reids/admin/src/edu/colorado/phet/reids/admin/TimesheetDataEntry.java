@@ -23,6 +23,8 @@ public class TimesheetDataEntry {
     private ArrayList listeners = new ArrayList();
     private boolean running = false;
     private Timer timer;
+    //    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat( "EEE MMM d HH:mm:ss z yyyy" );
+    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
 
     private void updateEndTime() {
         setEndTime( new Date() );
@@ -80,7 +82,7 @@ public class TimesheetDataEntry {
 
     public void setStartTime( Date startTime ) {
         this.startTime = startTime;
-        notifyListener();
+        notifyTimeChanged();
     }
 
     public long getElapsedTimeMillis() {
@@ -101,7 +103,7 @@ public class TimesheetDataEntry {
     }
 
     public String toCSV() {
-        return startTime.toString() + "," + endTime.toString() + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + "," + notes;
+        return DEFAULT_DATE_FORMAT.format( startTime ) + "," + DEFAULT_DATE_FORMAT.format( endTime ) + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + "," + notes;
     }
 
     public static String getCSVHeader() {
@@ -110,52 +112,81 @@ public class TimesheetDataEntry {
 
     public static TimesheetDataEntry parseCSV( String line ) {
         StringTokenizer st = new StringTokenizer( line, "," );
-        DateFormat d = new SimpleDateFormat("EEE MMM d HH:mm:ss z yyyy");
         try {
-            final Date start = d.parse( st.nextToken() );
-            final Date end = d.parse( st.nextToken() );
+            final Date start = DEFAULT_DATE_FORMAT.parse( st.nextToken() );
+            final Date end = DEFAULT_DATE_FORMAT.parse( st.nextToken() );
             st.nextToken();
             //everything after 4th comma is notes (which may have commas)
             int index1 = line.indexOf( ',', 0 );
-            int index2 = line.indexOf( ',', index1+1 );
-            int index3 = line.indexOf( ',', index2+1 );
-            int index4 = line.indexOf( ',', index3+1 );
-            return new TimesheetDataEntry( start, end, st.nextToken(), line.substring( index4 +1) );
+            int index2 = line.indexOf( ',', index1 + 1 );
+            int index3 = line.indexOf( ',', index2 + 1 );
+            int index4 = line.indexOf( ',', index3 + 1 );
+            return new TimesheetDataEntry( start, end, st.nextToken(), line.substring( index4 + 1 ) );
         }
         catch( ParseException e ) {
             e.printStackTrace();
-            throw new RuntimeException( e);
+            throw new RuntimeException( e );
         }
     }
 
     public static interface Listener {
-        void changed();
+        void timeChanged();
 
         void runningChanged();
+
+        void categoryChanged();
+
+        void notesChanged();
     }
 
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void notifyListener() {
+    public void notifyTimeChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).changed();
+            ( (Listener) listeners.get( i ) ).timeChanged();
         }
     }
 
     public void setEndTime( Date endTime ) {
         this.endTime = endTime;
-        notifyListener();
+        notifyTimeChanged();
     }
 
     public void setCategory( String category ) {
         this.category = category;
-        notifyListener();
+        notifyCategoryChanged();
+    }
+
+    private void notifyCategoryChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).categoryChanged();
+        }
     }
 
     public void setNotes( String notes ) {
         this.notes = notes;
-        notifyListener();
+        notifyNotesChanged();
+    }
+
+    private void notifyNotesChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).notesChanged();
+        }
+    }
+
+    public static class Adapter implements Listener {
+        public void timeChanged() {
+        }
+
+        public void runningChanged() {
+        }
+
+        public void categoryChanged() {
+        }
+
+        public void notesChanged() {
+        }
     }
 }

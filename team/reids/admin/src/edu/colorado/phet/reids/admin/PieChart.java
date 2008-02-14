@@ -1,5 +1,6 @@
 package edu.colorado.phet.reids.admin;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -7,6 +8,7 @@ import javax.swing.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.util.SortOrder;
 
@@ -36,6 +38,10 @@ public class PieChart extends JFrame {
             }
             pieDataset.sortByValues( SortOrder.DESCENDING );
             JFreeChart chart = ChartFactory.createPieChart( "Pie Chart", pieDataset, true, true, true );
+            PiePlot pie = (PiePlot) chart.getPlot();
+            pie.setLabelFont( new Font( "Calibri", Font.BOLD, 16 ) );//todo: support for if this font is missing
+            pie.setLabelGap( 0.05 );
+            pie.setIgnoreZeroValues( true );
             ChartPanel chartPanel = new ChartPanel( chart );
             add( chartPanel );
         }
