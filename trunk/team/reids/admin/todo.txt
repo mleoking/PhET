@@ -1,0 +1,5 @@
+-Undo
+-Key Traversal
+-Continue Last Button
+-Resume/Pause Button
+-Subset selection for report generation
