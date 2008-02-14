@@ -96,6 +96,32 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
     }
 
+    public int getNumCategories() {
+        return getCategories().size();
+    }
+
+    public ArrayList getCategories() {
+        ArrayList cat = new ArrayList();
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( !cat.contains( timesheetDataEntry.getCategory() ) ) {
+                cat.add( timesheetDataEntry.getCategory() );
+            }
+        }
+        return cat;
+    }
+
+    public long getTotalTimeMillis( String s ) {
+        long sum = 0;
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( timesheetDataEntry.getCategory().equals( s ) ) {
+                sum += timesheetDataEntry.getElapsedTimeMillis();
+            }
+        }
+        return sum;
+    }
+
     public static interface Listener {
         void timeEntryAdded( TimesheetDataEntry e );
 
