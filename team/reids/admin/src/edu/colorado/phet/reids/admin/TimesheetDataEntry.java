@@ -24,7 +24,8 @@ public class TimesheetDataEntry {
     private boolean running = false;
     private Timer timer;
     //    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat( "EEE MMM d HH:mm:ss z yyyy" );
-    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
+    public static final DateFormat DISPLAY_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
+    public static final DateFormat STORAGE_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
 
     private void updateEndTime() {
         setEndTime( new Date() );
@@ -103,7 +104,7 @@ public class TimesheetDataEntry {
     }
 
     public String toCSV() {
-        return DEFAULT_DATE_FORMAT.format( startTime ) + "," + DEFAULT_DATE_FORMAT.format( endTime ) + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + "," + notes;
+        return STORAGE_FORMAT.format( startTime ) + "," + STORAGE_FORMAT.format( endTime ) + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + "," + notes;
     }
 
     public static String getCSVHeader() {
@@ -113,8 +114,8 @@ public class TimesheetDataEntry {
     public static TimesheetDataEntry parseCSV( String line ) {
         StringTokenizer st = new StringTokenizer( line, "," );
         try {
-            final Date start = DEFAULT_DATE_FORMAT.parse( st.nextToken() );
-            final Date end = DEFAULT_DATE_FORMAT.parse( st.nextToken() );
+            final Date start = STORAGE_FORMAT.parse( st.nextToken() );
+            final Date end = STORAGE_FORMAT.parse( st.nextToken() );
             st.nextToken();
             //everything after 4th comma is notes (which may have commas)
             int index1 = line.indexOf( ',', 0 );

@@ -185,7 +185,7 @@ public class EntryPanel extends JPanel {
         }
 
         private void forceUpdate() {
-            field.setText( timeField.getTime() == null ? "null" : TimesheetDataEntry.DEFAULT_DATE_FORMAT.format( timeField.getTime() ) );
+            field.setText( timeField.getTime() == null ? "null" : TimesheetDataEntry.DISPLAY_FORMAT.format( timeField.getTime() ) );
         }
 
         public String getText() {
@@ -218,7 +218,7 @@ public class EntryPanel extends JPanel {
 
         public void keyReleased( KeyEvent e ) {
             try {
-                Date d = TimesheetDataEntry.DEFAULT_DATE_FORMAT.parse( textField.getText() );
+                Date d = TimesheetDataEntry.DISPLAY_FORMAT.parse( textField.getText() );
                 timeField.setTime( d );
             }
             catch( ParseException e1 ) {
