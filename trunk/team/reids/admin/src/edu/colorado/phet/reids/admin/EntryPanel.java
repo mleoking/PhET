@@ -1,8 +1,8 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class EntryPanel extends JPanel {
 
     public EntryPanel( final TimesheetData data, final TimesheetDataEntry entry ) {
         this.entry = entry;
-        startTimeField = new TimeTextField( entry, new TimeField() {
+        final TimeField startTimeGetter = new TimeField() {
             public Date getTime() {
                 return entry.getStartTime();
             }
@@ -31,18 +31,12 @@ public class EntryPanel extends JPanel {
             public boolean isEndTime() {
                 return false;
             }
-        } );
-        startTimeField.getTextField().addMouseListener( new MouseAdapter() {
-            public void mousePressed( MouseEvent e ) {
-                entry.setStartTime( new Date() );
-                data.stopAllEntries();
-                entry.setRunning( true );
-                entry.setEndTime( new Date() );
-            }
-        } );
+        };
+        startTimeField = new TimeTextField( entry, startTimeGetter );
+
 
         add( startTimeField );
-        endTimeField = new TimeTextField( entry, new TimeField() {
+        final TimeField endTimeField = new TimeField() {
             public Date getTime() {
                 return entry.getEndTime();
             }
@@ -54,20 +48,62 @@ public class EntryPanel extends JPanel {
             public boolean isEndTime() {
                 return true;
             }
-        } );
-        add( endTimeField );
+        };
+        this.endTimeField = new TimeTextField( entry, endTimeField );
+        add( this.endTimeField );
         elapsedTimeField = new JTextField( "???", 10 );
-        entry.addListener( new TimesheetDataEntry.Listener() {
-            public void changed() {
+        entry.addListener( new TimesheetDataEntry.Adapter() {
+            public void timeChanged() {
                 updateElapsedTimeField();
-            }
-
-            public void runningChanged() {
             }
         } );
         add( elapsedTimeField );
-        add( new JTextField( entry.getCategory(), 10 ) );
-        add( new JTextField( entry.getNotes(), 30 ) );
+        final JTextField categoryField = new JTextField( entry.getCategory(), 10 );
+        categoryField.addKeyListener( new KeyAdapter() {
+
+        } );
+        entry.addListener( new TimesheetDataEntry.Adapter() {
+            public void categoryChanged() {
+                if ( !categoryField.isFocusOwner() ) {
+                    categoryField.setText( entry.getCategory() );
+                }
+            }
+        } );
+        categoryField.addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                    categoryField.setText( entry.getCategory() );
+                }
+                else {
+                    entry.setCategory( categoryField.getText() );
+                }
+            }
+        } );
+        add( categoryField );
+        final JTextField notesField = new JTextField( entry.getNotes(), 30 );
+        entry.addListener( new TimesheetDataEntry.Adapter() {
+            public void notesChanged() {
+                if ( !notesField.isFocusOwner() ) {
+                    notesField.setText( entry.getNotes() );
+                }
+            }
+        } );
+        notesField.addKeyListener( new KeyAdapter() {
+            public void keyReleased( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                    notesField.setText( entry.getNotes() );
+                }
+                else {
+                    entry.setNotes( notesField.getText() );
+                }
+            }
+        } );
+
+        add( notesField );
+
+        startTimeField.getTextField().addKeyListener( new MyKeyListener( startTimeField.getTextField(), startTimeGetter ) );
+        this.endTimeField.getTextField().addKeyListener( new MyKeyListener( this.endTimeField.getTextField(), endTimeField ) );
+
         updateElapsedTimeField();
     }
 
@@ -92,19 +128,46 @@ public class EntryPanel extends JPanel {
         public TimeTextField( final TimesheetDataEntry entry, final TimeField timeGetter ) {
             this.entry = entry;
             this.timeField = timeGetter;
-            field = new JTextField( 20 );
+            field = new JTextField( 12 );
             add( field );
             entry.addListener( new TimesheetDataEntry.Listener() {
-                public void changed() {
+                public void timeChanged() {
                     update();
                 }
 
                 public void runningChanged() {
                     updateRunningChanged();
                 }
+
+                public void categoryChanged() {
+                }
+
+                public void notesChanged() {
+                }
             } );
             update();
             updateRunningChanged();
+            field.addFocusListener( new FocusListener() {
+                public void focusGained( FocusEvent e ) {
+                }
+
+                public void focusLost( FocusEvent e ) {
+                    update();
+                }
+            } );
+            field.addKeyListener( new KeyListener() {
+                public void keyTyped( KeyEvent e ) {
+                }
+
+                public void keyPressed( KeyEvent e ) {
+                }
+
+                public void keyReleased( KeyEvent e ) {
+                    if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
+                        forceUpdate();
+                    }
+                }
+            } );
         }
 
         public JTextField getTextField() {
@@ -116,9 +179,18 @@ public class EntryPanel extends JPanel {
         }
 
         private void update() {
-            field.setText( timeField.getTime() + "" );
+            if ( !field.isFocusOwner() ) {//don't change text while user is editing
+                forceUpdate();
+            }
         }
 
+        private void forceUpdate() {
+            field.setText( timeField.getTime() == null ? "null" : TimesheetDataEntry.DEFAULT_DATE_FORMAT.format( timeField.getTime() ) );
+        }
+
+        public String getText() {
+            return field.getText();
+        }
     }
 
     public static interface TimeField {
@@ -127,5 +199,31 @@ public class EntryPanel extends JPanel {
         void setTime( Date time );
 
         boolean isEndTime();
+    }
+
+    private class MyKeyListener implements KeyListener {
+        private JTextField textField;
+        private TimeField timeField;
+
+        public MyKeyListener( JTextField textField, TimeField timeField ) {
+            this.textField = textField;
+            this.timeField = timeField;
+        }
+
+        public void keyTyped( KeyEvent e ) {
+        }
+
+        public void keyPressed( KeyEvent e ) {
+        }
+
+        public void keyReleased( KeyEvent e ) {
+            try {
+                Date d = TimesheetDataEntry.DEFAULT_DATE_FORMAT.parse( textField.getText() );
+                timeField.setTime( d );
+            }
+            catch( ParseException e1 ) {
+                e1.printStackTrace();
+            }
+        }
     }
 }

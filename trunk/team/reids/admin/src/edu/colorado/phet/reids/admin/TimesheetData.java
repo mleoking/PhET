@@ -43,11 +43,17 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         return sum;
     }
 
-    public void changed() {
+    public void timeChanged() {
         notifyTimeChanged();
     }
 
     public void runningChanged() {
+    }
+
+    public void categoryChanged() {
+    }
+
+    public void notesChanged() {
     }
 
     public void stopAllEntries() {
