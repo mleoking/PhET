@@ -54,6 +54,14 @@ public class SummaryPanel extends JPanel {
             }
         } );
         add( saveButton );
+
+        JButton piechart = new JButton( "Pie Chart" );
+        piechart.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                new PieChart( app ).show();
+            }
+        } );
+        add( piechart );
     }
 
     private void updateTimeEntry() {
