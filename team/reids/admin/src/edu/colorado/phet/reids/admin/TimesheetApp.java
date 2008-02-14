@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import javax.swing.*;
 
@@ -31,6 +32,9 @@ public class TimesheetApp extends JFrame {
     private String WINDOW_WIDTH = "window.w";
     private String WINDOW_Y = "window.y";
     private String WINDOW_X = "window.x";
+    private String RECENT_FILES = "recentFiles";
+    private String CURRENT_FILE = "currentFile";
+    private JMenu fileMenu = new JMenu( "File" );
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
@@ -46,7 +50,6 @@ public class TimesheetApp extends JFrame {
         final TimesheetDataEntry dataEntry = new TimesheetDataEntry( new Date(), null, "cck", "hello 3" );
         dataEntry.setRunning( true );
         timesheetData.addEntry( dataEntry );
-        JMenu fileMenu = new JMenu( "File" );
         final JMenuItem openItem = new JMenuItem( "Open" );
         openItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -72,6 +75,20 @@ public class TimesheetApp extends JFrame {
             }
         } );
         fileMenu.add( saveItem );
+
+        final JMenuItem saveAsItem = new JMenuItem( "Save As" );
+        saveAsItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    saveAs();
+                }
+                catch( IOException e1 ) {
+                    JOptionPane.showMessageDialog( TimesheetApp.this, e1.getMessage() );
+                }
+            }
+        } );
+        fileMenu.add( saveAsItem );
+
         fileMenu.addSeparator();
         final JMenuItem exitItem = new JMenuItem( "Exit" );
         exitItem.addActionListener( new ActionListener() {
@@ -85,6 +102,8 @@ public class TimesheetApp extends JFrame {
             }
         } );
         fileMenu.add( exitItem );
+        fileMenu.addSeparator();
+
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
                 try {
@@ -115,7 +134,43 @@ public class TimesheetApp extends JFrame {
         r.height = Integer.parseInt( p.getProperty( WINDOW_HEIGHT ) );
         setSize( r.width, r.height );
         setLocation( r.x, r.y );
-        System.out.println( "Loaded prefs, r=" + r );
+
+
+        String recentFiles = p.getProperty( RECENT_FILES );
+        System.out.println( "Loaded prefs, r=" + r + ", recent=" + recentFiles );
+        StringTokenizer stringTokenizer = new StringTokenizer( recentFiles, "," );
+        this.recentFiles.clear();
+        while ( stringTokenizer.hasMoreTokens() ) {
+            final File file = new File( stringTokenizer.nextToken() );
+            if ( !this.recentFiles.contains( file ) ) {
+                this.recentFiles.add( file );
+            }
+        }
+        updateMenuWithRecent();
+        String currentFile = p.getProperty( CURRENT_FILE );
+        if ( new File( currentFile ).exists() ) {
+            load( new File( currentFile ) );
+        }
+    }
+
+    public static class RecentFileMenuItem extends JMenuItem {
+        public RecentFileMenuItem( String text ) {
+            super( text );
+        }
+    }
+
+    private void updateMenuWithRecent() {
+        for ( int i = 0; i < fileMenu.getPopupMenu().getComponentCount(); i++ ) {
+            if ( fileMenu.getPopupMenu().getComponent( i ) instanceof RecentFileMenuItem ) {
+                fileMenu.getPopupMenu().remove( i );
+                i--;
+            }
+        }
+        for ( int i = 0; i < recentFiles.size(); i++ ) {
+            File file = (File) recentFiles.get( i );
+            RecentFileMenuItem recentFileMenuItem = new RecentFileMenuItem( file.getAbsolutePath() );
+            fileMenu.add( recentFileMenuItem, fileMenu.getComponentCount() - 1 );
+        }
     }
 
     private void savePreferences() throws IOException {
@@ -127,8 +182,8 @@ public class TimesheetApp extends JFrame {
         properties.put( WINDOW_WIDTH, getWidth() + "" );
         properties.put( WINDOW_HEIGHT, getHeight() + "" );
 
-        properties.put( "recentFiles", getRecentFileListString() );
-        properties.put( "currentFile", currentFile == null ? "null" : currentFile.getAbsolutePath() );
+        properties.put( RECENT_FILES, getRecentFileListString() );
+        properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
 
         properties.store( new FileWriter( prefFile ), "auto-generated on " + new Date() );
         System.out.println( "Stored prefs: " + properties );
@@ -191,19 +246,73 @@ public class TimesheetApp extends JFrame {
     }
 
     public void load() throws IOException {
-        currentFile = new JFileChooser().getSelectedFile();
+        final JFileChooser jFileChooser = currentFile == null ? new JFileChooser() : new JFileChooser( currentFile.getParentFile() );
+        int option = jFileChooser.showOpenDialog( this );
+        if ( option == JFileChooser.APPROVE_OPTION ) {
+            final File selectedFile = jFileChooser.getSelectedFile();
+            load( selectedFile );
+        }
+        else {
+            System.out.println( "TimesheetApp.load, didn't save" );
+        }
+
+    }
+
+    private void load( File selectedFile ) throws IOException {
+        currentFile = selectedFile;
         String str = FileUtils.loadFileAsString( currentFile );
         timesheetData.loadCSV( str );
         addCurrentToRecent();
+        setTitle( "Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]" );
+    }
+
+    public void saveAs() throws IOException {
+        File selected = selectSaveFile();
+        if ( selected != null ) {
+            save( selected );
+        }
+        else {
+
+            System.out.println( "Didn't save" );
+        }
     }
 
     public void save() throws IOException {
         //TODO: save over last save file, if exists
+        File selected = currentFile;
         if ( currentFile == null ) {
-            currentFile = new JFileChooser().getSelectedFile();
-            addCurrentToRecent();
+            selected = selectSaveFile();
         }
-//        File file = new File( "C:/Users/Sam/Desktop/save.csv" );
+        if ( selected != null ) {
+            save( selected );
+        }
+        else {
+            System.out.println( "didn't save" );
+        }
+    }
+
+    private File selectSaveFile() {
+        File selected = null;
+        final JFileChooser chooser = currentFile == null ? new JFileChooser() : new JFileChooser( currentFile.getParentFile() );
+        int val = chooser.showSaveDialog( this );
+        if ( val == JFileChooser.APPROVE_OPTION ) {
+            File file = chooser.getSelectedFile();
+            if ( file.exists() ) {
+                int option = JOptionPane.showConfirmDialog( this, "File exists, overwrite?" );
+                if ( option == JOptionPane.YES_OPTION ) {
+                    selected = file;
+                }
+            }
+            else {
+                selected = file;
+            }
+        }
+        return selected;
+    }
+
+    private void save( File selected ) throws IOException {
+        this.currentFile = selected;
+        addCurrentToRecent();
         currentFile.getParentFile().mkdirs();
         String s = timesheetData.toCSV();
         FileUtils.writeString( currentFile, s );
@@ -213,5 +322,6 @@ public class TimesheetApp extends JFrame {
         if ( !recentFiles.contains( currentFile ) ) {
             recentFiles.add( currentFile );
         }
+        updateMenuWithRecent();
     }
 }
