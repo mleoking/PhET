@@ -113,7 +113,7 @@ public class TimesheetDataEntry {
     }
 
     public String toCSV() {
-        return STORAGE_FORMAT.format( startTime ) + "," + STORAGE_FORMAT.format( endTime ) + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + "," + notes;
+        return STORAGE_FORMAT.format( startTime ) + "," + STORAGE_FORMAT.format( endTime ) + "," + TimesheetApp.toString( getElapsedTimeMillis() ) + "," + category + ",\"" + notes + "\"";
     }
 
     public static String getCSVHeader() {
@@ -127,18 +127,19 @@ public class TimesheetDataEntry {
             final Date start = STORAGE_FORMAT.parse( st.nextToken() );
             final Date end = STORAGE_FORMAT.parse( st.nextToken() );
             st.nextToken();//skip elapsed time
-            //everything after 4th comma is notes (which may have commas)
-            int index1 = line.indexOf( ',', 0 );
-            int index2 = line.indexOf( ',', index1 + 1 );
-            int index3 = line.indexOf( ',', index2 + 1 );
-            int index4 = line.indexOf( ',', index3 + 1 );
+            //everything inside the quotes is notes
+            int startQuote = line.indexOf( '"' );
+            int endQuote = line.indexOf( '"', startQuote + 1 );
             String category = "";
             try {
                 category = st.nextToken();
+                if ( category.startsWith( "\"" ) && category.endsWith( "\"" ) ) {
+                    category = "";//no category specified
+                }
             }
             catch( NoSuchElementException e ) {
             }
-            return new TimesheetDataEntry( start, end, category, line.substring( index4 + 1 ) );
+            return new TimesheetDataEntry( start, end, category, line.substring( startQuote + 1, endQuote ) );
         }
         catch( ParseException e ) {
             e.printStackTrace();
@@ -210,5 +211,9 @@ public class TimesheetDataEntry {
 
         public void selectionChanged() {
         }
+    }
+
+    public String toString() {
+        return toCSV();
     }
 }
