@@ -1,3 +1,8 @@
+-Global ctrl-s for save
+-Change icon
+-Autocomplete for categories
+-Match start time to previous end time
+
 -Undo
 -Key Traversal
 -Subset selection for report generation
