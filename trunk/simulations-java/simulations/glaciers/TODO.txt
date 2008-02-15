@@ -27,7 +27,7 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
-- check new climate model doc into SVN
+- display equilibrium line properly
 - change snowfall from a reference elevation to meters/yr/meter above sea level
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity
