@@ -39,7 +39,7 @@ public class PieChart extends JFrame {
             }
             pieDataset.sortByValues( SortOrder.DESCENDING );
 
-            pieDataset = process( pieDataset );
+//            pieDataset = process( pieDataset );
 
             JFreeChart chart = ChartFactory.createPieChart( "Pie Chart", pieDataset, true, true, true );
             PiePlot pie = (PiePlot) chart.getPlot();
