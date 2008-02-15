@@ -121,7 +121,7 @@ public class TimesheetDataEntry {
     }
 
     public static TimesheetDataEntry parseCSV( String line ) {
-        System.out.println( "line = " + line );
+//        System.out.println( "line = " + line );
         StringTokenizer st = new StringTokenizer( line, "," );
         try {
             final Date start = STORAGE_FORMAT.parse( st.nextToken() );
