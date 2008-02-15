@@ -1,13 +1,10 @@
 -Global ctrl-s for save
--Change icon
 -Autocomplete for categories
 -Match start time to previous end time
-
 -Undo
 -Key Traversal
--Subset selection for report generation
 -Checks to verify no time overlapping
 -Progress Bar for weekly progress?
 -Sort By Time
--Import past data
 -Automatic Backups
+-Check for changes on disk when receiving focus
