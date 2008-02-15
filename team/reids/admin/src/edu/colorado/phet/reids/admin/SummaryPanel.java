@@ -14,7 +14,7 @@ public class SummaryPanel extends JPanel {
     private JTextField summary;
     private TimesheetData data;
     private TimesheetApp app;
-    private final JButton saveButton = new JButton( "Save" );
+    private JButton saveButton;
     private JButton pause;
     private JButton delete;
     private JButton insert;
@@ -60,6 +60,7 @@ public class SummaryPanel extends JPanel {
         } );
         add( newEntry );
         add( summary );
+        saveButton = new JButton( "Save" );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
