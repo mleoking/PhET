@@ -105,7 +105,7 @@ public class GlacialBudgetMeter extends AbstractTool {
     }
     
     private void updateAllValues() {
-        final double elevation = _valley.getElevation( getX() );
+        final double elevation = getY();
         setAccumulation( _climate.getAccumulation( elevation ) );
         setAblation( _climate.getAblation( elevation ) );
         setGlacialBudget( _climate.getGlacialBudget( elevation ) );
