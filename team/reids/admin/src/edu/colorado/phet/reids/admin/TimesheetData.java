@@ -19,6 +19,10 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         setChanged( true );
     }
 
+    public String toString() {
+        return toCSV();
+    }
+
     public String toCSV() {
         String s = TimesheetDataEntry.getCSVHeader() + "\n";
         for ( int i = 0; i < entries.size(); i++ ) {
