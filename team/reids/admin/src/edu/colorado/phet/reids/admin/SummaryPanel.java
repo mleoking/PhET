@@ -20,7 +20,6 @@ public class SummaryPanel extends JPanel {
         summary = new JTextField( 10 );
         this.data = data;
         data.addListener( new TimesheetData.Listener() {
-
             public void timeEntryAdded( TimesheetDataEntry e ) {
                 updateTimeEntry();
             }
@@ -34,6 +33,15 @@ public class SummaryPanel extends JPanel {
             }
         } );
         updateTimeEntry();
+
+        JButton pause = new JButton( "Stop" );
+        pause.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                data.pauseAll();
+            }
+        } );
+        add( pause );
+
         JButton newEntry = new JButton( "New Entry" );
         newEntry.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

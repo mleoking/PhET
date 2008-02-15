@@ -51,7 +51,7 @@ public class EntryPanel extends JPanel {
         };
         this.endTimeField = new TimeTextField( entry, endTimeField );
         add( this.endTimeField );
-        elapsedTimeField = new JTextField( "???", 10 );
+        elapsedTimeField = new JTextField( "???", 6 );
         entry.addListener( new TimesheetDataEntry.Adapter() {
             public void timeChanged() {
                 updateElapsedTimeField();
@@ -105,15 +105,21 @@ public class EntryPanel extends JPanel {
         this.endTimeField.getTextField().addKeyListener( new MyKeyListener( this.endTimeField.getTextField(), endTimeField ) );
 
         updateElapsedTimeField();
+
+        startTimeField.getTextField().addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                data.setSelection( entry );
+            }
+        } );
+        entry.addListener( new TimesheetDataEntry.Adapter() {
+            public void selectionChanged() {
+                setBorder( entry.isSelected() ? BorderFactory.createLineBorder( Color.blue ) : null );
+            }
+        } );
     }
 
     private void updateElapsedTimeField() {
-        if ( entry.isTimeEntrySet() ) {
-            elapsedTimeField.setText( TimesheetApp.toString( entry.getElapsedTimeMillis() ) );
-        }
-        else {
-            elapsedTimeField.setText( "???" );
-        }
+        elapsedTimeField.setText( TimesheetApp.toString( entry.getElapsedTimeMillis() ) );
     }
 
     public TimesheetDataEntry getTimesheetDataEntry() {
@@ -130,19 +136,13 @@ public class EntryPanel extends JPanel {
             this.timeField = timeGetter;
             field = new JTextField( 12 );
             add( field );
-            entry.addListener( new TimesheetDataEntry.Listener() {
+            entry.addListener( new TimesheetDataEntry.Adapter() {
                 public void timeChanged() {
                     update();
                 }
 
                 public void runningChanged() {
                     updateRunningChanged();
-                }
-
-                public void categoryChanged() {
-                }
-
-                public void notesChanged() {
                 }
             } );
             update();
@@ -185,7 +185,7 @@ public class EntryPanel extends JPanel {
         }
 
         private void forceUpdate() {
-            field.setText( timeField.getTime() == null ? "null" : TimesheetDataEntry.DISPLAY_FORMAT.format( timeField.getTime() ) );
+            field.setText( TimesheetDataEntry.DISPLAY_FORMAT.format( timeField.getTime() ) );
         }
 
         public String getText() {

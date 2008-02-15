@@ -26,6 +26,7 @@ public class TimesheetDataEntry {
     //    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat( "EEE MMM d HH:mm:ss z yyyy" );
     public static final DateFormat DISPLAY_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
     public static final DateFormat STORAGE_FORMAT = new SimpleDateFormat( "M/d/yyyy h:mm:ss a" );
+    private boolean selected = false;
 
     private void updateEndTime() {
         setEndTime( new Date() );
@@ -65,6 +66,22 @@ public class TimesheetDataEntry {
         }
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected( boolean selected ) {
+        this.selected = selected;
+        notifySelectionChanged();
+    }
+
+    private void notifySelectionChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.selectionChanged();
+        }
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -87,16 +104,7 @@ public class TimesheetDataEntry {
     }
 
     public long getElapsedTimeMillis() {
-        if ( endTime != null && startTime != null ) {
-            return ( endTime.getTime() - startTime.getTime() );
-        }
-        else {
-            return 0;
-        }
-    }
-
-    public boolean isTimeEntrySet() {
-        return endTime != null && startTime != null;
+        return ( endTime.getTime() - startTime.getTime() );
     }
 
     public boolean isRunning() {
@@ -138,6 +146,8 @@ public class TimesheetDataEntry {
         void categoryChanged();
 
         void notesChanged();
+
+        void selectionChanged();
     }
 
     public void addListener( Listener listener ) {
@@ -188,6 +198,9 @@ public class TimesheetDataEntry {
         }
 
         public void notesChanged() {
+        }
+
+        public void selectionChanged() {
         }
     }
 }

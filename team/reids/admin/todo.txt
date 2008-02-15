@@ -2,4 +2,7 @@
 -Key Traversal
 -Continue Last Button
 -Resume/Pause Button
+-Insert/Delete
 -Subset selection for report generation
+-Checks to verify no time overlapping
+-Progress Bar for weekly progress?
