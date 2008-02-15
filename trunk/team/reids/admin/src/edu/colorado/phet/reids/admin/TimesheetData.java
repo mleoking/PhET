@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * Created by: Sam
  * Feb 13, 2008 at 10:31:44 PM
  */
-public class TimesheetData implements TimesheetDataEntry.Listener {
+public class TimesheetData extends TimesheetDataEntry.Adapter {
     private ArrayList entries = new ArrayList();
 
     public void addEntry( TimesheetDataEntry entry ) {
@@ -45,15 +45,6 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
 
     public void timeChanged() {
         notifyTimeChanged();
-    }
-
-    public void runningChanged() {
-    }
-
-    public void categoryChanged() {
-    }
-
-    public void notesChanged() {
     }
 
     public void stopAllEntries() {
@@ -126,6 +117,23 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
             }
         }
         return sum;
+    }
+
+    public void setSelection( TimesheetDataEntry entry ) {
+        clearSelection();
+        entry.setSelected( true );
+    }
+
+    private void clearSelection() {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            ( (TimesheetDataEntry) entries.get( i ) ).setSelected( false );
+        }
+    }
+
+    public void pauseAll() {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            ( (TimesheetDataEntry) entries.get( i ) ).setRunning( false );
+        }
     }
 
     public static interface Listener {
