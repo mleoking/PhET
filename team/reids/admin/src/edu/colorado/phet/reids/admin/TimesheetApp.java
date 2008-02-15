@@ -35,6 +35,7 @@ public class TimesheetApp extends JFrame {
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
     private JMenu fileMenu = new JMenu( "File" );
+    private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), "timesheet-app.properties" );
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
@@ -130,9 +131,8 @@ public class TimesheetApp extends JFrame {
     }
 
     private void loadPreferences() throws IOException {
-        File prefFile = getPrefFile();
         Properties p = new Properties();
-        p.load( new FileReader( prefFile ) );
+        p.load( new FileReader( PREFERENCES_FILE ) );
         Rectangle r = new Rectangle();
         r.x = Integer.parseInt( p.getProperty( WINDOW_X ) );
         r.y = Integer.parseInt( p.getProperty( WINDOW_Y ) );
@@ -180,7 +180,6 @@ public class TimesheetApp extends JFrame {
     }
 
     private void savePreferences() throws IOException {
-        File prefFile = getPrefFile();
 //        System.out.println( "prefFile.getAbsolutePath() = " + prefFile.getAbsolutePath() );
         Properties properties = new Properties();
         properties.put( WINDOW_X, getX() + "" );
@@ -191,12 +190,8 @@ public class TimesheetApp extends JFrame {
         properties.put( RECENT_FILES, getRecentFileListString() );
         properties.put( CURRENT_FILE, currentFile == null ? "null" : currentFile.getAbsolutePath() );
 
-        properties.store( new FileWriter( prefFile ), "auto-generated on " + new Date() );
+        properties.store( new FileWriter( PREFERENCES_FILE ), "auto-generated on " + new Date() );
         System.out.println( "Stored prefs: " + properties );
-    }
-
-    private File getPrefFile() {
-        return new File( System.getProperty( "user.home", "." ), "timesheet-app.properties" );
     }
 
     private String getRecentFileListString() {
