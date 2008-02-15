@@ -4,3 +4,5 @@
 -Checks to verify no time overlapping
 -Progress Bar for weekly progress?
 -Sort By Time
+-Import past data
+-Automatic Backups
