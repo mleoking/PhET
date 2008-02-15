@@ -78,6 +78,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/14/08 - change mass balance climate control panel, based on Archies new spec (design still has problems)
+2/14/08 - fix glacial budget meter, it should use the meter's elevation, not the valley floor elevation
 ******** 0.00.05 (19804)
 2/13/08 - fix Valley floor model so that elevation is never < 0
 2/13/08 - implement new climate model, as received from Archie on 2/11

@@ -33,8 +33,7 @@ public class GlaciersStrings {
     public static final String LABEL_ABLATION = GlaciersResources.getString( "label.ablation" );
     public static final String LABEL_GLACIAL_BUDGET = GlaciersResources.getString( "label.glacialBudget" );
     public static final String LABEL_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "label.equilibriumLineAltitude" );
-    public static final String LABEL_MASS_BALANCE_SLOPE = GlaciersResources.getString( "label.massBalanceSlope" );
-    public static final String LABEL_MAXIMUM_MASS_BALANCE = GlaciersResources.getString( "label.maximumMassBalance" );
+    public static final String LABEL_MAXIMUM_SNOWFALL = GlaciersResources.getString( "label.maximumSnowfall" );
     
     public static final String MENU_FILE_LOAD = GlaciersResources.getString( "menu.file.load" );
     public static final char MENU_FILE_LOAD_MNEMONIC = GlaciersResources.getChar( "menu.file.load.mnemonic", 'L' );
@@ -87,8 +86,7 @@ public class GlaciersStrings {
     public static final String UNITS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "units.equilibriumLineAltitude" );
     public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
     public static final String UNITS_ICE_THICKNESS = GlaciersResources.getString( "units.iceThickness" );
-    public static final String UNITS_MASS_BALANCE_SLOPE = GlaciersResources.getString( "units.massBalanceSlope" );
-    public static final String UNITS_MAXIMUM_MASS_BALANCE = GlaciersResources.getString( "units.maximumMassBalance" );
+    public static final String UNITS_MAXIMUM_SNOWFALL = GlaciersResources.getString( "units.maximumSnowfall" );
     public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
     

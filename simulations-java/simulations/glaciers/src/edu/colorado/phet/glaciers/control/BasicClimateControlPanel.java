@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.glaciers.control;
 
-import java.awt.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -54,8 +57,7 @@ public class BasicClimateControlPanel extends JPanel {
             DoubleRange snowfallRange, 
             DoubleRange temperatureRange,
             DoubleRange equilibriumLineAltitudeRange,
-            DoubleRange massBalanceSlopeRange,
-            DoubleRange maximumMassBalanceRange ) {
+            DoubleRange maximumSnowfallRange ) {
         super();
         
         _snowfallAndTemperatureRadioButton = new JRadioButton( GlaciersStrings.RADIO_BUTTON_SNOWFALL_AND_TEMPERATURE );
@@ -80,7 +82,7 @@ public class BasicClimateControlPanel extends JPanel {
         
         _snowfallAndTemperatureControlPanel = new SnowfallAndTemperatureControlPanel( snowfallRange, temperatureRange );
         
-        _massBalanceControlPanel = new MassBalanceControlPanel( equilibriumLineAltitudeRange, massBalanceSlopeRange, maximumMassBalanceRange );
+        _massBalanceControlPanel = new MassBalanceControlPanel( equilibriumLineAltitudeRange, maximumSnowfallRange );
         
         final JPanel cardPanel = new JPanel( new CardLayout() );
         cardPanel.add( _snowfallAndTemperatureControlPanel, CARD_SNOWFALL_AND_TEMPERATURE );
@@ -117,7 +119,6 @@ public class BasicClimateControlPanel extends JPanel {
         row = 0;
         column = 0;
         layout.addComponent( buttonPanel, row, column++ );
-//        layout.setAnchor( GridBagConstraints.CENTER );
         JSeparator separator = new JSeparator( SwingConstants.VERTICAL );
         separator.setForeground( CONTROL_COLOR );
         layout.addFilledComponent( separator, row, column++, 1, 3, GridBagConstraints.VERTICAL );

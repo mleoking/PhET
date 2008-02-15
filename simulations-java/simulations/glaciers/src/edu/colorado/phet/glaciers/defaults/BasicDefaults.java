@@ -33,6 +33,5 @@ public class BasicDefaults {
     
     //XXX ???
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = GlobalDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE;
-    public static final DoubleRange MASS_BALANCE_SLOPE_RANGE = GlobalDefaults.MASS_BALANCE_SLOPE_RANGE;
-    public static final DoubleRange MAXIMUM_MASS_BALANCE_RANGE = GlobalDefaults.MAXIMUM_MASS_BALANCE_RANGE;
+    public static final DoubleRange MAXIMUM_SNOWFALL_RANGE = GlobalDefaults.MAXIMUM_SNOWFALL_RANGE;
 }
