@@ -2,10 +2,6 @@
 "To Do" list for "Glaciers" simulation
 ================================================================================
 
-MISSING INFO:
-- ranges & default values for the "mass balance" climate controls
-- mappings between "snowfall & temperature" and "mass balance" climate controls
-
 DESIGN ISSUES:
 - toolbox allows creating multiple borehole drills
 - borehole drill is different than the other things in the toolbox, all others are measurement devices
@@ -20,11 +16,6 @@ DESIGN ISSUES:
 - do tools need an origin indicator?
 - layering order of tools and toolbox
 - how does "show coordinates" work for a valley contour that is not linear?
-
-IMPLEMENTATION ISSUES:
-- how to handle compressed vertical scale in context of shared PLayers?
-- adding zoom buttons to either view would be nontrivial (if they are ever desired)
-- LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
 - fix layout problems with main control panel
