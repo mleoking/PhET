@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+
 /**
  * Created by: Sam
  * Feb 13, 2008 at 10:32:31 PM
@@ -110,7 +112,23 @@ public class EntryPanel extends JPanel {
 
         startTimeField.getTextField().addMouseListener( new MouseAdapter() {
             public void mousePressed( MouseEvent e ) {
-                data.setSelection( entry );
+                if ( e.isShiftDown() ) {
+                    TimesheetDataEntry[] s = data.getSelectedEntries();
+                    for ( int i = 0; i < s.length; i++ ) {
+                        TimesheetDataEntry timesheetDataEntry = s[i];
+                        int startIndex = data.indexOf( timesheetDataEntry );
+                        int endIndex = data.indexOf( entry );
+                        int dk = MathUtil.getSign( endIndex - startIndex );
+//                        System.out.println( "startIndex = " + startIndex +" end="+endIndex+", dk="+dk);
+                        for ( int k = startIndex; k != endIndex + dk; k += dk ) {
+//                            System.out.println( "k = " + k );
+                            data.addSelection( k );
+                        }
+                    }
+                }
+                else {
+                    data.setSelection( entry );
+                }
             }
         } );
         entry.addListener( new TimesheetDataEntry.Adapter() {

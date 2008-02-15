@@ -81,7 +81,8 @@ public class SummaryPanel extends JPanel {
         JButton piechart = new JButton( "Pie Chart" );
         piechart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                new PieChart( app ).show();
+                TimesheetData data=app.getTimesheetData().getDefaultSelection();
+                new PieChart( data).show();
             }
         } );
         add( piechart );
