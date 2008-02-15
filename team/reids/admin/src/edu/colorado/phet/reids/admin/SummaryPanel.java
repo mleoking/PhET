@@ -15,13 +15,16 @@ public class SummaryPanel extends JPanel {
     private TimesheetData data;
     private TimesheetApp app;
     private final JButton saveButton = new JButton( "Save" );
+    private JButton pause;
+    private JButton delete;
+    private JButton insert;
 
     public SummaryPanel( final TimesheetData data, final TimesheetApp app ) {
         this.app = app;
         summary = new JTextField( 10 );
         this.data = data;
         data.addListener( new TimesheetData.Adapter() {
-            public void timeEntryAdded( TimesheetDataEntry e ) {
+            public void timeEntryAppended( TimesheetDataEntry e ) {
                 updateTimeEntry();
             }
 
@@ -35,15 +38,21 @@ public class SummaryPanel extends JPanel {
         } );
         updateTimeEntry();
 
-        JButton pause = new JButton( "Stop" );
+        pause = new JButton( "Stop" );
         pause.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 data.pauseAll();
             }
         } );
+        data.addListener( new TimesheetData.Adapter() {
+            public void timeEntryRunningChanged() {
+                updateStopButtonEnabled();
+            }
+        } );
+        updateStopButtonEnabled();
         add( pause );
 
-        JButton newEntry = new JButton( "New Entry" );
+        JButton newEntry = new JButton( "Start New" );
         newEntry.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 data.startNewEntry();
@@ -76,6 +85,48 @@ public class SummaryPanel extends JPanel {
         } );
         add( piechart );
         updateSaveButtonEnabled();
+
+        delete = new JButton( "Delete" );
+        delete.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                TimesheetDataEntry[] selected = data.getSelectedEntries();
+                data.removeEntries( selected );
+            }
+        } );
+        data.addListener( new TimesheetData.Adapter() {
+            public void selectionChanged() {
+                updateDeleteButtonEnabled();
+            }
+        } );
+        updateDeleteButtonEnabled();
+        add( delete );
+
+
+        insert = new JButton( "Insert" );
+        insert.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                data.insertNewEntry();
+            }
+        } );
+        data.addListener( new TimesheetData.Adapter() {
+            public void selectionChanged() {
+                updateInsertButtonEnabled();
+            }
+        } );
+        updateInsertButtonEnabled();
+        add( insert );
+    }
+
+    private void updateInsertButtonEnabled() {
+        insert.setEnabled( data.getSelectedEntries().length > 0 );
+    }
+
+    private void updateDeleteButtonEnabled() {
+        delete.setEnabled( data.getSelectedEntries().length > 0 );
+    }
+
+    private void updateStopButtonEnabled() {
+        pause.setEnabled( data.isRunning() );
     }
 
     private void updateSaveButtonEnabled() {

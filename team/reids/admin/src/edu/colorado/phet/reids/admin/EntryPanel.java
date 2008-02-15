@@ -113,9 +113,14 @@ public class EntryPanel extends JPanel {
         } );
         entry.addListener( new TimesheetDataEntry.Adapter() {
             public void selectionChanged() {
-                setBorder( entry.isSelected() ? BorderFactory.createLineBorder( Color.blue ) : null );
+                updateSelected();
             }
         } );
+        updateSelected();
+    }
+
+    private void updateSelected() {
+        setBorder( entry.isSelected() ? BorderFactory.createLineBorder( Color.blue ) : null );
     }
 
     private void updateElapsedTimeField() {
