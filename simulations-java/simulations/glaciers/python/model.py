@@ -188,7 +188,7 @@ class Glacier:
         self.dx[1:] -= m.x[:-1]
         self.dx[0]   = self.dx[1] 
         #
-        self.H = zeros( m.x.shape, Float ) # initial glacier height set to zero
+        self.H = zeros( m.x.shape, 'd' ) # initial glacier height set to zero
         #self.set_ice_velocities()
         self.plot = self.plot_profile
 
@@ -270,14 +270,14 @@ class Glacier:
             tau1 = clip( self.tau, 1., 9e99 )  # for safe division
             factor = where( self.tau==0, 0.0, exp( 1.-tau_c/tau1 ) )
         elif tau is 1:
-            self.tau = ones(self.H.shape,Float) * 1e5
+            self.tau = ones(self.H.shape,'d') * 1e5
             factor = 1.0
         else:
             self.tau = array(tau)
             tau1 = clip( self.tau, 1., 9e99 )  # for safe division
             factor = where( self.tau==0, 0.0, exp( 1.-tau_c/tau1 ) )
         # sliding velocity:
-        self.u_slide = ones( self.H.shape, Float ) * Uc * factor
+        self.u_slide = ones( self.H.shape, 'd' ) * Uc * factor
         # variable (verically-averaged) deformation velocity:
         u0 = 0.4*AA * self.H * (self.tau**3)
         self.u_deform_ave = u0
