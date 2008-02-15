@@ -20,18 +20,15 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  * Feb 14, 2008 at 7:01:38 AM
  */
 public class PieChart extends JFrame {
-    private TimesheetApp app;
 
-    public PieChart( TimesheetApp app ) {
-        this.app = app;
-        setContentPane( new PieChartPanel( app ) );
+    public PieChart( TimesheetData timesheetData ) {
+        setContentPane( new PieChartPanel( timesheetData ) );
         new FrameSetup.CenteredWithSize( 800, 600 ).initialize( this );
     }
 
     private class PieChartPanel extends JPanel {
-        public PieChartPanel( TimesheetApp app ) {
+        public PieChartPanel( TimesheetData d ) {
             DefaultPieDataset pieDataset = new DefaultPieDataset();
-            TimesheetData d = app.getTimesheetData();
             ArrayList cat = d.getCategories();
             for ( int i = 0; i < cat.size(); i++ ) {
                 String s = (String) cat.get( i );

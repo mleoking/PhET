@@ -100,8 +100,10 @@ public class TimesheetDataEntry {
     }
 
     public void setStartTime( Date startTime ) {
-        this.startTime = startTime;
-        notifyTimeChanged();
+        if ( !this.startTime.equals( startTime ) ) {
+            this.startTime = startTime;
+            notifyTimeChanged();
+        }
     }
 
     public long getElapsedTimeMillis() {
@@ -170,8 +172,10 @@ public class TimesheetDataEntry {
     }
 
     public void setEndTime( Date endTime ) {
-        this.endTime = endTime;
-        notifyTimeChanged();
+        if ( !this.endTime.equals( endTime ) ) {
+            this.endTime = endTime;
+            notifyTimeChanged();
+        }
     }
 
     public void setCategory( String category ) {

@@ -120,11 +120,12 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
     }
 
-    private void clear() {
+    public void clear() {
         stopAllEntries();
         while ( entries.size() > 0 ) {
             removeEntry( 0 );
         }
+        setChanged( false );
     }
 
     private void removeEntry( int i ) {
@@ -243,6 +244,29 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     public void addAll( TimesheetData d ) {
         for ( int i = 0; i < d.entries.size(); i++ ) {
             addEntry( (TimesheetDataEntry) d.entries.get( i ) );
+        }
+    }
+
+    public int indexOf( TimesheetDataEntry timesheetDataEntry ) {
+        return entries.indexOf( timesheetDataEntry );
+    }
+
+    public void addSelection( int k ) {
+        getEntry( k ).setSelected( true );
+    }
+
+    //if one or zero elements is selected, returns all point.  Otherwise returns a new TimesheetData containing the selected points
+    public TimesheetData getDefaultSelection() {
+        if ( getSelectedEntries().length <= 1 ) {
+            return this;
+        }
+        else {
+            TimesheetData d = new TimesheetData();//todo: memory leak on listener add to new instance
+            TimesheetDataEntry[] s = getSelectedEntries();
+            for ( int i = 0; i < s.length; i++ ) {
+                d.addEntry( s[i] );
+            }
+            return d;
         }
     }
 

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import edu.colorado.phet.build.FileUtils;
@@ -39,18 +40,38 @@ public class TimesheetApp extends JFrame {
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
+        setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\x-office-calendar.png" ) ) );
         this.timesheetData = new TimesheetData();
-        timesheetData.addEntry( new TimesheetDataEntry( new Date(), new Date(), "cck", "hello" ) );
-//        for ( int i = 0; i < 10 * 7 * 4 * 12; i++ ) {
-        for ( int i = 0; i < 20; i++ ) {
-            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "cck", "hello2" ) );
-        }
-        for ( int i = 0; i < 20; i++ ) {
-            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "moving man", "hello2" ) );
-        }
+//        timesheetData.addEntry( new TimesheetDataEntry( new Date(), new Date(), "cck", "hello" ) );
+////        for ( int i = 0; i < 10 * 7 * 4 * 12; i++ ) {
+//        for ( int i = 0; i < 20; i++ ) {
+//            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "cck", "hello2" ) );
+//        }
+//        for ( int i = 0; i < 20; i++ ) {
+//            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "moving man", "hello2" ) );
+//        }
         final TimesheetDataEntry dataEntry = new TimesheetDataEntry( new Date(), new Date(), "cck", "hello 3" );
         dataEntry.setRunning( true );
         timesheetData.addEntry( dataEntry );
+
+        final JMenuItem newItem = new JMenuItem( "New" );
+        newItem.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                try {
+                    if ( ifChangedAskToSaveOrCancel() ) {
+                        return;
+                    }
+                    else {
+                        timesheetData.clear();
+                    }
+                }
+                catch( IOException e1 ) {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        fileMenu.add( newItem );
+
         final JMenuItem openItem = new JMenuItem( "Open" );
         openItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -159,9 +180,21 @@ public class TimesheetApp extends JFrame {
         }
     }
 
-    public static class RecentFileMenuItem extends JMenuItem {
-        public RecentFileMenuItem( String text ) {
+    public class RecentFileMenuItem extends JMenuItem {
+        public RecentFileMenuItem( final String text ) {
             super( text );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    if ( new File( text ).exists() ) {
+                        try {
+                            load( new File( text ) );
+                        }
+                        catch( IOException e1 ) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+            } );
         }
     }
 
@@ -226,17 +259,30 @@ public class TimesheetApp extends JFrame {
         savePreferences();
 
         //todo: save dialog, if changed
+        if ( ifChangedAskToSaveOrCancel() ) {
+            return;
+        }
+
+        System.exit( 0 );
+    }
+
+    /**
+     * return true if cancelled
+     *
+     * @return
+     * @throws IOException
+     */
+    private boolean ifChangedAskToSaveOrCancel() throws IOException {
         if ( hasChanges() ) {
             int option = JOptionPane.showConfirmDialog( this, "You have made unsaved changes.  Save before quitting?" );
             if ( option == JOptionPane.OK_OPTION ) {
                 save();
             }
             else if ( option == JOptionPane.CANCEL_OPTION ) {
-                return;
+                return true;
             }
         }
-
-        System.exit( 0 );
+        return false;
     }
 
     private boolean hasChanges() {
