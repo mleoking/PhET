@@ -27,6 +27,6 @@ public class ConvertBatch {
             timesheetData.addAll( d );
         }
         timesheetData.addAll( ConvertTimecult.readData( new File( "C:\\Users\\Sam\\Desktop\\phet-timesheet (2).tmt" ) ) );
-        FileUtils.writeString( new File( "C:\\Users\\Sam\\Desktop\\batch.csv" ), timesheetData.toCSV() );
+        FileUtils.writeString( new File( "C:\\Users\\Sam\\Desktop\\phet-timesheet-converted.csv" ), timesheetData.toCSV() );
     }
 }
