@@ -65,6 +65,9 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     }
 
     public void runningChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).timeEntryRunningChanged();
+        }
     }
 
     public void categoryChanged() {
@@ -76,6 +79,13 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     }
 
     public void selectionChanged() {
+        notifySelectionChanged();
+    }
+
+    private void notifySelectionChanged() {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            ( (Listener) listeners.get( i ) ).selectionChanged();
+        }
     }
 
     public void stopAllEntries() {
@@ -116,6 +126,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     private void removeEntry( int i ) {
         TimesheetDataEntry entry = (TimesheetDataEntry) entries.remove( i );
         notifyEntryRemoved( entry );
+        setChanged( true );
     }
 
     private void notifyEntryRemoved( TimesheetDataEntry entry ) {
@@ -172,14 +183,73 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         return hasChanges;
     }
 
+    public TimesheetDataEntry[] getSelectedEntries() {
+        ArrayList x = new ArrayList();
+        for ( int i = 0; i < this.entries.size(); i++ ) {
+            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( timesheetDataEntry.isSelected() ) {
+                x.add( timesheetDataEntry );
+            }
+        }
+        return (TimesheetDataEntry[]) x.toArray( new TimesheetDataEntry[0] );
+    }
+
+    public void removeEntries( TimesheetDataEntry[] selected ) {
+        for ( int i = 0; i < selected.length; i++ ) {
+            removeEntry( entries.indexOf( selected[i] ) );
+        }
+    }
+
+    public boolean isRunning() {
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( timesheetDataEntry.isRunning() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void insertNewEntry() {
+
+        TimesheetDataEntry[] s = getSelectedEntries();
+        assert s.length > 0;
+        int lastSelectedIndex = entries.indexOf( s[s.length - 1] );
+        TimesheetDataEntry newEntry = new TimesheetDataEntry( new Date(), new Date(), "", "" );
+        clearSelection();
+        newEntry.setSelected( true );
+        insertEntry( newEntry, lastSelectedIndex + 1 );
+    }
+
+    private void insertEntry( TimesheetDataEntry newEntry, int index ) {
+        newEntry.addListener( this );
+        entries.add( index, newEntry );
+        notifyEntryInserted( newEntry );
+        setChanged( true );
+        notifySelectionChanged();
+    }
+
+    private void notifyEntryInserted( TimesheetDataEntry e ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
+            listener.timeEntryInserted( e );
+        }
+    }
+
     public static interface Listener {
-        void timeEntryAdded( TimesheetDataEntry e );
+        void timeEntryAppended( TimesheetDataEntry e );
 
         void timeChanged();
 
         void timeEntryRemoved( TimesheetDataEntry entry );
 
         void notifyHasChangesStateChanged();
+
+        void timeEntryRunningChanged();
+
+        void selectionChanged();
+
+        void timeEntryInserted( TimesheetDataEntry e );
     }
 
     private ArrayList listeners = new ArrayList();
@@ -190,7 +260,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
 
     public void notifyEntryAdded( TimesheetDataEntry e ) {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (Listener) listeners.get( i ) ).timeEntryAdded( e );
+            ( (Listener) listeners.get( i ) ).timeEntryAppended( e );
         }
     }
 
@@ -201,7 +271,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     }
 
     public static class Adapter implements Listener {
-        public void timeEntryAdded( TimesheetDataEntry e ) {
+        public void timeEntryAppended( TimesheetDataEntry e ) {
         }
 
         public void timeChanged() {
@@ -211,6 +281,15 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
 
         public void notifyHasChangesStateChanged() {
+        }
+
+        public void timeEntryRunningChanged() {
+        }
+
+        public void selectionChanged() {
+        }
+
+        public void timeEntryInserted( TimesheetDataEntry e ) {
         }
     }
 }
