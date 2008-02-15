@@ -40,8 +40,7 @@ public class MassBalanceControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private DoubleSpinner _equilibriumLineAltitudeSpinner;
-    private DoubleSpinner _massBalanceSlopeSpinner;
-    private DoubleSpinner _maximumMassBalanceSpinner;
+    private DoubleSpinner _maximumSnowfallSpinner;
     
     private ArrayList _listeners; // list of MassBalanceControlPanelListener
     
@@ -51,8 +50,7 @@ public class MassBalanceControlPanel extends JPanel {
     
     public MassBalanceControlPanel( 
             DoubleRange equilibriumLineAltitudeRange,
-            DoubleRange massBalanceSlopeRange,
-            DoubleRange maximumMassBalanceRange ) {
+            DoubleRange maximumSnowfallRange ) {
         super();
         
         _listeners = new ArrayList();
@@ -61,25 +59,17 @@ public class MassBalanceControlPanel extends JPanel {
         equilibriumLineAltitudeLabel.setForeground( CONTROL_COLOR );
         equilibriumLineAltitudeLabel.setFont( CONTROL_FONT );
         
-        JLabel massBalanceSlopeLabel = new JLabel( GlaciersStrings.LABEL_MASS_BALANCE_SLOPE );
-        massBalanceSlopeLabel.setForeground( CONTROL_COLOR );
-        massBalanceSlopeLabel.setFont( CONTROL_FONT );
-        
-        JLabel maximumMassBalanceLabel = new JLabel( GlaciersStrings.LABEL_MAXIMUM_MASS_BALANCE );
-        maximumMassBalanceLabel.setForeground( CONTROL_COLOR );
-        maximumMassBalanceLabel.setFont( CONTROL_FONT );
+        JLabel maximumSnowfallLabel = new JLabel( GlaciersStrings.LABEL_MAXIMUM_SNOWFALL );
+        maximumSnowfallLabel.setForeground( CONTROL_COLOR );
+        maximumSnowfallLabel.setFont( CONTROL_FONT );
         
         JLabel equilibriumLineAltitudeUnits= new JLabel( GlaciersStrings.UNITS_EQUILIBRIUM_LINE_ALTITUDE );
         equilibriumLineAltitudeUnits.setForeground( CONTROL_COLOR );
         equilibriumLineAltitudeUnits.setFont( CONTROL_FONT );
         
-        JLabel massBalanceSlopeUnits = new JLabel( GlaciersStrings.UNITS_MASS_BALANCE_SLOPE );
-        massBalanceSlopeUnits.setForeground( CONTROL_COLOR );
-        massBalanceSlopeUnits.setFont( CONTROL_FONT );
-        
-        JLabel maximumMassBalanceUnits = new JLabel( GlaciersStrings.UNITS_MAXIMUM_MASS_BALANCE );
-        maximumMassBalanceUnits.setForeground( CONTROL_COLOR );
-        maximumMassBalanceUnits.setFont( CONTROL_FONT );
+        JLabel maximumSnowfallUnits = new JLabel( GlaciersStrings.UNITS_MAXIMUM_SNOWFALL );
+        maximumSnowfallUnits.setForeground( CONTROL_COLOR );
+        maximumSnowfallUnits.setFont( CONTROL_FONT );
         
         double value = equilibriumLineAltitudeRange.getDefault();
         double min = equilibriumLineAltitudeRange.getMin();
@@ -93,30 +83,17 @@ public class MassBalanceControlPanel extends JPanel {
             }
         });
         
-        value = massBalanceSlopeRange.getDefault();
-        min = massBalanceSlopeRange.getMin();
-        max = massBalanceSlopeRange.getMax();
-        step = 1; //XXX
-        format = "0";//XXX
-        _massBalanceSlopeSpinner = new DoubleSpinner( value, min, max, step, format, SPINNER_SIZE );
-        _massBalanceSlopeSpinner.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                notifyMassBalanceSlopeChanged();
-            }
-        });
-        
-        value = maximumMassBalanceRange.getDefault();
-        min = maximumMassBalanceRange.getMin();
-        max = maximumMassBalanceRange.getMax();
+        value = maximumSnowfallRange.getDefault();
+        min = maximumSnowfallRange.getMin();
+        max = maximumSnowfallRange.getMax();
         step = 0.1; //XXX
         format = "0.0";//XXX
-        _maximumMassBalanceSpinner = new DoubleSpinner( value, min, max, step, format, SPINNER_SIZE );
-        _maximumMassBalanceSpinner.addChangeListener( new ChangeListener() {
+        _maximumSnowfallSpinner = new DoubleSpinner( value, min, max, step, format, SPINNER_SIZE );
+        _maximumSnowfallSpinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 notifyMaximumMassBalanceChanged();
             }
         });
-        
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
@@ -127,14 +104,9 @@ public class MassBalanceControlPanel extends JPanel {
         layout.addAnchoredComponent( equilibriumLineAltitudeUnits, row, column++, GridBagConstraints.WEST );
         row++;
         column = 0;
-        layout.addAnchoredComponent( massBalanceSlopeLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _massBalanceSlopeSpinner, row, column++, GridBagConstraints.WEST );
-        layout.addAnchoredComponent( massBalanceSlopeUnits, row, column++, GridBagConstraints.WEST );
-        row++;
-        column = 0;
-        layout.addAnchoredComponent( maximumMassBalanceLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _maximumMassBalanceSpinner, row, column++, GridBagConstraints.WEST );
-        layout.addAnchoredComponent( maximumMassBalanceUnits, row, column++, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( maximumSnowfallLabel, row, column++, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( _maximumSnowfallSpinner, row, column++, GridBagConstraints.WEST );
+        layout.addAnchoredComponent( maximumSnowfallUnits, row, column++, GridBagConstraints.WEST );
     }
     
     //----------------------------------------------------------------------------
@@ -151,23 +123,13 @@ public class MassBalanceControlPanel extends JPanel {
         return _equilibriumLineAltitudeSpinner.getValue();
     }
     
-    public void setMassBalanceSlope( double slope ) {
-        if ( slope != getMassBalanceSlope() ) {
-            _massBalanceSlopeSpinner.setValue( slope );
+    public void setMaximumSnowfall( double maximumSnowfall ) {
+        if ( maximumSnowfall != getMaximumSnowfall() ) {
+            _maximumSnowfallSpinner.setValue( maximumSnowfall );
         }
     }
-    
-    public double getMassBalanceSlope() {
-        return _massBalanceSlopeSpinner.getValue();
-    }
-    
-    public void setMaximumMassBalance( double maximumMassBalance ) {
-        if ( maximumMassBalance != getMaximumMassBalance() ) {
-            _maximumMassBalanceSpinner.setValue( maximumMassBalance );
-        }
-    }
-    public double getMaximumMassBalance() {
-        return _maximumMassBalanceSpinner.getValue();
+    public double getMaximumSnowfall() {
+        return _maximumSnowfallSpinner.getValue();
     }
     
     //----------------------------------------------------------------------------
@@ -176,14 +138,12 @@ public class MassBalanceControlPanel extends JPanel {
     
     public interface MassBalanceControlPanelListener {
         public void equilibriumLineAltitudeChanged( double altitude );
-        public void massBalanceSlopeChanged( double slope );
-        public void maximumMassBalanceChanged( double maximumMassBalance );
+        public void maximumSnowfallChanged( double maximumSnowfall );
     }
     
     public static class MassBalanaceControlPanelAdapter implements MassBalanceControlPanelListener {
         public void equilibriumLineAltitudeChanged( double altitude ) {}
-        public void massBalanceSlopeChanged( double slope ) {}
-        public void maximumMassBalanceChanged( double maximumMassBalance ) {}
+        public void maximumSnowfallChanged( double maximumSnowfall ) {}
     }
     
     //----------------------------------------------------------------------------
@@ -198,19 +158,11 @@ public class MassBalanceControlPanel extends JPanel {
         }
     }
     
-    private void notifyMassBalanceSlopeChanged() {
-        final double value = _massBalanceSlopeSpinner.getValue();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (MassBalanceControlPanelListener) i.next() ).massBalanceSlopeChanged( value );
-        }
-    }
-    
     private void notifyMaximumMassBalanceChanged() {
-        final double value = _maximumMassBalanceSpinner.getValue();
+        final double value = _maximumSnowfallSpinner.getValue();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (MassBalanceControlPanelListener) i.next() ).maximumMassBalanceChanged( value );
+            ( (MassBalanceControlPanelListener) i.next() ).maximumSnowfallChanged( value );
         }
     }
 }

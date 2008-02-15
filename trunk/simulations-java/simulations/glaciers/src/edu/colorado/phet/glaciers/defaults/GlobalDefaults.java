@@ -36,6 +36,5 @@ import edu.colorado.phet.glaciers.model.Climate;
     
     //XXX ???
     public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 4000, 0 ); //XXX ??? (meters)
-    public static final DoubleRange MASS_BALANCE_SLOPE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX ??? (units?)
-    public static final DoubleRange MAXIMUM_MASS_BALANCE_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX ??? (units?)
+    public static final DoubleRange MAXIMUM_SNOWFALL_RANGE = new DoubleRange( 0, 1000, 0 ); //XXX ??? (meters/year)
 }
