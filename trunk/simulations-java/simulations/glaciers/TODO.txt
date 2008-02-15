@@ -27,13 +27,14 @@ IMPLEMENTATION ISSUES:
 - LoD (level of detail) in birds-eye view
 
 HIGH PRIORITY:
-- display equilibrium line properly
-- change snowfall from a reference elevation to meters/yr/meter above sea level
+- fix layout problems with main control panel
+- add ELA to temp/snowfall conversion in climate model
+- reimplement Mass Balance control panel for ELA and max snowfall controls
+- display equilibrium line properly (horizontal dashed line)
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity
 - optimization of ice velocity
 - implement time-scaling portion of glacier model
-- equilibrium line visualization: draw a horizontal line from equilibrium line position, thru ice cross-section to where it intersects glacier surface
 
 MEDIUM PRIORITY:
 - add pseudo-3D perspective
