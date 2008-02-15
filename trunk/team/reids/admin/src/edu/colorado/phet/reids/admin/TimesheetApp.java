@@ -108,6 +108,12 @@ public class TimesheetApp extends JFrame {
             public void windowClosing( WindowEvent e ) {
                 try {
                     exit();
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setVisible( true );
+                        }
+                    } );
+
                 }
                 catch( IOException e1 ) {
                     e1.printStackTrace();
@@ -229,6 +235,9 @@ public class TimesheetApp extends JFrame {
             int option = JOptionPane.showConfirmDialog( this, "You have made unsaved changes.  Save before quitting?" );
             if ( option == JOptionPane.OK_OPTION ) {
                 save();
+            }
+            else if ( option == JOptionPane.CANCEL_OPTION ) {
+                return;
             }
         }
 
