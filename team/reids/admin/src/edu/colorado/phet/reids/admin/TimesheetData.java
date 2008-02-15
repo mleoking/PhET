@@ -1,6 +1,7 @@
 package edu.colorado.phet.reids.admin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.StringTokenizer;
 
@@ -268,6 +269,24 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
             }
             return d;
         }
+    }
+
+    public Date getMinTime() {
+        long[] a = new long[getNumEntries()];
+        for ( int i = 0; i < a.length; i++ ) {
+            a[i] = getEntry( i ).getStartTime().getTime();
+        }
+        Arrays.sort( a );
+        return new Date( a[0] );
+    }
+
+    public Date getMaxTime() {
+        long[] a = new long[getNumEntries()];
+        for ( int i = 0; i < a.length; i++ ) {
+            a[i] = getEntry( i ).getEndTime().getTime();
+        }
+        Arrays.sort( a );
+        return new Date( a[a.length - 1] );
     }
 
     public static interface Listener {
