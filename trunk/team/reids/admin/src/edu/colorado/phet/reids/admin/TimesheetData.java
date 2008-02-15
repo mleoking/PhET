@@ -236,6 +236,12 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
     }
 
+    public void addAll( TimesheetData d ) {
+        for ( int i = 0; i < d.entries.size(); i++ ) {
+            addEntry( (TimesheetDataEntry) d.entries.get( i ) );
+        }
+    }
+
     public static interface Listener {
         void timeEntryAppended( TimesheetDataEntry e );
 

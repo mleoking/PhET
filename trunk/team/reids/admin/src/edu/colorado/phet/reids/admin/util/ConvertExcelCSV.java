@@ -24,13 +24,16 @@ public class ConvertExcelCSV {
         dst.mkdirs();
         for ( int i = 0; i < src.listFiles().length; i++ ) {
             File f = src.listFiles()[i];
-            String input = FileUtils.loadFileAsString( f );
-            String converted = convert( input );
-            FileUtils.writeString( new File( dst, f.getName() ), converted );
+            TimesheetData converted = load( f );
+            FileUtils.writeString( new File( dst, f.getName() ), converted.toCSV() );
         }
     }
 
-    private static String convert( String input ) throws ParseException {
+    public static TimesheetData load( File file ) throws ParseException, IOException {
+        return convert( FileUtils.loadFileAsString( file ) );
+    }
+
+    public static TimesheetData convert( String input ) throws ParseException {
         TimesheetData data = new TimesheetData();
         StringTokenizer lineTokenizer = new StringTokenizer( input, "\n" );
         while ( lineTokenizer.hasMoreTokens() ) {
@@ -39,7 +42,7 @@ public class ConvertExcelCSV {
                 data.addEntry( toEntry( line ) );
             }
         }
-        return data.toCSV();
+        return data;
     }
 
     private static TimesheetDataEntry toEntry( String line ) throws ParseException {
