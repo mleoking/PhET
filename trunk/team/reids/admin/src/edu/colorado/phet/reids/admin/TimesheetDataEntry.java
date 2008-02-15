@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import javax.swing.*;
@@ -120,17 +121,24 @@ public class TimesheetDataEntry {
     }
 
     public static TimesheetDataEntry parseCSV( String line ) {
+        System.out.println( "line = " + line );
         StringTokenizer st = new StringTokenizer( line, "," );
         try {
             final Date start = STORAGE_FORMAT.parse( st.nextToken() );
             final Date end = STORAGE_FORMAT.parse( st.nextToken() );
-            st.nextToken();
+            st.nextToken();//skip elapsed time
             //everything after 4th comma is notes (which may have commas)
             int index1 = line.indexOf( ',', 0 );
             int index2 = line.indexOf( ',', index1 + 1 );
             int index3 = line.indexOf( ',', index2 + 1 );
             int index4 = line.indexOf( ',', index3 + 1 );
-            return new TimesheetDataEntry( start, end, st.nextToken(), line.substring( index4 + 1 ) );
+            String category = "";
+            try {
+                category = st.nextToken();
+            }
+            catch( NoSuchElementException e ) {
+            }
+            return new TimesheetDataEntry( start, end, category, line.substring( index4 + 1 ) );
         }
         catch( ParseException e ) {
             e.printStackTrace();

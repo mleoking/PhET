@@ -14,12 +14,13 @@ public class SummaryPanel extends JPanel {
     private JTextField summary;
     private TimesheetData data;
     private TimesheetApp app;
+    private final JButton saveButton = new JButton( "Save" );
 
     public SummaryPanel( final TimesheetData data, final TimesheetApp app ) {
         this.app = app;
         summary = new JTextField( 10 );
         this.data = data;
-        data.addListener( new TimesheetData.Listener() {
+        data.addListener( new TimesheetData.Adapter() {
             public void timeEntryAdded( TimesheetDataEntry e ) {
                 updateTimeEntry();
             }
@@ -50,7 +51,6 @@ public class SummaryPanel extends JPanel {
         } );
         add( newEntry );
         add( summary );
-        JButton saveButton = new JButton( "Save" );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -62,6 +62,11 @@ public class SummaryPanel extends JPanel {
             }
         } );
         add( saveButton );
+        data.addListener( new TimesheetData.Adapter() {
+            public void notifyHasChangesStateChanged() {
+                updateSaveButtonEnabled();
+            }
+        } );
 
         JButton piechart = new JButton( "Pie Chart" );
         piechart.addActionListener( new ActionListener() {
@@ -70,6 +75,11 @@ public class SummaryPanel extends JPanel {
             }
         } );
         add( piechart );
+        updateSaveButtonEnabled();
+    }
+
+    private void updateSaveButtonEnabled() {
+        saveButton.setEnabled( data.hasChanges() );
     }
 
     private void updateTimeEntry() {
