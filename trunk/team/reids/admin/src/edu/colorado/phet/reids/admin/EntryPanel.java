@@ -3,7 +3,9 @@ package edu.colorado.phet.reids.admin;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
@@ -117,6 +119,23 @@ public class EntryPanel extends JPanel {
             }
         } );
         updateSelected();
+
+        updateBackground();
+
+    }
+
+    public int getCurrent( int field ) {
+        Calendar c = new GregorianCalendar();
+        return c.get( field );
+    }
+
+    private void updateBackground() {
+        Calendar c = new GregorianCalendar();
+        c.setTime( entry.getStartTime() );
+        if ( c.get( Calendar.DAY_OF_WEEK ) == getCurrent( Calendar.DAY_OF_WEEK ) ) {
+            setBackground( new Color( 128, 128, 255 ) );
+        }
+
     }
 
     private void updateSelected() {
