@@ -40,30 +40,40 @@ public class BasicController {
         final SnowfallAndTemperatureControlPanel snowfallAndTemperatureControlPanel = controlPanel.getClimateControlPanel().getSnowfallAndTemperatureControlPanel();
         snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
-            public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setSnowfallReferenceElevation( snowfall );
-            }
-
             public void temperatureChanged( double temperature ) {
                 _model.getClimate().setTemperature( temperature );
+            }
+            
+            public void snowfallChanged( double snowfall ) {
+                _model.getClimate().setSnowfall( snowfall );
+            }
+
+            public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {
+                _model.getClimate().setSnowfallReferenceElevation( snowfallReferenceElevation );
             }
         });
         
         // Update the climate controls when the climate model is changed.
         _model.getClimate().addClimateListener( new ClimateListener() {
 
-            public void snowfallChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallReferenceElevation() );
-            }
-
             public void temperatureChanged() {
                 snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
             }
+            
+            public void snowfallChanged() {
+                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+            }
+
+            public void snowfallReferenceElevationChanged() {
+                snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( _model.getClimate().getSnowfallReferenceElevation() );
+            }
+
         } );
         
         // Initialization
         _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfallReferenceElevation() );
+        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+        snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( _model.getClimate().getSnowfallReferenceElevation() );
         snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
     }
 

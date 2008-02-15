@@ -61,12 +61,17 @@ public class Glacier extends ClockAdapter {
         _climateListener = new ClimateListener() {
 
             //XXX temporary, to demonstrate immediate changes
+            public void temperatureChanged() {
+                updateIceThickness();
+            }
+            
+            //XXX temporary, to demonstrate immediate changes
             public void snowfallChanged() {
                 updateIceThickness();
             }
 
             //XXX temporary, to demonstrate immediate changes
-            public void temperatureChanged() {
+            public void snowfallReferenceElevationChanged() {
                 updateIceThickness();
             }
         };

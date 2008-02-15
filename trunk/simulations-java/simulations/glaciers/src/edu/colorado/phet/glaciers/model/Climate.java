@@ -19,7 +19,6 @@ public class Climate {
     private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
     private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // elevation where snowfall is 50% of max in modern times (meters)
     
-    private static final double SNOWFALL_MAX = 2.0; // maximum accumulation (meters/year)
     private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the snow curve transition is (meters)
      
     private static final double ABLATION_SCALE_FACTOR = 30;
@@ -32,7 +31,8 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private double _temperature; // temperature at sea level (degrees C)
-    private double _snowfallReferenceElevation; // the reference elevation where snowfall is 50% of max (meters)
+    private double _snowfall; // snow accumulation (meters/year)
+    private double _snowfallReferenceElevation; // reference elevation for snowfall (meters)
     private ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
@@ -43,10 +43,12 @@ public class Climate {
      * Constructor.
      * 
      * @param temperature temperature at sea level (degrees C)
-     * @param snowfallReferenceElevation the elevation where snowfall is 50% of max (meters)
+     * @param snowfall snowfall (meters/year)
+     * @param snowfallReferenceElevation reference elevation for snowfall (meters)
      */
-    public Climate( double temperature, double snowfallReferenceElevation ) {
+    public Climate( double temperature, double snowfall, double snowfallReferenceElevation ) {
         _temperature = temperature;
+        _snowfall = snowfall;
         _snowfallReferenceElevation = snowfallReferenceElevation;
         _listeners = new ArrayList();
     }
@@ -100,16 +102,38 @@ public class Climate {
         return _temperature;
     }
     
+    public void setSnowfall( double snowfall ) {
+        assert( snowfall >= 0 );
+        if ( snowfall != _snowfall ) {
+            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
+            _snowfall = snowfall;
+            notifySnowfallChanged();
+        }
+    }
+    
+    public double getSnowfall() {
+        return _snowfall;
+    }
+    
+    public void setMaxSnowfall( double maxSnowfall ) {
+        setSnowfall( 0.5 * maxSnowfall );
+    }
+    
+    public double getMaxSnowfall() {
+        return 2 * _snowfall;
+    }
+    
     /**
      * Sets the elevation where snowfall is 50% of max.
      * 
      * @param snowfallReferenceElevation meters
      */
     public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
+        assert( snowfallReferenceElevation >= 0 );
         if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
             System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
             _snowfallReferenceElevation = snowfallReferenceElevation;
-            notifySnowfallChanged();
+            notifySnowfallReferenceElevationChanged();
         }
     }
     
@@ -141,7 +165,7 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = SNOWFALL_MAX * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        double accumulation = getMaxSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
         assert( accumulation >= 0 );
         return accumulation;
     }
@@ -190,11 +214,13 @@ public class Climate {
     public interface ClimateListener {
         public void temperatureChanged();
         public void snowfallChanged();
+        public void snowfallReferenceElevationChanged();
     }
     
     public static class ClimateAdapter implements ClimateListener {
         public void temperatureChanged() {};
         public void snowfallChanged() {};
+        public void snowfallReferenceElevationChanged() {};
     }
     
     public void addClimateListener( ClimateListener listener ) {
@@ -220,6 +246,13 @@ public class Climate {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ClimateListener) i.next() ).snowfallChanged();
+        }
+    }
+    
+    private void notifySnowfallReferenceElevationChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (ClimateListener) i.next() ).snowfallReferenceElevationChanged();
         }
     }
 }

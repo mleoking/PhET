@@ -55,6 +55,7 @@ public class BasicClimateControlPanel extends JPanel {
     
     public BasicClimateControlPanel( 
             DoubleRange snowfallRange, 
+            DoubleRange snowfallReferenceElevationRange,
             DoubleRange temperatureRange,
             DoubleRange equilibriumLineAltitudeRange,
             DoubleRange maximumSnowfallRange ) {
@@ -80,7 +81,7 @@ public class BasicClimateControlPanel extends JPanel {
         buttonPanelLayout.addComponent( _snowfallAndTemperatureRadioButton, row++, column );
         buttonPanelLayout.addComponent( _massBalanceRadioButton, row++, column );
         
-        _snowfallAndTemperatureControlPanel = new SnowfallAndTemperatureControlPanel( snowfallRange, temperatureRange );
+        _snowfallAndTemperatureControlPanel = new SnowfallAndTemperatureControlPanel( snowfallRange, snowfallReferenceElevationRange, temperatureRange );
         
         _massBalanceControlPanel = new MassBalanceControlPanel( equilibriumLineAltitudeRange, maximumSnowfallRange );
         

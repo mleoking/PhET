@@ -5,10 +5,7 @@ package edu.colorado.phet.glaciers.module.basic;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 
-import javax.swing.Box;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
@@ -49,8 +46,12 @@ public class BasicControlPanel extends JPanel {
         super();
         
         _viewControlPanel = new ViewControlPanel();
-        _climateControlPanel = new BasicClimateControlPanel( BasicDefaults.SNOWFALL_RANGE, BasicDefaults.TEMPERATURE_RANGE,
-                BasicDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE, BasicDefaults.MAXIMUM_SNOWFALL_RANGE );
+        _climateControlPanel = new BasicClimateControlPanel( 
+                BasicDefaults.SNOWFALL_RANGE,
+                BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE,
+                BasicDefaults.TEMPERATURE_RANGE,
+                BasicDefaults.EQUILIBRIUM_LINE_ALTITUDE_RANGE, 
+                BasicDefaults.MAXIMUM_SNOWFALL_RANGE );
         
         _graphsControlPanel = new GraphsControlPanel();
         _clockControlPanel = new GlaciersClockControlPanel( clock );

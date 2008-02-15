@@ -71,7 +71,7 @@ public abstract class AbstractModel implements IToolProducer {
     }
     
     public GlacialBudgetMeter addGlacialBudgetMeter( Point2D position ) {
-        GlacialBudgetMeter tool = new GlacialBudgetMeter( position, getValley(), getClimate() );
+        GlacialBudgetMeter tool = new GlacialBudgetMeter( position, getClimate() );
         addTool( tool );
         return tool;
     }
