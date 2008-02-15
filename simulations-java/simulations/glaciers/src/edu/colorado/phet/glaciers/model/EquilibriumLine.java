@@ -58,6 +58,10 @@ public class EquilibriumLine {
             public void snowfallChanged() {
                 updatePosition();
             }
+            
+            public void snowfallReferenceElevationChanged() {
+                updatePosition();
+            }
         };
         _climate.addClimateListener( _climateListener );
         

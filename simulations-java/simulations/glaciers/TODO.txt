@@ -78,6 +78,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/14/08 - update climate continuously while dragging sliders, performance is OK
+2/14/08 - provide separate controls from snowfall and snowfall reference elevation, in model and control panels
 2/14/08 - change mass balance climate control panel, based on Archies new spec (design still has problems)
 2/14/08 - fix glacial budget meter, it should use the meter's elevation, not the valley floor elevation
 ******** 0.00.05 (19804)

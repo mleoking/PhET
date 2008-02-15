@@ -20,7 +20,6 @@ public class GlacialBudgetMeter extends AbstractTool {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private Valley _valley;
     private Climate _climate;
     private ClimateListener _climateListener;
     private double _accumulation;
@@ -32,10 +31,8 @@ public class GlacialBudgetMeter extends AbstractTool {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlacialBudgetMeter( Point2D position, Valley valley, Climate climate ) {
+    public GlacialBudgetMeter( Point2D position, Climate climate ) {
         super( position );
-        
-        _valley = valley;
         
         _climate = climate;
         _climateListener = new ClimateListener() {
@@ -44,6 +41,10 @@ public class GlacialBudgetMeter extends AbstractTool {
             }
 
             public void snowfallChanged() {
+                updateAllValues();
+            }
+            
+            public void snowfallReferenceElevationChanged() {
                 updateAllValues();
             }
         };

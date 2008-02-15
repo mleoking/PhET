@@ -59,11 +59,8 @@ public class GlaciersStrings {
     public static final String SLIDER_CLOCK_SLOW = GlaciersResources.getString( "slider.clock.slow" );
     public static final String SLIDER_CLOCK_FAST = GlaciersResources.getString( "slider.clock.fast" );
     public static final String SLIDER_SNOWFALL = GlaciersResources.getString( "slider.snowfall" );
-    public static final String SLIDER_SNOWFALL_LITTLE = GlaciersResources.getString( "slider.snowfall.little" );
-    public static final String SLIDER_SNOWFALL_LOTS = GlaciersResources.getString( "slider.snowfall.lots" );
+    public static final String SLIDER_SNOWFALL_REFERENCE_ELEVATION = GlaciersResources.getString( "slider.snowfallReferenceElevation" );
     public static final String SLIDER_TEMPERATURE = GlaciersResources.getString( "slider.temperature" );
-    public static final String SLIDER_TEMPERATURE_COLD = GlaciersResources.getString( "slider.temperature.cold" );
-    public static final String SLIDER_TEMPERATURE_HOT = GlaciersResources.getString( "slider.temperature.hot" );
     
     public static final String TOOLBOX_THERMOMETER = GlaciersResources.getString( "toolbox.thermometer" );
     public static final String TOOLBOX_GLACIAL_BUDGET_METER = GlaciersResources.getString( "toolbox.glacialBudgetMeter" );
@@ -83,10 +80,11 @@ public class GlaciersStrings {
     
     public static final String UNITS_ABLATION = GlaciersResources.getString( "units.ablation" );
     public static final String UNITS_ACCUMULATION = GlaciersResources.getString( "units.accumulation" );
+    public static final String UNITS_DISTANCE = GlaciersResources.getString( "units.distance" );
+    public static final String UNITS_ELEVATION = GlaciersResources.getString( "units.elevation" );
     public static final String UNITS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "units.equilibriumLineAltitude" );
     public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
     public static final String UNITS_ICE_THICKNESS = GlaciersResources.getString( "units.iceThickness" );
-    public static final String UNITS_MAXIMUM_SNOWFALL = GlaciersResources.getString( "units.maximumSnowfall" );
     public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
     

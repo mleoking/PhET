@@ -67,7 +67,7 @@ public class MassBalanceControlPanel extends JPanel {
         equilibriumLineAltitudeUnits.setForeground( CONTROL_COLOR );
         equilibriumLineAltitudeUnits.setFont( CONTROL_FONT );
         
-        JLabel maximumSnowfallUnits = new JLabel( GlaciersStrings.UNITS_MAXIMUM_SNOWFALL );
+        JLabel maximumSnowfallUnits = new JLabel( GlaciersStrings.UNITS_ACCUMULATION );
         maximumSnowfallUnits.setForeground( CONTROL_COLOR );
         maximumSnowfallUnits.setFont( CONTROL_FONT );
         
