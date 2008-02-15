@@ -18,15 +18,11 @@ public class SpreadsheetPanel extends JPanel {
         for ( int i = 0; i < data.getNumEntries(); i++ ) {
             add( new EntryPanel( data, data.getEntry( i ) ), gridBagConstraints );
         }
-        data.addListener( new TimesheetData.Listener() {
+        data.addListener( new TimesheetData.Adapter() {
             public void timeEntryAdded( TimesheetDataEntry e ) {
                 add( new EntryPanel( data, e ), gridBagConstraints );
                 notifyListener();
             }
-
-            public void timeChanged() {
-            }
-
             public void timeEntryRemoved( TimesheetDataEntry entry ) {
                 for ( int i = 0; i < getComponentCount(); i++ ) {
                     EntryPanel ep = (EntryPanel) getComponent( i );

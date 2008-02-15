@@ -221,12 +221,23 @@ public class TimesheetApp extends JFrame {
     }
 
     private void exit() throws IOException {
-        savePreferences();
-        //save dialog
         //save prefs
+        savePreferences();
+
+        //todo: save dialog, if changed
+        if ( hasChanges() ) {
+            int option = JOptionPane.showConfirmDialog( this, "You have made unsaved changes.  Save before quitting?" );
+            if ( option == JOptionPane.OK_OPTION ) {
+                save();
+            }
+        }
+
         System.exit( 0 );
     }
 
+    private boolean hasChanges() {
+        return timesheetData.hasChanges();
+    }
 
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
@@ -264,6 +275,7 @@ public class TimesheetApp extends JFrame {
         timesheetData.loadCSV( str );
         addCurrentToRecent();
         setTitle( "Timesheet: " + selectedFile.getName() + " [" + selectedFile.getAbsolutePath() + "]" );
+        timesheetData.clearChanges();
     }
 
     public void saveAs() throws IOException {
@@ -316,6 +328,8 @@ public class TimesheetApp extends JFrame {
         currentFile.getParentFile().mkdirs();
         String s = timesheetData.toCSV();
         FileUtils.writeString( currentFile, s );
+        System.out.println( "Saved to: " + currentFile.getAbsolutePath() );
+        timesheetData.clearChanges();
     }
 
     private void addCurrentToRecent() {

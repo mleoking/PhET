@@ -8,13 +8,15 @@ import java.util.StringTokenizer;
  * Created by: Sam
  * Feb 13, 2008 at 10:31:44 PM
  */
-public class TimesheetData extends TimesheetDataEntry.Adapter {
+public class TimesheetData implements TimesheetDataEntry.Listener {
     private ArrayList entries = new ArrayList();
+    private boolean hasChanges = false;
 
     public void addEntry( TimesheetDataEntry entry ) {
         entries.add( entry );
         entry.addListener( this );
         notifyEntryAdded( entry );
+        setChanged( true );
     }
 
     public String toCSV() {
@@ -24,6 +26,10 @@ public class TimesheetData extends TimesheetDataEntry.Adapter {
             s += timesheetDataEntry.toCSV() + "\n";
         }
         return s;
+    }
+
+    public void clearChanges() {
+        setChanged( false );
     }
 
     public TimesheetDataEntry getEntry( int i ) {
@@ -44,7 +50,32 @@ public class TimesheetData extends TimesheetDataEntry.Adapter {
     }
 
     public void timeChanged() {
+        setChanged( true );
         notifyTimeChanged();
+    }
+
+    private void setChanged( boolean ch ) {
+        if ( this.hasChanges != ch ) {
+            this.hasChanges = ch;
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
+                listener.notifyHasChangesStateChanged();
+            }
+        }
+    }
+
+    public void runningChanged() {
+    }
+
+    public void categoryChanged() {
+        setChanged( true );
+    }
+
+    public void notesChanged() {
+        setChanged( true );
+    }
+
+    public void selectionChanged() {
     }
 
     public void stopAllEntries() {
@@ -76,6 +107,7 @@ public class TimesheetData extends TimesheetDataEntry.Adapter {
     }
 
     private void clear() {
+        stopAllEntries();
         while ( entries.size() > 0 ) {
             removeEntry( 0 );
         }
@@ -136,12 +168,18 @@ public class TimesheetData extends TimesheetDataEntry.Adapter {
         }
     }
 
+    public boolean hasChanges() {
+        return hasChanges;
+    }
+
     public static interface Listener {
         void timeEntryAdded( TimesheetDataEntry e );
 
         void timeChanged();
 
         void timeEntryRemoved( TimesheetDataEntry entry );
+
+        void notifyHasChangesStateChanged();
     }
 
     private ArrayList listeners = new ArrayList();
@@ -159,6 +197,20 @@ public class TimesheetData extends TimesheetDataEntry.Adapter {
     public void notifyTimeChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             ( (Listener) listeners.get( i ) ).timeChanged();
+        }
+    }
+
+    public static class Adapter implements Listener {
+        public void timeEntryAdded( TimesheetDataEntry e ) {
+        }
+
+        public void timeChanged() {
+        }
+
+        public void timeEntryRemoved( TimesheetDataEntry entry ) {
+        }
+
+        public void notifyHasChangesStateChanged() {
         }
     }
 }
