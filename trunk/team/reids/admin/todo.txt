@@ -6,6 +6,4 @@
 -Progress Bar for weekly progress?
 -Sort By Time
 -Automatic Backups
--Check for changes on disk when receiving focus
-
-change icon when recording (or use taskbar)
+-Check for changes on disk when app receiving focus

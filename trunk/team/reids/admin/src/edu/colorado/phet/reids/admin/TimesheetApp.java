@@ -51,8 +51,20 @@ public class TimesheetApp extends JFrame {
                 return false;
             }
         } );
-        setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\x-office-calendar.png" ) ) );
+
+
         this.timesheetData = new TimesheetData();
+        updateIconImage();
+        timesheetData.addListener( new TimesheetData.Adapter() {
+            public void timeEntryRunningChanged() {
+                try {
+                    updateIconImage();
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
 //        timesheetData.addEntry( new TimesheetDataEntry( new Date(), new Date(), "cck", "hello" ) );
 ////        for ( int i = 0; i < 10 * 7 * 4 * 12; i++ ) {
 //        for ( int i = 0; i < 20; i++ ) {
@@ -160,6 +172,10 @@ public class TimesheetApp extends JFrame {
         setContentPane( new ContentPane( timesheetData, this ) );
         new FrameSetup.CenteredWithInsets( 200, 200 ).initialize( this );
         loadPreferences();
+    }
+
+    private void updateIconImage() throws IOException {
+        setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\" + ( timesheetData.isRunning() ? "x-office-running.png" : "x-office-calendar.png" ) ) ) );
     }
 
     private void loadPreferences() throws IOException {
