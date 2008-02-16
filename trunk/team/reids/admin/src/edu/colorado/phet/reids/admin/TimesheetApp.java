@@ -1,10 +1,7 @@
 package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -40,6 +37,20 @@ public class TimesheetApp extends JFrame {
 
     public TimesheetApp() throws IOException {
         super( "Timesheet" );
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor( new KeyEventPostProcessor() {
+            public boolean postProcessKeyEvent( KeyEvent e ) {
+                if ( e.isControlDown() && e.getKeyCode() == KeyEvent.VK_S ) {
+                    try {
+                        save();
+                        return true;
+                    }
+                    catch( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+                return false;
+            }
+        } );
         setIconImage( ImageIO.read( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\admin\\contrib\\tango\\x-office-calendar.png" ) ) );
         this.timesheetData = new TimesheetData();
 //        timesheetData.addEntry( new TimesheetDataEntry( new Date(), new Date(), "cck", "hello" ) );
@@ -50,9 +61,9 @@ public class TimesheetApp extends JFrame {
 //        for ( int i = 0; i < 20; i++ ) {
 //            timesheetData.addEntry( new TimesheetDataEntry( new Date( System.currentTimeMillis() - 1000 ), new Date(), "moving man", "hello2" ) );
 //        }
-        final TimesheetDataEntry dataEntry = new TimesheetDataEntry( new Date(), new Date(), "cck", "hello 3" );
-        dataEntry.setRunning( true );
-        timesheetData.addEntry( dataEntry );
+//        final TimesheetDataEntry dataEntry = new TimesheetDataEntry( new Date(), new Date(), "cck", "hello 3" );
+//        dataEntry.setRunning( true );
+//        timesheetData.addEntry( dataEntry );
 
         final JMenuItem newItem = new JMenuItem( "New" );
         newItem.addActionListener( new ActionListener() {

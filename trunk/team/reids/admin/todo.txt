@@ -1,4 +1,3 @@
--Global ctrl-s for save
 -Autocomplete for categories
 -Match start time to previous end time
 -Undo
