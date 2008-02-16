@@ -169,9 +169,10 @@ public class TimesheetApp extends JFrame {
         jMenuBar.add( fileMenu );
         setJMenuBar( jMenuBar );
 
-        setContentPane( new ContentPane( timesheetData, this ) );
         new FrameSetup.CenteredWithInsets( 200, 200 ).initialize( this );
         loadPreferences();
+        setContentPane( new ContentPane( timesheetData, this ) );
+
     }
 
     private void updateIconImage() throws IOException {

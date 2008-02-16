@@ -149,6 +149,22 @@ public class TimesheetDataEntry {
         }
     }
 
+    public boolean startsAfter( Date time ) {
+        return getStartTime().after( time );
+    }
+
+    public static long getTotalTime( TimesheetDataEntry[] t ) {
+        long time = 0;
+        for ( int i = 0; i < t.length; i++ ) {
+            time += t[i].getElapsedTimeMillis();
+        }
+        return time;
+    }
+
+    public TimesheetDataEntry copy() {
+        return new TimesheetDataEntry( new Date( getStartTime().getTime() ), new Date( getEndTime().getTime() ), category, notes );
+    }
+
     public static interface Listener {
         void timeChanged();
 
