@@ -18,6 +18,7 @@ public class ContentPane extends JPanel {
         setLayout( new BorderLayout() );
         spreadsheetPanel = new SpreadsheetPanel( data );
         scrollPane = new JScrollPane( spreadsheetPanel );
+        scrollPane.getVerticalScrollBar().setUnitIncrement( 40 );
         spreadsheetPanel.addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
                 scrollToBottom();
