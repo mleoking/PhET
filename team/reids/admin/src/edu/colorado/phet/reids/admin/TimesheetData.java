@@ -101,9 +101,9 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
     }
 
-    public void startNewEntry() {
+    public void startNewEntry(String category) {
         stopAllEntries();
-        TimesheetDataEntry e = new TimesheetDataEntry( new Date(), new Date(), "", "" );
+        TimesheetDataEntry e = new TimesheetDataEntry( new Date(), new Date(), category, "" );
         addEntry( e );
         e.setRunning( true );
     }
@@ -132,6 +132,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
 
     private void removeEntry( int i ) {
         TimesheetDataEntry entry = (TimesheetDataEntry) entries.remove( i );
+        entry.removeListener(this);
         notifyEntryRemoved( entry );
         notifyTimeChanged();
         setChanged( true );
