@@ -81,8 +81,8 @@ public class SummaryPanel extends JPanel {
         JButton piechart = new JButton( "Pie Chart" );
         piechart.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                TimesheetData data=app.getTimesheetData().getDefaultSelection();
-                new PieChart( data).show();
+                TimesheetData data = app.getTimesheetData().getDefaultSelection();
+                new PieChart( data ).show();
             }
         } );
         add( piechart );
@@ -117,6 +117,17 @@ public class SummaryPanel extends JPanel {
         } );
         updateInsertButtonEnabled();
         add( insert );
+
+        add( new WeeklyReadoutPanel( "platform-issues", data ) {
+            protected TimesheetData selectData( TimesheetData data ) {
+                return data.getEntriesForCategory( "platform-issues" );
+            }
+        } );
+        add( new WeeklyReadoutPanel( "all work", data ) {
+            protected TimesheetData selectData( TimesheetData data ) {
+                return data;
+            }
+        } );
     }
 
     private void updateInsertButtonEnabled() {

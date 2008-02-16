@@ -17,6 +17,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         entries.add( entry );
         entry.addListener( this );
         notifyEntryAdded( entry );
+        notifyTimeChanged();
         setChanged( true );
     }
 
@@ -132,6 +133,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     private void removeEntry( int i ) {
         TimesheetDataEntry entry = (TimesheetDataEntry) entries.remove( i );
         notifyEntryRemoved( entry );
+        notifyTimeChanged();
         setChanged( true );
     }
 
@@ -157,11 +159,20 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         return cat;
     }
 
-    public long getTotalTimeMillis( String s ) {
+    public long getTotalTimeMillis() {
         long sum = 0;
         for ( int i = 0; i < entries.size(); i++ ) {
             TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
-            if ( timesheetDataEntry.getCategory().equals( s ) ) {
+            sum += timesheetDataEntry.getElapsedTimeMillis();
+        }
+        return sum;
+    }
+
+    public long getTotalTimeMillis( String category ) {
+        long sum = 0;
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( timesheetDataEntry.getCategory().equals( category ) ) {
                 sum += timesheetDataEntry.getElapsedTimeMillis();
             }
         }
@@ -262,10 +273,10 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
             return this;
         }
         else {
-            TimesheetData d = new TimesheetData();//todo: memory leak on listener add to new instance
+            TimesheetData d = new TimesheetData();
             TimesheetDataEntry[] s = getSelectedEntries();
             for ( int i = 0; i < s.length; i++ ) {
-                d.addEntry( s[i] );
+                d.addEntry( s[i].copy() );
             }
             return d;
         }
@@ -287,6 +298,28 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
         Arrays.sort( a );
         return new Date( a[a.length - 1] );
+    }
+
+    public TimesheetData getEntriesAfter( Date time ) {
+        TimesheetData data = new TimesheetData();
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry entry = (TimesheetDataEntry) entries.get( i );
+            if ( entry.startsAfter( time ) ) {
+                data.addEntry( entry.copy() );
+            }
+        }
+        return data;
+    }
+
+    public TimesheetData getEntriesForCategory( String category ) {
+        TimesheetData data = new TimesheetData();
+        for ( int i = 0; i < entries.size(); i++ ) {
+            TimesheetDataEntry dataEntry = (TimesheetDataEntry) entries.get( i );
+            if ( dataEntry.getCategory().equals( category ) ) {
+                data.addEntry( dataEntry.copy() );
+            }
+        }
+        return data;
     }
 
     public static interface Listener {
