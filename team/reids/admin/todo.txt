@@ -8,3 +8,5 @@
 -Sort By Time
 -Automatic Backups
 -Check for changes on disk when receiving focus
+
+change icon when recording (or use taskbar)
