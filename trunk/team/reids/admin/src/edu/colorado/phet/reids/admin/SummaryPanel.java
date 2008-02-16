@@ -55,11 +55,22 @@ public class SummaryPanel extends JPanel {
         JButton newEntry = new JButton( "Start New" );
         newEntry.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                data.startNewEntry();
+                data.startNewEntry( "" );
             }
         } );
         add( newEntry );
+
+        JButton continueCat = new JButton( "Continue Category" );
+        continueCat.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                data.startNewEntry( data.getEntry( data.getNumEntries() - 1 ).getCategory() );
+            }
+        } );
+        add( continueCat );
+
+
         add( summary );
+
         saveButton = new JButton( "Save" );
         saveButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

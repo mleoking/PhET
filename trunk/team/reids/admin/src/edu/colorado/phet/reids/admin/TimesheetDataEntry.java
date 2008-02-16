@@ -165,6 +165,10 @@ public class TimesheetDataEntry {
         return new TimesheetDataEntry( new Date( getStartTime().getTime() ), new Date( getEndTime().getTime() ), category, notes );
     }
 
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
     public static interface Listener {
         void timeChanged();
 
