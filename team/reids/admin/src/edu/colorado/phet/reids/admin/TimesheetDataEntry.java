@@ -179,8 +179,10 @@ public class TimesheetDataEntry {
     }
 
     public void setCategory( String category ) {
-        this.category = category;
-        notifyCategoryChanged();
+        if ( !this.category.equals( category ) ) {
+            this.category = category;
+            notifyCategoryChanged();
+        }
     }
 
     private void notifyCategoryChanged() {
@@ -190,8 +192,10 @@ public class TimesheetDataEntry {
     }
 
     public void setNotes( String notes ) {
-        this.notes = notes;
-        notifyNotesChanged();
+        if ( !this.notes.equals( notes ) ) {
+            this.notes = notes;
+            notifyNotesChanged();
+        }
     }
 
     private void notifyNotesChanged() {

@@ -97,7 +97,7 @@ public class EntryPanel extends JPanel {
                 if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                     notesField.setText( entry.getNotes() );
                 }
-                else {
+                else if ( !e.isControlDown() ) {
                     entry.setNotes( notesField.getText() );
                 }
             }
