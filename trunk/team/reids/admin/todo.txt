@@ -3,7 +3,6 @@
 -Undo
 -Key Traversal
 -Checks to verify no time overlapping
--Progress Bar for weekly progress?
 -Sort By Time
 -Automatic Backups
 -Check for changes on disk when app receiving focus
