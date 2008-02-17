@@ -6,3 +6,5 @@
 -Sort By Time
 -Automatic Backups
 -Check for changes on disk when app receiving focus
+-"Continue Selected Category" button
+-Display break for days/weeks
