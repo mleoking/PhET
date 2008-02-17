@@ -49,7 +49,7 @@ public class WeeklyReadoutPanel extends JPanel {
         int dayOfWeek = now.get( Calendar.DAY_OF_WEEK );
         //monday=2
         int daysSinceMonday = dayOfWeek - 2;
-        if(daysSinceMonday<0){
+        if(daysSinceMonday<0){//since -1 on Sunday 
             daysSinceMonday+=7;
         }
         Calendar startOfWorkMondayMorning = new GregorianCalendar( now.get( Calendar.YEAR ), 1, 1 );
