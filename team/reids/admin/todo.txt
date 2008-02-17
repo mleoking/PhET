@@ -8,3 +8,4 @@
 -Check for changes on disk when app receiving focus
 -"Continue Selected Category" button
 -Display break for days/weeks
+-Show current system time (with seconds)
