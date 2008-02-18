@@ -20,7 +20,7 @@ public class TestEmail {
         sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject" );
     }
 
-    private static void sendEmail( String from, String[] to, String host, String s, String subject ) {
+    private static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) {
         // Create properties, get Session
         Properties props = new Properties();
 
@@ -43,11 +43,11 @@ public class TestEmail {
             }
 //            InternetAddress[] address = {new InternetAddress( to )};
             msg.setRecipients( Message.RecipientType.TO, toAddresses );
-            msg.setSubject( subject );
+            msg.setSubject( emailSubject );
             msg.setSentDate( new Date() );
 
             // Set message content
-            msg.setText( s );
+            msg.setText( emailBody );
 
             //Send the message
             Transport.send( msg );
