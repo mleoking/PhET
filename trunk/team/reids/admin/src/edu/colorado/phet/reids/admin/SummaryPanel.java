@@ -18,6 +18,7 @@ public class SummaryPanel extends JPanel {
     private JButton pause;
     private JButton delete;
     private JButton insert;
+    private JButton continueSel;
 
     public SummaryPanel( final TimesheetData data, final TimesheetApp app ) {
         this.app = app;
@@ -60,13 +61,27 @@ public class SummaryPanel extends JPanel {
         } );
         add( newEntry );
 
-        JButton continueCat = new JButton( "Continue Category" );
+        JButton continueCat = new JButton( "Continue Last" );
         continueCat.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 data.startNewEntry( data.getEntry( data.getNumEntries() - 1 ).getCategory() );
             }
         } );
         add( continueCat );
+
+        continueSel = new JButton( "Continue Selected" );
+        continueSel.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                data.startNewEntry( data.getSelectedEntries()[data.getSelectedEntries().length - 1].getCategory() );
+            }
+        } );
+        add( continueSel );
+        data.addListener( new TimesheetData.Adapter() {
+            public void selectionChanged() {
+                updateContinueSelectionButton();
+            }
+        } );
+        updateContinueSelectionButton();
 
 
         add( summary );
@@ -139,6 +154,10 @@ public class SummaryPanel extends JPanel {
                 return data;
             }
         } );
+    }
+
+    private void updateContinueSelectionButton() {
+        continueSel.setEnabled( data.getSelectedEntries().length > 0 );
     }
 
     private void updateInsertButtonEnabled() {
