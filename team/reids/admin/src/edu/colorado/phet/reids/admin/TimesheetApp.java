@@ -77,7 +77,7 @@ public class TimesheetApp extends JFrame {
 //        dataEntry.setRunning( true );
 //        timesheetData.addEntry( dataEntry );
 
-        final JMenuItem newItem = new JMenuItem( "New" );
+        final JMenuItem newItem = new JMenuItem( "Clear" );
         newItem.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
@@ -94,6 +94,7 @@ public class TimesheetApp extends JFrame {
             }
         } );
         fileMenu.add( newItem );
+        fileMenu.addSeparator();
 
         final JMenuItem openItem = new JMenuItem( "Open" );
         openItem.addActionListener( new ActionListener() {
