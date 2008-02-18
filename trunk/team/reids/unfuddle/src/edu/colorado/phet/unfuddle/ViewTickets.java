@@ -31,7 +31,7 @@ import org.xml.sax.SAXException;
  * Dec 13, 2007 at 10:32:47 PM
  */
 public class ViewTickets {
-    private static final File file = new File( "C:\\Users\\Sam\\Desktop\\tickets-12-13-2007.xml" );
+    private static final File file = new File( "C:\\Users\\Sam\\Desktop\\tickets-2-17-2008.xml" );
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         File file = args.length > 0 ? new File( args[0] ) : ViewTickets.file;
@@ -53,7 +53,6 @@ public class ViewTickets {
     }
 
     static class TicketElement {
-        private Node ticket;
         private Node node;
 
         public TicketElement( Node node ) {
@@ -75,7 +74,7 @@ public class ViewTickets {
 
         public String toString() {
 //            return "ticket: created-at: " + getValue( "created-at" ) + ", summary=" + getValue( "summary" ) + " lastChanged=" + getValue( "updated-at" );
-            return "ticket[" + getValue( "component-id" ) + "]: created-at: " + getDate( "created-at" ) + ", updatedAt=" + getDate( "updated-at" ) + ", summary=" + getValue( "summary" );
+            return "ticket, component-id=" + getValue( "component-id" ) + ", created-at: " + getDate( "created-at" ) + ", updatedAt=" + getDate( "updated-at" ) + ", summary=" + getValue( "summary" );
         }
 
         private Date getDate( String s ) {
