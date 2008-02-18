@@ -20,7 +20,7 @@ public class TestEmail {
         sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject" );
     }
 
-    private static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) {
+    public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) {
         // Create properties, get Session
         Properties props = new Properties();
 
