@@ -17,10 +17,10 @@ public class TestEmail {
         String from = args[0];
         String to = args[1];
         String host = args[2];
-        sendEmail( from, to, host, "Hello self email body", "Hello self subject" );
+        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject" );
     }
 
-    private static void sendEmail( String from, String to, String host, String s, String subject ) {
+    private static void sendEmail( String from, String[] to, String host, String s, String subject ) {
         // Create properties, get Session
         Properties props = new Properties();
 
@@ -37,8 +37,12 @@ public class TestEmail {
 
             //Set message attributes
             msg.setFrom( new InternetAddress( from ) );
-            InternetAddress[] address = {new InternetAddress( to )};
-            msg.setRecipients( Message.RecipientType.TO, address );
+            InternetAddress[] toAddresses = new InternetAddress[to.length];
+            for ( int i = 0; i < toAddresses.length; i++ ) {
+                toAddresses[i] = new InternetAddress( to[i] );
+            }
+//            InternetAddress[] address = {new InternetAddress( to )};
+            msg.setRecipients( Message.RecipientType.TO, toAddresses );
             msg.setSubject( subject );
             msg.setSentDate( new Date() );
 
