@@ -14,13 +14,13 @@ import javax.mail.internet.MimeMessage;
 public class TestEmail {
 
     public static void main( String[] args ) {
+        String from = args[0];
+        String to = args[1];
+        String host = args[2];
+        sendEmail( from, to, host, "Hello self email body", "Hello self subject" );
+    }
 
-        // SUBSTITUTE YOUR EMAIL ADDRESSES HERE!!!
-        String to = "vipan@vipan.com";
-        String from = "vipan@vipan.com";
-        // SUBSTITUTE YOUR ISP'S MAIL SERVER HERE!!!
-        String host = "smtp.yourisp.net";
-
+    private static void sendEmail( String from, String to, String host, String s, String subject ) {
         // Create properties, get Session
         Properties props = new Properties();
 
@@ -39,13 +39,11 @@ public class TestEmail {
             msg.setFrom( new InternetAddress( from ) );
             InternetAddress[] address = {new InternetAddress( to )};
             msg.setRecipients( Message.RecipientType.TO, address );
-            msg.setSubject( "Test E-Mail through Java" );
+            msg.setSubject( subject );
             msg.setSentDate( new Date() );
 
             // Set message content
-            msg.setText( "This is a test of sending a " +
-                         "plain text e-mail through Java.\n" +
-                         "Here is line 2." );
+            msg.setText( s );
 
             //Send the message
             Transport.send( msg );
