@@ -48,8 +48,8 @@ MEDIUM PRIORITY:
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 
 LOW PRIORITY:
+- display distance and/or elevation as km ?
 - draw mountains
-- avoid showing -0 in thermometer, glacial budget meter, etc.
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
@@ -70,6 +70,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/19/08 - used DefaultDecimalFormat to get rid of -0 displays
+2/19/08 - add 1 decimal place of precision to ice thickness tool display
 2/19/08 - fix some control panel layout issues (still not perfect)
 2/14/08 - update climate continuously while dragging sliders, performance is OK
 2/14/08 - provide separate controls from snowfall and snowfall reference elevation, in model and control panels
