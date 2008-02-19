@@ -1,29 +1,36 @@
-/* Copyright 2003-2004, University of Colorado */
+/* Copyright 2003-2008, University of Colorado */
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
 import java.awt.event.*;
-
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
- * The Swing panel for a Module in a PhetApplication. It holds
- * the control panel, the simulation panel, the clock control panel, and a monitor panel.
+ * ModulePanel is the main JPanel for a Module in a PhetApplication.
+ * It consists of a number of subpanels, whose layout is shown below.
  * All panels are optional (can be null).
+ * <p>
+ * Here is the layout of the subpanels:
+ * <code>
+ *    +----------------------------------------+--------------------+
+ *    |            monitorPanel                |     logoPanel      |
+ *    +----------------------------------------+--------------------+
+ *    |                                        |                    |
+ *    |                                        |                    |
+ *    |                                        |                    |
+ *    |          simulationPanel               |   controlPanel     |
+ *    |                                        |                    |
+ *    |                                        |                    |
+ *    |                                        |                    |
+ *    +----------------------------------------+--------------------+
+ *    |            clockControlPanel           |     helpPanel      |
+ *    +----------------------------------------+--------------------+
+ * </code>
  *
- * @author Ron & Sam
- * @version $Revision$
+ * @author Ron LeMaster, Sam Reid, Chris Malley
  */
 public class ModulePanel extends JPanel {
 
