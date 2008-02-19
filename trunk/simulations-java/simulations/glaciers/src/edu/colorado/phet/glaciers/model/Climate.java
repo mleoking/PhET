@@ -169,7 +169,7 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = 2. * _snowfall * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        double accumulation = ( 2. * _snowfall ) * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
         assert( accumulation >= 0 );
         return accumulation;
     }
