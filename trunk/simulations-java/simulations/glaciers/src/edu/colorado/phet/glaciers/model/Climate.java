@@ -17,7 +17,7 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
-    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // elevation where snowfall is 50% of max in modern times (meters)
+    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // reference elevation for snowfall in modern times (meters)
     
     private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the snow curve transition is (meters)
      
@@ -63,7 +63,7 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     /**
-     * Gets the temperature at sea level in modern times.
+     * Gets the temperature at sea level for modern times.
      * 
      * @return degrees C
      */
@@ -72,7 +72,7 @@ public class Climate {
     }
     
     /**
-     * Gets the snowfall reference elevation in modern times.
+     * Gets the snowfall reference elevation for modern times.
      * 
      * @return meters
      */
@@ -102,6 +102,12 @@ public class Climate {
         return _temperature;
     }
     
+    /**
+     * Sets the snowfall.
+     * This much snowfall will occur at the snowfall reference elevation.
+     * 
+     * @param snowfall meters
+     */
     public void setSnowfall( double snowfall ) {
         assert( snowfall >= 0 );
         if ( snowfall != _snowfall ) {
@@ -111,20 +117,18 @@ public class Climate {
         }
     }
     
+    /**
+     * Gets the snowfall.
+     * This much snowfall will occur at the snowfall reference elevation.
+     * 
+     * @return meters
+     */
     public double getSnowfall() {
         return _snowfall;
     }
     
-    public void setMaxSnowfall( double maxSnowfall ) {
-        setSnowfall( 0.5 * maxSnowfall );
-    }
-    
-    public double getMaxSnowfall() {
-        return 2 * _snowfall;
-    }
-    
     /**
-     * Sets the elevation where snowfall is 50% of max.
+     * Sets the reference elevation for snowfall.
      * 
      * @param snowfallReferenceElevation meters
      */
@@ -138,7 +142,7 @@ public class Climate {
     }
     
     /**
-     * Gets the elevation where snowfall is 50% of max.
+     * Gets the reference elevation for snowfall.
      * 
      * @return meters
      */
@@ -165,7 +169,7 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = getMaxSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        double accumulation = 2. * _snowfall * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
         assert( accumulation >= 0 );
         return accumulation;
     }
@@ -214,7 +218,7 @@ public class Climate {
      * @param ela meters
      * @return degrees C
      */
-    public double elaToTemperate( double ela ) {
+    public double elaToTemperature( double ela ) {
         double temperatureOffset = ( ela - MODERN_SNOWFALL_REFERENCE_ELEVATION ) / ABLATION_TEMPERATURE_SCALE_FACTOR;
         return MODERN_TEMPERATURE + temperatureOffset;
     }

@@ -70,6 +70,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/19/08 - cleanup Climate model and associated javadoc
 2/19/08 - clean up controller for Basic module
 2/19/08 - show snowfall reference elevation in meters with integer precision
 2/19/08 - rewrite Mass Balance control panel for ELA and max snowfall controls
