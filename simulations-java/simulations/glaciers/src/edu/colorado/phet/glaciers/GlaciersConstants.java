@@ -78,5 +78,9 @@ public class GlaciersConstants {
     public static final Color INNER_PANEL_TITLE_COLOR = Color.WHITE;
     public static final Color INNER_PANEL_CONTROL_COLOR = Color.WHITE;
     
-
+    //----------------------------------------------------------------------------
+    // Flags
+    //----------------------------------------------------------------------------
+    
+    public static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = true;
 }

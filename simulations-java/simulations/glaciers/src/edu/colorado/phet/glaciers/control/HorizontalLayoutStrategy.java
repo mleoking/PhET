@@ -17,12 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class HorizontalLayoutStrategy implements ILayoutStrategy {
 
-    private final int _sliderWidth, _textfieldWidth;
-    
-    public HorizontalLayoutStrategy( int sliderWidth, int textfieldWidth ) {
-        _sliderWidth = sliderWidth;
-        _textfieldWidth = textfieldWidth;
-    }
+    public HorizontalLayoutStrategy() {}
     
     public void doLayout( AbstractValueControl valueControl ) {
 
@@ -36,9 +31,7 @@ public class HorizontalLayoutStrategy implements ILayoutStrategy {
         EasyGridBagLayout layout = new EasyGridBagLayout( valueControl );
         valueControl.setLayout( layout );
         layout.addComponent( valueLabel, 0, 0 );
-        layout.setMinimumWidth( 1, _sliderWidth );
         layout.addFilledComponent( slider, 0, 1, GridBagConstraints.HORIZONTAL );
-        layout.setMinimumWidth( 2, _textfieldWidth );
         layout.addFilledComponent( textField, 0, 2, GridBagConstraints.HORIZONTAL );
         layout.addComponent( unitsLabel, 0, 3 );
     }

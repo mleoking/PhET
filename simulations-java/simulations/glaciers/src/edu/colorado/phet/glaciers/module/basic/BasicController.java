@@ -38,7 +38,7 @@ public class BasicController {
         
         // Update the climate model when the climate controls are changed.
         final SnowfallAndTemperatureControlPanel snowfallAndTemperatureControlPanel = controlPanel.getClimateControlPanel().getSnowfallAndTemperatureControlPanel();
-        snowfallAndTemperatureControlPanel.addBasicClimateControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
+        snowfallAndTemperatureControlPanel.addSnowfallAndTemperatureControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
 
             public void temperatureChanged( double temperature ) {
                 _model.getClimate().setTemperature( temperature );

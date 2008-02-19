@@ -35,12 +35,8 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = true;
-    
     private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
-    private static final int SLIDER_WIDTH = 150; // pixels
-    private static final int TEXTFIELD_WIDTH = 50; // pixels
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -71,12 +67,12 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String label = "";
             String textfieldPattern = "0.0";
             String units = GlaciersStrings.UNITS_ACCUMULATION;
-            ILayoutStrategy layout = new HorizontalLayoutStrategy( SLIDER_WIDTH, TEXTFIELD_WIDTH );
+            ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _snowfallControl.setFont( CONTROL_FONT );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
-                    if ( UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
+                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
                         notifySnowfallChanged();
                     }
                 }
@@ -103,12 +99,12 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String label = "";
             String textfieldPattern = "0E0";
             String units = GlaciersStrings.UNITS_ELEVATION;
-            ILayoutStrategy layout = new HorizontalLayoutStrategy( SLIDER_WIDTH, TEXTFIELD_WIDTH );
+            ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallReferenceElevationControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
             _snowfallReferenceElevationControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
-                    if ( UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallReferenceElevationControl.isAdjusting() ) {
+                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallReferenceElevationControl.isAdjusting() ) {
                         notifySnowfallReferenceElevationChanged();
                     }
                 }
@@ -135,12 +131,12 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String label = "";
             String textfieldPattern = "0.0";
             String units = GlaciersStrings.UNITS_TEMPERATURE;
-            ILayoutStrategy layout = new HorizontalLayoutStrategy( SLIDER_WIDTH, TEXTFIELD_WIDTH );
+            ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _temperatureControl.setFont( CONTROL_FONT );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
-                    if ( UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
+                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
                         notifyTemperatureChanged();
                     }
                 }
@@ -224,11 +220,11 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         public void temperatureChanged( double temperature ) {};
     }
     
-    public void addBasicClimateControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
+    public void addSnowfallAndTemperatureControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeBasicClimateControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
+    public void removeSnowfallAndTemperatureControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
