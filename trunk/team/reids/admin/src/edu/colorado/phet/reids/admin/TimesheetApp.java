@@ -216,7 +216,11 @@ public class TimesheetApp extends JFrame {
                 public void actionPerformed( ActionEvent e ) {
                     if ( new File( text ).exists() ) {
                         try {
-                            load( new File( text ) );
+                            if ( ifChangedAskToSaveOrCancel() ) {
+                            }
+                            else {
+                                load( new File( text ) );
+                            }
                         }
                         catch( IOException e1 ) {
                             e1.printStackTrace();
@@ -303,7 +307,7 @@ public class TimesheetApp extends JFrame {
      */
     private boolean ifChangedAskToSaveOrCancel() throws IOException {
         if ( hasChanges() ) {
-            int option = JOptionPane.showConfirmDialog( this, "You have made unsaved changes.  Save before quitting?" );
+            int option = JOptionPane.showConfirmDialog( this, "You have made unsaved changes.  Save first?" );
             if ( option == JOptionPane.OK_OPTION ) {
                 save();
             }
