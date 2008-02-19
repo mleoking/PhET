@@ -7,14 +7,15 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
@@ -38,7 +39,7 @@ public class GPSReceiverNode extends AbstractToolNode {
     private static final String DISPLAY_FORMAT = "(x,z)=({0},{1})";
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
-    private static final DecimalFormat COORDINATE_FORMAT = new DecimalFormat( "0" );
+    private static final NumberFormat COORDINATE_FORMAT = new DefaultDecimalFormat( "0" );
     private static final float TRIANGLE_SIZE = 10f;
     
     //----------------------------------------------------------------------------

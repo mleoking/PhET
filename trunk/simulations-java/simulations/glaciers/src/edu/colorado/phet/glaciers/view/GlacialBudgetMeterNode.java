@@ -5,13 +5,14 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
@@ -34,9 +35,9 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
     
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
-    private static final DecimalFormat ACCUMULATION_FORMAT = new DecimalFormat( "0.0" );
-    private static final DecimalFormat ABLATION_FORMAT = new DecimalFormat( "0.0" );
-    private static final DecimalFormat GLACIAL_BUDGET_FORMAT = new DecimalFormat( "0.0" );
+    private static final NumberFormat ACCUMULATION_FORMAT = new DefaultDecimalFormat( "0.0" );
+    private static final NumberFormat ABLATION_FORMAT = new DefaultDecimalFormat( "0.0" );
+    private static final NumberFormat GLACIAL_BUDGET_FORMAT = new DefaultDecimalFormat( "0.0" );
     
     //----------------------------------------------------------------------------
     // Instance data
