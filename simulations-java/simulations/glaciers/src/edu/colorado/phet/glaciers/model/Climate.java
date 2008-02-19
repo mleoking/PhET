@@ -215,7 +215,7 @@ public class Climate {
      * @return degrees C
      */
     public double elaToTemperate( double ela ) {
-        double temperatureOffset = ( ela - 4E3 ) / 200;
+        double temperatureOffset = ( ela - MODERN_SNOWFALL_REFERENCE_ELEVATION ) / ABLATION_TEMPERATURE_SCALE_FACTOR;
         return MODERN_TEMPERATURE + temperatureOffset;
     }
     
