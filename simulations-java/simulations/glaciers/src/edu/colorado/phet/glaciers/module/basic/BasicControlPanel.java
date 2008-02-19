@@ -2,16 +2,25 @@
 
 package edu.colorado.phet.glaciers.module.basic;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
-import edu.colorado.phet.glaciers.control.*;
+import edu.colorado.phet.glaciers.control.BasicClimateControlPanel;
+import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
+import edu.colorado.phet.glaciers.control.GraphsControlPanel;
+import edu.colorado.phet.glaciers.control.MiscControlPanel;
+import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
 
@@ -80,12 +89,11 @@ public class BasicControlPanel extends JPanel {
         bottomLayout.addComponent( Box.createHorizontalStrut( 10 ), row, column++ );
         bottomLayout.addAnchoredComponent( _miscControlPanel, row, column++, GridBagConstraints.EAST );
         
-        EasyGridBagLayout thisLayout = new EasyGridBagLayout( this );
-        setLayout( thisLayout );
-        row = 0;
-        column = 0;
-        thisLayout.addComponent( topPanel, row++, column );
-        thisLayout.addComponent( bottomPanel, row++, column );
+        JPanel p = new JPanel( new BorderLayout() );
+        p.setLayout( new BoxLayout( p, BoxLayout.Y_AXIS ) );
+        p.add( topPanel );
+        p.add( bottomPanel );
+        add( p, BorderLayout.WEST );
         
         Class[] excludedClasses = { ViewControlPanel.class, BasicClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );

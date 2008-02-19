@@ -18,7 +18,6 @@ DESIGN ISSUES:
 - how does "show coordinates" work for a valley contour that is not linear?
 
 HIGH PRIORITY:
-- fix layout problems with main control panel
 - add ELA to temp/snowfall conversion in climate model
 - reimplement Mass Balance control panel for ELA and max snowfall controls
 - display equilibrium line properly (horizontal dashed line)
@@ -28,6 +27,7 @@ HIGH PRIORITY:
 - implement time-scaling portion of glacier model
 
 MEDIUM PRIORITY:
+- fix layout problems with main control panel
 - add pseudo-3D perspective
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
 - apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
@@ -70,6 +70,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/19/08 - fix some control panel layout issues (still not perfect)
 2/14/08 - update climate continuously while dragging sliders, performance is OK
 2/14/08 - provide separate controls from snowfall and snowfall reference elevation, in model and control panels
 2/14/08 - change mass balance climate control panel, based on Archies new spec (design still has problems)
