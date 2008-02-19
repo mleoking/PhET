@@ -49,7 +49,14 @@ public class BasicModule extends PiccoloModule {
 
     public BasicModule( Frame parentFrame ) {
         super( GlaciersStrings.TITLE_BASIC, BasicDefaults.CLOCK );
+        
+        // we won't be using any of the standard subpanels
+        setMonitorPanel( null );
+        setSimulationPanel( null );
+        setClockControlPanel( null );
         setLogoPanel( null );
+        setControlPanel( null );
+        setHelpPanel( null );
 
         // Model
         GlaciersClock clock = (GlaciersClock) getClock();
