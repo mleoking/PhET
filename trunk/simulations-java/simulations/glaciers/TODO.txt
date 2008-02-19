@@ -18,7 +18,6 @@ DESIGN ISSUES:
 - how does "show coordinates" work for a valley contour that is not linear?
 
 HIGH PRIORITY:
-- add ELA to temp/snowfall conversion in climate model
 - reimplement Mass Balance control panel for ELA and max snowfall controls
 - display equilibrium line properly (horizontal dashed line)
 - interpolate between current and final ice thickness over time
@@ -70,6 +69,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/19/08 - add ELA to temp/snowfall conversion in climate model
 2/19/08 - used DefaultDecimalFormat to get rid of -0 displays
 2/19/08 - add 1 decimal place of precision to ice thickness tool display
 2/19/08 - fix some control panel layout issues (still not perfect)

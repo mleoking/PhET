@@ -207,6 +207,31 @@ public class Climate {
         return getAccumulation( elevation ) - getAblation( elevation );
     }
     
+    /**
+     * Converts ELA (equilibrium line altitude) to temperature.
+     * This is a fudge, since an ELA doesn't map to a single value.
+     * 
+     * @param ela meters
+     * @return degrees C
+     */
+    public double elaToTemperate( double ela ) {
+        double temperatureOffset = ( ela - 4E3 ) / 200;
+        return MODERN_TEMPERATURE + temperatureOffset;
+    }
+    
+    /**
+     * Converts ELA (equilibrium line altitude) to snowfall reference elevation.
+     * This is a fudge, since an ELA doesn't map to a single value.
+     * 
+     * @param ela meters
+     * @return meters
+     */
+    public double elaToSnowfallReferenceElevation( double ela ) {
+        double ablation = getAblation( ela );
+        double term = Math.PI * ( ( ablation / _snowfall ) - 0.5 );
+        return ela - ( SNOWFALL_TRANSITION_WIDTH * Math.tan( term ) );
+    }
+    
     //----------------------------------------------------------------------------
     // Listener interface
     //----------------------------------------------------------------------------
