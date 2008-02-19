@@ -6,6 +6,7 @@ import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel.SnowfallAndTemperatureControlPanelListener;
 import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelAdapter;
+import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 import edu.colorado.phet.glaciers.view.PlayArea;
 
@@ -17,64 +18,60 @@ import edu.colorado.phet.glaciers.view.PlayArea;
  */
 public class BasicController {
     
-    private BasicModel _model;
-    private PlayArea _playArea;
-    private BasicControlPanel _controlPanel;
-    
-    public BasicController( BasicModel model, PlayArea playArea, BasicControlPanel controlPanel ) {
+    public BasicController( final BasicModel model, final PlayArea playArea, final BasicControlPanel controlPanel ) {
         
-        _model = model;
-        _playArea = playArea;
-        _controlPanel = controlPanel;
+        // Model
+        final Climate climate = model.getClimate();
         
-        // View controls
+        // Controls
         final ViewControlPanel viewControlPanel = controlPanel.getViewControlPanel();
-        viewControlPanel.addViewControlPanelListener( new ViewControlPanelAdapter() {
-            
-            public void equilibriumLineChanged( boolean b ) {
-                _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-            };
-        });
-        
-        // Update the climate model when the climate controls are changed.
         final SnowfallAndTemperatureControlPanel snowfallAndTemperatureControlPanel = controlPanel.getClimateControlPanel().getSnowfallAndTemperatureControlPanel();
-        snowfallAndTemperatureControlPanel.addSnowfallAndTemperatureControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
-
-            public void temperatureChanged( double temperature ) {
-                _model.getClimate().setTemperature( temperature );
-            }
-            
-            public void snowfallChanged( double snowfall ) {
-                _model.getClimate().setSnowfall( snowfall );
-            }
-
-            public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {
-                _model.getClimate().setSnowfallReferenceElevation( snowfallReferenceElevation );
-            }
-        });
         
-        // Update the climate controls when the climate model is changed.
-        _model.getClimate().addClimateListener( new ClimateListener() {
+        // Climate
+        climate.addClimateListener( new ClimateListener() {
 
-            public void temperatureChanged() {
-                snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
-            }
-            
             public void snowfallChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
+                snowfallAndTemperatureControlPanel.setSnowfall( climate.getSnowfall() );
             }
 
             public void snowfallReferenceElevationChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( _model.getClimate().getSnowfallReferenceElevation() );
+                snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
             }
 
+            public void temperatureChanged() {
+                snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
+            }
         } );
         
+        // "View" controls
+        viewControlPanel.addViewControlPanelListener( new ViewControlPanelAdapter() {
+            
+            public void equilibriumLineChanged( boolean b ) {
+                playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+            };
+        });
+        
+        // "Snowfall & Temperature" controls
+        snowfallAndTemperatureControlPanel.addSnowfallAndTemperatureControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
+
+            public void snowfallChanged( double snowfall ) {
+                climate.setSnowfall( snowfall );
+            }
+
+            public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {
+                climate.setSnowfallReferenceElevation( snowfallReferenceElevation );
+            }
+            
+            public void temperatureChanged( double temperature ) {
+                climate.setTemperature( temperature );
+            }
+        });
+        
         // Initialization
-        _playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        snowfallAndTemperatureControlPanel.setSnowfall( _model.getClimate().getSnowfall() );
-        snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( _model.getClimate().getSnowfallReferenceElevation() );
-        snowfallAndTemperatureControlPanel.setTemperature( _model.getClimate().getTemperature() );
+        playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+        snowfallAndTemperatureControlPanel.setSnowfall( climate.getSnowfall() );
+        snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
+        snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
     }
 
 }

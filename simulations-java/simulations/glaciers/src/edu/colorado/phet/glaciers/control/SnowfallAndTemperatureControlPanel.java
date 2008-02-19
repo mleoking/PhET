@@ -65,7 +65,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             double min = snowfallRange.getMin();
             double max = snowfallRange.getMax();
             String label = "";
-            String textfieldPattern = "0.0";
+            String textfieldPattern = "#0.0";
             String units = GlaciersStrings.UNITS_ACCUMULATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
@@ -97,7 +97,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             double min = snowfallReferenceElevationRange.getMin();
             double max = snowfallReferenceElevationRange.getMax();
             String label = "";
-            String textfieldPattern = "0E0";
+            String textfieldPattern = "###0";
             String units = GlaciersStrings.UNITS_ELEVATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallReferenceElevationControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
@@ -129,7 +129,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             double min = temperatureRange.getMin();
             double max = temperatureRange.getMax();
             String label = "";
-            String textfieldPattern = "0.0";
+            String textfieldPattern = "#0.0";
             String units = GlaciersStrings.UNITS_TEMPERATURE;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
