@@ -22,7 +22,7 @@ HIGH PRIORITY:
 - reimplement Mass Balance control panel for ELA and max snowfall controls
 - display equilibrium line properly (horizontal dashed line)
 - interpolate between current and final ice thickness over time
-- visualization of ice velocity
+- visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - implement time-scaling portion of glacier model
 
