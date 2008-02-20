@@ -99,7 +99,6 @@ public class PhotoelectricApplication extends NonPiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
-                Locale.setDefault( PhetResources.readLocale() );
                 SimStrings.getInstance().init( args, PhotoelectricConfig.LOCALIZATION_RESOURCE_NAME );
                 new PhotoelectricApplication( args ).startApplication();
             }
