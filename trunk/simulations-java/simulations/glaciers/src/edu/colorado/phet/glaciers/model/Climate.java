@@ -19,7 +19,8 @@ public class Climate {
     private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
     private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // reference elevation for snowfall in modern times (meters)
     
-    private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the snow curve transition is (meters)
+    private static final double MAX_SNOWFALL_MUTILPIER = 2; // snowfall is multiplied by this value to get max snowfall
+    private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the transition of the snowfall curve is (meters)
      
     private static final double ABLATION_SCALE_FACTOR = 30;
     private static final double ABLATION_TEMPERATURE_SCALE_FACTOR = 200;
@@ -128,6 +129,26 @@ public class Climate {
     }
     
     /**
+     * Sets the maximum snowfall.
+     * As elevation approaches infinity, accumulation will approach this value.
+     * 
+     * @return meters
+     */
+    public void setMaxSnowfall( double maxSnowfall ) {
+        setSnowfall( maxSnowfall / MAX_SNOWFALL_MUTILPIER );
+    }
+    
+    /**
+     * Gets the maximum snowfall.
+     * As elevation approaches infinity, accumulation will approach this value.
+     * 
+     * @return meters
+     */
+    public double getMaxSnowfall() {
+        return MAX_SNOWFALL_MUTILPIER * _snowfall;
+    }
+    
+    /**
      * Sets the reference elevation for snowfall.
      * 
      * @param snowfallReferenceElevation meters
@@ -169,8 +190,9 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = ( 2. * _snowfall ) * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        double accumulation = getMaxSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
         assert( accumulation >= 0 );
+        assert( accumulation <= getMaxSnowfall() );
         return accumulation;
     }
 
