@@ -70,6 +70,7 @@ public class MassBalanceControlPanel extends JPanel {
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _maximumSnowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _maximumSnowfallControl.setFont( CONTROL_FONT );
+            _maximumSnowfallControl.setUpDownArrowDelta( 0.1 );
             _maximumSnowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_maximumSnowfallControl.isAdjusting() ) {
@@ -102,6 +103,7 @@ public class MassBalanceControlPanel extends JPanel {
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _equilibriumLineAltitudeControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _equilibriumLineAltitudeControl.setFont( CONTROL_FONT );
+            _equilibriumLineAltitudeControl.setUpDownArrowDelta( 1 );
             _equilibriumLineAltitudeControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_equilibriumLineAltitudeControl.isAdjusting() ) {

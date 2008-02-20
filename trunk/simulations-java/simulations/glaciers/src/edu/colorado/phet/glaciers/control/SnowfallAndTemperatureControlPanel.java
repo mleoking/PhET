@@ -70,6 +70,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _snowfallControl.setFont( CONTROL_FONT );
+            _snowfallControl.setUpDownArrowDelta( 0.1 );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallControl.isAdjusting() ) {
@@ -102,6 +103,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallReferenceElevationControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
+            _snowfallReferenceElevationControl.setUpDownArrowDelta( 1 );
             _snowfallReferenceElevationControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_snowfallReferenceElevationControl.isAdjusting() ) {
@@ -134,6 +136,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _temperatureControl.setFont( CONTROL_FONT );
+            _temperatureControl.setUpDownArrowDelta( 0.1 );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
                     if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {

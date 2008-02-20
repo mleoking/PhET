@@ -56,10 +56,6 @@ public abstract class AbstractModel implements IToolProducer {
         return _glacier.getClimate();
     }
     
-    public EquilibriumLine getEquilibriumLine() {
-        return _glacier.getEquilibriumLine();
-    }
-    
     //----------------------------------------------------------------------------
     // IToolProducer
     //----------------------------------------------------------------------------
