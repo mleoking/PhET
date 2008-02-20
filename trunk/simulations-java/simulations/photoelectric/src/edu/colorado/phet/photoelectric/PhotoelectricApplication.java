@@ -10,17 +10,20 @@
  */
 package edu.colorado.phet.photoelectric;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Locale;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
 import edu.colorado.phet.photoelectric.controller.BeamControl;
 import edu.colorado.phet.photoelectric.module.PhotoelectricModule;
-
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * PhotoelectricApplication
@@ -74,7 +77,7 @@ public class PhotoelectricApplication extends NonPiccoloPhetApplication {
         final JCheckBoxMenuItem beamRateMI = new JCheckBoxMenuItem( SimStrings.getInstance().getString( "Options.photonsPerSecond" ) );
         beamRateMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( beamRateMI.isSelected() ) {
+                if ( beamRateMI.isSelected() ) {
                     photoelectricModule.getBeamControl().setMode( BeamControl.RATE );
                 }
                 else {
@@ -96,6 +99,7 @@ public class PhotoelectricApplication extends NonPiccoloPhetApplication {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PhetLookAndFeel().initLookAndFeel();
+                Locale.setDefault( PhetResources.readLocale() );
                 SimStrings.getInstance().init( args, PhotoelectricConfig.LOCALIZATION_RESOURCE_NAME );
                 new PhotoelectricApplication( args ).startApplication();
             }
