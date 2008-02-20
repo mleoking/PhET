@@ -14,6 +14,19 @@ import edu.colorado.phet.build.patterns.Command;
 /**
  * This command runs the ProGuard task given the ProGuard configuration and an
  * Ant task runner.
+ * <p/>
+ * The most complicated part of running proguard is setting up the configuration parameters.
+ * This is done in Java (ProguardCommand.createConfigurationFile) for simplicity and flexibility
+ * (would be more complicated to write this in ant.)
+ * Given that the proguard configuration file is created in Java, it makes sense that the proguard command is also called from Java,
+ * so that these two steps can be done as an atomic operation.  Also, this makes the build-jar java code looks like:
+ * <p/>
+ * clean();
+ * compile();
+ * jar();
+ * proguard();
+ * <p/>
+ * instead of sometimes relying on the caller to proguard.
  */
 public class ProguardCommand implements Command {
     private final ProguardConfig config;
