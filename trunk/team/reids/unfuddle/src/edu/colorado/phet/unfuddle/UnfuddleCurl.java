@@ -33,7 +33,8 @@ public class UnfuddleCurl {
         File ticketFile = new File( "C:/users/sam/desktop/ticket-out-1.xml" );
         File ticketCommentFile = new File( "C:/users/sam/desktop/ticket-comment-out-1.xml" );
 
-        boolean readFromWeb = !ticketFile.exists() || !ticketCommentFile.exists();
+        boolean readFromWeb = true || !ticketFile.exists() || !ticketCommentFile.exists();
+
         if ( readFromWeb ) {
             String username = args[0];
             String password = args[1];
@@ -101,24 +102,77 @@ public class UnfuddleCurl {
         return s.getDocumentElement();
     }
 
-    private String readString( String readARG ) throws IOException {
+    public String readStringBAT( String readARG ) throws IOException {
+        String CURL = "C:\\reid\\phet\\svn\\trunk\\team\\unfuddle\\curl_717_1_ssl\\curl.exe";
+        String cmdArg = accountID + "/" + readARG;
+        String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
+        System.out.println( "cmd = " + cmd );
+        File batchFile = File.createTempFile( "phet-unfuddle", ".bat" );
+        File outFile = File.createTempFile( "phet-unfuddle-out", ".txt" );
+        FileUtils.writeString( batchFile, cmd + " > " + outFile );
+        System.out.println( "Batch file: " + batchFile.getAbsolutePath() );
+        Process p = Runtime.getRuntime().exec( batchFile.getAbsolutePath() );
+        try {
+            System.out.println( "Started wait" );
+            int wait = p.waitFor();
+            System.out.println( "Ended wait" );
+        }
+        catch( InterruptedException e ) {
+            e.printStackTrace();
+        }
+        String s = FileUtils.loadFileAsString( outFile );
+//        // Get the input stream and read from it
+//        StringBuffer s = new StringBuffer();
+//        InputStream in = p.getInputStream();
+//        int c;
+//        int count = 0;
+//        while ( ( c = in.read() ) != -1 ) {
+//            s.append( (char) c );
+//            count++;
+//            if ( count % 1000 == 0 ) {
+//                System.out.print( "." );
+//            }
+//        }
+//        in.close();
+////        System.out.println( "s = " + s );
+        int xmlIndex = s.indexOf( "<?xml" );
+        //        System.out.println( "x = " + x );
+        System.out.println( "" );
+        return s.substring( xmlIndex );
+    }
+
+    //fails for dump (timeout)
+    public String readString( String readARG ) throws IOException {
         String CURL = "C:\\reid\\phet\\svn\\trunk\\team\\unfuddle\\curl_717_1_ssl\\curl.exe";
         String cmdArg = accountID + "/" + readARG;
         String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
         Process p = Runtime.getRuntime().exec( cmd );
+//        try {
+//            System.out.println( "started waiting" );
+//            p.waitFor();
+//            System.out.println( "Finished waiting" );
+//        }
+//        catch( InterruptedException e ) {
+//            e.printStackTrace();
+//        }
         // Get the input stream and read from it
         StringBuffer s = new StringBuffer();
         InputStream in = p.getInputStream();
         int c;
+        int count = 0;
         while ( ( c = in.read() ) != -1 ) {
             s.append( (char) c );
+            count++;
+            if ( count % 1000 == 0 ) {
+                System.out.print( "." );
+            }
         }
         in.close();
 //        System.out.println( "s = " + s );
         int xmlIndex = s.indexOf( "<?xml" );
-        String x = s.substring( xmlIndex );
-        System.out.println( "x = " + x );
-        return x;
+        //        System.out.println( "x = " + x );
+        System.out.println( "" );
+        return s.substring( xmlIndex );
     }
 }
