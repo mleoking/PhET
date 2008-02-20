@@ -8,7 +8,10 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.defaults.AdvancedDefaults;
-import edu.colorado.phet.glaciers.model.*;
+import edu.colorado.phet.glaciers.model.Climate;
+import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
+import edu.colorado.phet.glaciers.model.Valley;
 import edu.colorado.phet.glaciers.persistence.AdvancedConfig;
 import edu.colorado.phet.glaciers.view.ModelViewTransform;
 import edu.colorado.phet.glaciers.view.PlayArea;
@@ -39,8 +42,7 @@ public class AdvancedModule extends PiccoloModule {
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
         Climate climate = new Climate( AdvancedDefaults.TEMPERATURE_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_RANGE.getDefault(), AdvancedDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
-        EquilibriumLine equilibriumLine = new EquilibriumLine( valley, climate );
-        Glacier glacier = new Glacier( valley, climate, equilibriumLine );
+        Glacier glacier = new Glacier( valley, climate );
         _model = new AdvancedModel( clock, glacier );
 
         // Play Area

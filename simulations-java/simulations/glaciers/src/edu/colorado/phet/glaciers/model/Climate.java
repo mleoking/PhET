@@ -27,6 +27,11 @@ public class Climate {
     private static final double ABLATION_Z0 = 1300; // min elevation used to scale ablation (meters)
     private static final double ABLATION_Z1 = 4200; // max elevation used to scale ablation (meters)
 
+    private static final double ELA_SEARCH_STARTING_ELEVATION = MODERN_SNOWFALL_REFERENCE_ELEVATION; // where to start searching for ELA (meters)
+    private static final double ELA_SEARCH_STARTING_DELTA = -1000; // initial elevation delta when searching for ELA (meters)
+    private static final double ELA_SEARCH_MIN_DELTA = 1; // smallest elevation delta when searching for ELA (meters)
+    private static final double ELA_SEARCH_ALMOST_ZERO_GLACIAL_BUDGET = 1E-5; // when searching for ELA, any budget <= this value is considered zero
+    
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -34,6 +39,7 @@ public class Climate {
     private double _temperature; // temperature at sea level (degrees C)
     private double _snowfall; // snow accumulation (meters/year)
     private double _snowfallReferenceElevation; // reference elevation for snowfall (meters)
+    private double _equilibriumLineAlitutude; // elevation where glacial budget is zero (meters)
     private ArrayList _listeners; // list of ClimateListener
     
     //----------------------------------------------------------------------------
@@ -52,6 +58,7 @@ public class Climate {
         _snowfall = snowfall;
         _snowfallReferenceElevation = snowfallReferenceElevation;
         _listeners = new ArrayList();
+        updateEquilibriumLineAltitude();
     }
     
     /**
@@ -90,6 +97,7 @@ public class Climate {
         if ( temperature != _temperature ) {
             System.out.println( "Climate.setTemperature " + temperature );//XXX
             _temperature = temperature;
+            updateEquilibriumLineAltitude();
             notifyTemperatureChanged();
         }
     }
@@ -114,6 +122,7 @@ public class Climate {
         if ( snowfall != _snowfall ) {
             System.out.println( "Climate.setSnowfall " + snowfall );//XXX
             _snowfall = snowfall;
+            updateEquilibriumLineAltitude();
             notifySnowfallChanged();
         }
     }
@@ -134,7 +143,7 @@ public class Climate {
      * 
      * @return meters
      */
-    public void setMaxSnowfall( double maxSnowfall ) {
+    public void setMaximumSnowfall( double maxSnowfall ) {
         setSnowfall( maxSnowfall / MAX_SNOWFALL_MUTILPIER );
     }
     
@@ -144,7 +153,7 @@ public class Climate {
      * 
      * @return meters
      */
-    public double getMaxSnowfall() {
+    public double getMaximumSnowfall() {
         return MAX_SNOWFALL_MUTILPIER * _snowfall;
     }
     
@@ -158,6 +167,7 @@ public class Climate {
         if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
             System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
             _snowfallReferenceElevation = snowfallReferenceElevation;
+            updateEquilibriumLineAltitude();
             notifySnowfallReferenceElevationChanged();
         }
     }
@@ -190,9 +200,9 @@ public class Climate {
      */
     public double getAccumulation( double elevation ) {
         assert( elevation >= 0 );
-        double accumulation = getMaxSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
+        double accumulation = getMaximumSnowfall() * ( 0.5 + ( ( 1 / Math.PI ) * Math.atan( ( elevation - _snowfallReferenceElevation ) / SNOWFALL_TRANSITION_WIDTH  ) ) );
         assert( accumulation >= 0 );
-        assert( accumulation <= getMaxSnowfall() );
+        assert( accumulation <= getMaximumSnowfall() );
         return accumulation;
     }
 
@@ -233,29 +243,89 @@ public class Climate {
         return getAccumulation( elevation ) - getAblation( elevation );
     }
     
-    /**
+    public double getEquilibriumLineAltitude() {
+        return _equilibriumLineAlitutude;
+    }
+    
+    public void setEquilibriumLineAltitude( double equilibriumLineAlitutude ) {
+        
+        //XXX what to do here?...
+        //XXX we need to set temp & snowfall without calling updateEquilibriumLineAltitude or notifiers.
+        //XXX and the values of temp & snowfall need to yield the same ELA as if we called updateEquilibriumLineAltitude,
+        //XXX impossible since updateEquilibriumLineAltitude involves a search that yeilds an approximation.
+        //XXX also, calling notifiers for temp & snowfall will cause controls to update, which will result 
+        //XXX in setTemperature and setSnowfallReference being called, which will change ELA, which will
+        //XXX change its controls, ad infinitum...
+        
+        //XXX temporary hack...
+        _temperature = elaToTemperature( equilibriumLineAlitutude );
+        _snowfallReferenceElevation = elaToSnowfallReferenceElevation( equilibriumLineAlitutude );
+        _equilibriumLineAlitutude = equilibriumLineAlitutude;
+        notifyTemperatureChanged();
+        notifySnowfallReferenceElevationChanged();
+    }
+    
+    /*
      * Converts ELA (equilibrium line altitude) to temperature.
      * This is a fudge, since an ELA doesn't map to a single value.
      * 
      * @param ela meters
      * @return degrees C
      */
-    public double elaToTemperature( double ela ) {
+    private double elaToTemperature( double ela ) {
         double temperatureOffset = ( ela - MODERN_SNOWFALL_REFERENCE_ELEVATION ) / ABLATION_TEMPERATURE_SCALE_FACTOR;
         return MODERN_TEMPERATURE + temperatureOffset;
     }
     
-    /**
+    /*
      * Converts ELA (equilibrium line altitude) to snowfall reference elevation.
      * This is a fudge, since an ELA doesn't map to a single value.
      * 
      * @param ela meters
      * @return meters
      */
-    public double elaToSnowfallReferenceElevation( double ela ) {
+    private double elaToSnowfallReferenceElevation( double ela ) {
         double ablation = getAblation( ela );
         double term = Math.PI * ( ( ablation / _snowfall ) - 0.5 );
         return ela - ( SNOWFALL_TRANSITION_WIDTH * Math.tan( term ) );
+    }
+
+    /*
+     * Updates the equilibrium line altitude (ELA) by searching for the elevation where glacial budget = 0.
+     * This uses a "divide and conquer" algorithm, gradually decreasing the sign and magnitude of dz until
+     * we find a glacial budget that is close enough to 0, or until dz gets sufficiently small.
+     */
+    private void updateEquilibriumLineAltitude() {
+
+        double elevation = ELA_SEARCH_STARTING_ELEVATION;
+        double deltaElevation = ELA_SEARCH_STARTING_DELTA;
+        double glacialBudget = getGlacialBudget( elevation );
+        double newGlacialBudget = 0;
+        
+        while ( Math.abs( glacialBudget ) > ELA_SEARCH_ALMOST_ZERO_GLACIAL_BUDGET && Math.abs( deltaElevation ) >= ELA_SEARCH_MIN_DELTA ) {
+            
+            // next elevation
+            elevation += deltaElevation;
+            if ( elevation < 0 ) {
+                elevation = 0;
+            }
+            else if ( elevation > 10 * MODERN_SNOWFALL_REFERENCE_ELEVATION ) {
+                System.err.println( "EquilibriumLine.updateEquilibriumLineAltitude, elevation is outside our range of interest, elevation=: " + elevation );
+                break;
+            }
+            
+            newGlacialBudget = getGlacialBudget( elevation );
+            
+            // if we've gone too far in our search, change directions
+            if ( ( deltaElevation > 0 && newGlacialBudget > 0 && newGlacialBudget > glacialBudget ) || 
+                 ( deltaElevation < 0 && newGlacialBudget < 0 && newGlacialBudget < glacialBudget ) ) {
+                deltaElevation = -( deltaElevation / 2. );
+            }
+            
+            glacialBudget = newGlacialBudget;
+        }
+        
+        _equilibriumLineAlitutude = elevation;
     }
     
     //----------------------------------------------------------------------------

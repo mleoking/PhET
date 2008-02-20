@@ -197,7 +197,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _glacierLayer.addChild( glacierNode );
         
         // Equilibrium line
-        _equilibriumLineNode = new EquilibriumLineNode( _model.getEquilibriumLine(), _mvt );
+        _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
         _glacierLayer.addChild( _equilibriumLineNode );
         
         // Toolbox

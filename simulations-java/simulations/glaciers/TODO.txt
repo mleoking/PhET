@@ -18,15 +18,17 @@ DESIGN ISSUES:
 - how does "show coordinates" work for a valley contour that is not linear?
 
 HIGH PRIORITY:
-- move ELA into climate model
+- solve infinite loop issue with 2 climate control domains
+- get new mass balance climate model
+- get new ice thickness & velocity models
 - wire up mass balance controls to model
-- display equilibrium line properly (horizontal dashed line)
 - interpolate between current and final ice thickness over time
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - implement time-scaling portion of glacier model
 
 MEDIUM PRIORITY:
+- clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
 - add pseudo-3D perspective
 - adjust MVT and/or camera scaling to increase magnification of zoomed view (make zoomed view 2-2.5x bigger than current)
@@ -70,6 +72,9 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
+2/19/08 - move ELA model into Climate, delete EquilibriumLine class
+2/19/08 - wire up Mass Balanace max snowfall control, stub out wiring for ELA control
 2/19/08 - cleanup Climate model and associated javadoc
 2/19/08 - clean up controller for Basic module
 2/19/08 - show snowfall reference elevation in meters with integer precision

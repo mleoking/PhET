@@ -43,7 +43,6 @@ public class Glacier extends ClockAdapter {
     private final Valley _valley;
     private final Climate _climate;
     private final ClimateListener _climateListener;
-    private final EquilibriumLine _equilibriumLine;
     private final ArrayList _listeners; // list of GlacierListener
     private double _length;
     private double[] _iceThicknessSamples;
@@ -52,7 +51,7 @@ public class Glacier extends ClockAdapter {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public Glacier( Valley valley, Climate climate, EquilibriumLine equilibriumLine ) {
+    public Glacier( Valley valley, Climate climate ) {
         super();
         
         _valley = valley;
@@ -77,8 +76,6 @@ public class Glacier extends ClockAdapter {
         };
         _climate.addClimateListener( _climateListener );
         
-        _equilibriumLine = equilibriumLine;
-        
         _listeners = new ArrayList();
         
         _length = 0;
@@ -88,7 +85,6 @@ public class Glacier extends ClockAdapter {
     }
     
     public void cleanup() {
-        _equilibriumLine.cleanup();
         _climate.removeClimateListener( _climateListener );
     }
     
@@ -112,15 +108,6 @@ public class Glacier extends ClockAdapter {
      */
     public Climate getClimate() {
         return _climate;
-    }
-    
-    /**
-     * Gets the equilibrium line.
-     * 
-     * @return
-     */
-    public EquilibriumLine getEquilibriumLine() {
-        return _equilibriumLine;
     }
     
     /**
