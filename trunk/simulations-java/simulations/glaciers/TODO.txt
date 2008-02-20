@@ -72,6 +72,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.06 (?)
 2/19/08 - disable ELA slider and wire it to the model, so we can see ELA range without domain mapping problems
 2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
 2/19/08 - move ELA model into Climate, delete EquilibriumLine class
