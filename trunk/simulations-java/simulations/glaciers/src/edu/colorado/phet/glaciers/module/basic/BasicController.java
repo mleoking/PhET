@@ -36,17 +36,17 @@ public class BasicController {
             public void snowfallChanged() {
                 snowfallAndTemperatureControlPanel.setSnowfall( climate.getSnowfall() );
                 massBalanceControlPanel.setMaximumSnowfall( climate.getMaximumSnowfall() );
-//                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
+                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
             }
 
             public void snowfallReferenceElevationChanged() {
                 snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
-//                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
+                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
             }
 
             public void temperatureChanged() {
                 snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
-//                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
+                massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
             }
         } );
         
@@ -78,7 +78,7 @@ public class BasicController {
         massBalanceControlPanel.addMassBalanaceControlPanelListener( new MassBalanceControlPanelListener() {
 
             public void equilibriumLineAltitudeChanged( double altitude ) {
-//                climate.setEquilibriumLineAltitude( altitude );
+                climate.setEquilibriumLineAltitude( altitude );
             }
 
             public void maximumSnowfallChanged( double maximumSnowfall ) {
@@ -92,7 +92,6 @@ public class BasicController {
         snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
         snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
         massBalanceControlPanel.setMaximumSnowfall( climate.getMaximumSnowfall() );
-//      massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
+        massBalanceControlPanel.setEquilibriumLineAltitude( climate.getEquilibriumLineAltitude() );
     }
-
 }

@@ -37,5 +37,5 @@ import edu.colorado.phet.glaciers.model.Climate;
     
     // Climate -- mass balance view
     public static final DoubleRange MAXIMUM_SNOWFALL_RANGE = new DoubleRange( 2 * SNOWFALL_RANGE.getMin(), 2 * SNOWFALL_RANGE.getMax(), 2 * SNOWFALL_RANGE.getDefault() ); //XXX mapping should be encapsulated in Climate 
-    public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 1E3, 5E3, 2E3 ); //XXX should be derived from other view
+    public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 10E3, 0 ); //XXX should be derived from other climate domain
 }

@@ -104,13 +104,14 @@ public class MassBalanceControlPanel extends JPanel {
             _equilibriumLineAltitudeControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _equilibriumLineAltitudeControl.setFont( CONTROL_FONT );
             _equilibriumLineAltitudeControl.setUpDownArrowDelta( 1 );
-            _equilibriumLineAltitudeControl.addChangeListener( new ChangeListener() { 
-                public void stateChanged( ChangeEvent event ) {
-                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_equilibriumLineAltitudeControl.isAdjusting() ) {
-                        notifyEquilibriumLineAltitudeChanged();
-                    }
-                }
-            } );
+//            _equilibriumLineAltitudeControl.addChangeListener( new ChangeListener() { 
+//                public void stateChanged( ChangeEvent event ) {
+//                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_equilibriumLineAltitudeControl.isAdjusting() ) {
+//                        notifyEquilibriumLineAltitudeChanged();
+//                    }
+//                }
+//            } );
+            _equilibriumLineAltitudeControl.setEnabled( false );//XXX make this a display for now
             
             // Change the font and color of the tick labels
             Dictionary d = _equilibriumLineAltitudeControl.getSlider().getLabelTable();
