@@ -62,7 +62,7 @@ public class WaterSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( new BarrierSideView( waterModule.getSlitPotential(), getLatticeScreenCoordinates(), waveSideView ) );//not a part of the wavesideview so coordinates will be easier, and z-order will be easier
 
         addScreenChild( rotationWaveGraphic );
-        addScreenChild( new CompositeWallPotentialGraphic( this, waterModule.getWallPotentialGraphic(), getLatticeScreenCoordinates() ) );
+        addScreenChild( new CompositeWallPotentialGraphic( this, waterModule.getWallPotentialGraphic(), getLatticeScreenCoordinates(), rotationWaveGraphic ) );
         rotationWaveGraphic.setPickable( false );
         rotationWaveGraphic.setChildrenPickable( false );
 
