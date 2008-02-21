@@ -45,8 +45,13 @@ public class NewTicketMessage implements Message {
         return "Ticket Created by: " + getReporter() + "\n" +
                "Ticket Assigned to : " + getAssignee() + "\n" +
                "Ticket Number: " + getTicketNumber() + "\n" +
+               "Ticket URL: " + getTicketURL() + "\n" +
                "Ticket Description:\n" +
                "" + getDescription();
+    }
+
+    private String getTicketURL() {
+        return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
     }
 
     private String getAssignee() {
