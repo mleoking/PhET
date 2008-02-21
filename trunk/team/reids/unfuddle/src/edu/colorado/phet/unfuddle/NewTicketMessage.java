@@ -38,7 +38,7 @@ public class NewTicketMessage implements Message {
     }
 
     public String getEmailSubject() {
-        return "[ignore] PhET/" + getComponent() + ": " + getSummary();
+        return "[ignore] PhET " + getComponent() + ": " + getSummary();
     }
 
     public String getEmailBody() {
@@ -47,7 +47,10 @@ public class NewTicketMessage implements Message {
                "Ticket Number: " + getTicketNumber() + "\n" +
                "Ticket URL: " + getTicketURL() + "\n" +
                "Ticket Description:\n" +
-               "" + getDescription();
+               "" + getDescription() + "\n\n" +
+               "-----------------------\n" +
+               "You received this message because you are signed up on the list located at:\n" +
+               "https://phet.unfuddle.com/p/unfuddled/notebooks/show/7161";
     }
 
     private String getTicketURL() {

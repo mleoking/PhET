@@ -44,8 +44,13 @@ public class EmailHandler implements MessageHandler {
         catch( ParserConfigurationException e ) {
             e.printStackTrace();
         }
-        if ( sendMail && to.length > 0 ) {
-            EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject() );
+        if ( sendMail ) {
+            if ( to.length == 0 ) {
+                System.out.println( "Had a message for delivery, but nobody signed up for notification of " + m.getComponent() );
+            }
+            else {
+                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject() );
+            }
         }
         else {
             System.out.println( "email server would have sent message m: " + m.getEmailSubject() + " to " + Arrays.asList( to ) );
