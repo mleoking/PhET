@@ -6,4 +6,10 @@ package edu.colorado.phet.unfuddle;
  */
 public interface Message {
     int getID();
+
+    String getComponent();
+
+    String getEmailBody();
+
+    String getEmailSubject();
 }

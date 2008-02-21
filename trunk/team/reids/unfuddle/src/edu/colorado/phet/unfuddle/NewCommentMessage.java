@@ -17,7 +17,22 @@ public class NewCommentMessage implements Message {
         return Integer.parseInt( comment.getTextContent( "id" ) );
     }
 
+    public String getComponent() {
+        return "component not implemented for comments yet";
+//        final int parentID = Integer.parseInt( comment.getTextContent( "parent-id" ) );
+//        return unfuddleAccount.getComponentForID( parentID );
+    }
+
+    public String getEmailBody() {
+        return "";
+    }
+
+    public String getEmailSubject() {
+        return "";
+    }
+
     public String toString() {
         return comment.getTextContent( "body" );
     }
+
 }

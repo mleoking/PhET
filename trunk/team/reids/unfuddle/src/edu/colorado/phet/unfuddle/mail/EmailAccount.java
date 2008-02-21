@@ -1,5 +1,6 @@
 package edu.colorado.phet.unfuddle.mail;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
@@ -11,7 +12,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 // Send a simple, single part, text/plain e-mail
-public class TestEmail {
+public class EmailAccount {
 
     public static void main( String[] args ) {
         String from = args[0];
@@ -56,5 +57,6 @@ public class TestEmail {
             // Prints all nested (chained) exceptions as well
             mex.printStackTrace();
         }
+        System.out.println( "Sent email to: " + Arrays.asList( to ) );
     }
 }//End of class
