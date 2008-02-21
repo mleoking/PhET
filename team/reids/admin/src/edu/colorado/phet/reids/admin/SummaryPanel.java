@@ -144,6 +144,8 @@ public class SummaryPanel extends JPanel {
         updateInsertButtonEnabled();
         add( insert );
 
+        add( new SummaryButton( data ) );
+
         add( new WeeklyReadoutPanel( "platform-issues", data ) {
             protected TimesheetData selectData( TimesheetData data ) {
                 return data.getEntriesForCategory( "platform-issues" );
