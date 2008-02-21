@@ -38,7 +38,7 @@ public class NewTicketMessage implements Message {
     }
 
     public String getEmailSubject() {
-        return "PhET/" + getComponent() + ": " + getSummary();
+        return "[ignore] PhET/" + getComponent() + ": " + getSummary();
     }
 
     public String getEmailBody() {

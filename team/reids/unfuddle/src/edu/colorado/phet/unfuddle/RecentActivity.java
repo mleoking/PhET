@@ -14,7 +14,7 @@ import org.xml.sax.SAXException;
 public class RecentActivity {
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        IUnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
+        UnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
 //        DateFormat dateFormat = new SimpleDateFormat( "yyyy/M/d" );
 //        String startDate = dateFormat.format( new Date( System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 2 ) );
 //        String endDate = dateFormat.format( new Date() );
@@ -25,8 +25,8 @@ public class RecentActivity {
 //        String recent = curl.readString( "activity.xml?start_date=" + startDate + "&end_date=" + endDate );
 
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-//        String recent = curl.readString( "activity.xml?limit=40" );
-        String recent = STORED_XML;
+        String recent = curl.readString( "activity.xml?limit=40" );
+//        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
 //        System.out.println( "r = " + recent );
@@ -35,10 +35,10 @@ public class RecentActivity {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], true ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), false ) );
 //        h.addMessageHandler( new EmailHandler( args[2], args[3], false ) );
 //        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
-        MessageHandler mh=h;
+        MessageHandler mh = h;
 
         for ( int i = 0; i < e; i++ ) {
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
