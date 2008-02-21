@@ -71,6 +71,18 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
             public int getID() {
                 return new Random().nextInt( 1000 );
             }
+
+            public String getComponent() {
+                return null;
+            }
+
+            public String getEmailBody() {
+                return null;
+            }
+
+            public String getEmailSubject() {
+                return null;
+            }
         } );
         System.out.println( "messageHandler.list = " + messageHandler.getHandledList() );
     }

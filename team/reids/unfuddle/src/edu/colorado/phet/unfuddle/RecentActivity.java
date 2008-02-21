@@ -33,7 +33,12 @@ public class RecentActivity {
         int e = events.getNodeCount( "audit-trail" );
         System.out.println( "num events=" + e );
 
-        MessageHandler mh = new IgnoreDuplicatesMessageHandler( new PrintMessageHandler(), new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+        CompositeMessageHandler h = new CompositeMessageHandler();
+        h.addMessageHandler( new PrintMessageHandler() );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], true ) );
+//        h.addMessageHandler( new EmailHandler( args[2], args[3], false ) );
+//        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+        MessageHandler mh=h;
 
         for ( int i = 0; i < e; i++ ) {
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
@@ -41,7 +46,8 @@ public class RecentActivity {
 
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
-                mh.handleMessage( new NewCommentMessage( comment, p ) );
+//                mh.handleMessage( new NewCommentMessage( comment, p ) );
+                System.out.println( "Ignoring comments for now" );
             }
             else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
                 XMLObject ticket = record.getNode( "ticket" );
