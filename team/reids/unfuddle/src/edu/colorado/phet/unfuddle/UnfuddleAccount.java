@@ -16,10 +16,21 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 17, 2008 at 4:13:56 PM
  */
-public class UnfuddleAccount extends XMLObject implements PeopleMapping {
+public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
     //    private static File FILE = new File( "C:/Users/Sam/Desktop/phet.unfuddled.20080217220129.xml" );
-    private static File FILE = new File( "C:\\Users\\Sam\\Desktop\\phet.unfuddled.20080218003433.xml" );
+    private static File FILE = new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" );
     private String PROJECTS = "projects";
+
+    public UnfuddleAccount( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
+        this( toNode( xmlDump ) );
+    }
+
+    private static Element toNode( File xmlDump ) throws ParserConfigurationException, IOException, SAXException {
+
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document s = documentBuilder.parse( xmlDump );
+        return s.getDocumentElement();
+    }
 
     public UnfuddleAccount( Node node ) {
         super( node );
@@ -55,6 +66,16 @@ public class UnfuddleAccount extends XMLObject implements PeopleMapping {
         return null;
     }
 
+    public String getComponentForID( int id ) {
+        int componentCount = getProject( 0 ).getComponentCount();
+        for ( int i = 0; i < componentCount; i++ ) {
+            if ( getProject( 0 ).getComponent( i ).getID() == id ) {
+                return getProject( 0 ).getComponent( i ).getName();
+            }
+        }
+        return null;
+    }
+
     public int getProjectCount() {
         return getListCount( PROJECTS );
     }
@@ -65,15 +86,25 @@ public class UnfuddleAccount extends XMLObject implements PeopleMapping {
 
     static class UnfuddleProject extends XMLObject {
         private String TICKETS = "tickets";
-        private PeopleMapping mapping;
+        private String COMPONENTS = "components";
+        private IUnfuddleAccount mapping;
 
-        public UnfuddleProject( Node node, PeopleMapping mapping ) {
+        public UnfuddleProject( Node node, IUnfuddleAccount mapping ) {
             super( node );
             this.mapping = mapping;
         }
 
         public int getTicketCount() {
             return getListCount( TICKETS );
+        }
+
+        public int getComponentCount() {
+
+            return getListCount( COMPONENTS );
+        }
+
+        public UnfuddleComponent getComponent( int i ) {
+            return new UnfuddleComponent( getListElement( COMPONENTS, i ) );
         }
 
         public UnfuddleTicket getTicket( int i ) {
@@ -85,11 +116,30 @@ public class UnfuddleAccount extends XMLObject implements PeopleMapping {
         }
     }
 
+    static class UnfuddleComponent extends XMLObject {
+
+        public UnfuddleComponent( Node node ) {
+            super( node );
+        }
+
+        public int getID() {
+            return Integer.parseInt( getTextContent( "id" ) );
+        }
+
+        public String getName() {
+            return getTextContent( "name" );
+        }
+
+        public String toString() {
+            return getName();
+        }
+    }
+
     static class UnfuddleTicket extends XMLObject {
         private String COMMENTS = "comments";
-        private PeopleMapping mapping;
+        private IUnfuddleAccount mapping;
 
-        public UnfuddleTicket( Node node, PeopleMapping mapping ) {
+        public UnfuddleTicket( Node node, IUnfuddleAccount mapping ) {
             super( node );
             this.mapping = mapping;
         }
@@ -116,9 +166,9 @@ public class UnfuddleAccount extends XMLObject implements PeopleMapping {
     }
 
     static class UnfuddleTicketComment extends XMLObject {
-        private PeopleMapping mapping;
+        private IUnfuddleAccount mapping;
 
-        public UnfuddleTicketComment( Node node, PeopleMapping mapping ) {
+        public UnfuddleTicketComment( Node node, IUnfuddleAccount mapping ) {
             super( node );
             this.mapping = mapping;
         }
@@ -160,15 +210,19 @@ public class UnfuddleAccount extends XMLObject implements PeopleMapping {
         UnfuddleAccount unfuddleProject = new UnfuddleAccount( root );
         System.out.println( "unfuddleProject = " + unfuddleProject );
         final UnfuddleProject phetProject = unfuddleProject.getProject( 0 );
-        for ( int i = 0; i < phetProject.getTicketCount(); i++ ) {
-//            if ( i == 23 ) {
-            final UnfuddleTicket ticket = phetProject.getTicket( i );
-            System.out.println( "Ticket[" + i + "] = " + ticket );
-            for ( int k = 0; k < ticket.getCommentCount(); k++ ) {
-                System.out.println( "comment[" + k + "]= " + ticket.getComment( k ) );
-            }
-//            }
+        for ( int i = 0; i < phetProject.getComponentCount(); i++ ) {
+            System.out.println( "phetProject.getComponent( i ) = " + phetProject.getComponent( i ) );
+
         }
+//        for ( int i = 0; i < phetProject.getTicketCount(); i++ ) {
+////            if ( i == 23 ) {
+//            final UnfuddleTicket ticket = phetProject.getTicket( i );
+//            System.out.println( "Ticket[" + i + "] = " + ticket );
+//            for ( int k = 0; k < ticket.getCommentCount(); k++ ) {
+//                System.out.println( "comment[" + k + "]= " + ticket.getComment( k ) );
+//            }
+////            }
+//        }
 
 
     }
