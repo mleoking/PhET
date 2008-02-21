@@ -24,29 +24,10 @@ public class ReadEmailList {
 
     public String[] getEmailsForComponent( String component ) throws IOException, SAXException, ParserConfigurationException {
         String s = curl.readString( "notebooks/7161/pages/23056/latest" );
-//        String s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-//                   "<page>\n" +
-//                   "  <author-id type=\"integer\">12197</author-id>\n" +
-//                   "  <body>samreid=circuit-construction-kit, wave-interference, website\n" +
-//                   "\n" +
-//                   "exampleuser=installer, moving-man\n" +
-//                   "</body>\n" +
-//                   "  <id type=\"integer\">23056</id>\n" +
-//                   "  <message></message>\n" +
-//                   "  <notebook-id type=\"integer\">7161</notebook-id>\n" +
-//                   "  <number type=\"integer\">1</number>\n" +
-//                   "  <title>Email Notification Association List</title>\n" +
-//                   "  <version type=\"integer\">3</version>\n" +
-//                   "  <created-at>2008-02-21T13:44:20-08:00</created-at>\n" +
-//                   "  <updated-at>2008-02-21T13:54:17-08:00</updated-at>\n" +
-//                   "</page>";
-        System.out.println( "s = " + s );
+//        System.out.println( "s = " + s );
         XMLObject xml = new XMLObject( s );
         String body = xml.getTextContent( "body" );
-        System.out.println( "body = " + body );
-
-        String email = account.getEmailAddress( "samreid" );
-        System.out.println( "email = " + email );
+//        System.out.println( "body = " + body );
 
         Properties p = new Properties();
         p.load( new StringInputStream( body ) );

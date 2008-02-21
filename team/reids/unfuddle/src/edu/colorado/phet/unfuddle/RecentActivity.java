@@ -15,30 +15,20 @@ public class RecentActivity {
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         UnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
-//        DateFormat dateFormat = new SimpleDateFormat( "yyyy/M/d" );
-//        String startDate = dateFormat.format( new Date( System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 2 ) );
-//        String endDate = dateFormat.format( new Date() );
-
-//        String s = curl.readString( "activity.xml" );
-//        System.out.println( "s = " + s );
-
-//        String recent = curl.readString( "activity.xml?start_date=" + startDate + "&end_date=" + endDate );
 
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-        String recent = curl.readString( "activity.xml?limit=40" );
+        String recent = curl.readString( "activity.xml?limit=10" );
 //        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
-//        System.out.println( "r = " + recent );
         int e = events.getNodeCount( "audit-trail" );
         System.out.println( "num events=" + e );
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), false ) );
-//        h.addMessageHandler( new EmailHandler( args[2], args[3], false ) );
-//        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
-        MessageHandler mh = h;
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), true ) );
+        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+//        MessageHandler mh = h;
 
         for ( int i = 0; i < e; i++ ) {
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
@@ -46,7 +36,6 @@ public class RecentActivity {
 
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
-//                mh.handleMessage( new NewCommentMessage( comment, p ) );
                 System.out.println( "Ignoring comments for now" );
             }
             else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
