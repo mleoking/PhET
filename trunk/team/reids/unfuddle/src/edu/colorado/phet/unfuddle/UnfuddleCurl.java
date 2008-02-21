@@ -22,6 +22,7 @@ public class UnfuddleCurl {
     private String username;
     private String password;
     private int accountID;
+    public static int PHET_PROJECT_ID = 9404;
 
     public UnfuddleCurl( String username, String password, int accountID ) {
         this.username = username;
@@ -38,8 +39,9 @@ public class UnfuddleCurl {
         if ( readFromWeb ) {
             String username = args[0];
             String password = args[1];
-            String tickets = new UnfuddleCurl( username, password, 9404 ).readString( "tickets" );
-            String ticketComments = new UnfuddleCurl( username, password, 9404 ).readString( "tickets/comments" );
+
+            String tickets = new UnfuddleCurl( username, password, PHET_PROJECT_ID ).readString( "tickets" );
+            String ticketComments = new UnfuddleCurl( username, password, PHET_PROJECT_ID ).readString( "tickets/comments" );
             FileUtils.writeString( ticketFile, tickets );
             FileUtils.writeString( ticketCommentFile, ticketComments );
         }

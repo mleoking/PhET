@@ -1,7 +1,16 @@
 package edu.colorado.phet.unfuddle;
 
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.apache.tools.ant.filters.StringInputStream;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * Created by: Sam
@@ -10,8 +19,19 @@ import org.w3c.dom.NodeList;
 public class XMLObject {
     private Node node;
 
+
     public XMLObject( Node node ) {
         this.node = node;
+    }
+
+    public XMLObject( String xml ) throws IOException, SAXException, ParserConfigurationException {
+        this( parseXML( xml ) );
+    }
+
+    private static Node parseXML( String xml ) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+        Document s = documentBuilder.parse( new StringInputStream( xml ) );
+        return s.getDocumentElement();
     }
 
     public XMLObject getNode( String nodeName ) {
@@ -77,5 +97,9 @@ public class XMLObject {
 
     public Node getListElement( String s, String elementName, int i ) {
         return getNode( s ).getNode( i, elementName ).getNode();
+    }
+
+    public boolean containsNode( String node ) {
+        return getNode( node ) != null;
     }
 }
