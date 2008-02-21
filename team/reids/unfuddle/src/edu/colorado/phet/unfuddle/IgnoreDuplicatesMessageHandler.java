@@ -37,14 +37,12 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
         catch( IOException e ) {
             e.printStackTrace();
         }
-
     }
-
 
     private boolean alreadyHandled( Message m ) {
         try {
             ArrayList h = getHandledList();
-            System.out.println( "h = " + h );
+            return h.contains( new Integer( m.getID() ) );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -54,7 +52,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
 
     private ArrayList getHandledList() throws IOException {
         String s = FileUtils.loadFileAsString( file );
-        StringTokenizer st = new StringTokenizer( s, "\n" );
+        StringTokenizer st = new StringTokenizer( s, " \n" );
         ArrayList handled = new ArrayList();
         while ( st.hasMoreTokens() ) {
             handled.add( new Integer( Integer.parseInt( st.nextToken() ) ) );
