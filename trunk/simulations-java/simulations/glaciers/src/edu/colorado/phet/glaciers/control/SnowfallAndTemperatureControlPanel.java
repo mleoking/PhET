@@ -13,6 +13,7 @@ import java.util.Iterator;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
@@ -35,6 +37,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
     private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
 
@@ -59,8 +62,6 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         
         // snowfall
         JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
-        snowfallLabel.setForeground( CONTROL_COLOR );
-        snowfallLabel.setFont( CONTROL_FONT );
         {
             double min = snowfallRange.getMin();
             double max = snowfallRange.getMax();
@@ -69,7 +70,6 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String units = GlaciersStrings.UNITS_ACCUMULATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _snowfallControl.setFont( CONTROL_FONT );
             _snowfallControl.setUpDownArrowDelta( 0.1 );
             _snowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
@@ -79,7 +79,11 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
                 }
             } );
             
-            // Change the font and color of the tick labels
+            // fonts & colors
+            snowfallLabel.setForeground( CONTROL_COLOR );
+            snowfallLabel.setFont( CONTROL_FONT );
+            _snowfallControl.setFont( CONTROL_FONT );
+            _snowfallControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _snowfallControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
@@ -92,8 +96,6 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         
         // snowfall reference elevation
         JLabel snowfallReferenceElevationLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL_REFERENCE_ELEVATION );        
-        snowfallReferenceElevationLabel.setForeground( CONTROL_COLOR );
-        snowfallReferenceElevationLabel.setFont( CONTROL_FONT );
         {
             double min = snowfallReferenceElevationRange.getMin();
             double max = snowfallReferenceElevationRange.getMax();
@@ -102,7 +104,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String units = GlaciersStrings.UNITS_ELEVATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _snowfallReferenceElevationControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
+
             _snowfallReferenceElevationControl.setUpDownArrowDelta( 1 );
             _snowfallReferenceElevationControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
@@ -112,7 +114,11 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
                 }
             } );
             
-            // Change the font and color of the tick labels
+            // fonts & colors
+            snowfallReferenceElevationLabel.setForeground( CONTROL_COLOR );
+            snowfallReferenceElevationLabel.setFont( CONTROL_FONT );
+            _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
+            _snowfallReferenceElevationControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _snowfallReferenceElevationControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
@@ -125,8 +131,6 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         
         // temperature
         JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
-        temperatureLabel.setForeground( CONTROL_COLOR );
-        temperatureLabel.setFont( CONTROL_FONT );
         {
             double min = temperatureRange.getMin();
             double max = temperatureRange.getMax();
@@ -135,7 +139,6 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
             String units = GlaciersStrings.UNITS_TEMPERATURE;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _temperatureControl.setFont( CONTROL_FONT );
             _temperatureControl.setUpDownArrowDelta( 0.1 );
             _temperatureControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
@@ -145,7 +148,11 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
                 }
             } );
             
-            // Change the font and color of the tick labels
+            // fonts & colors
+            temperatureLabel.setForeground( CONTROL_COLOR );
+            temperatureLabel.setFont( CONTROL_FONT );
+            _temperatureControl.setFont( CONTROL_FONT );
+            _temperatureControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _temperatureControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
@@ -168,6 +175,9 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         column = 0;
         layout.addAnchoredComponent( temperatureLabel, row, column++, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _temperatureControl, row++, column, GridBagConstraints.WEST );
+        
+        Class[] excludedClasses = { JTextField.class };
+        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
     //----------------------------------------------------------------------------

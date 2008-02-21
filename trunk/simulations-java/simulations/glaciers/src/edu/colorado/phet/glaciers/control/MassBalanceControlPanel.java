@@ -13,6 +13,7 @@ import java.util.Iterator;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.ILayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
@@ -34,6 +36,7 @@ public class MassBalanceControlPanel extends JPanel {
     // Class data
     //----------------------------------------------------------------------------
     
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
     private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
     
@@ -59,8 +62,6 @@ public class MassBalanceControlPanel extends JPanel {
         
         // max snowfall
         JLabel maximumSnowfallLabel = new JLabel( GlaciersStrings.SLIDER_MAXIMUM_SNOWFALL );        
-        maximumSnowfallLabel.setForeground( CONTROL_COLOR );
-        maximumSnowfallLabel.setFont( CONTROL_FONT );
         {
             double min = maximumSnowfallRange.getMin();
             double max = maximumSnowfallRange.getMax();
@@ -69,7 +70,6 @@ public class MassBalanceControlPanel extends JPanel {
             String units = GlaciersStrings.UNITS_ACCUMULATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _maximumSnowfallControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _maximumSnowfallControl.setFont( CONTROL_FONT );
             _maximumSnowfallControl.setUpDownArrowDelta( 0.1 );
             _maximumSnowfallControl.addChangeListener( new ChangeListener() { 
                 public void stateChanged( ChangeEvent event ) {
@@ -79,7 +79,11 @@ public class MassBalanceControlPanel extends JPanel {
                 }
             } );
             
-            // Change the font and color of the tick labels
+            // fonts & colors
+            maximumSnowfallLabel.setForeground( CONTROL_COLOR );
+            maximumSnowfallLabel.setFont( CONTROL_FONT );
+            _maximumSnowfallControl.setFont( CONTROL_FONT );
+            _maximumSnowfallControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _maximumSnowfallControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
@@ -92,8 +96,6 @@ public class MassBalanceControlPanel extends JPanel {
         
         // equilibrium line altitude
         JLabel equilibriumLineAltitudeLabel = new JLabel( GlaciersStrings.SLIDER_EQUILIBRIUM_LINE_ALTITUDE );        
-        equilibriumLineAltitudeLabel.setForeground( CONTROL_COLOR );
-        equilibriumLineAltitudeLabel.setFont( CONTROL_FONT );
         {
             double min = equilibriumLineAltitudeRange.getMin();
             double max = equilibriumLineAltitudeRange.getMax();
@@ -102,7 +104,6 @@ public class MassBalanceControlPanel extends JPanel {
             String units = GlaciersStrings.UNITS_ELEVATION;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _equilibriumLineAltitudeControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _equilibriumLineAltitudeControl.setFont( CONTROL_FONT );
             _equilibriumLineAltitudeControl.setUpDownArrowDelta( 1 );
 //            _equilibriumLineAltitudeControl.addChangeListener( new ChangeListener() { 
 //                public void stateChanged( ChangeEvent event ) {
@@ -114,6 +115,10 @@ public class MassBalanceControlPanel extends JPanel {
             _equilibriumLineAltitudeControl.setEnabled( false );//XXX make this a display for now
             
             // Change the font and color of the tick labels
+            equilibriumLineAltitudeLabel.setForeground( CONTROL_COLOR );
+            equilibriumLineAltitudeLabel.setFont( CONTROL_FONT );
+            _equilibriumLineAltitudeControl.setFont( CONTROL_FONT );
+            _equilibriumLineAltitudeControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _equilibriumLineAltitudeControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
@@ -134,6 +139,9 @@ public class MassBalanceControlPanel extends JPanel {
         column = 0;
         layout.addAnchoredComponent( equilibriumLineAltitudeLabel, row, column++, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _equilibriumLineAltitudeControl, row, column++, GridBagConstraints.WEST );
+        
+        Class[] excludedClasses = { JTextField.class };
+        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
     //----------------------------------------------------------------------------

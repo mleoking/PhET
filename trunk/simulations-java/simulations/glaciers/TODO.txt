@@ -50,6 +50,7 @@ MEDIUM PRIORITY:
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 
 LOW PRIORITY:
+- labels on slider ticks should be white, code to set their color is not working
 - display distance and/or elevation as km ?
 - draw mountains
 - add variable caliper size to ice measuring tool
@@ -72,6 +73,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/20/08 - set background color correctly for climate controls, make textfields appear to be editable
 ******** 0.00.06 (?)
 2/19/08 - disable ELA slider and wire it to the model, so we can see ELA range without domain mapping problems
 2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
