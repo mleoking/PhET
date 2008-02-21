@@ -125,7 +125,7 @@ public class BasicClimateControlPanel extends JPanel {
         layout.addFilledComponent( separator, row, column++, 1, 3, GridBagConstraints.VERTICAL );
         layout.addComponent( cardPanel, row, column++ );
         
-        Class[] excludedClasses = { JSpinner.class };
+        Class[] excludedClasses = { SnowfallAndTemperatureControlPanel.class, MassBalanceControlPanel.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
         
         // default state
