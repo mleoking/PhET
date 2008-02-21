@@ -21,8 +21,10 @@ public class CompositeWallPotentialGraphic extends PNode {
     private JComponent panel;
     private CompositePotential wallPotentialGraphic;
     private LatticeScreenCoordinates latticeScreenCoordinates;
+    private RotationWaveGraphic rotationWaveGraphic;
 
-    public CompositeWallPotentialGraphic( JComponent panel, CompositePotential wallPotentialGraphic, LatticeScreenCoordinates latticeScreenCoordinates ) {
+    public CompositeWallPotentialGraphic( JComponent panel, CompositePotential wallPotentialGraphic, LatticeScreenCoordinates latticeScreenCoordinates, final RotationWaveGraphic rotationWaveGraphic ) {
+        this.rotationWaveGraphic = rotationWaveGraphic;
         this.panel = panel;
         this.wallPotentialGraphic = wallPotentialGraphic;
         this.latticeScreenCoordinates = latticeScreenCoordinates;
@@ -36,6 +38,16 @@ public class CompositeWallPotentialGraphic extends PNode {
             }
         } );
         update();
+        rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
+            public void rotationChanged() {
+                updateVisible();
+            }
+        } );
+        updateVisible();
+    }
+
+    private void updateVisible() {
+        setVisible( rotationWaveGraphic.getRotation() == 0 );
     }
 
     private void update() {
@@ -53,6 +65,7 @@ public class CompositeWallPotentialGraphic extends PNode {
             itemMenu.add( menuItem );
             child.addInputEventListener( new PopupMenuHandler( panel, itemMenu ) );
             child.addInputEventListener( new PBasicInputEventHandler() {//todo: why isn't this working?
+
                 public void keyReleased( PInputEvent event ) {
                     super.keyReleased( event );
                     if ( event.getKeyCode() == KeyEvent.VK_DELETE ) {
