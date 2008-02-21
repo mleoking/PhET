@@ -40,6 +40,17 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         return "unfuddle account, project0=" + getProject( 0 );
     }
 
+    public String getEmailAddress( String s ) {
+        int numPeople = numPeople();
+        for ( int i = 0; i < numPeople; i++ ) {
+            UnfuddlePerson p = new UnfuddlePerson( getListElement( "people", "person", i ) );
+            if (p.getUsername().equals(s)){
+                return p.getEmail();
+            }
+        }
+        return null;
+    }
+
     static class UnfuddlePerson extends XMLObject {
 
         public UnfuddlePerson( Node node ) {
@@ -53,10 +64,19 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         public String getName() {
             return getTextContent( "first-name" ) + " " + getTextContent( "last-name" );
         }
+
+
+        public String getUsername() {
+            return getTextContent( "username" );
+        }
+
+        public String getEmail() {
+            return getTextContent( "email" );
+        }
     }
 
     public String getPersonForID( int id ) {
-        int numPeople = getListCount( "people", "person" );
+        int numPeople = numPeople();
         for ( int i = 0; i < numPeople; i++ ) {
             UnfuddlePerson p = new UnfuddlePerson( getListElement( "people", "person", i ) );
             if ( p.getID() == id ) {
@@ -64,6 +84,10 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
             }
         }
         return null;
+    }
+
+    private int numPeople() {
+        return getListCount( "people", "person" );
     }
 
     public String getComponentForID( int id ) {
