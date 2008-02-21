@@ -34,9 +34,9 @@ public class PieChart extends JFrame {
             Date maxTime = d.getMaxTime();
             setLayout( new BorderLayout() );
             DefaultPieDataset pieDataset = new DefaultPieDataset();
-            ArrayList cat = d.getCategories();
-            for ( int i = 0; i < cat.size(); i++ ) {
-                String s = (String) cat.get( i );
+            String[] cat = d.getCategories();
+            for ( int i = 0; i < cat.length; i++ ) {
+                String s = cat[i];
                 pieDataset.setValue( s, d.getTotalTimeMillis( s ) );
             }
             pieDataset.sortByValues( SortOrder.DESCENDING );

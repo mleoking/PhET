@@ -1,9 +1,6 @@
 package edu.colorado.phet.reids.admin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
  * Created by: Sam
@@ -12,6 +9,15 @@ import java.util.StringTokenizer;
 public class TimesheetData implements TimesheetDataEntry.Listener {
     private ArrayList entries = new ArrayList();
     private boolean hasChanges = false;
+
+    public TimesheetData() {
+    }
+
+    public TimesheetData( TimesheetDataEntry[] entries ) {
+        for ( int i = 0; i < entries.length; i++ ) {
+            addEntry( entries[i] );
+        }
+    }
 
     public void addEntry( TimesheetDataEntry entry ) {
         entries.add( entry );
@@ -101,7 +107,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
         }
     }
 
-    public void startNewEntry(String category) {
+    public void startNewEntry( String category ) {
         stopAllEntries();
         TimesheetDataEntry e = new TimesheetDataEntry( new Date(), new Date(), category, "" );
         addEntry( e );
@@ -132,7 +138,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
 
     private void removeEntry( int i ) {
         TimesheetDataEntry entry = (TimesheetDataEntry) entries.remove( i );
-        entry.removeListener(this);
+        entry.removeListener( this );
         notifyEntryRemoved( entry );
         notifyTimeChanged();
         setChanged( true );
@@ -146,10 +152,10 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
     }
 
     public int getNumCategories() {
-        return getCategories().size();
+        return getCategories().length;
     }
 
-    public ArrayList getCategories() {
+    public String[] getCategories() {
         ArrayList cat = new ArrayList();
         for ( int i = 0; i < entries.size(); i++ ) {
             TimesheetDataEntry timesheetDataEntry = (TimesheetDataEntry) entries.get( i );
@@ -157,7 +163,7 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
                 cat.add( timesheetDataEntry.getCategory() );
             }
         }
-        return cat;
+        return (String[]) cat.toArray( new String[0] );
     }
 
     public long getTotalTimeMillis() {
@@ -321,6 +327,26 @@ public class TimesheetData implements TimesheetDataEntry.Listener {
             }
         }
         return data;
+    }
+
+    //todo: join with getSelectedEntries
+    public TimesheetData getSelectedEntriesAsDataset() {
+        TimesheetDataEntry[] e = getSelectedEntries();
+        TimesheetData d = new TimesheetData();
+        for ( int i = 0; i < e.length; i++ ) {
+            d.addEntry( e[i] );
+        }
+        return d;
+    }
+
+    public TimesheetData sort( final TimesheetDataEntryComparator timesheetDataEntryComparator ) {
+        ArrayList entriesSorted = new ArrayList( entries );
+        Collections.sort( entriesSorted, new Comparator() {
+            public int compare( Object o1, Object o2 ) {
+                return timesheetDataEntryComparator.compare( (TimesheetDataEntry) o1, (TimesheetDataEntry) o2 );
+            }
+        } );
+        return new TimesheetData( (TimesheetDataEntry[]) entriesSorted.toArray( new TimesheetDataEntry[0] ) );
     }
 
     public static interface Listener {
