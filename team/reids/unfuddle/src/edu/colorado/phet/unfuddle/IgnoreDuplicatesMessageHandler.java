@@ -32,7 +32,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
     private void setHandled( Message m ) {
         try {
             String s = FileUtils.loadFileAsString( file );
-            s += "\n" + m.getID();
+            s += "\n" + m.getHashID();
             FileUtils.writeString( file, s );
         }
         catch( IOException e ) {
@@ -43,7 +43,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
     private boolean alreadyHandled( Message m ) {
         try {
             ArrayList h = getHandledList();
-            return h.contains( new Integer( m.getID() ) );
+            return h.contains( new Integer( m.getHashID() ) );
         }
         catch( IOException e ) {
             e.printStackTrace();

@@ -6,10 +6,12 @@ package edu.colorado.phet.unfuddle;
  */
 public class TicketResolvedMessage extends NewTicketMessage {
     private String resolvedBy;
+    private int recordID;
 
-    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, String resolvedBy ) {
+    public TicketResolvedMessage( XMLObject ticket, IUnfuddleAccount unfuddleAccount, String resolvedBy, int recordID ) {
         super( ticket, unfuddleAccount );
         this.resolvedBy = resolvedBy;
+        this.recordID = recordID;
     }
 
     protected String getMessageType() {
@@ -23,6 +25,11 @@ public class TicketResolvedMessage extends NewTicketMessage {
 //               "Summary: " + getSummary() + "\n" +
 "Resolution Description:\n" +
 getResolutionDescription();
+    }
+
+    public int getHashID() {
+        //todo: fix this awkward workaround
+        return recordID * 123 + 17;//it appears that "record-id" is not unique compared to "id", so this function tries to avoid hits
     }
 
     private String getResolvedBy() {

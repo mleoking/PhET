@@ -110,7 +110,7 @@ public class ProcessRecentChanges {
         h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), false ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
-
+        int handled = 0;
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order
             XMLObject auditTrail = events.getNode( i, "event" );
             XMLObject record = auditTrail.getNode( "record" );
@@ -120,6 +120,7 @@ public class ProcessRecentChanges {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
                     try {
                         mh.handleMessage( new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
+                        handled++;
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -134,6 +135,7 @@ public class ProcessRecentChanges {
                 if ( ticket != null ) {
                     try {
                         mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
+                        handled++;
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -145,7 +147,9 @@ public class ProcessRecentChanges {
                 if ( ticket != null ) {
                     try {
                         String resolvedBy = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
-                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy ) );
+                        int recordID=auditTrail.getTextContentAsInt( "record-id" );
+                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy,recordID ) );
+                        handled++;
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
@@ -156,6 +160,7 @@ public class ProcessRecentChanges {
                 System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
             }
         }
+        System.out.println( "Finished update, number of messages handled=" + handled );
     }
 
     private static final String STORED_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
