@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.mail.MessagingException;
 
 import org.xml.sax.SAXException;
 
@@ -28,7 +29,7 @@ public class EmailHandler implements MessageHandler {
         this.sendMail = sendMail;
     }
 
-    public void handleMessage( Message m ) {
+    public void handleMessage( Message m ) throws MessagingException {
         String[] to = new String[0];
         try {
             to = getTo( m.getComponent() );

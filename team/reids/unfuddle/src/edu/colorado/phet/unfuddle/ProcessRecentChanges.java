@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.mail.MessagingException;
 import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -25,27 +26,47 @@ public class ProcessRecentChanges {
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
     }
 
-    public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+    public static void main( final String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                try {
+                    runMain( args );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+                catch( SAXException e ) {
+                    e.printStackTrace();
+                }
+                catch( ParserConfigurationException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+    }
+
+    private static void runMain( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         JFrame running = new JFrame( "Process Unfuddle Changes" );
         running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        JPanel contentPanel = new JPanel();
+
         final JCheckBox jCheckBox = new JCheckBox( "running", true );
-        running.setContentPane( jCheckBox );
+        contentPanel.add( jCheckBox );
         final ProcessRecentChanges recentChanges = new ProcessRecentChanges( args );
+
+        JButton updateNow = new JButton( "Update Now" );
+        contentPanel.add( updateNow );
+        updateNow.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                processRecentChanges( recentChanges );
+            }
+        } );
+        running.setContentPane( contentPanel );
+
         Timer timer = new Timer( 30 * 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( jCheckBox.isSelected() ) {
-                    try {
-                        recentChanges.processChanges();
-                    }
-                    catch( IOException e1 ) {
-                        e1.printStackTrace();
-                    }
-                    catch( SAXException e1 ) {
-                        e1.printStackTrace();
-                    }
-                    catch( ParserConfigurationException e1 ) {
-                        e1.printStackTrace();
-                    }
+                    processRecentChanges( recentChanges );
                 }
             }
         } );
@@ -53,6 +74,21 @@ public class ProcessRecentChanges {
         timer.start();
         running.pack();
         running.setVisible( true );
+    }
+
+    private static void processRecentChanges( ProcessRecentChanges recentChanges ) {
+        try {
+            recentChanges.processChanges();
+        }
+        catch( IOException e1 ) {
+            e1.printStackTrace();
+        }
+        catch( SAXException e1 ) {
+            e1.printStackTrace();
+        }
+        catch( ParserConfigurationException e1 ) {
+            e1.printStackTrace();
+        }
     }
 
     private void processChanges() throws IOException, SAXException, ParserConfigurationException {
@@ -76,7 +112,12 @@ public class ProcessRecentChanges {
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
-                    mh.handleMessage( new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
+                    try {
+                        mh.handleMessage( new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
+                    }
+                    catch( MessagingException e1 ) {
+                        e1.printStackTrace();
+                    }
                 }
                 else {
                     System.out.println( "Skipping unknown parent type: " + comment.getTextContent( "parent-type" ) );
@@ -85,7 +126,12 @@ public class ProcessRecentChanges {
             else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
-                    mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
+                    try {
+                        mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
+                    }
+                    catch( MessagingException e1 ) {
+                        e1.printStackTrace();
+                    }
                 }
             }
             else {
