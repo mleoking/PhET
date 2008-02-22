@@ -67,7 +67,7 @@ public class GraphsControlPanel extends JPanel {
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
         setBorder( compoundBorder );
         
-        _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIER_LENGTH_VERSUS_TIME );
+        _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME );
         _glacierLengthVersusTimeCheckBox.setFont( CONTROL_FONT );
         _glacierLengthVersusTimeCheckBox.setForeground( CONTROL_COLOR );
         _glacierLengthVersusTimeCheckBox.addActionListener( new ActionListener() {
@@ -76,7 +76,7 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _equilibriumLineAltitudeVersusTimeCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME );
+        _equilibriumLineAltitudeVersusTimeCheckBox = new JCheckBox( GlaciersStrings.TITLE_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME );
         _equilibriumLineAltitudeVersusTimeCheckBox.setFont( CONTROL_FONT );
         _equilibriumLineAltitudeVersusTimeCheckBox.setForeground( CONTROL_COLOR );
         _equilibriumLineAltitudeVersusTimeCheckBox.addActionListener( new ActionListener() {
@@ -85,7 +85,7 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _accumulationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ACCUMULATION_VERSUS_ELEVATION );
+        _accumulationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_ACCUMULATION_VERSUS_ELEVATION );
         _accumulationVersusElevationCheckBox.setFont( CONTROL_FONT );
         _accumulationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
         _accumulationVersusElevationCheckBox.addActionListener( new ActionListener() {
@@ -94,7 +94,7 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _ablationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ABLATION_VERSUS_ELEVATION );
+        _ablationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_ABLATION_VERSUS_ELEVATION );
         _ablationVersusElevationCheckBox.setFont( CONTROL_FONT );
         _ablationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
         _ablationVersusElevationCheckBox.addActionListener( new ActionListener() {
@@ -103,7 +103,7 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _glacialBudgetVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIAL_BUDGET_VERSUS_ELEVATION );
+        _glacialBudgetVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION );
         _glacialBudgetVersusElevationCheckBox.setFont( CONTROL_FONT );
         _glacialBudgetVersusElevationCheckBox.setForeground( CONTROL_COLOR );
         _glacialBudgetVersusElevationCheckBox.addActionListener( new ActionListener() {
@@ -112,7 +112,7 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _temperatureVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_TEMPERATURE_VERSUS_ELEVATION );
+        _temperatureVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION );
         _temperatureVersusElevationCheckBox.setFont( CONTROL_FONT );
         _temperatureVersusElevationCheckBox.setForeground( CONTROL_COLOR );
         _temperatureVersusElevationCheckBox.addActionListener( new ActionListener() {

@@ -28,6 +28,7 @@ HIGH PRIORITY:
 - implement time-scaling portion of glacier model
 
 MEDIUM PRIORITY:
+- x-axis of charts currently autoscales, set fixed range?
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
 - add pseudo-3D perspective
@@ -74,12 +75,13 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.07 (?)
 2/21/08 - add charts for "XXX v. elevation" graphs, where XXX=accumulation, ablation, glacial budget
 2/21/08 - wire up real "temperature v. elevation" graph
 2/21/08 - prototype "temperature v. elevation" graph
 2/21/08 - change graphs control panel to use checkboxes
 2/20/08 - set background color correctly for climate controls, make textfields appear to be editable
-******** 0.00.06 (?)
+******** 0.00.06 (19893)
 2/19/08 - disable ELA slider and wire it to the model, so we can see ELA range without domain mapping problems
 2/19/08 - rewrite EquilibriumLineNode to show a dashed horizontal line at ELA
 2/19/08 - move ELA model into Climate, delete EquilibriumLine class

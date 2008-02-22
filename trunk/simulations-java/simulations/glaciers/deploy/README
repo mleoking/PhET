@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.06
+Glaciers, version 0.00.07
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,22 +13,14 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>fix glacial budget meter, it should use the meter's elevation, not the valley floor elevation
-<li>change climate control panels to support new climate model
-<li>change "Snowfall & Temperature" controls to: snowfall, snowfall reference elevation, sea-level temperature
-<li>change "Mass Balance" controls to: max snowfall, ELA
-<li>make all climate controls sliders, with editable textfield
-<li>implement conversions from ELA to temperature and snowfall reference elevation
-<li>disable ELA slider so we can see ELA range (there are circularity problems with mapping between the 2 climate domains)
-<li>display equilibrium line as a dashed horizontal that spans the play area (temporary representation)
-<li>fix -0 (negative zero) displays
-<li>display elevation and distance with precision=1, all other quantities with precision=0.1
-<li>fix some control panel layout problems (still not perfect)
-<li>update climate continuously while dragging sliders, performance is OK
+<li>implement all "* v. elevation" graphs, where *=accumulation,ablation,glacial budget,temperature.
+These graphs dynamically update when climate is changed.
+<li>set correct background color for climate control textfields, so that they appear to be editable
 </ul>
 <p>
 <b>Known problems:</b>
 <ul>
+<li>x-axis autoscales for graphs, which may not be desirable in the final product
 <li>with range of climate controls, glaciers is way longer than our desired 80km
 <li>ELA control is read-only due to circularities that occur when mapping between 2 climate domains
 <li>equilbrium line should be shown only where it intersects the ice
