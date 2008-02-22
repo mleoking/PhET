@@ -25,7 +25,7 @@ public class NewCommentMessage implements Message {
         this.curl = curl;
     }
 
-    public int getID() {
+    public int getHashID() {
         return Integer.parseInt( comment.getTextContent( "id" ) );
     }
 
