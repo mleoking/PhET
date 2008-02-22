@@ -57,15 +57,26 @@ public class NewCommentMessage implements Message {
     }
 
     public String getEmailBody() {
-        String body = comment.getTextContent( "body" );
+//        String body = comment.getTextContent( "body" );
+//
+//        String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
+//        return body + "\n\n" + "-" + person + "\n\n" + "Please navigate to " + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getTicketURL() +
+//               "\nto read other comments and add a comment.\n\n" + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getSuffix();
 
         String person = unfuddleAccount.getPersonForID( comment.getTextContentAsInt( "author-id" ) );
-        return body + "\n\n" + "-" + person + "\n\n" + "Please navigate to " + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getTicketURL() +
-               "\nto read other comments and add a comment.\n\n" + new NewTicketMessage( getTicketXML(), unfuddleAccount ).getSuffix();
+        final NewTicketMessage message = new NewTicketMessage( getTicketXML(), unfuddleAccount );
+        return NewTicketMessage.getHeader( message.getTicketURL() ) +
+               person + " said:\n" +
+               "\n" +
+               comment.getTextContent( "body" ) +
+               NewTicketMessage.getFooter();
     }
 
     public String getEmailSubject() {
-        return new NewTicketMessage( getTicketXML(), unfuddleAccount ).getEmailSubject();
+        final NewTicketMessage message = new NewTicketMessage( getTicketXML(), unfuddleAccount );
+        int number = message.getTicketNumber();
+        return NewTicketMessage.toEmailSubject( getComponent(), number, message.getSummary(), "comment" );
+//        return new NewTicketMessage( getTicketXML(), unfuddleAccount ).getEmailSubject();
     }
 
     public String toString() {
