@@ -27,6 +27,13 @@ public class GlaciersStrings {
     public static final String CHECK_BOX_COORDINATES = GlaciersResources.getString( "checkBox.coordinates" );
     public static final String CHECK_BOX_AGE_OF_ICE = GlaciersResources.getString( "checkBox.ageOfIce" );
     
+    public static final String CHECK_BOX_GLACIER_LENGTH_VERSUS_TIME = GlaciersResources.getString( "checkBox.glacierLengthVersusTime" );
+    public static final String CHECK_BOX_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME = GlaciersResources.getString( "checkBox.equilibriumLineAltitudeVersusTime" );
+    public static final String CHECK_BOX_ACCUMULATION_VERSUS_ELEVATION = GlaciersResources.getString( "checkBox.accumulationVersusElevation" );
+    public static final String CHECK_BOX_ABLATION_VERSUS_ELEVATION = GlaciersResources.getString( "checkBox.ablationVersusElevation" );
+    public static final String CHECK_BOX_GLACIAL_BUDGET_VERSUS_ELEVATION = GlaciersResources.getString( "checkBox.glacialBudgetVersusElevation" );
+    public static final String CHECK_BOX_TEMPERATURE_VERSUS_ELEVATION = GlaciersResources.getString( "checkBox.temperatureVersusElevation" );
+    
     public static final String HELP_EQUILIBRIUM_BUTTON = GlaciersResources.getString( "help.equilibriumButton" );
     
     public static final String LABEL_ACCUMULATION = GlaciersResources.getString( "label.accumulation" );
@@ -45,14 +52,6 @@ public class GlaciersStrings {
     public static final String RADIO_BUTTON_SNOWFALL_AND_TEMPERATURE = GlaciersResources.getString( "radioButton.snowfallAndTemperature" );
     public static final String RADIO_BUTTON_CLIMATE_PRESETS = GlaciersResources.getString( "radioButton.climatePresets" );
     public static final String RADIO_BUTTON_MASS_BALANCE = GlaciersResources.getString( "radioButton.massBalance" );
-    public static final String RADIO_BUTTON_NO_GRAPH = GlaciersResources.getString( "radioButton.noGraph" );
-    public static final String RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME = GlaciersResources.getString( "radioButton.glacierLengthVersusTime" );
-    public static final String RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME = GlaciersResources.getString( "radioButton.equilibriumLineAltitudeVersusTime" );
-    public static final String RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.accumulationVersusAltitude" );
-    public static final String RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.ablationVersusAltitude" );
-    public static final String RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.massBalanceVersusAltitude" );
-    public static final String RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.temperatureVersusAltitude" );
-    public static final String RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE = GlaciersResources.getString( "radioButton.valleyFloorVersusAltitude" );
     
     public static final String SLIDER_CLOCK_SLOW = GlaciersResources.getString( "slider.clock.slow" );
     public static final String SLIDER_CLOCK_FAST = GlaciersResources.getString( "slider.clock.fast" );
