@@ -2,6 +2,8 @@ package edu.colorado.phet.unfuddle;
 
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+
 /**
  * Created by: Sam
  * Feb 21, 2008 at 1:58:42 PM
@@ -13,7 +15,7 @@ public class CompositeMessageHandler implements MessageHandler {
         list.add( m );
     }
 
-    public void handleMessage( Message m ) {
+    public void handleMessage( Message m ) throws MessagingException {
         for ( int i = 0; i < list.size(); i++ ) {
             MessageHandler messageHandler = (MessageHandler) list.get( i );
             messageHandler.handleMessage( m );

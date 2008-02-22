@@ -14,14 +14,14 @@ import javax.mail.internet.MimeMessage;
 // Send a simple, single part, text/plain e-mail
 public class EmailAccount {
 
-    public static void main( String[] args ) {
+    public static void main( String[] args ) throws MessagingException {
         String from = args[0];
         String to = args[1];
         String host = args[2];
         sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject" );
     }
 
-    public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) {
+    public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) throws MessagingException {
         // Create properties, get Session
         Properties props = new Properties();
 
@@ -56,6 +56,7 @@ public class EmailAccount {
         catch( MessagingException mex ) {
             // Prints all nested (chained) exceptions as well
             mex.printStackTrace();
+            throw mex;
         }
         System.out.println( "Sent email to: " + Arrays.asList( to ) );
     }

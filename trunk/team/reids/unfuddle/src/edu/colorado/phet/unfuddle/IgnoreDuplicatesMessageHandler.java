@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
+import javax.mail.MessagingException;
+
 import edu.colorado.phet.build.FileUtils;
 
 /**
@@ -20,7 +22,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
         this.file = file;
     }
 
-    public void handleMessage( Message m ) {
+    public void handleMessage( Message m ) throws MessagingException {
         if ( !alreadyHandled( m ) ) {
             target.handleMessage( m );
             setHandled( m );
