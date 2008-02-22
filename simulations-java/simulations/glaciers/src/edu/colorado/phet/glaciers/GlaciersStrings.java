@@ -21,6 +21,9 @@ public class GlaciersStrings {
 
     public static final String BUTTON_STEADY_STATE = GlaciersResources.getString( "button.steadyState" );
     
+    public static final String AXIS_ELEVATION = GlaciersResources.getString( "axis.elevation" );
+    public static final String AXIS_TEMPERATURE = GlaciersResources.getString( "axis.temperature" );
+    
     public static final String CHECK_BOX_EQUILIBRIUM_LINE = GlaciersResources.getString( "checkBox.equilibriumLine" );
     public static final String CHECK_BOX_ICE_FLOW = GlaciersResources.getString( "checkBox.iceFlow" );
     public static final String CHECK_BOX_SNOWFALL = GlaciersResources.getString( "checkBox.snowfall" );
@@ -74,6 +77,7 @@ public class GlaciersStrings {
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );
     public static final String TITLE_ERROR = GlaciersResources.getString( "title.error" );
     public static final String TITLE_GRAPHS = GlaciersResources.getString( "title.graphs" );
+    public static final String TITLE_TEMPERATURE_VERSUS_ELEVATION = GlaciersResources.getString( "title.temperatureVersusElevation" );
     public static final String TITLE_TOOLBOX = GlaciersResources.getString( "title.toolbox" );
     public static final String TITLE_VIEW = GlaciersResources.getString( "title.view" );
     
