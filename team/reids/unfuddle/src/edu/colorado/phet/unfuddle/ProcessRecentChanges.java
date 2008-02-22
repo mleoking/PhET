@@ -23,11 +23,11 @@ public class ProcessRecentChanges {
         this.args = args;
         unfuddleAccount = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-
     }
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        JFrame running = new JFrame();
+        JFrame running = new JFrame( "Process Unfuddle Changes" );
+        running.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final JCheckBox jCheckBox = new JCheckBox( "running", true );
         running.setContentPane( jCheckBox );
         final ProcessRecentChanges recentChanges = new ProcessRecentChanges( args );
