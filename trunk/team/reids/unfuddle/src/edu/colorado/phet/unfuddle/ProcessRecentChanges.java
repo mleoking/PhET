@@ -68,7 +68,8 @@ public class ProcessRecentChanges {
         } );
         running.setContentPane( contentPanel );
 
-        Timer timer = new Timer( 60 * 1000, new ActionListener() {
+        int numMinutes = 5;
+        Timer timer = new Timer( 60 * 1000 * numMinutes, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( jCheckBox.isSelected() ) {
                     processRecentChanges( recentChanges );
