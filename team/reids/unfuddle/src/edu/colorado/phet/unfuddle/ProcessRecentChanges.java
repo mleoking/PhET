@@ -76,9 +76,7 @@ public class ProcessRecentChanges {
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
-                    final NewCommentMessage message = new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl );
-                    System.out.println( "message = " + message );
-                    mh.handleMessage( message );
+                    mh.handleMessage( new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
                 }
                 else {
                     System.out.println( "Skipping unknown parent type: " + comment.getTextContent( "parent-type" ) );
