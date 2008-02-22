@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.unfuddle.mail.EmailAccount;
+import edu.colorado.phet.unfuddle.EmailAccount;
 
 /**
  * Created by: Sam

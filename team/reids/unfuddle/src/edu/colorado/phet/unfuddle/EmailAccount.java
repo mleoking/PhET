@@ -1,4 +1,4 @@
-package edu.colorado.phet.unfuddle.mail;
+package edu.colorado.phet.unfuddle;
 
 import java.util.Arrays;
 import java.util.Date;
