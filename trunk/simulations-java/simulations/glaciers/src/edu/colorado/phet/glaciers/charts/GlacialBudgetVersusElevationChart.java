@@ -21,16 +21,15 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
-import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
- * TemperatureVersusElevationChart displays a "Temperature versus Elevation" chart.
+ * GlacialBudgetVersusElevationChart displays a "Glacial Budget versus Elevation" chart.
  * The chart updates as climate is changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemperatureVersusElevationChart extends JDialog {
+public class GlacialBudgetVersusElevationChart extends JDialog {
     
     private static final Range ELEVATION_RANGE = new Range( 0, 10E3 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
@@ -39,14 +38,20 @@ public class TemperatureVersusElevationChart extends JDialog {
     private ClimateListener _climateListener;
     private XYSeries _series;
     
-    public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
+    public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
         
         _climate = climate;
-        _climateListener = new ClimateAdapter() {
+        _climateListener = new ClimateListener() {
+            public void snowfallChanged() {
+                update();
+            }
+            public void snowfallReferenceElevationChanged() {
+                update();
+            }
             public void temperatureChanged() {
                 update();
             }
@@ -54,12 +59,12 @@ public class TemperatureVersusElevationChart extends JDialog {
         _climate.addClimateListener( _climateListener );
         
         // create the chart
-        _series = new XYSeries( "temperatureVersusElevation" );
+        _series = new XYSeries( "glacialBudgetVersusElevation" );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
         JFreeChart chart = ChartFactory.createXYLineChart(
-            GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION, // title
-            GlaciersStrings.AXIS_TEMPERATURE, // x axis label
+            GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION, // title
+            GlaciersStrings.AXIS_GLACIAL_BUDGET, // x axis label
             GlaciersStrings.AXIS_ELEVATION,  // y axis label
             dataset,
             PlotOrientation.VERTICAL,
@@ -96,18 +101,18 @@ public class TemperatureVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "TemperatureVersusElevationChart.cleanup" );
+        System.out.println( "GlacialBudgetVersusElevationChart.cleanup" );//XXX
         _climate.removeClimateListener( _climateListener );
     }
     
     private void update() {
         _series.clear();
         double elevation = ELEVATION_RANGE.getLowerBound();
-        double temperature = 0;
+        double glacialBudget = 0;
         final double maxElevation = ELEVATION_RANGE.getUpperBound();
         while ( elevation <=  maxElevation ) {
-            temperature = _climate.getTemperature( elevation );
-            _series.add( temperature, elevation );
+            glacialBudget = _climate.getGlacialBudget( elevation );
+            _series.add( glacialBudget, elevation );
             elevation += DELTA_ELEVATION;
         }
     }

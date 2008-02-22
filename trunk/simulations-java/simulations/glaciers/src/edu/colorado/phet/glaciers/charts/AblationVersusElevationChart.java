@@ -25,12 +25,12 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
- * TemperatureVersusElevationChart displays a "Temperature versus Elevation" chart.
+ * AblationVersusElevationChart displays a "Ablation versus Elevation" chart.
  * The chart updates as climate is changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemperatureVersusElevationChart extends JDialog {
+public class AblationVersusElevationChart extends JDialog {
     
     private static final Range ELEVATION_RANGE = new Range( 0, 10E3 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
@@ -39,7 +39,7 @@ public class TemperatureVersusElevationChart extends JDialog {
     private ClimateListener _climateListener;
     private XYSeries _series;
     
-    public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
+    public AblationVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );
         
         setSize( size );
@@ -54,12 +54,12 @@ public class TemperatureVersusElevationChart extends JDialog {
         _climate.addClimateListener( _climateListener );
         
         // create the chart
-        _series = new XYSeries( "temperatureVersusElevation" );
+        _series = new XYSeries( "ablationVersusElevation" );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
         JFreeChart chart = ChartFactory.createXYLineChart(
-            GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION, // title
-            GlaciersStrings.AXIS_TEMPERATURE, // x axis label
+            GlaciersStrings.TITLE_ABLATION_VERSUS_ELEVATION, // title
+            GlaciersStrings.AXIS_ABLATION, // x axis label
             GlaciersStrings.AXIS_ELEVATION,  // y axis label
             dataset,
             PlotOrientation.VERTICAL,
@@ -96,18 +96,18 @@ public class TemperatureVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "TemperatureVersusElevationChart.cleanup" );
+        System.out.println( "AblationVersusElevationChart.cleanup" );//XXX
         _climate.removeClimateListener( _climateListener );
     }
     
     private void update() {
         _series.clear();
         double elevation = ELEVATION_RANGE.getLowerBound();
-        double temperature = 0;
+        double ablation = 0;
         final double maxElevation = ELEVATION_RANGE.getUpperBound();
         while ( elevation <=  maxElevation ) {
-            temperature = _climate.getTemperature( elevation );
-            _series.add( temperature, elevation );
+            ablation = _climate.getAblation( elevation );
+            _series.add( ablation, elevation );
             elevation += DELTA_ELEVATION;
         }
     }
