@@ -102,4 +102,8 @@ public class XMLObject {
     public boolean containsNode( String node ) {
         return getNode( node ) != null;
     }
+
+    public int getTextContentAsInt( String s ) {
+        return Integer.parseInt( getTextContent( s ) );
+    }
 }

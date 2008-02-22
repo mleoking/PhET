@@ -39,8 +39,9 @@ public class ReadEmailList {
             StringTokenizer st = new StringTokenizer( value, ", " );
             while ( st.hasMoreTokens() ) {
                 String t = st.nextToken();
-                if ( t.equalsIgnoreCase( component ) && !emails.contains( getEmail( key ) ) ) {
-                    emails.add( getEmail( key ) );
+                final String email = getEmail( key );
+                if ( t.equalsIgnoreCase( component ) && !emails.contains( email ) && email != null ) {
+                    emails.add( email );
                 }
             }
         }

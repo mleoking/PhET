@@ -14,7 +14,11 @@ public class NewTicketMessage implements Message {
     }
 
     public String toString() {
-        return "subject:\n" + getEmailSubject() + "\nbody:\n" + getEmailBody();
+        return toString( this );
+    }
+
+    public static String toString( Message message ) {
+        return "subject:\n" + message.getEmailSubject() + "\nbody:\n" + message.getEmailBody();
     }
 
     public String getComponent() {
@@ -48,12 +52,16 @@ public class NewTicketMessage implements Message {
                "Ticket URL: " + getTicketURL() + "\n" +
                "Ticket Description:\n" +
                "" + getDescription() + "\n\n" +
-               "-----------------------\n" +
+               getSuffix();
+    }
+
+    public String getSuffix() {
+        return "-----------------------\n" +
                "You received this message because you are signed up on the list located at:\n" +
                "https://phet.unfuddle.com/p/unfuddled/notebooks/show/7161";
     }
 
-    private String getTicketURL() {
+    public String getTicketURL() {
         return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
     }
 
