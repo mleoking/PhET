@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 public class XMLObject {
     private Node node;
 
-
     public XMLObject( Node node ) {
         this.node = node;
     }

@@ -57,15 +57,5 @@ public class EmailHandler implements MessageHandler {
 
     private String[] getTo( String component ) throws IOException, SAXException, ParserConfigurationException {
         return emailList.getEmailsForComponent( component );
-//        Properties p = new Properties();
-//        p.load( new FileInputStream( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\email.properties" ) ) );
-//        String c = p.getProperty( component );
-//        c = c == null ? "" : c;
-//        StringTokenizer st = new StringTokenizer( c, ", " );
-//        ArrayList s = new ArrayList();
-//        while ( st.hasMoreTokens() ) {
-//            s.add( st.nextToken() );
-//        }
-//        return (String[]) s.toArray( new String[0] );
     }
 }

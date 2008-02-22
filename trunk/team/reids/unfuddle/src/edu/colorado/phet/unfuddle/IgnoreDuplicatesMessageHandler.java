@@ -3,7 +3,6 @@ package edu.colorado.phet.unfuddle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.build.FileUtils;
@@ -60,30 +59,4 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
         return handled;
     }
 
-    public static void main( String[] args ) throws IOException {
-        final IgnoreDuplicatesMessageHandler messageHandler = new IgnoreDuplicatesMessageHandler( new MessageHandler() {
-            public void handleMessage( Message m ) {
-                System.out.println( "IgnoreDuplicatesMessageHandler.handleMessage" );
-            }
-        }, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
-        System.out.println( "messageHandler.getHandledList() = " + messageHandler.getHandledList() );
-        messageHandler.setHandled( new Message() {
-            public int getID() {
-                return new Random().nextInt( 1000 );
-            }
-
-            public String getComponent() {
-                return null;
-            }
-
-            public String getEmailBody() {
-                return null;
-            }
-
-            public String getEmailSubject() {
-                return null;
-            }
-        } );
-        System.out.println( "messageHandler.list = " + messageHandler.getHandledList() );
-    }
 }
