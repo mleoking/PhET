@@ -4,11 +4,14 @@ package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Frame;
 
+import javax.swing.JOptionPane;
+
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
+import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Climate;

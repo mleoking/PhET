@@ -4,13 +4,13 @@ package edu.colorado.phet.glaciers.control;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -35,12 +35,18 @@ public class GraphsControlPanel extends JPanel {
     private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
     private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
+    private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
     
-    private JComboBox _comboBox;
+    private JCheckBox _glacierLengthVersusTimeCheckBox;
+    private JCheckBox _equilibriumLineAltitudeVersusTimeCheckBox;
+    private JCheckBox _accumulationVersusElevationCheckBox;
+    private JCheckBox _ablationVersusElevationCheckBox;
+    private JCheckBox _glacialBudgetVersusElevationCheckBox;
+    private JCheckBox _temperatureVersusElevationCheckBox;
     
     private ArrayList _listeners; // list of GraphsControlPanelListener
     
@@ -61,25 +67,57 @@ public class GraphsControlPanel extends JPanel {
         Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
         setBorder( compoundBorder );
         
-        Object[] items = {
-                GlaciersStrings.RADIO_BUTTON_NO_GRAPH,
-                GlaciersStrings.RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME,
-                GlaciersStrings.RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME,
-                GlaciersStrings.RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE,
-                GlaciersStrings.RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE,
-                GlaciersStrings.RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE,
-                GlaciersStrings.RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE,
-                GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE
-        };
+        _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIER_LENGTH_VERSUS_TIME );
+        _glacierLengthVersusTimeCheckBox.setFont( CONTROL_FONT );
+        _glacierLengthVersusTimeCheckBox.setForeground( CONTROL_COLOR );
+        _glacierLengthVersusTimeCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyGlacierLengthVersusTimeChanged();
+            }
+        });
         
-        _comboBox = new JComboBox( items );
-        _comboBox.setFont( CONTROL_FONT );
-        _comboBox.setOpaque( false );
-        _comboBox.addItemListener( new ItemListener() {
-            public void itemStateChanged( ItemEvent e ) {
-                if ( e.getStateChange() == ItemEvent.SELECTED ) {
-                    notifySelectionChanged();
-                }
+        _equilibriumLineAltitudeVersusTimeCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME );
+        _equilibriumLineAltitudeVersusTimeCheckBox.setFont( CONTROL_FONT );
+        _equilibriumLineAltitudeVersusTimeCheckBox.setForeground( CONTROL_COLOR );
+        _equilibriumLineAltitudeVersusTimeCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyEquilibriumLineAltitudeVersusTimeChanged();
+            }
+        });
+        
+        _accumulationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ACCUMULATION_VERSUS_ELEVATION );
+        _accumulationVersusElevationCheckBox.setFont( CONTROL_FONT );
+        _accumulationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
+        _accumulationVersusElevationCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyAccumulationVersusElevationChanged();
+            }
+        });
+        
+        _ablationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_ABLATION_VERSUS_ELEVATION );
+        _ablationVersusElevationCheckBox.setFont( CONTROL_FONT );
+        _ablationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
+        _ablationVersusElevationCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyAblationVersusElevationChanged();
+            }
+        });
+        
+        _glacialBudgetVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_GLACIAL_BUDGET_VERSUS_ELEVATION );
+        _glacialBudgetVersusElevationCheckBox.setFont( CONTROL_FONT );
+        _glacialBudgetVersusElevationCheckBox.setForeground( CONTROL_COLOR );
+        _glacialBudgetVersusElevationCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyGlacialBudgetVersusElevationChanged();
+            }
+        });
+        
+        _temperatureVersusElevationCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_TEMPERATURE_VERSUS_ELEVATION );
+        _temperatureVersusElevationCheckBox.setFont( CONTROL_FONT );
+        _temperatureVersusElevationCheckBox.setForeground( CONTROL_COLOR );
+        _temperatureVersusElevationCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                notifyTemperatureVersusElevationChanged();
             }
         });
         
@@ -87,53 +125,66 @@ public class GraphsControlPanel extends JPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
-        layout.addComponent( _comboBox, row++, column );
+        layout.addComponent( _glacierLengthVersusTimeCheckBox, row++, column );
+        layout.addComponent( _equilibriumLineAltitudeVersusTimeCheckBox, row++, column );
+        layout.addComponent( _accumulationVersusElevationCheckBox, row++, column );
+        layout.addComponent( _ablationVersusElevationCheckBox, row++, column );
+        layout.addComponent( _glacialBudgetVersusElevationCheckBox, row++, column );
+        layout.addComponent( _temperatureVersusElevationCheckBox, row++, column );
         
-        Class[] excludedClasses = { JComboBox.class };
-        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
-
-        // default state
-        _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
+        SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* exclusedClasses */, false /* processContentsOfExcludedContainers */ );
     }
     
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public void setNoGraphSelected() {
-        _comboBox.setSelectedItem( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
-    }
-    
-    public boolean isNoGraphSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_NO_GRAPH );
+    public void setGlacierLengthVerusTimeSelected( boolean selected ) {
+        _glacierLengthVersusTimeCheckBox.setSelected( selected );
     }
     
     public boolean isGlacierLengthVerusTimeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_GLACIER_LENGTH_VERSUS_TIME );
+        return _glacierLengthVersusTimeCheckBox.isSelected();
+    }
+    
+    public void setEquilibriumLineAltitudeVersusTimeSelected( boolean selected ) {
+        _equilibriumLineAltitudeVersusTimeCheckBox.setSelected( selected );
     }
     
     public boolean isEquilibriumLineAltitudeVersusTimeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_EQUILIBRIUM_LINE_VERSUS_TIME );
+        return _equilibriumLineAltitudeVersusTimeCheckBox.isSelected();
     }
     
-    public boolean isAccumulationVersusAltitudeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_ACCUMULATION_VERSUS_ALTITUDE );
+    public void setAccumulationVersusElevationSelected( boolean selected ) {
+        _accumulationVersusElevationCheckBox.setSelected( selected );
     }
     
-    public boolean isAblationVersusAltitudeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_ABLATION_VERSUS_ALTITUDE );
+    public boolean isAccumulationVersusElevationSelected() {
+        return _accumulationVersusElevationCheckBox.isSelected();
     }
     
-    public boolean isMassBalanceVersusAltitudeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_MASS_BALANCE_VERSUS_ALTITUDE );
+    public void setAblationVersusElevationSelected( boolean selected ) {
+        _ablationVersusElevationCheckBox.setSelected( selected );
     }
     
-    public boolean isTemperatureVersusAltitudeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_TEMPERATURE_VERSUS_ALTITUDE );
+    public boolean isAblationVersusElevationSelected() {
+        return _ablationVersusElevationCheckBox.isSelected();
     }
     
-    public boolean isValleyFloorVersusAltitudeSelected() {
-        return _comboBox.getSelectedItem().equals( GlaciersStrings.RADIO_BUTTON_VALLEY_FLOOR_VERSUS_ALTITUDE );
+    public void setGlacialBudgetVersusElevationSelected( boolean selected ) {
+        _glacialBudgetVersusElevationCheckBox.setSelected( selected );
+    }
+    
+    public boolean isGlacialBudgetVersusElevationSelected() {
+        return _glacialBudgetVersusElevationCheckBox.isSelected();
+    }
+    
+    public void setTemperatureVersusElevationSelected( boolean selected ) {
+        _temperatureVersusElevationCheckBox.setSelected( selected );
+    }
+    
+    public boolean isTemperatureVersusElevationSelected() {
+        return _temperatureVersusElevationCheckBox.isSelected();
     }
     
     //----------------------------------------------------------------------------
@@ -144,11 +195,21 @@ public class GraphsControlPanel extends JPanel {
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
     public interface GraphsControlPanelListener {
-        public void selectionChanged();
+        public void glacierLengthVersusTimeChanged( boolean selected );
+        public void equilibriumLineAltitudeVersusTimeChanged( boolean selected );
+        public void accumulationVersusElevationChanged( boolean selected );
+        public void ablationVersusElevationChanged( boolean selected );
+        public void glacialBudgetVersusElevationChanged( boolean selected );
+        public void temperatureVersusElevationChanged( boolean selected );
     }
     
     public static class GraphsControlPanelAdapter implements GraphsControlPanelListener {
-        public void selectionChanged() {}
+        public void glacierLengthVersusTimeChanged( boolean selected ) {}
+        public void equilibriumLineAltitudeVersusTimeChanged( boolean selected ) {}
+        public void accumulationVersusElevationChanged( boolean selected ) {}
+        public void ablationVersusElevationChanged( boolean selected ) {}
+        public void glacialBudgetVersusElevationChanged( boolean selected ) {}
+        public void temperatureVersusElevationChanged( boolean selected ) {}
     }
     
     public void addGraphsControlPanelListener( GraphsControlPanelListener listener ) {
@@ -163,10 +224,51 @@ public class GraphsControlPanel extends JPanel {
     // Notification
     //----------------------------------------------------------------------------
     
-    private void notifySelectionChanged() {
+    private void notifyGlacierLengthVersusTimeChanged() {
+        boolean selected = isGlacierLengthVerusTimeSelected();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (GraphsControlPanelListener) i.next() ).selectionChanged();
+            ( (GraphsControlPanelListener) i.next() ).glacierLengthVersusTimeChanged( selected );
+        }
+    }
+    
+    private void notifyEquilibriumLineAltitudeVersusTimeChanged() {
+        boolean selected = isEquilibriumLineAltitudeVersusTimeSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GraphsControlPanelListener) i.next() ).equilibriumLineAltitudeVersusTimeChanged( selected );
+        }
+    }
+    
+    private void notifyAccumulationVersusElevationChanged() {
+        boolean selected = isAccumulationVersusElevationSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GraphsControlPanelListener) i.next() ).accumulationVersusElevationChanged( selected );
+        }
+    }
+    
+    private void notifyAblationVersusElevationChanged() {
+        boolean selected = isAblationVersusElevationSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GraphsControlPanelListener) i.next() ).ablationVersusElevationChanged( selected );
+        }
+    }
+    
+    private void notifyGlacialBudgetVersusElevationChanged() {
+        boolean selected = isGlacialBudgetVersusElevationSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GraphsControlPanelListener) i.next() ).glacialBudgetVersusElevationChanged( selected );
+        }
+    }
+    
+    private void notifyTemperatureVersusElevationChanged() {
+        boolean selected = isTemperatureVersusElevationSelected();
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( (GraphsControlPanelListener) i.next() ).temperatureVersusElevationChanged( selected );
         }
     }
 }
