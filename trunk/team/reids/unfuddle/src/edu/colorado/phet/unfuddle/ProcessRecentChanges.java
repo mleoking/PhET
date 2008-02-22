@@ -1,8 +1,11 @@
 package edu.colorado.phet.unfuddle;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.*;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -12,12 +15,48 @@ import org.xml.sax.SAXException;
  * Feb 21, 2008 at 7:30:51 AM
  */
 public class ProcessRecentChanges {
+    private String[] args;
+    private UnfuddleAccount unfuddleAccount;
+    private UnfuddleCurl unfuddleCurl;
+
+    public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
+        this.args = args;
+        unfuddleAccount = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
+        unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
+
+    }
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
-        UnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
+        JFrame running = new JFrame();
+        final JCheckBox jCheckBox = new JCheckBox( "running", true );
+        running.setContentPane( jCheckBox );
+        final ProcessRecentChanges recentChanges = new ProcessRecentChanges( args );
+        Timer timer = new Timer( 30 * 1000, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( jCheckBox.isSelected() ) {
+                    try {
+                        recentChanges.processChanges();
+                    }
+                    catch( IOException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( SAXException e1 ) {
+                        e1.printStackTrace();
+                    }
+                    catch( ParserConfigurationException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+        } );
+        timer.setInitialDelay( 0 );
+        timer.start();
+        running.pack();
+        running.setVisible( true );
+    }
 
-        UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-        String recent = curl.readString( "activity.xml?limit=10" );
+    private void processChanges() throws IOException, SAXException, ParserConfigurationException {
+        String recent = unfuddleCurl.readString( "activity.xml?limit=10" );
 //        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
@@ -26,7 +65,7 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), true ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
 
@@ -37,7 +76,7 @@ public class ProcessRecentChanges {
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
                 if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
-                    final NewCommentMessage message = new NewCommentMessage( comment, p, curl );
+                    final NewCommentMessage message = new NewCommentMessage( comment, unfuddleAccount, unfuddleCurl );
                     System.out.println( "message = " + message );
                     mh.handleMessage( message );
                 }
@@ -48,7 +87,7 @@ public class ProcessRecentChanges {
             else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
                 XMLObject ticket = record.getNode( "ticket" );
                 if ( ticket != null ) {
-                    mh.handleMessage( new NewTicketMessage( ticket, p ) );
+                    mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
                 }
             }
             else {
