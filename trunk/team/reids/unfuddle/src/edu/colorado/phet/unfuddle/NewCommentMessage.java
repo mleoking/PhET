@@ -25,8 +25,8 @@ public class NewCommentMessage implements Message {
         this.curl = curl;
     }
 
-    public int getHashID() {
-        return Integer.parseInt( comment.getTextContent( "id" ) );
+    public String getHashID() {
+        return comment.getTextContent( "id" ).trim();
     }
 
     public XMLObject getTicketXML() {
