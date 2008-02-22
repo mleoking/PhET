@@ -45,15 +45,15 @@ public class ProcessRecentChanges {
                     System.out.println( "Skipping unknown parent type: " + comment.getTextContent( "parent-type" ) );
                 }
             }
-//            else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
-//                XMLObject ticket = record.getNode( "ticket" );
-//                if ( ticket != null ) {
-//                    mh.handleMessage( new NewTicketMessage( ticket, p ) );
-//                }
-//            }
-//            else {
-//                System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
-//            }
+            else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
+                XMLObject ticket = record.getNode( "ticket" );
+                if ( ticket != null ) {
+                    mh.handleMessage( new NewTicketMessage( ticket, p ) );
+                }
+            }
+            else {
+                System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
+            }
         }
     }
 

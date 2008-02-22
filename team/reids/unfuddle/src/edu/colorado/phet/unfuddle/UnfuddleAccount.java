@@ -221,11 +221,6 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
     public static void main( String[] args ) throws ParserConfigurationException, IOException, SAXException {
         File file = args.length > 0 ? new File( args[0] ) : FILE;
 
-//        String str = FileUtils.loadFileAsString( file );
-//        File f = File.createTempFile( file.getName(), "" );
-//        System.out.println( "Using temp: " + f.getAbsolutePath() );
-//        FileUtils.writeString( f, str.substring( str.indexOf( "<?xml" ) ) );
-//        file = f;
         File f = file;
 
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -238,17 +233,5 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
             System.out.println( "phetProject.getComponent( i ) = " + phetProject.getComponent( i ) );
 
         }
-//        for ( int i = 0; i < phetProject.getTicketCount(); i++ ) {
-////            if ( i == 23 ) {
-//            final UnfuddleTicket ticket = phetProject.getTicket( i );
-//            System.out.println( "Ticket[" + i + "] = " + ticket );
-//            for ( int k = 0; k < ticket.getCommentCount(); k++ ) {
-//                System.out.println( "comment[" + k + "]= " + ticket.getComment( k ) );
-//            }
-////            }
-//        }
-
-
     }
-
-}
+         }
