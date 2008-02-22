@@ -6,6 +6,6 @@ package edu.colorado.phet.unfuddle;
  */
 public class PrintMessageHandler implements MessageHandler {
     public void handleMessage( Message m ) {
-        System.out.println( "<<<<<<<<\n" + m +"\n>>>>>>>");
+        System.out.println( "<<<<<<<<\n" + m + "\n>>>>>>>" );
     }
 }
