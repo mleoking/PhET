@@ -57,6 +57,11 @@ public class UnfuddleCurl {
         String cmdArg = accountID + "/" + readARG;
         String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
+        return execCommand(cmd);
+    }
+
+    protected String execCommand( String cmd ) throws IOException {
+
         Process p = Runtime.getRuntime().exec( cmd );
         // Get the input stream and read from it
         StringBuffer s = new StringBuffer();
