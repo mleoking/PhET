@@ -75,7 +75,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.07 (?)
+******** 0.00.07 (19949)
 2/21/08 - add charts for "XXX v. elevation" graphs, where XXX=accumulation, ablation, glacial budget
 2/21/08 - wire up real "temperature v. elevation" graph
 2/21/08 - prototype "temperature v. elevation" graph
