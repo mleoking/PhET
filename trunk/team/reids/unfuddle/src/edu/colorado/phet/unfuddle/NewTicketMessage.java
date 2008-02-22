@@ -22,7 +22,13 @@ public class NewTicketMessage implements Message {
     }
 
     public String getComponent() {
-        return unfuddleAccount.getComponentForID( Integer.parseInt( ticket.getTextContent( "component-id" ) ) );
+        try {
+            final int id = Integer.parseInt( ticket.getTextContent( "component-id" ) );
+            return unfuddleAccount.getComponentForID( id );
+        }
+        catch( NumberFormatException nfe ) {
+            return "";
+        }
     }
 
     private String getDescription() {
