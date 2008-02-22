@@ -24,6 +24,11 @@ public class ProcessRecentChanges {
         this.args = args;
         unfuddleAccount = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
+//        {
+//            protected String execCommand( String cmd ) throws IOException {
+//                return "";
+//            }
+//        };
     }
 
     public static void main( final String[] args ) throws IOException, SAXException, ParserConfigurationException {
@@ -96,7 +101,7 @@ public class ProcessRecentChanges {
 //        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
-        int e = events.getNodeCount( "audit-trail" );
+        int e = events.getNodeCount( "event" );
         System.out.println( "num events=" + e );
 
         CompositeMessageHandler h = new CompositeMessageHandler();
@@ -106,7 +111,7 @@ public class ProcessRecentChanges {
 //        MessageHandler mh = h;
 
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order
-            XMLObject auditTrail = events.getNode( i, "audit-trail" );
+            XMLObject auditTrail = events.getNode( i, "event" );
             XMLObject record = auditTrail.getNode( "record" );
 
             XMLObject comment = record.getNode( "comment" );
@@ -142,7 +147,7 @@ public class ProcessRecentChanges {
 
     private static final String STORED_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                                              "<events type=\"array\">\n" +
-                                             "  <audit-trail>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -175,8 +180,8 @@ public class ProcessRecentChanges {
                                              "      </ticket>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T21:16:04-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -209,8 +214,8 @@ public class ProcessRecentChanges {
                                              "      </ticket>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T21:13:04-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>close</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -243,8 +248,8 @@ public class ProcessRecentChanges {
                                              "      </ticket>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T21:11:36-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description>walls disappear in side view</description>\n" +
                                              "    <event>resolve</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -277,8 +282,8 @@ public class ProcessRecentChanges {
                                              "      </ticket>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T21:11:35-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -298,8 +303,8 @@ public class ProcessRecentChanges {
                                              "      </comment>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T19:48:46-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -332,8 +337,8 @@ public class ProcessRecentChanges {
                                              "      </ticket>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-20T19:48:08-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -353,8 +358,8 @@ public class ProcessRecentChanges {
                                              "      </comment>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-19T09:42:43-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
-                                             "  <audit-trail>\n" +
+                                             "  </event>\n" +
+                                             "  <event>\n" +
                                              "    <description></description>\n" +
                                              "    <event>create</event>\n" +
                                              "    <person-id type=\"integer\">12197</person-id>\n" +
@@ -374,6 +379,6 @@ public class ProcessRecentChanges {
                                              "      </comment>\n" +
                                              "    </record>\n" +
                                              "    <created-at>2008-02-19T09:38:07-08:00</created-at>\n" +
-                                             "  </audit-trail>\n" +
+                                             "  </event>\n" +
                                              "</events>";
 }
