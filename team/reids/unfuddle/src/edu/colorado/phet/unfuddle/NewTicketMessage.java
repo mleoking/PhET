@@ -13,6 +13,10 @@ public class NewTicketMessage implements Message {
         this.unfuddleAccount = unfuddleAccount;
     }
 
+    protected XMLObject getTicket() {
+        return ticket;
+    }
+
     public String toString() {
         return toString( this );
     }
@@ -31,11 +35,11 @@ public class NewTicketMessage implements Message {
         }
     }
 
-    private String getDescription() {
+    protected String getDescription() {
         return ticket.getTextContent( "description" );
     }
 
-    private String getReporter() {
+    protected String getReporter() {
         return unfuddleAccount.getPersonForID( Integer.parseInt( ticket.getTextContent( "reporter-id" ) ) );
     }
 
@@ -48,8 +52,12 @@ public class NewTicketMessage implements Message {
     }
 
     public String getEmailSubject() {
-        return toEmailSubject( getComponent(), getTicketNumber(), getSummary(), "new" );
+        return toEmailSubject( getComponent(), getTicketNumber(), getSummary(), getMessageType() );
 //        return "[ignore] PhET " + getComponent() + ": " + getSummary();
+    }
+
+    protected String getMessageType() {
+        return "new";
     }
 
     public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
@@ -59,12 +67,7 @@ public class NewTicketMessage implements Message {
 
     public String getEmailBody() {
         return getHeader( getTicketURL() ) +
-               "Ticket Number: " + getTicketNumber() + "\n" +
-               "Created by: " + getReporter() + "\n" +
-               "Assigned to : " + getAssignee() + "\n" +
-               "Summary: " + getSummary() + "\n" +
-               "Description:\n" +
-               getDescription() +
+               getMainEmailBodySection() +
                getFooter();
 
 //        return "Ticket Created by: " + getReporter() + "\n" +
@@ -74,6 +77,15 @@ public class NewTicketMessage implements Message {
 //               "Ticket Description:\n" +
 //               "" + getDescription() + "\n\n" +
 //               getSuffix();
+    }
+
+    protected String getMainEmailBodySection() {
+        return "Ticket Number: " + getTicketNumber() + "\n" +
+               "Created by: " + getReporter() + "\n" +
+               "Assigned to : " + getAssignee() + "\n" +
+               "Summary: " + getSummary() + "\n" +
+               "Description:\n" +
+               getDescription();
     }
 
     public static String getFooter() {
@@ -100,7 +112,7 @@ public class NewTicketMessage implements Message {
         return "https://phet.unfuddle.com/p/unfuddled/tickets/show/" + getTicketNumber() + "/cycle";
     }
 
-    private String getAssignee() {
+    protected String getAssignee() {
         final String s = ticket.getTextContent( "assignee-id" );
         if ( s == null || s.trim().length() == 0 ) {
             return "<not-assigned>";
