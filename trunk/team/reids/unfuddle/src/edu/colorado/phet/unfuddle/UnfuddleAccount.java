@@ -44,7 +44,7 @@ public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
         int numPeople = numPeople();
         for ( int i = 0; i < numPeople; i++ ) {
             UnfuddlePerson p = new UnfuddlePerson( getListElement( "people", "person", i ) );
-            if (p.getUsername().equals(s)){
+            if ( p.getUsername().equals( s ) ) {
                 return p.getEmail();
             }
         }
