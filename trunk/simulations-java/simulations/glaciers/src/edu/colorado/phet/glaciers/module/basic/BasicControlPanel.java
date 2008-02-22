@@ -111,6 +111,10 @@ public class BasicControlPanel extends JPanel {
         return _climateControlPanel;
     }
     
+    public GraphsControlPanel getGraphsControlPanel() {
+        return _graphsControlPanel;
+    }
+    
     public MiscControlPanel getMiscControlPanel() {
         return _miscControlPanel;
     }

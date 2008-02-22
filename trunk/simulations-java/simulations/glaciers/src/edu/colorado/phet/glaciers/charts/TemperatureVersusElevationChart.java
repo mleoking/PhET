@@ -1,31 +1,50 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.charts;
 
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JDialog;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
-
-public class TemperatureVersusElevationChart extends JPanel {
+/**
+ * TemperatureVersusElevationChart displays a "Temperature versus Elevation" chart.
+ * The chart updates as climate is changed.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class TemperatureVersusElevationChart extends JDialog {
     
-    private static final double MIN_ELEVATION = 0; // meters
-    private static final double MAX_ELEVATION = 10E3; // meters
+    private static final Range TEMPERATURE_RANGE = new Range( -70, 40 ); // degrees C
+    private static final Range ELEVATION_RANGE = new Range( 0, 10E3 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
-
+    
     private Climate _climate;
     private ClimateListener _climateListener;
     private XYSeries _series;
     
-    public TemperatureVersusElevationChart( Climate climate ) {
-        super();
+    public TemperatureVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
+        super( owner );
+        
+        setSize( size );
+        setResizable( false );
         
         _climate = climate;
         _climateListener = new ClimateAdapter() {
@@ -40,9 +59,9 @@ public class TemperatureVersusElevationChart extends JPanel {
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
         JFreeChart chart = ChartFactory.createXYLineChart(
-            "Temperature v. Elevation", // title
-            "temperature (C)", // x axis label
-            "elevation (m)",  // y axis label
+            GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION, // title
+            GlaciersStrings.AXIS_TEMPERATURE, // x axis label
+            GlaciersStrings.AXIS_ELEVATION,  // y axis label
             dataset,
             PlotOrientation.VERTICAL,
             false, // legend
@@ -50,21 +69,45 @@ public class TemperatureVersusElevationChart extends JPanel {
             false  // urls
         );
         
+        XYPlot plot = (XYPlot) chart.getPlot();
+        
+        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
+        domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        domainAxis.setRange( TEMPERATURE_RANGE );
+        
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        rangeAxis.setRange( ELEVATION_RANGE );
+        
         ChartPanel chartPanel = new ChartPanel(chart);
-        add( chartPanel );
+        chartPanel.setMouseZoomable( false );
+        setContentPane( chartPanel );
+        
+        addWindowListener( new WindowAdapter() {
+            // called when the close button in the dialog's window dressing is clicked
+            public void windowClosing( WindowEvent e ) {
+                cleanup();
+            }
+            // called by JDialog.dispose
+            public void windowClosed( WindowEvent e ) {
+                cleanup();
+            }
+        });
         
         update();
     }
     
-    public void cleanup() {
+    private void cleanup() {
+        System.out.println( "TemperatureVersusElevationChart.cleanup" );
         _climate.removeClimateListener( _climateListener );
     }
     
     private void update() {
         _series.clear();
-        double elevation = MIN_ELEVATION;
+        double elevation = ELEVATION_RANGE.getLowerBound();
         double temperature = 0;
-        while ( elevation <= MAX_ELEVATION ) {
+        final double maxElevation = ELEVATION_RANGE.getUpperBound();
+        while ( elevation <=  maxElevation ) {
             temperature = _climate.getTemperature( elevation );
             _series.add( temperature, elevation );
             elevation += DELTA_ELEVATION;

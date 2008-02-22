@@ -73,6 +73,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/21/08 - wire up real "temperature v. elevation" graph
 2/21/08 - prototype "temperature v. elevation" graph
 2/21/08 - change graphs control panel to use checkboxes
 2/20/08 - set background color correctly for climate controls, make textfields appear to be editable
