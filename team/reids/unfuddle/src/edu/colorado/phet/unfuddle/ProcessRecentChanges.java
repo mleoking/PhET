@@ -11,14 +11,14 @@ import org.xml.sax.SAXException;
  * Created by: Sam
  * Feb 21, 2008 at 7:30:51 AM
  */
-public class RecentActivity {
+public class ProcessRecentChanges {
 
     public static void main( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         UnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
 
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-        String recent = curl.readString( "activity.xml?limit=10" );
-//        String recent = STORED_XML;
+//        String recent = curl.readString( "activity.xml?limit=10" );
+        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
         int e = events.getNodeCount( "audit-trail" );
@@ -26,9 +26,9 @@ public class RecentActivity {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), true ) );
-        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
-//        MessageHandler mh = h;
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), false ) );
+//        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+        MessageHandler mh = h;
 
         for ( int i = 0; i < e; i++ ) {
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
@@ -36,17 +36,24 @@ public class RecentActivity {
 
             XMLObject comment = record.getNode( "comment" );
             if ( comment != null ) {
-                System.out.println( "Ignoring comments for now" );
-            }
-            else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
-                XMLObject ticket = record.getNode( "ticket" );
-                if ( ticket != null ) {
-                    mh.handleMessage( new NewTicketMessage( ticket, p ) );
+                if ( comment.getTextContent( "parent-type" ).equals( "Ticket" ) ) {
+                    final NewCommentMessage message = new NewCommentMessage( comment, p, curl );
+                    System.out.println( "message = " + message );
+                    mh.handleMessage( message );
+                }
+                else {
+                    System.out.println( "Skipping unknown parent type: " + comment.getTextContent( "parent-type" ) );
                 }
             }
-            else {
-                System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
-            }
+//            else if ( auditTrail.getTextContent( "summary" ).equals( "Ticket Created" ) ) {
+//                XMLObject ticket = record.getNode( "ticket" );
+//                if ( ticket != null ) {
+//                    mh.handleMessage( new NewTicketMessage( ticket, p ) );
+//                }
+//            }
+//            else {
+//                System.out.println( "Skipping unknown type: " + auditTrail.getTextContent( "summary" ) );
+//            }
         }
     }
 
