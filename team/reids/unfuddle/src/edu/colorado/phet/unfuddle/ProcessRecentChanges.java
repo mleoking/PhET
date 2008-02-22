@@ -98,16 +98,17 @@ public class ProcessRecentChanges {
     }
 
     private void processChanges() throws IOException, SAXException, ParserConfigurationException {
-        String recent = unfuddleCurl.readString( "activity.xml?limit=20" );
+        int limit = 20;
+        String recent = unfuddleCurl.readString( "activity.xml?limit=" + limit );
 //        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
         int e = events.getNodeCount( "event" );
-        System.out.println( "num events=" + e );
+        System.out.println( "Requested " + limit + " events, received: " + e );
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), false ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
         int handled = 0;
@@ -147,8 +148,8 @@ public class ProcessRecentChanges {
                 if ( ticket != null ) {
                     try {
                         String resolvedBy = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
-                        int recordID=auditTrail.getTextContentAsInt( "record-id" );
-                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy,recordID ) );
+                        int recordID = auditTrail.getTextContentAsInt( "record-id" );
+                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy, recordID ) );
                         handled++;
                     }
                     catch( MessagingException e1 ) {
