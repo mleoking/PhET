@@ -43,7 +43,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
     private boolean alreadyHandled( Message m ) {
         try {
             ArrayList h = getHandledList();
-            return h.contains( new Integer( m.getHashID() ) );
+            return h.contains( m.getHashID() );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -56,7 +56,7 @@ public class IgnoreDuplicatesMessageHandler implements MessageHandler {
         StringTokenizer st = new StringTokenizer( s, " \n" );
         ArrayList handled = new ArrayList();
         while ( st.hasMoreTokens() ) {
-            handled.add( new Integer( Integer.parseInt( st.nextToken() ) ) );
+            handled.add( st.nextToken().trim() );
         }
         return handled;
     }

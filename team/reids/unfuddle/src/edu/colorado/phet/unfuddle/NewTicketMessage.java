@@ -122,8 +122,8 @@ public class NewTicketMessage implements Message {
         }
     }
 
-    public int getHashID() {
-        return Integer.parseInt( ticket.getTextContent( "id" ) );
+    public String getHashID() {
+        return ticket.getTextContent( "id" ).trim();
     }
 
 }

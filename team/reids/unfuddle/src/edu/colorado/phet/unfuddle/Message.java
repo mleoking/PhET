@@ -5,7 +5,7 @@ package edu.colorado.phet.unfuddle;
  * Feb 21, 2008 at 8:29:16 AM
  */
 public interface Message {
-    int getHashID();
+    String getHashID();
 
     String getComponent();
 
