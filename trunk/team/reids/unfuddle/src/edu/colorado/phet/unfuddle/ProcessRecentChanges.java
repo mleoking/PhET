@@ -105,7 +105,7 @@ public class ProcessRecentChanges {
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
 
-        for ( int i = 0; i < e; i++ ) {
+        for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
             XMLObject record = auditTrail.getNode( "record" );
 
