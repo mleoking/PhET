@@ -39,26 +39,54 @@ public class NewTicketMessage implements Message {
         return unfuddleAccount.getPersonForID( Integer.parseInt( ticket.getTextContent( "reporter-id" ) ) );
     }
 
-    private String getSummary() {
+    public String getSummary() {
         return ticket.getTextContent( "summary" );
     }
 
-    private int getTicketNumber() {
+    public int getTicketNumber() {
         return Integer.parseInt( ticket.getTextContent( "number" ) );
     }
 
     public String getEmailSubject() {
-        return "[ignore] PhET " + getComponent() + ": " + getSummary();
+        return toEmailSubject( getComponent(), getTicketNumber(), getSummary(), "new" );
+//        return "[ignore] PhET " + getComponent() + ": " + getSummary();
+    }
+
+    public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
+        return "[ignore]" + "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
     }
 
     public String getEmailBody() {
-        return "Ticket Created by: " + getReporter() + "\n" +
-               "Ticket Assigned to : " + getAssignee() + "\n" +
+        return getHeader( getTicketURL() ) +
                "Ticket Number: " + getTicketNumber() + "\n" +
-               "Ticket URL: " + getTicketURL() + "\n" +
-               "Ticket Description:\n" +
-               "" + getDescription() + "\n\n" +
-               getSuffix();
+               "Created by: " + getReporter() + "\n" +
+               "Assigned to : " + getAssignee() + "\n" +
+               "Summary: " + getSummary() + "\n" +
+               "Description:\n" +
+               getDescription() +
+               getFooter();
+
+//        return "Ticket Created by: " + getReporter() + "\n" +
+//               "Ticket Assigned to : " + getAssignee() + "\n" +
+//               "Ticket Number: " + getTicketNumber() + "\n" +
+//               "Ticket URL: " + getTicketURL() + "\n" +
+//               "Ticket Description:\n" +
+//               "" + getDescription() + "\n\n" +
+//               getSuffix();
+    }
+
+    public static String getFooter() {
+        return "\n" +
+               "\n" +
+               "-----------------------\n" +
+               "You received this message because you are signed up on the list located at:\n" +
+               "https://phet.unfuddle.com/p/unfuddled/notebooks/show/7161";
+    }
+
+    public static String getHeader( String ticketURL ) {
+        return "Ticket URL: " + ticketURL + "\n" +
+               "-----------------------\n" +
+               "\n";
     }
 
     public String getSuffix() {
@@ -84,4 +112,5 @@ public class NewTicketMessage implements Message {
     public int getID() {
         return Integer.parseInt( ticket.getTextContent( "id" ) );
     }
+
 }
