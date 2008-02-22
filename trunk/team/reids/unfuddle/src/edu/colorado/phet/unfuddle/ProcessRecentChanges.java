@@ -17,8 +17,8 @@ public class ProcessRecentChanges {
         UnfuddleAccount p = new UnfuddleAccount( new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
 
         UnfuddleCurl curl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
-//        String recent = curl.readString( "activity.xml?limit=10" );
-        String recent = STORED_XML;
+        String recent = curl.readString( "activity.xml?limit=10" );
+//        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
         int e = events.getNodeCount( "audit-trail" );
@@ -26,9 +26,9 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), false ) );
-//        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
-        MessageHandler mh = h;
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( p, curl ), true ) );
+        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+//        MessageHandler mh = h;
 
         for ( int i = 0; i < e; i++ ) {
             XMLObject auditTrail = events.getNode( i, "audit-trail" );
