@@ -53,7 +53,8 @@ public class NewTicketMessage implements Message {
     }
 
     public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
-        return "[ignore]" + "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
+//        return "[ignore]" + "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
+        return "Unfuddle " + component + " [#" + ticketNumber + " " + type + "] : " + summary;
     }
 
     public String getEmailBody() {
