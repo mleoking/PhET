@@ -92,7 +92,7 @@ public class ProcessRecentChanges {
     }
 
     private void processChanges() throws IOException, SAXException, ParserConfigurationException {
-        String recent = unfuddleCurl.readString( "activity.xml?limit=10" );
+        String recent = unfuddleCurl.readString( "activity.xml?limit=20" );
 //        String recent = STORED_XML;
 
         XMLObject events = new XMLObject( recent );
