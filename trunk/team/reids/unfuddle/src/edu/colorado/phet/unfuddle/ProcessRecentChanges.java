@@ -107,7 +107,7 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), false ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
 
@@ -134,6 +134,18 @@ public class ProcessRecentChanges {
                 if ( ticket != null ) {
                     try {
                         mh.handleMessage( new NewTicketMessage( ticket, unfuddleAccount ) );
+                    }
+                    catch( MessagingException e1 ) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+            else if ( auditTrail.getTextContent( "summary" ).toLowerCase().startsWith( "ticket resolved" ) ) {
+                XMLObject ticket = record.getNode( "ticket" );
+                if ( ticket != null ) {
+                    try {
+                        String resolvedBy = unfuddleAccount.getPersonForID( auditTrail.getTextContentAsInt( "person-id" ) );
+                        mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedBy ) );
                     }
                     catch( MessagingException e1 ) {
                         e1.printStackTrace();
