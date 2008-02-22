@@ -7,8 +7,13 @@ import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JDialog;
+
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersApplication;
+import edu.colorado.phet.glaciers.charts.AblationVersusElevationChart;
+import edu.colorado.phet.glaciers.charts.AccumulationVersusElevationChart;
+import edu.colorado.phet.glaciers.charts.GlacialBudgetVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MassBalanceControlPanel;
@@ -34,7 +39,10 @@ public class BasicController {
     private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
     private static Dimension DIALOG_SIZE = new Dimension( 700, 400 );
     
-    private TemperatureVersusElevationChart _temperatureVersusElevationChart;
+    private JDialog _accumulationVersusElevationChart;
+    private JDialog _ablationVersusElevationChart;
+    private JDialog _glacialBudgetVersusElevationChart;
+    private JDialog _temperatureVersusElevationChart;
     
     public BasicController( final BasicModel model, final PlayArea playArea, final BasicControlPanel controlPanel ) {
         
@@ -107,24 +115,66 @@ public class BasicController {
         // "Graphs" controls
         graphsControlPanel.addGraphsControlPanelListener( new GraphsControlPanelListener() {
 
-            public void ablationVersusElevationChanged( boolean selected ) {
+            public void glacierLengthVersusTimeChanged( boolean selected ) {
                 // TODO Auto-generated method stub
             }
-
-            public void accumulationVersusElevationChanged( boolean selected ) {
-                // TODO Auto-generated method stub
-            }
-
+            
             public void equilibriumLineAltitudeVersusTimeChanged( boolean selected ) {
                 // TODO Auto-generated method stub
             }
-
-            public void glacialBudgetVersusElevationChanged( boolean selected ) {
-                // TODO Auto-generated method stub
+            
+            public void ablationVersusElevationChanged( boolean selected ) {
+                if ( selected ) {
+                    _ablationVersusElevationChart = new AblationVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _ablationVersusElevationChart.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            graphsControlPanel.setAblationVersusElevationSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _ablationVersusElevationChart );
+                    _ablationVersusElevationChart.setVisible( true );
+                }
+                else {
+                    _ablationVersusElevationChart.dispose();
+                    _ablationVersusElevationChart = null;
+                }
             }
 
-            public void glacierLengthVersusTimeChanged( boolean selected ) {
-                // TODO Auto-generated method stub
+            public void accumulationVersusElevationChanged( boolean selected ) {
+                if ( selected ) {
+                    _accumulationVersusElevationChart = new AccumulationVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _accumulationVersusElevationChart.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            graphsControlPanel.setAccumulationVersusElevationSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _accumulationVersusElevationChart );
+                    _accumulationVersusElevationChart.setVisible( true );
+                }
+                else {
+                    _accumulationVersusElevationChart.dispose();
+                    _accumulationVersusElevationChart = null;
+                }
+            }
+
+            public void glacialBudgetVersusElevationChanged( boolean selected ) {
+                if ( selected ) {
+                    _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _glacialBudgetVersusElevationChart );
+                    _glacialBudgetVersusElevationChart.setVisible( true );
+                }
+                else {
+                    _glacialBudgetVersusElevationChart.dispose();
+                    _glacialBudgetVersusElevationChart = null;
+                }
             }
 
             public void temperatureVersusElevationChanged( boolean selected ) {

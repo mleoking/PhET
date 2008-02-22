@@ -48,6 +48,7 @@ MEDIUM PRIORITY:
 - add left and right arrows to zoom view, secondary viewport control
 - what to do at right edge of the world?
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
+- generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
 LOW PRIORITY:
 - labels on slider ticks should be white, code to set their color is not working
@@ -73,6 +74,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/21/08 - add charts for "XXX v. elevation" graphs, where XXX=accumulation, ablation, glacial budget
 2/21/08 - wire up real "temperature v. elevation" graph
 2/21/08 - prototype "temperature v. elevation" graph
 2/21/08 - change graphs control panel to use checkboxes
