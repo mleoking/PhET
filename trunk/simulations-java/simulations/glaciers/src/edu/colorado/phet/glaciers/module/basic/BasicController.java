@@ -37,7 +37,7 @@ import edu.colorado.phet.glaciers.view.PlayArea;
 public class BasicController {
     
     private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
-    private static Dimension DIALOG_SIZE = new Dimension( 700, 400 );
+    private static Dimension CHART_SIZE = new Dimension( 900, 350 );
     
     private JDialog _accumulationVersusElevationChart;
     private JDialog _ablationVersusElevationChart;
@@ -47,7 +47,6 @@ public class BasicController {
     public BasicController( final BasicModel model, final PlayArea playArea, final BasicControlPanel controlPanel ) {
         
         // Model
-        final Glacier glacier = model.getGlacier();
         final Climate climate = model.getClimate();
         
         // Controls
@@ -125,7 +124,7 @@ public class BasicController {
             
             public void ablationVersusElevationChanged( boolean selected ) {
                 if ( selected ) {
-                    _ablationVersusElevationChart = new AblationVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _ablationVersusElevationChart = new AblationVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
                     _ablationVersusElevationChart.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
@@ -143,7 +142,7 @@ public class BasicController {
 
             public void accumulationVersusElevationChanged( boolean selected ) {
                 if ( selected ) {
-                    _accumulationVersusElevationChart = new AccumulationVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _accumulationVersusElevationChart = new AccumulationVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
                     _accumulationVersusElevationChart.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
@@ -161,7 +160,7 @@ public class BasicController {
 
             public void glacialBudgetVersusElevationChanged( boolean selected ) {
                 if ( selected ) {
-                    _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
                     _glacialBudgetVersusElevationChart.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {
@@ -179,7 +178,7 @@ public class BasicController {
 
             public void temperatureVersusElevationChanged( boolean selected ) {
                 if ( selected ) {
-                    _temperatureVersusElevationChart = new TemperatureVersusElevationChart( DIALOG_OWNER, DIALOG_SIZE, climate );
+                    _temperatureVersusElevationChart = new TemperatureVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
                     _temperatureVersusElevationChart.addWindowListener( new WindowAdapter() {
                         // called when the close button in the dialog's window dressing is clicked
                         public void windowClosing( WindowEvent e ) {

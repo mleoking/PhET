@@ -24,7 +24,7 @@ import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
- * GlacialBudgetVersusElevationChart displays a "Glacial Budget versus Elevation" chart.
+ * GlacialBudgetChart charts glacial budget, accumulation and ablation versus elevation.
  * The chart updates as climate is changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -36,7 +36,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     
     private Climate _climate;
     private ClimateListener _climateListener;
-    private XYSeries _series;
+    private XYSeries _glacialBudgetSeries, _accumulationSeries, _ablationSeries;
     
     public GlacialBudgetVersusElevationChart( Frame owner, Dimension size, Climate climate ) {
         super( owner );
@@ -58,17 +58,23 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         };
         _climate.addClimateListener( _climateListener );
         
-        // create the chart
-        _series = new XYSeries( "glacialBudgetVersusElevation" );
+        // series and dataset
+        _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET );
+        _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION );
+        _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION );
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries( _series );
+        dataset.addSeries( _glacialBudgetSeries );
+        dataset.addSeries( _accumulationSeries );
+        dataset.addSeries( _ablationSeries );
+
+        // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION, // title
             GlaciersStrings.AXIS_GLACIAL_BUDGET, // x axis label
             GlaciersStrings.AXIS_ELEVATION,  // y axis label
             dataset,
             PlotOrientation.VERTICAL,
-            false, // legend
+            true, // legend
             false, // tooltips
             false  // urls
         );
@@ -101,18 +107,32 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "GlacialBudgetVersusElevationChart.cleanup" );//XXX
+        System.out.println( "GlacialBudgetChart.cleanup" );//XXX
         _climate.removeClimateListener( _climateListener );
     }
     
     private void update() {
-        _series.clear();
+        
+        _glacialBudgetSeries.clear();
+        _accumulationSeries.clear();
+        _ablationSeries.clear();
+        
         double elevation = ELEVATION_RANGE.getLowerBound();
         double glacialBudget = 0;
+        double accumulation = 0;
+        double ablation = 0;
         final double maxElevation = ELEVATION_RANGE.getUpperBound();
+        
         while ( elevation <=  maxElevation ) {
+            
             glacialBudget = _climate.getGlacialBudget( elevation );
-            _series.add( glacialBudget, elevation );
+            accumulation = _climate.getAccumulation( elevation );
+            ablation = _climate.getAblation( elevation );
+            
+            _glacialBudgetSeries.add( glacialBudget, elevation );
+            _accumulationSeries.add( accumulation, elevation );
+            _ablationSeries.add( ablation, elevation );
+
             elevation += DELTA_ELEVATION;
         }
     }
