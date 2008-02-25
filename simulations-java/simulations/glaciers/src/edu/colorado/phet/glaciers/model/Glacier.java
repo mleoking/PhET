@@ -33,8 +33,8 @@ public class Glacier extends ClockAdapter {
     private static final double MAX_ICE_THICKNESS = 500; // maximum ice thickness (meters)
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
-    private static final double MIN_TIMESCALE = 20; //XXX ?
-    private static final double MAX_TIMESCALE = 50; //XXX ?
+    private static final double MIN_TIMESCALE = 20; // min value for climate change timescale
+    private static final double MAX_TIMESCALE = 50; // max value for climate change timescale
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -46,7 +46,8 @@ public class Glacier extends ClockAdapter {
     private final ArrayList _listeners; // list of GlacierListener
     private double[] _iceThicknessSamplesNow; // ice thickness at t=now
     private double[] _iceThicknessSamplesStart; // ice thickness the last time the climate changed
-    private double[] _iceThicknessSamplesSteadyState; // ice thickness when the glacier is in steady state
+    private double[] _iceThicknessSamplesSteadyState; // ice thickness in steady state
+    private boolean _steadyState; // is the glacier in the steady state?
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -60,17 +61,14 @@ public class Glacier extends ClockAdapter {
         _climate = climate;
         _climateListener = new ClimateListener() {
 
-            //XXX temporary, to demonstrate immediate changes
             public void temperatureChanged() {
                 updateIceThickness();
             }
             
-            //XXX temporary, to demonstrate immediate changes
             public void snowfallChanged() {
                 updateIceThickness();
             }
 
-            //XXX temporary, to demonstrate immediate changes
             public void snowfallReferenceElevationChanged() {
                 updateIceThickness();
             }
@@ -79,9 +77,10 @@ public class Glacier extends ClockAdapter {
         
         _listeners = new ArrayList();
         
-        _iceThicknessSamplesNow = null;
-        _iceThicknessSamplesStart = null;
-        _iceThicknessSamplesSteadyState = null;
+        _iceThicknessSamplesNow = new double[ NUMBER_OF_X_SAMPLES ];
+        _iceThicknessSamplesStart = new double[ NUMBER_OF_X_SAMPLES ];
+        _iceThicknessSamplesSteadyState = new double[ NUMBER_OF_X_SAMPLES ];
+        _steadyState = false;
         
         updateIceThickness();
     }
@@ -130,6 +129,29 @@ public class Glacier extends ClockAdapter {
         return DX;
     }
     
+    /**
+     * Is the glacier currently in the steady state?
+     * 
+     * @return true or false
+     */
+    public boolean isSteadyState() {
+        return _steadyState;
+    }
+    
+    /**
+     * Sets the glacier to the steady state.
+     * 
+     * @param steadyState
+     */
+    public void setSteadyState() {
+        if ( !_steadyState ) {
+            System.arraycopy( _iceThicknessSamplesSteadyState, 0, _iceThicknessSamplesNow, 0, NUMBER_OF_X_SAMPLES );
+            _steadyState = true;
+            notifySteadyStateChanged();
+            notifyIceThicknessChanged();
+        }
+    }
+    
     //----------------------------------------------------------------------------
     // Ice Thickness model
     //----------------------------------------------------------------------------
@@ -174,12 +196,14 @@ public class Glacier extends ClockAdapter {
     }
     
     /*
-     * Updates the ice thickness samples from X0 to terminusX.
-     * Also updates the length.
+     * When the climate changes, we recompute the steady-state ice thickness. 
      */
     private void updateIceThickness() {
         
-        // Compute ice volume flux at x sample points (flux is an integral).
+        // make "now" the starting point for interpolation
+        System.arraycopy( _iceThicknessSamplesNow, 0, _iceThicknessSamplesStart, 0, NUMBER_OF_X_SAMPLES );
+        
+        // Compute ice volume flux at steady state (flux is an integral).
         ArrayList iceVolumeFluxSamples = new ArrayList();
         double x = X0;
         double flux = 0; // integral is accumulated here
@@ -199,13 +223,7 @@ public class Glacier extends ClockAdapter {
             if ( flux < MIN_ICE_VOLUME_FLUX ) {
                 flux = MIN_ICE_VOLUME_FLUX;
             }
-            iceVolumeFluxSamples.add( new Double( flux ) );
-
-            // keep track of max flux
-            if ( flux > maxFlux ) {
-                maxFlux = flux;
-            }
-
+            
             // we're done when flux is zero
             if ( flux <= ALMOST_ZERO_ICE_VOLUME_FLUX ) {
                 // glacier length
@@ -213,24 +231,33 @@ public class Glacier extends ClockAdapter {
                 done = true;
             }
             else {
+                iceVolumeFluxSamples.add( new Double( flux ) );
+
+                // keep track of max flux
+                if ( flux > maxFlux ) {
+                    maxFlux = flux;
+                }
+                
                 // next x value
                 x += DX;
             }
         }
 
-        // Compute ice thickness at x sample points.
-        _iceThicknessSamplesNow = new double[iceVolumeFluxSamples.size()];
-        x = X0;
-        for ( int i = 0; i < _iceThicknessSamplesNow.length; i++ ) {
+        // Compute ice thickness at steady state
+        for ( int i = 0; i < NUMBER_OF_X_SAMPLES; i++ ) {
 
             // steady state thickness
-            flux = ( (Double) iceVolumeFluxSamples.get( i ) ).doubleValue();
-            _iceThicknessSamplesNow[i] = MAX_ICE_THICKNESS * ( flux / maxFlux ) * ( glacierLength / MAX_LENGTH );
-
-            // next x value
-            x += DX;
+            if ( i < iceVolumeFluxSamples.size() - 1 ) {
+                flux = ( (Double) iceVolumeFluxSamples.get( i ) ).doubleValue();
+                _iceThicknessSamplesSteadyState[i] = MAX_ICE_THICKNESS * ( flux / maxFlux ) * ( glacierLength / MAX_LENGTH );
+            }
+            else {
+                _iceThicknessSamplesSteadyState[i] = 0;
+            }
         }
 
+        _steadyState = false;
+        
         // notification
         notifyIceThicknessChanged();
     }
@@ -345,7 +372,13 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void simulationTimeChanged( ClockEvent event ) {
-        //XXX this is where we'll interpolate between current and future states of the glacier
+        if ( !isSteadyState() ) {
+            int numberOfDifferences = 0;
+            //XXX this is where we'll interpolate between current and future states of the glacier
+            if ( numberOfDifferences == 0 ) {
+                setSteadyState();
+            }
+        }
     }
     
     //----------------------------------------------------------------------------
@@ -355,11 +388,13 @@ public class Glacier extends ClockAdapter {
     public interface GlacierListener {
         public void iceThicknessChanged();
         public void iceVelocitiesChanged();
+        public void steadyStateChanged();
     }
     
     public static class GlacierAdapter implements GlacierListener {
         public void iceThicknessChanged() {}
         public void iceVelocitiesChanged() {}
+        public void steadyStateChanged() {}
     }
     
     public void addGlacierListener( GlacierListener listener ) {
@@ -385,6 +420,13 @@ public class Glacier extends ClockAdapter {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( ( GlacierListener ) i.next() ).iceVelocitiesChanged();
+        }
+    }
+    
+    private void notifySteadyStateChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( ( GlacierListener ) i.next() ).steadyStateChanged();
         }
     }
 }
