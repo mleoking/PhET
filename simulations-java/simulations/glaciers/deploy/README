@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.07
+Glaciers, version 0.00.08
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,9 +13,9 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>implement all "* v. elevation" graphs, where *=accumulation,ablation,glacial budget,temperature.
-These graphs dynamically update when climate is changed.
-<li>set correct background color for climate control textfields, so that they appear to be editable
+<li>add time dependence, ice thickness evolves over time
+<li>disable "steady state" button when glacier is in the steady state
+<li>make "glacial budget" graph also show accumulation and ablation (for discussion)
 </ul>
 <p>
 <b>Known problems:</b>
