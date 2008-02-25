@@ -19,7 +19,7 @@
 	
 	        <ol>
 	            <li>
-					Download <a href="translation-utility.jar">translation-utility.jar</a> to your computer.
+					Download <a href="get_translate_utility.php">translation-utility.jar</a> to your computer.
 	            </li>
 	
 	            <li>
