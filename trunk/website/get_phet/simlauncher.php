@@ -25,7 +25,7 @@
 		<?php
 			
 			foreach (sim_get_all_sims() as $simulation) {
-				eval(get_code_to_create_variables_from_array($simulation));
+				$sim_name = $simulation['sim_name'];
 				
 				$sim_run_offline_link = sim_get_run_offline_link($simulation);
 				
