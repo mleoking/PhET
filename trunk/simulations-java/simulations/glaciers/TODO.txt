@@ -76,6 +76,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/25/08 - make all 1D grids a fixed size (adjustable via NUMBER_OF_X_SAMPLES)
+2/25/08 - add additional 1D grids for handling temporal interpolation of ice thickness
 2/25/08 - clean up glaciers model of length and thickness, in preparation for adding time dependence
 2/25/08 - add accumulation and ablation curves to glacial budget chart (for discussion)
 ******** 0.00.07 (19949)
