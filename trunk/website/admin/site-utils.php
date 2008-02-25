@@ -254,8 +254,9 @@ EOT;
         global $contributor_authenticated;
 		
 		if (!$contributor_authenticated) {
+			$cooked_php_self = htmlspecialchars($php_self);
 			$utility_panel_html = <<<EOT
-				<a href="$prefix/teacher_ideas/login-and-redirect.php?url=$php_self">Login / Register</a>
+				<a href="$prefix/teacher_ideas/login-and-redirect.php?url=$cooked_php_self">Login / Register</a>
 EOT;
 		}
 		else {
@@ -527,19 +528,19 @@ EOT;
 		}
     }
     
- function print_blank_site_page($content_printer, $prefix = "..") {
-     // Don't require authentication, but do it if the cookies are available:
-     do_authentication(false);
+    function print_blank_site_page($content_printer, $prefix = "..") {
+        // Don't require authentication, but do it if the cookies are available:
+        do_authentication(false);
      
-     // expire_page_immediately();
-     /*
+        // expire_page_immediately();
+        /*
 
-         TODO: 
+            TODO: 
 
-             Reinsert <?xml version="1.0" encoding="UTF-8"?>    
-                 after IE6 is dead
+                Reinsert <?xml version="1.0" encoding="UTF-8"?>    
+                    after IE6 is dead
 
-     */     
+        */     
         print <<<EOT
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
         <html xmlns="http://www.w3.org/1999/xhtml">
@@ -587,4 +588,6 @@ EOT;
             </body>
         </html>
 EOT;
-    }    
+    }
+    
+?>
