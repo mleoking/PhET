@@ -22,12 +22,11 @@ HIGH PRIORITY:
 - get new mass balance climate model
 - get new ice thickness & velocity models
 - wire up mass balance controls to model
-- interpolate between current and final ice thickness over time
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
-- implement time-scaling portion of glacier model
 
 MEDIUM PRIORITY:
+- make clock speed control change framerate instead of dt, keep constant dt=1 year?
 - should Glacial Budget graph show accumulation & ablation? if so, fix x-axis label
 - x-axis of charts currently autoscales, set fixed range?
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
@@ -76,6 +75,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/25/08 - add time-dependence to glacier ice thickness model
+2/25/08 - resolve climate-change timescale issues in model
 2/25/08 - make all 1D grids a fixed size (adjustable via NUMBER_OF_X_SAMPLES)
 2/25/08 - add additional 1D grids for handling temporal interpolation of ice thickness
 2/25/08 - clean up glaciers model of length and thickness, in preparation for adding time dependence

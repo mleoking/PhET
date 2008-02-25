@@ -99,6 +99,11 @@ public class MiscControlPanel extends JPanel {
         return _helpButton.getText().equals( GlaciersStrings.BUTTON_HIDE_HELP );
     }
     
+    public void setEquilibriumButtonEnabled( boolean enabled ) {
+        System.out.println( "MiscControlPanel.setEquilibriumButtonEnabled " + enabled );//XXX
+        _equilibriumButton.setEnabled( enabled );
+    }
+    
     /**
      *  For attaching Help items.
      */

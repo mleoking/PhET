@@ -30,7 +30,10 @@ public class Glacier extends ClockAdapter {
     
     private static final double MIN_ICE_VOLUME_FLUX = 0; // minimum ice volume flux (meters^2/year)
     private static final double ALMOST_ZERO_ICE_VOLUME_FLUX = 1E-5; // anything <= this value is considered zero
+    
     private static final double MAX_ICE_THICKNESS = 500; // maximum ice thickness (meters)
+    private static final double ALMOST_ZERO_ICE_THICKNESS = 1; // meters
+    
     private static final double U_SLIDE = 20; // downvalley ice speed (meters/year)
     private static final double U_DEFORM = 20; // contribution of vertical deformation to ice speed (meters/year)
     private static final double MIN_TIMESCALE = 20; // min value for climate change timescale
@@ -48,6 +51,9 @@ public class Glacier extends ClockAdapter {
     private double[] _iceThicknessSamplesStart; // ice thickness the last time the climate changed
     private double[] _iceThicknessSamplesSteadyState; // ice thickness in steady state
     private boolean _steadyState; // is the glacier in the steady state?
+    private double _climateChangeTimescale; // climate change timescale at steady state
+    private double _currentTime; // the current clock time
+    private double _climateChangedTime; // the time when the climate was last changed
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -81,8 +87,12 @@ public class Glacier extends ClockAdapter {
         _iceThicknessSamplesStart = new double[ NUMBER_OF_X_SAMPLES ];
         _iceThicknessSamplesSteadyState = new double[ NUMBER_OF_X_SAMPLES ];
         _steadyState = false;
+        _climateChangeTimescale = getClimateChangeTimescale( climate.getEquilibriumLineAltitude() );
+        _currentTime = 0;
+        _climateChangedTime = 0;
         
         updateIceThickness();
+        setSteadyState();
     }
     
     public void cleanup() {
@@ -146,9 +156,9 @@ public class Glacier extends ClockAdapter {
     public void setSteadyState() {
         if ( !_steadyState ) {
             System.arraycopy( _iceThicknessSamplesSteadyState, 0, _iceThicknessSamplesNow, 0, NUMBER_OF_X_SAMPLES );
+            notifyIceThicknessChanged();
             _steadyState = true;
             notifySteadyStateChanged();
-            notifyIceThicknessChanged();
         }
     }
     
@@ -257,9 +267,11 @@ public class Glacier extends ClockAdapter {
         }
 
         _steadyState = false;
+        _climateChangeTimescale = getClimateChangeTimescale( _climate.getEquilibriumLineAltitude() );
+        _climateChangedTime = _currentTime;
         
         // notification
-        notifyIceThicknessChanged();
+        notifySteadyStateChanged();
     }
     
     //----------------------------------------------------------------------------
@@ -372,11 +384,30 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public void simulationTimeChanged( ClockEvent event ) {
+        
+        // keep track of time, so that model works when clock is paused
+        _currentTime = event.getSimulationTime();
+        
         if ( !isSteadyState() ) {
+            
             int numberOfDifferences = 0;
-            //XXX this is where we'll interpolate between current and future states of the glacier
+            final double tElapsed = event.getSimulationTime() - _climateChangedTime;
+            
+            // evolve the samples
+            for ( int i = 0; i < NUMBER_OF_X_SAMPLES; i++ ) {
+                _iceThicknessSamplesNow[i] = _iceThicknessSamplesStart[i] + 
+                    ( _iceThicknessSamplesSteadyState[i] - _iceThicknessSamplesStart[i] ) * ( 1 - Math.exp( -tElapsed / _climateChangeTimescale ) );
+                if ( Math.abs( _iceThicknessSamplesNow[i] - _iceThicknessSamplesSteadyState[i] ) > ALMOST_ZERO_ICE_THICKNESS ) {
+                    numberOfDifferences++;
+                }
+            }
+            
+            // if there were no differences between the current and steady-state ice thickness, then we're at steady state
             if ( numberOfDifferences == 0 ) {
                 setSteadyState();
+            }
+            else {
+                notifyIceThicknessChanged();
             }
         }
     }
