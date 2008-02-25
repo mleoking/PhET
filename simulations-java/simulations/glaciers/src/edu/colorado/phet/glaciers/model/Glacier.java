@@ -44,8 +44,9 @@ public class Glacier extends ClockAdapter {
     private final Climate _climate;
     private final ClimateListener _climateListener;
     private final ArrayList _listeners; // list of GlacierListener
-    private double _length;
-    private double[] _iceThicknessSamples;
+    private double[] _iceThicknessSamplesNow; // ice thickness at t=now
+    private double[] _iceThicknessSamplesStart; // ice thickness the last time the climate changed
+    private double[] _iceThicknessSamplesSteadyState; // ice thickness when the glacier is in steady state
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -78,8 +79,9 @@ public class Glacier extends ClockAdapter {
         
         _listeners = new ArrayList();
         
-        _length = 0;
-        _iceThicknessSamples = null;
+        _iceThicknessSamplesNow = null;
+        _iceThicknessSamplesStart = null;
+        _iceThicknessSamplesSteadyState = null;
         
         updateIceThickness();
     }
@@ -111,49 +113,12 @@ public class Glacier extends ClockAdapter {
     }
     
     /**
-     * Gets the x coordinate where the glacier starts.
+     * Gets the x coordinate for the first x-axis sample point.
      * 
      * @return meters
      */
     public static double getX0() {
         return X0;
-    }
-    
-    /**
-     * Gets the length of the glacier.
-     * 
-     * @return meters
-     */
-    public double getLength() {
-        return _length;
-    }
-    
-    /**
-     * Gets the maximum length of the glacier.
-     * 
-     * @return meters
-     */
-    public double getMaxLength() {
-        return MAX_LENGTH;
-    }
-    
-    /**
-     * Gets the x coordinate of the glacier's terminus.
-     * The terminus is the downvalley end of the glacier.
-     * 
-     * @return meters
-     */
-    public double getTerminusX() {
-        return X0 + getLength();
-    }
-    
-    /**
-     * Gets the maximum x coordinate of the glacier's terminus.
-     * 
-     * @return meters
-     */
-    public static double getMaxTerminusX() {
-        return X0 + MAX_LENGTH;
     }
     
     /**
@@ -177,7 +142,7 @@ public class Glacier extends ClockAdapter {
      * @return
      */
     public double[] getIceThicknessSamples() {
-        return _iceThicknessSamples;
+        return _iceThicknessSamplesNow;
     }
     
     /**
@@ -191,15 +156,16 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
-        if ( x >= X0 && x <= getTerminusX() ) {
-            if ( x == getTerminusX() ) {
-                iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
+        final double xMax = X0 + ( DX * _iceThicknessSamplesNow.length );
+        if ( x >= X0 && x <= xMax ) {
+            if ( x == xMax ) {
+                iceThickness = _iceThicknessSamplesNow[_iceThicknessSamplesNow.length - 1];
             }
             else {
                 int index = (int) ( ( x - X0 ) / DX );
                 double x1 = X0 + ( index * DX );
-                double t1 = _iceThicknessSamples[index];
-                double t2 = _iceThicknessSamples[index + 1];
+                double t1 = _iceThicknessSamplesNow[index];
+                double t2 = _iceThicknessSamplesNow[index + 1];
                 iceThickness = t1 + ( ( ( x - x1 ) / DX ) * ( t2 - t1 ) ); // linear interpolation
             }
         }
@@ -213,8 +179,6 @@ public class Glacier extends ClockAdapter {
      */
     private void updateIceThickness() {
         
-        final double oldLength = _length;
-        
         // Compute ice volume flux at x sample points (flux is an integral).
         ArrayList iceVolumeFluxSamples = new ArrayList();
         double x = X0;
@@ -224,6 +188,7 @@ public class Glacier extends ClockAdapter {
         double elevation = 0;
         double glacialBudget = 0;
         boolean done = false;
+        double glacierLength = 0;
         while ( !done ) {
 
             // compute flux
@@ -244,7 +209,7 @@ public class Glacier extends ClockAdapter {
             // we're done when flux is zero
             if ( flux <= ALMOST_ZERO_ICE_VOLUME_FLUX ) {
                 // glacier length
-                _length = x - X0;
+                glacierLength = x - X0;
                 done = true;
             }
             else {
@@ -254,22 +219,19 @@ public class Glacier extends ClockAdapter {
         }
 
         // Compute ice thickness at x sample points.
-        _iceThicknessSamples = new double[iceVolumeFluxSamples.size()];
+        _iceThicknessSamplesNow = new double[iceVolumeFluxSamples.size()];
         x = X0;
-        for ( int i = 0; i < _iceThicknessSamples.length; i++ ) {
+        for ( int i = 0; i < _iceThicknessSamplesNow.length; i++ ) {
 
             // steady state thickness
             flux = ( (Double) iceVolumeFluxSamples.get( i ) ).doubleValue();
-            _iceThicknessSamples[i] = MAX_ICE_THICKNESS * ( flux / maxFlux ) * ( _length / MAX_LENGTH );
+            _iceThicknessSamplesNow[i] = MAX_ICE_THICKNESS * ( flux / maxFlux ) * ( glacierLength / MAX_LENGTH );
 
             // next x value
             x += DX;
         }
 
         // notification
-        if ( _length != oldLength ) {
-            notifyLengthChanged();
-        }
         notifyIceThicknessChanged();
     }
     
@@ -288,7 +250,7 @@ public class Glacier extends ClockAdapter {
      * @param elevation meters
      * @return Vector2D, components in meters/year
      */
-    public Vector2D IceVelocity( final double x, final double elevation ) {
+    public Vector2D getIceVelocity( final double x, final double elevation ) {
         final double magnitude = getIceSpeed( x, elevation );
         final double direction = _valley.getDirection( x, x + DX );
         final double xComponent = PolarCartesianConverter.getX( magnitude, direction );
@@ -347,9 +309,8 @@ public class Glacier extends ClockAdapter {
         double sum = 0;
         double samples = 0;
         double h = 0;
-        final double xTerminus = getTerminusX();
-        for ( double x = X0; x <= xTerminus; x += DX ) {
-            h = getIceThickness( x );
+        for ( int i = 0; i < _iceThicknessSamplesNow.length; i++ ) {
+            h = _iceThicknessSamplesNow[i];
             if ( h > 0 ) {
                 sum += ( h * h );
                 samples++;
@@ -392,13 +353,13 @@ public class Glacier extends ClockAdapter {
     //----------------------------------------------------------------------------
     
     public interface GlacierListener {
-        public void lengthChanged();
         public void iceThicknessChanged();
+        public void iceVelocitiesChanged();
     }
     
     public static class GlacierAdapter implements GlacierListener {
-        public void lengthChanged() {};
-        public void iceThicknessChanged() {};
+        public void iceThicknessChanged() {}
+        public void iceVelocitiesChanged() {}
     }
     
     public void addGlacierListener( GlacierListener listener ) {
@@ -413,17 +374,17 @@ public class Glacier extends ClockAdapter {
     // Notification of changes
     //----------------------------------------------------------------------------
     
-    private void notifyLengthChanged() {
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( ( GlacierListener ) i.next() ).lengthChanged();
-        }
-    }
-    
     private void notifyIceThicknessChanged() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( ( GlacierListener ) i.next() ).iceThicknessChanged();
+        }
+    }
+    
+    private void notifyIceVelocitiesChanged() {
+        Iterator i = _listeners.iterator();
+        while ( i.hasNext() ) {
+            ( ( GlacierListener ) i.next() ).iceVelocitiesChanged();
         }
     }
 }
