@@ -72,39 +72,40 @@ public class GlacierNode extends PComposite {
     private void updateIceThickness() {
         
         final double x0 = Glacier.getX0();
-        final double xTerminus = _glacier.getTerminusX();
         final double dx = Glacier.getDx();
         Valley valley = _glacier.getValley();
+        
+        double x = x0;
+        double thickness = 0;
         double elevation = 0;
         
         // reset the reusable path
         _icePath.reset();
         
-        // move upvalley, draw ice-rock boundary
-        for ( double x = xTerminus; x >= x0; x -= dx ) {
-            elevation = valley.getElevation( x );
+        // move downvalley, draw ice-air boundary
+        double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
+
+        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+            thickness = iceThicknessSamples[i];
+            elevation = valley.getElevation( x ) + thickness;
             _pModel.setLocation( x, elevation );
             _mvt.modelToView( _pModel, _pView );
-            if ( x == xTerminus ) {
+            if ( i == 0 ) {
                 _icePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
             }
             else {
                 _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
+            x += dx;
         }
         
-        // move downvalley, draw ice-air boundary
-        double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
-        double thickness = 0;
-        double iceSurface = 0;
-        double x = x0;
+        // move upvalley, draw ice-rock boundary
         for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-            thickness = iceThicknessSamples[i];
-            iceSurface = valley.getElevation( x ) + thickness;
-            _pModel.setLocation( x, iceSurface );
+            x -= dx;
+            elevation = valley.getElevation( x );
+            _pModel.setLocation( x, elevation );
             _mvt.modelToView( _pModel, _pView );
             _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-            x += dx;
         }
         
         // close the path

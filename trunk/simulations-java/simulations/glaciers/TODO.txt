@@ -76,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/25/08 - clean up glaciers model of length and thickness, in preparation for adding time dependence
 2/25/08 - add accumulation and ablation curves to glacial budget chart (for discussion)
 ******** 0.00.07 (19949)
 2/22/08 - add charts for "XXX v. elevation" graphs, where XXX=accumulation, ablation, glacial budget
