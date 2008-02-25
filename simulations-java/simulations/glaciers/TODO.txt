@@ -75,7 +75,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.08 (?)
+******** 0.00.08 (19964)
 2/25/08 - disable "steady state" button when glacier is in the steady state
 2/25/08 - add time-dependence to glacier ice thickness model
 2/25/08 - resolve climate-change timescale issues in model, always use ELA of current climate
