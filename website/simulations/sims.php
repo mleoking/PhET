@@ -113,9 +113,9 @@ EOT;
 					<span class="promote" title="If you like this simulation, please consider sharing it with others by submitting it to Digg or StumbleUpon">
 							share sim: 
 						
-							<a href="$digg_link"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg"/></a>
+							<a href="$digg_link"><img class="digg" src="../images/digg-thumb-10x10.gif" alt="Icon for Digg" title="Click here to submit this page to Digg" /></a>
 
-							<a href="$stumble_link"><img class="stumble" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon"></a>
+							<a href="$stumble_link"><img class="stumble" src="../images/stumble.gif" alt="StumbleUpon Toolbar" title="Click here to submit this page to StumbleUpon" /></a>
 					</span>
 				</div>
 
@@ -360,9 +360,7 @@ EOT;
 		
 		if (count($translations) > 0) {
 			print <<<EOT
-				<p class="indi-sim">	
-				
-				<ul>		
+				<ul class="indi-sim">		
 EOT;
 			
 			foreach ($translations as $language => $launch_url) {
@@ -372,8 +370,6 @@ EOT;
 			}
 			
 			print '</ul>';
-			
-			print '</p>';
 		}
 		else {
 			print <<<EOT

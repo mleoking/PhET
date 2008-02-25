@@ -124,7 +124,7 @@ EOT;
 						<td colspan="2">
 				            <p class="findOutMore" onclick="javascript:location.href='simulations/index.php?cat=Top_Simulations'">
 				                <a href="simulations/index.php?cat=Top_Simulations">
-				                    Play with sims... >
+				                    Play with sims... &gt;
 				                </a>   
 				            </p>
 						</td>

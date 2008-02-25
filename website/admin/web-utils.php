@@ -63,10 +63,22 @@
 	   return $exists;
 	}
     
+	/**
+	 * Markup a string for HTML display using htmlentities(html_entity_decode()))
+	 *
+	 * @param string $string
+	 * @return string - string formatted for HTML display
+	 */
     function format_string_for_html($string) {
         return htmlentities(html_entity_decode($string));
     }
     
+    /**
+     * Markup a string or an array of strings in HTML.  Ultimately calls format_for_html(). 
+     * 
+     * @param string or string array $array - string(s) to format for displaying in html
+     * @return string or string array - string(s) formatted in html 
+     */
     function format_for_html($array) {
         if (is_array($array)) {
             $clean = array();
@@ -973,13 +985,17 @@ EOT;
                   </select>
 EOT;
         }
-        
-        print <<<EOT
-			<ul id="$list_id">
-                $selections
-            </ul>
 
-			<script type="text/javascript">
+       	if (count($selections) > 1) {
+        	print <<<EOT
+				<ul id="$list_id">
+                	$selections
+            	</ul>
+EOT;
+       	}
+       	
+        print <<<EOT
+            <script type="text/javascript">
 				$script_creation_code
 			</script>
 EOT;
@@ -1059,7 +1075,7 @@ EOT;
         }
         return $html;
     }
-    
+
     
     function web_utf16_decode( $str ) {
         if( strlen($str) < 2 ) return $str;
