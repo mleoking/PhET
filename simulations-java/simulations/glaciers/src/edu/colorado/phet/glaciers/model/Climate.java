@@ -95,7 +95,7 @@ public class Climate {
      */
     public void setTemperature( double temperature ) {
         if ( temperature != _temperature ) {
-            System.out.println( "Climate.setTemperature " + temperature );//XXX
+//            System.out.println( "Climate.setTemperature " + temperature );//XXX
             _temperature = temperature;
             updateEquilibriumLineAltitude();
             notifyTemperatureChanged();
@@ -120,7 +120,7 @@ public class Climate {
     public void setSnowfall( double snowfall ) {
         assert( snowfall >= 0 );
         if ( snowfall != _snowfall ) {
-            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
+//            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
             _snowfall = snowfall;
             updateEquilibriumLineAltitude();
             notifySnowfallChanged();
@@ -165,7 +165,7 @@ public class Climate {
     public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
         assert( snowfallReferenceElevation >= 0 );
         if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
-            System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
+//            System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
             _snowfallReferenceElevation = snowfallReferenceElevation;
             updateEquilibriumLineAltitude();
             notifySnowfallReferenceElevationChanged();

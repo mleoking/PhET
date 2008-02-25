@@ -6,12 +6,17 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -55,7 +60,7 @@ public class GlaciersClockControlPanel extends JPanel {
      * 
      * @param clock
      */
-    public GlaciersClockControlPanel( GlaciersClock clock ) {
+    public GlaciersClockControlPanel( GlaciersClock clock, NumberFormat displayFormat, int displayColumns ) {
         super();
         
         // Clock
@@ -73,11 +78,7 @@ public class GlaciersClockControlPanel extends JPanel {
         }
 
         // Time display
-        {
-            DecimalFormat format = new DecimalFormat( "0" );
-            int columns = 6;
-            _timePanel = new ClockTimePanel( clock, GlaciersStrings.UNITS_TIME, format, columns );
-        }
+        _timePanel = new ClockTimePanel( clock, GlaciersStrings.UNITS_TIME, displayFormat, displayColumns );
         
         // Speed control
         {
