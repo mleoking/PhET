@@ -16,7 +16,7 @@
             <br />
             <a href="/"><img src="../images/flash-error.gif" /></a></p>
 
-            <p>If you are unsure if you currently have a version of Flash, we can check for you if you <a href="http://phet.colorado.edu/web-pages/misc-pages/flash_detect_v7.php">click here.</a></p>
+            <p>If you are unsure if you currently have a version of Flash, we can check for you if you <a href="../../web-pages/misc-pages/flash_detect_v7.html">click here.</a></p>
 
             <p><a href="#top"><img src="../images/top.gif" /></a></p>
         <?php
