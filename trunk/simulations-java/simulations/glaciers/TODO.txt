@@ -75,8 +75,10 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.08 (?)
+2/25/08 - disable "steady state" button when glacier is in the steady state
 2/25/08 - add time-dependence to glacier ice thickness model
-2/25/08 - resolve climate-change timescale issues in model
+2/25/08 - resolve climate-change timescale issues in model, always use ELA of current climate
 2/25/08 - make all 1D grids a fixed size (adjustable via NUMBER_OF_X_SAMPLES)
 2/25/08 - add additional 1D grids for handling temporal interpolation of ice thickness
 2/25/08 - clean up glaciers model of length and thickness, in preparation for adding time dependence
