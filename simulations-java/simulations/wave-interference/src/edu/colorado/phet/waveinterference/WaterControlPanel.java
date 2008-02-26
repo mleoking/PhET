@@ -1,12 +1,6 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.*;
-
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -38,18 +32,6 @@ public class WaterControlPanel extends WaveInterferenceControlPanel {
         addControl( new SlitControlPanel( waterModule.getSlitPotential(), waterModule.getScreenUnits() ) );
 
         addControl( new AddWallPotentialButton( waterModule.getWaveInterferenceModel() ) );
-    }
-
-    private class AddWallPotentialButton extends JButton {
-        private AddWallPotentialButton( final WaveInterferenceModel waveInterferenceModel ) {
-            super( WIStrings.getString( "controls.add-wall" ) );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    waveInterferenceModel.getWallPotentialGraphic().addPotential( new WallPotential( new Point( 10, 10 ), new Point( 50, 50 ), waveInterferenceModel.getWaveModel() ) );
-                }
-            } );
-        }
-
     }
 
 }

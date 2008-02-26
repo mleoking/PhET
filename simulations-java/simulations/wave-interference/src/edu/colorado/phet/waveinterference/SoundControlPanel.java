@@ -45,7 +45,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         slitControlPanel = new SlitControlPanel( soundModule.getSlitPotential(), soundModule.getScreenUnits() );
         addControl( slitControlPanel );
 
-
+        addControl( new AddWallPotentialButton( soundModule.getWaveInterferenceModel() ) );
     }
 
     public void setAsymmetricFeaturesEnabled( boolean b ) {

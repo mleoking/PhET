@@ -1,10 +1,6 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import java.awt.*;
-
-import javax.swing.*;
-
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
 
@@ -40,7 +36,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         addControl( slitControlPanel );
 
 
-
+        addControl( new AddWallPotentialButton( lightModule.getWaveInterferenceModel(), WIStrings.getString( "controls.add-mirror" ) ) );
         //enable these lines to add a "Show Screen" button to the control panel.
 //        screenControlPanel = new ReducedScreenControlPanel( lightModule.getScreenNode() );
 //        addControl( screenControlPanel );

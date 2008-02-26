@@ -24,8 +24,8 @@ public class WaterModule extends WaveInterferenceModule {
         return waterSimulationPanel.getScreenUnits();
     }
 
-    public CompositePotential getWallPotentialGraphic() {
-        return waveInterferenceModel.getWallPotentialGraphic();
+    public CompositePotential getWallPotentials() {
+        return waveInterferenceModel.getWallPotentials();
     }
 
     static class WaterModel extends WaveInterferenceModel {

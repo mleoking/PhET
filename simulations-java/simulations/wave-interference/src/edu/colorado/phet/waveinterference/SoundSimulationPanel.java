@@ -80,6 +80,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
 //
         addScreenChild( rotationWaveGraphic );
+        addScreenChild( new CompositeWallPotentialGraphic( this, soundModule.getWallPotentials(), getLatticeScreenCoordinates(), rotationWaveGraphic ) );
 
         primarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         secondarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
