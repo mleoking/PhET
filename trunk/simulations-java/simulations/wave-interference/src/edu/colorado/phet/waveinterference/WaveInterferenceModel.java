@@ -126,7 +126,7 @@ public class WaveInterferenceModel implements ModelElement {
         secondaryOscillator.saveState();
     }
 
-    public CompositePotential getWallPotentialGraphic() {
+    public CompositePotential getWallPotentials() {
         return wallPotentials;
     }
 
