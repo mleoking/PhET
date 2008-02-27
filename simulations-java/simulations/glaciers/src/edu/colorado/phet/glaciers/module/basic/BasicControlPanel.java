@@ -19,7 +19,7 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.control.GlaciersClockControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
-import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -42,7 +42,7 @@ public class BasicControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private ViewControlPanel _viewControlPanel;
-    private SnowfallAndTemperatureControlPanel _climateControlPanel;
+    private ClimateControlPanel _climateControlPanel;
     private GraphsControlPanel _graphsControlPanel;
     private GlaciersClockControlPanel _clockControlPanel;
     private MiscControlPanel _miscControlPanel;
@@ -55,7 +55,7 @@ public class BasicControlPanel extends JPanel {
         super();
         
         _viewControlPanel = new ViewControlPanel();
-        _climateControlPanel = new SnowfallAndTemperatureControlPanel( 
+        _climateControlPanel = new ClimateControlPanel( 
                 BasicDefaults.SNOWFALL_RANGE,
                 BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE,
                 BasicDefaults.TEMPERATURE_RANGE );
@@ -93,7 +93,7 @@ public class BasicControlPanel extends JPanel {
         p.add( bottomPanel );
         add( p, BorderLayout.WEST );
         
-        Class[] excludedClasses = { ViewControlPanel.class, SnowfallAndTemperatureControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
+        Class[] excludedClasses = { ViewControlPanel.class, ClimateControlPanel.class, GraphsControlPanel.class, JTextComponent.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );
     }
     
@@ -105,7 +105,7 @@ public class BasicControlPanel extends JPanel {
         return _viewControlPanel;
     }
     
-    public SnowfallAndTemperatureControlPanel getClimateControlPanel() {
+    public ClimateControlPanel getClimateControlPanel() {
         return _climateControlPanel;
     }
     

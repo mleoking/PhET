@@ -17,11 +17,11 @@ import edu.colorado.phet.glaciers.charts.GlacialBudgetVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
-import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel.GraphsControlPanelListener;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
-import edu.colorado.phet.glaciers.control.SnowfallAndTemperatureControlPanel.SnowfallAndTemperatureControlPanelListener;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel.ClimateControlPanelListener;
 import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelAdapter;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -53,7 +53,7 @@ public class BasicController {
         
         // Controls
         final ViewControlPanel viewControlPanel = controlPanel.getViewControlPanel();
-        final SnowfallAndTemperatureControlPanel snowfallAndTemperatureControlPanel = controlPanel.getClimateControlPanel();
+        final ClimateControlPanel climateControlPanel = controlPanel.getClimateControlPanel();
         final GraphsControlPanel graphsControlPanel = controlPanel.getGraphsControlPanel();
         final MiscControlPanel miscControlPanel = controlPanel.getMiscControlPanel();
         
@@ -68,15 +68,15 @@ public class BasicController {
         climate.addClimateListener( new ClimateListener() {
 
             public void snowfallChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfall( climate.getSnowfall() );
+                climateControlPanel.setSnowfall( climate.getSnowfall() );
             }
 
             public void snowfallReferenceElevationChanged() {
-                snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
+                climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
             }
 
             public void temperatureChanged() {
-                snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
+                climateControlPanel.setTemperature( climate.getTemperature() );
             }
         } );
         
@@ -89,7 +89,7 @@ public class BasicController {
         });
         
         // "Climate" controls
-        snowfallAndTemperatureControlPanel.addSnowfallAndTemperatureControlPanelListener( new SnowfallAndTemperatureControlPanelListener() {
+        climateControlPanel.addClimateControlPanelListener( new ClimateControlPanelListener() {
 
             public void snowfallChanged( double snowfall ) {
                 climate.setSnowfall( snowfall );
@@ -197,9 +197,9 @@ public class BasicController {
         
         // Initialization
         playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
-        snowfallAndTemperatureControlPanel.setSnowfall( climate.getSnowfall() );
-        snowfallAndTemperatureControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
-        snowfallAndTemperatureControlPanel.setTemperature( climate.getTemperature() );
+        climateControlPanel.setSnowfall( climate.getSnowfall() );
+        climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
+        climateControlPanel.setTemperature( climate.getTemperature() );
         miscControlPanel.setEquilibriumButtonEnabled( !glacier.isSteadyState() );
     }
 }
