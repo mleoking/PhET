@@ -29,12 +29,11 @@ import edu.colorado.phet.glaciers.GlaciersConstants;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 
 /**
- * SnowfallAndTemperatureControlPanel is the control panel for controlling climate
- * using a simple "snowfall & temperature" model.
+ * ClimateControlPanel contains climate controls.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SnowfallAndTemperatureControlPanel extends JPanel {
+public class ClimateControlPanel extends JPanel {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -54,13 +53,13 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     private LinearValueControl _snowfallReferenceElevationControl;
     private LinearValueControl _temperatureControl;
     
-    private ArrayList _listeners; // list of SnowfallAndTemperatureControlPanelListener
+    private ArrayList _listeners; // list of ClimateControlPanelListener
     
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public SnowfallAndTemperatureControlPanel( DoubleRange snowfallRange, DoubleRange snowfallReferenceElevationRange, DoubleRange temperatureRange ) {
+    public ClimateControlPanel( DoubleRange snowfallRange, DoubleRange snowfallReferenceElevationRange, DoubleRange temperatureRange ) {
         super();
         
         _listeners = new ArrayList();
@@ -234,23 +233,23 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     /**
      * Interface implemented by all listeners who are interested in events related to this control panel.
      */
-    public interface SnowfallAndTemperatureControlPanelListener {
+    public interface ClimateControlPanelListener {
         public void snowfallChanged( double snowfall );
         public void snowfallReferenceElevationChanged( double snowfallReferenceElevation );
         public void temperatureChanged( double temperature );
     }
     
-    public static class SnowfallAndTemperatureControlPanelAdapter implements SnowfallAndTemperatureControlPanelListener {
+    public static class ClimateControlPanelAdapter implements ClimateControlPanelListener {
         public void snowfallChanged( double snowfall ) {};
         public void snowfallReferenceElevationChanged( double snowfallReferenceElevation ) {};
         public void temperatureChanged( double temperature ) {};
     }
     
-    public void addSnowfallAndTemperatureControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
+    public void addClimateControlPanelListener( ClimateControlPanelListener listener ) {
         _listeners.add( listener );
     }
     
-    public void removeSnowfallAndTemperatureControlPanelListener( SnowfallAndTemperatureControlPanelListener listener ) {
+    public void removeClimateControlPanelListener( ClimateControlPanelListener listener ) {
         _listeners.remove( listener );
     }
     
@@ -262,7 +261,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         double value = getSnowfall();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (SnowfallAndTemperatureControlPanelListener) i.next() ).snowfallChanged( value );
+            ( (ClimateControlPanelListener) i.next() ).snowfallChanged( value );
         }
     }
     
@@ -270,7 +269,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         double value = getSnowfallReferenceElevation();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (SnowfallAndTemperatureControlPanelListener) i.next() ).snowfallReferenceElevationChanged( value );
+            ( (ClimateControlPanelListener) i.next() ).snowfallReferenceElevationChanged( value );
         }
     }
     
@@ -278,7 +277,7 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
         double value = getTemperature();
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
-            ( (SnowfallAndTemperatureControlPanelListener) i.next() ).temperatureChanged( value );
+            ( (ClimateControlPanelListener) i.next() ).temperatureChanged( value );
         }
     }
 }
