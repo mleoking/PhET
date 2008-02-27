@@ -15,16 +15,20 @@ import org.xml.sax.SAXException;
 public class EmailHandler implements MessageHandler {
     private String fromAddress;
     private String server;
+    private String username;
+    private String password;
     private ReadEmailList emailList;
     private boolean sendMail;
 
-    public EmailHandler( String fromAddress, String server, ReadEmailList emailList ) {
-        this( fromAddress, server, emailList, true );
+    public EmailHandler( String fromAddress, String server, String username,String password,ReadEmailList emailList ) {
+        this( fromAddress, server, username, password, emailList, true );
     }
 
-    public EmailHandler( String fromAddress, String server, ReadEmailList emailList, boolean sendMail ) {
+    public EmailHandler( String fromAddress, String server, String username,String password,ReadEmailList emailList, boolean sendMail ) {
         this.fromAddress = fromAddress;
         this.server = server;
+        this.username = username;
+        this.password = password;
         this.emailList = emailList;
         this.sendMail = sendMail;
     }
@@ -48,7 +52,7 @@ public class EmailHandler implements MessageHandler {
                 System.out.println( "Had a message for delivery, but nobody signed up for notification of " + m.getComponent() );
             }
             else {
-                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject() );
+                EmailAccount.sendEmail( fromAddress, to, server, m.getEmailBody(), m.getEmailSubject(),username,password );
             }
         }
         else {
