@@ -46,7 +46,6 @@ public class ViewControlPanel extends JPanel {
     private JCheckBox _iceFlowCheckBox;
     private JCheckBox _snowfallCheckBox;
     private JCheckBox _coordinatesCheckBox;
-    private JCheckBox _ageOfIceCheckBox;
     
     private ArrayList _listeners; // list of ViewControlPanelListener
     
@@ -95,15 +94,6 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _ageOfIceCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_AGE_OF_ICE );
-        _ageOfIceCheckBox.setFont( CONTROL_FONT );
-        _ageOfIceCheckBox.setForeground( CONTROL_COLOR );
-        _ageOfIceCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyAgeOfIceChanged();
-            }
-        });
-        
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW );
         titledBorder.setTitleFont( TITLE_FONT );
@@ -121,7 +111,6 @@ public class ViewControlPanel extends JPanel {
         layout.addComponent( _iceFlowCheckBox, row++, column );
         layout.addComponent( _snowfallCheckBox, row++, column );
         layout.addComponent( _coordinatesCheckBox, row++, column );
-        layout.addComponent( _ageOfIceCheckBox, row++, column );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
     }
@@ -170,16 +159,6 @@ public class ViewControlPanel extends JPanel {
         return _coordinatesCheckBox.isSelected();
     }
     
-    public void setAgeOfIceSelected( boolean b ) {
-        if ( b != isAgeOfIceSelected() ) {
-            _ageOfIceCheckBox.setSelected( b );
-        }
-    }
-    
-    public boolean isAgeOfIceSelected() {
-        return _ageOfIceCheckBox.isSelected();
-    }
-    
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
@@ -192,7 +171,6 @@ public class ViewControlPanel extends JPanel {
         public void iceFlowChanged( boolean b );
         public void snowfallChanged( boolean b );
         public void coordinatesChanged( boolean b );
-        public void ageOfIceChanged( boolean b );
     }
     
     public static class ViewControlPanelAdapter implements ViewControlPanelListener {
@@ -200,7 +178,6 @@ public class ViewControlPanel extends JPanel {
         public void iceFlowChanged( boolean b ) {};
         public void snowfallChanged( boolean b ) {};
         public void coordinatesChanged( boolean b ) {};
-        public void ageOfIceChanged( boolean b ) {};
     }
     
     public void addViewControlPanelListener( ViewControlPanelListener listener ) {
@@ -244,14 +221,6 @@ public class ViewControlPanel extends JPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (ViewControlPanelListener) i.next() ).coordinatesChanged( b );
-        }
-    }
-
-    private void notifyAgeOfIceChanged() {
-        boolean b = isAgeOfIceSelected();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).ageOfIceChanged( b );
         }
     }
 }

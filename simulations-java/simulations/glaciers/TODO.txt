@@ -80,6 +80,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/27/08 - "age of ice" feature was dropped, delete checkbox in View control panel 
 2/27/08 - display a proxy for mountains, 1000 meters above valley floor
 ******** 0.00.08 (19964)
 2/25/08 - disable "steady state" button when glacier is in the steady state

@@ -34,7 +34,6 @@ public class GlaciersStrings {
     public static final String CHECK_BOX_ICE_FLOW = GlaciersResources.getString( "checkBox.iceFlow" );
     public static final String CHECK_BOX_SNOWFALL = GlaciersResources.getString( "checkBox.snowfall" );
     public static final String CHECK_BOX_COORDINATES = GlaciersResources.getString( "checkBox.coordinates" );
-    public static final String CHECK_BOX_AGE_OF_ICE = GlaciersResources.getString( "checkBox.ageOfIce" );
     
     public static final String HELP_EQUILIBRIUM_BUTTON = GlaciersResources.getString( "help.equilibriumButton" );
     
