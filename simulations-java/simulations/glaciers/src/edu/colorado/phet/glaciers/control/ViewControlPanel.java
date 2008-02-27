@@ -95,7 +95,7 @@ public class ViewControlPanel extends JPanel {
         });
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW );
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW_CONTROLS );
         titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
