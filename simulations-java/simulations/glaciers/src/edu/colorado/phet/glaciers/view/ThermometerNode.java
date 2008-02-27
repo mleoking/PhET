@@ -17,6 +17,8 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Thermometer;
 import edu.colorado.phet.glaciers.model.Thermometer.ThermometerListener;
+import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.LeftToolOriginNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -58,18 +60,22 @@ public class ThermometerNode extends AbstractToolNode {
         };
         _thermometer.addThermometerListener( _thermometerListener );
         
+        PNode arrowNode = new LeftToolOriginNode();
+        addChild( arrowNode );
+        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
+        
         PImage imageNode = new PImage( GlaciersImages.THERMOMETER );
         addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() ); // bottom center
+        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -imageNode.getFullBoundsReference().getHeight() / 2 );
         
-        _temperatureDisplay = new JLabel();
+        _temperatureDisplay = new JLabel( "0" );
         _temperatureDisplay.setFont( FONT );
         JPanel panel = new JPanel();
         panel.setBorder( BORDER );
         panel.add( _temperatureDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
-        panelNode.setOffset( 0, -( 0.75 * imageNode.getFullBoundsReference().getHeight() ) );
+        panelNode.setOffset( imageNode.getFullBounds().getMaxX(), -panelNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updatePosition();

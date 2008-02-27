@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -20,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.model.GPSReceiver;
 import edu.colorado.phet.glaciers.model.Movable.MovableAdapter;
 import edu.colorado.phet.glaciers.model.Movable.MovableListener;
+import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.LeftToolOriginNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -40,7 +40,6 @@ public class GPSReceiverNode extends AbstractToolNode {
     private static final Font FONT = new PhetDefaultFont( 10 );
     private static final Border BORDER = BorderFactory.createLineBorder( Color.BLACK, 1 );
     private static final NumberFormat COORDINATE_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final float TRIANGLE_SIZE = 10f;
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -66,16 +65,9 @@ public class GPSReceiverNode extends AbstractToolNode {
         _gps.addMovableListener( _movableListener );
         
         // arrow that points to the left
-        GeneralPath trianglePath = new GeneralPath();
-        trianglePath.moveTo( 0f, 0f );
-        trianglePath.lineTo( TRIANGLE_SIZE, -TRIANGLE_SIZE / 2 );
-        trianglePath.lineTo( TRIANGLE_SIZE, TRIANGLE_SIZE / 2 );
-        trianglePath.closePath();
-        PPath pathNode = new PPath( trianglePath );
-        pathNode.setStroke( null );
-        pathNode.setPaint( Color.RED );
-        addChild( pathNode );
-        pathNode.setOffset( 0, 0 );
+        PNode arrowNode = new LeftToolOriginNode();
+        addChild( arrowNode );
+        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
         
         // display to the right of arrow, vertically centered
         _coordinatesDisplay = new JLabel( DISPLAY_FORMAT );
@@ -86,7 +78,7 @@ public class GPSReceiverNode extends AbstractToolNode {
         panel.add( _coordinatesDisplay );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
-        panelNode.setOffset( pathNode.getFullBounds().getWidth(), -panelNode.getFullBounds().getHeight() / 2 );
+        panelNode.setOffset( arrowNode.getFullBounds().getWidth() + 1, -panelNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateCoordinates();
