@@ -550,6 +550,12 @@ public class RotationBody {
         if ( angle.getSampleCount() > 0 ) {
             angle.setPlaybackTime( time );
         }
+        if (angularVelocity.getSampleCount()>0){
+            angularVelocity.setPlaybackTime( time );
+        }
+        if (angularAccel.getSampleCount()>0){
+            angularAccel.setPlaybackTime( time );
+        }
 
         notifyVectorsUpdated();
         notifyPositionChanged();
