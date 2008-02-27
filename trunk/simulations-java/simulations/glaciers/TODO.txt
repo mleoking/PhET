@@ -24,8 +24,13 @@ HIGH PRIORITY:
 - wire up mass balance controls to model
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
+- add proxy for snowfall visualization
+- add coordinates view
+- implement "glacier length v. time" graph
+- implement "equilibrium line altitude v. time" graph (only useful for Advanced panel, where interpolating between climates)
 
 MEDIUM PRIORITY:
+- create convincing mountains, either with an image or with Java2D
 - make clock speed control change framerate instead of dt, keep constant dt=1 year?
 - should Glacial Budget graph show accumulation & ablation? if so, fix x-axis label
 - x-axis of charts currently autoscales, set fixed range?
