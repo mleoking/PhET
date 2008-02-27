@@ -13,7 +13,6 @@ DESIGN ISSUES:
 - do graphs record data only while open, or are they always recording?
 - how do we constrain tools that can only be dropped on (or off) the ice?
 - what happens to an ice-specific (or atmosphere-specific) tool when the ice disappears (or appears) at its location?
-- do tools need an origin indicator?
 - layering order of tools and toolbox
 - how does "show coordinates" work for a valley contour that is not linear?
 
