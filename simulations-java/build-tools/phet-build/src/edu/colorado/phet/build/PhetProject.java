@@ -220,7 +220,7 @@ public class PhetProject {
         if ( simProject.exists() && isProject( simProject ) ) {
             return simProject;
         }
-        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir="+getAntBaseDir()+", in project=" + this );
+        throw new RuntimeException( "No path found for token=" + token + ", antBaseDir="+getAntBaseDir().getAbsolutePath()+", in project=" + this );
     }
 
     public File[] getAllSourceRoots() {
