@@ -10,10 +10,13 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Iterator;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -38,6 +41,8 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
+    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
     private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
     private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
 
@@ -162,6 +167,14 @@ public class SnowfallAndTemperatureControlPanel extends JPanel {
                     ( (JComponent) o ).setFont( CONTROL_FONT );
             }
         }
+        
+        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
+        titledBorder.setTitleFont( TITLE_FONT );
+        titledBorder.setTitleColor( TITLE_COLOR );
+        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
+        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
+        setBorder( compoundBorder );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );
