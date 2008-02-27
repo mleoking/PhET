@@ -100,7 +100,6 @@ public class MiscControlPanel extends JPanel {
     }
     
     public void setEquilibriumButtonEnabled( boolean enabled ) {
-        System.out.println( "MiscControlPanel.setEquilibriumButtonEnabled " + enabled );//XXX
         _equilibriumButton.setEnabled( enabled );
     }
     
