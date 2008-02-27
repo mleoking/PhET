@@ -7,7 +7,6 @@ import java.util.StringTokenizer;
 
 import javax.mail.MessagingException;
 
-import edu.colorado.phet.build.FileUtils;
 
 /**
  * Created by: Sam
