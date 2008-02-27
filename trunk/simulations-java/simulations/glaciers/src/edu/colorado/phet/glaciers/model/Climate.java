@@ -95,7 +95,6 @@ public class Climate {
      */
     public void setTemperature( double temperature ) {
         if ( temperature != _temperature ) {
-//            System.out.println( "Climate.setTemperature " + temperature );//XXX
             _temperature = temperature;
             updateEquilibriumLineAltitude();
             notifyTemperatureChanged();
@@ -120,7 +119,6 @@ public class Climate {
     public void setSnowfall( double snowfall ) {
         assert( snowfall >= 0 );
         if ( snowfall != _snowfall ) {
-//            System.out.println( "Climate.setSnowfall " + snowfall );//XXX
             _snowfall = snowfall;
             updateEquilibriumLineAltitude();
             notifySnowfallChanged();
@@ -165,7 +163,6 @@ public class Climate {
     public void setSnowfallReferenceElevation( double snowfallReferenceElevation ) {
         assert( snowfallReferenceElevation >= 0 );
         if ( snowfallReferenceElevation != _snowfallReferenceElevation ) {
-//            System.out.println( "Climate.setSnowfallReferenceElevation " + snowfallReferenceElevation );//XXX
             _snowfallReferenceElevation = snowfallReferenceElevation;
             updateEquilibriumLineAltitude();
             notifySnowfallReferenceElevationChanged();
@@ -247,49 +244,6 @@ public class Climate {
         return _equilibriumLineAlitutude;
     }
     
-    public void setEquilibriumLineAltitude( double equilibriumLineAlitutude ) {
-        
-        //XXX what to do here?...
-        //XXX we need to set temp & snowfall without calling updateEquilibriumLineAltitude or notifiers.
-        //XXX and the values of temp & snowfall need to yield the same ELA as if we called updateEquilibriumLineAltitude,
-        //XXX impossible since updateEquilibriumLineAltitude involves a search that yeilds an approximation.
-        //XXX also, calling notifiers for temp & snowfall will cause controls to update, which will result 
-        //XXX in setTemperature and setSnowfallReference being called, which will change ELA, which will
-        //XXX change its controls, ad infinitum...
-        
-        //XXX temporary hack...
-        _temperature = elaToTemperature( equilibriumLineAlitutude );
-        _snowfallReferenceElevation = elaToSnowfallReferenceElevation( equilibriumLineAlitutude );
-        _equilibriumLineAlitutude = equilibriumLineAlitutude;
-        notifyTemperatureChanged();
-        notifySnowfallReferenceElevationChanged();
-    }
-    
-    /*
-     * Converts ELA (equilibrium line altitude) to temperature.
-     * This is a fudge, since an ELA doesn't map to a single value.
-     * 
-     * @param ela meters
-     * @return degrees C
-     */
-    private double elaToTemperature( double ela ) {
-        double temperatureOffset = ( ela - MODERN_SNOWFALL_REFERENCE_ELEVATION ) / ABLATION_TEMPERATURE_SCALE_FACTOR;
-        return MODERN_TEMPERATURE + temperatureOffset;
-    }
-    
-    /*
-     * Converts ELA (equilibrium line altitude) to snowfall reference elevation.
-     * This is a fudge, since an ELA doesn't map to a single value.
-     * 
-     * @param ela meters
-     * @return meters
-     */
-    private double elaToSnowfallReferenceElevation( double ela ) {
-        double ablation = getAblation( ela );
-        double term = Math.PI * ( ( ablation / _snowfall ) - 0.5 );
-        return ela - ( SNOWFALL_TRANSITION_WIDTH * Math.tan( term ) );
-    }
-
     /*
      * Updates the equilibrium line altitude (ELA) by searching for the elevation where glacial budget = 0.
      * This uses a "divide and conquer" algorithm, gradually decreasing the sign and magnitude of dz until
