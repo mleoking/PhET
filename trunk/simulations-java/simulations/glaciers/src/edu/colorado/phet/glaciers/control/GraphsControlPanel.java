@@ -60,7 +60,7 @@ public class GraphsControlPanel extends JPanel {
         _listeners = new ArrayList();
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_GRAPHS );
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_GRAPH_CONTROLS );
         titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
