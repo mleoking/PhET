@@ -12,7 +12,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.build.FileUtils;
 
 /**
  * Created by: Sam
