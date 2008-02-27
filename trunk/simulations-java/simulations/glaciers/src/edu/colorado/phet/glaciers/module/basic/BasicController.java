@@ -13,15 +13,17 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.charts.AblationVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.AccumulationVersusElevationChart;
+import edu.colorado.phet.glaciers.charts.EquilibriumLineAltitudeVersusTimeChart;
 import edu.colorado.phet.glaciers.charts.GlacialBudgetVersusElevationChart;
+import edu.colorado.phet.glaciers.charts.GlacierLengthVersusTimeChart;
 import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
-import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
+import edu.colorado.phet.glaciers.control.ClimateControlPanel.ClimateControlPanelListener;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel.GraphsControlPanelListener;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
-import edu.colorado.phet.glaciers.control.ClimateControlPanel.ClimateControlPanelListener;
 import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelAdapter;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
@@ -40,6 +42,8 @@ public class BasicController {
     private static Frame DIALOG_OWNER = GlaciersApplication.instance().getPhetFrame();
     private static Dimension CHART_SIZE = new Dimension( 900, 350 );
     
+    private JDialog _glacierLengthVersusTimeChart;
+    private JDialog _equilibriumLineAltitudeVersusTimeChart;
     private JDialog _accumulationVersusElevationChart;
     private JDialog _ablationVersusElevationChart;
     private JDialog _glacialBudgetVersusElevationChart;
@@ -108,11 +112,39 @@ public class BasicController {
         graphsControlPanel.addGraphsControlPanelListener( new GraphsControlPanelListener() {
 
             public void glacierLengthVersusTimeChanged( boolean selected ) {
-                // TODO Auto-generated method stub
+                if ( selected ) {
+                    _glacierLengthVersusTimeChart = new GlacierLengthVersusTimeChart( DIALOG_OWNER, CHART_SIZE, glacier );
+                    _glacierLengthVersusTimeChart.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _glacierLengthVersusTimeChart );
+                    _glacierLengthVersusTimeChart.setVisible( true );
+                }
+                else {
+                    _glacierLengthVersusTimeChart.dispose();
+                    _glacierLengthVersusTimeChart = null;
+                }
             }
             
             public void equilibriumLineAltitudeVersusTimeChanged( boolean selected ) {
-                // TODO Auto-generated method stub
+                if ( selected ) {
+                    _equilibriumLineAltitudeVersusTimeChart = new EquilibriumLineAltitudeVersusTimeChart( DIALOG_OWNER, CHART_SIZE, climate );
+                    _equilibriumLineAltitudeVersusTimeChart.addWindowListener( new WindowAdapter() {
+                        // called when the close button in the dialog's window dressing is clicked
+                        public void windowClosing( WindowEvent e ) {
+                            graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
+                        }
+                    } );
+                    SwingUtils.centerDialogInParent( _equilibriumLineAltitudeVersusTimeChart );
+                    _equilibriumLineAltitudeVersusTimeChart.setVisible( true );
+                }
+                else {
+                    _equilibriumLineAltitudeVersusTimeChart.dispose();
+                    _equilibriumLineAltitudeVersusTimeChart = null;
+                }
             }
             
             public void ablationVersusElevationChanged( boolean selected ) {
