@@ -26,7 +26,7 @@ public class ProcessRecentChanges {
 
     public ProcessRecentChanges( String[] args ) throws IOException, SAXException, ParserConfigurationException {
         this.args = args;
-        unfuddleAccount = new UnfuddleAccount( new File( SVN_TRUNK + "\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
+        unfuddleAccount = new UnfuddleAccount( new File( SVN_TRUNK + "\\util\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" ) );
         unfuddleCurl = new UnfuddleCurl( args[0], args[1], UnfuddleCurl.PHET_PROJECT_ID );
 
         running = new JFrame( "Process Unfuddle Changes" );
@@ -133,7 +133,7 @@ public class ProcessRecentChanges {
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
         h.addMessageHandler( new EmailHandler( args[2], args[3], args[4], args[5], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
-        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\team\\reids\\unfuddle\\data\\handled.txt" ) );
+        MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( SVN_TRUNK + "\\util\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
         int handled = 0;
         for ( int i = e - 1; i >= 0; i-- ) {//reverse iterate to post notifications in chronological order

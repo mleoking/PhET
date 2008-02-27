@@ -52,7 +52,7 @@ public class UnfuddleCurl {
 
     //fails for dump (timeout)
     public String readString( String readARG ) throws IOException {
-        String CURL = ProcessRecentChanges.SVN_TRUNK+"\\team\\unfuddle\\curl_717_1_ssl\\curl.exe";
+        String CURL = ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\contrib\\curl\\curl.exe";
         String cmdArg = accountID + "/" + readARG;
         String cmd = CURL + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/projects/" + cmdArg;
         System.out.println( "cmd = " + cmd );
