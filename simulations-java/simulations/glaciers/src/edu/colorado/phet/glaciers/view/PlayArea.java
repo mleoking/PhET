@@ -82,7 +82,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private PLayer _mountainsLayer, _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
@@ -172,11 +172,13 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         this.addAncestorListener( resizeListener );
         
         // Layers, back to front
+        _mountainsLayer = new PLayer();
         _valleyLayer = new PLayer();
         _glacierLayer = new PLayer();
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
+        addToBothViews( _mountainsLayer );
         addToBothViews( _valleyLayer );
         addToBothViews( _glacierLayer );
         addToZoomedView( _toolboxLayer );
@@ -187,6 +189,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         float strokeWidth = VIEWPORT_STROKE_WIDTH / (float)BIRDS_EYE_CAMERA_VIEW_SCALE;
         ViewportNode viewportNode = new ViewportNode( _zoomedViewport, strokeWidth, _mvt );
         _viewportLayer.addChild( viewportNode );
+        
+        // Mountains
+        PNode mountainsNode = new MountainsNode( _model.getValley(), _mvt, valleyMinX, valleyMaxX );
+        _mountainsLayer.addChild( mountainsNode );
         
         // Valley
         PNode valleyNode = new ValleyNode( _model.getValley(), _mvt, valleyMinX, valleyMaxX );
