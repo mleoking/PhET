@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.mail.*;
 import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -18,10 +16,10 @@ public class EmailAccount {
         String from = args[0];
         String to = args[1];
         String host = args[2];
-        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject" );
+        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject", args[3], args[4] );
     }
 
-    public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject ) throws MessagingException {
+    public static void sendEmail( String from, String[] to, String host, String emailBody, String emailSubject, final String user, final String password ) throws MessagingException {
         // Create properties, get Session
         Properties props = new Properties();
 
@@ -30,7 +28,16 @@ public class EmailAccount {
         props.put( "mail.smtp.host", host );
         // To see what is going on behind the scene
         props.put( "mail.debug", "true" );
-        Session session = Session.getInstance( props );
+
+        props.put( "mail.smtp.auth", "true" );
+        props.put( "password", password );
+        props.put( "mail.smtp.user", user );
+        Session session = Session.getInstance( props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication( user, password );
+            }
+        } );
+
 
         try {
             // Instantiatee a message

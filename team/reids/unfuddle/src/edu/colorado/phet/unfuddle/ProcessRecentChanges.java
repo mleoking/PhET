@@ -130,7 +130,7 @@ public class ProcessRecentChanges {
 
         CompositeMessageHandler h = new CompositeMessageHandler();
         h.addMessageHandler( new PrintMessageHandler() );
-        h.addMessageHandler( new EmailHandler( args[2], args[3], new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
+        h.addMessageHandler( new EmailHandler( args[2], args[3], args[4],args[5],new ReadEmailList( unfuddleAccount, unfuddleCurl ), true ) );
         MessageHandler mh = new IgnoreDuplicatesMessageHandler( h, new File( "C:\\reid\\phet\\svn\\trunk\\team\\reids\\unfuddle\\data\\handled.txt" ) );
 //        MessageHandler mh = h;
         int handled = 0;
