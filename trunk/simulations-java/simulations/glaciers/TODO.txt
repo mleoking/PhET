@@ -18,10 +18,7 @@ DESIGN ISSUES:
 - how does "show coordinates" work for a valley contour that is not linear?
 
 HIGH PRIORITY:
-- solve infinite loop issue with 2 climate control domains
-- get new mass balance climate model
 - get new ice thickness & velocity models
-- wire up mass balance controls to model
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - add proxy for snowfall visualization
@@ -59,7 +56,6 @@ MEDIUM PRIORITY:
 LOW PRIORITY:
 - labels on slider ticks should be white, code to set their color is not working
 - display distance and/or elevation as km ?
-- draw mountains
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
