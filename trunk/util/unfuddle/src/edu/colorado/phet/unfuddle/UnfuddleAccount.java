@@ -18,7 +18,7 @@ import org.xml.sax.SAXException;
  */
 public class UnfuddleAccount extends XMLObject implements IUnfuddleAccount {
     //    private static File FILE = new File( "C:/Users/Sam/Desktop/phet.unfuddled.20080217220129.xml" );
-    private static File FILE = new File( ProcessRecentChanges.SVN_TRUNK+"\\team\\reids\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" );
+    private static File FILE = new File( ProcessRecentChanges.SVN_TRUNK+"\\util\\unfuddle\\data\\phet.unfuddled.20080221150731.xml" );
     private String PROJECTS = "projects";
 
     public UnfuddleAccount( File xmlDump ) throws IOException, SAXException, ParserConfigurationException {
