@@ -17,6 +17,8 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.IceThicknessTool;
 import edu.colorado.phet.glaciers.model.IceThicknessTool.IceThicknessToolListener;
+import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.DownToolOriginNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -58,9 +60,13 @@ public class IceThicknessToolNode extends AbstractToolNode {
         };
         _iceThicknessTool.addIceThicknessToolListener( _iceThicknessToolListener );
         
+        PNode arrowNode = new DownToolOriginNode();
+        addChild( arrowNode );
+        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
+        
         PImage imageNode = new PImage( GlaciersImages.ICE_THICKNESS_TOOL );
         addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth(), -imageNode.getFullBoundsReference().getHeight() ); // lower right
+        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() + 3, arrowNode.getFullBoundsReference().getMinY() - imageNode.getFullBoundsReference().getHeight() );
         
         _iceThicknessDisplay = new JLabel();
         _iceThicknessDisplay.setFont( FONT );

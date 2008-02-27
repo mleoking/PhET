@@ -19,6 +19,8 @@ import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter;
 import edu.colorado.phet.glaciers.model.GlacialBudgetMeter.GlacialBudgetMeterListener;
+import edu.colorado.phet.glaciers.view.AbstractToolOriginNode.LeftToolOriginNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -71,21 +73,25 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         };
         _glacialBudgetMeter.addGlacialBudgetMeterListener( _glacialBudgetMeterListener );
         
+        PNode arrowNode = new LeftToolOriginNode();
+        addChild( arrowNode );
+        arrowNode.setOffset( 0, 0 ); // this node identifies the origin
+        
         PImage imageNode = new PImage( GlaciersImages.GLACIAL_BUDGET_METER );
         addChild( imageNode );
-        imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() ); // lower center
+        imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -imageNode.getFullBoundsReference().getHeight() / 2 );
         
         JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION );
         accumulationLabel.setFont( FONT );
-        _accumulationDisplay = new JLabel();
+        _accumulationDisplay = new JLabel( "0" );
         _accumulationDisplay.setFont( FONT );
         JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION );
         ablationLabel.setFont( FONT );
-        _ablationDisplay = new JLabel();
+        _ablationDisplay = new JLabel( "0" );
         _ablationDisplay.setFont( FONT );
         JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET );
         glacialBudgetLabel.setFont( FONT );
-        _glacialBudgetDisplay = new JLabel();
+        _glacialBudgetDisplay = new JLabel( "0" );
         _glacialBudgetDisplay.setFont( FONT );
         
         JPanel displayPanel = new JPanel();
@@ -107,10 +113,7 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         
         PSwing panelNode = new PSwing( displayPanel );
         addChild( panelNode );
-        // center above meter
-        double xOffset = imageNode.getFullBoundsReference().getX() - ( panelNode.getFullBoundsReference().getWidth() - imageNode.getFullBoundsReference().getWidth() );
-        double yOffset = imageNode.getFullBoundsReference().getY() - panelNode.getFullBoundsReference().getHeight() - 2;
-        panelNode.setOffset( xOffset, yOffset );
+        panelNode.setOffset( imageNode.getFullBounds().getMaxX() + 1, -panelNode.getFullBounds().getHeight() / 2 );
         
         // initial state
         updateAccumulation();

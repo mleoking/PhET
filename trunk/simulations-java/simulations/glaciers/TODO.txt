@@ -76,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/27/08 - add a visual indication of origin for each measuring tool
 ******** 0.00.09 (20001)
 2/27/08 - rename SnowfallAndTemperatureControlPanel to ClimateControlPanel
 2/27/08 - "mass balance" control panel was dropped, delete panel and problematic model code
