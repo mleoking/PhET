@@ -29,10 +29,6 @@ DESIGN ISSUES (user interface):
 - user-interface design for climate experiments
 - how does the "steady state" button work in the context of climate experiments?
 - how does the "coordinates" feature work for a valley that does not have linear slope?
-- should "snowfall" be a checkbox?
-- should "ice flow" be a checkbox?
-- what happens when we hit "ice sheet" condition? message dialog + reset all?
-- origin indicator for measurement tools?
 - are the conditions for when to automatically follow terminus OK? (p#3 of doc v3)
 
 
@@ -47,6 +43,7 @@ HIGH PRIORITY:
 - implement "equilibrium line altitude v. time" graph (only useful for Advanced panel, where interpolating between climates)
 
 MEDIUM PRIORITY:
+- when birds-eye view is wider than model range, fill in with tile-able mountain and valley
 - create convincing mountains, either with an image or with Java2D
 - make clock speed control change framerate instead of dt, keep constant dt=1 year?
 - should Glacial Budget graph show accumulation & ablation? if so, fix x-axis label
@@ -74,6 +71,7 @@ MEDIUM PRIORITY:
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
 LOW PRIORITY:
+- make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - add Help menu option to show pictures of real glaciers
 - labels on slider ticks should be white, code to set their color is not working
 - display distance and/or elevation as km ?
@@ -97,6 +95,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/28/08 - combine accumulation, ablation and glacial budget into 1 graph; delete individual graphs
 2/28/08 - rename "ice flow" checkbox to "ice flow vectors"
 2/28/08 - delete "snowfall" checkbox, snowfall should always be visible
 2/27/08 - update "ELA v. time" graph every time the clock ticks (for discussion)
@@ -366,6 +365,9 @@ DONE:
 9/27/07 - set up simulation skeleton, check in to SVN
 
 REJECTED:
+2/28/08 - what happens when we hit "ice sheet" condition? (we'll set ranges so this can't happen)
+2/27/08 - "Mass Balance" climate controls were dropped
+2/27/08 - "age of ice" feature was dropped
 
 ===============================================================================
 end of file

@@ -43,8 +43,6 @@ public class GraphsControlPanel extends JPanel {
     
     private JCheckBox _glacierLengthVersusTimeCheckBox;
     private JCheckBox _equilibriumLineAltitudeVersusTimeCheckBox;
-    private JCheckBox _accumulationVersusElevationCheckBox;
-    private JCheckBox _ablationVersusElevationCheckBox;
     private JCheckBox _glacialBudgetVersusElevationCheckBox;
     private JCheckBox _temperatureVersusElevationCheckBox;
     
@@ -85,24 +83,6 @@ public class GraphsControlPanel extends JPanel {
             }
         });
         
-        _accumulationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_ACCUMULATION_VERSUS_ELEVATION );
-        _accumulationVersusElevationCheckBox.setFont( CONTROL_FONT );
-        _accumulationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
-        _accumulationVersusElevationCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyAccumulationVersusElevationChanged();
-            }
-        });
-        
-        _ablationVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_ABLATION_VERSUS_ELEVATION );
-        _ablationVersusElevationCheckBox.setFont( CONTROL_FONT );
-        _ablationVersusElevationCheckBox.setForeground( CONTROL_COLOR );
-        _ablationVersusElevationCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifyAblationVersusElevationChanged();
-            }
-        });
-        
         _glacialBudgetVersusElevationCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION );
         _glacialBudgetVersusElevationCheckBox.setFont( CONTROL_FONT );
         _glacialBudgetVersusElevationCheckBox.setForeground( CONTROL_COLOR );
@@ -127,8 +107,6 @@ public class GraphsControlPanel extends JPanel {
         int column = 0;
         layout.addComponent( _glacierLengthVersusTimeCheckBox, row++, column );
         layout.addComponent( _equilibriumLineAltitudeVersusTimeCheckBox, row++, column );
-        layout.addComponent( _accumulationVersusElevationCheckBox, row++, column );
-        layout.addComponent( _ablationVersusElevationCheckBox, row++, column );
         layout.addComponent( _glacialBudgetVersusElevationCheckBox, row++, column );
         layout.addComponent( _temperatureVersusElevationCheckBox, row++, column );
         
@@ -153,22 +131,6 @@ public class GraphsControlPanel extends JPanel {
     
     public boolean isEquilibriumLineAltitudeVersusTimeSelected() {
         return _equilibriumLineAltitudeVersusTimeCheckBox.isSelected();
-    }
-    
-    public void setAccumulationVersusElevationSelected( boolean selected ) {
-        _accumulationVersusElevationCheckBox.setSelected( selected );
-    }
-    
-    public boolean isAccumulationVersusElevationSelected() {
-        return _accumulationVersusElevationCheckBox.isSelected();
-    }
-    
-    public void setAblationVersusElevationSelected( boolean selected ) {
-        _ablationVersusElevationCheckBox.setSelected( selected );
-    }
-    
-    public boolean isAblationVersusElevationSelected() {
-        return _ablationVersusElevationCheckBox.isSelected();
     }
     
     public void setGlacialBudgetVersusElevationSelected( boolean selected ) {
@@ -197,8 +159,6 @@ public class GraphsControlPanel extends JPanel {
     public interface GraphsControlPanelListener {
         public void glacierLengthVersusTimeChanged( boolean selected );
         public void equilibriumLineAltitudeVersusTimeChanged( boolean selected );
-        public void accumulationVersusElevationChanged( boolean selected );
-        public void ablationVersusElevationChanged( boolean selected );
         public void glacialBudgetVersusElevationChanged( boolean selected );
         public void temperatureVersusElevationChanged( boolean selected );
     }
@@ -206,8 +166,6 @@ public class GraphsControlPanel extends JPanel {
     public static class GraphsControlPanelAdapter implements GraphsControlPanelListener {
         public void glacierLengthVersusTimeChanged( boolean selected ) {}
         public void equilibriumLineAltitudeVersusTimeChanged( boolean selected ) {}
-        public void accumulationVersusElevationChanged( boolean selected ) {}
-        public void ablationVersusElevationChanged( boolean selected ) {}
         public void glacialBudgetVersusElevationChanged( boolean selected ) {}
         public void temperatureVersusElevationChanged( boolean selected ) {}
     }
@@ -237,22 +195,6 @@ public class GraphsControlPanel extends JPanel {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (GraphsControlPanelListener) i.next() ).equilibriumLineAltitudeVersusTimeChanged( selected );
-        }
-    }
-    
-    private void notifyAccumulationVersusElevationChanged() {
-        boolean selected = isAccumulationVersusElevationSelected();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (GraphsControlPanelListener) i.next() ).accumulationVersusElevationChanged( selected );
-        }
-    }
-    
-    private void notifyAblationVersusElevationChanged() {
-        boolean selected = isAblationVersusElevationSelected();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (GraphsControlPanelListener) i.next() ).ablationVersusElevationChanged( selected );
         }
     }
     
