@@ -18,8 +18,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Glacier;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
 import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 
@@ -32,22 +36,28 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 public class GlacierLengthVersusTimeChart extends JDialog {
     
     private Glacier _glacier;
-    private GlacierListener _glacierListener;
+    private GlaciersClock _clock;
+    private ClockListener _clockListener;
     private XYSeries _series;
     
-    public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier ) {
+    public GlacierLengthVersusTimeChart( Frame owner, Dimension size, Glacier glacier, GlaciersClock clock ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
         
         _glacier = glacier;
-        _glacierListener = new GlacierAdapter() {
-            public void iceThicknessChanged() {
+        
+        _clock = clock;
+        _clockListener = new ClockAdapter() {
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+                _series.clear();
+            }
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
                 update();
             }
         };
-        _glacier.addGlacierListener( _glacierListener );
+        _clock.addClockListener( _clockListener );
         
         // create the chart
         _series = new XYSeries( "glacierLengthVersusTime" );
@@ -92,7 +102,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     
     private void cleanup() {
         System.out.println( "GlacierLengthVersusTimeChart.cleanup" );//XXX
-        _glacier.removeGlacierListener( _glacierListener );
+        _clock.removeClockListener( _clockListener );
     }
     
     public void clear() {
@@ -100,6 +110,7 @@ public class GlacierLengthVersusTimeChart extends JDialog {
     }
     
     private void update() {
+        double t = _clock.getSimulationTime();
         //XXX add a data point every time the glacier's length changes
     }
 }

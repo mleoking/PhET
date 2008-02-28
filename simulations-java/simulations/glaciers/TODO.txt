@@ -17,6 +17,7 @@ DESIGN ISSUES:
 - how does "show coordinates" work for a valley contour that is not linear?
 
 HIGH PRIORITY:
+- add Glacier.getLength
 - get new ice thickness & velocity models
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
@@ -75,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/27/08 - update "ELA v. time" graph every time the clock ticks (for discussion)
 2/27/08 - add stubs for time-dependent graphs, until we figure out how we want these to work
 2/27/08 - add a visual indication of origin for each measuring tool
 ******** 0.00.09 (20001)
