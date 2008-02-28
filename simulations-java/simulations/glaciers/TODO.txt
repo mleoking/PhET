@@ -2,19 +2,39 @@
 "To Do" list for "Glaciers" simulation
 ================================================================================
 
-DESIGN ISSUES:
-- toolbox allows creating multiple borehole drills
-- borehole drill is different than the other things in the toolbox, all others are measurement devices
-- will it be confusing that borehole drill disappears when it is released?
-- move trash can out of toolbox?
-- design for advanced climate controls has usability problems
-- how does the "steady state" button work in the context of advanced climate controls?
-- do graphs have zoom buttons, or do they autoscale? (issue for x & y axes)
-- do graphs record data only while open, or are they always recording?
-- how do we constrain tools that can only be dropped on (or off) the ice?
-- what happens to an ice-specific (or atmosphere-specific) tool when the ice disappears (or appears) at its location?
-- layering order of tools and toolbox
-- how does "show coordinates" work for a valley contour that is not linear?
+DESIGN ISSUES (model):
+- calibration of climate model parameters? 
+- initial steady state of glacier?
+- do we want to show values or relative ranges (cold-to-hot) for climate controls?
+- odd behavior in ablation graph when elevation < 1000m
+- new model for ice thickness & velocity?
+- how do we reliably determine glacier length when model's 1D grid is finite?
+- need a model for movement of points in and on the ice
+- can borehole be evolved as a straight line between 2 points at ice-rock and ice-air interfaces?
+- how should we control sim speed? vary dt or fps?
+
+DESIGN ISSUES (graphs):
+- can we combine glacialBudget+accumulation+ablation into 1 graph? title? x-axis?
+- do time-dependent graphs record data only while open, or are they always recording?
+- how much data do time-dependent graphs hold?
+- do time-dependent graphs scroll like a strip chart?
+- do time-dependent graphs use a fixed sample interval, or clock dt interval?
+- do graphs have zoom buttons, autoscale,...?
+
+DESIGN ISSUES (user interface):
+- how can we display ice velocity vectors in such a small vertical space?
+- does zoomed view need to be zoomed in further?
+- what happens when equilibrium line is checked but the ELA is outside the birds-eye view?
+- what do we do when birds-eye view is wider than the model width?
+- user-interface design for climate experiments
+- how does the "steady state" button work in the context of climate experiments?
+- how does the "coordinates" feature work for a valley that does not have linear slope?
+- should "snowfall" be a checkbox?
+- should "ice flow" be a checkbox?
+- what happens when we hit "ice sheet" condition? message dialog + reset all?
+- origin indicator for measurement tools?
+- are the conditions for when to automatically follow terminus OK? (p#3 of doc v3)
+
 
 HIGH PRIORITY:
 - add Glacier.getLength
@@ -54,6 +74,7 @@ MEDIUM PRIORITY:
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
 LOW PRIORITY:
+- add Help menu option to show pictures of real glaciers
 - labels on slider ticks should be white, code to set their color is not working
 - display distance and/or elevation as km ?
 - add variable caliper size to ice measuring tool
