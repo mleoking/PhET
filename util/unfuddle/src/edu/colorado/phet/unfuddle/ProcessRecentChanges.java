@@ -122,11 +122,39 @@ public class ProcessRecentChanges {
     }
 
     private void processChanges() throws IOException, SAXException, ParserConfigurationException {
-        int limit = 20;
-        String recent = unfuddleCurl.readString( "activity.xml?limit=" + limit );
+        final int limit = 20;
+        final String[] recent = new String[]{null};
+        Thread t = new Thread( new Runnable() {
+            public void run() {
+                try {
+                    recent[0] = unfuddleCurl.readString( "activity.xml?limit=" + limit );
+                }
+                catch( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+        } );
+        t.start();
+        long startTime = System.currentTimeMillis();
+        long timeout = 1000 * 60 * 5;
+        //todo: better thread communication
+        while ( recent[0] == null && System.currentTimeMillis() - startTime < timeout ) {
+            try {
+                Thread.sleep( 5000 );
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
+        }
+        final long time = System.currentTimeMillis() - startTime;
+        if ( time >= timeout ) {
+            System.out.println( "Timeout: (" + time + " ms)" );
+            return;
+        }
+
 //        String recent = STORED_XML;
 
-        XMLObject events = new XMLObject( recent );
+        XMLObject events = new XMLObject( recent[0] );
         int e = events.getNodeCount( "event" );
         System.out.println( "Requested " + limit + " events, received: " + e );
 
