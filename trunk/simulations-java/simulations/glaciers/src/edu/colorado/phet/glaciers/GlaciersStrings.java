@@ -21,12 +21,10 @@ public class GlaciersStrings {
 
     public static final String BUTTON_STEADY_STATE = GlaciersResources.getString( "button.steadyState" );
     
-    public static final String AXIS_ABLATION = GlaciersResources.getString( "axis.ablation" );
-    public static final String AXIS_ACCUMULATION = GlaciersResources.getString( "axis.accumulation" );
     public static final String AXIS_ELEVATION = GlaciersResources.getString( "axis.elevation" );
     public static final String AXIS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "axis.equilibriumLineAltitude" );
-    public static final String AXIS_GLACIAL_BUDGET = GlaciersResources.getString( "axis.glacialBudget" );
     public static final String AXIS_GLACIER_LENGTH = GlaciersResources.getString( "axis.glacierLength" );
+    public static final String AXIS_METERS_PER_YEAR = GlaciersResources.getString( "axis.metersPerYear" );
     public static final String AXIS_TEMPERATURE = GlaciersResources.getString( "axis.temperature" );
     public static final String AXIS_TIME = GlaciersResources.getString( "axis.time" );
     
@@ -63,8 +61,6 @@ public class GlaciersStrings {
     public static final String TOOLBOX_GPS_RECEIVER = GlaciersResources.getString( "toolbox.gpsReceiver" );
     public static final String TOOLBOX_TRASH_CAN = GlaciersResources.getString( "toolbox.trashCan" );
     
-    public static final String TITLE_ABLATION_VERSUS_ELEVATION = GlaciersResources.getString( "title.ablationVersusElevation" );
-    public static final String TITLE_ACCUMULATION_VERSUS_ELEVATION = GlaciersResources.getString( "title.accumulationVersusElevation" );
     public static final String TITLE_ADVANCED = GlaciersResources.getString( "title.advanced" );
     public static final String TITLE_BASIC = GlaciersResources.getString( "title.basic" );
     public static final String TITLE_CLIMATE_CONTROLS = GlaciersResources.getString( "title.climateControls" );

@@ -70,7 +70,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_GLACIAL_BUDGET_VERSUS_ELEVATION, // title
-            GlaciersStrings.AXIS_GLACIAL_BUDGET, // x axis label
+            GlaciersStrings.AXIS_METERS_PER_YEAR, // x axis label
             GlaciersStrings.AXIS_ELEVATION,  // y axis label
             dataset,
             PlotOrientation.VERTICAL,

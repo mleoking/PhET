@@ -11,8 +11,6 @@ import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.glaciers.GlaciersApplication;
-import edu.colorado.phet.glaciers.charts.AblationVersusElevationChart;
-import edu.colorado.phet.glaciers.charts.AccumulationVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.EquilibriumLineAltitudeVersusTimeChart;
 import edu.colorado.phet.glaciers.charts.GlacialBudgetVersusElevationChart;
 import edu.colorado.phet.glaciers.charts.GlacierLengthVersusTimeChart;
@@ -149,42 +147,6 @@ public class BasicController {
                 }
             }
             
-            public void ablationVersusElevationChanged( boolean selected ) {
-                if ( selected ) {
-                    _ablationVersusElevationChart = new AblationVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
-                    _ablationVersusElevationChart.addWindowListener( new WindowAdapter() {
-                        // called when the close button in the dialog's window dressing is clicked
-                        public void windowClosing( WindowEvent e ) {
-                            graphsControlPanel.setAblationVersusElevationSelected( false );
-                        }
-                    } );
-                    SwingUtils.centerDialogInParent( _ablationVersusElevationChart );
-                    _ablationVersusElevationChart.setVisible( true );
-                }
-                else {
-                    _ablationVersusElevationChart.dispose();
-                    _ablationVersusElevationChart = null;
-                }
-            }
-
-            public void accumulationVersusElevationChanged( boolean selected ) {
-                if ( selected ) {
-                    _accumulationVersusElevationChart = new AccumulationVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
-                    _accumulationVersusElevationChart.addWindowListener( new WindowAdapter() {
-                        // called when the close button in the dialog's window dressing is clicked
-                        public void windowClosing( WindowEvent e ) {
-                            graphsControlPanel.setAccumulationVersusElevationSelected( false );
-                        }
-                    } );
-                    SwingUtils.centerDialogInParent( _accumulationVersusElevationChart );
-                    _accumulationVersusElevationChart.setVisible( true );
-                }
-                else {
-                    _accumulationVersusElevationChart.dispose();
-                    _accumulationVersusElevationChart = null;
-                }
-            }
-
             public void glacialBudgetVersusElevationChanged( boolean selected ) {
                 if ( selected ) {
                     _glacialBudgetVersusElevationChart = new GlacialBudgetVersusElevationChart( DIALOG_OWNER, CHART_SIZE, climate );
