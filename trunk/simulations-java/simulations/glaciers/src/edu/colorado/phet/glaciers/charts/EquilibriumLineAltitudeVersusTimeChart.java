@@ -18,13 +18,12 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.model.Climate;
-import edu.colorado.phet.glaciers.model.Glacier;
-import edu.colorado.phet.glaciers.model.Climate.ClimateAdapter;
-import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
-import edu.colorado.phet.glaciers.model.Glacier.GlacierAdapter;
-import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
+import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
  * EquilibriumLineAltitudeVersusTimeChart displays a "Equilibrium Line Altitude versus Time" chart.
@@ -35,25 +34,28 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
     
     private Climate _climate;
-    private ClimateListener _climateListener;
+    private GlaciersClock _clock;
+    private ClockListener _clockListener;
     private XYSeries _series;
     
-    public EquilibriumLineAltitudeVersusTimeChart( Frame owner, Dimension size, Climate climate ) {
+    public EquilibriumLineAltitudeVersusTimeChart( Frame owner, Dimension size, Climate climate, GlaciersClock clock ) {
         super( owner );
         
         setSize( size );
         setResizable( false );
         
         _climate = climate;
-        _climateListener = new ClimateAdapter() {
-            public void snowfallChanged() {
-                update();
+        
+        _clock = clock;
+        _clockListener = new ClockAdapter() {
+            public void simulationTimeReset( ClockEvent clockEvent ) {
+                _series.clear();
             }
-            public void snowfallReferenceElevationChanged() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
                 update();
             }
         };
-        _climate.addClimateListener( _climateListener );
+        _clock.addClockListener( _clockListener );
         
         // create the chart
         _series = new XYSeries( "equilibriumLineAltitudeVersusTime" );
@@ -98,14 +100,12 @@ public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
     
     private void cleanup() {
         System.out.println( "EquilibriumLineAltitudeVersusTimeChart.cleanup" );//XXX
-        _climate.removeClimateListener( _climateListener );
-    }
-    
-    public void clear() {
-        _series.clear();
+        _clock.removeClockListener( _clockListener );
     }
     
     private void update() {
-        //XXX add a data point every time the climate changes
+        double t = _clock.getSimulationTime();
+        double ela = _climate.getEquilibriumLineAltitude();
+        _series.add( t, ela );
     }
 }
