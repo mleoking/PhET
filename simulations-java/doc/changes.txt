@@ -1,3 +1,4 @@
+2-28-2008: Ladybug Revolution (1.04) - user interface improvements
 12-4-2007: Molecular Motors (2.00) - new simulation (flavor of optical-tweezers)
 12-4-2007: Stretching DNA (2.00) - new simulation (flavor of optical-tweezers)
 12-4-2007: Optical Tweezers and Applications (2.00) - change simulation name, added "Fun with DNA" and "Molecular Motors" panels
