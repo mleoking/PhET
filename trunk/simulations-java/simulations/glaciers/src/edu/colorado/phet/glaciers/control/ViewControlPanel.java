@@ -44,7 +44,6 @@ public class ViewControlPanel extends JPanel {
     
     private JCheckBox _equilibriumLineCheckBox;
     private JCheckBox _iceFlowCheckBox;
-    private JCheckBox _snowfallCheckBox;
     private JCheckBox _coordinatesCheckBox;
     
     private ArrayList _listeners; // list of ViewControlPanelListener
@@ -76,15 +75,6 @@ public class ViewControlPanel extends JPanel {
             }
         });
         
-        _snowfallCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_SNOWFALL );
-        _snowfallCheckBox.setFont( CONTROL_FONT );
-        _snowfallCheckBox.setForeground( CONTROL_COLOR );
-        _snowfallCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                notifySnowfallChanged();
-            }
-        });
-        
         _coordinatesCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_COORDINATES );
         _coordinatesCheckBox.setFont( CONTROL_FONT );
         _coordinatesCheckBox.setForeground( CONTROL_COLOR );
@@ -109,7 +99,6 @@ public class ViewControlPanel extends JPanel {
         layout.setAnchor( GridBagConstraints.WEST );
         layout.addComponent( _equilibriumLineCheckBox, row++, column );
         layout.addComponent( _iceFlowCheckBox, row++, column );
-        layout.addComponent( _snowfallCheckBox, row++, column );
         layout.addComponent( _coordinatesCheckBox, row++, column );
         
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, null /* excludedClasses */, false /* processContentsOfExcludedContainers */ );
@@ -139,16 +128,6 @@ public class ViewControlPanel extends JPanel {
         return _iceFlowCheckBox.isSelected();
     }
     
-    public void setSnowfallSelected( boolean b ) {
-        if ( b != isSnowfallSelected() ) {
-            _snowfallCheckBox.setSelected( b );
-        }
-    }
-    
-    public boolean isSnowfallSelected() {
-        return _snowfallCheckBox.isSelected();
-    }
-    
     public void setCoordinatesSelected( boolean b ) {
         if ( b != isCoordinatesSelected() ) {
             _coordinatesCheckBox.setSelected( b );
@@ -169,14 +148,12 @@ public class ViewControlPanel extends JPanel {
     public interface ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b );
         public void iceFlowChanged( boolean b );
-        public void snowfallChanged( boolean b );
         public void coordinatesChanged( boolean b );
     }
     
     public static class ViewControlPanelAdapter implements ViewControlPanelListener {
         public void equilibriumLineChanged( boolean b ) {};
         public void iceFlowChanged( boolean b ) {};
-        public void snowfallChanged( boolean b ) {};
         public void coordinatesChanged( boolean b ) {};
     }
     
@@ -208,14 +185,6 @@ public class ViewControlPanel extends JPanel {
         }
     }
     
-    private void notifySnowfallChanged() {
-        boolean b = isSnowfallSelected();
-        Iterator i = _listeners.iterator();
-        while ( i.hasNext() ) {
-            ( (ViewControlPanelListener) i.next() ).snowfallChanged( b );
-        }
-    }
-
     private void notifyCoordinatesChanged() {
         boolean b = isCoordinatesSelected();
         Iterator i = _listeners.iterator();

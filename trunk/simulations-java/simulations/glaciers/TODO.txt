@@ -97,6 +97,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/28/08 - rename "ice flow" checkbox to "ice flow vectors"
+2/28/08 - delete "snowfall" checkbox, snowfall should always be visible
 2/27/08 - update "ELA v. time" graph every time the clock ticks (for discussion)
 2/27/08 - add stubs for time-dependent graphs, until we figure out how we want these to work
 2/27/08 - add a visual indication of origin for each measuring tool
