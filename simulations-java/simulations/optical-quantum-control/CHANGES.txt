@@ -1,25 +1,6 @@
 ===============================================================================
-"To Do" list for "Optical Quantum Control" simulation
+Change history for optical-quantum-control
 ===============================================================================
-
-IN PROGRESS:
-
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-
-
-LOW PRIORITY:
-- investigate why it's harder to match by systematically moving each slider
-- separate the molecule model & view
-- FourierSumPlot should observe its FourierSeries (sync issues with parent Chart!)
-- MegaHelp
-- fix all javadoc warnings and errors
-
-PHETCOMMON:
-- clip should be in specifiable in local coordinate, but it currently needs to be in global coordinates
-
 
 DONE:
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont
