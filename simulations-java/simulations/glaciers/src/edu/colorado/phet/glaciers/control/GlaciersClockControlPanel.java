@@ -11,15 +11,13 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
@@ -45,6 +43,7 @@ public class GlaciersClockControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     private GlaciersClock _clock;
+    private ConstantDtClockListener _clockListener;
     
     private ClockControlPanel _clockControlPanel;
     private ClockTimePanel _timePanel;
@@ -65,6 +64,13 @@ public class GlaciersClockControlPanel extends JPanel {
         
         // Clock
         _clock = clock;
+        _clockListener = new ConstantDtClockAdapter() {
+            public void dtChanged( ConstantDtClockEvent event ) {
+                // clock dt changed, update the speed slider
+                _speedControl.setValue( _clock.getDt() );
+            }
+        };
+        _clock.addConstantDtClockListener( _clockListener );
         
         // common clock controls
         _clockControlPanel = new ClockControlPanel( clock );
@@ -129,12 +135,12 @@ public class GlaciersClockControlPanel extends JPanel {
         // Interactivity
         _speedControl.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
-                handleDtChange();
+                _clock.setDt( _speedControl.getValue() );
             }
         } );
         _restartButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleRestart();
+                _clock.resetSimulationTime();
             }
         } );
     }
@@ -144,40 +150,7 @@ public class GlaciersClockControlPanel extends JPanel {
      */
     public void cleanup() {
         _clockControlPanel.cleanup();
+        _clock.removeConstantDtClockListener( _clockListener );
         _clock = null;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the "Restart" component, used for attaching help items.
-     * 
-     * @return JComponent
-     */
-    public JComponent getRestartComponent() {
-        return _restartButton;
-    }
-    
-    /**
-     * Gets the clock index (speed) component, used for attaching help items.
-     * 
-     * @return JComponent
-     */
-    public JComponent getClockIndexComponent() {
-        return _speedControl;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handlers
-    //----------------------------------------------------------------------------
-    
-    private void handleDtChange() {
-        _clock.setDt( _speedControl.getValue() );
-    }
-    
-    private void handleRestart() {
-        _clock.resetSimulationTime();
     }
 }

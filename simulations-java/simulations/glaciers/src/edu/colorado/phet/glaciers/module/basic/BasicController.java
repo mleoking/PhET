@@ -43,8 +43,6 @@ public class BasicController {
     
     private JDialog _glacierLengthVersusTimeChart;
     private JDialog _equilibriumLineAltitudeVersusTimeChart;
-    private JDialog _accumulationVersusElevationChart;
-    private JDialog _ablationVersusElevationChart;
     private JDialog _glacialBudgetVersusElevationChart;
     private JDialog _temperatureVersusElevationChart;
     
