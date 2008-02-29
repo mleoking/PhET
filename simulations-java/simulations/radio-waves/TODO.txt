@@ -1,4 +1,0 @@
-- Fix strip chart startup line
-- Make strip chart closable with "X" button
-- Disable scalar RB in static field view
-- Post simulation
