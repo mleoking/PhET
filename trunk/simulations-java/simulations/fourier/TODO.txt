@@ -8,37 +8,34 @@ HIGH PRIORITY:
 - [87] bug in 3.0: after you pause the clock, animation moves another tick
 
 MEDIUM PRIORITY:
-- Reset button doesn't reset the sound volume in Discrete module
+- [284] Reset button doesn't reset the sound volume in Discrete module
 - [86] hide the "Cheat" panel whenever we start a new game
-- wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
-- bug: anti-aliasing of plots gets turned off
-- bug: D2C amplitudes graph draws on top of tools (Mac only)
-- bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
-- bug: chart draws plots on top of help items (Mac only)
-- something is using the processor when the sim should be idle
+- [285] wait cursors don't reliably happen when loading a configuration (because they're on the PhetFrame?)
+- [286] bug: anti-aliasing of plots gets turned off
+- [287] bug: D2C amplitudes graph draws on top of tools (Mac only)
+- [288] bug: dragging tools over top of chart causes weird aliasing artifacts (Mac only)
+- [289] bug: chart draws plots on top of help items (Mac only)
+- [290] something is using the processor when the sim should be idle
 
 LOW PRIORITY:
-- in game, Help item for amplitude sliders doesn't always point to a slider
-- in game, Help item for amplitude text fields doesn't always point to a text field
+- [291] in game, Help item for amplitude sliders doesn't always point to a slider
+- [291] in game, Help item for amplitude text fields doesn't always point to a text field
 - [85] Save doesn't warn you about overwriting files under JNLP
-- remove the vertical bit of space between views
 - [84] why am I getting the GridStrategy.Relative.getGridLinesSlowButCorrectVersion warning?
-- wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
-- wiggle me uses the module's clock, so it stops moving when clock is paused
-- FourierSumPlot should be an observer of its FourierSeries (sync issues with parent Chart!)
-- MegaHelp
-- fix all javadoc warnings and errors
+- [292] wiggle me needs a blank char at the end of their string, or the last char doesn't redraw properly
+- [293] wiggle me uses the module's clock, so it stops moving when clock is paused
+- [294] FourierSumPlot should be an observer of its FourierSeries (sync issues with parent Chart!)
 
 NEW FEATURES:
 
 
 OPTIMIZATIONS:
-- SumGraph.update does a lot of Point allocation
-- reduce startup time
+- [295] SumGraph.update does a lot of Point allocation
+- [296] reduce startup time
 
 CHARTS:
-- bug: Chart.getBounds is incorrect when the chart contains no data set graphics
-- bug: integer precision model-view transforms are still used in many places
+- [297] bug: Chart.getBounds is incorrect when the chart contains no data set graphics
+- [298] bug: integer precision model-view transforms are still used in many places
 - flatten static graphics elements
 
 PHETCOMMON:
