@@ -12,7 +12,7 @@ MEDIUM PRIORITY:
 
 LOW PRIORITY:
 - [77] zoom level is not remembered when switching between potential types in Many module
-- in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
+- [277] in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
 - [78] DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
 
 
