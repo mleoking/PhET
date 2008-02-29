@@ -1,20 +1,6 @@
 ===============================================================================
-"To Do" list for "Bound States" simulation
+Change history for bound-states project
 ===============================================================================
-
-IN PROGRESS:
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- [75] in "Many Wells", set #wells=1, separation handles should not be shown (fix in BSSquareDragManager, BSCoulomb1DDragManager - observe potential)
-- [76] in Many Wells panel, with Coulomb well, set #wells=1, press "Configure Potential" button, dialog is empty, nothing to configure
-
-LOW PRIORITY:
-- [77] zoom level is not remembered when switching between potential types in Many module
-- [277] in some cases, magnifying glass is not powerful enough to show all eigenstates, add variable power
-- [78] DoubleSpinner doesn't validate input or fire ChangeEvent when you press Return key
-
 
 DONE:
 12/21/07 - delete BSLauncher and associated localized strings, replaced by phetcommon FlavorLauncher
