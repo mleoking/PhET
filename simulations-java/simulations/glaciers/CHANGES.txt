@@ -1,17 +1,16 @@
 ================================================================================
-"To Do" list for "Glaciers" simulation
+Change history for glaciers
 ================================================================================
 
 DESIGN ISSUES (model):
-- calibration of climate model parameters
-- new model for ice thickness & velocity
+- [151] calibration of climate model parameters
+- [157] new model for ice thickness & velocity
 - need a model for movement of points in ice
 - why does ablation curve back towards zero when elevation < 1000m ?
 
 DESIGN ISSUES (user interface):
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
-- user-interface design for climate experiments
-
+- [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
 - add Glacier.getLength (assume length of glacier is always < 80km)
