@@ -1,16 +1,6 @@
 ===============================================================================
-"To Do" list for "Rutherford Scattering" simulation
+Change history for rutherford-scattering
 ===============================================================================
-
-IN PROGRESS:
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- improve plum pudding performance
-
-LOW PRIORITY:
-
 
 DONE:
 11/9/07 - move about.credits property to localization file
