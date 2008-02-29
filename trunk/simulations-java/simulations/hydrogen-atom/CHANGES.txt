@@ -1,19 +1,7 @@
 ===============================================================================
-"To Do" list for "The Hydrogen Atom" simulation          $Revision$
+Change history for hydrogen-atom
 ===============================================================================
 
-IN PROGRESS:
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-
-LOW PRIORITY:
-
-DEFER UNTIL AFTER INTERVIEWS:
-
- 
- 
 DONE:
 1/7/08 - replace "Lucida Sans" with PhetDefaultFont in test code
 ***** 1.06.00 (18580)
