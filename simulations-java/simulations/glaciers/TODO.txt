@@ -6,8 +6,7 @@ DESIGN ISSUES (model):
 - calibration of climate model parameters? 
 - initial steady state of glacier?
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
-- odd behavior in ablation graph when elevation < 1000m
-- ablation should not be 0 at x=4km !
+- why does ablation curve back towards zero when elevation < 1000m ?
 - new model for ice thickness & velocity?
 - how do we reliably determine glacier length when model's 1D grid is finite?
 - need a model for movement of points in and on the ice
@@ -15,7 +14,6 @@ DESIGN ISSUES (model):
 - how should we control sim speed? vary dt or fps?
 
 DESIGN ISSUES (graphs):
-- can we combine glacialBudget+accumulation+ablation into 1 graph? title? x-axis?
 - do time-dependent graphs record data only while open, or are they always recording?
 - how much data do time-dependent graphs hold?
 - do time-dependent graphs scroll like a strip chart?
