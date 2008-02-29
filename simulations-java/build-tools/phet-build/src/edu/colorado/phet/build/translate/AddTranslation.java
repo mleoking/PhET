@@ -78,6 +78,7 @@ public class AddTranslation {
         //create a JNLP file for each flavor
         System.out.println( "Building JNLP" );
         PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
+        checkMainClasses( phetProject, language );
         System.out.println( "Finished building JNLP" );
 
         if ( deployEnabled ) {//Can disable for local testing
@@ -96,6 +97,35 @@ public class AddTranslation {
             System.out.println( "Finished deploy" );
         }
 
+    }
+
+    private void checkMainClasses( PhetProject project, String language ) throws IOException {
+        for ( int i = 0; i < project.getFlavorNames().length; i++ ) {
+            //download JNLP from main site and use as template in case any changes in main-class
+            final File localFile = new File( TRANSLATIONS_TEMP_DIR, "template-" + project.getName() + ".jnlp" );
+            localFile.deleteOnExit();
+            FileUtils.download( "http://phet.colorado.edu/sims/" + project.getName() + "/" + project.getName() + ".jnlp", localFile );
+            String desiredMainClass = getMainClass( localFile );
+            final File newJNLPFile = new File( project.getDefaultDeployDir(), "" + project.getName() + "_" + language + ".jnlp" );
+            String repositoryMainClass = getMainClass( newJNLPFile );
+            if ( !repositoryMainClass.equals( desiredMainClass ) ) {
+                System.out.println( "Mismatch of main classes for project: " + project.getName() );
+                String JNLP = FileUtils.loadFileAsString( newJNLPFile, "utf-16" );
+                JNLP=FileUtils.replaceAll( JNLP,repositoryMainClass, desiredMainClass );
+                FileUtils.writeString( newJNLPFile, JNLP, "utf-16" );
+                System.out.println( "Wrote new JNLP file with tigercat main-class: " + desiredMainClass + " instead of repository main class: " + repositoryMainClass+": "+newJNLPFile.getAbsolutePath());
+            }
+            //make sure main class is correct
+        }
+    }
+
+    private String getMainClass( File localFile ) throws IOException {
+        String text = FileUtils.loadFileAsString( localFile, "utf-16" );
+        final String mainclassKey = "main-class=\"";
+        String mainClass = text.substring( text.indexOf( mainclassKey ) + mainclassKey.length() );
+        mainClass = mainClass.substring( 0, mainClass.indexOf( "\"" ) );
+        System.out.println( "mainClass = " + mainClass );
+        return mainClass;
     }
 
     /**
