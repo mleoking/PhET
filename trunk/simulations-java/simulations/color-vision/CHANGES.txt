@@ -1,18 +1,6 @@
 ===============================================================================
-"To Do" list for "colorvision" simulation
+Change history for color-vision
 ===============================================================================
-
-HIGH:
-- [281] redesign of "RGB Bulbs" module, lights shine on a piece of paper, person looks at the paper
-- [278] add a readout (0-100%) to intensity sliders in "RGB Bulbs" module
-- [279] add "Beam" view to "RGB Bulbs" module
-- [280] move "Bulb Color" control closer to and above "Filter Color" control in "Single Bulb" module
-
-MEDIUM:
-- [282] phetcommon-based controls don't work while simulation is paused
-
-LOW:
-
 
 DONE:
 8/28/07 - fix bugs introduced in About dialog
