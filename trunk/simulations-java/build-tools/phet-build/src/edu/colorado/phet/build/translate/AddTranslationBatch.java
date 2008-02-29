@@ -21,11 +21,12 @@ public class AddTranslationBatch {
     }
 
     public static void main( String[] args ) throws Exception {
-        new AddTranslationBatch( new File( args[0] ), new File( args[1] ), args[2], args[3] ).start();
+        boolean deploy = true;
+        new AddTranslationBatch( new File( args[0] ), new File( args[1] ), args[2], args[3] ).runBatch( deploy );
     }
 
     //assume we have a directory full of translation files
-    private void start() throws Exception {
+    private void runBatch( boolean deploy ) throws Exception {
         System.out.println( "basedir.getAbsolutePath() = " + basedir.getAbsolutePath() );
         System.out.println( "simDir.getAbsolutePath() = " + simDir.getAbsolutePath() );
         File[] translationFiles = simDir.listFiles( new FilenameFilter() {
@@ -39,7 +40,7 @@ public class AddTranslationBatch {
             String simWithSuffix = name.substring( 0, name.indexOf( "_" ) );
             String sim = simWithSuffix.substring( 0, simWithSuffix.lastIndexOf( "-" ) );
             String lang = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
-            AddTranslation addTranslation = new AddTranslation( basedir, false );
+            AddTranslation addTranslation = new AddTranslation( basedir, deploy );
             System.out.println( "addtranslation, sim=" + sim + ", lang=" + lang + ", user=" + user );
             addTranslation.addTranslation( sim, lang, user, password );
         }
