@@ -59,9 +59,9 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         _climate.addClimateListener( _climateListener );
         
         // series and dataset
-        _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET );
-        _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION );
-        _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION );
+        _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET, false /* autoSort */ );
+        _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION, false /* autoSort */ );
+        _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION, false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _glacialBudgetSeries );
         dataset.addSeries( _accumulationSeries );
@@ -107,7 +107,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     }
     
     private void cleanup() {
-        System.out.println( "GlacialBudgetChart.cleanup" );//XXX
+        System.out.println( "GlacialBudgetVersusElevationChart.cleanup" );//XXX
         _climate.removeClimateListener( _climateListener );
     }
     

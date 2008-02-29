@@ -7,6 +7,7 @@ DESIGN ISSUES (model):
 - initial steady state of glacier?
 - do we want to show values or relative ranges (cold-to-hot) for climate controls?
 - odd behavior in ablation graph when elevation < 1000m
+- ablation should not be 0 at x=4km !
 - new model for ice thickness & velocity?
 - how do we reliably determine glacier length when model's 1D grid is finite?
 - need a model for movement of points in and on the ice
@@ -25,7 +26,6 @@ DESIGN ISSUES (user interface):
 - how can we display ice velocity vectors in such a small vertical space?
 - does zoomed view need to be zoomed in further?
 - what happens when equilibrium line is checked but the ELA is outside the birds-eye view?
-- what do we do when birds-eye view is wider than the model width?
 - user-interface design for climate experiments
 - how does the "steady state" button work in the context of climate experiments?
 - how does the "coordinates" feature work for a valley that does not have linear slope?
@@ -66,7 +66,7 @@ MEDIUM PRIORITY:
 - fix layout issues with various control panels
 - make viewport automatically follow terminus whenever terminus is in the viewport
 - add left and right arrows to zoom view, secondary viewport control
-- what to do at right edge of the world?
+- repeat mountains and valley at x > 80km
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
@@ -95,6 +95,8 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/28/08 - turn off autoSort for time-related charts for performance reasons; sorted dataset will be provided
+2/28/08 - bugfix: turn off autoSort for elevation-related graphs
 2/28/08 - combine accumulation, ablation and glacial budget into 1 graph; delete individual graphs
 2/28/08 - rename "ice flow" checkbox to "ice flow vectors"
 2/28/08 - delete "snowfall" checkbox, snowfall should always be visible

@@ -57,10 +57,12 @@ public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
         };
         _clock.addClockListener( _clockListener );
         
-        // create the chart
-        _series = new XYSeries( "equilibriumLineAltitudeVersusTime" );
+        // series and dataset
+        _series = new XYSeries( "equilibriumLineAltitudeVersusTime", false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
+        
+        // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_EQUILIBRIUM_LINE_ALTITUDE_VERSUS_TIME, // title
             GlaciersStrings.AXIS_TIME, // x axis label
