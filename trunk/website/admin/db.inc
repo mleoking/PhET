@@ -23,20 +23,20 @@
         assert('defined("DB_USERNAME")');
         assert('defined("DB_PASSWORD")');
         
-	    $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-	    
-    	if (!$connection) {
-    		print("Database error: Could not connect to database.");
-    	}
-    	if (!mysql_select_db(DB_NAME, $connection)) {
-    		print("Database error: Could not select database.");
-    	}
-	}
-	
-	if (!isset($connection)) {
-	    connect_to_db();
-	}
-	
+        $connection = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
+        
+        if (!$connection) {
+            print("Database error: Could not connect to database.");
+        }
+        if (!mysql_select_db(DB_NAME, $connection)) {
+            print("Database error: Could not select database.");
+        }
+    }
+
+    if (!isset($GLOBALS['connection'])) {
+        connect_to_db();
+    }
+
     function showerror($errortext) {
     	echo "<br>==========================";
     	echo "<p>We're very sorry, but there appears to have been an error. We would appreciate it if you would report this to us, so that we can fix the problem and serve you better. Please direct all correspondence to <a href='mailto:phethelp@phet.colorado.edu'>phethelp@phet.colorado.edu</a>.</p>";
@@ -49,7 +49,7 @@
     function missingfield($showtext) {
     	echo "<p>".$showtext."</p>";
     	echo "<p><a href='javascript:history.back(1)'>Click here</a> or use your browser's back button to return to the form.</p>";
-	
+
     	exit;
     }
 
