@@ -31,7 +31,7 @@ public class ImportTranslations {
         new ImportTranslations( new File( args[0] ) ).importTranslations( new File( args[1] ) );
     }
 
-    private void importTranslations( File dir ) throws IOException {
+    public void importTranslations( File dir ) throws IOException {
         ArrayList simNames=new ArrayList( );
         File[] files = dir.listFiles();
         for ( int i = 0; i < files.length; i++ ) {
