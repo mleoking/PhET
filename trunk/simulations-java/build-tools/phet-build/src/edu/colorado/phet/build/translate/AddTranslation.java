@@ -203,8 +203,10 @@ public class AddTranslation {
 
     private void downloadJAR( PhetProject phetProject, String jarBaseName ) throws FileNotFoundException {
         String url = phetProject.getDeployedFlavorJarURL( jarBaseName );
-        FileUtils.download( url, getJARTempFile( phetProject, jarBaseName ) );
-        System.out.println( "dest = " + getJARTempFile( phetProject, jarBaseName ) );
+        final File fileName = getJARTempFile( phetProject, jarBaseName );
+        System.out.println( "Starting download to: " + fileName.getAbsolutePath() );
+        FileUtils.download( url, fileName );
+        System.out.println( "Finished download." );
     }
 
     private File getJARBackupFile( PhetProject phetProject, String jarBaseName ) {
