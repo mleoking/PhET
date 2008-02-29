@@ -80,7 +80,8 @@ public class GlaciersStrings {
     public static final String UNITS_EQUILIBRIUM_LINE_ALTITUDE = GlaciersResources.getString( "units.equilibriumLineAltitude" );
     public static final String UNITS_GLACIAL_BUDGET = GlaciersResources.getString( "units.glacialBudget" );
     public static final String UNITS_ICE_THICKNESS = GlaciersResources.getString( "units.iceThickness" );
-    public static final String UNITS_TEMPERATURE = GlaciersResources.getString( "units.temperature" );
+    public static final String UNITS_CELSIUS = GlaciersResources.getString( "units.celsius" );
+    public static final String UNITS_FAHRENHEIT = GlaciersResources.getString( "units.fahrenheit" );
     public static final String UNITS_TIME = GlaciersResources.getString( "units.time" );
     
     //----------------------------------------------------------------------------

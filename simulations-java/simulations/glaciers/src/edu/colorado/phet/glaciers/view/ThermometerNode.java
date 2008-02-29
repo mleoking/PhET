@@ -4,14 +4,17 @@ package edu.colorado.phet.glaciers.view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.text.NumberFormat;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 import edu.colorado.phet.glaciers.GlaciersImages;
 import edu.colorado.phet.glaciers.GlaciersStrings;
@@ -43,7 +46,7 @@ public class ThermometerNode extends AbstractToolNode {
     
     private Thermometer _thermometer;
     private ThermometerListener _thermometerListener;
-    private JLabel _temperatureDisplay;
+    private JLabel _temperatureDisplayC, _temperatureDisplayF;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,11 +71,18 @@ public class ThermometerNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX(), -imageNode.getFullBoundsReference().getHeight() / 2 );
         
-        _temperatureDisplay = new JLabel( "0" );
-        _temperatureDisplay.setFont( FONT );
+        _temperatureDisplayC = new JLabel( "0" );
+        _temperatureDisplayC.setFont( FONT );
+        _temperatureDisplayF = new JLabel( "0" );
+        _temperatureDisplayF.setFont( FONT );
         JPanel panel = new JPanel();
+        panel.setBackground( Color.WHITE );
         panel.setBorder( BORDER );
-        panel.add( _temperatureDisplay );
+        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
+        layout.setAnchor( GridBagConstraints.EAST );
+        panel.setLayout( layout );
+        layout.addComponent( _temperatureDisplayC, 0, 0 );
+        layout.addComponent( _temperatureDisplayF, 1, 0 );
         PSwing panelNode = new PSwing( panel );
         addChild( panelNode );
         panelNode.setOffset( imageNode.getFullBounds().getMaxX(), -panelNode.getFullBounds().getHeight() / 2 );
@@ -95,8 +105,13 @@ public class ThermometerNode extends AbstractToolNode {
      * Updates the temperature display to match the model.
      */
     private void updateTemperature() {
-        double value = _thermometer.getTemperature();
-        String text = TEMPERATURE_FORMAT.format( value ) + " " + GlaciersStrings.UNITS_TEMPERATURE;
-        _temperatureDisplay.setText( text );
+        // Celsius
+        double valueC = _thermometer.getTemperature();
+        String textC = TEMPERATURE_FORMAT.format( valueC ) + " " + GlaciersStrings.UNITS_CELSIUS;
+        _temperatureDisplayC.setText( textC );
+        // Fahrenheit
+        double valueF = _thermometer.getTemperatureFahrenheit();
+        String textF = TEMPERATURE_FORMAT.format( valueF ) + " " + GlaciersStrings.UNITS_FAHRENHEIT;
+        _temperatureDisplayF.setText( textF );
     }
 }
