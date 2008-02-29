@@ -1,8 +1,9 @@
 <?php
-	if (!defined('SITE_ROOT')) {
-    	include_once('../admin/global.php');
-	}
 
+    if (!defined('SITE_ROOT')) {
+        include_once('../admin/global.php');
+    }
+    
     include_once(SITE_ROOT."admin/site-utils.php");
     include_once(SITE_ROOT."admin/web-utils.php");
     include_once(SITE_ROOT."admin/contrib-utils.php");

@@ -210,6 +210,7 @@ color: gray;
 position: absolute;
 top: 84px;
 right: 0;
+/* TODO: Create a CSS file for IE and add this to it */
 left: expression(parentNode.offsetWidth - this.offsetWidth + 0 + 'px');
 }
 #quicksearch fieldset {

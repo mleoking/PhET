@@ -2,6 +2,12 @@
 
     include_once("web-utils.php");
     
+    /**
+     * Check the result of a mysql query.  die with a message if it is bad
+     *
+     * @param unknown_type $result - result from a mysql_query
+     * @param unknown_type $statement - mySQL query that was executed
+     */
     function db_verify_mysql_result($result, $statement) {
         if (!$result && $statement !== "") {
             $message  = 'Invalid query: ' . mysql_error() . "<br/>";
@@ -37,6 +43,13 @@
         return $query;
     }
 
+    
+    /**
+     * Execute the SQL query, verify and return the result
+     *
+     * @param string $statement - mySQL query
+     * @return unknown_type result of mysql_query
+     */
     function db_exec_query($statement) {
         $result = mysql_query($statement);
     
@@ -148,6 +161,15 @@
         return $rows;
 	}
 	
+	/**
+	 * Make an equality sql query, matching the field_name for each of the field_values 
+	 * Ex: ' ($table_name.$field_name=$field_value) OR (...) ...'
+	 * 
+	 * @param string $table_name - name of the table to match
+	 * @param string $field_name - name of the field to match
+	 * @param string array $field_values - array of each value to match
+	 * @return string - the completed SQL query 
+	 */
 	function db_form_alternation_where_clause($table_name, $field_name, $field_values) {
 		if (count($field_values) == 0) return '';
 		
