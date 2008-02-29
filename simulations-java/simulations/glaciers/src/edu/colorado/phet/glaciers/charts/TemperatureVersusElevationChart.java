@@ -53,10 +53,12 @@ public class TemperatureVersusElevationChart extends JDialog {
         };
         _climate.addClimateListener( _climateListener );
         
-        // create the chart
-        _series = new XYSeries( "temperatureVersusElevation" );
+        // series and dataset
+        _series = new XYSeries( "temperatureVersusElevation", false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
+        
+        // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_TEMPERATURE_VERSUS_ELEVATION, // title
             GlaciersStrings.AXIS_TEMPERATURE, // x axis label

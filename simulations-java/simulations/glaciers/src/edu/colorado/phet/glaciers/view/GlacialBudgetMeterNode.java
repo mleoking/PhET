@@ -81,15 +81,15 @@ public class GlacialBudgetMeterNode extends AbstractToolNode {
         addChild( imageNode );
         imageNode.setOffset( arrowNode.getFullBoundsReference().getMaxX() + 1, -imageNode.getFullBoundsReference().getHeight() / 2 );
         
-        JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION );
+        JLabel accumulationLabel = new JLabel( GlaciersStrings.LABEL_ACCUMULATION + ":" );
         accumulationLabel.setFont( FONT );
         _accumulationDisplay = new JLabel( "0" );
         _accumulationDisplay.setFont( FONT );
-        JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION );
+        JLabel ablationLabel = new JLabel( GlaciersStrings.LABEL_ABLATION + ":" );
         ablationLabel.setFont( FONT );
         _ablationDisplay = new JLabel( "0" );
         _ablationDisplay.setFont( FONT );
-        JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET );
+        JLabel glacialBudgetLabel = new JLabel( GlaciersStrings.LABEL_GLACIAL_BUDGET + ":" );
         glacialBudgetLabel.setFont( FONT );
         _glacialBudgetDisplay = new JLabel( "0" );
         _glacialBudgetDisplay.setFont( FONT );

@@ -59,10 +59,12 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         };
         _clock.addClockListener( _clockListener );
         
-        // create the chart
-        _series = new XYSeries( "glacierLengthVersusTime" );
+        // series and dataset
+        _series = new XYSeries( "glacierLengthVersusTime", false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
         dataset.addSeries( _series );
+        
+        // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
             GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME, // title
             GlaciersStrings.AXIS_TIME, // x axis label
