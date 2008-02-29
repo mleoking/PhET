@@ -81,9 +81,11 @@ public class AddTranslation {
                 deployJNLPFile( phetProject, flavors[i], language, user, password );
             }
             deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
-            
+
             //poke the website to make sure it regenerates pages with the new info
             FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
+
+            System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
         }
 
     }
