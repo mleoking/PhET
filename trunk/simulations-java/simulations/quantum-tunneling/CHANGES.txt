@@ -1,18 +1,6 @@
 ===============================================================================
-"To Do" list for "Quantum Tunneling" simulation
+Change history for quantum-tunneling
 ===============================================================================
-
-IN PROGRESS:
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- [81] on startup, charts are blank for a couple of seconds (Java 1.6 on Windows XP)
-
-LOW PRIORITY:
-- add wait cursors for controls (configure, measure, zoom, reset, potential, load/save)
-- fix all javadoc warnings and errors
-
 
 DONE:
 ********* version 1.09.00 (18718)
