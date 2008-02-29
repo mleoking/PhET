@@ -1,41 +1,6 @@
 -===============================================================================
-"To Do" list for "Translation Utility"
+Change history for translation-utility
 ================================================================================
-
-OPEN ISSUES:
-- how to bundle a Flash sim into a single JAR to fit our model?
-- how to run the Flash player from Java, with a specified locale?
-- how to best support translation of common strings?
-
-HIGH PRIORITY:
-- [108] support common-strings.jar, disable Test button, show all localization files, website instructions
-- [96] Save/Load/Send in zip format since a translation may consist of multiple properties files
-
-MEDIUM PRIORITY:
-- [107] make it easier to enter translation credits (translator.credits property)
-- refactor to support alternate strategies for Flash sims
-- replace Properties with a neutral data abstraction, or map Flash XML to Properties
-- [97] check for unsaved changes before exiting
-- [106] support translation of Flash sims
-- [98] delete phet-test-translation.jar
-- [100] other strategies for submitting translations to PhET (eg, java.mail, ftp, Unfuddle ticket)
-- [105] need a build and deploy process
-- [99] select sim by name and automatically download the associated JAR from the PhET website
-
-LOW PRIORITY:
-- [104] Find dialog uses source language font for its text field, can't enter characters that are specific to target language font
-- replace Find dialog with a panel above the button panel, ala Firefox
-- [103] Edit>Undo for editing target textfields
-- [102] make runnable via Web Start (will Runtime.exec work?)
-- [101] perform default translation using Google Translate
-- replace individual Google Translate requests with 1 big request to workaround "denial of service" problem
-- localize error messages in GoogleTranslateService
-- [112] pressing Help button causes scrollpane to scroll to top
-- [111] Load allows user to load a properties file that doesn't pertain to the simulation
-- [110] scrollpane scrolls when loading a properties file
-- [109] text that is manually-selected while Find dialog is open will stay selected when selection changes via Find
-
-
 
 DONE:
 1/7/08 - get preferred fonts from PhetCommonResources.getPreferredFonts
