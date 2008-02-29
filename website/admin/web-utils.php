@@ -93,20 +93,26 @@
             return format_string_for_html($array);
         }
     }
-    
+
+    /**
+     * Parse a name and return an array containing specific info, such as full_name, last name, etc.
+     * 
+     * @param string Name to parse
+     * @return array Array with keys detailing information about the name
+     */
     function parse_name($name) {
         $parsed = array();
-        
+
         $parsed['full_name'] = $name;
-        
+
         $matches = array();
-        
+
         if (preg_match('/([a-zA-Z][a-zA-Z]+) +(([a-zA-Z ])+\.+ +)?([^.]+)$/i', $name, $matches) == 1) {    
             $parsed['first_name']   = trim($matches[1]);
             $parsed['last_name']    = trim($matches[4]);
-            
+
             $exploded = preg_split('/ +/', $parsed['last_name']);
-            
+
             if ($matches[3] !== '') {
                 $parsed['middle_initial'] = $matches[3][0];
             }
@@ -124,21 +130,21 @@
             }
         }
         else {
-			if (strlen(trim($name)) == 0) {
-            	$parsed['first_name'] = 'John';
-            	$parsed['last_name']  = 'Doe';
-			}
-			else {
-				$parsed['first_name'] = '';
-            	$parsed['last_name']  = $name;
-			}
+            if (strlen(trim($name)) == 0) {
+                $parsed['first_name'] = 'John';
+                $parsed['last_name']  = 'Doe';
+            }
+            else {
+                $parsed['first_name'] = '';
+                $parsed['last_name']  = $name;
+            }
         }
-        
+
         $parsed['first_initial'] = strlen($parsed['first_name']) > 0 ? strtoupper($parsed['first_name'][0]) : '';
         $parsed['last_initial']  = strtoupper($parsed['last_name'][0]);        
-        
+
         return $parsed;
-    }     
+    }
 
 	function array_remove($a_Input, $m_SearchValue) {
 	    $a_Keys = array_keys($a_Input, $m_SearchValue);

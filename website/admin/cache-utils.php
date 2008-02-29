@@ -11,7 +11,13 @@
 	
 	// Disable all caching when run on developer's machine:
 	$g_disable_all_caching = ($_SERVER['SERVER_NAME'] == 'localhost') ? true : false;
-	
+
+	/**
+	 * Set the group for the file (recursive if file is a directory)
+	 * 
+	 *
+	 * @param string $file - name of the file to change the permissions on
+	 */
 	function create_proper_ownership($file) {
 		exec('chmod 775 '.$file);
 		
@@ -23,6 +29,13 @@
 		}
 	}
 	
+	/**
+	 * TODO: Update this comment when I understand cache fully
+	 * ?? return './cache-$cache_name'
+	 *
+	 * @param string $cache_name - name of the file in cache?
+	 * @return string './cached-$cache_name'
+	 */
 	function cache_get_location($cache_name) {
 		return "./cached-$cache_name";
 	}
@@ -35,9 +48,17 @@
 		exec('rm -rf '.cache_get_location($cache_name));
 	}
 	
+	/**
+	 * Cache the given resource
+	 *
+	 * @param string $cache_name - cache name of the resource
+	 * @param string $resource_name - name of the resource
+	 * @param unknown_type $resource_contents - contents of the resource (like a web page)
+	 * @return unknown - same return value as flock_put_contents
+	 */
 	function cache_put($cache_name, $resource_name, $resource_contents) {
 		$cache_dir = cache_get_location($cache_name);
-		
+
 		if (!file_exists($cache_dir)) {
 			mkdir($cache_dir);
 			create_proper_ownership($cache_dir);
@@ -46,7 +67,8 @@
 		$resource_location = cache_get_file_location($cache_name, $resource_name);
 		
 		$return_value = flock_put_contents($resource_location, $resource_contents);
-		
+
+
 		create_proper_ownership($resource_location);
 		
 		return $return_value;
@@ -110,12 +132,14 @@
 		$page_name = cache_auto_get_page_name();
 		
 		$page_contents = ob_get_contents();
+        // TODO: printing scheme is slow, change to get_flush and printing the result
+        //$page_contents = ob_get_flush();
 		
 		$page_contents = preg_replace('/^ +/',       '',   $page_contents);		
 		$page_contents = preg_replace('/[ \t]{2,}/', ' ',  $page_contents);
 
 		cache_put(WEBPAGES_CACHE, $page_name, $page_contents);
-			
+
 		ob_end_flush();
 	}
 
