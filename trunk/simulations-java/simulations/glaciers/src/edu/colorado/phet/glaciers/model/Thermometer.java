@@ -53,15 +53,19 @@ public class Thermometer extends AbstractTool {
     // Setters and getters
     //----------------------------------------------------------------------------
     
-    public double getTemperature() {
-        return _temperature;
-    }
-    
     private void setTemperature( double temperature ) {
         if ( temperature != _temperature ) {
             _temperature = temperature;
             notifyTemperatureChanged();
         }
+    }
+    
+    public double getTemperature() {
+        return _temperature;
+    }
+    
+    public double getTemperatureFahrenheit() {
+        return ( (9./5.) * _temperature ) + 32.;
     }
     
     //----------------------------------------------------------------------------

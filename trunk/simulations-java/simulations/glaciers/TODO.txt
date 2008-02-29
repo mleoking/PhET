@@ -1,4 +1,4 @@
--===============================================================================
+================================================================================
 "To Do" list for "Glaciers" simulation
 ================================================================================
 
@@ -93,6 +93,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+2/29/08 - make thermometer display temperature in both C and F units
 2/28/08 - turn off autoSort for time-related charts for performance reasons; sorted dataset will be provided
 2/28/08 - bugfix: turn off autoSort for elevation-related graphs
 2/28/08 - combine accumulation, ablation and glacial budget into 1 graph; delete individual graphs

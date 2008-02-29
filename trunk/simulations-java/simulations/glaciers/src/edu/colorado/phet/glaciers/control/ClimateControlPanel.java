@@ -140,7 +140,7 @@ public class ClimateControlPanel extends JPanel {
             double max = temperatureRange.getMax();
             String label = "";
             String textfieldPattern = "#0.0";
-            String units = GlaciersStrings.UNITS_TEMPERATURE;
+            String units = GlaciersStrings.UNITS_CELSIUS;
             ILayoutStrategy layout = new HorizontalLayoutStrategy();
             _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
             _temperatureControl.setUpDownArrowDelta( 0.1 );
