@@ -59,22 +59,29 @@ public class AddTranslation {
         // Get flavors once, reuse in each iteration
         PhetProjectFlavor[] flavors = phetProject.getFlavors();
 
+        System.out.println( "Downloading all jars" );
         //Download all flavor JAR files for this project
         for ( int i = 0; i < flavors.length; i++ ) {
             downloadJAR( phetProject, flavors[i].getFlavorName() );
         }
         downloadJAR( phetProject, phetProject.getName() );//also download the webstart JAR
+        System.out.println( "Finished downloading all jars" );
 
+        System.out.println( "Updating all jars." );
         //Update all flavor JAR files
         for ( int i = 0; i < flavors.length; i++ ) {
             updateJAR( phetProject, flavors[i].getFlavorName(), language );
         }
         updateJAR( phetProject, phetProject.getName(), language );//also update the webstart JAR
+        System.out.println( "Finished updating all jars" );
 
         //create a JNLP file for each flavor
+        System.out.println( "Building JNLP" );
         PhetBuildJnlpTask.buildJNLPForSimAndLanguage( phetProject, language );
+        System.out.println( "Finished building JNLP" );
 
         if ( deployEnabled ) {//Can disable for local testing
+            System.out.println( "Starting deploy" );
             //Deploy updated flavor JAR files
             for ( int i = 0; i < flavors.length; i++ ) {
                 deployJAR( phetProject, flavors[i].getFlavorName(), user, password );
@@ -86,6 +93,7 @@ public class AddTranslation {
             FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
 
             System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
+            System.out.println( "Finished deploy" );
         }
 
     }
