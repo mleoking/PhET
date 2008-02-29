@@ -13,7 +13,7 @@ MEDIUM PRIORITY:
 the number of loops in the secondary to the number in the primary)
 
 LOW PRIORITY:
-- when a drag collision occurs, don't ignore the translate, move the object as close as possible
+- [283] when a drag collision occurs, don't ignore the translate, move the object as close as possible
 
 
 
