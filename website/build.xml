@@ -19,10 +19,9 @@ build-related libraries from the simulations-java project.
     <property name="dir.build-tools"    value="${basedir}/../simulations-java/build-tools/" />
     
     <!-- Support jars -->
-    <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib-1.0b3.jar" />
-    <property name="jar.junit"          value="${dir.build-tools}junit3.8.2/junit.jar" />
-    <property name="jar.antform"        value="${dir.build-tools}antform-bin-2.0beta2/lib/antform.jar" />
-    <property name="jar.maverick"       value="${dir.build-tools}/maverick/lib/maverick-ant.jar" />
+    <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib.jar" />
+    <property name="jar.antform"        value="${dir.build-tools}antform/lib/antform.jar" />
+    <property name="jar.maverick"       value="${dir.build-tools}maverick2/lib/maverick-ant.jar" />
 
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
