@@ -1,14 +1,6 @@
 -===============================================================================
-"To Do" list for "Optical Tweezers" simulation
+Change history for optical-tweezers
 ================================================================================
-
-HIGH PRIORITY:
-
-MEDIUM PRIORITY:
-- [82] adjust "really fast" motion threshold for bead-in-vacuum so that transition isn't so severe
-
-LOW PRIORITY:
-- [83] document units for E-field in javadoc for Laser.getElectricFieldX et. al.
 
 DONE:
 1/4/08 - delete OTLauncher, obsolete
