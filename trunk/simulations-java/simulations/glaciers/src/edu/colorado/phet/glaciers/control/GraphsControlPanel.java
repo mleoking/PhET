@@ -118,7 +118,10 @@ public class GraphsControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public void setGlacierLengthVerusTimeSelected( boolean selected ) {
-        _glacierLengthVersusTimeCheckBox.setSelected( selected );
+        if ( selected != isGlacierLengthVerusTimeSelected() ) {
+            _glacierLengthVersusTimeCheckBox.setSelected( selected );
+            notifyGlacierLengthVersusTimeChanged();
+        }
     }
     
     public boolean isGlacierLengthVerusTimeSelected() {
@@ -126,7 +129,10 @@ public class GraphsControlPanel extends JPanel {
     }
     
     public void setEquilibriumLineAltitudeVersusTimeSelected( boolean selected ) {
-        _equilibriumLineAltitudeVersusTimeCheckBox.setSelected( selected );
+        if ( selected != isEquilibriumLineAltitudeVersusTimeSelected() ) {
+            _equilibriumLineAltitudeVersusTimeCheckBox.setSelected( selected );
+            notifyEquilibriumLineAltitudeVersusTimeChanged();
+        }
     }
     
     public boolean isEquilibriumLineAltitudeVersusTimeSelected() {
@@ -134,7 +140,10 @@ public class GraphsControlPanel extends JPanel {
     }
     
     public void setGlacialBudgetVersusElevationSelected( boolean selected ) {
-        _glacialBudgetVersusElevationCheckBox.setSelected( selected );
+        if ( selected != isGlacialBudgetVersusElevationSelected() ) {
+            _glacialBudgetVersusElevationCheckBox.setSelected( selected );
+            notifyGlacialBudgetVersusElevationChanged();
+        }
     }
     
     public boolean isGlacialBudgetVersusElevationSelected() {
@@ -142,7 +151,10 @@ public class GraphsControlPanel extends JPanel {
     }
     
     public void setTemperatureVersusElevationSelected( boolean selected ) {
-        _temperatureVersusElevationCheckBox.setSelected( selected );
+        if ( selected != isTemperatureVersusElevationSelected() ) {
+            _temperatureVersusElevationCheckBox.setSelected( selected );
+            notifyTemperatureVersusElevationChanged();
+        }
     }
     
     public boolean isTemperatureVersusElevationSelected() {

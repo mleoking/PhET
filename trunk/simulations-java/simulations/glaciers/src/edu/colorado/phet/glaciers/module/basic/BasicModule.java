@@ -4,14 +4,13 @@ package edu.colorado.phet.glaciers.module.basic;
 
 import java.awt.Frame;
 
-import javax.swing.JOptionPane;
-
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
 import edu.colorado.phet.common.piccolophet.help.HelpPane;
 import edu.colorado.phet.glaciers.GlaciersApplication;
 import edu.colorado.phet.glaciers.GlaciersStrings;
-import edu.colorado.phet.glaciers.charts.TemperatureVersusElevationChart;
+import edu.colorado.phet.glaciers.control.GraphsControlPanel;
+import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
 import edu.colorado.phet.glaciers.defaults.BasicDefaults;
 import edu.colorado.phet.glaciers.model.Climate;
@@ -141,11 +140,30 @@ public class BasicModule extends PiccoloModule {
             clock.setDt( BasicDefaults.CLOCK_DT_RANGE.getDefault() );
             clock.resetSimulationTime();
             setClockRunningWhenActive( BasicDefaults.CLOCK_RUNNING );
+            
+            // Climate
+            Climate climate = _model.getClimate();
+            climate.setTemperature( BasicDefaults.TEMPERATURE_RANGE.getDefault() );
+            climate.setSnowfall( BasicDefaults.SNOWFALL_RANGE.getDefault() );
+            climate.setSnowfallReferenceElevation( BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
+            
+            // Glacier
+            Glacier glacier = _model.getGlacier();
+            glacier.setSteadyState();
         }
 
         // Control panel settings that are view-related
         {
-            //XXX
+            ViewControlPanel viewControlPanel = _controlPanel.getViewControlPanel();
+            viewControlPanel.setEquilibriumLineSelected( false );
+            viewControlPanel.setIceFlowSelected( false );
+            viewControlPanel.setCoordinatesSelected( false );
+            
+            GraphsControlPanel graphsControlPanel = _controlPanel.getGraphsControlPanel();
+            graphsControlPanel.setGlacierLengthVerusTimeSelected( false );
+            graphsControlPanel.setEquilibriumLineAltitudeVersusTimeSelected( false );
+            graphsControlPanel.setGlacialBudgetVersusElevationSelected( false );
+            graphsControlPanel.setTemperatureVersusElevationSelected( false );
         }
     }
     
