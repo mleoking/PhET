@@ -17,4 +17,14 @@
     if (!defined("SITE_ROOT")) {
         define("SITE_ROOT", "../");
     }
+
+     // Set the timezone for stricter compliance
+    ini_set("date.timezone", "America/Denver");
+
+    // Debugging aids
+    function microtime_float() {
+        list($usec, $sec) = explode(" ", microtime());
+        return ((float)$usec + (float)$sec);
+    }
+
 ?>

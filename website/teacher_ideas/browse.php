@@ -10,6 +10,8 @@
     include_once(SITE_ROOT."admin/nominate-utils.php");
     include_once(SITE_ROOT."admin/cache-utils.php");
 
+    //$GLOBALS["G_BROWSEPHP_MT_START"] = microtime_float();
+
     define("UP_ARROW",   	SITE_ROOT."images/sorting-uarrow.gif");
     define("DOWN_ARROW", 	SITE_ROOT."images/sorting-darrow.gif");    
     
@@ -69,16 +71,16 @@
         return $new_contribs;
     }
     
-    function get_contributions() {
+    function get_contributions($format_in_html = true) {
         global $sort_by, $order, $next_order;
         
         global $Simulations, $Types, $Levels;
 
-		$contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels);
-		
-		$contributions = sort_contributions($contributions, $sort_by, $order);
-        
-        return $contributions;        
+        $contributions = contribution_get_specific_contributions($Simulations, $Types, $Levels, $format_in_html);
+
+        $contributions = sort_contributions($contributions, $sort_by, $order);
+
+        return $contributions;
     }
     
     function get_sorting_link($link_sort_by, $desc) {
@@ -90,10 +92,10 @@
             $link_order = $next_order;
             
             if ($order == 'asc') {
-                $arrow_xml = '<img src="'.UP_ARROW.'"/>';
+                $arrow_xml = '<img src="'.UP_ARROW.'" alt="Ascending Sort (Z-A)" />';
             }
             else {
-                $arrow_xml = '<img src="'.DOWN_ARROW.'"/>';
+                $arrow_xml = '<img src="'.DOWN_ARROW.'" alt="Descending Sort (A-Z)" />';
             }
         }
         else {
@@ -249,54 +251,54 @@ EOT;
     }
     
     function print_content_only($print_simulations = true) {
-	    global $sort_by, $order, $next_order;
-        
+        global $sort_by, $order, $next_order;
+
         global $Simulations, $Types, $Levels;
 
-		// Create an id that uniquely identifies the browse parameters:
-		$browse_id = md5(implode('', $Simulations).implode('', $Types).implode('', $Levels).$sort_by.$order );
-		
-		$browse_resource = "${browse_id}.cache";
-		
-		$cached_browse = cache_get(BROWSE_CACHE, $browse_resource);
-		
-		if ($cached_browse) {
-			print $cached_browse;
-			
-			return;
-		}
+        // Create an id that uniquely identifies the browse parameters:
+        $browse_id = md5(implode('', $Simulations).implode('', $Types).implode('', $Levels).$sort_by.$order );
 
-        $contributions = get_contributions();
-        
+        $browse_resource = "${browse_id}.cache";
+
+        $cached_browse = cache_get(BROWSE_CACHE, $browse_resource);
+
+        if ($cached_browse) {
+            print $cached_browse;
+
+            return;
+        }
+
+        $contributions = get_contributions(false);
+
         $title  = get_sorting_link('contribution_title',        'Title');
         $author = get_sorting_link('contribution_authors',      'Author');
         $level  = get_sorting_link('contribution_level_desc',   'Level');
         $type   = get_sorting_link('contribution_type_desc',    'Type');
-        
+
         if ($print_simulations) {
             $sims = get_sorting_link('sim_name', 'Simulations');
         }
         else {
             $sims = '';
         }
-        
+
         $date = get_sorting_link('contribution_date_updated', 'Updated');
-        
+
         //$contributions = consolidate_identical_adjacent_titles($contributions);
 
-		if (count($contributions) == 0) {
-			if ($GLOBALS['g_content_only']) {
-				print "<p>There are no contributions for this simulation.</p>";
-			}
-			else {
-				print "<p>There are no contributions meeting the specified criteria.</p>";
-			}
+        if (count($contributions) == 0) {
+            if ($GLOBALS['g_content_only']) {
+                print "<p>There are no contributions for this simulation.</p>";
+            }
+            else {
+                print "<p>There are no contributions meeting the specified criteria.</p>";
+            }
 
-			return;
-		}
-		
-		$html = '';
-        
+            return;
+        }
+
+        $html = '';
+
         $html .= <<<EOT
             <div id="browseresults" class="compact">
                 <table>
@@ -322,7 +324,7 @@ EOT;
 EOT;
 
         foreach($contributions as $contribution) {
-            $html .= contribution_get_contribution_summary_as_html($contribution, $print_simulations);
+            $html .= contribution_get_contribution_summary_as_html($contribution, $print_simulations, true);
         }
 
         $html .= <<<EOT
@@ -333,20 +335,20 @@ EOT;
             </div>
 EOT;
 
-		cache_put(BROWSE_CACHE, $browse_resource, preg_replace('/\s\s+/', ' ', trim($html)));
+        cache_put(BROWSE_CACHE, $browse_resource, preg_replace('/\s\s+/', ' ', trim($html)));
 
-		print $html;
+        print $html;
     }
-    
+
     function print_content_with_header() {    
         global $order, $sort_by, $referrer;
-        
+
         global $Simulations, $Types, $Levels;
-        
+
         $sim_list   = build_sim_list($Simulations);
         $type_list  = build_type_list($Types);        
         $level_list = build_level_list($Levels);
-                
+
         print <<<EOT
             <h1>Browse</h1>
             
@@ -388,10 +390,12 @@ EOT;
                 /* ]]> */
             </script>
             
-            <form id="browsefilter" name="browseform" method="post" action="browse.php">
-                <input type="hidden" name="order"    value="$order"     />
-                <input type="hidden" name="sort_by"  value="$sort_by"   />
-                <input type="hidden" name="referrer" value="$referrer"  />
+            <form id="browsefilter" method="post" action="browse.php">
+            	<div>
+                    <input type="hidden" name="order"    value="$order"     />
+                    <input type="hidden" name="sort_by"  value="$sort_by"   />
+                    <input type="hidden" name="referrer" value="$referrer"  />
+                </div>
                 
                 <table>
                     <thead>
@@ -438,7 +442,7 @@ EOT;
             </form>
 EOT;
 
-        print_content_only();
+        print_content_only(false);
         
         if (isset($_REQUEST['cat'])) {
             $cat_encoding = $_REQUEST['cat'];
