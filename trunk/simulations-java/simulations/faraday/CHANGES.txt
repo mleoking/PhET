@@ -1,21 +1,6 @@
 ===============================================================================
-"To Do" list for "faraday" simulation
+Changes for faraday
 ===============================================================================
-
-IN PROGRESS:
-
-
-HIGH PRIORITY:
- 
-MEDIUM PRIORITY:
-- [79] add feature for rotating the coil (or magnet) 90 degrees (?)
-- [80] bug: physics is incorrect for transformer (voltage in the secondary circuit should be proportional to the ratio of
-the number of loops in the secondary to the number in the primary)
-
-LOW PRIORITY:
-- [283] when a drag collision occurs, don't ignore the translate, move the object as close as possible
-
-
 
 DONE:
 11/9/07 - move about.credits property to localization file
