@@ -26,7 +26,7 @@ public class AddTranslationBatch {
     }
 
     //assume we have a directory full of translation files
-    private void runBatch( boolean deploy ) throws Exception {
+    public void runBatch( boolean deploy ) throws Exception {
         System.out.println( "basedir.getAbsolutePath() = " + basedir.getAbsolutePath() );
         System.out.println( "simDir.getAbsolutePath() = " + simDir.getAbsolutePath() );
         File[] translationFiles = simDir.listFiles( new FilenameFilter() {
