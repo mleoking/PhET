@@ -53,7 +53,7 @@ public class AddTranslation {
 
         //check for existence of localization file for project, throw exception if doesn't exist
         if ( !phetProject.getLocalizationFile( language ).exists() ) {
-            throw new RuntimeException( "localization file doesn't exist for sim: "+phetProject.getName()+", lang="+language);
+            throw new RuntimeException( "localization file doesn't exist for sim: " + phetProject.getName() + ", lang=" + language );
         }
 
         // Get flavors once, reuse in each iteration
@@ -81,10 +81,11 @@ public class AddTranslation {
                 deployJNLPFile( phetProject, flavors[i], language, user, password );
             }
             deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
+            
+            //poke the website to make sure it regenerates pages with the new info
+            FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
         }
 
-        //poke the website to make sure it regenerates pages with the new info
-        FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
     }
 
     /**

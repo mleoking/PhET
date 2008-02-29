@@ -41,7 +41,7 @@ public class AddTranslationBatch {
             String lang = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
             AddTranslation addTranslation = new AddTranslation( basedir, false );
             System.out.println( "addtranslation, sim=" + sim + ", lang=" + lang + ", user=" + user );
-//            addTranslation.addTranslation( sim, lang, user, password );
+            addTranslation.addTranslation( sim, lang, user, password );
         }
     }
 }
