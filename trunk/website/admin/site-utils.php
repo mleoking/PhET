@@ -270,7 +270,7 @@ EOT;
         return $utility_panel_html;
     }
 
-    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0) {
+    function print_site_page($content_printer, $selected_page = null, $redirection_site = null, $timeout = 0, $do_jsparse_for_patterns = true) {
         if (isset($GLOBALS['g_cache_current_page'])) {
             cache_auto_start();
         }
@@ -336,6 +336,17 @@ EOT;
                 <script src="$prefix/js/phet-scripts.js"        type="text/javascript"></script>
                 <script type="text/javascript">
                     //<![CDATA[
+
+EOT;
+
+        if ($do_jsparse_for_patterns) {
+            print "                    do_jsparse_for_patterns = true;\n\n";
+        }
+        else {
+            print "                    do_jsparse_for_patterns = false;\n\n";
+        }
+
+        print <<<EOT
                     function select_current_navbar_category() {
                         $("li.subnav a").each(function(i) {
                             var re = /^.+(\.com|\.edu|\.net|\.org|(localhost:\d+))(\/.+)$/i;
@@ -368,41 +379,53 @@ EOT;
                             select_current_navbar_category();
 
                             // DEFAULT VALIDATIONS
-                            $('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
-                                function() {
-                                    this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
-                                }
-                            );
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contributor_email], *[@name=contribution_contact_email]').each(
+                                    function() {
+                                        this.pattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*\.(\w{2}|(com|net|org|edu|int|mil|gov|arpa|biz|aero|name|coop|info|pro|museum))$/;
+                                    }
+                                );
+                            }
 
-                            $('*[@name=contributor_name], *[@name=contribution_authors]').each(
-                                function() {
-                                    this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
-                                }
-                            );
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contributor_name], *[@name=contribution_authors]').each(
+                                    function() {
+                                        this.pattern = /^\S{2,}\s+((\S\s+\S{2,})|(\S{2,})).*$/;
+                                    }
+                                );
+                            }
 
-                            $('*[@name=contribution_title]').each(
-                                function() {
-                                    this.pattern = /^\S+\s+\S+.*$/;
-                                }
-                            );
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contribution_title]').each(
+                                    function() {
+                                        this.pattern = /^\S+\s+\S+.*$/;
+                                    }
+                                );
+                            }
 
-                            $('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
-                                function() {
-                                    this.pattern = /^\S{2,}.*$/;
-                                }
-                            );
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contributor_organization], *[@name=contribution_authors_organization]').each(
+                                    function() {
+                                        this.pattern = /^\S{2,}.*$/;
+                                    }
+                                );
+                            }
+                            
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contributor_password]').each(
+                                    function() {
+                                        this.pattern = /\S+/;
+                                    }
+                                );
+                            }
 
-                            $('*[@name=contributor_password]').each(
-                                function() {
-                                    this.pattern = /\S+/;
-                                }
-                            );
-
-                            $('*[@name=contribution_keywords]').each(
-                                function() {
-                                    this.pattern = /\S{3,}.*/;
-                                }
-                            );
+                            if (do_jsparse_for_patterns) {
+                                $('*[@name=contribution_keywords]').each(
+                                    function() {
+                                        this.pattern = /\S{3,}.*/;
+                                    }
+                                );
+                            }
 
                             $('input, button, textarea, select').each(
                                 function() {

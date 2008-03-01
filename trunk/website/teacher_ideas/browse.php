@@ -535,7 +535,7 @@ EOT;
 		$GLOBALS['g_content_only'] 		 = false;
 		$GLOBALS['g_cache_current_page'] = true;
 		
-        print_site_page('print_content_with_header', 3);
+        print_site_page('print_content_with_header', 3, null, 0, false);
     }
 
 ?>
