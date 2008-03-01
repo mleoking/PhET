@@ -10,7 +10,7 @@
         <div>
             <h2 style="margin-bottom: -10px;">The PhET Project:</h2>
 
-            <p style="margin-left:0px;">c/o Angie Jardine<br />
+            <p style="margin-left:0px;">c/o Mindy Gratny<br />
             University of Colorado 390 UCB<br />
             Boulder, CO 80309-0390<br /></p>
 
