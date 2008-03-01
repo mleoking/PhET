@@ -678,12 +678,12 @@
             $sim_id   = $simulation['sim_id'];
             $sim_name = $simulation['sim_name'];
             
-            if (is_numeric($sim_id)) {                
+            if (is_numeric($sim_id)) {
                 $simulations["sim_id_$sim_id"] = format_for_html("$sim_name");
             }
         }
         
-        return $simulations;        
+        return $simulations;
     }
 
     function sim_auto_calc_sim_size($sim_id) {        

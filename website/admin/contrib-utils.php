@@ -394,8 +394,8 @@ EOT;
                             <fieldset>
                                 <legend>Login</legend>
 
-                                <table class="form">
-                                    <div class="horizontal_center">
+                                <div class="horizontal_center">
+                                    <table class="form">
 
                                         <tr>
                                             <td>email*</td>
@@ -413,11 +413,13 @@ EOT;
                                             </td>
                                         </tr>
 
-                                        <td colspan="2">
-                                            <input type="submit" name="submit" value="Login" class="always-enabled auto-width"/>
-                                        </td>
-                                    </div>
-                                </table>
+                                        <tr>
+                                            <td colspan="2">
+                                                <input type="submit" name="submit" value="Login" class="always-enabled auto-width"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
 
                                 <input type="hidden" name="referrer"        value="$referrer"        class="always-enabled"/>
                                 <input type="hidden" name="contribution_id" value="$contribution_id" class="always-enabled"/>
@@ -2133,7 +2135,7 @@ EOT;
                 DEFAULT_CONTRIBUTOR_DESC => "Teacher using PhET",
                 'I am a teacher interested in using PhET in the future' => "Teacher new to PhET",
                 'I am a student who uses PhET' => "Student using PhET",
-                'I am a student interested in usingPhET in the future' => "Student new to PhET",
+                'I am a student interested in using PhET in the future' => "Student new to PhET",
                 'I am just interested in physics' => "Interested in physics",
                 'Other' => 'Other'
             );
