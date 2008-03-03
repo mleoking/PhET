@@ -5,7 +5,6 @@ package edu.colorado.phet.glaciers.defaults;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.glaciers.model.Climate;
 
 
 /**
@@ -33,12 +32,8 @@ import edu.colorado.phet.glaciers.model.Climate;
     public static final double VALLEY_X_MIN = 0; // meters
     public static final double VALLEY_X_MAX = 80000; // meters
     
-    // Climate -- snowfall & temperature view
+    // Climate
     public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 3, 1 ); // snow accumulation (meters/year)
-    public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = new DoubleRange( 0, 7E3, Climate.getModernSnowfallReferenceElevation() ); // reference elevation for snowfall (meters)
-    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, Climate.getModernTemperature() );  // temperature at sea level (degrees C)
-    
-    // Climate -- mass balance view
-    public static final DoubleRange MAXIMUM_SNOWFALL_RANGE = new DoubleRange( 2 * SNOWFALL_RANGE.getMin(), 2 * SNOWFALL_RANGE.getMax(), 2 * SNOWFALL_RANGE.getDefault() ); //XXX mapping should be encapsulated in Climate 
-    public static final DoubleRange EQUILIBRIUM_LINE_ALTITUDE_RANGE = new DoubleRange( 0, 10E3, 0 ); //XXX should be derived from other climate domain
+    public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = new DoubleRange( 0, 7000, 4000 ); // reference elevation for snowfall (meters)
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, 20 );  // temperature at sea level (degrees C)
 }
