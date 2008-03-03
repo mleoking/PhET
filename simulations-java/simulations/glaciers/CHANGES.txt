@@ -13,8 +13,9 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- change climate parameter ranges and defaults
+- implement new ice thickness model
 - add Glacier.getLength (assume length of glacier is always < 80km)
-- get new ice thickness & velocity models
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - add proxy for snowfall visualization
@@ -75,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+3/3/08 - clean up climate ranges
 2/29/08 - reset clock speed control when clock dt changes
 2/29/08 - implement Reset All
 2/29/08 - make thermometer display temperature in both C and F units

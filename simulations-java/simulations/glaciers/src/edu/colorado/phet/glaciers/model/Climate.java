@@ -17,7 +17,7 @@ public class Climate {
     //----------------------------------------------------------------------------
     
     private static final double MODERN_TEMPERATURE = 20; // temperature at sea level in modern times (degrees C)
-    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4E3; // reference elevation for snowfall in modern times (meters)
+    private static final double MODERN_SNOWFALL_REFERENCE_ELEVATION = 4000; // reference elevation for snowfall in modern times (meters)
     
     private static final double MAX_SNOWFALL_MUTILPIER = 2; // snowfall is multiplied by this value to get max snowfall
     private static final double SNOWFALL_TRANSITION_WIDTH = 300; // how wide the transition of the snowfall curve is (meters)
@@ -69,24 +69,6 @@ public class Climate {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
-    /**
-     * Gets the temperature at sea level for modern times.
-     * 
-     * @return degrees C
-     */
-    public static double getModernTemperature() {
-        return MODERN_TEMPERATURE;
-    }
-    
-    /**
-     * Gets the snowfall reference elevation for modern times.
-     * 
-     * @return meters
-     */
-    public static double getModernSnowfallReferenceElevation() {
-        return MODERN_SNOWFALL_REFERENCE_ELEVATION;
-    }
     
     /**
      * Sets the temperature at sea level.
