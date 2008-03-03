@@ -1,9 +1,11 @@
 --
 Python code, written by Archie Paulson to do preliminary testing of the model.
+This is a "Hollywood" model that approximates published data.
+This is the model used in the glaciers simulation.
 
 FILES:
-- model.py is the main file.
-- ancillary code is imported from lib.py.
+- model.py is the main file
+- lib.py contains ancillary code that is imported by model.py
 
 DEPENDENCIES:
 - Numerical libs are imported from pylab, which is part of http://matplotlib.sourceforge.net.
@@ -11,7 +13,7 @@ DEPENDENCIES:
 
 USAGE:
 (1) enable one or more of the tests at the bottom of model.py
-(2) run "python model.py" or "ipython model.py" from a command line shell
+(2) run "python model.py" or "ipython -pylab model.py" from a command line shell
 
 NOTES:
 - If you're not using ipython, you'll need to edit model.py to enable test code
