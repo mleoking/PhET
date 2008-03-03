@@ -16,7 +16,7 @@ def derivative( x, f, interp=True ):
          else, the slopes are given at in-between x values.
     Changed to accomodate complex f arrays (June 2004). x must be real.
     """
-    dx = array( x[1:] - x[:-1], 'd' ) # shorter than x by 1
+    dx = array( x[1:] - x[:-1], typecode='d' ) # shorter than x by 1
     df = f[1:] - f[:-1]                          # shorter than f by 1
     midpt_x = x[:-1] + dx/2.0
     try: 
