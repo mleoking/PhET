@@ -1,5 +1,5 @@
 --
-Python code, written by Archie Paulson to do preliminary testing of the model.
+Python code, written by Archie Paulson to test the model.
 This is a "Hollywood" model that approximates published data.
 This is the model used in the glaciers simulation.
 
