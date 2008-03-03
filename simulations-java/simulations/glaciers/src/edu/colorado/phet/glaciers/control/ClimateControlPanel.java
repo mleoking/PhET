@@ -179,14 +179,14 @@ public class ClimateControlPanel extends JPanel {
         setLayout( layout );
         int row = 0;
         int column = 0;
+        layout.addAnchoredComponent( temperatureLabel, row, column++, GridBagConstraints.EAST );
+        layout.addAnchoredComponent( _temperatureControl, row++, column, GridBagConstraints.WEST );
+        column = 0;
         layout.addAnchoredComponent( snowfallLabel, row, column++, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _snowfallControl, row++, column, GridBagConstraints.WEST );
         column = 0;
         layout.addAnchoredComponent( snowfallReferenceElevationLabel, row, column++, GridBagConstraints.EAST );
         layout.addAnchoredComponent( _snowfallReferenceElevationControl, row++, column, GridBagConstraints.WEST );
-        column = 0;
-        layout.addAnchoredComponent( temperatureLabel, row, column++, GridBagConstraints.EAST );
-        layout.addAnchoredComponent( _temperatureControl, row++, column, GridBagConstraints.WEST );
         
         Class[] excludedClasses = { JTextField.class };
         SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR, excludedClasses, false /* processContentsOfExcludedContainers */ );

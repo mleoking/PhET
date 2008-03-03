@@ -76,6 +76,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+3/3/08 - put temperate at top of climate control panel, it's the easiest to understand
 3/3/08 - clean up climate ranges
 2/29/08 - reset clock speed control when clock dt changes
 2/29/08 - implement Reset All
