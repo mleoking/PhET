@@ -71,6 +71,7 @@ CLEANUP:
 - disable all debug output
 - optimize memory management by reusing mutable objects
 
+
 DONE:
 ******** 0.00.10 (20106)
 3/3/08 - add Glacier.getLength
