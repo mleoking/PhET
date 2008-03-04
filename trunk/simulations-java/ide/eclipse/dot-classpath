@@ -95,6 +95,8 @@
 	<classpathentry kind="src" path="simulations/mvc-example/data"/>
 	<classpathentry kind="src" path="simulations/nuclear-physics/src"/>
 	<classpathentry kind="src" path="simulations/nuclear-physics/data"/>
+	<classpathentry kind="src" path="simulations/nuclear-physics-2/src"/>
+	<classpathentry kind="src" path="simulations/nuclear-physics-2/data"/>
 	<classpathentry kind="src" path="simulations/ohm-1d/src"/>
 	<classpathentry kind="src" path="simulations/ohm-1d/data"/>
 	<classpathentry kind="src" path="simulations/optical-quantum-control/src"/>
