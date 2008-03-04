@@ -27,7 +27,6 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>Known problems:</b>
 <ul>
 <li>x-axis autoscales for graphs, which may not be desirable in the final product
-<li>with range of climate controls, glacier is longer than 80km, ELA can be outside of top view, etc.
 <li>equilbrium line should be shown only where it intersects the ice
 </ul>
 <p>

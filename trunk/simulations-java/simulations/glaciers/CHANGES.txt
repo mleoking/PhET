@@ -72,7 +72,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
-******** 0.00.10 (?)
+******** 0.00.10 (20106)
 3/3/08 - add Glacier.getLength
 3/3/08 - change climate control ranges and defaults
 3/3/08 - implement new ice thickness model (based on ELA interpolation)
