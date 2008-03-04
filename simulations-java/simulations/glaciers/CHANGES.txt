@@ -3,8 +3,6 @@ Change history for glaciers
 ================================================================================
 
 DESIGN ISSUES (model):
-- [151] calibration of climate model parameters
-- [157] new model for ice thickness & velocity
 - need a model for movement of points in ice
 - why does ablation curve back towards zero when elevation < 1000m ?
 
@@ -49,6 +47,7 @@ MEDIUM PRIORITY:
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
 LOW PRIORITY:
+- offset the temperature range and default, then add the offset back in the model
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - add Help menu option to show pictures of real glaciers
 - labels on slider ticks should be white, code to set their color is not working
@@ -73,6 +72,7 @@ CLEANUP:
 - optimize memory management by reusing mutable objects
 
 DONE:
+******** 0.00.10 (?)
 3/3/08 - add Glacier.getLength
 3/3/08 - change climate control ranges and defaults
 3/3/08 - implement new ice thickness model (based on ELA interpolation)
