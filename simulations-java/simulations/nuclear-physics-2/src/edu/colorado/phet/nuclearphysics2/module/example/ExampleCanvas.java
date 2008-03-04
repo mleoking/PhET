@@ -1,13 +1,14 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.nuclearphysics2.module.example;
 
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.simtemplate.TemplateConstants;
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.view.ExampleNode;
+import edu.colorado.phet.nuclearphysics2.TemplateConstants;
+import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
+import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
+import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

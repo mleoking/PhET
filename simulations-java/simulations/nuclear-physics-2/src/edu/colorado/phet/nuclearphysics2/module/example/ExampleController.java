@@ -1,15 +1,18 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.nuclearphysics2.module.example;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
-import edu.colorado.phet.simtemplate.control.ExampleSubPanel.ExampleSubPanelListener;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement.ExampleModelElementListener;
-import edu.colorado.phet.simtemplate.view.ExampleNode;
+import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
+import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel.ExampleSubPanelListener;
+import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
+import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement.ExampleModelElementListener;
+import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
+import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
+import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
+import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;

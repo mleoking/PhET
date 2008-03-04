@@ -1,11 +1,12 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.defaults;
+package edu.colorado.phet.nuclearphysics2.defaults;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.simtemplate.model.TemplateClock;
+import edu.colorado.phet.nuclearphysics2.model.TemplateClock;
+import edu.colorado.phet.simtemplate.defaults.GlobalDefaults;
 
 
 /**

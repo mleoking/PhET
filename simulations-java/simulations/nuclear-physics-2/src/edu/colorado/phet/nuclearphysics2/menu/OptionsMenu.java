@@ -1,10 +1,10 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.menu;
+package edu.colorado.phet.nuclearphysics2.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.simtemplate.TemplateResources;
+import edu.colorado.phet.nuclearphysics2.TemplateResources;
 
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.

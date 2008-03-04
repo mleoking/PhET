@@ -1,10 +1,10 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.nuclearphysics2.module.example;
 
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.TemplateClock;
+import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
+import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
+import edu.colorado.phet.nuclearphysics2.model.TemplateClock;
 
 /**
  * ExampleModel is the model for ExampleModule.

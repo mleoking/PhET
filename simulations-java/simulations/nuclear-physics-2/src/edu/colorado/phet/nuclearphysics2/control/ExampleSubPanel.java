@@ -1,6 +1,6 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.control;
+package edu.colorado.phet.nuclearphysics2.control;
 
 import java.awt.GridBagConstraints;
 import java.awt.geom.Point2D;
@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.simtemplate.TemplateStrings;
+import edu.colorado.phet.nuclearphysics2.TemplateStrings;
 
 /**
  * ExampleSubPanel is an example of a control panel that implements a subset

@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.developer;
+package edu.colorado.phet.nuclearphysics2.developer;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.nuclearphysics2.SimTemplateApplication;
 
 /**
  * DeveloperControlsDialog is a dialog that contains "developer only" controls.

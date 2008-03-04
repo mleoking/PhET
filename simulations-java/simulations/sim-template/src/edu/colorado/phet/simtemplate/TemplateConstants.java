@@ -9,6 +9,7 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
+import edu.colorado.phet.nuclearphysics2.TemplateConstants;
 
 
 /**

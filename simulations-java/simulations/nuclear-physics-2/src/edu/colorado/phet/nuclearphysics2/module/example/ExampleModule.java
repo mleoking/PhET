@@ -1,19 +1,23 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.nuclearphysics2.module.example;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.TemplateStrings;
-import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
-import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
-import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.TemplateClock;
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
-import edu.colorado.phet.simtemplate.view.ExampleNode;
+import edu.colorado.phet.nuclearphysics2.SimTemplateApplication;
+import edu.colorado.phet.nuclearphysics2.TemplateStrings;
+import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
+import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
+import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
+import edu.colorado.phet.nuclearphysics2.model.TemplateClock;
+import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
+import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
+import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
+import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
+import edu.colorado.phet.simtemplate.module.example.ExampleController;
+import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 
 /**
  * ExampleModule is the "Example" module.

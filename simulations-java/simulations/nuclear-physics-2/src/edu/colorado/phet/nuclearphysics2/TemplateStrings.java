@@ -1,6 +1,8 @@
 /* Copyright 2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate;
+package edu.colorado.phet.nuclearphysics2;
+
+import edu.colorado.phet.simtemplate.TemplateResources;
 
 /**
  * TemplateStrings is the collection of localized strings used by this simulations.

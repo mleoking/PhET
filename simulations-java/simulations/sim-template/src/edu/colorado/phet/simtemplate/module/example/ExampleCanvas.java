@@ -5,6 +5,7 @@ package edu.colorado.phet.simtemplate.module.example;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
 import edu.colorado.phet.simtemplate.TemplateConstants;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.view.ExampleNode;
