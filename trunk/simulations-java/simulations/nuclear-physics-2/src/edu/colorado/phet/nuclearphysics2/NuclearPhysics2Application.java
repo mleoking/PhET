@@ -24,7 +24,7 @@ import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
 import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
-import edu.colorado.phet.nuclearphysics2.persistence.TemplateConfig;
+import edu.colorado.phet.nuclearphysics2.persistence.NuclearPhysics2Config;
 
 /**
  * TemplateApplication is the main application for this simulation.
@@ -191,7 +191,7 @@ public class NuclearPhysics2Application extends PhetApplication {
      */
     private void save() {
         
-        TemplateConfig appConfig = new TemplateConfig();
+        NuclearPhysics2Config appConfig = new NuclearPhysics2Config();
         
         appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
         appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
@@ -213,8 +213,8 @@ public class NuclearPhysics2Application extends PhetApplication {
         Object object = _persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof TemplateConfig ) {
-                TemplateConfig appConfig = (TemplateConfig) object;
+            if ( object instanceof NuclearPhysics2Config ) {
+                NuclearPhysics2Config appConfig = (NuclearPhysics2Config) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
