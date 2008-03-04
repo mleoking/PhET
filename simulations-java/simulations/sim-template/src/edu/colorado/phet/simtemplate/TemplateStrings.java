@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.simtemplate;
 
-import edu.colorado.phet.nuclearphysics2.TemplateResources;
+import edu.colorado.phet.simtemplate.TemplateResources;
 
 /**
  * TemplateStrings is the collection of localized strings used by this simulations.
