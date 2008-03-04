@@ -11,11 +11,11 @@ import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
 import edu.colorado.phet.simtemplate.module.example.ExampleController;
 import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.TemplateStrings;
+import edu.colorado.phet.simtemplate.SimTemplateStrings;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.TemplateClock;
+import edu.colorado.phet.simtemplate.model.SimTemplateClock;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 import edu.colorado.phet.simtemplate.view.ExampleNode;
 
@@ -40,10 +40,10 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( TemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
+        super( SimTemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
 
         // Model
-        TemplateClock clock = (TemplateClock) getClock();
+        SimTemplateClock clock = (SimTemplateClock) getClock();
         _model = new ExampleModel( clock );
 
         // Canvas
@@ -55,8 +55,8 @@ public class ExampleModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (TemplateClock) getClock() );
-        _clockControlPanel.setUnits( TemplateStrings.UNITS_TIME );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (SimTemplateClock) getClock() );
+        _clockControlPanel.setUnits( SimTemplateStrings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
@@ -82,7 +82,7 @@ public class ExampleModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        TemplateClock clock = _model.getClock();
+        SimTemplateClock clock = _model.getClock();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
@@ -115,7 +115,7 @@ public class ExampleModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        TemplateClock clock = _model.getClock();
+        SimTemplateClock clock = _model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
@@ -138,7 +138,7 @@ public class ExampleModule extends PiccoloModule {
         }
 
         // Clock
-        TemplateClock clock = _model.getClock();
+        SimTemplateClock clock = _model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 

@@ -15,12 +15,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemplateResources {
+public class SimTemplateResources {
     
     private static final PhetResources RESOURCES = PhetResources.forProject( "sim-template" );
     
     /* not intended for instantiation */
-    private TemplateResources() {}
+    private SimTemplateResources() {}
     
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

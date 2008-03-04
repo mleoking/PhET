@@ -21,13 +21,13 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.TemplateConstants;
-import edu.colorado.phet.simtemplate.TemplateResources;
+import edu.colorado.phet.simtemplate.SimTemplateConstants;
+import edu.colorado.phet.simtemplate.SimTemplateResources;
 import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
 import edu.colorado.phet.simtemplate.menu.OptionsMenu;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
 import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
-import edu.colorado.phet.simtemplate.persistence.TemplateConfig;
+import edu.colorado.phet.simtemplate.persistence.SimTemplateConfig;
 
 /**
  * TemplateApplication is the main application for this simulation.
@@ -66,7 +66,7 @@ public class SimTemplateApplication extends PhetApplication {
     public SimTemplateApplication( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), TemplateConstants.DEVELOPER_ARG );
+        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), SimTemplateConstants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -85,7 +85,7 @@ public class SimTemplateApplication extends PhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( TemplateConstants.SELECTED_TAB_COLOR );
+                _tabbedModulePane.setSelectedTabColor( SimTemplateConstants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };
@@ -116,16 +116,16 @@ public class SimTemplateApplication extends PhetApplication {
 
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( TemplateResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( TemplateResources.getChar( "menu.file.save.mnemonic", 'S' ) );
+            JMenuItem saveItem = new JMenuItem( SimTemplateResources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( SimTemplateResources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     save();
                 }
             } );
 
-            JMenuItem loadItem = new JMenuItem( TemplateResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( TemplateResources.getChar( "menu.file.load.mnemonic", 'L' ) );
+            JMenuItem loadItem = new JMenuItem( SimTemplateResources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( SimTemplateResources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     load();
@@ -194,7 +194,7 @@ public class SimTemplateApplication extends PhetApplication {
      */
     private void save() {
         
-        TemplateConfig appConfig = new TemplateConfig();
+        SimTemplateConfig appConfig = new SimTemplateConfig();
         
         appConfig.setVersionString( getApplicationConfig().getVersion().toString() );
         appConfig.setVersionMajor( getApplicationConfig().getVersion().getMajor() );
@@ -216,15 +216,15 @@ public class SimTemplateApplication extends PhetApplication {
         Object object = _persistenceManager.load();
         if ( object != null ) {
             
-            if ( object instanceof TemplateConfig ) {
-                TemplateConfig appConfig = (TemplateConfig) object;
+            if ( object instanceof SimTemplateConfig ) {
+                SimTemplateConfig appConfig = (SimTemplateConfig) object;
                 
                 ExampleConfig exampleConfig = appConfig.getExampleConfig();
                 _exampleModule.load( exampleConfig );
             }
             else {
-                String message = TemplateResources.getString( "message.notAConfigFile" );
-                String title = TemplateResources.getString( "title.error" );
+                String message = SimTemplateResources.getString( "message.notAConfigFile" );
+                String title = SimTemplateResources.getString( "title.error" );
                 DialogUtils.showErrorDialog( getPhetFrame(), message, title );
             }
         }
@@ -255,7 +255,7 @@ public class SimTemplateApplication extends PhetApplication {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, TemplateConstants.FRAME_SETUP, TemplateResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, SimTemplateConstants.FRAME_SETUP, SimTemplateResources.getResourceLoader() );
 
                 // Create the application.
                 SimTemplateApplication app = new SimTemplateApplication( config );
