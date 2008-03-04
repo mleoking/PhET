@@ -6,10 +6,10 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleCanvas;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleControlPanel;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleController;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
+import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
+import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
+import edu.colorado.phet.simtemplate.module.example.ExampleController;
+import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
 import edu.colorado.phet.simtemplate.TemplateStrings;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;

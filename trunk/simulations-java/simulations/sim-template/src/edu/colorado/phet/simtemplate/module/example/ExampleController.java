@@ -5,9 +5,9 @@ package edu.colorado.phet.simtemplate.module.example;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleCanvas;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleControlPanel;
-import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
+import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
+import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
+import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel.ExampleSubPanelListener;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
