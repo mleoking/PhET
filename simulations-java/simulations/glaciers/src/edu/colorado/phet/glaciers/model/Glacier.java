@@ -373,7 +373,6 @@ public class Glacier extends ClockAdapter {
             _currentELA = _previousELA + ( steadyStateELA - _previousELA ) * ( 1 - Math.exp( -tElapsed / climateChangeTimescale  ) );
             
             // are we close enough to steady state?
-            System.out.println( "current ELA is this close to steady-state: " + Math.abs( steadyStateELA - _currentELA ) );//XXX
             if ( Math.abs( steadyStateELA - _currentELA ) <= ELA_EQUALITY_THRESHOLD ) {
                 setSteadyState();
             }
