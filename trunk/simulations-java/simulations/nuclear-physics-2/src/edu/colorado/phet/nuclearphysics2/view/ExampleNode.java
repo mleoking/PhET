@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.view;
+package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

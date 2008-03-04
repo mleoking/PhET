@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate;
+package edu.colorado.phet.nuclearphysics2;
 
 import java.awt.image.BufferedImage;
 

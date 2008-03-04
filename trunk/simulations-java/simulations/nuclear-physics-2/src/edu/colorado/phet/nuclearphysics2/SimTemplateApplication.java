@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate;
+package edu.colorado.phet.nuclearphysics2;
 
 import java.awt.Color;
 import java.awt.Frame;
@@ -20,11 +20,14 @@ import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PhetApplication;
 import edu.colorado.phet.common.piccolophet.TabbedModulePanePiccolo;
-import edu.colorado.phet.simtemplate.developer.DeveloperMenu;
-import edu.colorado.phet.simtemplate.menu.OptionsMenu;
-import edu.colorado.phet.simtemplate.module.example.ExampleModule;
-import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
-import edu.colorado.phet.simtemplate.persistence.TemplateConfig;
+import edu.colorado.phet.nuclearphysics2.developer.DeveloperMenu;
+import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
+import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
+import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
+import edu.colorado.phet.nuclearphysics2.persistence.TemplateConfig;
+import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.simtemplate.TemplateConstants;
+import edu.colorado.phet.simtemplate.TemplateResources;
 
 /**
  * TemplateApplication is the main application for this simulation.

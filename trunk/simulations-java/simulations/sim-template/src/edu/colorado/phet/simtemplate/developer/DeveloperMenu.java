@@ -13,6 +13,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.nuclearphysics2.developer.DeveloperControlsDialog;
 import edu.colorado.phet.simtemplate.SimTemplateApplication;
 
 /**

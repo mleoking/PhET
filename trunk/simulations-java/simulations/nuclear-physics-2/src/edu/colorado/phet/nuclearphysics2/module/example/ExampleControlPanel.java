@@ -1,12 +1,13 @@
 /* Copyright 2007-2008, University of Colorado */
 
-package edu.colorado.phet.simtemplate.module.example;
+package edu.colorado.phet.nuclearphysics2.module.example;
 
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.simtemplate.TemplateResources;
-import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
+import edu.colorado.phet.nuclearphysics2.TemplateResources;
+import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
+import edu.colorado.phet.simtemplate.module.example.ExampleModule;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.

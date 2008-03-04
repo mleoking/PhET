@@ -1,6 +1,6 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.developer;
+package edu.colorado.phet.nuclearphysics2.developer;
 
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
+import edu.colorado.phet.nuclearphysics2.SimTemplateApplication;
+import edu.colorado.phet.simtemplate.developer.DeveloperControlsDialog;
 
 /**
  * DeveloperMenu is the "Developer" menu that appears in the menu bar.

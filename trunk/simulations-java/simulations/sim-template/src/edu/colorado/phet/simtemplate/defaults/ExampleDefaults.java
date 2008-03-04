@@ -5,6 +5,7 @@ package edu.colorado.phet.simtemplate.defaults;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.nuclearphysics2.defaults.GlobalDefaults;
 import edu.colorado.phet.simtemplate.model.TemplateClock;
 
 

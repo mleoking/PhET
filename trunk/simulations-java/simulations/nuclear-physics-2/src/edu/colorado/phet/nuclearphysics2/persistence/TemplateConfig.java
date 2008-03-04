@@ -1,8 +1,9 @@
 /* Copyright 2007, University of Colorado */
 
-package edu.colorado.phet.simtemplate.persistence;
+package edu.colorado.phet.nuclearphysics2.persistence;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
 
 /**
  * TemplateConfig describes a configuration of this simulation.
