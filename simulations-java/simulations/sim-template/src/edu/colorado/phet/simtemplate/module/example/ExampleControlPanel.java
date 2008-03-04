@@ -6,7 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.simtemplate.module.example.ExampleModule;
-import edu.colorado.phet.simtemplate.TemplateResources;
+import edu.colorado.phet.simtemplate.SimTemplateResources;
 import edu.colorado.phet.simtemplate.control.ExampleSubPanel;
 
 /**
@@ -36,7 +36,7 @@ public class ExampleControlPanel extends ControlPanel {
         super();
         
         // Set the control panel's minimum width.
-        int minimumWidth = TemplateResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = SimTemplateResources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels

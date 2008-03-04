@@ -11,7 +11,7 @@ import edu.colorado.phet.simtemplate.persistence.ExampleConfig;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemplateConfig implements IProguardKeepClass {
+public class SimTemplateConfig implements IProguardKeepClass {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -34,7 +34,7 @@ public class TemplateConfig implements IProguardKeepClass {
     /**
      * Zero-argument constructor for Java Bean compliance, required by XMLEncoder.
      */
-    public TemplateConfig() {
+    public SimTemplateConfig() {
         _exampleConfig = new ExampleConfig();
     }
 

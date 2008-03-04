@@ -4,7 +4,7 @@ package edu.colorado.phet.simtemplate.module.example;
 
 import edu.colorado.phet.simtemplate.defaults.ExampleDefaults;
 import edu.colorado.phet.simtemplate.model.ExampleModelElement;
-import edu.colorado.phet.simtemplate.model.TemplateClock;
+import edu.colorado.phet.simtemplate.model.SimTemplateClock;
 
 /**
  * ExampleModel is the model for ExampleModule.
@@ -17,14 +17,14 @@ public class ExampleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final TemplateClock _clock;
+    private final SimTemplateClock _clock;
     private final ExampleModelElement _exampleModelElement;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleModel( TemplateClock clock ) {
+    public ExampleModel( SimTemplateClock clock ) {
         super();
         
         _clock = clock;
@@ -41,7 +41,7 @@ public class ExampleModel {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public TemplateClock getClock() {
+    public SimTemplateClock getClock() {
         return _clock;
     }
     
