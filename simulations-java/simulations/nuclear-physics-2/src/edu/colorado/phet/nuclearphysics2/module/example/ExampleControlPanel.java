@@ -5,9 +5,9 @@ package edu.colorado.phet.nuclearphysics2.module.example;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
-import edu.colorado.phet.nuclearphysics2.TemplateResources;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
-import edu.colorado.phet.simtemplate.module.example.ExampleModule;
+import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 
 /**
  * ExampleControlPanel is the control panel for ExampleModule.
@@ -29,14 +29,14 @@ public class ExampleControlPanel extends ControlPanel {
     /**
      * Constructor.
      * 
-     * @param module
+     * @param exampleModule
      * @param parentFrame parent frame, for creating dialogs
      */
-    public ExampleControlPanel( ExampleModule module, Frame parentFrame ) {
+    public ExampleControlPanel( ExampleModule exampleModule, Frame parentFrame ) {
         super();
         
         // Set the control panel's minimum width.
-        int minimumWidth = TemplateResources.getInt( "int.minControlPanelWidth", 215 );
+        int minimumWidth = NuclearPhysics2Resources.getInt( "int.minControlPanelWidth", 215 );
         setMinimumWidth( minimumWidth );
         
         // Create sub-panels
@@ -46,7 +46,7 @@ public class ExampleControlPanel extends ControlPanel {
         {
             addControlFullWidth( _exampleSubPanel );
             addSeparator();
-            addResetAllButton( module );
+            addResetAllButton( exampleModule );
         }
     }
     

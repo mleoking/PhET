@@ -10,9 +10,6 @@ import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel.ExampleSubPanel
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement.ExampleModelElementListener;
 import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
-import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
-import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
-import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;

@@ -6,18 +6,14 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.nuclearphysics2.SimTemplateApplication;
-import edu.colorado.phet.nuclearphysics2.TemplateStrings;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Application;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
 import edu.colorado.phet.nuclearphysics2.model.TemplateClock;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
 import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
-import edu.colorado.phet.simtemplate.module.example.ExampleCanvas;
-import edu.colorado.phet.simtemplate.module.example.ExampleControlPanel;
-import edu.colorado.phet.simtemplate.module.example.ExampleController;
-import edu.colorado.phet.simtemplate.module.example.ExampleModel;
 
 /**
  * ExampleModule is the "Example" module.
@@ -40,7 +36,7 @@ public class ExampleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public ExampleModule( Frame parentFrame ) {
-        super( TemplateStrings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
+        super( NuclearPhysics2Strings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
 
         // Model
         TemplateClock clock = (TemplateClock) getClock();
@@ -56,7 +52,7 @@ public class ExampleModule extends PiccoloModule {
         
         // Clock controls
         _clockControlPanel = new ClockControlPanelWithTimeDisplay( (TemplateClock) getClock() );
-        _clockControlPanel.setUnits( TemplateStrings.UNITS_TIME );
+        _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
 
@@ -134,7 +130,7 @@ public class ExampleModule extends PiccoloModule {
 
         // Module
         if ( config.isActive() ) {
-            SimTemplateApplication.instance().setActiveModule( this );
+            NuclearPhysics2Application.instance().setActiveModule( this );
         }
 
         // Clock
