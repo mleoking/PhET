@@ -30,6 +30,7 @@ import edu.colorado.phet.simtemplate.persistence.TemplateConfig;
  * TemplateApplication is the main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * 
  */
 public class SimTemplateApplication extends PhetApplication {
 
