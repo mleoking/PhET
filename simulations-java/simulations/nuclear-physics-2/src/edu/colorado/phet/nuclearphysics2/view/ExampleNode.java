@@ -25,7 +25,7 @@ public class ExampleNode extends PPath {
         super();
         setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
-        setPaint( Color.ORANGE );
+        setPaint( Color.RED );
     }
     
     //----------------------------------------------------------------------------
