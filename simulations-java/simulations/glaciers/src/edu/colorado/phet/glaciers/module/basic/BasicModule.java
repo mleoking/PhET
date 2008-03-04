@@ -67,7 +67,7 @@ public class BasicModule extends PiccoloModule {
         GlaciersClock clock = (GlaciersClock) getClock();
         Valley valley = new Valley();
         Climate climate = new Climate( BasicDefaults.TEMPERATURE_RANGE.getDefault(), BasicDefaults.SNOWFALL_RANGE.getDefault(), BasicDefaults.SNOWFALL_REFERENCE_ELEVATION_RANGE.getDefault() );
-        Glacier glacier = new Glacier( valley, climate );
+        Glacier glacier = new Glacier( valley, climate, clock );
         _model = new BasicModel( clock, glacier );
 
         // Play Area

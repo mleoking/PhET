@@ -33,7 +33,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
     public static final double VALLEY_X_MAX = 80000; // meters
     
     // Climate
-    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 3, 1 ); // snow accumulation (meters/year)
-    public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = new DoubleRange( 0, 7000, 4000 ); // reference elevation for snowfall (meters)
-    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 5, 30, 20 );  // temperature at sea level (degrees C)
+    public static final DoubleRange TEMPERATURE_RANGE = new DoubleRange( 13, 20, 19 );  // temperature at sea level (degrees C)
+    public static final DoubleRange SNOWFALL_RANGE = new DoubleRange( 0, 2, 1 ); // snow accumulation (meters/year)
+    public static final DoubleRange SNOWFALL_REFERENCE_ELEVATION_RANGE = new DoubleRange( 2200, 6000, 4000 ); // reference elevation for snowfall (meters)
+
 }
