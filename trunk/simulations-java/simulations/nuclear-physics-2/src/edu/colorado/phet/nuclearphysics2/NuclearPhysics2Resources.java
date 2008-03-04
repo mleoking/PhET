@@ -15,12 +15,12 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TemplateResources {
+public class NuclearPhysics2Resources {
     
-    private static final PhetResources RESOURCES = PhetResources.forProject( "sim-template" );
+    private static final PhetResources RESOURCES = PhetResources.forProject( "nuclear-physics-2" );
     
     /* not intended for instantiation */
-    private TemplateResources() {}
+    private NuclearPhysics2Resources() {}
     
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

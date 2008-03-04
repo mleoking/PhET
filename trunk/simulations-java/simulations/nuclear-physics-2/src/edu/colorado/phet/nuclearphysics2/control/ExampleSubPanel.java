@@ -14,7 +14,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.nuclearphysics2.TemplateStrings;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 
 /**
  * ExampleSubPanel is an example of a control panel that implements a subset
@@ -43,7 +43,7 @@ public class ExampleSubPanel extends JPanel {
         _listeners = new ArrayList();
         
         // Title
-        JLabel titleLabel = new JLabel( TemplateStrings.TITLE_EXAMPLE_CONTROL_PANEL );
+        JLabel titleLabel = new JLabel( NuclearPhysics2Strings.TITLE_EXAMPLE_CONTROL_PANEL );
         
         // Position display
         _positionDisplay = new JLabel();
@@ -51,9 +51,9 @@ public class ExampleSubPanel extends JPanel {
         // Orientation control
         double min = 0;
         double max = 360;
-        String label = TemplateStrings.LABEL_ORIENTATION;
+        String label = NuclearPhysics2Strings.LABEL_ORIENTATION;
         String valuePattern = "##0";
-        String units = TemplateStrings.UNITS_ORIENTATION;
+        String units = NuclearPhysics2Strings.UNITS_ORIENTATION;
         _orientationControl = new LinearValueControl( min, max, label, valuePattern, units );
         _orientationControl.setTextFieldEditable( true );
         _orientationControl.setUpDownArrowDelta( 1 );
@@ -95,7 +95,7 @@ public class ExampleSubPanel extends JPanel {
     }
     
     public void setPosition( Point2D p ) {
-        String s = TemplateStrings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
+        String s = NuclearPhysics2Strings.LABEL_POSITION + " (" + (int) p.getX() + "," + (int) p.getY() + ")";
         _positionDisplay.setText( s );
     }
     

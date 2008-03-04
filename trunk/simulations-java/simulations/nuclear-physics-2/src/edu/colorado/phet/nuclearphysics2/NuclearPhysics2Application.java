@@ -25,9 +25,6 @@ import edu.colorado.phet.nuclearphysics2.menu.OptionsMenu;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModule;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
 import edu.colorado.phet.nuclearphysics2.persistence.TemplateConfig;
-import edu.colorado.phet.simtemplate.SimTemplateApplication;
-import edu.colorado.phet.simtemplate.TemplateConstants;
-import edu.colorado.phet.simtemplate.TemplateResources;
 
 /**
  * TemplateApplication is the main application for this simulation.
@@ -35,7 +32,7 @@ import edu.colorado.phet.simtemplate.TemplateResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * 
  */
-public class SimTemplateApplication extends PhetApplication {
+public class NuclearPhysics2Application extends PhetApplication {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -63,10 +60,10 @@ public class SimTemplateApplication extends PhetApplication {
      *
      * @param args command line arguments
      */
-    public SimTemplateApplication( PhetApplicationConfig config )
+    public NuclearPhysics2Application( PhetApplicationConfig config )
     {
         super( config );
-        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), TemplateConstants.DEVELOPER_ARG );
+        DEVELOPER_CONTROLS_ENABLED = CommandLineUtils.contains( config.getCommandLineArgs(), NuclearPhysics2Constants.DEVELOPER_ARG );
         initTabbedPane();
         initModules();
         initMenubar( config.getCommandLineArgs() );
@@ -85,7 +82,7 @@ public class SimTemplateApplication extends PhetApplication {
         TabbedPaneType tabbedPaneType = new TabbedPaneType(){
             public ITabbedModulePane createTabbedPane() {
                 _tabbedModulePane = new TabbedModulePanePiccolo();
-                _tabbedModulePane.setSelectedTabColor( TemplateConstants.SELECTED_TAB_COLOR );
+                _tabbedModulePane.setSelectedTabColor( NuclearPhysics2Constants.SELECTED_TAB_COLOR );
                 return _tabbedModulePane;
             }
         };
@@ -116,16 +113,16 @@ public class SimTemplateApplication extends PhetApplication {
 
         // File menu
         {
-            JMenuItem saveItem = new JMenuItem( TemplateResources.getString( "menu.file.save" ) );
-            saveItem.setMnemonic( TemplateResources.getChar( "menu.file.save.mnemonic", 'S' ) );
+            JMenuItem saveItem = new JMenuItem( NuclearPhysics2Resources.getString( "menu.file.save" ) );
+            saveItem.setMnemonic( NuclearPhysics2Resources.getChar( "menu.file.save.mnemonic", 'S' ) );
             saveItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     save();
                 }
             } );
 
-            JMenuItem loadItem = new JMenuItem( TemplateResources.getString( "menu.file.load" ) );
-            loadItem.setMnemonic( TemplateResources.getChar( "menu.file.load.mnemonic", 'L' ) );
+            JMenuItem loadItem = new JMenuItem( NuclearPhysics2Resources.getString( "menu.file.load" ) );
+            loadItem.setMnemonic( NuclearPhysics2Resources.getChar( "menu.file.load.mnemonic", 'L' ) );
             loadItem.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     load();
@@ -223,8 +220,8 @@ public class SimTemplateApplication extends PhetApplication {
                 _exampleModule.load( exampleConfig );
             }
             else {
-                String message = TemplateResources.getString( "message.notAConfigFile" );
-                String title = TemplateResources.getString( "title.error" );
+                String message = NuclearPhysics2Resources.getString( "message.notAConfigFile" );
+                String title = NuclearPhysics2Resources.getString( "title.error" );
                 DialogUtils.showErrorDialog( getPhetFrame(), message, title );
             }
         }
@@ -255,10 +252,10 @@ public class SimTemplateApplication extends PhetApplication {
 
             public void run() {
 
-                PhetApplicationConfig config = new PhetApplicationConfig( args, TemplateConstants.FRAME_SETUP, TemplateResources.getResourceLoader() );
+                PhetApplicationConfig config = new PhetApplicationConfig( args, NuclearPhysics2Constants.FRAME_SETUP, NuclearPhysics2Resources.getResourceLoader() );
 
                 // Create the application.
-                SimTemplateApplication app = new SimTemplateApplication( config );
+                NuclearPhysics2Application app = new NuclearPhysics2Application( config );
 
                 // Start the application.
                 app.startApplication();

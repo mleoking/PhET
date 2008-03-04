@@ -5,10 +5,10 @@ package edu.colorado.phet.nuclearphysics2.module.example;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.nuclearphysics2.TemplateConstants;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
-import edu.colorado.phet.simtemplate.module.example.ExampleModel;
+import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -38,7 +38,7 @@ public class ExampleCanvas extends PhetPCanvas {
         
         _model = model;
         
-        setBackground( TemplateConstants.CANVAS_BACKGROUND );
+        setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
         // Root of our scene graph
         _rootNode = new PNode();
@@ -72,7 +72,7 @@ public class ExampleCanvas extends PhetPCanvas {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        else if ( TemplateConstants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
+        else if ( NuclearPhysics2Constants.DEBUG_CANVAS_UPDATE_LAYOUT ) {
             System.out.println( "PhysicsCanvas.updateLayout worldSize=" + worldSize );//XXX
         }
         

@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics2.menu;
 
 import javax.swing.JMenu;
 
-import edu.colorado.phet.nuclearphysics2.TemplateResources;
+import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Resources;
 
 /**
  * OptionsMenu is the "Options" menu that appears in the menu bar.
@@ -14,7 +14,7 @@ import edu.colorado.phet.nuclearphysics2.TemplateResources;
 public class OptionsMenu extends JMenu {
     
     public OptionsMenu() {
-        super( TemplateResources.getString( "menu.options" ) );
-        setMnemonic( TemplateResources.getChar( "menu.options.mnemonic", 'O' ) );
+        super( NuclearPhysics2Resources.getString( "menu.options" ) );
+        setMnemonic( NuclearPhysics2Resources.getChar( "menu.options.mnemonic", 'O' ) );
     }
 }
