@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NulcearPhysics2Clock extends ConstantDtClock {
+public class NuclearPhysics2Clock extends ConstantDtClock {
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public NulcearPhysics2Clock( int framesPerSecond, double dt ) {
+    public NuclearPhysics2Clock( int framesPerSecond, double dt ) {
         super( 1000 / framesPerSecond, dt );
     }
     

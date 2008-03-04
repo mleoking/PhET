@@ -5,7 +5,7 @@ package edu.colorado.phet.nuclearphysics2.defaults;
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.nuclearphysics2.model.NulcearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 
 
 /**
@@ -23,7 +23,7 @@ public class ExampleDefaults {
     public static final int CLOCK_FRAME_RATE = GlobalDefaults.CLOCK_FRAME_RATE;
     public static final double CLOCK_DT = GlobalDefaults.CLOCK_DT;
     public static final int CLOCK_TIME_COLUMNS = GlobalDefaults.CLOCK_TIME_COLUMNS;
-    public static final NulcearPhysics2Clock CLOCK = new NulcearPhysics2Clock( CLOCK_FRAME_RATE, CLOCK_DT );
+    public static final NuclearPhysics2Clock CLOCK = new NuclearPhysics2Clock( CLOCK_FRAME_RATE, CLOCK_DT );
     
     // Model-view transform
     public static final Dimension VIEW_SIZE = new Dimension( 1500, 1500 );
