@@ -11,7 +11,7 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
-import edu.colorado.phet.nuclearphysics2.model.NulcearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
 import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
 
@@ -39,7 +39,7 @@ public class ExampleModule extends PiccoloModule {
         super( NuclearPhysics2Strings.TITLE_EXAMPLE_MODULE, ExampleDefaults.CLOCK );
 
         // Model
-        NulcearPhysics2Clock clock = (NulcearPhysics2Clock) getClock();
+        NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
         _model = new ExampleModel( clock );
 
         // Canvas
@@ -51,7 +51,7 @@ public class ExampleModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NulcearPhysics2Clock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NuclearPhysics2Clock) getClock() );
         _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
@@ -78,7 +78,7 @@ public class ExampleModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
+        NuclearPhysics2Clock clock = _model.getClock();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
 
@@ -111,7 +111,7 @@ public class ExampleModule extends PiccoloModule {
         config.setActive( isActive() );
 
         // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
+        NuclearPhysics2Clock clock = _model.getClock();
         config.setClockDt( clock.getDt() );
         config.setClockRunning( getClockRunningWhenActive() );
 
@@ -134,7 +134,7 @@ public class ExampleModule extends PiccoloModule {
         }
 
         // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
+        NuclearPhysics2Clock clock = _model.getClock();
         clock.setDt( config.getClockDt() );
         setClockRunningWhenActive( config.isClockRunning() );
 
