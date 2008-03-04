@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.09
+Glaciers, version 0.00.10
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,9 +13,15 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>remove "Mass Balance" climate controls (feature dropped)
-<li>remove "ice age" checkbox from View controls (feature dropped)
-<li>add very basic mountains, 1000 meters above valley floor, so we can see when "ice sheet" condition occurs
+<li>implemented new ice thickness model (based on interpolation of ELA)
+<li>adjusted climate parameter ranges and defaults
+<li>glacier new grows longer than 80km
+<li>combined glacial budget, accumulation and ablation on one graph
+<li>thermometer displays temperature in both C and F units
+<li>added a visual indicator of origin on each measuring tool
+<li>renamed "ice flow" checkbox to "ice flow vectors"
+<li>removed "snowfall" checkbox, snowfall should always be visible
+<li>implemented "Reset All"
 </ul>
 <p>
 <b>Known problems:</b>
