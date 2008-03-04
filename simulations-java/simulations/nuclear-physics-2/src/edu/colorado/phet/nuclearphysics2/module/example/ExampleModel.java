@@ -4,7 +4,7 @@ package edu.colorado.phet.nuclearphysics2.module.example;
 
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
-import edu.colorado.phet.nuclearphysics2.model.TemplateClock;
+import edu.colorado.phet.nuclearphysics2.model.NulcearPhysics2Clock;
 
 /**
  * ExampleModel is the model for ExampleModule.
@@ -17,14 +17,14 @@ public class ExampleModel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private final TemplateClock _clock;
+    private final NulcearPhysics2Clock _clock;
     private final ExampleModelElement _exampleModelElement;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public ExampleModel( TemplateClock clock ) {
+    public ExampleModel( NulcearPhysics2Clock clock ) {
         super();
         
         _clock = clock;
@@ -41,7 +41,7 @@ public class ExampleModel {
     // Accessors
     //----------------------------------------------------------------------------
     
-    public TemplateClock getClock() {
+    public NulcearPhysics2Clock getClock() {
         return _clock;
     }
     
