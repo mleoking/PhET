@@ -7,7 +7,7 @@
 
     include_once("cache-clear-utils.php");
 
-    function clear_cache_simulations() {
+    function clear_cache_all() {
         // Print a nice XHTML header
         print <<<EOD
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -20,8 +20,10 @@
 <body>
 EOD;
 
-        // Clear the simulations caches
+        // Clear all the caches
+        cache_clear('..', true, 'Base website cache');
         cache_clear('../simulations', true, 'Simulations cache');
+        cache_clear('../teacher_ideas', true, 'Teacher activities cache');
 
         // Print a nice XHTML footer
         print <<<EOD
@@ -30,5 +32,5 @@ EOD;
 EOD;
     }
 
-    clear_cache_simulations();
+    clear_cache_all();
 ?>

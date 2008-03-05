@@ -91,7 +91,7 @@ public class AddTranslation {
             deployJAR( phetProject, phetProject.getName(), user, password );//also deploy the updated webstart JAR
 
             //poke the website to make sure it regenerates pages with the new info
-            FileUtils.download( "http://phet.colorado.edu/new/admin/test.php", new File( getTempProjectDir( phetProject ), "test.php" ) );
+            FileUtils.download( "http://phet.colorado.edu/new/admin/cache-clear-all.php", new File( getTempProjectDir( phetProject ), "cache-clear-all.php" ) );
 
             System.out.println( "Deployed: " + phetProject.getName() + " in language " + language + ", please test it to make sure it works correctly." );
             System.out.println( "Finished deploy" );
