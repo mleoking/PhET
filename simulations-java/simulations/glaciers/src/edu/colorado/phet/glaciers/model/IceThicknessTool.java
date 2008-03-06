@@ -75,7 +75,6 @@ public class IceThicknessTool extends AbstractTool {
     private void updateThickness() {
         final double x = getX();
         final double thickness = _glacier.getIceThickness( x );
-        System.out.println( "IceThicknessTool.updateThickness x=" + x + " thickness=" + thickness );//XXX
         setThickness( thickness );
     }
     
