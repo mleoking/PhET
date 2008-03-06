@@ -100,6 +100,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setEquilibriumLineSelected( boolean b ) {
         if ( b != isEquilibriumLineSelected() ) {
             _equilibriumLineCheckBox.setSelected( b );
+            notifyEquilibriumLineChanged();
         }
     }
     
@@ -110,6 +111,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setIceFlowSelected( boolean b ) {
         if ( b != isIceFlowSelected() ) {
             _iceFlowCheckBox.setSelected( b );
+            notifyIceFlowChanged();
         }
     }
     
@@ -120,6 +122,7 @@ public class ViewControlPanel extends AbstractSubPanel {
     public void setCoordinatesSelected( boolean b ) {
         if ( b != isCoordinatesSelected() ) {
             _coordinatesCheckBox.setSelected( b );
+            notifyCoordinatesChanged();
         }
     }
     
