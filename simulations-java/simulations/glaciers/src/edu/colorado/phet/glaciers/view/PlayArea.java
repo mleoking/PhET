@@ -411,10 +411,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _leftElevationAxisNode.setOffset( rView.getMinX() + margin, _rightElevationAxisNode.getYOffset() );
         _rightElevationAxisNode.setOffset( rView.getMaxX() - margin, _rightElevationAxisNode.getYOffset() );
         
-        // rebuild the horizontal (distance) axis, ticks in multiples of 100
-        final int precision = 100;
-        final int minX = precision * (int)( rModel.getX() / precision );
-        final int maxX = precision * (int)( ( rModel.getX() + rModel.getWidth() ) / precision );
+        // rebuild the horizontal (distance) axis, ticks in multiples of 1000 meters
+        final int precision = 1000;
+        final int minX = precision * (int)( ( rModel.getX() / precision ) - 1 );
+        final int maxX = precision * (int)( ( ( rModel.getX() + rModel.getWidth() ) / precision ) + 1 );
         _distanceAxisNode.setRange( minX, maxX );
     }
     
