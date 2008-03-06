@@ -32,7 +32,8 @@ import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
  */
 public class TemperatureVersusElevationChart extends JDialog {
     
-    private static final Range ELEVATION_RANGE = new Range( 0, 10E3 ); // meters
+    private static final Range TEMPERATURE_RANGE = new Range( -20, 8 ); // degrees C
+    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
     
     private Climate _climate;
@@ -74,6 +75,7 @@ public class TemperatureVersusElevationChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        domainAxis.setRange( TEMPERATURE_RANGE );
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );

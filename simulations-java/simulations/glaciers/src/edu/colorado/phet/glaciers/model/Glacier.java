@@ -227,9 +227,9 @@ public class Glacier extends ClockAdapter {
      * @return double[] ice thickness samples, meters
      */
     private static double[] computeIceThicknessSamples( final double ela ) {
-
+        
         final double maxThickness = 400. - Math.pow( ( .0104 * ela ) - 23, 2 );
-        final double glacierLength = 170500. - ( 41.8 * ela );
+        final double glacierLength = Math.max( 0, 170500. - ( 41.8 * ela ) ); //XXX max ELA is 4500, temporary fix for negative glacier length
         final double xPeak = X0 + ( 0.5 * glacierLength );
         final int numberOfSamples = (int) ( glacierLength / DX ) + 1;
 

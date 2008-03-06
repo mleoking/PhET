@@ -73,6 +73,9 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - use fixed ranges for axes on graphs that involve elevation
+3/5/08 - temporary fix for condition in ice thickness model that results in negative glacier length
+3/5/08 - bugfix in GlacierNode, handle empty or null iceThickessSamples
 ******** 0.00.10 (20106)
 3/3/08 - add Glacier.getLength
 3/3/08 - change climate control ranges and defaults

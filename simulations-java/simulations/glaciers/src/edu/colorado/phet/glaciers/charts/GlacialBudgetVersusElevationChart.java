@@ -24,14 +24,15 @@ import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Climate.ClimateListener;
 
 /**
- * GlacialBudgetChart charts glacial budget, accumulation and ablation versus elevation.
+ * GlacialBudgetVersusElevationChart charts glacial budget, accumulation and ablation versus elevation.
  * The chart updates as climate is changed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GlacialBudgetVersusElevationChart extends JDialog {
     
-    private static final Range ELEVATION_RANGE = new Range( 0, 10E3 ); // meters
+    private static final Range METERS_PER_YEAR_RANGE = new Range( -20, 20 ); // meters
+    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
     
     private Climate _climate;
@@ -83,6 +84,7 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        domainAxis.setRange( METERS_PER_YEAR_RANGE );
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
