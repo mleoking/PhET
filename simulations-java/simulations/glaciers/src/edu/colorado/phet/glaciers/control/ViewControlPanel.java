@@ -22,7 +22,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControlPanel extends AbstractControlSubPanel {
+public class ViewControlPanel extends AbstractSubPanel {
     
     //----------------------------------------------------------------------------
     // Class data
