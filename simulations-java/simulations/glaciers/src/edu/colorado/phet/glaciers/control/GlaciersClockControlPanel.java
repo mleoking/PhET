@@ -38,7 +38,7 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
 
 /**
  * GlaciersClockControlPanel is a custom clock control panel.
- * It has a time display, speed control, and control buttons.
+ * It has a time display, frame rate control, and transport control buttons.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -53,7 +53,7 @@ public class GlaciersClockControlPanel extends JPanel {
     
     private ClockControlPanel _clockControlPanel;
     private ClockTimePanel _timePanel;
-    private LinearValueControl _speedControl;
+    private LinearValueControl _frameRateControl;
     private JButton _restartButton;
 
     //----------------------------------------------------------------------------
@@ -72,8 +72,8 @@ public class GlaciersClockControlPanel extends JPanel {
         _clock = clock;
         _clockListener = new ConstantDtClockAdapter() {
             public void dtChanged( ConstantDtClockEvent event ) {
-                // clock dt changed, update the speed slider
-                _speedControl.setValue( _clock.getDt() );
+                // clock frame rate changed, update the speed slider
+                _frameRateControl.setValue( _clock.getFrameRate() );
             }
         };
         _clock.addConstantDtClockListener( _clockListener );
@@ -92,25 +92,25 @@ public class GlaciersClockControlPanel extends JPanel {
         // Time display
         _timePanel = new ClockTimePanel( clock, GlaciersStrings.UNITS_TIME, displayFormat, displayColumns );
         
-        // Speed control
+        // Frame Rate control
         {
             double min = frameRateRange.getMin();
             double max = frameRateRange.getMax();
             String label = "";
             String textFieldPattern = "";
             String units = "";
-            _speedControl = new LinearValueControl( min, max, label, textFieldPattern, units, new SliderOnlyLayoutStrategy() );
-            _speedControl.setValue( _clock.getDt() );
-            _speedControl.setMinorTicksVisible( false );
+            _frameRateControl = new LinearValueControl( min, max, label, textFieldPattern, units, new SliderOnlyLayoutStrategy() );
+            _frameRateControl.setValue( _clock.getFrameRate() );
+            _frameRateControl.setMinorTicksVisible( false );
             
             // Tick labels
             Hashtable labelTable = new Hashtable();
             labelTable.put( new Double( min ), new JLabel( GlaciersStrings.SLIDER_CLOCK_SLOW ) );
             labelTable.put( new Double( max ), new JLabel( GlaciersStrings.SLIDER_CLOCK_FAST ) );
-            _speedControl.setTickLabels( labelTable );
+            _frameRateControl.setTickLabels( labelTable );
             
             // Change font on tick labels
-            Dictionary d = _speedControl.getSlider().getLabelTable();
+            Dictionary d = _frameRateControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
                 Object o = e.nextElement();
@@ -119,7 +119,7 @@ public class GlaciersClockControlPanel extends JPanel {
             }
             
             // Slider width
-            _speedControl.setSliderWidth( 125 );
+            _frameRateControl.setSliderWidth( 125 );
         }
         
         // Layout
@@ -130,7 +130,7 @@ public class GlaciersClockControlPanel extends JPanel {
             layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             int column = 0;
             layout.addComponent( _timePanel, 0, column++ );
-            layout.addComponent( _speedControl, 0, column++ );
+            layout.addComponent( _frameRateControl, 0, column++ );
             layout.addComponent( _clockControlPanel, 0, column++ );
 
             FlowLayout flowLayout = new FlowLayout( FlowLayout.LEFT, 0, 0 );
@@ -139,9 +139,9 @@ public class GlaciersClockControlPanel extends JPanel {
         }
         
         // Interactivity
-        _speedControl.addChangeListener( new ChangeListener() { 
+        _frameRateControl.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
-                _clock.setFrameRate( (int)_speedControl.getValue() );
+                _clock.setFrameRate( (int)_frameRateControl.getValue() );
             }
         } );
         _restartButton.addActionListener( new ActionListener() {
