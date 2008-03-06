@@ -1,3 +1,5 @@
+/* Copyright 2008, University of Colorado */
+
 package edu.colorado.phet.glaciers.view;
 
 import java.awt.BasicStroke;
@@ -16,8 +18,18 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
+/**
+ * ElevationAxisNode draws the elevation (vertical) axis.
+ * The elevation axis is intended to be built once, then repositioned (using setOffset)
+ * as the bounds of the zoomed viewport change.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class ElevationAxisNode extends PComposite {
+    
+    //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
     
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 2f );
@@ -26,12 +38,21 @@ public class ElevationAxisNode extends PComposite {
     private static final double TICK_LENGTH = 100; // meters
     private static final Color TICK_LABEL_COLOR = TICK_COLOR;
     private static final Font TICK_LABEL_FONT = new PhetDefaultFont( 12 );
+    private static final double TICK_LABEL_SPACING = 2; // pixels
     private static final DecimalFormat TICK_LABEL_FORMAT = new DecimalFormat( "0" );
+    
+    //----------------------------------------------------------------------------
+    // Instance data
+    //----------------------------------------------------------------------------
     
     private final PComposite _parentNode;
     private final ModelViewTransform _mvt;
     private final double _minElevation, _maxElevation, _majorTickSpacing;
     private final boolean _tickLabelOnLeft;
+    
+    //----------------------------------------------------------------------------
+    // Constructors
+    //----------------------------------------------------------------------------
     
     /**
      * Constructor.
@@ -60,6 +81,10 @@ public class ElevationAxisNode extends PComposite {
         createNodes( 0 /* x location */ );
     }
     
+    //----------------------------------------------------------------------------
+    // Node creation
+    //----------------------------------------------------------------------------
+    
     /*
      * Creates all nodes at some downvalley (horizontal) location.
      */
@@ -75,8 +100,8 @@ public class ElevationAxisNode extends PComposite {
         double elevation = _minElevation;
         while ( elevation <= _maxElevation ) {
             PNode tickNode = createLabeledTickNode( x, elevation, _tickLabelOnLeft, _mvt );
-            elevation += _majorTickSpacing;
             _parentNode.addChild( tickNode );
+            elevation += _majorTickSpacing;
         }
     }
     
@@ -127,11 +152,11 @@ public class ElevationAxisNode extends PComposite {
         PBounds lb = labelNode.getFullBoundsReference();
         if ( tickLabelOnLeft ) {
             // position label to left of tick, vertically align centers
-            labelNode.setOffset( tb.getX() - lb.getWidth() - 2, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
+            labelNode.setOffset( tb.getX() - lb.getWidth() - TICK_LABEL_SPACING, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
         }
         else {
             // position label to right of tick, vertically align centers
-            labelNode.setOffset( tb.getMaxX() + 2, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
+            labelNode.setOffset( tb.getMaxX() + TICK_LABEL_SPACING, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
         }
 
         return parentNode;
