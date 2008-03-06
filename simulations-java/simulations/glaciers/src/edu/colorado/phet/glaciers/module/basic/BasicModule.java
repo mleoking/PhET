@@ -150,6 +150,9 @@ public class BasicModule extends PiccoloModule {
             // Glacier
             Glacier glacier = _model.getGlacier();
             glacier.setSteadyState();
+            
+            // Tools
+            _model.removeAllTools();
         }
 
         // Control panel settings that are view-related

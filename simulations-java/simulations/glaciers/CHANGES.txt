@@ -27,9 +27,6 @@ MEDIUM PRIORITY:
 - add pseudo-3D perspective
 - is magnification of zoomed view sufficient?
 - remove tools by dragging them back to the trash can (or toolbox?)
-- make Reset All reset model to initial state
-- make Reset All reset all view-only control to their initial state
-- make Reset All delete all tools
 - refactor common module functionality into a base class
 - redesign advanced climate controls
 - create graphs
@@ -66,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - make Reset All delete all tools
 3/5/08 - tools don't need time information, remove knowledge of clock from tools' base class
 3/5/08 - refactor common code for sub-panels of main control panel into a base class
 3/5/08 - reduce vertical spacing in Climate control panel

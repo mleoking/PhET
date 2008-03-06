@@ -96,10 +96,6 @@ public abstract class AbstractModel implements IToolProducer {
         return tool;
     }
     
-    public void remove( AbstractTool tool ) {
-        removeTool( tool );
-    }
-    
     public void addToolProducerListener( ToolProducerListener listener ) {
         _toolProducerListeners.add( listener );
     }
@@ -116,12 +112,22 @@ public abstract class AbstractModel implements IToolProducer {
         notifyToolAdded( tool );
     }
     
-    private void removeTool( AbstractTool tool ) {
+    public void removeTool( AbstractTool tool ) {
         if ( !_tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
         }
         _tools.remove( tool );
         notifyToolRemoved( tool );
+    }
+    
+    public void removeAllTools() {
+        ArrayList toolsCopy = new ArrayList( _tools );
+        Iterator i = toolsCopy.iterator();
+        while ( i.hasNext() ) {
+            AbstractTool tool = (AbstractTool) i.next();
+            _tools.remove( tool );
+            notifyToolRemoved( tool );
+        }
     }
     
     private void notifyToolAdded( AbstractTool tool ) {
