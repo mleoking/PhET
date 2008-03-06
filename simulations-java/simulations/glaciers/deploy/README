@@ -13,6 +13,7 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
+<li>clock speed slider changes frame rate (1 to 24 frames per second), dt remains constant (1 year)
 <li>"coordinates" check box shows horizontal and vertical axes
 <li>use fixed ranges for axes in graphs that involve elevation
 <li>reduced the vertical space between sliders in Climate control panel
