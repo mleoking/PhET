@@ -22,7 +22,7 @@ import edu.colorado.phet.glaciers.control.ViewControlPanel;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel.ClimateControlPanelListener;
 import edu.colorado.phet.glaciers.control.GraphsControlPanel.GraphsControlPanelListener;
 import edu.colorado.phet.glaciers.control.MiscControlPanel.MiscControlPanelAdapter;
-import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelAdapter;
+import edu.colorado.phet.glaciers.control.ViewControlPanel.ViewControlPanelListener;
 import edu.colorado.phet.glaciers.model.Climate;
 import edu.colorado.phet.glaciers.model.Glacier;
 import edu.colorado.phet.glaciers.model.GlaciersClock;
@@ -83,10 +83,18 @@ public class BasicController {
         } );
         
         // "View" controls
-        viewControlPanel.addViewControlPanelListener( new ViewControlPanelAdapter() {
+        viewControlPanel.addViewControlPanelListener( new ViewControlPanelListener() {
             
             public void equilibriumLineChanged( boolean b ) {
-                playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+                playArea.setEquilibriumLineVisible( b );
+            }
+
+            public void coordinatesChanged( boolean b ) {
+                playArea.setAxesVisible( b );
+            }
+
+            public void iceFlowChanged( boolean b ) {
+                playArea.setIceFlowVisible( b );
             };
         });
         
@@ -191,6 +199,7 @@ public class BasicController {
         
         // Initialization
         playArea.setEquilibriumLineVisible( viewControlPanel.isEquilibriumLineSelected() );
+        playArea.setAxesVisible( viewControlPanel.isCoordinatesSelected() );
         climateControlPanel.setSnowfall( climate.getSnowfall() );
         climateControlPanel.setSnowfallReferenceElevation( climate.getSnowfallReferenceElevation() );
         climateControlPanel.setTemperature( climate.getTemperature() );

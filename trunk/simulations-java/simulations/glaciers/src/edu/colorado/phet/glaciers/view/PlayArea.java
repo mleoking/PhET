@@ -235,6 +235,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _equilibriumLineNode.setVisible( visible );
     }
     
+    public void setAxesVisible( boolean visible ) {
+        _elevationAxisNode.setVisible( visible );
+    }
+    
+    public void setIceFlowVisible( boolean visible ) {
+        //XXX
+    }
+    
     //----------------------------------------------------------------------------
     // Layer management
     //----------------------------------------------------------------------------
