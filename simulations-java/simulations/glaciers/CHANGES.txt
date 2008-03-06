@@ -22,15 +22,11 @@ MEDIUM PRIORITY:
 - model borehole as a set of moving points, connected via line segments
 - when birds-eye view is wider than model range, fill in with tile-able mountain and valley
 - create convincing mountains, either with an image or with Java2D
-- should Glacial Budget graph show accumulation & ablation? if so, fix x-axis label
-- x-axis of charts currently autoscales, set fixed range?
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
 - add pseudo-3D perspective
 - is magnification of zoomed view sufficient?
-- apply an inverse scaling to tools and toolbox so that camera scaling only affects valley and glacier
 - remove tools by dragging them back to the trash can (or toolbox?)
-- if tools turn out to not need time (t), remove it from base class
 - make Reset All reset model to initial state
 - make Reset All reset all view-only control to their initial state
 - make Reset All delete all tools
@@ -72,6 +68,7 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - tools don't need time information, remove knowledge of clock from tools' base class
 3/5/08 - refactor common code for sub-panels of main control panel into a base class
 3/5/08 - reduce vertical spacing in Climate control panel
 3/5/08 - connect clock speed control to frame rate instead of dt, vary from 1 to 24 fps, use constant dt=1 year

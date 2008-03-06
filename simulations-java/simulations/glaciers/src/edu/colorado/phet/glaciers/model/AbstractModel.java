@@ -113,7 +113,6 @@ public abstract class AbstractModel implements IToolProducer {
             throw new IllegalStateException( "attempted to add tool twice: " + tool.getClass().getName() );
         }
         _tools.add( tool );
-        _clock.addClockListener( tool );
         notifyToolAdded( tool );
     }
     
@@ -121,7 +120,6 @@ public abstract class AbstractModel implements IToolProducer {
         if ( !_tools.contains( tool ) ) {
             throw new IllegalStateException( "attempted to remove a tool that doesn't exist: " + tool.getClass().getName() );
         }
-        _clock.removeClockListener( tool );
         _tools.remove( tool );
         notifyToolRemoved( tool );
     }
