@@ -75,7 +75,7 @@ public class BasicModule extends PiccoloModule {
         PlayArea playArea = new PlayArea( _model, mvt, BasicDefaults.VALLEY_X_MIN, BasicDefaults.VALLEY_X_MAX );
         setSimulationPanel( playArea );
 
-        // Bottom panel goes when clock controls normally go
+        // Put our control panel where the clock control panel normally goes
         _controlPanel = new BasicControlPanel( clock );
         setClockControlPanel( _controlPanel );
         _controlPanel.getMiscControlPanel().addMiscControlPanelListener( new MiscControlPanelAdapter() {
@@ -83,7 +83,7 @@ public class BasicModule extends PiccoloModule {
                 resetAll();
             }
             public void setHelpEnabled( boolean enabled ) {
-                System.out.println( "BasicModule.setHelpEnabled " + enabled );
+                System.out.println( "BasicModule.setHelpEnabled " + enabled );//XXX
                 BasicModule.this.setHelpEnabled( enabled );
             }
         });
@@ -93,8 +93,6 @@ public class BasicModule extends PiccoloModule {
 
         // Help
         if ( hasHelp() ) {
-            setHelpPanel( null ); // get rid of the standard Help panel, we're using our own help button
-            
             //XXX add help items
             HelpPane helpPane = getDefaultHelpPane();
             HelpBalloon equilibriumButtonHelp = new HelpBalloon( helpPane, GlaciersStrings.HELP_EQUILIBRIUM_BUTTON, HelpBalloon.BOTTOM_CENTER, 80 );
@@ -111,14 +109,18 @@ public class BasicModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     /**
+     * Does this module have help
      * 
+     * @return true or false
      */
     public boolean hasHelp() {
         return true;
     }
     
     /**
+     * Enables or disables help.
      * 
+     * @param enabled true or false
      */
     public void setHelpEnabled( boolean enabled ) {
         super.setHelpEnabled( enabled );
