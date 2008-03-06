@@ -123,6 +123,7 @@ class Glacier:
         self.terminus_index = searchsorted(self.x,x_terminus)
         self.x_terminus = x_terminus
         self.x_peak = x_peak
+        self.H_max = H_max
 
     def set_ice_velocities( self, tau=None ):
         """
@@ -145,8 +146,8 @@ class Glacier:
 
     def __repr__(self):
         "return string representation of object"
-        s  = "length: ".rjust(20) + '%0.2f '%(self.x_terminus/1e3)+'\n'
-        s += "peak height: ".rjust(20) + '%0.2f m'%(self.x_peak)+'\n'
+        s  = "length: ".rjust(20) + '%0.2f km'%(self.x_terminus/1e3)+'\n'
+        s += "peak height: ".rjust(20) + '%0.2f m'%(self.H_max)+'\n'
         return s
 
     def plot_profile(self,fignum=2,addF=False,label=None):
