@@ -30,6 +30,6 @@ public class GlaciersClock extends ConstantDtClock {
     }
     
     public int getFrameRate() {
-        return 1000 * getDelay();
+        return 1000 / getDelay();
     }
 }
