@@ -63,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - add elevation axes on left and right edges of zoomed viewport
 3/5/08 - wire up axes visibility to "coordinates" checkbox
 3/5/08 - create vertical (elevation) coordinate axis, dynamically align with right edge of viewport
 3/5/08 - make Reset All delete all tools

@@ -86,7 +86,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
-    private ElevationAxisNode _elevationAxisNode;
+    private ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
@@ -183,7 +183,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         addToBothViews( _mountainsLayer );
         addToBothViews( _valleyLayer );
         addToBothViews( _glacierLayer );
-        addToBothViews( _coordinatesLayer );
+        addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
         addToBirdsEyeView( _viewportLayer );
@@ -206,8 +206,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _glacierLayer.addChild( glacierNode );
         
         // Coordinates
-        _elevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING );
-        _coordinatesLayer.addChild( _elevationAxisNode );
+        _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
+        _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true );
+        _coordinatesLayer.addChild( _leftElevationAxisNode );
+        _coordinatesLayer.addChild( _rightElevationAxisNode );
         
         // Equilibrium line
         _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
@@ -236,7 +238,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     public void setAxesVisible( boolean visible ) {
-        _elevationAxisNode.setVisible( visible );
+        _leftElevationAxisNode.setVisible( visible );
+        _rightElevationAxisNode.setVisible( visible );
     }
     
     public void setIceFlowVisible( boolean visible ) {
@@ -392,13 +395,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     /*
-     * Moves the elevation (vertical) coordinate axis to the right edge of the zoomed viewport.
+     * Moves the elevation (vertical) coordinate axes to the left & right edges of the zoomed viewport.
      */
     private void updateElevationAxis() {
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
-        double xOffset = rView.getMaxX() - 15;
-        _elevationAxisNode.setOffset( xOffset, _elevationAxisNode.getYOffset() );
+        final double margin = 15; // pixels
+        _leftElevationAxisNode.setOffset( rView.getMinX() + margin, _rightElevationAxisNode.getYOffset() );
+        _rightElevationAxisNode.setOffset( rView.getMaxX() - margin, _rightElevationAxisNode.getYOffset() );
     }
     
     //----------------------------------------------------------------------------
