@@ -63,7 +63,8 @@ public class NuclearPhysicsApplication extends PhetApplication {
 //        getPhetFrame().addMenu( new OptionsMenu() );
 
         // Make the frame non-resizable for now
-        getPhetFrame().setResizable( false );
+        // JPB TBD
+        //getPhetFrame().setResizable( false );
     }
 
     /**
