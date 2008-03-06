@@ -81,35 +81,36 @@ public class GlacierNode extends PComposite {
         
         // reset the reusable path
         _icePath.reset();
-        
-        // move downvalley, draw ice-air boundary
-        double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
 
-        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-            thickness = iceThicknessSamples[i];
-            elevation = valley.getElevation( x ) + thickness;
-            _pModel.setLocation( x, elevation );
-            _mvt.modelToView( _pModel, _pView );
-            if ( i == 0 ) {
-                _icePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+        double[] iceThicknessSamples = _glacier.getIceThicknessSamples();
+        if ( iceThicknessSamples != null & iceThicknessSamples.length > 0 ) {
+
+            // move downvalley, draw ice-air boundary
+            for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+                thickness = iceThicknessSamples[i];
+                elevation = valley.getElevation( x ) + thickness;
+                _pModel.setLocation( x, elevation );
+                _mvt.modelToView( _pModel, _pView );
+                if ( i == 0 ) {
+                    _icePath.moveTo( (float) _pView.getX(), (float) _pView.getY() );
+                }
+                else {
+                    _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
+                }
+                x += dx;
             }
-            else {
+
+            // move upvalley, draw ice-rock boundary
+            for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+                x -= dx;
+                elevation = valley.getElevation( x );
+                _pModel.setLocation( x, elevation );
+                _mvt.modelToView( _pModel, _pView );
                 _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
             }
-            x += dx;
+
+            _icePath.closePath();
         }
-        
-        // move upvalley, draw ice-rock boundary
-        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
-            x -= dx;
-            elevation = valley.getElevation( x );
-            _pModel.setLocation( x, elevation );
-            _mvt.modelToView( _pModel, _pView );
-            _icePath.lineTo( (float) _pView.getX(), (float) _pView.getY() );
-        }
-        
-        // close the path
-        _icePath.closePath();
         
         _icePathNode.setPathTo( _icePath );
     }
