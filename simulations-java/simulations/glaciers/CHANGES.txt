@@ -62,6 +62,7 @@ CLEANUP:
 
 
 DONE:
+******** 0.00.11 (?)
 3/5/08 - add horizontal (distance) coordinate axis, dynamically rebuilt as zoomed viewport changes
 3/5/08 - add public method ValleyNode.createValleyFloorPath, for use by DistanceAxisNode
 3/5/08 - add elevation axes on left and right edges of zoomed viewport
