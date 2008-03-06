@@ -14,7 +14,6 @@ HIGH PRIORITY:
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - add proxy for snowfall visualization
-- add coordinates view
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 
