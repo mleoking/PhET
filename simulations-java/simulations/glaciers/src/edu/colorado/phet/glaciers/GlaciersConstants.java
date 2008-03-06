@@ -42,8 +42,8 @@ public class GlaciersConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final Font CONTROL_PANEL_TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetDefaultFont();
+    public static final Font SUBPANEL_TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
+    public static final Font SUBPANEL_CONTROL_FONT = new PhetDefaultFont();
     
     //----------------------------------------------------------------------------
     // Strokes
@@ -74,9 +74,9 @@ public class GlaciersConstants {
     
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 219, 255, 224 ); // pale green
     
-    public static final Color INNER_PANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark pastel green
-    public static final Color INNER_PANEL_TITLE_COLOR = Color.WHITE;
-    public static final Color INNER_PANEL_CONTROL_COLOR = Color.WHITE;
+    public static final Color SUBPANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark pastel green
+    public static final Color SUBPANEL_TITLE_COLOR = Color.WHITE;
+    public static final Color SUBPANEL_CONTROL_COLOR = Color.WHITE;
     
     //----------------------------------------------------------------------------
     // Flags

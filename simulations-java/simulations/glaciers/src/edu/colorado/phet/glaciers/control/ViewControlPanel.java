@@ -10,11 +10,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -26,17 +22,18 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ViewControlPanel extends JPanel {
+public class ViewControlPanel extends AbstractControlSubPanel {
     
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
     
-    private static final Color BACKGROUND_COLOR = GlaciersConstants.INNER_PANEL_BACKGROUND_COLOR;
-    private static final Color TITLE_COLOR = GlaciersConstants.INNER_PANEL_TITLE_COLOR;
-    private static final Color CONTROL_COLOR = GlaciersConstants.INNER_PANEL_CONTROL_COLOR;
-    private static final Font TITLE_FONT = GlaciersConstants.CONTROL_PANEL_TITLE_FONT;
-    private static final Font CONTROL_FONT = GlaciersConstants.CONTROL_PANEL_CONTROL_FONT;
+    private static final Color BACKGROUND_COLOR = GlaciersConstants.SUBPANEL_BACKGROUND_COLOR;
+    private static final String TITLE_STRING = GlaciersStrings.TITLE_VIEW_CONTROLS;
+    private static final Color TITLE_COLOR = GlaciersConstants.SUBPANEL_TITLE_COLOR;
+    private static final Font TITLE_FONT = GlaciersConstants.SUBPANEL_TITLE_FONT;
+    private static final Color CONTROL_COLOR = GlaciersConstants.SUBPANEL_CONTROL_COLOR;
+    private static final Font CONTROL_FONT = GlaciersConstants.SUBPANEL_CONTROL_FONT;
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,17 +50,9 @@ public class ViewControlPanel extends JPanel {
     //----------------------------------------------------------------------------
     
     public ViewControlPanel() {
-        super();
+        super( TITLE_STRING, TITLE_COLOR, TITLE_FONT );
         
         _listeners = new ArrayList();
-        
-        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
-        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW_CONTROLS );
-        titledBorder.setTitleFont( TITLE_FONT );
-        titledBorder.setTitleColor( TITLE_COLOR );
-        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
-        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
-        setBorder( compoundBorder );
         
         _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
         _equilibriumLineCheckBox.setFont( CONTROL_FONT );
