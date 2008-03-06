@@ -28,7 +28,12 @@ public interface IToolProducer {
      * Removes a specified tool.
      * @param tool
      */
-    public void remove( AbstractTool tool );
+    public void removeTool( AbstractTool tool );
+    
+    /**
+     * Removes all tools.
+     */
+    public void removeAllTools();
     
     /**
      * Listeners interested in when tools are added or removed should implement this interface.
