@@ -11,7 +11,12 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantD
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock.ConstantDtClockListener;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ClockControlPanelWithTimeDisplay;
 import edu.colorado.phet.common.phetcommon.view.ClockTimePanel;
@@ -59,7 +65,7 @@ public class GlaciersClockControlPanel extends JPanel {
      * 
      * @param clock
      */
-    public GlaciersClockControlPanel( GlaciersClock clock, NumberFormat displayFormat, int displayColumns ) {
+    public GlaciersClockControlPanel( GlaciersClock clock, IntegerRange frameRateRange, NumberFormat displayFormat, int displayColumns ) {
         super();
         
         // Clock
@@ -88,8 +94,8 @@ public class GlaciersClockControlPanel extends JPanel {
         
         // Speed control
         {
-            double min = _clock.getDtRange().getMin();
-            double max = _clock.getDtRange().getMax();
+            double min = frameRateRange.getMin();
+            double max = frameRateRange.getMax();
             String label = "";
             String textFieldPattern = "";
             String units = "";
@@ -135,7 +141,7 @@ public class GlaciersClockControlPanel extends JPanel {
         // Interactivity
         _speedControl.addChangeListener( new ChangeListener() { 
             public void stateChanged( ChangeEvent event ) {
-                _clock.setDt( _speedControl.getValue() );
+                _clock.setFrameRate( (int)_speedControl.getValue() );
             }
         } );
         _restartButton.addActionListener( new ActionListener() {

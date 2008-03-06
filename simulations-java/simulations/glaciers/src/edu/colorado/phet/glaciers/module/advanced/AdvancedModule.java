@@ -79,7 +79,7 @@ public class AdvancedModule extends PiccoloModule {
         {
             // Clock
             GlaciersClock clock = _model.getClock();
-            clock.setDt( AdvancedDefaults.CLOCK_DT_RANGE.getDefault() );
+            clock.setFrameRate( AdvancedDefaults.CLOCK_FRAME_RATE_RANGE.getDefault() );
             setClockRunningWhenActive( AdvancedDefaults.CLOCK_RUNNING );
         }
 

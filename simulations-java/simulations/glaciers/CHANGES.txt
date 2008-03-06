@@ -16,8 +16,7 @@ HIGH PRIORITY:
 - add proxy for snowfall visualization
 - add coordinates view
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
-- add zoom in/out button for time-based graphs; show scrolling "lastest" data or complete "historical"
-- try making clock speed control change framerate instead of dt, keep constant dt=1 year
+- add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 
 MEDIUM PRIORITY:
 - model borehole as a set of moving points, connected via line segments
@@ -73,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - connect clock speed control to frame rate instead of dt, vary from 1 to 24 fps, use constant dt=1 year
 3/5/08 - use fixed ranges for axes on graphs that involve elevation
 3/5/08 - temporary fix for condition in ice thickness model that results in negative glacier length
 3/5/08 - bugfix in GlacierNode, handle empty or null iceThickessSamples
