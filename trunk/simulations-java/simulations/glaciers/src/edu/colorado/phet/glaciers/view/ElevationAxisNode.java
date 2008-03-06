@@ -108,7 +108,7 @@ public class ElevationAxisNode extends PComposite {
     }
     
     /*
-     * Creates a labeled tick, a horizontal line with a label to the right of the line.
+     * Creates a labeled tick.
      */
     private static PNode createLabeledTickNode( double x, double elevation, boolean tickLabelOnLeft, ModelViewTransform mvt ) {
         
@@ -122,14 +122,15 @@ public class ElevationAxisNode extends PComposite {
         PNode labelNode = createTickLabelNode( elevation );
         parentNode.addChild( labelNode );
         
-        // position label to left of tick, vertically align centers
         tickNode.setOffset( 0, 0 );
         PBounds tb = tickNode.getFullBoundsReference();
         PBounds lb = labelNode.getFullBoundsReference();
         if ( tickLabelOnLeft ) {
+            // position label to left of tick, vertically align centers
             labelNode.setOffset( tb.getX() - lb.getWidth() - 2, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
         }
         else {
+            // position label to right of tick, vertically align centers
             labelNode.setOffset( tb.getMaxX() + 2, tb.getY() + ( tb.getHeight() / 2 ) - ( lb.getHeight() / 2 ) );
         }
 
