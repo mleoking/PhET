@@ -63,6 +63,7 @@ CLEANUP:
 
 
 DONE:
+3/6/08 - change "v." to "vs." in all graph titles
 ******** 0.00.11 (20154)
 3/5/08 - add horizontal (distance) coordinate axis, dynamically rebuilt as zoomed viewport changes
 3/5/08 - add public method ValleyNode.createValleyFloorPath, for use by DistanceAxisNode
