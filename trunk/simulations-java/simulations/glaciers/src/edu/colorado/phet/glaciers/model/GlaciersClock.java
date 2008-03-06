@@ -25,10 +25,26 @@ public class GlaciersClock extends ConstantDtClock {
     // Setters and getters
     //----------------------------------------------------------------------------
     
+    /**
+     * Sets the frame rate.
+     * Due to integer precision and conversion to clock delay,
+     * the clock may actually run at a slightly different frame rate.
+     * Whether the clock can actually run at the requested frame rate
+     * is dependent on the speed of the host computer.
+     * 
+     * @param frameRate frames per second
+     */
     public void setFrameRate( int frameRate ) {
         setDelay( 1000 / frameRate );
     }
     
+    /**
+     * Gets the frame rate.
+     * Due to integer precision and conversion to clock delay,
+     * this may be slightly different than the frame rate set with setFrameRate.
+     * 
+     * @return frames per second
+     */
     public int getFrameRate() {
         return 1000 / getDelay();
     }
