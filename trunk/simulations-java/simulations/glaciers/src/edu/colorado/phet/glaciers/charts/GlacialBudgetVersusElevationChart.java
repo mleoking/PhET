@@ -2,8 +2,12 @@
 
 package edu.colorado.phet.glaciers.charts;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -15,6 +19,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -34,6 +39,12 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
     private static final Range METERS_PER_YEAR_RANGE = new Range( -20, 20 ); // meters
     private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
     private static final double DELTA_ELEVATION = 100; // meters
+    private static final Paint GLACIAL_BUDGET_PAINT = Color.BLACK;
+    private static final Paint ACCUMULATION_PAINT = Color.GREEN;
+    private static final Paint ABLATION_PAINT = Color.RED;
+    private static final Stroke GLACIAL_BUDGET_STROKE = new BasicStroke( 2f );
+    private static final Stroke ACCUMULATION_STROKE = new BasicStroke( 1f );
+    private static final Stroke ABLATION_STROKE = new BasicStroke( 1f );
     
     private Climate _climate;
     private ClimateListener _climateListener;
@@ -60,13 +71,13 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         _climate.addClimateListener( _climateListener );
         
         // series and dataset
-        _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET, false /* autoSort */ );
         _accumulationSeries = new XYSeries( GlaciersStrings.LABEL_ACCUMULATION, false /* autoSort */ );
         _ablationSeries = new XYSeries( GlaciersStrings.LABEL_ABLATION, false /* autoSort */ );
+        _glacialBudgetSeries = new XYSeries( GlaciersStrings.LABEL_GLACIAL_BUDGET, false /* autoSort */ );
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries( _glacialBudgetSeries );
         dataset.addSeries( _accumulationSeries );
         dataset.addSeries( _ablationSeries );
+        dataset.addSeries( _glacialBudgetSeries );
 
         // create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
@@ -81,6 +92,15 @@ public class GlacialBudgetVersusElevationChart extends JDialog {
         );
         
         XYPlot plot = (XYPlot) chart.getPlot();
+        
+        // NOTE! Indicies depend on the order that the series were added to the dataset above.
+        XYItemRenderer renderer = plot.getRenderer();
+        renderer.setSeriesPaint( 0, ACCUMULATION_PAINT );
+        renderer.setSeriesStroke( 0, ACCUMULATION_STROKE );
+        renderer.setSeriesPaint( 1, ABLATION_PAINT );
+        renderer.setSeriesStroke( 1, ABLATION_STROKE );
+        renderer.setSeriesPaint( 2, GLACIAL_BUDGET_PAINT );
+        renderer.setSeriesStroke( 2, GLACIAL_BUDGET_STROKE );
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
