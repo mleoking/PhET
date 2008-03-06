@@ -72,6 +72,7 @@ CLEANUP:
 
 
 DONE:
+3/5/08 - reduce vertical spacing in Climate control panel
 3/5/08 - connect clock speed control to frame rate instead of dt, vary from 1 to 24 fps, use constant dt=1 year
 3/5/08 - use fixed ranges for axes on graphs that involve elevation
 3/5/08 - temporary fix for condition in ice thickness model that results in negative glacier length
