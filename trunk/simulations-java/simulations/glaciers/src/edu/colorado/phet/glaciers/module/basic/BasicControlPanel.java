@@ -61,7 +61,7 @@ public class BasicControlPanel extends JPanel {
                 BasicDefaults.TEMPERATURE_RANGE );
         
         _graphsControlPanel = new GraphsControlPanel();
-        _clockControlPanel = new GlaciersClockControlPanel( clock, BasicDefaults.CLOCK_DISPLAY_FORMAT, BasicDefaults.CLOCK_DISPLAY_COLUMNS );
+        _clockControlPanel = new GlaciersClockControlPanel( clock, BasicDefaults.CLOCK_FRAME_RATE_RANGE, BasicDefaults.CLOCK_DISPLAY_FORMAT, BasicDefaults.CLOCK_DISPLAY_COLUMNS );
         _miscControlPanel = new MiscControlPanel();
         
         int row;

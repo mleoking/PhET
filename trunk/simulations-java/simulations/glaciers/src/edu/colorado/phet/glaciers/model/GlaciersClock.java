@@ -3,7 +3,6 @@
 package edu.colorado.phet.glaciers.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
  * GlaciersClock is the clock for this simulation.
@@ -14,39 +13,23 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  */
 public class GlaciersClock extends ConstantDtClock {
 
-    private DoubleRange _dtRange;
-    
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
-    public GlaciersClock( int framesPerSecond, DoubleRange dtRange ) {
-        super( 1000 / framesPerSecond, dtRange.getDefault() );
-        _dtRange = dtRange;
+    public GlaciersClock( int frameRate, double dt ) {
+        super( 1000 / frameRate, dt );
     }
     
     //----------------------------------------------------------------------------
-    // Superclass overrides
+    // Setters and getters
     //----------------------------------------------------------------------------
     
-    /**
-     * Reset the clock when dt is changed.
-     * 
-     * @param dt
-     */
-    public void setDt( double dt ) {
-        if ( dt < _dtRange.getMin() || dt > _dtRange.getMax() ) {
-            throw new IllegalArgumentException( "dt is out of range: " + dt );
-        }
-        super.setDt( dt );
-//        System.out.println( "GlaciersClock.setDt dt=" + dt );
+    public void setFrameRate( int frameRate ) {
+        setDelay( 1000 / frameRate );
     }
     
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
-    
-    public DoubleRange getDtRange() {
-        return _dtRange;
+    public int getFrameRate() {
+        return 1000 * getDelay();
     }
 }

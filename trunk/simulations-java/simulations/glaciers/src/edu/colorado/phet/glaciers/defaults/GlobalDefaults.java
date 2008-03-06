@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.defaults;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 
 /**
@@ -23,10 +24,10 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
     
     // Clock
     public static final boolean CLOCK_RUNNING = true;
-    public static final int CLOCK_FRAME_RATE = 24; // fps, frames per second (wall time)
-    public static final int CLOCK_TIME_COLUMNS = 10;
-    public static final DoubleRange CLOCK_DT_RANGE = new DoubleRange( 0.1, 10, 1 ); // years
-    public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0.0" );
+    public static final double CLOCK_DT = 1; // years
+    public static final IntegerRange CLOCK_FRAME_RATE_RANGE = new IntegerRange( 1, 24, 12 ); // frames per second (years per second)
+    public static final DecimalFormat CLOCK_DISPLAY_FORMAT = new DecimalFormat( "0" );
+    public static final int CLOCK_DISPLAY_COLUMNS = 10;
     
     // Valley
     public static final double VALLEY_X_MIN = 0; // meters
