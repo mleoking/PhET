@@ -65,6 +65,14 @@ public class ClimateControlPanel extends JPanel {
         
         _listeners = new ArrayList();
         
+        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
+        titledBorder.setTitleFont( TITLE_FONT );
+        titledBorder.setTitleColor( TITLE_COLOR );
+        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
+        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
+        setBorder( compoundBorder );
+        
         // temperature
         JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
         {
@@ -167,14 +175,6 @@ public class ClimateControlPanel extends JPanel {
                     ( (JComponent) o ).setFont( CONTROL_FONT );
             }
         }
-        
-        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
-        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
-        titledBorder.setTitleFont( TITLE_FONT );
-        titledBorder.setTitleColor( TITLE_COLOR );
-        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
-        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
-        setBorder( compoundBorder );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         layout.setInsets( new Insets( 0, 2, 0, 2 ) ); // top, left, bottom, right
