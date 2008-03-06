@@ -20,7 +20,7 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - model borehole as a set of moving points, connected via line segments
-- when birds-eye view is wider than model range, fill in with tile-able mountain and valley
+- repeat mountains and valley at x > 80km
 - create convincing mountains, either with an image or with Java2D
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
@@ -35,9 +35,7 @@ MEDIUM PRIORITY:
 - create graphs
 - constrain tools to dragging in birds-eye bounds
 - fancy animation when a tool is dropped in the trash
-- fix layout issues with various control panels
 - add left and right arrows to zoom view, secondary viewport control
-- repeat mountains and valley at x > 80km
 - PlayArea.verticallyAlignZoomedViewport makes a change to viewport and results in itself being called again (it works, but not very elegant)
 - generalize all charts, there's too much duplicated code (ditto in controller that wires control panel to charts)
 
@@ -50,15 +48,15 @@ LOW PRIORITY:
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
-- change ViewportNode to show left and right dotted lines that always extend the full height of the birds-eye viewport?
 - control panels in all modules should be the same height
 - set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
-- anti-aliasing of valley path
-- move DoubleSpinner to phetcommon
 
-COMMON CODE:
+MIGRATE TO PHETCOMMON:
+- DoubleSpinner
+- SliderOnlyLayoutStrategy
+- HorizontalLayoutStrategy
 
 CLEANUP:
 - setPickable(false) on non-interactive nodes
