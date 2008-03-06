@@ -11,6 +11,7 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
+- need fix for negative glacier length in ice thickness model
 - visualization of ice velocity (vectors remain stationary)
 - optimization of ice velocity
 - add proxy for snowfall visualization
