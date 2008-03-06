@@ -49,9 +49,9 @@ public class ClimateControlPanel extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
+    private LinearValueControl _temperatureControl;
     private LinearValueControl _snowfallControl;
     private LinearValueControl _snowfallReferenceElevationControl;
-    private LinearValueControl _temperatureControl;
     
     private ArrayList _listeners; // list of ClimateControlPanelListener
     
@@ -63,6 +63,40 @@ public class ClimateControlPanel extends JPanel {
         super();
         
         _listeners = new ArrayList();
+        
+        // temperature
+        JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
+        {
+            double min = temperatureRange.getMin();
+            double max = temperatureRange.getMax();
+            String label = "";
+            String textfieldPattern = "#0.0";
+            String units = GlaciersStrings.UNITS_CELSIUS;
+            ILayoutStrategy layout = new HorizontalLayoutStrategy();
+            _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
+            _temperatureControl.setUpDownArrowDelta( 0.1 );
+            _temperatureControl.addChangeListener( new ChangeListener() { 
+                public void stateChanged( ChangeEvent event ) {
+                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
+                        notifyTemperatureChanged();
+                    }
+                }
+            } );
+            
+            // fonts & colors
+            temperatureLabel.setForeground( CONTROL_COLOR );
+            temperatureLabel.setFont( CONTROL_FONT );
+            _temperatureControl.setFont( CONTROL_FONT );
+            _temperatureControl.getUnitsLabel().setForeground( CONTROL_COLOR );
+            Dictionary d = _temperatureControl.getSlider().getLabelTable();
+            Enumeration e = d.elements();
+            while ( e.hasMoreElements() ) {
+                Object o = e.nextElement();
+                if ( o instanceof JComponent )
+                    ( (JComponent) o ).setForeground( CONTROL_COLOR );
+                    ( (JComponent) o ).setFont( CONTROL_FONT );
+            }
+        }
         
         // snowfall
         JLabel snowfallLabel = new JLabel( GlaciersStrings.SLIDER_SNOWFALL );        
@@ -124,40 +158,6 @@ public class ClimateControlPanel extends JPanel {
             _snowfallReferenceElevationControl.setFont( CONTROL_FONT );
             _snowfallReferenceElevationControl.getUnitsLabel().setForeground( CONTROL_COLOR );
             Dictionary d = _snowfallReferenceElevationControl.getSlider().getLabelTable();
-            Enumeration e = d.elements();
-            while ( e.hasMoreElements() ) {
-                Object o = e.nextElement();
-                if ( o instanceof JComponent )
-                    ( (JComponent) o ).setForeground( CONTROL_COLOR );
-                    ( (JComponent) o ).setFont( CONTROL_FONT );
-            }
-        }
-        
-        // temperature
-        JLabel temperatureLabel = new JLabel( GlaciersStrings.SLIDER_TEMPERATURE );
-        {
-            double min = temperatureRange.getMin();
-            double max = temperatureRange.getMax();
-            String label = "";
-            String textfieldPattern = "#0.0";
-            String units = GlaciersStrings.UNITS_CELSIUS;
-            ILayoutStrategy layout = new HorizontalLayoutStrategy();
-            _temperatureControl = new LinearValueControl( min, max, label, textfieldPattern, units, layout );
-            _temperatureControl.setUpDownArrowDelta( 0.1 );
-            _temperatureControl.addChangeListener( new ChangeListener() { 
-                public void stateChanged( ChangeEvent event ) {
-                    if ( GlaciersConstants.UPDATE_WHILE_DRAGGING_SLIDERS || !_temperatureControl.isAdjusting() ) {
-                        notifyTemperatureChanged();
-                    }
-                }
-            } );
-            
-            // fonts & colors
-            temperatureLabel.setForeground( CONTROL_COLOR );
-            temperatureLabel.setFont( CONTROL_FONT );
-            _temperatureControl.setFont( CONTROL_FONT );
-            _temperatureControl.getUnitsLabel().setForeground( CONTROL_COLOR );
-            Dictionary d = _temperatureControl.getSlider().getLabelTable();
             Enumeration e = d.elements();
             while ( e.hasMoreElements() ) {
                 Object o = e.nextElement();
