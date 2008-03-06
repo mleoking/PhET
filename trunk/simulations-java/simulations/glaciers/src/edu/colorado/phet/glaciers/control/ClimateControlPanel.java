@@ -5,6 +5,7 @@ package edu.colorado.phet.glaciers.control;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
@@ -167,15 +168,16 @@ public class ClimateControlPanel extends JPanel {
             }
         }
         
-        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_CLIMATE_CONTROLS );
         titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
-        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
+        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
         setBorder( compoundBorder );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
+        layout.setInsets( new Insets( 0, 2, 0, 2 ) ); // top, left, bottom, right
         setLayout( layout );
         int row = 0;
         int column = 0;
