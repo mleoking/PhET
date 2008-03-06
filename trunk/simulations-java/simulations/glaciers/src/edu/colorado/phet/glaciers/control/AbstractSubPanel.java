@@ -11,14 +11,13 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 /**
- * AbstractControlSubPanel is the base class for sub-panels of the main control panel.
- * A sub-panel has a title and a border.
+ * AbstractSubPanel is the base class for subordinate panels of the main control panel.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class AbstractControlSubPanel extends JPanel {
+public abstract class AbstractSubPanel extends JPanel {
 
-    public AbstractControlSubPanel( String title, Color titleColor, Font titleFont ) {
+    public AbstractSubPanel( String title, Color titleColor, Font titleFont ) {
         super();
         
         Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right

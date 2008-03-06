@@ -30,7 +30,7 @@ import edu.colorado.phet.glaciers.GlaciersStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ClimateControlPanel extends AbstractControlSubPanel {
+public class ClimateControlPanel extends AbstractSubPanel {
 
     //----------------------------------------------------------------------------
     // Class data
