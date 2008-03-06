@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
 
@@ -33,6 +34,12 @@ public class GlaciersConstants {
     public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
     
     //----------------------------------------------------------------------------
+    // Flags
+    //----------------------------------------------------------------------------
+    
+    public static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = true;
+    
+    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
     
@@ -42,9 +49,6 @@ public class GlaciersConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    public static final Font SUBPANEL_TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
-    public static final Font SUBPANEL_CONTROL_FONT = new PhetDefaultFont();
-    
     //----------------------------------------------------------------------------
     // Strokes
     //----------------------------------------------------------------------------
@@ -72,15 +76,21 @@ public class GlaciersConstants {
     // color of ice
     public static final Color ICE_COLOR = Color.WHITE;
     
+    // main control panel color
     public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 219, 255, 224 ); // pale green
     
+    //----------------------------------------------------------------------------
+    // Various components
+    //----------------------------------------------------------------------------
+    
+    // Subpanels of the main control panel
+    public static final Font SUBPANEL_TITLE_FONT = new PhetDefaultFont( PhetDefaultFont.getDefaultFontSize(), true /* bold */ );
+    public static final Font SUBPANEL_CONTROL_FONT = new PhetDefaultFont();
     public static final Color SUBPANEL_BACKGROUND_COLOR = new Color( 82, 126, 90 ); // dark pastel green
     public static final Color SUBPANEL_TITLE_COLOR = Color.WHITE;
     public static final Color SUBPANEL_CONTROL_COLOR = Color.WHITE;
     
-    //----------------------------------------------------------------------------
-    // Flags
-    //----------------------------------------------------------------------------
-    
-    public static final boolean UPDATE_WHILE_DRAGGING_SLIDERS = true;
+    // Coordinate axes
+    public static final DoubleRange ELEVATION_AXIS_RANGE = new DoubleRange( 0, 7000 ); // meters
+    public static final double ELEVATION_AXIS_TICK_SPACING = 500; // meters
 }

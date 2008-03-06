@@ -82,10 +82,11 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _mountainsLayer, _valleyLayer, _glacierLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private PLayer _mountainsLayer, _valleyLayer, _glacierLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
+    private ElevationAxisNode _elevationAxisNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
@@ -175,12 +176,14 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _mountainsLayer = new PLayer();
         _valleyLayer = new PLayer();
         _glacierLayer = new PLayer();
+        _coordinatesLayer = new PLayer();
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
         addToBothViews( _mountainsLayer );
         addToBothViews( _valleyLayer );
         addToBothViews( _glacierLayer );
+        addToBothViews( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
         addToBirdsEyeView( _viewportLayer );
@@ -201,6 +204,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Glacier
         PNode glacierNode = new GlacierNode( _model.getGlacier(), _mvt );
         _glacierLayer.addChild( glacierNode );
+        
+        // Coordinates
+        _elevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING );
+        _coordinatesLayer.addChild( _elevationAxisNode );
         
         // Equilibrium line
         _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
@@ -360,6 +367,9 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // move the toolbox
         updateToolboxPosition();
+        
+        // move the vertical (elevation) axis
+        updateElevationAxis();
     }
     
     /*
@@ -371,6 +381,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         double xOffset = rView.getX() + 5;
         double yOffset = rView.getY() + rView.getHeight() - _toolboxNode.getFullBoundsReference().getHeight() - 5;
         _toolboxNode.setOffset( xOffset, yOffset );
+    }
+    
+    /*
+     * Moves the elevation (vertical) coordinate axis to the right edge of the zoomed viewport.
+     */
+    private void updateElevationAxis() {
+        Rectangle2D rModel = _zoomedViewport.getBoundsReference();
+        Rectangle2D rView = _mvt.modelToView( rModel );
+        double xOffset = rView.getMaxX() - 15;
+        _elevationAxisNode.setOffset( xOffset, _elevationAxisNode.getYOffset() );
     }
     
     //----------------------------------------------------------------------------
