@@ -57,6 +57,14 @@ public class ViewControlPanel extends JPanel {
         
         _listeners = new ArrayList();
         
+        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
+        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW_CONTROLS );
+        titledBorder.setTitleFont( TITLE_FONT );
+        titledBorder.setTitleColor( TITLE_COLOR );
+        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
+        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
+        setBorder( compoundBorder );
+        
         _equilibriumLineCheckBox = new JCheckBox( GlaciersStrings.CHECK_BOX_EQUILIBRIUM_LINE );
         _equilibriumLineCheckBox.setFont( CONTROL_FONT );
         _equilibriumLineCheckBox.setForeground( CONTROL_COLOR );
@@ -83,14 +91,6 @@ public class ViewControlPanel extends JPanel {
                 notifyCoordinatesChanged();
             }
         });
-        
-        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
-        TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_VIEW_CONTROLS );
-        titledBorder.setTitleFont( TITLE_FONT );
-        titledBorder.setTitleColor( TITLE_COLOR );
-        titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
-        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
-        setBorder( compoundBorder );
         
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         setLayout( layout );

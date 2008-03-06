@@ -57,12 +57,12 @@ public class GraphsControlPanel extends JPanel {
         
         _listeners = new ArrayList();
         
-        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+        Border emptyBorder = BorderFactory.createEmptyBorder( 3, 3, 3, 3 ); // top, left, bottom, right
         TitledBorder titledBorder = new TitledBorder( GlaciersStrings.TITLE_GRAPH_CONTROLS );
         titledBorder.setTitleFont( TITLE_FONT );
         titledBorder.setTitleColor( TITLE_COLOR );
         titledBorder.setBorder( BorderFactory.createLineBorder( TITLE_COLOR, 1 ) );
-        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder, titledBorder );
+        Border compoundBorder = BorderFactory.createCompoundBorder( emptyBorder /* outside */, titledBorder /* inside */ );
         setBorder( compoundBorder );
         
         _glacierLengthVersusTimeCheckBox = new JCheckBox( GlaciersStrings.TITLE_GLACIER_LENGTH_VERSUS_TIME );
