@@ -87,6 +87,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
     private ElevationAxisNode _leftElevationAxisNode, _rightElevationAxisNode;
+    private DistanceAxisNode _distanceAxisNode;
     private HashMap _toolsMap; // key=AbstractTool, value=AbstractToolNode, used for removing tool nodes when their model elements are deleted
     private ModelViewTransform _mvt;
     
@@ -205,11 +206,13 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         PNode glacierNode = new GlacierNode( _model.getGlacier(), _mvt );
         _glacierLayer.addChild( glacierNode );
         
-        // Coordinates
+        // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
         _rightElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, true );
+        _distanceAxisNode = new DistanceAxisNode( _model.getValley(), _mvt, GlaciersConstants.DISTANCE_AXIS_TICK_SPACING );
         _coordinatesLayer.addChild( _leftElevationAxisNode );
         _coordinatesLayer.addChild( _rightElevationAxisNode );
+        _coordinatesLayer.addChild( _distanceAxisNode );
         
         // Equilibrium line
         _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
@@ -240,6 +243,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     public void setAxesVisible( boolean visible ) {
         _leftElevationAxisNode.setVisible( visible );
         _rightElevationAxisNode.setVisible( visible );
+        _distanceAxisNode.setVisible( visible );
     }
     
     public void setIceFlowVisible( boolean visible ) {
@@ -398,11 +402,20 @@ public class PlayArea extends JPanel implements ToolProducerListener {
      * Moves the elevation (vertical) coordinate axes to the left & right edges of the zoomed viewport.
      */
     private void updateElevationAxis() {
+        
         Rectangle2D rModel = _zoomedViewport.getBoundsReference();
         Rectangle2D rView = _mvt.modelToView( rModel );
+        
+        // reposition the vertical (elevation) axes
         final double margin = 15; // pixels
         _leftElevationAxisNode.setOffset( rView.getMinX() + margin, _rightElevationAxisNode.getYOffset() );
         _rightElevationAxisNode.setOffset( rView.getMaxX() - margin, _rightElevationAxisNode.getYOffset() );
+        
+        // rebuild the horizontal (distance) axis, ticks in multiples of 100
+        final int precision = 100;
+        final int minX = precision * (int)( rModel.getX() / precision );
+        final int maxX = precision * (int)( ( rModel.getX() + rModel.getWidth() ) / precision );
+        _distanceAxisNode.setRange( minX, maxX );
     }
     
     //----------------------------------------------------------------------------
