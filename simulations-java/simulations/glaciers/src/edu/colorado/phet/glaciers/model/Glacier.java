@@ -49,6 +49,7 @@ public class Glacier extends ClockAdapter {
     private double _previousELA; // the ELA the last time the climate was changed
     private double _currentELA; // current ELA at t=now
     private double[] _iceThicknessSamples; // ice thickness at t=now
+    private double _averageIceThicknessSquares; // average of the squares of the ice thickness samples
     private boolean _steadyState; // is the glacier in the steady state?
 
     //----------------------------------------------------------------------------
@@ -149,6 +150,7 @@ public class Glacier extends ClockAdapter {
             final double steadyStateELA = _climate.getEquilibriumLineAltitude();
             _previousELA = _currentELA = steadyStateELA;
             _iceThicknessSamples = computeIceThicknessSamples( steadyStateELA );
+            _averageIceThicknessSquares = computeAverageIceThicknessSquares( _iceThicknessSamples );
             _steadyState = true;
             notifyIceThicknessChanged();
             notifySteadyStateChanged();
@@ -302,8 +304,8 @@ public class Glacier extends ClockAdapter {
             if ( elevation >= valleyElevation && elevation <= iceSurfaceElevation ) {
                 // zz varies linearly from 0 at the valley floor (rock-ice interface) to 1 at the ice surface (air-ice interface)
                 final double zz = ( elevation - valleyElevation ) / iceThickness;
-                final double u_deform_ave = getVerticallyAveragedDeformationIceSpeed( x );
-                iceSpeed = U_SLIDE + ( u_deform_ave * 5. * ( zz - ( 1.5 * zz * 2 ) + ( zz * 3 ) - ( 0.25 * zz * 4 ) ) );
+                final double u_deform_ave = computeVerticallyAveragedDeformationIceSpeed( iceThickness, _averageIceThicknessSquares );
+                iceSpeed = U_SLIDE + ( u_deform_ave * 5. * ( zz - ( 1.5 * zz * zz ) + ( zz * zz * zz ) - ( 0.25 * zz * zz * zz * zz ) ) );
             }
         }
         return iceSpeed;
@@ -315,13 +317,12 @@ public class Glacier extends ClockAdapter {
      * and this method calculation the deformation contribution.
      * (symbol: u_deform_ave)
      * 
-     * @param x meters
+     * @param iceThickness ice thickness, meters
+     * @param averageIceThicknessSquares average of ice thickness squares, meters^2
      * @return meters/year
      */
-    private double getVerticallyAveragedDeformationIceSpeed( final double x ) {
-        final double u0ave = getAverageIceThicknessSquared();
-        final double h = getIceThickness( x );
-        return ( ( h * h ) * U_DEFORM / u0ave );
+    private static double computeVerticallyAveragedDeformationIceSpeed( final double iceThickness, final double averageIceThicknessSquares ) {
+        return ( ( iceThickness * iceThickness ) * U_DEFORM / averageIceThicknessSquares );
     }
     
     /*
@@ -331,12 +332,12 @@ public class Glacier extends ClockAdapter {
      * 
      * @return meters^2
      */
-    private double getAverageIceThicknessSquared() {
+    private static double computeAverageIceThicknessSquares( double[] iceThicknessSamples ) {
         double sum = 0;
         double samples = 0;
         double h = 0;
-        for ( int i = 0; i < _iceThicknessSamples.length; i++ ) {
-            h = _iceThicknessSamples[i];
+        for ( int i = 0; i < iceThicknessSamples.length; i++ ) {
+            h = iceThicknessSamples[i];
             if ( h > 0 ) {
                 sum += ( h * h );
                 samples++;
@@ -388,6 +389,7 @@ public class Glacier extends ClockAdapter {
             else {
                 // compute the ice thickness for the new ELA
                 _iceThicknessSamples = computeIceThicknessSamples( _currentELA );
+                _averageIceThicknessSquares = computeAverageIceThicknessSquares( _iceThicknessSamples );
                 notifyIceThicknessChanged();
             }
         }
