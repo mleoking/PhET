@@ -1,7 +1,7 @@
 <html>
 <p>
 <big><big><b>
-Glaciers, version 0.00.11
+Glaciers, version 0.00.12
 </b></big></big>
 <p>
 English: <a href="glaciers.jnlp">Glaciers</a>
@@ -13,12 +13,10 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>What's new:</b>
 <p>
 <ul>
-<li>clock speed slider changes frame rate (1 to 24 frames per second), dt remains constant (1 year)
-<li>"coordinates" check box shows horizontal and vertical axes
-<li>use fixed ranges for axes in graphs that involve elevation
-<li>reduced the vertical space between sliders in Climate control panel
-<li>Reset All deletes all tools
-<li>temporary workaround to handle negative glacier length in ice thickness model (anything < 0 is set to 0)
+<li>first pass at "ice flow vectors" feature
+<li>increase steepness of valley headwall
+<li>use custom paints and strokes for curves in "glacial budget vs. elevation" graph
+<li>change "v." to "vs." in all graphs
 </ul>
 <p>
 <b>Known problems:</b>
@@ -30,7 +28,6 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <p>
 <b>Not implemented:</b>
 <ul>
-<li>no view of ice flow vectors
 <li>marker flags do not move with glacier
 <li>borehole drill doesn't work
 <li>tools cannot be dragged to the trash
@@ -49,6 +46,6 @@ Spanish: <a href="glaciers_es.jnlp">Glaciares</a>
 <b>Remaining work:</b>
 <p>
 <ul>
-<li>see the <a href="http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/TODO-glaciers.txt?view=markup">"to do" list</a>
+<li>see the <a href="http://phet.svn.sourceforge.net/viewvc/phet/trunk/simulations-java/simulations/glaciers/CHANGES.txt?view=markup">"to do" list</a>
 </ul>
 </html>
