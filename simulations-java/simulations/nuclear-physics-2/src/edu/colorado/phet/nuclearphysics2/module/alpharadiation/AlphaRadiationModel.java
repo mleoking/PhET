@@ -17,15 +17,15 @@ public class AlphaRadiationModel {
     public AlphaRadiationModel()
     {
         // Create the elements of the model.
-        _atomicNucleus = new AtomicNucleus(0, 0);
-        _alphaParticle = new AlphaParticle(200, 200);
+        _atomicNucleus = new AtomicNucleus(180, 50);
+        _alphaParticle = new AlphaParticle(180, 50);
 
         // Create the clock that will drive this model.
         _clock = new ConstantDtClock(30, 1.0);
         _clock.addClockListener( new ClockAdapter(){
             public void clockTicked(ClockEvent clockEvent){
-                _atomicNucleus.translate(1, 1);
-                _alphaParticle.translate(-1, 1);
+                _atomicNucleus.translate(0, 0);
+                _alphaParticle.translate(-1.0, 0.5);
             }
         });
         
