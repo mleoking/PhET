@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 
 /**
- * 
+ *
  * AlphaRadiationChart - This class displays the chart at the bottom of the
  * Alpha Radiation tab in this sim.  The chart shows the interaction between
  * the alpha particles and the energy barrier.
@@ -30,7 +30,7 @@ public class AlphaRadiationChart extends PComposite {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-    
+
     // Constants for controlling look and feel.
     private static final Color BORDER_COLOR = Color.gray;
     private static final float BORDER_STROKE_WIDTH = 10f;
@@ -46,12 +46,21 @@ public class AlphaRadiationChart extends PComposite {
     //------------------------------------------------------------------------
 
     public AlphaRadiationChart(double width, double height) {
-        
-        _borderNode = new PPath(new RoundRectangle2D.Double( -width/2, -height/2, width, height, 20, 20 ) ); // origin at center
+
+        _borderNode = new PPath( ); // origin at center
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
         _borderNode.setPaint( BACKGROUND_COLOR );
         addChild( _borderNode );
-        
+
+        updateBounds(width, height );
+    }
+
+    private void updateBounds(double width,double height) {
+        _borderNode.setPathTo( new RoundRectangle2D.Double( 0,height/2,width-40,height/4-20,20,20 ) );
+    }
+
+    public void componentResized( double width, double height ) {
+        updateBounds( width, height );
     }
 }
