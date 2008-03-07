@@ -39,7 +39,6 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     static {
         try {
             characters = new BufferedImage[]{
-//                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
@@ -48,7 +47,8 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "6.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "7.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "8.png" ),
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" )
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "9.png" ),
+                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "10.png" )
             };
         }
         catch( Exception e ) {
