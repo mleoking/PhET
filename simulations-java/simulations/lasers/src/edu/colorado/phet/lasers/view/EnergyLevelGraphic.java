@@ -10,7 +10,20 @@
  */
 package edu.colorado.phet.lasers.view;
 
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+import javax.swing.event.MouseInputAdapter;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
@@ -23,17 +36,6 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.quantum.QuantumConfig;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Beam;
-
-import javax.swing.event.MouseInputAdapter;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * An interactive graphic that represents an energy level for a type of atom. It can be moved up and down with the
@@ -78,7 +80,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         energyLevelRep = new EnergyLevelRep( component );
         addGraphic( energyLevelRep );
 
-        if( this.isAdjustable ) {
+        if ( this.isAdjustable ) {
             setCursorHand();
             addTranslationListener( new EnergyLevelTranslator() );
             addMouseInputListener( new MouseInputAdapter() {
@@ -92,10 +94,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
     private void handleSnapTo() {
         Set set = matchTable.keySet();
-        for( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
-            Beam o = (Beam)iterator.next();
-            MatchState matchState = (MatchState)matchTable.get( o );
-            if( matchState.isMatch() ) {
+        for ( Iterator iterator = set.iterator(); iterator.hasNext(); ) {
+            Beam o = (Beam) iterator.next();
+            MatchState matchState = (MatchState) matchTable.get( o );
+            if ( matchState.isMatch() ) {
                 setEnergy( matchState.getMatchingEnergy() );
                 break;
             }
@@ -147,10 +149,10 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     public long getLastMatchTime() {
         Set keys = matchTable.keySet();
         long latestMatch = 0;
-        for( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
+        for ( Iterator iterator = keys.iterator(); iterator.hasNext(); ) {
             Object o = iterator.next();
-            MatchState value = (MatchState)matchTable.get( o );
-            if( value.isMatch() && value.getTime() > latestMatch ) {
+            MatchState value = (MatchState) matchTable.get( o );
+            if ( value.isMatch() && value.getTime() > latestMatch ) {
                 latestMatch = value.getTime();
             }
         }
@@ -158,15 +160,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     }
 
     public static void setBlinkRenderer( Color color ) {
-        for( int i = 0; i < instances.size(); i++ ) {
-            EnergyLevelRep energyLevelRep = (EnergyLevelRep)instances.get( i );
+        for ( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep energyLevelRep = (EnergyLevelRep) instances.get( i );
             energyLevelRep.setBlinkRenderer( color );
         }
     }
 
     public static void setFlowRenderer() {
-        for( int i = 0; i < instances.size(); i++ ) {
-            EnergyLevelRep energyLevelRep = (EnergyLevelRep)instances.get( i );
+        for ( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep energyLevelRep = (EnergyLevelRep) instances.get( i );
             energyLevelRep.setFlowRenderer();
         }
     }
@@ -195,11 +197,15 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             double energyChange = energyYTx.viewToModelDifferential( dy );
             // Don't let one level get closer than a certain number of pixels to the one above or below
             double minEnergyDifference = energyYTx.viewToModelDifferential( -minPixelsBetweenLevels );
-            double newEnergy = Math.max( Math.min( atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference,
-                                                   atomicState.getEnergyLevel() + energyChange ),
-                                         atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference );
+            final double upperBound = atomicState.getNextHigherEnergyState().getEnergyLevel() - minEnergyDifference;
+            final double lowerBound = atomicState.getNextLowerEnergyState().getEnergyLevel() + minEnergyDifference;
+            final double desiredValue = atomicState.getEnergyLevel() + energyChange;
+            double newEnergy= MathUtil.clamp( lowerBound, desiredValue, upperBound );
+//            double newEnergy= desiredValue;
+//            double newEnergy = Math.max( Math.min( upperBound, desiredValue ), lowerBound );
 
-            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
+            //todo: Commented out by Sam Reid on 3-7-2008: what was the point of this line?
+//            newEnergy = Math.min( newEnergy, PhysicsUtil.wavelengthToEnergy( QuantumConfig.MIN_WAVELENGTH ) + groundStateEnergy );
             setEnergy( newEnergy );
         }
 
@@ -216,8 +222,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
     public static final ArrayList instances = new ArrayList();
 
     public static void setRenderer( RenderStrategy renderStrategy ) {
-        for( int i = 0; i < instances.size(); i++ ) {
-            EnergyLevelRep levelRep = (EnergyLevelRep)instances.get( i );
+        for ( int i = 0; i < instances.size(); i++ ) {
+            EnergyLevelRep levelRep = (EnergyLevelRep) instances.get( i );
             levelRep.setRenderer( renderStrategy );
         }
     }
@@ -265,11 +271,11 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             //todo: this one seems to work properly
             energyLevelShape.setRect( x, y, width, height );
 
-            if( levelIcon != null ) {
-                levelIcon.setLocation( (int)( iconLocX ), (int)( y - height ) );
+            if ( levelIcon != null ) {
+                levelIcon.setLocation( (int) ( iconLocX ), (int) ( y - height ) );
             }
 
-            if( isAdjustable ) {
+            if ( isAdjustable ) {
                 double xOffset = width - 30;
                 int arrowHt = 16;
                 int arrowHeadWd = 10;
@@ -281,8 +287,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
                                     new Point2D.Double( x + xOffset, y - arrowHt ),
                                     arrowHeadWd, arrowHeadWd, tailWd );
             }
-            if( textGraphic != null ) {
-                textGraphic.setLocation( (int)( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int)energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight - 2 );
+            if ( textGraphic != null ) {
+                textGraphic.setLocation( (int) ( iconLocX + levelIcon.getWidth() / 2 + 6 ), (int) energyLevelShape.getY() - textGraphic.getHeight() / 2 - EnergyLifetimeSlider.sliderHeight - 2 );
             }
 //            textGraphic.setLocation( (int)( iconLocX ), (int)levelLine.getY() );
             boundingRect = determineBoundsInternal();
@@ -295,7 +301,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         }
 
         private Rectangle determineBoundsInternal() {
-            if( arrow1 != null && arrowsEnabled ) {
+            if ( arrow1 != null && arrowsEnabled ) {
                 Area a = new Area( arrow1.getShape() );
                 a.add( new Area( arrow2.getShape() ) );
                 a.add( new Area( energyLevelShape ) );
@@ -309,7 +315,8 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
         void setLevelIcon( LevelIcon levelIcon ) {
             this.levelIcon = levelIcon;
             addGraphic( levelIcon );
-            if( isAdjustable ) {
+            boolean showLifetime = false;
+            if ( isAdjustable && showLifetime ) {
                 textGraphic = new PhetTextGraphic2( getComponent(), new PhetDefaultFont(), "Lifetime", Color.black );
                 addGraphic( textGraphic );
             }
@@ -353,21 +360,21 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
             }
 
             public void render( Graphics2D g ) {
-                if( isAdjustable && arrowsEnabled ) {
+                if ( isAdjustable && arrowsEnabled ) {
                     g.setColor( Color.DARK_GRAY );
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );
                 }
 //                boolean timeOn = ( System.currentTimeMillis() / 400 ) % 2 == 0;
 //                boolean timeOn = ( System.currentTimeMillis() / 100 ) % 2 == 0;
-                boolean timeOn = ( System.currentTimeMillis() / ( (long)( QuantumConfig.FLASH_DELAY_MILLIS * 2 ) ) ) % 2 == 0;
+                boolean timeOn = ( System.currentTimeMillis() / ( (long) ( QuantumConfig.FLASH_DELAY_MILLIS * 2 ) ) ) % 2 == 0;
                 long lastMatchTime = getLastMatchTime();
-                if( System.currentTimeMillis() - lastMatchTime > QuantumConfig.TOTAL_FLASH_TIME ) {
+                if ( System.currentTimeMillis() - lastMatchTime > QuantumConfig.TOTAL_FLASH_TIME ) {
                     timeOn = false;
                 }
 //                g.setColor( timeOn && match ? targetColor : color );
                 g.setColor( timeOn ? targetColor : color );
-                if( System.currentTimeMillis() - lastMatchTime < QuantumConfig.TOTAL_FLASH_TIME ) {
+                if ( System.currentTimeMillis() - lastMatchTime < QuantumConfig.TOTAL_FLASH_TIME ) {
                     levelIcon.setVisible( !timeOn );
                 }
                 else {
@@ -384,7 +391,7 @@ public class EnergyLevelGraphic extends CompositePhetGraphic implements EnergyMa
 
             public void render( Graphics2D g ) {
 
-                if( isAdjustable && arrowsEnabled ) {
+                if ( isAdjustable && arrowsEnabled ) {
                     g.setColor( Color.DARK_GRAY );
                     g.draw( arrow1.getShape() );
                     g.draw( arrow2.getShape() );

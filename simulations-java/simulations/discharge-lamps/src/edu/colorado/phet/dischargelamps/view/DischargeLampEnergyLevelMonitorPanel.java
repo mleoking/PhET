@@ -274,8 +274,8 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                        levelLineLength,
                                                        //SRR changed this on 3-7-2008
                                                        //changed so that isAdjustable=false to hide lifetime text (may have unintended consequences) 
-//                                                       atomicStates[i] instanceof GroundState ? false : true,
-                                                       false, 
+                                                       atomicStates[i] instanceof GroundState ? false : true,
+//                                                       false,
                                                        levelLineOriginX + levelLineLength + 20 );
             levelGraphics[i].setArrowsEnabled( false );
             // Set the strategy the level graphic uses to pick its color
