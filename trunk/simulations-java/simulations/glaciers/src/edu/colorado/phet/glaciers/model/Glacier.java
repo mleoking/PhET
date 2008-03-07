@@ -161,7 +161,7 @@ public class Glacier extends ClockAdapter {
      * @return length in meters
      */
     public double getLength() {
-        return _iceThicknessSamples.length * DX;
+        return ( _iceThicknessSamples.length - 1 ) * DX;
     }
     
     /**
