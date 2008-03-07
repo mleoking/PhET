@@ -12,7 +12,7 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - implement fix for negative glacier length in ice thickness model (see Archie's 3/7 email)
-- optimize ice velocity on same 1D grid as ice thickness
+- optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
 - add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
