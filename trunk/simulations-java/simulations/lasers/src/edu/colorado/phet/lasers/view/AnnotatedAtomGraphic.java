@@ -39,7 +39,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     static {
         try {
             characters = new BufferedImage[]{
-                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
+//                    ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "G.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "1.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "2.png" ),
                     ImageLoader.loadBufferedImage( LaserConfig.IMAGE_DIRECTORY + "3.png" ),
@@ -60,7 +60,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
     // Instance data
     //----------------------------------------------------------------
 
-    private PhetImageGraphic[] characterGraphics = new PhetImageGraphic[10];
+    private PhetImageGraphic[] characterGraphics = new PhetImageGraphic[characters.length];
     // Time for which the atom will show the color associated with an energy state change
     private long colorTime = 100;
     private Atom atom;
@@ -79,7 +79,7 @@ public class AnnotatedAtomGraphic extends AtomGraphic implements Atom.ChangeList
         this.atom = atom;
 
         // Initialize image graphics for energy level indicators
-        for( int i = 0; i < 10; i++ ) {
+        for( int i = 0; i < characters.length; i++ ) {
             characterGraphics[i] = new PhetImageGraphic( component, characters[i] );
             characterGraphics[i].setRegistrationPoint( characters[i].getWidth() / 2, characters[i].getHeight() / 2 );
         }
