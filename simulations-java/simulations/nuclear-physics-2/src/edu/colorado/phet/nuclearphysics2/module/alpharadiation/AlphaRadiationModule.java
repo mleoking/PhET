@@ -12,10 +12,9 @@ import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Strings;
 import edu.colorado.phet.nuclearphysics2.control.ExampleSubPanel;
 import edu.colorado.phet.nuclearphysics2.defaults.ExampleDefaults;
 import edu.colorado.phet.nuclearphysics2.model.ExampleModelElement;
-import edu.colorado.phet.nuclearphysics2.model.NulcearPhysics2Clock;
+import edu.colorado.phet.nuclearphysics2.model.NuclearPhysics2Clock;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleCanvas;
 import edu.colorado.phet.nuclearphysics2.module.example.ExampleModel;
-import edu.colorado.phet.nuclearphysics2.module.example.FakeAlphaRadiationController;
 import edu.colorado.phet.nuclearphysics2.persistence.ExampleConfig;
 import edu.colorado.phet.nuclearphysics2.view.ExampleNode;
 
@@ -25,8 +24,8 @@ public class AlphaRadiationModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ExampleModel _model;
-    private ExampleCanvas _canvas;
+    private AlphaRadiationModel _model;
+    private AlphaRadiationCanvas _canvas;
     private AlphaRadiationControlPanel _controlPanel;
     private ClockControlPanelWithTimeDisplay _clockControlPanel;
 
@@ -36,14 +35,14 @@ public class AlphaRadiationModule extends PiccoloModule {
 
     public AlphaRadiationModule( Frame parentFrame ) {
         super( NuclearPhysics2Strings.TITLE_ALPHA_RADIATION_MODULE, 
-               new NulcearPhysics2Clock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ));
+               new NuclearPhysics2Clock( ExampleDefaults.CLOCK_FRAME_RATE, ExampleDefaults.CLOCK_DT ));
  
         // Model
-        NulcearPhysics2Clock clock = (NulcearPhysics2Clock) getClock();
-        _model = new ExampleModel( clock );
+        NuclearPhysics2Clock clock = (NuclearPhysics2Clock) getClock();
+        _model = new AlphaRadiationModel();
 
         // Canvas
-        _canvas = new ExampleCanvas( _model );
+        _canvas = new AlphaRadiationCanvas( _model );
         setSimulationPanel( _canvas );
 
         // Control Panel
@@ -51,7 +50,7 @@ public class AlphaRadiationModule extends PiccoloModule {
         setControlPanel( _controlPanel );
         
         // Clock controls
-        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NulcearPhysics2Clock) getClock() );
+        _clockControlPanel = new ClockControlPanelWithTimeDisplay( (NuclearPhysics2Clock) getClock() );
         _clockControlPanel.setUnits( NuclearPhysics2Strings.UNITS_TIME );
         _clockControlPanel.setTimeColumns( ExampleDefaults.CLOCK_TIME_COLUMNS );
         setClockControlPanel( _clockControlPanel );
@@ -82,72 +81,25 @@ public class AlphaRadiationModule extends PiccoloModule {
     public void reset() {
 
         // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
+        /* JPB TBD
+        NuclearPhysics2Clock clock = _model.getClock();
         clock.setDt( ExampleDefaults.CLOCK_DT );
         setClockRunningWhenActive( ExampleDefaults.CLOCK_RUNNING );
+        */
 
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_POSITION );
-        exampleModelElement.setOrientation( ExampleDefaults.EXAMPLE_MODEL_ELEMENT_ORIENTATION );
-        
         // ExampleNode
+        /*
         ExampleNode exampleNode = _canvas.getExampleNode();
         exampleNode.setSize( exampleModelElement.getWidth(), exampleModelElement.getHeight() );
         exampleNode.setPosition( exampleModelElement.getPosition() );
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
+        */
 
         // Control panel settings
+        /* JPB TBD
         ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
         subPanel.setPosition( exampleModelElement.getPositionReference() );
         subPanel.setOrientation( exampleModelElement.getOrientation() );
-    }
-    
-    //----------------------------------------------------------------------------
-    // Persistence
-    //----------------------------------------------------------------------------
-
-    public ExampleConfig save() {
-
-        ExampleConfig config = new ExampleConfig();
-
-        // Module
-        config.setActive( isActive() );
-
-        // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
-        config.setClockDt( clock.getDt() );
-        config.setClockRunning( getClockRunningWhenActive() );
-
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        config.setExampleModelElementPosition( exampleModelElement.getPositionReference() );
-        config.setExampleModelElementOrientation( exampleModelElement.getOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
-        
-        return config;
-    }
-
-    public void load( ExampleConfig config ) {
-
-        // Module
-        if ( config.isActive() ) {
-            NuclearPhysics2Application.instance().setActiveModule( this );
-        }
-
-        // Clock
-        NulcearPhysics2Clock clock = _model.getClock();
-        clock.setDt( config.getClockDt() );
-        setClockRunningWhenActive( config.isClockRunning() );
-
-        // ExampleModelElement
-        ExampleModelElement exampleModelElement = _model.getExampleModelElement();
-        exampleModelElement.setPosition( config.getExampleModelElementPosition() );
-        exampleModelElement.setOrientation( config.getExampleModelElementOrientation() );
-
-        // Control panel settings that are specific to the view
-        //XXX
+        */
     }
 }

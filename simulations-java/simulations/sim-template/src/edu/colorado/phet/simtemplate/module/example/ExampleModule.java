@@ -98,6 +98,8 @@ public class ExampleModule extends PiccoloModule {
         exampleNode.setOrientation( exampleModelElement.getOrientation() );
 
         // Control panel settings
+        // TODO: Are these line redundant, since it should already be handled in the
+        // listener update?
         ExampleSubPanel subPanel = _controlPanel.getExampleSubPanel();
         subPanel.setPosition( exampleModelElement.getPositionReference() );
         subPanel.setOrientation( exampleModelElement.getOrientation() );
