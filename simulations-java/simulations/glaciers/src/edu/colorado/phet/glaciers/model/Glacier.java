@@ -164,6 +164,15 @@ public class Glacier extends ClockAdapter {
         return _iceThicknessSamples.length * DX;
     }
     
+    /**
+     * Gets the x coordinate of the terminus.
+     * 
+     * @return meters
+     */
+    public double getTerminusX() {
+        return X0 + getLength();
+    }
+    
     //----------------------------------------------------------------------------
     // Ice Thickness model
     //----------------------------------------------------------------------------
@@ -190,9 +199,9 @@ public class Glacier extends ClockAdapter {
      */
     public double getIceThickness( final double x ) {
         double iceThickness = 0;
-        final double xMax = X0 + ( DX * _iceThicknessSamples.length );
-        if ( x >= X0 && x <= xMax ) {
-            if ( x == xMax ) {
+        final double xTerminus = getTerminusX();
+        if ( x >= X0 && x <= xTerminus ) {
+            if ( x == xTerminus ) {
                 iceThickness = _iceThicknessSamples[_iceThicknessSamples.length - 1];
             }
             else {

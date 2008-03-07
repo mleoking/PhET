@@ -17,6 +17,7 @@ HIGH PRIORITY:
 - add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
+- marker flags as first test of motion
 
 MEDIUM PRIORITY:
 - model borehole as a set of moving points, connected via line segments
@@ -40,13 +41,12 @@ LOW PRIORITY:
 - offset the temperature range and default, then add the offset back in the model
 - make zoomed viewport follow terminus (defer until we decide whether this is really needed)
 - add Help menu option to show pictures of real glaciers
-- labels on slider ticks should be white, code to set their color is not working
+- ticks & labels on sliders should be white, code to set their color is not working (Mac only?)
 - display distance and/or elevation as km ?
 - add variable caliper size to ice measuring tool
 - make mercury in thermometers move as temperature changes
 - add rounded borders to control sub-panels
-- control panels in all modules should be the same height
-- set foreground color of ticks & labels on BasicClimateControl sliders (Java 1.4 problem? looks OK on 1.5)
+- main control panel should be the same height in all modules
 - why doesn't image created by GPSReceiverNode.createImage show coordinate values? Is it because PSwing component isn't realized?
 - rotate some of the tool icons to reduce height of toolbox?
 
@@ -63,6 +63,8 @@ CLEANUP:
 
 
 DONE:
+3/6/08 - add all infrastructure and plumbing for ice velocities view
+3/6/08 - custom paints and strokes for series in "glacial budget vs. elevation" graph
 3/6/08 - change "v." to "vs." in all graph titles
 ******** 0.00.11 (20154)
 3/5/08 - add horizontal (distance) coordinate axis, dynamically rebuilt as zoomed viewport changes
