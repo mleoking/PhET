@@ -1,6 +1,7 @@
 package edu.colorado.phet.build.translate;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 
 /**
@@ -42,7 +43,13 @@ public class AddTranslationBatch {
             String lang = name.substring( name.indexOf( "_" ) + 1, name.indexOf( "." ) );
             AddTranslation addTranslation = new AddTranslation( basedir, deploy );
             System.out.println( "addtranslation, sim=" + sim + ", lang=" + lang + ", user=" + user );
-            addTranslation.addTranslation( sim, lang, user, password );
+            try {
+                addTranslation.addTranslation( sim, lang, user, password );
+            }
+            catch( FileNotFoundException f ) {
+                System.out.println( "Received FileNotFoundException, perhaps there was a sim name change?  Skipping sim=" + sim + ", lang=" + lang );
+                f.printStackTrace();
+            }
         }
     }
 }
