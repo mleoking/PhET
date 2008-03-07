@@ -7,6 +7,7 @@ import javax.mail.MessagingException;
 /**
  * Created by: Sam
  * Feb 21, 2008 at 1:58:42 PM
+ * test comment
  */
 public class CompositeMessageHandler implements MessageHandler {
     private ArrayList list = new ArrayList();
