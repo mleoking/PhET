@@ -11,16 +11,16 @@
 
 package edu.colorado.phet.dischargelamps.model;
 
+import java.util.EventListener;
+import java.util.EventObject;
+
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.lasers.model.LaserModel;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
-
-import java.util.EventListener;
-import java.util.EventObject;
+import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
  * Extends Atom class from the Laser simulation in that it knows how to collide with
@@ -32,7 +32,7 @@ public class DischargeLampAtom extends Atom {
     // the ground state)
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
-    private EnergyEmissionStrategy energyEmissionStrategy;
+    private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double baseRadius = Double.NEGATIVE_INFINITY;
 
@@ -40,7 +40,7 @@ public class DischargeLampAtom extends Atom {
         super( model, elementProperties.getStates().length, true );
 
 
-        if( elementProperties.getStates().length < 2 ) {
+        if ( elementProperties.getStates().length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
 //        setStates( elementProperties.getStates() );
@@ -61,7 +61,7 @@ public class DischargeLampAtom extends Atom {
     public DischargeLampAtom( LaserModel model, AtomicState[] states ) {
         super( model, states.length, true );
 
-        if( states.length < 2 ) {
+        if ( states.length < 2 ) {
             throw new RuntimeException( "Atom must have at least two states" );
         }
         setStates( states );
@@ -76,7 +76,7 @@ public class DischargeLampAtom extends Atom {
      * @param radius
      */
     public void setRadius( double radius ) {
-        if( baseRadius == Double.NEGATIVE_INFINITY ) {
+        if ( baseRadius == Double.NEGATIVE_INFINITY ) {
             baseRadius = radius;
         }
         super.setRadius( radius );
@@ -118,7 +118,7 @@ public class DischargeLampAtom extends Atom {
     // Events and listeners
     //--------------------------------------------------------------------------------------------------
     private EventChannel collisionEventChannel = new EventChannel( ElectronCollisionListener.class );
-    private ElectronCollisionListener collisionListenerProxy = (ElectronCollisionListener)collisionEventChannel.getListenerProxy();
+    private ElectronCollisionListener collisionListenerProxy = (ElectronCollisionListener) collisionEventChannel.getListenerProxy();
 
     public void addElectronCollisionListener( ElectronCollisionListener listener ) {
         collisionEventChannel.addListener( listener );
@@ -137,7 +137,7 @@ public class DischargeLampAtom extends Atom {
         }
 
         public DischargeLampAtom getAtom() {
-            return (DischargeLampAtom)getSource();
+            return (DischargeLampAtom) getSource();
         }
 
         public Electron getElectron() {
