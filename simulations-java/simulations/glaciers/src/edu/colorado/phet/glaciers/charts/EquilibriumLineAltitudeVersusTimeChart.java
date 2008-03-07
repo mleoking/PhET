@@ -15,6 +15,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -32,6 +33,9 @@ import edu.colorado.phet.glaciers.model.GlaciersClock;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
+    
+    private static final Range ELEVATION_RANGE = new Range( 2000, 5000 ); // meters
+    private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
     
     private Climate _climate;
     private GlaciersClock _clock;
@@ -78,9 +82,11 @@ public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        domainAxis.setRange( TIME_RANGE );//XXX time axis will change dynamically
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        rangeAxis.setRange( ELEVATION_RANGE );
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );
@@ -106,8 +112,8 @@ public class EquilibriumLineAltitudeVersusTimeChart extends JDialog {
     }
     
     private void update() {
-        double t = _clock.getSimulationTime();
-        double ela = _climate.getEquilibriumLineAltitude();
-        _series.add( t, ela );
+//        double t = _clock.getSimulationTime();
+//        double ela = _climate.getEquilibriumLineAltitude();
+//        _series.add( t, ela );
     }
 }

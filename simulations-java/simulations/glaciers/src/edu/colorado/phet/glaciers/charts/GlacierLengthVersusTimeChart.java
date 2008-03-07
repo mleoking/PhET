@@ -15,6 +15,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.Range;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
@@ -34,6 +35,9 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GlacierLengthVersusTimeChart extends JDialog {
+    
+    private static final Range LENGTH_RANGE = new Range( 0, 80E3 ); // meters
+    private static final Range TIME_RANGE = new Range( 0, 10E3 ); //XXX years
     
     private Glacier _glacier;
     private GlaciersClock _clock;
@@ -80,9 +84,11 @@ public class GlacierLengthVersusTimeChart extends JDialog {
         
         NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
         domainAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        domainAxis.setRange( TIME_RANGE );//XXX time axis will 
         
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits( NumberAxis.createIntegerTickUnits() );
+        rangeAxis.setRange( LENGTH_RANGE );
         
         ChartPanel chartPanel = new ChartPanel(chart);
         chartPanel.setMouseZoomable( false );

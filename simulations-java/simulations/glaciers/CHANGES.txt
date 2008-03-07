@@ -18,6 +18,7 @@ HIGH PRIORITY:
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion
+- visual representation of snowfall
 
 MEDIUM PRIORITY:
 - show ice velocity vectors in zoomed view only? they clutter the birds-eye view
@@ -64,6 +65,8 @@ CLEANUP:
 
 
 DONE:
+******** 0.00.12 (20154)
+3/7/08 - set some temporary axis ranges for time-based charts
 3/7/08 - make headwall steeper
 3/7/08 - show ice flow vectors in zoomed view only
 3/7/08 - parameterize steepness and length of Valley with headwall
