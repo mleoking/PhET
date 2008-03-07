@@ -26,9 +26,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetDefaultFont;
  */
 public class DischargeLampsConfig {
 
-    // Version
-    public static String version = "1.03";
-
     // Localization
     public static final String localizedStringsPath = "discharge-lamps/localization/discharge-lamps-strings";
 
