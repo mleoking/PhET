@@ -24,7 +24,6 @@ public class MercuryProperties extends DischargeLampElementProperties {
     private static double[] energyLevels = {
             -10.38,
             -5.73,
-            -5.51,
             -4.94,
             -3.70,
             -2.67,
@@ -33,7 +32,8 @@ public class MercuryProperties extends DischargeLampElementProperties {
             -0.85
     };
 
-    // Likelihoods of emission transitions from one state to another
+    // Likelihoods of emission transitions from one
+    // state to another
     static TransitionEntry[] teA = new TransitionEntry[]{
             new TransitionEntry( 2, 0, 0.08 ),
             new TransitionEntry( 8, 2, 0.50 ),
