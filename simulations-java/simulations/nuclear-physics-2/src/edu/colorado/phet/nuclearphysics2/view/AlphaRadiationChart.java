@@ -4,15 +4,9 @@ package edu.colorado.phet.nuclearphysics2.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.piccolophet.nodes.BoundGraphic;
-import edu.umd.cs.piccolo.PCanvas;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -36,7 +30,7 @@ public class AlphaRadiationChart extends PComposite {
     private static final float BORDER_STROKE_WIDTH = 10f;
     private static final Stroke BORDER_STROKE = new BasicStroke( BORDER_STROKE_WIDTH );
     private static final Color BACKGROUND_COLOR = Color.white;
-
+    private static final double SCREEN_FRACTION_Y = 0.4d;
 
     // Chart border.
     private PPath _borderNode;
@@ -47,7 +41,7 @@ public class AlphaRadiationChart extends PComposite {
 
     public AlphaRadiationChart(double width, double height) {
 
-        _borderNode = new PPath( ); // origin at center
+        _borderNode = new PPath( );
         _borderNode.setStroke( BORDER_STROKE );
         _borderNode.setStrokePaint( BORDER_COLOR );
         _borderNode.setPaint( BACKGROUND_COLOR );
@@ -57,7 +51,13 @@ public class AlphaRadiationChart extends PComposite {
     }
 
     private void updateBounds(double width,double height) {
-        _borderNode.setPathTo( new RoundRectangle2D.Double( 0,height/2,width-40,height/4-20,20,20 ) );
+        _borderNode.setPathTo( new RoundRectangle2D.Double( 
+                BORDER_STROKE_WIDTH,
+                height-(height*SCREEN_FRACTION_Y),
+                width-(BORDER_STROKE_WIDTH*2),
+                height*SCREEN_FRACTION_Y-BORDER_STROKE_WIDTH,
+                20,
+                20 ) );
     }
 
     public void componentResized( double width, double height ) {
