@@ -16,8 +16,14 @@ import edu.colorado.phet.glaciers.model.Glacier.GlacierListener;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-
-public class IceVelocitiesNode extends PComposite {
+/**
+ * IceFlowNode is the visual representation of ice flow in the glacier.
+ * Ice flow is represented as a gird of vectors in the ice.
+ * Each vector represents the speed and direction of ice flow at that point.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class IceFlowNode extends PComposite {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -50,7 +56,7 @@ public class IceVelocitiesNode extends PComposite {
     // Constructors
     //----------------------------------------------------------------------------
     
-    public IceVelocitiesNode( Glacier glacier, ModelViewTransform mvt ) {
+    public IceFlowNode( Glacier glacier, ModelViewTransform mvt ) {
         super();
         
         setPickable( false );

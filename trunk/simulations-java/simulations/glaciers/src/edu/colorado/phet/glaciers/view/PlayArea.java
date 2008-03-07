@@ -248,7 +248,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     public void setIceFlowVisible( boolean visible ) {
-        _glacierNode.setIceVelocitiesNodeVisible( visible );
+        _glacierNode.setIceFlowVisible( visible );
     }
     
     //----------------------------------------------------------------------------
