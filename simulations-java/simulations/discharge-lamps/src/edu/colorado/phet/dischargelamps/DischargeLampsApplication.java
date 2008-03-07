@@ -12,6 +12,7 @@ package edu.colorado.phet.dischargelamps;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.NonPiccoloPhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.TimingStrategy;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.SimStrings;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.lasers.controller.LaserConfig;
 import edu.colorado.phet.lasers.view.AtomGraphic;
 
@@ -43,7 +45,7 @@ public class DischargeLampsApplication extends NonPiccoloPhetApplication {
     public DischargeLampsApplication( String[] args ) {
         super( args, SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
                SimStrings.getInstance().getString( "DischargeLampsApplication.title" ),
-               DischargeLampsConfig.version,
+               new PhetApplicationConfig( new String[0], new FrameSetup.NoOp(), PhetResources.forProject( "discharge-lamps" ) ).getVersion().formatForTitleBar(),
                frameSetup );
 
         // Determine the resolution of the screen
