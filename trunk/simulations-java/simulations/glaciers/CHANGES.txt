@@ -64,6 +64,7 @@ CLEANUP:
 
 
 DONE:
+3/7/08 - make headwall steeper
 3/7/08 - show ice flow vectors in zoomed view only
 3/7/08 - parameterize steepness and length of Valley with headwall
 3/7/08 - visualization of ice velocity at stationary (x,z) locations
