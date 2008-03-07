@@ -25,6 +25,7 @@ public class Valley {
     // Class data
     //----------------------------------------------------------------------------
     
+    // These constants affect the headwall, the steepest part of the valley floor.
     private static final double HEADWALL_STEEPNESS = 5E3;
     private static final double HEADWALL_LENGTH = 1E3;
     
