@@ -12,14 +12,24 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 public class AtomicNucleusNode extends PNode {
     
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
+    
+    final private double NUCLEUS_DIAMETER = 75.0f;
+    
     private PPath _displayShape;
     private AtomicNucleus _atom;
     
+    //------------------------------------------------------------------------
+    // Constructor
+    //------------------------------------------------------------------------
+
     public AtomicNucleusNode(AtomicNucleus atom)
     {
         _atom = atom;
         
-        _displayShape = new PPath(new Ellipse2D.Double(atom.getPosition().getX(), atom.getPosition().getY(), 200, 200));
+        _displayShape = new PPath(new Ellipse2D.Double(atom.getPosition().getX(), atom.getPosition().getY(), NUCLEUS_DIAMETER, NUCLEUS_DIAMETER));
         _displayShape.setPaint( new Color(100, 200, 50) );
         addChild(_displayShape);
         atom.addListener(new AtomicNucleus.Listener(){

@@ -24,7 +24,7 @@ public class AlphaParticleNode extends PNode {
     {
         _alphaParticle = alphaParticle;
         
-        _displayShape = new PPath(new Ellipse2D.Double(alphaParticle.getPosition().getX(), alphaParticle.getPosition().getY(), 50, 50));
+        _displayShape = new PPath(new Ellipse2D.Double(alphaParticle.getPosition().getX(), alphaParticle.getPosition().getY(), 10, 10));
         _displayShape.setPaint( new Color(200, 100, 0) );
         addChild(_displayShape);
         alphaParticle.addListener(new AlphaParticle.Listener(){

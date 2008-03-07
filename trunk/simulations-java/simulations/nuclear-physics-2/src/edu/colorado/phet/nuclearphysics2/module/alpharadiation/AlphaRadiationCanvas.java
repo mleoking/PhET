@@ -25,8 +25,9 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         addWorldChild( _atomicNucleusNode );
         _alphaParticleNode = new AlphaParticleNode(alphaRadiationModel.getAlphaParticle());
         addWorldChild( _alphaParticleNode );
-        _alphaRadiationChart = new AlphaRadiationChart(this);
+        _alphaRadiationChart = new AlphaRadiationChart(100, 500);
         addWorldChild( _alphaRadiationChart );
+        _alphaRadiationChart.setOffset( 10, 500 );
         
     }
 }
