@@ -32,7 +32,7 @@ public class DischargeLampAtom extends Atom {
     // the ground state)
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
-    private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
+    private EnergyEmissionStrategy energyEmissionStrategy = new FallToAboveGroundState();
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
     private double baseRadius = Double.NEGATIVE_INFINITY;
 
