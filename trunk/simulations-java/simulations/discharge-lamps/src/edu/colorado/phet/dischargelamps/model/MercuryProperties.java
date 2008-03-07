@@ -24,6 +24,7 @@ public class MercuryProperties extends DischargeLampElementProperties {
     private static double[] energyLevels = {
             -10.38,
             -5.73,
+            -5.51,
             -4.94,
             -3.70,
             -2.67,
