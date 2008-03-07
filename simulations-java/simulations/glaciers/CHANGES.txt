@@ -13,7 +13,8 @@ DESIGN ISSUES (user interface):
 HIGH PRIORITY:
 - need fix for negative glacier length in ice thickness model
 - optimize ice velocity on same 1D grid as ice thickness
-- developer controls for ice velocity "look"
+- show ice flow vectors in zoomed view only
+- developer controls for ice velocity "look"?
 - add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
@@ -64,8 +65,9 @@ CLEANUP:
 
 
 DONE:
-3/6/08 - visualization of ice velocity at stationary (x,z) locations
-3/6/08 - bugfix in implementation of ice velocity model
+3/7/08 - parameterize steepness and length of Valley with headwall
+3/7/08 - visualization of ice velocity at stationary (x,z) locations
+3/7/08 - bugfix in implementation of ice velocity model
 3/6/08 - add all infrastructure and plumbing for ice velocities view
 3/6/08 - custom paints and strokes for series in "glacial budget vs. elevation" graph
 3/6/08 - change "v." to "vs." in all graph titles

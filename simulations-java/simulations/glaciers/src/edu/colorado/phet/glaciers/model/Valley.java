@@ -22,6 +22,13 @@ package edu.colorado.phet.glaciers.model;
 public class Valley {
 
     //----------------------------------------------------------------------------
+    // Class data
+    //----------------------------------------------------------------------------
+    
+    private static final double HEADWALL_STEEPNESS = 5E3;
+    private static final double HEADWALL_LENGTH = 1E3;
+    
+    //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
     
@@ -39,7 +46,7 @@ public class Valley {
      * @return elevation (meters)
      */
     public double getElevation( final double x ) {
-        double elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - 5e3 ) / 1e3 );
+        double elevation = 4e3 - ( x / 30. ) + Math.exp( -( x - HEADWALL_STEEPNESS ) / HEADWALL_LENGTH );
         if ( elevation < 0 ) {
             elevation = 0;
         }
