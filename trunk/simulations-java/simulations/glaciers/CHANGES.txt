@@ -11,9 +11,8 @@ DESIGN ISSUES (user interface):
 - [159] user-interface design for climate experiments
 
 HIGH PRIORITY:
-- need fix for negative glacier length in ice thickness model
+- implement fix for negative glacier length in ice thickness model (see Archie's 3/7 email)
 - optimize ice velocity on same 1D grid as ice thickness
-- show ice flow vectors in zoomed view only
 - developer controls for ice velocity "look"?
 - add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
@@ -65,6 +64,7 @@ CLEANUP:
 
 
 DONE:
+3/7/08 - show ice flow vectors in zoomed view only
 3/7/08 - parameterize steepness and length of Valley with headwall
 3/7/08 - visualization of ice velocity at stationary (x,z) locations
 3/7/08 - bugfix in implementation of ice velocity model

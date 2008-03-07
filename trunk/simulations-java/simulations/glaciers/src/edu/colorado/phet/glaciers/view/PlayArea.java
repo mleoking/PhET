@@ -82,8 +82,8 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     
     // View
     private PhetPCanvas _birdsEyeCanvas, _zoomedCanvas;
-    private PLayer _mountainsLayer, _valleyLayer, _glacierLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
-    private GlacierNode _glacierNode;
+    private PLayer _mountainsLayer, _valleyLayer, _iceLayer, _flowLayer, _coordinatesLayer, _toolboxLayer, _toolsLayer, _viewportLayer;
+    private IceFlowNode _iceFlowNode;
     private ToolboxNode _toolboxNode;
     private PNode _penguinNode;
     private EquilibriumLineNode _equilibriumLineNode;
@@ -177,14 +177,16 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         // Layers, back to front
         _mountainsLayer = new PLayer();
         _valleyLayer = new PLayer();
-        _glacierLayer = new PLayer();
+        _iceLayer = new PLayer();
+        _flowLayer = new PLayer();
         _coordinatesLayer = new PLayer();
         _toolboxLayer = new PLayer();
         _toolsLayer = new PLayer();
         _viewportLayer = new PLayer();
         addToBothViews( _mountainsLayer );
         addToBothViews( _valleyLayer );
-        addToBothViews( _glacierLayer );
+        addToBothViews( _iceLayer );
+        addToZoomedView( _flowLayer );
         addToZoomedView( _coordinatesLayer );
         addToZoomedView( _toolboxLayer );
         addToBothViews( _toolsLayer );
@@ -204,8 +206,10 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         _valleyLayer.addChild( valleyNode );
         
         // Glacier
-        _glacierNode = new GlacierNode( _model.getGlacier(), _mvt );
-        _glacierLayer.addChild( _glacierNode );
+        IceNode iceNode = new IceNode( _model.getGlacier(), _mvt );
+        _iceLayer.addChild( iceNode );
+        _iceFlowNode = new IceFlowNode( _model.getGlacier(), _mvt );
+        _flowLayer.addChild( _iceFlowNode );
         
         // Axes
         _leftElevationAxisNode = new ElevationAxisNode( _mvt, GlaciersConstants.ELEVATION_AXIS_RANGE, GlaciersConstants.ELEVATION_AXIS_TICK_SPACING, false );
@@ -217,7 +221,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
         
         // Equilibrium line
         _equilibriumLineNode = new EquilibriumLineNode( _model.getClimate(), _mvt );
-        _glacierLayer.addChild( _equilibriumLineNode );
+        _iceLayer.addChild( _equilibriumLineNode );
         
         // Toolbox
         _toolsMap = new HashMap();
@@ -248,7 +252,7 @@ public class PlayArea extends JPanel implements ToolProducerListener {
     }
     
     public void setIceFlowVisible( boolean visible ) {
-        _glacierNode.setIceFlowVisible( visible );
+        _iceFlowNode.setVisible( visible );
     }
     
     //----------------------------------------------------------------------------
