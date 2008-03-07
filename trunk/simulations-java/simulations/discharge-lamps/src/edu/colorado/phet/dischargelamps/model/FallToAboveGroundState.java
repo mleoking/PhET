@@ -23,9 +23,9 @@ import edu.colorado.phet.common.quantum.model.EnergyEmissionStrategy;
  * @author Ron LeMaster
  * @version $Revision$
  */
-public class HydrogenEnergyEmissionStrategy implements EnergyEmissionStrategy {
+public class FallToAboveGroundState implements EnergyEmissionStrategy {
 
-    public HydrogenEnergyEmissionStrategy() {
+    public FallToAboveGroundState() {
         super();
     }
 
