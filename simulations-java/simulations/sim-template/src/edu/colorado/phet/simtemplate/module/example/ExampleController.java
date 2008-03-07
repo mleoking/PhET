@@ -75,5 +75,9 @@ public class ExampleController {
                 modelElement.setOrientation( radians );
             }
         } );
+        
+        // Initialize controls
+        subPanel.setPosition( modelElement.getPositionReference() );
+        subPanel.setOrientation( modelElement.getOrientation() );
     }
 }
