@@ -32,21 +32,10 @@ public class DischargeLampAtom extends Atom {
     // the ground state)
     public static final double DEFAULT_STATE_LIFETIME = ( DischargeLampsConfig.DT / DischargeLampsConfig.FPS ) * 100;
 
-//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new HighestStateAbsorptionStrategy();
-    //    private EnergyEmissionStrategy energyEmissionStrategy;
-    private EnergyEmissionStrategy energyEmissionStrategy = new HydrogenEnergyEmissionStrategy();
-    //    private EnergyEmissionStrategy energyEmissionStrategy = new NextLowestEnergyEmissionStrategy();
+    private EnergyEmissionStrategy energyEmissionStrategy;
     private EnergyAbsorptionStrategy energyAbsorptionStrategy;
-//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new EqualLikelihoodAbsorptionStrategy();
-//    private EnergyAbsorptionStrategy energyAbsorptionStrategy = new FiftyPercentAbsorptionStrategy();
-//    private EnergyEmissionStrategy energyEmissionStrategy = new FiftyPercentEnergyEmissionStrategy();
-
     private double baseRadius = Double.NEGATIVE_INFINITY;
 
-
-    /**
-     * @param model
-     */
     public DischargeLampAtom( LaserModel model, DischargeLampElementProperties elementProperties ) {
         super( model, elementProperties.getStates().length, true );
 
