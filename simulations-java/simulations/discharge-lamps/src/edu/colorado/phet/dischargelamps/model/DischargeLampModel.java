@@ -211,7 +211,6 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
             atom.setElementProperties( elementProperties );
         }
         changeListenerProxy.energyLevelsChanged( new ChangeEvent( this ) );
-        return;
     }
 
     public DischargeLampElementProperties getElementProperties() {
