@@ -1,5 +1,8 @@
 package edu.colorado.phet.nuclearphysics2.module.alpharadiation;
 
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.nuclearphysics2.NuclearPhysics2Constants;
 import edu.colorado.phet.nuclearphysics2.view.AlphaParticleNode;
@@ -26,8 +29,13 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
         _alphaParticleNode = new AlphaParticleNode(alphaRadiationModel.getAlphaParticle());
         addWorldChild( _alphaParticleNode );
         _alphaRadiationChart = new AlphaRadiationChart(100, 500);
-        addWorldChild( _alphaRadiationChart );
-        _alphaRadiationChart.setOffset( 10, 500 );
-        
+        addScreenChild( _alphaRadiationChart );
+//        _alphaRadiationChart.setOffset( 10, 500 );
+
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
+                _alphaRadiationChart.componentResized(getWidth(),getHeight());
+            }
+        } );
     }
 }
