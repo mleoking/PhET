@@ -1,11 +1,11 @@
 """
 Basic Glacier Model (Hollywood)
-version 4
+version 4.1
 
 author: Archie Paulson
 creation date: March 1 2008
 
-This is a Hollywood model, based on the finite element code (v3.3).
+This is a "Hollywood" model, based on the finite element code (v3.3).
 
 """
 
@@ -84,8 +84,6 @@ class Mountain:
 ################################################################################
 
 class Glacier:
-    """
-    """
 
     def __init__(self, m, init_ela=4e3 ):
         """
@@ -97,12 +95,23 @@ class Glacier:
         self.x = m.x
         self.H = zeros(self.x.shape,'d')
         self.plot = self.plot_profile
+        # prep
+        self.max_F = max(m.F)  # maximum elevation of valley floor
+        self.x_term_alter_x = self.max_F - 0.15*m.config['headwall_length']
+        self.x_term_diff = -self.x_terminus_bulk(self.max_F) /\
+                           ( self.max_F - self.x_term_alter_x )**2
         # set inital climate and find ela:
         self.set_new_climate(init_ela) # no args => don't change temp or precip
 
+    def x_terminus_bulk(self,ela):
+        return 170.5e3-41.8*ela          # old v4.0 function
+
     def get_geometry(self,ela):
-        x_terminus = 170.5e3-41.8*ela
-        H_max = 400.-(1.04e-2*ela-23)**2
+        if ela > self.max_F: return 0.,0.
+        x_terminus = self.x_terminus_bulk(ela)
+        if ela > self.x_term_alter_x:
+            x_terminus += self.x_term_diff*( ela - self.x_term_alter_x )**2
+        H_max = max(0.0, 400.-(1.04e-2*ela-23)**2 )
         return x_terminus,H_max
 
     def set_new_climate(self,ela):
@@ -299,7 +308,8 @@ climate_config = {
                   }
 mountain_config = {
                     'headwater_width':0.0, 
-                    'headwall_length':800., 
+                    #'headwall_length':800., 
+                    'headwall_length':1e3,  # Chris uses this one
                     'headwall_steepness':5e3,
                     'bump':False, 
                     'bump_attenuation':30., 
@@ -403,4 +413,23 @@ if 0:   # if 1:
     ylim(0.0)
 
 
+def f(x,F,a=75.,b=105.): return a + F + x/b
+def F_chris(x,steepness=5e3,length=1e3): return 4e3 - ( x / 30. ) + exp(-(x-steepness)/length )
+
+if 1:   # if 1:
+    # testing x_terminus function (should depend on valley floor, F)
+    import cPickle
+    ela_ = array(m.F)   # ela proxy
+    (ela_data,term_data) = cPickle.load(file('foo.dat'))
+    figure(44)
+    scatter( ela_data, term_data, label='data terminus')
+    term = [ g.get_geometry(ee)[0] for ee in ela_ ]
+    #(term,Hmax) = g.get_geometry(ela_)
+    plot( ela_, term, label='hollywood terminus' )
+    plot( f(m.x,m.F), m.x, label='floor function' )
+    #plot( , m.x, label='diff' )
+    xlabel('ELA')
+    ylabel('x')
+    grid()
+    legend()
 
