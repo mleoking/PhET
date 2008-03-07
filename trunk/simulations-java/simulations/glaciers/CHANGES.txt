@@ -12,14 +12,15 @@ DESIGN ISSUES (user interface):
 
 HIGH PRIORITY:
 - need fix for negative glacier length in ice thickness model
-- visualization of ice velocity (vectors remain stationary)
-- optimization of ice velocity
+- optimize ice velocity on same 1D grid as ice thickness
+- developer controls for ice velocity "look"
 - add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion
 
 MEDIUM PRIORITY:
+- show ice velocity vectors in zoomed view only? they clutter the birds-eye view
 - model borehole as a set of moving points, connected via line segments
 - repeat mountains and valley at x > 80km
 - create convincing mountains, either with an image or with Java2D
@@ -63,6 +64,8 @@ CLEANUP:
 
 
 DONE:
+3/6/08 - visualization of ice velocity at stationary (x,z) locations
+3/6/08 - bugfix in implementation of ice velocity model
 3/6/08 - add all infrastructure and plumbing for ice velocities view
 3/6/08 - custom paints and strokes for series in "glacial budget vs. elevation" graph
 3/6/08 - change "v." to "vs." in all graph titles
