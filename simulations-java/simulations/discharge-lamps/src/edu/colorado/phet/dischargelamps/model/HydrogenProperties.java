@@ -30,8 +30,7 @@ public class HydrogenProperties extends DischargeLampElementProperties {
             -0.544,
             -0.378};
 
-    // Likelihoods of emission transitions from one
-    // state to another
+    // Likelihoods of emission transitions from one state to another
     static TransitionEntry[] teA = new TransitionEntry[]{
             new TransitionEntry( 5, 0, 0.39 ),
             new TransitionEntry( 5, 1, 0.06 ),
