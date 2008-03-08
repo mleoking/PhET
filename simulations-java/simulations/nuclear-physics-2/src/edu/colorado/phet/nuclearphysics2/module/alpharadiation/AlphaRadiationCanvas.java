@@ -22,19 +22,23 @@ public class AlphaRadiationCanvas extends PhetPCanvas {
     
     public AlphaRadiationCanvas(AlphaRadiationModel alphaRadiationModel) {
         
+        // Set the background color.
         setBackground( NuclearPhysics2Constants.CANVAS_BACKGROUND );
         
+        // Add the nodes that depict the decay process to the canvas.
         _atomicNucleusNode = new AtomicNucleusNode(alphaRadiationModel.getAtom());
         addWorldChild( _atomicNucleusNode );
         _alphaParticleNode = new AlphaParticleNode(alphaRadiationModel.getAlphaParticle());
         addWorldChild( _alphaParticleNode );
+        
+        // Add the chart that depicts the tunneling energy threshold to the canvas.
         _alphaRadiationChart = new AlphaRadiationChart(100, 500);
         addScreenChild( _alphaRadiationChart );
-//        _alphaRadiationChart.setOffset( 10, 500 );
 
+        // Add a listener for when the canvas is resized.
         addComponentListener( new ComponentAdapter() {
             public void componentResized( ComponentEvent e ) {
-                _alphaRadiationChart.componentResized(getWidth(),getHeight());
+                _alphaRadiationChart.componentResized( getWidth(), getHeight() );
             }
         } );
     }
