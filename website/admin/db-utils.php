@@ -51,6 +51,7 @@
      * @return unknown_type result of mysql_query
      */
     function db_exec_query($statement) {
+        //print "<!-- MYSQLQUERY: $statement -->\n";
         $result = mysql_query($statement);
     
         db_verify_mysql_result($result, $statement);
@@ -223,10 +224,11 @@
     }
     
     function db_delete_row($table_name, $array) {
+        // FIXME: unescaped $table_name which can come from a form
         $delete_st = "DELETE FROM $table_name WHERE ";
-        
+
         $is_first = true;
-        
+
         foreach($array as $key => $value) {
             if ($is_first) {
                 $is_first = false;
@@ -234,23 +236,31 @@
             else {
                 $delete_st .= ' AND ';
             }
-            
+
             $value = mysql_real_escape_string($value);
-            
+
             $delete_st .= "`$key`='$value'";
         }
-        
+
         return db_exec_query($delete_st);
     }
-    
+
+    /**
+     * Insert a row into the given table
+     *
+     * @param string $table_name name of the table to put the data in
+     * @param array $array key => value pairs of column => data associations
+     * @return int result from mysql_insert_id()
+     */
     function db_insert_row($table_name, $array) {
+        // FIXME: no escaping $table_name, which can come from form elements
         $insert_st = "INSERT INTO $table_name ";
-        
+
         if (count($array) > 0) {
             $insert_st .= '(';
-            
+
             $is_first = true;
-            
+
             foreach($array as $key => $value) {
                 if ($is_first) {
                     $is_first = false;
@@ -258,18 +268,19 @@
                 else {
                     $insert_st .= ', ';
                 }
-                
-                $insert_st .= '`';                
-                $insert_st .= "$key";                
-                $insert_st .= '`';                
+
+                // FIXME: no escaping of $key, which can come from a form
+                $insert_st .= '`';
+                $insert_st .= "$key";
+                $insert_st .= '`';
             }
-            
+
             $insert_st .= ')';
-            
+
             $insert_st .= ' VALUES(';
-            
+
             $is_first = true;
-            
+
             foreach($array as $key => $value) {
                 if ($is_first) {
                     $is_first = false;
@@ -277,22 +288,23 @@
                 else {
                     $insert_st .= ', ';
                 }
-                
+
                 $value = mysql_real_escape_string($value);
-                
+
+                // FIXME: $value unescaped
                 $insert_st .= "'";
                 $insert_st .= "$value";
                 $insert_st .= "'";
             }
-            
+
             $insert_st .= ') ';
         }
-        
+
         db_exec_query($insert_st);
-        
+
         return mysql_insert_id();
     }
-    
+
     function db_get_blank_row($table_name) {
         $row = array();
         
