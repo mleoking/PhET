@@ -48,6 +48,7 @@ EOT;
         $subs_newsletter_subject = replace_jokers($newsletter_subject, $contributor);
         $subs_newsletter_body    = replace_jokers($newsletter_body,    $contributor);
 
+        // FIXME: hardcoded email address of someone who has departed, search for other occurances, probably for testing
         if ($contributor['contributor_receive_email'] == 1 && $contributor['contributor_email'] == 'degoes@colorado.edu') {
             mail($contributor['contributor_email'], 
                  $subs_newsletter_subject,

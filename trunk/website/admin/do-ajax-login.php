@@ -59,19 +59,19 @@ EOT;
 
     if (isset($_REQUEST['contributor_email'])) {
         $contributor_email = $_REQUEST['contributor_email'];
-        
+
         $contributor = contributor_get_contributor_by_email($contributor_email);
-        
+
         $lookup_by_email = true;
     }
     else if (isset($_REQUEST['contributor_name'])) {
         $contributor_name = $_REQUEST['contributor_name'];
-        
+
         $contributor = contributor_get_contributor_by_name($contributor_name);
-        
+
         $lookup_by_name = true;
     }
-    
+
     if (isset($contributor) && $contributor) {
         // The name/email, at least, refers to a real contributor.
         
@@ -152,6 +152,7 @@ EOT;
             
             <div class="field">
                 <span class="label_content">
+                    // FIXME: Possible security problem here, not sure where this file is used yet
                     <input type="password" name="contributor_password" id="contributor_password_uid" value="$contributor_password" />
                     
                     <span id="ajax_password_comment_uid">
