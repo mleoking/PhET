@@ -14,13 +14,13 @@ HIGH PRIORITY:
 - implement fix for negative glacier length in ice thickness model (see Archie's 3/7 email)
 - optimize ice flow vectors, use same 1D grid as ice thickness
 - developer controls for ice velocity "look"?
-- add proxy for snowfall visualization
 - always collect data for time-based graphs, keep "lastest" & "historical" data points, compress historical, limit historical size
 - add zoom in/out button for time-based graphs; show scrolling "latest" data or complete "historical"
 - marker flags as first test of motion
 - visual representation of snowfall
 
 MEDIUM PRIORITY:
+- confirm that titles and axes on graphs are as desired
 - show ice velocity vectors in zoomed view only? they clutter the birds-eye view
 - model borehole as a set of moving points, connected via line segments
 - repeat mountains and valley at x > 80km
@@ -32,7 +32,6 @@ MEDIUM PRIORITY:
 - remove tools by dragging them back to the trash can (or toolbox?)
 - refactor common module functionality into a base class
 - redesign advanced climate controls
-- create graphs
 - constrain tools to dragging in birds-eye bounds
 - fancy animation when a tool is dropped in the trash
 - add left and right arrows to zoom view, secondary viewport control
