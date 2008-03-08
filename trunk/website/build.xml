@@ -6,22 +6,22 @@ build-related libraries from the simulations-java project.
 -->
 <project name="PhET Website Utility Script" default="deploy" basedir=".">
     <!-- Website properties -->
-    <property name="dir.website"        value="${basedir}" />
-    
+    <property name="dir.website" value="${basedir}" />
+
     <!-- Deployment properties -->
     <property name="deploy.server.name" value="tigercat.colorado.edu" />
 
     <!-- Properties for deploy output-->
     <property name="deploy.server.path" value="/web/htdocs/phet/new" />
-    <property name="deploy.server.url"  value="http://phet.colorado.edu/new/" />
-    
+    <property name="deploy.server.url" value="http://phet.colorado.edu/new/" />
+
     <!-- Build tools -->
-    <property name="dir.build-tools"    value="${basedir}/../simulations-java/build-tools/" />
-    
+    <property name="dir.build-tools" value="${basedir}/../simulations-java/build-tools/" />
+
     <!-- Support jars -->
-    <property name="jar.ant-contrib"    value="${dir.build-tools}ant-contrib/ant-contrib.jar" />
-    <property name="jar.antform"        value="${dir.build-tools}antform/lib/antform.jar" />
-    <property name="jar.maverick"       value="${dir.build-tools}maverick2/lib/maverick-ant.jar" />
+    <property name="jar.ant-contrib" value="${dir.build-tools}ant-contrib/ant-contrib.jar" />
+    <property name="jar.antform" value="${dir.build-tools}antform/lib/antform.jar" />
+    <property name="jar.maverick" value="${dir.build-tools}maverick/lib/maverick-ant.jar" />
 
     <!-- Ant-Contrib tasks definition -->
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
@@ -31,11 +31,11 @@ build-related libraries from the simulations-java project.
     </taskdef>
 
     <!-- AntForm task definition -->
-    <taskdef name="antform"      classname="com.sardak.antform.AntForm" classpath="${jar.antform}" />
+    <taskdef name="antform" classname="com.sardak.antform.AntForm" classpath="${jar.antform}" />
 
     <!-- Maverick task definition -->
-    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh"       classpath="${jar.maverick}" />
-    
+    <taskdef name="maverick-ssh" classname="com.sshtools.ant.Ssh" classpath="${jar.maverick}" />
+
     <target name="_read-username-and-password">
         <if>
             <not>
@@ -45,7 +45,7 @@ build-related libraries from the simulations-java project.
                 </and>
             </not>
             <then>
-                <echo message="Gathering username and password from user"/>
+                <echo message="Gathering username and password from user" />
 
                 <!-- If the username and password are not set, get them now: -->
                 <antform title="Deployment Host Login" width="550" height="300">
@@ -59,21 +59,22 @@ build-related libraries from the simulations-java project.
             </then>
         </if>
     </target>
-             
+
     <target name="deploy" description="This task deploys the website." depends="_read-username-and-password">
         <maverick-ssh host="${deploy.server.name}" username="${deploy.username}" password="${deploy.password}" version="2">
             <!-- Make the remote directory: -->
             <sftp action="mkdir" remotedir="${deploy.server.path}" verbose="true" />
-            
+
             <!-- Put all files to the remote directory: -->
             <sftp action="put" remotedir="${deploy.server.path}" verbose="true">
                 <fileset dir="${dir.website}">
                     <exclude name=".svn" />
-                    <exclude name="**/cached-*/*" />                    
+                    <exclude name="**/cached-*/*" />
+                    <exclude name="login-info.php" />
                 </fileset>
             </sftp>
-            
-            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->        
+
+            <!-- Finally, modify the permissions so everyone can read & execute, and group & owner can write: -->
             <exec cmd="chmod -R 775 ${deploy.server.path}" />
         </maverick-ssh>
     </target>
