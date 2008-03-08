@@ -21,6 +21,11 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - confirm that titles and axes on graphs are as desired
+- add view of valley floor with rivers
+- add moving debris
+- form terminus from debris
+- ice textures for above/below EQL, and in/on ice
+- morph ice textures to show downvalley motion
 - show ice velocity vectors in zoomed view only? they clutter the birds-eye view
 - model borehole as a set of moving points, connected via line segments
 - repeat mountains and valley at x > 80km
@@ -28,7 +33,8 @@ MEDIUM PRIORITY:
 - clip equilibrium line to area where it intersects ice (what happens when it doesn't intersect ice?)
 - fix layout problems with main control panel
 - add pseudo-3D perspective
-- is magnification of zoomed view sufficient?
+- adjust magnification of zoomed view?
+- adjust aspect ratio?
 - remove tools by dragging them back to the trash can (or toolbox?)
 - refactor common module functionality into a base class
 - redesign advanced climate controls
