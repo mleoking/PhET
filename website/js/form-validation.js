@@ -132,7 +132,7 @@ function validate_entire_form(specified_form) {
 	return true;
 }
 
-function setup_input_validation_patterns() {
+function setup_input_validation_patterns_HIDE() {
     hits = 0;
 
     // Patterns that the input must match
@@ -155,7 +155,6 @@ function setup_input_validation_patterns() {
                 switch (thing.name) {
                     case "contributor_email":
                     case "contribution_contact_email":
-                        //alert("new: " + thing.name);
                         ++hits;
                         thing.pattern = email_pattern;
                         break;
@@ -188,7 +187,6 @@ function setup_input_validation_patterns() {
                         break;
 
                     default:
-                       //alert("no match");
                        break;
                 }
             }

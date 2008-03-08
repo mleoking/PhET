@@ -908,7 +908,6 @@ EOT;
 
 			// TODO: remove this when JS validation is done
 			// Moving this to another file, but keeping here for reference
-            if (false) {
             print <<<EOT
             <script type="text/javascript">
                 /* <![CDATA[ */
@@ -1018,7 +1017,6 @@ EOT;
                 /* ]]> */
             </script>
 EOT;
-            }
         }        
 
         if ($print_select) {
